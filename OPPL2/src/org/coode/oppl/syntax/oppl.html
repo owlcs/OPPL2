@@ -1,0 +1,378 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+<TITLE>BNF for oppl.jj</TITLE>
+</HEAD>
+<BODY>
+<H1 ALIGN=CENTER>BNF for oppl.jj</H1>
+<H2 ALIGN=CENTER>TOKENS</H2>
+<TABLE>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; SKIP : {
+" "
+| "\t"
+| "\n"
+| "\r"
+| &lt;"//" (~["\n","\r"])* ("\n" | "\r" | "\r\n")&gt;
+| &lt;"/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/"&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;INTEGER_LITERAL: &lt;DECIMAL_LITERAL&gt; (["l","L"])? | &lt;HEX_LITERAL&gt; (["l","L"])? | &lt;OCTAL_LITERAL&gt; (["l","L"])?&gt;
+| &lt;#DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])*&gt;
+| &lt;#HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+&gt;
+| &lt;#OCTAL_LITERAL: "0" (["0"-"7"])*&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;REGEXPMETACHAR: ["\\","-","$","|","?","*"]&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;IDENTIFIER: "?" &lt;NAME&gt;&gt;
+| &lt;#NAME: &lt;LETTER&gt; (&lt;LETTER&gt; | &lt;DIGIT&gt;)*&gt;
+| &lt;#LETTER: ["_","\'","a"-"z","A"-"Z","\u00e0"-"\u00f9"]&gt;
+| &lt;#DIGIT: ["0"-"9"]&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN [IGNORE_CASE] : {
+&lt;CREATE: "create"&gt;
+| &lt;CREATEINTERSECTION: "CreateIntersection"&gt;
+| &lt;CREATEUNION: "CreateUnion"&gt;
+| &lt;MATCH: "Match"&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;VARIABLETYPE: "CLASS" | "OBJECTPROPERTY" | "DATAPROPERTY" | "INDIVIDUAL" | "CONSTANT"&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN [IGNORE_CASE] : {
+&lt;SELECT: "SELECT"&gt;
+| &lt;WHERE: "WHERE"&gt;
+| &lt;ASSERTED: "ASSERTED"&gt;
+| &lt;ADD: "ADD"&gt;
+| &lt;REMOVE: "REMOVE"&gt;
+| &lt;BEGIN: "BEGIN"&gt;
+| &lt;END: "END"&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;COMMA: ","&gt;
+| &lt;SEMICOLON: ";"&gt;
+| &lt;COLON: ":"&gt;
+| &lt;OPENPARENTHESYS: "("&gt;
+| &lt;CLOSEDPARENTHESYS: ")"&gt;
+| &lt;QUOTE: "\""&gt;
+| &lt;POWER: "^"&gt;
+| &lt;OPENCURLYBRACKETS: "{"&gt;
+| &lt;CLOSEDCURLYBRACKETS: "}"&gt;
+| &lt;OPENSQUAREBRACKETS: "["&gt;
+| &lt;CLOSEDSQUAREBRACKETS: "]"&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN [IGNORE_CASE] : {
+&lt;NEQ: "!="&gt;
+| &lt;IN: "IN"&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;GENERATEDENTITY: "!" &lt;ENTITYNAMES&gt;&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;SUBCLASSOF: "SubClassOf" | "subClassOf"&gt;
+| &lt;EQUIVALENTTO: "EquivalentTo" | "equivalentTo"&gt;
+| &lt;DISJOINTWITH: "DisjointWith" | "disjointWith"&gt;
+| &lt;DISJOINT_UNION_OF: "DisjointUnionOf"&gt;
+| &lt;FUNCTIONAL: "Functional"&gt;
+| &lt;INVERSE: "inv"&gt;
+| &lt;INVERSE_FUNCTIONAL: "InverseFunctional"&gt;
+| &lt;SUB_PROPERTY_OF: "SubPropertyOf" | "subPropertyOf"&gt;
+| &lt;SYMMETRIC: "Symmetric"&gt;
+| &lt;TRANSITIVE: "Transitive"&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;OTHERDIRECTION: &lt;SUPERCLASSOF&gt; | &lt;SUPER_PROPERTY_OF&gt; | &lt;INSTANCE_OF&gt;&gt;
+| &lt;#SUPERCLASSOF: "SuperClassOf" | "superClassOf"&gt;
+| &lt;#SUPER_PROPERTY_OF: "SuperPropertyOf" | "superPropertyOf"&gt;
+| &lt;#INSTANCE_OF: "InstanceOf" | "instanceOf"&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;RENDERINGVARIABLEATTRIBUTE: "RENDERING"&gt;
+| &lt;VALUESVARIABLEATTRIBUTE: "VALUES"&gt;
+| &lt;GROUPSVARIABLEATTRIBUTE: "GROUPS"&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;ENTITYNAMES: &lt;LETTER&gt; (&lt;LETTER&gt; | &lt;DIGIT&gt;)*&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+ <!-- Token -->
+ <TR>
+  <TD>
+   <PRE>
+&lt;DEFAULT&gt; TOKEN : {
+&lt;LITERAL: &lt;QUOTE&gt; &lt;ENTITYNAMES&gt; &lt;QUOTE&gt; &lt;POWER&gt; &lt;POWER&gt; &lt;ENTITYNAMES&gt; (&lt;COLON&gt; &lt;ENTITYNAMES&gt;)?&gt;
+}
+
+   </PRE>
+  </TD>
+ </TR>
+</TABLE>
+<H2 ALIGN=CENTER>NON-TERMINALS</H2>
+<TABLE>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod1">Start</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod2">parse</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod3">VariableDeclaration</A> )? ( <A HREF="#prod4">query</A> )? ( <A HREF="#prod5">Actions</A> )? ";"</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod3">VariableDeclaration</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod6">VariableDefinition</A> ( &lt;COMMA&gt; <A HREF="#prod6">VariableDefinition</A> )*</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod5">Actions</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;BEGIN&gt; <A HREF="#prod7">Action</A> ( &lt;COMMA&gt; <A HREF="#prod7">Action</A> )* &lt;END&gt;</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod6">VariableDefinition</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( &lt;IDENTIFIER&gt; &lt;COLON&gt; &lt;VARIABLETYPE&gt; "=" <A HREF="#prod8">opplFunction</A> | &lt;IDENTIFIER&gt; &lt;COLON&gt; &lt;VARIABLETYPE&gt; &lt;OPENSQUAREBRACKETS&gt; <A HREF="#prod9">direction</A> <A HREF="#prod10">typeScope</A> &lt;CLOSEDSQUAREBRACKETS&gt; | &lt;IDENTIFIER&gt; &lt;COLON&gt; &lt;VARIABLETYPE&gt; )</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod8">opplFunction</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;MATCH&gt; &lt;OPENPARENTHESYS&gt; &lt;QUOTE&gt; <A HREF="#prod11">regexpOperation</A> &lt;QUOTE&gt; &lt;CLOSEDPARENTHESYS&gt;</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;CREATE&gt; &lt;OPENPARENTHESYS&gt; <A HREF="#prod12">stringOperation</A> &lt;CLOSEDPARENTHESYS&gt;</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;CREATEINTERSECTION&gt; &lt;OPENPARENTHESYS&gt; <A HREF="#prod13">set</A> &lt;CLOSEDPARENTHESYS&gt;</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;CREATEUNION&gt; &lt;OPENPARENTHESYS&gt; <A HREF="#prod13">set</A> &lt;CLOSEDPARENTHESYS&gt;</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod14">expressionGeneratedVariable</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod14">expressionGeneratedVariable</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><I>java code</I></TD></TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod11">regexpOperation</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><I>java code</I></TD></TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod13">set</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;IDENTIFIER&gt; "." &lt;VALUESVARIABLEATTRIBUTE&gt;</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod12">stringOperation</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod15">stringConcat</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod15">stringConcat</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod16">generatedValue</A> ( "+" <A HREF="#prod16">generatedValue</A> )*</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod16">generatedValue</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;QUOTE&gt; &lt;ENTITYNAMES&gt; &lt;QUOTE&gt;</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;IDENTIFIER&gt; "." &lt;RENDERINGVARIABLEATTRIBUTE&gt;</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;IDENTIFIER&gt; "." &lt;GROUPSVARIABLEATTRIBUTE&gt; &lt;OPENPARENTHESYS&gt; &lt;INTEGER_LITERAL&gt; &lt;CLOSEDPARENTHESYS&gt;</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod9">direction</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;SUBCLASSOF&gt;</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;SUB_PROPERTY_OF&gt;</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;OTHERDIRECTION&gt;</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod10">typeScope</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><I>java code</I></TD></TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod17">parseScope</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><I>java code</I></TD></TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod18">Constraint</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;IDENTIFIER&gt; ( &lt;MATCH&gt; &lt;QUOTE&gt; <A HREF="#prod19">matchConstraint</A> &lt;QUOTE&gt; | &lt;NEQ&gt; <A HREF="#prod20">OWLExpression</A> | &lt;IN&gt; &lt;OPENCURLYBRACKETS&gt; <A HREF="#prod20">OWLExpression</A> ( &lt;COMMA&gt; <A HREF="#prod20">OWLExpression</A> )* &lt;CLOSEDCURLYBRACKETS&gt; )</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod19">matchConstraint</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><I>java code</I></TD></TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod20">OWLExpression</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><I>java code</I></TD></TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod21">variableType</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;VARIABLETYPE&gt;</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod4">query</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;SELECT&gt; <A HREF="#prod22">queryAtom</A> ( &lt;COMMA&gt; <A HREF="#prod22">queryAtom</A> )* ( &lt;WHERE&gt; <A HREF="#prod18">Constraint</A> ( &lt;COMMA&gt; <A HREF="#prod18">Constraint</A> )* )?</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod22">queryAtom</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>&lt;ASSERTED&gt; <A HREF="#prod23">Clause</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><A HREF="#prod23">Clause</A></TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod7">Action</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( &lt;ADD&gt; <A HREF="#prod23">Clause</A> | &lt;REMOVE&gt; <A HREF="#prod23">Clause</A> )</TD>
+</TR>
+<TR>
+<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod23">Clause</A></TD>
+<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><I>java code</I></TD></TR>
+</TABLE>
+</BODY>
+</HTML>
