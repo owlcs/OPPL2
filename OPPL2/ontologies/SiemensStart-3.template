@@ -1,0 +1,10 @@
+http://purl.org/dc/elements/1.1/description,multiline
+http://www.w3.org/2000/01/rdf-schema#comment,multiline
+http://www/siemens-health.com/cpoe-microdemo/UPPER.owl#devel_comment,multiline
+http://www.w3.org/2000/01/rdf-schema#label,text
+http://www.siemens-health.com/SiemensDemo/annotations.owl#display-name,
+http://www.siemens-health.com/cpoe-micro-demo/doc-and-template-demo-one.owl#display_hierarchy,text
+http://www.siemens-health.com/SiemensDemo/annotations.owl#qualified_UI_name,
+http://www.siemens-health.com/SiemensDemo/annotations.owl#qualified_SNOMED_code,
+http://www.siemens-health.com/SiemensDemo/annotations.owl#freeTextAllowed,
+http://www.siemens-health.com/SiemensDemo/annotations.owl#showTitleAlways,

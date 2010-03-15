@@ -1,0 +1,9552 @@
+Ontology: <http://www.co-ode.org/roberts/country.owl>
+
+DataProperty: hasArea
+DataProperty: hasPopulation
+DataProperty: hasHeight
+
+ObjectProperty:  nextTo
+Characteristics: symmetric
+
+
+ObjectProperty: surroundedBy
+
+ObjectProperty: surrounds
+Inverses: surroundedBy
+
+
+ObjectProperty: hasCoastline
+Inverses: coastlineOf
+
+
+ObjectProperty: coastlineOf
+Domain: Coastline
+
+
+
+ObjectProperty:  partOf
+
+ObjectProperty:  occupiedBy
+
+ObjectProperty: occupies
+Characteristics: symmetric
+inverses:  occupiedBy 
+
+
+
+
+
+ObjectProperty: playsRole
+Range: Role
+
+ObjectProperty:  seatOf
+
+
+
+    
+
+
+
+ObjectProperty: dependencyOf
+    Domain: 
+        Country
+    
+    Range: 
+        Country
+    
+    
+
+
+
+ObjectProperty: hasBoundary
+
+    Domain: 
+        Country
+    
+    Range: 
+        BoundaryFragment
+    
+    InverseOf: 
+        boundaryOf
+    
+    
+
+
+
+ObjectProperty: hasHeadOfState
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Country
+Range: Person
+    
+    
+
+
+
+ObjectProperty: boundaryOf
+
+    InverseOf: 
+        hasBoundary
+    
+    
+
+
+
+ObjectProperty: hasRecognitionStatus
+
+    Characteristics: 
+        Functional
+    
+    Domain: 
+        Country
+    
+    
+
+
+
+ObjectProperty: hasLandBoundary
+
+    Domain: 
+        Country
+    
+    Range: 
+        LandBoundaryFragment
+    
+    InverseOf: 
+        landBoundaryOf
+    
+    SubPropertyOf: 
+        hasBoundary
+    
+    
+
+
+
+ObjectProperty: hasPart
+
+    
+
+
+
+ObjectProperty: borders
+
+    Characteristics: 
+        Symmetric
+    
+    Domain: 
+        Country
+    
+    Range: 
+        Country
+    
+    SubPropertyChain: 
+        hasBoundary o boundaryOf
+    
+    
+
+
+
+ObjectProperty: hasWaterBoundary
+
+    Domain: 
+        Country
+    
+    Range:
+        WaterBoundaryFragment
+    
+    InverseOf:
+        waterBoundaryOf
+    
+    SubPropertyOf: 
+        hasBoundary
+    
+    
+
+
+
+ObjectProperty: waterBoundaryOf
+
+    InverseOf:
+        hasWaterBoundary
+    
+    
+
+
+
+ObjectProperty: landBoundaryOf
+
+    InverseOf:
+        hasLandBoundary
+    ObjectProperty: hasMember
+    Characteristics: transitive
+
+
+
+    ObjectProperty: memberOf
+Inverses: hasMember
+
+ObjectProperty: subArchipelagoOf
+Inverses: hasSubArchipelago
+Characteristics: transitive
+
+
+ObjectProperty: hasSubArchipelago
+
+
+Class: GeographicalFeature
+    SubClassOf:
+        DomainEntity
+
+Class: Coastline
+SubClassOf: GeographicalFeature
+DisjointWith:  LandMass, BodyOfWater
+
+
+Class: LandMass
+SubClassOf: GeographicalFeature
+that hasCoastline some Coastline
+DisjointWith: BodyOfWater, Coastline
+
+Class: BodyOfWater
+SubClassOf: GeographicalFeature
+DisjointWith: LandMass, Coastline
+
+Class: BodyOfSeaWater
+SubClassOf: BodyOfWater
+
+Class: BodyOfFreshWater
+SubClassOf: BodyOfWater
+DisjointWith: BodyOfSeaWater
+
+
+Class: Ocean
+SubClassOf: BodyOfSeaWater
+
+
+Class: Sea
+SubClassOf: BodyOfSeaWater
+that partOf some Ocean
+
+
+Class: Strait
+SubClassOf: BodyOfSeaWater
+that partOf some Sea
+
+Class: Harbour
+SubClassOf: BodyOfSeaWater
+that partOf some Sea
+
+Class: Bay
+SubClassOf: BodyOfSeaWater
+that partOf some Sea
+
+
+
+Class: Estuary
+SubClassOf: BodyOfSeaWater
+that partOf some Sea
+
+
+
+DisjointClasses: Ocean, Sea, Strait, Estuary, Harbour, Bay
+
+Class: Lake
+SubClassOf: BodyOfFreshWater
+
+Class: River
+SubClassOf: BodyOfFreshWater
+
+
+Class: Loch
+SubClassOf: BodyOfFreshWater
+
+
+DisjointClasses:  Loch, River, Lake
+
+
+
+
+
+
+
+
+Class: Continent
+SubClassOf: LandMass
+
+Class: Island
+SubClassOf: LandMass
+
+Class: SuperContinent
+SubClassOf: Island
+that hasPart onlysome Continent
+
+
+Class: ContinentalIsland
+EquivalentTo: Island
+that partOf ONLYSOME Continent
+
+Class: EuropeanIsland
+EquivalentTo: Island
+that partOf value europe
+
+
+Class: OceanicIsland
+SubClassOf: Island
+
+
+disjointClasses: SuperContinent, ContinentalIsland, OceanicIsland
+
+
+
+Class: GeographicalDivision
+SubClassOf: DomainEntity
+
+
+
+Class: Peninsular
+SubClassOf: GeographicalDivision
+
+
+Class: Isthmus
+SubClassOf: GeographicalDivision
+
+DisjointClasses: 	Peninsular, Isthmus
+
+
+
+Class: Collection
+    SubClassOf: 
+        DomainEntity
+
+Class: Population
+SubClassOf: Collection
+
+Class: Naytion
+SubClassOf: Collection
+
+
+Class: Group
+    SubClassOf: 
+        Collection
+
+
+Class: Archipelago
+SubClassOf: Group
+that hasMember some Island
+
+
+
+Class: PoliticalEntity
+    SubClassOf:
+        DomainEntity
+
+Class: PoliticalDivision
+SubClassOf: PoliticalEntity
+
+
+Class: AdministrativeDivision
+SubClassOf: PoliticalEntity
+that partOf some PoliticalDivision
+
+
+
+Class: Settlement
+SubClassOf: AdministrativeDivision
+
+Class: City
+SubClassOf: Settlement
+
+Class: CapitalCity
+EquivalentTo: City
+that seatOf some Government
+
+Class: Town
+SubClassOf: Settlement
+
+Class: Village
+SubClassOf: Settlement
+
+Class: Government
+SubClassOf: PoliticalEntity
+
+Class: Monarchy
+EquivalentTo: Country
+that hasHeadOfState some (Person that playsRole some Monarch)
+
+
+
+Class: Republic
+EquivalentTo: Country
+that hasHeadOfState some (Person that playsRole some President)
+
+
+Class: County
+SubClassOf: AdministrativeDivision
+
+Class: BuiltArtefact
+    SubClassOf: 
+        DomainEntity
+
+
+Class: Building 
+SubClassOf: BuiltArtefact
+
+Class: Railway
+SubClassOf: BuiltArtefact
+
+Class: Motorway
+SubClassOf: BuiltArtefact
+
+DisjointClasses: Building, Railway, Motorway, Vehicle
+
+Class: Vehicle
+SubClassOf: BuiltArtefact
+Class: aeroplane
+SubClassOf: Vehicle
+
+Class: Ferry
+SubClassOf: Vehicle
+
+Class: CruiseShip
+SubClassOf: Vehicle
+
+Class: Omnibus
+SubClassOf: Vehicle
+
+Class: Automobile
+SubClassOf: Vehicle
+
+Class: Bicycle
+SubClassOf: Vehicle
+
+Class: Train
+SubClassOf: Vehicle
+
+Class: MotorCoach
+SubClassOf: Vehicle
+
+
+Class: BoundaryFragment
+    SubClassOf: 
+        DomainEntity
+    
+    
+    
+
+
+
+Class: LandBoundaryFragment
+
+    SubClassOf: 
+        BoundaryFragment
+    
+    
+
+
+
+Class: President
+    SubClassOf: 
+        HeadOfState
+    
+DisjointClasses: 
+    Dictator,
+    Emperor,
+    Monarch,
+    President
+
+    
+
+
+
+Class: Unrecognised
+
+    SubClassOf: 
+        RecognitionStatus
+    
+    DisjointWith: 
+        Recognised
+    
+    
+
+
+
+Class: HeadOfState
+
+    SubClassOf: 
+        Role
+    
+    
+
+
+
+Class: WaterBoundaryFragment
+
+    SubClassOf: 
+        BoundaryFragment
+    
+    
+
+
+
+Class: Recognised
+
+    SubClassOf: 
+        RecognitionStatus
+    
+    DisjointWith: 
+        Unrecognised
+    
+    
+
+
+
+Class: Dictator
+
+    SubClassOf: 
+        HeadOfState
+    
+    
+
+
+
+Class: Role
+
+    SubClassOf: 
+        DomainEntity
+    
+    
+
+
+
+Class: Boundary
+
+    SubClassOf: 
+        DomainEntity
+        and ((hasPart some BoundaryFragment)
+        and (hasPart only BoundaryFragment))
+    
+    DisjointWith: 
+        BoundaryFragment,
+        Country
+    
+    
+
+
+
+Class: DomainEntity
+
+    
+
+
+
+Class: Monarch
+
+    SubClassOf: 
+        HeadOfState
+    
+    
+
+
+
+Class: King
+
+    SubClassOf: 
+        Monarch
+    
+    
+
+
+
+Class: Emperor
+
+    SubClassOf: 
+        HeadOfState
+    
+    
+
+
+
+Class: Queen
+
+    SubClassOf: 
+        Monarch
+    
+Class: Prince
+
+    SubClassOf: 
+        Monarch
+    
+
+    
+
+
+
+
+
+DisjointClasses: 
+    King,
+    Pope,
+    Queen,
+Prince,
+Emperor
+
+
+
+
+Class: RecognitionStatus
+
+    SubClassOf: 
+        DomainEntity
+    
+    
+
+
+
+Class: Country
+
+    SubClassOf: 
+        DomainEntity
+        and (hasBoundary some BoundaryFragment)
+    
+    DisjointWith: 
+        BoundaryFragment,
+        Boundary
+    
+    
+
+
+
+Class: Person
+  SubClassOf: 
+        DomainEntity
+that playsRole onlysome Role
+    
+
+
+
+Class: Pope
+
+    SubClassOf: 
+        Monarch
+    
+    
+
+
+
+
+
+Individual: scandanavian_peninsular
+Types:
+Peninsular
+Facts:
+partOf continental_europe,
+occupiedBy norway,
+occupiedBy sweden,
+occupiedBy finland
+
+Individual: british_isles
+Types:
+Archipelago
+Facts:
+partOf europe
+
+Individual: atlantic_outlier
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+Individual: crowlin_islands
+Types:
+Archipelago
+Facts:
+subArchipelagoOf inner_hebrides
+
+Individual: garvellachs
+Types:
+Archipelago
+Facts:
+subArchipelagoOf inner_hebrides
+
+Individual: highland_group
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+Individual: monach_islands
+Types:
+Archipelago
+Facts:
+subArchipelagoOf outer_hebrides
+
+Individual: out_skerries
+Types:
+Archipelago
+Facts:
+subArchipelagoOf shetland_archipelago
+
+Individual: pentland_skerries
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+Individual: shiant_islands
+Types:
+Archipelago
+Facts:
+subArchipelagoOf outer_hebrides
+
+Individual: slate_islands
+Types:
+Archipelago
+Facts:
+subArchipelagoOf inner_hebrides
+
+Individual: small_isles
+Types:
+Archipelago
+Facts:
+subArchipelagoOf inner_hebrides
+
+Individual: st_tudwals_islands
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+Individual: summer_isles
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles,
+surroundedBy loch_broom
+
+Individual: treshnish_isles
+Types:
+Archipelago
+Facts:
+subArchipelagoOf inner_hebrides
+
+
+
+Individual: inner_hebrides
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+
+
+Individual: outer_hebrides
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+
+Individual:  anglesey_archipelago
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+Individual:  islay_archipelago
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+Individual:  lewis_and_harris_archipelago
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+Individual:  mull_archipelago
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+Individual:  orkney_archipelago
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+Individual:  shetland_archipelago
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+Individual:  skye_archipelago
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+Individual:  st_kilda_archipelago
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+Individual:  uists_and_barra_archipelago
+Types:
+Archipelago
+Facts:
+subArchipelagoOf british_isles
+
+
+
+
+Individual: solway_firth
+Types:
+Estuary
+
+Individual: firth_of_clyde
+Types:
+Estuary
+
+Individual: firth_of_forth
+Types:
+Estuary
+
+Individual: lochalsh
+Types:
+Estuary
+
+Individual: loch_broom
+Types:
+Estuary
+
+
+Individual: loch_awe
+Types:
+Estuary
+
+Individual: loch_leven
+Types:
+Estuary
+
+Individual: loch_linnhe
+Types:
+Estuary
+
+Individual: loch_lomond
+Types:
+Estuary
+
+Individual: loch_maree
+Types:
+Estuary
+
+Individual: river_tay
+Types:
+River
+
+
+
+
+Individual: ailsa_craig
+Types:
+Island
+Facts:
+surroundedBy firth_of_clyde,
+hasArea 99,
+hasPopulation 0,
+hasHeight 338
+
+Individual: arran
+Types:
+Island
+Facts:
+surroundedBy firth_of_clyde,
+hasArea 43201,
+hasPopulation 5045,
+hasHeight 874
+
+Individual: auskerry
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 85,
+hasPopulation 5,
+hasHeight 18
+
+Individual: baleshare
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 910,
+hasPopulation 49,
+hasHeight 12
+
+Individual: balta
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 80,
+hasPopulation 0,
+hasHeight 44
+
+Individual: barra
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 5875,
+hasPopulation 1078,
+hasHeight 383
+
+Individual: barra_head
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 204,
+hasPopulation 0,
+hasHeight 193
+
+Individual: benbecula
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 8203,
+hasPopulation 1219,
+hasHeight 124
+
+Individual: berneray_north_uist
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 1010,
+hasPopulation 136,
+hasHeight 93
+
+Individual: bigga
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 78,
+hasPopulation 0,
+hasHeight 34
+
+Individual: boreray
+Types:
+Island
+Facts:
+memberOf st_kilda_archipelago,
+hasArea 77,
+hasPopulation 0,
+hasHeight 384
+
+Individual: boreray
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 204,
+hasPopulation 0,
+hasHeight 56
+
+Types:
+Island
+Individual: bressay
+Facts:
+memberOf shetland_archipelago,
+hasArea 2805,
+hasPopulation 384,
+hasHeight 226
+
+Individual: brother_isle
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 40,
+hasPopulation 0,
+hasHeight 25
+
+Individual: bruray
+Types:
+Island
+Facts:
+memberOf out_skerries,
+hasArea 55,
+hasPopulation 26,
+hasHeight 53
+
+Individual: burray
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 903,
+hasPopulation 357,
+hasHeight 80
+
+Individual: bute
+Types:
+Island
+Facts:
+surroundedBy firth_of_clyde,
+hasArea 12217,
+hasPopulation 7149,
+hasHeight 278
+
+Individual: calf_of_eday
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 243,
+hasPopulation 0,
+hasHeight 54
+
+Individual: calve_island
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 72,
+hasPopulation 0,
+hasHeight 20
+
+Individual: canna
+Types:
+Island
+Facts:
+memberOf small_isles,
+hasArea 1130,
+hasPopulation 6,
+hasHeight 210
+
+Individual: cara
+Types:
+Island
+Facts:
+memberOf islay_archipelago,
+hasArea 66,
+hasPopulation 0,
+hasHeight 56
+
+Individual: càrna
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 213,
+hasPopulation 0,
+hasHeight 169
+
+Individual: cava
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 107,
+hasPopulation 0,
+hasHeight 38
+
+Individual: ceallasaigh_mòr
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 44 ,
+hasPopulation 0,
+hasHeight 10
+
+Individual: ceann_ear
+Types:
+Island
+Facts:
+memberOf monach_islands,
+hasArea 203,
+hasPopulation 0,
+hasHeight 17
+
+Individual: ceann_iar
+Types:
+Island
+Facts:
+memberOf monach_islands,
+hasArea 154,
+hasPopulation 0,
+hasHeight 19
+
+Individual: coll
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 7685,
+hasPopulation 164,
+hasHeight 104
+
+Individual: colonsay
+Types:
+Island
+Facts:
+memberOf islay_archipelago,
+hasArea 4074,
+hasPopulation 108,
+hasHeight 143
+
+Individual: copinsay
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 73,
+hasPopulation 0,
+hasHeight 64
+
+Individual: danna
+Types:
+Island
+Facts:
+memberOf islay_archipelago,
+hasArea 315 ,
+hasPopulation 5,
+hasHeight 54
+
+Individual: davaar
+Types:
+Island
+Facts:
+surroundedBy firth_of_clyde,
+hasArea 52,
+hasPopulation 2,
+hasHeight 115
+
+Individual: easdale
+Types:
+Island,
+hasArea some int[<20]
+
+Facts:
+memberOf slate_islands,
+hasPopulation 58,
+hasHeight 38
+
+Individual: east_burra
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 515,
+hasPopulation 66,
+hasHeight 81
+
+Individual: eday
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 2745,
+hasPopulation 121,
+hasHeight 101
+
+Individual: egilsay
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 650,
+hasPopulation 37,
+hasHeight 35
+
+Individual: eigg
+Types:
+Island
+Facts:
+memberOf small_isles,
+hasArea 3049,
+hasPopulation 67,
+hasHeight 393
+
+Individual: eileach_an_naoimh
+Types:
+Island
+Facts:
+memberOf garvellachs,
+hasArea 56,
+hasPopulation 0,
+hasHeight 80
+
+Individual: eilean_bàn
+Types:
+Island,
+hasArea some int[<10]
+Facts:
+surroundedBy lochalsh,
+hasPopulation 2,
+hasHeight 5
+
+Individual: eilean_chaluim_chille
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 85,
+hasPopulation 0,
+hasHeight 43
+
+Individual: eilean_donan
+Types:
+Island,
+hasArea some int[<1]
+Facts:
+surroundedBy loch_duich,
+hasPopulation 1,
+hasHeight 3
+
+Individual: loch_duich
+Types:
+Estuary
+
+
+
+Individual: eilean_dubh_mòr
+Types:
+Island
+Facts:
+memberOf slate_islands,
+hasArea 65,
+hasPopulation 0,
+hasHeight 53
+
+Individual: eilean_liubhaird
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 125,
+hasPopulation 0,
+hasHeight 76
+
+Individual: eilean_kearstay
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 77,
+hasPopulation 0,
+hasHeight 37
+
+Individual: eilean_macaskin
+Types:
+Island
+Facts:
+memberOf islay_archipelago,
+hasArea 50,
+hasPopulation 0,
+hasHeight 65
+
+Individual: eilean_mòr
+Types:
+Island
+Facts:
+memberOf crowlin_islands,
+hasArea 170,
+hasPopulation 0,
+hasHeight 114
+
+Individual: eilean_nan_ròn
+Types:
+Island
+Facts:
+memberOf highland_group,
+hasArea 138,
+hasPopulation 0,
+hasHeight 76
+
+Individual: eilean_righ
+Types:
+Island
+Facts:
+memberOf islay_archipelago,
+hasArea 86,
+hasPopulation 0,
+hasHeight 55
+
+Individual: eilean_ruairidh_mòr
+Types:
+Island
+Facts:
+surroundedBy loch_maree,
+hasArea 41 ,
+hasPopulation 0,
+hasHeight 51
+
+Individual: eilean_shona
+Types:
+Island
+Facts:
+memberOf small_isles,
+hasArea 525,
+hasPopulation 9,
+hasHeight 265
+
+Individual: eilean_sùbhainn
+Types:
+Island
+Facts:
+surroundedBy loch_maree,
+hasArea 118 ,
+hasPopulation 0,
+hasHeight 36
+
+Individual: eileanan_iasgaich
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 50,
+hasPopulation 0,
+hasHeight 23
+
+Individual: ensay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 186,
+hasPopulation 0,
+hasHeight 49
+
+Individual: eorsa
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 122,
+hasPopulation 0,
+hasHeight 98
+
+Individual: eriska
+Types:
+Island
+Facts:
+surroundedBy loch_linnhe,
+hasArea 310 ,
+hasPopulation 0,
+hasHeight 47
+
+Individual: eriskay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 703,
+hasPopulation 133,
+hasHeight 185
+
+Individual: erraid
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 187,
+hasPopulation 8,
+hasHeight 75
+
+Individual: eynhallow
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 75,
+hasPopulation 0,
+hasHeight 30
+
+Individual: fair_isle
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 768,
+hasPopulation 69,
+hasHeight 217
+
+Individual: fara
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 295,
+hasPopulation 0,
+hasHeight 43
+
+Individual: faray
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 180,
+hasPopulation 0,
+hasHeight 32
+
+Individual: fetlar
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 4078,
+hasPopulation 86,
+hasHeight 158
+
+Individual: fiaray
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 41,
+hasPopulation 0,
+hasHeight 30
+
+Individual: flodaigh
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 145 ,
+hasPopulation 11,
+hasHeight 20
+
+Individual: flodaigh_mòr
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 58,
+hasPopulation 0,
+hasHeight 28
+
+Individual: flodday
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 40,
+hasPopulation 0,
+hasHeight 42
+
+Individual: flotta
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 876,
+hasPopulation 81,
+hasHeight 58
+
+Individual: foula
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 1265,
+hasPopulation 31,
+hasHeight 418
+
+Individual: fuaigh_mòr
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 84,
+hasPopulation 0,
+hasHeight 67
+
+Individual: fuday
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 232,
+hasPopulation 0,
+hasHeight 89
+
+Individual: fuiay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 84,
+hasPopulation 0,
+hasHeight 107
+
+Individual: gairsay
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 240,
+hasPopulation 3,
+hasHeight 102
+
+Individual: garbh_eileach
+Types:
+Island
+Facts:
+memberOf garvellachs,
+hasArea 142,
+hasPopulation 0,
+hasHeight 110
+
+Individual: garbh_eilean
+Types:
+Island
+Facts:
+memberOf shiant_islands,
+hasArea 143,
+hasPopulation 0,
+hasHeight 160
+
+Individual: garbh_eilean
+Types:
+Island
+Facts:
+surroundedBy loch_maree,
+hasArea 65 ,
+hasPopulation 0,
+hasHeight 25
+
+Individual: gigha
+Types:
+Island
+Facts:
+memberOf islay_archipelago,
+hasArea 1395,
+hasPopulation 110,
+hasHeight 100
+
+Individual: gighay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 96,
+hasPopulation 0,
+hasHeight 95
+
+Individual: glims_holm
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 55,
+hasPopulation 0,
+hasHeight 32
+
+Individual: gometra
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 425,
+hasPopulation 5,
+hasHeight 155
+
+Individual: graemsay
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 409,
+hasPopulation 21,
+hasHeight 62
+
+Individual: great_bernera
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 2122,
+hasPopulation 233,
+hasHeight 87
+
+Individual: great_cumbrae
+Types:
+Island
+Facts:
+surroundedBy firth_of_clyde,
+hasArea 1168,
+hasPopulation 1434,
+hasHeight 127
+
+Individual: grimsay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 833,
+hasPopulation 201,
+hasHeight 22
+
+Individual: grimsay_south
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 117 ,
+hasPopulation 19,
+hasHeight 20
+
+Individual: gruinard_island
+Types:
+Island
+Facts:
+memberOf highland_group,
+hasArea 196,
+hasPopulation 0,
+hasHeight 106
+
+Individual: gunna
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 69,
+hasPopulation 0,
+hasHeight 35
+
+Individual: handa
+Types:
+Island
+Facts:
+memberOf highland_group,
+hasArea 309,
+hasPopulation 0,
+hasHeight 123
+
+Individual: hascosay
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 275,
+hasPopulation 0,
+hasHeight 30
+
+Individual: hellisay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 142,
+hasPopulation 0,
+hasHeight 79
+
+Individual: hermetray
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 72,
+hasPopulation 0,
+hasHeight 35
+
+Individual: hildasay
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 108,
+hasPopulation 0,
+hasHeight 32
+
+Individual: hirta
+Types:
+Island
+Facts:
+memberOf st_kilda_archipelago,
+hasArea 670,
+hasPopulation 0,
+hasHeight 430
+
+Individual: holy_isle
+Types:
+Island
+Facts:
+surroundedBy firth_of_clyde,
+hasArea 253,
+hasPopulation 13,
+hasHeight 314
+
+Individual: horse_island
+Types:
+Island
+Facts:
+memberOf summer_isles,
+hasArea 53,
+hasPopulation 0,
+hasHeight 60
+
+Individual: housay
+Types:
+Island
+Facts:
+memberOf out_skerries,
+hasArea 163,
+hasPopulation 50,
+hasHeight 53
+
+Individual: hoy
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 13458,
+hasPopulation 272,
+hasHeight 479
+
+Individual: hunda
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 100,
+hasPopulation 0,
+hasHeight 41
+
+Individual: iona
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 877,
+hasPopulation 125,
+hasHeight 100
+
+Individual: inchcolm
+Types:
+Island
+Facts:
+surroundedBy firth_of_forth,
+hasArea 9 ,
+hasPopulation 2,
+hasHeight 34
+
+Individual: inchfad
+Types:
+Island
+Facts:
+surroundedBy loch_lomond,
+hasArea 40 ,
+hasPopulation 2,
+hasHeight 24
+
+Individual: inch_kenneth
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 55,
+hasPopulation 0,
+hasHeight 49
+
+Individual: inchlonaig
+Types:
+Island
+Facts:
+surroundedBy loch_lomond,
+hasArea 77 ,
+hasPopulation 0,
+hasHeight 62
+
+Individual: inchmarnock
+Types:
+Island
+Facts:
+surroundedBy firth_of_clyde,
+hasArea 266,
+hasPopulation 0,
+hasHeight 60
+
+Individual: inchmurrin
+Types:
+Island
+Facts:
+surroundedBy loch_lomond,
+hasArea 133 ,
+hasPopulation 13,
+hasHeight 89
+
+Individual: inchtavannach
+Types:
+Island
+Facts:
+surroundedBy loch_lomond,
+hasArea 52 ,
+hasPopulation 3,
+hasHeight 84
+
+Individual: innis_chonain
+Types:
+Island
+Facts:
+surroundedBy loch_awe,
+hasArea 8 ,
+hasPopulation 1,
+hasHeight 62
+
+Individual: isay
+Types:
+Island
+Facts:
+memberOf skye_archipelago,
+hasArea 60,
+hasPopulation 0,
+hasHeight 28
+
+Individual: islay
+Types:
+Island
+Facts:
+memberOf islay_archipelago,
+hasArea 61956,
+hasPopulation 3457,
+hasHeight 491
+
+Individual: isle_martin
+Types:
+Island
+Facts:
+memberOf summer_isles,
+hasArea 157,
+hasPopulation 0,
+hasHeight 120
+
+Individual: isle_of_ewe
+ Types:
+Island
+Facts:
+memberOf highland_group,
+hasArea 309,
+hasPopulation 12,
+hasHeight 72
+
+Individual: isle_of_may
+Types:
+Island
+Facts:
+surroundedBy firth_of_forth,
+hasArea 45,
+hasPopulation 0,
+hasHeight 50
+
+Individual: isle_ristol
+Types:
+Island
+Facts:
+memberOf summer_isles,
+hasArea 225 ,
+hasPopulation 0,
+hasHeight 71
+
+Individual: jura
+Types:
+Island
+Facts:
+memberOf islay_archipelago,
+hasArea 36692,
+hasPopulation 188,
+hasHeight 785
+
+Individual: kerrera
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 1214,
+hasPopulation 42,
+hasHeight 189
+
+Individual: killegray
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 176,
+hasPopulation 0,
+hasHeight 45
+
+Individual: kirkibost
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 205,
+hasPopulation 0,
+hasHeight 7
+
+Individual: lamba
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 43,
+hasPopulation 0,
+hasHeight 35
+
+Individual: lamb_holm
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 40,
+hasPopulation 0,
+hasHeight 20
+
+Individual: lewis_and_harris
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 217898,
+hasPopulation 19918,
+hasHeight 799
+
+Individual: linga_near_muckle_roe
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 70,
+hasPopulation 0,
+hasHeight 69
+
+Individual: linga_near_yell
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 45,
+hasPopulation 0,
+hasHeight 26
+
+Individual: linga_holm
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 57,
+hasPopulation 0,
+hasHeight 10
+
+Individual: lismore
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 2351,
+hasPopulation 146,
+hasHeight 127
+
+Individual: little_bernera
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 138,
+hasPopulation 0,
+hasHeight 41
+
+Individual: little_colonsay
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 88,
+hasPopulation 0,
+hasHeight 61
+
+Individual: little_cumbrae
+Types:
+Island
+Facts:
+surroundedBy firth_of_clyde,
+hasArea 313,
+hasPopulation 0,
+hasHeight 123
+
+Individual: longa_island
+Types:
+Island
+Facts:
+memberOf highland_group,
+hasArea 126,
+hasPopulation 0,
+hasHeight 70
+
+Individual: longay
+Types:
+Island
+Facts:
+memberOf skye_archipelago,
+hasArea 50,
+hasPopulation 0,
+hasHeight 67
+
+Individual: luing
+Types:
+Island
+Facts:
+memberOf slate_islands,
+hasArea 1430,
+hasPopulation 212,
+hasHeight 94
+
+Individual: lunga
+Types:
+Island
+Facts:
+memberOf slate_islands,
+hasArea 254,
+hasPopulation 7,
+hasHeight 98
+
+Individual: lunga
+Types:
+Island
+Facts:
+memberOf treshnish_isles,
+hasArea 81,
+hasPopulation 0,
+hasHeight 103
+
+Individual: orkney
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 52325,
+hasPopulation 15315,
+hasHeight 271
+
+Individual: shetland
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 96879,
+hasPopulation 17550,
+hasHeight 450
+
+Individual: mealista
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 124,
+hasPopulation 0,
+hasHeight 77
+
+Individual: mingulay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 640,
+hasPopulation 0,
+hasHeight 273
+
+Individual: moncrieffe_island
+Types:
+Island
+Facts:
+surroundedBy river_tay,
+hasArea 46 ,
+hasPopulation 3,
+hasHeight 5
+
+Individual: mousa
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 180,
+hasPopulation 0,
+hasHeight 55
+
+Individual: muck
+Types:
+Island
+Facts:
+memberOf small_isles,
+hasArea 559,
+hasPopulation 30,
+hasHeight 137
+
+Individual: muckle_roe
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 1773,
+hasPopulation 104,
+hasHeight 267
+
+Individual: muldoanich
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 78,
+hasPopulation 0,
+hasHeight 153
+
+Individual: mull
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 87535,
+hasPopulation 2667,
+hasHeight 966
+
+Individual: north_rona
+Types:
+Island
+Facts:
+memberOf atlantic_outlier,
+hasArea 109,
+hasPopulation 0,
+hasHeight 108
+
+Individual: north_ronaldsay
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 690,
+hasPopulation 70,
+hasHeight 20
+
+Individual: north_uist
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 30305,
+hasPopulation 1271,
+hasHeight 347
+
+Individual: noss
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 343,
+hasPopulation 0,
+hasHeight 181
+
+Individual: oldany_island
+Types:
+Island
+Facts:
+memberOf highland_group,
+hasArea 200 ,
+hasPopulation 0,
+hasHeight 104
+
+Individual: oronsay
+Types:
+Island
+Facts:
+memberOf islay_archipelago,
+hasArea 543,
+hasPopulation 5,
+hasHeight 93
+
+Individual: oronsay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 85,
+hasPopulation 0,
+hasHeight 25
+
+Individual: oronsay
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 230 ,
+hasPopulation 0,
+hasHeight 58
+
+Individual: oxna
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 68,
+hasPopulation 0,
+hasHeight 38
+
+Individual: pabay
+Types:
+Island
+Facts:
+memberOf skye_archipelago,
+hasArea 122,
+hasPopulation 0,
+hasHeight 28
+
+Individual: pabay_mòr
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 101,
+hasPopulation 0,
+hasHeight 68
+
+Individual: pabbay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 250,
+hasPopulation 0,
+hasHeight 171
+
+Individual: pabbay
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 820,
+hasPopulation 0,
+hasHeight 196
+
+Individual: papa
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 59,
+hasPopulation 0,
+hasHeight 32
+
+Individual: papa_little
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 226,
+hasPopulation 0,
+hasHeight 82
+
+Individual: papa_stour
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 828,
+hasPopulation 23,
+hasHeight 87
+
+Individual: papa_stronsay
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 74,
+hasPopulation 10,
+hasHeight 13
+
+Individual: papa_westray
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 918,
+hasPopulation 65,
+hasHeight 48
+
+Individual: priest_island
+Types:
+Island
+Facts:
+memberOf summer_isles,
+hasArea 122,
+hasPopulation 0,
+hasHeight 78
+
+Individual: raasay
+Types:
+Island
+Facts:
+memberOf skye_archipelago,
+hasArea 6405,
+hasPopulation 192,
+hasHeight 443
+
+Individual: ronay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 563,
+hasPopulation 0,
+hasHeight 115
+
+Individual: rousay
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 4860,
+hasPopulation 212,
+hasHeight 250
+
+Individual: rùm
+Types:
+Island
+Facts:
+memberOf small_isles,
+hasArea 10463,
+hasPopulation 22,
+hasHeight 812
+
+Individual: samphrey
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 66,
+hasPopulation 0,
+hasHeight 29
+
+Individual: sanda_island
+Types:
+Island
+Facts:
+surroundedBy firth_of_clyde,
+hasArea 151,
+hasPopulation 1,
+hasHeight 123
+
+Individual: sanday
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 5043,
+hasPopulation 478,
+hasHeight 65
+
+Individual: sanday
+Types:
+Island
+Facts:
+memberOf small_isles,
+hasArea 184,
+hasPopulation 6,
+hasHeight 59
+
+Individual: sandray
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 385,
+hasPopulation 0,
+hasHeight 207
+
+Individual: scalpay
+Types:
+Island
+Facts:
+memberOf skye_archipelago,
+hasArea 2483,
+hasPopulation 10,
+hasHeight 392
+
+Individual: scalpay
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 653,
+hasPopulation 322,
+hasHeight 104
+
+Individual: scarba
+Types:
+Island
+Facts:
+memberOf islay_archipelago,
+hasArea 1474,
+hasPopulation 0,
+hasHeight 449
+
+Individual: scarp
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 1045,
+hasPopulation 0,
+hasHeight 308
+
+Individual: scotasay
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 49,
+hasPopulation 0,
+hasHeight 57
+
+Individual: seaforth_island
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 273,
+hasPopulation 0,
+hasHeight 217
+
+Individual: seil
+Types:
+Island
+Facts:
+memberOf slate_islands,
+hasArea 1329,
+hasPopulation 560,
+hasHeight 146
+
+Individual: shapinsay
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 2948,
+hasPopulation 300,
+hasHeight 64
+
+Individual: shillay
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 47,
+hasPopulation 0,
+hasHeight 79
+
+Individual: shuna
+Types:
+Island
+Facts:
+memberOf slate_islands,
+hasArea 451,
+hasPopulation 1,
+hasHeight 90
+
+Individual: shuna
+Types:
+Island
+Facts:
+surroundedBy loch_linnhe,
+hasArea 155,
+hasPopulation 0,
+hasHeight 71
+
+Individual: skye
+Types:
+Island
+Facts:
+memberOf skye_archipelago,
+hasArea 165625,
+hasPopulation 9232,
+hasHeight 993
+
+Individual: soay
+Types:
+Island
+Facts:
+memberOf skye_archipelago,
+hasArea 1036,
+hasPopulation 7,
+hasHeight 141
+
+Individual: soay
+Types:
+Island
+Facts:
+memberOf st_kilda_archipelago,
+hasArea 99,
+hasPopulation 0,
+hasHeight 378
+
+Individual: soay_mòr
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 45,
+hasPopulation 0,
+hasHeight 37
+
+Individual: south_havra
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 59,
+hasPopulation 0,
+hasHeight 42
+
+Individual: south_rona
+Types:
+Island
+Facts:
+memberOf skye_archipelago,
+hasArea 930,
+hasPopulation 2,
+hasHeight 125
+
+Individual: south_ronaldsay
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 4980,
+hasPopulation 854,
+hasHeight 118
+
+Individual: south_uist
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 32026,
+hasPopulation 1818,
+hasHeight 620
+
+Individual: south_walls
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 850 ,
+hasPopulation 120,
+hasHeight 57
+
+Individual: st_serfs_inch
+Types:
+Island
+Facts:
+surroundedBy loch_leven,
+hasArea 41 ,
+hasPopulation 0,
+hasHeight 110
+
+Individual: stockinish_island
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 49,
+hasPopulation 0,
+hasHeight 44
+
+Individual: stroma
+Types:
+Island
+Facts:
+memberOf highland_group,
+hasArea 375,
+hasPopulation 0,
+hasHeight 53
+
+Individual: stronsay
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 3275,
+hasPopulation 343,
+hasHeight 44
+
+Individual: stuley
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 45,
+hasPopulation 0,
+hasHeight 40
+
+Individual: switha
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 41,
+hasPopulation 0,
+hasHeight 29
+
+Individual: swona
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 92,
+hasPopulation 0,
+hasHeight 41
+
+Individual: tahay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 53,
+hasPopulation 0,
+hasHeight 65
+
+Individual: tanera_beag
+Types:
+Island
+Facts:
+memberOf summer_isles,
+hasArea 66,
+hasPopulation 0,
+hasHeight 83
+
+Individual: tanera_mòr
+Types:
+Island
+Facts:
+memberOf summer_isles,
+hasArea 310,
+hasPopulation 5,
+hasHeight 124
+
+Individual: taransay
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 1475,
+hasPopulation 0,
+hasHeight 267
+
+Individual: texa
+Types:
+Island
+Facts:
+memberOf islay_archipelago,
+hasArea 48,
+hasPopulation 0,
+hasHeight 48
+
+Individual: tiree
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 7834,
+hasPopulation 770,
+hasHeight 141
+
+Individual: torsa
+Types:
+Island
+Facts:
+memberOf slate_islands,
+hasArea 113,
+hasPopulation 0,
+hasHeight 62
+
+Individual: trondra
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 275,
+hasPopulation 133,
+hasHeight 60
+
+Individual: ulva
+Types:
+Island
+Facts:
+memberOf mull_archipelago,
+hasArea 1990,
+hasPopulation 16,
+hasHeight 313
+
+Individual: unst
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 12068,
+hasPopulation 720,
+hasHeight 284
+
+Individual: uyea_northmavine
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 45,
+hasPopulation 0,
+hasHeight 70
+
+Individual: uyea_un
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 205,
+hasPopulation 0,
+hasHeight 50
+
+Individual: vaila
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 327,
+hasPopulation 2,
+hasHeight 95
+
+Individual: vacsay
+Types:
+Island
+Facts:
+memberOf lewis_and_harris_archipelago,
+hasArea 41,
+hasPopulation 0,
+hasHeight 34
+
+Individual: vallay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 260,
+hasPopulation 0,
+hasHeight 38
+
+Individual: vatersay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 960,
+hasPopulation 94,
+hasHeight 185
+
+Individual: vementry
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 370,
+hasPopulation 0,
+hasHeight 90
+
+Individual: west_burra
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 743,
+hasPopulation 753,
+hasHeight 217
+
+Individual: west_linga
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 125,
+hasPopulation 0,
+hasHeight 52
+
+Individual: westray
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 4713,
+hasPopulation 563,
+hasHeight 169
+
+Individual: whalsay
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 1970,
+hasPopulation 1034,
+hasHeight 119
+
+Individual: wiay
+Types:
+Island
+Facts:
+memberOf skye_archipelago,
+hasArea 148,
+hasPopulation 0,
+hasHeight 60
+
+Individual: wiay
+Types:
+Island
+Facts:
+memberOf uists_and_barra_archipelago,
+hasArea 375,
+hasPopulation 0,
+hasHeight 102
+
+Individual: wyre
+Types:
+Island
+Facts:
+memberOf orkney_archipelago,
+hasArea 311,
+hasPopulation 18,
+hasHeight 32
+
+Individual: yell
+Types:
+Island
+Facts:
+memberOf shetland_archipelago,
+hasArea 21211,
+hasPopulation 957,
+hasHeight 20
+
+Individual: bac_mòr
+Types: Island Facts: occupiedBy  scotland, 
+memberOf treshnish_isles
+
+Individual: bass_rock
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy firth_of_forth
+
+Individual: belnahua
+Types: Island Facts: occupiedBy  scotland, 
+memberOf slate_islands
+
+Individual: bottle_island
+Types: Island Facts: occupiedBy  scotland, 
+memberOf summer_isles
+
+Individual: brough_of_birsay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf orkney_archipelago
+
+Individual: cairn_na_burgh_beag
+Types: Island
+Facts: occupiedBy  scotland,
+memberOf treshnish_isles
+
+Individual: cairn_na_burgh_mòr
+Types: Island 
+Facts: occupiedBy  scotland,
+memberOf treshnish_isles
+
+Individual: calf_of_flotta
+Types: Island 
+Facts: occupiedBy  scotland,
+memberOf orkney_archipelago
+
+Individual: calvay
+Types: Island 
+Facts: occupiedBy  scotland,
+memberOf outer_hebrides
+
+Individual: campay
+Types: Island 
+Facts: occupiedBy  scotland,
+memberOf outer_hebrides
+
+Individual: castle_island
+Types: Island Facts: occupiedBy  scotland,
+surroundedBy firth_of_clyde
+
+Individual: cearstaidh
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: clett
+Types: Island Facts: occupiedBy  scotland, 
+memberOf inner_hebrides
+
+Individual: clettack_skerry
+Types: Island Facts: occupiedBy  scotland, 
+memberOf pentland_skerries
+
+Individual: corn_holm
+Types: Island Facts: occupiedBy  scotland, 
+memberOf orkney_archipelago
+
+Individual: craigleith
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy firth_of_forth
+
+Individual: craiglethy
+Types: Island Facts:
+occupiedBy  scotland
+
+Individual: cramond_island
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy firth_of_forth
+
+Individual: craro
+Types: Island Facts: occupiedBy  scotland, 
+memberOf inner_hebrides
+
+Individual: damsay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf orkney_archipelago
+
+Individual: deasker
+Types: Island Facts: occupiedBy  scotland, 
+memberOf north_uist
+
+Individual: dubh_artach
+Types: Island Facts: occupiedBy  scotland, 
+memberOf inner_hebrides
+
+Individual: dùn
+Types: Island Facts: occupiedBy  scotland, 
+memberOf st_kilda_archipelago
+
+Individual: dùn_channuill
+Types: Island Facts: occupiedBy  scotland, 
+memberOf garvellachs
+
+Individual: east_linga
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: eilean_chathastail
+Types: Island Facts: occupiedBy  scotland, 
+memberOf inner_hebrides
+
+Individual: eilean_dubh
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy firth_of_clyde
+
+Individual: eilean_dubh
+Types: Island Facts: occupiedBy  scotland, 
+memberOf summer_isles
+
+Individual: eilean_fladday
+Types: Island Facts: occupiedBy  scotland, 
+memberOf inner_hebrides
+
+Individual: eilean_mullagrach
+Types: Island Facts: occupiedBy  scotland, 
+memberOf summer_isles
+
+Individual: eilean_tigh
+Types: Island Facts: occupiedBy  scotland, 
+memberOf inner_hebrides
+
+Individual: eyebroughy
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy firth_of_forth
+
+Individual: fidra
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy firth_of_forth
+
+Individual: fish_holm
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: fladda
+Types: Island Facts: occupiedBy  scotland, 
+memberOf slate_islands
+
+Individual: fladda
+Types: Island Facts: occupiedBy  scotland,
+memberOf treshnish_isles
+
+Individual: flodday
+Types: Island Facts: occupiedBy  scotland,
+memberOf outer_hebrides
+
+Individual: flodday
+Types: Island Facts: occupiedBy  scotland,
+memberOf outer_hebrides
+
+Individual: floddaybeg
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: fodragay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: fuaigh_beag
+Types: Island Facts: occupiedBy  scotland,
+memberOf outer_hebrides
+
+Individual: garbh_sgeir
+Types: Island Facts: occupiedBy  scotland,
+memberOf inner_hebrides
+
+Individual: gigalum_island
+Types: Island Facts: occupiedBy  scotland,
+memberOf inner_hebrides
+
+Individual: gilsay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: glas-leac_beag
+Types: Island Facts: occupiedBy  scotland, 
+memberOf summer_isles
+
+Individual: glas-leac_mòr
+Types: Island Facts: occupiedBy  scotland, 
+memberOf summer_isles
+
+Individual: gloup_holm
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: glunimore_island
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy firth_of_clyde
+
+Individual: groay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: grunay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf out_skerries
+
+Individual: gruney
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: gualan
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: haaf_gruney
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: harlosh_island
+Types: Island Facts: occupiedBy  scotland, 
+memberOf inner_hebrides
+
+Individual: haskeir
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: haskeir_eagach
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: hearnish
+Types: Island Facts: occupiedBy  scotland, 
+memberOf monach_islands
+
+Individual: helliar_holm
+Types: Island Facts: occupiedBy  scotland, 
+memberOf orkney_archipelago
+
+Individual: hestan_island
+Types: Island 
+Facts:
+occupiedBy  scotland,
+surroundedBy solway_firth
+
+Individual: holm_of_faray
+Types: Island 
+Facts: 
+occupiedBy  scotland,
+memberOf orkney_archipelago
+
+Individual: holm_of_huip
+Types: Island 
+Facts: 
+occupiedBy  scotland,
+memberOf orkney_archipelago
+
+Individual: holm_of_papa
+Types: Island 
+Facts: 
+occupiedBy  scotland,
+memberOf orkney_archipelago
+
+Individual: holm_of_scockness
+Types: Island Facts: occupiedBy  scotland,
+memberOf orkney_archipelago
+
+Individual: horse_island
+Types: Island Facts: occupiedBy  scotland,
+memberOf small_isles
+
+Individual: horse_isle
+Types: Island Facts: occupiedBy  scotland,
+surroundedBy firth_of_clyde
+
+Individual: huney
+Types: Island Facts: occupiedBy  scotland,
+memberOf shetland_archipelago
+
+Individual: inchgarvie
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy firth_of_forth
+
+Individual: inchkeith
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy firth_of_forth
+
+Individual: inchmickery
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy firth_of_forth
+
+Individual: innis_mhòr
+Types: Island 
+Facts:
+occupiedBy  scotland
+
+Individual: kili_holm
+Types: Island Facts: occupiedBy  scotland,
+memberOf orkney_archipelago
+
+Individual: ladys_holm
+Types: Island Facts: occupiedBy  scotland,
+memberOf shetland_archipelago
+
+Individual: lady_isle
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy firth_of_clyde
+
+Individual: the_lamb
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy firth_of_forth
+
+Individual: lingay_near_harris
+Types: Island Facts: occupiedBy  scotland,
+memberOf outer_hebrides
+
+Individual: lingay_near_north_uist
+Types: Island Facts: occupiedBy  scotland,
+memberOf outer_hebrides
+
+Individual: little_linga
+Types: Island Facts: occupiedBy  scotland,
+memberOf shetland_archipelago
+
+Individual: little_roe
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: little_skerry
+Types: Island Facts: occupiedBy  scotland, 
+memberOf pentland_skerries
+
+Individual: louther_skerry
+Types: Island Facts: occupiedBy  scotland, 
+memberOf pentland_skerries
+
+Individual: lunna_holm
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: mingay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf inner_hebrides
+
+Individual: moul_of_eswick
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: muckle_flugga
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: muckle_green_holm
+Types: Island Facts: occupiedBy  scotland,
+memberOf orkney_archipelago
+
+Individual: muckle_ossa
+Types: Island Facts: occupiedBy  scotland,
+memberOf shetland_archipelago
+
+Individual: muckle_skerry
+Types: Island Facts: occupiedBy  scotland,
+memberOf pentland_skerries
+
+Individual: mugdrum_island
+Types: Island Facts: occupiedBy  scotland,
+surroundedBy firth_of_tay
+
+Individual: firth_of_tay
+Types:
+Estuary
+Facts:
+partOf north_sea
+
+
+Individual: nave_island
+Types: Island Facts: occupiedBy  scotland,
+memberOf islay_archipelago
+
+Individual: north_havra
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: oigh-sgeir
+Types: Island Facts: occupiedBy  scotland, 
+memberOf inner_hebrides
+
+Individual: opsay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: orasaigh
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: orfasay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: ornsay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf inner_hebrides
+
+Individual: orsay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf inner_hebrides
+
+Individual: out_stack
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: pladda
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy firth_of_clyde
+
+Individual: rockall
+Types: Island Facts: occupiedBy  scotland,
+surroundedBy atlantic_ocean
+
+Individual: rough
+Types: Island Facts: occupiedBy  scotland, 
+surroundedBy solway_firth
+
+Individual: rusk_holm
+Types: Island Facts: occupiedBy  scotland, 
+memberOf orkney_archipelago
+
+Individual: rysa_little
+Types: Island Facts: occupiedBy  scotland, 
+memberOf orkney_archipelago
+
+Individual: scaravay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: sgat_mòr_and_sgat_beag
+Types: Island Facts: occupiedBy  scotland,
+surroundedBy firth_of_clyde
+
+Individual: sheep_island
+Types: Island Facts: occupiedBy  scotland,
+surroundedBy firth_of_clyde
+
+Individual: shillay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf monach_islands
+
+Individual: soay_beag
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: south_gruney
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: south_isle_of_gletness
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: st_ninians_isle
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: stac_an_armin
+Types: Island Facts: occupiedBy  scotland, 
+memberOf st_kilda_archipelago
+
+Individual: stac_lee
+Types: Island Facts: occupiedBy  scotland,
+memberOf st_kilda_archipelago
+
+Individual: staffa
+Types: Island Facts: occupiedBy  scotland, 
+memberOf inner_hebrides
+
+Individual: stockay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf monach_islands
+
+Individual: stromay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: sula_sgeir
+Types: Island Facts: occupiedBy  scotland,
+surroundedBy atlantic_ocean
+
+Individual: sule_skerry
+Types: Island Facts: occupiedBy  scotland,
+surroundedBy atlantic_ocean
+
+Individual: sule_stack
+Types: Island Facts: occupiedBy  scotland,
+surroundedBy atlantic_ocean
+
+Individual: sursay
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: sweyn_holm
+Types: Island Facts: occupiedBy  scotland, 
+memberOf orkney_archipelago
+
+Individual: tarner_island
+Types: Island Facts: occupiedBy  scotland, 
+memberOf inner_hebrides
+
+Individual: trialabreck
+Types: Island Facts: occupiedBy  scotland, 
+memberOf outer_hebrides
+
+Individual: urie_lingey
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+Individual: uynarey
+Types: Island Facts: occupiedBy  scotland, 
+memberOf shetland_archipelago
+
+
+
+Individual: anglesey
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago,
+surroundedBy irish_sea
+
+Individual: bardsey_island
+Types:
+Island
+Facts:
+occupiedBy  gwynedd
+
+Individual: barry_island
+Types:
+Island
+Facts:
+occupiedBy  wales,
+surroundedBy bristol_channel
+
+Individual: caldey_island
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire,
+surroundedBy pembroke_bay
+
+Individual: pembroke_bay
+types:
+Bay
+Facts:
+partOf irish_sea
+
+
+Individual: cardigan_island
+Types:
+Island
+Facts:
+occupiedBy  ceredigion
+
+Individual: church_island
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, 
+surroundedBy irish_sea
+
+Individual: cribinau
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, 
+surroundedBy irish_sea
+
+Individual: east_mouse
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, 
+surroundedBy irish_sea
+
+Individual: flat_holm
+Types:
+Island
+Facts:
+occupiedBy  wales,
+surroundedBy bristol_channel
+
+Individual: gateholm
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, 
+surroundedBy pembroke_bay
+
+Individual: grassholm
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, 
+surroundedBy pembroke_bay
+
+Individual: holy_island
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: midland_island
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, surroundedBy pembroke_bay
+
+Individual: middle_mouse
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: north_stack
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: puffin_island
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: ramsey_island
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, surroundedBy pembroke_bay
+
+Individual: st_catherines_island
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, surroundedBy pembroke_bay
+
+Individual: st_margarets_island
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, surroundedBy pembroke_bay
+
+Individual: st_tudwals_island_east
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf st_tudwals_islands
+
+Individual: st_tudwals_island_west
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf st_tudwals_islands
+
+Individual: salt_island
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: sheep_island
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, surroundedBy pembroke_bay
+
+Individual: shell_island
+Types:
+Island
+Facts:
+occupiedBy  gwynedd
+
+Individual: the_skerries
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: skokholm_island
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, surroundedBy pembroke_bay
+
+Individual: skomer_island
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, surroundedBy pembroke_bay
+
+Individual: south_stack
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: sully_island
+Types:
+Island
+Facts:
+occupiedBy  vale_of_glamorgan
+
+Individual: thorn_island
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, surroundedBy pembroke_bay
+
+Individual: tusker_rock
+Types:
+Island
+Facts:
+occupiedBy  vale_of_glamorgan
+
+Individual: west_mouse
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: ynys_bery
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, surroundedBy pembroke_bay
+
+Individual: ynys_cantwr
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, surroundedBy pembroke_bay
+
+Individual: ynys_castell
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: ynys_dulas
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: ynys_eilun_and_pont_yr_eilun
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, surroundedBy pembroke_bay
+
+Individual: ynys_faelog
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: ynys_feurig
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: ynys_gaint
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: ynys_gored_goch
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: ynys_gwelltog
+Types:
+Island
+Facts:
+occupiedBy  pembrokeshire, surroundedBy pembroke_bay
+
+Individual: ynys_llanddwyn
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: ynys_lochtyn
+Types:
+Island
+Facts:
+occupiedBy  ceredigion
+
+Individual: ynys_moelfre
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, surroundedBy irish_sea
+
+Individual: ynys_weiliog
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, 
+surroundedBy irish_sea
+
+Individual: ynys_y_big
+Types:
+Island
+Facts:
+occupiedBy  wales,
+memberOf anglesey_archipelago, 
+surroundedBy irish_sea
+
+
+
+Individual: amundsen_gulf
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: baffin_bay
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: barents_sea
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: beaufort_sea
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: bering_sea
+Types:
+Sea
+Facts:
+	partOf artic_ocean,
+	partOf pacific_ocean
+
+Individual: cambridge_bay
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: chukchi_sea
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: cold_bay
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: davis_strait
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: denmark_strait
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: east_siberian_sea
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: greenland_sea
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: hudson_bay
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: james_bay
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: kara_sea
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: kara_strait
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: labrador_sea
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: laptev_sea
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: lincoln_sea
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: norwegian_sea
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: white_sea
+Types:
+Sea
+Facts:
+	partOf artic_ocean
+
+Individual: adriatic_sea
+Types:
+Sea
+Facts:
+	partOf mediterranean_sea
+
+Individual: aegean_sea
+Types:
+Sea
+Facts:
+	partOf mediterranean_sea
+
+Individual: alboran_sea
+Types:
+Sea
+Facts:
+	partOf mediterranean_sea
+
+Individual: balearic_sea
+Types:
+Sea
+Facts:
+	partOf mediterranean_sea
+
+
+Individual: argentine_sea
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: bay_of_biscay
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: bay_of_bothnia
+Types:
+Sea
+Facts:
+	partOf baltic_sea
+
+Individual: bay_of_campeche
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: bay_of_fundy
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: baltic_sea
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: black_sea
+Types:
+Sea
+Facts:
+	partOf mediterranean_sea
+
+Individual: bothnian_sea
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: caribbean_sea
+Types:
+Sea
+Facts:
+	partOf  gulf_of_mexico
+
+Individual: celtic_sea
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: central_baltic_sea
+Types:
+Sea
+Facts:
+	partOf baltic_sea
+
+Individual: chesapeake_bay
+Types:
+Bay
+Facts:
+	partOf atlantic_ocean
+
+Individual: english_channel
+Types:
+Sea,
+hasCoastline some (Coastline  that coastlineOf value great_britain),
+hasCoastline some (Coastline  that coastlineOf value europe)
+Facts:
+	partOf atlantic_ocean,
+nextTo western_approaches
+
+
+Individual: western_approaches
+Types: 
+Sea
+Facts:
+partOf atlantic_ocean,
+nextTo st_georges_channel
+
+
+Individual: st_georges_channel
+Types:
+Sea
+Facts:
+partOf atlantic_ocean,
+nextTo irish_sea,
+nextTo bristol_channel
+
+Individual: gulf_of_bothnia
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: gulf_of_guinea
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: gulf_of_finland
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: gulf_of_mexico
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: gulf_of_sidra
+Types:
+Sea
+Facts:
+	partOf mediterranean_sea
+
+Individual: gulf_of_st_lawrence
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: gulf_of_venezuela
+Types:
+Sea
+Facts:
+	partOf gulf_of_mexico
+
+Individual: ionian_sea
+Types:
+Sea
+Facts:
+	partOf mediterranean_sea
+
+Individual: ligurian_sea
+Types:
+Sea
+Facts:
+	partOf mediterranean_sea
+
+Individual: irish_sea
+Types:
+Sea,
+hasCoastline some (Coastline  that coastlineOf value great_britain),
+hasCoastline some (Coastline  that coastlineOf value ireland),
+hasCoastline some (Coastline  that coastlineOf value isle_of_man)
+Facts:
+	partOf atlantic_ocean
+
+Individual: marmara_sea
+Types:
+Sea
+Facts:
+	partOf mediterranean_sea
+
+Individual: mediterranean_sea
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: mirtoon_sea
+Types:
+Sea
+Facts:
+	partOf mediterranean_sea
+
+Individual: north_sea
+Types:
+Sea,
+hasCoastline some (Coastline  that coastlineOf value great_britain),
+hasCoastline some (Coastline  that coastlineOf value scandanavian_peninsular)
+Facts:
+	partOf atlantic_ocean,
+nextTo english_channel,
+nextTo baltic_sea
+
+Individual: sea_of_azov
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: sea_of_crete
+Types:
+Sea
+Facts:
+	partOf mediterranean_sea
+
+Individual: sea_of_the_hebrides
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: sargasso_sea
+Types:
+Sea
+Facts:
+	partOf atlantic_ocean
+
+Individual: thracian_sea
+Types:
+Sea
+Facts:
+	partOf mediterranean_sea
+
+Individual: tyrrhenian_se
+Types:
+Sea
+Facts:
+	partOf mediterranean_sea
+
+Individual: andaman_sea
+Types:
+Sea
+Facts:
+	partOf indian_ocean
+
+Individual: arabian_sea
+Types:
+Sea
+Facts:
+	partOf indian_ocean
+
+Individual: bay_of_bengal
+Types:
+Sea
+Facts:
+	partOf indian_ocean
+
+Individual: gulf_of_aden
+Types:
+Sea
+Facts:
+	partOf indian_ocean
+
+Individual: mozambique_channel
+Types:
+Sea
+Facts:
+	partOf indian_ocean
+
+Individual: persian_gulf
+Types:
+Sea
+Facts:
+	partOf indian_ocean
+
+Individual: red_sea
+Types:
+Sea
+Facts:
+	partOf indian_ocean
+
+Individual: timor_sea
+Types:
+Sea
+Facts:
+	partOf indian_ocean
+
+Individual: arafura_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: banda_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: bismarck_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: bohai_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: bohol_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: camotes_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: celebes_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: ceram_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: chilean_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: coral_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: east_china_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: flores_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: gulf_of_alaska
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: gulf_of_california
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: gulf_of_carpentaria
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: gulf_of_thailand
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: halmahera_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: java_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: koro_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: molucca_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: philippine_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: salish_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: savu_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: sea_of_japan
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: sea_of_okhotsk
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: seto_inland_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: solomon_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: south_china_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: sulu_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: tasman_sea
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: yellow_se
+Types:
+Sea
+Facts:
+	partOf pacific_ocean
+
+Individual: amundsen_sea
+Types:
+Sea
+Facts:
+	partOf southern_ocean
+
+Individual: bass_strait
+Types:
+Sea
+Facts:
+	partOf southern_ocean
+
+Individual: bellingshausen_sea
+Types:
+Sea
+Facts:
+	partOf southern_ocean
+
+Individual: davis_sea
+Types:
+Sea
+Facts:
+	partOf southern_ocean
+
+Individual: great_australian_bight
+Types:
+Sea
+Facts:
+	partOf southern_ocean
+
+Individual: gulf_saint_vincent
+Types:
+Sea
+Facts:
+	partOf southern_ocean
+
+Individual: ross_sea
+Types:
+Sea
+Facts:
+	partOf southern_ocean
+
+Individual: scotia_sea
+Types:
+Sea
+Facts:
+	partOf southern_ocean
+
+Individual: spencer_gulf
+Types:
+Sea
+Facts:
+	partOf southern_ocean
+
+Individual: weddell_se
+Types:
+Sea
+Facts:
+	partOf southern_ocean
+
+
+
+
+Individual: elizabeth_ii
+Types:
+Person, 
+playsRole some Queen
+
+Individual: benedict_xvi
+Types:
+Person, playsRole some Pope
+
+Individual: juan_carlos_i
+Types:
+Person, playsRole some King
+
+
+
+
+
+Individual: england
+types:
+Country
+Facts:
+partOf united_kingdom,
+occupies great_britain
+
+
+
+Individual: wales
+types:
+Country
+Facts:
+partOf united_kingdom,
+occupies great_britain
+
+
+
+Individual: scotland
+types:
+Country
+Facts:
+partOf united_kingdom,
+occupies great_britain
+
+Individual: northern_ireland
+types:
+Country
+Facts:
+partOf united_kingdom,
+occupies ireland
+
+
+Individual:  AfricaEurAsia
+Types:
+SuperContinent
+Facts:
+hasPart africa,
+hasPart asia,
+hasPart europe
+
+Individual:  the_americas
+Types:
+SuperContinent
+Facts:
+hasPart north_america,
+hasPart south_america
+
+
+
+
+Individual: antartica
+Types:
+Continent
+
+
+Individual: africa
+Types:
+Continent
+
+Individual: asia
+Types:
+Continent
+
+Individual: australasia
+Types:
+Continent
+
+Individual: europe
+Types:
+Continent
+
+Individual: continental_europe
+Types:
+LandMass
+Facts:
+partOf europe
+
+
+
+Individual: north_america
+Types:
+Continent
+
+Individual: south_america
+Types:
+Continent
+
+Individual: italian_peninsular
+Types: 
+Peninsular
+Facts:
+partOf europe
+
+Individual: iberian_peninsular
+Types: 
+Peninsular
+Facts:
+partOf europe
+
+Individual:  cretan_island
+Types:
+Island
+
+Individual: corsican_island
+Types:
+Island
+
+Individual: sardinian_island
+Types:
+Island
+
+Individual: atlantic_ocean
+Types:
+Ocean
+
+Individual: pacific_ocean
+Types: Ocean
+
+Individual: indian_ocean
+Types: Ocean
+
+Individual: southern_ocean
+Types: Ocean
+
+Individual: artic_ocean
+Types: Ocean
+
+
+
+
+
+Individual: langstone_harbour
+Types:
+Harbour
+Facts:
+partOf english_channel,
+nextTo portsmouth_harbour,
+nextTo spithead
+
+Individual: portsmouth_harbour
+Types:
+Harbour
+Facts:
+partOf english_channel
+
+Individual: spithead
+Types:
+Sea,
+hasCoastline some (Coastline  that coastlineOf value great_britain),
+hasCoastline some (Coastline  that coastlineOf value isle_of_wight)
+Facts:
+partOf english_channel
+
+
+
+Individual: poole_harbour
+Types:
+Harbour
+Facts:
+partOf english_channel
+
+Individual: river_medway
+Types:
+River
+
+Individual: severn_estuary
+Types:
+Estuary
+Facts:
+partOf irish_sea
+
+Individual: thames_estuary
+Types:
+Estuary
+Facts:
+partOf north_sea
+
+
+Individual: bristol_channel
+Types:
+Sea
+Facts:
+partOf irish_sea
+
+
+Individual: chichester_harbour
+Types:
+Harbour
+Facts:
+partOf english_channel
+
+Individual: humber_estuary
+Types:
+Estuary
+Facts:
+partOf north_sea
+
+Individual: isles_of_scilly
+Types:
+Archipelago
+Facts:
+surroundedBy english_channel
+
+Individual: islands_of_furness
+Types:
+Archipelago
+
+Individual: farne_islands
+Types:
+Archipelago
+Facts:
+surroundedBy north_sea
+
+Individual: old_harry_rocks
+Types:
+Archipelago
+
+
+
+Individual: annet
+Types:
+Island
+Facts:
+occupiedBy  england,
+surroundedBy english_channel, 
+memberOf isles_of_scilly
+
+Individual: bakers_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy langstone_harbour
+
+Individual: barrow_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf islands_of_furness,
+surroundedBy irish_sea
+
+Individual: birnbeck_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy severn_estuary
+
+Individual: bridgemarsh_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england
+
+
+Individual: brownsea_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy poole_harbour
+
+Individual: bryher
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: burgh_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england
+
+Individual: burnt_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: burntwick_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy river_medway
+
+Individual: canvey_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy thames_estuary
+
+Individual: chapel_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf islands_of_furness
+
+Individual: cindery_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england
+
+
+Individual: cobmarsh_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england
+
+Individual: coquet_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england
+
+Individual: crow_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: denny_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+surroundedBy bristol_channel
+
+Individual: drakes_island
+Types:
+Island
+Facts:
+occupiedBy  england
+
+Individual: english_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: foulness_island
+Types:
+Island
+Facts:
+occupiedBy  england
+
+Individual: foulney_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf islands_of_furness
+
+Individual: furzey_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+surroundedBy poole_harbour
+
+Individual: godrevy_island
+Types:
+Island
+Facts:
+occupiedBy  cornwall
+
+Individual: gorregan
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: great_arthur
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: great_cob_island
+Types:
+Island
+Facts:
+occupiedBy  essex
+
+Individual: great_ganinick
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: great_gannilly
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: green_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: green_island_dorset
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy poole_harbour
+
+Individual: guthers_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: gweal
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: havengore_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  essex
+
+Individual: havergate_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  suffolk
+
+
+Individual: hayling_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf british_isles,
+surroundedBy chichester_harbour
+
+Individual: hedge-end_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  essex
+
+
+Individual: hilbre_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england
+
+Individual: horsea_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf british_isles,
+surroundedBy portsmouth_harbour
+
+Individual: horsey_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  essex
+
+Individual: inner_farne
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf farne_islands
+
+Individual: lindisfarne
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  northumberland
+
+
+Individual: little_arthur
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: little_eye
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england
+
+
+Individual: little_ganinick
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: little_gannilly
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: longships
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  cornwall
+
+
+Individual: long_island_dorset
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy poole_harbour
+
+Individual: long_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy langstone_harbour
+
+Individual: looe_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  cornwall
+
+
+Individual: lower_horse
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  essex
+
+
+Individual: lundy
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy bristol_channel
+
+Individual: menawethan
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: merrick_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: mersea_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  essex
+
+
+Individual: middle_eye
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england
+
+
+Individual: new_england_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  essex
+
+
+Individual: north_binness_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy langstone_harbour
+
+Individual: northey_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  essex
+
+Individual: old_harry_rocks
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  dorset
+
+Individual: orford_ness
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  suffolk
+
+Individual: osea_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  essex
+
+Individual: pewet_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  essex
+
+Individual: piel_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf islands_of_furness
+
+Individual: pilsey_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy chichester_harbour
+
+Individual: plumb_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: portland
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  dorset
+
+Individual: portsea_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  hampshire
+
+Individual: potton_island
+types:
+Island
+facts:
+memberOf british_isles,
+occupiedBy  
+essex
+
+Individual: puffin_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: reads_island
+Types:
+Island
+Facts:
+
+memberOf british_isles,
+surroundedBy humber_estuary
+
+Individual: roa_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf islands_of_furness
+
+Individual: rosevear
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: round_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: round_island_dorset
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy poole_harbour
+
+Individual: rushley_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  essex
+
+Individual: scolt_head_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+memberOf british_isles,
+occupiedBy  norfolk
+
+Individual: st_agnes
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: st_clements_isle
+Types:
+Island
+Facts:
+memberOf british_isles,
+memberOf british_isles,
+occupiedBy  cornwall
+
+Individual: st_helens
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: st_martins
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: st_marys
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: st_michaels_mount
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  cornwall
+
+Individual: st._marys_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  tyne_and_weir
+
+Individual: samson
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: sheep_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf islands_of_furness
+
+Individual: isle_of_sheppey
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy thames_estuary
+
+Individual: skippers_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  essex
+
+Individual: south_binness_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy langstone_harbour
+
+Individual: staple_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf farne_islands
+
+Individual: steep_holm
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy bristol_channel
+
+Individual: stony_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: tean
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: thatcher_rock
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  devon
+
+Individual: thorney_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy chichester_harbour
+
+Individual: tolls_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: tresco
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: two_tree_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy thames_estuary
+
+Individual: wallasea_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  essex
+
+Individual: walney_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf islands_of_furness
+
+Individual: whale_island
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy portsmouth_harbour
+
+Individual: white_island
+Types:
+Island
+Facts:
+occupiedBy  england,
+memberOf isles_of_scilly
+
+Individual: isle_of_wight
+Types:
+Island
+Facts:
+memberOf british_isles,
+occupiedBy  england,
+surroundedBy english_channel
+
+
+Individual: great_britain
+Types:
+Island
+Facts:
+partOf europe,
+occupiedBy  united_kingdom,
+memberOf british_isles
+
+Individual: isle_of_man
+Types:
+Island
+Facts:
+partOf europe,
+occupiedBy  united_kingdom,
+memberOf british_isles
+
+Individual: ireland
+Types:
+Island
+Facts:
+partOf europe,
+occupiedBy  united_kingdom,
+memberOf british_isles
+
+
+
+Individual:  bay_of_naples
+Types: Bay
+Facts:
+partOf legurian_sea
+
+Individual: legurian_sea
+Types:
+Sea
+Facts:
+partOf mediterranean_sea
+
+Individual: venetian_lagoon
+Types: 
+Bay
+Facts:
+partOf ionian_sea
+
+
+Individual:   corsica
+Types:
+ContinentalIsland
+Facts:
+surroundedBy mediterranean_sea,
+occupiedBy  france
+
+
+Individual: aeolian_islands
+Types:  Archipelago
+Facts:
+partOf italian_peninsular
+
+Individual: lipari
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf aeolian_islands
+
+Individual: panarea
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf aeolian_islands
+
+Individual: Salina
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf aeolian_islands
+
+Individual: stromboli
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf aeolian_islands
+
+Individual: vulcano
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf aeolian_islands
+
+Individual: aegadian_islands
+Types: Archipelago
+Facts:
+partOf italian_peninsular
+
+
+Individual: favignana
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf aegadian_islands
+
+Individual: levanzo
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf aegadian_islands
+Individual: Marettimo
+Types:
+Island
+Facts:
+memberOf aegadian_islands
+
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+Individual: Asinara
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+
+Individual: Bergeggi
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+
+Individual: ferdinandea
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+Individual: flegrean_islands
+Types: Archipelago
+Facts:
+partOf italian_peninsular
+
+Individual: capri
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy bay_of_naples,
+memberOf flegrean_islands
+
+Individual: ischia
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy bay_of_naples,
+memberOf flegrean_islands
+
+Individual: nisida
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy bay_of_naples,
+memberOf flegrean_islands
+
+
+Individual: vivara
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy bay_of_naples,
+memberOf flegrean_islands
+
+Individual: procida
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy bay_of_naples,
+memberOf flegrean_islands
+
+Individual: gallinara
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+Individual: maddalena_archipelago
+Types: Archipelago
+Facts:
+partOf italian_peninsular
+
+Individual: budelli
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf maddalena_archipelago
+
+Individual: caprera
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf maddalena_archipelago
+
+
+Individual: la_maddalena
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf maddalena_archipelago
+
+
+Individual: santa_maria
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf maddalena_archipelago
+
+
+Individual: santo_stefano
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf maddalena_archipelago
+
+
+Individual: spargi
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf maddalena_archipelago
+
+
+Individual: razzoli
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf maddalena_archipelago
+
+Individual: molara
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+Individual: pelagian_islands
+Types: Archipelago
+Facts:
+partOf italian_peninsular
+
+Individual: lampedusa
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf pelagian_islands
+
+Individual: lampione
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf pelagian_islands
+
+Individual: linosa
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf pelagian_islands
+
+
+Individual: pantelleria
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+Individual: palmaria
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+
+Individual: pontine_islands
+Types: Archipelago
+Facts:
+partOf italian_peninsular
+
+Individual: gavi
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf pontine_islands
+
+Individual: palmarola
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf pontine_islands
+
+Individual: ponza
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf pontine_islands
+
+Individual: santo_stefano
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf pontine_islands
+
+Individual: ventotene
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf pontine_islands
+
+Individual: zannone
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf pontine_islands
+
+
+Individual: sant_antioco
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+Individual: san_pietro
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+Individual: sardinia
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+Individual: sicily
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+Individual: tavolara
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+Individual: tinetto
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+
+Individual: tino
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+Individual: sant_andrea
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+Individual: tuscan_archipelago
+Types: Archipelago
+Facts:
+partOf italian_peninsular
+
+Individual: capraia
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf tuscan_archipelago
+
+
+Individual: elba
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf tuscan_archipelago
+
+Individual: giannutri
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf tuscan_archipelago
+
+Individual: giglio
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf tuscan_archipelago
+
+Individual: gorgona
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf tuscan_archipelago
+
+Individual: montecristo
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf tuscan_archipelago
+
+Individual: pianosa
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf tuscan_archipelago
+
+Individual: tremiti_archipelago
+Types: Archipelago
+Facts:
+partOf italian_peninsular
+
+Individual: caprara
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf tremiti_archipelago
+
+Individual: san_domino
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf tremiti_archipelago
+
+Individual: san_nicola
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf tremiti_archipelago
+
+Individual: cretaccio
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf tremiti_archipelago
+
+Individual: pianosa
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf tremiti_archipelago
+
+
+Individual: ustica
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea
+
+Individual: venetian_lagoon_archipelago
+Types: Archipelago
+Facts:
+partOf italian_peninsular
+
+Individual: burano
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy mediterranean_sea,
+memberOf venetian_lagoon_archipelago
+
+Individual: giudecca
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy venetian_lagoon,
+memberOf venetian_lagoon_archipelago
+
+
+Individual: lido
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy venetian_lagoon,
+memberOf venetian_lagoon_archipelago
+
+
+Individual: pellestrina
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy venetian_lagoon,
+memberOf venetian_lagoon_archipelago
+
+Individual: murano
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy venetian_lagoon,
+memberOf venetian_lagoon_archipelago
+
+
+Individual: isola_di_san_michele
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy venetian_lagoon,
+memberOf venetian_lagoon_archipelago
+
+
+Individual: torcello
+Types: ContinentalIsland
+Facts:
+partOf europe,
+occupiedBy  italy,
+surroundedBy venetian_lagoon,
+memberOf venetian_lagoon_archipelago
+
+
+Individual: cornwall
+Types:
+County
+Facts:
+partOf england,
+nextTo devon
+
+Individual: devon
+Types:
+County
+Facts:
+partOf england,
+nextTo  somerset,
+nextTo  dorset
+
+Individual: somerset
+Types:
+County
+Facts:
+partOf england,
+nextTo  gloucestershire,
+nextTo  wiltshire
+
+Individual: dorset
+Types:
+County
+Facts:
+partOf england,
+nextTo  hampshire,
+nextTo  wiltshire
+
+Individual: gloucestershire
+Types:
+County
+Facts:
+partOf england
+
+Individual: wiltshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: berkshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: bedfordshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: buckinghamshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: middlesex
+Types:
+County
+Facts:
+partOf england
+
+Individual: surrey
+Types:
+County
+Facts:
+partOf england
+
+Individual: hertfordshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: hampshire
+Types:
+County
+Facts:
+partOf england,
+nextTo  berkshire,
+nextTo west_sussex,
+nextTo  surrey
+
+Individual: northamptonshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: cambridgeshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: oxfordshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: herefordshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: warwickshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: worcestershire
+Types:
+County
+Facts:
+partOf england
+
+Individual: shropshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: staffordshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: cheshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: derbyshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: notthinghamshire
+Types:
+County
+Facts:
+partOf england
+
+Individual: leicestershire
+Types:
+County
+Facts:
+partOf england
+
+Individual: east_sussex
+Types:
+County
+Facts:
+partOf england,
+nextTo kent,
+nextTo west_sussex
+ 
+
+Individual: west_sussex
+Types:
+County
+Facts:
+partOf england
+
+Individual: kent
+Types:
+County
+Facts:
+partOf england
+
+Individual: essex
+Types:
+County
+Facts:
+occupiedBy  england,
+nextTo suffolk,
+nextTo cambridgeshire
+
+
+Individual: suffolk
+Types:
+County
+Facts:
+occupiedBy  england,
+nextTo norfolk
+
+
+Individual: norfolk
+Types:
+County
+Facts:
+occupiedBy  england,
+nextTo cambridgeshire,
+nextTo lincolnshire
+
+
+Individual: tyne_and_weir
+Types:
+County
+Facts:
+partOf england
+
+
+Individual: lincolnshire
+Types:
+County
+Facts:
+occupiedBy  england
+
+Individual: south_yorkshire
+Types:
+County
+Facts:
+occupiedBy  england
+
+Individual: north_yorkshire
+Types:
+County
+Facts:
+occupiedBy  england
+
+Individual: east_yorkshire
+Types:
+County
+Facts:
+occupiedBy  england
+
+Individual: rutlandshire
+Types:
+County
+Facts:
+occupiedBy  england
+
+Individual: isle_of_wight_county
+Types:
+County
+Facts:
+partOf england,
+occupies isle_of_wight
+
+
+Individual: lancashire
+Types:
+County
+Facts:
+partOf england
+
+Individual: northumberland
+Types:
+County
+Facts:
+partOf england
+
+Individual: cumbria
+Types:
+County
+Facts:
+partOf england
+
+
+
+Individual: merthyr_tydfil
+Types:
+Town
+Facts:
+partOf wales
+
+Individual: caerphilly
+Types:
+Town
+Facts:
+partOf wales
+
+Individual: blaenau_gwent
+Types:
+Town
+Facts:
+partOf wales
+
+Individual: torfaen
+Types:
+Town
+Facts:
+partOf wales
+
+Individual: monmouthshire
+Types:
+County
+Facts:
+partOf wales
+
+Individual: newport
+Types:
+Town
+Facts:
+partOf wales
+
+Individual: cardiff
+Types:
+City
+Facts:
+partOf wales
+
+Individual: vale_of_glamorgan
+Types:
+County
+Facts:
+partOf wales
+
+Individual: bridgend
+Types:
+Town
+Facts:
+partOf wales
+
+Individual: rhondda_cynon_taff
+Types:
+Town
+Facts:
+partOf wales
+
+Individual: neath_port_talbot
+Types:
+Town
+Facts:
+partOf wales
+
+Individual: swansea
+Types:
+City
+Facts:
+partOf wales
+
+Individual: portsmouth
+Types:
+City
+Facts:
+partOf hampshire
+
+
+Individual: fareham
+Types:
+City
+Facts:
+partOf hampshire
+
+
+Individual: carmarthenshire
+Types:
+County
+Facts:
+partOf wales
+
+Individual: ceredigion
+Types:
+County
+Facts:
+partOf wales
+
+Individual: powys
+Types:
+County
+Facts:
+partOf wales
+
+Individual: wrexham
+Types:
+County
+Facts:
+partOf wales
+
+Individual: flintshire
+Types:
+County
+Facts:
+partOf wales
+
+Individual: denbighshire
+Types:
+County
+Facts:
+partOf wales
+
+Individual: conwy
+Types:
+County
+Facts:
+partOf wales
+
+Individual: gwynedd
+Types:
+County
+Facts:
+partOf wales
+
+Individual: isle_of_anglesey
+Types:
+County
+Facts:
+partOf wales,
+occupies anglesey_archipelago
+
+
+Individual: pembrokeshire
+Types:
+County
+Facts:
+partOf wales
+
+
+
+
+
+Individual: nigeria
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value benin)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value cameroon)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value chad)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value niger)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: kenya
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ethiopia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value somalia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value sudan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value uganda)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value united_republic_of_tanzania)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: burkina_faso
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value benin)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value cote_d_ivoire)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ghana)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mali)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value niger)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value togo)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: bermuda
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    Facts: 
+        dependencyOf  united_kingdom
+    
+    
+
+
+
+Individual: poland
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value belarus)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value check_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value germany)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value lithuania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value russian_federation)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value slovakia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ukraine)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: marshall_islands
+
+    Types: 
+        Country,
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: thailand
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some King)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burma)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value cambodia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value lao_peoples_democratic_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value malaysia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: peru
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bolivia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value brazil)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value chile)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value colombia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ecuador)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: kyrgyzstan
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value china)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kazakhstan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value tajikistan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value uzbekistan)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: afghanistan
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value islamic_republic_of_iran)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value pakistan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value tajikistan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value turkmenistan)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: angola
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value namibia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: sierra_leone
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value liberia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: slovakia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value austria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value check_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value hungary)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value poland)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ukraine)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: greece
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value albania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bulgaria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value the_former_yugoslav_republic_of_macedonia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value turkey)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: argentina
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value brazil)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value chile)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value uruguay)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: sweden
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some King)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value finland)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value norway)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: burundi
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value rwanda)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value the_democratic_republic_of_the_congo)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value united_republic_of_tanzania)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: portugal
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value spain)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: republic_of_moldova
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value romania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ukraine)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: san_merino
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value italy)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: estonia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value latvia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value russian_federation)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: albania
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value greece)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value serbia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value the_former_yugoslav_republic_of_macedonia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: kuwait
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value iraq)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value saudi_arabia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: turkmenistan
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value afghanistan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value islamic_republic_of_iran)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kazakhstan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value uzbekistan)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: nicaragua
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value costa_rica)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value honduras)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: paraguay
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value brazil)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: ukraine
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value belarus)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value hungary)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value poland)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value republic_of_moldova)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value romania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value russian_federation)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value slovakia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: gabon
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value cameroon)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value congo)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value equatorial_guinea)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: bolivia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value brazil)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value chile)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value peru)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: colombia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value brazil)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ecuador)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value panama)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value peru)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value venezuela)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: latvia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value belarus)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value estonia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value lithuania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value russian_federation)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: morocco
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some King)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value algeria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mauritania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value western_sahara)),
+        hasRecognitionStatus some Unrecognised
+    
+    
+
+
+
+Individual: côte_d_ivoire
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ghana)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guinea)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value liberia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mali)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: occupied_palestinian_territory
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value israel)),
+        hasRecognitionStatus some Unrecognised
+    
+    
+
+
+
+Individual: zambia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value botswana)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value malawi)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mozambique)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value namibia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value the_democratic_republic_of_the_congo)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value united_republic_of_tanzania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value zimbabwe)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: liechtenstein
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some Monarch)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value switzerland)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: russian_federation
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value azerbaijan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value estonia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value finland)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value georgia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kazakhstan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value latvia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value lithuania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mongolia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value norway)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value poland)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ukraine)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: botswana
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value namibia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value south_africa)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value zambia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value zimbabwe)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: jordan
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some King)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value iraq)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value israel)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value lebanon)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value saudi_arabia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value syrian_arab_republic)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: venezuela
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value brazil)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value colombia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guyana)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: netherlands
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some Monarch)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value belgium)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value germany)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: somalia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value djibouti)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ethiopia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kenya)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value yemen)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: ethiopia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value djibouti)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value eritrea)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kenya)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value somalia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value sudan)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: united_republic_of_tanzania
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burundi)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kenya)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value malawi)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mozambique)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value rwanda)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value the_democratic_republic_of_the_congo)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value uganda)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value zambia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: republic_of_korea
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value democratic_peoples_republic_of_korea)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: swaziland
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mozambique)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value south_africa)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: syrian_arab_republic
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value iraq)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value israel)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value jordan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value lebanon)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value turkey)),
+        hasRecognitionStatus some Recognised
+
+
+
+
+
+Individual: falkland_islands
+ Types:
+        hasHeadOfState some (Person
+        and (playsRole some Monarch)),
+        hasRecognitionStatus some Recognised
+
+    Facts:
+        dependencyOf  united_kingdom
+
+
+Individual: west_falkland
+Types:
+OceanicIsland
+Facts: 
+occupiedBy  falkland_islands,
+surroundedBy atlantic_ocean
+
+
+Individual: east_falkland
+Types:
+OceanicIsland
+Facts:
+occupiedBy  falkland_islands,
+surroundedBy atlantic_ocean
+
+
+
+
+
+Individual: turkey
+
+    Types:
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value armenia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bulgaria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value georgia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value greece)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value iraq)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value islamic_republic_of_iran)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value syrian_arab_republic)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: guyana
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value brazil)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value suriname)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value venezuela)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: jersey
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    Facts: 
+        dependencyOf  united_kingdom
+    
+    
+
+
+
+Individual: india
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bangladesh)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bhutan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burma)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value china)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value nepal)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value pakistan)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: cote_d_ivoire
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burkina_faso)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: tunisia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value algeria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value libyan_arab_jamahiriya)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: monaco
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some Monarch)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value france)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: turks_and_caicos_islands
+
+    Types: 
+        Country,
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: finland
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value norway)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value russian_federation)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value sweden)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: south_africa
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value botswana)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mozambique)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value namibia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value swaziland)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value zimbabwe)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: israel
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value egypt)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value jordan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value lebanon)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value occupied_palestinian_territory)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value syrian_arab_republic)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: chile
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value argentina)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bolivia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value peru)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: georgia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value armenia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value azerbaijan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value russian_federation)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value turkey)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: lao_peoples_democratic_republic
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burma)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value cambodia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value china)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value thailand)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: the_democratic_republic_of_the_congo
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burundi)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value central_african_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value rwanda)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value sudan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value uganda)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value united_republic_of_tanzania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value zambia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: suriname
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value brazil)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value french_guiana)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guyana)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: uruguay
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value argentina)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value brazil)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: singapore
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value malaysia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: the_gambia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value senegal)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: egypt
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value israel)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value libyan_arab_jamahiriya)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value sudan)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: switzerland
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value austria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value france)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value germany)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value italy)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value liechtenstein)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: ecuador
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value colombia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value peru)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: bosnia_and_herzegovina
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value croatia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value serbia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: sudan
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value central_african_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value chad)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value egypt)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value eritrea)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ethiopia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kenya)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value libyan_arab_jamahiriya)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value rwanda)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value the_democratic_republic_of_the_congo)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value uganda)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: mongolia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value china)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value russian_federation)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: el_salvador
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guatemala)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value honduras)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: chad
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value cameroon)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value central_african_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value libyan_arab_jamahiriya)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value nigeria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value sudan)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: republic_of_ireland
+                       Types:
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value united_kingdom)),
+        hasRecognitionStatus some Recognised
+                               Facts:
+occupies ireland
+
+
+
+
+
+
+
+Individual: guinea
+
+    Types:
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value côte_d_ivoire)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guinea_bissau)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value liberia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mali)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value senegal)),
+        hasRecognitionStatus some Recognised
+
+    
+
+
+
+Individual: belgium
+   Types: 
+        hasHeadOfState some (Person
+        and (playsRole some King)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value france)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value germany)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value luxembourg)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value netherlands)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: niger
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value algeria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value benin)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burkina_faso)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value libyan_arab_jamahiriya)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mali)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value nigeria)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: germany
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value austria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value belgium)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value check_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value denmark)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value france)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value luxembourg)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value netherlands)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value poland)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value switzerland)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: romania
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bulgaria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value hungary)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value republic_of_moldova)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value serbia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ukraine)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: check_republic
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value austria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value germany)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value poland)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value slovakia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: austria
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value check_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value germany)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value hungary)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value slovakia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value slovenia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value switzerland)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: united_states
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value canada)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mexico)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: malaysia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value brunei_darussalam)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value indonesia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value philippines)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value singapore)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value thailand)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: rwanda
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burundi)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value sudan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value the_democratic_republic_of_the_congo)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value uganda)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value united_republic_of_tanzania)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: cook_islands
+
+    Types: 
+        Country,
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: british_indian_ocean_territory
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    Facts: 
+        dependencyOf  united_kingdom
+    
+    
+
+
+
+Individual: uganda
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kenya)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value rwanda)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value sudan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value the_democratic_republic_of_the_congo)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value united_republic_of_tanzania)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: united_arab_emirates
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value oman)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value saudi_arabia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: equatorial_guinea
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value cameroon)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value gabon)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: indonesia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value malaysia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: france
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value andora)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value belgium)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value germany)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value italy)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value luxembourg)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value monaco)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value spain)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value switzerland)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: cocos_islands
+
+    Types: 
+        Country,
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: mali
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value algeria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burkina_faso)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value côte_d_ivoire)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guinea)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mauritania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value niger)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value senegal)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: liberia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value côte_d_ivoire)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guinea)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value sierra_leone)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: yemen
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value oman)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value saudi_arabia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value somalia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: togo
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value benin)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burkina_faso)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ghana)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: honduras
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value el_salvador)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guatemala)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value nicaragua)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: malawi
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mozambique)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value united_republic_of_tanzania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value zambia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: bangladesh
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burma)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value india)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: united_kingdom
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some Queen)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ireland)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: panama
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value colombia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value costa_rica)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: guatemala
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value belize)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value el_salvador)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value honduras)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mexico)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: croatia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bosnia_and_herzegovina)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value croatia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value hungary)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value slovenia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: denmark
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some King)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value germany)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: luxembourg
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some Monarch)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value belgium)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value france)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value germany)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: norway
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some Monarch)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value finland)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value russian_federation)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value sweden)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: canada
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value united_states)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: italy
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value france)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value san_merino)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value slovenia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value switzerland)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: china
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bhutan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burma)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value democratic_peoples_republic_of_korea)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value india)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kazakhstan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kyrgyzstan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value lao_peoples_democratic_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mongolia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value nepal)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value pakistan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value tajikistan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value viet_nam)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: mexico
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value belize)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guatemala)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value united_states)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: faroe_islands
+
+    Types: 
+        Country,
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: uzbekistan
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kazakhstan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kyrgyzstan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value tajikistan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value turkmenistan)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: saudi_arabia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some King)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bahrain)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value iraq)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value jordan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kuwait)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value oman)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value qatar)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value united_arab_emirates)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value yemen)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: brazil
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value argentina)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bolivia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value colombia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value french_guiana)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guyana)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value paraguay)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value peru)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value suriname)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value uruguay)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value venezuela)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: senegal
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guinea)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guinea_bissau)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mali)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mauritania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value the_gambia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: algeria
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value libyan_arab_jamahiriya)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mali)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mauritania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value morocco)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value niger)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value tunisia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value western_sahara)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: cayman_islands
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    Facts: 
+        dependencyOf  united_kingdom
+    
+    
+
+
+
+Individual: benin
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burkina_faso)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value niger)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value nigeria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value togo)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: belarus
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value belarus)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value latvia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value lithuania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value poland)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ukraine)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: islamic_republic_of_iran
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value afghanistan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value armenia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value azerbaijan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value iraq)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value pakistan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value turkey)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value turkmenistan)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: united_states_minor_outlying_islands
+
+    Types: 
+        Country,
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: libyan_arab_jamahiriya
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value algeria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value chad)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value egypt)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value niger)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value sudan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value tunisia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: eritrea
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value djibouti)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ethiopia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value sudan)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: guinea_bissau
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guinea)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value senegal)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: oman
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some King)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value saudi_arabia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value united_arab_emirates)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value yemen)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: bhutan
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value china)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value india)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: costa_rica
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value nicaragua)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value panama)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: isle_of_man
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    Facts: 
+        dependencyOf  united_kingdom
+    
+    
+
+
+
+Individual: nepal
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value china)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value india)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: mauritania
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value algeria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mali)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value morocco)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value senegal)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value western_sahara)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: åland_islands
+
+    Types: 
+        Country,
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: kazakhstan
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value china)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kyrgyzstan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value russian_federation)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value turkmenistan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value uzbekistan)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: azerbaijan
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value armenia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value georgia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value islamic_republic_of_iran)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value russian_federation)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: central_african_republic
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value cameroon)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value chad)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value congo)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value sudan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value the_democratic_republic_of_the_congo)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: western_sahara
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value algeria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mauritania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value morocco)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: tajikistan
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value afghanistan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value china)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kyrgyzstan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value uzbekistan)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: congo
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value cameroon)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value central_african_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value gabon)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: mozambique
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value malawi)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value south_africa)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value swaziland)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value united_republic_of_tanzania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value zambia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value zimbabwe)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: cameroon
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value central_african_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value chad)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value congo)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value equatorial_guinea)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value gabon)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value nigeria)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: us_virgin_islands
+
+    Types: 
+        Country,
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: burma
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bangladesh)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value china)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value india)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value lao_peoples_democratic_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value thailand)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: brunei_darussalam
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some King)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value malaysia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: south_georgia_and_the_south_sandwich_islands
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    Facts: 
+        dependencyOf  united_kingdom
+    
+    
+
+
+
+Individual: ghana
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value burkina_faso)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value côte_d_ivoire)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value togo)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: cambodia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value lao_peoples_democratic_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value thailand)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value viet_nam)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: djibouti
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value eritrea)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ethiopia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value somalia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: zimbabwe
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value botswana)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mozambique)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value south_africa)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value zambia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: andora
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some Monarch)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value france)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value spain)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: hungary
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value austria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value croatia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value romania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value serbia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value slovakia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value slovenia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value ukraine)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: french_guiana
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value brazil)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value suriname)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: namibia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value angola)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value botswana)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value south_africa)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value zambia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: slovenia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value austria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value croatia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value hungary)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value italy)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: bahrain
+
+    Types: 
+        Country,
+        hasHeadOfState some (Person
+        and (playsRole some King)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value saudi_arabia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: lithuania
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value belarus)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value latvia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value poland)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value russian_federation)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: british_virgin_islands
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    Facts: 
+        dependencyOf  united_kingdom
+    
+    
+
+
+
+Individual: pakistan
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value afghanistan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value china)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value india)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value islamic_republic_of_iran)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: northern_mariana_islands
+
+    Types: 
+        Country,
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: spain
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some King)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value andora)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value france)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value portugal)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: armenia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value azerbaijan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value georgia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value islamic_republic_of_iran)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value turkey)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: the_former_yugoslav_republic_of_macedonia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value albania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bulgaria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value greece)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value serbia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: democratic_peoples_republic_of_korea
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value china)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value republic_of_korea)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: belize
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value guatemala)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value mexico)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: viet_nam
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value cambodia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value china)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: bulgaria
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value greece)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value romania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value serbia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value the_former_yugoslav_republic_of_macedonia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value turkey)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: iraq
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value islamic_republic_of_iran)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value jordan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value kuwait)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value saudi_arabia)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value syrian_arab_republic)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value turkey)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: solomon_islands
+
+    Types: 
+        Country,
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: guernsey
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Recognised
+    
+    Facts: 
+        dependencyOf  united_kingdom
+    
+    
+
+
+
+Individual: qatar
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some King)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value saudi_arabia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: philippines
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value malaysia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: serbia
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value albania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bosnia_and_herzegovina)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value bulgaria)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value hungary)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value romania)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value the_former_yugoslav_republic_of_macedonia)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+
+
+Individual: lebanon
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value israel)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value jordan)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value syrian_arab_republic)),
+        hasRecognitionStatus some Recognised
+    
+    
+
+Individual: vatican_city
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some Pope)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value italy)),
+        hasRecognitionStatus some Recognised
+
+Individual: japan
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some Emperor)),
+        hasRecognitionStatus some Recognised
+
+Individual: cyprus
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value turkish_republic_of_cyprus)),
+        hasRecognitionStatus some Recognised
+
+Individual: turkish_republic_of_cyprus
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasLandBoundary some (LandBoundaryFragment
+        and (boundaryOf value cyprus)),
+        hasRecognitionStatus some Unrecognised
+
+
+Individual: taiwan
+
+    Types: 
+        hasHeadOfState some (Person
+        and (playsRole some President)),
+        hasRecognitionStatus some Unrecognised
+
+
+Individual: iran_russian_federation_border
+Types:
+WaterBoundaryFragment
+Facts:
+waterBoundaryOf islamic_republic_of_iran,
+waterBoundaryOf russian_federation

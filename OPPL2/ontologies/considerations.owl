@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY beliefs "http://www.siemens-health.com/SiemensDemo/beliefs.owl#" >
+    <!ENTITY medicine "http://www.siemens-health.com/SiemensDemo/medicine.owl#" >
+    <!ENTITY START-HERE "http://www.siemens-health.com/SiemensDemo/START-HERE.owl#" >
+    <!ENTITY annotations "http://www.siemens-health.com/SiemensDemo/annotations.owl#" >
+    <!ENTITY considerations "http://www.siemens-health.com/SiemensDemo/considerations.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.siemens-health.com/SiemensDemo/beliefs.owl#"
+     xml:base="http://www.siemens-health.com/SiemensDemo/considerations.owl"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:considerations="http://www.siemens-health.com/SiemensDemo/considerations.owl#"
+     xmlns:beliefs="http://www.siemens-health.com/SiemensDemo/beliefs.owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:START-HERE="http://www.siemens-health.com/SiemensDemo/START-HERE.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:medicine="http://www.siemens-health.com/SiemensDemo/medicine.owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:annotations="http://www.siemens-health.com/SiemensDemo/annotations.owl#">
+    <owl:Ontology rdf:about="">
+        <rdfs:comment
+            >Ontology URI: http://www.siemens-health.com/SiemensDemo/considerations.owl</rdfs:comment>
+        <owl:imports rdf:resource="http://www.siemens-health.com/SiemensDemo/medicine.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&annotations;display-name"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/considerations.owl#OWLObjectProperty_01236006643493223000 -->
+
+    <owl:ObjectProperty rdf:about="#OWLObjectProperty_01236006643493223000"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/START-HERE.owl#OWLClass_01241730731505143000 -->
+
+    <owl:Class rdf:about="&START-HERE;OWLClass_01241730731505143000">
+        <rdfs:label
+            >Heart_murmur_consideration</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01234978444300336000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/START-HERE.owl#OWLClass_01241730759882020000 -->
+
+    <owl:Class rdf:about="&START-HERE;OWLClass_01241730759882020000">
+        <rdfs:label
+            >Cardiac_complaint_consideration</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01234978444300336000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/considerations.owl#OWLClass_00000002370333528423 -->
+
+    <owl:Class rdf:about="#OWLClass_00000002370333528423">
+        <rdfs:label
+            >Physician_visit_site_office_consideration</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01234978444300336000"/>
+        <annotations:display-name
+            >Office visit situation</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/considerations.owl#OWLClass_00000002607018630300 -->
+
+    <owl:Class rdf:about="#OWLClass_00000002607018630300">
+        <rdfs:label
+            >Hypertension_recheck_consideration</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01234978444300336000"/>
+        <annotations:display-name
+            >Hypertension diagnosis</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/considerations.owl#OWLClass_01234978444300336000 -->
+
+    <owl:Class rdf:about="#OWLClass_01234978444300336000"/>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/considerations.owl#OWLClass_01235006016781055000 -->
+
+    <owl:Class rdf:about="#OWLClass_01235006016781055000">
+        <rdfs:label
+            >Cough_consideration</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01234978444300336000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01236006643493223000"/>
+                <owl:someValuesFrom rdf:resource="&medicine;OWLClass_01235003891918700000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <annotations:display-name>Cough</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01235003891918700000 -->
+
+    <owl:Class rdf:about="&medicine;OWLClass_01235003891918700000"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.974) http://owlapi.sourceforge.net -->
+

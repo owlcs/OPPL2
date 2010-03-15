@@ -1,0 +1,1182 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY UPPER "http://www/siemens-health.com/cpoe-microdemo/UPPER.owl#" >
+    <!ENTITY medicine "http://www.siemens-health.com/SiemensDemo/medicine.owl#" >
+    <!ENTITY medicine4 "http://www.siemens-health.com/SiemensDemo/medicine.owl#3" >
+    <!ENTITY medicine5 "http://www.siemens-health.com/SiemensDemo/medicine.owl#4" >
+    <!ENTITY medicine2 "http://www.siemens-health.com/SiemensDemo/medicine.owl#1" >
+    <!ENTITY medicine3 "http://www.siemens-health.com/SiemensDemo/medicine.owl#2" >
+    <!ENTITY medicine7 "http://www.siemens-health.com/SiemensDemo/medicine.owl#5" >
+    <!ENTITY medicine6 "http://www.siemens-health.com/SiemensDemo/medicine.owl#6" >
+    <!ENTITY START-HERE "http://www.siemens-health.com/SiemensDemo/START-HERE.owl#" >
+    <!ENTITY annotations "http://www.siemens-health.com/SiemensDemo/annotations.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.siemens-health.com/SiemensDemo/medicine.owl#"
+     xml:base="http://www.siemens-health.com/SiemensDemo/medicine.owl"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:medicine2="&medicine;1"
+     xmlns:medicine3="&medicine;2"
+     xmlns:medicine4="&medicine;3"
+     xmlns:medicine5="&medicine;4"
+     xmlns:medicine6="&medicine;6"
+     xmlns:medicine7="&medicine;5"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:START-HERE="http://www.siemens-health.com/SiemensDemo/START-HERE.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:annotations="http://www.siemens-health.com/SiemensDemo/annotations.owl#"
+     xmlns:medicine="http://www.siemens-health.com/SiemensDemo/medicine.owl#"
+     xmlns:UPPER="http://www/siemens-health.com/cpoe-microdemo/UPPER.owl#">
+    <owl:Ontology rdf:about="">
+        <rdfs:comment
+            >Ontology URI: http://www.siemens-health.com/SiemensDemo/medicine.owl</rdfs:comment>
+        <owl:imports rdf:resource="http://www.siemens-health.com/SiemensDemo/skeleton.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&UPPER;devel_comment"/>
+    <owl:AnnotationProperty rdf:about="&annotations;display-name"/>
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLObjectProperty_01237256779761508000 -->
+
+    <owl:ObjectProperty rdf:about="#OWLObjectProperty_01237256779761508000"/>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLObjectProperty_01241185574644182000 -->
+
+    <owl:ObjectProperty rdf:about="#OWLObjectProperty_01241185574644182000">
+        <rdfs:label>anat_property</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="#OWLObjectProperty_01237256779761508000"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLObjectProperty_01241185614784990000 -->
+
+    <owl:ObjectProperty rdf:about="#OWLObjectProperty_01241185614784990000">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label>is_part_of</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="#OWLObjectProperty_01241185574644182000"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLObjectProperty_01241185620919276000 -->
+
+    <owl:ObjectProperty rdf:about="#OWLObjectProperty_01241185620919276000">
+        <rdfs:label
+            >is_part_of_directly</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="#OWLObjectProperty_01241185614784990000"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLObjectProperty_01241185627952388000 -->
+
+    <owl:ObjectProperty rdf:about="#OWLObjectProperty_01241185627952388000">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label>has_laterality</rdfs:label>
+        <rdfs:range rdf:resource="#OWLClass_01241185661223472000"/>
+        <rdfs:subPropertyOf rdf:resource="#OWLObjectProperty_01241185574644182000"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/START-HERE.owl#OWLClass_01234978805488907000 -->
+
+    <owl:Class rdf:about="&START-HERE;OWLClass_01234978805488907000">
+        <rdfs:label>Condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01234978610919530000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#1st_intercostal_space -->
+
+    <owl:Class rdf:about="#1st_intercostal_space">
+        <rdfs:label
+            >1st_intercostal_space</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Intercostal_space"/>
+        <annotations:display-name
+            >1st intercostal space</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#2nd_intercostal_space -->
+
+    <owl:Class rdf:about="#2nd_intercostal_space">
+        <rdfs:label
+            >2nd_intercostal_space</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Intercostal_space"/>
+        <annotations:display-name
+            >2nd intercostal space</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#3rd_intercostal_space -->
+
+    <owl:Class rdf:about="#3rd_intercostal_space">
+        <rdfs:label
+            >3rd_intercostal_space</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Intercostal_space"/>
+        <annotations:display-name
+            >3rd intercostal space</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#4th_intercostal_space -->
+
+    <owl:Class rdf:about="#4th_intercostal_space">
+        <rdfs:label
+            >4th_intercostal_space</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Intercostal_space"/>
+        <annotations:display-name
+            >4th intercostal space</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#5th_intercostal_space -->
+
+    <owl:Class rdf:about="#5th_intercostal_space">
+        <rdfs:label
+            >5th_intercostal_space</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Intercostal_space"/>
+        <annotations:display-name
+            >5th intercostal space</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#6th_intercostal_space -->
+
+    <owl:Class rdf:about="#6th_intercostal_space">
+        <rdfs:label
+            >6th_intercostal_space</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Intercostal_space"/>
+        <annotations:display-name
+            >6th intercostal space</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Abdomen -->
+
+    <owl:Class rdf:about="#Abdomen">
+        <rdfs:label>Abdomen</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Surface_anatomic_structure"/>
+        <annotations:display-name>abdomen</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Alimentary_system -->
+
+    <owl:Class rdf:about="#Alimentary_system">
+        <rdfs:label
+            >Alimentary_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Body_system"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Anatomic_entity -->
+
+    <owl:Class rdf:about="#Anatomic_entity">
+        <rdfs:label
+            >Anatomical_entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01234978610919530000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Anatomic_landmark -->
+
+    <owl:Class rdf:about="#Anatomic_landmark">
+        <rdfs:label
+            >Anatomic_landmark</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Anatomic_region -->
+
+    <owl:Class rdf:about="#Anatomic_region">
+        <rdfs:label>Anatomic_region</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_structure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Anatomic_structure -->
+
+    <owl:Class rdf:about="#Anatomic_structure">
+        <rdfs:label
+            >Anatomic_structure</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Ankle -->
+
+    <owl:Class rdf:about="#Ankle">
+        <rdfs:label>Ankle</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Lower_extremity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Anterior_axilary_line -->
+
+    <owl:Class rdf:about="#Anterior_axilary_line">
+        <rdfs:label
+            >Anterior_axilary_line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_landmark"/>
+        <annotations:display-name
+            >anterior axilary line</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Axilla -->
+
+    <owl:Class rdf:about="#Axilla">
+        <rdfs:label>Axilla</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_landmark"/>
+        <annotations:display-name>axilla</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Back -->
+
+    <owl:Class rdf:about="#Back">
+        <rdfs:label>Back</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Surface_anatomic_structure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Body_system -->
+
+    <owl:Class rdf:about="#Body_system">
+        <rdfs:label>Body_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Brain -->
+
+    <owl:Class rdf:about="#Brain">
+        <rdfs:label>Brain</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Organ"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Central_nervous_system"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Calf -->
+
+    <owl:Class rdf:about="#Calf">
+        <rdfs:label>Calf</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Lower_extremity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Cardiovascular_system -->
+
+    <owl:Class rdf:about="#Cardiovascular_system">
+        <rdfs:label
+            >Cardiovascular_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Body_system"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Central_nervous_system -->
+
+    <owl:Class rdf:about="#Central_nervous_system">
+        <rdfs:label
+            >Central_nervous_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Nervous_system"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Chest -->
+
+    <owl:Class rdf:about="#Chest">
+        <rdfs:label>Chest</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Surface_anatomic_structure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Elbow -->
+
+    <owl:Class rdf:about="#Elbow">
+        <rdfs:label>Elbow</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Upper_extremity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Endocrine_system -->
+
+    <owl:Class rdf:about="#Endocrine_system">
+        <rdfs:label
+            >Endocrine_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Body_system"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Extremity -->
+
+    <owl:Class rdf:about="#Extremity">
+        <rdfs:label>Extremity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Surface_anatomic_structure"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185627952388000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01241185661223472000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Extremity_part -->
+
+    <owl:Class rdf:about="#Extremity_part">
+        <rdfs:label>Extremity_part</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Surface_anatomic_structure"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185627952388000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01241185661223472000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Face -->
+
+    <owl:Class rdf:about="#Face">
+        <rdfs:label>Face</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Head_part"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Face_part -->
+
+    <owl:Class rdf:about="#Face_part">
+        <rdfs:label>Face_part</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Surface_anatomic_structure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Finger -->
+
+    <owl:Class rdf:about="#Finger">
+        <rdfs:label>Finger</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Hand"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Foot -->
+
+    <owl:Class rdf:about="#Foot">
+        <rdfs:label>Foot</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Lower_extremity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Forearm -->
+
+    <owl:Class rdf:about="#Forearm">
+        <rdfs:label>Forearm</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Upper_extremity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Gastro_intestinal_system -->
+
+    <owl:Class rdf:about="#Gastro_intestinal_system">
+        <rdfs:label
+            >Gastro_intestinal_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Body_system"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Alimentary_system"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Genital_system -->
+
+    <owl:Class rdf:about="#Genital_system">
+        <rdfs:label>Genital_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Body_system"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Genito_urinary_system -->
+
+    <owl:Class rdf:about="#Genito_urinary_system">
+        <rdfs:label
+            >Genito_urinary_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Body_system"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Haemapoetic_system -->
+
+    <owl:Class rdf:about="#Haemapoetic_system">
+        <rdfs:label
+            >Haemapoetic_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Body_system"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Hand -->
+
+    <owl:Class rdf:about="#Hand">
+        <rdfs:label>Hand</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Upper_arm"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Head -->
+
+    <owl:Class rdf:about="#Head">
+        <rdfs:label>Head</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Surface_anatomic_structure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Head_part -->
+
+    <owl:Class rdf:about="#Head_part">
+        <rdfs:label>Head_part</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Surface_anatomic_structure"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Head"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Heart -->
+
+    <owl:Class rdf:about="#Heart">
+        <rdfs:label>Heart</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Organ"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Cardiovascular_system"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Heart_murmur -->
+
+    <owl:Class rdf:about="#Heart_murmur">
+        <rdfs:label
+            >Heart_murmur_condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&START-HERE;OWLClass_01234978805488907000"/>
+        <annotations:display-name>heart murmur</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Hip -->
+
+    <owl:Class rdf:about="#Hip">
+        <rdfs:label>Hip</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Lower_extremity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Immune_system -->
+
+    <owl:Class rdf:about="#Immune_system">
+        <rdfs:label>Immune_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Body_system"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Intercostal_space -->
+
+    <owl:Class rdf:about="#Intercostal_space">
+        <rdfs:label
+            >Intercostal_space</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_landmark"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185627952388000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01241185661223472000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Intestine -->
+
+    <owl:Class rdf:about="#Intestine">
+        <rdfs:label>Intestine</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Organ"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Gastro_intestinal_system"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Kidney -->
+
+    <owl:Class rdf:about="#Kidney">
+        <rdfs:label>Kidney</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Organ"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185627952388000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01241185661223472000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Genito_urinary_system"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Knee -->
+
+    <owl:Class rdf:about="#Knee">
+        <rdfs:label>Knee</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Lower_extremity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Lip -->
+
+    <owl:Class rdf:about="#Lip">
+        <rdfs:label>Lip</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Face_part"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Lips -->
+
+    <owl:Class rdf:about="#Lips">
+        <rdfs:label>Lips</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Face_part"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Liver -->
+
+    <owl:Class rdf:about="#Liver">
+        <rdfs:label>Liver</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Organ"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Gastro_intestinal_system"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Lower_extremity -->
+
+    <owl:Class rdf:about="#Lower_extremity">
+        <rdfs:label>Lower_extremity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Lung -->
+
+    <owl:Class rdf:about="#Lung">
+        <rdfs:label>Lung</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Organ"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Lungs"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185627952388000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01241185661223472000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Lungs -->
+
+    <owl:Class rdf:about="#Lungs">
+        <rdfs:label>Lungs</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Organ"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Respiratory_system"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Midclavicular_line -->
+
+    <owl:Class rdf:about="#Midclavicular_line">
+        <rdfs:label
+            >Midclavicular_line</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_landmark"/>
+        <annotations:display-name
+            >mid-clavicular line</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Musculoskeletal_system -->
+
+    <owl:Class rdf:about="#Musculoskeletal_system">
+        <rdfs:label
+            >Musculoskeletal_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Body_system"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Neck -->
+
+    <owl:Class rdf:about="#Neck">
+        <rdfs:label>Neck</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Surface_anatomic_structure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Nervous_system -->
+
+    <owl:Class rdf:about="#Nervous_system">
+        <rdfs:label>Nervous_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Body_system"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01234978610919530000 -->
+
+    <owl:Class rdf:about="#OWLClass_01234978610919530000"/>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01235003880818528000 -->
+
+    <owl:Class rdf:about="#OWLClass_01235003880818528000">
+        <rdfs:label
+            >Diabetes_condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&START-HERE;OWLClass_01234978805488907000"/>
+        <annotations:display-name>diabetes</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01235003891918700000 -->
+
+    <owl:Class rdf:about="#OWLClass_01235003891918700000">
+        <rdfs:label>Cough_condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&START-HERE;OWLClass_01234978805488907000"/>
+        <annotations:display-name>cough</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01236013025177104000 -->
+
+    <owl:Class rdf:about="#OWLClass_01236013025177104000">
+        <rdfs:label>Pain_condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&START-HERE;OWLClass_01234978805488907000"/>
+        <annotations:display-name>pain</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01236013032700051000 -->
+
+    <owl:Class rdf:about="#OWLClass_01236013032700051000">
+        <rdfs:label
+            >Chest_pain_condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01236013025177104000"/>
+        <annotations:display-name>chest pain</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01236013046932655000 -->
+
+    <owl:Class rdf:about="#OWLClass_01236013046932655000">
+        <rdfs:label
+            >Angina_condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01236013032700051000"/>
+        <annotations:display-name>angina</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01236013418259200000 -->
+
+    <owl:Class rdf:about="#OWLClass_01236013418259200000">
+        <rdfs:label
+            >Pleuritic_pain_condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01236013032700051000"/>
+        <annotations:display-name>pleuritic pain</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01236013480097320000 -->
+
+    <owl:Class rdf:about="#OWLClass_01236013480097320000">
+        <rdfs:label
+            >Syncope_condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&START-HERE;OWLClass_01234978805488907000"/>
+        <annotations:display-name>syncope</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01241185642504578000 -->
+
+    <owl:Class rdf:about="#OWLClass_01241185642504578000">
+        <rdfs:label
+            >Anatomic_selector</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01241185661223472000 -->
+
+    <owl:Class rdf:about="#OWLClass_01241185661223472000">
+        <rdfs:label
+            >Laterality_selector</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01241185642504578000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01241185681144402000 -->
+
+    <owl:Class rdf:about="#OWLClass_01241185681144402000">
+        <rdfs:label>Left_laterality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01241185661223472000"/>
+        <owl:disjointWith rdf:resource="#OWLClass_01241185687733738000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01241185687733738000 -->
+
+    <owl:Class rdf:about="#OWLClass_01241185687733738000">
+        <rdfs:label
+            >Right_laterality</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01241185661223472000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01241731175040570000 -->
+
+    <owl:Class rdf:about="#OWLClass_01241731175040570000">
+        <rdfs:label
+            >Vascular_system_part</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_structure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01241733693280947000 -->
+
+    <owl:Class rdf:about="#OWLClass_01241733693280947000">
+        <rdfs:label>Artery</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01241731175040570000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01241733701103051000 -->
+
+    <owl:Class rdf:about="#OWLClass_01241733701103051000">
+        <rdfs:label>Vein</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01241731175040570000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#OWLClass_01241733705261224000 -->
+
+    <owl:Class rdf:about="#OWLClass_01241733705261224000">
+        <rdfs:label>Carotid_artery</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01241733693280947000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185627952388000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01241185661223472000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <annotations:display-name>carotid artery</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Organ -->
+
+    <owl:Class rdf:about="#Organ">
+        <rdfs:label>Organ</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_structure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Peripheral_nervous_system -->
+
+    <owl:Class rdf:about="#Peripheral_nervous_system">
+        <rdfs:label
+            >Peripheral_nervous_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Nervous_system"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Relative_anatomic_position -->
+
+    <owl:Class rdf:about="#Relative_anatomic_position">
+        <rdfs:label
+            >Relative_anatomic_position</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_entity"/>
+        <UPPER:devel_comment
+            >probably obsolete</UPPER:devel_comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Relative_coronal_position -->
+
+    <owl:Class rdf:about="#Relative_coronal_position">
+        <rdfs:label
+            >Relative_coronal_position</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Relative_anatomic_position"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Relative_coronal_position_cardiac -->
+
+    <owl:Class rdf:about="#Relative_coronal_position_cardiac">
+        <rdfs:label
+            >Relative_coronal_position_cardiac</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Relative_coronal_position"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Relative_sagital_position -->
+
+    <owl:Class rdf:about="#Relative_sagital_position">
+        <rdfs:label
+            >Relative_sagital_position</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Relative_anatomic_position"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Relative_sagital_position_cardiac -->
+
+    <owl:Class rdf:about="#Relative_sagital_position_cardiac">
+        <rdfs:label
+            >Relative_sagital_position_cardiac</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Relative_sagital_position"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Respiratory_system -->
+
+    <owl:Class rdf:about="#Respiratory_system">
+        <rdfs:label
+            >Respiratory_system</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Body_system"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Shoulder -->
+
+    <owl:Class rdf:about="#Shoulder">
+        <rdfs:label>Shoulder</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Upper_extremity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Sternal_border -->
+
+    <owl:Class rdf:about="#Sternal_border">
+        <rdfs:label>Sternal_border</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_landmark"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185627952388000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01241185661223472000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <annotations:display-name>sternal border</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Surface_anatomic_structure -->
+
+    <owl:Class rdf:about="#Surface_anatomic_structure">
+        <rdfs:label
+            >Surface_anatomic_structure</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Anatomic_structure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Thigh -->
+
+    <owl:Class rdf:about="#Thigh">
+        <rdfs:label>Thigh</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Lower_extremity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Toe -->
+
+    <owl:Class rdf:about="#Toe">
+        <rdfs:label>Toe</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Foot"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Upper_arm -->
+
+    <owl:Class rdf:about="#Upper_arm">
+        <rdfs:label>Upper_arm</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Upper_extremity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Upper_extremity -->
+
+    <owl:Class rdf:about="#Upper_extremity">
+        <rdfs:label>Upper_extremity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity"/>
+        <annotations:display-name>arm</annotations:display-name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/medicine.owl#Wrist -->
+
+    <owl:Class rdf:about="#Wrist">
+        <rdfs:label>Wrist</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#Extremity_part"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01241185620919276000"/>
+                <owl:someValuesFrom rdf:resource="#Upper_extremity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1042) http://owlapi.sourceforge.net -->
+
