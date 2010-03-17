@@ -49,12 +49,18 @@ import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRender
  * @author Luigi Iannone
  * 
  */
-public class OPPLQueryImpl implements OPPLQuery, OWLOntologyChangeListener {
+public class OPPLQueryImpl implements OPPLQuery {
 	private final List<OWLAxiom> axioms = new ArrayList<OWLAxiom>();
 	private final List<OWLAxiom> assertedAxioms = new ArrayList<OWLAxiom>();
 	private final Set<AbstractConstraint> constraints = new HashSet<AbstractConstraint>();
 	private final ConstraintSystem constraintSystem;
 	private boolean dirty = true;
+	private final OWLOntologyChangeListener listener = new OWLOntologyChangeListener() {
+		public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
+				throws OWLException {
+			OPPLQueryImpl.this.setDirty(true);
+		}
+	};
 
 	/**
 	 * @param constraintSystem
@@ -66,7 +72,7 @@ public class OPPLQueryImpl implements OPPLQuery, OWLOntologyChangeListener {
 		}
 		this.constraintSystem = constraintSystem;
 		this.getConstraintSystem().getOntologyManager()
-				.addOntologyChangeListener(this);
+				.addOntologyChangeListener(this.listener);
 	}
 
 	/**
@@ -206,7 +212,7 @@ public class OPPLQueryImpl implements OPPLQuery, OWLOntologyChangeListener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -226,7 +232,7 @@ public class OPPLQueryImpl implements OPPLQuery, OWLOntologyChangeListener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -411,10 +417,5 @@ public class OPPLQueryImpl implements OPPLQuery, OWLOntologyChangeListener {
 	 */
 	public void setDirty(boolean dirty) {
 		this.dirty = dirty;
-	}
-
-	public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
-			throws OWLException {
-		this.setDirty(true);
 	}
 }
