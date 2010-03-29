@@ -1,10 +1,14 @@
 grammar ManchesterOWLSyntax;
 
+
+
+
 options {
   output = AST;              // build trees
   ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
   language = Java;
 }
+
 
 tokens {
   SUB_CLASS_AXIOM;
@@ -37,6 +41,45 @@ tokens {
 
 @lexer::header {
    package org.coode.oppl.syntax; 
+}
+
+@members {
+
+  private  ErrorListener errorListener;
+  
+      public ManchesterOWLSyntaxParser(TokenStream input, ErrorListener errorListener) {
+        this(input, new RecognizerSharedState(),errorListener);
+      }
+      public ManchesterOWLSyntaxParser(TokenStream input, RecognizerSharedState state, ErrorListener errorListener) {
+        super(input, state);
+        if(errorListener==null){
+           throw new NullPointerException("The error listener cannot be null");
+        }
+          this.errorListener = errorListener; 
+      }
+  
+  
+  protected void mismatch (IntStream input, int ttype, BitSet follow) throws RecognitionException {
+    throw new MismatchedTokenException(ttype,input);
+  }
+  
+  public Object recoverFromMismatchedSet(IntStream input, RecognitionException e, BitSet follow) throws RecognitionException{
+    throw e;
+  }
+}
+
+@rulecatch{
+  catch(RecognitionException e){
+    if(errorListener!=null){
+      errorListener.recognitionException(e);
+    }
+  }
+  
+  catch(RewriteEmptyStreamException e){
+    if(errorListener!=null){
+      errorListener.rewriteEmptyStreamException(e);
+    }
+  }
 }
 
 

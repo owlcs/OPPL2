@@ -15,6 +15,7 @@ import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
+import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.syntax.BidirectionalShortFormProviderAdapter;
 import org.coode.oppl.syntax.ErrorListener;
@@ -314,6 +315,15 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 			System.err.println("Unerecognised token " + t.getText()
 					+ " at line " + t.getLine() + " position "
 					+ t.getCharPositionInLine());
+		}
+
+		public void recognitionException(RecognitionException e) {
+			System.err.println("Recognition exception " + e.getMessage() + " "
+					+ e.getUnexpectedType());
+		}
+
+		public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
+			System.err.println(e.getMessage());
 		}
 
 		public void incompatibleSymbolType(Token t, Type type, Token expression) {
