@@ -36,11 +36,11 @@ tokens {
   CONSTANT;  
 }  
 @header {
-  package org.coode.oppl.syntax;
+  package org.coode.parsers;
 }
 
 @lexer::header {
-   package org.coode.oppl.syntax; 
+   package org.coode.parsers; 
 }
 
 @members {
@@ -58,11 +58,21 @@ tokens {
           this.errorListener = errorListener; 
       }
   
+ 
+  public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
+  	if(getErrorListener()!=null){
+        getErrorListener().recognitionException(e, tokenNames);
+    }
+  }
+  public ErrorListener getErrorListener(){
+  	return this.errorListener;
+  }
   
   protected void mismatch (IntStream input, int ttype, BitSet follow) throws RecognitionException {
     throw new MismatchedTokenException(ttype,input);
   }
   
+
   public Object recoverFromMismatchedSet(IntStream input, RecognitionException e, BitSet follow) throws RecognitionException{
     throw e;
   }

@@ -9,7 +9,7 @@ options {
 }
 
 @header {
-  package org.coode.oppl.syntax;
+  package org.coode.parsers;
 }
 
 bottomup  : 
