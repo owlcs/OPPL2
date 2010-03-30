@@ -79,6 +79,15 @@ public class RegExpGeneratedValue implements
 			for (int i = 0; i < mr.groupCount(); i++) {
 				group.add(mr.group(i));
 			}
+			if (group.size() == 0) {
+				// if no groups are found, either there is no group or the expression does not match the input
+				// if it matches the input, then the whole input is returned
+				//XXX the behaviour is not perfect, since probably the whole input should be returned as the first group, but the current use relies on numbering the first explicit group as 0, so won't change it for now
+				m.reset();
+				if (m.matches()) {
+					group.add(toMatch);
+				}
+			}
 		} catch (IllegalStateException e) {
 			//XXX needs logging or something
 			//			System.out.println("RegExpGeneratedValue.actualMatch() Matching \""
@@ -86,6 +95,11 @@ public class RegExpGeneratedValue implements
 			//					+ "\": no match found");
 		}
 		return group;
+	}
+
+	public static boolean doesMatch(Pattern regExpression, String toMatch) {
+		Matcher m = regExpression.matcher(toMatch);
+		return m.matches();
 	}
 
 	private List<String> retrieve(OWLEntity e) {

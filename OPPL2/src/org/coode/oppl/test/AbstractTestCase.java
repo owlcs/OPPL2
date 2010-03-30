@@ -6,10 +6,8 @@ import java.io.StringWriter;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import junit.framework.TestCase;
 import net.sf.saxon.exslt.Math;
@@ -43,7 +41,7 @@ public abstract class AbstractTestCase extends TestCase {
 	// ontology for tests
 	private OWLOntologyURIMapper siemensmapper = new AutoURIMapper(new File(
 			"../OPPL2/ontologies/"), true);
-	private static Map<String, OWLOntology> cache = new HashMap<String, OWLOntology>();
+	//private static Map<String, OWLOntology> cache = new HashMap<String, OWLOntology>();
 	protected TestQueries testQueries = new TestQueries();
 
 	public AbstractTestCase() {
@@ -56,12 +54,12 @@ public abstract class AbstractTestCase extends TestCase {
 
 	public OWLOntology getOntology(String name) {
 		try {
-			if (cache.containsKey(name)) {
-				return cache.get(name);
-			}
+			//			if (cache.containsKey(name)) {
+			//				return cache.get(name);
+			//			}
 			OWLOntology o = ontologyManager.loadOntologyFromPhysicalURI(URI
 					.create(baseURI + name));
-			cache.put(name, o);
+			//cache.put(name, o);
 			return o;
 		} catch (OWLOntologyCreationException e) {
 			// TODO Auto-generated catch block
@@ -78,7 +76,7 @@ public abstract class AbstractTestCase extends TestCase {
 	// exceptions
 	protected boolean longStackTrace = true;
 
-	protected void execute(OPPLScript script) {
+	protected void execute(OPPLScript script, OWLOntology ontology, int expected) {
 		try {
 			ChangeExtractor changeExtractor = new ChangeExtractor(script
 					.getConstraintSystem(), true);
@@ -97,7 +95,8 @@ public abstract class AbstractTestCase extends TestCase {
 		} catch (Exception e) {
 			this.log(e);
 		}
-		this.testQueries.genericTestQuery(script);
+		this.testQueries.testQueryManualExpected(expected, script,
+				ontologyManager, ontology);
 	}
 
 	protected void init(String name) {

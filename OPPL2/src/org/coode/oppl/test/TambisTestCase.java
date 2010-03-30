@@ -23,10 +23,9 @@ public class TambisTestCase extends AbstractTestCase {
 	}
 
 	public void testTambis() {
-		OPPLScript result = this.parse(
-				"?x:CLASS, ?y:CLASS SELECT ASSERTED ?x equivalentTo ?y;",
-				"tambis-full.owl");
+		OPPLScript result = this
+				.parse("?x:CLASS, ?y:CLASS SELECT ASSERTED ?x equivalentTo ?y;");
 		this.expectedCorrect(result);
-		this.execute(result);
+		this.execute(result, this.getOntology("test.owl"), 1);
 	}
 }
