@@ -38,7 +38,7 @@ public class PerformanceTestCase extends AbstractTestCase {
 				+ "BEGIN " + "ADD ?regexp subClassOf ?x, " + " END;",
 				"solomf.owl", this.test);
 		this.expectedCorrect(result);
-		this.execute(result);
+		this.execute(result, this.getOntology("test.owl"), 0);
 	}
 
 	public static void main(String[] args) throws Exception {
