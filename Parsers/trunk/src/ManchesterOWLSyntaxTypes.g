@@ -7,6 +7,8 @@ options {
   filter=true;
 }
 
+ 
+
 @members{
   private  SymbolTable symtab;
   private  ErrorListener errorListener;
@@ -72,7 +74,7 @@ bottomup // match subexpressions innermost to outermost
     :   expressionRoot // only match the start of expressions (root EXPRESSION) 	   
     | 	axiom     
     ;
-
+ 
 expressionRoot // invoke type computation rule after matching EXPRESSION
     :   ^(EXPRESSION expression) {$EXPRESSION.setEvalType($expression.type);} // annotate AST
     ;

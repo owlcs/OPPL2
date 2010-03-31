@@ -20,7 +20,7 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.parsers.ErrorListener;
-import org.coode.parsers.ManchesterOWLSyntaxLexer;
+import org.coode.parsers.MOWLLexer;
 import org.coode.parsers.ManchesterOWLSyntaxParser;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
@@ -78,8 +78,7 @@ public class TestExpressionParsing extends TestCase {
 	}
 
 	protected ManchesterOWLSyntaxTree parse(String input) {
-		ManchesterOWLSyntaxLexer lexer = new ManchesterOWLSyntaxLexer(
-				new ANTLRStringStream(input));
+		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens);
 		parser.setTreeAdaptor(adaptor);

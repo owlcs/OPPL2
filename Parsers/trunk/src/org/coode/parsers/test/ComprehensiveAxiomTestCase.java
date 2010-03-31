@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
 import org.antlr.runtime.RuleReturnScope;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenRewriteStream;
@@ -17,7 +18,7 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.parsers.ErrorListener;
-import org.coode.parsers.ManchesterOWLSyntaxLexer;
+import org.coode.parsers.MOWLLexer;
 import org.coode.parsers.ManchesterOWLSyntaxParser;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
@@ -307,10 +308,10 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 	private ErrorListener errorListener = new SystemErrorEcho();
 
 	protected ManchesterOWLSyntaxTree parse(String input) {
-		ManchesterOWLSyntaxLexer lexer = new ManchesterOWLSyntaxLexer(
-				new ANTLRStringStream(input));
+		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens);
+		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(
+				tokens, new RecognizerSharedState(), this.errorListener);
 		parser.setTreeAdaptor(adaptor);
 		try {
 			RuleReturnScope r = parser.main();

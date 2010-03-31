@@ -38,8 +38,8 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.parsers.ErrorListener;
+import org.coode.parsers.MOWLLexer;
 import org.coode.parsers.ManchesterOWLSyntaxAutoComplete;
-import org.coode.parsers.ManchesterOWLSyntaxLexer;
 import org.coode.parsers.ManchesterOWLSyntaxParser;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
@@ -237,8 +237,7 @@ public abstract class AutoCompleter {
 	}
 
 	protected ManchesterOWLSyntaxTree getTree(String input) {
-		ManchesterOWLSyntaxLexer lexer = new ManchesterOWLSyntaxLexer(
-				new ANTLRStringStream(input));
+		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
 		TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(
 				tokens, this.listener);
@@ -257,8 +256,7 @@ public abstract class AutoCompleter {
 					while (tok.hasMoreTokens()) {
 						lastBit = tok.nextToken();
 					}
-					lexer = new ManchesterOWLSyntaxLexer(new ANTLRStringStream(
-							lastBit));
+					lexer = new MOWLLexer(new ANTLRStringStream(lastBit));
 					tokens = new TokenRewriteStream(lexer);
 					parser = new ManchesterOWLSyntaxParser(tokens,
 							this.listener);
