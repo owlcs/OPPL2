@@ -94,6 +94,8 @@ tokens {
 
 
 
+
+
 main:
 	axiom EOF -> ^(axiom)
 	;
@@ -104,6 +106,9 @@ axiom	:
 		| assertionAxiom -> ^(assertionAxiom)
 	;
 
+standaloneExpression  :
+    expression EOF ->^(EXPRESSION expression)
+  ;
 
 assertionAxiom:
   i = IDENTIFIER (INSTANCE_OF | TYPES) expression -> ^(TYPE_ASSERTION ^(EXPRESSION expression) ^(EXPRESSION $i))
@@ -115,7 +120,9 @@ assertionAxiom:
 
 
 binaryAxiom :
-    lhs =  expression (  
+    lhs =  expression
+
+                (                  
                 SUBCLASS_OF  superClass = expression -> ^(SUB_CLASS_AXIOM  ^(EXPRESSION $lhs) ^(EXPRESSION $superClass))
                 | EQUIVALENT_TO rhs = expression -> ^(EQUIVALENT_TO_AXIOM ^(EXPRESSION $lhs) ^(EXPRESSION $rhs))
                 | DISJOINT_WITH disjoint = expression -> ^(DISJOINT_WITH_AXIOM ^(EXPRESSION $lhs) ^(EXPRESSION $disjoint))

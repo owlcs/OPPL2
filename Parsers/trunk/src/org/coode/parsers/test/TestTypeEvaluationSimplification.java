@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.coode.oppl.parsers.test;
+package org.coode.parsers.test;
 
 import java.net.URI;
 
@@ -19,22 +19,21 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxLexer;
 import org.coode.parsers.ManchesterOWLSyntaxParser;
+import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
-import org.coode.parsers.OWLEntityCheckerScope;
 import org.coode.parsers.SymbolTable;
+import org.coode.parsers.factory.SimpleSymbolTableFactory;
+import org.coode.parsers.factory.SymbolTableFactory;
 import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.expression.ShortFormEntityChecker;
 import org.semanticweb.owl.model.OWLOntologyCreationException;
 import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.util.BidirectionalShortFormProviderAdapter;
-import org.semanticweb.owl.util.SimpleShortFormProvider;
 
 /**
  * @author Luigi Iannone
  * 
  */
-public class TestTypeEvaluation {
+public class TestTypeEvaluationSimplification {
 	public static TreeAdaptor adaptor = new CommonTreeAdaptor() {
 		@Override
 		public Object create(Token token) {
@@ -55,11 +54,14 @@ public class TestTypeEvaluation {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
+	private static ErrorListener errorListener = new SystemErrorEcho();
 
 	public static void main(String[] args) {
 		OWLOntologyManager ontologyManager = OWLManager
 				.createOWLOntologyManager();
-		String input = "hasTopping subPropertyOf INV (hasTopping)";
+		SymbolTableFactory symbolTableFactory = new SimpleSymbolTableFactory(
+				ontologyManager);
+		String input = "America hasTopping Italy";
 		System.out.println(input);
 		ManchesterOWLSyntaxLexer lexer = new ManchesterOWLSyntaxLexer(
 				new ANTLRStringStream(input));
@@ -72,20 +74,20 @@ public class TestTypeEvaluation {
 							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			RuleReturnScope r = parser.main();
 			CommonTree tree = (CommonTree) r.getTree();
-			System.out.println(tree.toString());
+			System.out.println(tree.toStringTree());
 			CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
 			nodes.setTokenStream(tokens); // where to find tokens
 			nodes.setTreeAdaptor(adaptor);
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			SymbolTable symtab = new SymbolTable(new OWLEntityCheckerScope(
-					new ShortFormEntityChecker(
-							new BidirectionalShortFormProviderAdapter(
-									ontologyManager.getOntologies(),
-									new SimpleShortFormProvider()))),
-					ontologyManager.getOWLDataFactory());
+			SymbolTable symtab = symbolTableFactory.createSymbolTable();
 			symtab.setErrorListener(errorListener);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
+			simplify.setTreeAdaptor(adaptor);
+			simplify.downup(tree);
+			nodes.reset();
 			ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(
-					nodes, symtab, new SystemErrorEcho());
+					nodes, symtab, errorListener);
 			typeComp.downup(tree); // trigger resolve/type computation actions
 			// WALK TREE TO DUMP SUBTREE TYPES
 			System.out.println(tree.toStringTree());
@@ -97,6 +99,4 @@ public class TestTypeEvaluation {
 			e.printStackTrace();
 		}
 	}
-
-	private static ErrorListener errorListener = new SystemErrorEcho();
 }

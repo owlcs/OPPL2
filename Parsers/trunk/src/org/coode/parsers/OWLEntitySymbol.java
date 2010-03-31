@@ -16,8 +16,8 @@ public class OWLEntitySymbol extends Symbol {
 	 * @param name
 	 * @param type
 	 */
-	public OWLEntitySymbol(String name, OWLType type, OWLEntity entity) {
-		super(name, type);
+	public OWLEntitySymbol(String name, OWLEntity entity) {
+		super(name, OWLType.get(entity));
 		if (entity == null) {
 			throw new NullPointerException("The entity cannot be null");
 		}

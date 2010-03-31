@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.coode.oppl.parsers.test;
+package org.coode.parsers.test;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;

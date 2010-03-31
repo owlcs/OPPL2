@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTree;
@@ -2060,6 +2061,25 @@ public class SymbolTable {
 			toReturn = this.getDataFactory().getOWLSubClassAxiom(
 					(OWLDescription) subClass.getOWLObject(),
 					(OWLDescription) superClass.getOWLObject());
+		}
+		return toReturn;
+	}
+
+	/**
+	 * Retrieves a set of String representing the symbols matching with the
+	 * input prefix.
+	 * 
+	 * @param prefix
+	 *            The input prefix. Cannot be {@code null}.
+	 * @return A Set of String elements.
+	 * @throws NullPointerException
+	 *             if the input is {@code null}.
+	 */
+	public Set<String> match(String prefix) {
+		Set<Symbol> matches = this.getGlobalScope().match(prefix);
+		Set<String> toReturn = new HashSet<String>(matches.size());
+		for (Symbol symbol : matches) {
+			toReturn.add(symbol.getName());
 		}
 		return toReturn;
 	}

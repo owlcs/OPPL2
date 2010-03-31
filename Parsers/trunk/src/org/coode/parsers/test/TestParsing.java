@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.coode.oppl.parsers.test;
+package org.coode.parsers.test;
 
 import java.net.URI;
 

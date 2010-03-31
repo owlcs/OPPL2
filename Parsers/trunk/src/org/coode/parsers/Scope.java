@@ -1,5 +1,7 @@
 package org.coode.parsers;
 
+import java.util.Set;
+
 public interface Scope {
 	/**
 	 * Retrieves the name of the scope
@@ -37,4 +39,16 @@ public interface Scope {
 	 *             if the input is {@code null}.
 	 */
 	public Symbol resolve(String name);
+
+	/**
+	 * Retrieves the set of Symbol instances whose name starts with the input
+	 * prefix.
+	 * 
+	 * @param prefix
+	 *            The input prefix. Cannot be {@code null}.
+	 * @return A Set of Symbol.
+	 * @throws NullPointerException
+	 *             if the input is {@code null}.
+	 */
+	public Set<Symbol> match(String prefix);
 }

@@ -5,6 +5,14 @@ package org.coode.parsers;
 
 import java.util.EnumSet;
 
+import org.semanticweb.owl.model.OWLClass;
+import org.semanticweb.owl.model.OWLDataProperty;
+import org.semanticweb.owl.model.OWLDataType;
+import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owl.model.OWLEntityVisitorEx;
+import org.semanticweb.owl.model.OWLIndividual;
+import org.semanticweb.owl.model.OWLObjectProperty;
+
 /**
  * @author Luigi Iannone
  * 
@@ -44,5 +52,29 @@ public enum OWLType implements Type {
 
 	public <O> O accept(TypeVisitorEx<O> visitor) {
 		return visitor.visitOWLType(this);
+	}
+
+	public static OWLType get(OWLEntity entity) {
+		return entity.accept(new OWLEntityVisitorEx<OWLType>() {
+			public OWLType visit(OWLClass arg0) {
+				return OWL_CLASS;
+			}
+
+			public OWLType visit(OWLDataProperty arg0) {
+				return OWL_DATA_PROPERTY;
+			}
+
+			public OWLType visit(OWLDataType arg0) {
+				return OWL_DATA_TYPE;
+			}
+
+			public OWLType visit(OWLIndividual arg0) {
+				return OWL_INDIVIDUAL;
+			}
+
+			public OWLType visit(OWLObjectProperty arg0) {
+				return OWL_OBJECT_PROPERTY;
+			}
+		});
 	}
 }

@@ -1,4 +1,4 @@
-package org.coode.oppl.parsers.test;
+package org.coode.parsers.test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,7 +16,6 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
-import org.coode.parsers.BidirectionalShortFormProviderAdapter;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxLexer;
 import org.coode.parsers.ManchesterOWLSyntaxParser;
@@ -24,11 +23,11 @@ import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.OWLAxiomType;
-import org.coode.parsers.OWLEntityCheckerScope;
 import org.coode.parsers.SymbolTable;
 import org.coode.parsers.Type;
+import org.coode.parsers.factory.SimpleSymbolTableFactory;
+import org.coode.parsers.factory.SymbolTableFactory;
 import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.expression.ShortFormEntityChecker;
 import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
 import org.semanticweb.owl.model.OWLClassAssertionAxiom;
@@ -70,7 +69,6 @@ import org.semanticweb.owl.model.OWLSymmetricObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owl.model.SWRLRule;
 import org.semanticweb.owl.model.utils.DefaultOWLObjectVisitorEx;
-import org.semanticweb.owl.util.SimpleShortFormProvider;
 
 public class ComprehensiveAxiomTestCase extends TestCase {
 	private static final class TypeAssociation extends
@@ -270,6 +268,8 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 			.createOWLOntologyManager();
 	private static SymbolTable symtab;
 	private static TypeAssociation ASSOCOATION = new TypeAssociation();
+	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
+			ONTOLOGY_MANAGER);
 	static {
 		try {
 			ONTOLOGY_MANAGER
@@ -277,12 +277,7 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class
 					.getResource("syntaxTest.owl").toURI());
-			symtab = new SymbolTable(new OWLEntityCheckerScope(
-					new ShortFormEntityChecker(
-							new BidirectionalShortFormProviderAdapter(
-									ONTOLOGY_MANAGER.getOntologies(),
-									new SimpleShortFormProvider()))),
-					ONTOLOGY_MANAGER.getOWLDataFactory());
+			symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {

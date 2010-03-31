@@ -22,18 +22,17 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.TreeAdaptor;
-import org.coode.parsers.BidirectionalShortFormProviderAdapter;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxLexer;
 import org.coode.parsers.ManchesterOWLSyntaxParser;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
-import org.coode.parsers.OWLEntityCheckerScope;
 import org.coode.parsers.SymbolTable;
 import org.coode.parsers.Type;
+import org.coode.parsers.factory.SimpleSymbolTableFactory;
+import org.coode.parsers.factory.SymbolTableFactory;
 import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.expression.ShortFormEntityChecker;
 import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLAxiom;
 import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
@@ -73,7 +72,6 @@ import org.semanticweb.owl.model.OWLSubClassAxiom;
 import org.semanticweb.owl.model.OWLSymmetricObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owl.model.utils.DefaultOWLObjectVisitorEx;
-import org.semanticweb.owl.util.SimpleShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -596,30 +594,14 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 			this.lastReport = null;
 			this.parsed = null;
 			this.listener.clear();
-			this.symbolTable = new SymbolTable(
-					new OWLEntityCheckerScope(
-							new ShortFormEntityChecker(
-									new BidirectionalShortFormProviderAdapter(
-											ManchesterOWLSyntaxValidatorGUI.this.manager
-													.getOntologies(),
-											new SimpleShortFormProvider()))),
-					ManchesterOWLSyntaxValidatorGUI.this.manager
-							.getOWLDataFactory());
+			this.symbolTable = ManchesterOWLSyntaxValidatorGUI.this.symbolTableFactory
+					.createSymbolTable();
 			new AutoCompleter(
-					ManchesterOWLSyntaxValidatorGUI.this.axiomValidator) {
-				@Override
-				protected ManchesterOWLSyntaxTree getTree() {
-					return AxiomChecker.this.parsed;
-				}
-
+					ManchesterOWLSyntaxValidatorGUI.this.axiomValidator,
+					this.listener, this.adaptor) {
 				@Override
 				protected SymbolTable getSymbolTable() {
 					return AxiomChecker.this.symbolTable;
-				}
-
-				@Override
-				protected CommonTreeNodeStream getNodeStream() {
-					return AxiomChecker.this.lastNodeStream;
 				}
 			};
 		}
@@ -676,6 +658,8 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 	private static final long serialVersionUID = -4513506293333415642L;
 	private final OWLOntologyManager manager = OWLManager
 			.createOWLOntologyManager();
+	private final SymbolTableFactory symbolTableFactory = new SimpleSymbolTableFactory(
+			this.manager);
 	private ExpressionChecker<OWLAxiom> checker = new AxiomChecker();
 	private ExpressionEditor<OWLAxiom> axiomValidator;
 

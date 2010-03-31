@@ -155,9 +155,9 @@ expression returns [List<String> completions]
 			$start.setCompletions($completions);
 		} // do after any alternative
 	: 
-		 ^(DISJUNCTION  .*  lastDisjunct  =conjunction) 
+		 ^(DISJUNCTION  head+=.+  lastDisjunct  =conjunction) 
 		 {	
-				$completions = last.completions;
+				$completions = lastDisjunct.completions;
 		 	}
 		|  ^(PROPERTY_CHAIN  .*  last =expression)
 		  {
@@ -180,8 +180,9 @@ conjunction returns [List<String> completions]
 				$start.setCompletions($completions);
 			} // do after any alternative
 	:
-	^(CONJUNCTION  .* last = unary)	
+	^(CONJUNCTION  head+=.+  last = unary)	
 	{	
+	  
 		$completions = last.completions;     
 	}
 	| unary {
@@ -200,8 +201,8 @@ unary returns [List<String> completions]
 :
 		IDENTIFIER 
 			{
-				Symbol symbol = this.getSymbolTable().resolve($IDENTIFIER);
-				$completions = $IDENTIFIER.getCompletions();
+				
+				$completions = new ArrayList<String>(this.getSymbolTable().match($IDENTIFIER.getText()));
 			}
 		| ^(NEGATED_EXPRESSION e = expression) 
 			{
@@ -213,11 +214,15 @@ unary returns [List<String> completions]
 			} 
 		| ENTITY_REFERENCE 
 			{
-				Symbol symbol = this.getSymbolTable().resolve($ENTITY_REFERENCE);
-				$completions = $ENTITY_REFERENCE.getCompletions();
+				
+				$completions = new ArrayList<String>(this.getSymbolTable().match($ENTITY_REFERENCE.getText()));
 			}
 		| ^(CONSTANT  value=. constantType = IDENTIFIER?) {
-				$completions = Collections.emptyList();				
+		    if(constantType==null){
+				  $completions = Collections.emptyList();
+				}else{
+				  $completions = new ArrayList<String>(this.getSymbolTable().match(constantType.getText()));
+				}				
 			}
 	;
 
@@ -230,8 +235,8 @@ propertyExpression  returns [List<String> completions]
 :
       IDENTIFIER
       {
-        Symbol symbol = this.getSymbolTable().resolve($IDENTIFIER);
-        $completions = $IDENTIFIER.getCompletions();
+        
+        $completions = new ArrayList<String>(this.getSymbolTable().match($IDENTIFIER.getText()));
       }
     | complexPropertyExpression
       {
@@ -250,8 +255,8 @@ complexPropertyExpression returns [List<String> completions]
 	}
 	| ^(INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER)
 	{
-				Symbol symbol = this.getSymbolTable().resolve($IDENTIFIER);				
-				$completions = $IDENTIFIER.getCompletions();
+								
+				$completions = new ArrayList<String>(this.getSymbolTable().match($IDENTIFIER.getText()));
 	}
 	;
 
