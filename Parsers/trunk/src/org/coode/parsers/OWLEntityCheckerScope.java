@@ -3,6 +3,7 @@
  */
 package org.coode.parsers;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,8 +25,8 @@ public class OWLEntityCheckerScope implements Scope {
 	/**
 	 * @param owlEntityChecker
 	 */
-	public OWLEntityCheckerScope(OWLEntityChecker owlEntityChecker,
-			EntityFinder entityFinder, OWLEntityRenderer owlEntityRenderer) {
+	public OWLEntityCheckerScope(OWLEntityChecker owlEntityChecker, EntityFinder entityFinder,
+			OWLEntityRenderer owlEntityRenderer) {
 		if (owlEntityChecker == null) {
 			throw new NullPointerException("The entity checker cannot be null");
 		}
@@ -33,8 +34,7 @@ public class OWLEntityCheckerScope implements Scope {
 			throw new NullPointerException("The entity finder cannot be null");
 		}
 		if (owlEntityRenderer == null) {
-			throw new NullPointerException(
-					"The OWL entity renderer cannot be null");
+			throw new NullPointerException("The OWL entity renderer cannot be null");
 		}
 		this.owlEntityChecker = owlEntityChecker;
 		this.entityFinder = entityFinder;
@@ -75,18 +75,15 @@ public class OWLEntityCheckerScope implements Scope {
 			if (owlEntity != null) {
 				toReturn = new OWLEntitySymbol(name, owlEntity);
 			} else {
-				owlEntity = this.getOWLEntityChecker().getOWLObjectProperty(
-						name);
+				owlEntity = this.getOWLEntityChecker().getOWLObjectProperty(name);
 				if (owlEntity != null) {
 					toReturn = new OWLEntitySymbol(name, owlEntity);
 				} else {
-					owlEntity = this.getOWLEntityChecker().getOWLIndividual(
-							name);
+					owlEntity = this.getOWLEntityChecker().getOWLIndividual(name);
 					if (owlEntity != null) {
 						toReturn = new OWLEntitySymbol(name, owlEntity);
 					} else {
-						owlEntity = this.getOWLEntityChecker().getOWLDataType(
-								name);
+						owlEntity = this.getOWLEntityChecker().getOWLDataType(name);
 						if (owlEntity != null) {
 							toReturn = new OWLEntitySymbol(name, owlEntity);
 						}
@@ -104,8 +101,8 @@ public class OWLEntityCheckerScope implements Scope {
 		Set<Symbol> toReturn = new HashSet<Symbol>();
 		Set<OWLEntity> entities = this.getEntityFinder().getEntities(prefix);
 		for (OWLEntity owlEntity : entities) {
-			toReturn.add(new OWLEntitySymbol(this.getOWLEntityRenderer()
-					.render(owlEntity), owlEntity));
+			toReturn.add(new OWLEntitySymbol(this.getOWLEntityRenderer().render(owlEntity),
+					owlEntity));
 		}
 		return toReturn;
 	}
@@ -129,5 +126,49 @@ public class OWLEntityCheckerScope implements Scope {
 	 */
 	public OWLEntityRenderer getOWLEntityRenderer() {
 		return this.owlEntityRenderer;
+	}
+
+	public Set<Symbol> getAllSymbols() {
+		Set<OWLEntity> entities = this.getEntityFinder().getEntities("");
+		Set<Symbol> toReturn = new HashSet<Symbol>(entities.size());
+		for (OWLEntity owlEntity : entities) {
+			toReturn.add(new OWLEntitySymbol(this.getOWLEntityRenderer().render(owlEntity),
+					owlEntity));
+		}
+		return toReturn;
+	}
+
+	public Set<Symbol> getAllSymbols(Type type) {
+		type.accept(new TypeVisitorEx<Set<OWLEntity>>() {
+			public Set<OWLEntity> visitOWLAxiomType(OWLAxiomType owlAxiomType) {
+				return Collections.emptySet();
+			}
+
+			public Set<OWLEntity> visitOWLType(OWLType owlType) {
+				Set<OWLEntity> toReturn = new HashSet<OWLEntity>();
+				switch (owlType) {
+				case OWL_CLASS:
+					toReturn.addAll(OWLEntityCheckerScope.this.getEntityFinder().getMatchingOWLClasses(
+							""));
+					break;
+				case OWL_DATA_PROPERTY:
+					toReturn.addAll(OWLEntityCheckerScope.this.getEntityFinder().getMatchingOWLDataProperties(
+							""));
+					break;
+				case OWL_OBJECT_PROPERTY:
+					toReturn.addAll(OWLEntityCheckerScope.this.getEntityFinder().getMatchingOWLObjectProperties(
+							""));
+					break;
+				case OWL_INDIVIDUAL:
+					toReturn.addAll(OWLEntityCheckerScope.this.getEntityFinder().getMatchingOWLIndividuals(
+							""));
+					break;
+				default:
+					break;
+				}
+				return toReturn;
+			}
+		});
+		return null;
 	}
 }

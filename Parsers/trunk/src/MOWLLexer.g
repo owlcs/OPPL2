@@ -3,7 +3,7 @@ lexer grammar MOWLLexer;
 
 
 @header {
-  package org.coode.parsers;
+  package org.coode.parsers; 
 }
 
 INTEGER: DIGIT+ ;

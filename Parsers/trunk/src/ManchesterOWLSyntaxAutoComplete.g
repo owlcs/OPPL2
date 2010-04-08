@@ -2,7 +2,7 @@ tree grammar ManchesterOWLSyntaxAutoComplete;
  
 options {
   language = Java;
-  tokenVocab = ManchesterOWLSyntax;
+  tokenVocab = ManchesterOWLSyntaxAutoCompleteBase;
   ASTLabelType = ManchesterOWLSyntaxTree;
   filter=true;
 }
@@ -57,13 +57,14 @@ options {
   import org.semanticweb.owl.model.OWLObject;
   import org.semanticweb.owl.model.OWLAxiom;
 }
-
+ 
 
 
 // START: root
 bottomup // match subexpressions innermost to outermost
     :   expressionRoot // only match the start of expressions (root EXPRESSION) 	   
-    | 	axiom     
+    | 	axiom
+    |   incompleteAxiom     
     ;
 
 expressionRoot // invoke type computation rule after matching EXPRESSION
@@ -350,5 +351,197 @@ valueRestriction	returns [List<String> completions]
 		 }
 	;
 	
+// AUTO-COMPLETIONS FOR INCOMPLETE AXIOMS
 
-	
+incompleteAxiom returns [List<String> completions] 
+@after 
+      { 
+      $start.setCompletions($completions);
+      } // do after any alternative
+:
+    ^(INCOMPLETE_SUB_CLASS_AXIOM  ^(EXPRESSION  subClass = expression) ^(INCOMPLETE_EXPRESSION  superClass = incompleteExpression))
+    {     
+      $completions = superClass.completions;
+    }
+  |  ^(INCOMPLETE_EQUIVALENT_TO_AXIOM ^(EXPRESSION lhs = expression) ^(INCOMPLETE_EXPRESSION  rhs = incompleteExpression))
+     {      
+      $completions = rhs.completions;
+     }  
+  | ^(INCOMPLETE_INVERSE_OF ^(EXPRESSION p = IDENTIFIER))
+  {    
+     // object property expression completions
+  }
+  | ^(INCOMPLETE_DISJOINT_WITH_AXIOM ^(EXPRESSION lhs =  expression) ^(INCOMPLETE_EXPRESSION rhs = incompleteExpression)){     
+     $completions = rhs.completions;
+  }   
+  | ^(INCOMPLETE_SUB_PROPERTY_AXIOM ^(EXPRESSION  subProperty = expression))
+    {     
+      // property expression completions
+    }   
+  | ^(INCOMPLETE_ROLE_ASSERTION ^(EXPRESSION IDENTIFIER) ^(EXPRESSION propertyExpression)){    
+     // individual expression completions
+   }
+  |  ^(INCOMPLETE_TYPE_ASSERTION  ^(EXPRESSION IDENTIFIER))
+  {
+     // class expression completions
+  }
+  | ^(INCOMPLETE_DOMAIN ^(EXPRESSION p = IDENTIFIER))
+   {
+     // class expression completions
+   } 
+  | ^(INCOMPLETE_DOMAIN ^(EXPRESSION p = IDENTIFIER) ^(INCOMPLETE_EXPRESSION domain = incompleteExpression))
+   {
+     $completions = domain.completions;
+   }
+   | ^(INCOMPLETE_RANGE ^(EXPRESSION p = IDENTIFIER)){
+    // class expression completions
+   }
+   | ^(INCOMPLETE_RANGE ^(EXPRESSION p = IDENTIFIER) ^(INCOMPLETE_EXPRESSION range = incompleteExpression))
+   {
+     $completions = range.completions;;
+   }
+   | ^(INCOMPLETE_SAME_AS_AXIOM ^(EXPRESSION anIndividual =IDENTIFIER))
+   {
+    // individual expression completions
+   }
+    | ^(INCOMPLETE_DIFFERENT_FROM_AXIOM ^(EXPRESSION anIndividual =IDENTIFIER))
+   {
+    // individual expression completions
+   }
+   | ^(INCOMPLETE_UNARY_AXIOM FUNCTIONAL)
+   {
+     // property expression completions
+   }
+   | ^(INCOMPLETE_UNARY_AXIOM INVERSE_FUNCTIONAL)
+   {
+     // object property expression completions
+   }
+    | ^(INCOMPLETE_UNARY_AXIOM IRREFLEXIVE)
+   {     
+     // object property expression completions
+   }
+   | ^(INCOMPLETE_UNARY_AXIOM REFLEXIVE)
+   {
+      // object property expression completions   
+   }
+   | ^(INCOMPLETE_UNARY_AXIOM SYMMETRIC)
+   {
+      // object property expression completions
+   } 
+    | ^(INCOMPLETE_UNARY_AXIOM TRANSITIVE)
+   {
+     // object property expression completions
+   }    
+;
+
+incompleteExpression  returns [List<String> completions] 
+@after 
+      { 
+      $start.setCompletions($completions);
+      } // do after any alternative
+:
+  ^(INCOMPLETE_PROPERTY_CHAIN  .+)
+  {
+    // object property expression completions
+    $completions = symtab.getOWLObjectPropertyCompetions();
+  }
+  
+  | ^(INCOMPLETE_DISJUNCTION  e = incompleteConjunction?)
+  {
+    $completions = e.completions;
+  }
+;
+
+
+incompleteConjunction  returns [List<String> completions] 
+@after 
+      { 
+      $start.setCompletions($completions);
+      } // do after any alternative
+:
+    ^(INCOMPLETE_CONJUNCTION  e = incompleteUnary?)
+    {
+      $completions = e.completions; 
+    }
+;	
+
+incompleteUnary returns [List<String> completions] 
+@after 
+      { 
+        $start.setCompletions($completions);
+      } // do after any alternative
+:   
+    ^(INCOMPLETE_NEGATED_EXPRESSION .?){
+      // class expression completions
+    }                  
+    | incompleteQualifiedRestriction{
+      $completions = $incompleteQualifiedRestriction.completions;
+    }         
+  ;
+
+  
+incompleteQualifiedRestriction  returns [List<String> completions] 
+@after 
+      { 
+        $start.setCompletions($completions);
+      } // do after any alternative
+:   
+          ^(INCOMPLETE_SOME_RESTRICTION propertyExpression)
+        {
+          // class expression completions
+        }                   
+        | ^(INCOMPLETE_ALL_RESTRICTION propertyExpression)
+        {
+          // class expression completions
+        }
+        | incompleteCardinalityRestriction
+        {
+          $completions = $incompleteCardinalityRestriction.completions;
+        }
+        | incompleteOneOf
+        {
+          $completions = $incompleteOneOf.completions;
+        }
+        | incompleteValueRestriction
+        {
+          $completions = $incompleteValueRestriction.completions;
+        }
+    
+    ;
+ 
+incompleteCardinalityRestriction  returns [List<String> completions] 
+@after 
+      { 
+        $start.setCompletions($completions);
+      } // do after any alternative
+:   
+        ^(INCOMPLETE_CARDINALITY_RESTRICTION  . INTEGER propertyExpression)
+        {
+          // class expression completions
+        }
+;
+
+
+incompleteOneOf  returns [List<String> completions] 
+@after 
+      { 
+        $start.setCompletions($completions);
+      } // do after any alternative
+: 
+    ^(INCOMPLETE_ONE_OF IDENTIFIER+)
+    {
+      // individual expression completions  
+    }
+ ;
+ 
+ incompleteValueRestriction returns [List<String> completions] 
+ @after 
+      { 
+        $start.setCompletions($completions);
+      } // do after any alternative
+:  
+      ^(INCOMPLETE_VALUE_RESTRICTION propertyExpression)
+      {
+        // individual expression completions
+      }
+ ; 

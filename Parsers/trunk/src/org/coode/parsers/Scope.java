@@ -51,4 +51,23 @@ public interface Scope {
 	 *             if the input is {@code null}.
 	 */
 	public Set<Symbol> match(String prefix);
+
+	/**
+	 * Retrieves all the Symbol instances in this Scope
+	 * 
+	 * @return A Set of Symbol elements.
+	 */
+	public Set<Symbol> getAllSymbols();
+
+	/**
+	 * Retrieves all the Symbol instances in this Scope whose tyoe is equal to
+	 * the input Type.
+	 * 
+	 * @param type
+	 *            . The Type of the Symbols to retrieve. Cannot be {@code null}.
+	 * @return A Set of Symbol elements.
+	 * @throws NullPointerException
+	 *             if the input is {@code null}.
+	 */
+	public Set<Symbol> getAllSymbols(Type type);
 }

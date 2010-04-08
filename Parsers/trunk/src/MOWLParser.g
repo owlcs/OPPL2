@@ -7,7 +7,7 @@ options {
   output = AST;              // build trees
   ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
   language = Java;
-}
+ }
 
 
  
@@ -56,9 +56,7 @@ axiom	:
 		| assertionAxiom -> ^(assertionAxiom)
 	;
 
-standaloneExpression  :
-    expression EOF ->^(EXPRESSION expression)
-  ;
+
 
 assertionAxiom:
   i = IDENTIFIER (INSTANCE_OF | TYPES) expression -> ^(TYPE_ASSERTION ^(EXPRESSION expression) ^(EXPRESSION $i))
@@ -88,7 +86,7 @@ binaryAxiom :
                   )    
                 
    ;
-
+ 
 unaryAxiom  :       
    unaryCharacteristic   IDENTIFIER -> ^(UNARY_AXIOM unaryCharacteristic ^(EXPRESSION IDENTIFIER))                
   ;

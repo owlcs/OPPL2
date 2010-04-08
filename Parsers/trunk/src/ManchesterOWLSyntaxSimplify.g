@@ -1,4 +1,4 @@
-tree grammar ManchesterOWLSyntaxSimplify;
+ tree grammar ManchesterOWLSyntaxSimplify;
 
 options {
   language = Java;
@@ -17,7 +17,7 @@ bottomup  :
     |	disjunction
   
   ;
-  
+   
 conjunction :
   ^(CONJUNCTION single= expression) -> ^($single)
   ;

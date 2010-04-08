@@ -2,7 +2,7 @@ tree grammar ManchesterOWLSyntaxTypes;
 
 options {
   language = Java;
-  tokenVocab = ManchesterOWLSyntax;
+  tokenVocab = ManchesterOWLSyntax; 
   ASTLabelType = ManchesterOWLSyntaxTree;
   filter=true;
 }
