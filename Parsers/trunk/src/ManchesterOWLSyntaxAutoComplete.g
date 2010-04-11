@@ -63,7 +63,7 @@ options {
   package org.coode.parsers;
   import java.util.Collections;
   import org.semanticweb.owl.model.OWLObject;
-  import org.semanticweb.owl.model.OWLAxiom;
+  
 }
  
 
@@ -84,7 +84,7 @@ expressionRoot // invoke type computation rule after matching EXPRESSION
 
 standaloneExpression
 		: ^(STANDALONE_EXPRESSION ^(EXPRESSION expression))  
-			{
+			{ 
 					List<String> completions = new ArrayList<String>($expression.completions);
 					if($expression.type!=null){
 						completions.addAll(AutoCompleteStrings.getStandaloneExpressionCompletions($expression.type));
@@ -495,17 +495,17 @@ incompleteExpression  returns [List<String> completions]
     $completions = new ArrayList<String>(symtab.getOWLObjectPropertyCompletions());
   }
   
-  | ^(INCOMPLETE_DISJUNCTION  e = incompleteConjunction?)
+  | ^(INCOMPLETE_DISJUNCTION  ic = incompleteConjunction?)
   {
       if(e!=null){
-      	$completions = e.completions;
+      	$completions = ic.completions;
       }else{
       	$completions = new ArrayList<String>(symtab.getOWLClassCompletions());
       }
   }  
   | ^(INCOMPLETE_EXPRESSION ^(EXPRESSION  e = expression) IDENTIFIER){  
   		Type type = e.type;
-  		$completions = type==null? Collecitons.<String>emptyList(): AutoCompleteStrings.getIncompleteExpressionCompletions($IDENTIFIER.text, type);
+  		$completions = type==null? Collections.<String>emptyList(): AutoCompleteStrings.getIncompleteExpressionCompletions($IDENTIFIER.text, type);
   }
 ;
 

@@ -20,5 +20,6 @@ main:
     standaloneExpression -> ^(standaloneExpression)
   | axiom EOF -> ^(axiom)
   | incompleteAxiom EOF -> ^(incompleteAxiom)
+  | incompleteExpression EOF -> ^(incompleteExpression)
  )
 ;
