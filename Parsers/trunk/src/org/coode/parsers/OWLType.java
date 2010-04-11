@@ -34,7 +34,7 @@ public enum OWLType implements Type {
 				OWL_OBJECT_UNION_OF, OWL_OBJECT_VALUE_RESTRICTION);
 	}
 
-	public static boolean isClassExpression(OWLType type) {
+	public static boolean isClassExpression(Type type) {
 		return getClassDescriptionTypes().contains(type);
 	}
 
@@ -42,7 +42,7 @@ public enum OWLType implements Type {
 		return EnumSet.of(OWL_OBJECT_PROPERTY, OWL_OBJECT_INVERSE_PROPERTY);
 	}
 
-	public static boolean isObjectPropertyExpression(OWLType type) {
+	public static boolean isObjectPropertyExpression(Type type) {
 		return getObjectProertyDescriptionTypes().contains(type);
 	}
 

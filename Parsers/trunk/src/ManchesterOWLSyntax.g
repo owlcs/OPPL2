@@ -25,7 +25,7 @@ import  MOWLLexer,  MOWLParser;
         if(errorListener==null){
            throw new NullPointerException("The error listener cannot be null");
         }
-          this.errorListener = errorListener; 
+          this.errorListener = errorListener;  
       }
   
  
@@ -63,5 +63,5 @@ import  MOWLLexer,  MOWLParser;
 }
 
 main:
-	 axiom ->^(axiom)  
+	 axiom ->^(axiom) 
 	; 

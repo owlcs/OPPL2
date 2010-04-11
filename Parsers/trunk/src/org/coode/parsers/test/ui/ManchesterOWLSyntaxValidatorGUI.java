@@ -598,7 +598,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 					.createSymbolTable();
 			new AutoCompleter(
 					ManchesterOWLSyntaxValidatorGUI.this.axiomValidator,
-					this.listener, this.adaptor) {
+					this.adaptor) {
 				@Override
 				protected SymbolTable getSymbolTable() {
 					return AxiomChecker.this.symbolTable;

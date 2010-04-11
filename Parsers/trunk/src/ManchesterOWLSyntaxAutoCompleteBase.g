@@ -45,22 +45,15 @@ tokens {
 }
 
 
-main:
-(   
-  options {backtrack=true;}: 
-    standaloneExpression
-  | axiom EOF -> ^(axiom)
-  | incompleteAxiom EOF -> ^(incompleteAxiom)
- )
-;
+
 
 standaloneExpression  :
-    expression EOF ->^(STANDALONE_EXPRESSION EXPRESSION expression)
+    expression EOF ->^(STANDALONE_EXPRESSION ^(EXPRESSION expression))
   ;
 
 incompleteAxiom :
     incompleteBinaryAxiom -> ^(incompleteBinaryAxiom)
-    | incompleteUnaryAxiom -> ^(incompleteUnaryAxiom)
+    | incompleteUnaryAxiom   -> ^(incompleteUnaryAxiom)
     | incompleteAssertionAxiom -> ^(incompleteAssertionAxiom)
   ;
 
@@ -84,7 +77,7 @@ incompleteBinaryAxiom :
                 | EQUIVALENT_TO rhs = incompleteExpression -> ^(EQUIVALENT_TO_AXIOM ^(EXPRESSION $lhs) ^(INCOMPLETE_EXPRESSION $rhs))
                 | DISJOINT_WITH -> ^(INCOMPLETE_DISJOINT_WITH_AXIOM ^(EXPRESSION $lhs))
                 | DISJOINT_WITH disjoint = incompleteExpression -> ^(DISJOINT_WITH_AXIOM ^(EXPRESSION $lhs) ^(INCOMPLETE_EXPRESSION $disjoint))
-                | SUB_PROPERTY_OF  -> ^(INCOMPLETE_SUB_PROPERTY_AXIOM ^(EXPRESSION $lhs))                                
+                | SUB_PROPERTY_OF  -> ^(INCOMPLETE_SUB_PROPERTY_AXIOM ^(EXPRESSION $lhs))                       
                 )
     |
     lhsID = IDENTIFIER  (
@@ -94,7 +87,7 @@ incompleteBinaryAxiom :
                   | DOMAIN incompleteDomain = incompleteExpression  -> ^(INCOMPLETE_DOMAIN ^(EXPRESSION $lhsID) ^(INCOMPLETE_EXPRESSION $incompleteDomain))
                   | RANGE  -> ^(INCOMPLETE_RANGE ^(EXPRESSION $lhsID))
                   | RANGE  incompleteRange = incompleteExpression -> ^(INCOMPLETE_RANGE ^(EXPRESSION $lhsID) ^(INCOMPLETE_EXPRESSION $incompleteRange))
-                  | INVERSE_OF -> ^(INCOMPLETE_INVERSE_OF ^(EXPRESSION $lhsID))
+                  | INVERSE_OF -> ^(INCOMPLETE_INVERSE_OF ^(EXPRESSION $lhsID))                  
                   )    
                 
    ; 
@@ -103,12 +96,15 @@ incompleteExpression:
     (   
       options {backtrack=true;}: 
       head = propertyExpression (COMPOSITION rest+=propertyExpression )+ COMPOSITION  -> ^(INCOMPLETE_PROPERTY_CHAIN  $head $rest)
-      | conjunction (OR .)* OR incompleteConjunction?  -> ^(INCOMPLETE_DISJUNCTION  incompleteConjunction?)      
+      | (conjunction (OR .)*) OR  incompleteConjunction?  -> ^(INCOMPLETE_DISJUNCTION  incompleteConjunction?)
+      | incompleteConjunction -> ^(INCOMPLETE_DISJUNCTION  incompleteConjunction?) 
+      | incompleteUnary -> ^(incompleteUnary)
+      | expression IDENTIFIER ->^(INCOMPLETE_EXPRESSION ^(EXPRESSION expression) IDENTIFIER)    
     )    
   ;  
  
-incompleteConjunction  :
-       unary (AND   .)* AND incompleteUnary? -> ^(INCOMPLETE_CONJUNCTION  incompleteUnary?)
+incompleteConjunction  : 
+       	(unary (AND   .)*) AND incompleteUnary? -> ^(INCOMPLETE_CONJUNCTION  incompleteUnary?)      
   ;  
  
 incompleteComplexPropertyExpression:

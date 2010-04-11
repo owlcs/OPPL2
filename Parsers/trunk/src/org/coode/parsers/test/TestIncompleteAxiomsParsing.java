@@ -24,7 +24,6 @@ import org.coode.parsers.MOWLLexer;
 import org.coode.parsers.ManchesterOWLSyntaxAutoCompleteCombinedParser;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
-import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.SymbolTable;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
@@ -36,7 +35,7 @@ import org.semanticweb.owl.model.OWLOntologyManager;
  * @author Luigi Iannone
  * 
  */
-public class TestExpressionParsing extends TestCase {
+public class TestIncompleteAxiomsParsing extends TestCase {
 	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager
 			.createOWLOntologyManager();
 	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
@@ -81,12 +80,11 @@ public class TestExpressionParsing extends TestCase {
 	protected ManchesterOWLSyntaxTree parse(String input) {
 		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-		System.out.println(tokens.toDebugString());
 		ManchesterOWLSyntaxAutoCompleteCombinedParser parser = new ManchesterOWLSyntaxAutoCompleteCombinedParser(
 				tokens);
 		parser.setTreeAdaptor(adaptor);
 		try {
-			RuleReturnScope r = parser.standaloneExpression();
+			RuleReturnScope r = parser.main();
 			CommonTree tree = (CommonTree) r.getTree();
 			CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
 			nodes.setTokenStream(tokens); // where to find tokens
@@ -97,9 +95,6 @@ public class TestExpressionParsing extends TestCase {
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes types = new ManchesterOWLSyntaxTypes(
-					nodes, symtab, this.errorListener);
-			types.downup(tree);
 			return (ManchesterOWLSyntaxTree) tree;
 		} catch (RecognitionException e) {
 			e.printStackTrace();
@@ -113,14 +108,15 @@ public class TestExpressionParsing extends TestCase {
 		symtab.clear();
 	}
 
-	public void testOWLClass() {
-		ManchesterOWLSyntaxTree parsed = this.parse("Pizza");
+	public void testSubClassAxiom() {
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("Pizza subClassOf NamedPizza and");
 		assertNotNull(parsed);
 		System.out.println(parsed.toStringTree());
 	}
 
-	public void testOWLClassDescription() {
-		ManchesterOWLSyntaxTree parsed = this.parse("Pizza and Pizza");
+	public void testIncompleteStandaloneExpression() {
+		ManchesterOWLSyntaxTree parsed = this.parse("NamedPizza and Pizza s");
 		assertNotNull(parsed);
 		System.out.println(parsed.toStringTree());
 	}

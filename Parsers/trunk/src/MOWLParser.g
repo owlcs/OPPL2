@@ -40,13 +40,22 @@ tokens {
   package org.coode.parsers;
 }
 
+@members{
+public void displayRecognitionError(String[] tokenNames,
+										RecognitionException e){
+	}
+	
+}
 
-
-
-
-
-
-
+@rulecatch{
+  catch(RecognitionException e){
+    throw e;
+  }
+  
+  catch(RewriteEmptyStreamException e){
+    throw e;
+  }
+}
 
 
 

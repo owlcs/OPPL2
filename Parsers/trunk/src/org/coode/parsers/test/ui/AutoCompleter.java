@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -36,14 +35,17 @@ import org.antlr.runtime.RuleReturnScope;
 import org.antlr.runtime.TokenRewriteStream;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
+import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.MOWLLexer;
 import org.coode.parsers.ManchesterOWLSyntaxAutoComplete;
-import org.coode.parsers.ManchesterOWLSyntaxParser;
+import org.coode.parsers.ManchesterOWLSyntaxAutoCompleteCombinedParser;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
+import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.SymbolTable;
+import org.coode.parsers.Type;
 
 /**
  * Author: Matthew Horridge<br>
@@ -58,7 +60,6 @@ import org.coode.parsers.SymbolTable;
  */
 public abstract class AutoCompleter {
 	public static final int DEFAULT_MAX_ENTRIES = 100;
-	private final ErrorListener listener;
 	private final TreeAdaptor adaptor;
 	private JTextComponent textComponent;
 	private Set<String> wordDelimeters;
@@ -139,9 +140,33 @@ public abstract class AutoCompleter {
 			AutoCompleter.this.hidePopup();
 		}
 	};
+	private static ErrorListener silentErrorListener = new ErrorListener() {
+		public void unrecognisedSymbol(CommonTree t) {
+		}
 
-	public AutoCompleter(JTextComponent tc, ErrorListener listener,
-			TreeAdaptor adaptor) {
+		public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
+		}
+
+		public void recognitionException(RecognitionException e,
+				String... tokenNames) {
+		}
+
+		public void recognitionException(RecognitionException e) {
+		}
+
+		public void incompatibleSymbols(CommonTree parentExpression,
+				CommonTree... trees) {
+		}
+
+		public void incompatibleSymbolType(CommonTree t, Type type,
+				CommonTree expression) {
+		}
+
+		public void illegalToken(CommonTree t, String message) {
+		}
+	};
+
+	public AutoCompleter(JTextComponent tc, TreeAdaptor adaptor) {
 		this.textComponent = tc;
 		this.wordDelimeters = new HashSet<String>();
 		this.wordDelimeters.add(" ");
@@ -154,7 +179,6 @@ public abstract class AutoCompleter {
 		this.wordDelimeters.add(")");
 		this.wordDelimeters.add(",");
 		this.wordDelimeters.add("^");
-		this.listener = listener;
 		this.adaptor = adaptor;
 		this.popupList = new JList();
 		this.popupList.setAutoscrolls(true);
@@ -221,8 +245,9 @@ public abstract class AutoCompleter {
 
 	private List<String> getMatches() {
 		List<String> toReturn = new ArrayList<String>();
-		ManchesterOWLSyntaxTree tree = this.getTree(this.textComponent
-				.getText());
+		String text = this.textComponent.getText();
+		ManchesterOWLSyntaxTree tree = this.getTree(text);
+		boolean newWord = text.matches(".*\\s");
 		if (tree != null) {
 			CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
 			nodes.reset();
@@ -239,32 +264,12 @@ public abstract class AutoCompleter {
 	protected ManchesterOWLSyntaxTree getTree(String input) {
 		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
 		TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(
-				tokens, this.listener);
+		ManchesterOWLSyntaxAutoCompleteCombinedParser parser = new ManchesterOWLSyntaxAutoCompleteCombinedParser(
+				tokens);
 		parser.setTreeAdaptor(this.adaptor);
 		try {
 			RuleReturnScope r = parser.main();
 			CommonTree tree = (CommonTree) r.getTree();
-			if (tree == null) {
-				parser.reset();
-				r = parser.standaloneExpression();
-				tree = (CommonTree) r.getTree();
-				// Try at least to auto-complete the last word
-				if (tree == null) {
-					StringTokenizer tok = new StringTokenizer(input, " ");
-					String lastBit = "";
-					while (tok.hasMoreTokens()) {
-						lastBit = tok.nextToken();
-					}
-					lexer = new MOWLLexer(new ANTLRStringStream(lastBit));
-					tokens = new TokenRewriteStream(lexer);
-					parser = new ManchesterOWLSyntaxParser(tokens,
-							this.listener);
-					parser.setTreeAdaptor(this.adaptor);
-					r = parser.standaloneExpression();
-					tree = (CommonTree) r.getTree();
-				}
-			}
 			if (tree != null) {
 				CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
 				nodes.setTokenStream(tokens); // where to find tokens
@@ -273,6 +278,10 @@ public abstract class AutoCompleter {
 						nodes);
 				simplify.setTreeAdaptor(this.adaptor);
 				simplify.downup(tree);
+				nodes.reset();
+				ManchesterOWLSyntaxTypes types = new ManchesterOWLSyntaxTypes(
+						nodes, this.getSymbolTable(), silentErrorListener);
+				types.downup(tree);
 			}
 			return (ManchesterOWLSyntaxTree) tree;
 		} catch (RecognitionException e) {

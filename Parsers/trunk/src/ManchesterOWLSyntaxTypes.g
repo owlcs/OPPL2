@@ -217,7 +217,7 @@ expression returns  [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObjec
 		
 	; 
 
-conjunction returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject]
+conjunction  returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject]
 @after 
 			{ 
 				$start.setEvalType($type); 
