@@ -73,7 +73,8 @@ bottomup // match subexpressions innermost to outermost
     :   axiom
     |	  standaloneExpression
     | 	expressionRoot // only match the start of expressions (root EXPRESSION) 
-    |   incompleteAxiom        
+    |   incompleteAxiom
+    |   incompleteExpression        
     ;
 
 expressionRoot // invoke type computation rule after matching EXPRESSION
@@ -85,9 +86,13 @@ expressionRoot // invoke type computation rule after matching EXPRESSION
 standaloneExpression
 		: ^(STANDALONE_EXPRESSION ^(EXPRESSION expression))  
 			{ 
-					List<String> completions = new ArrayList<String>($expression.completions);
-					if($expression.type!=null){
-						completions.addAll(AutoCompleteStrings.getStandaloneExpressionCompletions($expression.type));
+			    List<String> completions = new ArrayList<String>();
+			    if(!isNewWord()){
+					   completions.addAll($expression.completions);
+					}else{
+					   if($expression.type!=null){
+						    completions.addAll(AutoCompleteStrings.getStandaloneExpressionCompletions($expression.type));
+					   }
 					}
 					$STANDALONE_EXPRESSION.setCompletions(completions);
 			} // annotate AST
@@ -96,85 +101,163 @@ standaloneExpression
 axiom returns [List<String> completions] 
 @after 
 			{ 
-			$start.setCompletions($completions); 
+          if($completions!=null){          
+            $start.setCompletions($completions);
+          }
+ 
 			} // do after any alternative
 :
 		^(SUB_CLASS_AXIOM  ^(EXPRESSION  subClass = expression) ^( EXPRESSION  superClass = expression))
 		{			
-			$completions = superClass.completions;
+			if(!isNewWord()){
+			 $completions = superClass.completions;
+			}else{
+			 $completions = Collections.<String>emptyList();
+			}
 		}
 	|  ^(EQUIVALENT_TO_AXIOM ^(EXPRESSION lhs = expression) ^(EXPRESSION  rhs = expression))
 	   {	    
-	    $completions = rhs.completions;
+	    if(!isNewWord()){
+       $completions = rhs.completions;
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
 	   }	
 	| ^(INVERSE_OF ^(EXPRESSION p = IDENTIFIER) ^(EXPRESSION anotherProperty = IDENTIFIER))
 	{	   
-	   $completions = anotherProperty.getCompletions();
+	    if(!isNewWord()){
+       $completions = anotherProperty.getCompletions();
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
 	}
   | ^(DISJOINT_WITH_AXIOM ^(EXPRESSION lhs =  expression) ^(EXPRESSION rhs = expression)){     
-     $completions = rhs.completions;
+     if(!isNewWord()){
+       $completions = rhs.completions;
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
   }	  
 	|	^(SUB_PROPERTY_AXIOM ^(EXPRESSION  subProperty = expression) ^(EXPRESSION superProperty = unary))
 		{			
-			$completions = superProperty.completions;
+			if(!isNewWord()){
+       $completions = superProperty.completions;
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
 		}		
 	| ^(ROLE_ASSERTION ^(EXPRESSION  subject = IDENTIFIER) ^(EXPRESSION  predicate = propertyExpression) ^(EXPRESSION object = unary)){	   
-	   $completions = object.completions;
+	   if(!isNewWord()){
+       $completions = object.completions;
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
 	 }
 	|  ^(TYPE_ASSERTION ^(EXPRESSION  description = expression) ^(EXPRESSION subject = IDENTIFIER))
 	{
-	   $completions = subject.getCompletions();
+	   if(!isNewWord()){
+       $completions = subject.getCompletions();
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
 	} 
 	| ^(DOMAIN ^(EXPRESSION p = IDENTIFIER) ^(EXPRESSION domain = expression))
 	 {
-	   $completions = domain.completions;
+	    if(!isNewWord()){
+       $completions = domain.completions;
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
 	 }
 	 | ^(RANGE ^(EXPRESSION p = IDENTIFIER) ^(EXPRESSION range = expression))
    {
-     $completions = range.completions;;
+      if(!isNewWord()){
+       $completions = range.completions;
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
    }
    | ^(SAME_AS_AXIOM ^(EXPRESSION anIndividual =IDENTIFIER) ^(EXPRESSION anotherIndividual = IDENTIFIER))
    {
-    $completions = anotherIndividual.getCompletions();
+     if(!isNewWord()){
+       $completions = anotherIndividual.getCompletions();
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
    }
     | ^(DIFFERENT_FROM_AXIOM ^(EXPRESSION anIndividual =IDENTIFIER) ^(EXPRESSION anotherIndividual = IDENTIFIER))
    {
-    $completions = anotherIndividual.getCompletions();
+     if(!isNewWord()){
+       $completions = anotherIndividual.getCompletions();
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
    }
 	 | ^(UNARY_AXIOM FUNCTIONAL ^(EXPRESSION p = IDENTIFIER))
 	 {
-	   $completions = p.getCompletions();
+	    if(!isNewWord()){
+       $completions = p.getCompletions();
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
 	 }
 	 | ^(UNARY_AXIOM INVERSE_FUNCTIONAL ^(EXPRESSION p = IDENTIFIER))
    {
-     $completions = p.getCompletions();
+      if(!isNewWord()){
+       $completions = p.getCompletions();
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
    }
     | ^(UNARY_AXIOM IRREFLEXIVE ^(EXPRESSION p = IDENTIFIER))
    {     
-     $completions = p.getCompletions();
+     if(!isNewWord()){
+       $completions = p.getCompletions();
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
    }
    | ^(UNARY_AXIOM REFLEXIVE ^(EXPRESSION p = IDENTIFIER))
    {
-			$completions = p.getCompletions();   
+			if(!isNewWord()){
+       $completions = p.getCompletions();
+      }else{
+       $completions = Collections.<String>emptyList();
+      }   
 	 }
    | ^(UNARY_AXIOM SYMMETRIC ^(EXPRESSION p = IDENTIFIER))
    {
-			$completions = p.getCompletions();
+			if(!isNewWord()){
+       $completions = p.getCompletions();
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
    } 
     | ^(UNARY_AXIOM TRANSITIVE ^(EXPRESSION p = IDENTIFIER))
    {
-     $completions = p.getCompletions();
+     if(!isNewWord()){
+       $completions = p.getCompletions();
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
    }
    | ^(NEGATED_ASSERTION a =axiom){
-     $completions = a.completions;
+     if(!isNewWord()){
+       $completions = a.completions;
+      }else{
+       $completions = Collections.<String>emptyList();
+      }
    }     
 ;
 
 expression returns [List<String> completions, Type type]
 @after 
 		{ 
-			$start.setCompletions($completions);
-			$type = $start.getEvalType();
+          if($completions!=null){          
+            $start.setCompletions($completions);
+          }
+
+			$type = $start.getEvalType();			
 		} // do after any alternative
 	: 
 		 ^(DISJUNCTION  head+=.+  lastDisjunct  =conjunction) 
@@ -192,21 +275,31 @@ expression returns [List<String> completions, Type type]
 		| complexPropertyExpression 
 		{
 			$completions = $complexPropertyExpression.completions;		
-		}		
+		}
 ; 
 
 conjunction returns [List<String> completions, Type type]
 
 @after 
 			{ 
-				$start.setCompletions($completions);
+          if($completions!=null){          
+            $start.setCompletions($completions);
+          }
+
 				$type = $start.getEvalType();
 			} // do after any alternative
 	:
 	^(CONJUNCTION  head+=.+  last = unary)	
 	{	
-	  
-		$completions = last.completions;     
+	  List<String> c = new ArrayList<String>();
+    if(!isNewWord()){
+      c.addAll(last.completions);
+    }else{
+      if(last.type!=null){
+         c.addAll(AutoCompleteStrings.getStandaloneExpressionCompletions(last.type));
+      }
+    }           
+		$completions = c;     
 	}
 	| unary {
 		$completions = $unary.completions;
@@ -219,7 +312,10 @@ conjunction returns [List<String> completions, Type type]
 unary returns [List<String> completions, Type type]
 @after 
 			{ 
-				$start.setCompletions($completions);
+          if($completions!=null){          
+            $start.setCompletions($completions);
+          }
+
 				$type = $start.getEvalType();
 			} // do after any alternative
 :
@@ -254,7 +350,10 @@ unary returns [List<String> completions, Type type]
 propertyExpression  returns [List<String> completions, Type type]
 @after 
 			{ 
-				$start.setCompletions($completions);
+          if($completions!=null){          
+            $start.setCompletions($completions);
+          }
+
 				$type = $start.getEvalType();
 			} // do after any alternative
 :
@@ -271,7 +370,10 @@ propertyExpression  returns [List<String> completions, Type type]
 
 complexPropertyExpression returns [List<String> completions, Type type]
 @after { 
-          	$start.setCompletions($completions);
+          if($completions!=null){          
+            $start.setCompletions($completions);
+          }
+
           	$type = $start.getEvalType();
        } // do after any alternative
 :
@@ -288,7 +390,10 @@ complexPropertyExpression returns [List<String> completions, Type type]
 
 qualifiedRestriction returns [List<String> completions, Type type]
 @after { 
-				$start.setCompletions($completions);
+          if($completions!=null){          
+            $start.setCompletions($completions);
+          }
+
 				$type = $start.getEvalType();
         } // do after any alternative
 	:
@@ -319,7 +424,10 @@ qualifiedRestriction returns [List<String> completions, Type type]
  
 cardinalityRestriction	returns [List<String> completions, Type type]
 @after { 
-					$start.setCompletions($completions);
+          if($completions!=null){          
+            $start.setCompletions($completions);
+          }
+
 					$type = $start.getEvalType();
         } // do after any alternative
 :
@@ -352,7 +460,10 @@ cardinalityRestriction	returns [List<String> completions, Type type]
 		
 oneOf	returns  [List<String> completions, Type type]
 @after { 
-          $start.setCompletions($completions);
+          if($completions!=null){          
+            $start.setCompletions($completions);
+          }
+
           $type = $start.getEvalType();
         }
 	:
@@ -369,8 +480,10 @@ oneOf	returns  [List<String> completions, Type type]
 	;
 
 valueRestriction	returns [List<String> completions, Type type] 
-@after {           
-          $start.setCompletions($completions);
+@after { 
+          if($completions!=null){          
+            $start.setCompletions($completions);
+          }
           $type = $start.getEvalType();
         }
 	:  
@@ -384,19 +497,21 @@ valueRestriction	returns [List<String> completions, Type type]
 
 incompleteAxiom returns [List<String> completions] 
 @after 
-      { 
-      $start.setCompletions($completions);
+       { 
+        if($completions!=null){
+          $start.setCompletions($completions);
+        }
       } // do after any alternative
 :
-  	^(INCOMPLETE_SUB_CLASS_AXIOM  ^(EXPRESSION  subClass = expression))
-    {     
-       // class expression completions
-     $completions = new ArrayList<String>(symtab.getOWLClassCompletions());
-    }
-  | ^(INCOMPLETE_SUB_CLASS_AXIOM  ^(EXPRESSION  subClass = expression) ^(INCOMPLETE_EXPRESSION  superClass = incompleteExpression))
+   ^(INCOMPLETE_SUB_CLASS_AXIOM  ^(EXPRESSION  subClass = expression)  superClass = incompleteExpression)
     {     
       $completions = superClass.completions;
     }
+  |  ^(INCOMPLETE_SUB_CLASS_AXIOM  ^(EXPRESSION  subClass = expression))
+    {     
+       // class expression completions
+     $completions = new ArrayList<String>(symtab.getOWLClassCompletions());
+    }  
   |  ^(INCOMPLETE_EQUIVALENT_TO_AXIOM ^(EXPRESSION lhs = expression) ^(INCOMPLETE_EXPRESSION  rhs = incompleteExpression))
      {      
       $completions = rhs.completions;
@@ -485,8 +600,10 @@ incompleteAxiom returns [List<String> completions]
 
 incompleteExpression  returns [List<String> completions] 
 @after 
-      { 
-      $start.setCompletions($completions);
+       { 
+        if($completions!=null){
+          $start.setCompletions($completions);
+        }
       } // do after any alternative
 :
   ^(INCOMPLETE_PROPERTY_CHAIN  .+)
@@ -506,14 +623,17 @@ incompleteExpression  returns [List<String> completions]
   | ^(INCOMPLETE_EXPRESSION ^(EXPRESSION  e = expression) IDENTIFIER){  
   		Type type = e.type;
   		$completions = type==null? Collections.<String>emptyList(): AutoCompleteStrings.getIncompleteExpressionCompletions($IDENTIFIER.text, type);
-  }
+
+  } 
 ;
 
 
 incompleteConjunction  returns [List<String> completions] 
 @after 
-      { 
-      	$start.setCompletions($completions);
+       { 
+        if($completions!=null){
+          $start.setCompletions($completions);
+        }
       } // do after any alternative
 :
     ^(INCOMPLETE_CONJUNCTION  e = incompleteUnary?)
@@ -528,8 +648,10 @@ incompleteConjunction  returns [List<String> completions]
 
 incompleteUnary returns [List<String> completions] 
 @after 
-      { 
-        $start.setCompletions($completions);
+       { 
+        if($completions!=null){
+          $start.setCompletions($completions);
+        }
       } // do after any alternative
 :   
     ^(INCOMPLETE_NEGATED_EXPRESSION .?){
@@ -544,8 +666,10 @@ incompleteUnary returns [List<String> completions]
   
 incompleteQualifiedRestriction  returns [List<String> completions] 
 @after 
-      { 
-        $start.setCompletions($completions);
+       { 
+        if($completions!=null){
+          $start.setCompletions($completions);
+        }
       } // do after any alternative
 :   
           ^(INCOMPLETE_SOME_RESTRICTION propertyExpression)
@@ -575,8 +699,10 @@ incompleteQualifiedRestriction  returns [List<String> completions]
  
 incompleteCardinalityRestriction  returns [List<String> completions] 
 @after 
-      { 
-        $start.setCompletions($completions);
+       { 
+        if($completions!=null){
+          $start.setCompletions($completions);
+        }
       } // do after any alternative
 :   
         ^(INCOMPLETE_CARDINALITY_RESTRICTION  . INTEGER propertyExpression)
@@ -590,7 +716,9 @@ incompleteCardinalityRestriction  returns [List<String> completions]
 incompleteOneOf  returns [List<String> completions] 
 @after 
       { 
-        $start.setCompletions($completions);
+        if($completions!=null){
+          $start.setCompletions($completions);
+        }
       } // do after any alternative
 : 
     ^(INCOMPLETE_ONE_OF IDENTIFIER+)
@@ -603,7 +731,9 @@ incompleteOneOf  returns [List<String> completions]
  incompleteValueRestriction returns [List<String> completions] 
  @after 
       { 
-        $start.setCompletions($completions);
+        if($completions!=null){
+          $start.setCompletions($completions);
+        }
       } // do after any alternative
 :  
       ^(INCOMPLETE_VALUE_RESTRICTION p = propertyExpression)

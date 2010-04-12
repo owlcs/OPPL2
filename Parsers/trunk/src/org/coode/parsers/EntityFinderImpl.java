@@ -32,8 +32,7 @@ public class EntityFinderImpl implements EntityFinder {
 	private final boolean useRegularExpressions;
 	private static final String WILDCARD = "*";
 
-	public EntityFinderImpl(OWLOntologyManager mngr,
-			OWLEntityRenderingCache renderingCache,
+	public EntityFinderImpl(OWLOntologyManager mngr, OWLEntityRenderingCache renderingCache,
 			boolean useRegularExpressions) {
 		if (mngr == null) {
 			throw new NullPointerException("The manager cannot be null");
@@ -47,8 +46,7 @@ public class EntityFinderImpl implements EntityFinder {
 	}
 
 	public Set<OWLClass> getMatchingOWLClasses(String match) {
-		return this.getEntities(match, OWLClass.class,
-				this.useRegularExpressions);
+		return this.getEntities(match, OWLClass.class, this.useRegularExpressions);
 	}
 
 	public Set<OWLClass> getMatchingOWLClasses(String match, boolean fullRegExp) {
@@ -56,56 +54,46 @@ public class EntityFinderImpl implements EntityFinder {
 	}
 
 	public Set<OWLObjectProperty> getMatchingOWLObjectProperties(String match) {
-		return this.getEntities(match, OWLObjectProperty.class,
-				this.useRegularExpressions);
+		return this.getEntities(match, OWLObjectProperty.class, this.useRegularExpressions);
 	}
 
-	public Set<OWLObjectProperty> getMatchingOWLObjectProperties(String match,
-			boolean fullRegExp) {
+	public Set<OWLObjectProperty> getMatchingOWLObjectProperties(String match, boolean fullRegExp) {
 		return this.getEntities(match, OWLObjectProperty.class, fullRegExp);
 	}
 
 	public Set<OWLDataProperty> getMatchingOWLDataProperties(String match) {
-		return this.getEntities(match, OWLDataProperty.class,
-				this.useRegularExpressions);
+		return this.getEntities(match, OWLDataProperty.class, this.useRegularExpressions);
 	}
 
-	public Set<OWLDataProperty> getMatchingOWLDataProperties(String match,
-			boolean fullRegExp) {
+	public Set<OWLDataProperty> getMatchingOWLDataProperties(String match, boolean fullRegExp) {
 		return this.getEntities(match, OWLDataProperty.class, fullRegExp);
 	}
 
 	public Set<OWLIndividual> getMatchingOWLIndividuals(String match) {
-		return this.getEntities(match, OWLIndividual.class,
-				this.useRegularExpressions);
+		return this.getEntities(match, OWLIndividual.class, this.useRegularExpressions);
 	}
 
-	public Set<OWLIndividual> getMatchingOWLIndividuals(String match,
-			boolean fullRegExp) {
+	public Set<OWLIndividual> getMatchingOWLIndividuals(String match, boolean fullRegExp) {
 		return this.getEntities(match, OWLIndividual.class, fullRegExp);
 	}
 
 	public Set<OWLDataType> getMatchingOWLDataTypes(String match) {
-		return this.getEntities(match, OWLDataType.class,
-				this.useRegularExpressions);
+		return this.getEntities(match, OWLDataType.class, this.useRegularExpressions);
 	}
 
-	public Set<OWLDataType> getMatchingOWLDataTypes(String match,
-			boolean fullRegExp) {
+	public Set<OWLDataType> getMatchingOWLDataTypes(String match, boolean fullRegExp) {
 		return this.getEntities(match, OWLDataType.class, fullRegExp);
 	}
 
 	public Set<OWLEntity> getEntities(String match) {
-		return this.getEntities(match, OWLEntity.class,
-				this.useRegularExpressions);
+		return this.getEntities(match, OWLEntity.class, this.useRegularExpressions);
 	}
 
 	public Set<OWLEntity> getEntities(String match, boolean fullRegExp) {
 		return this.getEntities(match, OWLEntity.class, fullRegExp);
 	}
 
-	private <T extends OWLEntity> Set<T> getEntities(String match,
-			Class<T> type, boolean fullRegExp) {
+	private <T extends OWLEntity> Set<T> getEntities(String match, Class<T> type, boolean fullRegExp) {
 		if (match.length() == 0) {
 			return Collections.emptySet();
 		}
@@ -116,8 +104,7 @@ public class EntityFinderImpl implements EntityFinder {
 		}
 	}
 
-	private <T extends OWLEntity> Set<T> doRegExpSearch(String match,
-			Class<T> type) {
+	private <T extends OWLEntity> Set<T> doRegExpSearch(String match, Class<T> type) {
 		Set<T> results = new HashSet<T>();
 		try {
 			Pattern pattern = Pattern.compile(match);
@@ -141,8 +128,7 @@ public class EntityFinderImpl implements EntityFinder {
 	 * eg A*B will not work, and endsWith is implemented the same as contains
 	 * (probably right but this should not be implemented separately)
 	 */
-	private <T extends OWLEntity> Set<T> doWildcardSearch(String match,
-			Class<T> type) {
+	private <T extends OWLEntity> Set<T> doWildcardSearch(String match, Class<T> type) {
 		Set<T> results = new HashSet<T>();
 		if (match.equals(WILDCARD)) {
 			results = this.getAllEntities(type);
@@ -174,8 +160,7 @@ public class EntityFinderImpl implements EntityFinder {
 				// @@TODO handle matches exactly?
 				matcher = new SimpleWildCardMatcher() {
 					public boolean matches(String rendering, String s) {
-						return rendering.startsWith(s)
-								|| rendering.startsWith("'" + s);
+						return rendering.startsWith(s) || rendering.startsWith("'" + s);
 					}
 				};
 			}
@@ -193,18 +178,17 @@ public class EntityFinderImpl implements EntityFinder {
 		return results;
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T extends OWLEntity> Set<T> getAllEntities(Class<T> type) {
 		if (type.equals(OWLDataType.class)) {
-			return (Set<T>) new OWLDataTypeUtils(this.manager)
-					.getKnownDatatypes(this.manager.getOntologies());
+			return (Set<T>) new OWLDataTypeUtils(this.manager).getKnownDatatypes(this.manager.getOntologies());
 		} else {
 			Set<T> entities = new HashSet<T>();
 			for (OWLOntology ont : this.manager.getOntologies()) {
 				if (type.equals(OWLClass.class)) {
 					entities.addAll((Set<T>) ont.getReferencedClasses());
 				} else if (type.equals(OWLObjectProperty.class)) {
-					entities.addAll((Set<T>) ont
-							.getReferencedObjectProperties());
+					entities.addAll((Set<T>) ont.getReferencedObjectProperties());
 				} else if (type.equals(OWLDataProperty.class)) {
 					entities.addAll((Set<T>) ont.getReferencedDataProperties());
 				} else if (type.equals(OWLIndividual.class)) {
@@ -215,6 +199,7 @@ public class EntityFinderImpl implements EntityFinder {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T extends OWLEntity> T getEntity(String rendering, Class<T> type) {
 		if (type.equals(OWLClass.class)) {
 			return (T) this.renderingCache.getOWLClass(rendering);

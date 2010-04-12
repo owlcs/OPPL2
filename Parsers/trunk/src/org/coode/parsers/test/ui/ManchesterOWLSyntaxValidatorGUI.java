@@ -86,17 +86,14 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 				this.lastErrorTree = null;
 			}
 
-			boolean isRedundant(CommonTree possibleParent,
-					CommonTree newErrorTree) {
+			boolean isRedundant(CommonTree possibleParent, CommonTree newErrorTree) {
 				boolean b = possibleParent != null;
 				if (b) {
-					b = possibleParent == newErrorTree
-							|| newErrorTree.equals(possibleParent);
+					b = possibleParent == newErrorTree || newErrorTree.equals(possibleParent);
 					if (!b) {
 						b = possibleParent.parent == newErrorTree;
 						if (!b) {
-							b = this.isRedundant(possibleParent.parent,
-									newErrorTree);
+							b = this.isRedundant(possibleParent.parent, newErrorTree);
 						}
 					}
 				}
@@ -109,40 +106,31 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 
 			public void unrecognisedSymbol(CommonTree t) {
 				this.lastErrorTree = t;
-				AxiomChecker.this.lastReport = new ErrorReportImpl(
-						"Unrecognised token " + t.getText(), t.getLine(), t
-								.getCharPositionInLine(), t.getText().length());
+				AxiomChecker.this.lastReport = new ErrorReportImpl("Unrecognised token "
+						+ t.getText(), t.getLine(), t.getCharPositionInLine(), t.getText().length());
 			}
 
 			public void recognitionException(RecognitionException e) {
-				String message = e.getMessage() == null ? e.getClass()
-						.getName() : e.getMessage();
-				int endIndex = e.token.getText() == null ? 0 : e.token
-						.getText().length();
-				AxiomChecker.this.lastReport = new ErrorReportImpl(message
-						+ " on token " + e.token, e.line, e.charPositionInLine,
-						endIndex);
-			}
-
-			public void recognitionException(RecognitionException e,
-					String... tokenNames) {
-				String message = "Recognition exception on the token "
-						+ e.token + e.getClass().getSimpleName();
-				int endIndex = e.token.getText() == null ? 0 : e.token
-						.getText().length();
-				AxiomChecker.this.lastReport = new ErrorReportImpl(message,
-						e.line, e.charPositionInLine, endIndex);
-			}
-
-			public void rewriteEmptyStreamException(
-					RewriteEmptyStreamException e) {
+				String message = e.getMessage() == null ? e.getClass().getName() : e.getMessage();
+				int endIndex = e.token.getText() == null ? 0 : e.token.getText().length();
 				AxiomChecker.this.lastReport = new ErrorReportImpl(
-						"Incomplete input ", 0, 0, 0);
+						message + " on token " + e.token, e.line, e.charPositionInLine, endIndex);
+			}
+
+			public void recognitionException(RecognitionException e, String... tokenNames) {
+				String message = "Recognition exception on the token " + e.token
+						+ e.getClass().getSimpleName();
+				int endIndex = e.token.getText() == null ? 0 : e.token.getText().length();
+				AxiomChecker.this.lastReport = new ErrorReportImpl(message, e.line,
+						e.charPositionInLine, endIndex);
+			}
+
+			public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
+				AxiomChecker.this.lastReport = new ErrorReportImpl("Incomplete input ", 0, 0, 0);
 				;
 			}
 
-			public void incompatibleSymbols(CommonTree parentExpression,
-					CommonTree... expressions) {
+			public void incompatibleSymbols(CommonTree parentExpression, CommonTree... expressions) {
 				StringBuilder builder = new StringBuilder();
 				builder.append("[");
 				boolean first = true;
@@ -150,43 +138,33 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 					String comma = first ? "" : ", ";
 					first = false;
 					builder.append(comma);
-					builder.append(expression.getText() == null ? ""
-							: expression.getText());
+					builder.append(expression.getText() == null ? "" : expression.getText());
 				}
 				builder.append("]");
 				AxiomChecker.this.lastReport = new ErrorReportImpl(
-						"Incompatible children expressions: "
-								+ builder.toString()
-								+ " for the parent expression  "
-								+ parentExpression.getText(), parentExpression
-								.getLine(), parentExpression
-								.getCharPositionInLine(), parentExpression
-								.getText().length());
+						"Incompatible children expressions: " + builder.toString()
+								+ " for the parent expression  " + parentExpression.getText(),
+						parentExpression.getLine(), parentExpression.getCharPositionInLine(),
+						parentExpression.getText().length());
 			}
 
-			public void incompatibleSymbolType(CommonTree t, Type type,
-					CommonTree expression) {
+			public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
 				if (!this.isRedundant(t)) {
 					this.lastErrorTree = t;
-					AxiomChecker.this.lastReport = new ErrorReportImpl(
-							"Incompatible type: " + type + "  for token: "
-									+ t.getText()
-									+ " for the parent expression "
-									+ expression.getText(), t.getLine(), t
-									.getCharPositionInLine(), t.getText()
-									.length());
+					AxiomChecker.this.lastReport = new ErrorReportImpl("Incompatible type: " + type
+							+ "  for token: " + t.getText() + " for the parent expression "
+							+ expression.getText(), t.getLine(), t.getCharPositionInLine(),
+							t.getText().length());
 				}
 			}
 
 			public void illegalToken(CommonTree t, String message) {
-				AxiomChecker.this.lastReport = new ErrorReportImpl(
-						"Illegal token: " + t.getText(), t.getLine(), t
-								.getCharPositionInLine(), t.getText().length());
+				AxiomChecker.this.lastReport = new ErrorReportImpl("Illegal token: " + t.getText(),
+						t.getLine(), t.getCharPositionInLine(), t.getText().length());
 			}
 		}
 
-		private final class ErrorReportImpl extends
-				AbstractLinearisingErrorReport {
+		private final class ErrorReportImpl extends AbstractLinearisingErrorReport {
 			private final String message;
 			private final int charPositionInLine;
 			private final int line;
@@ -197,8 +175,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 			 * @param charPositionInline
 			 * @param endIndex
 			 */
-			public ErrorReportImpl(String message, int line,
-					int charPositionInline, int length) {
+			public ErrorReportImpl(String message, int line, int charPositionInline, int length) {
 				if (message == null) {
 					throw new NullPointerException("The message cannot be null");
 				}
@@ -262,328 +239,294 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 		};
 		private ManchesterOWLSyntaxTree parsed;
 		private SymbolTable symbolTable;
-		private CommonTreeNodeStream lastNodeStream = null;
+		// private CommonTreeNodeStream lastNodeStream = null;
+		private AutoCompleter autoCompleter = null;
 
 		public void check(String text) {
 			this.reset();
 			this.parsed = this.parse(text);
-			this.lastObject = this.parsed == null
-					|| this.parsed.getOWLObject() == null ? null : this.parsed
-					.getOWLObject().accept(
-							new DefaultOWLObjectVisitorEx<OWLAxiom>() {
-								@Override
-								protected OWLAxiom doDefault(OWLObject owlObject) {
-									AxiomChecker.this.lastReport = new ErrorReportImpl(
-											"Wrong kind of owl object parsed "
-													+ owlObject.getClass()
-															.getName(), 0, 0, 0);
-									return null;
-								}
+			this.lastObject = this.parsed == null || this.parsed.getOWLObject() == null ? null
+					: this.parsed.getOWLObject().accept(new DefaultOWLObjectVisitorEx<OWLAxiom>() {
+						@Override
+						protected OWLAxiom doDefault(OWLObject owlObject) {
+							AxiomChecker.this.lastReport = new ErrorReportImpl(
+									"Wrong kind of owl object parsed "
+											+ owlObject.getClass().getName(), 0, 0, 0);
+							return null;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLSubClassAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(OWLSubClassAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLSubClassAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLSubClassAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLNegativeObjectPropertyAssertionAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLNegativeObjectPropertyAssertionAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLNegativeObjectPropertyAssertionAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLAntiSymmetricObjectPropertyAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLReflexiveObjectPropertyAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLReflexiveObjectPropertyAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLReflexiveObjectPropertyAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLReflexiveObjectPropertyAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDisjointClassesAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLDisjointClassesAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDisjointClassesAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLDisjointClassesAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDataPropertyDomainAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLDataPropertyDomainAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDataPropertyDomainAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLDataPropertyDomainAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLImportsDeclaration)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLImportsDeclaration axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLImportsDeclaration)
+						 */
+						@Override
+						public OWLAxiom visit(OWLImportsDeclaration axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLAxiomAnnotationAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLAxiomAnnotationAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLAxiomAnnotationAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLAxiomAnnotationAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLObjectPropertyDomainAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLObjectPropertyDomainAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLObjectPropertyDomainAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLObjectPropertyDomainAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLEquivalentObjectPropertiesAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLEquivalentObjectPropertiesAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLEquivalentObjectPropertiesAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLEquivalentObjectPropertiesAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDifferentIndividualsAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLDifferentIndividualsAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDifferentIndividualsAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLDifferentIndividualsAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDisjointObjectPropertiesAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLDisjointObjectPropertiesAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDisjointObjectPropertiesAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLDisjointObjectPropertiesAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLObjectPropertyRangeAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLObjectPropertyRangeAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLObjectPropertyRangeAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLObjectPropertyRangeAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLObjectPropertyAssertionAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLObjectPropertyAssertionAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLObjectPropertyAssertionAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLObjectPropertyAssertionAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLFunctionalObjectPropertyAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLFunctionalObjectPropertyAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLFunctionalObjectPropertyAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLFunctionalObjectPropertyAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLObjectSubPropertyAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLObjectSubPropertyAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLObjectSubPropertyAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLObjectSubPropertyAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDisjointUnionAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLDisjointUnionAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDisjointUnionAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLDisjointUnionAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDeclarationAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(OWLDeclarationAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDeclarationAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLDeclarationAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLEntityAnnotationAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLEntityAnnotationAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLEntityAnnotationAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLEntityAnnotationAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLOntologyAnnotationAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLOntologyAnnotationAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLOntologyAnnotationAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLOntologyAnnotationAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLSymmetricObjectPropertyAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLSymmetricObjectPropertyAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLSymmetricObjectPropertyAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLSymmetricObjectPropertyAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDataPropertyRangeAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLDataPropertyRangeAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDataPropertyRangeAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLDataPropertyRangeAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLFunctionalDataPropertyAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLFunctionalDataPropertyAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLFunctionalDataPropertyAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLFunctionalDataPropertyAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLEquivalentDataPropertiesAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLEquivalentDataPropertiesAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLEquivalentDataPropertiesAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLEquivalentDataPropertiesAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLClassAssertionAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLClassAssertionAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLClassAssertionAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLClassAssertionAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLEquivalentClassesAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLEquivalentClassesAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLEquivalentClassesAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLEquivalentClassesAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDataPropertyAssertionAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLDataPropertyAssertionAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDataPropertyAssertionAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLDataPropertyAssertionAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLTransitiveObjectPropertyAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLTransitiveObjectPropertyAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLTransitiveObjectPropertyAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLTransitiveObjectPropertyAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLIrreflexiveObjectPropertyAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLIrreflexiveObjectPropertyAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLIrreflexiveObjectPropertyAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDataSubPropertyAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLDataSubPropertyAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDataSubPropertyAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLDataSubPropertyAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLInverseFunctionalObjectPropertyAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLInverseFunctionalObjectPropertyAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLInverseFunctionalObjectPropertyAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLSameIndividualsAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLSameIndividualsAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLSameIndividualsAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLSameIndividualsAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLObjectPropertyChainSubPropertyAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLObjectPropertyChainSubPropertyAxiom axiom) {
-									return axiom;
-								}
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLObjectPropertyChainSubPropertyAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
+							return axiom;
+						}
 
-								/**
-								 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLInverseObjectPropertiesAxiom)
-								 */
-								@Override
-								public OWLAxiom visit(
-										OWLInverseObjectPropertiesAxiom axiom) {
-									return axiom;
-								}
-							});
+						/**
+						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLInverseObjectPropertiesAxiom)
+						 */
+						@Override
+						public OWLAxiom visit(OWLInverseObjectPropertiesAxiom axiom) {
+							return axiom;
+						}
+					});
 		}
 
 		/**
@@ -594,16 +537,16 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 			this.lastReport = null;
 			this.parsed = null;
 			this.listener.clear();
-			this.symbolTable = ManchesterOWLSyntaxValidatorGUI.this.symbolTableFactory
-					.createSymbolTable();
-			new AutoCompleter(
-					ManchesterOWLSyntaxValidatorGUI.this.axiomValidator,
-					this.adaptor) {
-				@Override
-				protected SymbolTable getSymbolTable() {
-					return AxiomChecker.this.symbolTable;
-				}
-			};
+			this.symbolTable = ManchesterOWLSyntaxValidatorGUI.this.symbolTableFactory.createSymbolTable();
+			if (this.autoCompleter == null) {
+				this.autoCompleter = new AutoCompleter(
+						ManchesterOWLSyntaxValidatorGUI.this.axiomValidator, this.adaptor) {
+					@Override
+					protected SymbolTable getSymbolTable() {
+						return AxiomChecker.this.symbolTable;
+					}
+				};
+			}
 		}
 
 		public OWLAxiom createObject(String text) {
@@ -617,8 +560,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 		protected ManchesterOWLSyntaxTree parse(String input) {
 			MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
 			final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-			ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(
-					tokens, this.listener);
+			ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens, this.listener);
 			parser.setTreeAdaptor(this.adaptor);
 			try {
 				RuleReturnScope r = parser.main();
@@ -630,15 +572,13 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 					nodes.setTreeAdaptor(this.adaptor);
 					// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
 					this.symbolTable.setErrorListener(this.listener);
-					ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-							nodes);
+					ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 					simplify.setTreeAdaptor(this.adaptor);
 					simplify.downup(tree);
 					nodes.reset();
-					ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(
-							nodes, this.symbolTable, this.listener);
+					ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(nodes,
+							this.symbolTable, this.listener);
 					typeComp.downup(tree); // trigger resolve/type computation
-					this.lastNodeStream = nodes;
 					// actions
 					// WALK TREE TO DUMP SUBTREE TYPES
 					System.out.println(tree.toStringTree());
@@ -655,10 +595,8 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -4513506293333415642L;
-	private final OWLOntologyManager manager = OWLManager
-			.createOWLOntologyManager();
-	private final SymbolTableFactory symbolTableFactory = new SimpleSymbolTableFactory(
-			this.manager);
+	private final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+	private final SymbolTableFactory symbolTableFactory = new SimpleSymbolTableFactory(this.manager);
 	private ExpressionChecker<OWLAxiom> checker = new AxiomChecker();
 	private ExpressionEditor<OWLAxiom> axiomValidator;
 
@@ -666,8 +604,11 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 		try {
 			this.manager.loadOntology(uri);
 		} catch (OWLOntologyCreationException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),
-					"Error in loading ontology", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(
+					this,
+					e.getMessage(),
+					"Error in loading ontology",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -677,8 +618,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 	}
 
 	public ManchesterOWLSyntaxValidatorGUI() {
-		this.axiomValidator = new ExpressionEditor<OWLAxiom>(this.manager,
-				this.checker);
+		this.axiomValidator = new ExpressionEditor<OWLAxiom>(this.manager, this.checker);
 		this.initGUI();
 	}
 

@@ -59,7 +59,7 @@ incompleteAxiom :
 
 incompleteAssertionAxiom  :
   i = IDENTIFIER (INSTANCE_OF | TYPES)  -> ^(INCOMPLETE_TYPE_ASSERTION  ^(EXPRESSION $i))
-  |  IDENTIFIER propertyExpression  -> ^(INCOMPLETE_ROLE_ASSERTION ^(EXPRESSION IDENTIFIER) ^(EXPRESSION propertyExpression))
+ // |  IDENTIFIER propertyExpression  -> ^(INCOMPLETE_ROLE_ASSERTION ^(EXPRESSION IDENTIFIER) ^(EXPRESSION propertyExpression))
 ;
 
 incompleteUnaryAxiom  :       
@@ -96,15 +96,15 @@ incompleteExpression:
     (   
       options {backtrack=true;}: 
       head = propertyExpression (COMPOSITION rest+=propertyExpression )+ COMPOSITION  -> ^(INCOMPLETE_PROPERTY_CHAIN  $head $rest)
-      | (conjunction (OR .)*) OR  incompleteConjunction?  -> ^(INCOMPLETE_DISJUNCTION  incompleteConjunction?)
-      | incompleteConjunction -> ^(INCOMPLETE_DISJUNCTION  incompleteConjunction?) 
+      | (conjunction (OR .)*) OR  incompleteConjunction?  -> ^(INCOMPLETE_DISJUNCTION  ^(incompleteConjunction)?)
+      | incompleteConjunction -> ^(INCOMPLETE_DISJUNCTION  ^(incompleteConjunction)?) 
       | incompleteUnary -> ^(incompleteUnary)
-      | expression IDENTIFIER ->^(INCOMPLETE_EXPRESSION ^(EXPRESSION expression) IDENTIFIER)    
+      | expression IDENTIFIER ->^(INCOMPLETE_EXPRESSION ^(EXPRESSION expression) IDENTIFIER)  
     )    
   ;  
  
 incompleteConjunction  : 
-       	(unary (AND   .)*) AND incompleteUnary? -> ^(INCOMPLETE_CONJUNCTION  incompleteUnary?)      
+       	(unary (AND   .)*) AND incompleteUnary? -> ^(INCOMPLETE_CONJUNCTION  ^(incompleteUnary)?)      
   ;  
  
 incompleteComplexPropertyExpression:

@@ -22,4 +22,4 @@ main:
   | incompleteAxiom EOF -> ^(incompleteAxiom)
   | incompleteExpression EOF -> ^(incompleteExpression)
  )
-;
+; 
