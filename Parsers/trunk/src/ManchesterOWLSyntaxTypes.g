@@ -83,7 +83,7 @@ expressionRoot // invoke type computation rule after matching EXPRESSION
 
 axiom returns  [Type type, ManchesterOWLSyntaxTree node, OWLAxiom owlAxiom] 
 @after 
-			{ 
+			{
 				$start.setEvalType($type); 
 				$node = $start;
 				$start.setOWLObject($owlAxiom); 

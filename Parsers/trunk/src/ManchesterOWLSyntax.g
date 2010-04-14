@@ -4,14 +4,14 @@ options {
   ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
   language = Java;
 }
-import  MOWLLexer,  MOWLParser; 
+
+
+import   MOWLLexer, MOWLIdentifiers,  MOWLParser; 
 
 @header {
   package org.coode.parsers;
 }
-@lexer::header{
-	package org.coode.parsers;  
-}
+
   
 @members {
 

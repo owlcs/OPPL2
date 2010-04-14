@@ -1,5 +1,5 @@
 tree grammar ManchesterOWLSyntaxAutoComplete;
- 
+
 options {
   language = Java;
   tokenVocab = ManchesterOWLSyntaxAutoCompleteCombined;

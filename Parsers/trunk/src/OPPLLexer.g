@@ -1,4 +1,4 @@
-lexer grammar OPPLLexer;
+lexer grammar OPPLLexer; 
 
 options {
   language = Java;
@@ -9,11 +9,15 @@ import MOWLLexer;
 
 
 
+VARIABLE_TYPE
+  :
+      'CLASS'
+    | 'OBJECTPROPERTY'
+    | 'DATAPROPERTY'
+    | 'INDIVIDUAL'
+    | 'CONSTANT'
+  ;
 
-VARIABLE_IDENTIFIER
-	: 
-		QUESTION_MARK IDENTIFIER
-	;
 
 QUESTION_MARK
 	:
@@ -72,14 +76,7 @@ DOT
     '.'
   ;
 
-VARIABLE_TYPE
-  :
-      'CLASS'
-    | 'OBJECTPROPERTY'
-    | 'DATAPROPERTY'
-    | 'INDIVIDUAL'
-    | 'CONSTANT'
-  ;
+
 
 PLUS
   :
@@ -111,4 +108,32 @@ PLUS
  END
   :
     'END;'
+  ;
+  
+OPEN_SQUARE_BRACKET
+  :
+    '['
+  ;
+
+CLOSED_SQUARE_BRACKET
+  :
+    ']'
+  ;
+
+
+SUPER_CLASS_OF
+  :
+    'superClassOf'
+  ;  
+
+SUPER_PROPERTY_OF
+  :
+    'superPropertyOf'
+  ;
+
+// Identifiers need to take into account variables now.
+IDENTIFIER
+  :
+   QUESTION_MARK? LETTER (LETTER  | DIGIT |'-'|'_')*
+   
   ;

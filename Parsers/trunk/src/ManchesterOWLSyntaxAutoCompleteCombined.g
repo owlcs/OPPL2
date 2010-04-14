@@ -5,14 +5,12 @@ options {
   ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
   language = Java;
 }
-import  MOWLLexer,  ManchesterOWLSyntaxAutoCompleteBase;  
+import  MOWLIdentifiers, MOWLLexer,  ManchesterOWLSyntaxAutoCompleteBase;  
 
 @header {
   package org.coode.parsers;
 }
-@lexer::header{
-	package org.coode.parsers;  
-}
+
   
 main: 
 (   
@@ -23,3 +21,4 @@ main:
   | incompleteExpression EOF -> ^(incompleteExpression)
  )
 ; 
+ 

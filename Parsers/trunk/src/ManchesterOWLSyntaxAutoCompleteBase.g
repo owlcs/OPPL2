@@ -40,10 +40,9 @@ tokens {
   INCOMPLETE_EXPRESSION;
 }
 
-@header {
-  package org.coode.parsers;
-}
-
+//@header {
+//  package org.coode.parsers;
+//}
 
 
 

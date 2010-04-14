@@ -10,17 +10,18 @@ import OPPLLexer, OPPLParser;
 tokens{
   OPPL_STATEMENT;
 }
-
+ 
 @header {
-  package org.coode.parsers;
+  package org.coode.parsers.oppl;
 }
-@lexer::header{
-  package org.coode.parsers;  
-}
+
   
 
 statement
   :
-    variableDefinitions query actions -> ^(OPPL_STATEMENT variableDefinitions query actions) 
+    variableDefinitions query actions -> ^(OPPL_STATEMENT variableDefinitions query actions)
   ;
- 
+
+  
+
+  

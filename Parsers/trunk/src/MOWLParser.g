@@ -34,11 +34,11 @@ tokens {
   ROLE_ASSERTION;
   INVERSE_OBJECT_PROPERTY_EXPRESSION;
   EXPRESSION;
-  CONSTANT;  
+  CONSTANT; 
 }  
-@header {
-  package org.coode.parsers;
-}
+//@header {
+//  package org.coode.parsers;
+//}
 
 @members{
 public void displayRecognitionError(String[] tokenNames,

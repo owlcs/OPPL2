@@ -20,21 +20,32 @@ options {
     ACTIONS;
     VARIABLE_DEFINITIONS;
     QUERY;
+    VARIABLE_SCOPE;
  }
  
  
  variableDefinitions
   :
-    variableDefinition (COMMA variableDefinition) -> ^(VARIABLE_DEFINITIONS variableDefinition+)
+    variableDefinition (COMMA variableDefinition)* -> ^(VARIABLE_DEFINITIONS variableDefinition+)
   ;
- 
+  
  variableDefinition
   :
-      VARIABLE_IDENTIFIER COLON VARIABLE_TYPE -> ^(INPUT_VARIABLE_DEFINITION VARIABLE_IDENTIFIER VARIABLE_TYPE)
-    | VARIABLE_IDENTIFIER COLON VARIABLE_TYPE  EQUAL expression -> ^(GENERATED_VARIABLE_DEFINITION VARIABLE_IDENTIFIER VARIABLE_TYPE ^(EXPRESSION expression))
-    | VARIABLE_IDENTIFIER COLON VARIABLE_TYPE  EQUAL opplFunction -> ^(GENERATED_VARIABLE_DEFINITION VARIABLE_IDENTIFIER VARIABLE_TYPE ^(OPPL_FUNCTION opplFunction))
+      
+      IDENTIFIER COLON VARIABLE_TYPE  EQUAL expression -> ^(GENERATED_VARIABLE_DEFINITION VARIABLE_IDENTIFIER VARIABLE_TYPE ^(EXPRESSION expression))
+    | IDENTIFIER COLON VARIABLE_TYPE  EQUAL opplFunction -> ^(GENERATED_VARIABLE_DEFINITION VARIABLE_IDENTIFIER VARIABLE_TYPE ^(OPPL_FUNCTION opplFunction))
+    | IDENTIFIER COLON VARIABLE_TYPE (variableScope)? -> ^(INPUT_VARIABLE_DEFINITION VARIABLE_IDENTIFIER VARIABLE_TYPE variableScope?)
   ;
- 
+  
+
+
+variableScope
+  :
+    OPEN_SQUARE_BRACKET variableScopeSpecification = (SUBCLASS_OF | SUBPROPERTY_OF | SUPER_CLASS_OF | SUPER_PROPERTY_OF) expression CLOSED_SQUARE_BRACKET -> ^(VARIABLE_SCOPE $variableScopeSpecification expression)
+  ; 
+
+
+
  query
   :
     SELECT selectClause (COMMA selectClause)* constraint? -> ^(QUERY selectClause+ constraint?)
@@ -54,7 +65,7 @@ options {
  
  actions
   :
-    BEGIN action (COMMA action)+ END -> ^(ACTIONS action+)
+    BEGIN action (COMMA action)* END -> ^(ACTIONS action+)
   ;
  
  action	

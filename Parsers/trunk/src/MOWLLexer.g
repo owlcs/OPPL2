@@ -1,14 +1,12 @@
 lexer grammar MOWLLexer;
+ 
 
 
+//@header {
+//  package org.coode.parsers; 
+//}
 
-@header {
-  package org.coode.parsers; 
-}
 
-INTEGER: DIGIT+ ;
-fragment LETTER : ('a'..'z' | 'A'..'Z');	
-fragment DIGIT: '0' .. '9';
 
 
 COMPOSITION	:
@@ -60,7 +58,6 @@ SUBCLASS_OF	: 'subClassOf'
 
 SUB_PROPERTY_OF	: 'subPropertyOf'
 	;
-	
 EQUIVALENT_TO	: 'equivalentTo'
 	;	
 
@@ -97,7 +94,7 @@ RANGE  :
  TRANSITIVE  : 'Transitive'
   ;	
 
- INVERSE_FUNCTIONAL: 	'InverseFunctional'
+INVERSE_FUNCTIONAL: 	'InverseFunctional'
 	;		
 	POW : '^'
 	;
@@ -111,10 +108,7 @@ INSTANCE_OF : 'InstanceOf'
 
 TYPES : 'types'
   ;  
-IDENTIFIER : LETTER (LETTER  | DIGIT |'-'|'_' | ':')*;
-ENTITY_REFERENCE :
-		'\'' IDENTIFIER+ '\''
-		;
+
 		
 
 
