@@ -37,8 +37,7 @@ import org.semanticweb.owl.model.OWLOntologyManager;
  * 
  */
 public class TestExpressionParsing extends TestCase {
-	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager
-			.createOWLOntologyManager();
+	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
 	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
 	public static TreeAdaptor adaptor = new CommonTreeAdaptor() {
@@ -56,8 +55,7 @@ public class TestExpressionParsing extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop,
-				RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
@@ -65,11 +63,9 @@ public class TestExpressionParsing extends TestCase {
 	private static SymbolTable symtab;
 	static {
 		try {
-			ONTOLOGY_MANAGER
-					.loadOntologyFromPhysicalURI(URI
-							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-			ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class
-					.getResource("syntaxTest.owl").toURI());
+			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
+					"syntaxTest.owl").toURI());
 			symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -92,13 +88,12 @@ public class TestExpressionParsing extends TestCase {
 			nodes.setTokenStream(tokens); // where to find tokens
 			nodes.setTreeAdaptor(adaptor);
 			symtab.setErrorListener(this.errorListener);
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-					nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes types = new ManchesterOWLSyntaxTypes(
-					nodes, symtab, this.errorListener);
+			ManchesterOWLSyntaxTypes types = new ManchesterOWLSyntaxTypes(nodes, symtab,
+					this.errorListener);
 			types.downup(tree);
 			return (ManchesterOWLSyntaxTree) tree;
 		} catch (RecognitionException e) {

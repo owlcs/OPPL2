@@ -33,7 +33,7 @@ options {
   public SymbolTable getSymbolTable(){
   	return this.symtab;
   }
-  
+   
   public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
     
   }

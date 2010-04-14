@@ -92,7 +92,7 @@ PLUS
   :
     'create'
   ;
- 
+   
  CREATE_INTERSECTION
   :
     'createIntersection'
@@ -102,4 +102,13 @@ PLUS
   :
     'createDisjunction'
   ;
-  
+ 
+ BEGIN
+  :
+    'BEGIN'
+  ;
+ 
+ END
+  :
+    'END;'
+  ;

@@ -17,7 +17,16 @@ options {
     CREATE_OPPL_FUNCTION;
     VARIABLE_ATTRIBUTE;
     OPPL_FUNCTION;
+    ACTIONS;
+    VARIABLE_DEFINITIONS;
+    QUERY;
  }
+ 
+ 
+ variableDefinitions
+  :
+    variableDefinition (COMMA variableDefinition) -> ^(VARIABLE_DEFINITIONS variableDefinition+)
+  ;
  
  variableDefinition
   :
@@ -28,7 +37,7 @@ options {
  
  query
   :
-    SELECT selectClause (COMMA selectClause)* constraint
+    SELECT selectClause (COMMA selectClause)* constraint? -> ^(QUERY selectClause+ constraint?)
   ;
  
  selectClause
@@ -43,12 +52,17 @@ options {
     | WHERE VARIABLE_IDENTIFIER IN oneOf -> ^(IN_SET_CONSTRAINT VARIABLE_IDENTIFIER oneOf)
   ; 
  
+ actions
+  :
+    BEGIN action (COMMA action)+ END -> ^(ACTIONS action+)
+  ;
+ 
  action	
   : 
       ADD axiom -> ^(ADD axiom)
   |   REMOVE axiom -> ^(REMOVE axiom)
   ;
-
+ 
 opplFunction
   :
       CREATE OPEN_PARENTHESYS DBLQUOTE (PLUS DBLQUOTE)* CLOSED_PARENTHESYS -> ^(CREATE_OPPL_FUNCTION DBLQUOTE+)

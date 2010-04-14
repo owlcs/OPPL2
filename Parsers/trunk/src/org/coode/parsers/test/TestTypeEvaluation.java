@@ -48,17 +48,14 @@ public class TestTypeEvaluation {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop,
-				RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
 
 	public static void main(String[] args) {
-		OWLOntologyManager ontologyManager = OWLManager
-				.createOWLOntologyManager();
-		SymbolTableFactory symbolTableFactory = new SimpleSymbolTableFactory(
-				ontologyManager);
+		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+		SymbolTableFactory symbolTableFactory = new SimpleSymbolTableFactory(ontologyManager);
 		String input = "hasTopping subPropertyOf INV (hasTopping)";
 		System.out.println(input);
 		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
@@ -66,9 +63,7 @@ public class TestTypeEvaluation {
 		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens);
 		parser.setTreeAdaptor(adaptor);
 		try {
-			ontologyManager
-					.loadOntologyFromPhysicalURI(URI
-							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			ontologyManager.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			RuleReturnScope r = parser.main();
 			CommonTree tree = (CommonTree) r.getTree();
 			System.out.println(tree.toString());
@@ -78,8 +73,8 @@ public class TestTypeEvaluation {
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
 			SymbolTable symtab = symbolTableFactory.createSymbolTable();
 			symtab.setErrorListener(errorListener);
-			ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(
-					nodes, symtab, new SystemErrorEcho());
+			ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(nodes, symtab,
+					new SystemErrorEcho());
 			typeComp.downup(tree); // trigger resolve/type computation actions
 			// WALK TREE TO DUMP SUBTREE TYPES
 			System.out.println(tree.toStringTree());

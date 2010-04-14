@@ -49,18 +49,15 @@ public class TestTypeEvaluationSimplification {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop,
-				RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
 	private static ErrorListener errorListener = new SystemErrorEcho();
 
 	public static void main(String[] args) {
-		OWLOntologyManager ontologyManager = OWLManager
-				.createOWLOntologyManager();
-		SymbolTableFactory symbolTableFactory = new SimpleSymbolTableFactory(
-				ontologyManager);
+		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+		SymbolTableFactory symbolTableFactory = new SimpleSymbolTableFactory(ontologyManager);
 		String input = "America hasTopping Italy";
 		System.out.println(input);
 		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
@@ -68,9 +65,7 @@ public class TestTypeEvaluationSimplification {
 		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens);
 		parser.setTreeAdaptor(adaptor);
 		try {
-			ontologyManager
-					.loadOntologyFromPhysicalURI(URI
-							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			ontologyManager.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			RuleReturnScope r = parser.main();
 			CommonTree tree = (CommonTree) r.getTree();
 			System.out.println(tree.toStringTree());
@@ -80,13 +75,12 @@ public class TestTypeEvaluationSimplification {
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
 			SymbolTable symtab = symbolTableFactory.createSymbolTable();
 			symtab.setErrorListener(errorListener);
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-					nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(
-					nodes, symtab, errorListener);
+			ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(nodes, symtab,
+					errorListener);
 			typeComp.downup(tree); // trigger resolve/type computation actions
 			// WALK TREE TO DUMP SUBTREE TYPES
 			System.out.println(tree.toStringTree());
