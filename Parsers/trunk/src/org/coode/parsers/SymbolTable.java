@@ -1802,4 +1802,36 @@ public class SymbolTable {
 		}
 		return toReturn;
 	}
+
+	/**
+	 * Stores the input Symbol under the input Token.
+	 * 
+	 * @param token
+	 *            The input Token. Cannot be {@code null}.
+	 * @param symbol
+	 *            The Symbol to be stored. cannot be {@code null}.
+	 * @throws NullPointerException
+	 *             if either input is {@code null}.
+	 */
+	protected void storeSymbol(Token token, Symbol symbol) {
+		if (token == null) {
+			throw new NullPointerException("The token cannot be null");
+		}
+		if (symbol == null) {
+			throw new NullPointerException("The symbol cannot be null");
+		}
+		this.symbols.put(token, symbol);
+	}
+
+	/**
+	 * Removes the Symbol corresponding to the input Token.
+	 * 
+	 * @param token
+	 *            The input Token.
+	 * @return The removed Symbol if it appeared in this SymbolTable {@code
+	 *         null} otherwise.
+	 */
+	protected Symbol removeSymbol(Token token) {
+		return this.symbols.remove(token);
+	}
 }

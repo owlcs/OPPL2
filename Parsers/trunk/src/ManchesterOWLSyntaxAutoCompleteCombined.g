@@ -5,7 +5,7 @@ options {
   ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
   language = Java;
 }
-import  MOWLIdentifiers, MOWLLexer,  ManchesterOWLSyntaxAutoCompleteBase;  
+import   MOWLLexer,  ManchesterOWLSyntaxAutoCompleteBase;  
 
 @header {
   package org.coode.parsers;

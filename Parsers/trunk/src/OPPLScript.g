@@ -3,6 +3,7 @@ grammar OPPLScript;
 options {
   language = Java;
   output = AST;
+  ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
 }
 
 import OPPLLexer, OPPLParser;

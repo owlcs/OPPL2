@@ -6,7 +6,7 @@ options {
 }
 
 
-import   MOWLLexer, MOWLIdentifiers,  MOWLParser; 
+import   MOWLLexer,  MOWLParser; 
 
 @header {
   package org.coode.parsers;

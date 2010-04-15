@@ -4,7 +4,7 @@ options {
   language = Java;
 }
 
-import MOWLLexer;
+import OWLGeneralLexer, OPPLIdentifiers;
 
 
 
@@ -19,10 +19,7 @@ VARIABLE_TYPE
   ;
 
 
-QUESTION_MARK
-	:
-		'?'
-	;
+
 
 
   
@@ -131,9 +128,3 @@ SUPER_PROPERTY_OF
     'superPropertyOf'
   ;
 
-// Identifiers need to take into account variables now.
-IDENTIFIER
-  :
-   QUESTION_MARK? LETTER (LETTER  | DIGIT |'-'|'_')*
-   
-  ;
