@@ -47,10 +47,18 @@ public class SymbolTable {
 		public Boolean visitOWLAxiomType(OWLAxiomType owlAxiomType) {
 			return false;
 		}
+
+		public Boolean visitNonOWLType(Type type) {
+			return false;
+		}
 	}
 
 	private static abstract class OWLAxiomTypeOnlyVisitor implements TypeVisitorEx<Boolean> {
 		public Boolean visitOWLType(OWLType owlType) {
+			return false;
+		}
+
+		public Boolean visitNonOWLType(Type type) {
 			return false;
 		}
 	}
@@ -163,20 +171,20 @@ public class SymbolTable {
 	 * @param parentExpression
 	 * @param toReturn
 	 */
-	private void reportIncompatibleSymbolType(CommonTree tree, Type type,
+	protected void reportIncompatibleSymbolType(CommonTree tree, Type type,
 			CommonTree parentExpression) {
 		if (this.getErrorListener() != null) {
 			this.getErrorListener().incompatibleSymbolType(tree, type, parentExpression);
 		}
 	}
 
-	private void reportIncompatibleSymbols(CommonTree parentExpression, CommonTree... expressions) {
+	protected void reportIncompatibleSymbols(CommonTree parentExpression, CommonTree... expressions) {
 		if (this.getErrorListener() != null) {
 			this.getErrorListener().incompatibleSymbols(parentExpression, expressions);
 		}
 	}
 
-	private void reportIllegalToken(CommonTree expression, String message) {
+	protected void reportIllegalToken(CommonTree expression, String message) {
 		if (this.getErrorListener() != null) {
 			this.getErrorListener().illegalToken(expression, message);
 		}
@@ -1165,7 +1173,7 @@ public class SymbolTable {
 	/**
 	 * @param node
 	 */
-	private void reportUnrecognisedSymbol(ManchesterOWLSyntaxTree node) {
+	protected void reportUnrecognisedSymbol(ManchesterOWLSyntaxTree node) {
 		if (this.getErrorListener() != null) {
 			this.getErrorListener().unrecognisedSymbol(node);
 		}
@@ -1833,5 +1841,17 @@ public class SymbolTable {
 	 */
 	protected Symbol removeSymbol(Token token) {
 		return this.symbols.remove(token);
+	}
+
+	/**
+	 * Retrieves all the Symbos that have been stored in this Symbol table.
+	 * Please notice that this may be a proper sub-set of all the possible
+	 * symbols as there may be many more which have not been used but are still
+	 * valid ones.
+	 * 
+	 * @return a Set of Symbol elements.
+	 */
+	public Set<Symbol> getDefinedSymbols() {
+		return new HashSet<Symbol>(this.symbols.values());
 	}
 }

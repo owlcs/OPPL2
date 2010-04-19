@@ -47,15 +47,18 @@ public class AutoCompleteStrings {
 
 	public static List<String> getStandaloneClassExpressionCompletions() {
 		List<String> toReturn = new ArrayList<String>(Arrays.asList(
-				SUBCLASS_OF, EQUIVALENT_TO, DISJOINT_WITH));
+				SUBCLASS_OF,
+				EQUIVALENT_TO,
+				DISJOINT_WITH));
 		toReturn.addAll(getClassExpressionCompletions());
 		return toReturn;
 	}
 
-	public static List<String> getIncompleteClassExpressionCompletions(
-			String incompleteText) {
+	public static List<String> getIncompleteClassExpressionCompletions(String incompleteText) {
 		List<String> toReturn = new ArrayList<String>(Arrays.asList(
-				SUBCLASS_OF, EQUIVALENT_TO, DISJOINT_WITH));
+				SUBCLASS_OF,
+				EQUIVALENT_TO,
+				DISJOINT_WITH));
 		toReturn.addAll(getClassExpressionCompletions());
 		filter(incompleteText, toReturn);
 		return toReturn;
@@ -65,8 +68,7 @@ public class AutoCompleteStrings {
 	 * @param incompleteText
 	 * @param c
 	 */
-	private static void filter(String incompleteText,
-			Collection<? extends String> c) {
+	private static void filter(String incompleteText, Collection<? extends String> c) {
 		Iterator<? extends String> iterator = c.iterator();
 		while (iterator.hasNext()) {
 			String string = iterator.next();
@@ -78,23 +80,33 @@ public class AutoCompleteStrings {
 
 	public static List<String> getStandalonePropertyCompletions() {
 		List<String> toReturn = new ArrayList<String>(Arrays.asList(
-				SUB_PROPERTY_OF, EQUIVALENT_TO, DISJOINT_WITH, INVERSE_OF));
+				SUB_PROPERTY_OF,
+				EQUIVALENT_TO,
+				DISJOINT_WITH,
+				INVERSE_OF));
 		toReturn.addAll(getPropertyCompletions());
 		return toReturn;
 	}
 
-	public static List<String> getIncompletePropertyCompletions(
-			String incompleteText) {
+	public static List<String> getIncompletePropertyCompletions(String incompleteText) {
 		List<String> toReturn = new ArrayList<String>(Arrays.asList(
-				SUB_PROPERTY_OF, EQUIVALENT_TO, DISJOINT_WITH, INVERSE_OF));
+				SUB_PROPERTY_OF,
+				EQUIVALENT_TO,
+				DISJOINT_WITH,
+				INVERSE_OF));
 		toReturn.addAll(getPropertyCompletions());
 		filter(incompleteText, toReturn);
 		return toReturn;
 	}
 
 	public static List<String> getPropertyCompletions() {
-		List<String> toReturn = new ArrayList<String>(Arrays.asList(SOME, ONLY,
-				MIN, MAX, EXACTLY, VALUE));
+		List<String> toReturn = new ArrayList<String>(Arrays.asList(
+				SOME,
+				ONLY,
+				MIN,
+				MAX,
+				EXACTLY,
+				VALUE));
 		return toReturn;
 	}
 
@@ -104,15 +116,12 @@ public class AutoCompleteStrings {
 	}
 
 	public static List<String> getStandaloneIndividualCompletions() {
-		List<String> toReturn = new ArrayList<String>(Arrays.asList(
-				DIFFERENT_FROM, SAME_AS));
+		List<String> toReturn = new ArrayList<String>(Arrays.asList(DIFFERENT_FROM, SAME_AS));
 		return toReturn;
 	}
 
-	public static List<String> getIncompleteIndividualCompletions(
-			String incompleteText) {
-		List<String> toReturn = new ArrayList<String>(Arrays.asList(
-				DIFFERENT_FROM, SAME_AS));
+	public static List<String> getIncompleteIndividualCompletions(String incompleteText) {
+		List<String> toReturn = new ArrayList<String>(Arrays.asList(DIFFERENT_FROM, SAME_AS));
 		filter(incompleteText, toReturn);
 		return toReturn;
 	}
@@ -123,8 +132,7 @@ public class AutoCompleteStrings {
 			type.accept(new TypeVisitor() {
 				public void visitOWLType(OWLType owlType) {
 					if (OWLType.isClassExpression(owlType)) {
-						toReturn
-								.addAll(getStandaloneClassExpressionCompletions());
+						toReturn.addAll(getStandaloneClassExpressionCompletions());
 					} else if (OWLType.isObjectPropertyExpression(owlType)) {
 						toReturn.addAll(getStandalonePropertyCompletions());
 					} else if (owlType == OWLType.OWL_DATA_PROPERTY) {
@@ -134,6 +142,9 @@ public class AutoCompleteStrings {
 					}
 				}
 
+				public void visitNonOWLType(Type type) {
+				}
+
 				public void visitOWLAxiomType(OWLAxiomType owlAxiomType) {
 				}
 			});
@@ -141,28 +152,27 @@ public class AutoCompleteStrings {
 		return toReturn;
 	}
 
-	public static List<String> getIncompleteExpressionCompletions(
-			final String incompleteText, Type type) {
+	public static List<String> getIncompleteExpressionCompletions(final String incompleteText,
+			Type type) {
 		final List<String> toReturn = new ArrayList<String>();
 		if (type != null) {
 			type.accept(new TypeVisitor() {
 				public void visitOWLType(OWLType owlType) {
 					if (OWLType.isClassExpression(owlType)) {
-						toReturn
-								.addAll(getIncompleteClassExpressionCompletions(incompleteText));
+						toReturn.addAll(getIncompleteClassExpressionCompletions(incompleteText));
 					} else if (OWLType.isObjectPropertyExpression(owlType)) {
-						toReturn
-								.addAll(getIncompletePropertyCompletions(incompleteText));
+						toReturn.addAll(getIncompletePropertyCompletions(incompleteText));
 					} else if (owlType == OWLType.OWL_DATA_PROPERTY) {
-						toReturn
-								.addAll(getIncompletePropertyCompletions(incompleteText));
+						toReturn.addAll(getIncompletePropertyCompletions(incompleteText));
 					} else if (owlType == OWLType.OWL_INDIVIDUAL) {
-						toReturn
-								.addAll(getIncompleteIndividualCompletions(incompleteText));
+						toReturn.addAll(getIncompleteIndividualCompletions(incompleteText));
 					}
 				}
 
 				public void visitOWLAxiomType(OWLAxiomType owlAxiomType) {
+				}
+
+				public void visitNonOWLType(Type type) {
 				}
 			});
 		}
@@ -184,6 +194,9 @@ public class AutoCompleteStrings {
 				}
 
 				public void visitOWLAxiomType(OWLAxiomType owlAxiomType) {
+				}
+
+				public void visitNonOWLType(Type type) {
 				}
 			});
 		}

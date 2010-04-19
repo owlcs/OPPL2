@@ -1,7 +1,7 @@
-tree grammar OPPLDefine;
+tree grammar OPPLTypes;
 options {
   language = Java;
-  tokenVocab = OPPLScript; 
+  tokenVocab = ManchesterOWLSyntax; 
   ASTLabelType = ManchesterOWLSyntaxTree;
   filter=true;
 }
@@ -10,7 +10,7 @@ options {
 @members{
   private  OPPLSymbolTable symtab;
   private  ErrorListener errorListener;
-  public OPPLDefine(TreeNodeStream input, OPPLSymbolTable symtab, ErrorListener errorListener) {
+  public OPPLTypes(TreeNodeStream input, OPPLSymbolTable symtab, ErrorListener errorListener) {
     this(input);
     if(symtab==null){
     	throw new NullPointerException("The symbol table cannot be null");
@@ -62,20 +62,11 @@ options {
 @header {
   package org.coode.parsers.oppl;
   import org.coode.parsers.ErrorListener;
+   import org.coode.parsers.oppl.OPPLSymbolTable;
   import org.coode.parsers.ManchesterOWLSyntaxTree;
 }
 
-bottomup  : 
-    variableDefinition  
-  ;
-
-
-
-variableDefinition
-	:
-		^((INPUT_VARIABLE_DEFINITION |GENERATED_VARIABLE_DEFINITION) IDENTIFIER  VARIABLE_TYPE .*)
-		{
-			getSymbolTable().defineVariable($IDENTIFIER, $VARIABLE_TYPE);
-		}
-	;
-
+// START: root
+bottomup // match subexpressions innermost to outermost
+    :   
+    ;

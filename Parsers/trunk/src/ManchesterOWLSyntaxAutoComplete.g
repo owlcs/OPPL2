@@ -6,7 +6,7 @@ options {
   ASTLabelType = ManchesterOWLSyntaxTree;
   filter=true;
 }
-
+ 
 @members{
   private  SymbolTable symtab;
   private boolean newWord= false;

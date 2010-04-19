@@ -40,4 +40,9 @@ public class OWLEntitySymbol extends Symbol {
 	public <O> O accept(SymbolVisitorEx<O> visitor) {
 		return visitor.visitOWLEntity(this);
 	}
+
+	@Override
+	public String toString() {
+		return "Symbol name: " + this.getName() + " OWL Entity " + this.getEntity().toString();
+	}
 }

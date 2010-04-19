@@ -15,6 +15,7 @@ tokens{
  
 @header {
   package org.coode.parsers.oppl;
+  import org.coode.parsers.ManchesterOWLSyntaxTree;
 }
 
   

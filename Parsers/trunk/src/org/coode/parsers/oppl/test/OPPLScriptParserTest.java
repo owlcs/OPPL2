@@ -24,7 +24,7 @@ import org.coode.parsers.oppl.OPPLScriptParser;
  * @author Luigi Iannone
  * 
  */
-public class OPPLScirptParserTest extends TestCase {
+public class OPPLScriptParserTest extends TestCase {
 	private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
 		@Override
 		public Object create(Token token) {
@@ -40,14 +40,27 @@ public class OPPLScirptParserTest extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop,
-				RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
 
 	public void testSubClassQuery() {
 		String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
+		ManchesterOWLSyntaxTree parsed = this.parse(query);
+		System.out.println(parsed.toStringTree());
+		assertNotNull(parsed);
+	}
+
+	public void testRegexpQuery() {
+		String query = "?x:CLASS = MATCH (\".*ing\") SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
+		ManchesterOWLSyntaxTree parsed = this.parse(query);
+		System.out.println(parsed.toStringTree());
+		assertNotNull(parsed);
+	}
+
+	public void testGeneratedVariable() {
+		String query = "?x:CLASS, ?y:OBJECTPROPERTY = MATCH(\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x subClassOf ?y some ?z BEGIN REMOVE ?x subClassOf ?y some ?z, ADD ?x subClassOf !hasFeature some (?feature and !hasValue some ?z) END;";
 		ManchesterOWLSyntaxTree parsed = this.parse(query);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
@@ -67,8 +80,7 @@ public class OPPLScirptParserTest extends TestCase {
 			nodes.setTreeAdaptor(adaptor);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-					nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			return (ManchesterOWLSyntaxTree) r.getTree();

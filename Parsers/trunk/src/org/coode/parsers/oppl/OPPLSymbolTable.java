@@ -1,6 +1,7 @@
 package org.coode.parsers.oppl;
 
 import org.antlr.runtime.Token;
+import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.OWLEntityCheckerScope;
 import org.coode.parsers.Symbol;
 import org.coode.parsers.SymbolTable;
@@ -32,5 +33,19 @@ public class OPPLSymbolTable extends SymbolTable {
 			throw new NullPointerException("The symbol cannot be null");
 		}
 		this.storeSymbol(token, symbol);
+	}
+
+	public void defineVariable(ManchesterOWLSyntaxTree identifier,
+			ManchesterOWLSyntaxTree variableType) {
+		VariableType type = VariableType.getVariableType(variableType.getText());
+		if (type == null) {
+			this.reportIllegalToken(
+					variableType,
+					"The variable type is not amongst those recognised");
+		} else {
+			this.define(identifier.token, type.getSymbol(
+					this.getDataFactory(),
+					identifier.token.getText()));
+		}
 	}
 }

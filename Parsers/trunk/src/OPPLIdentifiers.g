@@ -12,12 +12,36 @@ fragment QUESTION_MARK
     '?'
   ;
 
+fragment ESCLAMATION_MARK
+  :
+    '!'
+  ;
+
+
 // Identifiers need to take into account variables now.
+fragment
+VARIABLE_IDENTIFIER
+  :
+   QUESTION_MARK LETTER (LETTER  | DIGIT |'-'|'_')*   
+  ;
+fragment
+CREATE_IDENTIFIER
+  :
+   ESCLAMATION_MARK LETTER (LETTER  | DIGIT |'-'|'_')*   
+  ;
+fragment
+PLAIN_IDENTIFIER
+  :
+    LETTER (LETTER  | DIGIT |'-'|'_')*   
+  ;
+    
 IDENTIFIER
   :
-   QUESTION_MARK? LETTER (LETTER  | DIGIT |'-'|'_')*
-   
-  ;
+  	PLAIN_IDENTIFIER
+  	|	CREATE_IDENTIFIER
+  	|	VARIABLE_IDENTIFIER  	   
+  ;  
+  
 ENTITY_REFERENCE :
 		'\'' IDENTIFIER+ '\''
 		;
