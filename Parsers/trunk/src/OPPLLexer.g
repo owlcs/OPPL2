@@ -2,6 +2,7 @@ lexer grammar OPPLLexer;
 
 options {
   language = Java;
+  tokenVocab = OPPLLexer;
 }
 
 import OWLGeneralLexer, OPPLIdentifiers;

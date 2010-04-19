@@ -4,6 +4,7 @@ options {
   language = Java;
   output = AST;
   ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
+  tokenVocab = OPPLScript;
 }
 
 import OPPLLexer, OPPLParser;

@@ -13,10 +13,10 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
+import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.oppl.OPPLLexer;
 import org.coode.parsers.oppl.OPPLScriptParser;
-import org.coode.parsers.oppl.OPPLSimplify;
 
 /**
  * Test for the AST generation for OPPL
@@ -40,23 +40,25 @@ public class OPPLScirptParserTest extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop,
+				RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
 
 	public void testSubClassQuery() {
 		String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
-		CommonTree parsed = this.parse(query);
+		ManchesterOWLSyntaxTree parsed = this.parse(query);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
 	}
 
-	protected CommonTree parse(String input) {
+	protected ManchesterOWLSyntaxTree parse(String input) {
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		OPPLScriptParser parser = new OPPLScriptParser(tokens);
+		parser.setTreeAdaptor(adaptor);
 		try {
 			RuleReturnScope r = parser.statement();
 			CommonTree tree = (CommonTree) r.getTree();
@@ -65,10 +67,11 @@ public class OPPLScirptParserTest extends TestCase {
 			nodes.setTreeAdaptor(adaptor);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			OPPLSimplify simplify = new OPPLSimplify(nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
-			return (CommonTree) r.getTree();
+			return (ManchesterOWLSyntaxTree) r.getTree();
 		} catch (RecognitionException e) {
 			e.printStackTrace();
 			return null;

@@ -4,7 +4,7 @@ options {
   language = Java;
   output = AST;
   ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
-  
+  tokenVocab = ManchesterOWLSyntaxAutoCompleteBase;
 }
 
 

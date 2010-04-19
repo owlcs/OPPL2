@@ -3,6 +3,7 @@ options {
   output = AST;              // build trees
   ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
   language = Java;
+  tokenVocab = MOWLParser;
 }
 
 
