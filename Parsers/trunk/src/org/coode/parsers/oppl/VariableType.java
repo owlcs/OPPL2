@@ -30,6 +30,11 @@ public enum VariableType implements Type {
 		public OWLEntitySymbol getSymbol(OWLDataFactory dataFactory, String name) {
 			return new OWLEntitySymbol(name, dataFactory.getOWLClass(this.createURI(name)));
 		}
+
+		@Override
+		public org.coode.oppl.variablemansyntax.VariableType getOPPLVariableType() {
+			return org.coode.oppl.variablemansyntax.VariableType.CLASS;
+		}
 	},
 	OBJECTPROPERTY {
 		@Override
@@ -40,6 +45,11 @@ public enum VariableType implements Type {
 		@Override
 		public OWLEntitySymbol getSymbol(OWLDataFactory dataFactory, String name) {
 			return new OWLEntitySymbol(name, dataFactory.getOWLObjectProperty(this.createURI(name)));
+		}
+
+		@Override
+		public org.coode.oppl.variablemansyntax.VariableType getOPPLVariableType() {
+			return org.coode.oppl.variablemansyntax.VariableType.OBJECTPROPERTY;
 		}
 	},
 	DATAPROPERTY {
@@ -52,6 +62,11 @@ public enum VariableType implements Type {
 		public OWLEntitySymbol getSymbol(OWLDataFactory dataFactory, String name) {
 			return new OWLEntitySymbol(name, dataFactory.getOWLDataProperty(this.createURI(name)));
 		}
+
+		@Override
+		public org.coode.oppl.variablemansyntax.VariableType getOPPLVariableType() {
+			return org.coode.oppl.variablemansyntax.VariableType.DATAPROPERTY;
+		}
 	},
 	INDIVIDUAL {
 		@Override
@@ -63,6 +78,11 @@ public enum VariableType implements Type {
 		public OWLEntitySymbol getSymbol(OWLDataFactory dataFactory, String name) {
 			return new OWLEntitySymbol(name, dataFactory.getOWLIndividual(this.createURI(name)));
 		}
+
+		@Override
+		public org.coode.oppl.variablemansyntax.VariableType getOPPLVariableType() {
+			return org.coode.oppl.variablemansyntax.VariableType.INDIVIDUAL;
+		}
 	},
 	CONSTANT {
 		@Override
@@ -73,6 +93,11 @@ public enum VariableType implements Type {
 		@Override
 		public Symbol getSymbol(OWLDataFactory dataFactory, String name) {
 			return new OWLConstantSymbol(name, dataFactory.getOWLUntypedConstant(name));
+		}
+
+		@Override
+		public org.coode.oppl.variablemansyntax.VariableType getOPPLVariableType() {
+			return org.coode.oppl.variablemansyntax.VariableType.CONSTANT;
 		}
 	};
 	private final static Map<String, VariableType> map = new HashMap<String, VariableType>();
@@ -105,4 +130,6 @@ public enum VariableType implements Type {
 	public abstract OWLType getOWLType();
 
 	public abstract Symbol getSymbol(OWLDataFactory dataFactory, String name);
+
+	public abstract org.coode.oppl.variablemansyntax.VariableType getOPPLVariableType();
 }

@@ -154,6 +154,9 @@ public abstract class AutoCompleter {
 
 		public void illegalToken(CommonTree t, String message) {
 		}
+
+		public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
+		}
 	};
 
 	public AutoCompleter(JTextComponent tc, TreeAdaptor adaptor) {

@@ -100,6 +100,11 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 				return b;
 			}
 
+			public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
+				AxiomChecker.this.lastReport = new ErrorReportImpl(t.getMessage(), line,
+						charPosInLine, length);
+			}
+
 			boolean isRedundant(CommonTree newErrorTree) {
 				return this.isRedundant(this.lastErrorTree, newErrorTree);
 			}

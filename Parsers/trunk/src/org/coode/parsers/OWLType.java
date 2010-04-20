@@ -45,12 +45,18 @@ public enum OWLType implements Type {
 		return getClassDescriptionTypes().contains(type);
 	}
 
-	private static EnumSet<OWLType> getObjectProertyDescriptionTypes() {
+	private static EnumSet<OWLType> getObjectPropertyDescriptionTypes() {
 		return EnumSet.of(OWL_OBJECT_PROPERTY, OWL_OBJECT_INVERSE_PROPERTY);
 	}
 
 	public static boolean isObjectPropertyExpression(Type type) {
-		return getObjectProertyDescriptionTypes().contains(type);
+		return getObjectPropertyDescriptionTypes().contains(type);
+	}
+
+	public static boolean isPropertyExpression(Type type) {
+		EnumSet<OWLType> proertyDescriptionTypes = getObjectPropertyDescriptionTypes();
+		proertyDescriptionTypes.add(OWL_DATA_PROPERTY);
+		return proertyDescriptionTypes.contains(type);
 	}
 
 	public void accept(TypeVisitor visitor) {

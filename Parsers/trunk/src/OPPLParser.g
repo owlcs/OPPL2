@@ -44,7 +44,7 @@ options {
 
 variableScope
   :
-    OPEN_SQUARE_BRACKET variableScopeSpecification = (SUBCLASS_OF | SUBPROPERTY_OF | SUPER_CLASS_OF | SUPER_PROPERTY_OF) expression CLOSED_SQUARE_BRACKET -> ^(VARIABLE_SCOPE $variableScopeSpecification expression)
+    OPEN_SQUARE_BRACKET variableScopeSpecification = (SUBCLASS_OF | SUBPROPERTY_OF | SUPER_CLASS_OF | SUPER_PROPERTY_OF | INSTANCE_OF | TYPES) expression CLOSED_SQUARE_BRACKET -> ^(VARIABLE_SCOPE $variableScopeSpecification ^(EXPRESSION expression))
   ; 
 
 
@@ -62,7 +62,7 @@ variableScope
  
  constraint
   :
-      WHERE first = VARIABLE_IDENTIFIER NOT_EQUAL second = expression -> ^(INEQUALITY_CONSTRAINT $first $second)
+      WHERE first = VARIABLE_IDENTIFIER NOT_EQUAL second = expression -> ^(INEQUALITY_CONSTRAINT $first ^(EXPRESSION $second))
     | WHERE VARIABLE_IDENTIFIER IN oneOf -> ^(IN_SET_CONSTRAINT VARIABLE_IDENTIFIER oneOf)
   ; 
  

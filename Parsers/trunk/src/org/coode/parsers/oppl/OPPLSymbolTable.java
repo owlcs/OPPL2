@@ -3,8 +3,10 @@ package org.coode.parsers.oppl;
 import org.antlr.runtime.Token;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.OWLEntityCheckerScope;
+import org.coode.parsers.OWLType;
 import org.coode.parsers.Symbol;
 import org.coode.parsers.SymbolTable;
+import org.coode.parsers.Type;
 import org.semanticweb.owl.model.OWLDataFactory;
 
 public class OPPLSymbolTable extends SymbolTable {
@@ -47,5 +49,122 @@ public class OPPLSymbolTable extends SymbolTable {
 					this.getDataFactory(),
 					identifier.token.getText()));
 		}
+	}
+
+	public Type getClassVariableScopeType(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree classExpression) {
+		Type toReturn = null;
+		if (!OWLType.isClassExpression(classExpression.getEvalType())) {
+			this.reportIncompatibleSymbolType(
+					classExpression,
+					classExpression.getEvalType(),
+					parentExpression);
+		} else {
+			toReturn = classExpression.getEvalType();
+		}
+		return toReturn;
+	}
+
+	public Type getPropertyVariableScopeType(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree propertyExpression) {
+		Type toReturn = null;
+		if (!OWLType.isPropertyExpression(propertyExpression.getEvalType())) {
+			this.reportIncompatibleSymbolType(
+					propertyExpression,
+					propertyExpression.getEvalType(),
+					parentExpression);
+		} else {
+			toReturn = propertyExpression.getEvalType();
+		}
+		return toReturn;
+	}
+
+	public Type getIndividualVariableScopeType(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree individualExpression) {
+		Type toReturn = null;
+		if (OWLType.OWL_INDIVIDUAL != individualExpression.getEvalType()) {
+			this.reportIncompatibleSymbolType(
+					individualExpression,
+					individualExpression.getEvalType(),
+					parentExpression);
+		} else {
+			toReturn = individualExpression.getEvalType();
+		}
+		return toReturn;
+	}
+
+	public Type getClassGeneratedVariable(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree classExpression) {
+		Type toReturn = null;
+		if (!OWLType.isClassExpression(classExpression.getEvalType())) {
+			this.reportIncompatibleSymbolType(
+					classExpression,
+					classExpression.getEvalType(),
+					parentExpression);
+		} else {
+			toReturn = classExpression.getEvalType();
+		}
+		return toReturn;
+	}
+
+	public Type getObjectPropertyGeneratedVariable(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree objectPropertyExpression) {
+		Type toReturn = null;
+		if (!OWLType.isObjectPropertyExpression(objectPropertyExpression.getEvalType())) {
+			this.reportIncompatibleSymbolType(
+					objectPropertyExpression,
+					objectPropertyExpression.getEvalType(),
+					parentExpression);
+		} else {
+			toReturn = objectPropertyExpression.getEvalType();
+		}
+		return toReturn;
+	}
+
+	public Type getDataPropertyGeneratedVariable(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree dataPropertyExpression) {
+		Type toReturn = null;
+		if (OWLType.OWL_DATA_PROPERTY != dataPropertyExpression.getEvalType()) {
+			this.reportIncompatibleSymbolType(
+					dataPropertyExpression,
+					dataPropertyExpression.getEvalType(),
+					parentExpression);
+		} else {
+			toReturn = dataPropertyExpression.getEvalType();
+		}
+		return toReturn;
+	}
+
+	public Type getIndividualGeneratedVariable(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree individualExpression) {
+		Type toReturn = null;
+		if (OWLType.OWL_INDIVIDUAL != individualExpression.getEvalType()) {
+			this.reportIncompatibleSymbolType(
+					individualExpression,
+					individualExpression.getEvalType(),
+					parentExpression);
+		} else {
+			toReturn = individualExpression.getEvalType();
+		}
+		return toReturn;
+	}
+
+	public Type getConstantGeneratedVariable(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree constantExpression) {
+		Type toReturn = null;
+		if (OWLType.OWL_CONSTANT != constantExpression.getEvalType()) {
+			this.reportIncompatibleSymbolType(
+					constantExpression,
+					constantExpression.getEvalType(),
+					parentExpression);
+		} else {
+			toReturn = constantExpression.getEvalType();
+		}
+		return toReturn;
+	}
+
+	public org.coode.oppl.variablemansyntax.VariableType getVaribaleType(
+			ManchesterOWLSyntaxTree variableType) {
+		return VariableType.getVariableType(variableType.getText()).getOPPLVariableType();
 	}
 }

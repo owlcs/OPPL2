@@ -65,7 +65,7 @@ public class SymbolTable {
 
 	private final OWLEntityCheckerScope globalScope;
 	private final OWLDataFactory dataFactory;
-	private final Map<Token, Symbol> symbols = new HashMap<Token, Symbol>();
+	private final Map<String, Symbol> symbols = new HashMap<String, Symbol>();
 	private ErrorListener errorListener;
 	private final OWLTypeOnlyVisitor owlClassTypeDetector = new OWLTypeOnlyVisitor() {
 		public Boolean visitOWLType(OWLType owlType) {
@@ -112,13 +112,13 @@ public class SymbolTable {
 	}
 
 	public Symbol resolve(ManchesterOWLSyntaxTree node) {
-		Symbol toReturn = this.symbols.get(node.getToken());
+		Symbol toReturn = this.symbols.get(node.getToken().getText());
 		if (toReturn == null) {
 			toReturn = this.getGlobalScope().resolve(node.getToken().getText());
 			if (toReturn == null && this.getErrorListener() != null) {
 				this.reportUnrecognisedSymbol(node);
 			} else if (toReturn != null) {
-				this.symbols.put(node.getToken(), toReturn);
+				this.symbols.put(node.getToken().getText(), toReturn);
 			}
 		}
 		if (toReturn != null) {
@@ -1145,13 +1145,13 @@ public class SymbolTable {
 	}
 
 	public OWLEntity getOWLEntity(final ManchesterOWLSyntaxTree node) {
-		Symbol symbol = this.symbols.get(node.getToken());
+		Symbol symbol = this.symbols.get(node.getToken().getText());
 		if (symbol == null) {
 			symbol = this.getGlobalScope().resolve(node.getToken().getText());
 			if (symbol == null && this.getErrorListener() != null) {
 				this.reportUnrecognisedSymbol(node);
 			} else if (symbol != null) {
-				this.symbols.put(node.getToken(), symbol);
+				this.symbols.put(node.getToken().getText(), symbol);
 			}
 		}
 		OWLEntity toReturn = null;
@@ -1828,7 +1828,7 @@ public class SymbolTable {
 		if (symbol == null) {
 			throw new NullPointerException("The symbol cannot be null");
 		}
-		this.symbols.put(token, symbol);
+		this.symbols.put(token.getText(), symbol);
 	}
 
 	/**
@@ -1840,7 +1840,7 @@ public class SymbolTable {
 	 *         null} otherwise.
 	 */
 	protected Symbol removeSymbol(Token token) {
-		return this.symbols.remove(token);
+		return this.symbols.remove(token.getText());
 	}
 
 	/**
