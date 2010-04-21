@@ -132,5 +132,29 @@ SUPER_PROPERTY_OF
 MATCH
   :
   	'MATCH'
+  ;
+
+fragment  
+VALUES
+  :
+    'VALUES'
   ;	
 
+fragment
+RENDERING
+  :
+    'RENDERING'
+  ;
+
+fragment
+GROUPS
+  :
+    'GROUPS'
+  ;
+  
+VARIABLE_ATTRIBUTE
+  :
+    VALUES
+  | RENDERING
+  | GROUPS 
+  ;

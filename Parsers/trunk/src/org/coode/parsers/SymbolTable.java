@@ -1832,6 +1832,26 @@ public class SymbolTable {
 	}
 
 	/**
+	 * Stores the input Symbol under the input name.
+	 * 
+	 * @param name
+	 *            The input name. Cannot be {@code null}.
+	 * @param symbol
+	 *            The Symbol to be stored. cannot be {@code null}.
+	 * @throws NullPointerException
+	 *             if either input is {@code null}.
+	 */
+	protected void storeSymbol(String name, Symbol symbol) {
+		if (name == null) {
+			throw new NullPointerException("The token cannot be null");
+		}
+		if (symbol == null) {
+			throw new NullPointerException("The symbol cannot be null");
+		}
+		this.symbols.put(name, symbol);
+	}
+
+	/**
 	 * Removes the Symbol corresponding to the input Token.
 	 * 
 	 * @param token

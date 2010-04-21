@@ -4,8 +4,11 @@
 package org.coode.parsers.oppl;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.coode.parsers.OWLEntitySymbol;
 import org.coode.parsers.OWLType;
@@ -35,6 +38,17 @@ public enum VariableType implements Type {
 		public org.coode.oppl.variablemansyntax.VariableType getOPPLVariableType() {
 			return org.coode.oppl.variablemansyntax.VariableType.CLASS;
 		}
+
+		@Override
+		public Set<Symbol> getAttributeSymbols(String variableName) {
+			return new HashSet<Symbol>(Arrays.asList(
+					new VariableAttributeSymbol(variableName + "RENDERING",
+							VariableAttributeType.STRING),
+					new VariableAttributeSymbol(variableName + "VALUES",
+							VariableAttributeType.COLLECTION),
+					new VariableAttributeSymbol(variableName + "GROUPS",
+							VariableAttributeType.STRING)));
+		}
 	},
 	OBJECTPROPERTY {
 		@Override
@@ -50,6 +64,17 @@ public enum VariableType implements Type {
 		@Override
 		public org.coode.oppl.variablemansyntax.VariableType getOPPLVariableType() {
 			return org.coode.oppl.variablemansyntax.VariableType.OBJECTPROPERTY;
+		}
+
+		@Override
+		public Set<Symbol> getAttributeSymbols(String variableName) {
+			return new HashSet<Symbol>(Arrays.asList(
+					new VariableAttributeSymbol(variableName + "RENDERING",
+							VariableAttributeType.STRING),
+					new VariableAttributeSymbol(variableName + "VALUES",
+							VariableAttributeType.COLLECTION),
+					new VariableAttributeSymbol(variableName + "GROUPS",
+							VariableAttributeType.STRING)));
 		}
 	},
 	DATAPROPERTY {
@@ -67,6 +92,17 @@ public enum VariableType implements Type {
 		public org.coode.oppl.variablemansyntax.VariableType getOPPLVariableType() {
 			return org.coode.oppl.variablemansyntax.VariableType.DATAPROPERTY;
 		}
+
+		@Override
+		public Set<Symbol> getAttributeSymbols(String variableName) {
+			return new HashSet<Symbol>(Arrays.asList(
+					new VariableAttributeSymbol(variableName + "RENDERING",
+							VariableAttributeType.STRING),
+					new VariableAttributeSymbol(variableName + "VALUES",
+							VariableAttributeType.COLLECTION),
+					new VariableAttributeSymbol(variableName + "GROUPS",
+							VariableAttributeType.STRING)));
+		}
 	},
 	INDIVIDUAL {
 		@Override
@@ -83,6 +119,17 @@ public enum VariableType implements Type {
 		public org.coode.oppl.variablemansyntax.VariableType getOPPLVariableType() {
 			return org.coode.oppl.variablemansyntax.VariableType.INDIVIDUAL;
 		}
+
+		@Override
+		public Set<Symbol> getAttributeSymbols(String variableName) {
+			return new HashSet<Symbol>(Arrays.asList(
+					new VariableAttributeSymbol(variableName + "RENDERING",
+							VariableAttributeType.STRING),
+					new VariableAttributeSymbol(variableName + "VALUES",
+							VariableAttributeType.COLLECTION),
+					new VariableAttributeSymbol(variableName + "GROUPS",
+							VariableAttributeType.STRING)));
+		}
 	},
 	CONSTANT {
 		@Override
@@ -98,6 +145,17 @@ public enum VariableType implements Type {
 		@Override
 		public org.coode.oppl.variablemansyntax.VariableType getOPPLVariableType() {
 			return org.coode.oppl.variablemansyntax.VariableType.CONSTANT;
+		}
+
+		@Override
+		public Set<Symbol> getAttributeSymbols(String variableName) {
+			return new HashSet<Symbol>(Arrays.asList(
+					new VariableAttributeSymbol(variableName + "RENDERING",
+							VariableAttributeType.STRING),
+					new VariableAttributeSymbol(variableName + "VALUES",
+							VariableAttributeType.COLLECTION),
+					new VariableAttributeSymbol(variableName + "GROUPS",
+							VariableAttributeType.STRING)));
 		}
 	};
 	private final static Map<String, VariableType> map = new HashMap<String, VariableType>();
@@ -132,4 +190,6 @@ public enum VariableType implements Type {
 	public abstract Symbol getSymbol(OWLDataFactory dataFactory, String name);
 
 	public abstract org.coode.oppl.variablemansyntax.VariableType getOPPLVariableType();
+
+	public abstract Set<Symbol> getAttributeSymbols(String variableName);
 }

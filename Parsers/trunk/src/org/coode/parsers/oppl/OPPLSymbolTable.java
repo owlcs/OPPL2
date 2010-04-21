@@ -1,12 +1,16 @@
 package org.coode.parsers.oppl;
 
+import java.util.Set;
+
 import org.antlr.runtime.Token;
+import org.coode.oppl.variablemansyntax.generated.AbstractCollectionGeneratedValue;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.OWLEntityCheckerScope;
 import org.coode.parsers.OWLType;
 import org.coode.parsers.Symbol;
 import org.coode.parsers.SymbolTable;
 import org.coode.parsers.Type;
+import org.semanticweb.owl.model.OWLClass;
 import org.semanticweb.owl.model.OWLDataFactory;
 
 public class OPPLSymbolTable extends SymbolTable {
@@ -48,6 +52,10 @@ public class OPPLSymbolTable extends SymbolTable {
 			this.define(identifier.token, type.getSymbol(
 					this.getDataFactory(),
 					identifier.token.getText()));
+			Set<Symbol> attributeSymbols = type.getAttributeSymbols(identifier.getText());
+			for (Symbol symbol : attributeSymbols) {
+				this.storeSymbol(symbol.getName(), symbol);
+			}
 		}
 	}
 
@@ -166,5 +174,17 @@ public class OPPLSymbolTable extends SymbolTable {
 	public org.coode.oppl.variablemansyntax.VariableType getVaribaleType(
 			ManchesterOWLSyntaxTree variableType) {
 		return VariableType.getVariableType(variableType.getText()).getOPPLVariableType();
+	}
+
+	public AbstractCollectionGeneratedValue<OWLClass> getCollection(
+			ManchesterOWLSyntaxTree identifier) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public AbstractCollectionGeneratedValue<OWLClass> getCollection(
+			ManchesterOWLSyntaxTree identifier, ManchesterOWLSyntaxTree selector) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
