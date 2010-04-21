@@ -148,13 +148,18 @@ variableDefinition returns [Variable variable]
 	       org.coode.oppl.variablemansyntax.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
 	       $variable = constraintSystem.createStringGeneratedVariable($IDENTIFIER.getText(),type, value);
 	     }
-    | ^(GENERATED_VARIABLE_DEFINITION name = IDENTIFIER VARIABLE_TYPE ^(CREATE_INTERSECTION va = IDENTIFIER selector = INTEGER?))
+    | ^(GENERATED_VARIABLE_DEFINITION name = IDENTIFIER VARIABLE_TYPE ^(CREATE_INTERSECTION va = IDENTIFIER))
        {
          org.coode.oppl.variablemansyntax.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
-         AbstractCollectionGeneratedValue<OWLClass> collection = selector == null ? symtab.getCollection(va) : symtab.getCollection(va, selector);
-         $variable = constraintSystem.createIntersectionGeneratedVariable(name.getText(),type,collection);
-         
-       }  	     	    
+         AbstractCollectionGeneratedValue<OWLClass> collection = symtab.getCollection(va);
+         $variable = constraintSystem.createIntersectionGeneratedVariable(name.getText(),type,collection);         
+       }
+      | ^(GENERATED_VARIABLE_DEFINITION name = IDENTIFIER VARIABLE_TYPE ^(CREATE_DISJUNCTION va = IDENTIFIER))
+       {
+         org.coode.oppl.variablemansyntax.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
+         AbstractCollectionGeneratedValue<OWLClass> collection = symtab.getCollection(va);
+         $variable = constraintSystem.createUnionGeneratedVariable(name.getText(),type,collection);         
+       }    	     	    
 	;
 
 
@@ -175,10 +180,14 @@ stringOperation returns [SingleValueGeneratedValue<String> value]
 
 stringExpression returns [SingleValueGeneratedValue<String> value]
   :
-    DBLQUOTE
-    {
-      $value = new StringGeneratedValue($DBLQUOTE.getText());
-    }
+      DBLQUOTE
+      {
+        $value = new StringGeneratedValue($DBLQUOTE.getText());
+      }
+    | ^(IDENTIFIER i = INTEGER?)
+      {
+        $value = i==null? symtab.getStringGeneratedValue($IDENTIFIER.getText()) : symtab.getStringGeneratedValue($IDENTIFIER.getText(),i);
+      }
   ;
   
   

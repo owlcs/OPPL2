@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.antlr.runtime.Token;
 import org.coode.oppl.variablemansyntax.generated.AbstractCollectionGeneratedValue;
+import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.OWLEntityCheckerScope;
 import org.coode.parsers.OWLType;
@@ -182,8 +183,13 @@ public class OPPLSymbolTable extends SymbolTable {
 		return null;
 	}
 
-	public AbstractCollectionGeneratedValue<OWLClass> getCollection(
-			ManchesterOWLSyntaxTree identifier, ManchesterOWLSyntaxTree selector) {
+	public SingleValueGeneratedValue<String> getStringGeneratedValue(String text,
+			ManchesterOWLSyntaxTree i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public SingleValueGeneratedValue<String> getStringGeneratedValue(String text) {
 		// TODO Auto-generated method stub
 		return null;
 	}
