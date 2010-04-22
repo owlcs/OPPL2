@@ -3,15 +3,19 @@ package org.coode.parsers.oppl;
 import java.util.Set;
 
 import org.antlr.runtime.Token;
-import org.coode.oppl.variablemansyntax.generated.AbstractCollectionGeneratedValue;
+import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.OWLEntityCheckerScope;
+import org.coode.parsers.OWLEntitySymbol;
 import org.coode.parsers.OWLType;
 import org.coode.parsers.Symbol;
 import org.coode.parsers.SymbolTable;
 import org.coode.parsers.Type;
-import org.semanticweb.owl.model.OWLClass;
+import org.coode.parsers.oppl.variableattribute.CollectionVariableAttributeSymbol;
+import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
+import org.coode.parsers.oppl.variableattribute.VariableAttribute;
+import org.coode.parsers.oppl.variableattribute.VariableAttributeSymbol;
 import org.semanticweb.owl.model.OWLDataFactory;
 
 public class OPPLSymbolTable extends SymbolTable {
@@ -177,20 +181,34 @@ public class OPPLSymbolTable extends SymbolTable {
 		return VariableType.getVariableType(variableType.getText()).getOPPLVariableType();
 	}
 
-	public AbstractCollectionGeneratedValue<OWLClass> getCollection(
-			ManchesterOWLSyntaxTree identifier) {
-		// TODO Auto-generated method stub
-		return null;
+	public SingleValueGeneratedValue<String> getStringGeneratedValue(
+			ManchesterOWLSyntaxTree identifier, final ConstraintSystem constraintSystem) {
+		Symbol symbol = this.resolve(identifier);
+		return symbol.accept(new OPPLSymbolVisitorEx<SingleValueGeneratedValue<String>>() {
+			public SingleValueGeneratedValue<String> visitOWLEntity(OWLEntitySymbol owlEntitySymbol) {
+				return null;
+			}
+
+			public SingleValueGeneratedValue<String> visitSymbol(Symbol symbol) {
+				return null;
+			}
+
+			public SingleValueGeneratedValue<String> visitStringVariableAttributeSymbol(
+					StringVariableAttributeSymbol stringVariableAttributeSymbol) {
+				return stringVariableAttributeSymbol.create(constraintSystem);
+			}
+
+			public SingleValueGeneratedValue<String> visitCollectionVariableAttributeSymbol(
+					CollectionVariableAttributeSymbol<?> collectionVariableAttributeSymbol) {
+				return null;
+			}
+		});
 	}
 
-	public SingleValueGeneratedValue<String> getStringGeneratedValue(String text,
-			ManchesterOWLSyntaxTree i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public SingleValueGeneratedValue<String> getStringGeneratedValue(String text) {
-		// TODO Auto-generated method stub
-		return null;
+	public void defineGroupAttributeRefernceSymbol(ManchesterOWLSyntaxTree name,
+			ManchesterOWLSyntaxTree indexNode) {
+		VariableAttributeSymbol<SingleValueGeneratedValue<String>> symbol = VariableAttribute.group(
+				Integer.parseInt(indexNode.getText())).getSymbol(name.getText());
+		this.storeSymbol(symbol.getName(), symbol);
 	}
 }

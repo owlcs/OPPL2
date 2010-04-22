@@ -78,6 +78,9 @@ variableScope
   |   REMOVE axiom -> ^(REMOVE axiom)
   ;
  
+
+ 
+ 
 opplFunction
   :
       CREATE OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS -> ^(CREATE_OPPL_FUNCTION stringOperation)
@@ -100,8 +103,9 @@ stringExpression
 
 attributeSelector
 	:
-		OPEN_PARENTHESYS INTEGER CLOSED_PARENTHESYS ->  INTEGER
+		OPEN_PARENTHESYS INTEGER CLOSED_PARENTHESYS ->  ^(ATTRIBUTE_SELECTOR INTEGER)
 	;
+
 
 
 

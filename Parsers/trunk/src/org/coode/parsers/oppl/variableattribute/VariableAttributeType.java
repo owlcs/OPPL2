@@ -1,4 +1,4 @@
-package org.coode.parsers.oppl;
+package org.coode.parsers.oppl.variableattribute;
 
 import org.coode.parsers.Type;
 import org.coode.parsers.TypeVisitor;

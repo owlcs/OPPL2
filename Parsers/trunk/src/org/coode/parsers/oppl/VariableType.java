@@ -16,6 +16,7 @@ import org.coode.parsers.Symbol;
 import org.coode.parsers.Type;
 import org.coode.parsers.TypeVisitor;
 import org.coode.parsers.TypeVisitorEx;
+import org.coode.parsers.oppl.variableattribute.VariableAttribute;
 import org.semanticweb.owl.model.OWLDataFactory;
 
 /**
@@ -41,13 +42,9 @@ public enum VariableType implements Type {
 
 		@Override
 		public Set<Symbol> getAttributeSymbols(String variableName) {
-			return new HashSet<Symbol>(Arrays.asList(
-					new VariableAttributeSymbol(variableName + "RENDERING",
-							VariableAttributeType.STRING),
-					new VariableAttributeSymbol(variableName + "VALUES",
-							VariableAttributeType.COLLECTION),
-					new VariableAttributeSymbol(variableName + "GROUPS",
-							VariableAttributeType.STRING)));
+			return new HashSet<Symbol>(Arrays.<Symbol> asList(
+					VariableAttribute.RENDERING.getSymbol(variableName),
+					VariableAttribute.VALUES.getSymbol(variableName)));
 		}
 	},
 	OBJECTPROPERTY {
@@ -68,13 +65,9 @@ public enum VariableType implements Type {
 
 		@Override
 		public Set<Symbol> getAttributeSymbols(String variableName) {
-			return new HashSet<Symbol>(Arrays.asList(
-					new VariableAttributeSymbol(variableName + "RENDERING",
-							VariableAttributeType.STRING),
-					new VariableAttributeSymbol(variableName + "VALUES",
-							VariableAttributeType.COLLECTION),
-					new VariableAttributeSymbol(variableName + "GROUPS",
-							VariableAttributeType.STRING)));
+			return new HashSet<Symbol>(Arrays.<Symbol> asList(
+					VariableAttribute.RENDERING.getSymbol(variableName),
+					VariableAttribute.VALUES.getSymbol(variableName)));
 		}
 	},
 	DATAPROPERTY {
@@ -95,13 +88,9 @@ public enum VariableType implements Type {
 
 		@Override
 		public Set<Symbol> getAttributeSymbols(String variableName) {
-			return new HashSet<Symbol>(Arrays.asList(
-					new VariableAttributeSymbol(variableName + "RENDERING",
-							VariableAttributeType.STRING),
-					new VariableAttributeSymbol(variableName + "VALUES",
-							VariableAttributeType.COLLECTION),
-					new VariableAttributeSymbol(variableName + "GROUPS",
-							VariableAttributeType.STRING)));
+			return new HashSet<Symbol>(Arrays.<Symbol> asList(
+					VariableAttribute.RENDERING.getSymbol(variableName),
+					VariableAttribute.VALUES.getSymbol(variableName)));
 		}
 	},
 	INDIVIDUAL {
@@ -122,13 +111,9 @@ public enum VariableType implements Type {
 
 		@Override
 		public Set<Symbol> getAttributeSymbols(String variableName) {
-			return new HashSet<Symbol>(Arrays.asList(
-					new VariableAttributeSymbol(variableName + "RENDERING",
-							VariableAttributeType.STRING),
-					new VariableAttributeSymbol(variableName + "VALUES",
-							VariableAttributeType.COLLECTION),
-					new VariableAttributeSymbol(variableName + "GROUPS",
-							VariableAttributeType.STRING)));
+			return new HashSet<Symbol>(Arrays.<Symbol> asList(
+					VariableAttribute.RENDERING.getSymbol(variableName),
+					VariableAttribute.VALUES.getSymbol(variableName)));
 		}
 	},
 	CONSTANT {
@@ -149,13 +134,9 @@ public enum VariableType implements Type {
 
 		@Override
 		public Set<Symbol> getAttributeSymbols(String variableName) {
-			return new HashSet<Symbol>(Arrays.asList(
-					new VariableAttributeSymbol(variableName + "RENDERING",
-							VariableAttributeType.STRING),
-					new VariableAttributeSymbol(variableName + "VALUES",
-							VariableAttributeType.COLLECTION),
-					new VariableAttributeSymbol(variableName + "GROUPS",
-							VariableAttributeType.STRING)));
+			return new HashSet<Symbol>(Arrays.<Symbol> asList(
+					VariableAttribute.RENDERING.getSymbol(variableName),
+					VariableAttribute.VALUES.getSymbol(variableName)));
 		}
 	};
 	private final static Map<String, VariableType> map = new HashMap<String, VariableType>();

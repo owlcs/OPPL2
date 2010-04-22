@@ -66,7 +66,8 @@ options {
 }
 
 bottomup  : 
-    variableDefinition  
+    variableDefinition
+    | groupAttributeReferences  
   ;
 
 
@@ -79,3 +80,10 @@ variableDefinition
 		}
 	;
 
+groupAttributeReferences
+  :
+    ^(IDENTIFIER  ^(ATTRIBUTE_SELECTOR INTEGER))
+    {
+      getSymbolTable().defineGroupAttributeRefernceSymbol($IDENTIFIER,$INTEGER);
+    }
+  ;

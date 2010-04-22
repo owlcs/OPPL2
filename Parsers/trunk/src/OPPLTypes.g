@@ -165,6 +165,8 @@ variableDefinition returns [Variable variable]
 
 
 
+
+
 stringOperation returns [SingleValueGeneratedValue<String> value]
 @init
   {
@@ -186,7 +188,7 @@ stringExpression returns [SingleValueGeneratedValue<String> value]
       }
     | ^(IDENTIFIER i = INTEGER?)
       {
-        $value = i==null? symtab.getStringGeneratedValue($IDENTIFIER.getText()) : symtab.getStringGeneratedValue($IDENTIFIER.getText(),i);
+        $value = i==null? symtab.getStringGeneratedValue($IDENTIFIER) : symtab.getStringGeneratedValue($IDENTIFIER,i);
       }
   ;
   

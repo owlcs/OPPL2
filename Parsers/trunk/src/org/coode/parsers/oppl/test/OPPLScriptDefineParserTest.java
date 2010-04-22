@@ -71,7 +71,7 @@ public class OPPLScriptDefineParserTest extends TestCase {
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
 		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
-		assertTrue(definedSymbols.size() == 1);
+		assertTrue(definedSymbols.size() > 1);
 		System.out.println(definedSymbols);
 	}
 
@@ -94,7 +94,7 @@ public class OPPLScriptDefineParserTest extends TestCase {
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
 		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
-		assertTrue(definedSymbols.size() == 1);
+		assertTrue(definedSymbols.size() > 1);
 		System.out.println(definedSymbols);
 	}
 
@@ -104,7 +104,7 @@ public class OPPLScriptDefineParserTest extends TestCase {
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
 		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
-		assertTrue(definedSymbols.size() == 4);
+		assertTrue(definedSymbols.size() > 4);
 		System.out.println(definedSymbols);
 	}
 
