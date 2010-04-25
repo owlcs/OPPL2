@@ -2,7 +2,7 @@ tree grammar OPPLTypes;
 options {
   language = Java;
   tokenVocab = OPPLScript; 
-  ASTLabelType = ManchesterOWLSyntaxTree;
+  ASTLabelType = OPPLSyntaxTree;
   filter=true;
 }
 
@@ -84,6 +84,8 @@ options {
   import org.coode.oppl.variablemansyntax.VariableScopes;
   import org.coode.oppl.entity.OWLEntityRenderer;
   import org.coode.oppl.variablemansyntax.generated.AbstractCollectionGeneratedValue;
+  import org.coode.oppl.AbstractConstraint;
+  import org.coode.oppl.OPPLQuery;
   import org.coode.oppl.exceptions.OPPLException;
   import org.coode.oppl.OPPLAbstractFactory;
   import org.coode.oppl.variablemansyntax.generated.RegExpGenerated;
@@ -91,10 +93,14 @@ options {
   import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
   import org.coode.oppl.variablemansyntax.generated.StringGeneratedValue;
   import org.coode.oppl.variablemansyntax.generated.ConcatGeneratedValues;
+  import org.semanticweb.owl.model.OWLAxiom;
   import org.semanticweb.owl.model.OWLObject;
   import org.semanticweb.owl.model.OWLClass;
+  import org.semanticweb.owl.model.OWLAxiomChange;
   import org.semanticweb.owl.model.OWLPropertyExpression;
   import org.semanticweb.owl.model.OWLDescription;
+  import org.semanticweb.owl.model.RemoveAxiom;
+	import org.semanticweb.owl.model.AddAxiom;    
   import org.coode.parsers.ErrorListener;
   import org.coode.parsers.Type;
   import org.coode.parsers.oppl.OPPLSymbolTable;
@@ -105,11 +111,105 @@ options {
 // START: root
 bottomup // match subexpressions innermost to outermost
     :  
-    	variableDefinition 
+    	statement
     ;
 
 
+statement
+	:
+		^(OPPL_STATEMENT variableDefinitions query actions)
+		{
+			$start.setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),
+									$variableDefinitions.variables, $query.query,
+									$actions.actions));
+		}
+	;
 
+variableDefinitions returns [List<Variable> variables]
+@init{
+	List<Variable> toReturn = new ArrayList<Variable>();
+}
+@after{
+	$variables = toReturn;
+}
+	:
+		^(VARIABLE_DEFINITIONS (vd = variableDefinition {toReturn.add(vd.variable);})+)		
+	;
+	
+query returns [OPPLQuery query]
+@init{
+		$query = getOPPLFactory().buildNewQuery(getConstraintSystem());
+}
+	:
+		^(QUERY (selectClause 
+		{
+			if($selectClause.asserted){
+				$query.addAssertedAxiom($selectClause.axiom);
+			}else{
+				$query.addAxiom($selectClause.axiom);
+			}
+		}
+		)+ (constraint
+				{
+					$query.addConstraint($constraint.constraint);
+				}
+		)?)
+	;
+
+selectClause returns [OWLAxiom axiom, boolean asserted]
+	:
+		^(ASSERTED_CLAUSE a = .)
+		{
+			OWLObject object = a.getOWLObject();
+			if(object instanceof OWLAxiom){
+				$axiom = (OWLAxiom) a.getOWLObject();
+			}else{
+				getErrorListener().illegalToken(a,"OWL Axiom needed here");
+			}			
+			
+			$asserted= true;
+		}
+		| ^(PLAIN_CLAUSE a = .)
+		{
+			OWLObject object = a.getOWLObject();
+			if(object instanceof OWLAxiom){
+				$axiom = (OWLAxiom) a.getOWLObject();
+			}else{
+				getErrorListener().illegalToken(a,"OWL Axiom needed here");
+			}
+			$asserted= false;
+		}
+	;
+
+actions returns [List<OWLAxiomChange> actions]
+@init{
+	$actions = new ArrayList<OWLAxiomChange>();
+}
+	:
+		^(ACTIONS (action {$actions.add($action.change);})+)
+	;
+	
+
+action returns [OWLAxiomChange change]
+	:
+		^(ADD a = .){
+			OWLObject object = a.getOWLObject();
+			if(object instanceof OWLAxiom){
+				$change = new AddAxiom(getConstraintSystem().getOntology(), (OWLAxiom)object);
+			}else{
+				getErrorListener().illegalToken(a,"OWL Axiom needed here");
+			}	
+		}
+		| ^(REMOVE a = .){
+			OWLObject object = a.getOWLObject();
+			if(object instanceof OWLAxiom){
+				$change = new RemoveAxiom(getConstraintSystem().getOntology(), (OWLAxiom)object);
+			}else{
+				getErrorListener().illegalToken(a,"OWL Axiom needed here");
+			}
+		}
+	;
+		
 variableDefinition returns [Variable variable]
 	:
 		  ^(INPUT_VARIABLE_DEFINITION IDENTIFIER VARIABLE_TYPE vs = variableScope?)
@@ -151,13 +251,13 @@ variableDefinition returns [Variable variable]
     | ^(GENERATED_VARIABLE_DEFINITION name = IDENTIFIER VARIABLE_TYPE ^(CREATE_INTERSECTION va = IDENTIFIER))
        {
          org.coode.oppl.variablemansyntax.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
-         AbstractCollectionGeneratedValue<OWLClass> collection = symtab.getCollection(va);
+         AbstractCollectionGeneratedValue<OWLClass> collection = symtab.getCollection($start,va, getConstraintSystem());
          $variable = constraintSystem.createIntersectionGeneratedVariable(name.getText(),type,collection);         
        }
       | ^(GENERATED_VARIABLE_DEFINITION name = IDENTIFIER VARIABLE_TYPE ^(CREATE_DISJUNCTION va = IDENTIFIER))
        {
          org.coode.oppl.variablemansyntax.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
-         AbstractCollectionGeneratedValue<OWLClass> collection = symtab.getCollection(va);
+         AbstractCollectionGeneratedValue<OWLClass> collection = symtab.getCollection($start,va, getConstraintSystem());
          $variable = constraintSystem.createUnionGeneratedVariable(name.getText(),type,collection);         
        }    	     	    
 	;
@@ -173,7 +273,7 @@ stringOperation returns [SingleValueGeneratedValue<String> value]
     List<SingleValueGeneratedValue<String>> values = new ArrayList<SingleValueGeneratedValue<String>>();
   }
   :
-    ^(STRING_OPERATION (valuesToAggregate= stringExpression {values.add(valuesToAggregate);})+)
+    ^(STRING_OPERATION  (valuesToAggregate= stringExpression {values.add(valuesToAggregate);})+)
     {
       $value = new ConcatGeneratedValues(values); 
     }
@@ -186,9 +286,10 @@ stringExpression returns [SingleValueGeneratedValue<String> value]
       {
         $value = new StringGeneratedValue($DBLQUOTE.getText());
       }
-    | ^(IDENTIFIER i = INTEGER?)
+    | ^(IDENTIFIER (^(ATTRIBUTE_SELECTOR i = INTEGER))?)
       {
-        $value = i==null? symtab.getStringGeneratedValue($IDENTIFIER) : symtab.getStringGeneratedValue($IDENTIFIER,i);
+        $value = i==null? symtab.getStringGeneratedValue($IDENTIFIER, getConstraintSystem()) : symtab.getStringGeneratedValue($IDENTIFIER,i, getConstraintSystem());
+        System.out.println("Group attr");
       }
   ;
   
@@ -260,4 +361,19 @@ variableScope returns [Type type, VariableScope variableScope]
        $variableScope = VariableScopes.buildIndividualVariableScope((OWLDescription) individualExpression);
      }
 	;
+	
+	
 
+constraint returns [AbstractConstraint constraint]
+@init
+  {
+    List<OPPLSyntaxTree> identifiers = new ArrayList<OPPLSyntaxTree>();
+  }
+:
+		^(INEQUALITY_CONSTRAINT IDENTIFIER ^(EXPRESSION expression=.)){
+			$constraint = symtab.getInequalityConstraint($start, $IDENTIFIER,expression, getConstraintSystem());
+		}
+		| ^(IN_SET_CONSTRAINT v = IDENTIFIER ^(ONE_OF (i = IDENTIFIER {identifiers.add(i);})+)){
+			$constraint = symtab.getInSetConstraint($start,v,constraintSystem,identifiers.toArray(new OPPLSyntaxTree[identifiers.size()]));
+		}
+;

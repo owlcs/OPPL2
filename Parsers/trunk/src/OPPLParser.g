@@ -2,7 +2,7 @@ parser grammar OPPLParser;
 options {
   output = AST;              // build trees  
   language = Java;
-  ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
+  ASTLabelType = OPPLSyntaxTree; // use custom tree nodes
  }
 
  
@@ -36,7 +36,7 @@ options {
   :
       
       IDENTIFIER COLON VARIABLE_TYPE  EQUAL expression -> ^(GENERATED_VARIABLE_DEFINITION IDENTIFIER VARIABLE_TYPE ^(EXPRESSION expression))
-    | IDENTIFIER COLON VARIABLE_TYPE  EQUAL opplFunction -> ^(GENERATED_VARIABLE_DEFINITION IDENTIFIER VARIABLE_TYPE ^(OPPL_FUNCTION opplFunction))
+    | IDENTIFIER COLON VARIABLE_TYPE  EQUAL opplFunction -> ^(GENERATED_VARIABLE_DEFINITION IDENTIFIER VARIABLE_TYPE ^(opplFunction))
     | IDENTIFIER COLON VARIABLE_TYPE  EQUAL MATCH OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS -> ^(GENERATED_VARIABLE_DEFINITION IDENTIFIER VARIABLE_TYPE ^(MATCH stringOperation))
     | IDENTIFIER COLON VARIABLE_TYPE (variableScope)? -> ^(INPUT_VARIABLE_DEFINITION IDENTIFIER VARIABLE_TYPE variableScope?)    
   ;
@@ -63,8 +63,8 @@ variableScope
  
  constraint
   :
-      WHERE first = VARIABLE_IDENTIFIER NOT_EQUAL second = expression -> ^(INEQUALITY_CONSTRAINT $first ^(EXPRESSION $second))
-    | WHERE VARIABLE_IDENTIFIER IN oneOf -> ^(IN_SET_CONSTRAINT VARIABLE_IDENTIFIER oneOf)
+      WHERE first = IDENTIFIER NOT_EQUAL second = expression -> ^(INEQUALITY_CONSTRAINT $first ^(EXPRESSION $second))
+    | WHERE IDENTIFIER IN oneOf -> ^(IN_SET_CONSTRAINT IDENTIFIER oneOf)
   ; 
  
  actions

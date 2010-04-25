@@ -17,6 +17,7 @@ import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.oppl.OPPLLexer;
 import org.coode.parsers.oppl.OPPLScriptParser;
+import org.coode.parsers.oppl.OPPLSyntaxTree;
 
 /**
  * Test for the AST generation for OPPL
@@ -28,7 +29,7 @@ public class OPPLScriptParserTest extends TestCase {
 	private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
 		@Override
 		public Object create(Token token) {
-			return new ManchesterOWLSyntaxTree(token);
+			return new OPPLSyntaxTree(token);
 		}
 
 		@Override
@@ -36,11 +37,12 @@ public class OPPLScriptParserTest extends TestCase {
 			if (t == null) {
 				return null;
 			}
-			return this.create(((ManchesterOWLSyntaxTree) t).token);
+			return this.create(((OPPLSyntaxTree) t).token);
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop,
+				RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
@@ -80,7 +82,8 @@ public class OPPLScriptParserTest extends TestCase {
 			nodes.setTreeAdaptor(adaptor);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			return (ManchesterOWLSyntaxTree) r.getTree();

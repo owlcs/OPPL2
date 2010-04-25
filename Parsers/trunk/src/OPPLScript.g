@@ -3,7 +3,7 @@ grammar OPPLScript;
 options {
   language = Java;
   output = AST;
-  ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
+  ASTLabelType = OPPLSyntaxTree; // use custom tree nodes
   tokenVocab = OPPLScript;
 }
 
