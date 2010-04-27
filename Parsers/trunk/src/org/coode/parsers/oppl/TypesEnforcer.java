@@ -10,77 +10,93 @@ import org.coode.parsers.ManchesterOWLSyntaxTree;
  * 
  */
 public interface TypesEnforcer {
-	public void enforceSubClassOfAxiomTypes(ManchesterOWLSyntaxTree subClass,
-			ManchesterOWLSyntaxTree superClass);
+	public void enforceSubClassOfAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree subClass, ManchesterOWLSyntaxTree superClass);
 
-	public void enforceEquivalentToAxiomTypes(ManchesterOWLSyntaxTree lhs,
-			ManchesterOWLSyntaxTree rhs);
+	public void enforceEquivalentToAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs);
 
-	public void enforceIverserOfAxiomTypes(OPPLSyntaxTree p, OPPLSyntaxTree anotherProperty);
+	public void enforceIverserOfAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			OPPLSyntaxTree p, OPPLSyntaxTree anotherProperty);
 
-	public void enforceDisjointWithAxiomTypes(ManchesterOWLSyntaxTree lhs,
-			ManchesterOWLSyntaxTree rhs);
+	public void enforceDisjointWithAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs);
 
-	public void enforceSubPropertyAxiomTypes(ManchesterOWLSyntaxTree aProperty,
-			ManchesterOWLSyntaxTree anotherProperty);
+	public void enforceSubPropertyAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree aProperty, ManchesterOWLSyntaxTree anotherProperty);
 
-	public void enforceRoleAssertionAxiomTypes(OPPLSyntaxTree subject,
-			ManchesterOWLSyntaxTree property, ManchesterOWLSyntaxTree object);
+	public void enforceRoleAssertionAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			OPPLSyntaxTree subject, ManchesterOWLSyntaxTree property, ManchesterOWLSyntaxTree object);
 
-	public void enforceTypeAssertionAxiomTypes(ManchesterOWLSyntaxTree classDescription,
-			OPPLSyntaxTree subject);
+	public void enforceTypeAssertionAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree classDescription, OPPLSyntaxTree subject);
 
-	public void enforceDomainAxiomTypes(OPPLSyntaxTree p, ManchesterOWLSyntaxTree classDescription);
+	public void enforceDomainAxiomTypes(ManchesterOWLSyntaxTree parentExpression, OPPLSyntaxTree p,
+			ManchesterOWLSyntaxTree classDescription);
 
-	public void enforceRangeAxiomTypes(OPPLSyntaxTree p, ManchesterOWLSyntaxTree range);
+	public void enforceRangeAxiomTypes(ManchesterOWLSyntaxTree parentExpression, OPPLSyntaxTree p,
+			ManchesterOWLSyntaxTree range);
 
-	public void enforceSameIndividualsAxiomTypes(OPPLSyntaxTree anIndividual,
-			OPPLSyntaxTree anotherIndividual);
+	public void enforceSameIndividualsAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			OPPLSyntaxTree anIndividual, OPPLSyntaxTree anotherIndividual);
 
-	public void enforceDifferentIndividualsAxiomTypes(OPPLSyntaxTree anIndividual,
-			OPPLSyntaxTree anotherIndividual);
+	public void enforceDifferentIndividualsAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			OPPLSyntaxTree anIndividual, OPPLSyntaxTree anotherIndividual);
 
-	public void enforceFunctionalPropertyAxiomTypes(OPPLSyntaxTree p);
+	public void enforceFunctionalPropertyAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			OPPLSyntaxTree p);
 
-	public void enforceInverseFunctionalPropertyAxiomTypes(OPPLSyntaxTree p);
+	public void enforceInverseFunctionalPropertyAxiomTypes(
+			ManchesterOWLSyntaxTree parentExpression, OPPLSyntaxTree p);
 
-	public void enforceIrreflexivePropertyAxiomTypes(OPPLSyntaxTree p);
+	public void enforceIrreflexivePropertyAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			OPPLSyntaxTree p);
 
-	public void enforceReflexivePropertyAxiomTypes(OPPLSyntaxTree p);
+	public void enforceReflexivePropertyAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			OPPLSyntaxTree p);
 
-	public void enforceSymmetricPropertyAxiomTypes(OPPLSyntaxTree p);
+	public void enforceSymmetricPropertyAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			OPPLSyntaxTree p);
 
-	public void enforceTransitivePropertyAxiomTypes(OPPLSyntaxTree p);
+	public void enforceTransitivePropertyAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
+			OPPLSyntaxTree p);
 
-	public void enforceNegatedAssertionTypes(ManchesterOWLSyntaxTree assertion);
+	public void enforceNegatedAssertionTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree assertion);
 
-	public void enforceDisjunctionTypes(ManchesterOWLSyntaxTree... disjuncts);
+	public void enforceDisjunctionTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree... disjuncts);
 
-	public void enforcePropertyChainTypes(ManchesterOWLSyntaxTree... propertyExpressions);
+	public void enforcePropertyChainTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree... propertyExpressions);
 
-	public void enforceConjunctionTypes(ManchesterOWLSyntaxTree... conjuncts);
+	public void enforceConjunctionTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree... conjuncts);
 
-	public void enforceNegatedClassExpression(ManchesterOWLSyntaxTree classExpression);
+	public void enforceNegatedClassExpression(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree classExpression);
 
-	public void enforceInverseObjectPropertyTypes(ManchesterOWLSyntaxTree p);
+	public void enforceInverseObjectPropertyTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree p);
 
-	public void enforceSomeValueRestrictionTypes(ManchesterOWLSyntaxTree propertyExpression,
-			ManchesterOWLSyntaxTree filler);
+	public void enforceSomeValueRestrictionTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler);
 
-	public void enforceAllValueRestrictionTypes(ManchesterOWLSyntaxTree propertyExpression,
-			ManchesterOWLSyntaxTree filler);
+	public void enforceAllValueRestrictionTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler);
 
-	public void enforceMinCardinalityRestrictionTypes(ManchesterOWLSyntaxTree propertyExpression,
-			ManchesterOWLSyntaxTree filler);
+	public void enforceMinCardinalityRestrictionTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler);
 
-	public void enforceMaxCardinalityRestrictionTypes(ManchesterOWLSyntaxTree propertyExpression,
-			ManchesterOWLSyntaxTree filler);
+	public void enforceMaxCardinalityRestrictionTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler);
 
-	public void enforceExactCardinalityRestrictionTypes(ManchesterOWLSyntaxTree propertyExpression,
-			ManchesterOWLSyntaxTree filler);
+	public void enforceExactCardinalityRestrictionTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler);
 
-	public void enforceOneOfTypes(ManchesterOWLSyntaxTree... individuals);
+	public void enforceOneOfTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree... individuals);
 
-	public void enforceValueRestrictionTypes(ManchesterOWLSyntaxTree propertyExpression,
-			ManchesterOWLSyntaxTree value);
+	public void enforceValueRestrictionTypes(ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree value);
 }

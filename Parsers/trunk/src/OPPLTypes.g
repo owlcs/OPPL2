@@ -289,7 +289,6 @@ stringExpression returns [SingleValueGeneratedValue<String> value]
     | ^(IDENTIFIER (^(ATTRIBUTE_SELECTOR i = INTEGER))?)
       {
         $value = i==null? symtab.getStringGeneratedValue($IDENTIFIER, getConstraintSystem()) : symtab.getStringGeneratedValue($IDENTIFIER,i, getConstraintSystem());
-        System.out.println("Group attr");
       }
   ;
   

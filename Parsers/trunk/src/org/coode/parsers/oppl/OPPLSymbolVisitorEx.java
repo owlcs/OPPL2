@@ -9,4 +9,6 @@ public interface OPPLSymbolVisitorEx<O> extends SymbolVisitorEx<O> {
 
 	O visitCollectionVariableAttributeSymbol(
 			CollectionVariableAttributeSymbol<?> collectionVariableAttributeSymbol);
+
+	O visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier);
 }

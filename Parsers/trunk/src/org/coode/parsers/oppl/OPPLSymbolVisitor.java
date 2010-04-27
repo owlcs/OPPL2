@@ -10,4 +10,6 @@ public interface OPPLSymbolVisitor extends SymbolVisitor {
 
 	void visitCollectionVariableAttributeSymbol(
 			CollectionVariableAttributeSymbol<?> collectionVariableAttributeSymbol);
+
+	void visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier);
 }

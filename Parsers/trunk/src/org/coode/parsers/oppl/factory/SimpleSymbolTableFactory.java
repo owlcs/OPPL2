@@ -6,10 +6,10 @@ package org.coode.parsers.oppl.factory;
 import org.coode.parsers.BidirectionalShortFormProviderAdapter;
 import org.coode.parsers.EntityFinder;
 import org.coode.parsers.EntityFinderImpl;
-import org.coode.parsers.OWLEntityCheckerScope;
 import org.coode.parsers.OWLEntityRenderingCacheImpl;
 import org.coode.parsers.ShortFormEntityRenderer;
 import org.coode.parsers.factory.SymbolTableFactory;
+import org.coode.parsers.oppl.OPPLScope;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.semanticweb.owl.expression.ShortFormEntityChecker;
 import org.semanticweb.owl.model.OWLOntologyManager;
@@ -43,7 +43,7 @@ public class SimpleSymbolTableFactory implements SymbolTableFactory {
 				new SimpleShortFormProvider());
 		EntityFinder entityFinder = new EntityFinderImpl(this.manager,
 				new OWLEntityRenderingCacheImpl(this.manager, entityRenderer), false);
-		return new OPPLSymbolTable(new OWLEntityCheckerScope(entityChecker, entityFinder,
-				entityRenderer), this.manager.getOWLDataFactory());
+		return new OPPLSymbolTable(new OPPLScope(entityChecker, entityFinder, entityRenderer),
+				this.manager.getOWLDataFactory());
 	}
 }

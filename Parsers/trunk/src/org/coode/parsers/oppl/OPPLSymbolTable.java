@@ -13,8 +13,8 @@ import org.coode.oppl.variablemansyntax.generated.AbstractCollectionGeneratedVal
 import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
 import org.coode.parsers.DefaultTypeVistorEx;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
-import org.coode.parsers.OWLEntityCheckerScope;
 import org.coode.parsers.OWLType;
+import org.coode.parsers.Scope;
 import org.coode.parsers.Symbol;
 import org.coode.parsers.SymbolTable;
 import org.coode.parsers.Type;
@@ -32,8 +32,7 @@ public class OPPLSymbolTable extends SymbolTable {
 	 * @param globalScope
 	 * @param dataFactory
 	 */
-	public OPPLSymbolTable(OWLEntityCheckerScope globalScope,
-			OWLDataFactory dataFactory) {
+	public OPPLSymbolTable(Scope globalScope, OWLDataFactory dataFactory) {
 		super(globalScope, dataFactory);
 	}
 
@@ -58,121 +57,128 @@ public class OPPLSymbolTable extends SymbolTable {
 
 	public void defineVariable(ManchesterOWLSyntaxTree identifier,
 			ManchesterOWLSyntaxTree variableType) {
-		VariableType type = VariableType
-				.getVariableType(variableType.getText());
+		VariableType type = VariableType.getVariableType(variableType.getText());
 		if (type == null) {
-			this.reportIllegalToken(variableType,
+			this.reportIllegalToken(
+					variableType,
 					"The variable type is not amongst those recognised");
 		} else {
-			this.define(identifier.token, type.getSymbol(this.getDataFactory(),
+			this.define(identifier.token, type.getSymbol(
+					this.getDataFactory(),
 					identifier.token.getText()));
-			Set<Symbol> attributeSymbols = type.getAttributeSymbols(identifier
-					.getText());
+			Set<Symbol> attributeSymbols = type.getAttributeSymbols(identifier.getText());
 			for (Symbol symbol : attributeSymbols) {
 				this.storeSymbol(symbol.getName(), symbol);
 			}
 		}
 	}
 
-	public Type getClassVariableScopeType(
-			ManchesterOWLSyntaxTree parentExpression,
+	public Type getClassVariableScopeType(ManchesterOWLSyntaxTree parentExpression,
 			ManchesterOWLSyntaxTree classExpression) {
 		Type toReturn = null;
 		if (!OWLType.isClassExpression(classExpression.getEvalType())) {
-			this.reportIncompatibleSymbolType(classExpression, classExpression
-					.getEvalType(), parentExpression);
+			this.reportIncompatibleSymbolType(
+					classExpression,
+					classExpression.getEvalType(),
+					parentExpression);
 		} else {
 			toReturn = classExpression.getEvalType();
 		}
 		return toReturn;
 	}
 
-	public Type getPropertyVariableScopeType(
-			ManchesterOWLSyntaxTree parentExpression,
+	public Type getPropertyVariableScopeType(ManchesterOWLSyntaxTree parentExpression,
 			ManchesterOWLSyntaxTree propertyExpression) {
 		Type toReturn = null;
 		if (!OWLType.isPropertyExpression(propertyExpression.getEvalType())) {
-			this.reportIncompatibleSymbolType(propertyExpression,
-					propertyExpression.getEvalType(), parentExpression);
+			this.reportIncompatibleSymbolType(
+					propertyExpression,
+					propertyExpression.getEvalType(),
+					parentExpression);
 		} else {
 			toReturn = propertyExpression.getEvalType();
 		}
 		return toReturn;
 	}
 
-	public Type getIndividualVariableScopeType(
-			ManchesterOWLSyntaxTree parentExpression,
+	public Type getIndividualVariableScopeType(ManchesterOWLSyntaxTree parentExpression,
 			ManchesterOWLSyntaxTree individualExpression) {
 		Type toReturn = null;
 		if (OWLType.OWL_INDIVIDUAL != individualExpression.getEvalType()) {
-			this.reportIncompatibleSymbolType(individualExpression,
-					individualExpression.getEvalType(), parentExpression);
+			this.reportIncompatibleSymbolType(
+					individualExpression,
+					individualExpression.getEvalType(),
+					parentExpression);
 		} else {
 			toReturn = individualExpression.getEvalType();
 		}
 		return toReturn;
 	}
 
-	public Type getClassGeneratedVariable(
-			ManchesterOWLSyntaxTree parentExpression,
+	public Type getClassGeneratedVariable(ManchesterOWLSyntaxTree parentExpression,
 			ManchesterOWLSyntaxTree classExpression) {
 		Type toReturn = null;
 		if (!OWLType.isClassExpression(classExpression.getEvalType())) {
-			this.reportIncompatibleSymbolType(classExpression, classExpression
-					.getEvalType(), parentExpression);
+			this.reportIncompatibleSymbolType(
+					classExpression,
+					classExpression.getEvalType(),
+					parentExpression);
 		} else {
 			toReturn = classExpression.getEvalType();
 		}
 		return toReturn;
 	}
 
-	public Type getObjectPropertyGeneratedVariable(
-			ManchesterOWLSyntaxTree parentExpression,
+	public Type getObjectPropertyGeneratedVariable(ManchesterOWLSyntaxTree parentExpression,
 			ManchesterOWLSyntaxTree objectPropertyExpression) {
 		Type toReturn = null;
-		if (!OWLType.isObjectPropertyExpression(objectPropertyExpression
-				.getEvalType())) {
-			this.reportIncompatibleSymbolType(objectPropertyExpression,
-					objectPropertyExpression.getEvalType(), parentExpression);
+		if (!OWLType.isObjectPropertyExpression(objectPropertyExpression.getEvalType())) {
+			this.reportIncompatibleSymbolType(
+					objectPropertyExpression,
+					objectPropertyExpression.getEvalType(),
+					parentExpression);
 		} else {
 			toReturn = objectPropertyExpression.getEvalType();
 		}
 		return toReturn;
 	}
 
-	public Type getDataPropertyGeneratedVariable(
-			ManchesterOWLSyntaxTree parentExpression,
+	public Type getDataPropertyGeneratedVariable(ManchesterOWLSyntaxTree parentExpression,
 			ManchesterOWLSyntaxTree dataPropertyExpression) {
 		Type toReturn = null;
 		if (OWLType.OWL_DATA_PROPERTY != dataPropertyExpression.getEvalType()) {
-			this.reportIncompatibleSymbolType(dataPropertyExpression,
-					dataPropertyExpression.getEvalType(), parentExpression);
+			this.reportIncompatibleSymbolType(
+					dataPropertyExpression,
+					dataPropertyExpression.getEvalType(),
+					parentExpression);
 		} else {
 			toReturn = dataPropertyExpression.getEvalType();
 		}
 		return toReturn;
 	}
 
-	public Type getIndividualGeneratedVariable(
-			ManchesterOWLSyntaxTree parentExpression,
+	public Type getIndividualGeneratedVariable(ManchesterOWLSyntaxTree parentExpression,
 			ManchesterOWLSyntaxTree individualExpression) {
 		Type toReturn = null;
 		if (OWLType.OWL_INDIVIDUAL != individualExpression.getEvalType()) {
-			this.reportIncompatibleSymbolType(individualExpression,
-					individualExpression.getEvalType(), parentExpression);
+			this.reportIncompatibleSymbolType(
+					individualExpression,
+					individualExpression.getEvalType(),
+					parentExpression);
 		} else {
 			toReturn = individualExpression.getEvalType();
 		}
 		return toReturn;
 	}
 
-	public Type getConstantGeneratedVariable(
-			ManchesterOWLSyntaxTree parentExpression,
+	public Type getConstantGeneratedVariable(ManchesterOWLSyntaxTree parentExpression,
 			ManchesterOWLSyntaxTree constantExpression) {
 		Type toReturn = null;
 		if (OWLType.OWL_CONSTANT != constantExpression.getEvalType()) {
-			this.reportIncompatibleSymbolType(constantExpression,
-					constantExpression.getEvalType(), parentExpression);
+			this.reportIncompatibleSymbolType(
+					constantExpression,
+					constantExpression.getEvalType(),
+					parentExpression);
 		} else {
 			toReturn = constantExpression.getEvalType();
 		}
@@ -181,58 +187,47 @@ public class OPPLSymbolTable extends SymbolTable {
 
 	public org.coode.oppl.variablemansyntax.VariableType getVaribaleType(
 			ManchesterOWLSyntaxTree variableType) {
-		return VariableType.getVariableType(variableType.getText())
-				.getOPPLVariableType();
+		return VariableType.getVariableType(variableType.getText()).getOPPLVariableType();
 	}
 
 	public SingleValueGeneratedValue<String> getStringGeneratedValue(
-			ManchesterOWLSyntaxTree identifier,
-			final ConstraintSystem constraintSystem) {
+			ManchesterOWLSyntaxTree identifier, final ConstraintSystem constraintSystem) {
 		Symbol symbol = this.resolve(identifier);
-		return symbol
-				.accept(new DefaultOPPLSymbolVisitorEx<SingleValueGeneratedValue<String>>() {
-					@Override
-					public SingleValueGeneratedValue<String> visitStringVariableAttributeSymbol(
-							StringVariableAttributeSymbol stringVariableAttributeSymbol) {
-						return stringVariableAttributeSymbol
-								.create(constraintSystem);
-					}
+		return symbol.accept(new DefaultOPPLSymbolVisitorEx<SingleValueGeneratedValue<String>>() {
+			@Override
+			public SingleValueGeneratedValue<String> visitStringVariableAttributeSymbol(
+					StringVariableAttributeSymbol stringVariableAttributeSymbol) {
+				return stringVariableAttributeSymbol.create(constraintSystem);
+			}
 
-					@Override
-					protected SingleValueGeneratedValue<String> doDefault(
-							Symbol symbol) {
-						return null;
-					}
-				});
+			@Override
+			protected SingleValueGeneratedValue<String> doDefault(Symbol symbol) {
+				return null;
+			}
+		});
 	}
 
 	public SingleValueGeneratedValue<String> getStringGeneratedValue(
-			ManchesterOWLSyntaxTree identifier,
-			ManchesterOWLSyntaxTree selector,
+			ManchesterOWLSyntaxTree identifier, ManchesterOWLSyntaxTree selector,
 			final ConstraintSystem constraintSystem) {
-		Symbol symbol = this.retrieveSymbol(identifier.getText()
-				+ selector.getText());
+		Symbol symbol = this.retrieveSymbol(identifier.getText() + "(" + selector.getText() + ")");
 		SingleValueGeneratedValue<String> toReturn = null;
 		if (symbol != null) {
 			if (symbol.getType() != VariableAttributeType.STRING) {
-				this.reportIncompatibleSymbolType(identifier, symbol.getType(),
-						identifier);
+				this.reportIncompatibleSymbolType(identifier, symbol.getType(), identifier);
 			} else {
-				toReturn = symbol
-						.accept(new DefaultOPPLSymbolVisitorEx<SingleValueGeneratedValue<String>>() {
-							@Override
-							public SingleValueGeneratedValue<String> visitStringVariableAttributeSymbol(
-									StringVariableAttributeSymbol stringVariableAttributeSymbol) {
-								return stringVariableAttributeSymbol
-										.create(constraintSystem);
-							}
+				toReturn = symbol.accept(new DefaultOPPLSymbolVisitorEx<SingleValueGeneratedValue<String>>() {
+					@Override
+					public SingleValueGeneratedValue<String> visitStringVariableAttributeSymbol(
+							StringVariableAttributeSymbol stringVariableAttributeSymbol) {
+						return stringVariableAttributeSymbol.create(constraintSystem);
+					}
 
-							@Override
-							protected SingleValueGeneratedValue<String> doDefault(
-									Symbol symbol) {
-								return null;
-							}
-						});
+					@Override
+					protected SingleValueGeneratedValue<String> doDefault(Symbol symbol) {
+						return null;
+					}
+				});
 			}
 		} else {
 			this.reportIllegalToken(selector, identifier.getText());
@@ -240,40 +235,37 @@ public class OPPLSymbolTable extends SymbolTable {
 		return toReturn;
 	}
 
-	public void defineGroupAttributeRefernceSymbol(
-			ManchesterOWLSyntaxTree name, ManchesterOWLSyntaxTree indexNode) {
-		VariableAttributeSymbol<SingleValueGeneratedValue<String>> symbol = VariableAttribute
-				.group(Integer.parseInt(indexNode.getText())).getSymbol(
-						name.getText());
+	public void defineGroupAttributeRefernceSymbol(ManchesterOWLSyntaxTree name,
+			ManchesterOWLSyntaxTree indexNode) {
+		VariableAttributeSymbol<SingleValueGeneratedValue<String>> symbol = VariableAttribute.group(
+				Integer.parseInt(indexNode.getText())).getSymbol(name.getText());
 		this.storeSymbol(symbol.getName(), symbol);
 	}
 
 	public AbstractCollectionGeneratedValue<OWLClass> getCollection(
-			ManchesterOWLSyntaxTree parentExpression,
-			ManchesterOWLSyntaxTree identifier,
+			ManchesterOWLSyntaxTree parentExpression, ManchesterOWLSyntaxTree identifier,
 			final ConstraintSystem constraintSystem) {
 		Symbol resolvedSymbol = this.resolve(identifier);
 		AbstractCollectionGeneratedValue<OWLClass> toReturn = null;
 		if (resolvedSymbol != null) {
 			if (resolvedSymbol.getType() != VariableAttributeType.COLLECTION) {
-				this.reportIncompatibleSymbolType(identifier, resolvedSymbol
-						.getType(), parentExpression);
+				this.reportIncompatibleSymbolType(
+						identifier,
+						resolvedSymbol.getType(),
+						parentExpression);
 			} else {
-				resolvedSymbol
-						.accept(new DefaultOPPLSymbolVisitorEx<AbstractCollectionGeneratedValue<?>>() {
-							@Override
-							protected AbstractCollectionGeneratedValue<?> doDefault(
-									Symbol symbol) {
-								return null;
-							}
+				resolvedSymbol.accept(new DefaultOPPLSymbolVisitorEx<AbstractCollectionGeneratedValue<?>>() {
+					@Override
+					protected AbstractCollectionGeneratedValue<?> doDefault(Symbol symbol) {
+						return null;
+					}
 
-							@Override
-							public AbstractCollectionGeneratedValue<?> visitCollectionVariableAttributeSymbol(
-									CollectionVariableAttributeSymbol<?> collectionVariableAttributeSymbol) {
-								return collectionVariableAttributeSymbol
-										.create(constraintSystem);
-							}
-						});
+					@Override
+					public AbstractCollectionGeneratedValue<?> visitCollectionVariableAttributeSymbol(
+							CollectionVariableAttributeSymbol<?> collectionVariableAttributeSymbol) {
+						return collectionVariableAttributeSymbol.create(constraintSystem);
+					}
+				});
 			}
 		} else {
 			this.reportUnrecognisedSymbol(identifier);
@@ -281,30 +273,25 @@ public class OPPLSymbolTable extends SymbolTable {
 		return toReturn;
 	}
 
-	public InequalityConstraint getInequalityConstraint(
-			OPPLSyntaxTree parentExpression, OPPLSyntaxTree variableIdentifier,
-			OPPLSyntaxTree expression, ConstraintSystem constraintSystem) {
+	public InequalityConstraint getInequalityConstraint(OPPLSyntaxTree parentExpression,
+			OPPLSyntaxTree variableIdentifier, OPPLSyntaxTree expression,
+			ConstraintSystem constraintSystem) {
 		final Type variableType = variableIdentifier.getEvalType();
 		InequalityConstraint toReturn = null;
 		if (variableType == null) {
-			this.reportIncompatibleSymbolType(variableIdentifier, null,
-					parentExpression);
+			this.reportIncompatibleSymbolType(variableIdentifier, null, parentExpression);
 		} else {
 			final Type expressionType = expression.getEvalType();
-			final boolean compatibleTypes = this.checkCompatibleTypes(
-					variableType, expressionType);
+			final boolean compatibleTypes = this.checkCompatibleTypes(variableType, expressionType);
 			if (!compatibleTypes) {
-				this.reportIncompatibleSymbols(parentExpression,
-						variableIdentifier, expression);
+				this.reportIncompatibleSymbols(parentExpression, variableIdentifier, expression);
 			} else {
-				Variable variable = constraintSystem
-						.getVariable(variableIdentifier.getText());
+				Variable variable = constraintSystem.getVariable(variableIdentifier.getText());
 				if (variable == null) {
-					this.reportIllegalToken(variableIdentifier,
-							"Unknown variable");
+					this.reportIllegalToken(variableIdentifier, "Unknown variable");
 				} else if (expression.getOWLObject() != null) {
-					toReturn = new InequalityConstraint(variable, expression
-							.getOWLObject(), constraintSystem);
+					toReturn = new InequalityConstraint(variable, expression.getOWLObject(),
+							constraintSystem);
 				} else {
 					this.reportIllegalToken(expression, "No OWL object");
 				}
@@ -318,8 +305,7 @@ public class OPPLSymbolTable extends SymbolTable {
 	 * @param expressionType
 	 * @return
 	 */
-	private boolean checkCompatibleTypes(final Type variableType,
-			final Type expressionType) {
+	private boolean checkCompatibleTypes(final Type variableType, final Type expressionType) {
 		return variableType.accept(new DefaultTypeVistorEx<Boolean>() {
 			@Override
 			protected Boolean doDefault(Type type) {
@@ -352,8 +338,7 @@ public class OPPLSymbolTable extends SymbolTable {
 					break;
 				case OWL_OBJECT_PROPERTY:
 				case OWL_OBJECT_INVERSE_PROPERTY:
-					toReturn = OWLType
-							.isObjectPropertyExpression(expressionType);
+					toReturn = OWLType.isObjectPropertyExpression(expressionType);
 					break;
 				case OWL_DATA_PROPERTY:
 					toReturn = OWLType.OWL_DATA_PROPERTY == expressionType;
@@ -372,19 +357,17 @@ public class OPPLSymbolTable extends SymbolTable {
 		});
 	}
 
-	public InCollectionConstraint<OWLObject> getInSetConstraint(
-			OPPLSyntaxTree parentExpression, OPPLSyntaxTree v,
-			ConstraintSystem constraintSystem, OPPLSyntaxTree... elements) {
+	public InCollectionConstraint<OWLObject> getInSetConstraint(OPPLSyntaxTree parentExpression,
+			OPPLSyntaxTree v, ConstraintSystem constraintSystem, OPPLSyntaxTree... elements) {
 		InCollectionConstraint<OWLObject> toReturn = null;
 		boolean allCompatible = true;
 		if (elements.length > 0) {
-			List<OPPLSyntaxTree> incompatibles = new ArrayList<OPPLSyntaxTree>(
-					elements.length);
-			List<OWLObject> owlObjects = new ArrayList<OWLObject>(
-					elements.length);
+			List<OPPLSyntaxTree> incompatibles = new ArrayList<OPPLSyntaxTree>(elements.length);
+			List<OWLObject> owlObjects = new ArrayList<OWLObject>(elements.length);
 			for (OPPLSyntaxTree element : elements) {
-				final boolean isCompatible = this.checkCompatibleTypes(v
-						.getEvalType(), element.getEvalType())
+				final boolean isCompatible = this.checkCompatibleTypes(
+						v.getEvalType(),
+						element.getEvalType())
 						&& element.getOWLObject() != null;
 				allCompatible = allCompatible && isCompatible;
 				if (!isCompatible) {
@@ -397,13 +380,14 @@ public class OPPLSymbolTable extends SymbolTable {
 				if (variable == null) {
 					this.reportIllegalToken(v, "Unknown variable");
 				} else {
-					toReturn = new InCollectionConstraint<OWLObject>(variable,
-							owlObjects, constraintSystem);
+					toReturn = new InCollectionConstraint<OWLObject>(variable, owlObjects,
+							constraintSystem);
 				}
 			} else {
 				incompatibles.add(0, v);
-				this.reportIncompatibleSymbols(parentExpression, incompatibles
-						.toArray(new OPPLSyntaxTree[incompatibles.size()]));
+				this.reportIncompatibleSymbols(
+						parentExpression,
+						incompatibles.toArray(new OPPLSyntaxTree[incompatibles.size()]));
 			}
 		} else {
 			this.reportIllegalToken(parentExpression, "Empty set");

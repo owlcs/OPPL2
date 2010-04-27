@@ -109,89 +109,89 @@ axiom returns  [Type type, ManchesterOWLSyntaxTree node]
 		^(SUB_CLASS_AXIOM  ^(EXPRESSION  subClass = expression) ^( EXPRESSION  superClass = expression))
 		{
 			$type = this.getSymbolTable().getSubClassAxiomType($start, subClass.node, superClass.node);
-			getTypesEnforcer().enforceSubClassOfAxiomTypes(subClass.node, superClass.node);
+			getTypesEnforcer().enforceSubClassOfAxiomTypes($start,subClass.node, superClass.node);
 		}
 	|  ^(EQUIVALENT_TO_AXIOM ^(EXPRESSION lhs = expression) ^(EXPRESSION  rhs = expression))
 	   {
 	    $type = this.getSymbolTable().getEquivalentAxiomType($start, lhs.node, rhs.node);
-	    getTypesEnforcer().enforceEquivalentToAxiomTypes(lhs.node, rhs.node);
+	    getTypesEnforcer().enforceEquivalentToAxiomTypes($start,lhs.node, rhs.node);
 	   }	
 	| ^(INVERSE_OF ^(EXPRESSION p = IDENTIFIER) ^(EXPRESSION anotherProperty = IDENTIFIER))
 	{
 	   $type = this.getSymbolTable().getInverseOfAxiomType($start, p, anotherProperty);
-	   getTypesEnforcer().enforceIverserOfAxiomTypes(p, anotherProperty);
+	   getTypesEnforcer().enforceIverserOfAxiomTypes($start,p, anotherProperty);
 	}
   | ^(DISJOINT_WITH_AXIOM ^(EXPRESSION lhs =  expression) ^(EXPRESSION rhs = expression)){
      $type = this.getSymbolTable().getDisjointAxiomType($start, lhs.node, rhs.node);
-     getTypesEnforcer().enforceDisjointWithAxiomTypes(lhs.node, rhs.node);
+     getTypesEnforcer().enforceDisjointWithAxiomTypes($start,lhs.node, rhs.node);
   }	  
 	|	^(SUB_PROPERTY_AXIOM ^(EXPRESSION  subProperty = expression) ^(EXPRESSION superProperty = unary))
 		{
 			$type = this.getSymbolTable().getSubPropertyAxiomType($start, subProperty.node, superProperty.node);
-			getTypesEnforcer().enforceSubPropertyAxiomTypes(subProperty.node, superProperty.node);
+			getTypesEnforcer().enforceSubPropertyAxiomTypes($start,subProperty.node, superProperty.node);
 		}		
 	| ^(ROLE_ASSERTION ^(EXPRESSION  subject = IDENTIFIER) ^(EXPRESSION  predicate = propertyExpression) ^(EXPRESSION object = unary)){
 	   $type = this.getSymbolTable().getRoleAssertionAxiomType($start, subject, predicate.node, object.node);
-	   getTypesEnforcer().enforceRoleAssertionAxiomTypes(subject, predicate.node, object.node);
+	   getTypesEnforcer().enforceRoleAssertionAxiomTypes($start,subject, predicate.node, object.node);
 	 }
 	|  ^(TYPE_ASSERTION ^(EXPRESSION  description = expression) ^(EXPRESSION subject = IDENTIFIER))
 	{
 	   $type = this.getSymbolTable().getClassAssertionAxiomType($start,description.node, subject);
-	   getTypesEnforcer().enforceTypeAssertionAxiomTypes(description.node,subject);
+	   getTypesEnforcer().enforceTypeAssertionAxiomTypes($start,description.node,subject);
 	} 
 	| ^(DOMAIN ^(EXPRESSION p = IDENTIFIER) ^(EXPRESSION domain = expression))
 	 {
 	   $type = this.getSymbolTable().getDomainAxiomType($start, p, domain.node);
-	   getTypesEnforcer().enforceDomainAxiomTypes(p,range.node);
+	   getTypesEnforcer().enforceDomainAxiomTypes($start,p,range.node);
 	 }
 	 | ^(RANGE ^(EXPRESSION p = IDENTIFIER) ^(EXPRESSION range = expression))
    {
      $type = this.getSymbolTable().getRangeAxiomType($start, p, range.node);
-     getTypesEnforcer().enforceRangeAxiomTypes(p,range.node);
+     getTypesEnforcer().enforceRangeAxiomTypes($start,p,range.node);
    }
    | ^(SAME_AS_AXIOM ^(EXPRESSION anIndividual =IDENTIFIER) ^(EXPRESSION anotherIndividual = IDENTIFIER))
    {
     $type = this.getSymbolTable().getSameIndividualsAxiomType($start, anIndividual, anotherIndividual);
-    getTypesEnforcer().enforceSameIndividualsAxiomTypes(anIndividual,anotherIndividual);
+    getTypesEnforcer().enforceSameIndividualsAxiomTypes($start,anIndividual,anotherIndividual);
    }
     | ^(DIFFERENT_FROM_AXIOM ^(EXPRESSION anIndividual =IDENTIFIER) ^(EXPRESSION anotherIndividual = IDENTIFIER))
    {
     $type = this.getSymbolTable().getDifferentIndividualsAxiomType($start, anIndividual, anotherIndividual);
-    getTypesEnforcer().enforceDifferentIndividualsAxiomTypes(anIndividual,anotherIndividual);
+    getTypesEnforcer().enforceDifferentIndividualsAxiomTypes($start,anIndividual,anotherIndividual);
    }
 	 | ^(UNARY_AXIOM FUNCTIONAL ^(EXPRESSION p = IDENTIFIER))
 	 {
 	   $type = this.getSymbolTable().getFunctionalPropertyType($start, p);
-	   getTypesEnforcer().enforceFunctionalPropertyAxiomTypes(p);
+	   getTypesEnforcer().enforceFunctionalPropertyAxiomTypes($start,p);
 	 }
 	 | ^(UNARY_AXIOM INVERSE_FUNCTIONAL ^(EXPRESSION p = IDENTIFIER))
    {
      $type = this.getSymbolTable().getInverseFunctionalPropertyType($start, p);
-     getTypesEnforcer().enforceInverseFunctionalPropertyAxiomTypes(p);
+     getTypesEnforcer().enforceInverseFunctionalPropertyAxiomTypes($start,p);
    }
     | ^(UNARY_AXIOM IRREFLEXIVE ^(EXPRESSION p = IDENTIFIER))
    {
      $type = this.getSymbolTable().getIrreflexivePropertyType($start, p);
-     getTypesEnforcer().enforceIrreflexivePropertyAxiomTypes(p);
+     getTypesEnforcer().enforceIrreflexivePropertyAxiomTypes($start,p);
    }
    | ^(UNARY_AXIOM REFLEXIVE ^(EXPRESSION p = IDENTIFIER))
    {
      $type = this.getSymbolTable().getReflexivePropertyType($start, p);
-     getTypesEnforcer().enforceReflexivePropertyAxiomTypes(p);
+     getTypesEnforcer().enforceReflexivePropertyAxiomTypes($start,p);
    }
    | ^(UNARY_AXIOM SYMMETRIC ^(EXPRESSION p = IDENTIFIER))
    {
      $type = this.getSymbolTable().getSymmetricPropertyType($start, p);
-     getTypesEnforcer().enforceSymmetricPropertyAxiomTypes(p);
+     getTypesEnforcer().enforceSymmetricPropertyAxiomTypes($start,p);
    } 
     | ^(UNARY_AXIOM TRANSITIVE ^(EXPRESSION p = IDENTIFIER))
    {
      $type = this.getSymbolTable().getTransitivePropertyType($start, p);
-     getTypesEnforcer().enforceTransitivePropertyAxiomTypes(p);
+     getTypesEnforcer().enforceTransitivePropertyAxiomTypes($start,p);
    }
    | ^(NEGATED_ASSERTION a =axiom){
      $type = this.getSymbolTable().getNegatedAssertionType($start, a.node);
-     getTypesEnforcer().enforceNegatedAssertionTypes(a.node);
+     getTypesEnforcer().enforceNegatedAssertionTypes($start,a.node);
    }     
 ;
 
@@ -210,7 +210,7 @@ expression returns  [Type type, ManchesterOWLSyntaxTree node]
 		 	 		nodes.add(((conjunction_return) node).node);
 		 	 	}
 		 		$type = this.getSymbolTable().getDisjunctionType($start, nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
-		 		getTypesEnforcer().enforceDisjunctionTypes(nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
+		 		getTypesEnforcer().enforceDisjunctionTypes($start,nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
 		 	}
 		|  ^(PROPERTY_CHAIN  chainItems+=expression+)
 		  {
@@ -219,7 +219,7 @@ expression returns  [Type type, ManchesterOWLSyntaxTree node]
           nodes.add(((expression_return) item).node);
         }
 		    $type = this.getSymbolTable().getPropertyChainType($start, nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
-		    getTypesEnforcer().enforcePropertyChainTypes(nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
+		    getTypesEnforcer().enforcePropertyChainTypes($start,nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
 		  }
 		| conjunction  
 		{
@@ -248,7 +248,7 @@ conjunction  returns [Type type, ManchesterOWLSyntaxTree node]
 		 	 		nodes.add(((unary_return) node).node);
 		 	 	}
 		 		$type = this.getSymbolTable().getConjunctionType($start, nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
-		 		getTypesEnforcer().enforceConjunctionTypes(nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()])); 
+		 		getTypesEnforcer().enforceConjunctionTypes($start,nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()])); 
 	}
 	| unary {
 		$type = $unary.type;
@@ -273,7 +273,7 @@ unary returns [Type type, ManchesterOWLSyntaxTree node]
 		| ^(NEGATED_EXPRESSION e = expression) 
 			{
 				$type = this.getSymbolTable().getNegatedClassExpressionType($start,e.node);
-		    getTypesEnforcer().enforceNegatedClassExpression(e.node);
+		    getTypesEnforcer().enforceNegatedClassExpression($start,e.node);
 			}	
 		| qualifiedRestriction 	
 			{
@@ -324,13 +324,13 @@ returns [Type type, ManchesterOWLSyntaxTree node]
 	^(INVERSE_OBJECT_PROPERTY_EXPRESSION p = complexPropertyExpression)
 	{
 		$type = this.getSymbolTable().getInversePropertyType($start, p.node);
-		getTypesEnforcer().enforceInverseObjectPropertyTypes(p.node);
+		getTypesEnforcer().enforceInverseObjectPropertyTypes($start,p.node);
 	}
 	| ^(INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER)
 	{
 				Symbol symbol = this.getSymbolTable().resolve($IDENTIFIER);
 				$type = this.getSymbolTable().getInversePropertyType($start, $IDENTIFIER);
-				getTypesEnforcer().enforceInverseObjectPropertyTypes(p.node);
+				getTypesEnforcer().enforceInverseObjectPropertyTypes($start,p.node);
 	}
 	;
 
@@ -343,12 +343,12 @@ qualifiedRestriction returns [Type type , ManchesterOWLSyntaxTree node]
 					^(SOME_RESTRICTION p= propertyExpression  f= expression) 
 					{
 						$type = this.getSymbolTable().getSomeValueRestrictionType($start,p.node,f.node);
-						getTypesEnforcer().enforceSomeValueRestrictionTypes(p.node,f.node);
+						getTypesEnforcer().enforceSomeValueRestrictionTypes($start,p.node,f.node);
 					}				
 				|	^(ALL_RESTRICTION  p = propertyExpression f= expression) 
 				{
 					$type = this.getSymbolTable().getAllValueRestrictionType($start,p.node,f.node);
-					getTypesEnforcer().enforceAllValueRestrictionTypes(p.node,f.node);
+					getTypesEnforcer().enforceAllValueRestrictionTypes($start,p.node,f.node);
 				}
 				| cardinalityRestriction 
 					{
@@ -376,20 +376,20 @@ cardinalityRestriction	returns [Type type , ManchesterOWLSyntaxTree node]
 		{
 			$type =  this.getSymbolTable().getMinCardinalityRestrictionType($start,p.node, filler==null?null:filler.node);
 			int cardinality = Integer.parseInt(i.token.getText());
-      getTypesEnforcer().enforceMinCardinalityRestrictionTypes(p.node,filler.node);
+      getTypesEnforcer().enforceMinCardinalityRestrictionTypes($start,p.node,filler.node);
 			
 		}
 		|  ^(CARDINALITY_RESTRICTION  MAX i=INTEGER p = unary  filler = expression?) 
     {
       $type = this.getSymbolTable().getMaxCardinalityRestrictionType($start,p.node, filler==null?null:filler.node);
       int cardinality = Integer.parseInt(i.token.getText());
-      getTypesEnforcer().enforceMaxCardinalityRestrictionTypes(p.node,filler.node);
+      getTypesEnforcer().enforceMaxCardinalityRestrictionTypes($start,p.node,filler.node);
     }
     |  ^(CARDINALITY_RESTRICTION  EXACTLY i= INTEGER  p = unary  filler = expression?) 
     {
       $type = this.getSymbolTable().getExactCardinalityRestrictionType($start,p.node, filler==null?null:filler.node);
       int cardinality = Integer.parseInt(i.token.getText());
-      getTypesEnforcer().enforceExactCardinalityRestrictionTypes(p.node,filler.node);
+      getTypesEnforcer().enforceExactCardinalityRestrictionTypes($start,p.node,filler.node);
     }
 		;
 		
@@ -406,7 +406,7 @@ oneOf	returns [Type type , ManchesterOWLSyntaxTree node]
           nodes.add((ManchesterOWLSyntaxTree)node);
         }
 		    $type = this.getSymbolTable().getOneOfType($start, nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
-		    getTypesEnforcer().enforceOneOfTypes(nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
+		    getTypesEnforcer().enforceOneOfTypes($start,nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
 		}
 	;
 
@@ -419,7 +419,7 @@ valueRestriction	returns [Type type , ManchesterOWLSyntaxTree node]
 		^(VALUE_RESTRICTION  p = unary  value = unary) 
 		{
 		  $type = this.getSymbolTable().getValueRestrictionType($start,p.node, value.node);
-		  getTypesEnforcer().enforceValueRestrictionTypes(p.node,value.node);		  
+		  getTypesEnforcer().enforceValueRestrictionTypes($start,p.node,value.node);		  
 		 }
 	;
 	

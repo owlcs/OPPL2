@@ -94,7 +94,7 @@ public abstract class VariableAttribute<O> {
 						}) {
 					@Override
 					public String toString() {
-						return variableName + ".GROUPS(" + index + ")";
+						return variableName + "(" + index + ")";
 					}
 				};
 			}

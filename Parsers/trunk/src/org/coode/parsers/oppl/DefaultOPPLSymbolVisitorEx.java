@@ -5,8 +5,7 @@ import org.coode.parsers.Symbol;
 import org.coode.parsers.oppl.variableattribute.CollectionVariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
 
-public abstract class DefaultOPPLSymbolVisitorEx<O> implements
-		OPPLSymbolVisitorEx<O> {
+public abstract class DefaultOPPLSymbolVisitorEx<O> implements OPPLSymbolVisitorEx<O> {
 	protected abstract O doDefault(Symbol symbol);
 
 	public O visitCollectionVariableAttributeSymbol(
@@ -25,5 +24,9 @@ public abstract class DefaultOPPLSymbolVisitorEx<O> implements
 
 	public O visitSymbol(Symbol symbol) {
 		return this.doDefault(symbol);
+	}
+
+	public O visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier) {
+		return this.doDefault(createOnDemandIdentifier);
 	}
 }
