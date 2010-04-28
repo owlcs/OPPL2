@@ -8,6 +8,7 @@ import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.OWLModelManagerImpl;
 import org.semanticweb.owl.expression.OWLEntityChecker;
 
+/** This test is to be run for profiling reasons only */
 public class PerformanceTestCase extends AbstractTestCase {
 	OWLEntityChecker test;
 
@@ -31,7 +32,7 @@ public class PerformanceTestCase extends AbstractTestCase {
 	}
 
 	public void testScript() {
-		String regexp = "Match(\"structural_constituent_of_((\\w+))\")";
+		String regexp = "Match(\"structural_constituent_of_(\\w+)\")";
 		OPPLScript result = this.parse("?regexp:CLASS=" + regexp + ", "
 				+ "?x:CLASS=create(?regexp.GROUPS(1)) "
 				+ "SELECT ?regexp subClassOf Thing WHERE ?regexp " + regexp
@@ -45,5 +46,7 @@ public class PerformanceTestCase extends AbstractTestCase {
 		PerformanceTestCase t = new PerformanceTestCase();
 		t.setUp();
 		t.testScript();
+		// infinite cycle: to be used for memory snapshots
+		//		while(true);
 	}
 }
