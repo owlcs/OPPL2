@@ -95,7 +95,7 @@ PLUS
 
  CREATE_DISJUNCTION
   :
-    'createDisjunction'
+    'createUnion'
   ;
  
  BEGIN
