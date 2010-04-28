@@ -3,15 +3,11 @@
  */
 package org.coode.parsers.oppl.variableattribute;
 
-import java.util.Set;
-
 import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.coode.oppl.variablemansyntax.Variable;
 import org.coode.oppl.variablemansyntax.generated.AbstractCollectionGeneratedValue;
 import org.coode.oppl.variablemansyntax.generated.Attribute;
-import org.coode.oppl.variablemansyntax.generated.RegExpGenerated;
 import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
-import org.coode.oppl.variablemansyntax.generated.VariableIndexGeneratedValue;
 import org.coode.oppl.variablemansyntax.generated.factory.RenderingVariableGeneratedValue;
 import org.semanticweb.owl.model.OWLObject;
 
@@ -75,28 +71,7 @@ public abstract class VariableAttribute<O> {
 			@Override
 			public VariableAttributeSymbol<SingleValueGeneratedValue<String>> getSymbol(
 					final String variableName) {
-				return new StringVariableAttributeSymbol(variableName + "(" + index + ")",
-						new SingleValueGeneratedValueFactory<String>() {
-							public SingleValueGeneratedValue<String> create(
-									ConstraintSystem constraintSystem) {
-								VariableIndexGeneratedValue toReturn = null;
-								Variable v = constraintSystem.getVariable(variableName);
-								if (v != null) {
-									RegExpGenerated gv = (RegExpGenerated) v;
-									Set<OWLObject> bindings = gv.getPossibleBindings();
-									if (bindings.size() > 0) {
-										toReturn = new VariableIndexGeneratedValue(gv, index,
-												bindings);
-									}
-								}
-								return toReturn;
-							}
-						}) {
-					@Override
-					public String toString() {
-						return variableName + "(" + index + ")";
-					}
-				};
+				return new GroupVariableAttributeSymbol(variableName, index);
 			}
 		};
 	}
