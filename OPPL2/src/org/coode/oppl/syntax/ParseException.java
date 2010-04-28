@@ -3,12 +3,8 @@
 package org.coode.oppl.syntax;
 
 /**
- * This exception is thrown when parse errors are encountered. You can
- * explicitly create objects of this exception type by calling the method
- * generateParseException in the generated parser.
- * 
- * You can modify this class to customize your error reporting mechanisms so
- * long as you retain the public fields.
+ * This is a copy of ParseException with added constructors. It should be
+ * renamed to ParseException after all the classes are generated from oppl.jjt
  */
 public class ParseException extends Exception {
 	/**
@@ -32,14 +28,10 @@ public class ParseException extends Exception {
 		this.tokenImage = tokenImageVal;
 	}
 
-	/**
-	 * The following constructors are for use by you for whatever purpose you
-	 * can think of. Constructing the exception in this manner makes the
-	 * exception behave in the normal way - i.e., as documented in the class
-	 * "Throwable". The fields "errorToken", "expectedTokenSequences", and
-	 * "tokenImage" do not contain relevant information. The JavaCC generated
-	 * code does not use these constructors.
-	 */
+	public ParseException(Throwable t) {
+		super(t);
+	}
+
 	public ParseException(String message, Throwable t) {
 		super(message, t);
 	}
