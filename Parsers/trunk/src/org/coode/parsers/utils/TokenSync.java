@@ -54,8 +54,7 @@ public class TokenSync {
 				this.max = 0;
 				try {
 					while ((line = reader.readLine()) != null) {
-						Pattern pattern = Pattern.compile("(.*)=(.*)",
-								Pattern.DOTALL);
+						Pattern pattern = Pattern.compile("(.*)=(.*)", Pattern.DOTALL);
 						Matcher matcher = pattern.matcher(line);
 						boolean matches = matcher.matches();
 						if (matches) {
@@ -73,7 +72,8 @@ public class TokenSync {
 							"Could not read line " + e.getMessage());
 				}
 			} catch (FileNotFoundException e) {
-				Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
+				Logger.getLogger(this.getClass().getName()).log(
+						Level.SEVERE,
 						"The File could not be open " + e.getMessage());
 			}
 		}
@@ -116,7 +116,7 @@ public class TokenSync {
 				Integer myKey = this.getType(tokenText);
 				if (this.containsTokenText(tokenText) && myKey != key) {
 					this.changeKey(tokenText, myKey, key);
-				} else if (this.getTokenText(key) != null
+				} else if (!this.isEmptyKey(key)
 						&& tokenText.compareTo(this.getTokenText(key)) != 0) {
 					// If the key is occupied in this token map by some other
 					// token
@@ -128,6 +128,38 @@ public class TokenSync {
 					this.inverseMap.put(tokenText2move, this.max);
 				}
 			}
+			removeDuplicates(reference);
+		}
+
+		/**
+		 * @param reference
+		 */
+		private void removeDuplicates(TokenMap reference) {
+			for (Integer key : reference.getKeys()) {
+				String tokenText = reference.getTokenText(key);
+				this.removeDuplicates(key, tokenText);
+			}
+		}
+
+		/**
+		 * @param referenceKey
+		 * @param tokenText
+		 */
+		private void removeDuplicates(Integer referenceKey, String tokenText) {
+			for (Integer thisKey : new HashSet<Integer>(this.map.keySet())) {
+				if (tokenText.compareTo(this.map.get(thisKey)) == 0 && thisKey != referenceKey) {
+					this.map.remove(thisKey);
+					this.inverseMap.put(tokenText, referenceKey);
+				}
+			}
+		}
+
+		/**
+		 * @param key
+		 * @return
+		 */
+		private boolean isEmptyKey(Integer key) {
+			return this.getTokenText(key) == null;
 		}
 
 		private void changeKey(String tokenText, Integer fromKey, Integer toKey) {
