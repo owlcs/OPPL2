@@ -22,6 +22,7 @@
  */
 package org.coode.oppl.utils;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +30,15 @@ import java.util.Set;
 import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.coode.oppl.variablemansyntax.PlainVariableVisitor;
 import org.coode.oppl.variablemansyntax.Variable;
+import org.coode.oppl.variablemansyntax.generated.ConcatGeneratedValues;
+import org.coode.oppl.variablemansyntax.generated.RegExpGeneratedValue;
+import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
+import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValueVisitorAdapter;
 import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.variablemansyntax.generated.VariableExpressionGeneratedValue;
+import org.coode.oppl.variablemansyntax.generated.VariableIndexGeneratedValue;
+import org.coode.oppl.variablemansyntax.generated.factory.OWLObjectCollectionGeneratedValue;
+import org.coode.oppl.variablemansyntax.generated.factory.RenderingVariableGeneratedValue;
 import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
 import org.semanticweb.owl.model.OWLClass;
@@ -121,8 +130,85 @@ import org.semanticweb.owl.model.SWRLSameAsAtom;
  * @author Luigi Iannone
  * 
  */
-@SuppressWarnings("unused")
 public class VariableExtractor implements OWLObjectVisitorEx<Set<Variable>> {
+	final class ValueVariableExtractor extends
+			SingleValueGeneratedValueVisitorAdapter {
+		private Collection<Variable> collection;
+
+		public ValueVariableExtractor(Collection<Variable> collection) {
+			this.collection = collection;
+		}
+
+		@Override
+		public void vistVariableIndexGeneratedValue(
+				VariableIndexGeneratedValue variableIndexGeneratedValue) {
+			variableIndexGeneratedValue.getVariable().accept(
+					new PlainVariableVisitor() {
+						public void visit(SingleValueGeneratedVariable<?> v) {
+							if (VariableExtractor.this.includeGenerated) {
+								ValueVariableExtractor.this.collection.add(v);
+							}
+							// Add the variables this generated variable refers
+							// to (they
+							// might no be mentioned elsewhere in the axiom)
+							v
+									.getValue()
+									.accept(
+											new ValueVariableExtractor(
+													ValueVariableExtractor.this.collection));
+						}
+
+						public void visit(Variable v) {
+							ValueVariableExtractor.this.collection.add(v);
+						}
+					});
+		}
+
+		@Override
+		public void visitVariableExpressionGeneratedValue(
+				VariableExpressionGeneratedValue variableExpressionGeneratedValue) {
+			this.collection.addAll(variableExpressionGeneratedValue
+					.getExpression().accept(VariableExtractor.this));
+		}
+
+		@Override
+		public void visitOWLObjectCollectionGeneratedValue(
+				OWLObjectCollectionGeneratedValue owlObjectCollectionGeneratedValue) {
+			owlObjectCollectionGeneratedValue.getVariable().accept(
+					new PlainVariableVisitor() {
+						public void visit(SingleValueGeneratedVariable<?> v) {
+							v.getValue().accept(ValueVariableExtractor.this);
+						}
+
+						public void visit(Variable v) {
+							ValueVariableExtractor.this.collection.add(v);
+						}
+					});
+		}
+
+		@Override
+		public void visitRenderingVariableGeneratedValue(
+				RenderingVariableGeneratedValue renderingVariableGeneratedValue) {
+			this.collection.add(renderingVariableGeneratedValue.getVariable());
+		}
+
+		@Override
+		public void visitRegExpGeneratedValue(
+				RegExpGeneratedValue regExpGeneratedValue) {
+			regExpGeneratedValue.getExpression().accept(this);
+		}
+
+		@Override
+		public void visitConcatGeneratedValues(
+				ConcatGeneratedValues concatGeneratedValues) {
+			List<SingleValueGeneratedValue<String>> valuesToAggregate = concatGeneratedValues
+					.getValuesToAggregate();
+			for (SingleValueGeneratedValue<String> singleValueGeneratedValue : valuesToAggregate) {
+				singleValueGeneratedValue.accept(this);
+			}
+		}
+	};
+
 	private final ConstraintSystem constraintSystem;
 	private final boolean includeGenerated;
 
@@ -452,17 +538,21 @@ public class VariableExtractor implements OWLObjectVisitorEx<Set<Variable>> {
 	 */
 	private void vetoVariableIntoCollection(final Set<Variable> collection,
 			Variable variable) {
-		variable.accept(new PlainVariableVisitor() {
+		PlainVariableVisitor variableVetoer = new PlainVariableVisitor() {
 			public void visit(SingleValueGeneratedVariable<?> v) {
 				if (VariableExtractor.this.includeGenerated) {
 					collection.add(v);
 				}
+				// Add the variables this generated variable refers to (they
+				// might no be mentioned elsewhere in the axiom)
+				v.getValue().accept(new ValueVariableExtractor(collection));
 			}
 
 			public void visit(Variable v) {
 				collection.add(v);
 			}
-		});
+		};
+		variable.accept(variableVetoer);
 	}
 
 	public Set<Variable> visit(OWLObjectIntersectionOf desc) {

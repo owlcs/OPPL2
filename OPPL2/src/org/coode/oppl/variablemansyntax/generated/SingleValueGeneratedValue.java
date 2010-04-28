@@ -50,4 +50,8 @@ public interface SingleValueGeneratedValue<O> {
 	 * @return the List of possible generated values
 	 */
 	public abstract List<O> computePossibleValues();
+
+	public void accept(SingleValueGeneratedValueVisitor visitor);
+
+	public <O> O accept(SingleValueGeneratedValueVisitorEx<O> visitor);
 }

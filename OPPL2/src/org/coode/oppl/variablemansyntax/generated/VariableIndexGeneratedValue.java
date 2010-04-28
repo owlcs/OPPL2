@@ -104,4 +104,12 @@ public class VariableIndexGeneratedValue implements
 		}
 		return null;
 	}
+
+	public void accept(SingleValueGeneratedValueVisitor visitor) {
+		visitor.vistVariableIndexGeneratedValue(this);
+	}
+
+	public <O> O accept(SingleValueGeneratedValueVisitorEx<O> visitor) {
+		return visitor.vistVariableIndexGeneratedValue(this);
+	}
 }

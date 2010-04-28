@@ -22,53 +22,19 @@
  */
 package org.coode.oppl.variablemansyntax;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.semanticweb.owl.model.OWLDataProperty;
 import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLProperty;
 import org.semanticweb.owl.model.OWLPropertyExpression;
-import org.semanticweb.owl.model.OWLPropertyRange;
 
 /**
- * Represents a range limitations that could be added to a {@link GeneratedVariable}
- * instance with OBJECTPROpERTY or DATAPROPERTY {@link VariableType}
+ * Represents a range limitations that could be added to a
+ * {@link GeneratedVariable} instance with OBJECTPROpERTY or DATAPROPERTY
+ * {@link VariableType}
  * 
  * @author Luigi Iannone
  * 
  */
-@SuppressWarnings("unchecked")
-public abstract class PropertyVariableScope<P extends OWLProperty<? extends OWLPropertyExpression, ? extends OWLPropertyRange>>
-		implements VariableScope {
-	static class Factory<P extends OWLProperty<? extends OWLPropertyExpression, ? extends OWLPropertyRange>> {
-		private final Map<P, SuperPropertyVariableScope<P>> superPropertyScopes = new HashMap<P, SuperPropertyVariableScope<P>>();
-		private final Map<P, SubPropertyVariableScope<P>> subPropertyScopes = new HashMap<P, SubPropertyVariableScope<P>>();
-
-		SuperPropertyVariableScope<P> buildSuperPropertyVariableScope(P property) {
-			SuperPropertyVariableScope<P> toReturn = this.superPropertyScopes
-					.get(property);
-			if (toReturn == null) {
-				toReturn = new SuperPropertyVariableScope<P>(property);
-				this.superPropertyScopes.put(property, toReturn);
-			}
-			return toReturn;
-		}
-
-		SubPropertyVariableScope<P> buildSubPropertyVariableScope(P property) {
-			SubPropertyVariableScope<P> toReturn = this.subPropertyScopes
-					.get(property);
-			if (toReturn == null) {
-				toReturn = new SubPropertyVariableScope<P>(property);
-				this.subPropertyScopes.put(property, toReturn);
-			}
-			return toReturn;
-		}
-	}
-
-	private static Factory<OWLDataProperty> dataPropertyFactory = new Factory<OWLDataProperty>();
-	private static Factory<OWLObjectProperty> objectPropertyFactory = new Factory<OWLObjectProperty>();
+public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?>> implements
+		VariableScope {
 	private final P property;
 
 	/**
@@ -85,27 +51,14 @@ public abstract class PropertyVariableScope<P extends OWLProperty<? extends OWLP
 		return this.property;
 	}
 
-	static SubPropertyVariableScope<OWLDataProperty> buildSubPropertyVariableScope(
-			OWLDataProperty aDataProperty) {
-		return dataPropertyFactory.buildSubPropertyVariableScope(aDataProperty);
+	static <O extends OWLPropertyExpression<?, ?>> SubPropertyVariableScope<O> buildSubPropertyVariableScope(
+			O property) {
+		return new SubPropertyVariableScope<O>(property);
 	}
 
-	static SubPropertyVariableScope<OWLObjectProperty> buildSubPropertyVariableScope(
-			OWLObjectProperty anObjectProperty) {
-		return objectPropertyFactory
-				.buildSubPropertyVariableScope(anObjectProperty);
-	}
-
-	static SuperPropertyVariableScope<OWLDataProperty> buildSuperPropertyVariableScope(
-			OWLDataProperty aDataProperty) {
-		return dataPropertyFactory
-				.buildSuperPropertyVariableScope(aDataProperty);
-	}
-
-	static SuperPropertyVariableScope<OWLObjectProperty> buildSuperPropertyVariableScope(
-			OWLObjectProperty anObjectProperty) {
-		return objectPropertyFactory
-				.buildSuperPropertyVariableScope(anObjectProperty);
+	static <O extends OWLPropertyExpression<?, ?>> SuperPropertyVariableScope<O> buildSuperPropertyVariableScope(
+			O property) {
+		return new SuperPropertyVariableScope<O>(property);
 	}
 
 	/**

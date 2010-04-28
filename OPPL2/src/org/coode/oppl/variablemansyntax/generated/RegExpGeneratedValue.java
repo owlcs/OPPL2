@@ -74,32 +74,40 @@ public class RegExpGeneratedValue implements
 		List<String> group = new ArrayList<String>();
 		try {
 			Matcher m = regExpression.matcher(toMatch);
-			m.find();
-			MatchResult mr = m.toMatchResult();
-			for (int i = 0; i < mr.groupCount(); i++) {
-				group.add(mr.group(i));
-			}
-			if (group.size() == 0) {
-				// if no groups are found, either there is no group or the expression does not match the input
-				// if it matches the input, then the whole input is returned
-				//XXX the behaviour is not perfect, since probably the whole input should be returned as the first group, but the current use relies on numbering the first explicit group as 0, so won't change it for now
-				m.reset();
-				if (m.matches()) {
-					group.add(toMatch);
+			if (m.lookingAt()) {
+				MatchResult mr = m.toMatchResult();
+				for (int i = 0; i <= mr.groupCount(); i++) {
+					group.add(mr.group(i));
 				}
 			}
+			//			Matcher m = regExpression.matcher(toMatch);
+			//			while (m.find()) {
+			//				System.out.println("RegExpGeneratedValue.actualMatch() "
+			//						+ m.group());
+			//			}
+			//			//			m.lookingAt();
+			//			MatchResult mr = m.toMatchResult();
+			//			for (int i = 0; i < mr.groupCount(); i++) {
+			//				group.add(mr.group(i));
+			//			}
+			//			System.out.println("RegExpGeneratedValue.actualMatch() "
+			//					+ mr.groupCount());
+			//			if (group.size() == 0) {
+			//				// if no groups are found, either there is no group or the expression does not match the input
+			//				// if it matches the input, then the whole input is returned
+			//				//XXX the behaviour is not perfect, since probably the whole input should be returned as the first group, but the current use relies on numbering the first explicit group as 0, so won't change it for now
+			//				m.reset();
+			//				if (m.matches()) {
+			//					group.add(toMatch);
+			//				}
+			//			}
 		} catch (IllegalStateException e) {
-			//XXX needs logging or something
-			//			System.out.println("RegExpGeneratedValue.actualMatch() Matching \""
-			//					+ regExpression + "\" to \"" + toMatch
-			//					+ "\": no match found");
+			// XXX needs logging or something
+			// System.out.println("RegExpGeneratedValue.actualMatch() Matching \""
+			// + regExpression + "\" to \"" + toMatch
+			// + "\": no match found");
 		}
 		return group;
-	}
-
-	public static boolean doesMatch(Pattern regExpression, String toMatch) {
-		Matcher m = regExpression.matcher(toMatch);
-		return m.matches();
 	}
 
 	private List<String> retrieve(OWLEntity e) {
@@ -141,5 +149,20 @@ public class RegExpGeneratedValue implements
 
 	public boolean isMatched() {
 		return this.matched;
+	}
+
+	public void accept(SingleValueGeneratedValueVisitor visitor) {
+		visitor.visitRegExpGeneratedValue(this);
+	}
+
+	public <O> O accept(SingleValueGeneratedValueVisitorEx<O> visitor) {
+		return visitor.visitStringGeneratedValue(this);
+	}
+
+	/**
+	 * @return the expression
+	 */
+	public SingleValueGeneratedValue<String> getExpression() {
+		return this.expression;
 	}
 }

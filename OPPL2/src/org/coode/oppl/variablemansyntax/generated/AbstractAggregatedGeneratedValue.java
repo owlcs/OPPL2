@@ -41,7 +41,8 @@ public abstract class AbstractAggregatedGeneratedValue<N> implements
 	/**
 	 * @param values
 	 */
-	protected AbstractAggregatedGeneratedValue(List<SingleValueGeneratedValue<N>> values) {
+	protected AbstractAggregatedGeneratedValue(
+			List<SingleValueGeneratedValue<N>> values) {
 		this.values2Aggregate = values;
 	}
 
@@ -86,7 +87,7 @@ public abstract class AbstractAggregatedGeneratedValue<N> implements
 
 	/**
 	 * @return an aggregation of the values
-	 * @see {@link AbstractAggregatedGeneratedValue#getValues2Aggregate()}
+	 * @see {@link AbstractAggregatedGeneratedValue#getValuesToAggregate()}
 	 */
 	protected abstract N aggregateValues(List<N> values);
 
@@ -119,7 +120,8 @@ public abstract class AbstractAggregatedGeneratedValue<N> implements
 		ValueTree(List<SingleValueGeneratedValue<N>> root) {
 			List<List<N>> rootNode2Assign = new ArrayList<List<N>>();
 			for (SingleValueGeneratedValue<N> generatedValue : root) {
-				List<N> computePossibleValues = generatedValue.computePossibleValues();
+				List<N> computePossibleValues = generatedValue
+						.computePossibleValues();
 				rootNode2Assign.add(computePossibleValues);
 			}
 			this.rootNode = new ValueTreeNode<N>(rootNode2Assign,
@@ -170,5 +172,12 @@ public abstract class AbstractAggregatedGeneratedValue<N> implements
 			}
 			return toReturn;
 		}
+	}
+
+	/**
+	 * @return the values2Aggregate
+	 */
+	public List<SingleValueGeneratedValue<N>> getValuesToAggregate() {
+		return this.values2Aggregate;
 	}
 }

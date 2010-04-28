@@ -18,9 +18,9 @@ public class ExhaustingTestCase_TestQueries extends AbstractTestCase {
 
 	public void testRegExpGroupUse() {
 		OPPLScript result = this
-				.parse("?island:CLASS=Match(\"[A-Za-z]*((Fragment))\"),\n"
-						+ "?newIsland:CLASS=create(\"Test\"+?island.GROUPS(0)) \n"
-						+ "SELECT ?island subClassOf Fragment  WHERE ?island Match(\"[A-Za-z]*((Fragment))\")\n"
+				.parse("?island:CLASS=Match(\"[A-Za-z]*(Fragment)\"),\n"
+						+ "?newIsland:CLASS=create(\"Test\"+?island.GROUPS(1)) \n"
+						+ "SELECT ?island subClassOf Fragment  WHERE ?island Match(\"[A-Za-z]*(Fragment)\")\n"
 						+ "BEGIN \n" + "ADD ?newIsland subClassOf ?island\n"
 						+ "END;");
 		this.expectedCorrect(result);
@@ -57,8 +57,8 @@ public class ExhaustingTestCase_TestQueries extends AbstractTestCase {
 
 	public void testReverseRegularExpressions() {
 		OPPLScript result = this
-				.parse("?regexp:CLASS=Match(\"(([a-z]+))Division\"), "
-						+ "?x:CLASS=create(?regexp.GROUPS(0)) "
+				.parse("?regexp:CLASS=Match(\"([a-z]+)Division\"), "
+						+ "?x:CLASS=create(?regexp.GROUPS(1)) "
 						+ "SELECT ?regexp subClassOf Thing WHERE ?regexp Match(\"(([a-z]+))Division\") "
 						+ "BEGIN ADD ?x subClassOf ?regexp END;");
 		this.expectedCorrect(result);

@@ -242,7 +242,7 @@ public class ExhaustingTestCase extends AbstractTestCase {
 
 	public void testRegExpGroupUse() {
 		OPPLScript result = this
-				.parse("?island:CLASS=Match(\"((BoundaryFragment))\"), ?newIsland:CLASS=create(\"Test\"+?island.GROUPS(0)) BEGIN ADD ?newIsland subClassOf ?island END;");
+				.parse("?island:CLASS=Match(\"(BoundaryFragment)\"), ?newIsland:CLASS=create(\"Test\"+?island.GROUPS(1)) BEGIN ADD ?newIsland subClassOf ?island END;");
 		this.expectedCorrect(result);
 		this.execute(result, this.getOntology("test.owl"), 0);
 	}
@@ -270,7 +270,7 @@ public class ExhaustingTestCase extends AbstractTestCase {
 
 	public void testReverseRegularExpressions() {
 		OPPLScript result = this
-				.parse("?regexp:CLASS=Match(\"'test ([a-z]+)'\"), ?x:CLASS=create(?regexp.GROUPS(0)) SELECT ?regexp subClassOf Thing  BEGIN ADD ?x subClassOf Thing END;");
+				.parse("?regexp:CLASS=Match(\"'test ([a-z]+)'\"), ?x:CLASS=create(?regexp.GROUPS(1)) SELECT ?regexp subClassOf Thing  BEGIN ADD ?x subClassOf Thing END;");
 		this.expectedCorrect(result);
 		this.execute(result, this.getOntology("test.owl"), 0);
 	}
@@ -297,6 +297,19 @@ public class ExhaustingTestCase extends AbstractTestCase {
 		OPPLScript result = this.parse(correct);
 		this.expectedCorrect(result);
 		this.execute(result, this.getOntology("test.owl"), 0);
+	}
+
+	public void testClassNameSameAsVariable() {
+		String script = "?Chunk:CLASS SELECT ?Chunk subClassOf Thing BEGIN ADD ?Chunk subClassOf Country END;";
+		OPPLScript result = this.parse(script);
+		this.expectedCorrect(result);
+		this.execute(result, this.getOntology("test.owl"), 2);
+	}
+
+	public static void main(String[] args) throws Exception {
+		ExhaustingTestCase t = new ExhaustingTestCase();
+		t.setUp();
+		t.testClassNameSameAsVariable();
 	}
 
 	public void testRobertsScripts1() {

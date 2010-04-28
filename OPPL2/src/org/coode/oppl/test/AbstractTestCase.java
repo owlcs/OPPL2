@@ -89,7 +89,7 @@ public abstract class AbstractTestCase extends TestCase {
 			} catch (OWLOntologyChangeException e) {
 				e.printStackTrace();
 			}
-			for (OWLAxiomChange change : script.getActions()) {
+			for (OWLAxiomChange change : actions) {
 				System.out.println(change);
 			}
 		} catch (Exception e) {

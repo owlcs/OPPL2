@@ -36,8 +36,20 @@ public class VariableExpressionGeneratedValue implements
 		Set<BindingNode> leaves = this.constraintSystem.getLeaves();
 		List<OWLObject> toReturn = new ArrayList<OWLObject>(leaves.size());
 		for (BindingNode bindingNode : leaves) {
-			toReturn.add(getGeneratedValue(bindingNode));
+			toReturn.add(this.getGeneratedValue(bindingNode));
 		}
 		return toReturn;
+	}
+
+	public void accept(SingleValueGeneratedValueVisitor visitor) {
+		visitor.visitVariableExpressionGeneratedValue(this);
+	}
+
+	public <O> O accept(SingleValueGeneratedValueVisitorEx<O> visitor) {
+		return visitor.visitVariableExpressionGeneratedValue(this);
+	}
+
+	public OWLObject getExpression() {
+		return this.owlObject;
 	}
 }

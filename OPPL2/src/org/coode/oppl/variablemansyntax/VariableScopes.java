@@ -24,7 +24,7 @@ package org.coode.oppl.variablemansyntax;
 
 import org.semanticweb.owl.model.OWLDataProperty;
 import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLObjectProperty;
+import org.semanticweb.owl.model.OWLPropertyExpression;
 
 /**
  * This class consists exclusively of static methods that operate on or return
@@ -39,23 +39,14 @@ public class VariableScopes {
 	 * 
 	 */
 	public enum Direction {
-		SUBCLASSOF("subClassOf"), SUPERCLASSOF("superClassOf"), SUBPROPERTYOF(
-				"subPropertyOf"), SUPERPROPERTYOF("superPropertyOf"), INSTANCEOF(
-				"instanceOf");
+		SUBCLASSOF("subClassOf"), SUPERCLASSOF("superClassOf"), SUBPROPERTYOF("subPropertyOf"), SUPERPROPERTYOF(
+				"superPropertyOf"), INSTANCEOF("instanceOf");
 		private String direction;
 
 		Direction(String s) {
 			this.direction = s;
 		}
 
-		// static EnumMap<Direction, String> directionMap = new
-		// EnumMap<Direction, String>(
-		// Direction.class);
-		// static {
-		// for (Direction direction : values()) {
-		// directionMap.put(direction, direction.direction.toLowerCase());
-		// }
-		// }
 		/**
 		 * Parser the input String and returns the corresponding Direction. If
 		 * the input does not correspond to any possible Direction instance,
@@ -71,18 +62,6 @@ public class VariableScopes {
 				}
 			}
 			return null;
-			// boolean found = false;
-			// Iterator<Direction> it = directionMap.keySet().iterator();
-			// Direction toReturn = null;
-			// while (!found && it.hasNext()) {
-			// VariableScopes.Direction aDirection = it.next();
-			// found = directionMap.get(aDirection)
-			// .equalsIgnoreCase(direction);
-			// if (found) {
-			// toReturn = aDirection;
-			// }
-			// }
-			// return toReturn;
 		}
 
 		@Override
@@ -96,8 +75,7 @@ public class VariableScopes {
 	 * @return a VariableScope instance restricting values to be sub-classes of
 	 *         the input OWLDescription
 	 */
-	public static SubClassVariableScope buildSubClassVariableScope(
-			OWLDescription description) {
+	public static SubClassVariableScope buildSubClassVariableScope(OWLDescription description) {
 		return ClassVariableScope.buildSubClassVariableScope(description);
 	}
 
@@ -106,8 +84,7 @@ public class VariableScopes {
 	 * @return a VariableScope instance restricting values to be super-classes
 	 *         of the input OWLDescription
 	 */
-	public static SuperClassVariableScope buildSuperClassVariableScope(
-			OWLDescription description) {
+	public static SuperClassVariableScope buildSuperClassVariableScope(OWLDescription description) {
 		return ClassVariableScope.buildSuperClassVariableScope(description);
 	}
 
@@ -126,8 +103,8 @@ public class VariableScopes {
 	 * @return a VariableScope instance restricting values to be sub-properties
 	 *         of the input OWLProperty
 	 */
-	public static SubPropertyVariableScope<OWLObjectProperty> buildSubPropertyVariableScope(
-			OWLObjectProperty property) {
+	public static <P extends OWLPropertyExpression<?, ?>> SubPropertyVariableScope<P> buildSubPropertyVariableScope(
+			P property) {
 		return PropertyVariableScope.buildSubPropertyVariableScope(property);
 	}
 
@@ -136,18 +113,8 @@ public class VariableScopes {
 	 * @return a VariableScope instance restricting values to be
 	 *         super-properties of the input OWLProperty
 	 */
-	public static SuperPropertyVariableScope<OWLDataProperty> buildSuperPropertyVariableScope(
-			OWLDataProperty property) {
-		return PropertyVariableScope.buildSuperPropertyVariableScope(property);
-	}
-
-	/**
-	 * @param property
-	 * @return a VariableScope instance restricting values to be
-	 *         super-properties of the input OWLProperty
-	 */
-	public static SuperPropertyVariableScope<OWLObjectProperty> buildSuperPropertyVariableScope(
-			OWLObjectProperty property) {
+	public static <P extends OWLPropertyExpression<?, ?>> SuperPropertyVariableScope<P> buildSuperPropertyVariableScope(
+			P property) {
 		return PropertyVariableScope.buildSuperPropertyVariableScope(property);
 	}
 
@@ -156,9 +123,7 @@ public class VariableScopes {
 	 * @return a VariableScope instance restricting values to be instances of
 	 *         the input OWLDescription
 	 */
-	public static IndividualVariableScope buildIndividualVariableScope(
-			OWLDescription description) {
-		return IndividualVariableScope
-				.buildIndividualVariableScope(description);
+	public static IndividualVariableScope buildIndividualVariableScope(OWLDescription description) {
+		return IndividualVariableScope.buildIndividualVariableScope(description);
 	}
 }

@@ -12,6 +12,8 @@ import org.coode.oppl.variablemansyntax.Variable;
 import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
 import org.coode.oppl.variablemansyntax.generated.AbstractCollectionGeneratedValue;
 import org.coode.oppl.variablemansyntax.generated.Attribute;
+import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValueVisitor;
+import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValueVisitorEx;
 import org.semanticweb.owl.model.OWLObject;
 
 public class OWLObjectCollectionGeneratedValue extends
@@ -53,5 +55,13 @@ public class OWLObjectCollectionGeneratedValue extends
 			toReturn.add(Collections.unmodifiableCollection(generatedValue));
 		}
 		return toReturn;
+	}
+
+	public void accept(SingleValueGeneratedValueVisitor visitor) {
+		visitor.visitOWLObjectCollectionGeneratedValue(this);
+	}
+
+	public <O> O accept(SingleValueGeneratedValueVisitorEx<O> visitor) {
+		return visitor.visitOWLObjectCollectionGeneratedValue(this);
 	}
 }

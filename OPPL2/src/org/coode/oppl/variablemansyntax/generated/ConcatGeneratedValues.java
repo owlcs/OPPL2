@@ -30,7 +30,8 @@ import java.util.List;
  */
 public class ConcatGeneratedValues extends
 		AbstractAggregatedGeneratedValue<String> {
-	public ConcatGeneratedValues(List<SingleValueGeneratedValue<String>> values2Aggregate) {
+	public ConcatGeneratedValues(
+			List<SingleValueGeneratedValue<String>> values2Aggregate) {
 		super(values2Aggregate);
 	}
 
@@ -49,5 +50,13 @@ public class ConcatGeneratedValues extends
 	@Override
 	protected String getAggregatorSymbol() {
 		return "+";
+	}
+
+	public void accept(SingleValueGeneratedValueVisitor visitor) {
+		visitor.visitConcatGeneratedValues(this);
+	}
+
+	public <O> O accept(SingleValueGeneratedValueVisitorEx<O> visitor) {
+		return visitor.visitConcatGeneratedValues(this);
 	}
 }

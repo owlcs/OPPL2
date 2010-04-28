@@ -60,4 +60,12 @@ public class StringGeneratedValue implements SingleValueGeneratedValue<String> {
 	public String getGeneratedValue(BindingNode node) {
 		return this.constant;
 	}
+
+	public void accept(SingleValueGeneratedValueVisitor visitor) {
+		visitor.visitStringGeneratedValue(this);
+	}
+
+	public <O> O accept(SingleValueGeneratedValueVisitorEx<O> visitor) {
+		return visitor.visitStringGeneratedValue(this);
+	}
 }
