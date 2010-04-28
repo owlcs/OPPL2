@@ -33,6 +33,8 @@ import org.coode.oppl.variablemansyntax.VariableTypeVisitorEx;
 import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
 import org.coode.oppl.variablemansyntax.generated.AbstractGeneratedVariable;
 import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
+import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValueVisitor;
+import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValueVisitorEx;
 import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
 import org.semanticweb.owl.model.OWLDataFactory;
 import org.semanticweb.owl.model.OWLEntity;
@@ -60,40 +62,18 @@ public class PatternConstant<P extends OWLEntity> extends
 			return PatternConstant.this.getType().buildOWLObject(
 					this.dataFactory, PatternConstant.this.getURI(),
 					PatternConstant.this.getName());
-			// TODO subinterfaces of Variable need to be subinterfaces of
-			// GeneratedVariable?
-			// VariableType variableType = PatternConstant.this.getType();
-			// switch (variableType) {
-			// case CLASS:
-			// toReturn = this.dataFactory
-			// .getOWLClass(PatternConstant.this.getURI());
-			// break;
-			// case OBJECTPROPERTY:
-			// toReturn = this.dataFactory
-			// .getOWLObjectProperty(PatternConstant.this.getURI());
-			// break;
-			// case DATAPROPERTY:
-			// toReturn = this.dataFactory
-			// .getOWLDataProperty(PatternConstant.this.getURI());
-			// break;
-			// case INDIVIDUAL:
-			// toReturn = this.dataFactory
-			// .getOWLIndividual(PatternConstant.this.getURI());
-			// break;
-			// case CONSTANT:
-			// toReturn = this.dataFactory
-			// .getOWLUntypedConstant(PatternConstant.this
-			// .getName());
-			// break;
-			// default:
-			// break;
-			// }
 		}
 
 		public List<OWLObject> computePossibleValues() {
-			// return new ArrayList<OWLObject>(Collections.singleton(this
-			// .getGeneratedValue(null)));
 			return Collections.emptyList();
+		}
+
+		public void accept(SingleValueGeneratedValueVisitor visitor) {
+			visitor.visitSingleValueGeneratedValueVisitor(this);
+		}
+
+		public <O> O accept(SingleValueGeneratedValueVisitorEx<O> visitor) {
+			return visitor.visitSingleValueGeneratedValueVisitor(this);
 		}
 	}
 
@@ -115,6 +95,14 @@ public class PatternConstant<P extends OWLEntity> extends
 		public List<OWLObject> computePossibleValues() {
 			return new ArrayList<OWLObject>(Collections
 					.singleton(this.constantValue));
+		}
+
+		public void accept(SingleValueGeneratedValueVisitor visitor) {
+			visitor.visitSingleValueGeneratedValueVisitor(this);
+		}
+
+		public <O> O accept(SingleValueGeneratedValueVisitorEx<O> visitor) {
+			return visitor.visitSingleValueGeneratedValueVisitor(this);
 		}
 	}
 
@@ -140,7 +128,8 @@ public class PatternConstant<P extends OWLEntity> extends
 	}
 
 	@Override
-	protected SingleValueGeneratedVariable<OWLObject> replace(SingleValueGeneratedValue<OWLObject> v) {
+	protected SingleValueGeneratedVariable<OWLObject> replace(
+			SingleValueGeneratedValue<OWLObject> v) {
 		return this;
 	}
 

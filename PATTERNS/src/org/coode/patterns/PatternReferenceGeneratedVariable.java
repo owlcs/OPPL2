@@ -34,6 +34,8 @@ import org.coode.oppl.variablemansyntax.VariableTypeVisitorEx;
 import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
 import org.coode.oppl.variablemansyntax.generated.AbstractGeneratedVariable;
 import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
+import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValueVisitor;
+import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValueVisitorEx;
 import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
 import org.semanticweb.owl.model.OWLObject;
 
@@ -104,6 +106,14 @@ public class PatternReferenceGeneratedVariable extends
 		public List<PatternReference> computePossibleValues() {
 			return new ArrayList<PatternReference>(Collections
 					.singleton(this.patternReference));
+		}
+
+		public void accept(SingleValueGeneratedValueVisitor visitor) {
+			visitor.visitSingleValueGeneratedValueVisitor(this);
+		}
+
+		public <O> O accept(SingleValueGeneratedValueVisitorEx<O> visitor) {
+			return visitor.visitSingleValueGeneratedValueVisitor(this);
 		}
 
 		@Override
