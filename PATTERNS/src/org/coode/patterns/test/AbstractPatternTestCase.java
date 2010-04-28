@@ -5,7 +5,7 @@ import org.coode.patterns.PatternOPPLScript;
 import org.coode.patterns.syntax.PatternParser;
 import org.semanticweb.owl.model.OWLOntology;
 
-public class AbstractPatternTestCase extends AbstractTestCase {
+public abstract class AbstractPatternTestCase extends AbstractTestCase {
 	protected void parseCorrect(String formula, OWLOntology o) {
 		PatternOPPLScript script = this.parsePattern(formula, o);
 		this.expectedCorrect(script);
