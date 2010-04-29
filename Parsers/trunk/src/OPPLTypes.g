@@ -212,10 +212,10 @@ action returns [OWLAxiomChange change]
 		
 variableDefinition returns [Variable variable]
 	:
-		  ^(INPUT_VARIABLE_DEFINITION IDENTIFIER VARIABLE_TYPE vs = variableScope?)
+		  ^(INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE vs = variableScope?)
 		  {
 		  try {
-		      $variable = getConstraintSystem().createVariable($IDENTIFIER.getToken().getText(), symtab.getVaribaleType($VARIABLE_TYPE));
+		      $variable = getConstraintSystem().createVariable($VARIABLE_NAME.getToken().getText(), symtab.getVaribaleType($VARIABLE_TYPE));
 		      if(vs !=null){
 		        $variable.setVariableScope(vs.variableScope, getOPPLFactory().getVariableScopeChecker());
 		      }
@@ -223,14 +223,14 @@ variableDefinition returns [Variable variable]
 		      getErrorListener().reportThrowable(e, $INPUT_VARIABLE_DEFINITION.token.getLine(), $INPUT_VARIABLE_DEFINITION.token.getCharPositionInLine(),$INPUT_VARIABLE_DEFINITION.token.getText().length());
 		   }
 		  }
-	  | ^(GENERATED_VARIABLE_DEFINITION IDENTIFIER generatedVariableAssignment)
+	  | ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME generatedVariableAssignment)
 	    {
 	       VariableExpressionGeneratedVariable variableExpressionGeneratedVariable = new VariableExpressionGeneratedVariable(
-        $IDENTIFIER.getText(), $generatedVariableAssignment.owlObject, getConstraintSystem());
+        $VARIABLE_NAME.getText(), $generatedVariableAssignment.owlObject, getConstraintSystem());
         getConstraintSystem().importVariable(variableExpressionGeneratedVariable);
         $variable = variableExpressionGeneratedVariable;
 	    }
-	  |  ^(GENERATED_VARIABLE_DEFINITION IDENTIFIER VARIABLE_TYPE ^(MATCH se = stringOperation ))
+	  |  ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(MATCH se = stringOperation ))
 	     {
 	       org.coode.oppl.variablemansyntax.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
 	       Set<? extends OWLObject> referencedValues = type
@@ -239,22 +239,22 @@ variableDefinition returns [Variable variable]
           OWLEntityRenderer renderer = getOPPLFactory().getOWLEntityRenderer(getConstraintSystem());
           RegExpGeneratedValue val = new RegExpGeneratedValue(referencedValues,
              se, renderer);
-          RegExpGenerated v = type.instantiateRegexpVariable($IDENTIFIER.getText(), val);
+          RegExpGenerated v = type.instantiateRegexpVariable($VARIABLE_NAME.getText(), val);
           constraintSystem.importVariable(v);
           $variable = v;
 	     }
-	  | ^(GENERATED_VARIABLE_DEFINITION IDENTIFIER VARIABLE_TYPE ^(CREATE_OPPL_FUNCTION  value = stringOperation))
+	  | ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(CREATE_OPPL_FUNCTION  value = stringOperation))
 	     {
 	       org.coode.oppl.variablemansyntax.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
-	       $variable = constraintSystem.createStringGeneratedVariable($IDENTIFIER.getText(),type, value);
+	       $variable = constraintSystem.createStringGeneratedVariable($VARIABLE_NAME.getText(),type, value);
 	     }
-    | ^(GENERATED_VARIABLE_DEFINITION name = IDENTIFIER VARIABLE_TYPE ^(CREATE_INTERSECTION va = IDENTIFIER))
+    | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_INTERSECTION va = IDENTIFIER))
        {
          org.coode.oppl.variablemansyntax.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
          AbstractCollectionGeneratedValue<OWLClass> collection = symtab.getCollection($start,va, getConstraintSystem());
          $variable = constraintSystem.createIntersectionGeneratedVariable(name.getText(),type,collection);         
        }
-      | ^(GENERATED_VARIABLE_DEFINITION name = IDENTIFIER VARIABLE_TYPE ^(CREATE_DISJUNCTION va = IDENTIFIER))
+      | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_DISJUNCTION va = IDENTIFIER))
        {
          org.coode.oppl.variablemansyntax.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
          AbstractCollectionGeneratedValue<OWLClass> collection = symtab.getCollection($start,va, getConstraintSystem());
@@ -286,10 +286,15 @@ stringExpression returns [SingleValueGeneratedValue<String> value]
       {
         $value = new StringGeneratedValue($DBLQUOTE.getText());
       }
-    | ^(IDENTIFIER (^(ATTRIBUTE_SELECTOR i = INTEGER))?)
+//    | ^(IDENTIFIER (^(ATTRIBUTE_SELECTOR i = INTEGER))?)
+//      {
+//        $value = i==null? symtab.getStringGeneratedValue($IDENTIFIER, getConstraintSystem()) : symtab.getStringGeneratedValue($IDENTIFIER,i, getConstraintSystem());
+//      }
+    | ^(IDENTIFIER .*)
       {
-        $value = i==null? symtab.getStringGeneratedValue($IDENTIFIER, getConstraintSystem()) : symtab.getStringGeneratedValue($IDENTIFIER,i, getConstraintSystem());
+        symtab.getStringGeneratedValue($IDENTIFIER, getConstraintSystem());
       }
+
   ;
   
   

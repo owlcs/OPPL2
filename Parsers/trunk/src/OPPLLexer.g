@@ -5,7 +5,7 @@ options {
   tokenVocab = OPPLLexer;
 }
 
-import OWLGeneralLexer, OPPLIdentifiers;
+import MOWLLexer;
 
 
 
@@ -134,27 +134,37 @@ MATCH
   	'MATCH'
   ;
 
-fragment  
+
 VALUES
   :
     'VALUES'
   ;	
 
-fragment
+
 RENDERING
   :
     'RENDERING'
   ;
 
-fragment
+
 GROUPS
   :
     'GROUPS'
   ;
-  
-VARIABLE_ATTRIBUTE
+ 
+fragment  
+QUESTION_MARK
   :
-    VALUES
-  | RENDERING
-  | GROUPS 
+    '?'
   ;
+
+ESCLAMATION_MARK
+  :
+    '!'
+  ;
+
+VARIABLE_NAME
+  :
+    QUESTION_MARK LETTER (LETTER  | DIGIT |'-'|'_')*
+  ;
+

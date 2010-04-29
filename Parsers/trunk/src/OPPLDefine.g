@@ -67,23 +67,32 @@ options {
 
 bottomup  : 
     variableDefinition
-    | groupAttributeReferences  
+    | groupAttributeReferences
+    | variableAttributeReferences  
   ;
 
 
 
 variableDefinition
 	:
-		^((INPUT_VARIABLE_DEFINITION |GENERATED_VARIABLE_DEFINITION) IDENTIFIER  VARIABLE_TYPE .*)
+		^((INPUT_VARIABLE_DEFINITION |GENERATED_VARIABLE_DEFINITION) VARIABLE_NAME  VARIABLE_TYPE .*)
 		{
-			getSymbolTable().defineVariable($IDENTIFIER, $VARIABLE_TYPE);
+			getSymbolTable().defineVariable($VARIABLE_NAME, $VARIABLE_TYPE);
 		}
 	;
 
 groupAttributeReferences
   :
-    ^(IDENTIFIER  ^(ATTRIBUTE_SELECTOR INTEGER))
+   ^(IDENTIFIER VARIABLE_NAME DOT GROUPS ^(ATTRIBUTE_SELECTOR INTEGER))
     {
-      getSymbolTable().defineGroupAttributeRefernceSymbol($IDENTIFIER,$INTEGER);
+      getSymbolTable().defineGroupAttributeReferenceSymbol($VARIABLE_NAME,$INTEGER);
+    }
+  ;
+
+variableAttributeReferences
+  :
+   ^(IDENTIFIER  VARIABLE_NAME DOT a= (VALUES | RENDERING))
+    {
+      getSymbolTable().defineAttributeReferenceSymbol($VARIABLE_NAME,a);
     }
   ;

@@ -19,7 +19,7 @@ public abstract class VariableAttribute<O> {
 	public static final VariableAttribute<SingleValueGeneratedValue<String>> RENDERING = new VariableAttribute<SingleValueGeneratedValue<String>>() {
 		@Override
 		public StringVariableAttributeSymbol getSymbol(final String variableName) {
-			return new StringVariableAttributeSymbol(variableName + ".RENDERING",
+			return new StringVariableAttributeSymbol(variableName,
 					new SingleValueGeneratedValueFactory<String>() {
 						public SingleValueGeneratedValue<String> create(
 								ConstraintSystem constraintSystem) {
@@ -27,18 +27,19 @@ public abstract class VariableAttribute<O> {
 							return new RenderingVariableGeneratedValue(variable,
 									Attribute.RENDERING, constraintSystem);
 						}
-					}) {
-				@Override
-				public String toString() {
-					return variableName + ".RENDERING";
-				}
+					}, this) {
 			};
+		}
+
+		@Override
+		public String toString() {
+			return "RENDERING";
 		}
 	};
 	public static final VariableAttribute<AbstractCollectionGeneratedValue<OWLObject>> VALUES = new VariableAttribute<AbstractCollectionGeneratedValue<OWLObject>>() {
 		@Override
 		public CollectionVariableAttributeSymbol<OWLObject> getSymbol(final String variableName) {
-			return new CollectionVariableAttributeSymbol<OWLObject>(variableName + ".VALUES",
+			return new CollectionVariableAttributeSymbol<OWLObject>(variableName,
 					new AbstractCollectionGeneratedValueFactory<OWLObject>() {
 						public AbstractCollectionGeneratedValue<OWLObject> create(
 								ConstraintSystem constraintSystem) {
@@ -52,12 +53,13 @@ public abstract class VariableAttribute<O> {
 							}
 							return toReturn;
 						}
-					}) {
-				@Override
-				public String toString() {
-					return variableName + ".VALUES";
-				}
+					}, this) {
 			};
+		}
+
+		@Override
+		public String toString() {
+			return "VALUES";
 		}
 	};
 
@@ -71,8 +73,23 @@ public abstract class VariableAttribute<O> {
 			@Override
 			public VariableAttributeSymbol<SingleValueGeneratedValue<String>> getSymbol(
 					final String variableName) {
-				return new GroupVariableAttributeSymbol(variableName, index);
+				return new GroupVariableAttributeSymbol(variableName, index, this);
+			}
+
+			@Override
+			public String toString() {
+				return "GROUPS";
 			}
 		};
+	}
+
+	public static VariableAttribute<?> getVariableAttribute(String name) {
+		VariableAttribute<?> toReturn = null;
+		if (name.compareTo("RENDERING") == 0) {
+			toReturn = RENDERING;
+		} else if (name.compareTo("VALUES") == 0) {
+			toReturn = VALUES;
+		}
+		return toReturn;
 	}
 }

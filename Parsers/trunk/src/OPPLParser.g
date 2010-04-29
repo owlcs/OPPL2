@@ -35,10 +35,10 @@ options {
  variableDefinition
   :
 
-      IDENTIFIER COLON VARIABLE_TYPE  EQUAL opplFunction -> ^(GENERATED_VARIABLE_DEFINITION IDENTIFIER VARIABLE_TYPE ^(opplFunction))      
-    | IDENTIFIER COLON VARIABLE_TYPE  EQUAL expression -> ^(GENERATED_VARIABLE_DEFINITION IDENTIFIER VARIABLE_TYPE ^(EXPRESSION expression))
-    | IDENTIFIER COLON VARIABLE_TYPE  EQUAL MATCH OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS -> ^(GENERATED_VARIABLE_DEFINITION IDENTIFIER VARIABLE_TYPE ^(MATCH stringOperation))
-    | IDENTIFIER COLON VARIABLE_TYPE (variableScope)? -> ^(INPUT_VARIABLE_DEFINITION IDENTIFIER VARIABLE_TYPE variableScope?)    
+      VARIABLE_NAME COLON VARIABLE_TYPE  EQUAL opplFunction -> ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(opplFunction))      
+    | VARIABLE_NAME COLON VARIABLE_TYPE  EQUAL expression -> ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(EXPRESSION expression))
+    | VARIABLE_NAME COLON VARIABLE_TYPE  EQUAL MATCH OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS -> ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(MATCH stringOperation))
+    | VARIABLE_NAME COLON VARIABLE_TYPE (variableScope)? -> ^(INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE variableScope?)    
   ;
   
 
@@ -63,8 +63,8 @@ variableScope
  
  constraint
   :
-      WHERE first = IDENTIFIER NOT_EQUAL second = expression -> ^(INEQUALITY_CONSTRAINT $first ^(EXPRESSION $second))
-    | WHERE IDENTIFIER IN oneOf -> ^(IN_SET_CONSTRAINT IDENTIFIER oneOf)
+      WHERE first = VARIABLE_NAME NOT_EQUAL second = expression -> ^(INEQUALITY_CONSTRAINT $first ^(EXPRESSION $second))
+    | WHERE VARIABLE_NAME IN oneOf -> ^(IN_SET_CONSTRAINT VARIABLE_NAME oneOf)
   ; 
  
  actions
@@ -96,16 +96,62 @@ stringOperation
 stringExpression
 	:
 		DBLQUOTE -> ^(DBLQUOTE)
-	    |	IDENTIFIER attributeSelector? -> ^(IDENTIFIER attributeSelector?)
+	    |	variableAttributeReference -> ^(variableAttributeReference)
 	;
 
 
 
-attributeSelector
-	:
-		OPEN_PARENTHESYS INTEGER CLOSED_PARENTHESYS ->  ^(ATTRIBUTE_SELECTOR INTEGER)
-	;
+unary 
+  :
+    IDENTIFIER
+    | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])     
+    | createIdentifier -> ^(createIdentifier)
+    | variableAttributeReference -> ^(variableAttributeReference)
+    | NOT OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(NEGATED_EXPRESSION expression)
+    | NOT IDENTIFIER -> ^(NEGATED_EXPRESSION IDENTIFIER)          
+    | ENTITY_REFERENCE -> ^(ENTITY_REFERENCE)
+    | qualifiedRestriction -> ^(qualifiedRestriction)
+    | constant    
+  ;
+
+propertyExpression  :
+      IDENTIFIER -> ^(IDENTIFIER)
+    | complexPropertyExpression -> ^(complexPropertyExpression)
+    | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])
+    | createIdentifier -> ^(createIdentifier)
+    ;
+
+value:
+      IDENTIFIER -> ^(IDENTIFIER) 
+    | constant -> ^(constant)
+    | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])
+  ;
+
+filler: 
+    IDENTIFIER -> ^(IDENTIFIER)
+    | createIdentifier -> ^(createIdentifier)
+    | OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(expression)
+    | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])
+ ;
 
 
+createIdentifier 
+  :
+   ESCLAMATION_MARK IDENTIFIER  -> ^(IDENTIFIER[$ESCLAMATION_MARK.getText()+ $IDENTIFIER.getText()])  
+  ;
 
-
+variableAttributeReference
+  :
+    VARIABLE_NAME DOT a = (VALUES | RENDERING)  ->^(IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $a.getText()] VARIABLE_NAME DOT $a)
+    | VARIABLE_NAME DOT GROUPS attributeSelector  ->^(IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $GROUPS.getText()+$attributeSelector.selectorText]  VARIABLE_NAME DOT GROUPS attributeSelector)        
+  ;
+  
+attributeSelector returns [String selectorText]
+  :
+    OPEN_PARENTHESYS i = INTEGER CLOSED_PARENTHESYS
+    {
+      $selectorText = $OPEN_PARENTHESYS.getText() + $i.getText() + $CLOSED_PARENTHESYS.getText();
+    } 
+    ->  ^(ATTRIBUTE_SELECTOR INTEGER)
+    
+  ;

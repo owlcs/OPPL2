@@ -2,7 +2,6 @@ package org.coode.parsers.oppl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.antlr.runtime.Token;
 import org.coode.oppl.InCollectionConstraint;
@@ -66,10 +65,6 @@ public class OPPLSymbolTable extends SymbolTable {
 			this.define(identifier.token, type.getSymbol(
 					this.getDataFactory(),
 					identifier.token.getText()));
-			Set<Symbol> attributeSymbols = type.getAttributeSymbols(identifier.getText());
-			for (Symbol symbol : attributeSymbols) {
-				this.storeSymbol(symbol.getName(), symbol);
-			}
 		}
 	}
 
@@ -207,39 +202,22 @@ public class OPPLSymbolTable extends SymbolTable {
 		});
 	}
 
-	public SingleValueGeneratedValue<String> getStringGeneratedValue(
-			ManchesterOWLSyntaxTree identifier, ManchesterOWLSyntaxTree selector,
-			final ConstraintSystem constraintSystem) {
-		Symbol symbol = this.retrieveSymbol(identifier.getText() + "(" + selector.getText() + ")");
-		SingleValueGeneratedValue<String> toReturn = null;
-		if (symbol != null) {
-			if (symbol.getType() != VariableAttributeType.STRING) {
-				this.reportIncompatibleSymbolType(identifier, symbol.getType(), identifier);
-			} else {
-				toReturn = symbol.accept(new DefaultOPPLSymbolVisitorEx<SingleValueGeneratedValue<String>>() {
-					@Override
-					public SingleValueGeneratedValue<String> visitStringVariableAttributeSymbol(
-							StringVariableAttributeSymbol stringVariableAttributeSymbol) {
-						return stringVariableAttributeSymbol.create(constraintSystem);
-					}
-
-					@Override
-					protected SingleValueGeneratedValue<String> doDefault(Symbol symbol) {
-						return null;
-					}
-				});
-			}
-		} else {
-			this.reportIllegalToken(selector, identifier.getText());
-		}
-		return toReturn;
-	}
-
-	public void defineGroupAttributeRefernceSymbol(ManchesterOWLSyntaxTree name,
+	public void defineGroupAttributeReferenceSymbol(ManchesterOWLSyntaxTree name,
 			ManchesterOWLSyntaxTree indexNode) {
 		VariableAttributeSymbol<SingleValueGeneratedValue<String>> symbol = VariableAttribute.group(
 				Integer.parseInt(indexNode.getText())).getSymbol(name.getText());
 		this.storeSymbol(symbol.getName(), symbol);
+	}
+
+	public void defineAttributeReferenceSymbol(ManchesterOWLSyntaxTree name,
+			ManchesterOWLSyntaxTree attribute) {
+		VariableAttribute<?> variableAttribute = VariableAttribute.getVariableAttribute(attribute.getText());
+		if (variableAttribute == null) {
+			this.reportIllegalToken(attribute, "Unknown attribute name or illegal use of attribute");
+		} else {
+			VariableAttributeSymbol<?> symbol = variableAttribute.getSymbol(name.getText());
+			this.storeSymbol(symbol.getName(), symbol);
+		}
 	}
 
 	public AbstractCollectionGeneratedValue<OWLClass> getCollection(

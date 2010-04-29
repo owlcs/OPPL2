@@ -16,8 +16,8 @@ import org.coode.parsers.oppl.OPPLSymbolVisitorEx;
 public class StringVariableAttributeSymbol extends
 		VariableAttributeSymbol<SingleValueGeneratedValue<String>> {
 	public StringVariableAttributeSymbol(String name,
-			SingleValueGeneratedValueFactory<String> factory) {
-		super(name, VariableAttributeType.STRING, factory);
+			SingleValueGeneratedValueFactory<String> factory, VariableAttribute<?> variableAttribute) {
+		super(name, VariableAttributeType.STRING, factory, variableAttribute);
 	}
 
 	/**

@@ -14,8 +14,9 @@ public class CollectionVariableAttributeSymbol<O> extends
 	 * @param factory
 	 */
 	public CollectionVariableAttributeSymbol(String name,
-			AttributeFactory<AbstractCollectionGeneratedValue<O>> factory) {
-		super(name, VariableAttributeType.COLLECTION, factory);
+			AttributeFactory<AbstractCollectionGeneratedValue<O>> factory,
+			VariableAttribute<?> variableAttribute) {
+		super(name, VariableAttributeType.COLLECTION, factory, variableAttribute);
 	}
 
 	/**
