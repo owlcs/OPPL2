@@ -56,12 +56,14 @@ public class OPPLScriptDefineParserTest extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop,
+				RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
 	private final ErrorListener listener = new SystemErrorEcho();
-	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
+	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager
+			.createOWLOntologyManager();
 	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
 	private static OPPLSymbolTable symtab;
@@ -78,9 +80,11 @@ public class OPPLScriptDefineParserTest extends TestCase {
 
 	static {
 		try {
-			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-			ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
-					"syntaxTest.owl").toURI());
+			ONTOLOGY_MANAGER
+					.loadOntologyFromPhysicalURI(URI
+							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class
+					.getResource("syntaxTest.owl").toURI());
 			symtab = (OPPLSymbolTable) SYMBOL_TABLE_FACTORY.createSymbolTable();
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -123,11 +127,13 @@ public class OPPLScriptDefineParserTest extends TestCase {
 			nodes.setTreeAdaptor(adaptor);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
 			OPPLDefine define = new OPPLDefine(nodes, symtab, this.listener);
+			define.setTreeAdaptor(adaptor);
 			define.downup(tree);
 			return (ManchesterOWLSyntaxTree) r.getTree();
 		} catch (RecognitionException e) {

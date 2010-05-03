@@ -45,7 +45,7 @@ options {
 
 variableScope
   :
-    OPEN_SQUARE_BRACKET variableScopeSpecification = (SUBCLASS_OF | SUBPROPERTY_OF | SUPER_CLASS_OF | SUPER_PROPERTY_OF | INSTANCE_OF | TYPES) expression CLOSED_SQUARE_BRACKET -> ^(VARIABLE_SCOPE $variableScopeSpecification ^(EXPRESSION expression))
+    OPEN_SQUARE_BRACKET (variableScopeSpecification = SUBCLASS_OF | variableScopeSpecification = SUBPROPERTY_OF | variableScopeSpecification = SUPER_CLASS_OF |  variableScopeSpecification =SUPER_PROPERTY_OF |  variableScopeSpecification = INSTANCE_OF | variableScopeSpecification = TYPES) expression CLOSED_SQUARE_BRACKET -> ^(VARIABLE_SCOPE $variableScopeSpecification ^(EXPRESSION expression))
   ; 
 
 
@@ -84,8 +84,8 @@ variableScope
 opplFunction
   :
       CREATE OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS -> ^(CREATE_OPPL_FUNCTION stringOperation)
-    | CREATE_INTERSECTION IDENTIFIER -> ^(CREATE_INTERSECTION IDENTIFIER)
-    | CREATE_DISJUNCTION IDENTIFIER -> ^(CREATE_INTERSECTION IDENTIFIER)
+    | CREATE_INTERSECTION  OPEN_PARENTHESYS unary  CLOSED_PARENTHESYS -> ^(CREATE_INTERSECTION unary)
+    | CREATE_DISJUNCTION OPEN_PARENTHESYS unary CLOSED_PARENTHESYS -> ^(CREATE_INTERSECTION unary)
   ;
 
 stringOperation
@@ -108,7 +108,8 @@ unary
     | createIdentifier -> ^(createIdentifier)
     | variableAttributeReference -> ^(variableAttributeReference)
     | NOT OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(NEGATED_EXPRESSION expression)
-    | NOT IDENTIFIER -> ^(NEGATED_EXPRESSION IDENTIFIER)          
+    | NOT IDENTIFIER -> ^(NEGATED_EXPRESSION IDENTIFIER)
+    | NOT VARIABLE_NAME -> ^(NEGATED_EXPRESSION ^(IDENTIFIER[$VARIABLE_NAME]))          
     | ENTITY_REFERENCE -> ^(ENTITY_REFERENCE)
     | qualifiedRestriction -> ^(qualifiedRestriction)
     | constant    
@@ -142,9 +143,11 @@ createIdentifier
 
 variableAttributeReference
   :
-    VARIABLE_NAME DOT a = (VALUES | RENDERING)  ->^(IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $a.getText()] VARIABLE_NAME DOT $a)
+    VARIABLE_NAME DOT (a = VALUES | a = RENDERING)   ->^(IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $a.getText()] VARIABLE_NAME DOT $a)
     | VARIABLE_NAME DOT GROUPS attributeSelector  ->^(IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $GROUPS.getText()+$attributeSelector.selectorText]  VARIABLE_NAME DOT GROUPS attributeSelector)        
   ;
+
+
   
 attributeSelector returns [String selectorText]
   :

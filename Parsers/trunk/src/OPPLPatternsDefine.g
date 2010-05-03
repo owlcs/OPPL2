@@ -1,4 +1,4 @@
-tree grammar OPPLDefine;
+tree grammar OPPLPatternsDefine;
 options {
   language = Java;
   tokenVocab = OPPLScript; 
@@ -11,7 +11,7 @@ options {
 @members{
   private  OPPLSymbolTable symtab;
   private  ErrorListener errorListener;
-  public OPPLDefine(TreeNodeStream input, OPPLSymbolTable symtab, ErrorListener errorListener) {
+  public OPPLPatternsDefine(TreeNodeStream input, OPPLPatternSymbolTable symtab, ErrorListener errorListener) {
     this(input);
     if(symtab==null){
     	throw new NullPointerException("The symbol table cannot be null");
@@ -61,7 +61,7 @@ options {
 }
 
 @header {
-  package org.coode.parsers.oppl;
+  package org.coode.parsers.oppl.patterns;
   import org.coode.parsers.ErrorListener;
   import org.coode.parsers.ManchesterOWLSyntaxTree;
 }
@@ -72,30 +72,10 @@ bottomup  :
     | variableAttributeReferences  
   ;
 
-
-
-variableDefinition
+patternReference
 	:
-		^((INPUT_VARIABLE_DEFINITION |GENERATED_VARIABLE_DEFINITION) VARIABLE_NAME  VARIABLE_TYPE .*)
-		{
-			getSymbolTable().defineVariable($VARIABLE_NAME, $VARIABLE_TYPE);
-		}
+	 ^(pr =IDENTIFIER PATTERN_REFERENCE ^(ARGUMENTS .*) )
+	 {}
+	 ->
+	 ^($pr)
 	;
-
-groupAttributeReferences
-  :
-   ^(i = IDENTIFIER VARIABLE_NAME DOT GROUPS ^(ATTRIBUTE_SELECTOR INTEGER)) 
-    {
-      getSymbolTable().defineGroupAttributeReferenceSymbol($VARIABLE_NAME,$INTEGER);
-    } 
-    -> ^($i)
-  ;
-
-variableAttributeReferences
-  :
-   ^(i = IDENTIFIER  VARIABLE_NAME DOT  (a = VALUES | a = RENDERING))
-    {
-      getSymbolTable().defineAttributeReferenceSymbol($VARIABLE_NAME,a);
-    }
-   -> ^($i) 
-  ;

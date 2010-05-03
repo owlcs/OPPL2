@@ -286,13 +286,9 @@ stringExpression returns [SingleValueGeneratedValue<String> value]
       {
         $value = new StringGeneratedValue($DBLQUOTE.getText());
       }
-//    | ^(IDENTIFIER (^(ATTRIBUTE_SELECTOR i = INTEGER))?)
-//      {
-//        $value = i==null? symtab.getStringGeneratedValue($IDENTIFIER, getConstraintSystem()) : symtab.getStringGeneratedValue($IDENTIFIER,i, getConstraintSystem());
-//      }
-    | ^(IDENTIFIER .*)
+    | IDENTIFIER
       {
-        symtab.getStringGeneratedValue($IDENTIFIER, getConstraintSystem());
+        $value=symtab.getStringGeneratedValue($IDENTIFIER, getConstraintSystem());
       }
 
   ;
