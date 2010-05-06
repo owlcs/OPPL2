@@ -67,7 +67,7 @@ public class OPPLScriptTypesParserTest extends TestCase {
 	private final ErrorListener listener = new SystemErrorEcho();
 	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager
 			.createOWLOntologyManager();
-	private static OWLOntology SYNTAX_ONTOLOGY;
+	protected static OWLOntology SYNTAX_ONTOLOGY;
 	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
 	private static OPPLSymbolTable symtab;
@@ -78,7 +78,9 @@ public class OPPLScriptTypesParserTest extends TestCase {
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
 		assertNotNull(parsed.getOPPLContent());
-		System.out.println(parsed.getOPPLContent());
+		System.out.println("original script: \t"+query);
+		System.out.println("parsed content:  \t"+parsed.getOPPLContent());
+
 	}
 
 	static {
@@ -103,7 +105,8 @@ public class OPPLScriptTypesParserTest extends TestCase {
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
 		assertNotNull(parsed.getOPPLContent());
-		System.out.println(parsed.getOPPLContent());
+		System.out.println("original script: \t"+query);
+		System.out.println("parsed content:  \t"+parsed.getOPPLContent());
 	}
 
 	public void testGeneratedVariable() {
@@ -116,7 +119,9 @@ public class OPPLScriptTypesParserTest extends TestCase {
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
 			assertNotNull(parsed.getOPPLContent());
-			System.out.println(parsed.getOPPLContent());
+			System.out.println("original script: \t"+query);
+			System.out.println("parsed content:  \t"+parsed.getOPPLContent());
+
 		} catch (OWLOntologyCreationException e) {
 			fail();
 			e.printStackTrace();
