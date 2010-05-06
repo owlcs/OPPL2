@@ -22,7 +22,6 @@
  */
 package org.coode.oppl;
 
-import java.io.StringWriter;
 import java.util.List;
 
 import org.coode.oppl.entity.OWLEntityFactory;
@@ -37,8 +36,6 @@ import org.semanticweb.owl.expression.OWLEntityChecker;
 import org.semanticweb.owl.model.OWLAxiomChange;
 import org.semanticweb.owl.model.OWLDataFactory;
 import org.semanticweb.owl.model.OWLOntologyManager;
-
-import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
 
 /**
  * @author Luigi Iannone
@@ -109,10 +106,6 @@ public interface OPPLAbstractFactory {
 
 	/** @return the constraint system */
 	ConstraintSystem getConstraintSystem();
-
-	@Deprecated
-	public ManchesterOWLSyntaxObjectRenderer getOWLObjectRenderer(
-			StringWriter writer);
 
 	/**
 	 * @param cs

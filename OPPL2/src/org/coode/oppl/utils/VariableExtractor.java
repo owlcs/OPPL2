@@ -151,8 +151,7 @@ public class VariableExtractor implements OWLObjectVisitorEx<Set<Variable>> {
 							// Add the variables this generated variable refers
 							// to (they
 							// might no be mentioned elsewhere in the axiom)
-							v
-									.getValue()
+							v.getValue()
 									.accept(
 											new ValueVariableExtractor(
 													ValueVariableExtractor.this.collection));

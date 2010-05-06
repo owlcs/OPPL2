@@ -32,10 +32,10 @@ import org.semanticweb.owl.model.OWLIndividual;
 import org.semanticweb.owl.model.OWLObject;
 
 /**
- * Represents a range limitations that could be added to a {@link GeneratedVariable}
- * instance with INDIVIDUAL {@link VariableType}, in particular this restricts
- * the possible values to the set of individuals that are instances of a given
- * OWLDescription
+ * Represents a range limitations that could be added to a
+ * {@link GeneratedVariable} instance with INDIVIDUAL {@link VariableType}, in
+ * particular this restricts the possible values to the set of individuals that
+ * are instances of a given OWLDescription
  * 
  * @author Luigi Iannone
  * 

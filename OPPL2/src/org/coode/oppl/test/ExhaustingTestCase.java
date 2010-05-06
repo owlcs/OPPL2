@@ -177,19 +177,17 @@ public class ExhaustingTestCase extends AbstractTestCase {
 		OPPLScript result = this.parse(script);
 		assertNull(result);
 		// reportUnexpectedStacktrace(popStackTrace());
-		this
-				.checkProperStackTrace(
-						"Encountered \" <ENTITYNAMES> \"INDIVIDUAL_ \"\" at line 1, column ",
-						correctPortion.length());
+		this.checkProperStackTrace(
+				"Encountered \" <ENTITYNAMES> \"INDIVIDUAL_ \"\" at line 1, column ",
+				correctPortion.length());
 		correctPortion = "?someClass:INDIVIDUAL[";
 		result = this
 				.parse(correctPortion
 						+ "subClassOf Country], ?island:CLASS=CreateIntersection(?someClass.VALUES);");
 		assertNull(result);
-		this
-				.checkProperStackTrace(
-						"Type mismatch for variable ?someClass: type CLASS needed instead of the actual INDIVIDUAL",
-						correctPortion.length());
+		this.checkProperStackTrace(
+				"Type mismatch for variable ?someClass: type CLASS needed instead of the actual INDIVIDUAL",
+				correctPortion.length());
 		correctPortion = "?island:INDIVIDUAL=";
 		script = correctPortion + "createe(\"TestIndividual\");";
 		result = this.parse(script);

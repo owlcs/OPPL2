@@ -22,20 +22,16 @@
  */
 package org.coode.oppl.protege;
 
-import java.io.StringWriter;
 import java.util.List;
 
 import org.coode.oppl.AbstractConstraint;
 import org.coode.oppl.OPPLQuery;
-import org.coode.oppl.SimpleVariableShortFormProvider;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.protege.ui.VariableOWLObjectRenderer;
 import org.coode.oppl.protege.ui.rendering.ShortFormVariableOWLEntityRenderer;
 import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owl.model.OWLAxiom;
-
-import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
 
 /**
  * @author Luigi Iannone
@@ -44,7 +40,7 @@ import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRender
 public class ProtegeOPPLQuery implements OPPLQuery {
 	private final OPPLQuery opplQuery;
 	private final VariableOWLObjectRenderer variableOWLObjectRenderer;
-	private ShortFormVariableOWLEntityRenderer entityRenderer;
+	private final ShortFormVariableOWLEntityRenderer entityRenderer;
 
 	/**
 	 * @param opplQuery
@@ -54,6 +50,8 @@ public class ProtegeOPPLQuery implements OPPLQuery {
 		this.opplQuery = opplQuery;
 		this.variableOWLObjectRenderer = new VariableOWLObjectRenderer(
 				modelManager);
+		this.entityRenderer = new ShortFormVariableOWLEntityRenderer(
+				this.opplQuery.getConstraintSystem());
 	}
 
 	/**
@@ -106,21 +104,14 @@ public class ProtegeOPPLQuery implements OPPLQuery {
 		StringBuffer buffer = new StringBuffer("SELECT ");
 		boolean first = true;
 		for (OWLAxiom axiom : this.getAssertedAxioms()) {
-			String commaString = first ? "ASSERTED " : "ASSERTED, ";
-			StringWriter writer = new StringWriter();
-			ManchesterOWLSyntaxObjectRenderer renderer = new ManchesterOWLSyntaxObjectRenderer(
-					writer);
-			renderer.setShortFormProvider(new SimpleVariableShortFormProvider(
-					this.opplQuery.getConstraintSystem()));
+			String commaString = first ? "ASSERTED " : ", ASSERTED ";
 			first = false;
 			buffer.append(commaString);
-			axiom.accept(renderer);
-			buffer.append(writer.toString());
+			buffer.append(variableOWLObjectRenderer.render(axiom,
+					entityRenderer));
 		}
 		for (OWLAxiom axiom : this.getAxioms()) {
 			String commaString = first ? "" : ", ";
-			this.entityRenderer = new ShortFormVariableOWLEntityRenderer(
-					this.opplQuery.getConstraintSystem());
 			first = false;
 			buffer.append(commaString);
 			buffer.append(this.variableOWLObjectRenderer.render(axiom,

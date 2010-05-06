@@ -22,7 +22,6 @@
  */
 package org.coode.oppl;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -43,8 +42,6 @@ import org.semanticweb.owl.model.OWLException;
 import org.semanticweb.owl.model.OWLOntologyChange;
 import org.semanticweb.owl.model.OWLOntologyChangeListener;
 
-import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
-
 /**
  * @author Luigi Iannone
  * 
@@ -61,11 +58,13 @@ public class OPPLQueryImpl implements OPPLQuery {
 			OPPLQueryImpl.this.setDirty(true);
 		}
 	};
+	private final OPPLAbstractFactory factory;
 
 	/**
 	 * @param constraintSystem
 	 */
-	public OPPLQueryImpl(ConstraintSystem constraintSystem) {
+	public OPPLQueryImpl(ConstraintSystem constraintSystem,
+			OPPLAbstractFactory factory) {
 		if (constraintSystem == null) {
 			throw new NullPointerException(
 					"The constraint system cannot be null");
@@ -73,6 +72,7 @@ public class OPPLQueryImpl implements OPPLQuery {
 		this.constraintSystem = constraintSystem;
 		this.getConstraintSystem().getOntologyManager()
 				.addOntologyChangeListener(this.listener);
+		this.factory = factory;
 	}
 
 	/**
@@ -129,28 +129,22 @@ public class OPPLQueryImpl implements OPPLQuery {
 		StringBuffer buffer = new StringBuffer("SELECT ");
 		boolean first = true;
 		for (OWLAxiom axiom : this.getAssertedAxioms()) {
-			String commaString = first ? "ASSERTED " : "ASSERTED, ";
-			StringWriter writer = new StringWriter();
-			ManchesterOWLSyntaxObjectRenderer renderer = new ManchesterOWLSyntaxObjectRenderer(
-					writer);
-			renderer.setShortFormProvider(new SimpleVariableShortFormProvider(
-					this.constraintSystem));
+			String commaString = first ? "ASSERTED " : ", ASSERTED ";
 			first = false;
 			buffer.append(commaString);
+			ManchesterSyntaxRenderer renderer = factory
+					.getManchesterSyntaxRenderer(constraintSystem);
 			axiom.accept(renderer);
-			buffer.append(writer.toString());
+			buffer.append(renderer.toString());
 		}
 		for (OWLAxiom axiom : this.getAxioms()) {
 			String commaString = first ? "" : ", ";
-			StringWriter writer = new StringWriter();
-			ManchesterOWLSyntaxObjectRenderer renderer = new ManchesterOWLSyntaxObjectRenderer(
-					writer);
-			renderer.setShortFormProvider(new SimpleVariableShortFormProvider(
-					this.constraintSystem));
 			first = false;
 			buffer.append(commaString);
+			ManchesterSyntaxRenderer renderer = factory
+					.getManchesterSyntaxRenderer(constraintSystem);
 			axiom.accept(renderer);
-			buffer.append(writer.toString());
+			buffer.append(renderer.toString());
 		}
 		if (this.getConstraints().size() > 0) {
 			buffer.append(" WHERE ");
@@ -329,8 +323,7 @@ public class OPPLQueryImpl implements OPPLQuery {
 	private void updateBindings(OWLAxiom axiom) throws OWLReasonerException {
 		assert axiom != null;
 		if (this.isVariableAxiom(axiom)) {
-			Logging
-					.getQueryLogger()
+			Logging.getQueryLogger()
 					.log(
 							Level.INFO,
 							"Initial size: "
@@ -360,8 +353,7 @@ public class OPPLQueryImpl implements OPPLQuery {
 	private void updateBindingsAssertedAxiom(OWLAxiom axiom) {
 		assert axiom != null;
 		if (this.isVariableAxiom(axiom)) {
-			Logging
-					.getQueryLogger()
+			Logging.getQueryLogger()
 					.log(
 							Level.FINE,
 							"Initial size: "

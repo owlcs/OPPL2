@@ -543,15 +543,13 @@ public class TestQueries extends TestCase {
 											.getName())));
 					break;
 				case OWLOBJECTALLRESTRICTION:
-					toReturn
-							.add(dataFactory
-									.getOWLObjectAllRestriction(
-											dataFactory
-													.getOWLObjectProperty(objectPropertyVariable
-															.getURI()),
-											dataFactory
-													.getOWLClass(classVariable
-															.getURI())));
+					toReturn.add(dataFactory
+							.getOWLObjectAllRestriction(
+									dataFactory
+											.getOWLObjectProperty(objectPropertyVariable
+													.getURI()),
+									dataFactory.getOWLClass(classVariable
+											.getURI())));
 					break;
 				case OWLOBJECTCOMPLEMENTOF:
 					toReturn.add(dataFactory
@@ -559,12 +557,11 @@ public class TestQueries extends TestCase {
 									.getOWLClass(classVariable.getURI())));
 					break;
 				case OWLOBJECTEXACTCARDINALITYRESTRICTION:
-					toReturn
-							.add(dataFactory
-									.getOWLObjectExactCardinalityRestriction(
-											dataFactory
-													.getOWLObjectProperty(objectPropertyVariable
-															.getURI()), 2));
+					toReturn.add(dataFactory
+							.getOWLObjectExactCardinalityRestriction(
+									dataFactory
+											.getOWLObjectProperty(objectPropertyVariable
+													.getURI()), 2));
 					break;
 				case OWLOBJECTINTERSECTIONOF:
 					toReturn.add(dataFactory.getOWLObjectIntersectionOf(
@@ -573,31 +570,27 @@ public class TestQueries extends TestCase {
 									.getURI())));
 					break;
 				case OWLOBJECTEXACTCARDINALITYRESTRCTION:
-					toReturn
-							.add(dataFactory
-									.getOWLObjectExactCardinalityRestriction(
-											dataFactory
-													.getOWLObjectProperty(objectPropertyVariable
-															.getURI()), 4));
+					toReturn.add(dataFactory
+							.getOWLObjectExactCardinalityRestriction(
+									dataFactory
+											.getOWLObjectProperty(objectPropertyVariable
+													.getURI()), 4));
 					break;
 				case OWLOBJECTMINCARDINALITYRESTRICTION:
-					toReturn
-							.add(dataFactory
-									.getOWLObjectMinCardinalityRestriction(
-											dataFactory
-													.getOWLObjectProperty(objectPropertyVariable
-															.getURI()), 4));
+					toReturn.add(dataFactory
+							.getOWLObjectMinCardinalityRestriction(
+									dataFactory
+											.getOWLObjectProperty(objectPropertyVariable
+													.getURI()), 4));
 					break;
 				case OWLOBJECTSOMERESTRICTION:
-					toReturn
-							.add(dataFactory
-									.getOWLObjectSomeRestriction(
-											dataFactory
-													.getOWLObjectProperty(objectPropertyVariable
-															.getURI()),
-											dataFactory
-													.getOWLClass(classVariable
-															.getURI())));
+					toReturn.add(dataFactory
+							.getOWLObjectSomeRestriction(
+									dataFactory
+											.getOWLObjectProperty(objectPropertyVariable
+													.getURI()),
+									dataFactory.getOWLClass(classVariable
+											.getURI())));
 					break;
 				case OWLOBJECTONEOF:
 					toReturn.add(dataFactory.getOWLObjectOneOf(dataFactory
@@ -612,23 +605,21 @@ public class TestQueries extends TestCase {
 							.getOWLClass(anotherClassVariable.getURI())));
 					break;
 				case OWLOBJECTVALUERESTRICTION:
-					toReturn
-							.add(dataFactory
-									.getOWLObjectValueRestriction(
-											dataFactory
-													.getOWLObjectProperty(objectPropertyVariable
-															.getURI()),
-											dataFactory
-													.getOWLIndividual(anIndividualVariable
-															.getURI())));
+					toReturn.add(dataFactory
+							.getOWLObjectValueRestriction(
+									dataFactory
+											.getOWLObjectProperty(objectPropertyVariable
+													.getURI()),
+									dataFactory
+											.getOWLIndividual(anIndividualVariable
+													.getURI())));
 					break;
 				case OWLOBJECTMAXCARDINALITYRESTRICTION:
-					toReturn
-							.add(dataFactory
-									.getOWLObjectMaxCardinalityRestriction(
-											dataFactory
-													.getOWLObjectProperty(objectPropertyVariable
-															.getURI()), 4));
+					toReturn.add(dataFactory
+							.getOWLObjectMaxCardinalityRestriction(
+									dataFactory
+											.getOWLObjectProperty(objectPropertyVariable
+													.getURI()), 4));
 					break;
 				default:
 					break;

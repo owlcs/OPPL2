@@ -147,6 +147,7 @@ public abstract class AbstractTestCase extends TestCase {
 	private static OWLReasoner testReasoner = null;
 
 	protected OPPLScript parse(String script) {
+		System.out.println("AbstractTestCase.parse() " + script);
 		return this.parse(script, "test.owl");
 	}
 

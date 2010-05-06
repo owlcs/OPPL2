@@ -35,8 +35,6 @@ import org.coode.oppl.visitors.InputVariableCollector;
 import org.semanticweb.owl.model.AddAxiom;
 import org.semanticweb.owl.model.OWLAxiomChange;
 
-import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
-
 /**
  * @author Luigi Iannone
  * 
@@ -46,6 +44,7 @@ public class OPPLScriptImpl implements OPPLScript {
 	private final List<Variable> variables = new ArrayList<Variable>();
 	private final OPPLQuery query;
 	private final List<OWLAxiomChange> actions;
+	private final OPPLAbstractFactory factory;
 
 	/**
 	 * @param constraintSystem
@@ -54,11 +53,12 @@ public class OPPLScriptImpl implements OPPLScript {
 	 */
 	public OPPLScriptImpl(ConstraintSystem constraintSystem,
 			List<Variable> variables, OPPLQuery query,
-			List<OWLAxiomChange> actions) {
+			List<OWLAxiomChange> actions, OPPLAbstractFactory factory) {
 		this.constraintSystem = constraintSystem;
 		this.variables.addAll(variables);
 		this.query = query;
 		this.actions = actions;
+		this.factory = factory;
 	}
 
 	/**
@@ -134,15 +134,15 @@ public class OPPLScriptImpl implements OPPLScript {
 				buffer.append(variableScope.getDirection().toString());
 				StringWriter writer = new StringWriter();
 				buffer.append(' ');
-				ManchesterOWLSyntaxObjectRenderer renderer = new ManchesterOWLSyntaxObjectRenderer(
-						writer);
-				renderer
-						.setShortFormProvider(new SimpleVariableShortFormProvider(
-								this.constraintSystem));
+				ManchesterSyntaxRenderer renderer = factory
+						.getManchesterSyntaxRenderer(constraintSystem);
 				variableScope.getScopingObject().accept(renderer);
-				buffer.append(writer.toString());
+				buffer.append(renderer.toString());
 				buffer.append(']');
 			}
+		}
+		if (buffer.length() > 0) {
+			buffer.append(" ");
 		}
 		OPPLQuery opplQuery = this.getQuery();
 		if (this.query != null) {
@@ -153,19 +153,15 @@ public class OPPLScriptImpl implements OPPLScript {
 			first = true;
 			for (OWLAxiomChange action : this.getActions()) {
 				String commaString = first ? "" : ", ";
-				StringWriter writer = new StringWriter();
-				ManchesterOWLSyntaxObjectRenderer renderer = new ManchesterOWLSyntaxObjectRenderer(
-						writer);
-				renderer
-						.setShortFormProvider(new SimpleVariableShortFormProvider(
-								this.constraintSystem));
+				ManchesterSyntaxRenderer renderer = factory
+						.getManchesterSyntaxRenderer(constraintSystem);
 				String actionString = action instanceof AddAxiom ? "ADD "
 						: "REMOVE ";
 				first = false;
 				buffer.append(commaString);
 				buffer.append(actionString);
 				action.getAxiom().accept(renderer);
-				buffer.append(writer.toString());
+				buffer.append(renderer.toString());
 			}
 			buffer.append(" END;");
 		}

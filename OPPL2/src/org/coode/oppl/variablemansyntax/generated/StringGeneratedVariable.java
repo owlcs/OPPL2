@@ -276,7 +276,8 @@ public class StringGeneratedVariable extends AbstractGeneratedVariable<String> {
 	}
 
 	@Override
-	protected SingleValueGeneratedVariable<String> replace(SingleValueGeneratedValue<String> v) {
+	protected SingleValueGeneratedVariable<String> replace(
+			SingleValueGeneratedValue<String> v) {
 		return buildGeneratedVariable(this.getName(), this.getType(), v,
 				this.ontology);
 	}

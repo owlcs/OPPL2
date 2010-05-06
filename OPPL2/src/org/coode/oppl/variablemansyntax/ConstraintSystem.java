@@ -275,8 +275,9 @@ public class ConstraintSystem {
 		return this.reasoner;
 	}
 
-	public SingleValueGeneratedVariable<String> createStringGeneratedVariable(String name,
-			VariableType type, SingleValueGeneratedValue<String> value) {
+	public SingleValueGeneratedVariable<String> createStringGeneratedVariable(
+			String name, VariableType type,
+			SingleValueGeneratedValue<String> value) {
 		AbstractGeneratedVariable<String> generatedVariable = StringGeneratedVariable
 				.buildGeneratedVariable(name, type, value, this.getOntology());
 		this.variables.store(generatedVariable);

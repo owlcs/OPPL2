@@ -111,13 +111,11 @@ public class SearchTest extends TestCase {
 			OWLClass namedPizzaClass = manager
 					.getOWLDataFactory()
 					.getOWLClass(
-							URI
-									.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#NamedPizza"));
+							URI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#NamedPizza"));
 			OWLClass pizzaClass = manager
 					.getOWLDataFactory()
 					.getOWLClass(
-							URI
-									.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza"));
+							URI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza"));
 			final OWLSubClassAxiom subClassAxiom = manager.getOWLDataFactory()
 					.getOWLSubClassAxiom(namedPizzaClass, pizzaClass);
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf ?y BEGIN ADD ?x subClassOf ?y END;";

@@ -44,14 +44,16 @@ import org.semanticweb.owl.util.SimpleShortFormProvider;
  *         Bio-Health Informatics Group<br>
  *         Aug 12, 2008
  */
-public class RenderingOWLEntityCheckerNoModelManager implements OWLEntityChecker {
+public class RenderingOWLEntityCheckerNoModelManager implements
+		OWLEntityChecker {
 	protected OWLModelManager owlModelManager = null;
 	protected ShortFormEntityChecker shortFormEntityChecker = null;
 
 	/**
 	 * @param owlModelManager
 	 */
-	public RenderingOWLEntityCheckerNoModelManager(OWLModelManager owlModelManager) {
+	public RenderingOWLEntityCheckerNoModelManager(
+			OWLModelManager owlModelManager) {
 		this.owlModelManager = owlModelManager;
 		this.shortFormEntityChecker = new ShortFormEntityChecker(
 				new BidirectionalShortFormProviderAdapter(owlModelManager

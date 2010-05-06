@@ -35,8 +35,8 @@ public class XQueryAxiomRenderer extends OWLXMLObjectRenderer {
 	@Override
 	public void visit(OWLClass desc) {
 		if (this.constraintSystem.isVariable(desc)) {
-			Variable variable = this.constraintSystem.getVariable(desc
-					.getURI());
+			Variable variable = this.constraintSystem
+					.getVariable(desc.getURI());
 			this.writer.writeStartElement(CLASS.getURI());
 			this.writer.writeNameAttribute(URI.create("("
 					+ getVariableReference(variable) + ")"));
@@ -76,8 +76,8 @@ public class XQueryAxiomRenderer extends OWLXMLObjectRenderer {
 	@Override
 	public void visit(OWLIndividual individual) {
 		if (this.constraintSystem.isVariable(individual)) {
-			Variable variable = this.constraintSystem
-					.getVariable(individual.getURI());
+			Variable variable = this.constraintSystem.getVariable(individual
+					.getURI());
 			this.writer.writeStartElement(OWLXMLVocabulary.INDIVIDUAL.getURI());
 			this.writer.writeNameAttribute(URI.create("("
 					+ getVariableReference(variable) + ")"));

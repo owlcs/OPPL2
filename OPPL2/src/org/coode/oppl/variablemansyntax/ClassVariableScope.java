@@ -29,8 +29,8 @@ import org.semanticweb.owl.model.OWLDescription;
 import org.semanticweb.owl.model.OWLObject;
 
 /**
- * Represents a range limitations that could be added to a {@link GeneratedVariable}
- * instance with CLASS {@link VariableType}
+ * Represents a range limitations that could be added to a
+ * {@link GeneratedVariable} instance with CLASS {@link VariableType}
  * 
  * @author Luigi Iannone
  * 

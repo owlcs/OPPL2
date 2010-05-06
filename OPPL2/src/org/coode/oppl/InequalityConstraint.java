@@ -22,15 +22,11 @@
  */
 package org.coode.oppl;
 
-import java.io.StringWriter;
-
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.utils.ParserFactory;
 import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.coode.oppl.variablemansyntax.Variable;
 import org.semanticweb.owl.model.OWLObject;
-
-import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
 
 /**
  * @author Luigi Iannone
@@ -75,13 +71,7 @@ public class InequalityConstraint implements AbstractConstraint {
 
 	@Override
 	public String toString() {
-		StringWriter writer = new StringWriter();
-		ManchesterOWLSyntaxObjectRenderer renderer = new ManchesterOWLSyntaxObjectRenderer(
-				writer);
-		renderer.setShortFormProvider(new SimpleVariableShortFormProvider(
-				this.constraintSystem));
-		this.expression.accept(renderer);
-		return this.variable.getName() + " != " + writer.toString();
+		return render();
 	}
 
 	/**
@@ -92,12 +82,6 @@ public class InequalityConstraint implements AbstractConstraint {
 	}
 
 	public String render() {
-		// StringWriter writer = new StringWriter();
-		// ManchesterOWLSyntaxObjectRenderer renderer = new
-		// ManchesterOWLSyntaxObjectRenderer(
-		// writer);
-		// renderer.setShortFormProvider(new SimpleVariableShortFormProvider(
-		// this.constraintSystem));
 		ManchesterSyntaxRenderer renderer = ParserFactory.getInstance()
 				.getOPPLFactory().getManchesterSyntaxRenderer(
 						this.constraintSystem);

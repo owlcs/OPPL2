@@ -18,5 +18,6 @@ public interface SingleValueGeneratedVariable<N> extends Variable {
 
 	public void setValue(SingleValueGeneratedValue<N> value);
 
-	public <P> SingleValueGeneratedVariable<P> replaceValue(SingleValueGeneratedValue<P> replaceValue);
+	public <P> SingleValueGeneratedVariable<P> replaceValue(
+			SingleValueGeneratedValue<P> replaceValue);
 }

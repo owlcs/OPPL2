@@ -128,8 +128,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 										.addConstraint(newConstraint);
 							}
 						}
-						editor
-								.removeStatusChangedListener(verificationListener);
+						editor.removeStatusChangedListener(verificationListener);
 						editor.dispose();
 					}
 				});
@@ -223,9 +222,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 				dlg.setTitle("Clause editor");
 				dlg.setResizable(true);
 				dlg.pack();
-				dlg
-						.setLocationRelativeTo(this.getOwlEditorKit()
-								.getWorkspace());
+				dlg.setLocationRelativeTo(this.getOwlEditorKit().getWorkspace());
 				dlg.addComponentListener(new ComponentAdapter() {
 					@Override
 					@SuppressWarnings("unused")
@@ -251,8 +248,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 										.addPlainQueryAxiom(newItem.getAxiom());
 							}
 						}
-						editor
-								.removeStatusChangedListener(verificationListener);
+						editor.removeStatusChangedListener(verificationListener);
 						editor.dispose();
 					}
 				});

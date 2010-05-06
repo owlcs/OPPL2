@@ -45,8 +45,7 @@ public class ProtegeSimpleVariableShortFormProvider implements
 	public String getShortForm(OWLEntity entity) {
 		String toReturn = getModelManager().getRendering(entity);
 		if (this.constraintSystem != null) {
-			Variable v = getConstraintSystem()
-					.getVariable(entity.getURI());
+			Variable v = getConstraintSystem().getVariable(entity.getURI());
 			if (v != null) {
 				toReturn = v.getName();
 			}

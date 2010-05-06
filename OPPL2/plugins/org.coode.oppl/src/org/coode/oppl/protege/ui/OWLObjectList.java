@@ -240,8 +240,7 @@ public class OWLObjectList extends MList implements ActionListener,
 		}
 	}
 
-	private void notifyAdded2Variable(Variable variable,
-			OWLObject owlObject) {
+	private void notifyAdded2Variable(Variable variable, OWLObject owlObject) {
 		for (OPPLMacroListener listener : this.listeners) {
 			listener.handleGeneralisedOWLObject(variable, owlObject);
 		}

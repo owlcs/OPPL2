@@ -22,7 +22,6 @@
  */
 package org.coode.oppl;
 
-import java.io.StringWriter;
 import java.util.List;
 
 import org.coode.oppl.entity.OWLEntityRenderer;
@@ -43,8 +42,6 @@ import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.OWLOntologyManager;
 import org.semanticweb.owl.util.BidirectionalShortFormProviderAdapter;
 import org.semanticweb.owl.util.SimpleShortFormProvider;
-
-import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
 
 /**
  * @author Luigi Iannone
@@ -119,20 +116,11 @@ public class OPPLFactory implements OPPLAbstractFactory {
 			List<Variable> variables, OPPLQuery opplQuery,
 			List<OWLAxiomChange> actions) {
 		return new OPPLScriptImpl(constraintSystem1, variables, opplQuery,
-				actions);
+				actions, this);
 	}
 
 	public OPPLQuery buildNewQuery(ConstraintSystem constraintSystem1) {
-		return new OPPLQueryImpl(constraintSystem1);
-	}
-
-	public ManchesterOWLSyntaxObjectRenderer getOWLObjectRenderer(
-			StringWriter writer) {
-		ManchesterOWLSyntaxObjectRenderer renderer = new ManchesterOWLSyntaxObjectRenderer(
-				writer);
-		renderer.setShortFormProvider(new SimpleVariableShortFormProvider(this
-				.getConstraintSystem()));
-		return renderer;
+		return new OPPLQueryImpl(constraintSystem1, this);
 	}
 
 	/**

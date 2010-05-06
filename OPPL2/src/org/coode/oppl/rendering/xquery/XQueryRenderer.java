@@ -100,8 +100,7 @@ public class XQueryRenderer {
 			String axiomQuery = axiom.accept(builder);
 			writer.append(axiomQuery);
 			writer.append("\n");
-			Map<Variable, List<String>> allPaths = builder
-					.getVariablePaths();
+			Map<Variable, List<String>> allPaths = builder.getVariablePaths();
 			for (Variable v : allPaths.keySet()) {
 				List<String> variablePaths = allPaths.get(v);
 				String variableReference = v.getName().replace('?', '$');

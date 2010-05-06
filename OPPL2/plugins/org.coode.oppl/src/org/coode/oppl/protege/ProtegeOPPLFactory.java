@@ -22,7 +22,6 @@
  */
 package org.coode.oppl.protege;
 
-import java.io.StringWriter;
 import java.util.List;
 
 import org.coode.oppl.OPPLAbstractFactory;
@@ -46,8 +45,6 @@ import org.semanticweb.owl.model.OWLAxiomChange;
 import org.semanticweb.owl.model.OWLDataFactory;
 import org.semanticweb.owl.model.OWLEntity;
 import org.semanticweb.owl.model.OWLOntologyManager;
-
-import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
 
 /**
  * @author Luigi Iannone
@@ -133,24 +130,14 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 			List<Variable> variables, OPPLQuery opplQuery,
 			List<OWLAxiomChange> actions) {
 		ProtegeOPPLScript toReturn = new ProtegeOPPLScript(new OPPLScriptImpl(
-				constraintSystem1, variables, opplQuery, actions),
+				constraintSystem1, variables, opplQuery, actions, this),
 				this.modelManager);
 		return toReturn;
 	}
 
 	public OPPLQuery buildNewQuery(ConstraintSystem constraintSystem1) {
-		OPPLQuery opplQuery = new OPPLQueryImpl(constraintSystem1);
+		OPPLQuery opplQuery = new OPPLQueryImpl(constraintSystem1, this);
 		return new ProtegeOPPLQuery(opplQuery, this.modelManager);
-	}
-
-	public ManchesterOWLSyntaxObjectRenderer getOWLObjectRenderer(
-			StringWriter writer) {
-		ManchesterOWLSyntaxObjectRenderer renderer = new ManchesterOWLSyntaxObjectRenderer(
-				writer);
-		renderer
-				.setShortFormProvider(new ProtegeSimpleVariableShortFormProvider(
-						this.modelManager, this.getConstraintSystem()));
-		return renderer;
 	}
 
 	public ConstraintSystem createConstraintSystem() {

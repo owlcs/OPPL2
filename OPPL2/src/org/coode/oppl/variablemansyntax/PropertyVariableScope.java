@@ -33,8 +33,8 @@ import org.semanticweb.owl.model.OWLPropertyExpression;
  * @author Luigi Iannone
  * 
  */
-public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?>> implements
-		VariableScope {
+public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?>>
+		implements VariableScope {
 	private final P property;
 
 	/**

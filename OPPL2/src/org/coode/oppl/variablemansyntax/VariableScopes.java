@@ -39,8 +39,9 @@ public class VariableScopes {
 	 * 
 	 */
 	public enum Direction {
-		SUBCLASSOF("subClassOf"), SUPERCLASSOF("superClassOf"), SUBPROPERTYOF("subPropertyOf"), SUPERPROPERTYOF(
-				"superPropertyOf"), INSTANCEOF("instanceOf");
+		SUBCLASSOF("subClassOf"), SUPERCLASSOF("superClassOf"), SUBPROPERTYOF(
+				"subPropertyOf"), SUPERPROPERTYOF("superPropertyOf"), INSTANCEOF(
+				"instanceOf");
 		private String direction;
 
 		Direction(String s) {
@@ -75,7 +76,8 @@ public class VariableScopes {
 	 * @return a VariableScope instance restricting values to be sub-classes of
 	 *         the input OWLDescription
 	 */
-	public static SubClassVariableScope buildSubClassVariableScope(OWLDescription description) {
+	public static SubClassVariableScope buildSubClassVariableScope(
+			OWLDescription description) {
 		return ClassVariableScope.buildSubClassVariableScope(description);
 	}
 
@@ -84,7 +86,8 @@ public class VariableScopes {
 	 * @return a VariableScope instance restricting values to be super-classes
 	 *         of the input OWLDescription
 	 */
-	public static SuperClassVariableScope buildSuperClassVariableScope(OWLDescription description) {
+	public static SuperClassVariableScope buildSuperClassVariableScope(
+			OWLDescription description) {
 		return ClassVariableScope.buildSuperClassVariableScope(description);
 	}
 
@@ -123,7 +126,9 @@ public class VariableScopes {
 	 * @return a VariableScope instance restricting values to be instances of
 	 *         the input OWLDescription
 	 */
-	public static IndividualVariableScope buildIndividualVariableScope(OWLDescription description) {
-		return IndividualVariableScope.buildIndividualVariableScope(description);
+	public static IndividualVariableScope buildIndividualVariableScope(
+			OWLDescription description) {
+		return IndividualVariableScope
+				.buildIndividualVariableScope(description);
 	}
 }

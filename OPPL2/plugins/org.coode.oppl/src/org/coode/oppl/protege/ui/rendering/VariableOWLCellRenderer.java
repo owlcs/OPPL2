@@ -69,8 +69,7 @@ public class VariableOWLCellRenderer extends OWLCellRenderer implements
 		super(owlEditorKit);
 		ArgCheck.checkNullArgument("The OWL editor kit", owlEditorKit);
 		ArgCheck.checkNullArgument("The constraint system", constraintSystem);
-		ArgCheck
-				.checkNullArgument("The default cell renderer", defaultRenderer);
+		ArgCheck.checkNullArgument("The default cell renderer", defaultRenderer);
 		this.constraintSystem = constraintSystem;
 		this.defaultRenderer = defaultRenderer;
 		setHighlightKeywords(true);

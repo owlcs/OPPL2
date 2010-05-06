@@ -242,8 +242,7 @@ public class ManchesterSyntaxRenderer extends AbstractRenderer {
 
 	public void visit(OWLUntypedConstant node) {
 		if (this.constraintSystem.isVariable(node)) {
-			Variable v = this.constraintSystem.getVariable(node
-					.getLiteral());
+			Variable v = this.constraintSystem.getVariable(node.getLiteral());
 			write(this.constraintSystem.render(v));
 		} else {
 			write("\"");

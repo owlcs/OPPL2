@@ -3,7 +3,7 @@
 package org.coode.oppl.syntax;
 
 /**
- *This is a copy of ParseException with added constructors. It should be
+ * This is a copy of ParseException with added constructors. It should be
  * renamed to ParseException after all the classes are generated from oppl.jjt
  */
 public class CorrectParseException extends Exception {

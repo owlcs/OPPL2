@@ -58,15 +58,13 @@ public class SpecificQueriesTest extends TestCase {
 					"Changes count " + changes.size());
 			assertTrue(
 					"Instantiated axioms count expected "
-							+ this
-									.getMBTExportRedundantContentComponentInstantiatedAxioms(
-											ontologyManager).size()
+							+ this.getMBTExportRedundantContentComponentInstantiatedAxioms(
+									ontologyManager).size()
 							+ " actual "
 							+ this.getOPPLScriptInstantiatedAxioms(opplScript)
 									.size(),
-					this
-							.getMBTExportRedundantContentComponentInstantiatedAxioms(
-									ontologyManager).size() == this
+					this.getMBTExportRedundantContentComponentInstantiatedAxioms(
+							ontologyManager).size() == this
 							.getOPPLScriptInstantiatedAxioms(opplScript).size());
 			assertTrue(this.getOPPLLeaves(opplScript).size() == this
 					.getMBTExportRedundantContentComponentLeaves(
@@ -100,8 +98,7 @@ public class SpecificQueriesTest extends TestCase {
 					.getSubClassAxiomsForRHS(manager
 							.getOWLDataFactory()
 							.getOWLClass(
-									URI
-											.create("http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#OWLClass_01234980498623736000")));
+									URI.create("http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#OWLClass_01234980498623736000")));
 			for (OWLSubClassAxiom owlSubClassAxiom : subClassAxioms) {
 				OWLDescription xValue = owlSubClassAxiom.getSubClass();
 				toReturn.add(new BindingNode(new HashSet<Assignment>(Arrays
@@ -132,11 +129,9 @@ public class SpecificQueriesTest extends TestCase {
 			assertTrue(changes.size() > 0);
 			Logging.getQueryTestLogging().log(Level.INFO,
 					"Changes count " + changes.size());
-			this
-					.displaySetDifference(
-							this
-									.getMBTExportRedundantSubClassesInstantiatedAxioms(ontologyManager),
-							this.getOPPLScriptInstantiatedAxioms(opplScript));
+			this.displaySetDifference(
+					this.getMBTExportRedundantSubClassesInstantiatedAxioms(ontologyManager),
+					this.getOPPLScriptInstantiatedAxioms(opplScript));
 			assertTrue("Instantiated axioms count expected "
 					+ this.getMBTExportRedundantSubClassesInstantiatedAxioms(
 							ontologyManager).size() + " actual "
@@ -241,13 +236,11 @@ public class SpecificQueriesTest extends TestCase {
 			OWLOntologyManager manager) {
 		Set<OWLAxiom> toReturn = new HashSet<OWLAxiom>();
 		for (OWLOntology ontology : manager.getOntologies()) {
-			toReturn
-					.addAll(ontology
-							.getSubClassAxiomsForRHS(manager
-									.getOWLDataFactory()
-									.getOWLClass(
-											URI
-													.create("http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#OWLClass_01234980498623736000"))));
+			toReturn.addAll(ontology
+					.getSubClassAxiomsForRHS(manager
+							.getOWLDataFactory()
+							.getOWLClass(
+									URI.create("http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#OWLClass_01234980498623736000"))));
 		}
 		return toReturn;
 	}
@@ -273,21 +266,19 @@ public class SpecificQueriesTest extends TestCase {
 											&& yetAnotherSubClassAxiom
 													.getSuperClass().equals(
 															zValue)) {
-										toReturn
-												.add(new BindingNode(
-														new HashSet<Assignment>(
-																Arrays
-																		.asList(
-																				new Assignment(
-																						x,
-																						xValue),
-																				new Assignment(
-																						y,
-																						yValue),
-																				new Assignment(
-																						z,
-																						zValue))),
-														new HashSet<Variable>()));
+										toReturn.add(new BindingNode(
+												new HashSet<Assignment>(
+														Arrays.asList(
+																new Assignment(
+																		x,
+																		xValue),
+																new Assignment(
+																		y,
+																		yValue),
+																new Assignment(
+																		z,
+																		zValue))),
+												new HashSet<Variable>()));
 									}
 								}
 							}

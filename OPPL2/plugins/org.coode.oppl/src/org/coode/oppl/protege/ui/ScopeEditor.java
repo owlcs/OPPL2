@@ -43,8 +43,8 @@ import javax.swing.event.TreeSelectionEvent;
 
 import org.coode.oppl.variablemansyntax.VariableScope;
 import org.coode.oppl.variablemansyntax.VariableScopes;
-import org.coode.oppl.variablemansyntax.VariableType;
 import org.coode.oppl.variablemansyntax.VariableScopes.Direction;
+import org.coode.oppl.variablemansyntax.VariableType;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.VerifiedInputEditor;
@@ -339,9 +339,7 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
 				panel.setSelection((OWLDataProperty) scope.getScopingObject());
 			} else {
 				OWLObjectPropertySelectorPanel panel = (OWLObjectPropertySelectorPanel) this.propertyTree;
-				panel
-						.setSelection((OWLObjectProperty) scope
-								.getScopingObject());
+				panel.setSelection((OWLObjectProperty) scope.getScopingObject());
 			}
 		}
 
@@ -356,24 +354,20 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
 				if (lastPathComponent != null && direction != null) {
 					if (direction.equals(Direction.SUBPROPERTYOF)) {
 						if (lastPathComponent instanceof OWLDataProperty) {
-							this
-									.setVariableScope(VariableScopes
-											.buildSubPropertyVariableScope((OWLDataProperty) lastPathComponent));
+							this.setVariableScope(VariableScopes
+									.buildSubPropertyVariableScope((OWLDataProperty) lastPathComponent));
 						} else if (lastPathComponent instanceof OWLObjectProperty) {
-							this
-									.setVariableScope(VariableScopes
-											.buildSubPropertyVariableScope((OWLObjectProperty) lastPathComponent));
+							this.setVariableScope(VariableScopes
+									.buildSubPropertyVariableScope((OWLObjectProperty) lastPathComponent));
 						}
 					}
 					if (direction.equals(Direction.SUPERPROPERTYOF)) {
 						if (lastPathComponent instanceof OWLDataProperty) {
-							this
-									.setVariableScope(VariableScopes
-											.buildSuperPropertyVariableScope((OWLDataProperty) lastPathComponent));
+							this.setVariableScope(VariableScopes
+									.buildSuperPropertyVariableScope((OWLDataProperty) lastPathComponent));
 						} else if (lastPathComponent instanceof OWLObjectProperty) {
-							this
-									.setVariableScope(VariableScopes
-											.buildSuperPropertyVariableScope((OWLObjectProperty) lastPathComponent));
+							this.setVariableScope(VariableScopes
+									.buildSuperPropertyVariableScope((OWLObjectProperty) lastPathComponent));
 						}
 					}
 				}

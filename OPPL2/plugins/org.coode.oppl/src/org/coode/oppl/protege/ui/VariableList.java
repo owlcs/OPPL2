@@ -70,14 +70,12 @@ public class VariableList extends MList {
 							variableScope.getDirection()).append(" ").append(
 							rendering).append("] ").toString();
 				}
-				label
-						.setIcon(new ImageIcon(
-								this
-										.getClass()
-										.getClassLoader()
-										.getResource(
-												variable instanceof SingleValueGeneratedVariable<?> ? "cog.png"
-														: "user-icon.gif")));
+				label.setIcon(new ImageIcon(
+						this.getClass()
+								.getClassLoader()
+								.getResource(
+										variable instanceof SingleValueGeneratedVariable<?> ? "cog.png"
+												: "user-icon.gif")));
 				label.setText(VariableList.this.constraintSystem
 						.render(variable)
 						+ ":" + variable.getType() + variableScopeString);

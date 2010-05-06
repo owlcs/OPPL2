@@ -89,8 +89,8 @@ public final class OPPLTextEditor extends JPanel implements
 	 * Builds an instance of this OPPLTextBuilder.
 	 * 
 	 * @param owlEditorKit
-	 *            the editor kit for building the instance. Cannot be {@code
-	 *            null}.
+	 *            the editor kit for building the instance. Cannot be
+	 *            {@code null}.
 	 */
 	protected OPPLTextEditor(OWLEditorKit owlEditorKit) {
 		this(owlEditorKit, null);
@@ -100,8 +100,8 @@ public final class OPPLTextEditor extends JPanel implements
 	 * Builds an instance of this OPPLTextBuilder.
 	 * 
 	 * @param owlEditorKit
-	 *            the editor kit for building the instance. Cannot be {@code
-	 *            null}.
+	 *            the editor kit for building the instance. Cannot be
+	 *            {@code null}.
 	 * @param validator
 	 *            performs custom validation checks on a syntactical valid
 	 *            OPPLScript.

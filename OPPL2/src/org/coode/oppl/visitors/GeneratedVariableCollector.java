@@ -10,7 +10,8 @@ import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
 public class GeneratedVariableCollector implements PlainVariableVisitor {
 	private final List<SingleValueGeneratedVariable<?>> toReturn;
 
-	public GeneratedVariableCollector(List<SingleValueGeneratedVariable<?>> toReturn) {
+	public GeneratedVariableCollector(
+			List<SingleValueGeneratedVariable<?>> toReturn) {
 		this.toReturn = toReturn;
 	}
 

@@ -30,8 +30,7 @@ import java.util.Comparator;
  * @author Luigi Iannone
  * 
  */
-public final class NameBasedVariableComparator implements
-		Comparator<Variable> {
+public final class NameBasedVariableComparator implements Comparator<Variable> {
 	private static NameBasedVariableComparator instance = null;
 
 	private NameBasedVariableComparator() {

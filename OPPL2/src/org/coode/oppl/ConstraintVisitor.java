@@ -22,7 +22,6 @@
  */
 package org.coode.oppl;
 
-
 /**
  * @author Luigi Iannone
  * 

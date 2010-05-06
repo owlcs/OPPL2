@@ -29,10 +29,10 @@ import org.semanticweb.owl.model.OWLDescription;
 import org.semanticweb.owl.model.OWLObject;
 
 /**
- * Represents a range limitations that could be added to a {@link GeneratedVariable}
- * instance with CLASS {@link VariableType}, in particular this restricts the
- * possible values to the set of primitive classes that are super-classes of a
- * given class
+ * Represents a range limitations that could be added to a
+ * {@link GeneratedVariable} instance with CLASS {@link VariableType}, in
+ * particular this restricts the possible values to the set of primitive classes
+ * that are super-classes of a given class
  * 
  * @author Luigi Iannone
  * 

@@ -42,8 +42,8 @@ import org.semanticweb.owl.model.OWLPropertyExpression;
  * 
  */
 @SuppressWarnings("unchecked")
-public class SubPropertyVariableScope<P extends OWLPropertyExpression<?, ?>> extends
-		PropertyVariableScope<P> {
+public class SubPropertyVariableScope<P extends OWLPropertyExpression<?, ?>>
+		extends PropertyVariableScope<P> {
 	SubPropertyVariableScope(P property) {
 		super(property);
 	}
@@ -51,7 +51,8 @@ public class SubPropertyVariableScope<P extends OWLPropertyExpression<?, ?>> ext
 	public boolean check(OWLObject owlObject, VariableScopeChecker checker)
 			throws OWLReasonerException {
 		return owlObject instanceof OWLProperty
-				&& this.check(this.getProperty(), checker.ontologyManager.getOntologies());
+				&& this.check(this.getProperty(), checker.ontologyManager
+						.getOntologies());
 	}
 
 	boolean check(P property, Set<OWLOntology> ontologies) {
