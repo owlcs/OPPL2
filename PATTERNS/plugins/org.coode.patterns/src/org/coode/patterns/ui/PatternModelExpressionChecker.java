@@ -50,8 +50,8 @@ public class PatternModelExpressionChecker implements
 	 */
 	public void check(String text) throws OWLExpressionParserException {
 		this.lastCreatedObject = null;
-		PatternParser parser = ProtegeParserFactory.initProtegeParser(text, this.owlEditorKit
-				.getModelManager());
+		PatternParser parser = ProtegeParserFactory.initProtegeParser(text,
+				this.owlEditorKit.getModelManager());
 		try {
 			this.lastCreatedObject = (ProtegePatternModel) parser.Start();
 		} catch (ParseException e) {

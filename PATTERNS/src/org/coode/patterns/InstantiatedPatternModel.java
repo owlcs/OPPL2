@@ -38,6 +38,7 @@ import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLScriptVisitor;
 import org.coode.oppl.OPPLScriptVisitorEx;
 import org.coode.oppl.SimpleVariableShortFormProvider;
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.utils.ArgCheck;
 import org.coode.oppl.variablemansyntax.PartialOWLObjectInstantiator;
 import org.coode.oppl.variablemansyntax.Variable;
@@ -56,8 +57,6 @@ import org.semanticweb.owl.model.OWLEntity;
 import org.semanticweb.owl.model.OWLObject;
 import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.RemoveAxiom;
-
-import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
 
 /**
  * @author Luigi Iannone
@@ -163,30 +162,27 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
 			} else {
 				first = false;
 			}
-			StringWriter writer = new StringWriter();
-			ManchesterOWLSyntaxObjectRenderer renderer = this.patternModel
+			ManchesterSyntaxRenderer renderer = this.patternModel
 					.getPatternModelFactory().getRenderer(
-							this.getConstraintSystem(), writer);
+							this.getConstraintSystem());
 			Set<OWLObject> instantiation = this.instantiations.get(variable);
 			if (instantiation != null) {
 				if (instantiation.size() == 1) {
 					OWLObject singleInstantiation = instantiation.iterator()
 							.next();
 					singleInstantiation.accept(renderer);
-					toReturn += writer.toString();
+					toReturn += renderer.toString();
 				} else {
 					toReturn += "{";
 					boolean firstInstantiationValue = true;
 					for (OWLObject object : instantiation) {
 						object.accept(renderer);
-						toReturn += firstInstantiationValue ? writer.toString()
-								: ", " + writer.toString();
+						toReturn += firstInstantiationValue ? renderer
+								.toString() : ", " + renderer.toString();
 						firstInstantiationValue = firstInstantiationValue ? false
 								: firstInstantiationValue;
-						writer = new StringWriter();
-						renderer = this.patternModel
-								.getPatternModelFactory()
-								.getRenderer(this.getConstraintSystem(), writer);
+						renderer = this.patternModel.getPatternModelFactory()
+								.getRenderer(this.getConstraintSystem());
 					}
 					toReturn += "}";
 				}
@@ -199,13 +195,10 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
 	}
 
 	protected String render(OWLObject owlObject) {
-		Writer writer = new StringWriter();
-		ManchesterOWLSyntaxObjectRenderer renderer = new ManchesterOWLSyntaxObjectRenderer(
-				writer);
-		renderer.setShortFormProvider(new SimpleVariableShortFormProvider(
-				this.patternModel.getOpplStatement().getConstraintSystem()));
+		ManchesterSyntaxRenderer renderer = this.patternModel.factory
+				.getRenderer(getConstraintSystem());
 		owlObject.accept(renderer);
-		return writer.toString();
+		return renderer.toString();
 	}
 
 	/**

@@ -22,13 +22,15 @@
  */
 package org.coode.patterns.protege;
 
-import java.io.StringWriter;
 import java.net.URI;
 import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.protege.ProtegeSimpleVariableShortFormProvider;
+import org.coode.oppl.entity.OWLEntityRenderer;
+import org.coode.oppl.entity.OWLEntityRendererImpl;
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.rendering.VariableOWLEntityRenderer;
 import org.coode.oppl.syntax.OPPLParser;
 import org.coode.oppl.utils.ProtegeParserFactory;
 import org.coode.oppl.variablemansyntax.ConstraintSystem;
@@ -45,8 +47,6 @@ import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owl.inference.OWLReasoner;
 import org.semanticweb.owl.model.OWLAxiomChange;
 import org.semanticweb.owl.model.OWLConstantAnnotation;
-
-import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
 
 /**
  * @author Luigi Iannone
@@ -120,16 +120,6 @@ public class ProtegePatternModelFactory implements AbstractPatternModelFactory {
 				this.modelManager, PatternModel.getScriptValidator());
 	}
 
-	public ManchesterOWLSyntaxObjectRenderer getRenderer(
-			PatternConstraintSystem constraintSystem, StringWriter writer) {
-		ManchesterOWLSyntaxObjectRenderer renderer = new ManchesterOWLSyntaxObjectRenderer(
-				writer);
-		renderer
-				.setShortFormProvider(new ProtegeSimpleVariableShortFormProvider(
-						this.modelManager, constraintSystem));
-		return renderer;
-	}
-
 	public PatternModel createPatternModel(String name,
 			List<Variable> variables, List<OWLAxiomChange> actions,
 			Variable returnClause, String rendering,
@@ -149,5 +139,18 @@ public class ProtegePatternModelFactory implements AbstractPatternModelFactory {
 			patternModel.setUri(URI.create(PatternModel.NAMESPACE + name));
 			return patternModel;
 		}
+	}
+
+	public ManchesterSyntaxRenderer getRenderer(
+			PatternConstraintSystem patternConstraintSystem) {
+		return new ManchesterSyntaxRenderer(this.modelManager
+				.getOWLOntologyManager(), this
+				.getOWLEntityRenderer(patternConstraintSystem),
+				patternConstraintSystem);
+	}
+
+	public OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {
+		OWLEntityRendererImpl defaultRenderer = new OWLEntityRendererImpl();
+		return new VariableOWLEntityRenderer(cs, defaultRenderer);
 	}
 }

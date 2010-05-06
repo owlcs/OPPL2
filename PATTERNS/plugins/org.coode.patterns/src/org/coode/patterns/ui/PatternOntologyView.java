@@ -90,9 +90,7 @@ public class PatternOntologyView extends AbstractActiveOntologyViewComponent {
 					Object val = getModel().getElementAt(selIndex);
 					if (val instanceof OWLFrameSectionRow<?, ?, ?>) {
 						OWLFrameSectionRow<?, ?, ?> row = (OWLFrameSectionRow<?, ?, ?>) val;
-						changes
-								.addAll(changes.size(), row
-										.getDeletionChanges());
+						changes.addAll(changes.size(), row.getDeletionChanges());
 					}
 				}
 				for (OWLOntologyChange change : changes) {

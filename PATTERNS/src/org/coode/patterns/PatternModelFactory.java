@@ -22,13 +22,15 @@
  */
 package org.coode.patterns;
 
-import java.io.StringWriter;
 import java.net.URI;
 import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.SimpleVariableShortFormProvider;
+import org.coode.oppl.entity.OWLEntityRenderer;
+import org.coode.oppl.entity.OWLEntityRendererImpl;
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.rendering.VariableOWLEntityRenderer;
 import org.coode.oppl.syntax.OPPLParser;
 import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.coode.oppl.variablemansyntax.Variable;
@@ -37,8 +39,6 @@ import org.semanticweb.owl.model.OWLAxiomChange;
 import org.semanticweb.owl.model.OWLConstantAnnotation;
 import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.OWLOntologyManager;
-
-import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
 
 /**
  * @author Luigi Iannone
@@ -101,15 +101,6 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 						.getScriptValidator());
 	}
 
-	public ManchesterOWLSyntaxObjectRenderer getRenderer(
-			PatternConstraintSystem constraintSystem, StringWriter writer) {
-		ManchesterOWLSyntaxObjectRenderer renderer = new ManchesterOWLSyntaxObjectRenderer(
-				writer);
-		renderer.setShortFormProvider(new SimpleVariableShortFormProvider(
-				constraintSystem));
-		return renderer;
-	}
-
 	/**
 	 * @see org.coode.patterns.AbstractPatternModelFactory#createPatternModel(java.lang.String,
 	 *      java.util.List, java.util.List,
@@ -160,5 +151,17 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 
 	public void setOPPLParser(OPPLParser parser) {
 		this.opplParser = parser;
+	}
+
+	public ManchesterSyntaxRenderer getRenderer(
+			PatternConstraintSystem patternConstraintSystem) {
+		return new ManchesterSyntaxRenderer(this.ontologyManager, this
+				.getOWLEntityRenderer(patternConstraintSystem),
+				patternConstraintSystem);
+	}
+
+	public OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {
+		OWLEntityRendererImpl defaultRenderer = new OWLEntityRendererImpl();
+		return new VariableOWLEntityRenderer(cs, defaultRenderer);
 	}
 }

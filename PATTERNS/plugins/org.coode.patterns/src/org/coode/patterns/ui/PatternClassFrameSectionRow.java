@@ -107,9 +107,8 @@ public class PatternClassFrameSectionRow
 				.getOWLModelManager());
 		OWLAnnotation<? extends OWLObject> annotation = annotationAxiom
 				.getAnnotation();
-		editor
-				.setInstantiatedPatternModel((ProtegeInstantiatedPatternModel) annotation
-						.accept(patternExtractor));
+		editor.setInstantiatedPatternModel((ProtegeInstantiatedPatternModel) annotation
+				.accept(patternExtractor));
 		return editor;
 	}
 

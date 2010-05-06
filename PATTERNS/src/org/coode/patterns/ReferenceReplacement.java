@@ -180,7 +180,8 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 		// }
 		else if (v instanceof SingleValueGeneratedVariable<?>) {
 			// generated variable
-			SingleValueGeneratedValue<?> value = ((SingleValueGeneratedVariable<?>) v).getValue();
+			SingleValueGeneratedValue<?> value = ((SingleValueGeneratedVariable<?>) v)
+					.getValue();
 			if (value instanceof VariableGeneratedValue<?>) {
 				Variable generatingVariable = ((VariableGeneratedValue<?>) value)
 						.getVariable();

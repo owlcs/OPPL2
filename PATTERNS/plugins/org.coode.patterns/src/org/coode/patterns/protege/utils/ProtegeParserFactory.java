@@ -11,10 +11,9 @@ import org.protege.editor.owl.model.OWLModelManager;
 
 /**
  * @author Luigi Iannone
- *
+ * 
  */
 public class ProtegeParserFactory {
-
 	public static PatternParser initProtegeParser(String formulaBody,
 			OWLModelManager manager) {
 		PatternParser parser = new PatternParser(new StringReader(formulaBody),

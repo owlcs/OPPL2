@@ -22,19 +22,17 @@
  */
 package org.coode.patterns;
 
-import java.io.StringWriter;
 import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.OPPLScript;
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.syntax.OPPLParser;
 import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.coode.oppl.variablemansyntax.Variable;
 import org.semanticweb.owl.inference.OWLReasoner;
 import org.semanticweb.owl.model.OWLAxiomChange;
 import org.semanticweb.owl.model.OWLConstantAnnotation;
-
-import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
 
 /**
  * @author Luigi Iannone
@@ -114,6 +112,6 @@ public interface AbstractPatternModelFactory {
 
 	void setOPPLParser(OPPLParser parser);
 
-	ManchesterOWLSyntaxObjectRenderer getRenderer(
-			PatternConstraintSystem patternConstraintSystem, StringWriter writer);
+	ManchesterSyntaxRenderer getRenderer(
+			PatternConstraintSystem patternConstraintSystem);
 }

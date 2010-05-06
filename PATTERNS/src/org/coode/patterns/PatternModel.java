@@ -22,7 +22,6 @@
  */
 package org.coode.patterns;
 
-import java.io.StringWriter;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,6 +35,7 @@ import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.OPPLScriptVisitor;
 import org.coode.oppl.OPPLScriptVisitorEx;
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.utils.ArgCheck;
 import org.coode.oppl.validation.OPPLScriptValidator;
 import org.coode.oppl.variablemansyntax.Variable;
@@ -102,8 +102,6 @@ import org.semanticweb.owl.model.OWLSymmetricObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owl.model.SWRLRule;
 import org.semanticweb.owl.util.NamespaceUtil;
-
-import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
 
 /**
  * @author Luigi Iannone
@@ -803,9 +801,8 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 			if (!replacedObjects.isEmpty()) {
 				if (this.getReturnVariable().getType().equals(
 						VariableType.CLASS)) {
-					StringWriter writer = new StringWriter();
-					ManchesterOWLSyntaxObjectRenderer renderer = this.factory
-							.getRenderer(this.getConstraintSystem(), writer);
+					ManchesterSyntaxRenderer renderer = this.factory
+							.getRenderer(this.getConstraintSystem());
 					Set<OWLDescription> descriptions = new HashSet<OWLDescription>();
 					for (OWLObject object : replacedObjects) {
 						descriptions.add((OWLDescription) object);
@@ -813,14 +810,13 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 					this.ontologyManager.getOWLDataFactory()
 							.getOWLObjectIntersectionOf(descriptions).accept(
 									renderer);
-					toReturn = writer.toString();
+					toReturn = renderer.toString();
 				} else {
 					for (OWLObject object : replacedObjects) {
-						StringWriter writer = new StringWriter();
-						ManchesterOWLSyntaxObjectRenderer renderer = this.factory
-								.getRenderer(this.getConstraintSystem(), writer);
+						ManchesterSyntaxRenderer renderer = this.factory
+								.getRenderer(this.getConstraintSystem());
 						object.accept(renderer);
-						toReturn += writer.toString() + " ";
+						toReturn += renderer.toString() + " ";
 					}
 				}
 			}
@@ -993,8 +989,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 							&& ((InstantiatedPatternModel) extractedPatternModel)
 									.getInstantiatedPatternLocalName().equals(
 											this.getPatternLocalName())) {
-						toReturn
-								.add((InstantiatedPatternModel) extractedPatternModel);
+						toReturn.add((InstantiatedPatternModel) extractedPatternModel);
 					}
 				}
 			}

@@ -22,12 +22,12 @@
  */
 package org.coode.patterns;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.variablemansyntax.Variable;
 import org.coode.oppl.variablemansyntax.VariableType;
 import org.coode.oppl.variablemansyntax.VariableTypeVisitorEx;
@@ -38,8 +38,6 @@ import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValueVisit
 import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValueVisitorEx;
 import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
 import org.semanticweb.owl.model.OWLObject;
-
-import uk.ac.manchester.cs.owl.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
 
 /**
  * @author Luigi Iannone
@@ -83,12 +81,11 @@ public class PatternReferenceGeneratedVariable extends
 				OWLObject assignmentValue = node
 						.getAssignmentValue(inputVariable);
 				if (assignmentValue != null) {
-					StringWriter writer = new StringWriter();
-					ManchesterOWLSyntaxObjectRenderer renderer = this.patternReference
+					ManchesterSyntaxRenderer renderer = this.patternReference
 							.getConstraintSystem().getPatternModelFactory()
-							.getRenderer(constraintSystem, writer);
+							.getRenderer(constraintSystem);
 					assignmentValue.accept(renderer);
-					newArguments.add(Arrays.asList(writer.toString()));
+					newArguments.add(Arrays.asList(renderer.toString()));
 				} else {
 					newArguments.add(Arrays.asList(inputVariable.getName()));
 				}

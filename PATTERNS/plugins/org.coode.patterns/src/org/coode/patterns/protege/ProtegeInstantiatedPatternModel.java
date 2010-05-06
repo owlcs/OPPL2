@@ -57,8 +57,8 @@ public class ProtegeInstantiatedPatternModel extends InstantiatedPatternModel {
 	}
 
 	protected PatternParser initParser(String s) {
-		return org.coode.patterns.protege.utils.ProtegeParserFactory.initProtegeParser(s,
-				this.modelManager);
+		return org.coode.patterns.protege.utils.ProtegeParserFactory
+				.initProtegeParser(s, this.modelManager);
 	}
 
 	@Override
@@ -90,9 +90,8 @@ public class ProtegeInstantiatedPatternModel extends InstantiatedPatternModel {
 					for (OWLObject instantiation : instantiationsValues) {
 						String instantiationRendering = this.modelManager
 								.getRendering(instantiation);
-						toReturn
-								.append(firstInstantiation ? instantiationRendering
-										: ", " + instantiationRendering);
+						toReturn.append(firstInstantiation ? instantiationRendering
+								: ", " + instantiationRendering);
 						firstInstantiation = firstInstantiation ? false
 								: firstInstantiation;
 					}

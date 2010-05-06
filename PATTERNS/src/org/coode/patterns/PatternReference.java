@@ -293,9 +293,8 @@ public class PatternReference {
 									URI.create(PatternModel.NAMESPACE
 											+ visitedPatternName));
 					if (found) {
-						toReturn
-								.add((OWLConstantAnnotation) anOntologyAnnotationAxiom
-										.getAnnotation());
+						toReturn.add((OWLConstantAnnotation) anOntologyAnnotationAxiom
+								.getAnnotation());
 					}
 				}
 			}

@@ -228,8 +228,9 @@ public class PatternConstraintSystem extends ConstraintSystem {
 	}
 
 	@Override
-	public SingleValueGeneratedVariable<String> createStringGeneratedVariable(String name,
-			VariableType type, SingleValueGeneratedValue<String> value) {
+	public SingleValueGeneratedVariable<String> createStringGeneratedVariable(
+			String name, VariableType type,
+			SingleValueGeneratedValue<String> value) {
 		return this.constraintSystem.createStringGeneratedVariable(name, type,
 				value);
 	}

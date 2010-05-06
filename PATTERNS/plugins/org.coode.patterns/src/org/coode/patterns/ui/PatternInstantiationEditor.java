@@ -199,9 +199,8 @@ public class PatternInstantiationEditor extends
 			dlg.setTitle(variableValueEditor.getTitle());
 			dlg.setResizable(true);
 			dlg.pack();
-			dlg
-					.setLocationRelativeTo(PatternInstantiationEditor.this.owlEditorKit
-							.getWorkspace());
+			dlg.setLocationRelativeTo(PatternInstantiationEditor.this.owlEditorKit
+					.getWorkspace());
 			dlg.addComponentListener(new ComponentAdapter() {
 				@Override
 				@SuppressWarnings("unused")
@@ -407,9 +406,8 @@ public class PatternInstantiationEditor extends
 			dlg.setTitle("Safety analysis breakdown");
 			dlg.setResizable(true);
 			dlg.pack();
-			dlg
-					.setLocationRelativeTo(PatternInstantiationEditor.this.owlEditorKit
-							.getWorkspace());
+			dlg.setLocationRelativeTo(PatternInstantiationEditor.this.owlEditorKit
+					.getWorkspace());
 			dlg.setVisible(true);
 		}
 	}
@@ -526,8 +524,7 @@ public class PatternInstantiationEditor extends
 										.init();
 							}
 						};
-						list
-								.setModel(PatternInstantiationEditor.this.localityCheckerSignatureModel);
+						list.setModel(PatternInstantiationEditor.this.localityCheckerSignatureModel);
 						list.setCellRenderer(new RenderableObjectCellRenderer(
 								PatternInstantiationEditor.this.owlEditorKit));
 						JScrollPane pane = ComponentFactory
@@ -542,9 +539,8 @@ public class PatternInstantiationEditor extends
 						dlg.setTitle("Current signature");
 						dlg.setResizable(true);
 						dlg.pack();
-						dlg
-								.setLocationRelativeTo(PatternInstantiationEditor.this.owlEditorKit
-										.getWorkspace());
+						dlg.setLocationRelativeTo(PatternInstantiationEditor.this.owlEditorKit
+								.getWorkspace());
 						dlg.setVisible(true);
 					}
 				});

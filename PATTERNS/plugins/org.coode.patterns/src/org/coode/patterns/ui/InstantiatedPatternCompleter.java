@@ -59,8 +59,9 @@ public class InstantiatedPatternCompleter extends
 
 	@Override
 	protected List<? extends Object> getMatches() {
-		PatternParser parser = ProtegeParserFactory.initProtegeParser(this.textComponent
-				.getText(), this.owlEditorKit.getModelManager());
+		PatternParser parser = ProtegeParserFactory.initProtegeParser(
+				this.textComponent.getText(), this.owlEditorKit
+						.getModelManager());
 		List<? extends Object> toReturn = new ArrayList<Object>();
 		try {
 			parser.Start();

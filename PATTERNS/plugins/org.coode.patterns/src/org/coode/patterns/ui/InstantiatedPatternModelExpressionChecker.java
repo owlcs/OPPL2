@@ -62,8 +62,8 @@ public class InstantiatedPatternModelExpressionChecker implements
 	 */
 	public void check(String text) throws OWLExpressionParserException {
 		this.lastCreatedObject = null;
-		PatternParser parser = ProtegeParserFactory.initProtegeParser(text, this.owlEditorKit
-				.getModelManager());
+		PatternParser parser = ProtegeParserFactory.initProtegeParser(text,
+				this.owlEditorKit.getModelManager());
 		try {
 			ProtegeInstantiatedPatternModel pattern = (ProtegeInstantiatedPatternModel) parser
 					.Start();
