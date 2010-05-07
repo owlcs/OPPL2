@@ -93,6 +93,7 @@ options {
   import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
   import org.coode.oppl.variablemansyntax.generated.StringGeneratedValue;
   import org.coode.oppl.variablemansyntax.generated.ConcatGeneratedValues;
+  import org.coode.oppl.InCollectionRegExpConstraint;
   import org.semanticweb.owl.model.OWLAxiom;
   import org.semanticweb.owl.model.OWLObject;
   import org.semanticweb.owl.model.OWLClass;
@@ -116,11 +117,17 @@ bottomup // match subexpressions innermost to outermost
 
 
 statement
+@init{
+	List<Variable> vds = new ArrayList<Variable>();
+}
 	:
-		^(OPPL_STATEMENT variableDefinitions query actions)
+		^(OPPL_STATEMENT vd = variableDefinitions? query actions)
 		{
+			if(vd!=null){
+				vds.addAll($vd.variables);
+			}
 			$start.setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),
-									$variableDefinitions.variables, $query.query,
+									vds, $query.query,
 									$actions.actions));
 		}
 	;
@@ -375,5 +382,10 @@ constraint returns [AbstractConstraint constraint]
 		}
 		| ^(IN_SET_CONSTRAINT v = IDENTIFIER ^(ONE_OF (i = IDENTIFIER {identifiers.add(i);})+)){
 			$constraint = symtab.getInSetConstraint($start,v,constraintSystem,identifiers.toArray(new OPPLSyntaxTree[identifiers.size()]));
+		}
+		| ^(REGEXP_CONSTRAINT IDENTIFIER se = stringOperation)
+		{
+			Variable variable = symtab.getVariable($IDENTIFIER,getConstraintSystem());
+			$constraint =   new InCollectionRegExpConstraint(variable, se, getConstraintSystem());
 		}
 ;

@@ -21,7 +21,7 @@ tokens{
 
 statement
   :
-    variableDefinitions query actions -> ^(OPPL_STATEMENT variableDefinitions query actions)
+    variableDefinitions? query actions -> ^(OPPL_STATEMENT variableDefinitions? query actions)
   ;
 
   

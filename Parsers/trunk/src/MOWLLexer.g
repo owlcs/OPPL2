@@ -67,7 +67,7 @@ DIFFERENT_FROM  : 'differentFrom'
 
 INVERSE_OF:   'InverseOf'
   ;
-DISJOINT_WITH : 'DisjointWith'
+DISJOINT_WITH : 'DisjointWith' | 'disjointWith'
   ;
   
 DOMAIN  :
