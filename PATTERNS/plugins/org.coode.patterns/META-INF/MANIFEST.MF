@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 1
 Bundle-Name: Patterns
 Bundle-SymbolicName: org.coode.patterns;singleton:=true
 Bundle-Category: protege
-Update-Url: http://www.cs.man.ac.uk/~iannonel/oppl/patterns/downloads/update.properties
+Update-Url: http://oppl2.sourceforge.net/patterns/update.properties
 Bundle-Description: OPPL 2 Patterns plug-in for Protege 4
 Bundle-Vendor: The CO-ODE Group
 Bundle-DocURL: http://www.co-ode.org
@@ -35,7 +35,7 @@ Import-Package: org.osgi.framework,
  org.xml.sax.ext,
  org.xml.sax.helpers,
  javax.xml.parsers
-Bundle-Version: 1.1.1
+Bundle-Version: 1.2.0
 Bundle-Activator: org.protege.editor.core.plugin.DefaultPluginActivator 
 Require-Bundle: org.eclipse.equinox.registry,
  org.eclipse.equinox.common,
