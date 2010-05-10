@@ -140,6 +140,7 @@ public enum VariableType implements Type {
 		}
 	};
 	private final static Map<String, VariableType> map = new HashMap<String, VariableType>();
+	private final static Map<org.coode.oppl.variablemansyntax.VariableType, VariableType> typeMap = new HashMap<org.coode.oppl.variablemansyntax.VariableType, VariableType>();
 	private final String NAMESPACE = "http://www.coode.org/oppl/variablemansyntax#";
 
 	protected URI createURI(String name) {
@@ -152,6 +153,11 @@ public enum VariableType implements Type {
 		map.put("DATAPROPERTY", DATAPROPERTY);
 		map.put("INDIVIDUAL", INDIVIDUAL);
 		map.put("CONSTANT", CONSTANT);
+		typeMap.put(org.coode.oppl.variablemansyntax.VariableType.CLASS, CLASS);
+		typeMap.put(org.coode.oppl.variablemansyntax.VariableType.OBJECTPROPERTY, OBJECTPROPERTY);
+		typeMap.put(org.coode.oppl.variablemansyntax.VariableType.DATAPROPERTY, DATAPROPERTY);
+		typeMap.put(org.coode.oppl.variablemansyntax.VariableType.INDIVIDUAL, INDIVIDUAL);
+		typeMap.put(org.coode.oppl.variablemansyntax.VariableType.CONSTANT, CONSTANT);
 	}
 
 	public void accept(TypeVisitor visitor) {
@@ -164,6 +170,11 @@ public enum VariableType implements Type {
 
 	public static VariableType getVariableType(String string) {
 		return map.get(string);
+	}
+
+	public static VariableType getVariableType(
+			org.coode.oppl.variablemansyntax.VariableType variableType) {
+		return typeMap.get(variableType);
 	}
 
 	public abstract OWLType getOWLType();

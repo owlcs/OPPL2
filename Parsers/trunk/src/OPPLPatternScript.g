@@ -56,7 +56,7 @@ unary
     | ENTITY_REFERENCE -> ^(ENTITY_REFERENCE)
     | qualifiedRestriction -> ^(qualifiedRestriction)
     | constant
-    | THIS_CLASS -> ^(IDENTIFIER[$THIS_CLASS])
+    | THIS_CLASS -> ^(IDENTIFIER[$THIS_CLASS] THIS_CLASS)
     | patternReference -> ^(patternReference)    
   ;
 
@@ -85,7 +85,7 @@ filler:
     | createIdentifier -> ^(createIdentifier)
     | OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(expression)
     | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])
-		| THIS_CLASS -> ^(IDENTIFIER[$THIS_CLASS])
+		| THIS_CLASS -> ^(IDENTIFIER[$THIS_CLASS] THIS_CLASS)
  ;
 
 
@@ -126,6 +126,6 @@ argument returns[String text]
     | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])     
     | createIdentifier -> ^(createIdentifier)    
     | ENTITY_REFERENCE -> ^(ENTITY_REFERENCE)
-    | THIS_CLASS -> ^(IDENTIFIER[$THIS_CLASS])
+    | THIS_CLASS -> ^(IDENTIFIER[$THIS_CLASS] THIS_CLASS)
     | patternReference -> ^(patternReference)    
 	;

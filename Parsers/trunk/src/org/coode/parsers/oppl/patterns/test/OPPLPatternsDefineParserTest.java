@@ -1,5 +1,9 @@
 package org.coode.parsers.oppl.patterns.test;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Set;
+
 import junit.framework.TestCase;
 
 import org.antlr.runtime.ANTLRStringStream;
@@ -13,10 +17,25 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
+import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
+import org.coode.parsers.Symbol;
+import org.coode.parsers.factory.SymbolTableFactory;
+import org.coode.parsers.oppl.OPPLDefine;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.patterns.OPPLPatternLexer;
 import org.coode.parsers.oppl.patterns.OPPLPatternScriptParser;
+import org.coode.parsers.oppl.patterns.OPPLPatternsDefine;
+import org.coode.parsers.oppl.patterns.OPPLPatternsSymbolTable;
+import org.coode.parsers.oppl.patterns.factory.SimpleSymbolTableFactory;
+import org.coode.parsers.test.ComprehensiveAxiomTestCase;
+import org.coode.parsers.test.SystemErrorEcho;
+import org.coode.patterns.AbstractPatternModelFactory;
+import org.coode.patterns.PatternModelFactory;
+import org.semanticweb.owl.apibinding.OWLManager;
+import org.semanticweb.owl.model.OWLOntology;
+import org.semanticweb.owl.model.OWLOntologyCreationException;
+import org.semanticweb.owl.model.OWLOntologyManager;
 
 /**
  * Test for the AST generation for OPPL
@@ -24,7 +43,7 @@ import org.coode.parsers.oppl.patterns.OPPLPatternScriptParser;
  * @author Luigi Iannone
  * 
  */
-public class OPPLPatternsParserTest extends TestCase {
+public class OPPLPatternsDefineParserTest extends TestCase {
 	private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
 		@Override
 		public Object create(Token token) {
@@ -44,13 +63,34 @@ public class OPPLPatternsParserTest extends TestCase {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
+	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
+	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
+			ONTOLOGY_MANAGER);
+	private static OPPLPatternsSymbolTable symtab;
+	private static OWLOntology SYNTAX_ONTOLOGY;
+	private final ErrorListener listener = new SystemErrorEcho();
+	static {
+		try {
+			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
+					"syntaxTest.owl").toURI());
+			symtab = (OPPLPatternsSymbolTable) SYMBOL_TABLE_FACTORY.createSymbolTable();
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void testFood() {
 		String patternString = "?x:CLASS, ?y:CLASS, ?forbiddenContent:CLASS = createUnion(?x.VALUES) BEGIN ADD $thisClass equivalentTo contains only (not ?forbiddenContent) END; A ?x free stuff; RETURN $thisClass";
 		OPPLSyntaxTree parsed = this.parse(patternString);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
-		
+		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+		assertTrue(
+				"Exected 5 actual " + definedSymbols.size() + " " + definedSymbols,
+				definedSymbols.size() == 5);
 	}
 
 	public void testMenu() {
@@ -58,6 +98,10 @@ public class OPPLPatternsParserTest extends TestCase {
 		OPPLSyntaxTree parsed = this.parse(patternString);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
+		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+		assertTrue(
+				"Exected 3 actual " + definedSymbols.size() + " " + definedSymbols,
+				definedSymbols.size() == 3);
 	}
 
 	public void testPizza() {
@@ -65,6 +109,10 @@ public class OPPLPatternsParserTest extends TestCase {
 		OPPLSyntaxTree parsed = this.parse(patternString);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
+		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+		assertTrue(
+				"Exected 5 actual " + definedSymbols.size() + " " + definedSymbols,
+				definedSymbols.size() == 5);
 	}
 
 	public void testDOLCEInformationRealization() {
@@ -72,6 +120,10 @@ public class OPPLPatternsParserTest extends TestCase {
 		OPPLSyntaxTree parsed = this.parse(patternString);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
+		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+		assertTrue(
+				"Exected 3 actual " + definedSymbols.size() + " " + definedSymbols,
+				definedSymbols.size() == 3);
 	}
 
 	public void testDOLCEPersonRoleTimeInterval() {
@@ -79,6 +131,10 @@ public class OPPLPatternsParserTest extends TestCase {
 		OPPLSyntaxTree parsed = this.parse(patternString);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
+		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+		assertTrue(
+				"Exected 4 actual " + definedSymbols.size() + " " + definedSymbols,
+				definedSymbols.size() == 4);
 	}
 
 	protected OPPLSyntaxTree parse(String input) {
@@ -98,6 +154,14 @@ public class OPPLPatternsParserTest extends TestCase {
 			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
+			OPPLDefine define = new OPPLDefine(nodes, symtab, this.listener);
+			define.setTreeAdaptor(adaptor);
+			define.downup(tree);
+			AbstractPatternModelFactory factory = new PatternModelFactory(SYNTAX_ONTOLOGY,
+					ONTOLOGY_MANAGER);
+			OPPLPatternsDefine patternsDefine = new OPPLPatternsDefine(nodes, symtab,
+					this.listener, factory.createConstraintSystem());
+			patternsDefine.downup(tree);
 			return (OPPLSyntaxTree) r.getTree();
 		} catch (RecognitionException e) {
 			e.printStackTrace();
