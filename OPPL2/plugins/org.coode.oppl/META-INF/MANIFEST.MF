@@ -35,7 +35,7 @@ Import-Package: org.osgi.framework,
  org.xml.sax.helpers,
  javax.xml.parsers
 Export-Package: org.coode.oppl, org.coode.oppl.search, org.coode.oppl.protege.model, org.coode.oppl.variablemansyntax, org.coode.oppl.variablemansyntax, org.coode.oppl.variablemansyntax.variabletypes,org.coode.oppl.variablemansyntax.generated.factory,org.coode.oppl.visitors, org.coode.oppl.exceptions, org.coode.oppl.variablemansyntax.bindingtree, org.coode.oppl.protege,org.coode.oppl.protege.ui, org.coode.oppl.protege.ui.message, org.coode.oppl.variablemansyntax.generated, org.coode.oppl.validation, org.coode.oppl.syntax, org.coode.oppl.utils
-Bundle-Version: 1.1.1
+Bundle-Version: 1.2.0
 Bundle-Activator: org.protege.editor.core.plugin.DefaultPluginActivator 
 Bundle-ClassPath: .,lib/swing-worker-1.2.jar
 Require-Bundle: org.eclipse.equinox.registry,
