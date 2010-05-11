@@ -126,7 +126,10 @@ public class OPPLPatternScope implements Scope {
 					args);
 			toReturn = constraintSystem.getVariable(resolvedPattern);
 		} catch (PatternException e) {
-			listener.illegalToken(reference, "Could not resolve the reference: " + e.getMessage());
+			if (listener != null) {
+				listener.illegalToken(reference, "Could not resolve the reference: "
+						+ e.getMessage());
+			}
 		}
 		return toReturn;
 	}

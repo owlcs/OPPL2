@@ -26,7 +26,7 @@ tokens{
   
 pattern
   :
-    statement  rendering  SEMICOLON returnClause? SEMICOLON -> ^(OPPL_PATTERN returnClause? rendering) 
+    statement  rendering?   (SEMICOLON returnClause)?  -> ^(OPPL_PATTERN statement rendering returnClause?) 
   ;
 
 statement
@@ -36,12 +36,38 @@ statement
   
 returnClause
   :
-    RETURN IDENTIFIER ->^(RETURN IDENTIFIER)
+    RETURN returnValue  ->^(RETURN returnValue)
+  ;
+  
+returnValue
+  :
+      VARIABLE_NAME -> VARIABLE_NAME
+    | THIS_CLASS -> THIS_CLASS 
   ;
 
-rendering
+rendering 
+@init
+{
+  StringBuilder builder = new StringBuilder();
+}
   :
-    IDENTIFIER+ SEMICOLON ->^(RENDERING IDENTIFIER+)
+    (part = renderingPart
+    {
+      builder.append(part.string);
+      builder.append(" ");
+    }
+    )+  ->^(RENDERING[builder.toString()] renderingPart+)
+  ;
+  
+renderingPart returns [String string]
+@after
+{
+  $string = $start.getText();
+}
+  :
+      IDENTIFIER -> IDENTIFIER
+    | VARIABLE_NAME -> VARIABLE_NAME
+    | THIS_CLASS -> THIS_CLASS
   ;
 
 unary 
@@ -64,7 +90,7 @@ unary
 patternReference
 	:
 		DOLLAR name = IDENTIFIER   arguments   
-		-> ^(IDENTIFIER[$DOLLAR.getText() + name.getText() + $arguments.argsString ] PATTERN_REFERENCE arguments)
+		-> ^(IDENTIFIER[$DOLLAR.getText() + name.getText() + $arguments.argsString] PATTERN_REFERENCE[name.getText()] arguments)
 	;
 
 propertyExpression  :

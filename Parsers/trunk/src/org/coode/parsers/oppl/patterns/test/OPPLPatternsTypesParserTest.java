@@ -2,7 +2,6 @@ package org.coode.parsers.oppl.patterns.test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -17,16 +16,21 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
+import org.coode.oppl.OPPLFactory;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
-import org.coode.parsers.Symbol;
+import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.factory.SymbolTableFactory;
+import org.coode.parsers.oppl.DefaultTypeEnforcer;
 import org.coode.parsers.oppl.OPPLDefine;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
+import org.coode.parsers.oppl.OPPLTypeEnforcement;
+import org.coode.parsers.oppl.OPPLTypes;
 import org.coode.parsers.oppl.patterns.OPPLPatternLexer;
 import org.coode.parsers.oppl.patterns.OPPLPatternScriptParser;
 import org.coode.parsers.oppl.patterns.OPPLPatternsDefine;
 import org.coode.parsers.oppl.patterns.OPPLPatternsSymbolTable;
+import org.coode.parsers.oppl.patterns.OPPLPatternsTypes;
 import org.coode.parsers.oppl.patterns.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.test.ComprehensiveAxiomTestCase;
 import org.coode.parsers.test.SystemErrorEcho;
@@ -44,7 +48,7 @@ import org.semanticweb.owl.model.OWLOntologyManager;
  * @author Luigi Iannone
  * 
  */
-public class OPPLPatternsDefineParserTest extends TestCase {
+public class OPPLPatternsTypesParserTest extends TestCase {
 	private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
 		@Override
 		public Object create(Token token) {
@@ -84,14 +88,19 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 	}
 
 	public void testFood() {
-		String patternString = "?x:CLASS, ?y:CLASS, ?forbiddenContent:CLASS = createUnion(?x.VALUES) BEGIN ADD $thisClass equivalentTo contains only (not ?forbiddenContent) END; A ?x free stuff; RETURN $thisClass";
-		OPPLSyntaxTree parsed = this.parse(patternString);
-		System.out.println(parsed.toStringTree());
-		assertNotNull(parsed);
-		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
-		assertTrue(
-				"Exected 5 actual " + definedSymbols.size() + " " + definedSymbols,
-				definedSymbols.size() == 5);
+		OWLOntology referencedPatternOntology;
+		try {
+			referencedPatternOntology = ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
+			String patternString = "?x:CLASS, ?y:CLASS, ?forbiddenContent:CLASS = createUnion(?x.VALUES) BEGIN ADD $thisClass equivalentTo contains only (not ?forbiddenContent) END; A ?x free stuff; RETURN $thisClass";
+			OPPLSyntaxTree parsed = this.parse(patternString);
+			System.out.println(parsed.toStringTree());
+			assertNotNull(parsed);
+			assertNotNull(parsed.getOPPLContent());
+			ONTOLOGY_MANAGER.removeOntology(referencedPatternOntology.getURI());
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 
 	public void testMenu() {
@@ -101,26 +110,27 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 			OPPLSyntaxTree parsed = this.parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
-			Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
-			assertTrue(
-					"Exected 3 actual " + definedSymbols.size() + " " + definedSymbols,
-					definedSymbols.size() == 3);
+			assertNotNull(parsed.getOPPLContent());
 			ONTOLOGY_MANAGER.removeOntology(referencedPatternOntology.getURI());
 		} catch (OWLOntologyCreationException e) {
-			fail();
 			e.printStackTrace();
+			fail();
 		}
 	}
 
 	public void testPizza() {
-		String patternString = "?base:CLASS,?topping:CLASS, ?allToppings:CLASS = createUnion(?topping.VALUES) BEGIN ADD $thisClass subClassOf Pizza, ADD $thisClass subClassOf hasTopping some ?topping,  ADD $thisClass subClassOf hasTopping only ?allToppings, ADD $thisClass subClassOf hasBase some ?base  END; A pizza with ?base base and ?topping toppings";
-		OPPLSyntaxTree parsed = this.parse(patternString);
-		System.out.println(parsed.toStringTree());
-		assertNotNull(parsed);
-		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
-		assertTrue(
-				"Exected 5 actual " + definedSymbols.size() + " " + definedSymbols,
-				definedSymbols.size() == 5);
+		try {
+			OWLOntology pizzaOntology = ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
+			String patternString = "?base:CLASS,?topping:CLASS, ?allToppings:CLASS = createUnion(?topping.VALUES) BEGIN ADD $thisClass subClassOf Pizza, ADD $thisClass subClassOf hasTopping some ?topping,  ADD $thisClass subClassOf hasTopping only ?allToppings, ADD $thisClass subClassOf hasBase some ?base  END; A pizza with ?base base and ?topping toppings";
+			OPPLSyntaxTree parsed = this.parse(patternString);
+			System.out.println(parsed.toStringTree());
+			assertNotNull(parsed);
+			assertNotNull(parsed.getOPPLContent());
+			ONTOLOGY_MANAGER.removeOntology(pizzaOntology.getURI());
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 
 	public void testDOLCEInformationRealization() {
@@ -128,10 +138,7 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 		OPPLSyntaxTree parsed = this.parse(patternString);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
-		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
-		assertTrue(
-				"Exected 3 actual " + definedSymbols.size() + " " + definedSymbols,
-				definedSymbols.size() == 3);
+		assertNotNull(parsed.getOPPLContent());
 	}
 
 	public void testDOLCEPersonRoleTimeInterval() {
@@ -139,15 +146,13 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 		OPPLSyntaxTree parsed = this.parse(patternString);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
-		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
-		assertTrue(
-				"Exected 4 actual " + definedSymbols.size() + " " + definedSymbols,
-				definedSymbols.size() == 4);
+		assertNotNull(parsed.getOPPLContent());
 	}
 
 	protected OPPLSyntaxTree parse(String input) {
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
+		OPPLFactory opplFactory = new OPPLFactory(ONTOLOGY_MANAGER, SYNTAX_ONTOLOGY, null);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens);
 		parser.setTreeAdaptor(adaptor);
@@ -173,6 +178,25 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 					this.listener, constraintSystem);
 			patternsDefine.setTreeAdaptor(adaptor);
 			patternsDefine.downup(tree);
+			nodes.reset();
+			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab,
+					this.listener);
+			mOWLTypes.downup(tree);
+			nodes.reset();
+			OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, symtab,
+					new DefaultTypeEnforcer(symtab, opplFactory.getOWLEntityFactory(),
+							this.listener), this.listener);
+			typeEnforcement.downup(tree);
+			nodes.reset();
+			mOWLTypes.downup(tree);
+			nodes.reset();
+			OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, this.listener, constraintSystem,
+					opplFactory);
+			opplTypes.downup(tree);
+			nodes.reset();
+			OPPLPatternsTypes patternsTypes = new OPPLPatternsTypes(nodes, symtab, this.listener,
+					constraintSystem, factory);
+			patternsTypes.downup(tree);
 			return (OPPLSyntaxTree) r.getTree();
 		} catch (RecognitionException e) {
 			e.printStackTrace();

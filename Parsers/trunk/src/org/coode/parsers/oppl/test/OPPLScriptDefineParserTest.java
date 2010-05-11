@@ -17,6 +17,7 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
+import org.coode.oppl.OPPLFactory;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
@@ -31,6 +32,7 @@ import org.coode.parsers.oppl.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.test.ComprehensiveAxiomTestCase;
 import org.coode.parsers.test.SystemErrorEcho;
 import org.semanticweb.owl.apibinding.OWLManager;
+import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.OWLOntologyCreationException;
 import org.semanticweb.owl.model.OWLOntologyManager;
 
@@ -56,14 +58,13 @@ public class OPPLScriptDefineParserTest extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop,
-				RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
 	private final ErrorListener listener = new SystemErrorEcho();
-	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager
-			.createOWLOntologyManager();
+	protected static OWLOntology SYNTAX_ONTOLOGY;
+	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
 	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
 	private static OPPLSymbolTable symtab;
@@ -80,11 +81,9 @@ public class OPPLScriptDefineParserTest extends TestCase {
 
 	static {
 		try {
-			ONTOLOGY_MANAGER
-					.loadOntologyFromPhysicalURI(URI
-							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-			ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class
-					.getResource("syntaxTest.owl").toURI());
+			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
+					"syntaxTest.owl").toURI());
 			symtab = (OPPLSymbolTable) SYMBOL_TABLE_FACTORY.createSymbolTable();
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -127,12 +126,13 @@ public class OPPLScriptDefineParserTest extends TestCase {
 			nodes.setTreeAdaptor(adaptor);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-					nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
-			OPPLDefine define = new OPPLDefine(nodes, symtab, this.listener);
+			OPPLFactory factory = new OPPLFactory(ONTOLOGY_MANAGER, SYNTAX_ONTOLOGY, null);
+			OPPLDefine define = new OPPLDefine(nodes, symtab, this.listener,
+					factory.createConstraintSystem());
 			define.setTreeAdaptor(adaptor);
 			define.downup(tree);
 			return (ManchesterOWLSyntaxTree) r.getTree();

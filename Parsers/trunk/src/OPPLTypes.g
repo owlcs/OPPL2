@@ -12,7 +12,8 @@ options {
   private  ErrorListener errorListener;
   private ConstraintSystem constraintSystem;
   private OPPLAbstractFactory opplFactory;
-  public OPPLTypes(TreeNodeStream input, OPPLSymbolTable symtab, ErrorListener errorListener, OPPLAbstractFactory opplFactory) {
+  
+  public OPPLTypes(TreeNodeStream input, OPPLSymbolTable symtab, ErrorListener errorListener, ConstraintSystem constraintSystem, OPPLAbstractFactory opplFactory) {
     this(input);
     if(symtab==null){
     	throw new NullPointerException("The symbol table cannot be null");
@@ -20,13 +21,16 @@ options {
     if(errorListener == null){
     	throw new NullPointerException("The error listener cannot be null");
     }
+    if(constraintSystem == null){
+      throw new NullPointerException("The constraint system cannot be null");
+    }
     if(opplFactory == null){
       throw new NullPointerException("The OPPL Factory cannot be null");
     }
     this.symtab = symtab;
     this.errorListener = errorListener;
     this.opplFactory = opplFactory;
-    this.constraintSystem = getOPPLFactory().createConstraintSystem();
+    this.constraintSystem = constraintSystem;
     
   }
   

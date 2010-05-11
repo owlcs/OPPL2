@@ -17,6 +17,7 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.OPPLFactory;
+import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
@@ -126,6 +127,7 @@ public class OPPLScriptTypesParserTest extends TestCase {
 
 	protected OPPLSyntaxTree parse(String input, OWLOntology ontology) {
 		OPPLFactory opplFactory = new OPPLFactory(ONTOLOGY_MANAGER, ontology, null);
+		ConstraintSystem constraintSystem = opplFactory.getConstraintSystem();
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
@@ -143,7 +145,7 @@ public class OPPLScriptTypesParserTest extends TestCase {
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
-			OPPLDefine define = new OPPLDefine(nodes, symtab, this.listener);
+			OPPLDefine define = new OPPLDefine(nodes, symtab, this.listener, constraintSystem);
 			define.setTreeAdaptor(adaptor);
 			define.downup(tree);
 			nodes.reset();
@@ -158,7 +160,8 @@ public class OPPLScriptTypesParserTest extends TestCase {
 			nodes.reset();
 			mOWLTypes.downup(tree);
 			nodes.reset();
-			OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, this.listener, opplFactory);
+			OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, this.listener, constraintSystem,
+					opplFactory);
 			opplTypes.downup(tree);
 			return (OPPLSyntaxTree) r.getTree();
 		} catch (RecognitionException e) {

@@ -11,7 +11,8 @@ options {
 @members{
   private  OPPLSymbolTable symtab;
   private  ErrorListener errorListener;
-  public OPPLDefine(TreeNodeStream input, OPPLSymbolTable symtab, ErrorListener errorListener) {
+  private ConstraintSystem constraintSystem;
+  public OPPLDefine(TreeNodeStream input, OPPLSymbolTable symtab, ErrorListener errorListener, ConstraintSystem constraintSystem) {
     this(input);
     if(symtab==null){
     	throw new NullPointerException("The symbol table cannot be null");
@@ -19,8 +20,16 @@ options {
     if(errorListener == null){
     	throw new NullPointerException("The error listener cannot be null");
     }
+    if(constraintSystem == null){
+      throw new NullPointerException("The constraint system cannot be null");
+    }
     this.symtab = symtab;
     this.errorListener = errorListener;
+    this.constraintSystem= constraintSystem;
+  }
+  
+  public ConstraintSystem getConstraintSystem(){
+    return this.constraintSystem;
   }
   
   public ErrorListener getErrorListener(){
@@ -64,6 +73,7 @@ options {
   package org.coode.parsers.oppl;
   import org.coode.parsers.ErrorListener;
   import org.coode.parsers.ManchesterOWLSyntaxTree;
+  import org.coode.oppl.variablemansyntax.ConstraintSystem;
 }
 
 bottomup  : 
@@ -78,7 +88,7 @@ variableDefinition
 	:
 		^((INPUT_VARIABLE_DEFINITION |GENERATED_VARIABLE_DEFINITION) VARIABLE_NAME  VARIABLE_TYPE .*)
 		{
-			getSymbolTable().defineVariable($VARIABLE_NAME, $VARIABLE_TYPE);
+			getSymbolTable().defineVariable($VARIABLE_NAME, $VARIABLE_TYPE, getConstraintSystem());
 		}
 	;
 

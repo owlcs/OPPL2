@@ -58,7 +58,7 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
 
 	@Override
 	public OPPLPatternScope getGlobalScope() {
-		return new OPPLPatternScope(this.getGlobalScope(), this.getOntologyManager());
+		return new OPPLPatternScope(super.getGlobalScope(), this.getOntologyManager());
 	}
 
 	/**

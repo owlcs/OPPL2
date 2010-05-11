@@ -50,7 +50,6 @@ public class OPPLPatternsParserTest extends TestCase {
 		OPPLSyntaxTree parsed = this.parse(patternString);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
-		
 	}
 
 	public void testMenu() {
@@ -88,7 +87,7 @@ public class OPPLPatternsParserTest extends TestCase {
 		OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens);
 		parser.setTreeAdaptor(adaptor);
 		try {
-			RuleReturnScope r = parser.statement();
+			RuleReturnScope r = parser.pattern();
 			CommonTree tree = (CommonTree) r.getTree();
 			CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
 			nodes.setTokenStream(tokens); // where to find tokens
