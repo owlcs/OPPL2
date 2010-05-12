@@ -140,4 +140,8 @@ public class OPPLPatternScope implements Scope {
 	public OWLOntologyManager getOntologyManager() {
 		return this.ontologyManager;
 	}
+
+	public void dispose() {
+		this.delegate.dispose();
+	}
 }

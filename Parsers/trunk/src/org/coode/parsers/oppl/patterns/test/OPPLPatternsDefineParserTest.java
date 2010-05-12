@@ -67,7 +67,7 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
 	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
-	private static OPPLPatternsSymbolTable symtab;
+	private OPPLPatternsSymbolTable symtab;
 	private static OWLOntology SYNTAX_ONTOLOGY;
 	private final ErrorListener listener = new SystemErrorEcho();
 	static {
@@ -75,7 +75,6 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
 					"syntaxTest.owl").toURI());
-			symtab = (OPPLPatternsSymbolTable) SYMBOL_TABLE_FACTORY.createSymbolTable();
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -88,7 +87,7 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 		OPPLSyntaxTree parsed = this.parse(patternString);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
-		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+		Set<Symbol> definedSymbols = this.symtab.getDefinedSymbols();
 		assertTrue(
 				"Exected 5 actual " + definedSymbols.size() + " " + definedSymbols,
 				definedSymbols.size() == 5);
@@ -101,7 +100,7 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 			OPPLSyntaxTree parsed = this.parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
-			Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+			Set<Symbol> definedSymbols = this.symtab.getDefinedSymbols();
 			assertTrue(
 					"Exected 3 actual " + definedSymbols.size() + " " + definedSymbols,
 					definedSymbols.size() == 3);
@@ -117,7 +116,7 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 		OPPLSyntaxTree parsed = this.parse(patternString);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
-		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+		Set<Symbol> definedSymbols = this.symtab.getDefinedSymbols();
 		assertTrue(
 				"Exected 5 actual " + definedSymbols.size() + " " + definedSymbols,
 				definedSymbols.size() == 5);
@@ -128,7 +127,7 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 		OPPLSyntaxTree parsed = this.parse(patternString);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
-		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+		Set<Symbol> definedSymbols = this.symtab.getDefinedSymbols();
 		assertTrue(
 				"Exected 3 actual " + definedSymbols.size() + " " + definedSymbols,
 				definedSymbols.size() == 3);
@@ -139,7 +138,7 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 		OPPLSyntaxTree parsed = this.parse(patternString);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
-		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+		Set<Symbol> definedSymbols = this.symtab.getDefinedSymbols();
 		assertTrue(
 				"Exected 4 actual " + definedSymbols.size() + " " + definedSymbols,
 				definedSymbols.size() == 4);
@@ -165,11 +164,11 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 			AbstractPatternModelFactory factory = new PatternModelFactory(SYNTAX_ONTOLOGY,
 					ONTOLOGY_MANAGER);
 			PatternConstraintSystem constraintSystem = factory.createConstraintSystem();
-			OPPLDefine define = new OPPLDefine(nodes, symtab, this.listener, constraintSystem);
+			OPPLDefine define = new OPPLDefine(nodes, this.symtab, this.listener, constraintSystem);
 			define.setTreeAdaptor(adaptor);
 			define.downup(tree);
 			nodes.reset();
-			OPPLPatternsDefine patternsDefine = new OPPLPatternsDefine(nodes, symtab,
+			OPPLPatternsDefine patternsDefine = new OPPLPatternsDefine(nodes, this.symtab,
 					this.listener, constraintSystem);
 			patternsDefine.setTreeAdaptor(adaptor);
 			patternsDefine.downup(tree);
@@ -182,7 +181,12 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		symtab.clear();
-		symtab.setErrorListener(this.listener);
+		this.symtab = (OPPLPatternsSymbolTable) SYMBOL_TABLE_FACTORY.createSymbolTable();
+		this.symtab.setErrorListener(this.listener);
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		this.symtab.dispose();
 	}
 }

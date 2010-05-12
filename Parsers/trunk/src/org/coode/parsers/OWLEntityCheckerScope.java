@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.semanticweb.owl.expression.OWLEntityChecker;
 import org.semanticweb.owl.model.OWLEntity;
 
 /**
@@ -18,15 +17,15 @@ import org.semanticweb.owl.model.OWLEntity;
  * 
  */
 public class OWLEntityCheckerScope implements Scope {
-	private final OWLEntityChecker owlEntityChecker;
+	private final DisposableOWLEntityChecker owlEntityChecker;
 	private final EntityFinder entityFinder;
 	private final OWLEntityRenderer owlEntityRenderer;
 
 	/**
 	 * @param owlEntityChecker
 	 */
-	public OWLEntityCheckerScope(OWLEntityChecker owlEntityChecker, EntityFinder entityFinder,
-			OWLEntityRenderer owlEntityRenderer) {
+	public OWLEntityCheckerScope(DisposableOWLEntityChecker owlEntityChecker,
+			EntityFinder entityFinder, OWLEntityRenderer owlEntityRenderer) {
 		if (owlEntityChecker == null) {
 			throw new NullPointerException("The entity checker cannot be null");
 		}
@@ -110,7 +109,7 @@ public class OWLEntityCheckerScope implements Scope {
 	/**
 	 * @return the owlEntityChecker
 	 */
-	public OWLEntityChecker getOWLEntityChecker() {
+	public DisposableOWLEntityChecker getOWLEntityChecker() {
 		return this.owlEntityChecker;
 	}
 
@@ -179,5 +178,9 @@ public class OWLEntityCheckerScope implements Scope {
 					owlEntity));
 		}
 		return toReturn;
+	}
+
+	public void dispose() {
+		this.getOWLEntityChecker().dispose();
 	}
 }

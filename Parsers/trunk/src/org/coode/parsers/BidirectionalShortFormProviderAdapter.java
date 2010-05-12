@@ -10,6 +10,7 @@ import org.semanticweb.owl.model.OWLException;
 import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.OWLOntologyChange;
 import org.semanticweb.owl.model.OWLOntologyChangeListener;
+import org.semanticweb.owl.model.OWLOntologyLoaderListener;
 import org.semanticweb.owl.model.OWLOntologyManager;
 import org.semanticweb.owl.model.RemoveAxiom;
 import org.semanticweb.owl.util.CachingBidirectionalShortFormProvider;
@@ -25,11 +26,22 @@ import org.semanticweb.owl.util.ShortFormProvider;
  * A bidirectional short form provider which uses a specified short form
  * provider to generate the bidirectional entity--shortform mappings.
  */
-public class BidirectionalShortFormProviderAdapter extends
-		CachingBidirectionalShortFormProvider {
+public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalShortFormProvider {
 	private ShortFormProvider shortFormProvider;
 	private Set<OWLOntology> ontologies;
 	private OWLOntologyManager man;
+	private OWLOntologyLoaderListener loaderListener = new OWLOntologyLoaderListener() {
+		public void finishedLoadingOntology(LoadingFinishedEvent event) {
+			BidirectionalShortFormProviderAdapter.this.ontologies.clear();
+			BidirectionalShortFormProviderAdapter.this.ontologies.addAll(BidirectionalShortFormProviderAdapter.this.man.getOntologies());
+			BidirectionalShortFormProviderAdapter.this.rebuild(new ReferencedEntitySetProvider(
+					BidirectionalShortFormProviderAdapter.this.ontologies));
+		}
+
+		public void startedLoadingOntology(LoadingStartedEvent event) {
+			// Do nothing
+		}
+	};
 	private OWLOntologyChangeListener changeListener = new OWLOntologyChangeListener() {
 		public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
 				throws OWLException {
@@ -37,8 +49,7 @@ public class BidirectionalShortFormProviderAdapter extends
 		}
 	};
 
-	public BidirectionalShortFormProviderAdapter(
-			ShortFormProvider shortFormProvider) {
+	public BidirectionalShortFormProviderAdapter(ShortFormProvider shortFormProvider) {
 		this.shortFormProvider = shortFormProvider;
 	}
 
@@ -88,6 +99,7 @@ public class BidirectionalShortFormProviderAdapter extends
 		this.man = man;
 		this.man.addOntologyChangeListener(this.changeListener);
 		this.rebuild(new ReferencedEntitySetProvider(ontologies));
+		man.addOntologyLoaderListener(this.loaderListener);
 	}
 
 	@Override
@@ -103,6 +115,7 @@ public class BidirectionalShortFormProviderAdapter extends
 	public void dispose() {
 		if (this.man != null) {
 			this.man.removeOntologyChangeListener(this.changeListener);
+			this.man.removeOntologyLoaderListener(this.loaderListener);
 		}
 	}
 

@@ -10,5 +10,10 @@ import org.coode.parsers.SymbolTable;
  * 
  */
 public interface SymbolTableFactory {
+	/**
+	 * Creates a SymbolTable
+	 * 
+	 * @return the SymbolTable
+	 */
 	SymbolTable createSymbolTable();
 }

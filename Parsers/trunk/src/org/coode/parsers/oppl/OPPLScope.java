@@ -5,13 +5,13 @@ package org.coode.parsers.oppl;
 
 import java.util.Set;
 
+import org.coode.parsers.DisposableOWLEntityChecker;
 import org.coode.parsers.EntityFinder;
 import org.coode.parsers.OWLEntityCheckerScope;
 import org.coode.parsers.OWLEntityRenderer;
 import org.coode.parsers.Scope;
 import org.coode.parsers.Symbol;
 import org.coode.parsers.Type;
-import org.semanticweb.owl.expression.OWLEntityChecker;
 
 /**
  * @author Luigi Iannone
@@ -20,7 +20,7 @@ import org.semanticweb.owl.expression.OWLEntityChecker;
 public class OPPLScope implements Scope {
 	private final OWLEntityCheckerScope owlEntityCheckerScope;
 
-	public OPPLScope(OWLEntityChecker owlEntityChecker, EntityFinder entityFinder,
+	public OPPLScope(DisposableOWLEntityChecker owlEntityChecker, EntityFinder entityFinder,
 			OWLEntityRenderer owlEntityRenderer) {
 		if (owlEntityChecker == null) {
 			throw new NullPointerException("The entity checker cannot be null");
@@ -87,5 +87,9 @@ public class OPPLScope implements Scope {
 			}
 		}
 		return toReturn;
+	}
+
+	public void dispose() {
+		this.owlEntityCheckerScope.dispose();
 	}
 }

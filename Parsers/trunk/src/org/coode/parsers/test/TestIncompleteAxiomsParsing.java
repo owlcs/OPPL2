@@ -59,13 +59,12 @@ public class TestIncompleteAxiomsParsing extends TestCase {
 		}
 	};
 	private ErrorListener errorListener = new SystemErrorEcho();
-	private static SymbolTable symtab;
+	private SymbolTable symtab;
 	static {
 		try {
 			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
 					"syntaxTest.owl").toURI());
-			symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -85,7 +84,7 @@ public class TestIncompleteAxiomsParsing extends TestCase {
 			CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
 			nodes.setTokenStream(tokens); // where to find tokens
 			nodes.setTreeAdaptor(adaptor);
-			symtab.setErrorListener(this.errorListener);
+			this.symtab.setErrorListener(this.errorListener);
 			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
@@ -100,7 +99,12 @@ public class TestIncompleteAxiomsParsing extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		symtab.clear();
+		this.symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		this.symtab.dispose();
 	}
 
 	public void testSubClassAxiom() {

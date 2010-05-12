@@ -70,4 +70,9 @@ public interface Scope {
 	 *             if the input is {@code null}.
 	 */
 	public Set<Symbol> getAllSymbols(Type type);
+
+	/**
+	 * Frees up resources used by this Scope
+	 */
+	public void dispose();
 }

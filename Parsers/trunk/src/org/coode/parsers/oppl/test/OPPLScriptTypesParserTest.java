@@ -69,7 +69,7 @@ public class OPPLScriptTypesParserTest extends TestCase {
 	protected static OWLOntology SYNTAX_ONTOLOGY;
 	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
-	private static OPPLSymbolTable symtab;
+	private OPPLSymbolTable symtab;
 
 	public void testSubClassQuery() {
 		String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
@@ -86,7 +86,6 @@ public class OPPLScriptTypesParserTest extends TestCase {
 			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
 					"syntaxTest.owl").toURI());
-			symtab = (OPPLSymbolTable) SYMBOL_TABLE_FACTORY.createSymbolTable();
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -145,23 +144,23 @@ public class OPPLScriptTypesParserTest extends TestCase {
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
-			OPPLDefine define = new OPPLDefine(nodes, symtab, this.listener, constraintSystem);
+			OPPLDefine define = new OPPLDefine(nodes, this.symtab, this.listener, constraintSystem);
 			define.setTreeAdaptor(adaptor);
 			define.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab,
+			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, this.symtab,
 					this.listener);
 			mOWLTypes.downup(tree);
 			nodes.reset();
-			OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, symtab,
-					new DefaultTypeEnforcer(symtab, opplFactory.getOWLEntityFactory(),
+			OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, this.symtab,
+					new DefaultTypeEnforcer(this.symtab, opplFactory.getOWLEntityFactory(),
 							this.listener), this.listener);
 			typeEnforcement.downup(tree);
 			nodes.reset();
 			mOWLTypes.downup(tree);
 			nodes.reset();
-			OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, this.listener, constraintSystem,
-					opplFactory);
+			OPPLTypes opplTypes = new OPPLTypes(nodes, this.symtab, this.listener,
+					constraintSystem, opplFactory);
 			opplTypes.downup(tree);
 			return (OPPLSyntaxTree) r.getTree();
 		} catch (RecognitionException e) {
@@ -172,6 +171,11 @@ public class OPPLScriptTypesParserTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		symtab.clear();
+		this.symtab = (OPPLSymbolTable) SYMBOL_TABLE_FACTORY.createSymbolTable();
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		this.symtab.dispose();
 	}
 }

@@ -125,14 +125,20 @@ statement
 	List<Variable> vds = new ArrayList<Variable>();
 }
 	:
-		^(OPPL_STATEMENT vd = variableDefinitions? query actions)
+		^(OPPL_STATEMENT vd = variableDefinitions? q=query? actions)
 		{
 			if(vd!=null){
 				vds.addAll($vd.variables);
 			}
-			$start.setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),
-									vds, $query.query,
-									$actions.actions));
+			if(q!=null){
+			   $start.setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),
+				  					vds, $query.query,
+					   				$actions.actions));
+			}else{
+			  $start.setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),
+                    vds, null,
+                    $actions.actions));
+			}
 		}
 	;
 

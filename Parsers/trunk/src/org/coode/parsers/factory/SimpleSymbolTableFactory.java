@@ -4,13 +4,13 @@
 package org.coode.parsers.factory;
 
 import org.coode.parsers.BidirectionalShortFormProviderAdapter;
+import org.coode.parsers.DisposableShortFormEntityChecker;
 import org.coode.parsers.EntityFinder;
 import org.coode.parsers.EntityFinderImpl;
 import org.coode.parsers.OWLEntityCheckerScope;
 import org.coode.parsers.OWLEntityRenderingCacheImpl;
 import org.coode.parsers.ShortFormEntityRenderer;
 import org.coode.parsers.SymbolTable;
-import org.semanticweb.owl.expression.ShortFormEntityChecker;
 import org.semanticweb.owl.model.OWLOntologyManager;
 import org.semanticweb.owl.util.SimpleShortFormProvider;
 
@@ -35,15 +35,15 @@ public class SimpleSymbolTableFactory implements SymbolTableFactory {
 	 * @see org.coode.parsers.factory.SymbolTableFactory#createSymbolTable()
 	 */
 	public SymbolTable createSymbolTable() {
-		ShortFormEntityChecker entityChecker = new ShortFormEntityChecker(
-				new BidirectionalShortFormProviderAdapter(this.manager
-						.getOntologies(), new SimpleShortFormProvider()));
+		BidirectionalShortFormProviderAdapter shortFormProvider = new BidirectionalShortFormProviderAdapter(
+				this.manager, this.manager.getOntologies(), new SimpleShortFormProvider());
+		DisposableShortFormEntityChecker entityChecker = new DisposableShortFormEntityChecker(
+				shortFormProvider);
 		ShortFormEntityRenderer entityRenderer = new ShortFormEntityRenderer(
 				new SimpleShortFormProvider());
 		EntityFinder entityFinder = new EntityFinderImpl(this.manager,
-				new OWLEntityRenderingCacheImpl(this.manager, entityRenderer),
-				false);
-		return new SymbolTable(new OWLEntityCheckerScope(entityChecker,
-				entityFinder, entityRenderer), this.manager.getOWLDataFactory());
+				new OWLEntityRenderingCacheImpl(this.manager, entityRenderer), false);
+		return new SymbolTable(new OWLEntityCheckerScope(entityChecker, entityFinder,
+				entityRenderer), this.manager.getOWLDataFactory());
 	}
 }

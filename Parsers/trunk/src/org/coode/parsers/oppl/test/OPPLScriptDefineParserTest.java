@@ -67,14 +67,14 @@ public class OPPLScriptDefineParserTest extends TestCase {
 	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
 	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
-	private static OPPLSymbolTable symtab;
+	private OPPLSymbolTable symtab;
 
 	public void testSubClassQuery() {
 		String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
 		ManchesterOWLSyntaxTree parsed = this.parse(query);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
-		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+		Set<Symbol> definedSymbols = this.symtab.getDefinedSymbols();
 		assertTrue(definedSymbols.size() == 1);
 		System.out.println(definedSymbols);
 	}
@@ -84,7 +84,6 @@ public class OPPLScriptDefineParserTest extends TestCase {
 			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
 					"syntaxTest.owl").toURI());
-			symtab = (OPPLSymbolTable) SYMBOL_TABLE_FACTORY.createSymbolTable();
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -97,7 +96,7 @@ public class OPPLScriptDefineParserTest extends TestCase {
 		ManchesterOWLSyntaxTree parsed = this.parse(query);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
-		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+		Set<Symbol> definedSymbols = this.symtab.getDefinedSymbols();
 		assertTrue(definedSymbols.size() == 1);
 		System.out.println(definedSymbols);
 	}
@@ -107,7 +106,7 @@ public class OPPLScriptDefineParserTest extends TestCase {
 		ManchesterOWLSyntaxTree parsed = this.parse(query);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
-		Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+		Set<Symbol> definedSymbols = this.symtab.getDefinedSymbols();
 		assertTrue(definedSymbols.size() > 4);
 		System.out.println(definedSymbols);
 	}
@@ -131,7 +130,7 @@ public class OPPLScriptDefineParserTest extends TestCase {
 			simplify.downup(tree);
 			nodes.reset();
 			OPPLFactory factory = new OPPLFactory(ONTOLOGY_MANAGER, SYNTAX_ONTOLOGY, null);
-			OPPLDefine define = new OPPLDefine(nodes, symtab, this.listener,
+			OPPLDefine define = new OPPLDefine(nodes, this.symtab, this.listener,
 					factory.createConstraintSystem());
 			define.setTreeAdaptor(adaptor);
 			define.downup(tree);
@@ -144,6 +143,11 @@ public class OPPLScriptDefineParserTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		symtab.clear();
+		this.symtab = (OPPLSymbolTable) SYMBOL_TABLE_FACTORY.createSymbolTable();
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		this.symtab.dispose();
 	}
 }

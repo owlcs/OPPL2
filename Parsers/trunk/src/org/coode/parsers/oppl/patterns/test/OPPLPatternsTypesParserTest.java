@@ -71,7 +71,7 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
 	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
-	private static OPPLPatternsSymbolTable symtab;
+	private OPPLPatternsSymbolTable symtab;
 	private static OWLOntology SYNTAX_ONTOLOGY;
 	private final ErrorListener listener = new SystemErrorEcho();
 	static {
@@ -79,7 +79,6 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
 					"syntaxTest.owl").toURI());
-			symtab = (OPPLPatternsSymbolTable) SYMBOL_TABLE_FACTORY.createSymbolTable();
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -134,19 +133,33 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 	}
 
 	public void testDOLCEInformationRealization() {
-		String patternString = "?informationObject:CLASS, ?informationRealization:CLASS, ?realizationProperty:OBJECTPROPERTY BEGIN ADD ?informationRealization subClassOf InformationRealization, ADD ?informationObject subClassOf InformationObject, ADD ?realizationProperty subPropertyOf realizes, ADD ?informationRealization subClassOf PhysicalObject and ?realizationProperty some ?InformationObject END;Information Realization Pattern: ?informationRealization ?realizationProperty ?informationObject";
-		OPPLSyntaxTree parsed = this.parse(patternString);
-		System.out.println(parsed.toStringTree());
-		assertNotNull(parsed);
-		assertNotNull(parsed.getOPPLContent());
+		try {
+			OWLOntology dolceOntology = ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.loa-cnr.it/ontologies/DUL.owl"));
+			String patternString = "?informationObject:CLASS, ?informationRealization:CLASS, ?realizationProperty:OBJECTPROPERTY BEGIN ADD ?informationRealization subClassOf InformationRealization, ADD ?informationObject subClassOf InformationObject, ADD ?realizationProperty subPropertyOf realizes, ADD ?informationRealization subClassOf PhysicalObject and ?realizationProperty some ?informationObject END; Information Realization Pattern: ?informationRealization ?realizationProperty ?informationObject";
+			OPPLSyntaxTree parsed = this.parse(patternString);
+			System.out.println(parsed.toStringTree());
+			assertNotNull(parsed);
+			assertNotNull(parsed.getOPPLContent());
+			ONTOLOGY_MANAGER.removeOntology(dolceOntology.getURI());
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 
 	public void testDOLCEPersonRoleTimeInterval() {
-		String patternString = "?person:CLASS, ?role:CLASS, ?timeInterval:CLASS BEGIN ADD $thisClass subClassOf Situation, ADD $thisClass subClassOf isSettingFor some ?person, ADD $thisClass subClassOf isSettingFor some ?role, ADD $thisClass subClassOf isSettingFor some ?timeInterval END; Situation where ?person play the role ?role during the time interval ?timeInterval";
-		OPPLSyntaxTree parsed = this.parse(patternString);
-		System.out.println(parsed.toStringTree());
-		assertNotNull(parsed);
-		assertNotNull(parsed.getOPPLContent());
+		try {
+			OWLOntology dolceOntology = ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.loa-cnr.it/ontologies/DUL.owl"));
+			String patternString = "?person:CLASS, ?role:CLASS, ?timeInterval:CLASS BEGIN ADD $thisClass subClassOf Situation, ADD $thisClass subClassOf isSettingFor some ?person, ADD $thisClass subClassOf isSettingFor some ?role, ADD $thisClass subClassOf isSettingFor some ?timeInterval END; Situation where ?person play the role ?role during the time interval ?timeInterval";
+			OPPLSyntaxTree parsed = this.parse(patternString);
+			System.out.println(parsed.toStringTree());
+			assertNotNull(parsed);
+			assertNotNull(parsed.getOPPLContent());
+			ONTOLOGY_MANAGER.removeOntology(dolceOntology.getURI());
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 
 	protected OPPLSyntaxTree parse(String input) {
@@ -170,32 +183,32 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 			AbstractPatternModelFactory factory = new PatternModelFactory(SYNTAX_ONTOLOGY,
 					ONTOLOGY_MANAGER);
 			PatternConstraintSystem constraintSystem = factory.createConstraintSystem();
-			OPPLDefine define = new OPPLDefine(nodes, symtab, this.listener, constraintSystem);
+			OPPLDefine define = new OPPLDefine(nodes, this.symtab, this.listener, constraintSystem);
 			define.setTreeAdaptor(adaptor);
 			define.downup(tree);
 			nodes.reset();
-			OPPLPatternsDefine patternsDefine = new OPPLPatternsDefine(nodes, symtab,
+			OPPLPatternsDefine patternsDefine = new OPPLPatternsDefine(nodes, this.symtab,
 					this.listener, constraintSystem);
 			patternsDefine.setTreeAdaptor(adaptor);
 			patternsDefine.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab,
+			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, this.symtab,
 					this.listener);
 			mOWLTypes.downup(tree);
 			nodes.reset();
-			OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, symtab,
-					new DefaultTypeEnforcer(symtab, opplFactory.getOWLEntityFactory(),
+			OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, this.symtab,
+					new DefaultTypeEnforcer(this.symtab, opplFactory.getOWLEntityFactory(),
 							this.listener), this.listener);
 			typeEnforcement.downup(tree);
 			nodes.reset();
 			mOWLTypes.downup(tree);
 			nodes.reset();
-			OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, this.listener, constraintSystem,
-					opplFactory);
+			OPPLTypes opplTypes = new OPPLTypes(nodes, this.symtab, this.listener,
+					constraintSystem, opplFactory);
 			opplTypes.downup(tree);
 			nodes.reset();
-			OPPLPatternsTypes patternsTypes = new OPPLPatternsTypes(nodes, symtab, this.listener,
-					constraintSystem, factory);
+			OPPLPatternsTypes patternsTypes = new OPPLPatternsTypes(nodes, this.symtab,
+					this.listener, constraintSystem, factory);
 			patternsTypes.downup(tree);
 			return (OPPLSyntaxTree) r.getTree();
 		} catch (RecognitionException e) {
@@ -206,7 +219,12 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		symtab.clear();
-		symtab.setErrorListener(this.listener);
+		this.symtab = (OPPLPatternsSymbolTable) SYMBOL_TABLE_FACTORY.createSymbolTable();
+		this.symtab.setErrorListener(this.listener);
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		this.symtab.dispose();
 	}
 }
