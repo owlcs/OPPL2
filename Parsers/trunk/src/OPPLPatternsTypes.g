@@ -122,10 +122,25 @@ pattern
 
 rendering returns [String string]
   :
-    ^(RENDERING .*)
+    ^(RENDERING renderingPart+)
     {
       $string = $RENDERING.getText();
     }
+  ;
+
+renderingPart
+  :
+      IDENTIFIER
+    | VARIABLE_NAME
+      {
+        Variable variable = getConstraintSystem().getVariable($VARIABLE_NAME.getText());
+        if(variable==null){
+          if(getErrorListener()!=null){
+            getErrorListener().illegalToken($VARIABLE_NAME, "Undefined variable");
+          }
+        }
+      }
+    | THIS_CLASS    
   ;
 
 returnClause returns [Variable variable]
@@ -133,7 +148,7 @@ returnClause returns [Variable variable]
       ^(RETURN VARIABLE_NAME)
       {
         $variable = getConstraintSystem().getVariable($VARIABLE_NAME.getText());
-        if(variable==null){
+        if($variable==null){
           if(getErrorListener()!=null){
             getErrorListener().illegalToken($VARIABLE_NAME, "Undefined variable");
           }
