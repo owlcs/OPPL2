@@ -17,6 +17,7 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.OPPLFactory;
+import org.coode.oppl.utils.ParserFactory;
 import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
@@ -126,6 +127,8 @@ public class OPPLScriptTypesParserTest extends TestCase {
 
 	protected OPPLSyntaxTree parse(String input, OWLOntology ontology) {
 		OPPLFactory opplFactory = new OPPLFactory(ONTOLOGY_MANAGER, ontology, null);
+		//XXX quick fix for the lack of initialization of the old parser, which is still used to hold the factory reference for other uses
+		ParserFactory.initParser(";", SYNTAX_ONTOLOGY, ONTOLOGY_MANAGER, null);
 		ConstraintSystem constraintSystem = opplFactory.getConstraintSystem();
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);

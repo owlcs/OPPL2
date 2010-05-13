@@ -18,6 +18,7 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.OPPLFactory;
+import org.coode.oppl.utils.ParserFactory;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
@@ -130,6 +131,8 @@ public class OPPLScriptDefineParserTest extends TestCase {
 			simplify.downup(tree);
 			nodes.reset();
 			OPPLFactory factory = new OPPLFactory(ONTOLOGY_MANAGER, SYNTAX_ONTOLOGY, null);
+			//XXX quick fix for the lack of initialization of the old parser, which is still used to hold the factory reference for other uses
+			ParserFactory.initParser(";", SYNTAX_ONTOLOGY, ONTOLOGY_MANAGER, null);
 			OPPLDefine define = new OPPLDefine(nodes, this.symtab, this.listener,
 					factory.createConstraintSystem());
 			define.setTreeAdaptor(adaptor);

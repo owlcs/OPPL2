@@ -17,6 +17,7 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.OPPLFactory;
+import org.coode.oppl.utils.ParserFactory;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
@@ -166,6 +167,8 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
 		OPPLFactory opplFactory = new OPPLFactory(ONTOLOGY_MANAGER, SYNTAX_ONTOLOGY, null);
+		//XXX quick fix for the lack of initialization of the old parser, which is still used to hold the factory reference for other uses
+		ParserFactory.initParser(";", SYNTAX_ONTOLOGY, ONTOLOGY_MANAGER, null);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens);
 		parser.setTreeAdaptor(adaptor);
