@@ -130,15 +130,17 @@ statement
 			if(vd!=null){
 				vds.addAll($vd.variables);
 			}
-			if(q!=null){
-			   $start.setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),
-				  					vds, $query.query,
-					   				$actions.actions));
-			}else{
-			  $start.setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),
+			if(!$actions.actions.isEmpty()){
+			 if(q!=null){
+			    $start.setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),
+				    					vds, $query.query,
+					    				$actions.actions));
+			 }else{
+			    $start.setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),
                     vds, null,
                     $actions.actions));
-			}
+			 }
+		  } 
 		}
 	;
 
@@ -160,15 +162,19 @@ query returns [OPPLQuery query]
 	:
 		^(QUERY (selectClause 
 		{
-			if($selectClause.asserted){
-				$query.addAssertedAxiom($selectClause.axiom);
-			}else{
-				$query.addAxiom($selectClause.axiom);
+		  if($selectClause.axiom!=null){
+			   if($selectClause.asserted){
+				  $query.addAssertedAxiom($selectClause.axiom);
+			   }else{
+				  $query.addAxiom($selectClause.axiom);
+			   }
 			}
 		}
 		)+ (constraint
 				{
-					$query.addConstraint($constraint.constraint);
+				  if($constraint.constraint!=null){
+					 $query.addConstraint($constraint.constraint);
+					}
 				}
 		)?)
 	;
@@ -203,7 +209,13 @@ actions returns [List<OWLAxiomChange> actions]
 	$actions = new ArrayList<OWLAxiomChange>();
 }
 	:
-		^(ACTIONS (action {$actions.add($action.change);})+)
+		^(ACTIONS (action 
+		{
+		  if($action.change!=null){
+		    $actions.add($action.change);
+		  }
+		}
+		)+)
 	;
 	
 
