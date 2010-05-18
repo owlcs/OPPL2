@@ -55,30 +55,27 @@ public class OPPLScriptExtendedParserTest extends OPPLScriptTypesParserTest {
 		tester("?y:CLASS SELECT ?y subClassOf Food WHERE ?y MATCH(\"(([A-Z]+))izza\") BEGIN ADD ?y subClassOf Thing END;");
 	}
 
-	
-
 	public void testOld8() {
 		tester("SELECT America InstanceOf Pais BEGIN REMOVE America InstanceOf Pizza END;");
 	}
 
-//	public void testOld9() {
-//		tester("?island:INDIVIDUAL BEGIN ADD MargheritaPizza InstanceOf Pizza END;");
-//	}
-//
-//	public void testOld10() {
-//		tester("?island:INDIVIDUAL BEGIN REMOVE MargheritaPizza InstanceOf Pizza END;");
-//	}
-//
-//	public void testOld11() {
-//		tester("BEGIN ADD MargheritaPizza InstanceOf Pizza END;");
-//	}
-
+	//	public void testOld9() {
+	//		tester("?island:INDIVIDUAL BEGIN ADD MargheritaPizza InstanceOf Pizza END;");
+	//	}
+	//
+	//	public void testOld10() {
+	//		tester("?island:INDIVIDUAL BEGIN REMOVE MargheritaPizza InstanceOf Pizza END;");
+	//	}
+	//
+	//	public void testOld11() {
+	//		tester("BEGIN ADD MargheritaPizza InstanceOf Pizza END;");
+	//	}
 	public void testOld12() {
 		tester("SELECT America InstanceOf Pais BEGIN ADD America InstanceOf Thing END;");
 	}
 
 	public void testOld13() {
-		tester("SELECT America InstanceOf Pais BEGIN ADD Am InstanceOf Pizza END;");
+		testerExpectFail("SELECT America InstanceOf Pais BEGIN ADD Am InstanceOf Pizza END;");
 	}
 
 	public void testOld14() {
@@ -115,7 +112,7 @@ public class OPPLScriptExtendedParserTest extends OPPLScriptTypesParserTest {
 
 	public void tester(String query) {
 		try {
-			System.out.println("script:\t"+query);
+			System.out.println("script:\t" + query);
 			OPPLSyntaxTree parsed = this.parse(query, SYNTAX_ONTOLOGY);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
@@ -125,6 +122,19 @@ public class OPPLScriptExtendedParserTest extends OPPLScriptTypesParserTest {
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 			fail(e.getMessage());
+		}
+	}
+
+	public void testerExpectFail(String query) {
+		try {
+			System.out.println("script:\t" + query);
+			OPPLSyntaxTree parsed = this.parse(query, SYNTAX_ONTOLOGY);
+			System.out.println(parsed.toStringTree());
+			assertNotNull(parsed);
+			assertNull(query, parsed.getOPPLContent());
+		} catch (Exception e) {
+			e.printStackTrace(System.out);
+			fail("There should not be exceptions: " + e.getMessage());
 		}
 	}
 }
