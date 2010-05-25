@@ -60,8 +60,8 @@ public class OPPLFactory implements OPPLAbstractFactory {
 	 * @param constraintSystem
 	 * @param dataFactory
 	 */
-	public OPPLFactory(OWLOntologyManager ontologyManager,
-			OWLOntology ontology, OWLReasoner reasoner) {
+	public OPPLFactory(OWLOntologyManager ontologyManager, OWLOntology ontology,
+			OWLReasoner reasoner) {
 		this.ontologyManager = ontologyManager;
 		this.ontology = ontology;
 		this.reasoner = reasoner;
@@ -70,8 +70,7 @@ public class OPPLFactory implements OPPLAbstractFactory {
 
 	private OWLEntityChecker defaultEntityChecker() {
 		BidirectionalShortFormProviderAdapter bshp = new BidirectionalShortFormProviderAdapter(
-				this.ontologyManager.getOntologies(),
-				new SimpleShortFormProvider());
+				this.ontologyManager.getOntologies(), new SimpleShortFormProvider());
 		// XXX fix for missing Thing
 		bshp.add(this.ontologyManager.getOWLDataFactory().getOWLThing());
 		bshp.add(this.ontologyManager.getOWLDataFactory().getOWLNothing());
@@ -96,8 +95,8 @@ public class OPPLFactory implements OPPLAbstractFactory {
 	 */
 	public VariableScopeChecker getVariableScopeChecker() throws OPPLException {
 		if (this.variableScopeChecker == null && this.reasoner != null) {
-			this.variableScopeChecker = new VariableScopeChecker(
-					this.ontologyManager, this.reasoner);
+			this.variableScopeChecker = new VariableScopeChecker(this.ontologyManager,
+					this.reasoner);
 		}
 		return this.variableScopeChecker;
 	}
@@ -112,11 +111,9 @@ public class OPPLFactory implements OPPLAbstractFactory {
 		return new EntityFactory(this);
 	}
 
-	public OPPLScript buildOPPLScript(ConstraintSystem constraintSystem1,
-			List<Variable> variables, OPPLQuery opplQuery,
-			List<OWLAxiomChange> actions) {
-		return new OPPLScriptImpl(constraintSystem1, variables, opplQuery,
-				actions, this);
+	public OPPLScript buildOPPLScript(ConstraintSystem constraintSystem1, List<Variable> variables,
+			OPPLQuery opplQuery, List<OWLAxiomChange> actions) {
+		return new OPPLScriptImpl(constraintSystem1, variables, opplQuery, actions, this);
 	}
 
 	public OPPLQuery buildNewQuery(ConstraintSystem constraintSystem1) {
@@ -132,9 +129,9 @@ public class OPPLFactory implements OPPLAbstractFactory {
 	}
 
 	public ConstraintSystem createConstraintSystem() {
-		this.constraintSystem = this.reasoner == null ? new ConstraintSystem(
-				this.ontology, this.ontologyManager) : new ConstraintSystem(
-				this.ontology, this.ontologyManager, this.reasoner);
+		this.constraintSystem = this.reasoner == null ? new ConstraintSystem(this.ontology,
+				this.ontologyManager, this) : new ConstraintSystem(this.ontology,
+				this.ontologyManager, this.reasoner, this);
 		return this.constraintSystem;
 	}
 
@@ -147,11 +144,9 @@ public class OPPLFactory implements OPPLAbstractFactory {
 		return this.ontologyManager.getOWLDataFactory();
 	}
 
-	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(
-			ConstraintSystem cs) {
+	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs) {
 		ArgCheck.checkNullArgument("The constraint system", cs);
-		return new ManchesterSyntaxRenderer(this.ontologyManager, this
-				.getOWLEntityRenderer(cs), cs);
+		return new ManchesterSyntaxRenderer(this.ontologyManager, this.getOWLEntityRenderer(cs), cs);
 	}
 
 	public OWLOntologyManager getOntologyManager() {

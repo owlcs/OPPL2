@@ -104,8 +104,7 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	 */
 	public VariableScopeChecker getVariableScopeChecker() throws OPPLException {
 		if (this.variableScopeVariableChecker == null) {
-			this.variableScopeVariableChecker = new ProtegeScopeVariableChecker(
-					this.modelManager);
+			this.variableScopeVariableChecker = new ProtegeScopeVariableChecker(this.modelManager);
 		}
 		return this.variableScopeVariableChecker;
 	}
@@ -113,8 +112,7 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	/**
 	 * @see org.coode.oppl.OPPLAbstractFactory#getOWLEntityRenderer()
 	 */
-	public org.coode.oppl.entity.OWLEntityRenderer getOWLEntityRenderer(
-			ConstraintSystem cs) {
+	public org.coode.oppl.entity.OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {
 		ArgCheck.checkNullArgument("The constraint system", cs);
 		return new VariableOWLEntityRenderer(cs, this.entityRenderer);
 	}
@@ -126,12 +124,10 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 		return this.entityFactory;
 	}
 
-	public OPPLScript buildOPPLScript(ConstraintSystem constraintSystem1,
-			List<Variable> variables, OPPLQuery opplQuery,
-			List<OWLAxiomChange> actions) {
-		ProtegeOPPLScript toReturn = new ProtegeOPPLScript(new OPPLScriptImpl(
-				constraintSystem1, variables, opplQuery, actions, this),
-				this.modelManager);
+	public OPPLScript buildOPPLScript(ConstraintSystem constraintSystem1, List<Variable> variables,
+			OPPLQuery opplQuery, List<OWLAxiomChange> actions) {
+		ProtegeOPPLScript toReturn = new ProtegeOPPLScript(new OPPLScriptImpl(constraintSystem1,
+				variables, opplQuery, actions, this), this.modelManager);
 		return toReturn;
 	}
 
@@ -142,8 +138,7 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 
 	public ConstraintSystem createConstraintSystem() {
 		return new ConstraintSystem(this.modelManager.getActiveOntology(),
-				this.modelManager.getOWLOntologyManager(), this.modelManager
-						.getReasoner());
+				this.modelManager.getOWLOntologyManager(), this.modelManager.getReasoner(), this);
 	}
 
 	/**
@@ -165,11 +160,10 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	/**
 	 * @see org.coode.oppl.OPPLAbstractFactory#getManchesterSyntaxRenderer()
 	 */
-	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(
-			ConstraintSystem cs) {
+	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs) {
 		ArgCheck.checkNullArgument("The constraint system", cs);
-		return new ManchesterSyntaxRenderer(this.modelManager
-				.getOWLOntologyManager(), this.getOWLEntityRenderer(cs), cs);
+		return new ManchesterSyntaxRenderer(this.modelManager.getOWLOntologyManager(),
+				this.getOWLEntityRenderer(cs), cs);
 	}
 
 	public OWLOntologyManager getOntologyManager() {

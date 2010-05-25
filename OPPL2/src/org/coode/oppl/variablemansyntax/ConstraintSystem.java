@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.coode.oppl.OPPLAbstractFactory;
 import org.coode.oppl.exceptions.InvalidVariableNameException;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.utils.VariableDetector;
@@ -100,8 +101,7 @@ public class ConstraintSystem {
 			for (Variable v : this.map.values()) {
 				v.accept(visitor);
 			}
-			return new HashSet<SingleValueGeneratedVariable<?>>(visitor
-					.getCollectedVariables());
+			return new HashSet<SingleValueGeneratedVariable<?>>(visitor.getCollectedVariables());
 		}
 
 		public void remove(String name) {
@@ -122,23 +122,27 @@ public class ConstraintSystem {
 	private Set<BindingNode> leaves = null;
 	private OWLReasoner reasoner = null;
 	private final OWLOntologyManager ontologyManager;
+	private final OPPLAbstractFactory opplFactory;
 
-	public ConstraintSystem(OWLOntology ontology,
-			OWLOntologyManager ontologyManager) {
+	public ConstraintSystem(OWLOntology ontology, OWLOntologyManager ontologyManager,
+			OPPLAbstractFactory opplFactory) {
 		if (ontology == null) {
 			throw new NullPointerException("The ontology cannot be null");
 		}
 		if (ontologyManager == null) {
-			throw new NullPointerException(
-					"The ontology manager cannot be null");
+			throw new NullPointerException("The ontology manager cannot be null");
 		}
+		if (opplFactory == null) {
+			throw new NullPointerException("The OPPL factory cannot be null");
+		}
+		this.opplFactory = opplFactory;
 		this.ontology = ontology;
 		this.ontologyManager = ontologyManager;
 	}
 
-	public ConstraintSystem(OWLOntology ontology,
-			OWLOntologyManager ontologyManager, OWLReasoner reasoner) {
-		this(ontology, ontologyManager);
+	public ConstraintSystem(OWLOntology ontology, OWLOntologyManager ontologyManager,
+			OWLReasoner reasoner, OPPLAbstractFactory opplAbstractFactory) {
+		this(ontology, ontologyManager, opplAbstractFactory);
 		this.reasoner = reasoner;
 		if (this.reasoner != null) {
 			this.loadReasoner();
@@ -150,8 +154,7 @@ public class ConstraintSystem {
 	 */
 	private void loadReasoner() {
 		try {
-			this.reasoner.loadOntologies(this.getOntologyManager()
-					.getOntologies());
+			this.reasoner.loadOntologies(this.getOntologyManager().getOntologies());
 		} catch (OWLReasonerException e) {
 			e.printStackTrace();
 		}
@@ -161,8 +164,7 @@ public class ConstraintSystem {
 		return this.variables.get(name);
 	}
 
-	public Variable createVariable(String name, VariableType type)
-			throws OPPLException {
+	public Variable createVariable(String name, VariableType type) throws OPPLException {
 		if (name.matches("\\?([\\p{Alnum}[-_]])+")) {
 			Variable newVariable = type.instantiateVariable(name);
 			// new VariableImpl(name.trim(), type);
@@ -174,8 +176,7 @@ public class ConstraintSystem {
 	}
 
 	public Set<Variable> getAxiomVariables(OWLAxiom axiom) {
-		VariableExtractor axiomVariableExtractor = new VariableExtractor(this,
-				true);
+		VariableExtractor axiomVariableExtractor = new VariableExtractor(this, true);
 		Set<Variable> axiomVariables = axiom.accept(axiomVariableExtractor);
 		return new HashSet<Variable>(axiomVariables);
 	}
@@ -209,32 +210,13 @@ public class ConstraintSystem {
 	 * @return the leaves
 	 */
 	public Set<BindingNode> getLeaves() {
-		return this.leaves == null ? this.leaves : new HashSet<BindingNode>(
-				this.leaves);
+		return this.leaves == null ? this.leaves : new HashSet<BindingNode>(this.leaves);
 	}
 
-	// protected void setupLeaves() {
-	// Set<Variable> inputVariables = this.getInputVariables();
-	// for (Variable variable : inputVariables) {
-	// for (OWLOntology ontology1 : this.getOntologyManager()
-	// .getOntologies()) {
-	// Set<? extends OWLObject> referencedValues = variable.getType()
-	// .getReferencedValues(ontology1);
-	// for (OWLObject object : referencedValues) {
-	// try {
-	// variable.addPossibleBinding(object);
-	// } catch (OWLReasonerException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-	// }
-	// BindingNode root = new BindingNode(new HashSet<Assignment>(),
-	// inputVariables);
-	// LeafBrusher leafBrusher = new LeafBrusher();
-	// root.accept(leafBrusher);
-	// this.leaves = leafBrusher.getLeaves();
-	// }
+	public OPPLAbstractFactory getOPPLFactory() {
+		return this.opplFactory;
+	}
+
 	public Set<Variable> getInputVariables() {
 		return this.variables.getInputVariables();
 	}
@@ -275,11 +257,13 @@ public class ConstraintSystem {
 		return this.reasoner;
 	}
 
-	public SingleValueGeneratedVariable<String> createStringGeneratedVariable(
-			String name, VariableType type,
-			SingleValueGeneratedValue<String> value) {
-		AbstractGeneratedVariable<String> generatedVariable = StringGeneratedVariable
-				.buildGeneratedVariable(name, type, value, this.getOntology());
+	public SingleValueGeneratedVariable<String> createStringGeneratedVariable(String name,
+			VariableType type, SingleValueGeneratedValue<String> value) {
+		AbstractGeneratedVariable<String> generatedVariable = StringGeneratedVariable.buildGeneratedVariable(
+				name,
+				type,
+				value,
+				this.getOntology());
 		this.variables.store(generatedVariable);
 		return generatedVariable;
 	}
@@ -304,34 +288,34 @@ public class ConstraintSystem {
 	}
 
 	public SingleValueGeneratedVariable<Collection<OWLClass>> createIntersectionGeneratedVariable(
-			String name, VariableType type,
-			AbstractCollectionGeneratedValue<OWLClass> collection) {
+			String name, VariableType type, AbstractCollectionGeneratedValue<OWLClass> collection) {
 		SingleValueGeneratedVariable<Collection<OWLClass>> toReturn = null;
 		if (type.equals(VariableType.CLASS)) {
-			toReturn = AbstractOWLObjectCollectionGeneratedVariable
-					.getConjunction(name, type, collection, this
-							.getOntologyManager().getOWLDataFactory());
+			toReturn = AbstractOWLObjectCollectionGeneratedVariable.getConjunction(
+					name,
+					type,
+					collection,
+					this.getOntologyManager().getOWLDataFactory());
 			this.variables.store(toReturn);
 		} else {
-			throw new IllegalArgumentException("Incompatibile type "
-					+ type.name());
+			throw new IllegalArgumentException("Incompatibile type " + type.name());
 		}
 		return toReturn;
 	}
 
 	public SingleValueGeneratedVariable<Collection<OWLClass>> createUnionGeneratedVariable(
-			String name, VariableType type,
-			AbstractCollectionGeneratedValue<OWLClass> collection) {
+			String name, VariableType type, AbstractCollectionGeneratedValue<OWLClass> collection) {
 		SingleValueGeneratedVariable<Collection<OWLClass>> toReturn = null;
 		if (type.equals(VariableType.CLASS)) {
-			toReturn = AbstractOWLObjectCollectionGeneratedVariable
-					.getDisjunction(name, type, collection, this
-							.getOntologyManager().getOWLDataFactory());
+			toReturn = AbstractOWLObjectCollectionGeneratedVariable.getDisjunction(
+					name,
+					type,
+					collection,
+					this.getOntologyManager().getOWLDataFactory());
 			this.variables.store(toReturn);
 		}
 		if (toReturn == null) {
-			throw new IllegalArgumentException("Incompatibile type "
-					+ type.name());
+			throw new IllegalArgumentException("Incompatibile type " + type.name());
 		}
 		return toReturn;
 	}

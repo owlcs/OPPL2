@@ -6,14 +6,17 @@ package org.coode.oppl.search;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.utils.OWLObjectExtractor;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.coode.oppl.variablemansyntax.PartialOWLObjectInstantiator;
 import org.coode.oppl.variablemansyntax.Variable;
+import org.coode.oppl.variablemansyntax.VariableScope;
 import org.coode.oppl.variablemansyntax.VariableTypeVisitorEx;
 import org.coode.oppl.variablemansyntax.bindingtree.Assignment;
 import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
@@ -23,6 +26,7 @@ import org.coode.oppl.variablemansyntax.variabletypes.CONSTANTVariable;
 import org.coode.oppl.variablemansyntax.variabletypes.DATAPROPERTYVariable;
 import org.coode.oppl.variablemansyntax.variabletypes.INDIVIDUALVariable;
 import org.coode.oppl.variablemansyntax.variabletypes.OBJECTPROPERTYVariable;
+import org.semanticweb.owl.inference.OWLReasonerException;
 import org.semanticweb.owl.model.OWLAxiom;
 import org.semanticweb.owl.model.OWLClass;
 import org.semanticweb.owl.model.OWLConstant;
@@ -35,8 +39,7 @@ import org.semanticweb.owl.model.OWLObjectProperty;
  * @author Luigi Iannone
  * 
  */
-public class OPPLAssertedSingleOWLAxiomSearchTree extends
-		SearchTree<OPPLOWLAxiomSearchNode> {
+public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxiomSearchNode> {
 	private final ConstraintSystem constraintSystem;
 	private final OWLAxiom targetAxiom;
 	// private final Set<OWLOntology> ontologies = new HashSet<OWLOntology>();
@@ -49,8 +52,7 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
 	public OPPLAssertedSingleOWLAxiomSearchTree(OWLAxiom targetAxiom,
 			ConstraintSystem constraintSystem) {
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The constraint system cannot be null");
+			throw new NullPointerException("The constraint system cannot be null");
 		}
 		this.targetAxiom = targetAxiom;
 		this.constraintSystem = constraintSystem;
@@ -61,27 +63,25 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
 	 * @see org.coode.oppl.search.SearchTree#getChildren(java.lang.Object)
 	 */
 	@Override
-	protected List<OPPLOWLAxiomSearchNode> getChildren(
-			OPPLOWLAxiomSearchNode node) {
+	protected List<OPPLOWLAxiomSearchNode> getChildren(OPPLOWLAxiomSearchNode node) {
 		List<OPPLOWLAxiomSearchNode> toReturn = new ArrayList<OPPLOWLAxiomSearchNode>();
-		VariableExtractor variableExtractor = new VariableExtractor(this
-				.getConstraintSystem(), false);
+		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
+				false);
 		Set<Variable> variables = node.getAxiom().accept(variableExtractor);
 		BindingNode binding = node.getBinding();
 		for (Variable variable : variables) {
-			Collection<OWLObject> values = new HashSet<OWLObject>(this
-					.getAssignableValues(variable));
+			Collection<OWLObject> values = new HashSet<OWLObject>(
+					this.getAssignableValues(variable));
 			for (OWLObject value : values) {
 				Assignment assignment = new Assignment(variable, value);
-				BindingNode childBinding = new BindingNode(binding
-						.getAssignments(), binding.getUnassignedVariables());
+				BindingNode childBinding = new BindingNode(binding.getAssignments(),
+						binding.getUnassignedVariables());
 				childBinding.addAssignment(assignment);
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
 						childBinding, this.getConstraintSystem());
-				OWLAxiom instantiatedAxiom = (OWLAxiom) node.getAxiom().accept(
-						instantiator);
-				OPPLOWLAxiomSearchNode child = new OPPLOWLAxiomSearchNode(
-						instantiatedAxiom, childBinding);
+				OWLAxiom instantiatedAxiom = (OWLAxiom) node.getAxiom().accept(instantiator);
+				OPPLOWLAxiomSearchNode child = new OPPLOWLAxiomSearchNode(instantiatedAxiom,
+						childBinding);
 				toReturn.add(child);
 			}
 		}
@@ -122,52 +122,46 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
 		public Set<? extends OWLObject> visit(SingleValueGeneratedVariable<?> v) {
 			// TODO this needs verification: is this the expected behaviour?
 			Set<OWLObject> toReturn = new HashSet<OWLObject>();
-			for (SingleValueGeneratedVariable<?> g : OPPLAssertedSingleOWLAxiomSearchTree.this.constraintSystem
-					.getGeneratedVariables()) {
+			for (SingleValueGeneratedVariable<?> g : OPPLAssertedSingleOWLAxiomSearchTree.this.constraintSystem.getGeneratedVariables()) {
 				toReturn.addAll(g.getPossibleBindings());
 			}
 			return toReturn;
 		}
 	};
 
-	private Collection<? extends OWLObject> getAssignableValues(
-			Variable variable) {
+	private Collection<? extends OWLObject> getAssignableValues(Variable variable) {
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
 		toReturn.addAll(variable.accept(this.assignableValuesVisitor));
-		// VariableType type = variable.getType();
-		// switch (type) {
-		// case CLASS:
-		// toReturn.addAll(this.allClasses);
-		// break;
-		// case DATAPROPERTY:
-		// toReturn.addAll(this.allDataProperties);
-		// break;
-		// case OBJECTPROPERTY:
-		// toReturn.addAll(this.allObjectProperties);
-		// break;
-		// case INDIVIDUAL:
-		// toReturn.addAll(this.allIndividuals);
-		// break;
-		// case CONSTANT:
-		// toReturn.addAll(this.allConstants);
-		// break;
-		// default:
-		// break;
-		// }
+		VariableScope variableScope = variable.getVariableScope();
+		if (variableScope != null) {
+			Iterator<OWLObject> iterator = toReturn.iterator();
+			while (iterator.hasNext()) {
+				OWLObject owlObject = iterator.next();
+				try {
+					boolean inScope = variableScope.check(
+							owlObject,
+							this.getConstraintSystem().getOPPLFactory().getVariableScopeChecker());
+					if (!inScope) {
+						iterator.remove();
+					}
+				} catch (OWLReasonerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (OPPLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		return toReturn;
 	}
 
 	private void initAssignableValues() {
-		this.allClasses.addAll(OWLObjectExtractor.getAllClasses(this
-				.getTargetAxiom()));
-		this.allDataProperties.addAll(OWLObjectExtractor
-				.getAllOWLDataProperties(this.getTargetAxiom()));
-		this.allObjectProperties.addAll(OWLObjectExtractor
-				.getAllOWLObjectProperties(this.getTargetAxiom()));
-		this.allIndividuals.addAll(OWLObjectExtractor.getAllOWLIndividuals(this
-				.getTargetAxiom()));
-		this.allConstants.addAll(OWLObjectExtractor.getAllOWLConstants(this
-				.getTargetAxiom()));
+		this.allClasses.addAll(OWLObjectExtractor.getAllClasses(this.getTargetAxiom()));
+		this.allDataProperties.addAll(OWLObjectExtractor.getAllOWLDataProperties(this.getTargetAxiom()));
+		this.allObjectProperties.addAll(OWLObjectExtractor.getAllOWLObjectProperties(this.getTargetAxiom()));
+		this.allIndividuals.addAll(OWLObjectExtractor.getAllOWLIndividuals(this.getTargetAxiom()));
+		this.allConstants.addAll(OWLObjectExtractor.getAllOWLConstants(this.getTargetAxiom()));
 	}
 
 	/**
@@ -192,8 +186,7 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
 					"The list on which solutions will be stored cannot be null");
 		}
 		boolean found = false;
-		if (this.getTargetAxiom().getAxiomType().equals(
-				start.getAxiom().getAxiomType())) {
+		if (this.getTargetAxiom().getAxiomType().equals(start.getAxiom().getAxiomType())) {
 			found = super.exhaustiveSearchTree(start, solutions);
 		}
 		return found;
