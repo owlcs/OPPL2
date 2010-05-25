@@ -53,16 +53,14 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 	/**
 	 * @param ontologyManager
 	 */
-	public PatternModelFactory(OWLOntology ontology,
-			OWLOntologyManager ontologyManager, OWLReasoner reasoner,
-			String script) {
+	public PatternModelFactory(OWLOntology ontology, OWLOntologyManager ontologyManager,
+			OWLReasoner reasoner, String script) {
 		this.ontologyManager = ontologyManager;
 		this.ontology = ontology;
 		this.initOPPLParser(script, reasoner);
 	}
 
-	public PatternModelFactory(OWLOntology ontology,
-			OWLOntologyManager ontologyManager) {
+	public PatternModelFactory(OWLOntology ontology, OWLOntologyManager ontologyManager) {
 		this(ontology, ontologyManager, null, ";");
 	}
 
@@ -75,8 +73,7 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 		}
 	}
 
-	public InstantiatedPatternModel createInstantiatedPatternModel(
-			PatternModel patternModel) {
+	public InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel) {
 		return new InstantiatedPatternModel(patternModel);
 	}
 
@@ -84,21 +81,23 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 		return new PatternExtractor(this.ontology, this.ontologyManager);
 	}
 
-	public PatternExtractor getPatternExtractor(
-			Set<OWLConstantAnnotation> visitedAnnotations) {
-		return new PatternExtractor(this.ontology, this.ontologyManager,
-				visitedAnnotations);
+	public PatternExtractor getPatternExtractor(Set<OWLConstantAnnotation> visitedAnnotations) {
+		return new PatternExtractor(this.ontology, this.ontologyManager, visitedAnnotations);
 	}
 
 	public PatternConstraintSystem createConstraintSystem() {
 		return new PatternConstraintSystem(new ConstraintSystem(this.ontology,
-				this.ontologyManager), this.ontologyManager, this);
+				this.ontologyManager, this.getOPPLParser().getOPPLFactory()), this.ontologyManager,
+				this);
 	}
 
 	public void initOPPLParser(String string, OWLReasoner resoner) {
-		this.opplParser = org.coode.oppl.utils.ParserFactory.initParser(string,
-				this.ontology, this.ontologyManager, resoner, PatternModel
-						.getScriptValidator());
+		this.opplParser = org.coode.oppl.utils.ParserFactory.initParser(
+				string,
+				this.ontology,
+				this.ontologyManager,
+				resoner,
+				PatternModel.getScriptValidator());
 	}
 
 	/**
@@ -107,19 +106,20 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 	 *      org.coode.oppl.variablemansyntax.Variable, java.lang.String,
 	 *      org.coode.oppl.variablemansyntax.ConstraintSystem)
 	 */
-	public PatternModel createPatternModel(String name,
-			List<Variable> variables, List<OWLAxiomChange> actions,
-			Variable returnClause, String rendering,
-			ConstraintSystem constraintSystem)
-			throws EmptyVariableListException, EmptyActionListException {
+	public PatternModel createPatternModel(String name, List<Variable> variables,
+			List<OWLAxiomChange> actions, Variable returnClause, String rendering,
+			ConstraintSystem constraintSystem) throws EmptyVariableListException,
+			EmptyActionListException {
 		if (variables.isEmpty()) {
 			throw new EmptyVariableListException();
 		} else if (actions.isEmpty()) {
 			throw new EmptyActionListException();
 		} else {
-			OPPLScript opplScript = this.opplParser
-					.getOPPLFactory()
-					.buildOPPLScript(constraintSystem, variables, null, actions);
+			OPPLScript opplScript = this.opplParser.getOPPLFactory().buildOPPLScript(
+					constraintSystem,
+					variables,
+					null,
+					actions);
 			try {
 				PatternModel patternModel = this.createPatternModel(opplScript);
 				patternModel.setRendering(rendering);
@@ -153,11 +153,9 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 		this.opplParser = parser;
 	}
 
-	public ManchesterSyntaxRenderer getRenderer(
-			PatternConstraintSystem patternConstraintSystem) {
-		return new ManchesterSyntaxRenderer(this.ontologyManager, this
-				.getOWLEntityRenderer(patternConstraintSystem),
-				patternConstraintSystem);
+	public ManchesterSyntaxRenderer getRenderer(PatternConstraintSystem patternConstraintSystem) {
+		return new ManchesterSyntaxRenderer(this.ontologyManager,
+				this.getOWLEntityRenderer(patternConstraintSystem), patternConstraintSystem);
 	}
 
 	public OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {
