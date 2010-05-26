@@ -311,6 +311,9 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 	@Override
 	protected void initialiseOWLView() {
 		this.setLayout(new BorderLayout());
+		JSplitPane mainPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		mainPanel.setDividerLocation(.6);
+		mainPanel.setResizeWeight(.6);
 		JPanel statementPanel = new JPanel(new BorderLayout());
 		ProtegeParserFactory.initParser("", this.getOWLModelManager(), null);
 		OPPLAbstractFactory opplFactory = ParserFactory.getInstance().getOPPLFactory();
@@ -339,7 +342,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 		this.editor.setPreferredSize(new Dimension(200, 300));
 		statementPanel.add(ComponentFactory.createScrollPane(this.editor), BorderLayout.NORTH);
 		statementPanel.add(this.evaluate, BorderLayout.SOUTH);
-		this.add(statementPanel, BorderLayout.NORTH);
+		mainPanel.add(statementPanel, JSplitPane.TOP);
 		// Effects GUI portion
 		JSplitPane effects = new JSplitPane();
 		this.affectedScrollPane = ComponentFactory.createScrollPane(this.affectedAxioms);
@@ -353,7 +356,8 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 		instantiatonPanel.add(this.bindingTreeScrollPane, JSplitPane.LEFT);
 		instantiatonPanel.add(this.instantiatedScrollPane, JSplitPane.RIGHT);
 		effects.add(instantiatonPanel, JSplitPane.RIGHT);
-		this.add(effects, BorderLayout.CENTER);
+		mainPanel.add(effects, JSplitPane.BOTTOM);
+		this.add(mainPanel, BorderLayout.CENTER);
 		this.add(this.execute, BorderLayout.SOUTH);
 		this.evaluate.setEnabled(false);
 		this.execute.setEnabled(false);
