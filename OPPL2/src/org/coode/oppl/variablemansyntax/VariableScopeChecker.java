@@ -41,15 +41,15 @@ import org.semanticweb.owl.model.OWLOntologyManager;
  * 
  */
 public class VariableScopeChecker {
-	protected OWLOntologyManager ontologyManager;
-	private OWLReasoner reasoner;
+	private final OWLOntologyManager ontologyManager;
+	private final OWLReasoner reasoner;
 
 	/**
 	 * @param ontologyManager
 	 * @param reasoner
 	 */
-	public VariableScopeChecker(OWLOntologyManager ontologyManager,
-			OWLReasoner reasoner) throws OPPLException {
+	public VariableScopeChecker(OWLOntologyManager ontologyManager, OWLReasoner reasoner)
+			throws OPPLException {
 		if (reasoner == null) {
 			throw new NullReasonerException();
 		} else {
@@ -67,7 +67,7 @@ public class VariableScopeChecker {
 	protected boolean check(OWLClass owlCass, SubClassVariableScope scope)
 			throws OWLReasonerException {
 		OWLDescription description = scope.getDescription();
-		return this.reasoner.isSubClassOf(owlCass, description);
+		return this.getReasoner().isSubClassOf(owlCass, description);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class VariableScopeChecker {
 	protected boolean check(OWLClass owlCass, SuperClassVariableScope scope)
 			throws OWLReasonerException {
 		OWLDescription description = scope.getDescription();
-		return this.reasoner.isSubClassOf(description, owlCass);
+		return this.getReasoner().isSubClassOf(description, owlCass);
 	}
 
 	/**
@@ -89,61 +89,27 @@ public class VariableScopeChecker {
 	 *         otherwise
 	 * @throws OWLReasonerException
 	 */
-	protected boolean check(OWLIndividual individual,
-			IndividualVariableScope scope) throws OWLReasonerException {
+	protected boolean check(OWLIndividual individual, IndividualVariableScope scope)
+			throws OWLReasonerException {
 		OWLDescription description = scope.getDescription();
-		return this.reasoner.hasType(individual, description, false);
+		return this.getReasoner().hasType(individual, description, false);
 	}
-	// /**
-	// * @param objectProperty
-	// * @param scope
-	// * @return true is the input property is in the input scope, false
-	// otherwise
-	// */
-	// public boolean check(OWLObjectProperty objectProperty,
-	// SubPropertyVariableScope<OWLObjectProperty> scope) {
-	// OWLObjectProperty scopeProperty = scope.getProperty();
-	// return objectProperty.getSuperProperties(
-	// this.ontologyManager.getOntologies()).contains(scopeProperty);
-	// }
-	//
-	// /**
-	// * @param dataProperty
-	// * @param scope
-	// * @return true is the input property is in the input scope, false
-	// otherwise
-	// */
-	// public boolean check(OWLDataProperty dataProperty,
-	// SubPropertyVariableScope<OWLDataProperty> scope) {
-	// OWLDataProperty scopeProperty = scope.getProperty();
-	// scope.check(dataProperty, ontologyManager)
-	// return dataProperty.getSuperProperties(
-	// this.ontologyManager.getOntologies()).contains(scopeProperty);
-	// }
-	//
-	// /**
-	// * @param objectProperty
-	// * @param scope
-	// * @return true is the input property is in the input scope, false
-	// otherwise
-	// */
-	// public boolean check(OWLObjectProperty objectProperty,
-	// SuperPropertyVariableScope<OWLObjectProperty> scope) {
-	// OWLObjectProperty scopeProperty = scope.getProperty();
-	// return objectProperty.getSubProperties(
-	// this.ontologyManager.getOntologies()).contains(scopeProperty);
-	// }
-	//
-	// /**
-	// * @param dataProperty
-	// * @param scope
-	// * @return true is the input property is in the input scope, false
-	// otherwise
-	// */
-	// public boolean check(OWLDataProperty dataProperty,
-	// SuperPropertyVariableScope<OWLDataProperty> scope) {
-	// OWLDataProperty scopeProperty = scope.getProperty();
-	// return dataProperty.getSubProperties(
-	// this.ontologyManager.getOntologies()).contains(scopeProperty);
-	// }
+
+	/**
+	 * @return the reasoner
+	 * @throws OWLReasonerException
+	 */
+	public OWLReasoner getReasoner() throws OWLReasonerException {
+		if (!this.reasoner.isClassified()) {
+			this.reasoner.classify();
+		}
+		return this.reasoner;
+	}
+
+	/**
+	 * @return the ontologyManager
+	 */
+	public OWLOntologyManager getOntologyManager() {
+		return this.ontologyManager;
+	}
 }
