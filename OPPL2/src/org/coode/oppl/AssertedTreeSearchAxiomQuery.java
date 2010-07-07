@@ -51,12 +51,10 @@ public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
 	public AssertedTreeSearchAxiomQuery(Set<OWLOntology> ontologies,
 			ConstraintSystem constraintSystem) {
 		if (ontologies == null) {
-			throw new NullPointerException(
-					"The ontologies collection cannot be null");
+			throw new NullPointerException("The ontologies collection cannot be null");
 		}
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The constraint system cannot be null");
+			throw new NullPointerException("The constraint system cannot be null");
 		}
 		this.constraintSystem = constraintSystem;
 		this.ontologies.addAll(ontologies);
@@ -67,12 +65,11 @@ public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
 		this.clearInstantions();
 		OPPLAssertedOWLAxiomSearchTree searchTree = new OPPLAssertedOWLAxiomSearchTree(
 				this.getConstraintSystem());
-		VariableExtractor variableExtractor = new VariableExtractor(this
-				.getConstraintSystem(), false);
+		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
+				false);
 		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
-		searchTree.exhaustiveSearchTree(new OPPLOWLAxiomSearchNode(axiom,
-				new BindingNode(new HashSet<Assignment>(), axiom
-						.accept(variableExtractor))), solutions);
+		searchTree.exhaustiveSearchTree(new OPPLOWLAxiomSearchNode(axiom, new BindingNode(
+				new HashSet<Assignment>(), variableExtractor.extractVariables(axiom))), solutions);
 		for (List<OPPLOWLAxiomSearchNode> path : solutions) {
 			OPPLOWLAxiomSearchNode searchLeaf = path.get(path.size() - 1);
 			BindingNode leaf = searchLeaf.getBinding();
@@ -82,8 +79,7 @@ public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
 			if (leafInstantiations == null) {
 				leafInstantiations = new HashSet<OWLAxiom>();
 			}
-			leafInstantiations.add((OWLAxiom) axiom
-					.accept(partialOWLObjectInstantiator));
+			leafInstantiations.add((OWLAxiom) axiom.accept(partialOWLObjectInstantiator));
 			this.instantiations.put(leaf, leafInstantiations);
 		}
 	}

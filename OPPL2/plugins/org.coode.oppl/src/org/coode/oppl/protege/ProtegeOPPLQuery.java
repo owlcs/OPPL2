@@ -27,8 +27,6 @@ import java.util.List;
 import org.coode.oppl.AbstractConstraint;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.exceptions.OPPLException;
-import org.coode.oppl.protege.ui.VariableOWLObjectRenderer;
-import org.coode.oppl.protege.ui.rendering.ShortFormVariableOWLEntityRenderer;
 import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owl.model.OWLAxiom;
@@ -39,8 +37,6 @@ import org.semanticweb.owl.model.OWLAxiom;
  */
 public class ProtegeOPPLQuery implements OPPLQuery {
 	private final OPPLQuery opplQuery;
-	private final VariableOWLObjectRenderer variableOWLObjectRenderer;
-	private final ShortFormVariableOWLEntityRenderer entityRenderer;
 
 	/**
 	 * @param opplQuery
@@ -48,10 +44,6 @@ public class ProtegeOPPLQuery implements OPPLQuery {
 	 */
 	public ProtegeOPPLQuery(OPPLQuery opplQuery, OWLModelManager modelManager) {
 		this.opplQuery = opplQuery;
-		this.variableOWLObjectRenderer = new VariableOWLObjectRenderer(
-				modelManager);
-		this.entityRenderer = new ShortFormVariableOWLEntityRenderer(
-				this.opplQuery.getConstraintSystem());
 	}
 
 	/**
@@ -101,32 +93,7 @@ public class ProtegeOPPLQuery implements OPPLQuery {
 	 */
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("SELECT ");
-		boolean first = true;
-		for (OWLAxiom axiom : this.getAssertedAxioms()) {
-			String commaString = first ? "ASSERTED " : ", ASSERTED ";
-			first = false;
-			buffer.append(commaString);
-			buffer.append(variableOWLObjectRenderer.render(axiom,
-					entityRenderer));
-		}
-		for (OWLAxiom axiom : this.getAxioms()) {
-			String commaString = first ? "" : ", ";
-			first = false;
-			buffer.append(commaString);
-			buffer.append(this.variableOWLObjectRenderer.render(axiom,
-					this.entityRenderer));
-		}
-		if (this.getConstraints().size() > 0) {
-			buffer.append(" WHERE ");
-			first = true;
-			for (AbstractConstraint c : this.getConstraints()) {
-				String commaString = first ? "" : ", ";
-				buffer.append(commaString);
-				buffer.append(c.toString());
-			}
-		}
-		return buffer.toString();
+		return this.opplQuery.toString();
 	}
 
 	public String render() {

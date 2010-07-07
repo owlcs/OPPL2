@@ -45,6 +45,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.JToolBar;
 import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListDataEvent;
@@ -59,6 +60,7 @@ import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.OPPLScriptVisitorEx;
 import org.coode.oppl.protege.ui.rendering.InstantiationTableCellRenderer;
+import org.coode.oppl.utils.EvaluationResults;
 import org.coode.oppl.utils.ParserFactory;
 import org.coode.oppl.utils.ProtegeParserFactory;
 import org.coode.oppl.validation.OPPLScriptValidator;
@@ -244,6 +246,10 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 					}
 				}
 				OPPLView.this.revalidate();
+				EvaluationResults evaluationResults = new EvaluationResults(
+						OPPLView.this.statementModel, changes);
+				OPPLView.this.copyResultsAction.setEnabled(true);
+				OPPLView.this.copyResultsAction.setResult(evaluationResults.toString());
 				OPPLView.this.bindingTableModel = new InstantiationTableModel(
 						OPPLView.this.statementModel, OPPLView.this.getOWLEditorKit());
 				OPPLView.this.bindingTable.setModel(OPPLView.this.bindingTableModel);
@@ -297,6 +303,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 	private JScrollPane instantiatedScrollPane;
 	private JCheckBox considerImportClosureCheckBox = new JCheckBox(
 			"When removing consider Active Ontology Imported Closure", false);
+	private final CopyAction copyResultsAction = new CopyAction("Copy results to Clipboard");
 	private TableModel bindingTableModel = InstantiationTableModel.getNoOPPLScrptTableModel();
 	private final JTable bindingTable = new JTable(this.bindingTableModel);
 	private JScrollPane bindingTreeScrollPane;
@@ -331,6 +338,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 				((DefaultListModel) OPPLView.this.affectedAxioms.getModel()).clear();
 				OPPLView.this.affectedScrollPane.setBorder(ComponentFactory.createTitledBorder("Affected axioms: "));
 				OPPLView.this.evaluate.setEnabled(OPPLView.this.statementModel != null);
+				OPPLView.this.copyResultsAction.setEnabled(false);
 				OPPLView.this.execute.setEnabled(false);
 			}
 		});
@@ -340,7 +348,11 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 		this.getOWLModelManager().getOWLOntologyManager().addOntologyChangeListener(this);
 		this.editor = new OPPLEditor(this.getOWLEditorKit(), this.validator);
 		this.editor.setPreferredSize(new Dimension(200, 300));
+		JToolBar statementToolBar = new JToolBar(JToolBar.HORIZONTAL);
+		statementToolBar.setFloatable(false);
+		statementToolBar.add(this.copyResultsAction);
 		statementPanel.add(ComponentFactory.createScrollPane(this.editor), BorderLayout.NORTH);
+		statementPanel.add(statementToolBar, BorderLayout.WEST);
 		statementPanel.add(this.evaluate, BorderLayout.SOUTH);
 		mainPanel.add(statementPanel, JSplitPane.TOP);
 		// Effects GUI portion
@@ -361,9 +373,11 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 		this.add(this.execute, BorderLayout.SOUTH);
 		this.evaluate.setEnabled(false);
 		this.execute.setEnabled(false);
+		this.copyResultsAction.setEnabled(false);
 		this.evaluate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				OPPLView.this.evaluate.setEnabled(false);
+				OPPLView.this.copyResultsAction.setEnabled(false);
 				OPPLView.this.setupOPPLProgressMonitor();
 				OPPLChangeDetectorSwingWorker opplSwingWorker = new OPPLChangeDetectorSwingWorker();
 				OPPLView.this.window.pack();
@@ -409,8 +423,9 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 		this.editor.addStatusChangedListener(this);
 		this.bindingTable.setDefaultRenderer(OWLObject.class, new InstantiationTableCellRenderer(
 				this.getOWLEditorKit()));
-		this.bindingTable.setDefaultRenderer(Set.class, new InstantiationTableCellRenderer(
-				this.getOWLEditorKit()));
+		this.bindingTable.setDefaultRenderer(
+				Set.class,
+				new InstantiationTableCellRenderer(this.getOWLEditorKit()));
 		this.bindingTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting()
@@ -455,6 +470,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 		this.bindingTableModel = InstantiationTableModel.getNoOPPLScrptTableModel();
 		this.bindingTable.setModel(this.bindingTableModel);
 		this.evaluate.setEnabled(newState);
+		this.copyResultsAction.setEnabled(false);
 		this.bindingTreeScrollPane.setBorder(ComponentFactory.createTitledBorder(BINDINGS_TITLE));
 		ListModel model = this.affectedAxioms.getModel();
 		((DefaultListModel) model).clear();

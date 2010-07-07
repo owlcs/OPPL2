@@ -23,8 +23,10 @@
 package org.coode.oppl.utils;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.coode.oppl.variablemansyntax.ConstraintSystem;
@@ -83,6 +85,7 @@ import org.semanticweb.owl.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owl.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLNegativeDataPropertyAssertionAxiom;
 import org.semanticweb.owl.model.OWLNegativeObjectPropertyAssertionAxiom;
+import org.semanticweb.owl.model.OWLObject;
 import org.semanticweb.owl.model.OWLObjectAllRestriction;
 import org.semanticweb.owl.model.OWLObjectAnnotation;
 import org.semanticweb.owl.model.OWLObjectComplementOf;
@@ -130,9 +133,8 @@ import org.semanticweb.owl.model.SWRLSameAsAtom;
  * @author Luigi Iannone
  * 
  */
-public class VariableExtractor implements OWLObjectVisitorEx<Set<Variable>> {
-	final class ValueVariableExtractor extends
-			SingleValueGeneratedValueVisitorAdapter {
+public class VariableExtractor {
+	final class ValueVariableExtractor extends SingleValueGeneratedValueVisitorAdapter {
 		private Collection<Variable> collection;
 
 		public ValueVariableExtractor(Collection<Variable> collection) {
@@ -142,47 +144,43 @@ public class VariableExtractor implements OWLObjectVisitorEx<Set<Variable>> {
 		@Override
 		public void vistVariableIndexGeneratedValue(
 				VariableIndexGeneratedValue variableIndexGeneratedValue) {
-			variableIndexGeneratedValue.getVariable().accept(
-					new PlainVariableVisitor() {
-						public void visit(SingleValueGeneratedVariable<?> v) {
-							if (VariableExtractor.this.includeGenerated) {
-								ValueVariableExtractor.this.collection.add(v);
-							}
-							// Add the variables this generated variable refers
-							// to (they
-							// might no be mentioned elsewhere in the axiom)
-							v.getValue()
-									.accept(
-											new ValueVariableExtractor(
-													ValueVariableExtractor.this.collection));
-						}
+			variableIndexGeneratedValue.getVariable().accept(new PlainVariableVisitor() {
+				public void visit(SingleValueGeneratedVariable<?> v) {
+					if (VariableExtractor.this.isIncludeGenerated()) {
+						ValueVariableExtractor.this.collection.add(v);
+					}
+					// Add the variables this generated variable refers
+					// to (they
+					// might no be mentioned elsewhere in the axiom)
+					v.getValue().accept(
+							new ValueVariableExtractor(ValueVariableExtractor.this.collection));
+				}
 
-						public void visit(Variable v) {
-							ValueVariableExtractor.this.collection.add(v);
-						}
-					});
+				public void visit(Variable v) {
+					ValueVariableExtractor.this.collection.add(v);
+				}
+			});
 		}
 
 		@Override
 		public void visitVariableExpressionGeneratedValue(
 				VariableExpressionGeneratedValue variableExpressionGeneratedValue) {
-			this.collection.addAll(variableExpressionGeneratedValue
-					.getExpression().accept(VariableExtractor.this));
+			this.collection.addAll(variableExpressionGeneratedValue.getExpression().accept(
+					VariableExtractor.this.visitor));
 		}
 
 		@Override
 		public void visitOWLObjectCollectionGeneratedValue(
 				OWLObjectCollectionGeneratedValue owlObjectCollectionGeneratedValue) {
-			owlObjectCollectionGeneratedValue.getVariable().accept(
-					new PlainVariableVisitor() {
-						public void visit(SingleValueGeneratedVariable<?> v) {
-							v.getValue().accept(ValueVariableExtractor.this);
-						}
+			owlObjectCollectionGeneratedValue.getVariable().accept(new PlainVariableVisitor() {
+				public void visit(SingleValueGeneratedVariable<?> v) {
+					v.getValue().accept(ValueVariableExtractor.this);
+				}
 
-						public void visit(Variable v) {
-							ValueVariableExtractor.this.collection.add(v);
-						}
-					});
+				public void visit(Variable v) {
+					ValueVariableExtractor.this.collection.add(v);
+				}
+			});
 		}
 
 		@Override
@@ -192,16 +190,13 @@ public class VariableExtractor implements OWLObjectVisitorEx<Set<Variable>> {
 		}
 
 		@Override
-		public void visitRegExpGeneratedValue(
-				RegExpGeneratedValue regExpGeneratedValue) {
+		public void visitRegExpGeneratedValue(RegExpGeneratedValue regExpGeneratedValue) {
 			regExpGeneratedValue.getExpression().accept(this);
 		}
 
 		@Override
-		public void visitConcatGeneratedValues(
-				ConcatGeneratedValues concatGeneratedValues) {
-			List<SingleValueGeneratedValue<String>> valuesToAggregate = concatGeneratedValues
-					.getValuesToAggregate();
+		public void visitConcatGeneratedValues(ConcatGeneratedValues concatGeneratedValues) {
+			List<SingleValueGeneratedValue<String>> valuesToAggregate = concatGeneratedValues.getValuesToAggregate();
 			for (SingleValueGeneratedValue<String> singleValueGeneratedValue : valuesToAggregate) {
 				singleValueGeneratedValue.accept(this);
 			}
@@ -210,645 +205,679 @@ public class VariableExtractor implements OWLObjectVisitorEx<Set<Variable>> {
 
 	private final ConstraintSystem constraintSystem;
 	private final boolean includeGenerated;
+	private final Visitor visitor = new Visitor();
+	private static final Map<OWLObject, Set<Variable>> cache = new HashMap<OWLObject, Set<Variable>>();
 
 	/**
 	 * @param constraintSystem
 	 */
-	public VariableExtractor(ConstraintSystem constraintSystem,
-			boolean includeGenerated) {
+	public VariableExtractor(ConstraintSystem constraintSystem, boolean includeGenerated) {
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The constraint system cannot be null");
+			throw new NullPointerException("The constraint system cannot be null");
 		}
 		this.constraintSystem = constraintSystem;
 		this.includeGenerated = includeGenerated;
 	}
 
-	public Set<Variable> visit(OWLSubClassAxiom axiom) {
-		OWLDescription subClass = axiom.getSubClass();
-		OWLDescription superClass = axiom.getSuperClass();
-		Set<Variable> toReturn = new HashSet<Variable>();
-		toReturn.addAll(superClass.accept(this));
-		toReturn.addAll(subClass.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
-		OWLIndividual object = axiom.getObject();
-		OWLObjectPropertyExpression property = axiom.getProperty();
-		OWLIndividual subject = axiom.getSubject();
-		Set<Variable> toReturn = new HashSet<Variable>();
-		toReturn.addAll(property.accept(this));
-		toReturn.addAll(object.accept(this));
-		toReturn.addAll(subject.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression property = axiom.getProperty();
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLReflexiveObjectPropertyAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression property = axiom.getProperty();
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDisjointClassesAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		Set<OWLDescription> descriptions = axiom.getDescriptions();
-		for (OWLDescription description : descriptions) {
-			toReturn.addAll(description.accept(this));
+	private final class Visitor implements OWLObjectVisitorEx<Set<Variable>> {
+		public Set<Variable> visit(OWLSubClassAxiom axiom) {
+			OWLDescription subClass = axiom.getSubClass();
+			OWLDescription superClass = axiom.getSuperClass();
+			Set<Variable> toReturn = new HashSet<Variable>();
+			toReturn.addAll(superClass.accept(this));
+			toReturn.addAll(subClass.accept(this));
+			return toReturn;
 		}
-		return toReturn;
-	}
 
-	public Set<Variable> visit(OWLDataPropertyDomainAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDataPropertyExpression property = axiom.getProperty();
-		OWLDescription domain = axiom.getDomain();
-		toReturn.addAll(property.accept(this));
-		toReturn.addAll(domain.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLImportsDeclaration axiom) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(OWLAxiomAnnotationAxiom axiom) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(OWLObjectPropertyDomainAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression property = axiom.getProperty();
-		OWLDescription domain = axiom.getDomain();
-		toReturn.addAll(property.accept(this));
-		toReturn.addAll(domain.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		Set<OWLObjectPropertyExpression> properties = axiom.getProperties();
-		for (OWLObjectPropertyExpression objectPropertyExpression : properties) {
-			toReturn.addAll(objectPropertyExpression.accept(this));
+		public Set<Variable> visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
+			OWLIndividual object = axiom.getObject();
+			OWLObjectPropertyExpression property = axiom.getProperty();
+			OWLIndividual subject = axiom.getSubject();
+			Set<Variable> toReturn = new HashSet<Variable>();
+			toReturn.addAll(property.accept(this));
+			toReturn.addAll(object.accept(this));
+			toReturn.addAll(subject.accept(this));
+			return toReturn;
 		}
-		return toReturn;
-	}
 
-	public Set<Variable> visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLConstant object = axiom.getObject();
-		OWLDataPropertyExpression property = axiom.getProperty();
-		OWLIndividual subject = axiom.getSubject();
-		toReturn.addAll(object.accept(this));
-		toReturn.addAll(subject.accept(this));
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
+		public Set<Variable> visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression property = axiom.getProperty();
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
 
-	public Set<Variable> visit(OWLDifferentIndividualsAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		Set<OWLIndividual> individuals = axiom.getIndividuals();
-		for (OWLIndividual individual : individuals) {
+		public Set<Variable> visit(OWLReflexiveObjectPropertyAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression property = axiom.getProperty();
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDisjointClassesAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			Set<OWLDescription> descriptions = axiom.getDescriptions();
+			for (OWLDescription description : descriptions) {
+				toReturn.addAll(description.accept(this));
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDataPropertyDomainAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDataPropertyExpression property = axiom.getProperty();
+			OWLDescription domain = axiom.getDomain();
+			toReturn.addAll(property.accept(this));
+			toReturn.addAll(domain.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLImportsDeclaration axiom) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(OWLAxiomAnnotationAxiom axiom) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(OWLObjectPropertyDomainAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression property = axiom.getProperty();
+			OWLDescription domain = axiom.getDomain();
+			toReturn.addAll(property.accept(this));
+			toReturn.addAll(domain.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLEquivalentObjectPropertiesAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			Set<OWLObjectPropertyExpression> properties = axiom.getProperties();
+			for (OWLObjectPropertyExpression objectPropertyExpression : properties) {
+				toReturn.addAll(objectPropertyExpression.accept(this));
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLConstant object = axiom.getObject();
+			OWLDataPropertyExpression property = axiom.getProperty();
+			OWLIndividual subject = axiom.getSubject();
+			toReturn.addAll(object.accept(this));
+			toReturn.addAll(subject.accept(this));
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDifferentIndividualsAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			Set<OWLIndividual> individuals = axiom.getIndividuals();
+			for (OWLIndividual individual : individuals) {
+				toReturn.addAll(individual.accept(this));
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDisjointDataPropertiesAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			Set<OWLDataPropertyExpression> properties = axiom.getProperties();
+			for (OWLDataPropertyExpression dataPropertyExpression : properties) {
+				toReturn.addAll(dataPropertyExpression.accept(this));
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDisjointObjectPropertiesAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			Set<OWLObjectPropertyExpression> properties = axiom.getProperties();
+			for (OWLObjectPropertyExpression objectPropertyExpression : properties) {
+				toReturn.addAll(objectPropertyExpression.accept(this));
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectPropertyRangeAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression property = axiom.getProperty();
+			OWLDescription range = axiom.getRange();
+			toReturn.addAll(property.accept(this));
+			toReturn.addAll(range.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectPropertyAssertionAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression property = axiom.getProperty();
+			OWLIndividual subject = axiom.getSubject();
+			OWLIndividual object = axiom.getObject();
+			toReturn.addAll(subject.accept(this));
+			toReturn.addAll(object.accept(this));
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLFunctionalObjectPropertyAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression property = axiom.getProperty();
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectSubPropertyAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression subProperty = axiom.getSubProperty();
+			OWLObjectPropertyExpression superProperty = axiom.getSuperProperty();
+			toReturn.addAll(subProperty.accept(this));
+			toReturn.addAll(superProperty.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDisjointUnionAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			Set<OWLDescription> descriptions = axiom.getDescriptions();
+			for (OWLDescription description : descriptions) {
+				toReturn.addAll(description.accept(this));
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDeclarationAxiom axiom) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(OWLEntityAnnotationAxiom axiom) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(OWLOntologyAnnotationAxiom axiom) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(OWLSymmetricObjectPropertyAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression property = axiom.getProperty();
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDataPropertyRangeAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDataPropertyExpression property = axiom.getProperty();
+			OWLDataRange range = axiom.getRange();
+			toReturn.addAll(property.accept(this));
+			toReturn.addAll(range.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLFunctionalDataPropertyAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDataPropertyExpression property = axiom.getProperty();
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLEquivalentDataPropertiesAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			Set<OWLDataPropertyExpression> properties = axiom.getProperties();
+			for (OWLDataPropertyExpression dataPropertyExpression : properties) {
+				toReturn.addAll(dataPropertyExpression.accept(this));
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLClassAssertionAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLIndividual individual = axiom.getIndividual();
+			OWLDescription description = axiom.getDescription();
 			toReturn.addAll(individual.accept(this));
-		}
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDisjointDataPropertiesAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		Set<OWLDataPropertyExpression> properties = axiom.getProperties();
-		for (OWLDataPropertyExpression dataPropertyExpression : properties) {
-			toReturn.addAll(dataPropertyExpression.accept(this));
-		}
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDisjointObjectPropertiesAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		Set<OWLObjectPropertyExpression> properties = axiom.getProperties();
-		for (OWLObjectPropertyExpression objectPropertyExpression : properties) {
-			toReturn.addAll(objectPropertyExpression.accept(this));
-		}
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectPropertyRangeAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression property = axiom.getProperty();
-		OWLDescription range = axiom.getRange();
-		toReturn.addAll(property.accept(this));
-		toReturn.addAll(range.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectPropertyAssertionAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression property = axiom.getProperty();
-		OWLIndividual subject = axiom.getSubject();
-		OWLIndividual object = axiom.getObject();
-		toReturn.addAll(subject.accept(this));
-		toReturn.addAll(object.accept(this));
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLFunctionalObjectPropertyAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression property = axiom.getProperty();
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectSubPropertyAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression subProperty = axiom.getSubProperty();
-		OWLObjectPropertyExpression superProperty = axiom.getSuperProperty();
-		toReturn.addAll(subProperty.accept(this));
-		toReturn.addAll(superProperty.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDisjointUnionAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		Set<OWLDescription> descriptions = axiom.getDescriptions();
-		for (OWLDescription description : descriptions) {
 			toReturn.addAll(description.accept(this));
+			return toReturn;
 		}
-		return toReturn;
-	}
 
-	public Set<Variable> visit(OWLDeclarationAxiom axiom) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(OWLEntityAnnotationAxiom axiom) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(OWLOntologyAnnotationAxiom axiom) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(OWLSymmetricObjectPropertyAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression property = axiom.getProperty();
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDataPropertyRangeAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDataPropertyExpression property = axiom.getProperty();
-		OWLDataRange range = axiom.getRange();
-		toReturn.addAll(property.accept(this));
-		toReturn.addAll(range.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLFunctionalDataPropertyAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDataPropertyExpression property = axiom.getProperty();
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLEquivalentDataPropertiesAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		Set<OWLDataPropertyExpression> properties = axiom.getProperties();
-		for (OWLDataPropertyExpression dataPropertyExpression : properties) {
-			toReturn.addAll(dataPropertyExpression.accept(this));
+		public Set<Variable> visit(OWLEquivalentClassesAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			Set<OWLDescription> descriptions = axiom.getDescriptions();
+			for (OWLDescription description : descriptions) {
+				toReturn.addAll(description.accept(this));
+			}
+			return toReturn;
 		}
-		return toReturn;
-	}
 
-	public Set<Variable> visit(OWLClassAssertionAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLIndividual individual = axiom.getIndividual();
-		OWLDescription description = axiom.getDescription();
-		toReturn.addAll(individual.accept(this));
-		toReturn.addAll(description.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLEquivalentClassesAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		Set<OWLDescription> descriptions = axiom.getDescriptions();
-		for (OWLDescription description : descriptions) {
-			toReturn.addAll(description.accept(this));
+		public Set<Variable> visit(OWLDataPropertyAssertionAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLConstant object = axiom.getObject();
+			OWLIndividual subject = axiom.getSubject();
+			OWLDataPropertyExpression property = axiom.getProperty();
+			toReturn.addAll(subject.accept(this));
+			toReturn.addAll(property.accept(this));
+			toReturn.addAll(object.accept(this));
+			return toReturn;
 		}
-		return toReturn;
-	}
 
-	public Set<Variable> visit(OWLDataPropertyAssertionAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLConstant object = axiom.getObject();
-		OWLIndividual subject = axiom.getSubject();
-		OWLDataPropertyExpression property = axiom.getProperty();
-		toReturn.addAll(subject.accept(this));
-		toReturn.addAll(property.accept(this));
-		toReturn.addAll(object.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLTransitiveObjectPropertyAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression property = axiom.getProperty();
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression property = axiom.getProperty();
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDataSubPropertyAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDataPropertyExpression subProperty = axiom.getSubProperty();
-		OWLDataPropertyExpression superProperty = axiom.getSuperProperty();
-		toReturn.addAll(subProperty.accept(this));
-		toReturn.addAll(superProperty.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression property = axiom.getProperty();
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLSameIndividualsAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		Set<OWLIndividual> individuals = axiom.getIndividuals();
-		for (OWLIndividual individual : individuals) {
-			toReturn.addAll(individual.accept(this));
+		public Set<Variable> visit(OWLTransitiveObjectPropertyAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression property = axiom.getProperty();
+			toReturn.addAll(property.accept(this));
+			return toReturn;
 		}
-		return toReturn;
-	}
 
-	public Set<Variable> visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		List<OWLObjectPropertyExpression> propertyChain = axiom
-				.getPropertyChain();
-		for (OWLObjectPropertyExpression objectPropertyExpression : propertyChain) {
-			toReturn.addAll(objectPropertyExpression.accept(this));
+		public Set<Variable> visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression property = axiom.getProperty();
+			toReturn.addAll(property.accept(this));
+			return toReturn;
 		}
-		return toReturn;
-	}
 
-	public Set<Variable> visit(OWLInverseObjectPropertiesAxiom axiom) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression firstProperty = axiom.getFirstProperty();
-		OWLObjectPropertyExpression secondProperty = axiom.getSecondProperty();
-		toReturn.addAll(firstProperty.accept(this));
-		toReturn.addAll(secondProperty.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(SWRLRule rule) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(OWLClass desc) {
-		boolean isVariable = this.constraintSystem.isVariable(desc);
-		final Set<Variable> toReturn = new HashSet<Variable>();
-		if (isVariable) {
-			Variable variable = this.constraintSystem
-					.getVariable(desc.getURI());
-			this.vetoVariableIntoCollection(toReturn, variable);
+		public Set<Variable> visit(OWLDataSubPropertyAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDataPropertyExpression subProperty = axiom.getSubProperty();
+			OWLDataPropertyExpression superProperty = axiom.getSuperProperty();
+			toReturn.addAll(subProperty.accept(this));
+			toReturn.addAll(superProperty.accept(this));
+			return toReturn;
 		}
-		return toReturn;
+
+		public Set<Variable> visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression property = axiom.getProperty();
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLSameIndividualsAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			Set<OWLIndividual> individuals = axiom.getIndividuals();
+			for (OWLIndividual individual : individuals) {
+				toReturn.addAll(individual.accept(this));
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			List<OWLObjectPropertyExpression> propertyChain = axiom.getPropertyChain();
+			for (OWLObjectPropertyExpression objectPropertyExpression : propertyChain) {
+				toReturn.addAll(objectPropertyExpression.accept(this));
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLInverseObjectPropertiesAxiom axiom) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression firstProperty = axiom.getFirstProperty();
+			OWLObjectPropertyExpression secondProperty = axiom.getSecondProperty();
+			toReturn.addAll(firstProperty.accept(this));
+			toReturn.addAll(secondProperty.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(SWRLRule rule) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(OWLClass desc) {
+			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(desc);
+			final Set<Variable> toReturn = new HashSet<Variable>();
+			if (isVariable) {
+				Variable variable = VariableExtractor.this.getConstraintSystem().getVariable(
+						desc.getURI());
+				this.vetoVariableIntoCollection(toReturn, variable);
+			}
+			return toReturn;
+		}
+
+		/**
+		 * @param collection
+		 * @param variable
+		 */
+		private void vetoVariableIntoCollection(final Set<Variable> collection, Variable variable) {
+			PlainVariableVisitor variableVetoer = new PlainVariableVisitor() {
+				public void visit(SingleValueGeneratedVariable<?> v) {
+					if (VariableExtractor.this.isIncludeGenerated()) {
+						collection.add(v);
+					}
+					// Add the variables this generated variable refers to (they
+					// might no be mentioned elsewhere in the axiom)
+					v.getValue().accept(new ValueVariableExtractor(collection));
+				}
+
+				public void visit(Variable v) {
+					collection.add(v);
+				}
+			};
+			variable.accept(variableVetoer);
+		}
+
+		public Set<Variable> visit(OWLObjectIntersectionOf desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			Set<OWLDescription> operands = desc.getOperands();
+			for (OWLDescription description : operands) {
+				toReturn.addAll(description.accept(this));
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectUnionOf desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			Set<OWLDescription> operands = desc.getOperands();
+			for (OWLDescription description : operands) {
+				toReturn.addAll(description.accept(this));
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectComplementOf desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDescription operand = desc.getOperand();
+			toReturn.addAll(operand.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectSomeRestriction desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDescription filler = desc.getFiller();
+			OWLObjectPropertyExpression property = desc.getProperty();
+			toReturn.addAll(filler.accept(this));
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectAllRestriction desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDescription filler = desc.getFiller();
+			OWLObjectPropertyExpression property = desc.getProperty();
+			toReturn.addAll(filler.accept(this));
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectValueRestriction desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLIndividual value = desc.getValue();
+			OWLObjectPropertyExpression property = desc.getProperty();
+			toReturn.addAll(value.accept(this));
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectMinCardinalityRestriction desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDescription filler = desc.getFiller();
+			OWLObjectPropertyExpression property = desc.getProperty();
+			toReturn.addAll(filler.accept(this));
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectExactCardinalityRestriction desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDescription filler = desc.getFiller();
+			OWLObjectPropertyExpression property = desc.getProperty();
+			toReturn.addAll(filler.accept(this));
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectMaxCardinalityRestriction desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDescription filler = desc.getFiller();
+			OWLObjectPropertyExpression property = desc.getProperty();
+			toReturn.addAll(filler.accept(this));
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectSelfRestriction desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression property = desc.getProperty();
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectOneOf desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			Set<OWLIndividual> individuals = desc.getIndividuals();
+			for (OWLIndividual individual : individuals) {
+				toReturn.addAll(individual.accept(this));
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDataSomeRestriction desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDataPropertyExpression property = desc.getProperty();
+			OWLDataRange filler = desc.getFiller();
+			toReturn.addAll(property.accept(this));
+			toReturn.addAll(filler.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDataAllRestriction desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDataPropertyExpression property = desc.getProperty();
+			OWLDataRange filler = desc.getFiller();
+			toReturn.addAll(property.accept(this));
+			toReturn.addAll(filler.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDataValueRestriction desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDataPropertyExpression property = desc.getProperty();
+			OWLConstant value = desc.getValue();
+			toReturn.addAll(property.accept(this));
+			toReturn.addAll(value.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDataMinCardinalityRestriction desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDataRange filler = desc.getFiller();
+			OWLDataPropertyExpression property = desc.getProperty();
+			toReturn.addAll(filler.accept(this));
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDataExactCardinalityRestriction desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDataRange filler = desc.getFiller();
+			OWLDataPropertyExpression property = desc.getProperty();
+			toReturn.addAll(filler.accept(this));
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDataMaxCardinalityRestriction desc) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDataRange filler = desc.getFiller();
+			OWLDataPropertyExpression property = desc.getProperty();
+			toReturn.addAll(filler.accept(this));
+			toReturn.addAll(property.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDataType node) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(OWLDataComplementOf node) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDataRange dataRange = node.getDataRange();
+			toReturn.addAll(dataRange.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDataOneOf node) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			Set<OWLConstant> values = node.getValues();
+			for (OWLConstant constant : values) {
+				toReturn.addAll(constant.accept(this));
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDataRangeRestriction node) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLDataRange dataRange = node.getDataRange();
+			toReturn.addAll(dataRange.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLTypedConstant node) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(node);
+			if (isVariable) {
+				Variable variable = VariableExtractor.this.getConstraintSystem().getVariable(
+						node.getLiteral());
+				this.vetoVariableIntoCollection(toReturn, variable);
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLUntypedConstant node) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(node);
+			if (isVariable) {
+				Variable variable = VariableExtractor.this.getConstraintSystem().getVariable(
+						node.getLiteral());
+				this.vetoVariableIntoCollection(toReturn, variable);
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDataRangeFacetRestriction node) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(OWLObjectProperty property) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(property);
+			if (isVariable) {
+				Variable variable = VariableExtractor.this.getConstraintSystem().getVariable(
+						property.getURI());
+				this.vetoVariableIntoCollection(toReturn, variable);
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectPropertyInverse property) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			OWLObjectPropertyExpression inverse = property.getInverse();
+			toReturn.addAll(inverse.accept(this));
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLDataProperty property) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(property);
+			if (isVariable) {
+				Variable variable = VariableExtractor.this.getConstraintSystem().getVariable(
+						property.getURI());
+				this.vetoVariableIntoCollection(toReturn, variable);
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLIndividual individual) {
+			Set<Variable> toReturn = new HashSet<Variable>();
+			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(individual);
+			if (isVariable) {
+				Variable variable = VariableExtractor.this.getConstraintSystem().getVariable(
+						individual.getURI());
+				this.vetoVariableIntoCollection(toReturn, variable);
+			}
+			return toReturn;
+		}
+
+		public Set<Variable> visit(OWLObjectAnnotation annotation) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(OWLConstantAnnotation annotation) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(SWRLClassAtom node) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(SWRLDataRangeAtom node) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(SWRLObjectPropertyAtom node) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(SWRLDataValuedPropertyAtom node) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(SWRLBuiltInAtom node) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(SWRLAtomDVariable node) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(SWRLAtomIVariable node) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(SWRLAtomIndividualObject node) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(SWRLAtomConstantObject node) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(SWRLSameAsAtom node) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(SWRLDifferentFromAtom node) {
+			return new HashSet<Variable>();
+		}
+
+		public Set<Variable> visit(OWLOntology ontology) {
+			return new HashSet<Variable>();
+		}
 	}
 
 	/**
-	 * @param collection
-	 * @param variable
+	 * @return the constraintSystem
 	 */
-	private void vetoVariableIntoCollection(final Set<Variable> collection,
-			Variable variable) {
-		PlainVariableVisitor variableVetoer = new PlainVariableVisitor() {
-			public void visit(SingleValueGeneratedVariable<?> v) {
-				if (VariableExtractor.this.includeGenerated) {
-					collection.add(v);
-				}
-				// Add the variables this generated variable refers to (they
-				// might no be mentioned elsewhere in the axiom)
-				v.getValue().accept(new ValueVariableExtractor(collection));
-			}
-
-			public void visit(Variable v) {
-				collection.add(v);
-			}
-		};
-		variable.accept(variableVetoer);
+	public ConstraintSystem getConstraintSystem() {
+		return this.constraintSystem;
 	}
 
-	public Set<Variable> visit(OWLObjectIntersectionOf desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		Set<OWLDescription> operands = desc.getOperands();
-		for (OWLDescription description : operands) {
-			toReturn.addAll(description.accept(this));
+	/**
+	 * @return the includeGenerated
+	 */
+	public boolean isIncludeGenerated() {
+		return this.includeGenerated;
+	}
+
+	/**
+	 * Clears the cache
+	 */
+	public static void clear() {
+		cache.clear();
+	}
+
+	public Set<Variable> extractVariables(OWLObject owlObject) {
+		Set<Variable> toReturn = cache.get(owlObject);
+		if (toReturn == null) {
+			toReturn = owlObject.accept(this.visitor);
+			cache.put(owlObject, new HashSet<Variable>(toReturn));
+		} else {
+			// Have to make a defensive copy here to protect the content of the
+			// cache
+			toReturn = new HashSet<Variable>(toReturn);
 		}
 		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectUnionOf desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		Set<OWLDescription> operands = desc.getOperands();
-		for (OWLDescription description : operands) {
-			toReturn.addAll(description.accept(this));
-		}
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectComplementOf desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDescription operand = desc.getOperand();
-		toReturn.addAll(operand.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectSomeRestriction desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDescription filler = desc.getFiller();
-		OWLObjectPropertyExpression property = desc.getProperty();
-		toReturn.addAll(filler.accept(this));
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectAllRestriction desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDescription filler = desc.getFiller();
-		OWLObjectPropertyExpression property = desc.getProperty();
-		toReturn.addAll(filler.accept(this));
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectValueRestriction desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLIndividual value = desc.getValue();
-		OWLObjectPropertyExpression property = desc.getProperty();
-		toReturn.addAll(value.accept(this));
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectMinCardinalityRestriction desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDescription filler = desc.getFiller();
-		OWLObjectPropertyExpression property = desc.getProperty();
-		toReturn.addAll(filler.accept(this));
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectExactCardinalityRestriction desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDescription filler = desc.getFiller();
-		OWLObjectPropertyExpression property = desc.getProperty();
-		toReturn.addAll(filler.accept(this));
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectMaxCardinalityRestriction desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDescription filler = desc.getFiller();
-		OWLObjectPropertyExpression property = desc.getProperty();
-		toReturn.addAll(filler.accept(this));
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectSelfRestriction desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression property = desc.getProperty();
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectOneOf desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		Set<OWLIndividual> individuals = desc.getIndividuals();
-		for (OWLIndividual individual : individuals) {
-			toReturn.addAll(individual.accept(this));
-		}
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDataSomeRestriction desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDataPropertyExpression property = desc.getProperty();
-		OWLDataRange filler = desc.getFiller();
-		toReturn.addAll(property.accept(this));
-		toReturn.addAll(filler.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDataAllRestriction desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDataPropertyExpression property = desc.getProperty();
-		OWLDataRange filler = desc.getFiller();
-		toReturn.addAll(property.accept(this));
-		toReturn.addAll(filler.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDataValueRestriction desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDataPropertyExpression property = desc.getProperty();
-		OWLConstant value = desc.getValue();
-		toReturn.addAll(property.accept(this));
-		toReturn.addAll(value.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDataMinCardinalityRestriction desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDataRange filler = desc.getFiller();
-		OWLDataPropertyExpression property = desc.getProperty();
-		toReturn.addAll(filler.accept(this));
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDataExactCardinalityRestriction desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDataRange filler = desc.getFiller();
-		OWLDataPropertyExpression property = desc.getProperty();
-		toReturn.addAll(filler.accept(this));
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDataMaxCardinalityRestriction desc) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDataRange filler = desc.getFiller();
-		OWLDataPropertyExpression property = desc.getProperty();
-		toReturn.addAll(filler.accept(this));
-		toReturn.addAll(property.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDataType node) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(OWLDataComplementOf node) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDataRange dataRange = node.getDataRange();
-		toReturn.addAll(dataRange.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDataOneOf node) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		Set<OWLConstant> values = node.getValues();
-		for (OWLConstant constant : values) {
-			toReturn.addAll(constant.accept(this));
-		}
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDataRangeRestriction node) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLDataRange dataRange = node.getDataRange();
-		toReturn.addAll(dataRange.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLTypedConstant node) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		boolean isVariable = this.constraintSystem.isVariable(node);
-		if (isVariable) {
-			Variable variable = this.constraintSystem.getVariable(node
-					.getLiteral());
-			this.vetoVariableIntoCollection(toReturn, variable);
-		}
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLUntypedConstant node) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		boolean isVariable = this.constraintSystem.isVariable(node);
-		if (isVariable) {
-			Variable variable = this.constraintSystem.getVariable(node
-					.getLiteral());
-			this.vetoVariableIntoCollection(toReturn, variable);
-		}
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDataRangeFacetRestriction node) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(OWLObjectProperty property) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		boolean isVariable = this.constraintSystem.isVariable(property);
-		if (isVariable) {
-			Variable variable = this.constraintSystem.getVariable(property
-					.getURI());
-			this.vetoVariableIntoCollection(toReturn, variable);
-		}
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectPropertyInverse property) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		OWLObjectPropertyExpression inverse = property.getInverse();
-		toReturn.addAll(inverse.accept(this));
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLDataProperty property) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		boolean isVariable = this.constraintSystem.isVariable(property);
-		if (isVariable) {
-			Variable variable = this.constraintSystem.getVariable(property
-					.getURI());
-			this.vetoVariableIntoCollection(toReturn, variable);
-		}
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLIndividual individual) {
-		Set<Variable> toReturn = new HashSet<Variable>();
-		boolean isVariable = this.constraintSystem.isVariable(individual);
-		if (isVariable) {
-			Variable variable = this.constraintSystem.getVariable(individual
-					.getURI());
-			this.vetoVariableIntoCollection(toReturn, variable);
-		}
-		return toReturn;
-	}
-
-	public Set<Variable> visit(OWLObjectAnnotation annotation) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(OWLConstantAnnotation annotation) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(SWRLClassAtom node) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(SWRLDataRangeAtom node) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(SWRLObjectPropertyAtom node) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(SWRLDataValuedPropertyAtom node) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(SWRLBuiltInAtom node) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(SWRLAtomDVariable node) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(SWRLAtomIVariable node) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(SWRLAtomIndividualObject node) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(SWRLAtomConstantObject node) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(SWRLSameAsAtom node) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(SWRLDifferentFromAtom node) {
-		return new HashSet<Variable>();
-	}
-
-	public Set<Variable> visit(OWLOntology ontology) {
-		return new HashSet<Variable>();
 	}
 }

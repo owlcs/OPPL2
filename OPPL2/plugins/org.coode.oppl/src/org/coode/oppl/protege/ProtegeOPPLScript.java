@@ -28,12 +28,9 @@ import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.OPPLScriptVisitor;
 import org.coode.oppl.OPPLScriptVisitorEx;
-import org.coode.oppl.protege.ui.VariableOWLObjectRenderer;
-import org.coode.oppl.protege.ui.rendering.ShortFormVariableOWLEntityRenderer;
 import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.coode.oppl.variablemansyntax.Variable;
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owl.model.AddAxiom;
 import org.semanticweb.owl.model.OWLAxiomChange;
 
 /**
@@ -42,8 +39,6 @@ import org.semanticweb.owl.model.OWLAxiomChange;
  */
 public class ProtegeOPPLScript implements OPPLScript {
 	private final OPPLScript opplScript;
-	private final VariableOWLObjectRenderer variableOWLObjectRenderer;
-	private final ShortFormVariableOWLEntityRenderer entityRenderer;
 
 	/**
 	 * @param opplScript
@@ -51,10 +46,6 @@ public class ProtegeOPPLScript implements OPPLScript {
 	 */
 	public ProtegeOPPLScript(OPPLScript opplScript, OWLModelManager modelManager) {
 		this.opplScript = opplScript;
-		this.variableOWLObjectRenderer = new VariableOWLObjectRenderer(
-				modelManager);
-		this.entityRenderer = new ShortFormVariableOWLEntityRenderer(opplScript
-				.getConstraintSystem());
 	}
 
 	/**
@@ -108,35 +99,7 @@ public class ProtegeOPPLScript implements OPPLScript {
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		boolean first = true;
-		for (Variable v : getVariables()) {
-			String commaString = first ? "" : ", ";
-			first = false;
-			buffer.append(commaString);
-			buffer.append(v.toString());
-		}
-		buffer.append(' ');
-		OPPLQuery opplQuery = getQuery();
-		if (getQuery() != null) {
-			buffer.append(opplQuery.toString());
-		}
-		if (getActions().size() > 0) {
-			buffer.append(" BEGIN ");
-			first = true;
-			for (OWLAxiomChange action : getActions()) {
-				String commaString = first ? "" : ", ";
-				String actionString = action instanceof AddAxiom ? "ADD "
-						: "REMOVE ";
-				first = false;
-				buffer.append(commaString);
-				buffer.append(actionString);
-				buffer.append(this.variableOWLObjectRenderer.render(action
-						.getAxiom(), this.entityRenderer));
-			}
-			buffer.append(" END;");
-		}
-		return buffer.toString();
+		return this.opplScript.toString();
 	}
 
 	public String render() {

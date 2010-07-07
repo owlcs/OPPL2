@@ -45,14 +45,12 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 	 * @param manager
 	 * @param constraintSystem
 	 */
-	public OWLAxiomSearchTree(OWLOntologyManager manager,
-			ConstraintSystem constraintSystem) {
+	public OWLAxiomSearchTree(OWLOntologyManager manager, ConstraintSystem constraintSystem) {
 		if (manager == null) {
 			throw new NullPointerException("The manager cannot be null");
 		}
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The constraint system cannot be null");
+			throw new NullPointerException("The constraint system cannot be null");
 		}
 		this.manager = manager;
 		this.constraintSystem = constraintSystem;
@@ -62,9 +60,9 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 	protected List<OWLAxiom> getChildren(OWLAxiom node) {
 		Set<BindingNode> leaves = this.getConstraintSystem().getLeaves();
 		List<OWLAxiom> toReturn = new ArrayList<OWLAxiom>();
-		VariableExtractor variableExtractor = new VariableExtractor(this
-				.getConstraintSystem(), false);
-		Set<Variable> variables = node.accept(variableExtractor);
+		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
+				false);
+		Set<Variable> variables = variableExtractor.extractVariables(node);
 		for (Variable variable : variables) {
 			Collection<OWLObject> values = new HashSet<OWLObject>();
 			if (leaves == null) {
@@ -80,8 +78,8 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 			}
 			for (OWLObject value : values) {
 				Assignment assignment = new Assignment(variable, value);
-				BindingNode bindingNode = new BindingNode(Collections
-						.singleton(assignment), variables);
+				BindingNode bindingNode = new BindingNode(Collections.singleton(assignment),
+						variables);
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
 						bindingNode, this.getConstraintSystem());
 				toReturn.add((OWLAxiom) node.accept(instantiator));
@@ -93,8 +91,7 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 	@Override
 	protected boolean goalReached(OWLAxiom start) {
 		boolean found = false;
-		Iterator<OWLOntology> iterator = this.manager.getOntologies()
-				.iterator();
+		Iterator<OWLOntology> iterator = this.manager.getOntologies().iterator();
 		while (!found && iterator.hasNext()) {
 			OWLOntology ontology = iterator.next();
 			found = ontology.containsAxiom(start);
@@ -148,8 +145,7 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 	}
 
 	private final VariableTypeVisitorEx<Collection<? extends OWLObject>> assignableValuesVisitor = new VariableTypeVisitorEx<Collection<? extends OWLObject>>() {
-		public Collection<? extends OWLObject> visit(
-				SingleValueGeneratedVariable<?> v) {
+		public Collection<? extends OWLObject> visit(SingleValueGeneratedVariable<?> v) {
 			return v.getPossibleBindings();
 		}
 
@@ -174,8 +170,7 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 		}
 	};
 
-	private Collection<? extends OWLObject> getAssignableValues(
-			Variable variable) {
+	private Collection<? extends OWLObject> getAssignableValues(Variable variable) {
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
 		toReturn.addAll(variable.accept(this.assignableValuesVisitor));
 		// VariableType type = variable.getType();

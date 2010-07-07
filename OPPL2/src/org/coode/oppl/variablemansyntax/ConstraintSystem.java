@@ -177,7 +177,7 @@ public class ConstraintSystem {
 
 	public Set<Variable> getAxiomVariables(OWLAxiom axiom) {
 		VariableExtractor axiomVariableExtractor = new VariableExtractor(this, true);
-		Set<Variable> axiomVariables = axiom.accept(axiomVariableExtractor);
+		Set<Variable> axiomVariables = axiomVariableExtractor.extractVariables(axiom);
 		return new HashSet<Variable>(axiomVariables);
 	}
 

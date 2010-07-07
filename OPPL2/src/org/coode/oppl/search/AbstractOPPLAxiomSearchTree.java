@@ -135,7 +135,7 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 		List<OPPLOWLAxiomSearchNode> toReturn = new ArrayList<OPPLOWLAxiomSearchNode>();
 		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
 				false);
-		Set<Variable> variables = node.getAxiom().accept(variableExtractor);
+		Set<Variable> variables = variableExtractor.extractVariables(node.getAxiom());
 		BindingNode binding = node.getBinding();
 		for (Variable variable : variables) {
 			Collection<OWLObject> values = new HashSet<OWLObject>();
