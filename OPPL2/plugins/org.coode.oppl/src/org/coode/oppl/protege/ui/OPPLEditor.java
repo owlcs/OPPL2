@@ -33,8 +33,8 @@ import javax.swing.event.ChangeListener;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.utils.ArgCheck;
 import org.coode.oppl.validation.OPPLScriptValidator;
-import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
-import org.protege.editor.core.ui.util.VerifiedInputEditor;
+import org.coode.parsers.ui.InputVerificationStatusChangedListener;
+import org.coode.parsers.ui.VerifiedInputEditor;
 import org.protege.editor.owl.OWLEditorKit;
 
 /**

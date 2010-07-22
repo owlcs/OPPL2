@@ -25,9 +25,6 @@ package org.coode.oppl;
 import java.util.Collection;
 
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.coode.oppl.utils.ParserFactory;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
 import org.semanticweb.owl.model.OWLEntity;
 import org.semanticweb.owl.model.OWLObject;
 
@@ -38,8 +35,7 @@ import org.semanticweb.owl.model.OWLObject;
  * @author Luigi Iannone
  * 
  */
-public class InCollectionConstraint<P extends OWLObject> implements
-		AbstractConstraint {
+public class InCollectionConstraint<P extends OWLObject> implements AbstractConstraint {
 	private final Variable variable;
 	private final Collection<P> collection;
 	private final ConstraintSystem constraintSystem;
@@ -111,8 +107,7 @@ public class InCollectionConstraint<P extends OWLObject> implements
 			first = false;
 			buffer.append(comma);
 			if (p instanceof OWLEntity) {
-				buffer.append(simpleVariableShortFormProvider
-						.getShortForm((OWLEntity) p));
+				buffer.append(simpleVariableShortFormProvider.getShortForm((OWLEntity) p));
 			} else {
 				buffer.append(p.toString());
 			}
@@ -131,9 +126,8 @@ public class InCollectionConstraint<P extends OWLObject> implements
 			comma = !first ? ", " : "";
 			first = false;
 			buffer.append(comma);
-			ManchesterSyntaxRenderer renderer = ParserFactory.getInstance()
-					.getOPPLFactory().getManchesterSyntaxRenderer(
-							this.constraintSystem);
+			ManchesterSyntaxRenderer renderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+					this.getConstraintSystem());
 			p.accept(renderer);
 			buffer.append(renderer.toString());
 		}
@@ -143,5 +137,12 @@ public class InCollectionConstraint<P extends OWLObject> implements
 
 	public void accept(ConstraintVisitor visitor) {
 		visitor.visitInCollectionConstraint(this);
+	}
+
+	/**
+	 * @return the constraintSystem
+	 */
+	public ConstraintSystem getConstraintSystem() {
+		return this.constraintSystem;
 	}
 }

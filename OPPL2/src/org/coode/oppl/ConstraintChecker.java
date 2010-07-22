@@ -24,10 +24,7 @@ package org.coode.oppl;
 
 import java.util.Collection;
 
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.OWLObjectInstantiator;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
+import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owl.model.OWLObject;
 
 /**

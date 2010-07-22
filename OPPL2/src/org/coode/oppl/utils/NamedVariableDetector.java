@@ -22,8 +22,8 @@
  */
 package org.coode.oppl.utils;
 
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.Variable;
 import org.semanticweb.owl.model.OWLClass;
 import org.semanticweb.owl.model.OWLDataProperty;
 import org.semanticweb.owl.model.OWLIndividual;

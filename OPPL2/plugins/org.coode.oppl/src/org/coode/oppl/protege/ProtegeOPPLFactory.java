@@ -24,26 +24,27 @@ package org.coode.oppl.protege;
 
 import java.util.List;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLAbstractFactory;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLQueryImpl;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.OPPLScriptImpl;
+import org.coode.oppl.Variable;
+import org.coode.oppl.VariableScopeChecker;
 import org.coode.oppl.entity.OWLEntityFactory;
 import org.coode.oppl.entity.OWLEntityRenderer;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.rendering.VariableOWLEntityRenderer;
 import org.coode.oppl.utils.ArgCheck;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.coode.oppl.variablemansyntax.ProtegeScopeVariableChecker;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.VariableScopeChecker;
-import org.protege.editor.owl.model.OWLModelManager;
+import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owl.expression.OWLEntityChecker;
 import org.semanticweb.owl.model.OWLAxiomChange;
 import org.semanticweb.owl.model.OWLDataFactory;
 import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.OWLOntologyManager;
 
 /**
@@ -63,11 +64,12 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 		}
 
 		public String render(OWLEntity entity) {
-			return ProtegeOPPLFactory.this.modelManager.getRendering(entity);
+			return ProtegeOPPLFactory.this.getOWLEditorKit().getOWLModelManager().getRendering(
+					entity);
 		}
 	}
 
-	protected OWLModelManager modelManager;
+	private final OWLEditorKit owlEditorKit;
 	private ProtegeScopeVariableChecker variableScopeVariableChecker = null;
 	private final ProtegeOWLEntityFactory entityFactory;
 	private final ProtegeOWLEntityRenderer entityRenderer;
@@ -78,14 +80,15 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	 * @param constraintSystem
 	 * @param dataFactory
 	 */
-	public ProtegeOPPLFactory(OWLModelManager modelManager) {
-		if (modelManager == null) {
-			throw new NullPointerException("The model manager cannot be null");
+	public ProtegeOPPLFactory(OWLEditorKit owlEditorKit) {
+		if (owlEditorKit == null) {
+			throw new NullPointerException("The owlEditorKit cannot be null");
 		}
-		this.modelManager = modelManager;
+		this.owlEditorKit = owlEditorKit;
 		this.entityFactory = new ProtegeOWLEntityFactory(this);
 		this.entityRenderer = new ProtegeOWLEntityRenderer();
-		this.entityChecker = new RenderingOWLEntityChecker(this.modelManager);
+		this.entityChecker = new RenderingOWLEntityChecker(
+				this.getOWLEditorKit().getOWLModelManager());
 	}
 
 	/**
@@ -104,7 +107,8 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	 */
 	public VariableScopeChecker getVariableScopeChecker() throws OPPLException {
 		if (this.variableScopeVariableChecker == null) {
-			this.variableScopeVariableChecker = new ProtegeScopeVariableChecker(this.modelManager);
+			this.variableScopeVariableChecker = new ProtegeScopeVariableChecker(
+					this.getOWLEditorKit().getOWLModelManager());
 		}
 		return this.variableScopeVariableChecker;
 	}
@@ -127,18 +131,24 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	public OPPLScript buildOPPLScript(ConstraintSystem constraintSystem1, List<Variable> variables,
 			OPPLQuery opplQuery, List<OWLAxiomChange> actions) {
 		ProtegeOPPLScript toReturn = new ProtegeOPPLScript(new OPPLScriptImpl(constraintSystem1,
-				variables, opplQuery, actions, this), this.modelManager);
+				variables, opplQuery, actions, this), this.getOWLEditorKit().getOWLModelManager());
 		return toReturn;
 	}
 
 	public OPPLQuery buildNewQuery(ConstraintSystem constraintSystem1) {
 		OPPLQuery opplQuery = new OPPLQueryImpl(constraintSystem1, this);
-		return new ProtegeOPPLQuery(opplQuery, this.modelManager);
+		return new ProtegeOPPLQuery(opplQuery, this.getOWLEditorKit().getOWLModelManager());
 	}
 
 	public ConstraintSystem createConstraintSystem() {
-		return new ConstraintSystem(this.modelManager.getActiveOntology(),
-				this.modelManager.getOWLOntologyManager(), this.modelManager.getReasoner(), this);
+		return new ConstraintSystem(
+				this.getOWLEditorKit().getOWLModelManager().getActiveOntology(),
+				this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager(),
+				this.getOWLEditorKit().getOWLModelManager().getReasoner(), this);
+	}
+
+	public OWLOntology getOntology() {
+		return this.getOWLEditorKit().getOWLModelManager().getActiveOntology();
 	}
 
 	/**
@@ -154,7 +164,7 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	 * @see org.coode.oppl.OPPLAbstractFactory#getOWLDataFactory()
 	 */
 	public OWLDataFactory getOWLDataFactory() {
-		return this.modelManager.getOWLDataFactory();
+		return this.getOWLEditorKit().getOWLModelManager().getOWLDataFactory();
 	}
 
 	/**
@@ -162,11 +172,29 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	 */
 	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs) {
 		ArgCheck.checkNullArgument("The constraint system", cs);
-		return new ManchesterSyntaxRenderer(this.modelManager.getOWLOntologyManager(),
+		return new ManchesterSyntaxRenderer(
+				this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager(),
 				this.getOWLEntityRenderer(cs), cs);
 	}
 
 	public OWLOntologyManager getOntologyManager() {
-		return this.modelManager.getOWLOntologyManager();
+		return this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager();
+	}
+
+	public OPPLScript importOPPLScript(OPPLScript opplScript) {
+		ConstraintSystem newConstraintSystem = this.createConstraintSystem();
+		for (Variable variable : opplScript.getConstraintSystem().getVariables()) {
+			newConstraintSystem.importVariable(variable);
+		}
+		return new ProtegeOPPLScript(new OPPLScriptImpl(newConstraintSystem,
+				opplScript.getVariables(), opplScript.getQuery(), opplScript.getActions(), this,
+				true), this.getOWLEditorKit().getOWLModelManager());
+	}
+
+	/**
+	 * @return the owlEditorKit
+	 */
+	public OWLEditorKit getOWLEditorKit() {
+		return this.owlEditorKit;
 	}
 }

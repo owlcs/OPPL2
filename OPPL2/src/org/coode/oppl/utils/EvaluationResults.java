@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Locale;
 
 import org.coode.oppl.OPPLScript;
+import org.coode.oppl.bindingtree.Assignment;
+import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.coode.oppl.variablemansyntax.bindingtree.Assignment;
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
 import org.semanticweb.owl.model.AddAxiom;
 import org.semanticweb.owl.model.OWLAxiom;
 import org.semanticweb.owl.model.OWLAxiomChange;

@@ -3,8 +3,8 @@
  */
 package org.coode.oppl.search;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.utils.DefaultOWLAxiomVisitorEx;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.semanticweb.owl.inference.OWLReasonerException;
 import org.semanticweb.owl.model.OWLAxiom;
 import org.semanticweb.owl.model.OWLDescription;

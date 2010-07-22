@@ -4,8 +4,8 @@ import static org.semanticweb.owl.vocab.OWLXMLVocabulary.CLASS;
 
 import java.net.URI;
 
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.Variable;
 import org.coode.owlapi.owlxml.renderer.OWLXMLObjectRenderer;
 import org.coode.owlapi.owlxml.renderer.OWLXMLWriter;
 import org.semanticweb.owl.model.OWLClass;

@@ -22,6 +22,7 @@
  */
 package org.coode.oppl.variablemansyntax;
 
+import org.coode.oppl.VariableScopeChecker;
 import org.coode.oppl.exceptions.OPPLException;
 import org.protege.editor.owl.model.OWLModelManager;
 

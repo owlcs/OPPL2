@@ -20,27 +20,27 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import org.coode.oppl.AbstractConstraint;
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ConstraintVisitorEx;
 import org.coode.oppl.InCollectionConstraint;
 import org.coode.oppl.InCollectionRegExpConstraint;
 import org.coode.oppl.InequalityConstraint;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLScript;
+import org.coode.oppl.Variable;
+import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.protege.ProtegeParserFactory;
 import org.coode.oppl.protege.ui.message.Error;
 import org.coode.oppl.protege.ui.message.MessageListCellRenderer;
 import org.coode.oppl.protege.ui.rendering.VariableOWLCellRenderer;
 import org.coode.oppl.utils.NamedVariableDetector;
-import org.coode.oppl.utils.ParserFactory;
 import org.coode.oppl.validation.OPPLScriptValidator;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
+import org.coode.parsers.ui.InputVerificationStatusChangedListener;
+import org.coode.parsers.ui.VerifiedInputEditor;
 import org.protege.editor.core.ui.list.MList;
 import org.protege.editor.core.ui.list.MListSectionHeader;
 import org.protege.editor.core.ui.util.ComponentFactory;
-import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
-import org.protege.editor.core.ui.util.VerifiedInputEditor;
 import org.protege.editor.core.ui.util.VerifyingOptionPane;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.event.EventType;
@@ -339,7 +339,10 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor, OWLM
 			}
 		}
 
-		public OPPLBuilderModel() {
+		public OPPLBuilderModel(OWLEditorKit owlEditorKit) {
+			assert owlEditorKit != null;
+			this.constraintSystem = ProtegeParserFactory.getInstance(
+					OPPLBuilder.this.getOWLEditorKit()).getOPPLFactory().createConstraintSystem();
 		}
 
 		protected void removeConstraint(AbstractConstraint constraint) {
@@ -353,7 +356,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor, OWLM
 		private final List<OWLAxiom> assertedQueryAxioms = new ArrayList<OWLAxiom>();
 		private final List<OWLAxiom> plainQueryAxioms = new ArrayList<OWLAxiom>();
 		private final List<AbstractConstraint> constraints = new ArrayList<AbstractConstraint>();
-		private final ConstraintSystem constraintSystem = ParserFactory.getInstance().getOPPLFactory().createConstraintSystem();
+		private final ConstraintSystem constraintSystem;
 		private final List<Variable> variables = new ArrayList<Variable>();
 
 		protected void addAction(OWLAxiomChange action) {
@@ -377,7 +380,8 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor, OWLM
 					|| !this.plainQueryAxioms.isEmpty() || !this.constraints.isEmpty();
 			boolean enoughActions = !this.actions.isEmpty();
 			boolean areThereMinimalElements = enoughVariables && (enoughQueries || enoughActions);
-			OPPLScript builtOPPLScript = ParserFactory.getInstance().getOPPLFactory().buildOPPLScript(
+			OPPLScript builtOPPLScript = ProtegeParserFactory.getInstance(
+					OPPLBuilder.this.getOWLEditorKit()).getOPPLFactory().buildOPPLScript(
 					this.constraintSystem,
 					this.getVariables(),
 					this.getOPPLQuery(),
@@ -390,7 +394,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor, OWLM
 		}
 
 		protected OPPLQuery getOPPLQuery() {
-			OPPLQuery query = ParserFactory.getInstance().getOPPLFactory().buildNewQuery(
+			OPPLQuery query = ProtegeParserFactory.getInstance(OPPLBuilder.this.getOWLEditorKit()).getOPPLFactory().buildNewQuery(
 					this.getConstraintSystem());
 			for (OWLAxiom axiom : this.getAssertedQueryAxioms()) {
 				query.addAssertedAxiom(axiom);
@@ -719,7 +723,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor, OWLM
 		 */
 		protected OPPLVariableListItem(Variable variable, OWLEditorKit owlEditorKit,
 				boolean isEditable, boolean isDeleatable, OPPLBuilderModel m) {
-			super(variable, owlEditorKit, isEditable, isDeleatable);
+			super(variable, m.constraintSystem, owlEditorKit, isEditable, isDeleatable);
 			this.model = m;
 		}
 
@@ -738,8 +742,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor, OWLM
 		public void handleEdit() {
 			ConstraintSystem cs = this.model.getConstraintSystem();
 			final AbstractVariableEditor variableEditor = this.getVariable() instanceof SingleValueGeneratedVariable<?> ? new GeneratedVariableEditor(
-					this.getOwlEditorKit(), cs)
-					: new VariableEditor(this.getOwlEditorKit(), cs);
+					this.getOwlEditorKit(), cs) : new VariableEditor(this.getOwlEditorKit(), cs);
 			variableEditor.setVariable(this.getVariable());
 			final VerifyingOptionPane optionPane = new NoDefaultFocusVerifyingOptionPane(
 					variableEditor);
@@ -871,7 +874,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor, OWLM
 	private DefaultListModel errorListModel = new DefaultListModel();
 	private final JList errorList = new JList(this.errorListModel);
 	private final JPanel errorPanel = new JPanel(new BorderLayout());
-	private final OPPLBuilderModel opplBuilderModel = new OPPLBuilderModel();
+	private final OPPLBuilderModel opplBuilderModel;
 
 	protected OPPLBuilder(OWLEditorKit owlEditorKit) {
 		this(owlEditorKit, null);
@@ -881,12 +884,13 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor, OWLM
 		if (owlEditorKit == null) {
 			throw new NullPointerException("The editorKit cannot be null");
 		}
+		this.owlEditorKit = owlEditorKit;
+		this.validator = validator;
+		this.opplBuilderModel = new OPPLBuilderModel(this.getOWLEditorKit());
 		this.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		this.setPreferredSize(new Dimension(800, 600));
 		JSplitPane builderPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		builderPane.setDividerLocation(.5);
-		this.owlEditorKit = owlEditorKit;
-		this.validator = validator;
 		// Setup the variable list on the left
 		// JPanel variablePanel = new JPanel(new BorderLayout());
 		this.variableList = new OPPLVariableList(this.owlEditorKit, this.opplBuilderModel);
@@ -962,7 +966,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor, OWLM
 		this.errorListModel.clear();
 		boolean isValid = this.opplBuilderModel.check();
 		if (isValid) {
-			this.opplScript = ParserFactory.getInstance().getOPPLFactory().buildOPPLScript(
+			this.opplScript = ProtegeParserFactory.getInstance(this.getOWLEditorKit()).getOPPLFactory().buildOPPLScript(
 					this.opplBuilderModel.getConstraintSystem(),
 					this.opplBuilderModel.getVariables(),
 					this.opplBuilderModel.getOPPLQuery(),

@@ -43,15 +43,14 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JToolBar;
 
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.Variable;
+import org.coode.oppl.VariableScope;
+import org.coode.oppl.VariableType;
 import org.coode.oppl.exceptions.InvalidVariableNameException;
 import org.coode.oppl.exceptions.OPPLException;
-import org.coode.oppl.utils.ParserFactory;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.VariableScope;
-import org.coode.oppl.variablemansyntax.VariableType;
-import org.coode.oppl.variablemansyntax.generated.RegExpGenerated;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.generated.RegExpGenerated;
+import org.coode.oppl.generated.SingleValueGeneratedVariable;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.VerifyingOptionPane;
@@ -141,6 +140,12 @@ public class VariableEditor extends AbstractVariableEditor {
 	private JButton deleteScopeButton = new JButton("Clear");
 
 	public VariableEditor(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
+		if (owlEditorKit == null) {
+			throw new NullPointerException("The owl editor kit cannot be null");
+		}
+		if (constraintSystem == null) {
+			throw new NullPointerException("The constraint system cannot be null");
+		}
 		this.setLayout(new BorderLayout());
 		this.owlEditorKit = owlEditorKit;
 		this.constraintSystem = constraintSystem;
@@ -296,13 +301,13 @@ public class VariableEditor extends AbstractVariableEditor {
 	 */
 	private void updateVariable(String variableName, VariableType type) throws OPPLException {
 		if (this.variable != null) {
-			this.constraintSystem.removeVariable(this.variable);
+			this.getConstraintSystem().removeVariable(this.variable);
 		}
-		this.variable = this.constraintSystem.createVariable(variableName, type);
+		this.variable = this.getConstraintSystem().createVariable(variableName, type);
 		if (this.lastVariableScope != null) {
 			this.variable.setVariableScope(
 					this.lastVariableScope,
-					ParserFactory.getInstance().getOPPLFactory().getVariableScopeChecker());
+					this.getConstraintSystem().getOPPLFactory().getVariableScopeChecker());
 		}
 	}
 
@@ -329,5 +334,12 @@ public class VariableEditor extends AbstractVariableEditor {
 	public void setVariable(RegExpGenerated variable) {
 		throw new RuntimeException(
 				"RegExpGeneratedVariables not allowed on a regular VariableEditor!");
+	}
+
+	/**
+	 * @return the constraintSystem
+	 */
+	public ConstraintSystem getConstraintSystem() {
+		return this.constraintSystem;
 	}
 }

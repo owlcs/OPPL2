@@ -22,7 +22,6 @@
  */
 package org.coode.oppl;
 
-import org.coode.oppl.variablemansyntax.Variable;
 import org.semanticweb.owl.model.OWLObject;
 
 /**

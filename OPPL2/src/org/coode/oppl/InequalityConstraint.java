@@ -23,9 +23,6 @@
 package org.coode.oppl;
 
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.coode.oppl.utils.ParserFactory;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
 import org.semanticweb.owl.model.OWLObject;
 
 /**
@@ -71,7 +68,7 @@ public class InequalityConstraint implements AbstractConstraint {
 
 	@Override
 	public String toString() {
-		return render();
+		return this.render();
 	}
 
 	/**
@@ -82,9 +79,8 @@ public class InequalityConstraint implements AbstractConstraint {
 	}
 
 	public String render() {
-		ManchesterSyntaxRenderer renderer = ParserFactory.getInstance()
-				.getOPPLFactory().getManchesterSyntaxRenderer(
-						this.constraintSystem);
+		ManchesterSyntaxRenderer renderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+				this.getConstraintSystem());
 		this.expression.accept(renderer);
 		return this.variable.getName() + " != " + renderer.toString();
 	}
@@ -98,10 +94,8 @@ public class InequalityConstraint implements AbstractConstraint {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ (this.expression == null ? 0 : this.expression.hashCode());
-		result = prime * result
-				+ (this.variable == null ? 0 : this.variable.hashCode());
+		result = prime * result + (this.expression == null ? 0 : this.expression.hashCode());
+		result = prime * result + (this.variable == null ? 0 : this.variable.hashCode());
 		return result;
 	}
 

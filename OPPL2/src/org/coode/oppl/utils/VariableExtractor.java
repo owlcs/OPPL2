@@ -29,18 +29,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.PlainVariableVisitor;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.generated.ConcatGeneratedValues;
-import org.coode.oppl.variablemansyntax.generated.RegExpGeneratedValue;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValueVisitorAdapter;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
-import org.coode.oppl.variablemansyntax.generated.VariableExpressionGeneratedValue;
-import org.coode.oppl.variablemansyntax.generated.VariableIndexGeneratedValue;
-import org.coode.oppl.variablemansyntax.generated.factory.OWLObjectCollectionGeneratedValue;
-import org.coode.oppl.variablemansyntax.generated.factory.RenderingVariableGeneratedValue;
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.PlainVariableVisitor;
+import org.coode.oppl.Variable;
+import org.coode.oppl.generated.ConcatGeneratedValues;
+import org.coode.oppl.generated.RegExpGenerated;
+import org.coode.oppl.generated.RegExpGeneratedValue;
+import org.coode.oppl.generated.SingleValueGeneratedValue;
+import org.coode.oppl.generated.SingleValueGeneratedValueVisitorAdapter;
+import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.generated.VariableExpressionGeneratedValue;
+import org.coode.oppl.generated.VariableIndexGeneratedValue;
+import org.coode.oppl.generated.factory.OWLObjectCollectionGeneratedValue;
+import org.coode.oppl.generated.factory.RenderingVariableGeneratedValue;
 import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
 import org.semanticweb.owl.model.OWLClass;
@@ -143,7 +144,7 @@ public class VariableExtractor {
 
 		@Override
 		public void vistVariableIndexGeneratedValue(
-				VariableIndexGeneratedValue variableIndexGeneratedValue) {
+				VariableIndexGeneratedValue<?> variableIndexGeneratedValue) {
 			variableIndexGeneratedValue.getVariable().accept(new PlainVariableVisitor() {
 				public void visit(SingleValueGeneratedVariable<?> v) {
 					if (VariableExtractor.this.isIncludeGenerated()) {
@@ -158,6 +159,10 @@ public class VariableExtractor {
 
 				public void visit(Variable v) {
 					ValueVariableExtractor.this.collection.add(v);
+				}
+
+				public void visit(RegExpGenerated<?> regExpGenerated) {
+					ValueVariableExtractor.this.collection.add(regExpGenerated);
 				}
 			});
 		}
@@ -180,6 +185,10 @@ public class VariableExtractor {
 				public void visit(Variable v) {
 					ValueVariableExtractor.this.collection.add(v);
 				}
+
+				public void visit(RegExpGenerated<?> regExpGenerated) {
+					ValueVariableExtractor.this.collection.add(regExpGenerated);
+				}
 			});
 		}
 
@@ -190,7 +199,7 @@ public class VariableExtractor {
 		}
 
 		@Override
-		public void visitRegExpGeneratedValue(RegExpGeneratedValue regExpGeneratedValue) {
+		public void visitRegExpGeneratedValue(RegExpGeneratedValue<?> regExpGeneratedValue) {
 			regExpGeneratedValue.getExpression().accept(this);
 		}
 
@@ -543,6 +552,10 @@ public class VariableExtractor {
 
 				public void visit(Variable v) {
 					collection.add(v);
+				}
+
+				public void visit(RegExpGenerated<?> regExpGenerated) {
+					collection.add(regExpGenerated);
 				}
 			};
 			variable.accept(variableVetoer);

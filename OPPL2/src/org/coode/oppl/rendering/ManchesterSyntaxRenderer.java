@@ -26,10 +26,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.Variable;
 import org.coode.oppl.entity.OWLEntityRenderer;
 import org.coode.oppl.utils.ArgCheck;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
 import org.protege.editor.owl.ui.renderer.OWLRendererPreferences;
 import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;

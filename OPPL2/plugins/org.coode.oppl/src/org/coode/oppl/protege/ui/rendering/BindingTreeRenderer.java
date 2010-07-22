@@ -28,9 +28,9 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.utils.ArgCheck;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.semanticweb.owl.model.OWLObject;

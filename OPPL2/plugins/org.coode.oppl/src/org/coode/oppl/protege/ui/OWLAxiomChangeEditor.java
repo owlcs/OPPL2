@@ -35,10 +35,10 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
+import org.coode.oppl.ConstraintSystem;
+import org.coode.parsers.ui.InputVerificationStatusChangedListener;
+import org.coode.parsers.ui.VerifiedInputEditor;
 import org.protege.editor.core.ui.util.ComponentFactory;
-import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
-import org.protege.editor.core.ui.util.VerifiedInputEditor;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owl.model.AddAxiom;
 import org.semanticweb.owl.model.OWLAxiom;
@@ -63,17 +63,14 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
 	private final Map<String, JRadioButton> actionStringRadioButtonMap = new HashMap<String, JRadioButton>();
 	private OWLAxiomChange owlAxiomChange;
 
-	public OWLAxiomChangeEditor(OWLEditorKit owlEditorKit,
-			ConstraintSystem constraintSystem) {
+	public OWLAxiomChangeEditor(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
 		this.owlEditorKit = owlEditorKit;
 		this.axiomEditor = new AxiomEditor(this.owlEditorKit, constraintSystem);
-		this.axiomEditor
-				.addStatusChangedListener(new InputVerificationStatusChangedListener() {
-					@SuppressWarnings("unused")
-					public void verifiedStatusChanged(boolean newState) {
-						OWLAxiomChangeEditor.this.handleChange();
-					}
-				});
+		this.axiomEditor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+			public void verifiedStatusChanged(boolean newState) {
+				OWLAxiomChangeEditor.this.handleChange();
+			}
+		});
 		this.setLayout(new BorderLayout());
 		JPanel actionPanel = new JPanel(new GridLayout(0, 2));
 		JRadioButton addRadioButton = new JRadioButton("ADD");
@@ -87,8 +84,7 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
 		this.actionStringRadioButtonMap.put("REMOVE", removeRadioButton);
 		this.actionButtonGroup.add(removeRadioButton);
 		actionPanel.add(removeRadioButton);
-		actionPanel.setBorder(ComponentFactory
-				.createTitledBorder("Action Type:"));
+		actionPanel.setBorder(ComponentFactory.createTitledBorder("Action Type:"));
 		this.setLayout(new BorderLayout());
 		this.add(actionPanel, BorderLayout.NORTH);
 		this.add(this.axiomEditor, BorderLayout.CENTER);
@@ -97,15 +93,13 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
 	/**
 	 * @see org.protege.editor.core.ui.util.VerifiedInputEditor#addStatusChangedListener(org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
 	 */
-	public void addStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+	public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
 		listener.verifiedStatusChanged(this.check());
 		this.listeners.add(listener);
 	}
 
 	private boolean check() {
-		return this.findSelectedButton() != null
-				&& this.axiomEditor.getAxiom() != null;
+		return this.findSelectedButton() != null && this.axiomEditor.getAxiom() != null;
 	}
 
 	public void handleChange() {
@@ -114,11 +108,9 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
 			OWLAxiom axiom = this.axiomEditor.getAxiom();
 			JRadioButton selectedButton = this.findSelectedButton();
 			String action = this.radioButtonActionMap.get(selectedButton);
-			OWLOntology activeOntology = this.owlEditorKit.getOWLModelManager()
-					.getActiveOntology();
-			this.owlAxiomChange = action.equals("ADD") ? new AddAxiom(
-					activeOntology, axiom) : new RemoveAxiom(activeOntology,
-					axiom);
+			OWLOntology activeOntology = this.owlEditorKit.getOWLModelManager().getActiveOntology();
+			this.owlAxiomChange = action.equals("ADD") ? new AddAxiom(activeOntology, axiom)
+					: new RemoveAxiom(activeOntology, axiom);
 		}
 		this.notifyLIstenrs(isValid);
 	}
@@ -126,8 +118,7 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
 	/**
 	 * @see org.protege.editor.core.ui.util.VerifiedInputEditor#removeStatusChangedListener(org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
 	 */
-	public void removeStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+	public void removeStatusChangedListener(InputVerificationStatusChangedListener listener) {
 		this.listeners.remove(listener);
 	}
 
@@ -139,8 +130,7 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
 
 	private JRadioButton findSelectedButton() {
 		JRadioButton button = null;
-		Enumeration<AbstractButton> actions = this.actionButtonGroup
-				.getElements();
+		Enumeration<AbstractButton> actions = this.actionButtonGroup.getElements();
 		boolean found = false;
 		while (!found && actions.hasMoreElements()) {
 			button = (JRadioButton) actions.nextElement();
@@ -165,8 +155,7 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
 	 */
 	public void setOWLAxiomChange(OWLAxiomChange owlAxiomChange) {
 		this.clear();
-		JRadioButton radioButton = owlAxiomChange instanceof AddAxiom ? this.actionStringRadioButtonMap
-				.get("ADD")
+		JRadioButton radioButton = owlAxiomChange instanceof AddAxiom ? this.actionStringRadioButtonMap.get("ADD")
 				: this.actionStringRadioButtonMap.get("REMOVE");
 		radioButton.setSelected(true);
 		this.axiomEditor.setOWLAxiom(owlAxiomChange.getAxiom());
@@ -174,8 +163,7 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
 
 	public void clear() {
 		JRadioButton button = null;
-		Enumeration<AbstractButton> actions = this.actionButtonGroup
-				.getElements();
+		Enumeration<AbstractButton> actions = this.actionButtonGroup.getElements();
 		while (actions.hasMoreElements()) {
 			button = (JRadioButton) actions.nextElement();
 			button.setSelected(false);

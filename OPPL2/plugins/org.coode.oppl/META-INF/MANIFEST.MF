@@ -34,10 +34,10 @@ Import-Package: org.osgi.framework,
  org.xml.sax.ext,
  org.xml.sax.helpers,
  javax.xml.parsers
-Export-Package: org.coode.oppl, org.coode.oppl.search, org.coode.oppl.protege.model, org.coode.oppl.variablemansyntax, org.coode.oppl.variablemansyntax, org.coode.oppl.variablemansyntax.variabletypes,org.coode.oppl.variablemansyntax.generated.factory,org.coode.oppl.visitors, org.coode.oppl.exceptions, org.coode.oppl.variablemansyntax.bindingtree, org.coode.oppl.protege,org.coode.oppl.protege.ui, org.coode.oppl.protege.ui.message, org.coode.oppl.variablemansyntax.generated, org.coode.oppl.validation, org.coode.oppl.syntax, org.coode.oppl.utils
+Export-Package: org.coode.oppl, org.coode.oppl.entity, org.coode.oppl.search,  org.coode.oppl.protege.model,  org.coode.parsers,  org.coode.parsers.oppl,  org.coode.parsers.ui,  org.coode.parsers.factory,  org.coode.oppl.visitors,  org.coode.oppl.exceptions,  org.coode.oppl.bindingtree,  org.coode.oppl.protege,  org.coode.oppl.protege.ui,  org.coode.oppl.protege.ui.message,  org.coode.oppl.generated,  org.coode.oppl.generated.factory,  org.coode.oppl.validation,  org.coode.oppl.syntax,  org.coode.oppl.utils, org.antlr.grammar.v2, org.antlr.grammar.v3, org.antlr.gunit, org.antlr.gunit.swingui, org.antlr.gunit.swingui.model, org.antlr.gunit.swingui.parsers, org.antlr.gunit.swingui.runner, org.antlr.misc, org.antlr.runtime, org.antlr.runtime.debug, org.antlr.runtime.misc, org.antlr.runtime.tree, org.antlr.stringtemplate, org.antlr.stringtemplate.language, org.antlr.stringtemplate.misc, org.antlr.tool
 Bundle-Version: 1.2.0
 Bundle-Activator: org.protege.editor.core.plugin.DefaultPluginActivator 
-Bundle-ClassPath: .,lib/swing-worker-1.2.jar
+Bundle-ClassPath: .,lib/swing-worker-1.2.jar,lib/parsers.jar,lib/antlr-3.2.jar
 Require-Bundle: org.eclipse.equinox.registry,
  org.eclipse.equinox.common,
  org.protege.editor.core.application,

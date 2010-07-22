@@ -16,14 +16,11 @@ public class Logging {
 	static {
 		try {
 			LogManager.getLogManager().readConfiguration(
-					Logging.class
-							.getResourceAsStream("oppl-logging.properties"));
+					Logging.class.getResourceAsStream("oppl-logging.properties"));
 		} catch (SecurityException e) {
-			getMainLogger().log(Level.WARNING,
-					"No local log coonfiguration file found");
+			getMainLogger().log(Level.WARNING, "No local log coonfiguration file found");
 		} catch (IOException e) {
-			getMainLogger().log(Level.WARNING,
-					"No local log coonfiguration file found");
+			getMainLogger().log(Level.WARNING, "No local log coonfiguration file found");
 		}
 	}
 
@@ -41,5 +38,9 @@ public class Logging {
 
 	public static final Logger getQueryTestLogging() {
 		return Logger.getLogger("org.coode.oppl.query.test");
+	}
+
+	public static final Logger getParseTestLogging() {
+		return Logger.getLogger("org.coode.oppl.test");
 	}
 }

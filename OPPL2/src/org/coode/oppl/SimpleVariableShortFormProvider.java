@@ -22,8 +22,6 @@
  */
 package org.coode.oppl;
 
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
 import org.semanticweb.owl.model.OWLEntity;
 import org.semanticweb.owl.util.ShortFormProvider;
 import org.semanticweb.owl.util.SimpleURIShortFormProvider;

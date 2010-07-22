@@ -25,9 +25,9 @@ package org.coode.oppl.protege;
 import java.util.List;
 
 import org.coode.oppl.AbstractConstraint;
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.exceptions.OPPLException;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owl.model.OWLAxiom;
 
@@ -89,7 +89,7 @@ public class ProtegeOPPLQuery implements OPPLQuery {
 	}
 
 	/**
-	 * @see org.coode.oppl.OPPLQuery#toString(org.coode.oppl.variablemansyntax.ConstraintSystem)
+	 * @see org.coode.oppl.OPPLQuery#toString(org.coode.oppl.ConstraintSystem)
 	 */
 	@Override
 	public String toString() {

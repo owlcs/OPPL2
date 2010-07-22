@@ -30,9 +30,6 @@ import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.rendering.VariableOWLEntityRenderer;
 import org.coode.oppl.utils.ArgCheck;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.VariableScopeChecker;
 import org.semanticweb.owl.expression.OWLEntityChecker;
 import org.semanticweb.owl.expression.ShortFormEntityChecker;
 import org.semanticweb.owl.inference.OWLReasoner;
@@ -49,7 +46,6 @@ import org.semanticweb.owl.util.SimpleShortFormProvider;
  */
 public class OPPLFactory implements OPPLAbstractFactory {
 	private final OWLOntologyManager ontologyManager;
-	private ConstraintSystem constraintSystem;
 	private VariableScopeChecker variableScopeChecker = null;
 	private final OWLReasoner reasoner;
 	private final OWLOntology ontology;
@@ -120,19 +116,10 @@ public class OPPLFactory implements OPPLAbstractFactory {
 		return new OPPLQueryImpl(constraintSystem1, this);
 	}
 
-	/**
-	 * @return the constraintSystem
-	 */
-	public final ConstraintSystem getConstraintSystem() {
-		return this.constraintSystem == null ? this.createConstraintSystem()
-				: this.constraintSystem;
-	}
-
 	public ConstraintSystem createConstraintSystem() {
-		this.constraintSystem = this.reasoner == null ? new ConstraintSystem(this.ontology,
-				this.ontologyManager, this) : new ConstraintSystem(this.ontology,
-				this.ontologyManager, this.reasoner, this);
-		return this.constraintSystem;
+		return this.reasoner == null ? new ConstraintSystem(this.ontology, this.ontologyManager,
+				this) : new ConstraintSystem(this.ontology, this.ontologyManager, this.reasoner,
+				this);
 	}
 
 	/**
@@ -151,5 +138,21 @@ public class OPPLFactory implements OPPLAbstractFactory {
 
 	public OWLOntologyManager getOntologyManager() {
 		return this.ontologyManager;
+	}
+
+	public OPPLScript importOPPLScript(OPPLScript opplScript) {
+		ConstraintSystem newConstraintSystem = this.createConstraintSystem();
+		for (Variable variable : opplScript.getConstraintSystem().getVariables()) {
+			newConstraintSystem.importVariable(variable);
+		}
+		return new OPPLScriptImpl(newConstraintSystem, opplScript.getVariables(),
+				opplScript.getQuery(), opplScript.getActions(), this, true);
+	}
+
+	/**
+	 * @return the ontology
+	 */
+	public OWLOntology getOntology() {
+		return this.ontology;
 	}
 }

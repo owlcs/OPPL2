@@ -15,8 +15,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
+import org.coode.oppl.Variable;
+import org.coode.oppl.bindingtree.BindingNode;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owl.model.OWLObject;
 
@@ -208,7 +208,7 @@ public class InstantiationTableModel implements TableModel {
 		return this.opplScript;
 	}
 
-	public static TableModel getNoOPPLScrptTableModel() {
+	public static TableModel getNoOPPLScriptTableModel() {
 		return InstantiationTableModel.NO_OPPL_SCRIPT_TABLE_MODEL;
 	}
 

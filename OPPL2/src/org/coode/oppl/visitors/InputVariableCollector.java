@@ -3,9 +3,10 @@ package org.coode.oppl.visitors;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.coode.oppl.variablemansyntax.PlainVariableVisitor;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.PlainVariableVisitor;
+import org.coode.oppl.Variable;
+import org.coode.oppl.generated.RegExpGenerated;
+import org.coode.oppl.generated.SingleValueGeneratedVariable;
 
 public class InputVariableCollector implements PlainVariableVisitor {
 	private final List<Variable> toReturn;
@@ -18,9 +19,11 @@ public class InputVariableCollector implements PlainVariableVisitor {
 		this(new ArrayList<Variable>());
 	}
 
-	@SuppressWarnings("unused")
 	public void visit(SingleValueGeneratedVariable<?> v) {
 		// empty, does not return generated variables
+	}
+
+	public void visit(RegExpGenerated<?> regExpGenerated) {
 	}
 
 	public void visit(Variable v) {

@@ -29,23 +29,20 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
+import org.coode.oppl.OPPLParser;
+import org.coode.oppl.OPPLParser.AbstractParserFactory;
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.syntax.OPPLParser;
-import org.coode.oppl.syntax.ParseException;
+import org.coode.oppl.protege.ProtegeParserFactory;
 import org.coode.oppl.utils.ArgCheck;
-import org.coode.oppl.utils.ProtegeParserFactory;
 import org.coode.oppl.validation.OPPLScriptValidator;
+import org.coode.parsers.ui.ExpressionEditor;
+import org.coode.parsers.ui.InputVerificationStatusChangedListener;
+import org.coode.parsers.ui.VerifiedInputEditor;
 import org.protege.editor.core.ui.util.ComponentFactory;
-import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
-import org.protege.editor.core.ui.util.VerifiedInputEditor;
 import org.protege.editor.owl.OWLEditorKit;
-import org.protege.editor.owl.model.description.OWLExpressionParserException;
 import org.protege.editor.owl.model.event.EventType;
 import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
-import org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor;
-import org.protege.editor.owl.ui.clsdescriptioneditor.OWLExpressionChecker;
-import org.semanticweb.owl.model.OWLException;
 
 /**
  * Text based editor for OPPL scripts
@@ -53,14 +50,15 @@ import org.semanticweb.owl.model.OWLException;
  * @author Luigi Iannone
  * 
  */
-public final class OPPLTextEditor extends JPanel implements
-		VerifiedInputEditor, OWLModelManagerListener {
+public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
+		OWLModelManagerListener {
 	private static final long serialVersionUID = -5171397595615341059L;
 	private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
 	private final OWLEditorKit owlEditorKit;
 	private OPPLScript opplScript = null;
-	private final ExpressionEditor<OPPLScript> editor;
+	private final org.coode.parsers.ui.ExpressionEditor<OPPLScript> editor;
 	protected final OPPLScriptValidator validator;
+	private final OPPLExpressionChecker<OPPLScript> opplExpressionChecker;
 
 	/**
 	 * @return the opplScript
@@ -108,42 +106,26 @@ public final class OPPLTextEditor extends JPanel implements
 	 * @throws NullPointerException
 	 *             when the input is {@code null}.
 	 */
-	protected OPPLTextEditor(OWLEditorKit owlEditorKit,
-			OPPLScriptValidator validator) {
+	protected OPPLTextEditor(OWLEditorKit owlEditorKit, OPPLScriptValidator validator) {
 		this.owlEditorKit = owlEditorKit;
 		this.validator = validator;
-		this.editor = new ExpressionEditor<OPPLScript>(this.owlEditorKit,
-				new OWLExpressionChecker<OPPLScript>() {
-					private OPPLScript lastCreatedObject = null;
-
-					public void check(String text)
-							throws OWLExpressionParserException {
-						this.lastCreatedObject = null;
-						OPPLParser parser = ProtegeParserFactory.initParser(
-								text, OPPLTextEditor.this.getOWLEditorKit()
-										.getModelManager(),
-								OPPLTextEditor.this.validator);
-						try {
-							this.lastCreatedObject = parser.Start();
-						} catch (ParseException e) {
-							this.lastCreatedObject = null;
-							throw new OWLExpressionParserException(e);
-						}
-					}
-
-					public OPPLScript createObject(String text)
-							throws OWLExpressionParserException {
-						this.check(text);
-						return this.lastCreatedObject;
-					}
-				});
-		this.editor
-				.addStatusChangedListener(new InputVerificationStatusChangedListener() {
-					@SuppressWarnings("unused")
-					public void verifiedStatusChanged(boolean newState) {
-						OPPLTextEditor.this.handleChange();
-					}
-				});
+		this.opplExpressionChecker = new OPPLExpressionChecker<OPPLScript>(this.getOWLEditorKit()) {
+			@Override
+			protected OPPLScript parse(String text) {
+				AbstractParserFactory factory = ProtegeParserFactory.getInstance(this.getOWLEditorKit());
+				OPPLParser parser = factory.build(this.getListener());
+				OPPLScript toReturn = parser.parse(text);
+				return toReturn;
+			}
+		};
+		this.editor = new ExpressionEditor<OPPLScript>(
+				this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager(),
+				this.opplExpressionChecker);
+		this.editor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+			public void verifiedStatusChanged(boolean newState) {
+				OPPLTextEditor.this.handleChange();
+			}
+		});
 		this.removeKeyListeners();
 		this.getOWLEditorKit().getModelManager().addListener(this);
 		this.initGUI();
@@ -160,16 +142,8 @@ public final class OPPLTextEditor extends JPanel implements
 	}
 
 	private boolean check() {
-		try {
-			this.opplScript = this.editor.createObject();
-			return true;
-		} catch (OWLExpressionParserException e) {
-			this.opplScript = null;
-			return false;
-		} catch (OWLException e) {
-			this.opplScript = null;
-			return false;
-		}
+		this.opplScript = this.editor.createObject();
+		return this.opplScript != null;
 	}
 
 	private void notifyListeners(boolean b) {
@@ -182,8 +156,7 @@ public final class OPPLTextEditor extends JPanel implements
 	 * @see org.protege.editor.core.ui.util.VerifiedInputEditor#addStatusChangedListener
 	 *      (org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
 	 */
-	public void addStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+	public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
 		ArgCheck.checkNullArgument("The listener", listener);
 		this.listeners.add(listener);
 	}
@@ -193,8 +166,7 @@ public final class OPPLTextEditor extends JPanel implements
 	 *      removeStatusChangedListener (org.protege. editor .core.ui.util.
 	 *      InputVerificationStatusChangedListener )
 	 */
-	public void removeStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+	public void removeStatusChangedListener(InputVerificationStatusChangedListener listener) {
 		this.listeners.remove(listener);
 	}
 

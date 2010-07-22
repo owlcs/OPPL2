@@ -25,15 +25,15 @@ package org.coode.oppl.utils;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.VariableTypeVisitorEx;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
-import org.coode.oppl.variablemansyntax.variabletypes.CLASSVariable;
-import org.coode.oppl.variablemansyntax.variabletypes.CONSTANTVariable;
-import org.coode.oppl.variablemansyntax.variabletypes.DATAPROPERTYVariable;
-import org.coode.oppl.variablemansyntax.variabletypes.INDIVIDUALVariable;
-import org.coode.oppl.variablemansyntax.variabletypes.OBJECTPROPERTYVariable;
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.Variable;
+import org.coode.oppl.VariableTypeVisitorEx;
+import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.variabletypes.CLASSVariable;
+import org.coode.oppl.variabletypes.CONSTANTVariable;
+import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
+import org.coode.oppl.variabletypes.INDIVIDUALVariable;
+import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
 
 /**
  * Contains some utility method for matching variable names

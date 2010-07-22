@@ -3,15 +3,15 @@ package org.coode.oppl.visitors;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.coode.oppl.variablemansyntax.PlainVariableVisitor;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.PlainVariableVisitor;
+import org.coode.oppl.Variable;
+import org.coode.oppl.generated.RegExpGenerated;
+import org.coode.oppl.generated.SingleValueGeneratedVariable;
 
 public class GeneratedVariableCollector implements PlainVariableVisitor {
 	private final List<SingleValueGeneratedVariable<?>> toReturn;
 
-	public GeneratedVariableCollector(
-			List<SingleValueGeneratedVariable<?>> toReturn) {
+	public GeneratedVariableCollector(List<SingleValueGeneratedVariable<?>> toReturn) {
 		this.toReturn = toReturn;
 	}
 
@@ -23,12 +23,14 @@ public class GeneratedVariableCollector implements PlainVariableVisitor {
 		this.toReturn.add(v);
 	}
 
-	@SuppressWarnings("unused")
+	public void visit(RegExpGenerated<?> regExpGenerated) {
+	}
+
 	public void visit(Variable v) {
 		// empty, does not return input variables
 	}
 
 	public List<SingleValueGeneratedVariable<?>> getCollectedVariables() {
-		return this.toReturn;
+		return new ArrayList<SingleValueGeneratedVariable<?>>(this.toReturn);
 	}
 }

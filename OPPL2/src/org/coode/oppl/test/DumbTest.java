@@ -3,7 +3,7 @@ package org.coode.oppl.test;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.coode.oppl.variablemansyntax.generated.RegExpGeneratedValue;
+import org.coode.oppl.generated.RegExpGeneratedValue;
 
 public class DumbTest {
 	public static void main(String[] args) {

@@ -55,22 +55,21 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 
 import org.coode.oppl.ChangeExtractor;
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLAbstractFactory;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.OPPLScriptVisitorEx;
+import org.coode.oppl.PartialOWLObjectInstantiator;
+import org.coode.oppl.Variable;
+import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.protege.ProtegeParserFactory;
 import org.coode.oppl.protege.ui.rendering.InstantiationTableCellRenderer;
 import org.coode.oppl.utils.EvaluationResults;
-import org.coode.oppl.utils.ParserFactory;
-import org.coode.oppl.utils.ProtegeParserFactory;
 import org.coode.oppl.validation.OPPLScriptValidator;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.PartialOWLObjectInstantiator;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
+import org.coode.parsers.ui.InputVerificationStatusChangedListener;
 import org.jdesktop.swingworker.SwingWorker;
 import org.protege.editor.core.ui.util.ComponentFactory;
-import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.owl.model.event.EventType;
 import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
@@ -304,7 +303,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 	private JCheckBox considerImportClosureCheckBox = new JCheckBox(
 			"When removing consider Active Ontology Imported Closure", false);
 	private final CopyAction copyResultsAction = new CopyAction("Copy results to Clipboard");
-	private TableModel bindingTableModel = InstantiationTableModel.getNoOPPLScrptTableModel();
+	private TableModel bindingTableModel = InstantiationTableModel.getNoOPPLScriptTableModel();
 	private final JTable bindingTable = new JTable(this.bindingTableModel);
 	private JScrollPane bindingTreeScrollPane;
 
@@ -322,8 +321,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 		mainPanel.setDividerLocation(.6);
 		mainPanel.setResizeWeight(.6);
 		JPanel statementPanel = new JPanel(new BorderLayout());
-		ProtegeParserFactory.initParser("", this.getOWLModelManager(), null);
-		OPPLAbstractFactory opplFactory = ParserFactory.getInstance().getOPPLFactory();
+		OPPLAbstractFactory opplFactory = ProtegeParserFactory.getInstance(this.getOWLEditorKit()).getOPPLFactory();
 		this.affectedAxioms = new ActionList(this.getOWLEditorKit(), new ConstraintSystem(
 				this.getOWLEditorKit().getModelManager().getActiveOntology(),
 				this.getOWLEditorKit().getModelManager().getOWLOntologyManager(), opplFactory),
@@ -467,7 +465,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 
 	public void verifiedStatusChanged(boolean newState) {
 		this.instantiatedAxiomListModel.clear();
-		this.bindingTableModel = InstantiationTableModel.getNoOPPLScrptTableModel();
+		this.bindingTableModel = InstantiationTableModel.getNoOPPLScriptTableModel();
 		this.bindingTable.setModel(this.bindingTableModel);
 		this.evaluate.setEnabled(newState);
 		this.copyResultsAction.setEnabled(false);
@@ -493,12 +491,17 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 
 	public void handleChange(OWLModelManagerChangeEvent event) {
 		if (event.getType().equals(EventType.REASONER_CHANGED)) {
-			ParserFactory.getInstance().setReasoner(
-					this.getOWLEditorKit().getModelManager().getReasoner());
-			this.statementModel = this.editor.getOPPLScript();
+			this.bindingTableModel = InstantiationTableModel.getNoOPPLScriptTableModel();
+			this.bindingTable.setModel(this.bindingTableModel);
+			OPPLAbstractFactory opplFactory = ProtegeParserFactory.getInstance(
+					this.getOWLEditorKit()).getOPPLFactory();
+			this.statementModel = opplFactory.importOPPLScript(this.editor.getOPPLScript());
 			ActionListModel model = (ActionListModel) OPPLView.this.affectedAxioms.getModel();
 			model.clear();
 			this.instantiatedAxiomListModel.clear();
+			this.bindingTableModel = new InstantiationTableModel(this.statementModel,
+					this.getOWLEditorKit());
+			this.bindingTable.setModel(this.bindingTableModel);
 			OPPLView.this.bindingTreeScrollPane.setBorder(ComponentFactory.createTitledBorder(BINDINGS_TITLE));
 			OPPLView.this.affectedScrollPane.setBorder(ComponentFactory.createTitledBorder("Affected axioms: "));
 			this.evaluate.setEnabled(true);

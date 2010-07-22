@@ -3,7 +3,7 @@
  */
 package org.coode.oppl.search;
 
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
+import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owl.model.OWLAxiom;
 
 /**

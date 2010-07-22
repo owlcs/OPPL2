@@ -22,8 +22,8 @@
  */
 package org.coode.oppl.protege;
 
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.Variable;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owl.model.OWLEntity;
 import org.semanticweb.owl.util.ShortFormProvider;

@@ -9,15 +9,14 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.generated.RegExpGenerated;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
-import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
-import org.protege.editor.core.ui.util.VerifiedInputEditor;
+import org.coode.oppl.Variable;
+import org.coode.oppl.generated.RegExpGenerated;
+import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.parsers.ui.InputVerificationStatusChangedListener;
+import org.coode.parsers.ui.VerifiedInputEditor;
 import org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor;
 
-public abstract class AbstractVariableEditor extends JPanel implements
-		VerifiedInputEditor {
+public abstract class AbstractVariableEditor extends JPanel implements VerifiedInputEditor {
 	private static final long serialVersionUID = -1273971509314422094L;
 	private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
 	protected Variable variable = null;
@@ -32,14 +31,12 @@ public abstract class AbstractVariableEditor extends JPanel implements
 
 	protected abstract boolean check();
 
-	public void addStatusChangedListener(
-			final InputVerificationStatusChangedListener listener) {
+	public void addStatusChangedListener(final InputVerificationStatusChangedListener listener) {
 		// listener.verifiedStatusChanged(check());
 		this.listeners.add(listener);
 	}
 
-	public void removeStatusChangedListener(
-			final InputVerificationStatusChangedListener listener) {
+	public void removeStatusChangedListener(final InputVerificationStatusChangedListener listener) {
 		this.listeners.remove(listener);
 	}
 
@@ -57,8 +54,7 @@ public abstract class AbstractVariableEditor extends JPanel implements
 
 	protected void clear() {
 		this.variableNameExpressionEditor.setText("");
-		Enumeration<AbstractButton> elements = this.variableTypeButtonGroup
-				.getElements();
+		Enumeration<AbstractButton> elements = this.variableTypeButtonGroup.getElements();
 		while (elements.hasMoreElements()) {
 			elements.nextElement().setSelected(false);
 		}
@@ -66,8 +62,7 @@ public abstract class AbstractVariableEditor extends JPanel implements
 
 	protected JRadioButton findSelectedButton() {
 		JRadioButton button = null;
-		Enumeration<AbstractButton> directions = this.variableTypeButtonGroup
-				.getElements();
+		Enumeration<AbstractButton> directions = this.variableTypeButtonGroup.getElements();
 		boolean found = false;
 		while (!found && directions.hasMoreElements()) {
 			button = (JRadioButton) directions.nextElement();

@@ -5,7 +5,7 @@ package org.coode.oppl.search;
 
 import java.util.Iterator;
 
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
+import org.coode.oppl.ConstraintSystem;
 import org.semanticweb.owl.model.OWLOntology;
 
 /**

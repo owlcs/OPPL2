@@ -31,18 +31,17 @@ import java.util.Set;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
+import org.coode.oppl.ConstraintSystem;
+import org.coode.parsers.ui.InputVerificationStatusChangedListener;
+import org.coode.parsers.ui.VerifiedInputEditor;
 import org.protege.editor.core.ui.util.ComponentFactory;
-import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
-import org.protege.editor.core.ui.util.VerifiedInputEditor;
 import org.protege.editor.owl.OWLEditorKit;
 
 /**
  * @author Luigi Iannone
  * 
  */
-public class OPPLSelectClauseEditor extends JPanel implements
-		VerifiedInputEditor {
+public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEditor {
 	/**
 	 *
 	 */
@@ -70,24 +69,20 @@ public class OPPLSelectClauseEditor extends JPanel implements
 		this.axiomEditor.setOWLAxiom(selectListItem.getAxiom());
 	}
 
-	public OPPLSelectClauseEditor(OWLEditorKit owlEditorKit,
-			ConstraintSystem constraintSystem) {
+	public OPPLSelectClauseEditor(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
 		this.setLayout(new BorderLayout());
 		this.owlEditorKit = owlEditorKit;
 		this.constraintSystem = constraintSystem;
 		// Setting up the axiom editor
-		this.axiomEditor = new AxiomEditor(this.owlEditorKit,
-				this.constraintSystem);
+		this.axiomEditor = new AxiomEditor(this.owlEditorKit, this.constraintSystem);
 		JPanel axiomEditorPanel = new JPanel(new BorderLayout());
-		axiomEditorPanel.add(ComponentFactory
-				.createScrollPane(this.axiomEditor));
-		this.axiomEditor
-				.addStatusChangedListener(new InputVerificationStatusChangedListener() {
-					@SuppressWarnings("unused")
-					public void verifiedStatusChanged(boolean newState) {
-						OPPLSelectClauseEditor.this.handleChange();
-					}
-				});
+		axiomEditorPanel.add(ComponentFactory.createScrollPane(this.axiomEditor));
+		this.axiomEditor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+			@SuppressWarnings("unused")
+			public void verifiedStatusChanged(boolean newState) {
+				OPPLSelectClauseEditor.this.handleChange();
+			}
+		});
 		this.add(axiomEditorPanel, BorderLayout.CENTER);
 		// Setting up the Asserted flag
 		this.assertedCheckBox.addActionListener(new ActionListener() {
@@ -102,8 +97,7 @@ public class OPPLSelectClauseEditor extends JPanel implements
 	/**
 	 * @see org.protege.editor.core.ui.util.VerifiedInputEditor#addStatusChangedListener(org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
 	 */
-	public void addStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+	public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
 		this.listeners.add(listener);
 		listener.verifiedStatusChanged(this.check());
 	}
@@ -115,8 +109,7 @@ public class OPPLSelectClauseEditor extends JPanel implements
 	/**
 	 * @see org.protege.editor.core.ui.util.VerifiedInputEditor#removeStatusChangedListener(org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
 	 */
-	public void removeStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+	public void removeStatusChangedListener(InputVerificationStatusChangedListener listener) {
 		this.listeners.remove(listener);
 	}
 
@@ -124,8 +117,7 @@ public class OPPLSelectClauseEditor extends JPanel implements
 		boolean isValid = this.check();
 		if (isValid) {
 			this.selectListItem = new OPPLSelectClauseListItem(
-					this.assertedCheckBox.getModel().isSelected(),
-					this.axiomEditor.getAxiom());
+					this.assertedCheckBox.getModel().isSelected(), this.axiomEditor.getAxiom());
 		}
 		this.notifyListeners(isValid);
 	}

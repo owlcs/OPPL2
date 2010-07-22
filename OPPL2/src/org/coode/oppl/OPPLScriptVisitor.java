@@ -24,7 +24,6 @@ package org.coode.oppl;
 
 import java.util.List;
 
-import org.coode.oppl.variablemansyntax.Variable;
 import org.semanticweb.owl.model.OWLAxiomChange;
 
 /**

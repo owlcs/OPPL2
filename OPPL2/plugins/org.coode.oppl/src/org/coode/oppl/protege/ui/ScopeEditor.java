@@ -40,10 +40,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TreeSelectionEvent;
 
-import org.coode.oppl.variablemansyntax.VariableScope;
-import org.coode.oppl.variablemansyntax.VariableScopes;
-import org.coode.oppl.variablemansyntax.VariableType;
-import org.coode.oppl.variablemansyntax.VariableScopes.Direction;
+import org.coode.oppl.VariableScope;
+import org.coode.oppl.VariableScopes;
+import org.coode.oppl.VariableType;
+import org.coode.oppl.VariableScopes.Direction;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.VerifiedInputEditor;

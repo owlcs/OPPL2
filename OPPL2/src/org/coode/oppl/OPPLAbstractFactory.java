@@ -29,12 +29,10 @@ import org.coode.oppl.entity.OWLEntityRenderer;
 import org.coode.oppl.exceptions.NullReasonerException;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.VariableScopeChecker;
 import org.semanticweb.owl.expression.OWLEntityChecker;
 import org.semanticweb.owl.model.OWLAxiomChange;
 import org.semanticweb.owl.model.OWLDataFactory;
+import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.OWLOntologyManager;
 
 /**
@@ -42,6 +40,8 @@ import org.semanticweb.owl.model.OWLOntologyManager;
  * 
  */
 public interface OPPLAbstractFactory {
+	OWLOntology getOntology();
+
 	/**
 	 * @return the OWLEntityChecker used by the factory
 	 */
@@ -86,9 +86,8 @@ public interface OPPLAbstractFactory {
 	 *         input Variable instances the input OPPLQuery and the input set of
 	 *         actions
 	 */
-	OPPLScript buildOPPLScript(ConstraintSystem constraintSystem,
-			List<Variable> variables, OPPLQuery opplQuery,
-			List<OWLAxiomChange> actions);
+	OPPLScript buildOPPLScript(ConstraintSystem constraintSystem, List<Variable> variables,
+			OPPLQuery opplQuery, List<OWLAxiomChange> actions);
 
 	/**
 	 * @return a new blank OPPLQuery instance
@@ -104,9 +103,6 @@ public interface OPPLAbstractFactory {
 	 */
 	ConstraintSystem createConstraintSystem();
 
-	/** @return the constraint system */
-	ConstraintSystem getConstraintSystem();
-
 	/**
 	 * @param cs
 	 *            the ConstraintSystem containing all the variable that can be
@@ -115,8 +111,7 @@ public interface OPPLAbstractFactory {
 	 * @throws NullPointerException
 	 *             when the input is {@code null}.
 	 */
-	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(
-			ConstraintSystem cs);
+	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs);
 
 	/**
 	 * @return the appropriate OWLDataFactory used by this OPPLAbstractFactory
@@ -127,4 +122,17 @@ public interface OPPLAbstractFactory {
 	 * @return the OWLOntologyManager used by this OPPLAbstractFactory.
 	 */
 	public OWLOntologyManager getOntologyManager();
+
+	/**
+	 * Builds an OPPLScript whose content is identical to the input one. Its
+	 * factory and reasoner will be set by this factory.
+	 * 
+	 * @param opplScript
+	 *            . The starting OPPL Script whose content will be copied.
+	 *            Cannot be {@code null}.
+	 * @return an OPPLScript.
+	 * @throws NullPointerException
+	 *             when the input is {@code null}.
+	 */
+	OPPLScript importOPPLScript(OPPLScript opplScript);
 }

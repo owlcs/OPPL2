@@ -29,12 +29,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
+import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.log.Logging;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.coode.oppl.utils.ParserFactory;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
 import org.protege.editor.owl.model.inference.NoOpReasoner;
 import org.semanticweb.owl.inference.OWLReasonerException;
 import org.semanticweb.owl.model.OWLAxiom;
@@ -59,6 +57,19 @@ public class OPPLQueryImpl implements OPPLQuery {
 		}
 	};
 	private final OPPLAbstractFactory factory;
+
+	public OPPLQueryImpl(OPPLQuery query, OPPLAbstractFactory factory) {
+		this(query.getConstraintSystem(), factory);
+		for (OWLAxiom assertedAxiom : query.getAssertedAxioms()) {
+			this.addAssertedAxiom(assertedAxiom);
+		}
+		for (OWLAxiom axiom : query.getAxioms()) {
+			this.addAxiom(axiom);
+		}
+		for (AbstractConstraint constraint : query.getConstraints()) {
+			this.addConstraint(constraint);
+		}
+	}
 
 	/**
 	 * @param constraintSystem
@@ -158,8 +169,7 @@ public class OPPLQueryImpl implements OPPLQuery {
 		boolean first = true;
 		for (OWLAxiom axiom : this.getAssertedAxioms()) {
 			String commaString = first ? "ASSERTED " : ",\nASSERTED ";
-			ManchesterSyntaxRenderer renderer = ParserFactory.getInstance().getOPPLFactory().getManchesterSyntaxRenderer(
-					this.constraintSystem);
+			ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
 			buffer.append(commaString);
 			first = false;
 			axiom.accept(renderer);
@@ -168,8 +178,7 @@ public class OPPLQueryImpl implements OPPLQuery {
 		}
 		for (OWLAxiom axiom : this.getAxioms()) {
 			String commaString = first ? "" : ",\n ";
-			ManchesterSyntaxRenderer renderer = ParserFactory.getInstance().getOPPLFactory().getManchesterSyntaxRenderer(
-					this.constraintSystem);
+			ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
 			buffer.append(commaString);
 			first = false;
 			axiom.accept(renderer);

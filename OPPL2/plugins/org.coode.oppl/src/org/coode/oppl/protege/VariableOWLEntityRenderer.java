@@ -22,9 +22,8 @@
  */
 package org.coode.oppl.protege;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.entity.OWLEntityRenderer;
-import org.coode.oppl.utils.ParserFactory;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owl.model.OWLEntity;
 
@@ -33,8 +32,8 @@ public class VariableOWLEntityRenderer implements OWLEntityRenderer {
 	private final OWLModelManager modelManager;
 
 	public String render(OWLEntity entity) {
-		OWLEntityRenderer entityRenderer = ParserFactory.getInstance()
-				.getOPPLFactory().getOWLEntityRenderer(this.constraintSystem);
+		OWLEntityRenderer entityRenderer = this.getConstraintSystem().getOPPLFactory().getOWLEntityRenderer(
+				this.getConstraintSystem());
 		return entityRenderer.render(entity);
 	}
 
@@ -42,8 +41,7 @@ public class VariableOWLEntityRenderer implements OWLEntityRenderer {
 	 * @param constraintSystem
 	 * @param modelManager
 	 */
-	public VariableOWLEntityRenderer(ConstraintSystem constraintSystem,
-			OWLModelManager modelManager) {
+	public VariableOWLEntityRenderer(ConstraintSystem constraintSystem, OWLModelManager modelManager) {
 		this.constraintSystem = constraintSystem;
 		this.modelManager = modelManager;
 	}

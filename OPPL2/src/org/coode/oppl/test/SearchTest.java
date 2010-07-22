@@ -15,26 +15,28 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.coode.oppl.ChangeExtractor;
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
+import org.coode.oppl.ParserFactory;
+import org.coode.oppl.PartialOWLObjectInstantiator;
+import org.coode.oppl.Variable;
+import org.coode.oppl.VariableTypeVisitorEx;
+import org.coode.oppl.bindingtree.Assignment;
+import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.generated.SingleValueGeneratedVariable;
 import org.coode.oppl.search.OPPLAssertedOWLAxiomSearchTree;
 import org.coode.oppl.search.OPPLOWLAxiomSearchNode;
 import org.coode.oppl.search.OWLAxiomSearchTree;
 import org.coode.oppl.search.SearchTree;
-import org.coode.oppl.syntax.ParseException;
-import org.coode.oppl.utils.ParserFactory;
 import org.coode.oppl.utils.VariableExtractor;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.PartialOWLObjectInstantiator;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.VariableTypeVisitorEx;
-import org.coode.oppl.variablemansyntax.bindingtree.Assignment;
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
-import org.coode.oppl.variablemansyntax.variabletypes.CLASSVariable;
-import org.coode.oppl.variablemansyntax.variabletypes.CONSTANTVariable;
-import org.coode.oppl.variablemansyntax.variabletypes.DATAPROPERTYVariable;
-import org.coode.oppl.variablemansyntax.variabletypes.INDIVIDUALVariable;
-import org.coode.oppl.variablemansyntax.variabletypes.OBJECTPROPERTYVariable;
+import org.coode.oppl.variabletypes.CLASSVariable;
+import org.coode.oppl.variabletypes.CONSTANTVariable;
+import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
+import org.coode.oppl.variabletypes.INDIVIDUALVariable;
+import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
+import org.coode.parsers.ErrorListener;
+import org.coode.parsers.test.JUnitTestErrorListener;
 import org.semanticweb.owl.apibinding.OWLManager;
 import org.semanticweb.owl.model.AxiomType;
 import org.semanticweb.owl.model.OWLAxiom;
@@ -51,6 +53,8 @@ import org.semanticweb.owl.model.OWLSubClassAxiom;
 import org.semanticweb.owl.util.OWLAxiomVisitorAdapter;
 
 public class SearchTest extends TestCase {
+	private final ErrorListener errorListener = new JUnitTestErrorListener();
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -113,7 +117,7 @@ public class SearchTest extends TestCase {
 					namedPizzaClass,
 					pizzaClass);
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf ?y BEGIN ADD ?x subClassOf ?y END;";
-			final OPPLScript opplScript = this.parsescript(manager, ontology, opplString);
+			final OPPLScript opplScript = this.parseScript(manager, ontology, opplString);
 			OWLAxiom start = opplScript.getQuery().getAssertedAxioms().iterator().next();
 			SearchTree<OWLAxiom> searchTree = new SearchTree<OWLAxiom>() {
 				@Override
@@ -146,7 +150,7 @@ public class SearchTest extends TestCase {
 
 				private final VariableTypeVisitorEx<Collection<? extends OWLObject>> assignableValuesVisitor = new VariableTypeVisitorEx<Collection<? extends OWLObject>>() {
 					public Collection<? extends OWLObject> visit(SingleValueGeneratedVariable<?> v) {
-						return v.getPossibleBindings();
+						return Collections.emptySet();
 					}
 
 					public Collection<? extends OWLObject> visit(INDIVIDUALVariable v) {
@@ -246,16 +250,13 @@ public class SearchTest extends TestCase {
 		} catch (OWLOntologyCreationException e) {
 			fail(e.getMessage());
 			e.printStackTrace();
-		} catch (ParseException e) {
-			fail(e.getMessage());
-			e.printStackTrace();
 		}
 	}
 
-	private OPPLScript parsescript(final OWLOntologyManager manager, OWLOntology ontology,
-			String opplString) throws ParseException {
-		final OPPLScript opplScript = ParserFactory.initParser(opplString, ontology, manager, null).Start();
-		return opplScript;
+	private OPPLScript parseScript(final OWLOntologyManager manager, OWLOntology ontology,
+			String opplString) {
+		OPPLParser parser = new ParserFactory(manager, ontology, null).build(this.errorListener);
+		return parser.parse(opplString);
 	}
 
 	public void testOWLAxiomSearchTree() {
@@ -263,7 +264,7 @@ public class SearchTest extends TestCase {
 		try {
 			OWLOntology ontology = manager.loadOntology(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf ?y BEGIN ADD ?x subClassOf ?y END;";
-			final OPPLScript opplScript = this.parsescript(manager, ontology, opplString);
+			final OPPLScript opplScript = this.parseScript(manager, ontology, opplString);
 			OWLAxiom start = opplScript.getQuery().getAssertedAxioms().iterator().next();
 			SearchTree<OWLAxiom> searchTree = new OWLAxiomSearchTree(manager,
 					opplScript.getConstraintSystem());
@@ -297,9 +298,6 @@ public class SearchTest extends TestCase {
 		} catch (OWLOntologyCreationException e) {
 			fail(e.getMessage());
 			e.printStackTrace();
-		} catch (ParseException e) {
-			fail(e.getMessage());
-			e.printStackTrace();
 		}
 	}
 
@@ -308,8 +306,8 @@ public class SearchTest extends TestCase {
 		try {
 			OWLOntology ontology = manager.loadOntology(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf Pizza, ASSERTED ?x subClassOf hasTopping some MozzarellaTopping BEGIN ADD ?x subClassOf ?y END;";
-			final OPPLScript opplScript = this.parsescript(manager, ontology, opplString);
-			final OPPLScript checkOPPLScript = this.parsescript(manager, ontology, opplString);
+			final OPPLScript opplScript = this.parseScript(manager, ontology, opplString);
+			final OPPLScript checkOPPLScript = this.parseScript(manager, ontology, opplString);
 			final Set<OWLAxiom> correctResults = this.getOPPLScriptCorrectResults(checkOPPLScript);
 			Iterator<OWLAxiom> iterator = opplScript.getQuery().getAssertedAxioms().iterator();
 			OWLAxiom firstAxiom = iterator.next();
@@ -345,9 +343,6 @@ public class SearchTest extends TestCase {
 		} catch (OWLOntologyCreationException e) {
 			fail(e.getMessage());
 			e.printStackTrace();
-		} catch (ParseException e) {
-			fail(e.getMessage());
-			e.printStackTrace();
 		}
 	}
 
@@ -381,8 +376,8 @@ public class SearchTest extends TestCase {
 		try {
 			OWLOntology ontology = manager.loadOntology(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf NamedPizza, ASSERTED ?x subClassOf hasTopping some MozzarellaTopping BEGIN ADD ?x subClassOf ?y END;";
-			final OPPLScript opplScript = this.parsescript(manager, ontology, opplString);
-			final OPPLScript checkOPPLScript = this.parsescript(manager, ontology, opplString);
+			final OPPLScript opplScript = this.parseScript(manager, ontology, opplString);
+			final OPPLScript checkOPPLScript = this.parseScript(manager, ontology, opplString);
 			final Set<OWLAxiom> correctResults = this.getOPPLScriptCorrectResults(checkOPPLScript);
 			Iterator<OWLAxiom> iterator = opplScript.getQuery().getAssertedAxioms().iterator();
 			OWLAxiom firstAxiom = iterator.next();
@@ -430,9 +425,6 @@ public class SearchTest extends TestCase {
 							+ correctResults.size(),
 					correctResults.size() == results.size());
 		} catch (OWLOntologyCreationException e) {
-			fail(e.getMessage());
-			e.printStackTrace();
-		} catch (ParseException e) {
 			fail(e.getMessage());
 			e.printStackTrace();
 		}

@@ -29,7 +29,7 @@ import java.util.Map;
 
 import org.coode.oppl.AbstractConstraint;
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.variablemansyntax.Variable;
+import org.coode.oppl.Variable;
 import org.coode.owlapi.owlxml.renderer.OWLXMLWriter;
 import org.coode.xml.XMLWriterNamespaceManager;
 import org.semanticweb.owl.model.AddAxiom;

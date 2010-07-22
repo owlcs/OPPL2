@@ -41,7 +41,7 @@ public interface ConstraintVisitor {
 	 * @param c
 	 * 
 	 */
-	void visitInCollectionConstraint(InCollectionConstraint c);
+	void visitInCollectionConstraint(InCollectionConstraint<?> c);
 
 	/**
 	 * Visitor pattern required method

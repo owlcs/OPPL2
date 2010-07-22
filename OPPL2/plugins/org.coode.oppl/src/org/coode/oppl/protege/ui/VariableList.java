@@ -31,10 +31,10 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.VariableScope;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.Variable;
+import org.coode.oppl.VariableScope;
+import org.coode.oppl.generated.SingleValueGeneratedVariable;
 import org.protege.editor.core.ui.list.MList;
 import org.protege.editor.owl.OWLEditorKit;
 

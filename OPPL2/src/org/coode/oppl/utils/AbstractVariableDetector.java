@@ -3,7 +3,7 @@ package org.coode.oppl.utils;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
+import org.coode.oppl.ConstraintSystem;
 import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
 import org.semanticweb.owl.model.OWLClassAssertionAxiom;

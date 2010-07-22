@@ -26,10 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.coode.oppl.utils.ParserFactory;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.VariableScope;
 import org.coode.oppl.visitors.InputVariableCollector;
 import org.semanticweb.owl.model.AddAxiom;
 import org.semanticweb.owl.model.OWLAxiomChange;
@@ -52,10 +48,20 @@ public class OPPLScriptImpl implements OPPLScript {
 	 */
 	public OPPLScriptImpl(ConstraintSystem constraintSystem, List<Variable> variables,
 			OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory) {
+		this(constraintSystem, variables, query, actions, factory, false);
+	}
+
+	public OPPLScriptImpl(ConstraintSystem constraintSystem, List<Variable> variables,
+			OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory,
+			boolean resetExecution) {
 		this.constraintSystem = constraintSystem;
 		this.variables.addAll(variables);
-		this.query = query;
-		this.actions = actions;
+		if (!resetExecution) {
+			this.query = query;
+		} else {
+			this.query = query == null ? null : new OPPLQueryImpl(query, factory);
+		}
+		this.actions = new ArrayList<OWLAxiomChange>(actions);
 		this.factory = factory;
 	}
 
@@ -174,8 +180,7 @@ public class OPPLScriptImpl implements OPPLScript {
 				buffer.append('[');
 				buffer.append(variableScope.getDirection().toString());
 				buffer.append(' ');
-				ManchesterSyntaxRenderer renderer = ParserFactory.getInstance().getOPPLFactory().getManchesterSyntaxRenderer(
-						this.constraintSystem);
+				ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
 				variableScope.getScopingObject().accept(renderer);
 				buffer.append(renderer.toString());
 				buffer.append(']');
@@ -192,8 +197,7 @@ public class OPPLScriptImpl implements OPPLScript {
 			for (OWLAxiomChange action : this.getActions()) {
 				String commaString = first ? "" : ",\n ";
 				String actionString = action instanceof AddAxiom ? "\tADD " : "\tREMOVE ";
-				ManchesterSyntaxRenderer renderer = ParserFactory.getInstance().getOPPLFactory().getManchesterSyntaxRenderer(
-						this.constraintSystem);
+				ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
 				buffer.append(commaString);
 				first = false;
 				buffer.append(actionString);

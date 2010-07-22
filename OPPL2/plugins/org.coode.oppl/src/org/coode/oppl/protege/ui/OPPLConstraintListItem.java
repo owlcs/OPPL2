@@ -1,7 +1,7 @@
 package org.coode.oppl.protege.ui;
 
 import org.coode.oppl.AbstractConstraint;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
+import org.coode.oppl.ConstraintSystem;
 import org.protege.editor.core.ui.list.MListItem;
 import org.protege.editor.owl.OWLEditorKit;
 

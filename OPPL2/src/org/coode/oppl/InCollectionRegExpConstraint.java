@@ -30,14 +30,10 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.regex.Pattern;
 
-import org.coode.oppl.entity.OWLEntityRenderer;
-import org.coode.oppl.utils.ParserFactory;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
-import org.coode.oppl.variablemansyntax.generated.RegExpGeneratedValue;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
-import org.semanticweb.owl.model.OWLEntity;
+import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.generated.RegExpGeneratedValue;
+import org.coode.oppl.generated.SingleValueGeneratedValue;
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owl.model.OWLObject;
 
 /**
@@ -49,38 +45,35 @@ import org.semanticweb.owl.model.OWLObject;
  */
 public class InCollectionRegExpConstraint implements AbstractConstraint {
 	private final Variable variable;
-	private final Map<OWLEntity, List<String>> collection = new HashMap<OWLEntity, List<String>>();
+	private final Map<OWLObject, List<String>> collection = new HashMap<OWLObject, List<String>>();
 	private final SingleValueGeneratedValue<String> expression;
-	private ConstraintSystem cs;
-	private final WeakHashMap<String, Collection<OWLEntity>> cache = new WeakHashMap<String, Collection<OWLEntity>>();
+	private final ConstraintSystem constraintSystem;
+	private final WeakHashMap<String, Collection<OWLObject>> cache = new WeakHashMap<String, Collection<OWLObject>>();
 
 	/**
 	 * @param variable
 	 * @param collection
 	 * @param constraintSystem
 	 */
-	public InCollectionRegExpConstraint(Variable variable,
-			SingleValueGeneratedValue<String> exp, ConstraintSystem cs) {
+	public InCollectionRegExpConstraint(Variable variable, SingleValueGeneratedValue<String> exp,
+			ConstraintSystem cs) {
 		this.variable = variable;
-		this.cs = cs;
+		this.constraintSystem = cs;
 		this.expression = exp;
 	}
 
-	private Map<OWLEntity, List<String>> getMatches(String exp) {
-		Map<OWLEntity, List<String>> toReturn = new HashMap<OWLEntity, List<String>>();
+	private Map<OWLObject, List<String>> getMatches(String exp) {
+		Map<OWLObject, List<String>> toReturn = new HashMap<OWLObject, List<String>>();
 		Pattern regExpression = Pattern.compile(exp);
-		OWLEntityRenderer entityRenderer = ParserFactory.getInstance()
-				.getOPPLFactory().getOWLEntityRenderer(this.cs);
-		for (OWLObject o : this.variable.getType().getReferencedValues(
-				this.cs.getOntology())) {
-			if (o instanceof OWLEntity) {
-				OWLEntity e = (OWLEntity) o;
-				String toMatch = entityRenderer.render(e);
-				List<String> group = RegExpGeneratedValue.actualMatch(
-						regExpression, toMatch);
-				if (group.size() > 0) {
-					toReturn.put(e, group);
-				}
+		for (OWLObject o : this.variable.getType().getReferencedOWLObjects(
+				this.getConstraintSystem().getOntologyManager().getOntologies())) {
+			ManchesterSyntaxRenderer manchesterSyntaxRenderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+					this.getConstraintSystem());
+			o.accept(manchesterSyntaxRenderer);
+			String toMatch = manchesterSyntaxRenderer.toString();
+			List<String> group = RegExpGeneratedValue.actualMatch(regExpression, toMatch);
+			if (group.size() > 0) {
+				toReturn.put(o, group);
 			}
 		}
 		return toReturn;
@@ -107,13 +100,13 @@ public class InCollectionRegExpConstraint implements AbstractConstraint {
 	/**
 	 * @return the collection
 	 */
-	public Collection<OWLEntity> getCollection(BindingNode node) {
+	public Collection<OWLObject> getCollection(BindingNode node) {
 		String regexp = this.expression.getGeneratedValue(node);
 		if (regexp == null) {
 			return Collections.emptyList();
 		}
 		if (!this.cache.containsKey(regexp)) {
-			Map<OWLEntity, List<String>> matches = this.getMatches(regexp);
+			Map<OWLObject, List<String>> matches = this.getMatches(regexp);
 			this.collection.putAll(matches);
 			this.cache.put(regexp, this.collection.keySet());
 		}
@@ -122,8 +115,7 @@ public class InCollectionRegExpConstraint implements AbstractConstraint {
 
 	@Override
 	public int hashCode() {
-		return 3 * this.variable.hashCode() * 5
-				* this.collection.keySet().hashCode();
+		return 3 * this.variable.hashCode() * 5 * this.collection.keySet().hashCode();
 	}
 
 	@Override
@@ -148,5 +140,12 @@ public class InCollectionRegExpConstraint implements AbstractConstraint {
 
 	public void accept(ConstraintVisitor visitor) {
 		visitor.visitInCollectionConstraint(this);
+	}
+
+	/**
+	 * @return the constraintSystem
+	 */
+	public ConstraintSystem getConstraintSystem() {
+		return this.constraintSystem;
 	}
 }

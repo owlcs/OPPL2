@@ -22,7 +22,7 @@
 
 
 
-  <target name="bundle" >
+  <target name="bundle">
 
   	<delete dir="${dist}/configuration/org.eclipse.core.runtime"/>
   	<delete dir="${dist}/configuration/org.eclipse.osgi"/>
@@ -57,18 +57,25 @@
 
     </target>
 
-	<!-- ====================================
-		target: javaCC
-		builds the JavaCC java files.
-	=========================================-->
-	<target name="javacc">
-		<exec executable="sh" dir="${basedir}/src/org/coode/oppl/syntax">
-			<arg line="${javaccpath}jjtree oppl.jjt"/>
-		</exec>
-		<exec executable="sh" dir="${basedir}/src/org/coode/oppl/syntax">
-			<arg line="${javaccpath}javacc oppl.jj"/>
-		</exec>
-	</target>
+	
+	<path id ="parsers.classpath">
+			<filelist dir="${basedir}/lib">
+				<file name="antlr-3.2.jar"/>
+				<file name="owlapi-bin.jar"/>
+			</filelist>					
+	</path>
+	
+ 	<target name="parsers">
+ 		<mkdir dir="${basedir}/build/parsers/classes"/>
+ 		<javac debug="on" failonerror="true"  destdir="${basedir}/build/parsers/classes">
+ 					<classpath refid="parsers.classpath" />
+ 			<src path="${parsers.source.dir}"/>
+ 			<src path="${parsers.antlr.dir}"/>
+ 		    <exclude name="org/coode/parsers/test/**"/>
+ 		</javac>
+ 		<jar destfile="${basedir}/lib/parsers.jar" basedir="${basedir}/build/parsers/classes"></jar>
+ 		<delete dir="${basedir}/build/parsers"/>
+ 	</target>
 
 
 </project>

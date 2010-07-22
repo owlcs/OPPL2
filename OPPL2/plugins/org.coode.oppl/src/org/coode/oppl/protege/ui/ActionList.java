@@ -31,8 +31,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.border.Border;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.protege.ui.rendering.VariableOWLCellRenderer;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
 import org.protege.editor.core.ui.list.MList;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;

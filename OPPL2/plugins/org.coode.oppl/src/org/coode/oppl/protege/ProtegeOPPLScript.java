@@ -24,12 +24,12 @@ package org.coode.oppl.protege;
 
 import java.util.List;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.OPPLScriptVisitor;
 import org.coode.oppl.OPPLScriptVisitorEx;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
+import org.coode.oppl.Variable;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owl.model.OWLAxiomChange;
 

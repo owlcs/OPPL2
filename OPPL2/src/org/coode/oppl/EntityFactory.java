@@ -29,9 +29,7 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
 	 * @return
 	 */
 	private URI buildURI(String shortName) {
-		return URI.create(this.factory.getConstraintSystem().getOntology()
-				.getURI().toString()
-				+ "#" + shortName);
+		return URI.create(this.factory.getOntology().getURI().toString() + "#" + shortName);
 	}
 
 	/**
@@ -72,8 +70,7 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
 	}
 
 	/** characters which will be removed from labels */
-	private static final char[] forbiddenCharacters = new char[] { '\'', '>',
-			'<', '`', '"' };
+	private static final char[] forbiddenCharacters = new char[] { '\'', '>', '<', '`', '"' };
 
 	/**
 	 * @return the original string purged of characters which are not supposed
@@ -88,51 +85,49 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
 		return toReturn;
 	}
 
-	public OWLEntityCreationSet<OWLClass> createOWLClass(String shortName,
-			URI baseURI) throws OWLEntityCreationException {
+	public OWLEntityCreationSet<OWLClass> createOWLClass(String shortName, URI baseURI)
+			throws OWLEntityCreationException {
 		return this.createOWLEntity(OWLClass.class, shortName, baseURI);
 	}
 
-	public OWLEntityCreationSet<OWLDataProperty> createOWLDataProperty(
-			String shortName, URI baseURI) throws OWLEntityCreationException {
+	public OWLEntityCreationSet<OWLDataProperty> createOWLDataProperty(String shortName, URI baseURI)
+			throws OWLEntityCreationException {
 		return this.createOWLEntity(OWLDataProperty.class, shortName, baseURI);
 	}
 
-	@SuppressWarnings("unused")
-	public <T extends OWLEntity> OWLEntityCreationSet<T> createOWLEntity(
-			Class<T> type, String shortName, URI baseURI)
-			throws OWLEntityCreationException {
+	public <T extends OWLEntity> OWLEntityCreationSet<T> createOWLEntity(Class<T> type,
+			String shortName, URI baseURI) throws OWLEntityCreationException {
 		String label = this.buildLabelString(shortName);
 		String realShortName = this.buildFragment(label);
 		URI anURI = this.buildURI(realShortName);
 		T entity = this.getOWLEntity(type, anURI);
-		OWLDeclarationAxiom declarationAxiom = this.factory.getOWLDataFactory()
-				.getOWLDeclarationAxiom(entity);
+		OWLDeclarationAxiom declarationAxiom = this.factory.getOWLDataFactory().getOWLDeclarationAxiom(
+				entity);
 		List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
-		changes.add(new AddAxiom(this.factory.getConstraintSystem()
-				.getOntology(), declarationAxiom));
+		changes.add(new AddAxiom(this.factory.getOntology(), declarationAxiom));
 		if (!realShortName.equals(shortName)) {
-			// add a label only if the shortname passed in input was not suitable as fragment, i.e., an alternate representation gives more information
-			OWLLabelAnnotation labelAnnotation = this.factory
-					.getOWLDataFactory().getOWLLabelAnnotation(label);
-			OWLAxiomChange extraChange = new AddAxiom(this.factory
-					.getConstraintSystem().getOntology(), this.factory
-					.getOWLDataFactory().getOWLEntityAnnotationAxiom(entity,
+			// add a label only if the shortname passed in input was not
+			// suitable as fragment, i.e., an alternate representation gives
+			// more information
+			OWLLabelAnnotation labelAnnotation = this.factory.getOWLDataFactory().getOWLLabelAnnotation(
+					label);
+			OWLAxiomChange extraChange = new AddAxiom(this.factory.getOntology(),
+					this.factory.getOWLDataFactory().getOWLEntityAnnotationAxiom(
+							entity,
 							labelAnnotation));
 			changes.add(extraChange);
 		}
 		return new OWLEntityCreationSet<T>(entity, changes);
 	}
 
-	public OWLEntityCreationSet<OWLIndividual> createOWLIndividual(
-			String shortName, URI baseURI) throws OWLEntityCreationException {
+	public OWLEntityCreationSet<OWLIndividual> createOWLIndividual(String shortName, URI baseURI)
+			throws OWLEntityCreationException {
 		return this.createOWLEntity(OWLIndividual.class, shortName, baseURI);
 	}
 
-	public OWLEntityCreationSet<OWLObjectProperty> createOWLObjectProperty(
-			String shortName, URI baseURI) throws OWLEntityCreationException {
-		return this
-				.createOWLEntity(OWLObjectProperty.class, shortName, baseURI);
+	public OWLEntityCreationSet<OWLObjectProperty> createOWLObjectProperty(String shortName,
+			URI baseURI) throws OWLEntityCreationException {
+		return this.createOWLEntity(OWLObjectProperty.class, shortName, baseURI);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -140,8 +135,7 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
 		if (OWLClass.class.isAssignableFrom(type)) {
 			return (T) this.factory.getOWLDataFactory().getOWLClass(uri);
 		} else if (OWLObjectProperty.class.isAssignableFrom(type)) {
-			return (T) this.factory.getOWLDataFactory().getOWLObjectProperty(
-					uri);
+			return (T) this.factory.getOWLDataFactory().getOWLObjectProperty(uri);
 		} else if (OWLDataProperty.class.isAssignableFrom(type)) {
 			return (T) this.factory.getOWLDataFactory().getOWLDataProperty(uri);
 		} else if (OWLIndividual.class.isAssignableFrom(type)) {
@@ -150,23 +144,20 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
 		return null;
 	}
 
-	@SuppressWarnings("unused")
-	private <T extends OWLEntity> boolean isValidNewID(String shortName,
-			URI baseURI, Class<T> type) {
-		return baseURI.equals(this.factory.getConstraintSystem().getOntology()
-				.getURI());
+	private <T extends OWLEntity> boolean isValidNewID(String shortName, URI baseURI, Class<T> type) {
+		return baseURI.equals(this.factory.getOntology().getURI());
 	}
 
-	public <T extends OWLEntity> OWLEntityCreationSet<T> preview(Class<T> type,
-			String shortName, URI baseURI) throws OWLEntityCreationException {
+	public <T extends OWLEntity> OWLEntityCreationSet<T> preview(Class<T> type, String shortName,
+			URI baseURI) throws OWLEntityCreationException {
 		return this.createOWLEntity(type, shortName, baseURI);
 	}
 
-	public void tryCreate(Class<? extends OWLEntity> type, String shortName,
-			URI baseURI) throws OWLEntityCreationException {
+	public void tryCreate(Class<? extends OWLEntity> type, String shortName, URI baseURI)
+			throws OWLEntityCreationException {
 		if (!this.isValidNewID(shortName, baseURI, type)) {
-			throw new OWLEntityCreationException("Invalid name: " + shortName
-					+ "for an " + type.getName());
+			throw new OWLEntityCreationException("Invalid name: " + shortName + "for an "
+					+ type.getName());
 		}
 	}
 }
