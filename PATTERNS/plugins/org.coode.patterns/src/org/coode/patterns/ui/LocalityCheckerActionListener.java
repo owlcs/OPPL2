@@ -18,18 +18,17 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owl.model.OWLEntity;
 import org.semanticweb.owl.model.OWLOntology;
 
-public class LocalityCheckerActionListener extends LocalityChecker implements
-		ActionListener {
+public class LocalityCheckerActionListener extends LocalityChecker implements ActionListener {
 	private static final String SAFETY_ANALYSIS_BREAKDOWN = "Safety analysis breakdown";
 	public final static int DIMENSION = 18;
 	private final JButton resultButton;
 	private OWLOntology activeOntology;
 	private OWLEntity not;
 
-	public LocalityCheckerActionListener(final OWLEditorKit kit,
-			Set<OWLEntity> signature, JButton resultButton) {
-		super(kit.getOWLModelManager().getOWLOntologyManager(), kit
-				.getOWLModelManager().getReasoner(), signature);
+	public LocalityCheckerActionListener(final OWLEditorKit kit, Set<OWLEntity> signature,
+			JButton resultButton) {
+		super(kit.getOWLModelManager().getOWLOntologyManager(),
+				kit.getOWLModelManager().getReasoner(), signature);
 		this.activeOntology = kit.getOWLModelManager().getActiveOntology();
 		this.resultButton = resultButton;
 		this.resultButton.setIcon(this.generateIcon(Color.gray));
@@ -48,7 +47,8 @@ public class LocalityCheckerActionListener extends LocalityChecker implements
 			public void paintIcon(Component c, Graphics g, int x, int y) {
 				Color oldColor = g.getColor();
 				Graphics2D g2 = (Graphics2D) g;
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				g2.setRenderingHint(
+						RenderingHints.KEY_ANTIALIASING,
 						RenderingHints.VALUE_ANTIALIAS_ON);
 				g2.setColor(color);
 				g2.fillOval(x + 2, y + 2, DIMENSION - 4, DIMENSION - 4);
@@ -77,10 +77,10 @@ public class LocalityCheckerActionListener extends LocalityChecker implements
 		};
 	}
 
-	public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		this.resultButton.setEnabled(true);
 		this.resultButton.setToolTipText(SAFETY_ANALYSIS_BREAKDOWN);
-		if (this.ipm != null) {
+		if (this.getInstantiatedPatternModel() != null) {
 			if (!this.isLocal(this.activeOntology)) {
 				this.resultButton.setIcon(this.generateIcon(Color.red));
 			} else {
@@ -90,6 +90,6 @@ public class LocalityCheckerActionListener extends LocalityChecker implements
 	}
 
 	public TableModel print() {
-		return new LocResultTableModel(this, this.not);
+		return new LocalityCheckResultTableModel(this, this.not);
 	}
 }

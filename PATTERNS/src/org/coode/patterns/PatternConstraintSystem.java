@@ -31,13 +31,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.Variable;
+import org.coode.oppl.VariableType;
 import org.coode.oppl.exceptions.OPPLException;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.VariableType;
-import org.coode.oppl.variablemansyntax.generated.AbstractCollectionGeneratedValue;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.generated.AbstractCollectionGeneratedValue;
+import org.coode.oppl.generated.SingleValueGeneratedValue;
+import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.parsers.ErrorListener;
 import org.semanticweb.owl.inference.OWLReasoner;
 import org.semanticweb.owl.inference.OWLReasonerException;
 import org.semanticweb.owl.model.OWLClass;
@@ -59,7 +60,7 @@ public class PatternConstraintSystem extends ConstraintSystem {
 
 	public PatternConstraintSystem(ConstraintSystem cs, OWLOntologyManager ontologyManager,
 			AbstractPatternModelFactory f) {
-		super(cs.getOntology(), ontologyManager, f.getOPPLParser().getOPPLFactory());
+		super(cs.getOntology(), ontologyManager, f.getOPPLFactory());
 		try {
 			this.setReasoner(cs.getReasoner());
 		} catch (OWLReasonerException e) {
@@ -80,8 +81,8 @@ public class PatternConstraintSystem extends ConstraintSystem {
 	 */
 	public PatternConstraintSystem(OWLOntology ontology, OWLOntologyManager ontologyManager,
 			OWLReasoner reasoner, AbstractPatternModelFactory f) {
-		this(new ConstraintSystem(ontology, ontologyManager, reasoner,
-				f.getOPPLParser().getOPPLFactory()), ontologyManager, f);
+		this(new ConstraintSystem(ontology, ontologyManager, reasoner, f.getOPPLFactory()),
+				ontologyManager, f);
 	}
 
 	@Override
@@ -181,11 +182,11 @@ public class PatternConstraintSystem extends ConstraintSystem {
 	}
 
 	public String resolvePattern(String patternName, OWLOntologyManager ontologyManager,
-			Set<String> visitedPatterns, List<PatternOPPLScript> dependencies, List<String>... args)
-			throws PatternException {
+			Set<String> visitedPatterns, List<PatternOPPLScript> dependencies,
+			ErrorListener errorListener, List<String>... args) throws PatternException {
 		Set<String> visited = new HashSet<String>(visitedPatterns);
 		PatternReference patternReference = new PatternReference(patternName, this,
-				ontologyManager, visited, args);
+				ontologyManager, visited, errorListener, args);
 		dependencies.add(patternReference.getExtractedPattern());
 		VariableType variableType = VariableType.getVariableType(patternReference.getResolution().get(
 				0));
@@ -207,9 +208,10 @@ public class PatternConstraintSystem extends ConstraintSystem {
 
 	public InstantiatedPatternModel resolvePatternInstantiation(String patternName,
 			OWLOntologyManager ontologyManager, Set<String> visitedPatterns,
-			List<PatternOPPLScript> dependencies, List<String>... args) throws PatternException {
+			List<PatternOPPLScript> dependencies, ErrorListener errorListener, List<String>... args)
+			throws PatternException {
 		PatternReference patternReference = new PatternReference(patternName, this,
-				ontologyManager, visitedPatterns, args);
+				ontologyManager, visitedPatterns, errorListener, args);
 		dependencies.add(patternReference.getExtractedPattern());
 		return patternReference.getInstantiation();
 	}

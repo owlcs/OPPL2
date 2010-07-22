@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.OPPLScript;
+import org.coode.parsers.ErrorListener;
 import org.semanticweb.owl.model.OWLAxiom;
 import org.semanticweb.owl.model.OWLObject;
 import org.semanticweb.owl.model.OWLOntology;
@@ -78,8 +79,7 @@ public interface PatternOPPLScript extends OPPLScript {
 	 */
 	boolean isClassPattern();
 
-	String getDefinitorialPortionStrings(List<List<Object>> replacements)
-			throws PatternException;
+	String getDefinitorialPortionStrings(List<List<Object>> replacements) throws PatternException;
 
 	/**
 	 * @param replacementTuples
@@ -88,8 +88,8 @@ public interface PatternOPPLScript extends OPPLScript {
 	 *         considered
 	 * @throws PatternException
 	 */
-	public List<OWLObject> getDefinitorialPortions(
-			List<List<Object>> replacementTuples) throws PatternException;
+	public List<OWLObject> getDefinitorialPortions(List<List<Object>> replacementTuples)
+			throws PatternException;
 
 	String getRendering();
 
@@ -109,5 +109,5 @@ public interface PatternOPPLScript extends OPPLScript {
 	 * 
 	 * 
 	 */
-	public Set<? extends OWLAxiom> getOWLAxioms(OWLOntology ontology);
+	public Set<? extends OWLAxiom> getOWLAxioms(OWLOntology ontology, ErrorListener errorListener);
 }

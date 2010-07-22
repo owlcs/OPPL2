@@ -21,7 +21,7 @@
 
 
 
-  <target name="bundle" depends="javacc">
+  <target name="bundle" depends="">
 
   	<delete dir="${dist}/configuration/org.eclipse.core.runtime"/>
   	<delete dir="${dist}/configuration/org.eclipse.osgi"/>
@@ -51,17 +51,5 @@
 	</target>
 
 
-	<!-- ====================================
-		target: javaCC
-		builds the JavaCC java files.
-	=========================================-->
-	<target name="javacc">
-		<exec executable="sh" dir="${basedir}/src/org/coode/patterns/syntax">
-			<arg line="${javaccpath}jjtree patternSyntax.jjt"/>
-		</exec>
-		<exec executable="sh" dir="${basedir}/src/org/coode/patterns/syntax">
-			<arg line="${javaccpath}javacc patternSyntax.jj"/>
-		</exec>
-	</target>
 
 </project>

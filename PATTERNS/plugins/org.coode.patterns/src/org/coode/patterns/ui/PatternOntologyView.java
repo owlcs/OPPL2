@@ -34,7 +34,7 @@ import javax.swing.border.Border;
 import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.PatternManager;
 import org.coode.patterns.PatternModel;
-import org.coode.patterns.protege.ProtegePatternModelFactory;
+import org.coode.patterns.protege.ProtegeParserFactory;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.ui.frame.OWLFrameSectionRow;
 import org.protege.editor.owl.ui.framelist.OWLFrameList2;
@@ -54,8 +54,8 @@ public class PatternOntologyView extends AbstractActiveOntologyViewComponent {
 	private static final long serialVersionUID = -8110091764534100865L;
 	private OWLFrameList2<OWLOntology> list;
 	private PatternManager patternManager;
-	private AbstractPatternModelFactory factory;
 
+	// private AbstractPatternModelFactory factory;
 	/**
 	 * @see org.protege.editor.owl.ui.view.AbstractActiveOntologyViewComponent#disposeOntologyView()
 	 */
@@ -65,7 +65,7 @@ public class PatternOntologyView extends AbstractActiveOntologyViewComponent {
 			this.list.dispose();
 		}
 		if (this.patternManager != null) {
-			getOWLEditorKit().getModelManager().removeOntologyChangeListener(
+			this.getOWLEditorKit().getModelManager().removeOntologyChangeListener(
 					this.patternManager);
 		}
 	}
@@ -75,58 +75,54 @@ public class PatternOntologyView extends AbstractActiveOntologyViewComponent {
 	 */
 	@Override
 	protected void initialiseOntologyView() throws Exception {
-		this.factory = new ProtegePatternModelFactory(getOWLModelManager());
-		setLayout(new BorderLayout());
-		this.list = new OWLFrameList2<OWLOntology>(getOWLEditorKit(),
-				new PatternOntologyFrame(getOWLEditorKit(), true, true, true,
-						this.factory)) {
+		this.setLayout(new BorderLayout());
+		this.list = new OWLFrameList2<OWLOntology>(this.getOWLEditorKit(),
+				new PatternOntologyFrame(this.getOWLEditorKit(), true, true, true)) {
 			private static final long serialVersionUID = 4280726052980983935L;
 
 			@Override
 			public void handleDelete() {
-				int[] selIndices = getSelectedIndices();
+				int[] selIndices = this.getSelectedIndices();
 				List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
 				for (int selIndex : selIndices) {
-					Object val = getModel().getElementAt(selIndex);
+					Object val = this.getModel().getElementAt(selIndex);
 					if (val instanceof OWLFrameSectionRow<?, ?, ?>) {
 						OWLFrameSectionRow<?, ?, ?> row = (OWLFrameSectionRow<?, ?, ?>) val;
 						changes.addAll(changes.size(), row.getDeletionChanges());
 					}
 				}
 				for (OWLOntologyChange change : changes) {
-					PatternOntologyView.this.getOWLEditorKit()
-							.getModelManager().applyChange(change);
+					PatternOntologyView.this.getOWLEditorKit().getModelManager().applyChange(change);
 				}
 			}
 
 			@Override
-			protected Border createListItemBorder(JList l, Object value,
-					int index, boolean isSelected, boolean cellHasFocus) {
-				Border border = super.createListItemBorder(l, value, index,
-						isSelected, cellHasFocus);
+			protected Border createListItemBorder(JList l, Object value, int index,
+					boolean isSelected, boolean cellHasFocus) {
+				Border border = super.createListItemBorder(
+						l,
+						value,
+						index,
+						isSelected,
+						cellHasFocus);
 				Border toReturn = border;
 				if (value instanceof PatternOntologyFrameSectionRow) {
-					PatternModel patternModel = ((PatternOntologyFrameSectionRow) value)
-							.getPatternModel();
-					PatternBorder patternBorder = new PatternBorder(
-							patternModel);
-					toReturn = BorderFactory.createCompoundBorder(border,
-							patternBorder);
+					PatternModel patternModel = ((PatternOntologyFrameSectionRow) value).getPatternModel();
+					PatternBorder patternBorder = new PatternBorder(patternModel);
+					toReturn = BorderFactory.createCompoundBorder(border, patternBorder);
 				}
 				return toReturn;
 			}
 		};
-		this.list.setRootObject(getOWLEditorKit().getModelManager()
-				.getActiveOntology());
-		this.list.setCellRenderer(new PatternCellRenderer(getOWLEditorKit(),
-				this.factory));
+		AbstractPatternModelFactory patternFactory = ProtegeParserFactory.getInstance(
+				this.getOWLEditorKit()).getPatternFactory();
+		this.list.setRootObject(this.getOWLEditorKit().getModelManager().getActiveOntology());
+		this.list.setCellRenderer(new PatternCellRenderer(this.getOWLEditorKit(), patternFactory));
 		JScrollPane listPane = ComponentFactory.createScrollPane(this.list);
-		// PatternParser.setPatternModelFactory(new ProtegePatternModelFactory(
-		// this.getOWLModelManager()));
-		this.patternManager = PatternManager.getInstance(getOWLEditorKit()
-				.getModelManager().getOWLOntologyManager(), this.factory);
-		getOWLEditorKit().getModelManager().addOntologyChangeListener(
-				this.patternManager);
+		this.patternManager = PatternManager.getInstance(
+				this.getOWLEditorKit().getModelManager().getOWLOntologyManager(),
+				patternFactory);
+		this.getOWLEditorKit().getModelManager().addOntologyChangeListener(this.patternManager);
 		this.add(listPane);
 	}
 

@@ -7,12 +7,12 @@ import java.util.List;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
+import org.coode.oppl.Variable;
+import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.patterns.locality.LocalityChecker;
 import org.semanticweb.owl.model.OWLEntity;
 
-public class LocResultTableModel implements TableModel {
+public class LocalityCheckResultTableModel implements TableModel {
 	private static enum values {
 		PRESENT("X", 'X'), ABSENT(" ", ' ');
 		private char v;
@@ -41,21 +41,22 @@ public class LocResultTableModel implements TableModel {
 		return this.dataArray;
 	}
 
-	public LocResultTableModel(LocalityChecker checker, OWLEntity not) {
-		List<Variable> toassign = new ArrayList<Variable>(checker.getToAssign());
+	public LocalityCheckResultTableModel(LocalityChecker checker, OWLEntity not) {
+		List<Variable> toAssign = new ArrayList<Variable>(
+				checker.getInstantiatedPatternModel().getInputVariables());
 		List<Boolean> bindingsLocality = checker.getExploredNodesLocality();
 		List<BindingNode> bindings = checker.getExploredNodes();
-		this.dataArray = new String[bindings.size() + 1][toassign.size() + 1];
+		this.dataArray = new String[bindings.size() + 1][toAssign.size() + 1];
 		this.dataArray[0][0] = "Safe";
-		for (int i = 0; i < toassign.size(); i++) {
-			this.dataArray[0][i + 1] = toassign.get(i).getName();
+		for (int i = 0; i < toAssign.size(); i++) {
+			this.dataArray[0][i + 1] = toAssign.get(i).getName();
 		}
 		if (bindings.size() == bindingsLocality.size()) {
 			for (int i = 0; i < bindings.size(); i++) {
 				this.setValueAt(bindingsLocality.get(i), i, 0);
 				BindingNode node = bindings.get(i);
-				for (int j = 0; j < toassign.size(); j++) {
-					Variable v = toassign.get(j);
+				for (int j = 0; j < toAssign.size(); j++) {
+					Variable v = toAssign.get(j);
 					if (!not.equals(node.getAssignmentValue(v))) {
 						this.setValueAt(values.PRESENT.val, i, j + 1);
 					} else {
@@ -95,8 +96,7 @@ public class LocResultTableModel implements TableModel {
 			String s = falses.get(i);
 			this.dataArray[i + 1 + trues.size()][0] = Boolean.FALSE.toString();
 			for (int j = 1; j < this.dataArray[i + 1 + trues.size()].length; j++) {
-				this.dataArray[i + 1 + trues.size()][j] = values.getValue(s
-						.charAt(j - 1));
+				this.dataArray[i + 1 + trues.size()][j] = values.getValue(s.charAt(j - 1));
 			}
 		}
 	}

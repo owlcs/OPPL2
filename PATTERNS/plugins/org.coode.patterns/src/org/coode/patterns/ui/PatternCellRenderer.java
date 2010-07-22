@@ -37,6 +37,7 @@ import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.PatternExtractor;
 import org.coode.patterns.PatternModel;
 import org.coode.patterns.PatternOPPLScript;
+import org.coode.patterns.protege.ProtegeParserFactory;
 import org.coode.patterns.utils.Utils;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
@@ -54,32 +55,27 @@ import org.semanticweb.owl.model.OWLSubClassAxiom;
  *         Jun 19, 2008
  */
 public class PatternCellRenderer implements ListCellRenderer {
-	private OWLEditorKit owlEditorKit;
+	private final OWLEditorKit owlEditorKit;
 	private final OWLCellRenderer owlCellRenderer;
-	private AbstractPatternModelFactory factory;
 
-	public PatternCellRenderer(OWLEditorKit owlEditorKit,
-			AbstractPatternModelFactory f) {
+	public PatternCellRenderer(OWLEditorKit owlEditorKit, AbstractPatternModelFactory f) {
 		ArgCheck.checkNullArgument("The OWL Editor Kit", owlEditorKit);
 		this.owlEditorKit = owlEditorKit;
-		this.factory = f;
 		this.owlCellRenderer = new OWLCellRenderer(this.owlEditorKit);
 		this.owlCellRenderer.setHighlightKeywords(true);
 		this.owlCellRenderer.setWrap(true);
 	}
 
-	public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList list, Object value, int index,
+			boolean isSelected, boolean cellHasFocus) {
 		JPanel toReturn = new JPanel(new FlowLayout());
-		PatternExtractor patternExtractor = this.factory.getPatternExtractor();
+		PatternExtractor patternExtractor = ProtegeParserFactory.getInstance(this.getOWLEditorKit()).getPatternFactory().getPatternExtractor(
+				ProtegeParserFactory.getDefaultErrorListener());
 		if (value instanceof PatternClassFrameSectionRow) {
 			JLabel valueRendering = new JLabel();
-			OWLAnnotationAxiom<? extends OWLObject> annotationAxAnnotation = ((PatternClassFrameSectionRow) value)
-					.getAxiom();
-			OWLAnnotation<?> annotation = annotationAxAnnotation
-					.getAnnotation();
-			PatternOPPLScript patternModel = annotation
-					.accept(patternExtractor);
+			OWLAnnotationAxiom<? extends OWLObject> annotationAxAnnotation = ((PatternClassFrameSectionRow) value).getAxiom();
+			OWLAnnotation<?> annotation = annotationAxAnnotation.getAnnotation();
+			PatternOPPLScript patternModel = annotation.accept(patternExtractor);
 			if (patternModel != null) {
 				valueRendering.setText(patternModel.getRendering());
 			} else {
@@ -88,45 +84,47 @@ public class PatternCellRenderer implements ListCellRenderer {
 			toReturn.add(valueRendering);
 		} else if (value instanceof PatternOntologyFrameSectionRow) {
 			PatternOntologyFrameSectionRow row = (PatternOntologyFrameSectionRow) value;
-			OWLAnnotationAxiom<? extends OWLObject> annotationAxAnnotation = row
-					.getAxiom();
-			OWLAnnotation<?> annotation = annotationAxAnnotation
-					.getAnnotation();
-			PatternModel patternModel = (PatternModel) annotation
-					.accept(patternExtractor);
+			OWLAnnotationAxiom<? extends OWLObject> annotationAxAnnotation = row.getAxiom();
+			OWLAnnotation<?> annotation = annotationAxAnnotation.getAnnotation();
+			PatternModel patternModel = (PatternModel) annotation.accept(patternExtractor);
 			if (patternModel != null) {
 				toReturn.add(new JLabel(patternModel.getRendering()));
 			} else {
 				toReturn.add(new JLabel(value.toString()));
 			}
 		} else if (value instanceof PatternOWLEquivalentClassesAxiomFrameSectionRow) {
-			OWLEquivalentClassesAxiom annotationAxiom = ((PatternOWLEquivalentClassesAxiomFrameSectionRow) value)
-					.getAxiom();
-			Set<OWLAxiomAnnotationAxiom> annotationAxioms = annotationAxiom
-					.getAnnotationAxioms(this.owlEditorKit.getModelManager()
-							.getActiveOntology());
+			OWLEquivalentClassesAxiom annotationAxiom = ((PatternOWLEquivalentClassesAxiomFrameSectionRow) value).getAxiom();
+			Set<OWLAxiomAnnotationAxiom> annotationAxioms = annotationAxiom.getAnnotationAxioms(this.owlEditorKit.getModelManager().getActiveOntology());
 			if (Utils.isPatternGenerated(annotationAxioms)) {
 				Set<OWLDescription> descriptions = new HashSet<OWLDescription>(
 						annotationAxiom.getDescriptions());
-				descriptions
-						.remove(((PatternOWLEquivalentClassesAxiomFrameSectionRow) value)
-								.getRoot());
-				return this.owlCellRenderer.getListCellRendererComponent(list,
-						descriptions.iterator().next(), index, isSelected,
+				descriptions.remove(((PatternOWLEquivalentClassesAxiomFrameSectionRow) value).getRoot());
+				return this.owlCellRenderer.getListCellRendererComponent(
+						list,
+						descriptions.iterator().next(),
+						index,
+						isSelected,
 						cellHasFocus);
 			}
 		} else if (value instanceof PatternOWLSubClassAxiomFrameSectionRow) {
-			OWLSubClassAxiom annotationAxiom = ((PatternOWLSubClassAxiomFrameSectionRow) value)
-					.getAxiom();
-			Set<OWLAxiomAnnotationAxiom> annotationAxioms = annotationAxiom
-					.getAnnotationAxioms(this.owlEditorKit.getModelManager()
-							.getActiveOntology());
+			OWLSubClassAxiom annotationAxiom = ((PatternOWLSubClassAxiomFrameSectionRow) value).getAxiom();
+			Set<OWLAxiomAnnotationAxiom> annotationAxioms = annotationAxiom.getAnnotationAxioms(this.owlEditorKit.getModelManager().getActiveOntology());
 			if (Utils.isPatternGenerated(annotationAxioms)) {
-				return this.owlCellRenderer.getListCellRendererComponent(list,
-						annotationAxiom.getSuperClass(), index, isSelected,
+				return this.owlCellRenderer.getListCellRendererComponent(
+						list,
+						annotationAxiom.getSuperClass(),
+						index,
+						isSelected,
 						cellHasFocus);
 			}
 		}
 		return toReturn;
+	}
+
+	/**
+	 * @return the owlEditorKit
+	 */
+	public OWLEditorKit getOWLEditorKit() {
+		return this.owlEditorKit;
 	}
 }

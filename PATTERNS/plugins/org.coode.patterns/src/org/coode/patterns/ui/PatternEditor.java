@@ -33,10 +33,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.coode.oppl.utils.ArgCheck;
+import org.coode.parsers.ui.InputVerificationStatusChangedListener;
 import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.PatternModel;
-import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
-import org.protege.editor.core.ui.util.VerifiedInputEditor;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.frame.AbstractOWLFrameSectionRowObjectEditor;
 
@@ -45,43 +44,38 @@ import org.protege.editor.owl.ui.frame.AbstractOWLFrameSectionRowObjectEditor;
  * 
  *         Apr 2, 2009
  */
-public class PatternEditor extends
-		AbstractOWLFrameSectionRowObjectEditor<PatternModel> implements
-		VerifiedInputEditor, ChangeListener {
+public class PatternEditor extends AbstractOWLFrameSectionRowObjectEditor<PatternModel> implements
+		org.protege.editor.core.ui.util.VerifiedInputEditor, ChangeListener {
 	private final JTabbedPane mainPanel = new JTabbedPane();
-	private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
-	protected final PatternBuilder patternBuilder;
+	private final Set<org.protege.editor.core.ui.util.InputVerificationStatusChangedListener> listeners = new HashSet<org.protege.editor.core.ui.util.InputVerificationStatusChangedListener>();
+	private final PatternBuilder patternBuilder;
 	private final TypeInPatternBuilder patternTextEditor;
-	protected PatternModel patternModel = null;
+	private PatternModel patternModel = null;
 
-	public PatternEditor(OWLEditorKit owlEditorKit,
-			AbstractPatternModelFactory f) {
+	public PatternEditor(OWLEditorKit owlEditorKit, AbstractPatternModelFactory f) {
 		this.patternBuilder = new PatternBuilder(owlEditorKit, f);
 		this.patternTextEditor = new TypeInPatternBuilder(owlEditorKit);
-		this.patternBuilder
-				.addStatusChangedListener(new InputVerificationStatusChangedListener() {
-					public void verifiedStatusChanged(boolean newState) {
-						PatternEditor.this.patternModel = null;
-						if (newState) {
-							PatternEditor.this.patternModel = PatternEditor.this.patternBuilder
-									.getEditedObject();
-						}
-						PatternEditor.this.handleChange();
-					}
-				});
-		this.patternTextEditor
-				.addStatusChangedListener(new InputVerificationStatusChangedListener() {
-					public void verifiedStatusChanged(boolean newState) {
-						PatternEditor.this.patternModel = null;
-						if (newState) {
-							PatternEditor.this.patternModel = PatternEditor.this.patternTextEditor
-									.getEditedObject();
-						}
-						PatternEditor.this.handleChange();
-					}
-				});
+		this.patternBuilder.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+			public void verifiedStatusChanged(boolean newState) {
+				PatternEditor.this.patternModel = null;
+				if (newState) {
+					PatternEditor.this.patternModel = PatternEditor.this.patternBuilder.getEditedObject();
+				}
+				PatternEditor.this.handleChange();
+			}
+		});
+		this.patternTextEditor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+			public void verifiedStatusChanged(boolean newState) {
+				PatternEditor.this.patternModel = null;
+				if (newState) {
+					PatternEditor.this.patternModel = PatternEditor.this.patternTextEditor.getEditedObject();
+				}
+				PatternEditor.this.handleChange();
+			}
+		});
 		this.mainPanel.addChangeListener(this);
 		this.initGUI();
+		this.handleChange();
 	}
 
 	protected void handleChange() {
@@ -90,7 +84,7 @@ public class PatternEditor extends
 	}
 
 	private void notifyListeners(boolean newState) {
-		for (InputVerificationStatusChangedListener l : this.listeners) {
+		for (org.protege.editor.core.ui.util.InputVerificationStatusChangedListener l : this.listeners) {
 			l.verifiedStatusChanged(newState);
 		}
 	}
@@ -109,7 +103,7 @@ public class PatternEditor extends
 	 *      (org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
 	 */
 	public void addStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+			org.protege.editor.core.ui.util.InputVerificationStatusChangedListener listener) {
 		ArgCheck.checkNullArgument("The listener", listener);
 		listener.verifiedStatusChanged(this.patternModel != null);
 		this.listeners.add(listener);
@@ -121,7 +115,7 @@ public class PatternEditor extends
 	 *      (org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
 	 */
 	public void removeStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+			org.protege.editor.core.ui.util.InputVerificationStatusChangedListener listener) {
 		this.listeners.remove(listener);
 	}
 
@@ -143,16 +137,13 @@ public class PatternEditor extends
 		return this.mainPanel;
 	}
 
-	@SuppressWarnings("unused")
 	public void stateChanged(ChangeEvent e) {
 		Component selectedComponent = this.mainPanel.getSelectedComponent();
 		if (this.patternModel != null) {
-			if (selectedComponent.equals(this.patternBuilder
-					.getEditorComponent())) {
+			if (selectedComponent.equals(this.patternBuilder.getEditorComponent())) {
 				this.patternBuilder.setPatternModel(this.patternModel);
 			}
-			if (selectedComponent.equals(this.patternTextEditor
-					.getEditorComponent())) {
+			if (selectedComponent.equals(this.patternTextEditor.getEditorComponent())) {
 				this.patternTextEditor.setPatternModel(this.patternModel);
 			}
 		}

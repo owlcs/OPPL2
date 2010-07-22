@@ -30,6 +30,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.coode.oppl.OPPLScript;
+import org.coode.parsers.ErrorListener;
+import org.coode.parsers.SystemErrorEcho;
 import org.semanticweb.owl.model.AddAxiom;
 import org.semanticweb.owl.model.OWLAnnotation;
 import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
@@ -89,7 +91,6 @@ import org.semanticweb.owl.model.SWRLRule;
  *         Jul 3, 2008
  */
 public class PatternManager implements OWLOntologyChangeListener {
-	@SuppressWarnings("unused")
 	static abstract class AbstractEmptyManager {
 		public void visit(OWLSubClassAxiom axiom) {
 		}
@@ -200,14 +201,12 @@ public class PatternManager implements OWLOntologyChangeListener {
 		}
 	}
 
-	static class AdditionManager extends AbstractEmptyManager implements
-			OWLAxiomVisitor {
+	static class AdditionManager extends AbstractEmptyManager implements OWLAxiomVisitor {
 		private OWLOntologyManager ontologyManager;
 		private OWLOntology ontology;
 		private final AbstractPatternModelFactory factory;
 
-		public AdditionManager(OWLOntology ontology,
-				OWLOntologyManager ontologyManager,
+		public AdditionManager(OWLOntology ontology, OWLOntologyManager ontologyManager,
 				AbstractPatternModelFactory f) {
 			this.ontologyManager = ontologyManager;
 			this.ontology = ontology;
@@ -215,22 +214,17 @@ public class PatternManager implements OWLOntologyChangeListener {
 		}
 
 		public void visit(OWLEntityAnnotationAxiom axiom) {
-			PatternExtractor patternExtractor = this.factory
-					.getPatternExtractor();
-			OWLAnnotation<? extends OWLObject> annotation = axiom
-					.getAnnotation();
+			PatternExtractor patternExtractor = this.factory.getPatternExtractor(getDefaultErrorListener());
+			OWLAnnotation<? extends OWLObject> annotation = axiom.getAnnotation();
 			OPPLScript patternModel = annotation.accept(patternExtractor);
 			OWLEntity subject = axiom.getSubject();
 			if (patternModel != null && subject instanceof OWLClass
 					&& patternModel instanceof InstantiatedPatternModel) {
-				PatternOPPLScript opplStatement = ((InstantiatedPatternModel) patternModel)
-						.getInstantiatedPattern();
-				ClassPatternExecutor patternExecutor = new ClassPatternExecutor(
-						(OWLClass) subject,
+				PatternOPPLScript opplStatement = ((InstantiatedPatternModel) patternModel).getInstantiatedPattern();
+				ClassPatternExecutor patternExecutor = new ClassPatternExecutor((OWLClass) subject,
 						(InstantiatedPatternModel) patternModel, this.ontology,
 						this.ontologyManager, annotation.getAnnotationURI());
-				List<OWLAxiomChange> changes = opplStatement
-						.accept(patternExecutor);
+				List<OWLAxiomChange> changes = opplStatement.accept(patternExecutor);
 				try {
 					this.ontologyManager.applyChanges(changes);
 				} catch (OWLOntologyChangeException e) {
@@ -240,52 +234,39 @@ public class PatternManager implements OWLOntologyChangeListener {
 		}
 	}
 
-	static class DeletionManager extends AbstractEmptyManager implements
-			OWLAxiomVisitor {
+	static class DeletionManager extends AbstractEmptyManager implements OWLAxiomVisitor {
 		private final OWLOntologyManager ontologyManager;
 		private final AbstractPatternModelFactory factory;
 
 		/**
 		 * @param ontologyManager
 		 */
-		public DeletionManager(OWLOntologyManager ontologyManager,
-				AbstractPatternModelFactory f) {
+		public DeletionManager(OWLOntologyManager ontologyManager, AbstractPatternModelFactory f) {
 			this.ontologyManager = ontologyManager;
 			this.factory = f;
 		}
 
 		public void visit(OWLEntityAnnotationAxiom axiom) {
-			PatternExtractor patternExtractor = this.factory
-					.getPatternExtractor();
+			PatternExtractor patternExtractor = this.factory.getPatternExtractor(getDefaultErrorListener());
 			// System.out.println("Parsing " + axiom);
-			OWLAnnotation<? extends OWLObject> annotation = axiom
-					.getAnnotation();
-			PatternOPPLScript patternModel = annotation
-					.accept(patternExtractor);
+			OWLAnnotation<? extends OWLObject> annotation = axiom.getAnnotation();
+			PatternOPPLScript patternModel = annotation.accept(patternExtractor);
 			OWLEntity subject = axiom.getSubject();
 			List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
 			if (patternModel != null && subject instanceof OWLClass
 					&& patternModel instanceof InstantiatedPatternModel) {
-				Set<OWLOntology> ontologies = this.ontologyManager
-						.getOntologies();
+				Set<OWLOntology> ontologies = this.ontologyManager.getOntologies();
 				for (OWLOntology ontology : ontologies) {
 					Set<OWLAxiom> axioms = ontology.getAxioms();
 					for (OWLAxiom anOntologyAxiom : axioms) {
-						Set<OWLAxiomAnnotationAxiom> annotationAxioms = anOntologyAxiom
-								.getAnnotationAxioms(ontology);
+						Set<OWLAxiomAnnotationAxiom> annotationAxioms = anOntologyAxiom.getAnnotationAxioms(ontology);
 						for (OWLAxiomAnnotationAxiom axiomAnnotationAxiom : annotationAxioms) {
-							String value = axiomAnnotationAxiom.getAnnotation()
-									.getAnnotationValueAsConstant()
-									.getLiteral();
-							URI annotationURI = axiomAnnotationAxiom
-									.getAnnotation().getAnnotationURI();
+							String value = axiomAnnotationAxiom.getAnnotation().getAnnotationValueAsConstant().getLiteral();
+							URI annotationURI = axiomAnnotationAxiom.getAnnotation().getAnnotationURI();
 							if (value.equals(patternModel.getUri().toString())
-									&& annotationURI
-											.equals(URI
-													.create(PatternModel.NAMESPACE
-															+ PatternActionFactory.CREATED_BY))) {
-								changes.add(new RemoveAxiom(ontology,
-										anOntologyAxiom));
+									&& annotationURI.equals(URI.create(PatternModel.NAMESPACE
+											+ PatternActionFactory.CREATED_BY))) {
+								changes.add(new RemoveAxiom(ontology, anOntologyAxiom));
 							}
 						}
 					}
@@ -303,8 +284,7 @@ public class PatternManager implements OWLOntologyChangeListener {
 	private final OWLOntologyManager ontologyManager;
 	private final AbstractPatternModelFactory factory;
 
-	PatternManager(OWLOntologyManager ontologyManager,
-			AbstractPatternModelFactory f) {
+	PatternManager(OWLOntologyManager ontologyManager, AbstractPatternModelFactory f) {
 		this.ontologyManager = ontologyManager;
 		this.factory = f;
 	}
@@ -317,8 +297,7 @@ public class PatternManager implements OWLOntologyChangeListener {
 	 * 
 	 * @see org.semanticweb.owl.model.OWLOntologyChangeListener#ontologiesChanged(java.util.List)
 	 */
-	public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
-			throws OWLException {
+	public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException {
 		for (OWLOntologyChange ontologyChange : changes) {
 			if (ontologyChange.isAxiomChange()) {
 				OWLOntology ontology = ontologyChange.getOntology();
@@ -326,12 +305,10 @@ public class PatternManager implements OWLOntologyChangeListener {
 				OWLAxiom axiom = axiomChange.getAxiom();
 				OWLAxiomVisitor visitor;
 				if (axiomChange instanceof AddAxiom) {
-					visitor = new AdditionManager(ontology,
-							this.ontologyManager, this.factory);
+					visitor = new AdditionManager(ontology, this.ontologyManager, this.factory);
 					axiom.accept(visitor);
 				} else if (axiomChange instanceof RemoveAxiom) {
-					visitor = new DeletionManager(this.ontologyManager,
-							this.factory);
+					visitor = new DeletionManager(this.ontologyManager, this.factory);
 					axiom.accept(visitor);
 				}
 			}
@@ -341,13 +318,17 @@ public class PatternManager implements OWLOntologyChangeListener {
 	/**
 	 * @return the instance
 	 */
-	public static synchronized PatternManager getInstance(
-			OWLOntologyManager ontologyManager, AbstractPatternModelFactory f) {
+	public static synchronized PatternManager getInstance(OWLOntologyManager ontologyManager,
+			AbstractPatternModelFactory f) {
 		PatternManager patternManager = instances.get(ontologyManager);
 		if (patternManager == null) {
 			patternManager = new PatternManager(ontologyManager, f);
 			instances.put(ontologyManager, patternManager);
 		}
 		return patternManager;
+	}
+
+	public static ErrorListener getDefaultErrorListener() {
+		return new SystemErrorEcho();
 	}
 }

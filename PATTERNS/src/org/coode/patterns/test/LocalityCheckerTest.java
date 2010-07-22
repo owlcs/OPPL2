@@ -5,14 +5,15 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.Set;
 
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
+import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.parsers.SystemErrorEcho;
 import org.coode.patterns.InstantiatedPatternModel;
+import org.coode.patterns.OPPLPatternParser;
+import org.coode.patterns.ParserFactory;
 import org.coode.patterns.PatternModel;
 import org.coode.patterns.PatternOPPLScript;
 import org.coode.patterns.locality.LocalityChecker;
-import org.coode.patterns.syntax.PatternParser;
-import org.coode.patterns.ui.LocResultTableModel;
-import org.coode.patterns.utils.ParserFactory;
+import org.coode.patterns.ui.LocalityCheckResultTableModel;
 import org.semanticweb.owl.apibinding.OWLManager;
 import org.semanticweb.owl.inference.OWLReasoner;
 import org.semanticweb.owl.model.OWLEntity;
@@ -40,27 +41,22 @@ public class LocalityCheckerTest {
 				+ "ADD Nothing equivalentTo ?element and ?allExposedSubElements and ?allHiddenSubElements and ?allExposedSubElements and ?allExposedFeatures and ?allHiddenFeatures and ?allQuantities\n"
 				+ "END;";
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-		OWLOntologyURIMapper siemensmapper = new AutoURIMapper(new File(
-				"../OPPL2/ontologies/"), true);
+		OWLOntologyURIMapper siemensmapper = new AutoURIMapper(new File("../OPPL2/ontologies/"),
+				true);
 		manager.addURIMapper(siemensmapper);
-		OWLOntology ontology = manager.loadOntologyFromPhysicalURI(URI
-				.create("file:../OPPL2/ontologies/AnnotatedSiemensStart.owl"));
+		OWLOntology ontology = manager.loadOntologyFromPhysicalURI(URI.create("file:../OPPL2/ontologies/AnnotatedSiemensStart.owl"));
 		FaCTPlusPlusReasonerFactory prf = new FaCTPlusPlusReasonerFactory();
 		OWLReasoner r = prf.createReasoner(manager);
 		OWLEntityCollector collector = new OWLEntityCollector();
 		for (OWLOntology o : manager.getOntologies()) {
 			o.accept(collector);
 		}
-		LocalityChecker toTest = new LocalityChecker(manager, r, collector
-				.getObjects());
-		// toTest.setSignature(new HashSet<OWLEntity>());
-		PatternParser parser = ParserFactory.initParser(string, ontology,
-				manager, r);
-		PatternOPPLScript script = parser.Start();
-		PatternModel model = parser.getPatternModelFactory()
-				.createPatternModel(script);
-		InstantiatedPatternModel m = parser.getPatternModelFactory()
-				.createInstantiatedPatternModel(model);
+		LocalityChecker toTest = new LocalityChecker(manager, r, collector.getObjects());
+		OPPLPatternParser parser = new ParserFactory(ontology, manager).build(new SystemErrorEcho());
+		PatternOPPLScript script = parser.parse(string);
+		PatternModel model = parser.getOPPLPatternFactory().createPatternModel(script);
+		InstantiatedPatternModel m = parser.getOPPLPatternFactory().createInstantiatedPatternModel(
+				model);
 		toTest.setInstantiatedPatternModel(m);
 		Set<BindingNode> extractBindingNodes = m.extractBindingNodes();
 		m.getConstraintSystem().setLeaves(extractBindingNodes);
@@ -69,7 +65,7 @@ public class LocalityCheckerTest {
 	}
 
 	public static void print(OWLEntity not, LocalityChecker toTest) {
-		LocResultTableModel m = new LocResultTableModel(toTest, not);
+		LocalityCheckResultTableModel m = new LocalityCheckResultTableModel(toTest, not);
 		System.out.println(Arrays.toString(m.getDataArray()));
 	}
 }

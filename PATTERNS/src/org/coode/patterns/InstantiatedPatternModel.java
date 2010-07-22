@@ -22,8 +22,6 @@
  */
 package org.coode.patterns;
 
-import java.io.StringWriter;
-import java.io.Writer;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,16 +35,15 @@ import org.coode.oppl.InstantiatedOPPLScript;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLScriptVisitor;
 import org.coode.oppl.OPPLScriptVisitorEx;
-import org.coode.oppl.SimpleVariableShortFormProvider;
+import org.coode.oppl.PartialOWLObjectInstantiator;
+import org.coode.oppl.Variable;
+import org.coode.oppl.bindingtree.Assignment;
+import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.bindingtree.LeafBrusher;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.utils.ArgCheck;
-import org.coode.oppl.variablemansyntax.PartialOWLObjectInstantiator;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.bindingtree.Assignment;
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
-import org.coode.oppl.variablemansyntax.bindingtree.LeafBrusher;
 import org.coode.oppl.visitors.InputVariableCollector;
-import org.semanticweb.owl.inference.OWLReasonerException;
+import org.coode.parsers.ErrorListener;
 import org.semanticweb.owl.model.AddAxiom;
 import org.semanticweb.owl.model.OWLAnnotation;
 import org.semanticweb.owl.model.OWLAnnotationAxiom;
@@ -63,8 +60,7 @@ import org.semanticweb.owl.model.RemoveAxiom;
  * 
  *         Jun 11, 2008
  */
-public class InstantiatedPatternModel implements InstantiatedOPPLScript,
-		PatternOPPLScript {
+public class InstantiatedPatternModel implements InstantiatedOPPLScript, PatternOPPLScript {
 	private URI uri = null;
 	// The pattern model that this instantiates
 	private final PatternModel patternModel;
@@ -126,22 +122,22 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
 			Set<OWLObject> instantiation = this.instantiations.get(variable);
 			if (instantiation != null) {
 				if (instantiation.size() == 1) {
-					OWLObject singleInstantiation = instantiation.iterator()
-							.next();
-					toReturn = toReturn.replaceAll("\\" + variable.getName(),
+					OWLObject singleInstantiation = instantiation.iterator().next();
+					toReturn = toReturn.replaceAll(
+							"\\" + variable.getName(),
 							this.render(singleInstantiation));
 				} else {
 					String instantiationReplacement = "{";
 					boolean firstInstantiationValue = true;
 					for (OWLObject object : instantiation) {
-						instantiationReplacement += firstInstantiationValue ? this
-								.render(object)
+						instantiationReplacement += firstInstantiationValue ? this.render(object)
 								: ", " + this.render(object);
 						firstInstantiationValue = firstInstantiationValue ? false
 								: firstInstantiationValue;
 					}
 					instantiationReplacement += "}";
-					toReturn = toReturn.replaceAll("\\" + variable.getName(),
+					toReturn = toReturn.replaceAll(
+							"\\" + variable.getName(),
 							instantiationReplacement);
 				}
 			} else {
@@ -162,14 +158,12 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
 			} else {
 				first = false;
 			}
-			ManchesterSyntaxRenderer renderer = this.patternModel
-					.getPatternModelFactory().getRenderer(
-							this.getConstraintSystem());
+			ManchesterSyntaxRenderer renderer = this.patternModel.getPatternModelFactory().getRenderer(
+					this.getConstraintSystem());
 			Set<OWLObject> instantiation = this.instantiations.get(variable);
 			if (instantiation != null) {
 				if (instantiation.size() == 1) {
-					OWLObject singleInstantiation = instantiation.iterator()
-							.next();
+					OWLObject singleInstantiation = instantiation.iterator().next();
 					singleInstantiation.accept(renderer);
 					toReturn += renderer.toString();
 				} else {
@@ -177,12 +171,12 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
 					boolean firstInstantiationValue = true;
 					for (OWLObject object : instantiation) {
 						object.accept(renderer);
-						toReturn += firstInstantiationValue ? renderer
-								.toString() : ", " + renderer.toString();
+						toReturn += firstInstantiationValue ? renderer.toString() : ", "
+								+ renderer.toString();
 						firstInstantiationValue = firstInstantiationValue ? false
 								: firstInstantiationValue;
-						renderer = this.patternModel.getPatternModelFactory()
-								.getRenderer(this.getConstraintSystem());
+						renderer = this.patternModel.getPatternModelFactory().getRenderer(
+								this.getConstraintSystem());
 					}
 					toReturn += "}";
 				}
@@ -195,8 +189,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
 	}
 
 	protected String render(OWLObject owlObject) {
-		ManchesterSyntaxRenderer renderer = this.patternModel.factory
-				.getRenderer(getConstraintSystem());
+		ManchesterSyntaxRenderer renderer = this.patternModel.factory.getRenderer(this.getConstraintSystem());
 		owlObject.accept(renderer);
 		return renderer.toString();
 	}
@@ -211,16 +204,10 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
 	public Set<BindingNode> extractBindingNodes() {
 		Set<Assignment> assignments = new HashSet<Assignment>();
 		List<Variable> inputVariables = this.getInputVariables();
+		Map<Variable, Set<OWLObject>> bindings = new HashMap<Variable, Set<OWLObject>>();
 		for (Variable v : inputVariables) {
-			v.clearBindings();
 			if (this.instantiations.containsKey(v)) {
-				for (OWLObject instantiation : this.instantiations.get(v)) {
-					try {
-						v.addPossibleBinding(instantiation);
-					} catch (OWLReasonerException e) {
-						throw new RuntimeException(e);
-					}
-				}
+				bindings.put(v, new HashSet<OWLObject>(this.instantiations.get(v)));
 			}
 		}
 		Set<Variable> toAssign = new HashSet<Variable>(inputVariables);
@@ -228,76 +215,57 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
 			toAssign.add(this.getConstraintSystem().getThisClassVariable());
 		}
 		BindingNode rootBindingNode = new BindingNode(assignments, toAssign);
-		LeafBrusher leafBrusher = new LeafBrusher();
+		LeafBrusher leafBrusher = new LeafBrusher(bindings);
 		rootBindingNode.accept(leafBrusher);
 		Set<BindingNode> leaves = leafBrusher.getLeaves();
 		return leaves;
 	}
 
-	public Set<Variable> extractAllPossibleBindingNodes(OWLOntology o,
+	public Map<Variable, Set<OWLObject>> extractAllPossibleBindingNodes(OWLOntology o,
 			Set<OWLEntity> signature) {
+		Map<Variable, Set<OWLObject>> toReturn = new HashMap<Variable, Set<OWLObject>>();
 		List<Variable> inputVariables = this.getInputVariables();
 		for (Variable v : inputVariables) {
+			HashSet<OWLObject> values = new HashSet<OWLObject>();
+			values.add(this.getPatternModel().getConstraintSystem().getOntologyManager().getOWLDataFactory().getOWLNothing());
+			toReturn.put(v, values);
 			if (!this.instantiations.containsKey(v)) {
-				Set<? extends OWLObject> referencedValues = v.getType()
-						.getReferencedValues(o);
+				Set<? extends OWLObject> referencedValues = v.getType().getReferencedOWLObjects(
+						this.getPatternModel().getConstraintSystem().getOntologyManager().getOntologies());
 				for (OWLObject bind : referencedValues) {
-					try {
-						if (signature.contains(bind)
-								&& v.getPossibleBindings().size() == 0) {
-							v.addPossibleBinding(bind);
-						}
-						v.addPossibleBinding(this.patternModel
-								.getOWLOntologyManager().getOWLDataFactory()
-								.getOWLNothing());
-					} catch (OWLReasonerException e) {
-						throw new RuntimeException(e);
+					if (signature.contains(bind)) {
+						values.add(bind);
 					}
 				}
+				toReturn.put(v, values);
 			}
 		}
-		Set<Variable> toAssign = new HashSet<Variable>(inputVariables);
-		// if (this.isClassPattern()) {
-		// toAssign.add(this.getConstraintSystem().getThisClassVariable());
-		// }
-		return toAssign;
+		return toReturn;
 	}
 
 	@SuppressWarnings("unchecked")
-	public Set<? extends OWLAxiom> getOWLAxioms(OWLOntology ontology) {
+	public Set<? extends OWLAxiom> getOWLAxioms(OWLOntology ontology, ErrorListener errorListener) {
 		Set<OWLAxiom> toReturn = new HashSet<OWLAxiom>();
 		boolean found = false;
 		OWLAnnotationAxiom<? extends OWLObject> annotationAxiom = null;
 		OWLClass owlClass;
-		Iterator<OWLClass> classIterator = ontology.getReferencedClasses()
-				.iterator();
+		Iterator<OWLClass> classIterator = ontology.getReferencedClasses().iterator();
 		while (classIterator.hasNext()) {
 			owlClass = classIterator.next();
-			Iterator<OWLAnnotationAxiom> annotationIterator = owlClass
-					.getAnnotationAxioms(ontology).iterator();
+			@SuppressWarnings("rawtypes")
+			Iterator<OWLAnnotationAxiom> annotationIterator = owlClass.getAnnotationAxioms(ontology).iterator();
 			while (annotationIterator.hasNext()) {
 				annotationAxiom = annotationIterator.next();
-				PatternExtractor patternExtractor = this.patternModel
-						.getPatternModelFactory().getPatternExtractor();
-				OWLAnnotation<? extends OWLObject> annotation = annotationAxiom
-						.getAnnotation();
+				PatternExtractor patternExtractor = this.patternModel.getPatternModelFactory().getPatternExtractor(
+						errorListener);
+				OWLAnnotation<? extends OWLObject> annotation = annotationAxiom.getAnnotation();
 				PatternOPPLScript script = annotation.accept(patternExtractor);
-				found = script != null
-						&& this.getName().equals(script.getName());
+				found = script != null && this.getName().equals(script.getName());
 				if (found) {
 					toReturn.add(annotationAxiom);
 				}
 			}
 		}
-		// Set<OWLAxiom> axioms = ontology.getAxioms();
-		// for (OWLAxiom axiom : axioms) {
-		// Set<OWLAxiomAnnotationAxiom> annotationAxioms = axiom
-		// .getAnnotationAxioms(ontology);
-		// if (Utils.isPatternGenerated(this.patternModel
-		// .getPatternLocalName(), annotationAxioms)) {
-		// toReturn.add(axiom);
-		// }
-		// }
 		return toReturn;
 	}
 
@@ -382,23 +350,19 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
 			} else {
 				first = false;
 			}
-			Set<OWLObject> instantiationsValues = this
-					.getInstantiations(variable);
+			Set<OWLObject> instantiationsValues = this.getInstantiations(variable);
 			if (instantiationsValues != null && !instantiationsValues.isEmpty()) {
 				if (instantiationsValues.size() == 1) {
-					OWLObject instantiation = instantiationsValues.iterator()
-							.next();
+					OWLObject instantiation = instantiationsValues.iterator().next();
 					toReturn += this.render(instantiation);
 				} else {
 					boolean firstInstantiation = true;
 					toReturn += "{";
 					for (OWLObject instantiation : instantiationsValues) {
-						String instantiationRendering = this
-								.render(instantiation);
-						toReturn += firstInstantiation ? instantiationRendering
-								: ", " + instantiationRendering;
-						firstInstantiation = firstInstantiation ? false
-								: firstInstantiation;
+						String instantiationRendering = this.render(instantiation);
+						toReturn += firstInstantiation ? instantiationRendering : ", "
+								+ instantiationRendering;
+						firstInstantiation = firstInstantiation ? false : firstInstantiation;
 					}
 					toReturn += "}";
 				}
@@ -455,12 +419,10 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
 				PartialOWLObjectInstantiator partialObjectInstantiator = new PartialOWLObjectInstantiator(
 						bindingNode, this.getConstraintSystem());
 				OWLAxiom axiom = axiomChange.getAxiom();
-				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom
-						.accept(partialObjectInstantiator);
+				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(partialObjectInstantiator);
 				OWLAxiomChange instantiatedChange = axiomChange instanceof AddAxiom ? new AddAxiom(
-						axiomChange.getOntology(), instantiatedAxiom)
-						: new RemoveAxiom(axiomChange.getOntology(),
-								instantiatedAxiom);
+						axiomChange.getOntology(), instantiatedAxiom) : new RemoveAxiom(
+						axiomChange.getOntology(), instantiatedAxiom);
 				toReturn.add(instantiatedChange);
 			}
 		}
@@ -471,8 +433,8 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
 		return null;
 	}
 
-	public List<OWLObject> getDefinitorialPortions(
-			List<List<Object>> replacementTuples) throws PatternException {
+	public List<OWLObject> getDefinitorialPortions(List<List<Object>> replacementTuples)
+			throws PatternException {
 		return this.patternModel.getDefinitorialPortions(replacementTuples);
 	}
 }

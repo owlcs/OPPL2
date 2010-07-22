@@ -25,12 +25,12 @@ package org.coode.patterns;
 import java.util.List;
 import java.util.Set;
 
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.OPPLAbstractFactory;
 import org.coode.oppl.OPPLScript;
+import org.coode.oppl.Variable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.coode.oppl.syntax.OPPLParser;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.semanticweb.owl.inference.OWLReasoner;
+import org.coode.parsers.ErrorListener;
 import org.semanticweb.owl.model.OWLAxiomChange;
 import org.semanticweb.owl.model.OWLConstantAnnotation;
 
@@ -56,10 +56,9 @@ public interface AbstractPatternModelFactory {
 	 * @throws UnsuitableOPPLScriptException
 	 */
 	PatternModel createPatternModel(String name, List<Variable> variables,
-			List<OWLAxiomChange> actions, Variable returnClause,
-			String rendering, ConstraintSystem constraintSystem)
-			throws EmptyVariableListException, EmptyActionListException,
-			UnsuitableOPPLScriptException;
+			List<OWLAxiomChange> actions, Variable returnClause, String rendering,
+			ConstraintSystem constraintSystem) throws EmptyVariableListException,
+			EmptyActionListException, UnsuitableOPPLScriptException;
 
 	/**
 	 * Builds a PatternModel instance starting from the input opplScript
@@ -70,48 +69,49 @@ public interface AbstractPatternModelFactory {
 	 *             when the input OPPLScript is not suitable for creating a
 	 *             pattern model out of it
 	 */
-	PatternModel createPatternModel(OPPLScript opplScript)
-			throws UnsuitableOPPLScriptException;
+	PatternModel createPatternModel(OPPLScript opplScript) throws UnsuitableOPPLScriptException;
 
 	/**
 	 * @param patternModel
 	 * @return a InstantiatedPatternModel instance created from the input
 	 *         patternModel
 	 */
-	InstantiatedPatternModel createInstantiatedPatternModel(
-			PatternModel patternModel);
+	InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel);
 
 	/**
-	 * @return a PatternVisitor that extracts patterns from annotations
+	 * Retrieves a PatternExtractor for extracting patterns from annotations.
+	 * 
+	 * @param errorListener
+	 *            The error listener cannot be {@code null}.
+	 * @return a PatternVisitor that extracts patterns from annotations.
+	 * @throws NullPointerException
+	 *             if the input is {@code null}.
 	 */
-	PatternExtractor getPatternExtractor();
+	PatternExtractor getPatternExtractor(ErrorListener errorListener);
 
 	/**
+	 * Retrieves a PatternExtractor that takes into account already visited
+	 * patterns.
+	 * 
 	 * @param visitedAnnotations
+	 *            The annotations containing already visited patterns as their
+	 *            values. Cannot be {@code null}.
+	 * @param errorListener
+	 *            The error listener. Cannot be {@code null}.
 	 * @return a PatternVisitor that extracts patterns from annotations
-	 *         excluding the input visited ones
+	 *         excluding the input visited ones.
+	 * @throws NullPointerException
+	 *             if either input is {@code null}.
 	 */
-	PatternExtractor getPatternExtractor(
-			Set<OWLConstantAnnotation> visitedAnnotations);
+	PatternExtractor getPatternExtractor(Set<OWLConstantAnnotation> visitedAnnotations,
+			ErrorListener errorListener);
 
 	/**
 	 * @return a fresh instance of a PatternConstraintSystem
 	 */
 	PatternConstraintSystem createConstraintSystem();
 
-	/**
-	 * Initialises the OPPL Parser with the input String using the input
-	 * PatternConstraintSystem
-	 * 
-	 * @param string
-	 * @param constraintSystem
-	 */
-	void initOPPLParser(String string, OWLReasoner reasoner);
+	ManchesterSyntaxRenderer getRenderer(PatternConstraintSystem patternConstraintSystem);
 
-	OPPLParser getOPPLParser();
-
-	void setOPPLParser(OPPLParser parser);
-
-	ManchesterSyntaxRenderer getRenderer(
-			PatternConstraintSystem patternConstraintSystem);
+	OPPLAbstractFactory getOPPLFactory();
 }

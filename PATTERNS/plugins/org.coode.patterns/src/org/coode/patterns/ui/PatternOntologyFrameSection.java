@@ -29,7 +29,7 @@ import java.util.List;
 import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.PatternExtractor;
 import org.coode.patterns.PatternModel;
-import org.coode.patterns.protege.ProtegePatternExtractor;
+import org.coode.patterns.protege.ProtegeParserFactory;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.frame.AbstractOWLFrameSection;
 import org.protege.editor.owl.ui.frame.OWLFrame;
@@ -50,8 +50,7 @@ import org.semanticweb.owl.model.RemoveAxiom;
  * 
  *         Jun 11, 2008
  */
-public class PatternOntologyFrameSection
-		extends
+public class PatternOntologyFrameSection extends
 		AbstractOWLFrameSection<OWLOntology, OWLOntologyAnnotationAxiom, PatternModel> {
 	private static final String LABEL = "Patterns ";
 	protected boolean canEdit = true;
@@ -60,18 +59,18 @@ public class PatternOntologyFrameSection
 	private final AbstractPatternModelFactory factory;
 
 	protected PatternOntologyFrameSection(OWLEditorKit editorKit,
-			OWLFrame<? extends OWLOntology> frame, AbstractPatternModelFactory f) {
-		this(editorKit, frame, true, true, true, f);
+			OWLFrame<? extends OWLOntology> frame) {
+		this(editorKit, frame, true, true, true);
 	}
 
 	public PatternOntologyFrameSection(OWLEditorKit owlEditorKit,
-			OWLFrame<? extends OWLOntology> frame, boolean canEdit,
-			boolean canAdd, boolean canDelete, AbstractPatternModelFactory f) {
+			OWLFrame<? extends OWLOntology> frame, boolean canEdit, boolean canAdd,
+			boolean canDelete) {
 		super(owlEditorKit, LABEL, frame);
 		this.canEdit = canEdit;
 		this.canAdd = canAdd;
 		this.canDelete = canDelete;
-		this.factory = f;
+		this.factory = ProtegeParserFactory.getInstance(owlEditorKit).getPatternFactory();
 	}
 
 	@Override
@@ -91,14 +90,14 @@ public class PatternOntologyFrameSection
 	@Override
 	protected OWLOntologyAnnotationAxiom createAxiom(PatternModel object) {
 		OWLDataFactory dataFactory = this.getOWLDataFactory();
-		OWLConstant constant = dataFactory.getOWLTypedConstant(object
-				.toString());
+		OWLConstant constant = dataFactory.getOWLTypedConstant(object.toString());
 		URI annotationURI = object.getUri();
-		OWLConstantAnnotation annotation = dataFactory
-				.getOWLConstantAnnotation(annotationURI, constant);
-		OWLOntologyAnnotationAxiom axiom = this
-				.getOWLDataFactory()
-				.getOWLOntologyAnnotationAxiom(this.getRootObject(), annotation);
+		OWLConstantAnnotation annotation = dataFactory.getOWLConstantAnnotation(
+				annotationURI,
+				constant);
+		OWLOntologyAnnotationAxiom axiom = this.getOWLDataFactory().getOWLOntologyAnnotationAxiom(
+				this.getRootObject(),
+				annotation);
 		return axiom;
 	}
 
@@ -110,17 +109,14 @@ public class PatternOntologyFrameSection
 
 	@Override
 	protected void refill(OWLOntology ontology) {
-		for (OWLOntologyAnnotationAxiom ontologyAnnotationAxiom : this
-				.getRootObject().getAnnotations(ontology)) {
-			PatternExtractor patternExtractor = new ProtegePatternExtractor(
-					this.getOWLModelManager());
-			OWLAnnotation<? extends OWLObject> annotation = ontologyAnnotationAxiom
-					.getAnnotation();
+		for (OWLOntologyAnnotationAxiom ontologyAnnotationAxiom : this.getRootObject().getAnnotations(
+				ontology)) {
+			PatternExtractor patternExtractor = this.factory.getPatternExtractor(ProtegeParserFactory.getDefaultErrorListener());
+			OWLAnnotation<? extends OWLObject> annotation = ontologyAnnotationAxiom.getAnnotation();
 			if (annotation.accept(patternExtractor) != null) {
-				this.addRow(new PatternOntologyFrameSectionRow(this
-						.getOWLEditorKit(), this, ontology, this
-						.getRootObject(), ontologyAnnotationAxiom,
-						this.canEdit, this.canDelete, this.factory));
+				this.addRow(new PatternOntologyFrameSectionRow(this.getOWLEditorKit(), this,
+						ontology, this.getRootObject(), ontologyAnnotationAxiom, this.canEdit,
+						this.canDelete));
 			}
 		}
 	}
@@ -131,10 +127,8 @@ public class PatternOntologyFrameSection
 
 	@Override
 	public void visit(OWLOntologyAnnotationAxiom ontologyAnnotationAxiom) {
-		PatternExtractor patternExtractor = new ProtegePatternExtractor(this
-				.getOWLModelManager());
-		OWLAnnotation<? extends OWLObject> annotation = ontologyAnnotationAxiom
-				.getAnnotation();
+		PatternExtractor patternExtractor = this.factory.getPatternExtractor(ProtegeParserFactory.getDefaultErrorListener());
+		OWLAnnotation<? extends OWLObject> annotation = ontologyAnnotationAxiom.getAnnotation();
 		if (annotation.accept(patternExtractor) != null) {
 			this.reset();
 		}

@@ -22,7 +22,7 @@
  */
 package org.coode.patterns;
 
-import org.coode.oppl.variablemansyntax.Variable;
+import org.coode.oppl.Variable;
 
 /**
  * @author Luigi Iannone

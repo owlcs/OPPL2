@@ -22,7 +22,6 @@
  */
 package org.coode.patterns.ui;
 
-import org.coode.patterns.AbstractPatternModelFactory;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.frame.AbstractOWLFrame;
 import org.semanticweb.owl.model.OWLOntology;
@@ -33,16 +32,15 @@ import org.semanticweb.owl.model.OWLOntology;
  *         Jun 11, 2008
  */
 public class PatternOntologyFrame extends AbstractOWLFrame<OWLOntology> {
-	public PatternOntologyFrame(OWLEditorKit owlEditorKit,
-			AbstractPatternModelFactory f) {
+	public PatternOntologyFrame(OWLEditorKit owlEditorKit) {
 		super(owlEditorKit.getModelManager().getOWLOntologyManager());
-		this.addSection(new PatternOntologyFrameSection(owlEditorKit, this, f));
+		this.addSection(new PatternOntologyFrameSection(owlEditorKit, this));
 	}
 
-	public PatternOntologyFrame(OWLEditorKit owlEditorKit, boolean canEdit,
-			boolean canAdd, boolean canDelete, AbstractPatternModelFactory f) {
+	public PatternOntologyFrame(OWLEditorKit owlEditorKit, boolean canEdit, boolean canAdd,
+			boolean canDelete) {
 		super(owlEditorKit.getModelManager().getOWLOntologyManager());
-		this.addSection(new PatternOntologyFrameSection(owlEditorKit, this,
-				canEdit, canAdd, canDelete, f));
+		this.addSection(new PatternOntologyFrameSection(owlEditorKit, this, canEdit, canAdd,
+				canDelete));
 	}
 }

@@ -22,19 +22,15 @@
  */
 package org.coode.patterns.protege;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Set;
 
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.OPPLAbstractFactory;
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.entity.OWLEntityRenderer;
-import org.coode.oppl.entity.OWLEntityRendererImpl;
+import org.coode.oppl.Variable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.coode.oppl.rendering.VariableOWLEntityRenderer;
-import org.coode.oppl.syntax.OPPLParser;
-import org.coode.oppl.utils.ProtegeParserFactory;
-import org.coode.oppl.variablemansyntax.ConstraintSystem;
-import org.coode.oppl.variablemansyntax.Variable;
+import org.coode.parsers.ErrorListener;
 import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.EmptyActionListException;
 import org.coode.patterns.EmptyVariableListException;
@@ -42,9 +38,9 @@ import org.coode.patterns.InstantiatedPatternModel;
 import org.coode.patterns.PatternConstraintSystem;
 import org.coode.patterns.PatternExtractor;
 import org.coode.patterns.PatternModel;
+import org.coode.patterns.PatternModelFactory;
 import org.coode.patterns.UnsuitableOPPLScriptException;
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owl.inference.OWLReasoner;
 import org.semanticweb.owl.model.OWLAxiomChange;
 import org.semanticweb.owl.model.OWLConstantAnnotation;
 
@@ -54,103 +50,111 @@ import org.semanticweb.owl.model.OWLConstantAnnotation;
  *         Jun 16, 2008
  */
 public class ProtegePatternModelFactory implements AbstractPatternModelFactory {
-	private final OWLModelManager modelManager;
-	private OPPLParser parser;
-
-	public OPPLParser getOPPLParser() {
-		return this.parser;
-	}
-
-	public void setOPPLParser(OPPLParser parser) {
-		this.parser = parser;
-	}
+	private final AbstractPatternModelFactory delegate;
 
 	/**
 	 * @param modelManager
 	 */
-	public ProtegePatternModelFactory(OWLModelManager modelManager,
-			String script) {
+	public ProtegePatternModelFactory(OWLModelManager modelManager) {
 		if (modelManager == null) {
 			throw new NullPointerException("The model manager cannot be null");
 		}
-		this.modelManager = modelManager;
-		this.initOPPLParser(script, modelManager.getReasoner());
+		this.delegate = new PatternModelFactory(modelManager.getActiveOntology(),
+				modelManager.getOWLOntologyManager(), modelManager.getReasoner());
 	}
 
-	public ProtegePatternModelFactory(OWLModelManager modelManager) {
-		this(modelManager, ";");
+	/**
+	 * @param name
+	 * @param variables
+	 * @param actions
+	 * @param returnClause
+	 * @param rendering
+	 * @param constraintSystem
+	 * @return
+	 * @throws EmptyVariableListException
+	 * @throws EmptyActionListException
+	 * @throws UnsuitableOPPLScriptException
+	 * @see org.coode.patterns.AbstractPatternModelFactory#createPatternModel(java.lang.String,
+	 *      java.util.List, java.util.List,
+	 *      org.coode.oppl.Variable, java.lang.String,
+	 *      org.coode.oppl.ConstraintSystem)
+	 */
+	public PatternModel createPatternModel(String name, List<Variable> variables,
+			List<OWLAxiomChange> actions, Variable returnClause, String rendering,
+			ConstraintSystem constraintSystem) throws EmptyVariableListException,
+			EmptyActionListException, UnsuitableOPPLScriptException {
+		return this.delegate.createPatternModel(
+				name,
+				variables,
+				actions,
+				returnClause,
+				rendering,
+				constraintSystem);
 	}
 
+	/**
+	 * @param opplScript
+	 * @return
+	 * @throws UnsuitableOPPLScriptException
+	 * @see org.coode.patterns.AbstractPatternModelFactory#createPatternModel(org.coode.oppl.OPPLScript)
+	 */
 	public PatternModel createPatternModel(OPPLScript opplScript)
 			throws UnsuitableOPPLScriptException {
-		if (opplScript.getActions().isEmpty()) {
-			throw new UnsuitableOPPLScriptException(opplScript);
-		} else {
-			return new ProtegePatternModel(opplScript, this.modelManager, this);
-		}
+		return this.delegate.createPatternModel(opplScript);
 	}
 
-	public InstantiatedPatternModel createInstantiatedPatternModel(
-			PatternModel patternModel) {
-		ProtegeInstantiatedPatternModel protegeInstantiatedPatternModel = new ProtegeInstantiatedPatternModel(
-				patternModel);
-		protegeInstantiatedPatternModel.modelManager = this.modelManager;
-		return protegeInstantiatedPatternModel;
+	/**
+	 * @param patternModel
+	 * @return
+	 * @see org.coode.patterns.AbstractPatternModelFactory#createInstantiatedPatternModel(org.coode.patterns.PatternModel)
+	 */
+	public InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel) {
+		return this.delegate.createInstantiatedPatternModel(patternModel);
 	}
 
-	public PatternExtractor getPatternExtractor() {
-		return new ProtegePatternExtractor(this.modelManager);
+	/**
+	 * @param errorListener
+	 * @return
+	 * @see org.coode.patterns.AbstractPatternModelFactory#getPatternExtractor(org.coode.parsers.ErrorListener)
+	 */
+	public PatternExtractor getPatternExtractor(ErrorListener errorListener) {
+		return this.delegate.getPatternExtractor(errorListener);
 	}
 
-	public PatternExtractor getPatternExtractor(
-			Set<OWLConstantAnnotation> visitedAnnotations) {
-		return new ProtegePatternExtractor(this.modelManager,
-				visitedAnnotations);
+	/**
+	 * @param visitedAnnotations
+	 * @param errorListener
+	 * @return
+	 * @see org.coode.patterns.AbstractPatternModelFactory#getPatternExtractor(java.util.Set,
+	 *      org.coode.parsers.ErrorListener)
+	 */
+	public PatternExtractor getPatternExtractor(Set<OWLConstantAnnotation> visitedAnnotations,
+			ErrorListener errorListener) {
+		return this.delegate.getPatternExtractor(visitedAnnotations, errorListener);
 	}
 
+	/**
+	 * @return
+	 * @see org.coode.patterns.AbstractPatternModelFactory#createConstraintSystem()
+	 */
 	public PatternConstraintSystem createConstraintSystem() {
-		return new PatternConstraintSystem(this.modelManager
-				.getActiveOntology(),
-				this.modelManager.getOWLOntologyManager(), this.modelManager
-						.getReasoner(), this);
+		return this.delegate.createConstraintSystem();
 	}
 
-	public void initOPPLParser(String string, OWLReasoner reasoner) {
-		this.parser = ProtegeParserFactory.initParser(string,
-				this.modelManager, PatternModel.getScriptValidator());
+	/**
+	 * @param patternConstraintSystem
+	 * @return
+	 * @see org.coode.patterns.AbstractPatternModelFactory#getRenderer(org.coode.patterns.PatternConstraintSystem)
+	 */
+	public ManchesterSyntaxRenderer getRenderer(PatternConstraintSystem patternConstraintSystem) {
+		return this.delegate.getRenderer(patternConstraintSystem);
 	}
 
-	public PatternModel createPatternModel(String name,
-			List<Variable> variables, List<OWLAxiomChange> actions,
-			Variable returnClause, String rendering,
-			ConstraintSystem constraintSystem)
-			throws EmptyVariableListException, EmptyActionListException,
-			UnsuitableOPPLScriptException {
-		if (variables.isEmpty()) {
-			throw new EmptyVariableListException();
-		} else if (actions.isEmpty()) {
-			throw new EmptyActionListException();
-		} else {
-			OPPLScript opplScript = this.parser
-					.getOPPLFactory()
-					.buildOPPLScript(constraintSystem, variables, null, actions);
-			PatternModel patternModel = this.createPatternModel(opplScript);
-			patternModel.setRendering(rendering);
-			patternModel.setUri(URI.create(PatternModel.NAMESPACE + name));
-			return patternModel;
-		}
-	}
-
-	public ManchesterSyntaxRenderer getRenderer(
-			PatternConstraintSystem patternConstraintSystem) {
-		return new ManchesterSyntaxRenderer(this.modelManager
-				.getOWLOntologyManager(), this
-				.getOWLEntityRenderer(patternConstraintSystem),
-				patternConstraintSystem);
-	}
-
-	public OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {
-		OWLEntityRendererImpl defaultRenderer = new OWLEntityRendererImpl();
-		return new VariableOWLEntityRenderer(cs, defaultRenderer);
+	/**
+	 * @return
+	 * @see org.coode.patterns.AbstractPatternModelFactory#getOPPLFactory()
+	 */
+	public OPPLAbstractFactory getOPPLFactory() {
+		return this.delegate.getOPPLFactory();
 	}
 }

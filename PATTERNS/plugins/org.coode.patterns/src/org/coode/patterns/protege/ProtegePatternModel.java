@@ -27,10 +27,6 @@ import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.PatternModel;
 import org.coode.patterns.UnsuitableOPPLScriptException;
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.util.BidirectionalShortFormProvider;
-import org.semanticweb.owl.util.BidirectionalShortFormProviderAdapter;
-import org.semanticweb.owl.util.SimpleShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -38,45 +34,23 @@ import org.semanticweb.owl.util.SimpleShortFormProvider;
  *         Jun 12, 2008
  */
 public class ProtegePatternModel extends PatternModel {
-	protected OWLModelManager modelManager;
+	private final OWLModelManager modelManager;
 
 	/**
 	 * @param ontologyManager
 	 * @param modelManager
 	 * @throws UnsuitableOPPLScriptException
 	 */
-	public ProtegePatternModel(OPPLScript opplScript,
-			OWLModelManager modelManager, AbstractPatternModelFactory f)
-			throws UnsuitableOPPLScriptException {
+	public ProtegePatternModel(OPPLScript opplScript, OWLModelManager modelManager,
+			AbstractPatternModelFactory f) throws UnsuitableOPPLScriptException {
 		super(opplScript, modelManager.getOWLOntologyManager(), f);
 		this.modelManager = modelManager;
 	}
 
-	// @Override
-	// public String toString() {
-	// // String renderedString = super.toString();
-	// // StringBuilder toReturn = new StringBuilder();
-	// // StringTokenizer tokenizer = new StringTokenizer(renderedString,
-	// // " \n\t,[()];", true);
-	// // while (tokenizer.hasMoreTokens()) {
-	// // toReturn.append(unRender(tokenizer.nextToken()));
-	// // }
-	// // return toReturn.toString();
-	//		
-	// }
-	private String unRender(String chunk) {
-		String toReturn = chunk;
-		OWLEntity object = this.modelManager.getOWLEntity(chunk);
-		if (object != null) {
-			BidirectionalShortFormProvider bidirectionalShortFormProvider = new BidirectionalShortFormProviderAdapter(
-					this.modelManager.getOntologies(),
-					new SimpleShortFormProvider());
-			String shortForm = bidirectionalShortFormProvider
-					.getShortForm(object);
-			if (shortForm != null) {
-				toReturn = shortForm;
-			}
-		}
-		return toReturn;
+	/**
+	 * @return the modelManager
+	 */
+	public OWLModelManager getModelManager() {
+		return this.modelManager;
 	}
 }

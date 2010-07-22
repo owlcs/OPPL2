@@ -24,12 +24,15 @@ package org.coode.patterns;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.coode.oppl.variablemansyntax.Variable;
+import org.coode.oppl.Variable;
+import org.coode.parsers.ErrorListener;
 import org.semanticweb.owl.expression.OWLEntityChecker;
 import org.semanticweb.owl.model.OWLAnnotation;
 import org.semanticweb.owl.model.OWLConstantAnnotation;
@@ -47,30 +50,43 @@ import org.semanticweb.owl.util.NamespaceUtil;
 public class PatternReference {
 	private OWLOntologyManager ontologyManger;
 	private String patternName;
-	private PatternConstraintSystem patternConstraintSystem;
+	private final PatternConstraintSystem patternConstraintSystem;
 	private boolean resolvable;
-	private Set<String> visited = new HashSet<String>();
+	private final Set<String> visited = new HashSet<String>();
 	private List<String>[] arguments;
 	private PatternOPPLScript extractedPattern;
+	private final ErrorListener errorListener;
 
-	public PatternReference(String patternName,
-			PatternConstraintSystem constraintSystem,
-			OWLOntologyManager ontologyManager, List<String>... args)
+	public PatternReference(String patternName, PatternConstraintSystem constraintSystem,
+			OWLOntologyManager ontologyManager, ErrorListener errorListener, List<String>... args)
 			throws PatternException {
-		this.patternName = patternName;
-		this.patternConstraintSystem = constraintSystem;
-		this.ontologyManger = ontologyManager;
-		this.init(args);
+		this(patternName, constraintSystem, ontologyManager, Collections.<String> emptySet(),
+				errorListener, args);
 	}
 
-	public PatternReference(String patternName,
-			PatternConstraintSystem constraintSystem,
-			OWLOntologyManager ontologyManager, Set<String> visitedPatterns,
-			List<String>... args) throws PatternException {
+	public PatternReference(String patternName, PatternConstraintSystem constraintSystem,
+			OWLOntologyManager ontologyManager, Collection<? extends String> visitedPatterns,
+			ErrorListener errorListener, List<String>... args) throws PatternException {
+		if (patternName == null) {
+			throw new NullPointerException("The pattern name cannot be null");
+		}
+		if (constraintSystem == null) {
+			throw new NullPointerException("The constraint system cannot be null");
+		}
+		if (ontologyManager == null) {
+			throw new NullPointerException("The ontology manager cannot be null");
+		}
+		if (visitedPatterns == null) {
+			throw new NullPointerException("The colleciton of visited patterns cannot be null");
+		}
+		if (errorListener == null) {
+			throw new NullPointerException("The error listener cannot be null");
+		}
 		this.patternName = patternName;
 		this.patternConstraintSystem = constraintSystem;
 		this.ontologyManger = ontologyManager;
-		this.visited = visitedPatterns;
+		this.visited.addAll(visitedPatterns);
+		this.errorListener = errorListener;
 		this.init(args);
 	}
 
@@ -83,23 +99,19 @@ public class PatternReference {
 		// first check whether a pattern with that name is present
 		while (!found && ontologyIterator.hasNext()) {
 			anOntology = ontologyIterator.next();
-			Set<OWLOntologyAnnotationAxiom> ontologyAnnotationAxioms = anOntology
-					.getOntologyAnnotationAxioms();
-			Iterator<OWLOntologyAnnotationAxiom> it = ontologyAnnotationAxioms
-					.iterator();
+			Set<OWLOntologyAnnotationAxiom> ontologyAnnotationAxioms = anOntology.getOntologyAnnotationAxioms();
+			Iterator<OWLOntologyAnnotationAxiom> it = ontologyAnnotationAxioms.iterator();
 			OWLOntologyAnnotationAxiom anOntologyAnnotationAxiom;
 			while (!found && it.hasNext()) {
 				anOntologyAnnotationAxiom = it.next();
-				OWLAnnotation<? extends OWLObject> annotation = anOntologyAnnotationAxiom
-						.getAnnotation();
+				OWLAnnotation<? extends OWLObject> annotation = anOntologyAnnotationAxiom.getAnnotation();
 				if (!this.hasBeenVisited(annotation.getAnnotationURI())) {
-					PatternExtractor patternExtractor = this.patternConstraintSystem
-							.getPatternModelFactory().getPatternExtractor(
-									this.getVisitedAnnotations());
+					PatternExtractor patternExtractor = this.patternConstraintSystem.getPatternModelFactory().getPatternExtractor(
+							this.getVisitedAnnotations(),
+							this.getErrorListener());
 					this.extractedPattern = annotation.accept(patternExtractor);
 					found = this.extractedPattern != null
-							&& this.extractedPattern.getName().equals(
-									this.patternName);
+							&& this.extractedPattern.getName().equals(this.patternName);
 				}
 			}
 		}
@@ -125,8 +137,7 @@ public class PatternReference {
 		for (List<String> iThAssignments : args) {
 			List<Object> iThReplacement = new ArrayList<Object>();
 			for (String iThAssignment : iThAssignments) {
-				Variable v = this.patternConstraintSystem
-						.getVariable(iThAssignment);
+				Variable v = this.patternConstraintSystem.getVariable(iThAssignment);
 				if (v != null) {
 					iThReplacement.add(v);
 				} else {
@@ -139,9 +150,7 @@ public class PatternReference {
 	}
 
 	private OWLObject parse(String string) {
-		OWLEntityChecker entityChecker = this.patternConstraintSystem
-				.getPatternModelFactory().getOPPLParser().getOPPLFactory()
-				.getOWLEntityChecker();
+		OWLEntityChecker entityChecker = this.getPatternConstraintSystem().getPatternModelFactory().getOPPLFactory().getOWLEntityChecker();
 		OWLObject toReturn = entityChecker.getOWLClass(string);
 		if (toReturn == null) {
 			toReturn = entityChecker.getOWLDataProperty(string);
@@ -169,8 +178,7 @@ public class PatternReference {
 			String anIthAssignment;
 			while (it.hasNext() && isResolvable) {
 				anIthAssignment = it.next();
-				Variable variable = this.patternConstraintSystem
-						.getVariable(anIthAssignment);
+				Variable variable = this.patternConstraintSystem.getVariable(anIthAssignment);
 				if (variable != null) {
 					isResolvable = false;
 				}
@@ -186,9 +194,8 @@ public class PatternReference {
 	 * @throws IncompatibleArgumentException
 	 * @throws InvalidNumebrOfArgumentException
 	 */
-	protected void checkCompatibility(List<String>... args)
-			throws PatternException, IncompatibleArgumentException,
-			InvalidNumebrOfArgumentException {
+	protected void checkCompatibility(List<String>... args) throws PatternException,
+			IncompatibleArgumentException, InvalidNumebrOfArgumentException {
 		boolean compatible = true;
 		List<Variable> variables = this.extractedPattern.getInputVariables();
 		if (variables.size() == args.length) {
@@ -196,17 +203,13 @@ public class PatternReference {
 				List<String> iThArgAssignements = args[i];
 				for (String anIthAssignment : iThArgAssignements) {
 					Variable variable = variables.get(i);
-					if (this.patternConstraintSystem
-							.getVariable(anIthAssignment) != null) {
-						Variable argVariable = this.patternConstraintSystem
-								.getVariable(anIthAssignment);
-						compatible = argVariable.getType().equals(
-								variable.getType());
+					if (this.patternConstraintSystem.getVariable(anIthAssignment) != null) {
+						Variable argVariable = this.patternConstraintSystem.getVariable(anIthAssignment);
+						compatible = argVariable.getType().equals(variable.getType());
 					} else {
 						OWLObject arg = this.parse(anIthAssignment);
 						if (arg != null) {
-							compatible = variable.getType().isCompatibleWith(
-									arg);
+							compatible = variable.getType().isCompatibleWith(arg);
 							// if (arg instanceof OWLEntity) {
 							// compatible = variable.getType()
 							// .isCompatibleWith(arg);
@@ -216,19 +219,17 @@ public class PatternReference {
 							// }
 						} else {
 							compatible = false;
-							throw new PatternException("Illegal argument "
-									+ iThArgAssignements);
+							throw new PatternException("Illegal argument " + iThArgAssignements);
 						}
 					}
 					if (!compatible) {
-						throw new IncompatibleArgumentException(
-								anIthAssignment, variable);
+						throw new IncompatibleArgumentException(anIthAssignment, variable);
 					}
 				}
 			}
 		} else {
-			throw new InvalidNumebrOfArgumentException(this.patternName,
-					args.length, variables.size());
+			throw new InvalidNumebrOfArgumentException(this.patternName, args.length,
+					variables.size());
 		}
 	}
 
@@ -244,10 +245,8 @@ public class PatternReference {
 	 * @throws PatternException
 	 */
 	public String getResolutionString() throws PatternException {
-		List<List<Object>> replacements = this
-				.computeReplacements(this.arguments);
-		return this.extractedPattern
-				.getDefinitorialPortionStrings(replacements);
+		List<List<Object>> replacements = this.computeReplacements(this.arguments);
+		return this.extractedPattern.getDefinitorialPortionStrings(replacements);
 	}
 
 	/**
@@ -255,8 +254,7 @@ public class PatternReference {
 	 * @throws PatternException
 	 */
 	public List<OWLObject> getResolution() throws PatternException {
-		List<List<Object>> replacements = this
-				.computeReplacements(this.arguments);
+		List<List<Object>> replacements = this.computeReplacements(this.arguments);
 		return this.extractedPattern.getDefinitorialPortions(replacements);
 	}
 
@@ -267,8 +265,7 @@ public class PatternReference {
 		// namespaceutil object
 		NamespaceUtil nsUtil = new NamespaceUtil();
 		String[] split = nsUtil.split(annotationURI.toString(), null);
-		if (split != null && split.length == 2
-				&& split[0].equals(PatternModel.NAMESPACE)) {
+		if (split != null && split.length == 2 && split[0].equals(PatternModel.NAMESPACE)) {
 			found = this.visited.contains(split[1]);
 		}
 		return found;
@@ -277,24 +274,19 @@ public class PatternReference {
 	protected Set<OWLConstantAnnotation> getVisitedAnnotations() {
 		Set<OWLConstantAnnotation> toReturn = new HashSet<OWLConstantAnnotation>();
 		for (String visitedPatternName : this.visited) {
-			Iterator<OWLOntology> it = this.ontologyManger.getOntologies()
-					.iterator();
+			Iterator<OWLOntology> it = this.ontologyManger.getOntologies().iterator();
 			boolean found = false;
 			OWLOntology ontology;
 			while (!found && it.hasNext()) {
 				ontology = it.next();
-				Iterator<OWLOntologyAnnotationAxiom> annotationIterator = ontology
-						.getOntologyAnnotationAxioms().iterator();
+				Iterator<OWLOntologyAnnotationAxiom> annotationIterator = ontology.getOntologyAnnotationAxioms().iterator();
 				OWLOntologyAnnotationAxiom anOntologyAnnotationAxiom = null;
 				while (!found && annotationIterator.hasNext()) {
 					anOntologyAnnotationAxiom = annotationIterator.next();
-					found = anOntologyAnnotationAxiom.getAnnotation()
-							.getAnnotationURI().equals(
-									URI.create(PatternModel.NAMESPACE
-											+ visitedPatternName));
+					found = anOntologyAnnotationAxiom.getAnnotation().getAnnotationURI().equals(
+							URI.create(PatternModel.NAMESPACE + visitedPatternName));
 					if (found) {
-						toReturn.add((OWLConstantAnnotation) anOntologyAnnotationAxiom
-								.getAnnotation());
+						toReturn.add((OWLConstantAnnotation) anOntologyAnnotationAxiom.getAnnotation());
 					}
 				}
 			}
@@ -309,11 +301,9 @@ public class PatternReference {
 				toReturn = (InstantiatedPatternModel) this.extractedPattern;
 			} else {
 				PatternModel p = (PatternModel) this.extractedPattern;
-				toReturn = p.getPatternModelFactory()
-						.createInstantiatedPatternModel(p);
+				toReturn = p.getPatternModelFactory().createInstantiatedPatternModel(p);
 			}
-			List<List<Object>> replacements = this
-					.computeReplacements(this.arguments);
+			List<List<Object>> replacements = this.computeReplacements(this.arguments);
 			int i = 0;
 			for (Variable variable : toReturn.getInputVariables()) {
 				List<Object> variableReplacements = replacements.get(i);
@@ -326,8 +316,7 @@ public class PatternReference {
 			}
 			return toReturn;
 		} else {
-			throw new NonResovableArgumentsException(this.patternName,
-					this.arguments);
+			throw new NonResovableArgumentsException(this.patternName, this.arguments);
 		}
 	}
 
@@ -389,5 +378,19 @@ public class PatternReference {
 	 */
 	public OWLOntologyManager getOntologyManger() {
 		return this.ontologyManger;
+	}
+
+	/**
+	 * @return the patternConstraintSystem
+	 */
+	public PatternConstraintSystem getPatternConstraintSystem() {
+		return this.patternConstraintSystem;
+	}
+
+	/**
+	 * @return the errorListener
+	 */
+	public ErrorListener getErrorListener() {
+		return this.errorListener;
 	}
 }

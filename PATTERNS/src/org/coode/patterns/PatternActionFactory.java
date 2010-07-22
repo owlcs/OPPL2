@@ -29,9 +29,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.ActionType;
-import org.coode.oppl.variablemansyntax.PartialOWLObjectInstantiator;
-import org.coode.oppl.variablemansyntax.VariableType;
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
+import org.coode.oppl.PartialOWLObjectInstantiator;
+import org.coode.oppl.VariableType;
+import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owl.model.AddAxiom;
 import org.semanticweb.owl.model.OWLAnnotation;
 import org.semanticweb.owl.model.OWLAnnotationAxiom;

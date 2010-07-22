@@ -27,16 +27,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.coode.oppl.Variable;
+import org.coode.oppl.VariableType;
+import org.coode.oppl.VariableTypeVisitorEx;
+import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.generated.AbstractGeneratedVariable;
+import org.coode.oppl.generated.SingleValueGeneratedValue;
+import org.coode.oppl.generated.SingleValueGeneratedValueVisitor;
+import org.coode.oppl.generated.SingleValueGeneratedValueVisitorEx;
+import org.coode.oppl.generated.SingleValueGeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.VariableType;
-import org.coode.oppl.variablemansyntax.VariableTypeVisitorEx;
-import org.coode.oppl.variablemansyntax.bindingtree.BindingNode;
-import org.coode.oppl.variablemansyntax.generated.AbstractGeneratedVariable;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValueVisitor;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValueVisitorEx;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
 import org.semanticweb.owl.model.OWLObject;
 
 /**
@@ -44,8 +44,7 @@ import org.semanticweb.owl.model.OWLObject;
  * 
  *         Dec 10, 2008
  */
-public class PatternReferenceGeneratedVariable extends
-		AbstractGeneratedVariable<PatternReference> {
+public class PatternReferenceGeneratedVariable extends AbstractGeneratedVariable<PatternReference> {
 	public PatternReferenceGeneratedVariable(VariableType type,
 			SingleValueGeneratedValue<PatternReference> value) {
 		super(value.toString(), type, value);
@@ -65,25 +64,20 @@ public class PatternReferenceGeneratedVariable extends
 		}
 
 		/**
-		 * @see org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue#getGeneratedValue(org.coode.oppl.variablemansyntax.bindingtree.BindingNode)
+		 * @see org.coode.oppl.generated.SingleValueGeneratedValue#getGeneratedValue(org.coode.oppl.bindingtree.BindingNode)
 		 */
 		public PatternReference getGeneratedValue(BindingNode node) {
 			List<List<String>> newArguments = new ArrayList<List<String>>(
-					this.patternReference.getExtractedPattern()
-							.getInputVariables().size());
-			PatternOPPLScript pattern = this.patternReference
-					.getExtractedPattern();
+					this.patternReference.getExtractedPattern().getInputVariables().size());
+			PatternOPPLScript pattern = this.patternReference.getExtractedPattern();
 			List<Variable> inputVariables = pattern.getInputVariables();
-			PatternConstraintSystem constraintSystem = this.patternReference
-					.getConstraintSystem();
+			PatternConstraintSystem constraintSystem = this.patternReference.getConstraintSystem();
 			for (int i = 0; i < inputVariables.size(); i++) {
 				Variable inputVariable = inputVariables.get(i);
-				OWLObject assignmentValue = node
-						.getAssignmentValue(inputVariable);
+				OWLObject assignmentValue = node.getAssignmentValue(inputVariable);
 				if (assignmentValue != null) {
-					ManchesterSyntaxRenderer renderer = this.patternReference
-							.getConstraintSystem().getPatternModelFactory()
-							.getRenderer(constraintSystem);
+					ManchesterSyntaxRenderer renderer = this.patternReference.getConstraintSystem().getPatternModelFactory().getRenderer(
+							constraintSystem);
 					assignmentValue.accept(renderer);
 					newArguments.add(Arrays.asList(renderer.toString()));
 				} else {
@@ -91,18 +85,17 @@ public class PatternReferenceGeneratedVariable extends
 				}
 			}
 			try {
-				return new PatternReference(this.patternReference
-						.getPatternName(), constraintSystem,
-						this.patternReference.getOntologyManger(), newArguments
-								.toArray(new List[inputVariables.size()]));
+				return new PatternReference(this.patternReference.getPatternName(),
+						constraintSystem, this.patternReference.getOntologyManger(),
+						this.patternReference.getErrorListener(),
+						newArguments.toArray(new List[inputVariables.size()]));
 			} catch (PatternException e) {
 				throw new RuntimeException(e);
 			}
 		}
 
 		public List<PatternReference> computePossibleValues() {
-			return new ArrayList<PatternReference>(Collections
-					.singleton(this.patternReference));
+			return new ArrayList<PatternReference>(Collections.singleton(this.patternReference));
 		}
 
 		public void accept(SingleValueGeneratedValueVisitor visitor) {

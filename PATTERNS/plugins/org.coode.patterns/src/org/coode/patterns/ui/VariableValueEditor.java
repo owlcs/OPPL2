@@ -34,7 +34,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.coode.manchesterowlsyntax.ManchesterOWLSyntaxEditorParser;
-import org.coode.oppl.variablemansyntax.Variable;
+import org.coode.oppl.Variable;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.VerifiedInputEditor;

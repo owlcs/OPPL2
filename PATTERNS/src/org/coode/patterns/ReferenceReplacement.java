@@ -29,10 +29,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.coode.oppl.variablemansyntax.Variable;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
-import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedVariable;
-import org.coode.oppl.variablemansyntax.generated.VariableGeneratedValue;
+import org.coode.oppl.Variable;
+import org.coode.oppl.generated.SingleValueGeneratedValue;
+import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.generated.VariableGeneratedValue;
 import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
 import org.semanticweb.owl.model.OWLClass;
@@ -131,31 +131,29 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 	// TODO check that no generated variables are in this list
 	// private List<Variable> patternVariables;
 	// private List<Object> replacements;
-	private Map<Variable, Object> patternVariablesReplacement = new HashMap<Variable, Object>();
-	private PatternConstraintSystem constraintSystem;
-	private OWLDataFactory dataFactory;
+	private final Map<Variable, Object> patternVariablesReplacement = new HashMap<Variable, Object>();
+	private final PatternConstraintSystem constraintSystem;
+	private final OWLDataFactory dataFactory;
 
 	/**
 	 * @param patternVariables
 	 * @param replacements
 	 * @throws PatternException
 	 */
-	public ReferenceReplacement(String patternName,
-			List<Variable> patternVariables, List<Object> replacements,
-			PatternConstraintSystem constraintSystem, OWLDataFactory dataFactory)
-			throws PatternException {
+	public ReferenceReplacement(String patternName, List<Variable> patternVariables,
+			List<Object> replacements, PatternConstraintSystem constraintSystem,
+			OWLDataFactory dataFactory) throws PatternException {
 		if (patternVariables.size() == replacements.size()) {
 			// this.patternVariables = patternVariables;
 			// this.replacements = replacements;
 			for (int i = 0; i < patternVariables.size(); i++) {
-				this.patternVariablesReplacement.put(patternVariables.get(i),
-						replacements.get(i));
+				this.patternVariablesReplacement.put(patternVariables.get(i), replacements.get(i));
 			}
 			this.constraintSystem = constraintSystem;
 			this.dataFactory = dataFactory;
 		} else {
-			throw new InvalidNumebrOfArgumentException(patternName,
-					replacements.size(), patternVariables.size());
+			throw new InvalidNumebrOfArgumentException(patternName, replacements.size(),
+					patternVariables.size());
 		}
 	}
 
@@ -163,35 +161,17 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 		Object toReturn = null;
 		if (this.patternVariablesReplacement.containsKey(v)) {
 			toReturn = this.patternVariablesReplacement.get(v);
-		}
-		// if (this.patternVariables.contains(v)) {
-		// boolean found = false;
-		// Variable variable = null;
-		// Iterator<Variable> it = this.patternVariables.iterator();
-		// int i = -1;
-		// while (!found && it.hasNext()) {
-		// variable = it.next();
-		// found = variable.equals(v);
-		// i++;
-		// }
-		// if (found) {
-		// toReturn = this.replacements.get(i);
-		// }
-		// }
-		else if (v instanceof SingleValueGeneratedVariable<?>) {
+		} else if (v instanceof SingleValueGeneratedVariable<?>) {
 			// generated variable
-			SingleValueGeneratedValue<?> value = ((SingleValueGeneratedVariable<?>) v)
-					.getValue();
+			SingleValueGeneratedValue<?> value = ((SingleValueGeneratedVariable<?>) v).getValue();
 			if (value instanceof VariableGeneratedValue<?>) {
-				Variable generatingVariable = ((VariableGeneratedValue<?>) value)
-						.getVariable();
-				Object generatingVaribaleReplacement = replace(generatingVariable);
+				Variable generatingVariable = ((VariableGeneratedValue<?>) value).getVariable();
+				Object generatingVaribaleReplacement = this.replace(generatingVariable);
 				if (generatingVaribaleReplacement instanceof Variable) {
-					VariableGeneratedValue<?> replaceValue = ((VariableGeneratedValue<?>) value)
-							.replaceVariable(generatingVariable,
-									this.constraintSystem);
-					toReturn = ((SingleValueGeneratedVariable<?>) v)
-							.replaceValue(replaceValue);
+					VariableGeneratedValue<?> replaceValue = ((VariableGeneratedValue<?>) value).replaceVariable(
+							generatingVariable,
+							this.constraintSystem);
+					toReturn = ((SingleValueGeneratedVariable<?>) v).replaceValue(replaceValue);
 				}
 			} else {
 				toReturn = v;
@@ -202,89 +182,69 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 
 	public OWLObject visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
 		OWLObjectPropertyExpression property = axiom.getProperty();
-		return this.dataFactory
-				.getOWLAntiSymmetricObjectPropertyAxiom((OWLObjectPropertyExpression) property
-						.accept(this));
+		return this.dataFactory.getOWLAntiSymmetricObjectPropertyAxiom((OWLObjectPropertyExpression) property.accept(this));
 	}
 
 	public OWLObject visit(OWLAxiomAnnotationAxiom axiom) {
 		return axiom;
 	}
 
-	private boolean isGenVariable(Variable variable) {
-		return variable instanceof SingleValueGeneratedVariable<?>
-				&& ((SingleValueGeneratedVariable<?>) variable).getValue() instanceof VariableGeneratedValue<?>;
-	}
-
 	public OWLObject visit(OWLIndividual individual) {
 		OWLIndividual toReturn = individual;
 		if (this.constraintSystem.isVariable(individual)) {
-			Variable variable = this.constraintSystem.getVariable(individual
-					.getURI());
-			if (isGenVariable(variable)) {
-				VariableGeneratedValue<?> variableGeneratedValue = (VariableGeneratedValue<?>) ((SingleValueGeneratedVariable<?>) variable)
-						.getValue();
-				Object replacement = getReplacement(variableGeneratedValue);
+			Variable variable = this.constraintSystem.getVariable(individual.getURI());
+			if (this.constraintSystem.isGenerated(variable)) {
+				VariableGeneratedValue<?> variableGeneratedValue = (VariableGeneratedValue<?>) ((SingleValueGeneratedVariable<?>) variable).getValue();
+				Object replacement = this.getReplacement(variableGeneratedValue);
 				if (replacement instanceof Variable) {
-					VariableGeneratedValue<?> replaceValue = variableGeneratedValue
-							.replaceVariable((Variable) replacement,
-									this.constraintSystem);
-					SingleValueGeneratedVariable<?> replaceVariable = ((SingleValueGeneratedVariable<?>) variable)
-							.replaceValue(replaceValue);
-					toReturn = this.dataFactory
-							.getOWLIndividual(replaceVariable.getURI());
+					VariableGeneratedValue<?> replaceValue = variableGeneratedValue.replaceVariable(
+							(Variable) replacement,
+							this.constraintSystem);
+					SingleValueGeneratedVariable<?> replaceVariable = ((SingleValueGeneratedVariable<?>) variable).replaceValue(replaceValue);
+					toReturn = this.dataFactory.getOWLIndividual(replaceVariable.getURI());
 				} else {
 					toReturn = (OWLIndividual) replacement;
 				}
 			} else {
-				Object replacement = replace(variable);
-				toReturn = replacement instanceof Variable ? this.dataFactory
-						.getOWLIndividual(((Variable) replacement).getURI())
+				Object replacement = this.replace(variable);
+				toReturn = replacement instanceof Variable ? this.dataFactory.getOWLIndividual(((Variable) replacement).getURI())
 						: (OWLIndividual) replacement;
 				if (replacement instanceof Variable) {
-					this.constraintSystem
-							.importVariable((Variable) replacement);
+					this.constraintSystem.importVariable((Variable) replacement);
 				}
 			}
 		}
 		return toReturn;
 	}
 
-	private Object getReplacement(
-			VariableGeneratedValue<?> variableGeneratedValue) {
+	private Object getReplacement(VariableGeneratedValue<?> variableGeneratedValue) {
 		Variable variable2replace = variableGeneratedValue.getVariable();
-		return replace(variable2replace);
+		return this.replace(variable2replace);
 	}
 
 	private VariableGeneratedValue<?> getVGenValue(Variable v) {
-		return (VariableGeneratedValue<?>) ((SingleValueGeneratedVariable<?>) v)
-				.getValue();
+		return (VariableGeneratedValue<?>) ((SingleValueGeneratedVariable<?>) v).getValue();
 	}
 
 	public OWLObject visit(OWLTypedConstant node) {
 		OWLConstant toReturn = node;
 		if (this.constraintSystem.isVariable(node)) {
-			Variable variable = this.constraintSystem.getVariable(node
-					.toString());
-			if (isGenVariable(variable)) {
-				VariableGeneratedValue<?> vGenValue = getVGenValue(variable);
-				Object replacement = getReplacement(vGenValue);
+			Variable variable = this.constraintSystem.getVariable(node.toString());
+			if (this.getConstraintSystem().isGenerated(variable)) {
+				VariableGeneratedValue<?> vGenValue = this.getVGenValue(variable);
+				Object replacement = this.getReplacement(vGenValue);
 				if (replacement instanceof Variable) {
-					URI v = getReplaceGenVariable(variable, vGenValue,
-							replacement);
-					toReturn = this.dataFactory.getOWLTypedConstant(v
-							.toString());
+					URI v = this.getReplaceGenVariable(variable, vGenValue, replacement);
+					toReturn = this.dataFactory.getOWLTypedConstant(v.toString());
 				} else {
 					toReturn = (OWLConstant) replacement;
 				}
 			} else {
-				Object replacement = replace(variable);
-				toReturn = replacement instanceof Variable ? this.dataFactory
-						.getOWLTypedConstant(((Variable) replacement).getURI()
-								.toString()) : (OWLTypedConstant) replacement;
+				Object replacement = this.replace(variable);
+				toReturn = replacement instanceof Variable ? this.dataFactory.getOWLTypedConstant(((Variable) replacement).getURI().toString())
+						: (OWLTypedConstant) replacement;
 				if (replacement instanceof Variable) {
-					this.constraintSystem
-							.importVariable((Variable) replacement);
+					this.constraintSystem.importVariable((Variable) replacement);
 				}
 			}
 		}
@@ -294,65 +254,56 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 	public OWLObject visit(OWLObjectProperty property) {
 		OWLObjectProperty toReturn = property;
 		if (this.constraintSystem.isVariable(property)) {
-			Variable variable = this.constraintSystem.getVariable(property
-					.getURI());
-			if (isGenVariable(variable)) {
-				VariableGeneratedValue<?> vGenValue = getVGenValue(variable);
-				Object replacement = getReplacement(vGenValue);
+			Variable variable = this.constraintSystem.getVariable(property.getURI());
+			if (this.getConstraintSystem().isGenerated(variable)) {
+				VariableGeneratedValue<?> vGenValue = this.getVGenValue(variable);
+				Object replacement = this.getReplacement(vGenValue);
 				if (replacement instanceof Variable) {
-					URI v = getReplaceGenVariable(variable, vGenValue,
-							replacement);
+					URI v = this.getReplaceGenVariable(variable, vGenValue, replacement);
 					toReturn = this.dataFactory.getOWLObjectProperty(v);
 				} else {
 					toReturn = (OWLObjectProperty) replacement;
 				}
 			} else {
-				Object replacement = replace(variable);
-				toReturn = replacement instanceof Variable ? this.dataFactory
-						.getOWLObjectProperty(((Variable) replacement).getURI())
+				Object replacement = this.replace(variable);
+				toReturn = replacement instanceof Variable ? this.dataFactory.getOWLObjectProperty(((Variable) replacement).getURI())
 						: (OWLObjectProperty) replacement;
 				if (replacement instanceof Variable) {
-					this.constraintSystem
-							.importVariable((Variable) replacement);
+					this.constraintSystem.importVariable((Variable) replacement);
 				}
 			}
 		}
 		return toReturn;
 	}
 
-	private URI getReplaceGenVariable(Variable variable,
-			VariableGeneratedValue<?> vGenValue, Object replacement) {
+	private URI getReplaceGenVariable(Variable variable, VariableGeneratedValue<?> vGenValue,
+			Object replacement) {
 		VariableGeneratedValue<?> replaceValue = vGenValue.replaceVariable(
-				(Variable) replacement, this.constraintSystem);
-		SingleValueGeneratedVariable<?> replaceVariable = ((SingleValueGeneratedVariable<?>) variable)
-				.replaceValue(replaceValue);
+				(Variable) replacement,
+				this.constraintSystem);
+		SingleValueGeneratedVariable<?> replaceVariable = ((SingleValueGeneratedVariable<?>) variable).replaceValue(replaceValue);
 		return replaceVariable.getURI();
 	}
 
 	public OWLObject visit(OWLUntypedConstant node) {
 		OWLConstant toReturn = node;
 		if (this.constraintSystem.isVariable(node)) {
-			Variable variable = this.constraintSystem.getVariable(node
-					.toString());
-			if (isGenVariable(variable)) {
-				VariableGeneratedValue<?> vGenValue = getVGenValue(variable);
-				Object replacement = getReplacement(vGenValue);
+			Variable variable = this.constraintSystem.getVariable(node.toString());
+			if (this.getConstraintSystem().isGenerated(variable)) {
+				VariableGeneratedValue<?> vGenValue = this.getVGenValue(variable);
+				Object replacement = this.getReplacement(vGenValue);
 				if (replacement instanceof Variable) {
-					URI v = getReplaceGenVariable(variable, vGenValue,
-							replacement);
-					toReturn = this.dataFactory.getOWLUntypedConstant(v
-							.toString());
+					URI v = this.getReplaceGenVariable(variable, vGenValue, replacement);
+					toReturn = this.dataFactory.getOWLUntypedConstant(v.toString());
 				} else {
 					toReturn = (OWLConstant) replacement;
 				}
 			} else {
-				Object replacement = replace(variable);
-				toReturn = replacement instanceof Variable ? this.dataFactory
-						.getOWLUntypedConstant(((Variable) replacement)
-								.getName()) : (OWLConstant) replacement;
+				Object replacement = this.replace(variable);
+				toReturn = replacement instanceof Variable ? this.dataFactory.getOWLUntypedConstant(((Variable) replacement).getName())
+						: (OWLConstant) replacement;
 				if (replacement instanceof Variable) {
-					this.constraintSystem
-							.importVariable((Variable) replacement);
+					this.constraintSystem.importVariable((Variable) replacement);
 				}
 			}
 		}
@@ -362,26 +313,22 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 	public OWLObject visit(OWLDataProperty property) {
 		OWLDataProperty toReturn = property;
 		if (this.constraintSystem.isVariable(property)) {
-			Variable variable = this.constraintSystem.getVariable(property
-					.getURI());
-			if (isGenVariable(variable)) {
-				VariableGeneratedValue<?> vGenValue = getVGenValue(variable);
-				Object replacement = getReplacement(vGenValue);
+			Variable variable = this.constraintSystem.getVariable(property.getURI());
+			if (this.getConstraintSystem().isGenerated(variable)) {
+				VariableGeneratedValue<?> vGenValue = this.getVGenValue(variable);
+				Object replacement = this.getReplacement(vGenValue);
 				if (replacement instanceof Variable) {
-					URI v = getReplaceGenVariable(variable, vGenValue,
-							replacement);
+					URI v = this.getReplaceGenVariable(variable, vGenValue, replacement);
 					toReturn = this.dataFactory.getOWLDataProperty(v);
 				} else {
 					toReturn = (OWLDataProperty) replacement;
 				}
 			} else {
-				Object replacement = replace(variable);
-				toReturn = replacement instanceof Variable ? this.dataFactory
-						.getOWLDataProperty(((Variable) replacement).getURI())
+				Object replacement = this.replace(variable);
+				toReturn = replacement instanceof Variable ? this.dataFactory.getOWLDataProperty(((Variable) replacement).getURI())
 						: (OWLDataProperty) replacement;
 				if (replacement instanceof Variable) {
-					this.constraintSystem
-							.importVariable((Variable) replacement);
+					this.constraintSystem.importVariable((Variable) replacement);
 				}
 			}
 		}
@@ -390,16 +337,14 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 
 	public OWLDescription visit(OWLClass desc) {
 		OWLDescription toReturn = null;
-		if (this.constraintSystem.isVariable(desc)) {
-			Variable variable = this.constraintSystem
-					.getVariable(desc.getURI());
-			if (!this.constraintSystem.isThisClassVariable(variable)) {
-				if (isGenVariable(variable)) {
-					VariableGeneratedValue<?> vGenValue = getVGenValue(variable);
-					Object replacement = getReplacement(vGenValue);
+		if (this.getConstraintSystem().isVariable(desc)) {
+			Variable variable = this.getConstraintSystem().getVariable(desc.getURI());
+			if (!this.getConstraintSystem().isThisClassVariable(variable)) {
+				if (this.getConstraintSystem().isGenerated(variable)) {
+					VariableGeneratedValue<?> vGenValue = this.getVGenValue(variable);
+					Object replacement = this.getReplacement(vGenValue);
 					if (replacement instanceof Variable) {
-						URI v = getReplaceGenVariable(variable, vGenValue,
-								replacement);
+						URI v = this.getReplaceGenVariable(variable, vGenValue, replacement);
 						toReturn = this.dataFactory.getOWLClass(v);
 						// TODO check: the other side of the if calls
 						// importVariable, this one does not
@@ -407,13 +352,11 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 						toReturn = (OWLDescription) replacement;
 					}
 				} else {
-					Object replacement = replace(variable);
-					toReturn = replacement instanceof Variable ? this.dataFactory
-							.getOWLClass(((Variable) replacement).getURI())
+					Object replacement = this.replace(variable);
+					toReturn = replacement instanceof Variable ? this.dataFactory.getOWLClass(((Variable) replacement).getURI())
 							: (OWLClass) replacement;
 					if (replacement instanceof Variable) {
-						this.constraintSystem
-								.importVariable((Variable) replacement);
+						this.getConstraintSystem().importVariable((Variable) replacement);
 					}
 				}
 			} else {
@@ -459,8 +402,7 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 
 	public OWLObject visit(OWLDataComplementOf node) {
 		OWLDataRange dataRange = node.getDataRange();
-		return this.dataFactory.getOWLDataComplementOf((OWLDataRange) dataRange
-				.accept(this));
+		return this.dataFactory.getOWLDataComplementOf((OWLDataRange) dataRange.accept(this));
 	}
 
 	public OWLObject visit(OWLDataExactCardinalityRestriction desc) {
@@ -468,7 +410,8 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 		OWLDataRange filler = desc.getFiller();
 		OWLDataPropertyExpression property = desc.getProperty();
 		return this.dataFactory.getOWLDataExactCardinalityRestriction(
-				(OWLDataPropertyExpression) property.accept(this), cardinality,
+				(OWLDataPropertyExpression) property.accept(this),
+				cardinality,
 				(OWLDataRange) filler.accept(this));
 	}
 
@@ -477,7 +420,8 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 		OWLDataRange filler = desc.getFiller();
 		OWLDataPropertyExpression property = desc.getProperty();
 		return this.dataFactory.getOWLDataMaxCardinalityRestriction(
-				(OWLDataPropertyExpression) property.accept(this), cardinality,
+				(OWLDataPropertyExpression) property.accept(this),
+				cardinality,
 				(OWLDataRange) filler.accept(this));
 	}
 
@@ -486,7 +430,8 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 		OWLDataRange filler = desc.getFiller();
 		OWLDataPropertyExpression property = desc.getProperty();
 		return this.dataFactory.getOWLDataMinCardinalityRestriction(
-				(OWLDataPropertyExpression) property.accept(this), cardinality,
+				(OWLDataPropertyExpression) property.accept(this),
+				cardinality,
 				(OWLDataRange) filler.accept(this));
 	}
 
@@ -531,10 +476,10 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 
 	public OWLObject visit(OWLDataRangeRestriction node) {
 		OWLDataRange dataRange = node.getDataRange();
-		Set<OWLDataRangeFacetRestriction> facetRestrictions = node
-				.getFacetRestrictions();
+		Set<OWLDataRangeFacetRestriction> facetRestrictions = node.getFacetRestrictions();
 		return this.dataFactory.getOWLDataRangeRestriction(
-				(OWLDataRange) dataRange.accept(this), facetRestrictions);
+				(OWLDataRange) dataRange.accept(this),
+				facetRestrictions);
 	}
 
 	public OWLObject visit(OWLDataSomeRestriction desc) {
@@ -573,46 +518,36 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 		Set<OWLIndividual> individuals = axiom.getIndividuals();
 		Set<OWLIndividual> instantiatedIndividuals = axiom.getIndividuals();
 		for (OWLIndividual individual : individuals) {
-			instantiatedIndividuals
-					.add((OWLIndividual) individual.accept(this));
+			instantiatedIndividuals.add((OWLIndividual) individual.accept(this));
 		}
-		return this.dataFactory
-				.getOWLDifferentIndividualsAxiom(instantiatedIndividuals);
+		return this.dataFactory.getOWLDifferentIndividualsAxiom(instantiatedIndividuals);
 	}
 
 	public OWLObject visit(OWLDisjointClassesAxiom axiom) {
 		Set<OWLDescription> descriptions = axiom.getDescriptions();
 		Set<OWLDescription> instatiatedDescriptions = new HashSet<OWLDescription>();
 		for (OWLDescription description : descriptions) {
-			instatiatedDescriptions.add((OWLDescription) description
-					.accept(this));
+			instatiatedDescriptions.add((OWLDescription) description.accept(this));
 		}
-		return this.dataFactory
-				.getOWLDisjointClassesAxiom(instatiatedDescriptions);
+		return this.dataFactory.getOWLDisjointClassesAxiom(instatiatedDescriptions);
 	}
 
 	public OWLObject visit(OWLDisjointDataPropertiesAxiom axiom) {
 		Set<OWLDataPropertyExpression> properties = axiom.getProperties();
 		Set<OWLDataPropertyExpression> instantiatedProperties = new HashSet<OWLDataPropertyExpression>();
 		for (OWLDataPropertyExpression objectPropertyExpression : properties) {
-			instantiatedProperties
-					.add((OWLDataPropertyExpression) objectPropertyExpression
-							.accept(this));
+			instantiatedProperties.add((OWLDataPropertyExpression) objectPropertyExpression.accept(this));
 		}
-		return this.dataFactory
-				.getOWLDisjointDataPropertiesAxiom(instantiatedProperties);
+		return this.dataFactory.getOWLDisjointDataPropertiesAxiom(instantiatedProperties);
 	}
 
 	public OWLObject visit(OWLDisjointObjectPropertiesAxiom axiom) {
 		Set<OWLObjectPropertyExpression> properties = axiom.getProperties();
 		Set<OWLObjectPropertyExpression> instantiatedProperties = new HashSet<OWLObjectPropertyExpression>();
 		for (OWLObjectPropertyExpression objectPropertyExpression : properties) {
-			instantiatedProperties
-					.add((OWLObjectPropertyExpression) objectPropertyExpression
-							.accept(this));
+			instantiatedProperties.add((OWLObjectPropertyExpression) objectPropertyExpression.accept(this));
 		}
-		return this.dataFactory
-				.getOWLDisjointObjectPropertiesAxiom(instantiatedProperties);
+		return this.dataFactory.getOWLDisjointObjectPropertiesAxiom(instantiatedProperties);
 	}
 
 	public OWLObject visit(OWLDisjointUnionAxiom axiom) {
@@ -620,11 +555,11 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 		OWLClass owlClass = axiom.getOWLClass();
 		Set<OWLDescription> instantiatedDescriptions = axiom.getDescriptions();
 		for (OWLDescription description : descriptions) {
-			instantiatedDescriptions.add((OWLDescription) description
-					.accept(this));
+			instantiatedDescriptions.add((OWLDescription) description.accept(this));
 		}
-		return this.dataFactory.getOWLDisjointUnionAxiom((OWLClass) owlClass
-				.accept(this), instantiatedDescriptions);
+		return this.dataFactory.getOWLDisjointUnionAxiom(
+				(OWLClass) owlClass.accept(this),
+				instantiatedDescriptions);
 	}
 
 	public OWLObject visit(OWLEntityAnnotationAxiom axiom) {
@@ -635,49 +570,37 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 		Set<OWLDescription> descriptions = axiom.getDescriptions();
 		Set<OWLDescription> instantiatedDescriptions = new HashSet<OWLDescription>();
 		for (OWLDescription description : descriptions) {
-			instantiatedDescriptions.add((OWLDescription) description
-					.accept(this));
+			instantiatedDescriptions.add((OWLDescription) description.accept(this));
 		}
-		return this.dataFactory
-				.getOWLEquivalentClassesAxiom(instantiatedDescriptions);
+		return this.dataFactory.getOWLEquivalentClassesAxiom(instantiatedDescriptions);
 	}
 
 	public OWLObject visit(OWLEquivalentDataPropertiesAxiom axiom) {
 		Set<OWLDataPropertyExpression> properties = axiom.getProperties();
 		Set<OWLDataPropertyExpression> instantiatedProperties = new HashSet<OWLDataPropertyExpression>();
 		for (OWLDataPropertyExpression dataPropertyExpression : properties) {
-			instantiatedProperties
-					.add((OWLDataPropertyExpression) dataPropertyExpression
-							.accept(this));
+			instantiatedProperties.add((OWLDataPropertyExpression) dataPropertyExpression.accept(this));
 		}
-		return this.dataFactory
-				.getOWLEquivalentDataPropertiesAxiom(instantiatedProperties);
+		return this.dataFactory.getOWLEquivalentDataPropertiesAxiom(instantiatedProperties);
 	}
 
 	public OWLObject visit(OWLEquivalentObjectPropertiesAxiom axiom) {
 		Set<OWLObjectPropertyExpression> properties = axiom.getProperties();
 		Set<OWLObjectPropertyExpression> instantiatedProperties = new HashSet<OWLObjectPropertyExpression>();
 		for (OWLObjectPropertyExpression objectPropertyExpression : properties) {
-			instantiatedProperties
-					.add((OWLObjectPropertyExpression) objectPropertyExpression
-							.accept(this));
+			instantiatedProperties.add((OWLObjectPropertyExpression) objectPropertyExpression.accept(this));
 		}
-		return this.dataFactory
-				.getOWLEquivalentObjectPropertiesAxiom(instantiatedProperties);
+		return this.dataFactory.getOWLEquivalentObjectPropertiesAxiom(instantiatedProperties);
 	}
 
 	public OWLObject visit(OWLFunctionalDataPropertyAxiom axiom) {
 		OWLDataPropertyExpression property = axiom.getProperty();
-		return this.dataFactory
-				.getOWLFunctionalDataPropertyAxiom((OWLDataPropertyExpression) property
-						.accept(this));
+		return this.dataFactory.getOWLFunctionalDataPropertyAxiom((OWLDataPropertyExpression) property.accept(this));
 	}
 
 	public OWLObject visit(OWLFunctionalObjectPropertyAxiom axiom) {
 		OWLObjectPropertyExpression property = axiom.getProperty();
-		return this.dataFactory
-				.getOWLFunctionalObjectPropertyAxiom((OWLObjectPropertyExpression) property
-						.accept(this));
+		return this.dataFactory.getOWLFunctionalObjectPropertyAxiom((OWLObjectPropertyExpression) property.accept(this));
 	}
 
 	public OWLObject visit(OWLImportsDeclaration axiom) {
@@ -686,9 +609,7 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 
 	public OWLObject visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
 		OWLObjectPropertyExpression property = axiom.getProperty();
-		return this.dataFactory
-				.getOWLInverseFunctionalObjectPropertyAxiom((OWLObjectPropertyExpression) property
-						.accept(this));
+		return this.dataFactory.getOWLInverseFunctionalObjectPropertyAxiom((OWLObjectPropertyExpression) property.accept(this));
 	}
 
 	public OWLObject visit(OWLInverseObjectPropertiesAxiom axiom) {
@@ -701,9 +622,7 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 
 	public OWLObject visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
 		OWLObjectPropertyExpression property = axiom.getProperty();
-		return this.dataFactory
-				.getOWLIrreflexiveObjectPropertyAxiom((OWLObjectPropertyExpression) property
-						.accept(this));
+		return this.dataFactory.getOWLIrreflexiveObjectPropertyAxiom((OWLObjectPropertyExpression) property.accept(this));
 	}
 
 	public OWLObject visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
@@ -720,13 +639,13 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 		OWLObjectPropertyExpression property = axiom.getProperty();
 		OWLIndividual subject = axiom.getSubject();
 		OWLIndividual object = axiom.getObject();
-		OWLIndividual instantiatedSubject = (OWLIndividual) subject
-				.accept(this);
-		OWLObjectPropertyExpression instantiatedProperty = (OWLObjectPropertyExpression) property
-				.accept(this);
+		OWLIndividual instantiatedSubject = (OWLIndividual) subject.accept(this);
+		OWLObjectPropertyExpression instantiatedProperty = (OWLObjectPropertyExpression) property.accept(this);
 		OWLIndividual instantiatedObject = (OWLIndividual) object.accept(this);
 		return this.dataFactory.getOWLNegativeObjectPropertyAssertionAxiom(
-				instantiatedSubject, instantiatedProperty, instantiatedObject);
+				instantiatedSubject,
+				instantiatedProperty,
+				instantiatedObject);
 	}
 
 	public OWLDescription visit(OWLObjectAllRestriction desc) {
@@ -743,8 +662,7 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 
 	public OWLDescription visit(OWLObjectComplementOf desc) {
 		OWLDescription operand = desc.getOperand();
-		return this.dataFactory
-				.getOWLObjectComplementOf((OWLDescription) operand.accept(this));
+		return this.dataFactory.getOWLObjectComplementOf((OWLDescription) operand.accept(this));
 	}
 
 	public OWLObject visit(OWLObjectExactCardinalityRestriction desc) {
@@ -753,7 +671,8 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 		OWLObjectPropertyExpression property = desc.getProperty();
 		return this.dataFactory.getOWLObjectExactCardinalityRestriction(
 				(OWLObjectPropertyExpression) property.accept(this),
-				cardinality, (OWLDescription) filler.accept(this));
+				cardinality,
+				(OWLDescription) filler.accept(this));
 	}
 
 	public OWLDescription visit(OWLObjectIntersectionOf desc) {
@@ -762,8 +681,7 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 		for (OWLDescription description : operands) {
 			instantiatedOperands.add((OWLDescription) description.accept(this));
 		}
-		return this.dataFactory
-				.getOWLObjectIntersectionOf(instantiatedOperands);
+		return this.dataFactory.getOWLObjectIntersectionOf(instantiatedOperands);
 	}
 
 	public OWLObject visit(OWLObjectMaxCardinalityRestriction desc) {
@@ -772,7 +690,8 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 		OWLObjectPropertyExpression property = desc.getProperty();
 		return this.dataFactory.getOWLObjectMaxCardinalityRestriction(
 				(OWLObjectPropertyExpression) property.accept(this),
-				cardinality, (OWLDescription) filler.accept(this));
+				cardinality,
+				(OWLDescription) filler.accept(this));
 	}
 
 	public OWLObject visit(OWLObjectMinCardinalityRestriction desc) {
@@ -781,15 +700,15 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 		OWLObjectPropertyExpression property = desc.getProperty();
 		return this.dataFactory.getOWLObjectMinCardinalityRestriction(
 				(OWLObjectPropertyExpression) property.accept(this),
-				cardinality, (OWLDescription) filler.accept(this));
+				cardinality,
+				(OWLDescription) filler.accept(this));
 	}
 
 	public OWLObject visit(OWLObjectOneOf desc) {
 		Set<OWLIndividual> individuals = desc.getIndividuals();
 		Set<OWLIndividual> instantiatedIndividuals = new HashSet<OWLIndividual>();
 		for (OWLIndividual individual : individuals) {
-			instantiatedIndividuals
-					.add((OWLIndividual) individual.accept(this));
+			instantiatedIndividuals.add((OWLIndividual) individual.accept(this));
 		}
 		return this.dataFactory.getOWLObjectOneOf(instantiatedIndividuals);
 	}
@@ -805,15 +724,11 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 	}
 
 	public OWLObject visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
-		List<OWLObjectPropertyExpression> propertyChain = axiom
-				.getPropertyChain();
-		List<OWLObjectPropertyExpression> instantiatedPropertyChain = axiom
-				.getPropertyChain();
+		List<OWLObjectPropertyExpression> propertyChain = axiom.getPropertyChain();
+		List<OWLObjectPropertyExpression> instantiatedPropertyChain = axiom.getPropertyChain();
 		OWLObjectPropertyExpression superProperty = axiom.getSuperProperty();
 		for (OWLObjectPropertyExpression objectPropertyExpression : propertyChain) {
-			instantiatedPropertyChain
-					.add((OWLObjectPropertyExpression) objectPropertyExpression
-							.accept(this));
+			instantiatedPropertyChain.add((OWLObjectPropertyExpression) objectPropertyExpression.accept(this));
 		}
 		return this.dataFactory.getOWLObjectPropertyChainSubPropertyAxiom(
 				instantiatedPropertyChain,
@@ -830,9 +745,7 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 
 	public OWLObject visit(OWLObjectPropertyInverse property) {
 		OWLObjectPropertyExpression inverse = property.getInverse();
-		return this.dataFactory
-				.getOWLObjectPropertyInverse((OWLObjectPropertyExpression) inverse
-						.accept(this));
+		return this.dataFactory.getOWLObjectPropertyInverse((OWLObjectPropertyExpression) inverse.accept(this));
 	}
 
 	public OWLObject visit(OWLObjectPropertyRangeAxiom axiom) {
@@ -845,9 +758,7 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 
 	public OWLObject visit(OWLObjectSelfRestriction desc) {
 		OWLObjectPropertyExpression property = desc.getProperty();
-		return this.dataFactory
-				.getOWLObjectSelfRestriction((OWLObjectPropertyExpression) property
-						.accept(this));
+		return this.dataFactory.getOWLObjectSelfRestriction((OWLObjectPropertyExpression) property.accept(this));
 	}
 
 	public OWLDescription visit(OWLObjectSomeRestriction desc) {
@@ -893,42 +804,32 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 
 	public OWLObject visit(OWLReflexiveObjectPropertyAxiom axiom) {
 		OWLObjectPropertyExpression property = axiom.getProperty();
-		return this.dataFactory
-				.getOWLReflexiveObjectPropertyAxiom((OWLObjectPropertyExpression) property
-						.accept(this));
+		return this.dataFactory.getOWLReflexiveObjectPropertyAxiom((OWLObjectPropertyExpression) property.accept(this));
 	}
 
 	public OWLObject visit(OWLSameIndividualsAxiom axiom) {
 		Set<OWLIndividual> individuals = axiom.getIndividuals();
 		Set<OWLIndividual> instantiatedIndividuals = axiom.getIndividuals();
 		for (OWLIndividual individual : individuals) {
-			instantiatedIndividuals
-					.add((OWLIndividual) individual.accept(this));
+			instantiatedIndividuals.add((OWLIndividual) individual.accept(this));
 		}
-		return this.dataFactory
-				.getOWLSameIndividualsAxiom(instantiatedIndividuals);
+		return this.dataFactory.getOWLSameIndividualsAxiom(instantiatedIndividuals);
 	}
 
 	public OWLObject visit(OWLSubClassAxiom axiom) {
-		OWLDescription superClass = (OWLDescription) axiom.getSuperClass()
-				.accept(this);
-		OWLDescription subClass = (OWLDescription) axiom.getSubClass().accept(
-				this);
+		OWLDescription superClass = (OWLDescription) axiom.getSuperClass().accept(this);
+		OWLDescription subClass = (OWLDescription) axiom.getSubClass().accept(this);
 		return this.dataFactory.getOWLSubClassAxiom(subClass, superClass);
 	}
 
 	public OWLObject visit(OWLSymmetricObjectPropertyAxiom axiom) {
 		OWLObjectPropertyExpression property = axiom.getProperty();
-		return this.dataFactory
-				.getOWLSymmetricObjectPropertyAxiom((OWLObjectPropertyExpression) property
-						.accept(this));
+		return this.dataFactory.getOWLSymmetricObjectPropertyAxiom((OWLObjectPropertyExpression) property.accept(this));
 	}
 
 	public OWLObject visit(OWLTransitiveObjectPropertyAxiom axiom) {
 		OWLObjectPropertyExpression property = axiom.getProperty();
-		return this.dataFactory
-				.getOWLTransitiveObjectPropertyAxiom((OWLObjectPropertyExpression) property
-						.accept(this));
+		return this.dataFactory.getOWLTransitiveObjectPropertyAxiom((OWLObjectPropertyExpression) property.accept(this));
 	}
 
 	public OWLObject visit(SWRLAtomConstantObject node) {
@@ -977,5 +878,12 @@ public class ReferenceReplacement implements OWLObjectVisitorEx<OWLObject> {
 
 	public OWLObject visit(SWRLSameAsAtom node) {
 		return node;
+	}
+
+	/**
+	 * @return the constraintSystem
+	 */
+	public PatternConstraintSystem getConstraintSystem() {
+		return this.constraintSystem;
 	}
 }

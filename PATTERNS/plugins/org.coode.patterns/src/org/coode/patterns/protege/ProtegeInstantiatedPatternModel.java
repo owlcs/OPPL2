@@ -24,12 +24,8 @@ package org.coode.patterns.protege;
 
 import java.util.Set;
 
-import org.coode.oppl.syntax.OPPLParser;
-import org.coode.oppl.utils.ProtegeParserFactory;
-import org.coode.oppl.variablemansyntax.Variable;
+import org.coode.oppl.Variable;
 import org.coode.patterns.InstantiatedPatternModel;
-import org.coode.patterns.PatternModel;
-import org.coode.patterns.syntax.PatternParser;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owl.model.OWLObject;
 
@@ -39,26 +35,11 @@ import org.semanticweb.owl.model.OWLObject;
  *         Jun 12, 2008
  */
 public class ProtegeInstantiatedPatternModel extends InstantiatedPatternModel {
-	protected OWLModelManager modelManager;
-	protected OPPLParser parser;
-
-	public ProtegeInstantiatedPatternModel(PatternModel patternModel) {
-		super(patternModel);
-	}
+	private final OWLModelManager modelManager;
 
 	public ProtegeInstantiatedPatternModel(ProtegePatternModel patternModel) {
 		super(patternModel);
-		this.modelManager = patternModel.modelManager;
-	}
-
-	protected void initOPPLParser(String s) {
-		this.parser = ProtegeParserFactory.initParser(s, this.modelManager,
-				null);
-	}
-
-	protected PatternParser initParser(String s) {
-		return org.coode.patterns.protege.utils.ProtegeParserFactory
-				.initProtegeParser(s, this.modelManager);
+		this.modelManager = patternModel.getModelManager();
 	}
 
 	@Override
@@ -68,32 +49,28 @@ public class ProtegeInstantiatedPatternModel extends InstantiatedPatternModel {
 
 	@Override
 	public String render() {
-		StringBuilder toReturn = new StringBuilder("$"
-				+ getInstantiatedPatternLocalName() + "(");
+		StringBuilder toReturn = new StringBuilder("$" + this.getInstantiatedPatternLocalName()
+				+ "(");
 		boolean first = true;
-		for (Variable variable : getInputVariables()) {
+		for (Variable variable : this.getInputVariables()) {
 			if (!first) {
 				toReturn.append(", ");
 			} else {
 				first = false;
 			}
-			Set<OWLObject> instantiationsValues = getInstantiations(variable);
+			Set<OWLObject> instantiationsValues = this.getInstantiations(variable);
 			if (instantiationsValues != null && !instantiationsValues.isEmpty()) {
 				if (instantiationsValues.size() == 1) {
-					OWLObject instantiation = instantiationsValues.iterator()
-							.next();
-					toReturn.append(this.modelManager
-							.getRendering(instantiation));
+					OWLObject instantiation = instantiationsValues.iterator().next();
+					toReturn.append(this.modelManager.getRendering(instantiation));
 				} else {
 					boolean firstInstantiation = true;
 					toReturn.append("{");
 					for (OWLObject instantiation : instantiationsValues) {
-						String instantiationRendering = this.modelManager
-								.getRendering(instantiation);
-						toReturn.append(firstInstantiation ? instantiationRendering
-								: ", " + instantiationRendering);
-						firstInstantiation = firstInstantiation ? false
-								: firstInstantiation;
+						String instantiationRendering = this.modelManager.getRendering(instantiation);
+						toReturn.append(firstInstantiation ? instantiationRendering : ", "
+								+ instantiationRendering);
+						firstInstantiation = firstInstantiation ? false : firstInstantiation;
 					}
 					toReturn.append("}");
 				}
@@ -104,32 +81,4 @@ public class ProtegeInstantiatedPatternModel extends InstantiatedPatternModel {
 		toReturn.append(")");
 		return toReturn.toString();
 	}
-	// @Override
-	// public String getRendering() {
-	// String toReturn = this.getPatternModel().getName();
-	// for (Variable variable : this.getVariables()) {
-	// Set<OWLObject> instantiationValues = this
-	// .getInstantiations(variable);
-	// if (instantiationValues != null) {
-	// String replacement = "";
-	// if (instantiationValues.size() == 1) {
-	// replacement = this.modelManager
-	// .getRendering(instantiationValues.iterator().next());
-	// } else {
-	// replacement += "{";
-	// boolean first = true;
-	// for (OWLObject object : instantiationValues) {
-	// replacement += first ? this.modelManager
-	// .getRendering(object) : ", "
-	// + this.modelManager.getRendering(object);
-	// first = first ? false : first;
-	// }
-	// replacement += "}";
-	// }
-	// toReturn = toReturn.replaceAll("\\" + variable.getName(),
-	// replacement);
-	// }
-	// }
-	// return toReturn;
-	// }
 }
