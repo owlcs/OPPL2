@@ -1,4 +1,4 @@
-package org.coode.parsers.test.ui;
+package org.coode.parsers.ui;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -24,7 +24,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 
-import org.semanticweb.owl.model.OWLException;
 import org.semanticweb.owl.model.OWLOntologyManager;
 
 /**
@@ -42,8 +41,8 @@ import org.semanticweb.owl.model.OWLOntologyManager;
  * editor is backed by a parser that checks that the text is well formed and
  * provides feedback if the text is not well formed.
  */
-public class ExpressionEditor<O> extends JTextPane implements
-		RefreshableComponent, VerifiedInputEditor {
+public class ExpressionEditor<O> extends JTextPane implements RefreshableComponent,
+		VerifiedInputEditor {
 	private static final int CHECK_DELAY = 500;
 	/**
 	 * 
@@ -59,36 +58,29 @@ public class ExpressionEditor<O> extends JTextPane implements
 	private int errorStartIndex;
 	private int errorEndIndex;
 	private Timer timer;
-	private static final int DEFAULT_TOOL_TIP_INITIAL_DELAY = ToolTipManager
-			.sharedInstance().getInitialDelay();
+	private static final int DEFAULT_TOOL_TIP_INITIAL_DELAY = ToolTipManager.sharedInstance().getInitialDelay();
 	public static final String DEFAULT_FONT_NAME = "Dialog";
-	private static final int DEFAULT_TOOL_TIP_DISMISS_DELAY = ToolTipManager
-			.sharedInstance().getDismissDelay();
+	private static final int DEFAULT_TOOL_TIP_DISMISS_DELAY = ToolTipManager.sharedInstance().getDismissDelay();
 	private static final int ERROR_TOOL_TIP_INITIAL_DELAY = 100;
 	private static final int ERROR_TOOL_TIP_DISMISS_DELAY = 9000;
 	private ExpressionChecker<O> expressionChecker;
 	private final OWLOntologyManager ontologyMmanager;
 
-	public ExpressionEditor(OWLOntologyManager manager,
-			ExpressionChecker<O> checker) {
+	public ExpressionEditor(OWLOntologyManager manager, ExpressionChecker<O> checker) {
 		if (manager == null) {
-			throw new NullPointerException(
-					"The ontology manager cannot be null");
+			throw new NullPointerException("The ontology manager cannot be null");
 		}
 		if (checker == null) {
-			throw new NullPointerException(
-					"The expression checker cannot be null");
+			throw new NullPointerException("The expression checker cannot be null");
 		}
 		this.ontologyMmanager = manager;
 		this.outerBorder = null;
 		this.expressionChecker = checker;
-		this.defaultBorder = BorderFactory.createMatteBorder(1, 1, 1, 1,
-				Color.LIGHT_GRAY);
+		this.defaultBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY);
 		this.setStateBorder(this.defaultBorder);
-		this.errorBorder = BorderFactory.createMatteBorder(1, 1, 1, 1,
-				Color.RED);
-		this.errorStroke = new BasicStroke(3.0f, BasicStroke.CAP_BUTT,
-				BasicStroke.JOIN_ROUND, 3.0f, new float[] { 4.0f, 2.0f }, 0.0f);
+		this.errorBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.RED);
+		this.errorStroke = new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND,
+				3.0f, new float[] { 4.0f, 2.0f }, 0.0f);
 		this.docListener = new DocumentListener() {
 			public void insertUpdate(DocumentEvent e) {
 				ExpressionEditor.this.handleDocumentUpdated();
@@ -102,12 +94,11 @@ public class ExpressionEditor<O> extends JTextPane implements
 			}
 		};
 		this.getDocument().addDocumentListener(this.docListener);
-		this.timer = new Timer(ExpressionEditor.CHECK_DELAY,
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						ExpressionEditor.this.handleTimer();
-					}
-				});
+		this.timer = new Timer(ExpressionEditor.CHECK_DELAY, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ExpressionEditor.this.handleTimer();
+			}
+		});
 		this.refreshComponent();
 		this.createStyles();
 	}
@@ -128,32 +119,28 @@ public class ExpressionEditor<O> extends JTextPane implements
 		return this.expressionChecker;
 	}
 
-	public O createObject() throws OWLException {
+	public O createObject() {
 		return this.expressionChecker.createObject(this.getText());
 	}
 
 	public void setStateBorder(Border border) {
 		this.stateBorder = border;
-		super.setBorder(BorderFactory.createCompoundBorder(this.outerBorder,
-				this.stateBorder));
+		super.setBorder(BorderFactory.createCompoundBorder(this.outerBorder, this.stateBorder));
 	}
 
 	@Override
 	public void setBorder(Border border) {
 		this.outerBorder = border;
 		// Override to set the outer border
-		super.setBorder(BorderFactory.createCompoundBorder(this.outerBorder,
-				this.stateBorder));
+		super.setBorder(BorderFactory.createCompoundBorder(this.outerBorder, this.stateBorder));
 	}
 
 	private void clearError() {
 		this.setToolTipText(null);
 		this.setStateBorder(this.defaultBorder);
 		this.setErrorRange(0, 0);
-		ToolTipManager.sharedInstance().setInitialDelay(
-				DEFAULT_TOOL_TIP_INITIAL_DELAY);
-		ToolTipManager.sharedInstance().setDismissDelay(
-				DEFAULT_TOOL_TIP_DISMISS_DELAY);
+		ToolTipManager.sharedInstance().setInitialDelay(DEFAULT_TOOL_TIP_INITIAL_DELAY);
+		ToolTipManager.sharedInstance().setDismissDelay(DEFAULT_TOOL_TIP_DISMISS_DELAY);
 	}
 
 	protected void checkExpression() {
@@ -181,16 +168,12 @@ public class ExpressionEditor<O> extends JTextPane implements
 		this.notifyValidationChanged(e == null); // if no error, then content is
 		// valid
 		if (e != null) {
-			ToolTipManager.sharedInstance().setInitialDelay(
-					ERROR_TOOL_TIP_INITIAL_DELAY);
-			ToolTipManager.sharedInstance().setDismissDelay(
-					ERROR_TOOL_TIP_DISMISS_DELAY);
+			ToolTipManager.sharedInstance().setInitialDelay(ERROR_TOOL_TIP_INITIAL_DELAY);
+			ToolTipManager.sharedInstance().setDismissDelay(ERROR_TOOL_TIP_DISMISS_DELAY);
 			this.setToolTipText(getHTMLErrorMessage(e.getMessage()));
 			this.setStateBorder(this.errorBorder);
 			int start = e.getLinearisedPosition(this.getText());
-			this.setErrorRange(start, e
-					.getLength()
-					+ start);
+			this.setErrorRange(start, e.getLength() + start);
 		} else {
 			this.clearError();
 		}
@@ -208,8 +191,7 @@ public class ExpressionEditor<O> extends JTextPane implements
 		Color oldColor = g.getColor();
 		try {
 			// Paint in error range if there is one
-			if (this.errorStartIndex != this.errorEndIndex
-					&& this.errorStartIndex > -1
+			if (this.errorStartIndex != this.errorEndIndex && this.errorStartIndex > -1
 					&& this.errorStartIndex < this.getDocument().getLength()) {
 				Rectangle start = this.modelToView(this.errorStartIndex);
 				Rectangle end = this.modelToView(this.errorEndIndex);
@@ -229,16 +211,14 @@ public class ExpressionEditor<O> extends JTextPane implements
 			public void run() {
 				try {
 					final int lineStartIndex = 0;
-					final int lineEndIndex = ExpressionEditor.this
-							.getDocument().getLength();
+					final int lineEndIndex = ExpressionEditor.this.getDocument().getLength();
 					if (lineEndIndex - lineStartIndex < 0) {
 						return;
 					}
 					StringTokenizer tokenizer = new StringTokenizer(
 							ExpressionEditor.this.getDocument().getText(
 									lineStartIndex,
-									lineEndIndex - lineStartIndex),
-							" ()[]{},\n\t.'", true);
+									lineEndIndex - lineStartIndex), " ()[]{},\n\t.'", true);
 					int index = lineStartIndex;
 					boolean inEscapedName = false;
 					while (tokenizer.hasMoreTokens()) {
@@ -251,20 +231,16 @@ public class ExpressionEditor<O> extends JTextPane implements
 							}
 						}
 						if (!inEscapedName) {
-							Color color = ExpressionEditor.this.keywordColourMap
-									.get(curToken);
+							Color color = ExpressionEditor.this.keywordColourMap.get(curToken);
 							if (color == null) {
 								color = Color.BLACK;
 							}
-							ExpressionEditor.this
-									.getStyledDocument()
-									.setCharacterAttributes(
-											index,
-											curToken.length(),
-											ExpressionEditor.this
-													.getStyledDocument()
-													.getStyle(color.toString()),
-											true);
+							ExpressionEditor.this.getStyledDocument().setCharacterAttributes(
+									index,
+									curToken.length(),
+									ExpressionEditor.this.getStyledDocument().getStyle(
+											color.toString()),
+									true);
 						}
 						index += curToken.length();
 					}
@@ -287,26 +263,24 @@ public class ExpressionEditor<O> extends JTextPane implements
 
 	private void createStyles() {
 		for (Color color : this.keywordColourMap.values()) {
-			Style style = this.getStyledDocument().addStyle(color.toString(),
-					null);
+			Style style = this.getStyledDocument().addStyle(color.toString(), null);
 			StyleConstants.setForeground(style, color);
 			StyleConstants.setBold(style, true);
 		}
-		StyleConstants.setForeground(this.getStyledDocument().addStyle(
-				Color.BLACK.toString(), null), Color.BLACK);
+		StyleConstants.setForeground(
+				this.getStyledDocument().addStyle(Color.BLACK.toString(), null),
+				Color.BLACK);
 	}
 
 	// /////////////////////// content verification
 	private Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
 	private boolean previousValue = true;
 
-	public void addStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+	public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
 		this.listeners.add(listener);
 	}
 
-	public void removeStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+	public void removeStatusChangedListener(InputVerificationStatusChangedListener listener) {
 		this.listeners.remove(listener);
 	}
 

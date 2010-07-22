@@ -87,7 +87,7 @@ options {
   import org.coode.patterns.AbstractPatternModelFactory;
   import org.coode.parsers.oppl.OPPLSyntaxTree;
   import org.coode.oppl.OPPLScript;
-  import org.coode.oppl.variablemansyntax.Variable;
+  import org.coode.oppl.Variable;
   import org.coode.patterns.UnsuitableOPPLScriptException;
 }
 
@@ -140,7 +140,8 @@ renderingPart
           }
         }
       }
-    | THIS_CLASS    
+    | THIS_CLASS
+    | HYPHEN    
   ;
 
 returnClause returns [Variable variable]

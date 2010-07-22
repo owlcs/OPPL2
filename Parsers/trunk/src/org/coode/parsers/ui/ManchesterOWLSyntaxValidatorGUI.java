@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.coode.parsers.test.ui;
+package org.coode.parsers.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -590,7 +590,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 				}
 				return (ManchesterOWLSyntaxTree) tree;
 			} catch (RecognitionException e) {
-				e.printStackTrace();
+				this.listener.recognitionException(e);
 				return null;
 			}
 		}
@@ -601,7 +601,8 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 	 */
 	private static final long serialVersionUID = -4513506293333415642L;
 	private final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-	private final SymbolTableFactory symbolTableFactory = new SimpleSymbolTableFactory(this.manager);
+	private final SymbolTableFactory<SymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
+			this.manager);
 	private ExpressionChecker<OWLAxiom> checker = new AxiomChecker();
 	private ExpressionEditor<OWLAxiom> axiomValidator;
 

@@ -1,4 +1,4 @@
-package org.coode.parsers.test.ui;
+package org.coode.parsers.ui;
 /*
  * Copyright (C) 2007, University of Manchester
  *

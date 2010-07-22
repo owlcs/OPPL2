@@ -18,7 +18,7 @@ import org.semanticweb.owl.util.SimpleShortFormProvider;
  * @author Luigi Iannone
  * 
  */
-public class SimpleSymbolTableFactory implements SymbolTableFactory {
+public class SimpleSymbolTableFactory implements SymbolTableFactory<SymbolTable> {
 	private final OWLOntologyManager manager;
 
 	/**

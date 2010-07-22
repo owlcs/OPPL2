@@ -10,8 +10,8 @@ options {
 import OPPLPatternLexer, OPPLParser;
 
 tokens{
-  OPPL_STATEMENT;
   OPPL_PATTERN;
+  OPPL_STATEMENT;
   RENDERING;
   PATTERN_REFERENCE;
   ARGUMENTS;
@@ -20,13 +20,57 @@ tokens{
 @header {
   package org.coode.parsers.oppl.patterns;
   import org.coode.parsers.oppl.OPPLSyntaxTree;  
+  import org.coode.parsers.ErrorListener;
 }
 
+@members{
+
+  private  ErrorListener errorListener;
   
+  public OPPLPatternScriptParser(TokenStream input, ErrorListener errorListener) {
+    this(input);   
+    if(errorListener == null){
+    	throw new NullPointerException("The error listener cannot be null");
+    }
+    this.errorListener = errorListener;
+  }
+  
+  public ErrorListener getErrorListener(){
+  	return this.errorListener;
+  }
+  
+  
+  public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
+        getErrorListener().recognitionException(e, tokenNames);
+  }
+  
+  protected void mismatch (IntStream input, int ttype, BitSet follow) throws RecognitionException {
+    throw new MismatchedTokenException(ttype,input);
+  }
+  
+
+  public Object recoverFromMismatchedSet(IntStream input, RecognitionException e, BitSet follow) throws RecognitionException{
+    throw e;
+  }
+}
+
+@rulecatch{
+  catch(RecognitionException exception){
+    if(errorListener!=null){
+      errorListener.recognitionException(exception);
+    }
+  }
+  
+  catch(RewriteEmptyStreamException exception){
+    if(errorListener!=null){
+      errorListener.rewriteEmptyStreamException(exception);
+    }
+  }
+}   
   
 pattern
   :
-    statement  rendering?   (SEMICOLON returnClause)?  -> ^(OPPL_PATTERN statement rendering returnClause?) 
+    statement  rendering?   (SEMICOLON returnClause)?  -> ^(OPPL_PATTERN statement rendering? returnClause?) 
   ;
 
 statement
@@ -36,14 +80,11 @@ statement
   
 returnClause
   :
-    RETURN returnValue  ->^(RETURN returnValue)
+    	RETURN VARIABLE_NAME  ->^(RETURN ^(IDENTIFIER[$VARIABLE_NAME]))
+    |	RETURN THIS_CLASS  ->^(RETURN ^(THIS_CLASS))
   ;
   
-returnValue
-  :
-      VARIABLE_NAME -> VARIABLE_NAME
-    | THIS_CLASS -> THIS_CLASS 
-  ;
+
 
 rendering 
 @init
@@ -51,38 +92,33 @@ rendering
   StringBuilder builder = new StringBuilder();
 }
   :
-    (part = renderingPart
-    {
-      builder.append(part.string);
-      builder.append(" ");
-    }
-    )+  ->^(RENDERING[builder.toString()] renderingPart+)
+    (renderingPart {
+    	builder.append($renderingPart.text);
+	builder.append(' ');
+    })+
+      ->^(RENDERING[builder.toString()] renderingPart+)
   ;
   
-renderingPart returns [String string]
-@after
-{
-  $string = $start.getText();
-}
-  :
-      IDENTIFIER -> IDENTIFIER
-    | VARIABLE_NAME -> VARIABLE_NAME
-    | THIS_CLASS -> THIS_CLASS
-  ;
+renderingPart 
 
-unary 
+	:
+      THIS_CLASS -> ^(IDENTIFIER[$THIS_CLASS] THIS_CLASS)
+    | IDENTIFIER -> ^(IDENTIFIER) 
+    | ENTITY_REFERENCE -> ^(ENTITY_REFERENCE)
+    | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])     
+    | HYPHEN -> ^(HYPHEN)
+		
+	;
+
+
+atomic 
   :
-    IDENTIFIER
+  	 THIS_CLASS -> ^(IDENTIFIER[$THIS_CLASS] THIS_CLASS)
+	| IDENTIFIER -> ^(IDENTIFIER) 
+    | ENTITY_REFERENCE -> ^(ENTITY_REFERENCE)
     | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])     
     | createIdentifier -> ^(createIdentifier)
-    | variableAttributeReference -> ^(variableAttributeReference)
-    | NOT OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(NEGATED_EXPRESSION expression)
-    | NOT IDENTIFIER -> ^(NEGATED_EXPRESSION IDENTIFIER)
-		| NOT VARIABLE_NAME -> ^(NEGATED_EXPRESSION ^(IDENTIFIER[$VARIABLE_NAME]))
-    | ENTITY_REFERENCE -> ^(ENTITY_REFERENCE)
-    | qualifiedRestriction -> ^(qualifiedRestriction)
-    | constant
-    | THIS_CLASS -> ^(IDENTIFIER[$THIS_CLASS] THIS_CLASS)
+    | variableAttributeReference -> ^(variableAttributeReference)	    
     | patternReference -> ^(patternReference)    
   ;
 
@@ -92,28 +128,6 @@ patternReference
 		DOLLAR name = IDENTIFIER   arguments   
 		-> ^(IDENTIFIER[$DOLLAR.getText() + name.getText() + $arguments.argsString] PATTERN_REFERENCE[name.getText()] arguments)
 	;
-
-propertyExpression  :
-      IDENTIFIER -> ^(IDENTIFIER)
-    | complexPropertyExpression -> ^(complexPropertyExpression)
-    | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])
-    | createIdentifier -> ^(createIdentifier)
-    ;
-
-value:
-      IDENTIFIER -> ^(IDENTIFIER) 
-    | constant -> ^(constant)
-    | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])
-  ;
-
-filler: 
-    IDENTIFIER -> ^(IDENTIFIER)
-    | createIdentifier -> ^(createIdentifier)
-    | OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(expression)
-    | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])
-		| THIS_CLASS -> ^(IDENTIFIER[$THIS_CLASS] THIS_CLASS)
- ;
-
 
 arguments returns [String argsString]
 @init
@@ -125,11 +139,11 @@ arguments returns [String argsString]
      {
      	builder.append($OPEN_PARENTHESYS.getText());
      } 
-     (a = argument
+     (a = atomic
      {
      	builder.append($a.text);
      } 
-     (COMMA a = argument
+     (COMMA a = atomic
      {
      	builder.append($a.text);
      }
@@ -139,19 +153,5 @@ arguments returns [String argsString]
       builder.append($CLOSED_PARENTHESYS.getText());
      	$argsString = builder.toString();
      }
-      -> ^(ARGUMENTS argument*) 
+      -> ^(ARGUMENTS atomic*) 
   ;
-  
-argument returns[String text]
-@after
-{
-	$text = $start.getText();
-}
-	:
-		IDENTIFIER
-    | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])     
-    | createIdentifier -> ^(createIdentifier)    
-    | ENTITY_REFERENCE -> ^(ENTITY_REFERENCE)
-    | THIS_CLASS -> ^(IDENTIFIER[$THIS_CLASS] THIS_CLASS)
-    | patternReference -> ^(patternReference)    
-	;

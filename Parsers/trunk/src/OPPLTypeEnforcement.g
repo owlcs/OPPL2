@@ -142,7 +142,7 @@ axiom returns  [Type type, ManchesterOWLSyntaxTree node]
 	| ^(DOMAIN ^(EXPRESSION p = IDENTIFIER) ^(EXPRESSION domain = expression))
 	 {
 	   $type = this.getSymbolTable().getDomainAxiomType($start, p, domain.node);
-	   getTypesEnforcer().enforceDomainAxiomTypes($start,p,range.node);
+	   getTypesEnforcer().enforceDomainAxiomTypes($start,p,domain.node);
 	 }
 	 | ^(RANGE ^(EXPRESSION p = IDENTIFIER) ^(EXPRESSION range = expression))
    {

@@ -26,7 +26,20 @@ options {
     ATTRIBUTE_SELECTOR;
     STRING_OPERATION;
  }
- 
+ @members{
+   public Object recoverFromMismatchedSet(IntStream input, RecognitionException e, BitSet follow) throws RecognitionException{
+    throw e;
+  }
+  
+  protected void mismatch (IntStream input, int ttype, BitSet follow) throws RecognitionException {
+    throw new MismatchedTokenException(ttype,input);
+  }
+ }
+ @rulecatch{
+ 	catch(RecognitionException e){
+ 		throw e;
+ 	}
+ }
  
  variableDefinitions
   :
@@ -53,7 +66,7 @@ variableScope
 
  query
   :
-    SELECT selectClause (COMMA selectClause)* constraint? -> ^(QUERY selectClause+ constraint?)
+    SELECT selectClause (COMMA selectClause)* (WHERE constraint (COMMA constraint)*)? -> ^(QUERY selectClause+ constraint*)
   ;
  
  selectClause
@@ -61,12 +74,14 @@ variableScope
       ASSERTED axiom -> ^(ASSERTED_CLAUSE axiom)
     | axiom -> ^(PLAIN_CLAUSE axiom)
   ;
+  
+ 
  
  constraint
   :
-      WHERE first = VARIABLE_NAME NOT_EQUAL second = expression -> ^(INEQUALITY_CONSTRAINT IDENTIFIER[$first] ^(EXPRESSION $second))
-    | WHERE VARIABLE_NAME IN oneOf -> ^(IN_SET_CONSTRAINT IDENTIFIER[$VARIABLE_NAME] oneOf)
-    | WHERE VARIABLE_NAME MATCH OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS -> ^(REGEXP_CONSTRAINT IDENTIFIER[$VARIABLE_NAME] stringOperation)
+       first = VARIABLE_NAME NOT_EQUAL second = expression -> ^(INEQUALITY_CONSTRAINT IDENTIFIER[$first] ^(EXPRESSION $second))
+    |  VARIABLE_NAME IN oneOf -> ^(IN_SET_CONSTRAINT IDENTIFIER[$VARIABLE_NAME] oneOf)
+    |  VARIABLE_NAME MATCH OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS -> ^(REGEXP_CONSTRAINT IDENTIFIER[$VARIABLE_NAME] stringOperation)
   ; 
  
  actions
@@ -86,8 +101,8 @@ variableScope
 opplFunction
   :
       CREATE OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS -> ^(CREATE_OPPL_FUNCTION stringOperation)
-    | CREATE_INTERSECTION  OPEN_PARENTHESYS unary  CLOSED_PARENTHESYS -> ^(CREATE_INTERSECTION unary)
-    | CREATE_DISJUNCTION OPEN_PARENTHESYS unary CLOSED_PARENTHESYS -> ^(CREATE_INTERSECTION unary)
+    | CREATE_INTERSECTION  OPEN_PARENTHESYS atomic  CLOSED_PARENTHESYS -> ^(CREATE_INTERSECTION atomic)
+    | CREATE_DISJUNCTION OPEN_PARENTHESYS atomic CLOSED_PARENTHESYS -> ^(CREATE_INTERSECTION atomic)
   ;
 
 stringOperation
@@ -102,40 +117,13 @@ stringExpression
 	;
 
 
-
-unary 
-  :
-    IDENTIFIER
-    | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])     
-    | createIdentifier -> ^(createIdentifier)
-    | variableAttributeReference -> ^(variableAttributeReference)
-    | NOT OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(NEGATED_EXPRESSION expression)
-    | NOT IDENTIFIER -> ^(NEGATED_EXPRESSION IDENTIFIER)
-    | NOT VARIABLE_NAME -> ^(NEGATED_EXPRESSION ^(IDENTIFIER[$VARIABLE_NAME]))          
-    | ENTITY_REFERENCE -> ^(ENTITY_REFERENCE)
-    | qualifiedRestriction -> ^(qualifiedRestriction)
-    | constant    
-  ;
-
-propertyExpression  :
-      IDENTIFIER -> ^(IDENTIFIER)
-    | complexPropertyExpression -> ^(complexPropertyExpression)
-    | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])
-    | createIdentifier -> ^(createIdentifier)
-    ;
-
-value:
-      IDENTIFIER -> ^(IDENTIFIER) 
-    | constant -> ^(constant)
-    | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])
-  ;
-
-filler: 
-    IDENTIFIER -> ^(IDENTIFIER)
-    | createIdentifier -> ^(createIdentifier)
-    | OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(expression)
-    | VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])
- ;
+atomic	:
+		IDENTIFIER 
+		| ENTITY_REFERENCE -> ^(ENTITY_REFERENCE)
+		| VARIABLE_NAME -> ^(IDENTIFIER[$VARIABLE_NAME])     
+	   	| createIdentifier -> ^(createIdentifier)
+		| variableAttributeReference -> ^(variableAttributeReference)	
+	;
 
 
 createIdentifier 

@@ -60,7 +60,7 @@ public void displayRecognitionError(String[] tokenNames,
 
 
 
-axiom	:
+axiom	    	options {backtrack=true;}:
 		binaryAxiom -> ^(binaryAxiom)
 		| unaryAxiom -> ^(unaryAxiom)
 		| assertionAxiom -> ^(assertionAxiom)
@@ -77,28 +77,23 @@ assertionAxiom:
 
 
 
-binaryAxiom :
-    lhs =  expression
+binaryAxiom     	
 
-                (                  
-                SUBCLASS_OF  superClass = expression -> ^(SUB_CLASS_AXIOM  ^(EXPRESSION $lhs) ^(EXPRESSION $superClass))
-                | EQUIVALENT_TO rhs = expression -> ^(EQUIVALENT_TO_AXIOM ^(EXPRESSION $lhs) ^(EXPRESSION $rhs))
-                | DISJOINT_WITH disjoint = expression -> ^(DISJOINT_WITH_AXIOM ^(EXPRESSION $lhs) ^(EXPRESSION $disjoint))
-                | SUB_PROPERTY_OF superProperty = propertyExpression -> ^(SUB_PROPERTY_AXIOM ^(EXPRESSION $lhs) ^(EXPRESSION $superProperty))                
-                )
-    |
-    lhsID = IDENTIFIER  (
-                    SAME_AS  rhsID = IDENTIFIER -> ^(SAME_AS_AXIOM ^(EXPRESSION  $lhsID) ^(EXPRESSION $rhsID))
-                  | DIFFERENT_FROM  rhsID = IDENTIFIER -> ^(DIFFERENT_FROM_AXIOM ^(EXPRESSION $lhsID) ^(EXPRESSION $rhsID))
-                  | DOMAIN expression -> ^(DOMAIN ^(EXPRESSION $lhsID) ^(EXPRESSION expression))
-                  | RANGE expression -> ^(RANGE ^(EXPRESSION $lhsID) ^(EXPRESSION expression))
-                  | INVERSE_OF rhsID = IDENTIFIER -> ^(INVERSE_OF ^(EXPRESSION $lhsID) ^(EXPRESSION $rhsID))
-                  )    
+options {backtrack=true;}: 
+	lhs =  expression SUBCLASS_OF  superClass = expression -> ^(SUB_CLASS_AXIOM  ^(EXPRESSION $lhs) ^(EXPRESSION $superClass))
+        | lhs =  expression EQUIVALENT_TO rhs = expression -> ^(EQUIVALENT_TO_AXIOM ^(EXPRESSION $lhs) ^(EXPRESSION $rhs))
+        | lhs =  expression DISJOINT_WITH disjoint = expression -> ^(DISJOINT_WITH_AXIOM ^(EXPRESSION $lhs) ^(EXPRESSION $disjoint))
+        | lhs =  expression SUB_PROPERTY_OF superProperty = propertyExpression -> ^(SUB_PROPERTY_AXIOM ^(EXPRESSION $lhs) ^(EXPRESSION $superProperty))
+        | lhsID =  atomic INVERSE_OF rhsAtomic = atomic -> ^(INVERSE_OF ^(EXPRESSION $lhsID) ^(EXPRESSION $rhsAtomic))  
+	|lhsID =  atomic SAME_AS  rhsID = atomic -> ^(SAME_AS_AXIOM ^(EXPRESSION  $lhsID) ^(EXPRESSION $rhsID))
+        | lhsID =  atomic DIFFERENT_FROM  rhsID = atomic -> ^(DIFFERENT_FROM_AXIOM ^(EXPRESSION $lhsID) ^(EXPRESSION $rhsID))
+        | lhsID =  atomic  DOMAIN expression -> ^(DOMAIN ^(EXPRESSION $lhsID) ^(EXPRESSION expression))
+        | lhsID =  atomic RANGE expression -> ^(RANGE ^(EXPRESSION $lhsID) ^(EXPRESSION expression))              
                 
    ;
  
 unaryAxiom  :       
-   unaryCharacteristic   IDENTIFIER -> ^(UNARY_AXIOM unaryCharacteristic ^(EXPRESSION IDENTIFIER))                
+   unaryCharacteristic   unary -> ^(UNARY_AXIOM unaryCharacteristic ^(EXPRESSION unary))                
   ;
 
 unaryCharacteristic :
@@ -114,9 +109,10 @@ unaryCharacteristic :
 expression:
     (		
     	options {backtrack=true;}: 
-			head = propertyExpression (COMPOSITION rest+=propertyExpression )+ -> ^(PROPERTY_CHAIN  $head $rest)
 			| conjunction (OR conjunction)* -> ^(DISJUNCTION  conjunction+)
 			| complexPropertyExpression -> ^(complexPropertyExpression)
+			| OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(expression)
+
 		)
 		
 	; 
@@ -129,23 +125,29 @@ conjunction	:
 
 complexPropertyExpression:
 	INVERSE OPEN_PARENTHESYS complexPropertyExpression CLOSED_PARENTHESYS -> ^(INVERSE_OBJECT_PROPERTY_EXPRESSION complexPropertyExpression)
-	|	INVERSE OPEN_PARENTHESYS IDENTIFIER CLOSED_PARENTHESYS-> ^(INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER)
+	|	INVERSE OPEN_PARENTHESYS atomic CLOSED_PARENTHESYS-> ^(INVERSE_OBJECT_PROPERTY_EXPRESSION atomic)
 	;
 	
-unary	:
-		IDENTIFIER 
+unary	 options{backtrack = true;}:
+		
+		 head = propertyExpression (COMPOSITION rest+=propertyExpression )+ -> ^(PROPERTY_CHAIN  $head $rest)
 		| NOT OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(NEGATED_EXPRESSION expression)
-		| NOT IDENTIFIER -> ^(NEGATED_EXPRESSION IDENTIFIER) 				 	
-		| ENTITY_REFERENCE -> ^(ENTITY_REFERENCE)
+		| NOT atomic -> ^(NEGATED_EXPRESSION atomic) 				 			
 		| qualifiedRestriction -> ^(qualifiedRestriction)
-		| constant		
+		| constant
+		| atomic		
+	;
+
+atomic	:
+		IDENTIFIER 
+		| ENTITY_REFERENCE -> ^(ENTITY_REFERENCE)
 	;
 	
 qualifiedRestriction:
         (
           options{backtrack = true;}:
-				  propertyExpression  SOME   filler  -> ^(SOME_RESTRICTION propertyExpression filler)				 					
-				|	propertyExpression ONLY  filler  -> ^(ALL_RESTRICTION propertyExpression filler)
+				  propertyExpression  SOME   expression  -> ^(SOME_RESTRICTION propertyExpression expression)				 					
+				|	propertyExpression ONLY  expression  -> ^(ALL_RESTRICTION propertyExpression expression)
 				| cardinalityRestriction -> ^(cardinalityRestriction)
 				| oneOf -> ^(oneOf)
 				| valueRestriction -> ^(valueRestriction)
@@ -153,23 +155,21 @@ qualifiedRestriction:
 		;
 		
 propertyExpression  :
-      IDENTIFIER -> ^(IDENTIFIER)
+      atomic -> ^(atomic)
     | complexPropertyExpression -> ^(complexPropertyExpression)
     ;
 		
-cardinalityRestriction	:
-					propertyExpression  restrictionKind INTEGER filler? -> ^(CARDINALITY_RESTRICTION  restrictionKind INTEGER propertyExpression  filler?)
-		;
+cardinalityRestriction	          
+	options{backtrack = true;}:
+	propertyExpression  restrictionKind INTEGER unary? -> ^(CARDINALITY_RESTRICTION  restrictionKind INTEGER propertyExpression  unary?)
+;
 		
 restrictionKind :
     MIN -> ^(MIN)
     | MAX -> ^(MAX)
     | EXACTLY -> ^(EXACTLY)
     ;
-filler: 
-    IDENTIFIER -> ^(IDENTIFIER)
-    | OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(expression)
- ;
+
 
 oneOf	:
 		OPEN_CURLY_BRACES IDENTIFIER (COMMA IDENTIFIER)* CLOSED_CURLY_BRACES -> ^(ONE_OF IDENTIFIER+)

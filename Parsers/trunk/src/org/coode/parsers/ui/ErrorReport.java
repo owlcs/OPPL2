@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.coode.parsers.test.ui;
+package org.coode.parsers.ui;
 
 /**
  * @author Luigi Iannone

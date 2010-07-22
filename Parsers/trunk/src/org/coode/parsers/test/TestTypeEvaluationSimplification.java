@@ -23,6 +23,7 @@ import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.SymbolTable;
+import org.coode.parsers.SystemErrorEcho;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.semanticweb.owl.apibinding.OWLManager;
@@ -57,7 +58,8 @@ public class TestTypeEvaluationSimplification {
 
 	public static void main(String[] args) {
 		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-		SymbolTableFactory symbolTableFactory = new SimpleSymbolTableFactory(ontologyManager);
+		SymbolTableFactory<SymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
+				ontologyManager);
 		String input = "America hasTopping Italy";
 		System.out.println(input);
 		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));

@@ -81,22 +81,22 @@ options {
 
 @header {
   package org.coode.parsers.oppl;
-  import org.coode.oppl.variablemansyntax.Variable;
-  import org.coode.oppl.variablemansyntax.ConstraintSystem;
-  import org.coode.oppl.variablemansyntax.generated.VariableExpressionGeneratedVariable;
-  import org.coode.oppl.variablemansyntax.VariableScope;
-  import org.coode.oppl.variablemansyntax.VariableScopes;
-  import org.coode.oppl.entity.OWLEntityRenderer;
-  import org.coode.oppl.variablemansyntax.generated.AbstractCollectionGeneratedValue;
+     import org.coode.oppl.entity.OWLEntityRenderer;
   import org.coode.oppl.AbstractConstraint;
+import org.coode.oppl.ConstraintSystem;
   import org.coode.oppl.OPPLQuery;
+import org.coode.oppl.Variable;
+import org.coode.oppl.VariableScope;
+import org.coode.oppl.VariableScopes;
   import org.coode.oppl.exceptions.OPPLException;
+import org.coode.oppl.generated.AbstractCollectionGeneratedValue;
+import org.coode.oppl.generated.ConcatGeneratedValues;
+import org.coode.oppl.generated.RegExpGenerated;
+import org.coode.oppl.generated.RegExpGeneratedValue;
+import org.coode.oppl.generated.SingleValueGeneratedValue;
+import org.coode.oppl.generated.StringGeneratedValue;
+import org.coode.oppl.generated.VariableExpressionGeneratedVariable;
   import org.coode.oppl.OPPLAbstractFactory;
-  import org.coode.oppl.variablemansyntax.generated.RegExpGenerated;
-  import org.coode.oppl.variablemansyntax.generated.RegExpGeneratedValue;
-  import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
-  import org.coode.oppl.variablemansyntax.generated.StringGeneratedValue;
-  import org.coode.oppl.variablemansyntax.generated.ConcatGeneratedValues;
   import org.coode.oppl.InCollectionRegExpConstraint;
   import org.semanticweb.owl.model.OWLAxiom;
   import org.semanticweb.owl.model.OWLObject;
@@ -105,7 +105,7 @@ options {
   import org.semanticweb.owl.model.OWLPropertyExpression;
   import org.semanticweb.owl.model.OWLDescription;
   import org.semanticweb.owl.model.RemoveAxiom;
-	import org.semanticweb.owl.model.AddAxiom;    
+import org.semanticweb.owl.model.AddAxiom;    
   import org.coode.parsers.ErrorListener;
   import org.coode.parsers.Type;
   import org.coode.parsers.oppl.OPPLSymbolTable;
@@ -261,31 +261,32 @@ variableDefinition returns [Variable variable]
 	    }
 	  |  ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(MATCH se = stringOperation ))
 	     {
-	       org.coode.oppl.variablemansyntax.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
-	       Set<? extends OWLObject> referencedValues = type
-              .getReferencedValues(constraintSystem.getOntologyManager()
-                  .getOntologies());
+	       org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
+
           OWLEntityRenderer renderer = getOPPLFactory().getOWLEntityRenderer(getConstraintSystem());
-          RegExpGeneratedValue val = new RegExpGeneratedValue(referencedValues,
-             se, renderer);
-          RegExpGenerated v = type.instantiateRegexpVariable($VARIABLE_NAME.getText(), val);
+	  RegExpGenerated<?> v = type.getRegExpGenerated(
+							$VARIABLE_NAME.getText(),
+							renderer,
+							se,
+							this.getConstraintSystem().getOntologyManager().getOntologies());
+					this.constraintSystem.importVariable(v);
           constraintSystem.importVariable(v);
           $variable = v;
 	     }
 	  | ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(CREATE_OPPL_FUNCTION  value = stringOperation))
 	     {
-	       org.coode.oppl.variablemansyntax.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
+	       org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
 	       $variable = constraintSystem.createStringGeneratedVariable($VARIABLE_NAME.getText(),type, value);
 	     }
     | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_INTERSECTION va = IDENTIFIER))
        {
-         org.coode.oppl.variablemansyntax.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
+         org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
          AbstractCollectionGeneratedValue<OWLClass> collection = symtab.getCollection($start,va, getConstraintSystem());
          $variable = constraintSystem.createIntersectionGeneratedVariable(name.getText(),type,collection);         
        }
       | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_DISJUNCTION va = IDENTIFIER))
        {
-         org.coode.oppl.variablemansyntax.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
+         org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
          AbstractCollectionGeneratedValue<OWLClass> collection = symtab.getCollection($start,va, getConstraintSystem());
          $variable = constraintSystem.createUnionGeneratedVariable(name.getText(),type,collection);         
        }    	     	    
@@ -382,12 +383,12 @@ variableScope returns [Type type, VariableScope variableScope]
    | ^(VARIABLE_SCOPE SUBPROPERTY_OF propertyExpression=.)
      {
        $type = symtab.getPropertyVariableScopeType($start, propertyExpression);
-       $variableScope = VariableScopes.buildSubPropertyVariableScope((OWLPropertyExpression<?,?>) propertyExpression);
+       $variableScope = VariableScopes.buildSubPropertyVariableScope((OWLPropertyExpression<?,?>) propertyExpression.getOWLObject());
      }     
    | ^(VARIABLE_SCOPE (INSTANCE_OF | TYPES)  individualExpression=.)
      {
        $type = symtab.getIndividualVariableScopeType($start, individualExpression);
-       $variableScope = VariableScopes.buildIndividualVariableScope((OWLDescription) individualExpression);
+       $variableScope = VariableScopes.buildIndividualVariableScope((OWLDescription) individualExpression.getOWLObject());
      }
 	;
 	

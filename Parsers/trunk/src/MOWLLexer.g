@@ -34,7 +34,7 @@ AND : 'and'
   ;
 OR  : 'or'
   ; 
-NOT : 'not' 
+NOT : 'not' | 'NOT' | 'Not'
   ;
 SOME  : 'some'
   ;
@@ -59,40 +59,49 @@ SUB_PROPERTY_OF : 'subPropertyOf'
 EQUIVALENT_TO : 'equivalentTo'
   ; 
 
-SAME_AS :'sameAs'
+SAME_AS :'sameAs' | 'SameAs'
   ;
 
-DIFFERENT_FROM  : 'differentFrom'
+DIFFERENT_FROM  : 'differentFrom' | 'DifferentFrom'
   ;
 
-INVERSE_OF:   'InverseOf'
+INVERSE_OF:   'InverseOf' | 'inverseOf'
   ;
 DISJOINT_WITH : 'DisjointWith' | 'disjointWith'
   ;
   
 DOMAIN  :
-    'Domain'   
+    'Domain' | 'domain'  
   ;
 RANGE  :
-    'Range'   
+    'Range' | 'range'   
   ;  
   
 
   
- FUNCTIONAL : 'Functional'
+ FUNCTIONAL : 		'Functional'
+ 		| 	'functional'
   ;
- SYMMETRIC : 'Symmetric'
+ SYMMETRIC : 	'Symmetric'
+ 		| 'symmetric'	
   ; 
  ANTI_SYMMETRIC : 'AntiSymmetric'
+ 			| 'antiSymmetric'
+ 			| 'antisymmetric'
   ;
  REFLEXIVE : 'Reflexive'
+ 		| 'reflexive'
   ;
  IRREFLEXIVE : 'Irreflexive'
+ 		| 'irreflexive'
   ;
  TRANSITIVE  : 'Transitive'
+ 		| 'transitive'
   ; 
 
 INVERSE_FUNCTIONAL:   'InverseFunctional'
+			| 'inverseFunctional'
+			| 'inversefunctional'
   ;   
   POW : '^'
   ;
@@ -101,10 +110,10 @@ COMMA :
     ','
   ;
   
-INSTANCE_OF : 'InstanceOf'  
+INSTANCE_OF : 'InstanceOf' | 'instanceOf' 
   ;
 
-TYPES : 'types'
+TYPES : 'types' | 'Types'
   ;  
 
     

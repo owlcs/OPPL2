@@ -25,6 +25,7 @@ import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.OWLAxiomType;
 import org.coode.parsers.SymbolTable;
+import org.coode.parsers.SystemErrorEcho;
 import org.coode.parsers.Type;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
@@ -267,7 +268,7 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
 	private SymbolTable symtab;
 	private static TypeAssociation ASSOCOATION = new TypeAssociation();
-	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
+	private final static SymbolTableFactory<SymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
 	static {
 		try {
@@ -344,7 +345,8 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 	}
 
 	public void testSubClass() {
-		ManchesterOWLSyntaxTree parsed = this.parse("NamedPizza subClassOf Pizza and hasTopping min 2");
+		String input = "NamedPizza subClassOf Pizza and hasTopping min 2";
+		ManchesterOWLSyntaxTree parsed = this.parse(input);
 		Type parseType = parsed.getEvalType();
 		assertTrue("parse type " + parseType, parseType == OWLAxiomType.SUBCLASS);
 		parseType = this.parse(

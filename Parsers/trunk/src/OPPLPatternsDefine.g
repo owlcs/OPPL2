@@ -12,7 +12,8 @@ options {
   private  OPPLPatternsSymbolTable symtab;
   private  ErrorListener errorListener;
   private PatternConstraintSystem constraintSystem;
-  public OPPLPatternsDefine(TreeNodeStream input, OPPLPatternsSymbolTable symtab, ErrorListener errorListener, PatternConstraintSystem constraintSystem) {
+  private PatternReferenceResolver patternReferenceResolver;
+  public OPPLPatternsDefine(TreeNodeStream input, OPPLPatternsSymbolTable symtab, ErrorListener errorListener,PatternReferenceResolver patternReferenceResolver, PatternConstraintSystem constraintSystem) {
     this(input);
     if(symtab==null){
     	throw new NullPointerException("The symbol table cannot be null");
@@ -23,9 +24,17 @@ options {
     if(constraintSystem == null){
       throw new NullPointerException("The constraint system cannot be null");
     }
+    if(patternReferenceResolver == null){
+      throw new NullPointerException("The pattern reference resolver cannot be null");
+    }
     this.symtab = symtab;
     this.errorListener = errorListener;
     this.constraintSystem = constraintSystem;
+    this.patternReferenceResolver = patternReferenceResolver;
+  }
+  
+  public PatternReferenceResolver getPatternReferenceResolver(){
+  	return patternReferenceResolver;
   }
   
   public PatternConstraintSystem getConstraintSystem(){
@@ -75,6 +84,7 @@ options {
   import org.coode.parsers.ErrorListener;
   import org.coode.parsers.ManchesterOWLSyntaxTree;
   import org.coode.patterns.PatternConstraintSystem;
+  import org.coode.patterns.OPPLPatternParser.PatternReferenceResolver;
 }
 
 bottomup  : 
@@ -87,9 +97,9 @@ patternReference
 	 ^(pr =IDENTIFIER PATTERN_REFERENCE args= arguments? )
 	 {
 	   if(args==null){
-	     symtab.resolvePattern(pr, $PATTERN_REFERENCE.getText(),getConstraintSystem());
+	     getPatternReferenceResolver().resolvePattern(pr, $PATTERN_REFERENCE.getText(),getConstraintSystem(),getSymbolTable());
 	   }else{
-	     symtab.resolvePattern(pr, $PATTERN_REFERENCE.getText(),getConstraintSystem(), args.argStrings.toArray(new String[args.argStrings.size()]));
+	     getPatternReferenceResolver().resolvePattern(pr, $PATTERN_REFERENCE.getText(),getConstraintSystem(),getSymbolTable(), args.argStrings.toArray(new String[args.argStrings.size()]));
 	   } 
 	 }
 	 ->
@@ -106,6 +116,7 @@ arguments returns [List<String> argStrings]
 
 thisClass
   : 
+
     ^(i=IDENTIFIER THIS_CLASS)
     {
       symtab.resolveThisClass($THIS_CLASS,getConstraintSystem());

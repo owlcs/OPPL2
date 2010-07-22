@@ -76,7 +76,11 @@ bottomup // match subexpressions innermost to outermost
     ;
  
 expressionRoot // invoke type computation rule after matching EXPRESSION
-    :   ^(EXPRESSION expression) {$EXPRESSION.setEvalType($expression.type);} // annotate AST
+    :   ^(EXPRESSION expression) 
+    	{
+    		$EXPRESSION.setEvalType($expression.type);
+    		$EXPRESSION.setOWLObject($expression.owlObject);
+    	} // annotate AST
     ;
 // END: root 
 
@@ -252,7 +256,7 @@ unary returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject]
 			{
 				Symbol symbol = this.getSymbolTable().resolve($IDENTIFIER);
 				$type = symbol==null ? null: symbol.getType();
-				$owlObject = this.getSymbolTable().getOWLEntity($IDENTIFIER);
+				$owlObject = this.getSymbolTable().getOWLObject($IDENTIFIER);
 			}
 		| ^(NEGATED_EXPRESSION e = expression) 
 			{
@@ -268,7 +272,7 @@ unary returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject]
 			{
 				Symbol symbol = this.getSymbolTable().resolve($ENTITY_REFERENCE);
 				$type = symbol==null ? null: symbol.getType();
-				$owlObject = this.getSymbolTable().getOWLEntity($ENTITY_REFERENCE);
+				$owlObject = this.getSymbolTable().getOWLObject($ENTITY_REFERENCE);
 			}
 		| ^(CONSTANT  value=. constantType = IDENTIFIER?) {
 				$type = OWLType.OWL_CONSTANT;
@@ -290,7 +294,7 @@ returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject]
       {
         Symbol symbol = this.getSymbolTable().resolve($IDENTIFIER);
         $type = symbol==null ? null: symbol.getType();
-        $owlObject = this.getSymbolTable().getOWLEntity($IDENTIFIER);
+        $owlObject = this.getSymbolTable().getOWLObject($IDENTIFIER);
       }
     | complexPropertyExpression
       {

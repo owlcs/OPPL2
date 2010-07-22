@@ -9,11 +9,11 @@ import org.coode.parsers.SymbolTable;
  * @author Luigi Iannone
  * 
  */
-public interface SymbolTableFactory {
+public interface SymbolTableFactory<S extends SymbolTable> {
 	/**
 	 * Creates a SymbolTable
 	 * 
 	 * @return the SymbolTable
 	 */
-	SymbolTable createSymbolTable();
+	S createSymbolTable();
 }

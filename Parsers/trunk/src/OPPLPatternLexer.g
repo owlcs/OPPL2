@@ -15,10 +15,7 @@ options {
 
 import OPPLLexer;
 
-DOLLAR
-  :
-    '$'
-  ;
+
 
 
 // Identifiers need to take into account variables and external pattern references and $thisClass.
@@ -27,6 +24,11 @@ THIS_CLASS
   :
     '$thisClass' 
   ;
+  
+DOLLAR
+  :
+    '$'
+  ;  
 
 RETURN
   :
@@ -38,4 +40,6 @@ SEMICOLON
 		';'
 	;
 
-
+HYPHEN	:
+		'-'	
+	;

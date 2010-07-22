@@ -26,6 +26,7 @@ import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.SymbolTable;
+import org.coode.parsers.SystemErrorEcho;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.semanticweb.owl.apibinding.OWLManager;
@@ -38,7 +39,7 @@ import org.semanticweb.owl.model.OWLOntologyManager;
  */
 public class TestExpressionParsing extends TestCase {
 	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
-	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
+	private final static SymbolTableFactory<SymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
 	public static TreeAdaptor adaptor = new CommonTreeAdaptor() {
 		@Override

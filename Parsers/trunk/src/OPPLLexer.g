@@ -90,12 +90,12 @@ PLUS
    
  CREATE_INTERSECTION
   :
-    'createIntersection'
+    'createIntersection' | 'CreateIntersection'
   ;
 
  CREATE_DISJUNCTION
   :
-    'createUnion'
+    'createUnion' | 'CreateUnion'
   ;
  
  BEGIN
@@ -132,6 +132,7 @@ SUPER_PROPERTY_OF
 MATCH
   :
   	'MATCH'
+  	|	'Match'
   ;
 
 

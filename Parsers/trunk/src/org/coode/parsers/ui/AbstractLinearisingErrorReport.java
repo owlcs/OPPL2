@@ -1,4 +1,4 @@
-package org.coode.parsers.test.ui;
+package org.coode.parsers.ui;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -73,7 +73,7 @@ options {
   package org.coode.parsers.oppl;
   import org.coode.parsers.ErrorListener;
   import org.coode.parsers.ManchesterOWLSyntaxTree;
-  import org.coode.oppl.variablemansyntax.ConstraintSystem;
+  import org.coode.oppl.ConstraintSystem;
 }
 
 bottomup  : 
