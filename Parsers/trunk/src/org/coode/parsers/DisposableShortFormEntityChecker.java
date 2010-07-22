@@ -7,6 +7,7 @@ import org.semanticweb.owl.model.OWLDataProperty;
 import org.semanticweb.owl.model.OWLDataType;
 import org.semanticweb.owl.model.OWLIndividual;
 import org.semanticweb.owl.model.OWLObjectProperty;
+import org.semanticweb.owl.util.SimpleShortFormProvider;
 
 public class DisposableShortFormEntityChecker implements DisposableOWLEntityChecker {
 	private final BidirectionalShortFormProviderAdapter shrotFormProviderAdaptor;
@@ -19,6 +20,18 @@ public class DisposableShortFormEntityChecker implements DisposableOWLEntityChec
 			BidirectionalShortFormProviderAdapter shrotFormProviderAdaptor) {
 		this.shrotFormProviderAdaptor = shrotFormProviderAdaptor;
 		this.delegate = new ShortFormEntityChecker(shrotFormProviderAdaptor);
+	}
+
+	/**
+	 * @param shrotFormProviderAdaptor
+	 */
+	public DisposableShortFormEntityChecker(OWLEntityChecker owlEntityChecker) {
+		if (owlEntityChecker == null) {
+			throw new NullPointerException("The OWLEntity checker cannot be null");
+		}
+		this.delegate = owlEntityChecker;
+		this.shrotFormProviderAdaptor = new BidirectionalShortFormProviderAdapter(
+				new SimpleShortFormProvider());
 	}
 
 	/**

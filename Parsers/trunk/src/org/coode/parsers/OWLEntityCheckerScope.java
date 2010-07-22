@@ -4,7 +4,9 @@
 package org.coode.parsers;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.semanticweb.owl.model.OWLEntity;
@@ -17,6 +19,7 @@ import org.semanticweb.owl.model.OWLEntity;
  * 
  */
 public class OWLEntityCheckerScope implements Scope {
+	private final Map<String, Symbol> wellKnownSymbols = new HashMap<String, Symbol>();
 	private final DisposableOWLEntityChecker owlEntityChecker;
 	private final EntityFinder entityFinder;
 	private final OWLEntityRenderer owlEntityRenderer;
@@ -38,6 +41,7 @@ public class OWLEntityCheckerScope implements Scope {
 		this.owlEntityChecker = owlEntityChecker;
 		this.entityFinder = entityFinder;
 		this.owlEntityRenderer = owlEntityRenderer;
+		// this.initWellKnownEntities();
 	}
 
 	/**

@@ -35,7 +35,8 @@ public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalS
 			BidirectionalShortFormProviderAdapter.this.ontologies.clear();
 			BidirectionalShortFormProviderAdapter.this.ontologies.addAll(BidirectionalShortFormProviderAdapter.this.man.getOntologies());
 			BidirectionalShortFormProviderAdapter.this.rebuild(new ReferencedEntitySetProvider(
-					BidirectionalShortFormProviderAdapter.this.ontologies));
+					BidirectionalShortFormProviderAdapter.this.ontologies,
+					BidirectionalShortFormProviderAdapter.this.man.getOWLDataFactory()));
 		}
 
 		public void startedLoadingOntology(LoadingStartedEvent event) {
@@ -51,25 +52,6 @@ public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalS
 
 	public BidirectionalShortFormProviderAdapter(ShortFormProvider shortFormProvider) {
 		this.shortFormProvider = shortFormProvider;
-	}
-
-	/**
-	 * Creates a BidirectionalShortFormProvider that maps between the entities
-	 * that are referenced in the specified ontologies and the shortforms of
-	 * these entities.
-	 * 
-	 * @param ontologies
-	 *            The ontologies that contain references to the entities to be
-	 *            mapped.
-	 * @param shortFormProvider
-	 *            The short form provider that should be used to generate the
-	 *            short forms of the referenced entities.
-	 */
-	public BidirectionalShortFormProviderAdapter(Set<OWLOntology> ontologies,
-			ShortFormProvider shortFormProvider) {
-		this.shortFormProvider = shortFormProvider;
-		this.ontologies = new HashSet<OWLOntology>(ontologies);
-		this.rebuild(new ReferencedEntitySetProvider(ontologies));
 	}
 
 	/**
@@ -98,7 +80,7 @@ public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalS
 		this.shortFormProvider = shortFormProvider;
 		this.man = man;
 		this.man.addOntologyChangeListener(this.changeListener);
-		this.rebuild(new ReferencedEntitySetProvider(ontologies));
+		this.rebuild(new ReferencedEntitySetProvider(ontologies, man.getOWLDataFactory()));
 		man.addOntologyLoaderListener(this.loaderListener);
 	}
 

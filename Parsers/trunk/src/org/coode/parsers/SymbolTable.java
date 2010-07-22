@@ -129,6 +129,10 @@ public class SymbolTable {
 					return owlEntitySymbol.getEntity();
 				}
 
+				public OWLObject visitOWLConstant(OWLConstantSymbol owlConstantSymbol) {
+					return owlConstantSymbol.getOWLConstant();
+				}
+
 				public OWLObject visitSymbol(Symbol symbol) {
 					return null;
 				}
@@ -1157,7 +1161,7 @@ public class SymbolTable {
 		return toReturn;
 	}
 
-	public OWLEntity getOWLEntity(final ManchesterOWLSyntaxTree node) {
+	public OWLObject getOWLObject(final ManchesterOWLSyntaxTree node) {
 		Symbol symbol = this.symbols.get(node.getToken().getText());
 		if (symbol == null) {
 			symbol = this.getGlobalScope().resolve(node.getToken().getText());
@@ -1167,11 +1171,15 @@ public class SymbolTable {
 				this.symbols.put(node.getToken().getText(), symbol);
 			}
 		}
-		OWLEntity toReturn = null;
+		OWLObject toReturn = null;
 		if (symbol != null) {
-			toReturn = symbol.accept(new SymbolVisitorEx<OWLEntity>() {
+			toReturn = symbol.accept(new SymbolVisitorEx<OWLObject>() {
 				public OWLEntity visitOWLEntity(OWLEntitySymbol owlEntitySymbol) {
 					return owlEntitySymbol.getEntity();
+				}
+
+				public OWLConstant visitOWLConstant(OWLConstantSymbol owlConstantSymbol) {
+					return owlConstantSymbol.getOWLConstant();
 				}
 
 				public OWLEntity visitSymbol(Symbol symbol) {
@@ -1210,6 +1218,11 @@ public class SymbolTable {
 		if (typeSymbol != null) {
 			toReturn = typeSymbol.accept(new SymbolVisitorEx<OWLTypedConstant>() {
 				public OWLTypedConstant visitSymbol(Symbol symbol) {
+					SymbolTable.this.reportIncompatibleSymbolType(constantType, null, expression);
+					return null;
+				}
+
+				public OWLTypedConstant visitOWLConstant(OWLConstantSymbol owlConstantSymbol) {
 					SymbolTable.this.reportIncompatibleSymbolType(constantType, null, expression);
 					return null;
 				}
@@ -1333,7 +1346,7 @@ public class SymbolTable {
 						owlObjectPropertyAssertionAxiom.getProperty(),
 						owlObjectPropertyAssertionAxiom.getObject());
 			} else if (assertion.getEvalType() == OWLAxiomType.DATA_PROPERTY_ASSERTION) {
-				OWLDataPropertyAssertionAxiom owlObjectPropertyAssertionAxiom = (OWLDataPropertyAssertionAxiom) assertion;
+				OWLDataPropertyAssertionAxiom owlObjectPropertyAssertionAxiom = (OWLDataPropertyAssertionAxiom) assertion.getOWLObject();
 				toReturn = this.getDataFactory().getOWLNegativeDataPropertyAssertionAxiom(
 						owlObjectPropertyAssertionAxiom.getSubject(),
 						owlObjectPropertyAssertionAxiom.getProperty(),
@@ -1869,8 +1882,8 @@ public class SymbolTable {
 	 * 
 	 * @param token
 	 *            The input Token.
-	 * @return The removed Symbol if it appeared in this SymbolTable {@code
-	 *         null} otherwise.
+	 * @return The removed Symbol if it appeared in this SymbolTable
+	 *         {@code null} otherwise.
 	 */
 	protected Symbol removeSymbol(Token token) {
 		return this.symbols.remove(token.getText());
