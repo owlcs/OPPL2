@@ -1,0 +1,3383 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY unnamed "http://www.owl-ontologies.com/unnamed.owl#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY upper "http://www.co-ode.org/ontologies/roberts/upper.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.owl-ontologies.com/unnamed.owl#"
+     xml:base="http://www.co-ode.org/ontologies/roberts/upper.owl"
+     xmlns:upper="http://www.co-ode.org/ontologies/roberts/upper.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:unnamed="http://www.owl-ontologies.com/unnamed.owl#">
+    <owl:Ontology rdf:about="">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Double click on rdfs:comment at left                                       
+
+This is a demonstration ontology reconstructing much of the OpenGALEN Upper Ontology in OWL-DL.  Detailed comments are included with classes and properties along with demonstration notions preceded with the prefix &quot;Probe_&quot;.
+
+The ontology is provided strictly &quot;as is&quot; and without guarantees.  It is still in progress and will be updated from time to time.
+
+The ontology is free for use with acknowledgement to OpenGALEN and the University of Manchester.
+
+All material copyright University of Manchester.
+
+A discussion is available in &quot;Patterns, Properties and Minimizing Commitment:
+Reconstruction of the GALEN Upper Ontology in OWL&quot; Alan L Rector and Jeremy Rogers, to be presented at the Workshop on Core Ontologies (CORONT) in conjunction with the European Knowledge Acquisition Workshop (EKAW-2004), Northampton, UK. 
+
+All material available from http://www.cs.man.ac.uk/~rector/ontologies/sample-top-bio/</rdfs:comment>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="&rdfs;comment"/>
+    <rdf:Description rdf:about="&rdfs;label"/>
+    <rdf:Description rdf:about="&owl;versionInfo"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.co-ode.org/ontologies/roberts/upper.owl#has_final_physical_location -->
+
+    <owl:ObjectProperty rdf:about="#has_final_physical_location">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_physical_location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.co-ode.org/ontologies/roberts/upper.owl#has_initial_physical_location -->
+
+    <owl:ObjectProperty rdf:about="#has_initial_physical_location">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_physical_location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Instrinsic_property -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;Instrinsic_property">
+        <owl:inverseOf rdf:resource="&unnamed;Inverse_intrinsic_property"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Refining_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Inverse_Refining_property -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;Inverse_Refining_property">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >See Refining Property</rdfs:comment>
+        <owl:inverseOf rdf:resource="&unnamed;Refining_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Inverse_Relational_property -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;Inverse_Relational_property">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >See Relational Property</rdfs:comment>
+        <owl:inverseOf rdf:resource="&unnamed;Relational_property"/>
+        <rdfs:domain rdf:resource="&unnamed;Self_standing_entity"/>
+        <rdfs:range rdf:resource="&unnamed;Self_standing_entity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Inverse_intrinsic_property -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;Inverse_intrinsic_property">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_Refining_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Inverse_modifier_property -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;Inverse_modifier_property">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_Refining_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Inverse_selector_property -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;Inverse_selector_property">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_intrinsic_property"/>
+        <owl:inverseOf rdf:resource="&unnamed;Selector_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Modifier_property -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;Modifier_property">
+        <owl:inverseOf rdf:resource="&unnamed;Inverse_modifier_property"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Refining_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Refining_property -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;Refining_property">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Properties linking self-standing entities to refining entities or refining entities to each other.</rdfs:comment>
+        <rdfs:domain rdf:resource="&unnamed;Domain_entity"/>
+        <rdfs:range rdf:resource="&unnamed;Refining_entity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Relational_property -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;Relational_property">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Properties linking self-standing entities</rdfs:comment>
+        <rdfs:domain rdf:resource="&unnamed;Self_standing_entity"/>
+        <rdfs:range rdf:resource="&unnamed;Self_standing_entity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Selector_property -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;Selector_property">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Instrinsic_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#acts_on -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;acts_on">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Acts on substrate
+Pumping acts_on blood.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Acts on substrate
+Pumping acts_on blood.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_participant"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#affects -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;affects">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Subvariety of acts_on which indicates actual effect on the thing acted on - creation, modification, etc.  A sub of has_locus.  Otherwise, everything acted on by the process would become the locus. Counterexample - heart failure.  The pumping acts on blood but is adequate.  It affects circulation. 
+
+This is a variant of the GALEN version which achieved many of the same effects via the propagates_via axiom.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Subvariety of acts_on which indicates actual effect on the thing acted on - creation, modification, etc.  A sub of has_locus.  Otherwise, everything acted on by the process would become the locus. Counterexample - heart failure.  The pumping acts on blood but is adequate.  It affects circulation. 
+
+This is a variant of the GALEN version which achieved many of the same effects via the propagates_via axiom.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;acts_on"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_locus"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#contains -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;contains">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_location_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#defines -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;defines">
+        <rdfs:domain rdf:resource="&unnamed;Material_entity"/>
+        <rdfs:range rdf:resource="&unnamed;Non_material_entity"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_structural_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#embodies -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;embodies">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_non_physical_aspect"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_embodied_as"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_actor -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_actor">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The actor in a process.  If the Heart is the actor in a pathological process then it is a locus of the pathology - see Circulatory_failure_due_to_cardiac_failure</rdfs:comment>
+        <rdfs:domain rdf:resource="&unnamed;Occurrent_entity"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_locus"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_participant"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_agent -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_agent">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Whereas actors can be either occurrents or continants. Agents - the initator, must be a continuant. 
+
+Occurrents that have agents are known as Acts.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Whereas actors can be either occurrents or continants. Agents - the initator, must be a continuant. 
+
+Occurrents that have agents are known as Acts.</rdfs:comment>
+        <rdfs:range rdf:resource="&unnamed;Potential_agent"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_actor"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_connection_to -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_connection_to">
+        <owl:inverseOf rdf:resource="&unnamed;is_connected_to"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_physical_location_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_constituent -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_constituent">
+        <rdfs:range rdf:resource="&unnamed;Mass_entity"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_structural_part"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_discrete_part -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_discrete_part">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The relations between distinct things - i.e. things that have a distinct shape a well defined numbers of parts and their parts - see is_subdivision_of</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_structural_part"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_distinct_part -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_distinct_part">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_structural_part"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_distinct_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_functional_part -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_functional_part">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_gross_part"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_grain -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_grain">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_member"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_gross_part -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_gross_part">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string"
+            >has_clinical_part</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The usual  meaning of partonomy - including functional and physical partonomy but excluding membership.  In general faults etc of gross parts are faults of the whole.  Whereas this is not true of th emore general is_part_of relation.  (Known as &quot;is_clinical_part_of&quot; in reconstruction of GALEN)</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_part"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_gross_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_group_member -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_group_member">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_member"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_in_group_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_laterality -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_laterality">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="&unnamed;Laterality"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Selector_property"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_laterality_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_left_right_symmetry -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_left_right_symmetry">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Instrinsic_property"/>
+        <rdfs:range rdf:resource="&unnamed;Left_right_symmetry"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_level_quality -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_level_quality">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:range rdf:resource="&unnamed;Activity_Level"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_quality"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_location -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_location">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Most general notion of location.  Not necessarily physical
+
+ NOT GALEN &quot;hasLocation&quot;</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Most general notion of location.  Not necessarily physical
+
+ NOT GALEN &quot;hasLocation&quot;</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Most general notion of location.  Not necessarily physical
+
+ NOT GALEN &quot;hasLocation&quot;</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Relational_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_locus -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_locus">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >GALEN &#39;hasLocation&#39; - locus of pathology.
+NB because of differences between sanctioning and domain/range constraints, must always ask for has_normality pathological &amp; hasLocus...</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >GALEN &#39;hasLocation&#39; - locus of pathology.
+NB because of differences between sanctioning and domain/range constraints, must always ask for has_normality pathological &amp; hasLocus...</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_location"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_locus_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_manifestation -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_manifestation">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Relation between a pattern or agent and its manifestation.  Whether agents are patterns/information or not has been left open. 
+
+A subproperty of has_location because the agent is co-located with its manifestation.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Relation between a pattern or agent and its manifestation.  Whether agents are patterns/information or not has been left open. 
+
+A subproperty of has_location because the agent is co-located with its manifestation.</rdfs:comment>
+        <rdfs:range rdf:resource="&unnamed;Physical_entity"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_location"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_manifestation_of"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_non_physical_aspect_of"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Pattern"/>
+                    <rdf:Description rdf:about="&unnamed;Potential_agent"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_member -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_member">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_part"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_member_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_non_physical_aspect -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_non_physical_aspect">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_Relational_property"/>
+        <rdfs:range rdf:resource="&unnamed;Non_physical_entity"/>
+        <rdfs:domain rdf:resource="&unnamed;Self_standing_entity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_normality_status -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_normality_status">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Modifier_property"/>
+        <rdfs:range rdf:resource="&unnamed;Normality_status"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_normality_status_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_organisational_part -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_organisational_part">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_gross_part"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_organisational_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_outcome -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_outcome">
+        <owl:versionInfo rdf:datatype="&xsd;string"
+            >TODO: Consider whether to place under affects.  should has_outcome be a child of has_locus.</owl:versionInfo>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >has_outcome 
+
+The general outcome of an act.
+Should probably be a sub of affects.  
+
+Still being chased.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >has_outcome 
+
+The general outcome of an act.
+Should probably be a sub of affects.  
+
+Still being chased.</rdfs:comment>
+        <rdfs:domain rdf:resource="&unnamed;Occurrent_entity"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;acts_on"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_part -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_part">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_physical_location_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_participant -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_participant">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Relation betwen occurrents and either continuants or other occurrents.</rdfs:comment>
+        <rdfs:domain rdf:resource="&unnamed;Occurrent_entity"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Relational_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_physical_location -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_physical_location">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Physical location</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_location"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_physical_location_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_portion -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_portion">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_structural_part"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_portion_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_quality -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_quality">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_Relational_property"/>
+        <rdfs:range rdf:resource="&unnamed;Quality"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_quantity -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_quantity">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Modifier_property"/>
+        <rdfs:range rdf:resource="&unnamed;Quantity"/>
+        <rdfs:domain rdf:resource="&unnamed;Spatio-temporal-extent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_status -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_status">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Modifier_property"/>
+        <rdfs:domain rdf:resource="&unnamed;Quality"/>
+        <rdfs:range rdf:resource="&unnamed;Quality_status_partition"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_status_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_structural_part -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_structural_part">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:domain rdf:resource="&unnamed;Self_standing_entity"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_gross_part"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_structural_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_subdivision -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_subdivision">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_structural_part"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_topology -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_topology">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Instrinsic_property"/>
+        <rdfs:domain rdf:resource="&unnamed;Physical_object"/>
+        <rdfs:range rdf:resource="&unnamed;Topology_value_partition"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_topology_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_units -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;has_units">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Modifier_property"/>
+        <rdfs:domain rdf:resource="&unnamed;Quantity"/>
+        <rdfs:range rdf:resource="&unnamed;Unit"/>
+        <owl:inverseOf rdf:resource="&unnamed;inverse_of_Teaching-top-redone-02-05_Slot_1"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#includes -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;includes">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >relation between syndrome and the different pathologies.
+
+The Subproperty includes_specifically is a sub of has_locus.  So in general a syndrome or &quot;Clinical Situation&quot; can include things which it is not a disease of - e.g. Diabetes should not be a renal or eye disease, although the total syndrome includes these things, at least as possibilities.
+
+However, in this version this broader version of includes is not used.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >relation between syndrome and the different pathologies.
+
+The Subproperty includes_specifically is a sub of has_locus.  So in general a syndrome or &quot;Clinical Situation&quot; can include things which it is not a disease of - e.g. Diabetes should not be a renal or eye disease, although the total syndrome includes these things, at least as possibilities.
+
+However, in this version this broader version of includes is not used.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_member"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#includes_specifically -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;includes_specifically">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The specific version of includes which points to the causative or key pathology. 
+
+Follows GALEN naming conventions.  Alternatives welcome.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The specific version of includes which points to the causative or key pathology. 
+
+Follows GALEN naming conventions.  Alternatives welcome.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_locus"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;includes"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#inverse_of_Teaching-top-redone-02-05_Slot_0 -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;inverse_of_Teaching-top-redone-02-05_Slot_0">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_modifier_property"/>
+        <owl:inverseOf rdf:resource="&unnamed;has_quantity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#inverse_of_Teaching-top-redone-02-05_Slot_1 -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;inverse_of_Teaching-top-redone-02-05_Slot_1">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_modifier_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#inverse_of_Teaching-top-redone-02-07_Slot_4 -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;inverse_of_Teaching-top-redone-02-07_Slot_4">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_physical_location_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_acted_on_by -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_acted_on_by">
+        <owl:inverseOf rdf:resource="&unnamed;acts_on"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_participant_in"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_actor_in -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_actor_in">
+        <rdfs:range rdf:resource="&unnamed;Occurrent_entity"/>
+        <rdfs:domain rdf:resource="&unnamed;Self_standing_entity"/>
+        <owl:inverseOf rdf:resource="&unnamed;has_actor"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_locus_of"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_participant_in"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_affected_by -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_affected_by">
+        <owl:inverseOf rdf:resource="&unnamed;affects"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_locus_of"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_participant_in"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_agent_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_agent_of">
+        <rdfs:domain rdf:resource="&unnamed;Potential_agent"/>
+        <owl:inverseOf rdf:resource="&unnamed;has_agent"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_actor_in"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_location_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_connected_to -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_connected_to">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Connection.  Not symmetric in GALEN because GALEN handled symmetric properties badly.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_physical_location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_constituent_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_constituent_of">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:domain rdf:resource="&unnamed;Mass_entity"/>
+        <owl:inverseOf rdf:resource="&unnamed;has_constituent"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_structural_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_contained_in -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_contained_in">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Containment.  In this veresion must be contained in a cavity.
+This is more pedantic than GALEN.
+
+Note containment implies location but not partonomy</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Containment.  In this veresion must be contained in a cavity.
+This is more pedantic than GALEN.
+
+Note containment implies location but not partonomy</rdfs:comment>
+        <rdfs:domain rdf:resource="&unnamed;Material_entity"/>
+        <owl:inverseOf rdf:resource="&unnamed;contains"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_defined_by -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_defined_by">
+        <owl:inverseOf rdf:resource="&unnamed;defines"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_structural_part"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_distinct_part_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_distinct_part_of">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_structural_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_embodied_as -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_embodied_as">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The relation between an agent and the physical manifestation</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_non_physical_aspect_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_functional_part_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_functional_part_of">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <owl:inverseOf rdf:resource="&unnamed;has_functional_part"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_gross_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_grain_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_grain_of">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Membership of collective. 
+Grains of sand - beach.
+Molecules - substances
+
+is_grain_of is the fundamental entity for spanning levels of granularity.
+
+A grain is a</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Membership of collective. 
+Grains of sand - beach.
+Molecules - substances
+
+is_grain_of is the fundamental entity for spanning levels of granularity.
+
+A grain is a</rdfs:comment>
+        <rdfs:range rdf:resource="&unnamed;Collective"/>
+        <rdfs:domain rdf:resource="&unnamed;Physical_thing"/>
+        <owl:inverseOf rdf:resource="&unnamed;has_grain"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_member_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_gross_part_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_gross_part_of">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is_clinical_part_of</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The usual  meaning of partonomy - including functional and physical partonomy but excluding membership.  In general faults etc of gross parts are faults of the whole.  Whereas this is not true of th emore general is_part_of relation.  (Known as &quot;is_clinical_part_of&quot; in reconstruction of GALEN)</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_in_group_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_in_group_of">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Group membership as in goose - flock of geese.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_member_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_laterality_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_laterality_of">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_selector_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_level_quality_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_level_quality_of">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <owl:inverseOf rdf:resource="&unnamed;has_level_quality"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_quality_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_location_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_location_of">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_Relational_property"/>
+        <owl:inverseOf rdf:resource="&unnamed;has_location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_locus_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_locus_of">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_location_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_manifestation_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_manifestation_of">
+        <rdfs:domain rdf:resource="&unnamed;Physical_entity"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_non_physical_aspect"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_location_of"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Pattern"/>
+                    <rdf:Description rdf:about="&unnamed;Potential_agent"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_member_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_member_of">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Membership - not standard partonomy and not included in clinical partonomy</rdfs:comment>
+        <rdfs:range rdf:resource="&unnamed;Complex"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_non_physical_aspect_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_non_physical_aspect_of">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The top property linking non-physical to physical entities.  More a convenience for organisation than a property to be used. 
+
+We are agnostic about whether one non_physical entity can be linked to other non-physical entities.  Hence the range is merely self-standing entity.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The top property linking non-physical to physical entities.  More a convenience for organisation than a property to be used. 
+
+We are agnostic about whether one non_physical entity can be linked to other non-physical entities.  Hence the range is merely self-standing entity.</rdfs:comment>
+        <rdfs:domain rdf:resource="&unnamed;Non_physical_entity"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Relational_property"/>
+        <rdfs:range rdf:resource="&unnamed;Self_standing_entity"/>
+        <owl:inverseOf rdf:resource="&unnamed;has_non_physical_aspect"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_normality_status_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_normality_status_of">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_modifier_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_occupied_by -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_occupied_by">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_Relational_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_organisational_part_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_organisational_part_of">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:range rdf:resource="&unnamed;Organisation"/>
+        <rdfs:domain rdf:resource="&unnamed;Organisation"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_gross_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_outcome_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_outcome_of">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Outcome of process.  
+Has additional parent has_locus to get reasoning right in absence of more sophisticated rules.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Outcome of process.  
+Has additional parent has_locus to get reasoning right in absence of more sophisticated rules.</rdfs:comment>
+        <rdfs:range rdf:resource="&unnamed;Occurrent_entity"/>
+        <rdfs:domain rdf:resource="&unnamed;Self_standing_entity"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_locus"/>
+        <owl:inverseOf rdf:resource="&unnamed;has_outcome"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_acted_on_by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_owned_by -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_owned_by">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_Relational_property"/>
+        <owl:inverseOf rdf:resource="&unnamed;owns"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_part_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_part_of">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Generic partonomy including  membership.</rdfs:comment>
+        <rdfs:domain rdf:resource="&unnamed;Self_standing_entity"/>
+        <owl:inverseOf rdf:resource="&unnamed;has_part"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_physical_location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_participant_in -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_participant_in">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_Relational_property"/>
+        <owl:inverseOf rdf:resource="&unnamed;has_participant"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_physical_location_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_physical_location_of">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_location_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_portion_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_portion_of">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The relation between two mass entities which are mixed or parts.</rdfs:comment>
+        <rdfs:domain rdf:resource="&unnamed;Mass_entity"/>
+        <rdfs:range rdf:resource="&unnamed;Mass_entity"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_structural_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_quality_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_quality_of">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >GALEN isFeatureOf
+
+Children for each quality to control cardinality. 
+
+Links features to self-standing entities.
+Placed in this way around to make child of</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >GALEN isFeatureOf
+
+Children for each quality to control cardinality. 
+
+Links features to self-standing entities.
+Placed in this way around to make child of</rdfs:comment>
+        <rdfs:domain rdf:resource="&unnamed;Quality"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Relational_property"/>
+        <rdfs:range rdf:resource="&unnamed;Self_standing_entity"/>
+        <owl:inverseOf rdf:resource="&unnamed;has_quality"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_role_played_by -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_role_played_by">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Link between a role and the things that play that role.  
+
+In this direction to be consistent with location and manifestation
+
+Link between a</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Link between a role and the things that play that role.  
+
+In this direction to be consistent with location and manifestation
+
+Link between a</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_non_physical_aspect_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_status_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_status_of">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_modifier_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_structural_part_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_structural_part_of">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Structural partonomy not including membership. Structural partonomy in GALEN does not cross scales. 
+
+The domain of of independent entity forces bunches of things, etc. to be independent even though the parent notion of bunch is not.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Structural partonomy not including membership. Structural partonomy in GALEN does not cross scales. 
+
+The domain of of independent entity forces bunches of things, etc. to be independent even though the parent notion of bunch is not.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_gross_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_subdivision_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_subdivision_of">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The relation between</rdfs:comment>
+        <owl:inverseOf rdf:resource="&unnamed;has_subdivision"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;is_structural_part_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#is_topology_of -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;is_topology_of">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Inverse_intrinsic_property"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#occupies -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;occupies">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The relation of an agent to its official &#39;residence&#39; or buildings which it occupies.  Applies to both organisations and individuals.  For an organisation, may be considered locative. However, the legal location of an organisation is a tricky matter which we defer here.
+
+Note the range is too broad, but it is easier to say any building entity than to make it more precise.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The relation of an agent to its official &#39;residence&#39; or buildings which it occupies.  Applies to both organisations and individuals.  For an organisation, may be considered locative. However, the legal location of an organisation is a tricky matter which we defer here.
+
+Note the range is too broad, but it is easier to say any building entity than to make it more precise.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The relation of an agent to its official &#39;residence&#39; or buildings which it occupies.  Applies to both organisations and individuals.  For an organisation, may be considered locative. However, the legal location of an organisation is a tricky matter which we defer here.
+
+Note the range is too broad, but it is easier to say any building entity than to make it more precise.</rdfs:comment>
+        <rdfs:range rdf:resource="&unnamed;Building_entity"/>
+        <rdfs:domain rdf:resource="&unnamed;Potential_agent"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Relational_property"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_occupied_by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#owns -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;owns">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Only agents can own things.  Just about anything except a person can be owned.  (Even a person&#39;s body, after they are dead is owned in English law, and a person owns their body and body parts under many jurisdictions before death)</rdfs:comment>
+        <rdfs:domain rdf:resource="&unnamed;Potential_agent"/>
+        <rdfs:subPropertyOf rdf:resource="&unnamed;Relational_property"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Self_standing_entity"/>
+                    <owl:Class>
+                        <owl:complementOf rdf:resource="&unnamed;Person_agent"/>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#plays_role -->
+
+    <owl:ObjectProperty rdf:about="&unnamed;plays_role">
+        <rdfs:subPropertyOf rdf:resource="&unnamed;has_non_physical_aspect"/>
+        <owl:inverseOf rdf:resource="&unnamed;is_role_played_by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#has_magnitude -->
+
+    <owl:DatatypeProperty rdf:about="&unnamed;has_magnitude">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The numeric value of a quantity.
+
+Cannot have place in the hierarchy parallel to that of has_unit, because a data type property cannot be the subproperty of an object property or vice versa.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The numeric value of a quantity.
+
+Cannot have place in the hierarchy parallel to that of has_unit, because a data type property cannot be the subproperty of an object property or vice versa.</rdfs:comment>
+        <rdfs:domain rdf:resource="&unnamed;Quantity"/>
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Act -->
+
+    <owl:Class rdf:about="&unnamed;Act">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Occurrent_entity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&unnamed;has_agent"/>
+                        <owl:someValuesFrom rdf:resource="&unnamed;Potential_agent"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An occurrent that has an agent.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Activity_Level -->
+
+    <owl:Class rdf:about="&unnamed;Activity_Level">
+        <rdfs:subClassOf rdf:resource="&unnamed;Quality"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The level of activity of a process. 
+
+Amongst other statuses takes Level_adequacy_status</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The level of activity of a process. 
+
+Amongst other statuses takes Level_adequacy_status</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Afrtistic_style -->
+
+    <owl:Class rdf:about="&unnamed;Afrtistic_style">
+        <rdfs:subClassOf rdf:resource="&unnamed;Style"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Agent -->
+
+    <owl:Class rdf:about="&unnamed;Agent">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Potential_agent"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&unnamed;is_agent_of"/>
+                        <owl:someValuesFrom rdf:resource="&unnamed;Occurrent_entity"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An actual agent - the agent of some real occurrent.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Aggregation -->
+
+    <owl:Class rdf:about="&unnamed;Aggregation">
+        <rdfs:subClassOf rdf:resource="&unnamed;Complex"/>
+        <owl:disjointWith rdf:resource="&unnamed;Relation"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Anything that brings together things of a given sort. 
+
+Aggregations are always defined using universal rather than existential restrictions</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Anything that brings together things of a given sort. 
+
+Aggregations are always defined using universal rather than existential restrictions</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Area_extent -->
+
+    <owl:Class rdf:about="&unnamed;Area_extent">
+        <rdfs:subClassOf rdf:resource="&unnamed;Spatio-temporal-extent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&unnamed;has_quantity"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&unnamed;Quantity"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&unnamed;has_units"/>
+                                <owl:allValuesFrom rdf:resource="&unnamed;Area_unit"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Area_unit -->
+
+    <owl:Class rdf:about="&unnamed;Area_unit">
+        <rdfs:subClassOf rdf:resource="&unnamed;Unit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Artifact -->
+
+    <owl:Class rdf:about="&unnamed;Artifact">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Continuant_entity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&unnamed;is_outcome_of"/>
+                        <owl:someValuesFrom rdf:resource="&unnamed;Act"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The notion of &quot;Artifact&quot; is of something created by an Act (by definition performed by some &quot;Potential_agent&quot;).
+
+In this version Artifacts are required to be continuants, but even this limitations is not definite.  A performance is certainly artefactual.  This limits the Artefact to the script and not the performance.  I think that is the usual meaning of the word, but others may choose to differ. 
+
+Certainly the notion of a &quot;Continuant that is the outcome of some Act&quot; is useful.  Whether the labelling is correct or not remains to be discussed.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The notion of &quot;Artifact&quot; is of something created by an Act (by definition performed by some &quot;Potential_agent&quot;).
+
+In this version Artifacts are required to be continuants, but even this limitations is not definite.  A performance is certainly artefactual.  This limits the Artefact to the script and not the performance.  I think that is the usual meaning of the word, but others may choose to differ. 
+
+Certainly the notion of a &quot;Continuant that is the outcome of some Act&quot; is useful.  Whether the labelling is correct or not remains to be discussed.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The notion of &quot;Artifact&quot; is of something created by an Act (by definition performed by some &quot;Potential_agent&quot;).
+
+In this version Artifacts are required to be continuants, but even this limitations is not definite.  A performance is certainly artefactual.  This limits the Artefact to the script and not the performance.  I think that is the usual meaning of the word, but others may choose to differ. 
+
+Certainly the notion of a &quot;Continuant that is the outcome of some Act&quot; is useful.  Whether the labelling is correct or not remains to be discussed.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The notion of &quot;Artifact&quot; is of something created by an Act (by definition performed by some &quot;Potential_agent&quot;).
+
+In this version Artifacts are required to be continuants, but even this limitations is not definite.  A performance is certainly artefactual.  This limits the Artefact to the script and not the performance.  I think that is the usual meaning of the word, but others may choose to differ. 
+
+Certainly the notion of a &quot;Continuant that is the outcome of some Act&quot; is useful.  Whether the labelling is correct or not remains to be discussed.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Book_copy -->
+
+    <owl:Class rdf:about="&unnamed;Book_copy">
+        <rdfs:subClassOf rdf:resource="&unnamed;Written_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Book_oeuvre -->
+
+    <owl:Class rdf:about="&unnamed;Book_oeuvre">
+        <rdfs:subClassOf rdf:resource="&unnamed;Language_oeuvre"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Building -->
+
+    <owl:Class rdf:about="&unnamed;Building">
+        <rdfs:subClassOf rdf:resource="&unnamed;Building_entity"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Material_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Building_entity -->
+
+    <owl:Class rdf:about="&unnamed;Building_entity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Discrete_entity"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Made_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Must be part of Physical_discrete_continuant_entity rather than physical object, because some parts of buildings are the spaces.  Spacews are non-material, so building parts can&#39;t all be material.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Cavity -->
+
+    <owl:Class rdf:about="&unnamed;Cavity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Non_material_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A space or hole.  &quot;Cavity&quot; is the common anatomic phrase.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Classical -->
+
+    <owl:Class rdf:about="&unnamed;Classical">
+        <rdfs:subClassOf rdf:resource="&unnamed;Musical_style"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Cluster -->
+
+    <owl:Class rdf:about="&unnamed;Cluster">
+        <rdfs:subClassOf rdf:resource="&unnamed;Group"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Ad hoc grouping - taken from FMA</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Collective -->
+
+    <owl:Class rdf:about="&unnamed;Collective">
+        <rdfs:subClassOf rdf:resource="&unnamed;Aggregation"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Continuant_entity"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Mass_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A collection of grains at one level of granularity that make up a mass entity at the next - i.e. an entity where it is the behaviour of the collective of grains that is important rather than the behaviour of the individual grains is unimportant 
+
+In general, informally &quot;multiple of&quot; can be read as a pluraliser, i.e.
+&quot;Multiple has_grain only Red_cell&quot; = &quot;Red cells&quot;
+
+Note that multiples are always formed with universal restrictions rather than existential. IE multiples are homogeneous.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A collection of grains at one level of granularity that make up a mass entity at the next - i.e. an entity where it is the behaviour of the collective of grains that is important rather than the behaviour of the individual grains is unimportant 
+
+In general, informally &quot;multiple of&quot; can be read as a pluraliser, i.e.
+&quot;Multiple has_grain only Red_cell&quot; = &quot;Red cells&quot;
+
+Note that multiples are always formed with universal restrictions rather than existential. IE multiples are homogeneous.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A collection of grains at one level of granularity that make up a mass entity at the next - i.e. an entity where it is the behaviour of the collective of grains that is important rather than the behaviour of the individual grains is unimportant 
+
+In general, informally &quot;multiple of&quot; can be read as a pluraliser, i.e.
+&quot;Multiple has_grain only Red_cell&quot; = &quot;Red cells&quot;
+
+Note that multiples are always formed with universal restrictions rather than existential. IE multiples are homogeneous.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Collective_of_sound_signals -->
+
+    <owl:Class rdf:about="&unnamed;Collective_of_sound_signals">
+        <rdfs:subClassOf rdf:resource="&unnamed;Collective"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&unnamed;has_grain"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&unnamed;Signal"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&unnamed;has_constituent"/>
+                                <owl:someValuesFrom rdf:resource="&unnamed;Sound_energy"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A collection of signals that are made of (has_constituent) sound</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Compass_positional_relation -->
+
+    <owl:Class rdf:about="&unnamed;Compass_positional_relation">
+        <rdfs:subClassOf rdf:resource="&unnamed;Positional_relation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Complex -->
+
+    <owl:Class rdf:about="&unnamed;Complex">
+        <rdfs:subClassOf rdf:resource="&unnamed;Self_standing_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Anything that is in any way aggregated</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Continuant_entity -->
+
+    <owl:Class rdf:about="&unnamed;Continuant_entity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Self_standing_entity"/>
+        <owl:disjointWith rdf:resource="&unnamed;Occurrent_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Continuant or Endurant.
+Entities that peresists in time but has parts in space.
+
+As opposed to Occurrent</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Continuant or Endurant.
+Entities that peresists in time but has parts in space.
+
+As opposed to Occurrent</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Continuant or Endurant.
+Entities that peresists in time but has parts in space.
+
+As opposed to Occurrent</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Creation_act -->
+
+    <owl:Class rdf:about="&unnamed;Creation_act">
+        <rdfs:subClassOf rdf:resource="&unnamed;Act"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The act of creating, specifically of a pattern.  The act of &quot;Creation&quot; will remain otherwise unanalysed in this version.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Discrete_entity -->
+
+    <owl:Class rdf:about="&unnamed;Discrete_entity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Self_standing_entity"/>
+        <owl:disjointWith rdf:resource="&unnamed;Mass_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Countable entities - people, buildings, organs, etc.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Domain_entity -->
+
+    <owl:Class rdf:about="&unnamed;Domain_entity">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >See comment under Metadata tab for ontology documentation.  (double click on rdfs:comment)
+
+Domain_entity is the top proper entity in the ontology.  We recommend defining a top entity within the ontology because:
+
+a) It is often useful to define other entities either for debugging purposes (probes) or to simulate individuals, etc.
+
+b) Some tools treat the immediate children of owl:Thing peculirarly.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >See comment under Metadata tab for ontology documentation.  (double click on rdfs:comment)
+
+Domain_entity is the top proper entity in the ontology.  We recommend defining a top entity within the ontology because:
+
+a) It is often useful to define other entities either for debugging purposes (probes) or to simulate individuals, etc.
+
+b) Some tools treat the immediate children of owl:Thing peculirarly.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >See comment under Metadata tab for ontology documentation.  (double click on rdfs:comment)
+
+Domain_entity is the top proper entity in the ontology.  We recommend defining a top entity within the ontology because:
+
+a) It is often useful to define other entities either for debugging purposes (probes) or to simulate individuals, etc.
+
+b) Some tools treat the immediate children of owl:Thing peculirarly.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >See comment under Metadata tab for ontology documentation.  (double click on rdfs:comment)
+
+Domain_entity is the top proper entity in the ontology.  We recommend defining a top entity within the ontology because:
+
+a) It is often useful to define other entities either for debugging purposes (probes) or to simulate individuals, etc.
+
+b) Some tools treat the immediate children of owl:Thing peculirarly.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >See comment under Metadata tab for ontology documentation.  (double click on rdfs:comment)
+
+Domain_entity is the top proper entity in the ontology.  We recommend defining a top entity within the ontology because:
+
+a) It is often useful to define other entities either for debugging purposes (probes) or to simulate individuals, etc.
+
+b) Some tools treat the immediate children of owl:Thing peculirarly.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >See comment under Metadata tab for ontology documentation.  (double click on rdfs:comment)
+
+Domain_entity is the top proper entity in the ontology.  We recommend defining a top entity within the ontology because:
+
+a) It is often useful to define other entities either for debugging purposes (probes) or to simulate individuals, etc.
+
+b) Some tools treat the immediate children of owl:Thing peculirarly.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >See comment under Metadata tab for ontology documentation.  (double click on rdfs:comment)
+
+Domain_entity is the top proper entity in the ontology.  We recommend defining a top entity within the ontology because:
+
+a) It is often useful to define other entities either for debugging purposes (probes) or to simulate individuals, etc.
+
+b) Some tools treat the immediate children of owl:Thing peculirarly.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >See comment under Metadata tab for ontology documentation.  (double click on rdfs:comment)
+
+Domain_entity is the top proper entity in the ontology.  We recommend defining a top entity within the ontology because:
+
+a) It is often useful to define other entities either for debugging purposes (probes) or to simulate individuals, etc.
+
+b) Some tools treat the immediate children of owl:Thing peculirarly.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >See comment under Metadata tab for ontology documentation.  (double click on rdfs:comment)
+
+Domain_entity is the top proper entity in the ontology.  We recommend defining a top entity within the ontology because:
+
+a) It is often useful to define other entities either for debugging purposes (probes) or to simulate individuals, etc.
+
+b) Some tools treat the immediate children of owl:Thing peculirarly.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Duration_unit -->
+
+    <owl:Class rdf:about="&unnamed;Duration_unit">
+        <rdfs:subClassOf rdf:resource="&unnamed;Unit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Energy -->
+
+    <owl:Class rdf:about="&unnamed;Energy">
+        <rdfs:subClassOf rdf:resource="&unnamed;Mass_entity"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Occurrent_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Essay_oeuvre -->
+
+    <owl:Class rdf:about="&unnamed;Essay_oeuvre">
+        <rdfs:subClassOf rdf:resource="&unnamed;Language_oeuvre"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Exam_oeuvre -->
+
+    <owl:Class rdf:about="&unnamed;Exam_oeuvre">
+        <rdfs:subClassOf rdf:resource="&unnamed;Language_oeuvre"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Folk -->
+
+    <owl:Class rdf:about="&unnamed;Folk">
+        <rdfs:subClassOf rdf:resource="&unnamed;Musical_style"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Group -->
+
+    <owl:Class rdf:about="&unnamed;Group">
+        <rdfs:subClassOf rdf:resource="&unnamed;Aggregation"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Continuant_entity"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Discrete_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A discrete collection of things - flocks etc.
+Also includes</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A discrete collection of things - flocks etc.
+Also includes</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Handout_oeuvre -->
+
+    <owl:Class rdf:about="&unnamed;Handout_oeuvre">
+        <rdfs:subClassOf rdf:resource="&unnamed;Language_oeuvre"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Heart_pathology -->
+
+    <owl:Class rdf:about="&unnamed;Heart_pathology">
+        <rdfs:subClassOf rdf:resource="&unnamed;Probe"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Any pathology in the heart.  Includes both the processes and the syndromes. A sensible interface would ask for one or the other, but they are both included here for demonstration purposes. 
+
+Note that Circulatory_failure_due_to_heart_failure is included.  This is the reason for having has_actor imply has_locus.  This is a mild over-generalisation and will lead to some over inclusion.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Any pathology in the heart.  Includes both the processes and the syndromes. A sensible interface would ask for one or the other, but they are both included here for demonstration purposes. 
+
+Note that Circulatory_failure_due_to_heart_failure is included.  This is the reason for having has_actor imply has_locus.  This is a mild over-generalisation and will lead to some over inclusion.</rdfs:comment>
+        <owl:versionInfo rdf:datatype="&xsd;string">ProbeClass:true</owl:versionInfo>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Hollow_object -->
+
+    <owl:Class rdf:about="&unnamed;Hollow_object">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Physical_object"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&unnamed;has_topology"/>
+                        <owl:someValuesFrom rdf:resource="&unnamed;hollow_topology"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Intrinsic_property_partition -->
+
+    <owl:Class rdf:about="&unnamed;Intrinsic_property_partition">
+        <owl:disjointWith rdf:resource="&unnamed;Modifier"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Intrinsic properties are those which are not &quot;qualities&quot; - laterality, topology, etc.  There is usually little point in reifying such properties.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Jazz -->
+
+    <owl:Class rdf:about="&unnamed;Jazz">
+        <rdfs:subClassOf rdf:resource="&unnamed;Musical_style"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Journal_copy -->
+
+    <owl:Class rdf:about="&unnamed;Journal_copy">
+        <rdfs:subClassOf rdf:resource="&unnamed;Written_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Language_oeuvre -->
+
+    <owl:Class rdf:about="&unnamed;Language_oeuvre">
+        <rdfs:subClassOf rdf:resource="&unnamed;Oeuvre"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Anything oevre that depends on language, whether written or spoken.   Clearly an entire subontology couold be developed here.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Laterality -->
+
+    <owl:Class rdf:about="&unnamed;Laterality">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;left_laterality"/>
+                    <rdf:Description rdf:about="&unnamed;right_laterality"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&unnamed;Selector"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Sidedness - the left/right hand</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Left_right_symmetry -->
+
+    <owl:Class rdf:about="&unnamed;Left_right_symmetry">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;paired_symmetry"/>
+                    <rdf:Description rdf:about="&unnamed;unpaired_symmetry"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&unnamed;Intrinsic_property_partition"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Used in anatomy to identify parts of the body which have left and right versions, which may be different (e.g. the, lungs, the hemispheres of the brain) or mirror images of each other, e.g. hands, arms, etc.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Length_unit -->
+
+    <owl:Class rdf:about="&unnamed;Length_unit">
+        <rdfs:subClassOf rdf:resource="&unnamed;Unit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Level_adequacy_status -->
+
+    <owl:Class rdf:about="&unnamed;Level_adequacy_status">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;adequate_status"/>
+                    <rdf:Description rdf:about="&unnamed;inadequate_status"/>
+                    <rdf:Description rdf:about="&unnamed;super_adequate_status"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&unnamed;Quality_status_partition"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The level of a process.  Used in this demonstration to define Heart Failure.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Line -->
+
+    <owl:Class rdf:about="&unnamed;Line">
+        <rdfs:subClassOf rdf:resource="&unnamed;Non_material_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The line formed by some physical marks or markers, for example a crease.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Linear_extent -->
+
+    <owl:Class rdf:about="&unnamed;Linear_extent">
+        <rdfs:subClassOf rdf:resource="&unnamed;Spatio-temporal-extent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&unnamed;has_quantity"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&unnamed;Quantity"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&unnamed;has_units"/>
+                                <owl:allValuesFrom rdf:resource="&unnamed;Length_unit"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Literary_style -->
+
+    <owl:Class rdf:about="&unnamed;Literary_style">
+        <rdfs:subClassOf rdf:resource="&unnamed;Style"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Made_entity -->
+
+    <owl:Class rdf:about="&unnamed;Made_entity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Artifact"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Physical_thing"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Anything that is made.  Made artefacts other than things like Bonzai trees or ornamental gardens, etc.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Mass_entity -->
+
+    <owl:Class rdf:about="&unnamed;Mass_entity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Self_standing_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Measurable entities - water, air,blood,  tissue, etc. 
+
+as opposed to Discrete_entities</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Measurable entities - water, air,blood,  tissue, etc. 
+
+as opposed to Discrete_entities</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Mass_physical_continuant -->
+
+    <owl:Class rdf:about="&unnamed;Mass_physical_continuant">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Continuant_entity"/>
+                    <rdf:Description rdf:about="&unnamed;Mass_entity"/>
+                    <rdf:Description rdf:about="&unnamed;Physical_entity"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Material_building_part -->
+
+    <owl:Class rdf:about="&unnamed;Material_building_part">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Material_entity"/>
+                    <rdf:Description rdf:about="&unnamed;Part_of_building"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The actual material</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Material_entity -->
+
+    <owl:Class rdf:about="&unnamed;Material_entity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Physical_continuant_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An physical entity that has mass/energy as opposed to holes (&quot;cavities&quot;) lines, etc.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Modifier -->
+
+    <owl:Class rdf:about="&unnamed;Modifier">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Modifiers are the common modifiers which change the state of a quality or other aspect of a self-standing entity.  In many cases it is worth representing the &quot;quality&quot; as a class.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Musical_oeuvre -->
+
+    <owl:Class rdf:about="&unnamed;Musical_oeuvre">
+        <rdfs:subClassOf rdf:resource="&unnamed;Oeuvre"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Musical_style -->
+
+    <owl:Class rdf:about="&unnamed;Musical_style">
+        <rdfs:subClassOf rdf:resource="&unnamed;Style"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Natural_entity -->
+
+    <owl:Class rdf:about="&unnamed;Natural_entity">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >All those things created by potential agents, whether people or others.   We leave open the issue of whether animals can be agents and the authors of artefacts.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Non_biological_entity -->
+
+    <owl:Class rdf:about="&unnamed;Non_biological_entity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Self_standing_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string">See biological</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Non_material_building_part -->
+
+    <owl:Class rdf:about="&unnamed;Non_material_building_part">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Non_material_entity"/>
+                    <rdf:Description rdf:about="&unnamed;Part_of_building"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Non_material_entity -->
+
+    <owl:Class rdf:about="&unnamed;Non_material_entity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Physical_continuant_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Physical entities that do not have mass but are defined by other phyhsical entities, e.g. a planar surface defined by a table.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Non_physical_discrete_entity -->
+
+    <owl:Class rdf:about="&unnamed;Non_physical_discrete_entity">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >Non_physical_discrete_entity</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Discrete_entity"/>
+                    <rdf:Description rdf:about="&unnamed;Non_physical_entity"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Only boundaries are marked as discrete.  Patterns and Organisations should probably also be discrete but requires more consideration.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Non_physical_entity -->
+
+    <owl:Class rdf:about="&unnamed;Non_physical_entity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Self_standing_entity"/>
+        <owl:disjointWith rdf:resource="&unnamed;Physical_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >See Physical_entity</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Normality_status -->
+
+    <owl:Class rdf:about="&unnamed;Normality_status">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;non_Normal"/>
+                    <rdf:Description rdf:about="&unnamed;normal"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&unnamed;Status_partition"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Normality_status is a special status for biomedical ontologies.  It has a much more complex structure than most other status, but is a good demonstration of the advantages of using &quot;value partitions&quot; rather than simple values.
+
+NB - essentially a value partition - two values plus a covering axiom.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Normality_status is a special status for biomedical ontologies.  It has a much more complex structure than most other status, but is a good demonstration of the advantages of using &quot;value partitions&quot; rather than simple values.
+
+NB - essentially a value partition - two values plus a covering axiom.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Occurrent_entity -->
+
+    <owl:Class rdf:about="&unnamed;Occurrent_entity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Self_standing_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Things that happen - processes, events, and activities
+Occurents - have duration - have parts in time as well as space. 
+
+as opposed to Continuant</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Things that happen - processes, events, and activities
+Occurents - have duration - have parts in time as well as space. 
+
+as opposed to Continuant</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Oeuvre -->
+
+    <owl:Class rdf:about="&unnamed;Oeuvre">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Pattern"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&unnamed;is_outcome_of"/>
+                        <owl:someValuesFrom rdf:resource="&unnamed;Act"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >&#39;Oeuvre&#39; is the french word for &quot;work&quot; in the sense of &quot;work of art&quot; or &quot;work of literature&quot;.  It is used here to avoid the English homonym of &quot;work&quot; as a verb or the type of working that we do for a living. 
+
+In this version we will take a very simple versio and just define written, musical and visual oeuvre without trying to analyse them further.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >&#39;Oeuvre&#39; is the french word for &quot;work&quot; in the sense of &quot;work of art&quot; or &quot;work of literature&quot;.  It is used here to avoid the English homonym of &quot;work&quot; as a verb or the type of working that we do for a living. 
+
+In this version we will take a very simple versio and just define written, musical and visual oeuvre without trying to analyse them further.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >&#39;Oeuvre&#39; is the french word for &quot;work&quot; in the sense of &quot;work of art&quot; or &quot;work of literature&quot;.  It is used here to avoid the English homonym of &quot;work&quot; as a verb or the type of working that we do for a living. 
+
+In this version we will take a very simple versio and just define written, musical and visual oeuvre without trying to analyse them further.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >&#39;Oeuvre&#39; is the french word for &quot;work&quot; in the sense of &quot;work of art&quot; or &quot;work of literature&quot;.  It is used here to avoid the English homonym of &quot;work&quot; as a verb or the type of working that we do for a living. 
+
+In this version we will take a very simple versio and just define written, musical and visual oeuvre without trying to analyse them further.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >&#39;Oeuvre&#39; is the french word for &quot;work&quot; in the sense of &quot;work of art&quot; or &quot;work of literature&quot;.  It is used here to avoid the English homonym of &quot;work&quot; as a verb or the type of working that we do for a living. 
+
+In this version we will take a very simple versio and just define written, musical and visual oeuvre without trying to analyse them further.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Organisation -->
+
+    <owl:Class rdf:about="&unnamed;Organisation">
+        <rdfs:subClassOf rdf:resource="&unnamed;Group"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Non_physical_entity"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Potential_agent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&unnamed;has_member"/>
+                <owl:allValuesFrom rdf:resource="&unnamed;Potential_agent"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Organisations are here taken as being co-extensive with the group of agents that make them up - which can of course be empty.  Alternatively we could take the Organisation as independent and constituted by the group of agents.
+
+One might also wish to argue that an organisation has to be an actual agent - in effect that it has to do something - but it is more that it is empowered to do things than that it does them which seems to count.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Organisations are here taken as being co-extensive with the group of agents that make them up - which can of course be empty.  Alternatively we could take the Organisation as independent and constituted by the group of agents.
+
+One might also wish to argue that an organisation has to be an actual agent - in effect that it has to do something - but it is more that it is empowered to do things than that it does them which seems to count.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Organisations are here taken as being co-extensive with the group of agents that make them up - which can of course be empty.  Alternatively we could take the Organisation as independent and constituted by the group of agents.
+
+One might also wish to argue that an organisation has to be an actual agent - in effect that it has to do something - but it is more that it is empowered to do things than that it does them which seems to count.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Organisational__role -->
+
+    <owl:Class rdf:about="&unnamed;Organisational__role">
+        <rdfs:subClassOf rdf:resource="&unnamed;Role_played"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Pamphlet_copy -->
+
+    <owl:Class rdf:about="&unnamed;Pamphlet_copy">
+        <rdfs:subClassOf rdf:resource="&unnamed;Written_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Part_of_building -->
+
+    <owl:Class rdf:about="&unnamed;Part_of_building">
+        <rdfs:subClassOf rdf:resource="&unnamed;Building_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Note - not all parts of buildings are material.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Pattern -->
+
+    <owl:Class rdf:about="&unnamed;Pattern">
+        <rdfs:subClassOf rdf:resource="&unnamed;Continuant_entity"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Non_physical_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Patterns are general forms and scripts including &#39;oeuvres&#39; - the abstractions for intellectual outputs.  These were not developed in GALEN and so are left undeveloped here. 
+
+There is also an argument, according to Barry Smith, for using pattern rather than complexes for Diseases/Clinical situations.   However, this leaves us with three entities at least for each disease. Furthermore, we talk of the duration etc. of a disaease which seems to apply more sensibly to the process.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Patterns are general forms and scripts including &#39;oeuvres&#39; - the abstractions for intellectual outputs.  These were not developed in GALEN and so are left undeveloped here. 
+
+There is also an argument, according to Barry Smith, for using pattern rather than complexes for Diseases/Clinical situations.   However, this leaves us with three entities at least for each disease. Furthermore, we talk of the duration etc. of a disaease which seems to apply more sensibly to the process.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Performance_Act -->
+
+    <owl:Class rdf:about="&unnamed;Performance_Act">
+        <rdfs:subClassOf rdf:resource="&unnamed;Act"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The act of performing.  &quot;Performance&quot; will be left otherwise uninterpreted in this version.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Performance_oeuvre -->
+
+    <owl:Class rdf:about="&unnamed;Performance_oeuvre">
+        <rdfs:subClassOf rdf:resource="&unnamed;Oeuvre"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Person_agent -->
+
+    <owl:Class rdf:about="&unnamed;Person_agent">
+        <rdfs:subClassOf rdf:resource="&unnamed;Potential_agent"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The agentive aspect of a person.  That which ceases to exist when the person dies. 
+
+It is difficult to avoid some degree of dualism.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The agentive aspect of a person.  That which ceases to exist when the person dies. 
+
+It is difficult to avoid some degree of dualism.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Photocopy -->
+
+    <owl:Class rdf:about="&unnamed;Photocopy">
+        <rdfs:subClassOf rdf:resource="&unnamed;Written_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Photocopy_of_a_professors_hand_out -->
+
+    <owl:Class rdf:about="&unnamed;Photocopy_of_a_professors_hand_out">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Photocopy"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&unnamed;is_manifestation_of"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&unnamed;Handout_oeuvre"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&unnamed;is_outcome_of"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:intersectionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&unnamed;Creation_act"/>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&unnamed;has_agent"/>
+                                                        <owl:someValuesFrom rdf:resource="&unnamed;Person_agent"/>
+                                                    </owl:Restriction>
+                                                </owl:intersectionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Physical__role -->
+
+    <owl:Class rdf:about="&unnamed;Physical__role">
+        <rdfs:subClassOf rdf:resource="&unnamed;Role_played"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Physical_continuant_entity -->
+
+    <owl:Class rdf:about="&unnamed;Physical_continuant_entity">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Continuant_entity"/>
+                    <rdf:Description rdf:about="&unnamed;Physical_entity"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A common parent for material and non-material physical things. No obvious label has been suggested other than the literal one given here. 
+
+However, it is very useful, even necessary that includes both material things and the holes and other non-material entities defined by the material things.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A common parent for material and non-material physical things. No obvious label has been suggested other than the literal one given here. 
+
+However, it is very useful, even necessary that includes both material things and the holes and other non-material entities defined by the material things.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Physical_discrete_entity -->
+
+    <owl:Class rdf:about="&unnamed;Physical_discrete_entity">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Discrete_entity"/>
+                    <rdf:Description rdf:about="&unnamed;Physical_entity"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Discrete physical things, whether occurrents or continuants, whether material or non-material.  
+
+This may be redundant, depending on ones views of mass occurrents such as &quot;walking&quot;, &quot;digesting&quot;, &quot;talking&quot;, etc.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Discrete physical things, whether occurrents or continuants, whether material or non-material.  
+
+This may be redundant, depending on ones views of mass occurrents such as &quot;walking&quot;, &quot;digesting&quot;, &quot;talking&quot;, etc.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Discrete physical things, whether occurrents or continuants, whether material or non-material.  
+
+This may be redundant, depending on ones views of mass occurrents such as &quot;walking&quot;, &quot;digesting&quot;, &quot;talking&quot;, etc.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Discrete physical things, whether occurrents or continuants, whether material or non-material.  
+
+This may be redundant, depending on ones views of mass occurrents such as &quot;walking&quot;, &quot;digesting&quot;, &quot;talking&quot;, etc.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Discrete physical things, whether occurrents or continuants, whether material or non-material.  
+
+This may be redundant, depending on ones views of mass occurrents such as &quot;walking&quot;, &quot;digesting&quot;, &quot;talking&quot;, etc.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Physical_entity -->
+
+    <owl:Class rdf:about="&unnamed;Physical_entity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Self_standing_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Those things that are manifest physically - both occurrrents and continuants but not abstractions such as ideas, patterns, etc. 
+
+This ontology is specifically silent on whether &quot;Agents&quot; are physical or not in order to be able to fit in with ontologies which make either choice.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Those things that are manifest physically - both occurrrents and continuants but not abstractions such as ideas, patterns, etc. 
+
+This ontology is specifically silent on whether &quot;Agents&quot; are physical or not in order to be able to fit in with ontologies which make either choice.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Physical_manifestation_of_oeuvre -->
+
+    <owl:Class rdf:about="&unnamed;Physical_manifestation_of_oeuvre">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Physical_object"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&unnamed;is_manifestation_of"/>
+                        <owl:someValuesFrom rdf:resource="&unnamed;Oeuvre"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&unnamed;is_outcome_of"/>
+                <owl:someValuesFrom rdf:resource="&unnamed;Act"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Physical_mass_entity -->
+
+    <owl:Class rdf:about="&unnamed;Physical_mass_entity">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Mass_entity"/>
+                    <rdf:Description rdf:about="&unnamed;Physical_entity"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Physical_object -->
+
+    <owl:Class rdf:about="&unnamed;Physical_object">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Discrete_entity"/>
+                    <rdf:Description rdf:about="&unnamed;Material_entity"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Physical_thing -->
+
+    <owl:Class rdf:about="&unnamed;Physical_thing">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Continuant_entity"/>
+                    <rdf:Description rdf:about="&unnamed;Discrete_entity"/>
+                    <rdf:Description rdf:about="&unnamed;Physical_entity"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Material_or_non_material - includes both objects and holes, lines, etc. 
+
+We don&#39;t have a convenient inclusive label.   We&#39;ve used &quot;Physical thing&quot; as less bad than others. 
+
+&quot;Physical_feature&quot; has too many misleading connotations</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Material_or_non_material - includes both objects and holes, lines, etc. 
+
+We don&#39;t have a convenient inclusive label.   We&#39;ve used &quot;Physical thing&quot; as less bad than others. 
+
+&quot;Physical_feature&quot; has too many misleading connotations</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Material_or_non_material - includes both objects and holes, lines, etc. 
+
+We don&#39;t have a convenient inclusive label.   We&#39;ve used &quot;Physical thing&quot; as less bad than others. 
+
+&quot;Physical_feature&quot; has too many misleading connotations</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Material_or_non_material - includes both objects and holes, lines, etc. 
+
+We don&#39;t have a convenient inclusive label.   We&#39;ve used &quot;Physical thing&quot; as less bad than others. 
+
+&quot;Physical_feature&quot; has too many misleading connotations</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Material_or_non_material - includes both objects and holes, lines, etc. 
+
+We don&#39;t have a convenient inclusive label.   We&#39;ve used &quot;Physical thing&quot; as less bad than others. 
+
+&quot;Physical_feature&quot; has too many misleading connotations</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Material_or_non_material - includes both objects and holes, lines, etc. 
+
+We don&#39;t have a convenient inclusive label.   We&#39;ve used &quot;Physical thing&quot; as less bad than others. 
+
+&quot;Physical_feature&quot; has too many misleading connotations</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Material_or_non_material - includes both objects and holes, lines, etc. 
+
+We don&#39;t have a convenient inclusive label.   We&#39;ve used &quot;Physical thing&quot; as less bad than others. 
+
+&quot;Physical_feature&quot; has too many misleading connotations</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Plane -->
+
+    <owl:Class rdf:about="&unnamed;Plane">
+        <rdfs:subClassOf rdf:resource="&unnamed;Non_material_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A flat surface</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Play_oeuvre -->
+
+    <owl:Class rdf:about="&unnamed;Play_oeuvre">
+        <rdfs:subClassOf rdf:resource="&unnamed;Language_oeuvre"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Poem_oeuvre -->
+
+    <owl:Class rdf:about="&unnamed;Poem_oeuvre">
+        <rdfs:subClassOf rdf:resource="&unnamed;Language_oeuvre"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Pop -->
+
+    <owl:Class rdf:about="&unnamed;Pop">
+        <rdfs:subClassOf rdf:resource="&unnamed;Musical_style"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Positional_relation -->
+
+    <owl:Class rdf:about="&unnamed;Positional_relation">
+        <rdfs:subClassOf rdf:resource="&unnamed;Relation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Potential_agent -->
+
+    <owl:Class rdf:about="&unnamed;Potential_agent">
+        <rdfs:subClassOf rdf:resource="&unnamed;Continuant_entity"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Discrete_entity"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Self_standing_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Potential_agent serves as the domain for has_agent.
+
+The list of potential agents is deliberately left open and no statement is made about whether they need by physical or not.  
+
+Alternatively one could leave the domain of has_agent as simply discrete continuant.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Potential_agent serves as the domain for has_agent.
+
+The list of potential agents is deliberately left open and no statement is made about whether they need by physical or not.  
+
+Alternatively one could leave the domain of has_agent as simply discrete continuant.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Potential_agent serves as the domain for has_agent.
+
+The list of potential agents is deliberately left open and no statement is made about whether they need by physical or not.  
+
+Alternatively one could leave the domain of has_agent as simply discrete continuant.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Print_out_copy -->
+
+    <owl:Class rdf:about="&unnamed;Print_out_copy">
+        <rdfs:subClassOf rdf:resource="&unnamed;Written_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Probe -->
+
+    <owl:Class rdf:about="&unnamed;Probe">
+        <owl:versionInfo rdf:datatype="&xsd;string">ProbeClass:true</owl:versionInfo>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Probes are tests inserted to check classification.   Tools are almost ready to have them visible or invisible as required.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Probe-Clinical_Part_of_heart -->
+
+    <owl:Class rdf:about="&unnamed;Probe-Clinical_Part_of_heart">
+        <rdfs:subClassOf rdf:resource="&unnamed;Probe"/>
+        <owl:versionInfo rdf:datatype="&xsd;string">ProbeClass:true</owl:versionInfo>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Probes for the clinical parts of the heart.  This includes both functional and structural parthood. 
+
+This is what a doctor would expect to see, including Pericarditis - i.e. an inflammation of the covering of the heart.  Strictly speaking, the Pericardium is, however, a spearate organ, so according to the FMA view, it does not form part of the heart.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Probes for the clinical parts of the heart.  This includes both functional and structural parthood. 
+
+This is what a doctor would expect to see, including Pericarditis - i.e. an inflammation of the covering of the heart.  Strictly speaking, the Pericardium is, however, a spearate organ, so according to the FMA view, it does not form part of the heart.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Probe-Clinical_part_of_Cell -->
+
+    <owl:Class rdf:about="&unnamed;Probe-Clinical_part_of_Cell">
+        <rdfs:subClassOf rdf:resource="&unnamed;Probe"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Parts of the cell at the a single granularity</rdfs:comment>
+        <owl:versionInfo rdf:datatype="&xsd;string">ProbeClass:true</owl:versionInfo>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Probe-Part_of_Cell -->
+
+    <owl:Class rdf:about="&unnamed;Probe-Part_of_Cell">
+        <rdfs:subClassOf rdf:resource="&unnamed;Probe"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >All parts of the cell across granularities</rdfs:comment>
+        <owl:versionInfo rdf:datatype="&xsd;string">ProbeClass:true</owl:versionInfo>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Probe-Strutural_part_of_Cell -->
+
+    <owl:Class rdf:about="&unnamed;Probe-Strutural_part_of_Cell">
+        <rdfs:subClassOf rdf:resource="&unnamed;Probe"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Parts of the cell according to the strictness version of part-hood - those things which are unquestionably part of the cell.</rdfs:comment>
+        <owl:versionInfo rdf:datatype="&xsd;string">ProbeClass:true</owl:versionInfo>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Probe_Cliincal_part_of_Skull -->
+
+    <owl:Class rdf:about="&unnamed;Probe_Cliincal_part_of_Skull">
+        <rdfs:subClassOf rdf:resource="&unnamed;Probe"/>
+        <owl:versionInfo rdf:datatype="&xsd;string">ProbeClass:true</owl:versionInfo>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The major parts of the skull including structural and functional - in this case in demo only structural parts. 
+
+Excludes the Brain because the Brain is contained in rather than part of the skull.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The major parts of the skull including structural and functional - in this case in demo only structural parts. 
+
+Excludes the Brain because the Brain is contained in rather than part of the skull.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Probe_located_in_skull -->
+
+    <owl:Class rdf:about="&unnamed;Probe_located_in_skull">
+        <rdfs:subClassOf rdf:resource="&unnamed;Probe"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Everything located in the skull
+
+Includes the brain which is contained in the cranial cavity but not a part of the skull.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Everything located in the skull
+
+Includes the brain which is contained in the cranial cavity but not a part of the skull.</rdfs:comment>
+        <owl:versionInfo rdf:datatype="&xsd;string">ProbeClass:true</owl:versionInfo>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Probe_structural_part_of_heart -->
+
+    <owl:Class rdf:about="&unnamed;Probe_structural_part_of_heart">
+        <rdfs:subClassOf rdf:resource="&unnamed;Probe"/>
+        <owl:versionInfo rdf:datatype="&xsd;string">ProbeClass:true</owl:versionInfo>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The structural parts of the heart.
+
+Essentially the FMA view of what should be part of the heart, excluding individual cardiac cells etc. which require the still broader is_part_of relation.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The structural parts of the heart.
+
+Essentially the FMA view of what should be part of the heart, excluding individual cardiac cells etc. which require the still broader is_part_of relation.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The structural parts of the heart.
+
+Essentially the FMA view of what should be part of the heart, excluding individual cardiac cells etc. which require the still broader is_part_of relation.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Psycho_social_role -->
+
+    <owl:Class rdf:about="&unnamed;Psycho_social_role">
+        <rdfs:subClassOf rdf:resource="&unnamed;Role_played"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Quality -->
+
+    <owl:Class rdf:about="&unnamed;Quality">
+        <rdfs:subClassOf rdf:resource="&unnamed;Relation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Quality_status_partition -->
+
+    <owl:Class rdf:about="&unnamed;Quality_status_partition">
+        <rdfs:subClassOf rdf:resource="&unnamed;Status_partition"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Quality_status_partitions are the vast majority of status partitions which go with qualities. 
+
+Only a single example, &quot;Level&quot; is given here, but most clinical features such as body temperature, height, weight, pulse rate, etc. would be treated as &quot;qualities&quot;.  Each would have its own &quot;Quality&quot; defined under self-standing entities and a set of mutually exclusive statuses.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Quality_status_partitions are the vast majority of status partitions which go with qualities. 
+
+Only a single example, &quot;Level&quot; is given here, but most clinical features such as body temperature, height, weight, pulse rate, etc. would be treated as &quot;qualities&quot;.  Each would have its own &quot;Quality&quot; defined under self-standing entities and a set of mutually exclusive statuses.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Quantity -->
+
+    <owl:Class rdf:about="&unnamed;Quantity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Modifier"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Quantities have a magntude and units.  They are not so much modifiers as there is no other obvious place for them.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Refining_entity -->
+
+    <rdf:Description rdf:about="&unnamed;Refining_entity">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >All entities which are dependent modifiers - roughly speaking value types and values.  (See SWBP note on value partitions)</rdfs:comment>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Relation -->
+
+    <owl:Class rdf:about="&unnamed;Relation">
+        <rdfs:subClassOf rdf:resource="&unnamed;Complex"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Reified relations.  Primarily in biology &quot;Qualities&quot; but might also be other forms of relationship</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Role_played -->
+
+    <owl:Class rdf:about="&unnamed;Role_played">
+        <rdfs:subClassOf rdf:resource="&unnamed;Pattern"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >&quot;Roles&quot; are summarisers which indecated what roles a entity plays in different situations.  To emphasize this aspect and reduce ambiguity, we use the suffixe  &quot;_played&quot;.   (This leads to some ugly exprssions of the form &quot;...plays_role x_played&quot;.  So normally, specific roles are given just the suffix &quot;_role&quot;, e.g. &quot;Music_role&quot;, &quot;Catalyst_role&quot; etc.  
+
+ In some cases such as &quot;Music_role&quot; or &quot;Literature_role&quot; they are natural kinds that probably can&#39;t be defined. 
+
+In other cases such as &quot;Catalyst role&quot;, it may be that they could be defined, but for the purposes of this ontology we choose not to do so. 
+
+Note also that most roles are actually with respect to some other individual, agent, or situation. Arguable all roles have this feature. 
+
+The importantance of roles is that they allow the same thing  play more than one role - e.g. a ring tone to play both a music role and a signalling role. 
+
+Note that Roles are disjoint, but the property plays_role is multi-valued (not functional).  Hence the same entity can play many roles simultaneously.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >&quot;Roles&quot; are summarisers which indecated what roles a entity plays in different situations.  To emphasize this aspect and reduce ambiguity, we use the suffixe  &quot;_played&quot;.   (This leads to some ugly exprssions of the form &quot;...plays_role x_played&quot;.  So normally, specific roles are given just the suffix &quot;_role&quot;, e.g. &quot;Music_role&quot;, &quot;Catalyst_role&quot; etc.  
+
+ In some cases such as &quot;Music_role&quot; or &quot;Literature_role&quot; they are natural kinds that probably can&#39;t be defined. 
+
+In other cases such as &quot;Catalyst role&quot;, it may be that they could be defined, but for the purposes of this ontology we choose not to do so. 
+
+Note also that most roles are actually with respect to some other individual, agent, or situation. Arguable all roles have this feature. 
+
+The importantance of roles is that they allow the same thing  play more than one role - e.g. a ring tone to play both a music role and a signalling role. 
+
+Note that Roles are disjoint, but the property plays_role is multi-valued (not functional).  Hence the same entity can play many roles simultaneously.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Selector -->
+
+    <owl:Class rdf:about="&unnamed;Selector">
+        <rdfs:subClassOf rdf:resource="&unnamed;Intrinsic_property_partition"/>
+        <owl:disjointWith rdf:resource="&unnamed;Topology_value_partition"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Selectors are things that select one of a finite list of things rather than actually modifying something.  Examples are left_hand or &quot;left laterality&quot; vs &quot;right laterality&quot; , ordinals that number parts of the body such as the spine, etc.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Self_standing_entity -->
+
+    <owl:Class rdf:about="&unnamed;Self_standing_entity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Domain_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Entities which can stand on their own.  
+
+Primitive self-standing entities in the upper ontology come in disjoint pairs.  In the domain ontology they form disjoint non-exhaustive trees.
+
+The pairs show up poorly because the windows are ordered alphabetically.  However, they can be identified by the disjoint axioms (lower right hand corner of this tab).  The disjoint pairs are deiberately not exhaustive - i.e. we defer the issue of whether everything must be either physical or non-physical etc.  This allows defering commitment on such issues as whether sets of physical things are themselves physical, etc.  This is a matter on which other ontologies differe. 
+
+Also no opposite for &#39;Complex&#39; is provided, again to defer decisions.
+
+&#39;Biological&#39; is included for convenience in a BioMedical ontology. 
+
+In general it should be possible to classify a self-standing entity by asking questions about the basic dichotomies and subdichotomies 
+
+Asa  matter of style in this version, dichotomies have been represented as a pair of disjoint entities but have not been made exhaustive, e.g. it would be possible for something to be neither physical nor non-physical.  This is part of the policy of deliberately deferring ontological commitments.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Signal -->
+
+    <owl:Class rdf:about="&unnamed;Signal">
+        <rdfs:subClassOf rdf:resource="&unnamed;Discrete_entity"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;Physical_entity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&unnamed;is_manifestation_of"/>
+                <owl:someValuesFrom rdf:resource="&unnamed;Pattern"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Signals are discrete occurrents that are manifestations information - i.e. are the manifestation of a pattern.  Signals have to be carried by something - i.e. constituted by some underlying mass medium, e.g. a form of energy.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Situated_positional_relation -->
+
+    <owl:Class rdf:about="&unnamed;Situated_positional_relation">
+        <rdfs:subClassOf rdf:resource="&unnamed;Positional_relation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Sound_energy -->
+
+    <owl:Class rdf:about="&unnamed;Sound_energy">
+        <rdfs:subClassOf rdf:resource="&unnamed;Energy"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Spatio-temporal-entity -->
+
+    <owl:Class rdf:about="&unnamed;Spatio-temporal-entity">
+        <rdfs:subClassOf rdf:resource="&unnamed;Physical_discrete_entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A placeholder for points and spatio-temporal notions other than extents.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Spatio-temporal-extent -->
+
+    <owl:Class rdf:about="&unnamed;Spatio-temporal-extent">
+        <rdfs:subClassOf rdf:resource="&unnamed;Spatio-temporal-entity"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Subsumes extents of any diimensionality.  The important cases are covered currently.  Could be defined in terms of dimensionality in a future version.
+
+Spatio-temporal extents should be capable of taking magnitude values, and indeed this can be entered in Protege, but they will not perform as expected with the classifier.   However, they are created for purposes of illustration.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Subsumes extents of any diimensionality.  The important cases are covered currently.  Could be defined in terms of dimensionality in a future version.
+
+Spatio-temporal extents should be capable of taking magnitude values, and indeed this can be entered in Protege, but they will not perform as expected with the classifier.   However, they are created for purposes of illustration.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Status_partition -->
+
+    <owl:Class rdf:about="&unnamed;Status_partition">
+        <rdfs:subClassOf rdf:resource="&unnamed;Modifier"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Used in clinical systems.  Also a useful demonstration of how negation can be used in complex ways, so included here.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Stomach_pathology -->
+
+    <owl:Class rdf:about="&unnamed;Stomach_pathology">
+        <rdfs:subClassOf rdf:resource="&unnamed;Probe"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Pathology of stomach, analogous to Cardiac_pathology.
+
+Again both the syndrome and the physical structure are included for demonstration although a more practical  query would include only one or the other.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Pathology of stomach, analogous to Cardiac_pathology.
+
+Again both the syndrome and the physical structure are included for demonstration although a more practical  query would include only one or the other.</rdfs:comment>
+        <owl:versionInfo rdf:datatype="&xsd;string">ProbeClass:true</owl:versionInfo>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Style -->
+
+    <owl:Class rdf:about="&unnamed;Style">
+        <rdfs:subClassOf rdf:resource="&unnamed;Quality"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#System -->
+
+    <owl:Class rdf:about="&unnamed;System">
+        <rdfs:subClassOf rdf:resource="&unnamed;Group"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Functional system</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Temporal_extents -->
+
+    <owl:Class rdf:about="&unnamed;Temporal_extents">
+        <rdfs:subClassOf rdf:resource="&unnamed;Spatio-temporal-extent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&unnamed;has_quantity"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&unnamed;Quantity"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&unnamed;has_units"/>
+                                <owl:allValuesFrom rdf:resource="&unnamed;Duration_unit"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Topology_value_partition -->
+
+    <owl:Class rdf:about="&unnamed;Topology_value_partition">
+        <rdfs:subClassOf rdf:resource="&unnamed;Intrinsic_property_partition"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >General topological characteristics used in anatomy.  The most important variants are hollow and solid, but there are many variants, only a few of which are detailed here.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Typscript_copy -->
+
+    <owl:Class rdf:about="&unnamed;Typscript_copy">
+        <rdfs:subClassOf rdf:resource="&unnamed;Written_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Unit -->
+
+    <owl:Class rdf:about="&unnamed;Unit">
+        <rdfs:subClassOf rdf:resource="&unnamed;Modifier"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Units should, by rights be individuals. 
+Only the classes are actually given.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Units should, by rights be individuals. 
+Only the classes are actually given.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Visual_oeuvre -->
+
+    <owl:Class rdf:about="&unnamed;Visual_oeuvre">
+        <rdfs:subClassOf rdf:resource="&unnamed;Oeuvre"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Volume_extents -->
+
+    <owl:Class rdf:about="&unnamed;Volume_extents">
+        <rdfs:subClassOf rdf:resource="&unnamed;Spatio-temporal-extent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&unnamed;has_quantity"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&unnamed;Quantity"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&unnamed;has_units"/>
+                                <owl:allValuesFrom rdf:resource="&unnamed;Volume_unit"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Volume_unit -->
+
+    <owl:Class rdf:about="&unnamed;Volume_unit">
+        <rdfs:subClassOf rdf:resource="&unnamed;Unit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Written_object -->
+
+    <owl:Class rdf:about="&unnamed;Written_object">
+        <rdfs:subClassOf rdf:resource="&unnamed;Physical_object"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&unnamed;is_manifestation_of"/>
+                <owl:someValuesFrom rdf:resource="&unnamed;Language_oeuvre"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >We could describe this an an object that is the manifestation outcome of writing, or that contains writing, etc. We shall keep the commitments minimal for now as to how the writing got to the physical page - e.g. was it photocopied, printed, etc. 
+Merely by saying that it is the manifestation of an Oeuvre we demand that it be the outcome of some act.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >We could describe this an an object that is the manifestation outcome of writing, or that contains writing, etc. We shall keep the commitments minimal for now as to how the writing got to the physical page - e.g. was it photocopied, printed, etc. 
+Merely by saying that it is the manifestation of an Oeuvre we demand that it be the outcome of some act.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >We could describe this an an object that is the manifestation outcome of writing, or that contains writing, etc. We shall keep the commitments minimal for now as to how the writing got to the physical page - e.g. was it photocopied, printed, etc. 
+Merely by saying that it is the manifestation of an Oeuvre we demand that it be the outcome of some act.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >We could describe this an an object that is the manifestation outcome of writing, or that contains writing, etc. We shall keep the commitments minimal for now as to how the writing got to the physical page - e.g. was it photocopied, printed, etc. 
+Merely by saying that it is the manifestation of an Oeuvre we demand that it be the outcome of some act.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >We could describe this an an object that is the manifestation outcome of writing, or that contains writing, etc. We shall keep the commitments minimal for now as to how the writing got to the physical page - e.g. was it photocopied, printed, etc. 
+Merely by saying that it is the manifestation of an Oeuvre we demand that it be the outcome of some act.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >We could describe this an an object that is the manifestation outcome of writing, or that contains writing, etc. We shall keep the commitments minimal for now as to how the writing got to the physical page - e.g. was it photocopied, printed, etc. 
+Merely by saying that it is the manifestation of an Oeuvre we demand that it be the outcome of some act.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >We could describe this an an object that is the manifestation outcome of writing, or that contains writing, etc. We shall keep the commitments minimal for now as to how the writing got to the physical page - e.g. was it photocopied, printed, etc. 
+Merely by saying that it is the manifestation of an Oeuvre we demand that it be the outcome of some act.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >We could describe this an an object that is the manifestation outcome of writing, or that contains writing, etc. We shall keep the commitments minimal for now as to how the writing got to the physical page - e.g. was it photocopied, printed, etc. 
+Merely by saying that it is the manifestation of an Oeuvre we demand that it be the outcome of some act.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#acquired_pathological -->
+
+    <owl:Class rdf:about="&unnamed;acquired_pathological">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;pathological"/>
+                    <owl:Class>
+                        <owl:complementOf rdf:resource="&unnamed;intrinsically_pathological"/>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#adequate_status -->
+
+    <owl:Class rdf:about="&unnamed;adequate_status">
+        <rdfs:subClassOf rdf:resource="&unnamed;Level_adequacy_status"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#behind -->
+
+    <owl:Class rdf:about="&unnamed;behind">
+        <rdfs:subClassOf rdf:resource="&unnamed;Situated_positional_relation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#closed_hollow_topology -->
+
+    <owl:Class rdf:about="&unnamed;closed_hollow_topology">
+        <rdfs:subClassOf rdf:resource="&unnamed;hollow_topology"/>
+        <owl:disjointWith rdf:resource="&unnamed;tubular_topology"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#hollow_topology -->
+
+    <owl:Class rdf:about="&unnamed;hollow_topology">
+        <rdfs:subClassOf rdf:resource="&unnamed;Topology_value_partition"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#in_front_of -->
+
+    <owl:Class rdf:about="&unnamed;in_front_of">
+        <rdfs:subClassOf rdf:resource="&unnamed;Situated_positional_relation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#inadequate_status -->
+
+    <owl:Class rdf:about="&unnamed;inadequate_status">
+        <rdfs:subClassOf rdf:resource="&unnamed;Level_adequacy_status"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#intrinsically_non_Normal -->
+
+    <owl:Class rdf:about="&unnamed;intrinsically_non_Normal">
+        <rdfs:subClassOf rdf:resource="&unnamed;non_Normal"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#intrinsically_pathological -->
+
+    <owl:Class rdf:about="&unnamed;intrinsically_pathological">
+        <rdfs:subClassOf rdf:resource="&unnamed;intrinsically_non_Normal"/>
+        <rdfs:subClassOf rdf:resource="&unnamed;pathological"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Always pathological, e.g. of tumours.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#left_laterality -->
+
+    <owl:Class rdf:about="&unnamed;left_laterality">
+        <rdfs:subClassOf rdf:resource="&unnamed;Laterality"/>
+        <owl:disjointWith rdf:resource="&unnamed;right_laterality"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#mirror_image_symmetry -->
+
+    <owl:Class rdf:about="&unnamed;mirror_image_symmetry">
+        <rdfs:subClassOf rdf:resource="&unnamed;paired_symmetry"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#non_Normal -->
+
+    <owl:Class rdf:about="&unnamed;non_Normal">
+        <rdfs:subClassOf rdf:resource="&unnamed;Normality_status"/>
+        <owl:disjointWith rdf:resource="&unnamed;normal"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Anything worth noting as out of the ordinary.  There are many different ways of being non_Normal and endless discussions of the variants, but the one thing people seem to be able to agree on is a notion of &#39;not normal&#39;.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#non_pathological -->
+
+    <owl:Class rdf:about="&unnamed;non_pathological">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&unnamed;Normality_status"/>
+                    <owl:Class>
+                        <owl:complementOf rdf:resource="&unnamed;pathological"/>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#normal -->
+
+    <owl:Class rdf:about="&unnamed;normal">
+        <rdfs:subClassOf rdf:resource="&unnamed;Normality_status"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Not non-normal - actually better thought of that way although not represented in this form.  Those things not worth noting because they are expected and noting them would not, in general, convey useful information unless there were some reason to suspect that in the given circumstances they would be non-normal.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#paired_symmetry -->
+
+    <owl:Class rdf:about="&unnamed;paired_symmetry">
+        <rdfs:subClassOf rdf:resource="&unnamed;Left_right_symmetry"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#pathological -->
+
+    <owl:Class rdf:about="&unnamed;pathological">
+        <rdfs:subClassOf rdf:resource="&unnamed;non_Normal"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Anything which is diseased in the sense that it requires medical management.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#right_laterality -->
+
+    <owl:Class rdf:about="&unnamed;right_laterality">
+        <rdfs:subClassOf rdf:resource="&unnamed;Laterality"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#single_membrane_topology -->
+
+    <owl:Class rdf:about="&unnamed;single_membrane_topology">
+        <rdfs:subClassOf rdf:resource="&unnamed;Topology_value_partition"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#solid_topology -->
+
+    <owl:Class rdf:about="&unnamed;solid_topology">
+        <rdfs:subClassOf rdf:resource="&unnamed;Topology_value_partition"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#super_adequate_status -->
+
+    <owl:Class rdf:about="&unnamed;super_adequate_status">
+        <rdfs:subClassOf rdf:resource="&unnamed;Level_adequacy_status"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#to_the_east_of -->
+
+    <owl:Class rdf:about="&unnamed;to_the_east_of">
+        <rdfs:subClassOf rdf:resource="&unnamed;Compass_positional_relation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#to_the_left_of -->
+
+    <owl:Class rdf:about="&unnamed;to_the_left_of">
+        <rdfs:subClassOf rdf:resource="&unnamed;Situated_positional_relation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#to_the_north_of -->
+
+    <owl:Class rdf:about="&unnamed;to_the_north_of">
+        <rdfs:subClassOf rdf:resource="&unnamed;Compass_positional_relation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#to_the_right_of -->
+
+    <owl:Class rdf:about="&unnamed;to_the_right_of">
+        <rdfs:subClassOf rdf:resource="&unnamed;Situated_positional_relation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#to_the_south_of -->
+
+    <owl:Class rdf:about="&unnamed;to_the_south_of">
+        <rdfs:subClassOf rdf:resource="&unnamed;Compass_positional_relation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#to_the_west_of -->
+
+    <owl:Class rdf:about="&unnamed;to_the_west_of">
+        <rdfs:subClassOf rdf:resource="&unnamed;Compass_positional_relation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#tubular_topology -->
+
+    <owl:Class rdf:about="&unnamed;tubular_topology">
+        <rdfs:subClassOf rdf:resource="&unnamed;hollow_topology"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#unpaired_symmetry -->
+
+    <owl:Class rdf:about="&unnamed;unpaired_symmetry">
+        <rdfs:subClassOf rdf:resource="&unnamed;Left_right_symmetry"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Feet -->
+
+    <Length_unit rdf:about="&unnamed;Feet"/>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Inches -->
+
+    <Length_unit rdf:about="&unnamed;Inches"/>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#Metres -->
+
+    <Length_unit rdf:about="&unnamed;Metres"/>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#seconds -->
+
+    <Duration_unit rdf:about="&unnamed;seconds"/>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#square_feet -->
+
+    <Area_unit rdf:about="&unnamed;square_feet"/>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#square_inches -->
+
+    <Area_unit rdf:about="&unnamed;square_inches"/>
+    
+
+
+    <!-- http://www.owl-ontologies.com/unnamed.owl#square_metre -->
+
+    <Area_unit rdf:about="&unnamed;square_metre"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&unnamed;hollow_topology"/>
+            <rdf:Description rdf:about="&unnamed;single_membrane_topology"/>
+            <rdf:Description rdf:about="&unnamed;solid_topology"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&unnamed;Quantity"/>
+            <rdf:Description rdf:about="&unnamed;Status_partition"/>
+            <rdf:Description rdf:about="&unnamed;Unit"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&unnamed;Area_unit"/>
+            <rdf:Description rdf:about="&unnamed;Duration_unit"/>
+            <rdf:Description rdf:about="&unnamed;Length_unit"/>
+            <rdf:Description rdf:about="&unnamed;Volume_unit"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.0.0.1077) http://owlapi.sourceforge.net -->
+

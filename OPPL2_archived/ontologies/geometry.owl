@@ -1,0 +1,473 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY owl11 "http://www.w3.org/2006/12/owl11#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl11xml "http://www.w3.org/2006/12/owl11-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY formula "http://www.cs.manchester.ac.uk/owlcalculations/formula#" >
+    <!ENTITY geometry "http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#"
+     xml:base="http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl"
+     xmlns:geometry="http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#"
+     xmlns:owl11="http://www.w3.org/2006/12/owl11#"
+     xmlns:owl11xml="http://www.w3.org/2006/12/owl11-xml#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:formula="http://www.cs.manchester.ac.uk/owlcalculations/formula#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
+    <owl:Ontology rdf:about=""/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&formula;polygonPerimeter"/>
+    <owl:AnnotationProperty rdf:about="&formula;circumference"/>
+    <owl:AnnotationProperty rdf:about="&formula;squareArea"/>
+    <owl:AnnotationProperty rdf:about="&formula;circleArea"/>
+    <owl:AnnotationProperty rdf:about="&formula;squarePerimeter"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasBase -->
+
+    <owl:ObjectProperty rdf:about="#hasBase">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="#Segment"/>
+        <rdfs:subPropertyOf rdf:resource="#hasSide"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasHeight -->
+
+    <owl:ObjectProperty rdf:about="#hasHeight">
+        <rdfs:range rdf:resource="#Segment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasRadius -->
+
+    <owl:ObjectProperty rdf:about="#hasRadius">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#Circle"/>
+        <rdfs:range rdf:resource="#Segment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasRectangleHeight -->
+
+    <owl:ObjectProperty rdf:about="#hasRectangleHeight">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="#hasHeight"/>
+        <rdfs:subPropertyOf rdf:resource="#hasSide"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasSide -->
+
+    <owl:ObjectProperty rdf:about="#hasSide">
+        <rdfs:domain rdf:resource="#Polygon"/>
+        <rdfs:range rdf:resource="#Segment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasTriangleHeight -->
+
+    <owl:ObjectProperty rdf:about="#hasTriangleHeight">
+        <rdfs:subPropertyOf rdf:resource="#hasHeight"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasArea -->
+
+    <owl:DatatypeProperty rdf:about="#hasArea">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <formula:circleArea rdf:datatype="&xsd;string"
+            >$OVERRIDING$APPLIESTO &lt;Circle&gt;{r=http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasRadius!http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasLength}-&gt;3.14 * (r^2.0);</formula:circleArea>
+        <formula:squareArea
+            >$EXCEPTION$ APPLIESTO &lt;Square&gt;{sideLength=http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasSide!http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasLength}-&gt; sideLength^2;</formula:squareArea>
+        <rdfs:domain rdf:resource="#Polygon"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasLength -->
+
+    <owl:DatatypeProperty rdf:about="#hasLength">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasNumberOfDimensions -->
+
+    <owl:DatatypeProperty rdf:about="#hasNumberOfDimensions">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#GeometricEntity"/>
+        <rdfs:range rdf:resource="&xsd;positiveInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasPerimeter -->
+
+    <owl:DatatypeProperty rdf:about="#hasPerimeter">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <formula:polygonPerimeter rdf:datatype="&xsd;string"
+            >$OVERRIDING$APPLIESTO &lt;Polygon and not Circle&gt;{sideLength=http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasSide!http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasLength}-&gt;SUM(sideLength);</formula:polygonPerimeter>
+        <formula:squarePerimeter
+            >APPLIESTO &lt;Square&gt;{sideLength=http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasSide!http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasLength}-&gt; 4*sideLength;</formula:squarePerimeter>
+        <formula:circumference
+            >$OVERRIDING$ APPLIESTO &lt;Circle&gt;{r=http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasRadius!http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#hasLength}-&gt; 2*3.14*r;</formula:circumference>
+        <rdfs:domain rdf:resource="#Polygon"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#BiDimesionalGeometricEntity -->
+
+    <owl:Class rdf:about="#BiDimesionalGeometricEntity">
+        <rdfs:subClassOf rdf:resource="#GeometricEntity"/>
+        <owl:disjointWith rdf:resource="#MonoDimensionalGeometricEntity"/>
+        <owl:disjointWith rdf:resource="#TriDimensionalGeometricEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#Circle -->
+
+    <owl:Class rdf:about="#Circle">
+        <rdfs:subClassOf rdf:resource="#Polygon"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasRadius"/>
+                <owl:someValuesFrom rdf:resource="#Segment"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="#Rectagle"/>
+        <owl:disjointWith rdf:resource="#Triangle"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#GeometricEntity -->
+
+    <owl:Class rdf:about="#GeometricEntity">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#Line -->
+
+    <owl:Class rdf:about="#Line">
+        <rdfs:subClassOf rdf:resource="#MonoDimensionalGeometricEntity"/>
+        <owl:disjointWith rdf:resource="#Point"/>
+        <owl:disjointWith rdf:resource="#Segment"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#MonoDimensionalGeometricEntity -->
+
+    <owl:Class rdf:about="#MonoDimensionalGeometricEntity">
+        <rdfs:subClassOf rdf:resource="#GeometricEntity"/>
+        <owl:disjointWith rdf:resource="#TriDimensionalGeometricEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#Point -->
+
+    <owl:Class rdf:about="#Point">
+        <rdfs:subClassOf rdf:resource="#MonoDimensionalGeometricEntity"/>
+        <owl:disjointWith rdf:resource="#Segment"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#Polygon -->
+
+    <owl:Class rdf:about="#Polygon">
+        <rdfs:subClassOf rdf:resource="#BiDimesionalGeometricEntity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasSide"/>
+                <owl11:onClass rdf:resource="#Segment"/>
+                <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:minCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#Rectagle -->
+
+    <owl:Class rdf:about="#Rectagle">
+        <rdfs:subClassOf rdf:resource="#Polygon"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#hasBase"/>
+                        <owl:someValuesFrom rdf:resource="#Segment"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#hasBase"/>
+                        <owl11:onClass rdf:resource="#Segment"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasSide"/>
+                <owl11:onClass rdf:resource="#Segment"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">4</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="#Triangle"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#Segment -->
+
+    <owl:Class rdf:about="#Segment">
+        <rdfs:subClassOf rdf:resource="#MonoDimensionalGeometricEntity"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasLength"/>
+                <owl:someValuesFrom rdf:resource="&xsd;double"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#Square -->
+
+    <owl:Class rdf:about="#Square">
+        <rdfs:subClassOf rdf:resource="#Polygon"/>
+        <rdfs:subClassOf rdf:resource="#Rectagle"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#TriDimensionalGeometricEntity -->
+
+    <owl:Class rdf:about="#TriDimensionalGeometricEntity">
+        <rdfs:subClassOf rdf:resource="#GeometricEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#Triangle -->
+
+    <owl:Class rdf:about="#Triangle">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasSide"/>
+                <owl11:onClass rdf:resource="#Segment"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:cardinality>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="#Polygon"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#aCircle -->
+
+    <Circle rdf:about="#aCircle">
+        <hasRadius rdf:resource="#aSide"/>
+    </Circle>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#aFourLongSide -->
+
+    <Segment rdf:about="#aFourLongSide">
+        <hasLength rdf:datatype="&xsd;double">4</hasLength>
+    </Segment>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#aSide -->
+
+    <Segment rdf:about="#aSide">
+        <hasLength rdf:datatype="&xsd;double">1</hasLength>
+    </Segment>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#aSquare -->
+
+    <Square rdf:about="#aSquare">
+        <hasSide rdf:resource="#aFourLongSide"/>
+    </Square>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#aTenLongSide -->
+
+    <rdf:Description rdf:about="#aTenLongSide">
+        <hasLength rdf:datatype="&xsd;double">10</hasLength>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#aTriangle -->
+
+    <Triangle rdf:about="#aTriangle">
+        <hasSide rdf:resource="#aSide"/>
+        <hasSide rdf:resource="#anotherSide"/>
+        <hasSide rdf:resource="#yetAnotherSide"/>
+    </Triangle>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#anotherCircle -->
+
+    <rdf:Description rdf:about="#anotherCircle">
+        <hasRadius rdf:resource="#aFourLongSide"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#anotherSide -->
+
+    <rdf:Description rdf:about="#anotherSide">
+        <hasLength rdf:datatype="&xsd;double">1</hasLength>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#anotherTriangle -->
+
+    <Triangle rdf:about="#anotherTriangle">
+        <hasSide rdf:resource="#aFourLongSide"/>
+        <hasSide rdf:resource="#aSide"/>
+        <hasSide rdf:resource="#anotherSide"/>
+    </Triangle>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#sebastianSquare -->
+
+    <Square rdf:about="#sebastianSquare">
+        <hasSide rdf:resource="#aTenLongSide"/>
+    </Square>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#yetAnotherSide -->
+
+    <rdf:Description rdf:about="#yetAnotherSide">
+        <hasLength rdf:datatype="&xsd;double">1</hasLength>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl#yetAnotherTriangle -->
+
+    <Triangle rdf:about="#yetAnotherTriangle"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="#yetAnotherSide"/>
+            <rdf:Description rdf:about="#aFourLongSide"/>
+            <rdf:Description rdf:about="#anotherTriangle"/>
+            <rdf:Description rdf:about="#aSide"/>
+            <rdf:Description rdf:about="#aTriangle"/>
+            <rdf:Description rdf:about="#anotherSide"/>
+            <rdf:Description rdf:about="#aSquare"/>
+            <rdf:Description rdf:about="#yetAnotherTriangle"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+</rdf:RDF>
