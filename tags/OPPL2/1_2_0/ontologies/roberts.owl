@@ -1,0 +1,1576 @@
+Ontology: <http://www.co-ode.org/roberts/country.owl>
+
+ObjectProperty: dependencyOf
+Domain: Country
+Range: Country
+
+
+ObjectProperty:  hasPart
+
+ObjectProperty:  adjacentTo
+Domain: Country
+Range: Country
+Characteristics: symmetric
+
+ObjectProperty:   borders
+Domain: Country
+Range: Country
+Characteristics: symmetric
+SubPropertyChain: hasBoundary o boundaryOf
+
+
+
+
+
+ObjectProperty:  hasBoundary
+Domain: Country
+Range:  BoundaryFragment
+Inverses: boundaryOf
+
+ObjectProperty:  boundaryOf
+
+ObjectProperty:  hasLandBoundary
+Domain: Country
+Range:  LandBoundaryFragment
+Inverses: landBoundaryOf
+SubPropertyOf: hasBoundary
+
+
+ObjectProperty:  landBoundaryOf
+
+ObjectProperty:  hasWaterBoundary
+Domain: Country
+Range:  WaterBoundaryFragment
+Inverses: waterBoundaryOf
+SubPropertyOf: hasBoundary
+
+
+ObjectProperty:  waterBoundaryOf
+
+
+
+
+
+
+
+
+
+
+Class: DomainEntity
+
+Class: Country
+SubClassOf: DomainEntity
+that hasBoundary some BoundaryFragment
+DisjointWith: Boundary, BoundaryFragment
+
+
+Class: Boundary
+SubClassOf: DomainEntity
+that hasPart onlysome BoundaryFragment
+DisjointWith: Country, BoundaryFragment
+
+Class: BoundaryFragment
+SubClassOf: DomainEntity
+Disjointwith: Country, Boundary
+
+Class: LandBoundaryFragment
+SubClassOf: BoundaryFragment
+
+Class: WaterBoundaryFragment
+SubClassOf: BoundaryFragment
+
+
+
+
+
+
+
+Individual: burma
+Facts:
+adjacentTo lao_peoples_democratic_republic,
+adjacentTo thailand,
+adjacentTo china,
+adjacentTo bangladesh
+
+
+
+Individual: bahrain
+              Types: Country
+
+
+
+Individual: uganda
+Facts:
+adjacentTo sudan,
+adjacentTo kenya,
+adjacentTo the_democratic_republic_of_the_congo,
+adjacentTo rwanda
+
+
+Individual: romania
+            facts:
+adjacentTo ukraine,
+adjacentTo republic_of_moldova,
+adjacentTo bulgaria,
+adjacentTo serbia
+
+
+
+Individual: andora
+           facts:
+adjacentTo spain,
+adjacentTo france
+
+Individual: san_merino
+           facts:
+adjacentTo italy
+
+
+
+
+Individual: denmark
+           facts:
+adjacentTo germany
+
+Individual: check_republic
+           facts:
+adjacentTo germany,
+adjacentTo slovakia
+
+
+Individual: afghanistan
+
+           Individual: åland_islands
+                                               Types:
+           Country
+
+
+Individual: albania
+Facts:
+adjacentTo greece,
+adjacentTo serbia,
+adjacentTo the_former_yugoslav_republic_of_macedonia
+
+Individual: algeria
+Facts:
+adjacentTo tunisia,
+adjacentTo niger,
+adjacentTo mali,
+adjacentTo mauritania
+Individual: american_samoa
+
+
+
+Individual: andorra
+
+
+
+Individual: angola
+
+
+
+Individual: anguilla
+
+
+
+Individual: antigua_and_barbuda
+
+
+
+Individual: argentina
+
+
+Facts:
+adjacentTo chile,
+adjacentTo uruguay
+
+Individual: armenia
+
+
+Facts:
+adjacentTo azerbaijan,
+adjacentTo georgia
+
+Individual: aruba
+
+
+
+Individual: australia
+
+
+
+Individual: austria
+
+
+facts:
+adjacentTo check_republic,
+adjacentTo slovakia,
+adjacentTo hungary,
+adjacentTo slovenia
+
+
+Individual: azerbaijan
+Facts:
+          adjacentTo georgia,
+adjacentTo russian_federation
+
+
+Individual: bahamas
+
+
+
+Individual: bangladesh
+
+
+
+Individual: barbados
+
+
+
+Individual: belarus
+
+
+Facts:
+adjacentTo belarus,
+adjacentTo ukraine
+
+Individual: belgium
+
+
+Facts:
+adjacentTo netherlands,
+adjacentTo luxembourg,
+adjacentTo germany
+
+Individual: belize
+
+
+Facts:
+adjacentTo mexico
+
+Individual: benin
+
+
+Facts:
+adjacentTo togo,
+adjacentTo burkina_faso
+
+Individual: bermuda
+Facts:
+dependencyOf united_kingdom
+
+Individual: bhutan
+
+
+Facts:
+adjacentTo china
+
+Individual: bolivia
+
+
+
+Individual: bosnia_and_herzegovina
+
+
+facts:
+adjacentTo croatia
+
+Individual: botswana
+
+
+Facts:
+adjacentTo zambia,
+adjacentTo  zimbabwe
+
+Individual: bouvet_island
+
+
+
+Individual: brazil
+
+
+Facts:
+adjacentTo argentina,
+adjacentTo peru,
+adjacentTo bolivia,
+adjacentTo uruguay,
+adjacentTo paraguay,
+adjacentTo french_guiana,
+adjacentTo suriname,
+adjacentTo venezuela,
+adjacentTo colombia,
+adjacentTo guyana
+
+
+Individual: british_indian_ocean_territory
+
+
+Facts:
+dependencyOf united_kingdom
+
+Individual: brunei_darussalam
+
+
+
+Individual: bulgaria
+Facts:
+adjacentTo serbia,
+adjacentTo  the_former_yugoslav_republic_of_macedonia
+,
+adjacentTo turkey,
+adjacentTo greece
+
+
+Individual: burkina_faso
+
+
+Facts:
+adjacentTo mali,
+adjacentTo niger,
+adjacentTo togo,
+adjacentTo ghana,
+adjacentTo cote_d_ivoire
+
+
+                        Individual: cote_d_ivoire
+
+
+Individual: burundi
+
+
+
+Individual: cambodia
+
+
+Facts:
+adjacentTo lao_peoples_democratic_republic,
+adjacentTo viet_nam
+
+Individual: cameroon
+
+
+facts:
+adjacentTo nigeria,
+adjacentTo chad,
+adjacentTo central_african_republic,
+adjacentTo equatorial_guinea,
+adjacentTo gabon,
+adjacentTo congo
+
+Individual: canada
+
+
+
+Individual: cape_verde
+
+
+
+Individual: cayman_islands
+Facts:
+dependencyOf united_kingdom
+
+Individual: central_african_republic
+
+
+facts:
+adjacentTo sudan,
+adjacentTo chad,
+adjacentTo congo,
+adjacentTo cameroon
+
+
+
+Individual: chad
+
+
+
+Individual: chile
+
+
+Facts:
+adjacentTo peru,
+adjacentTo bolivia
+
+Individual: china
+
+
+
+Individual: christmas_island
+
+
+
+Individual: cocos_islands
+                                    Types:
+           Country
+
+
+
+Individual: colombia
+
+
+Facts:
+adjacentTo venezuela,
+adjacentTo panama
+
+Individual: comoros
+
+
+
+Individual: congo
+
+
+
+Individual: the_democratic_republic_of_the_congo
+
+
+facts:
+adjacentTo central_african_republic,
+adjacentTo sudan,
+adjacentTo uganda,
+adjacentTo rwanda,
+adjacentTo burundi
+
+
+Individual: cook_islands
+                                   Types:
+           Country
+
+
+
+Individual: costa_rica
+
+
+Facts:
+adjacentTo nicaragua
+
+Individual: côte_d_ivoire
+
+
+Facts:
+adjacentTo ghana,
+adjacentTo liberia,
+adjacentTo guinea,
+adjacentTo mali
+
+
+Individual: croatia
+
+
+Facts:
+adjacentTo croatia
+
+Individual: cuba
+
+
+
+Individual: cyprus
+
+
+
+Individual: czech_republic
+
+
+
+Individual: djibouti
+
+
+Facts:
+adjacentTo somalia
+
+
+Individual: dominica
+
+
+
+Individual: dominican_republic
+
+
+
+Individual: ecuador
+
+
+Facts:
+adjacentTo colombia,
+adjacentTo peru
+
+Individual: egypt
+
+
+Facts:
+adjacentTo libyan_arab_jamahiriya
+
+Individual: el_salvador
+
+
+
+Individual: equatorial_guinea
+
+
+
+Individual: eritrea
+
+
+facts:
+adjacentTo ethiopia,
+adjacentTo sudan,
+adjacentTo djibouti
+
+
+Individual: estonia
+
+
+Facts:
+adjacentTo russian_federation
+
+Individual: ethiopia
+
+
+facts:
+adjacentTo somalia,
+adjacentTo sudan,
+adjacentTo kenya,
+adjacentTo eritrea,
+adjacentTo djibouti
+
+
+
+Individual: falkland_islands
+                            Facts:
+                            dependencyOf united_kingdom
+
+
+
+Individual: faroe_islands
+           Types:
+           Country
+
+
+
+Individual: fiji
+
+
+
+Individual: finland
+
+
+facts:
+adjacentTo  russian_federation,
+adjacentTo sweden,
+adjacentTo norway
+
+Individual: france
+Facts:
+adjacentTo belgium,
+adjacentTo germany,
+adjacentTo luxembourg,
+adjacentTo switzerland,
+adjacentTo italy,
+adjacentTo monaco
+
+
+
+Individual: french_guiana
+
+
+
+Individual: french_polynesia
+
+
+
+Individual: french_southern_territories
+
+
+
+Individual: gabon
+
+
+facts:
+adjacentTo cameroon,
+adjacentTo congo,
+adjacentTo equatorial_guinea
+
+Individual: georgia
+
+
+Facts:
+adjacentTo russian_federation
+
+
+Individual: germany
+
+
+Facts:
+adjacentTo poland,
+adjacentTo check_republic,
+adjacentTo austria
+
+Individual: ghana
+
+
+
+Individual: gibraltar
+
+
+
+Individual: greece
+
+
+Facts:
+adjacentTo turkey
+
+Individual: greenland
+
+
+
+Individual: grenada
+
+
+
+Individual: guadeloupe
+
+
+
+Individual: guam
+
+
+
+Individual: guatemala
+
+
+Facts:
+adjacentTo mexico,
+adjacentTo belize,
+adjacentTo el_salvador
+
+
+Individual: guernsey
+
+
+Facts:
+dependencyOf united_kingdom
+
+Individual: guinea
+
+
+Facts:
+adjacentTo senegal,
+adjacentTo mali
+
+Individual: guinea_bissau
+
+
+facts:
+adjacentTo guinea,
+adjacentTo senegal
+
+Individual: guyana
+
+
+Facts:
+adjacentTo suriname
+
+Individual: haiti
+
+
+
+Individual: holy_see
+
+Individual: honduras
+
+
+Facts:
+adjacentTo  guatemala,
+adjacentTo el_salvador
+
+
+Individual: hong_kong
+
+
+
+Individual: hungary
+
+
+Facts:
+adjacentTo slovakia,
+adjacentTo  ukraine,
+adjacentTo romania,
+adjacentTo  slovenia,
+adjacentTo  croatia,
+adjacentTo  serbia
+
+
+
+Individual: iceland
+
+
+
+Individual: india
+
+
+Facts:
+adjacentTo china,
+adjacentTo bhutan,
+adjacentTo nepal,
+adjacentTo bangladesh,
+adjacentTo burma
+
+
+Individual: indonesia
+
+
+
+Individual: islamic_republic_of_iran
+
+
+Facts:
+adjacentTo armenia,
+adjacentTo azerbaijan,
+adjacentTo turkey,
+adjacentTo iraq,
+adjacentTo turkmenistan,
+adjacentTo afghanistan,
+adjacentTo pakistan
+
+
+Individual: iraq
+
+
+facts:
+adjacentTo kuwait,
+adjacentTo jordan,
+adjacentTo syrian_arab_republic,
+adjacentTo turkey,
+adjacentTo islamic_republic_of_iran
+
+
+
+
+Individual: ireland
+
+
+facts:
+adjacentTo united_kingdom
+
+Individual: isle_of_man
+
+
+Facts:
+dependencyOf united_kingdom
+
+Individual: israel
+
+
+facts:
+adjacentTo egypt,
+adjacentTo jordan,
+adjacentTo syrian_arab_republic,
+adjacentTo lebanon,
+adjacentTo occupied_palestinian_territory
+
+
+
+Individual: italy
+
+
+Facts:
+adjacentTo slovenia
+
+
+Individual: japan
+
+
+
+Individual: jersey
+
+
+Facts:
+dependencyOf united_kingdom
+
+Individual: jordan
+
+
+Facts:
+adjacentTo syrian_arab_republic,
+adjacentTo lebanon
+
+Individual: kazakhstan
+
+
+Facts:
+adjacentTo russian_federation,
+adjacentTo china
+
+
+Individual: kenya
+
+
+
+Individual: kiribati
+
+
+
+Individual: democratic_peoples_republic_of_korea
+
+
+facts:
+adjacentTo  china,
+adjacentTo republic_of_korea
+
+
+Individual: republic_of_korea
+
+
+
+Individual: kuwait
+
+
+
+Individual: kyrgyzstan
+
+
+Facts:
+adjacentTo china,
+adjacentTo kazakhstan
+
+
+
+
+Individual: lao_peoples_democratic_republic
+
+
+Facts:
+adjacentTo china
+
+Individual: latvia
+
+
+facts:
+adjacentTo estonia,
+adjacentTo russian_federation,
+adjacentTo belarus
+
+Individual: lebanon
+
+
+facts:
+adjacentTo syrian_arab_republic
+
+Individual: lesotho
+
+
+
+Individual: liberia
+
+
+Facts:
+adjacentTo sierra_leone,
+adjacentTo guinea
+
+
+Individual: libyan_arab_jamahiriya
+
+
+Facts:
+adjacentTo chad,
+adjacentTo niger,
+adjacentTo algeria,
+adjacentTo tunisia
+
+Individual: liechtenstein
+
+
+
+Individual: lithuania
+
+
+Facts:
+adjacentTo russian_federation,
+adjacentTo latvia,
+adjacentTo belarus
+
+Individual: luxembourg
+
+
+Facts:
+adjacentTo germany
+
+
+Individual: the_former_yugoslav_republic_of_macedonia
+
+
+Facts:
+adjacentTo bulgaria,
+adjacentTo greece
+
+
+Individual: madagascar
+
+
+
+Individual: malawi
+
+
+Facts:
+adjacentTo united_republic_of_tanzania,
+adjacentTo mozambique,
+adjacentTo zambia
+
+
+Individual: malaysia
+
+
+Facts:
+adjacentTo thailand,
+adjacentTo indonesia,
+adjacentTo singapore,
+adjacentTo brunei_darussalam,
+adjacentTo philippines
+
+Individual: maldives
+
+
+
+Individual: mali
+                 facts:
+adjacentTo algeria,
+adjacentTo niger,
+adjacentTo burkina_faso,
+adjacentTo côte_d_ivoire,
+adjacentTo guinea,
+adjacentTo senegal,
+adjacentTo mauritania
+
+Individual: malta
+
+
+
+Individual: marshall_islands
+           Types:
+           Country
+
+
+
+Individual: martinique
+
+
+
+Individual: mauritania
+
+
+facts:
+adjacentTo senegal,
+adjacentTo mali,
+adjacentTo western_sahara
+
+Individual: mauritius
+
+
+
+Individual: mayotte
+
+
+
+Individual: mexico
+
+
+Facts:
+adjacentTo united_states
+
+
+Individual: federated_states_of_micronesia
+
+
+
+Individual: republic_of_moldova
+
+
+facts:
+adjacentTo romania,
+adjacentTo ukraine
+Individual: monaco
+
+
+Facts:
+adjacentTo france
+
+Individual: mongolia
+
+
+Facts:
+adjacentTo russian_federation,
+adjacentTo china
+
+Individual: montenegro
+
+
+
+Individual: montserrat
+
+
+
+Individual: morocco
+
+
+Facts:
+adjacentTo algeria,
+adjacentTo mauritania
+
+
+Individual: mozambique
+
+
+Facts:
+adjacentTo  united_republic_of_tanzania,
+adjacentTo swaziland
+Individual: myanmar
+
+
+
+Individual: namibia
+
+
+Facts:
+adjacentTo angola,
+adjacentTo zambia,
+adjacentTo botswana
+
+Individual: nauru
+
+
+
+Individual: nepal
+
+
+Facts:
+adjacentTo china
+
+Individual: netherlands
+
+
+Facts:
+adjacentTo germany
+
+Individual: netherlands_antilles
+
+
+
+Individual: new_caledonia
+
+
+
+Individual: new_zealand
+
+
+
+Individual: nicaragua
+
+
+Facts:
+adjacentTo honduras
+Individual: niger
+
+
+facts:
+adjacentTo nigeria,
+adjacentTo benin,
+adjacentTo burkina_faso,
+adjacentTo mali
+
+Individual: nigeria
+
+
+facts:
+adjacentTo benin,
+adjacentTo chad,
+adjacentTo cameroon
+
+Individual: niue
+
+
+
+Individual: norfolk_island
+
+
+
+Individual: northern_mariana_islands
+                                               Types:
+           Country
+
+
+
+Individual: norway
+
+
+Facts:
+adjacentTo sweden,
+adjacentTo finland,
+adjacentTo russian_federation
+
+Individual: oman
+
+
+Facts:
+adjacentTo saudi_arabia,
+adjacentTo united_arab_emirates
+
+
+Individual: pakistan
+
+
+Facts:
+adjacentTo afghanistan,
+adjacentTo india,
+adjacentTo china
+
+Individual: palau
+
+
+
+Individual: occupied_palestinian_territory
+
+
+
+Individual: panama
+
+
+Facts:
+adjacentTo costa_rica
+
+Individual: papua_new_guinea
+
+
+
+Individual: paraguay
+
+
+
+Individual: peru
+
+
+Facts:
+adjacentTo ecuador,
+adjacentTo colombia,
+adjacentTo bolivia
+
+Individual: philippines
+
+
+
+Individual: pitcairn
+
+
+
+Individual: poland
+
+
+facts:
+adjacentTo check_republic,
+adjacentTo slovakia,
+adjacentTo ukraine,
+adjacentTo belarus,
+adjacentTo russian_federation,
+adjacentTo lithuania
+
+
+
+
+
+
+
+
+
+
+Individual: portugal
+
+
+Facts:
+adjacentTo spain
+Individual: puerto_rico
+
+
+
+Individual: qatar
+
+
+
+Individual: réunion
+
+
+
+Individual: russian_federation
+
+
+
+Individual: rwanda
+
+
+Facts:
+adjacentTo sudan,
+adjacentTo uganda,
+adjacentTo burundi
+
+Individual: saint_barthélemy
+
+
+
+Individual: saint_helena
+
+
+
+Individual: saint_kitts_and_nevis
+
+
+
+Individual: saint_lucia
+
+
+
+Individual: saint_martin
+
+
+
+Individual: saint_pierre_and_miquelon
+
+
+
+Individual: saint_vincent_and_the_grenadines
+
+
+
+Individual: samoa
+
+
+
+Individual: san_marino
+
+
+
+Individual: sao_tome_and_principe
+
+
+
+Individual: saudi_arabia
+                  Facts:
+adjacentTo jordan,
+adjacentTo iraq,
+adjacentTo kuwait,
+adjacentTo qatar,
+adjacentTo bahrain
+
+Individual: senegal
+                  Facts:
+adjacentTo mauritania,
+adjacentTo mali,
+adjacentTo guinea,
+adjacentTo the_gambia
+
+
+Individual: serbia
+
+
+Facts:
+adjacentTo the_former_yugoslav_republic_of_macedonia,
+adjacentTo albania,
+adjacentTo bosnia_and_herzegovina
+
+
+
+Individual: seychelles
+
+
+
+Individual: sierra_leone
+
+
+
+Individual: singapore
+
+
+
+Individual: slovakia
+
+
+facts:
+adjacentTo  ukraine,
+adjacentTo  hungary
+
+
+Individual: slovenia
+
+
+facts:
+adjacentTo croatia
+
+Individual: solomon_islands
+                                      Types:
+           Country
+
+
+
+Individual: somalia
+
+
+facts:
+adjacentTo yemen,
+adjacentTo kenya
+
+
+Individual: south_africa
+
+
+Facts:
+adjacentTo namibia,
+adjacentTo botswana,
+adjacentTo zimbabwe,
+adjacentTo mozambique,
+adjacentTo swaziland
+
+Individual: south_georgia_and_the_south_sandwich_islands
+Facts:
+dependencyOf united_kingdom
+
+
+
+Individual: spain
+
+
+Facts:
+adjacentTo france
+
+Individual: sri_lanka
+
+
+
+Individual: sudan
+
+
+Facts:
+adjacentTo egypt,
+adjacentTo eritrea,
+adjacentTo ethiopia,
+adjacentTo kenya,
+adjacentTo the_democratic_republic_of_the_congo,
+adjacentTo central_african_republic,
+adjacentTo chad,
+adjacentTo libyan_arab_jamahiriya
+
+Individual: suriname
+
+
+Facts:
+adjacentTo french_guiana
+
+Individual: svalbard_and_jan_mayen
+
+
+
+Individual: swaziland
+
+
+
+Individual: sweden
+
+
+
+Individual: switzerland
+
+
+Facts:
+adjacentTo germany,
+adjacentTo austria,
+adjacentTo italy,
+adjacentTo liechtenstein
+
+Individual: syrian_arab_republic
+
+
+
+Individual: taiwan_province_of_china_taiwan
+
+
+
+Individual: united_republic_of_tanzania
+
+
+Facts:
+adjacentTo uganda,
+adjacentTo kenya,
+adjacentTo the_democratic_republic_of_the_congo,
+adjacentTo rwanda,
+adjacentTo burundi
+
+Individual: thailand
+
+
+Facts:
+adjacentTo lao_peoples_democratic_republic,
+adjacentTo cambodia,
+adjacentTo malaysia
+
+Individual: timor-leste
+
+
+
+Individual: togo
+
+
+Facts:
+adjacentTo benin,
+adjacentTo ghana
+
+Individual: tokelau
+
+
+
+Individual: tonga
+
+
+
+Individual: trinidad_and_tobago
+
+
+
+Individual: tunisia
+
+
+
+Individual: turkey
+
+
+Facts:
+adjacentTo armenia,
+adjacentTo greece,
+adjacentTo georgia,
+adjacentTo iraq,
+adjacentTo syrian_arab_republic
+
+Individual: turkmenistan
+
+
+Facts:
+adjacentTo afghanistan,
+adjacentTo uzbekistan,
+adjacentTo kazakhstan
+
+Individual: turks_and_caicos_islands
+           Types:
+           Country
+
+
+
+Individual: tuvalu
+
+
+
+Individual: ukraine
+
+
+Facts:
+adjacentTo russian_federation
+
+Individual: united_arab_emirates
+
+
+Facts:
+adjacentTo saudi_arabia
+
+
+Individual: united_kingdom
+
+
+
+
+Individual: united_states
+
+
+Facts:
+adjacentTo canada
+
+Individual: united_states_minor_outlying_islands
+           Types:
+           Country
+
+
+
+Individual: uruguay
+
+
+
+Individual: uzbekistan
+
+
+Facts:
+adjacentTo  kazakhstan,
+adjacentTo kyrgyzstan,
+adjacentTo tajikistan
+
+
+Individual: tajikistan
+Facts:
+adjacentTo afghanistan,
+adjacentTo uzbekistan,
+adjacentTo kyrgyzstan,
+adjacentTo china
+
+
+
+
+
+Individual: vanuatu
+
+
+
+Individual: venezuela
+
+
+Facts:
+adjacentTo guyana
+
+
+Individual: viet_nam
+
+
+Facts:
+adjacentTo china
+
+
+Individual: british_virgin_islands
+Facts:
+dependencyOf united_kingdom
+
+Individual: us_virgin_islands
+           Types:
+           Country
+
+
+
+Individual: wallis_and_futuna
+
+
+
+Individual: yemen
+facts:
+adjacentTo saudi_arabia,
+adjacentTo oman
+
+
+Individual: zambia
+facts:
+adjacentTo the_democratic_republic_of_the_congo,
+adjacentTo united_republic_of_tanzania,
+adjacentTo malawi,
+adjacentTo mozambique
+
+Individual: zimbabwe
+Facts:
+adjacentTo  zambia,
+adjacentTo mozambique
+
+Individual: western_sahara
+Facts:
+adjacentTo mauritania,
+           adjacentTo  algeria,
+           adjacentTo   morocco
+
+
+Individual: the_gambia
