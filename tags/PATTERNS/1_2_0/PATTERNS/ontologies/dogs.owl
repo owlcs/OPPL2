@@ -1,0 +1,291 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY patterns "http://www.co-ode.org/patterns#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY dogs "http://www.semanticweb.org/dogs.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY descgen "urn:uk.ac.manchester.cs.bhig.siemens.descgen.config#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/dogs.owl#"
+     xml:base="http://www.semanticweb.org/dogs.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:patterns="http://www.co-ode.org/patterns#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:dogs="http://www.semanticweb.org/dogs.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:descgen="urn:uk.ac.manchester.cs.bhig.siemens.descgen.config#">
+    <owl:Ontology rdf:about="">
+        <patterns:dogPattern rdf:datatype="&xsd;string"
+            >?name:CONSTANT , ?age:CONSTANT , ?sex:INDIVIDUAL , ?hobby:CLASS , ?owner:CLASS , ?allHobbies:CLASS = createUnion(?hobby . VALUES ) BEGIN ADD $thisClass subClassOf hasName value ?name , ADD $thisClass subClassOf hasAge value ?age , ADD $thisClass subClassOf hasSex value ?sex , ADD $thisClass subClassOf hasHobby some ?hobby , ADD $thisClass subClassOf hasHobby only ?allHobbies , ADD $thisClass subClassOf hasOwner some ?owner END;  dogs</patterns:dogPattern>
+        <patterns:humanPattern rdf:datatype="&xsd;string"
+            >?name:CONSTANT , ?age:CONSTANT , ?sex:INDIVIDUAL BEGIN ADD $thisClass subClassOf hasName value ?name , ADD $thisClass subClassOf hasAge value ?age , ADD $thisClass subClassOf hasSex value ?sex END;  humans</patterns:humanPattern>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&patterns;dogPattern"/>
+    <owl:AnnotationProperty rdf:about="&descgen;descgenField"/>
+    <owl:AnnotationProperty rdf:about="&descgen;opplPattern"/>
+    <owl:AnnotationProperty rdf:about="&patterns;humanPattern"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#hasHobby -->
+
+    <owl:ObjectProperty rdf:about="#hasHobby"/>
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#hasOwner -->
+
+    <owl:ObjectProperty rdf:about="#hasOwner"/>
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#hasSex -->
+
+    <owl:ObjectProperty rdf:about="#hasSex"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#hasAge -->
+
+    <owl:DatatypeProperty rdf:about="#hasAge">
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#hasName -->
+
+    <owl:DatatypeProperty rdf:about="#hasName"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#Animal -->
+
+    <owl:Class rdf:about="#Animal">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasName"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasSex"/>
+                <owl:onClass rdf:resource="#Sex"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasAge"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <descgen:descgenField rdf:datatype="&rdfs;Literal"
+            >identifier=age
+&amp; exactCardinality=1
+&amp; fieldType=Integer
+&amp; inclusiveMin=0
+&amp; opplVariable=age
+&amp; simpleGenOWLProperty=http://www.semanticweb.org/dogs.owl#hasAge</descgen:descgenField>
+        <descgen:descgenField rdf:datatype="&rdfs;Literal"
+            >identifier=name
+&amp; exactCardinality=1
+&amp; fieldType=String
+&amp; opplVariable=name
+&amp; simpleGenOWLProperty=http://www.semanticweb.org/dogs.owl#hasName</descgen:descgenField>
+        <descgen:descgenField rdf:datatype="&rdfs;Literal"
+            >identifier=sex
+&amp; exactCardinality=1
+&amp; fieldType=Individual
+&amp; individualType=http://www.semanticweb.org/dogs.owl#Sex
+&amp; opplVariable=sex
+&amp; simpleGenOWLProperty=http://www.semanticweb.org/dogs.owl#hasSex</descgen:descgenField>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#Barking -->
+
+    <owl:Class rdf:about="#Barking">
+        <rdfs:subClassOf rdf:resource="#Hobby"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#CatchingBalls -->
+
+    <owl:Class rdf:about="#CatchingBalls">
+        <rdfs:subClassOf rdf:resource="#Hobby"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#Dog -->
+
+    <owl:Class rdf:about="#Dog">
+        <rdfs:subClassOf rdf:resource="#Animal"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasHobby"/>
+                <owl:allValuesFrom rdf:resource="#Hobby"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasOwner"/>
+                <owl:allValuesFrom rdf:resource="#Human"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <descgen:opplPattern rdf:datatype="&rdfs;Literal">dogPattern</descgen:opplPattern>
+        <descgen:descgenField
+            >identifier=owners
+&amp; fieldType=Description
+&amp; descriptionType=http://www.semanticweb.org/dogs.owl#Human
+&amp; opplVariable=owner
+&amp; simpleGenOWLProperty=http://www.semanticweb.org/dogs.owl#hasOwner</descgen:descgenField>
+        <descgen:descgenField
+            >identifier=hobbies
+&amp; fieldType=Description
+&amp; descriptionType=http://www.semanticweb.org/dogs.owl#Hobby
+&amp; opplVariable=hobby
+&amp; simpleGenOWLProperty=http://www.semanticweb.org/dogs.owl#hasHobby</descgen:descgenField>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#FetchingSticks -->
+
+    <owl:Class rdf:about="#FetchingSticks">
+        <rdfs:subClassOf rdf:resource="#Hobby"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#Hobby -->
+
+    <owl:Class rdf:about="#Hobby">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#Human -->
+
+    <owl:Class rdf:about="#Human">
+        <rdfs:subClassOf rdf:resource="#Animal"/>
+        <descgen:opplPattern rdf:datatype="&rdfs;Literal">humanPattern</descgen:opplPattern>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#RunningInCircles -->
+
+    <owl:Class rdf:about="#RunningInCircles">
+        <rdfs:subClassOf rdf:resource="#Hobby"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#Sex -->
+
+    <owl:Class rdf:about="#Sex">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#SniffingThings -->
+
+    <owl:Class rdf:about="#SniffingThings">
+        <rdfs:subClassOf rdf:resource="#Hobby"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#Female -->
+
+    <Sex rdf:about="#Female"/>
+    
+
+
+    <!-- http://www.semanticweb.org/dogs.owl#Male -->
+
+    <Sex rdf:about="#Male"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1042) http://owlapi.sourceforge.net -->
+
