@@ -55,4 +55,12 @@ public interface ConstraintVisitorEx<O extends Object> {
 	 *         implementation)
 	 */
 	O visit(InCollectionRegExpConstraint c);
+
+	/**
+	 * Visitor pattern required method
+	 * 
+	 * @param nafConstraint
+	 * @return
+	 */
+	O visit(NAFConstraint nafConstraint);
 }

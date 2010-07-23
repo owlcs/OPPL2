@@ -50,4 +50,11 @@ public interface ConstraintVisitor {
 	 * 
 	 */
 	void visitInCollectionConstraint(InCollectionRegExpConstraint c);
+
+	/**
+	 * Visitor pattern required method
+	 * 
+	 * @param nafConstraint
+	 */
+	void visit(NAFConstraint nafConstraint);
 }

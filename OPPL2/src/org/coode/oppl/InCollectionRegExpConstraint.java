@@ -25,8 +25,10 @@ package org.coode.oppl;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.regex.Pattern;
 
@@ -55,8 +57,8 @@ public class InCollectionRegExpConstraint implements AbstractConstraint {
 	 * @param collection
 	 * @param constraintSystem
 	 */
-	public InCollectionRegExpConstraint(Variable variable, SingleValueGeneratedValue<String> exp,
-			ConstraintSystem cs) {
+	public InCollectionRegExpConstraint(Variable variable,
+			SingleValueGeneratedValue<String> exp, ConstraintSystem cs) {
 		this.variable = variable;
 		this.constraintSystem = cs;
 		this.expression = exp;
@@ -65,13 +67,17 @@ public class InCollectionRegExpConstraint implements AbstractConstraint {
 	private Map<OWLObject, List<String>> getMatches(String exp) {
 		Map<OWLObject, List<String>> toReturn = new HashMap<OWLObject, List<String>>();
 		Pattern regExpression = Pattern.compile(exp);
-		for (OWLObject o : this.variable.getType().getReferencedOWLObjects(
-				this.getConstraintSystem().getOntologyManager().getOntologies())) {
-			ManchesterSyntaxRenderer manchesterSyntaxRenderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
-					this.getConstraintSystem());
+		for (OWLObject o : this.variable.getType()
+				.getReferencedOWLObjects(
+						this.getConstraintSystem().getOntologyManager()
+								.getOntologies())) {
+			ManchesterSyntaxRenderer manchesterSyntaxRenderer = this
+					.getConstraintSystem().getOPPLFactory()
+					.getManchesterSyntaxRenderer(this.getConstraintSystem());
 			o.accept(manchesterSyntaxRenderer);
 			String toMatch = manchesterSyntaxRenderer.toString();
-			List<String> group = RegExpGeneratedValue.actualMatch(regExpression, toMatch);
+			List<String> group = RegExpGeneratedValue.actualMatch(
+					regExpression, toMatch);
 			if (group.size() > 0) {
 				toReturn.put(o, group);
 			}
@@ -100,22 +106,23 @@ public class InCollectionRegExpConstraint implements AbstractConstraint {
 	/**
 	 * @return the collection
 	 */
-	public Collection<OWLObject> getCollection(BindingNode node) {
+	public Set<OWLObject> getCollection(BindingNode node) {
 		String regexp = this.expression.getGeneratedValue(node);
 		if (regexp == null) {
-			return Collections.emptyList();
+			return Collections.emptySet();
 		}
 		if (!this.cache.containsKey(regexp)) {
 			Map<OWLObject, List<String>> matches = this.getMatches(regexp);
 			this.collection.putAll(matches);
 			this.cache.put(regexp, this.collection.keySet());
 		}
-		return this.cache.get(regexp);
+		return new HashSet<OWLObject>(this.cache.get(regexp));
 	}
 
 	@Override
 	public int hashCode() {
-		return 3 * this.variable.hashCode() * 5 * this.collection.keySet().hashCode();
+		return 3 * this.variable.hashCode() * 5
+				* this.collection.keySet().hashCode();
 	}
 
 	@Override

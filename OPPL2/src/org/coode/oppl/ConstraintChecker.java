@@ -22,10 +22,20 @@
  */
 package org.coode.oppl;
 
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.logging.Level;
 
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.log.Logging;
+import org.semanticweb.owl.inference.OWLReasonerException;
+import org.semanticweb.owl.model.OWLAxiom;
+import org.semanticweb.owl.model.OWLDescription;
 import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owl.model.OWLOntology;
+
+import com.clarkparsia.explanation.SatisfiabilityConverter;
 
 /**
  * This ConstraintVisitor implementation verifies if the visited Constraint
@@ -37,13 +47,23 @@ import org.semanticweb.owl.model.OWLObject;
 public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
 	private final BindingNode bindingNode;
 	private final ConstraintSystem constraintSystem;
+	private final OWLObjectInstantiator instantiator;
 
 	/**
 	 * @param bindingNode
 	 */
 	public ConstraintChecker(BindingNode bindingNode, ConstraintSystem cs) {
+		if (bindingNode == null) {
+			throw new NullPointerException("The binding node cannot be null");
+		}
+		if (cs == null) {
+			throw new NullPointerException(
+					"The constraint system cannot be null");
+		}
 		this.bindingNode = bindingNode;
 		this.constraintSystem = cs;
+		this.instantiator = new OWLObjectInstantiator(this.getBindingNode(),
+				this.getConstraintSystem());
 	}
 
 	/**
@@ -51,11 +71,12 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
 	 */
 	public Boolean visit(InequalityConstraint c) {
 		OWLObject expression = c.getExpression();
-		OWLObjectInstantiator instantiator = new OWLObjectInstantiator(
-				this.bindingNode, this.constraintSystem);
+		OWLObjectInstantiator instantiator = new OWLObjectInstantiator(this
+				.getBindingNode(), this.getConstraintSystem());
 		OWLObject instantiatedObject = expression.accept(instantiator);
 		Variable variable = c.getVariable();
-		OWLObject assignedValue = this.bindingNode.getAssignmentValue(variable);
+		OWLObject assignedValue = this.getBindingNode().getAssignmentValue(
+				variable);
 		return !assignedValue.equals(instantiatedObject);
 	}
 
@@ -63,17 +84,75 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
 	 * @see org.coode.oppl.ConstraintVisitorEx#visit(org.coode.oppl.InCollectionConstraint)
 	 */
 	public Boolean visit(InCollectionConstraint<? extends OWLObject> c) {
-		Collection<? extends OWLObject> collection = c.getCollection();
-		OWLObject assignedValue = this.bindingNode.getAssignmentValue(c
-				.getVariable());
-		return collection.contains(assignedValue);
+		Set<? extends OWLObject> collection = c.getCollection();
+		OWLObject assignedValue = this.getBindingNode().getAssignmentValue(
+				c.getVariable());
+		Set<OWLObject> instantiatedObjects = new HashSet<OWLObject>(collection
+				.size());
+		for (OWLObject owlObject : collection) {
+			instantiatedObjects.add(owlObject.accept(this.instantiator));
+		}
+		return instantiatedObjects.contains(assignedValue);
 	}
 
 	public Boolean visit(InCollectionRegExpConstraint c) {
-		Collection<? extends OWLObject> collection = c
-				.getCollection(this.bindingNode);
-		OWLObject assignedValue = this.bindingNode.getAssignmentValue(c
-				.getVariable());
-		return collection.contains(assignedValue);
+		Set<OWLObject> collection = c.getCollection(this.getBindingNode());
+		OWLObject assignedValue = this.getBindingNode().getAssignmentValue(
+				c.getVariable());
+		Set<OWLObject> instantiatedObjects = new HashSet<OWLObject>(collection
+				.size());
+		for (OWLObject owlObject : collection) {
+			instantiatedObjects.add(owlObject.accept(this.instantiator));
+		}
+		return instantiatedObjects.contains(assignedValue);
+	}
+
+	public Boolean visit(NAFConstraint nafConstraint) {
+		OWLAxiom instantiatedAxiom = (OWLAxiom) nafConstraint.getAxiom()
+				.accept(this.instantiator);
+		boolean toReturn = false;
+		try {
+			if (this.getConstraintSystem().getReasoner() != null) {
+				SatisfiabilityConverter satisfiabilityConverter = new SatisfiabilityConverter(
+						this.getConstraintSystem().getOntologyManager()
+								.getOWLDataFactory());
+				OWLDescription convert = satisfiabilityConverter
+						.convert(instantiatedAxiom);
+				toReturn = !this.getConstraintSystem().getReasoner()
+						.isSubClassOf(
+								convert,
+								this.getConstraintSystem().getOntologyManager()
+										.getOWLDataFactory().getOWLNothing());
+			} else {
+				boolean found = false;
+				Iterator<OWLOntology> iterator = this.getConstraintSystem()
+						.getOntologyManager().getOntologies().iterator();
+				while (!found && iterator.hasNext()) {
+					OWLOntology ontology = iterator.next();
+					found = ontology.containsAxiom(instantiatedAxiom);
+				}
+				toReturn = !found;
+			}
+		} catch (OWLReasonerException e) {
+			Logging.getQueryLogger().log(
+					Level.WARNING,
+					" OWLReasonerException  caught whilst checking the constraint "
+							+ nafConstraint.render());
+		}
+		return toReturn;
+	}
+
+	/**
+	 * @return the constraintSystem
+	 */
+	public ConstraintSystem getConstraintSystem() {
+		return this.constraintSystem;
+	}
+
+	/**
+	 * @return the bindingNode
+	 */
+	public BindingNode getBindingNode() {
+		return this.bindingNode;
 	}
 }

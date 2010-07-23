@@ -34,11 +34,9 @@
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#OWLObjectProperty_01278505780015254000 -->
+    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#hasP -->
 
-    <owl:ObjectProperty rdf:about="#OWLObjectProperty_01278505780015254000">
-        <rdfs:label>hasP</rdfs:label>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="#hasP"/>
     
 
 
@@ -53,40 +51,126 @@
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#OWLClass_01278505760620951000 -->
+    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#A -->
 
-    <owl:Class rdf:about="#OWLClass_01278505760620951000">
-        <rdfs:label>A</rdfs:label>
+    <owl:Class rdf:about="#A">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#OWLObjectProperty_01278505780015254000"/>
-                <owl:someValuesFrom rdf:resource="&owl;Thing"/>
+                <owl:onProperty rdf:resource="#hasP"/>
+                <owl:someValuesFrom rdf:resource="#P_Range"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#OWLClass_01278505765009556000 -->
+    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#A_A -->
 
-    <owl:Class rdf:about="#OWLClass_01278505765009556000">
+    <owl:Class rdf:about="#A_A"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#A_B -->
+
+    <owl:Class rdf:about="#A_B">
+        <rdfs:subClassOf rdf:resource="#A_A"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasP"/>
+                <owl:someValuesFrom rdf:resource="#B_P_Range"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#A_C -->
+
+    <owl:Class rdf:about="#A_C">
+        <rdfs:subClassOf rdf:resource="#A_A"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#A_D -->
+
+    <owl:Class rdf:about="#A_D">
+        <rdfs:subClassOf rdf:resource="#A_A"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#B -->
+
+    <owl:Class rdf:about="#B">
         <rdfs:label>B</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#OWLClass_01278505760620951000"/>
+        <rdfs:subClassOf rdf:resource="#A"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasP"/>
+                <owl:someValuesFrom rdf:resource="#B_P_Range"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#OWLClass_01278505770933721000 -->
+    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#B_P_Range -->
 
-    <owl:Class rdf:about="#OWLClass_01278505770933721000">
+    <owl:Class rdf:about="#B_P_Range">
+        <rdfs:subClassOf rdf:resource="#P_Range"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#C -->
+
+    <owl:Class rdf:about="#C">
         <rdfs:label>C</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#A"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasP"/>
+                <owl:someValuesFrom rdf:resource="#C_P_Range"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
 
-    <!-- http://www.w3.org/2002/07/owl#Thing -->
+    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#C_P_Range -->
 
-    <owl:Class rdf:about="&owl;Thing"/>
+    <owl:Class rdf:about="#C_P_Range">
+        <rdfs:subClassOf rdf:resource="#P_Range"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#D -->
+
+    <owl:Class rdf:about="#D">
+        <rdfs:subClassOf rdf:resource="#A"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasP"/>
+                <owl:someValuesFrom rdf:resource="#D_P_Range"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#D_P_Range -->
+
+    <owl:Class rdf:about="#D_P_Range">
+        <rdfs:subClassOf rdf:resource="#P_Range"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl#P_Range -->
+
+    <owl:Class rdf:about="#P_Range"/>
 </rdf:RDF>
 
 
