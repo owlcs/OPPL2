@@ -68,9 +68,9 @@ axiom	    	options {backtrack=true;}:
 
 
 
-assertionAxiom:
-  i = IDENTIFIER (INSTANCE_OF | TYPES) expression -> ^(TYPE_ASSERTION ^(EXPRESSION expression) ^(EXPRESSION $i))
-  |  IDENTIFIER propertyExpression  value -> ^(ROLE_ASSERTION ^(EXPRESSION IDENTIFIER) ^(EXPRESSION propertyExpression) ^(EXPRESSION value))
+assertionAxiom options {backtrack=true;}:
+  i = atomic (INSTANCE_OF | TYPES) expression -> ^(TYPE_ASSERTION ^(EXPRESSION expression) ^(EXPRESSION $i))
+  |   subject = atomic propertyExpression  value -> ^(ROLE_ASSERTION ^(EXPRESSION $subject) ^(EXPRESSION propertyExpression) ^(EXPRESSION value))
   
   | NOT assertionAxiom -> ^(NEGATED_ASSERTION assertionAxiom)
 ;
@@ -179,7 +179,7 @@ valueRestriction	: propertyExpression VALUE value -> ^(VALUE_RESTRICTION propert
 	;
 
 value:
-      IDENTIFIER -> ^(IDENTIFIER) 
+      atomic -> ^(atomic) 
     | constant -> ^(constant)
   ;
   

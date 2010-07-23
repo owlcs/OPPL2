@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntax.g 2010-07-15 16:53:56
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntax.g 2010-07-23 22:34:17
 
   package org.coode.parsers;
 
@@ -151,7 +151,7 @@ public class ManchesterOWLSyntaxParser extends Parser {
     }
 
     public String[] getTokenNames() { return ManchesterOWLSyntaxParser.tokenNames; }
-    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntax.g"; }
+    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntax.g"; }
 
 
 
@@ -194,7 +194,7 @@ public class ManchesterOWLSyntaxParser extends Parser {
     };
 
     // $ANTLR start "main"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntax.g:66:1: main : axiom -> ^( axiom ) ;
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntax.g:66:1: main : axiom -> ^( axiom ) ;
     public final ManchesterOWLSyntaxParser.main_return main() throws RecognitionException {
         ManchesterOWLSyntaxParser.main_return retval = new ManchesterOWLSyntaxParser.main_return();
         retval.start = input.LT(1);
@@ -206,8 +206,8 @@ public class ManchesterOWLSyntaxParser extends Parser {
 
         RewriteRuleSubtreeStream stream_axiom=new RewriteRuleSubtreeStream(adaptor,"rule axiom");
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntax.g:66:5: ( axiom -> ^( axiom ) )
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntax.g:67:3: axiom
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntax.g:66:5: ( axiom -> ^( axiom ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntax.g:67:3: axiom
             {
             pushFollow(FOLLOW_axiom_in_main100);
             axiom1=axiom();
@@ -231,7 +231,7 @@ public class ManchesterOWLSyntaxParser extends Parser {
             root_0 = (ManchesterOWLSyntaxTree)adaptor.nil();
             // 67:9: -> ^( axiom )
             {
-                // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntax.g:67:11: ^( axiom )
+                // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntax.g:67:11: ^( axiom )
                 {
                 ManchesterOWLSyntaxTree root_1 = (ManchesterOWLSyntaxTree)adaptor.nil();
                 root_1 = (ManchesterOWLSyntaxTree)adaptor.becomeRoot(stream_axiom.nextNode(), root_1);
@@ -271,24 +271,24 @@ public class ManchesterOWLSyntaxParser extends Parser {
     // $ANTLR end "main"
 
     // Delegated rules
+    public ManchesterOWLSyntax_MOWLParser.axiom_return axiom() throws RecognitionException { return gMOWLParser.axiom(); }
+    public ManchesterOWLSyntax_MOWLParser.unary_return unary() throws RecognitionException { return gMOWLParser.unary(); }
+    public ManchesterOWLSyntax_MOWLParser.oneOf_return oneOf() throws RecognitionException { return gMOWLParser.oneOf(); }
+    public ManchesterOWLSyntax_MOWLParser.atomic_return atomic() throws RecognitionException { return gMOWLParser.atomic(); }
+    public ManchesterOWLSyntax_MOWLParser.cardinalityRestriction_return cardinalityRestriction() throws RecognitionException { return gMOWLParser.cardinalityRestriction(); }
+    public ManchesterOWLSyntax_MOWLParser.qualifiedRestriction_return qualifiedRestriction() throws RecognitionException { return gMOWLParser.qualifiedRestriction(); }
     public ManchesterOWLSyntax_MOWLParser.valueRestriction_return valueRestriction() throws RecognitionException { return gMOWLParser.valueRestriction(); }
     public ManchesterOWLSyntax_MOWLParser.binaryAxiom_return binaryAxiom() throws RecognitionException { return gMOWLParser.binaryAxiom(); }
-    public ManchesterOWLSyntax_MOWLParser.expression_return expression() throws RecognitionException { return gMOWLParser.expression(); }
     public ManchesterOWLSyntax_MOWLParser.unaryCharacteristic_return unaryCharacteristic() throws RecognitionException { return gMOWLParser.unaryCharacteristic(); }
+    public ManchesterOWLSyntax_MOWLParser.conjunction_return conjunction() throws RecognitionException { return gMOWLParser.conjunction(); }
     public ManchesterOWLSyntax_MOWLParser.complexPropertyExpression_return complexPropertyExpression() throws RecognitionException { return gMOWLParser.complexPropertyExpression(); }
     public ManchesterOWLSyntax_MOWLParser.unaryAxiom_return unaryAxiom() throws RecognitionException { return gMOWLParser.unaryAxiom(); }
+    public ManchesterOWLSyntax_MOWLParser.restrictionKind_return restrictionKind() throws RecognitionException { return gMOWLParser.restrictionKind(); }
     public ManchesterOWLSyntax_MOWLParser.propertyExpression_return propertyExpression() throws RecognitionException { return gMOWLParser.propertyExpression(); }
-    public ManchesterOWLSyntax_MOWLParser.axiom_return axiom() throws RecognitionException { return gMOWLParser.axiom(); }
-    public ManchesterOWLSyntax_MOWLParser.assertionAxiom_return assertionAxiom() throws RecognitionException { return gMOWLParser.assertionAxiom(); }
+    public ManchesterOWLSyntax_MOWLParser.expression_return expression() throws RecognitionException { return gMOWLParser.expression(); }
     public ManchesterOWLSyntax_MOWLParser.value_return value() throws RecognitionException { return gMOWLParser.value(); }
     public ManchesterOWLSyntax_MOWLParser.constant_return constant() throws RecognitionException { return gMOWLParser.constant(); }
-    public ManchesterOWLSyntax_MOWLParser.cardinalityRestriction_return cardinalityRestriction() throws RecognitionException { return gMOWLParser.cardinalityRestriction(); }
-    public ManchesterOWLSyntax_MOWLParser.oneOf_return oneOf() throws RecognitionException { return gMOWLParser.oneOf(); }
-    public ManchesterOWLSyntax_MOWLParser.conjunction_return conjunction() throws RecognitionException { return gMOWLParser.conjunction(); }
-    public ManchesterOWLSyntax_MOWLParser.restrictionKind_return restrictionKind() throws RecognitionException { return gMOWLParser.restrictionKind(); }
-    public ManchesterOWLSyntax_MOWLParser.qualifiedRestriction_return qualifiedRestriction() throws RecognitionException { return gMOWLParser.qualifiedRestriction(); }
-    public ManchesterOWLSyntax_MOWLParser.unary_return unary() throws RecognitionException { return gMOWLParser.unary(); }
-    public ManchesterOWLSyntax_MOWLParser.atomic_return atomic() throws RecognitionException { return gMOWLParser.atomic(); }
+    public ManchesterOWLSyntax_MOWLParser.assertionAxiom_return assertionAxiom() throws RecognitionException { return gMOWLParser.assertionAxiom(); }
 
 
  

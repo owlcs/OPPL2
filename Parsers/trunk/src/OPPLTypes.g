@@ -89,6 +89,7 @@ import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopes;
   import org.coode.oppl.exceptions.OPPLException;
+  import org.coode.oppl.NAFConstraint;
 import org.coode.oppl.generated.AbstractCollectionGeneratedValue;
 import org.coode.oppl.generated.ConcatGeneratedValues;
 import org.coode.oppl.generated.RegExpGenerated;
@@ -403,12 +404,19 @@ constraint returns [AbstractConstraint constraint]
 		^(INEQUALITY_CONSTRAINT IDENTIFIER ^(EXPRESSION expression=.)){
 			$constraint = symtab.getInequalityConstraint($start, $IDENTIFIER,expression, getConstraintSystem());
 		}
-		| ^(IN_SET_CONSTRAINT v = IDENTIFIER ^(ONE_OF (i = IDENTIFIER {identifiers.add(i);})+)){
+		| ^(IN_SET_CONSTRAINT v = IDENTIFIER  (i = IDENTIFIER {identifiers.add(i);})+){
 			$constraint = symtab.getInSetConstraint($start,v,constraintSystem,identifiers.toArray(new OPPLSyntaxTree[identifiers.size()]));
 		}
 		| ^(REGEXP_CONSTRAINT IDENTIFIER se = stringOperation)
 		{
 			Variable variable = symtab.getVariable($IDENTIFIER,getConstraintSystem());
 			$constraint =   new InCollectionRegExpConstraint(variable, se, getConstraintSystem());
+		}
+		| ^(NAF_CONSTRAINT a = .){
+			OWLObject axiom = a.getOWLObject();
+			if(axiom instanceof OWLAxiom){
+				$constraint =   new NAFConstraint((OWLAxiom) axiom, getConstraintSystem());
+			}
+			
 		}
 ;

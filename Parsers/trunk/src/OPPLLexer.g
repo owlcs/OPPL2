@@ -135,6 +135,12 @@ MATCH
   	|	'Match'
   ;
 
+FAIL
+	:
+		'FAIL' 
+		| 'fail'
+		| 'Fail'
+	;
 
 VALUES
   :

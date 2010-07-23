@@ -91,23 +91,24 @@ options {
 
 @header {
   package org.coode.parsers.oppl;
-  import org.coode.oppl.variablemansyntax.Variable;
-  import org.coode.oppl.variablemansyntax.ConstraintSystem;
-  import org.coode.oppl.variablemansyntax.generated.VariableExpressionGeneratedVariable;
-  import org.coode.oppl.variablemansyntax.VariableScope;
-  import org.coode.oppl.variablemansyntax.VariableScopes;
+  import org.coode.oppl.Variable;
+  import org.coode.oppl.ConstraintSystem;
+  import org.coode.oppl.NAFConstraint;
+  import org.coode.oppl.generated.VariableExpressionGeneratedVariable;
+  import org.coode.oppl.VariableScope;
+  import org.coode.oppl.VariableScopes;
   import org.coode.oppl.entity.OWLEntityRenderer;
-  import org.coode.oppl.variablemansyntax.generated.AbstractCollectionGeneratedValue;
+  import org.coode.oppl.generated.AbstractCollectionGeneratedValue;
   import org.coode.oppl.AbstractConstraint;
   import org.coode.oppl.OPPLQuery;
-  import org.coode.oppl.variablemansyntax.Variable;  
+  import org.coode.oppl.Variable;  
   import org.coode.oppl.exceptions.OPPLException;
   import org.coode.oppl.OPPLAbstractFactory;
-  import org.coode.oppl.variablemansyntax.generated.RegExpGenerated;
-  import org.coode.oppl.variablemansyntax.generated.RegExpGeneratedValue;
-  import org.coode.oppl.variablemansyntax.generated.SingleValueGeneratedValue;
-  import org.coode.oppl.variablemansyntax.generated.StringGeneratedValue;
-  import org.coode.oppl.variablemansyntax.generated.ConcatGeneratedValues;
+  import org.coode.oppl.generated.RegExpGenerated;
+  import org.coode.oppl.generated.RegExpGeneratedValue;
+  import org.coode.oppl.generated.SingleValueGeneratedValue;
+  import org.coode.oppl.generated.StringGeneratedValue;
+  import org.coode.oppl.generated.ConcatGeneratedValues;
   import org.coode.oppl.InCollectionRegExpConstraint;
   import org.semanticweb.owl.model.OWLAxiom;
   import org.semanticweb.owl.model.OWLObject;
@@ -206,12 +207,19 @@ constraint returns [AbstractConstraint constraint]
 		^(INEQUALITY_CONSTRAINT IDENTIFIER ^(EXPRESSION expression=.)){
 			$constraint = symtab.getInequalityConstraint($start, $IDENTIFIER,expression, getConstraintSystem());
 		}
-		| ^(IN_SET_CONSTRAINT v = IDENTIFIER ^(ONE_OF (i = IDENTIFIER {identifiers.add(i);})+)){
+		| ^(IN_SET_CONSTRAINT v = IDENTIFIER  (i = IDENTIFIER {identifiers.add(i);})+){
 			$constraint = symtab.getInSetConstraint($start,v,constraintSystem,identifiers.toArray(new OPPLSyntaxTree[identifiers.size()]));
 		}
 		| ^(REGEXP_CONSTRAINT IDENTIFIER se = stringOperation)
 		{
 			Variable variable = symtab.getVariable($IDENTIFIER,getConstraintSystem());
 			$constraint =   new InCollectionRegExpConstraint(variable, se, getConstraintSystem());
+		}
+		| ^(NAF_CONSTRAINT a = .){
+			OWLObject axiom = a.getOWLObject();
+			if(axiom instanceof OWLAxiom){
+				$constraint =   new NAFConstraint((OWLAxiom) axiom, getConstraintSystem());
+			}
+			
 		}
 ;
