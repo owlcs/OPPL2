@@ -30,9 +30,9 @@ import org.semanticweb.owl.model.OWLObject;
  * 
  */
 public class Assignment {
-	protected final Variable assignedVariable;
-	protected final OWLObject assignment;
-	protected final int hashcode;
+	private final Variable assignedVariable;
+	private final OWLObject assignment;
+	private final int hashcode;
 
 	/**
 	 * @param assignedVariable
@@ -60,8 +60,7 @@ public class Assignment {
 
 	@Override
 	public String toString() {
-		return this.assignedVariable.getName() + "="
-				+ this.assignment.toString();
+		return this.assignedVariable.getName() + "=" + this.assignment.toString();
 	}
 
 	@Override

@@ -8,7 +8,6 @@ import java.util.Set;
 import org.coode.oppl.OPPLAbstractFactory;
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLParser.AbstractParserFactory;
-import org.coode.oppl.utils.DefaultOWLObjectVisitorEx;
 import org.coode.parsers.DisposableOWLEntityChecker;
 import org.coode.parsers.DisposableShortFormEntityChecker;
 import org.coode.parsers.EntityFinder;
@@ -24,7 +23,6 @@ import org.semanticweb.owl.model.OWLDataProperty;
 import org.semanticweb.owl.model.OWLDataType;
 import org.semanticweb.owl.model.OWLEntity;
 import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObject;
 import org.semanticweb.owl.model.OWLObjectProperty;
 import org.semanticweb.owl.util.SimpleShortFormProvider;
 
@@ -102,108 +100,6 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 		}
 	}
 
-	private class ProtegeOWLEntityChecker implements OWLEntityChecker {
-		public OWLClass getOWLClass(String name) {
-			OWLClass toReturn = null;
-			OWLEntity owlEntity = ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntity(
-					name);
-			if (owlEntity != null) {
-				toReturn = owlEntity.accept(new DefaultOWLObjectVisitorEx<OWLClass>() {
-					@Override
-					protected OWLClass doDefault(OWLObject object) {
-						return null;
-					}
-
-					@Override
-					public OWLClass visit(OWLClass desc) {
-						return desc;
-					}
-				});
-			}
-			return toReturn;
-		}
-
-		public OWLDataProperty getOWLDataProperty(String name) {
-			OWLDataProperty toReturn = null;
-			OWLEntity owlEntity = ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntity(
-					name);
-			if (owlEntity != null) {
-				toReturn = owlEntity.accept(new DefaultOWLObjectVisitorEx<OWLDataProperty>() {
-					@Override
-					protected OWLDataProperty doDefault(OWLObject object) {
-						return null;
-					}
-
-					@Override
-					public OWLDataProperty visit(OWLDataProperty property) {
-						return property;
-					}
-				});
-			}
-			return toReturn;
-		}
-
-		public OWLObjectProperty getOWLObjectProperty(String name) {
-			OWLObjectProperty toReturn = null;
-			OWLEntity owlEntity = ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntity(
-					name);
-			if (owlEntity != null) {
-				toReturn = owlEntity.accept(new DefaultOWLObjectVisitorEx<OWLObjectProperty>() {
-					@Override
-					protected OWLObjectProperty doDefault(OWLObject object) {
-						return null;
-					}
-
-					@Override
-					public OWLObjectProperty visit(OWLObjectProperty property) {
-						return property;
-					}
-				});
-			}
-			return toReturn;
-		}
-
-		public OWLDataType getOWLDataType(String name) {
-			OWLDataType toReturn = null;
-			OWLEntity owlEntity = ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntity(
-					name);
-			if (owlEntity != null) {
-				toReturn = owlEntity.accept(new DefaultOWLObjectVisitorEx<OWLDataType>() {
-					@Override
-					protected OWLDataType doDefault(OWLObject object) {
-						return null;
-					}
-
-					@Override
-					public OWLDataType visit(OWLDataType node) {
-						return node;
-					}
-				});
-			}
-			return toReturn;
-		}
-
-		public OWLIndividual getOWLIndividual(String name) {
-			OWLIndividual toReturn = null;
-			OWLEntity owlEntity = ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntity(
-					name);
-			if (owlEntity != null) {
-				toReturn = owlEntity.accept(new DefaultOWLObjectVisitorEx<OWLIndividual>() {
-					@Override
-					protected OWLIndividual doDefault(OWLObject object) {
-						return null;
-					}
-
-					@Override
-					public OWLIndividual visit(OWLIndividual individual) {
-						return individual;
-					}
-				});
-			}
-			return toReturn;
-		}
-	}
-
 	private class ProtegeSymbolTableFactory implements SymbolTableFactory<OPPLSymbolTable> {
 		public OPPLSymbolTable createSymbolTable() {
 			DisposableOWLEntityChecker entityChecker = new DisposableShortFormEntityChecker(
@@ -241,7 +137,7 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 	private ProtegeParserFactory(OWLEditorKit owlEditorKit) {
 		assert owlEditorKit != null;
 		this.owlEditorKit = owlEditorKit;
-		this.protegeOWLEntityChecker = new ProtegeOWLEntityChecker();
+		this.protegeOWLEntityChecker = new ProtegeOWLEntityChecker(this.getOWLEditorKit());
 		this.protegeEntityFinder = new ProtegeEntityFinder();
 		this.opplFactory = new ProtegeOPPLFactory(this.getOWLEditorKit());
 		this.entityRenderer = new ProtegeOWLEntityRenderer();

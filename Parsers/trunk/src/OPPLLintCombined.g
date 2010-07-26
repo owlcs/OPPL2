@@ -12,7 +12,7 @@ import OPPLLintLexer, OPPLParser;
 tokens{
   OPPL_STATEMENT;
   OPPL_LINT;
-  DESCRPTION;
+  DESCRIPTION;
 }
  
 @header {
@@ -24,13 +24,15 @@ tokens{
 
 lint
   :
-    IDENTIFIER SEMICOLON statement returnClause SEMICOLON description SEMICOLON ->^(OPPL_LINT statement returnClause description) 
+    name = IDENTIFIER SEMICOLON statement returnClause SEMICOLON description SEMICOLON ->^(OPPL_LINT $name statement returnClause description) 
   ;
 
 statement
   :
     variableDefinitions? query actions -> ^(OPPL_STATEMENT variableDefinitions? query actions)
   ;
+  
+
 
 returnClause
   :
@@ -48,12 +50,12 @@ description
   StringBuilder builder = new StringBuilder();
 }
   :
-    (part = IDENTIFIER
+    (a= atomic
     {
-      builder.append(part.getText());
+      builder.append($a.text);
       builder.append(" ");
     }
-    )+  ->^(DESCRPTION [builder.toString()] $part+)
+    )+  ->^(DESCRIPTION [builder.toString()] atomic+)
   ;  
 
   

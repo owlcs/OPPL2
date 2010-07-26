@@ -33,8 +33,8 @@ import javax.swing.event.ChangeListener;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.utils.ArgCheck;
 import org.coode.oppl.validation.OPPLScriptValidator;
-import org.coode.parsers.ui.InputVerificationStatusChangedListener;
-import org.coode.parsers.ui.VerifiedInputEditor;
+import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
+import org.protege.editor.core.ui.util.VerifiedInputEditor;
 import org.protege.editor.owl.OWLEditorKit;
 
 /**
@@ -79,7 +79,7 @@ public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor
 		this.owlEditorKit = owlEditor;
 		this.opplBuilder = builder;
 		this.opplTextEditor = textEditor;
-		this.opplBuilder.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+		this.opplBuilder.addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
 			public void verifiedStatusChanged(boolean newState) {
 				OPPLEditor.this.opplScript = null;
 				if (newState) {
@@ -88,7 +88,7 @@ public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor
 				OPPLEditor.this.handleChange();
 			}
 		});
-		this.opplTextEditor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+		this.opplTextEditor.addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
 			public void verifiedStatusChanged(boolean newState) {
 				OPPLEditor.this.opplScript = null;
 				if (newState) {
