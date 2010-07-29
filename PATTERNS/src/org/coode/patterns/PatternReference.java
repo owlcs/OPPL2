@@ -106,12 +106,15 @@ public class PatternReference {
 				anOntologyAnnotationAxiom = it.next();
 				OWLAnnotation<? extends OWLObject> annotation = anOntologyAnnotationAxiom.getAnnotation();
 				if (!this.hasBeenVisited(annotation.getAnnotationURI())) {
-					PatternExtractor patternExtractor = this.patternConstraintSystem.getPatternModelFactory().getPatternExtractor(
-							this.getVisitedAnnotations(),
-							this.getErrorListener());
-					this.extractedPattern = annotation.accept(patternExtractor);
-					found = this.extractedPattern != null
-							&& this.extractedPattern.getName().equals(this.patternName);
+					NamespaceUtil nsUtil = new NamespaceUtil();
+					String[] split = nsUtil.split(annotation.getAnnotationURI().toString(), null);
+					if (split[1].compareTo(this.patternName) == 0) {
+						PatternExtractor patternExtractor = this.patternConstraintSystem.getPatternModelFactory().getPatternExtractor(
+								this.getVisitedAnnotations(),
+								this.getErrorListener());
+						this.extractedPattern = annotation.accept(patternExtractor);
+						found = this.extractedPattern != null;
+					}
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.patterns;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLLexer.g 2010-07-20 14:50:42
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLLexer.g 2010-07-29 13:15:16
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -43,6 +43,7 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 	public static final int MATCH = 176;
 	public static final int SEMICOLON = 422;
 	public static final int VALUE = 18;
+	public static final int FAIL = 530;
 	public static final int GROUPS = 356;
 	public static final int OPEN_CURLY_BRACES = 6;
 	public static final int DISJUNCTION = 55;
@@ -639,13 +640,64 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 	}
 
 	// $ANTLR end "MATCH"
+	// $ANTLR start "FAIL"
+	public final void mFAIL() throws RecognitionException {
+		try {
+			int _type = FAIL;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// OPPLLexer.g:139:2: ( 'FAIL' | 'fail' | 'Fail' )
+			int alt5 = 3;
+			int LA5_0 = this.input.LA(1);
+			if (LA5_0 == 'F') {
+				int LA5_1 = this.input.LA(2);
+				if (LA5_1 == 'A') {
+					alt5 = 1;
+				} else if (LA5_1 == 'a') {
+					alt5 = 3;
+				} else {
+					NoViableAltException nvae = new NoViableAltException("", 5, 1, this.input);
+					throw nvae;
+				}
+			} else if (LA5_0 == 'f') {
+				alt5 = 2;
+			} else {
+				NoViableAltException nvae = new NoViableAltException("", 5, 0, this.input);
+				throw nvae;
+			}
+			switch (alt5) {
+			case 1:
+				// OPPLLexer.g:140:3: 'FAIL'
+			{
+				this.match("FAIL");
+			}
+				break;
+			case 2:
+				// OPPLLexer.g:141:5: 'fail'
+			{
+				this.match("fail");
+			}
+				break;
+			case 3:
+				// OPPLLexer.g:142:5: 'Fail'
+			{
+				this.match("Fail");
+			}
+				break;
+			}
+			this.state.type = _type;
+			this.state.channel = _channel;
+		} finally {
+		}
+	}
+
+	// $ANTLR end "FAIL"
 	// $ANTLR start "VALUES"
 	public final void mVALUES() throws RecognitionException {
 		try {
 			int _type = VALUES;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// OPPLLexer.g:140:3: ( 'VALUES' )
-			// OPPLLexer.g:141:5: 'VALUES'
+			// OPPLLexer.g:146:3: ( 'VALUES' )
+			// OPPLLexer.g:147:5: 'VALUES'
 			{
 				this.match("VALUES");
 			}
@@ -661,8 +713,8 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 		try {
 			int _type = RENDERING;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// OPPLLexer.g:146:3: ( 'RENDERING' )
-			// OPPLLexer.g:147:5: 'RENDERING'
+			// OPPLLexer.g:152:3: ( 'RENDERING' )
+			// OPPLLexer.g:153:5: 'RENDERING'
 			{
 				this.match("RENDERING");
 			}
@@ -678,8 +730,8 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 		try {
 			int _type = GROUPS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// OPPLLexer.g:152:3: ( 'GROUPS' )
-			// OPPLLexer.g:153:5: 'GROUPS'
+			// OPPLLexer.g:158:3: ( 'GROUPS' )
+			// OPPLLexer.g:159:5: 'GROUPS'
 			{
 				this.match("GROUPS");
 			}
@@ -693,8 +745,8 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 	// $ANTLR start "QUESTION_MARK"
 	public final void mQUESTION_MARK() throws RecognitionException {
 		try {
-			// OPPLLexer.g:158:3: ( '?' )
-			// OPPLLexer.g:159:5: '?'
+			// OPPLLexer.g:164:3: ( '?' )
+			// OPPLLexer.g:165:5: '?'
 			{
 				this.match('?');
 			}
@@ -708,8 +760,8 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 		try {
 			int _type = ESCLAMATION_MARK;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// OPPLLexer.g:163:3: ( '!' )
-			// OPPLLexer.g:164:5: '!'
+			// OPPLLexer.g:169:3: ( '!' )
+			// OPPLLexer.g:170:5: '!'
 			{
 				this.match('!');
 			}
@@ -725,22 +777,22 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 		try {
 			int _type = VARIABLE_NAME;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// OPPLLexer.g:168:3: ( QUESTION_MARK LETTER ( LETTER | DIGIT | '-'
+			// OPPLLexer.g:174:3: ( QUESTION_MARK LETTER ( LETTER | DIGIT | '-'
 			// | '_' )* )
-			// OPPLLexer.g:169:5: QUESTION_MARK LETTER ( LETTER | DIGIT | '-' |
+			// OPPLLexer.g:175:5: QUESTION_MARK LETTER ( LETTER | DIGIT | '-' |
 			// '_' )*
 			{
 				this.mQUESTION_MARK();
 				this.gMOWLLexer.mLETTER();
-				// OPPLLexer.g:169:26: ( LETTER | DIGIT | '-' | '_' )*
-				loop5: do {
-					int alt5 = 2;
-					int LA5_0 = this.input.LA(1);
-					if (LA5_0 == '-' || LA5_0 >= '0' && LA5_0 <= '9' || LA5_0 >= 'A'
-							&& LA5_0 <= 'Z' || LA5_0 == '_' || LA5_0 >= 'a' && LA5_0 <= 'z') {
-						alt5 = 1;
+				// OPPLLexer.g:175:26: ( LETTER | DIGIT | '-' | '_' )*
+				loop6: do {
+					int alt6 = 2;
+					int LA6_0 = this.input.LA(1);
+					if (LA6_0 == '-' || LA6_0 >= '0' && LA6_0 <= '9' || LA6_0 >= 'A'
+							&& LA6_0 <= 'Z' || LA6_0 == '_' || LA6_0 >= 'a' && LA6_0 <= 'z') {
+						alt6 = 1;
 					}
-					switch (alt5) {
+					switch (alt6) {
 					case 1:
 						// OPPLLexer.g:
 					{
@@ -758,7 +810,7 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 					}
 						break;
 					default:
-						break loop5;
+						break loop6;
 					}
 				} while (true);
 			}
@@ -775,11 +827,11 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 		// EQUAL | IN | SELECT | ASSERTED | COLON | DOT | PLUS | CREATE |
 		// CREATE_INTERSECTION | CREATE_DISJUNCTION | BEGIN | END |
 		// OPEN_SQUARE_BRACKET | CLOSED_SQUARE_BRACKET | SUPER_CLASS_OF |
-		// SUPER_PROPERTY_OF | MATCH | VALUES | RENDERING | GROUPS |
+		// SUPER_PROPERTY_OF | MATCH | FAIL | VALUES | RENDERING | GROUPS |
 		// ESCLAMATION_MARK | VARIABLE_NAME | MOWLLexer. Tokens )
-		int alt6 = 28;
-		alt6 = this.dfa6.predict(this.input);
-		switch (alt6) {
+		int alt7 = 29;
+		alt7 = this.dfa7.predict(this.input);
+		switch (alt7) {
 		case 1:
 			// OPPLLexer.g:1:10: VARIABLE_TYPE
 		{
@@ -913,37 +965,43 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 		}
 			break;
 		case 23:
-			// OPPLLexer.g:1:228: VALUES
+			// OPPLLexer.g:1:228: FAIL
+		{
+			this.mFAIL();
+		}
+			break;
+		case 24:
+			// OPPLLexer.g:1:233: VALUES
 		{
 			this.mVALUES();
 		}
 			break;
-		case 24:
-			// OPPLLexer.g:1:235: RENDERING
+		case 25:
+			// OPPLLexer.g:1:240: RENDERING
 		{
 			this.mRENDERING();
 		}
 			break;
-		case 25:
-			// OPPLLexer.g:1:245: GROUPS
+		case 26:
+			// OPPLLexer.g:1:250: GROUPS
 		{
 			this.mGROUPS();
 		}
 			break;
-		case 26:
-			// OPPLLexer.g:1:252: ESCLAMATION_MARK
+		case 27:
+			// OPPLLexer.g:1:257: ESCLAMATION_MARK
 		{
 			this.mESCLAMATION_MARK();
 		}
 			break;
-		case 27:
-			// OPPLLexer.g:1:269: VARIABLE_NAME
+		case 28:
+			// OPPLLexer.g:1:274: VARIABLE_NAME
 		{
 			this.mVARIABLE_NAME();
 		}
 			break;
-		case 28:
-			// OPPLLexer.g:1:283: MOWLLexer. Tokens
+		case 29:
+			// OPPLLexer.g:1:288: MOWLLexer. Tokens
 		{
 			this.gMOWLLexer.mTokens();
 		}
@@ -951,105 +1009,105 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 		}
 	}
 
-	protected DFA6 dfa6 = new DFA6(this);
-	static final String DFA6_eotS = "\1\uffff\7\30\1\44\1\uffff\1\30\3\uffff\3\30\2\uffff\4\30\2\uffff"
-			+ "\5\30\1\64\4\30\2\uffff\17\30\1\uffff\1\111\23\30\1\uffff\7\30\1"
-			+ "\uffff\5\30\1\151\10\30\1\162\2\30\1\165\1\30\2\170\2\30\1\uffff"
-			+ "\6\30\1\u0082\1\30\1\uffff\1\u0084\1\u0087\1\uffff\2\30\1\uffff"
-			+ "\1\u008a\1\u008b\7\30\1\uffff\1\30\1\uffff\2\30\1\uffff\2\30\2\uffff"
-			+ "\1\151\5\30\1\u009d\12\30\1\uffff\1\u00a8\10\30\1\151\1\uffff\5"
-			+ "\30\1\u00b6\3\30\1\u00b6\3\30\1\uffff\1\30\1\151\1\30\1\u00bf\4"
-			+ "\30\1\uffff\2\30\1\151\4\30\1\u00ca\2\30\1\uffff\2\30\2\u00cf\1" + "\uffff";
-	static final String DFA6_eofS = "\u00d0\uffff";
-	static final String DFA6_minS = "\1\11\1\114\1\102\1\101\1\116\1\104\1\105\1\110\1\75\1\uffff\1\105"
-			+ "\3\uffff\1\162\1\105\1\116\2\uffff\1\165\2\101\1\122\2\uffff\1\101"
-			+ "\1\116\1\145\1\112\1\124\1\55\1\104\1\123\1\115\1\105\2\uffff\1"
-			+ "\114\1\145\1\107\1\104\1\160\1\124\1\164\1\114\1\117\2\123\1\141"
-			+ "\1\105\1\101\1\111\1\uffff\1\55\1\105\1\117\1\104\1\122\1\105\1"
-			+ "\141\1\111\1\73\1\145\1\103\1\143\2\125\1\123\1\124\1\164\1\103"
-			+ "\1\120\1\126\1\uffff\1\122\1\126\2\105\1\103\1\164\1\116\1\uffff"
-			+ "\1\162\1\110\1\150\1\105\1\120\1\55\1\101\1\145\1\124\1\122\1\111"
-			+ "\1\124\1\105\1\122\1\55\1\124\1\145\1\55\1\103\2\55\2\123\1\uffff"
-			+ "\1\116\1\111\1\120\1\117\1\104\1\105\1\55\1\111\1\uffff\2\55\1\uffff"
-			+ "\1\154\1\162\1\uffff\2\55\1\124\2\156\1\122\1\120\1\125\1\104\1"
-			+ "\uffff\1\116\1\uffff\2\156\1\uffff\1\141\1\157\2\uffff\1\55\1\164"
-			+ "\1\151\1\117\1\105\1\101\1\55\1\107\1\164\1\151\1\163\1\160\1\145"
-			+ "\1\157\1\120\1\122\1\114\1\uffff\1\55\1\145\1\157\1\163\1\145\1"
-			+ "\162\1\156\1\105\1\124\1\55\1\uffff\1\162\1\156\1\117\1\162\1\163"
-			+ "\1\55\1\122\1\131\1\163\1\55\1\146\1\164\1\145\1\uffff\1\124\1\55"
-			+ "\1\145\1\55\1\171\1\143\1\131\1\143\1\uffff\1\117\1\164\1\55\1\164"
-			+ "\1\146\2\151\1\55\2\157\1\uffff\2\156\2\55\1\uffff";
-	static final String DFA6_maxS = "\1\175\1\162\1\102\1\101\1\116\1\123\1\105\1\110\1\75\1\uffff\1"
-			+ "\105\3\uffff\1\162\1\105\1\116\2\uffff\1\165\1\141\1\101\1\122\2"
+	protected DFA7 dfa7 = new DFA7(this);
+	static final String DFA7_eotS = "\1\uffff\7\32\1\46\1\uffff\1\32\3\uffff\3\32\2\uffff\6\32\2\uffff"
+			+ "\5\32\1\71\4\32\2\uffff\22\32\1\uffff\1\121\26\32\1\uffff\7\32\1"
+			+ "\uffff\3\32\3\162\2\32\1\165\10\32\1\176\2\32\1\u0081\1\32\2\u0084"
+			+ "\1\uffff\2\32\1\uffff\6\32\1\u008e\1\32\1\uffff\1\u0090\1\u0093"
+			+ "\1\uffff\2\32\1\uffff\1\u0096\1\u0097\7\32\1\uffff\1\32\1\uffff"
+			+ "\2\32\1\uffff\2\32\2\uffff\1\165\5\32\1\u00a9\12\32\1\uffff\1\u00b4"
+			+ "\10\32\1\165\1\uffff\5\32\1\u00c2\3\32\1\u00c2\3\32\1\uffff\1\32"
+			+ "\1\165\1\32\1\u00cb\4\32\1\uffff\2\32\1\165\4\32\1\u00d6\2\32\1"
+			+ "\uffff\2\32\2\u00db\1\uffff";
+	static final String DFA7_eofS = "\u00dc\uffff";
+	static final String DFA7_minS = "\1\11\1\114\1\102\1\101\1\116\1\104\1\105\1\110\1\75\1\uffff\1\105"
+			+ "\3\uffff\1\162\1\105\1\116\2\uffff\1\165\2\101\1\141\1\101\1\122"
+			+ "\2\uffff\1\101\1\116\1\145\1\112\1\124\1\55\1\104\1\123\1\115\1"
+			+ "\105\2\uffff\1\114\1\145\1\107\1\104\1\160\1\124\1\164\1\111\2\151"
+			+ "\1\114\1\117\2\123\1\141\1\105\1\101\1\111\1\uffff\1\55\1\105\1"
+			+ "\117\1\104\1\122\1\105\1\141\1\111\1\73\1\145\1\103\1\143\1\114"
+			+ "\2\154\2\125\1\123\1\124\1\164\1\103\1\120\1\126\1\uffff\1\122\1"
+			+ "\126\2\105\1\103\1\164\1\116\1\uffff\1\162\1\110\1\150\3\55\1\105"
+			+ "\1\120\1\55\1\101\1\145\1\124\1\122\1\111\1\124\1\105\1\122\1\55"
+			+ "\1\124\1\145\1\55\1\103\2\55\1\uffff\2\123\1\uffff\1\116\1\111\1"
+			+ "\120\1\117\1\104\1\105\1\55\1\111\1\uffff\2\55\1\uffff\1\154\1\162"
+			+ "\1\uffff\2\55\1\124\2\156\1\122\1\120\1\125\1\104\1\uffff\1\116"
+			+ "\1\uffff\2\156\1\uffff\1\141\1\157\2\uffff\1\55\1\164\1\151\1\117"
+			+ "\1\105\1\101\1\55\1\107\1\164\1\151\1\163\1\160\1\145\1\157\1\120"
+			+ "\1\122\1\114\1\uffff\1\55\1\145\1\157\1\163\1\145\1\162\1\156\1"
+			+ "\105\1\124\1\55\1\uffff\1\162\1\156\1\117\1\162\1\163\1\55\1\122"
+			+ "\1\131\1\163\1\55\1\146\1\164\1\145\1\uffff\1\124\1\55\1\145\1\55"
+			+ "\1\171\1\143\1\131\1\143\1\uffff\1\117\1\164\1\55\1\164\1\146\2"
+			+ "\151\1\55\2\157\1\uffff\2\156\2\55\1\uffff";
+	static final String DFA7_maxS = "\1\175\1\162\1\102\1\101\1\116\1\123\1\105\1\110\1\75\1\uffff\1"
+			+ "\105\3\uffff\1\162\1\105\1\116\2\uffff\1\165\3\141\1\101\1\122\2"
 			+ "\uffff\1\101\1\116\1\145\1\112\1\124\1\172\1\104\1\123\1\116\1\105"
-			+ "\2\uffff\1\114\1\145\1\107\1\104\1\160\1\124\1\164\1\114\1\117\2"
-			+ "\123\1\141\1\105\1\101\1\111\1\uffff\1\172\1\105\1\117\1\104\1\122"
-			+ "\1\105\1\141\1\111\1\73\1\145\1\103\1\143\2\125\1\123\1\124\1\164"
-			+ "\1\103\1\120\1\126\1\uffff\1\122\1\126\2\105\1\103\1\164\1\116\1"
-			+ "\uffff\1\162\1\110\1\150\1\105\1\120\1\172\1\101\1\145\1\124\1\122"
-			+ "\1\111\1\124\1\105\1\122\1\172\1\124\1\145\1\172\1\120\2\172\2\123"
-			+ "\1\uffff\1\116\1\125\1\120\1\117\1\104\1\105\1\172\1\111\1\uffff"
-			+ "\2\172\1\uffff\1\154\1\162\1\uffff\2\172\1\124\2\156\1\122\1\120"
-			+ "\1\125\1\104\1\uffff\1\116\1\uffff\2\156\1\uffff\1\141\1\157\2\uffff"
-			+ "\1\172\1\164\1\151\1\117\1\105\1\101\1\172\1\107\1\164\1\151\1\163"
-			+ "\1\160\1\145\1\157\1\120\1\122\1\114\1\uffff\1\172\1\145\1\157\1"
-			+ "\163\1\145\1\162\1\156\1\105\1\124\1\172\1\uffff\1\162\1\156\1\117"
-			+ "\1\162\1\163\1\172\1\122\1\131\1\163\1\172\1\146\1\164\1\145\1\uffff"
-			+ "\1\124\1\172\1\145\1\172\1\171\1\143\1\131\1\143\1\uffff\1\117\1"
-			+ "\164\1\172\1\164\1\146\2\151\1\172\2\157\1\uffff\2\156\2\172\1\uffff";
-	static final String DFA6_acceptS = "\11\uffff\1\6\1\uffff\1\12\1\13\1\14\3\uffff\1\22\1\23\4\uffff\1"
-			+ "\33\1\34\12\uffff\1\5\1\32\17\uffff\1\7\24\uffff\1\2\7\uffff\1\21"
-			+ "\27\uffff\1\1\10\uffff\1\4\2\uffff\1\20\2\uffff\1\26\11\uffff\1"
-			+ "\3\1\uffff\1\10\2\uffff\1\15\2\uffff\1\27\1\31\21\uffff\1\11\12"
-			+ "\uffff\1\30\15\uffff\1\17\10\uffff\1\24\12\uffff\1\25\4\uffff\1" + "\16";
-	static final String DFA6_specialS = "\u00d0\uffff}>";
-	static final String[] DFA6_transitionS = {
-			"\2\30\2\uffff\1\30\22\uffff\1\30\1\10\1\30\4\uffff\3\30\1\uffff"
-					+ "\1\15\1\30\1\uffff\1\14\1\uffff\12\30\1\13\2\uffff\1\11\1\uffff"
-					+ "\1\27\1\uffff\1\5\1\17\1\1\1\3\1\20\1\30\1\26\1\30\1\4\3\30"
-					+ "\1\24\1\30\1\2\2\30\1\6\1\12\2\30\1\25\1\7\3\30\1\21\1\uffff"
-					+ "\1\22\1\30\2\uffff\2\30\1\16\17\30\1\23\10\30\1\uffff\1\30",
-			"\1\31\2\uffff\1\32\42\uffff\1\33",
-			"\1\34",
-			"\1\35",
+			+ "\2\uffff\1\114\1\145\1\107\1\104\1\160\1\124\1\164\1\111\2\151\1"
+			+ "\114\1\117\2\123\1\141\1\105\1\101\1\111\1\uffff\1\172\1\105\1\117"
+			+ "\1\104\1\122\1\105\1\141\1\111\1\73\1\145\1\103\1\143\1\114\2\154"
+			+ "\2\125\1\123\1\124\1\164\1\103\1\120\1\126\1\uffff\1\122\1\126\2"
+			+ "\105\1\103\1\164\1\116\1\uffff\1\162\1\110\1\150\3\172\1\105\1\120"
+			+ "\1\172\1\101\1\145\1\124\1\122\1\111\1\124\1\105\1\122\1\172\1\124"
+			+ "\1\145\1\172\1\120\2\172\1\uffff\2\123\1\uffff\1\116\1\125\1\120"
+			+ "\1\117\1\104\1\105\1\172\1\111\1\uffff\2\172\1\uffff\1\154\1\162"
+			+ "\1\uffff\2\172\1\124\2\156\1\122\1\120\1\125\1\104\1\uffff\1\116"
+			+ "\1\uffff\2\156\1\uffff\1\141\1\157\2\uffff\1\172\1\164\1\151\1\117"
+			+ "\1\105\1\101\1\172\1\107\1\164\1\151\1\163\1\160\1\145\1\157\1\120"
+			+ "\1\122\1\114\1\uffff\1\172\1\145\1\157\1\163\1\145\1\162\1\156\1"
+			+ "\105\1\124\1\172\1\uffff\1\162\1\156\1\117\1\162\1\163\1\172\1\122"
+			+ "\1\131\1\163\1\172\1\146\1\164\1\145\1\uffff\1\124\1\172\1\145\1"
+			+ "\172\1\171\1\143\1\131\1\143\1\uffff\1\117\1\164\1\172\1\164\1\146"
+			+ "\2\151\1\172\2\157\1\uffff\2\156\2\172\1\uffff";
+	static final String DFA7_acceptS = "\11\uffff\1\6\1\uffff\1\12\1\13\1\14\3\uffff\1\22\1\23\6\uffff\1"
+			+ "\34\1\35\12\uffff\1\5\1\33\22\uffff\1\7\27\uffff\1\2\7\uffff\1\21"
+			+ "\30\uffff\1\27\2\uffff\1\1\10\uffff\1\4\2\uffff\1\20\2\uffff\1\26"
+			+ "\11\uffff\1\3\1\uffff\1\10\2\uffff\1\15\2\uffff\1\30\1\32\21\uffff"
+			+ "\1\11\12\uffff\1\31\15\uffff\1\17\10\uffff\1\24\12\uffff\1\25\4" + "\uffff\1\16";
+	static final String DFA7_specialS = "\u00dc\uffff}>";
+	static final String[] DFA7_transitionS = {
+			"\2\32\2\uffff\1\32\22\uffff\1\32\1\10\1\32\4\uffff\3\32\1\uffff"
+					+ "\1\15\1\32\1\uffff\1\14\1\uffff\12\32\1\13\2\uffff\1\11\1\uffff"
+					+ "\1\31\1\uffff\1\5\1\17\1\1\1\3\1\20\1\25\1\30\1\32\1\4\3\32"
+					+ "\1\24\1\32\1\2\2\32\1\6\1\12\2\32\1\27\1\7\3\32\1\21\1\uffff"
+					+ "\1\22\1\32\2\uffff\2\32\1\16\2\32\1\26\14\32\1\23\10\32\1\uffff" + "\1\32",
+			"\1\33\2\uffff\1\34\42\uffff\1\35",
 			"\1\36",
-			"\1\37\16\uffff\1\40",
-			"\1\41",
-			"\1\42",
+			"\1\37",
+			"\1\40",
+			"\1\41\16\uffff\1\42",
 			"\1\43",
-			"",
+			"\1\44",
 			"\1\45",
 			"",
-			"",
-			"",
-			"\1\46",
 			"\1\47",
+			"",
+			"",
+			"",
 			"\1\50",
-			"",
-			"",
 			"\1\51",
-			"\1\52\37\uffff\1\53",
-			"\1\54",
-			"\1\55",
+			"\1\52",
 			"",
 			"",
-			"\1\56",
-			"\1\57",
+			"\1\53",
+			"\1\54\37\uffff\1\55",
+			"\1\56\37\uffff\1\57",
 			"\1\60",
 			"\1\61",
 			"\1\62",
-			"\1\30\2\uffff\13\30\6\uffff\3\30\1\63\26\30\4\uffff\1\30\1" + "\uffff\32\30",
+			"",
+			"",
+			"\1\63",
+			"\1\64",
 			"\1\65",
 			"\1\66",
-			"\1\67\1\70",
-			"\1\71",
-			"",
-			"",
+			"\1\67",
+			"\1\32\2\uffff\13\32\6\uffff\3\32\1\70\26\32\4\uffff\1\32\1" + "\uffff\32\32",
 			"\1\72",
 			"\1\73",
-			"\1\74",
-			"\1\75",
+			"\1\74\1\75",
 			"\1\76",
+			"",
+			"",
 			"\1\77",
 			"\1\100",
 			"\1\101",
@@ -1060,8 +1118,7 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 			"\1\106",
 			"\1\107",
 			"\1\110",
-			"",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
+			"\1\111",
 			"\1\112",
 			"\1\113",
 			"\1\114",
@@ -1069,7 +1126,8 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 			"\1\116",
 			"\1\117",
 			"\1\120",
-			"\1\121",
+			"",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
 			"\1\122",
 			"\1\123",
 			"\1\124",
@@ -1081,7 +1139,6 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 			"\1\132",
 			"\1\133",
 			"\1\134",
-			"",
 			"\1\135",
 			"\1\136",
 			"\1\137",
@@ -1089,97 +1146,113 @@ public class OPPLPatternLexer_OPPLLexer extends Lexer {
 			"\1\141",
 			"\1\142",
 			"\1\143",
-			"",
 			"\1\144",
 			"\1\145",
 			"\1\146",
 			"\1\147",
+			"",
 			"\1\150",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
+			"\1\151",
 			"\1\152",
 			"\1\153",
 			"\1\154",
 			"\1\155",
 			"\1\156",
+			"",
 			"\1\157",
 			"\1\160",
 			"\1\161",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
 			"\1\163",
 			"\1\164",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
-			"\1\166\14\uffff\1\167",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\166",
+			"\1\167",
+			"\1\170",
 			"\1\171",
 			"\1\172",
-			"",
 			"\1\173",
-			"\1\174\13\uffff\1\175",
-			"\1\176",
+			"\1\174",
+			"\1\175",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
 			"\1\177",
 			"\1\u0080",
-			"\1\u0081",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
-			"\1\u0083",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\u0082\14\uffff\1\u0083",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
 			"",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
-			"\1\30\2\uffff\13\30\6\uffff\10\30\1\u0085\13\30\1\u0086\5\30"
-					+ "\4\uffff\1\30\1\uffff\32\30", "", "\1\u0088", "\1\u0089", "",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "\1\u008c", "\1\u008d",
-			"\1\u008e", "\1\u008f", "\1\u0090", "\1\u0091", "\1\u0092", "", "\1\u0093", "",
-			"\1\u0094", "\1\u0095", "", "\1\u0096", "\1\u0097", "", "",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "\1\u0098", "\1\u0099",
-			"\1\u009a", "\1\u009b", "\1\u009c",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "\1\u009e", "\1\u009f",
-			"\1\u00a0", "\1\u00a1", "\1\u00a2", "\1\u00a3", "\1\u00a4", "\1\u00a5", "\1\u00a6",
-			"\1\u00a7", "", "\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
-			"\1\u00a9", "\1\u00aa", "\1\u00ab", "\1\u00ac", "\1\u00ad", "\1\u00ae", "\1\u00af",
-			"\1\u00b0", "\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "",
-			"\1\u00b1", "\1\u00b2", "\1\u00b3", "\1\u00b4", "\1\u00b5",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "\1\u00b7", "\1\u00b8",
-			"\1\u00b9", "\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "\1\u00ba",
-			"\1\u00bb", "\1\u00bc", "", "\1\u00bd",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "\1\u00be",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "\1\u00c0", "\1\u00c1",
-			"\1\u00c2", "\1\u00c3", "", "\1\u00c4", "\1\u00c5",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "\1\u00c6", "\1\u00c7",
-			"\1\u00c8", "\1\u00c9", "\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
-			"\1\u00cb", "\1\u00cc", "", "\1\u00cd", "\1\u00ce",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "" };
-	static final short[] DFA6_eot = DFA.unpackEncodedString(DFA6_eotS);
-	static final short[] DFA6_eof = DFA.unpackEncodedString(DFA6_eofS);
-	static final char[] DFA6_min = DFA.unpackEncodedStringToUnsignedChars(DFA6_minS);
-	static final char[] DFA6_max = DFA.unpackEncodedStringToUnsignedChars(DFA6_maxS);
-	static final short[] DFA6_accept = DFA.unpackEncodedString(DFA6_acceptS);
-	static final short[] DFA6_special = DFA.unpackEncodedString(DFA6_specialS);
-	static final short[][] DFA6_transition;
+			"\1\u0085",
+			"\1\u0086",
+			"",
+			"\1\u0087",
+			"\1\u0088\13\uffff\1\u0089",
+			"\1\u008a",
+			"\1\u008b",
+			"\1\u008c",
+			"\1\u008d",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\u008f",
+			"",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\32\2\uffff\13\32\6\uffff\10\32\1\u0091\13\32\1\u0092\5\32"
+					+ "\4\uffff\1\32\1\uffff\32\32", "", "\1\u0094", "\1\u0095", "",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u0098", "\1\u0099",
+			"\1\u009a", "\1\u009b", "\1\u009c", "\1\u009d", "\1\u009e", "", "\1\u009f", "",
+			"\1\u00a0", "\1\u00a1", "", "\1\u00a2", "\1\u00a3", "", "",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00a4", "\1\u00a5",
+			"\1\u00a6", "\1\u00a7", "\1\u00a8",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00aa", "\1\u00ab",
+			"\1\u00ac", "\1\u00ad", "\1\u00ae", "\1\u00af", "\1\u00b0", "\1\u00b1", "\1\u00b2",
+			"\1\u00b3", "", "\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\u00b5", "\1\u00b6", "\1\u00b7", "\1\u00b8", "\1\u00b9", "\1\u00ba", "\1\u00bb",
+			"\1\u00bc", "\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "",
+			"\1\u00bd", "\1\u00be", "\1\u00bf", "\1\u00c0", "\1\u00c1",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00c3", "\1\u00c4",
+			"\1\u00c5", "\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00c6",
+			"\1\u00c7", "\1\u00c8", "", "\1\u00c9",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00ca",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00cc", "\1\u00cd",
+			"\1\u00ce", "\1\u00cf", "", "\1\u00d0", "\1\u00d1",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00d2", "\1\u00d3",
+			"\1\u00d4", "\1\u00d5", "\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\u00d7", "\1\u00d8", "", "\1\u00d9", "\1\u00da",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "" };
+	static final short[] DFA7_eot = DFA.unpackEncodedString(DFA7_eotS);
+	static final short[] DFA7_eof = DFA.unpackEncodedString(DFA7_eofS);
+	static final char[] DFA7_min = DFA.unpackEncodedStringToUnsignedChars(DFA7_minS);
+	static final char[] DFA7_max = DFA.unpackEncodedStringToUnsignedChars(DFA7_maxS);
+	static final short[] DFA7_accept = DFA.unpackEncodedString(DFA7_acceptS);
+	static final short[] DFA7_special = DFA.unpackEncodedString(DFA7_specialS);
+	static final short[][] DFA7_transition;
 	static {
-		int numStates = DFA6_transitionS.length;
-		DFA6_transition = new short[numStates][];
+		int numStates = DFA7_transitionS.length;
+		DFA7_transition = new short[numStates][];
 		for (int i = 0; i < numStates; i++) {
-			DFA6_transition[i] = DFA.unpackEncodedString(DFA6_transitionS[i]);
+			DFA7_transition[i] = DFA.unpackEncodedString(DFA7_transitionS[i]);
 		}
 	}
 
-	class DFA6 extends DFA {
-		public DFA6(BaseRecognizer recognizer) {
+	class DFA7 extends DFA {
+		public DFA7(BaseRecognizer recognizer) {
 			this.recognizer = recognizer;
-			this.decisionNumber = 6;
-			this.eot = DFA6_eot;
-			this.eof = DFA6_eof;
-			this.min = DFA6_min;
-			this.max = DFA6_max;
-			this.accept = DFA6_accept;
-			this.special = DFA6_special;
-			this.transition = DFA6_transition;
+			this.decisionNumber = 7;
+			this.eot = DFA7_eot;
+			this.eof = DFA7_eof;
+			this.min = DFA7_min;
+			this.max = DFA7_max;
+			this.accept = DFA7_accept;
+			this.special = DFA7_special;
+			this.transition = DFA7_transition;
 		}
 
 		@Override
 		public String getDescription() {
-			return "1:1: Tokens : ( VARIABLE_TYPE | ADD | REMOVE | WHERE | NOT_EQUAL | EQUAL | IN | SELECT | ASSERTED | COLON | DOT | PLUS | CREATE | CREATE_INTERSECTION | CREATE_DISJUNCTION | BEGIN | END | OPEN_SQUARE_BRACKET | CLOSED_SQUARE_BRACKET | SUPER_CLASS_OF | SUPER_PROPERTY_OF | MATCH | VALUES | RENDERING | GROUPS | ESCLAMATION_MARK | VARIABLE_NAME | MOWLLexer. Tokens );";
+			return "1:1: Tokens : ( VARIABLE_TYPE | ADD | REMOVE | WHERE | NOT_EQUAL | EQUAL | IN | SELECT | ASSERTED | COLON | DOT | PLUS | CREATE | CREATE_INTERSECTION | CREATE_DISJUNCTION | BEGIN | END | OPEN_SQUARE_BRACKET | CLOSED_SQUARE_BRACKET | SUPER_CLASS_OF | SUPER_PROPERTY_OF | MATCH | FAIL | VALUES | RENDERING | GROUPS | ESCLAMATION_MARK | VARIABLE_NAME | MOWLLexer. Tokens );";
 		}
 	}
 }

@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g 2010-07-23 18:00:03
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g 2010-07-29 13:13:44
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -127,7 +127,7 @@ public class OPPLLexer extends Lexer {
 
 	@Override
 	public String getGrammarFileName() {
-		return "/Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g";
+		return "/Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g";
 	}
 
 	// $ANTLR start "VARIABLE_TYPE"
@@ -135,7 +135,7 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = VARIABLE_TYPE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:14:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:14:3: (
 			// 'CLASS' | 'OBJECTPROPERTY' | 'DATAPROPERTY' | 'INDIVIDUAL' |
 			// 'CONSTANT' )
 			int alt1 = 5;
@@ -147,8 +147,7 @@ public class OPPLLexer extends Lexer {
 				} else if (LA1_1 == 'O') {
 					alt1 = 5;
 				} else {
-					NoViableAltException nvae = new NoViableAltException("", 1,
-							1, this.input);
+					NoViableAltException nvae = new NoViableAltException("", 1, 1, this.input);
 					throw nvae;
 				}
 			}
@@ -166,41 +165,40 @@ public class OPPLLexer extends Lexer {
 			}
 				break;
 			default:
-				NoViableAltException nvae = new NoViableAltException("", 1, 0,
-						this.input);
+				NoViableAltException nvae = new NoViableAltException("", 1, 0, this.input);
 				throw nvae;
 			}
 			switch (alt1) {
 			case 1:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:15:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:15:7:
 				// 'CLASS'
 			{
 				this.match("CLASS");
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:16:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:16:7:
 				// 'OBJECTPROPERTY'
 			{
 				this.match("OBJECTPROPERTY");
 			}
 				break;
 			case 3:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:17:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:17:7:
 				// 'DATAPROPERTY'
 			{
 				this.match("DATAPROPERTY");
 			}
 				break;
 			case 4:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:18:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:18:7:
 				// 'INDIVIDUAL'
 			{
 				this.match("INDIVIDUAL");
 			}
 				break;
 			case 5:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:19:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:19:7:
 				// 'CONSTANT'
 			{
 				this.match("CONSTANT");
@@ -219,9 +217,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = ADD;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:28:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:28:3: (
 			// 'ADD' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:29:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:29:5:
 			// 'ADD'
 			{
 				this.match("ADD");
@@ -238,9 +236,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = REMOVE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:33:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:33:3: (
 			// 'REMOVE' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:34:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:34:5:
 			// 'REMOVE'
 			{
 				this.match("REMOVE");
@@ -257,9 +255,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = WHERE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:38:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:38:3: (
 			// 'WHERE' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:39:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:39:5:
 			// 'WHERE'
 			{
 				this.match("WHERE");
@@ -276,9 +274,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = NOT_EQUAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:43:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:43:3: (
 			// '!=' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:44:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:44:5:
 			// '!='
 			{
 				this.match("!=");
@@ -295,9 +293,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = EQUAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:48:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:48:3: (
 			// '=' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:49:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:49:5:
 			// '='
 			{
 				this.match('=');
@@ -314,9 +312,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = IN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:53:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:53:3: (
 			// 'IN' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:54:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:54:5:
 			// 'IN'
 			{
 				this.match("IN");
@@ -333,9 +331,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = SELECT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:58:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:58:3: (
 			// 'SELECT' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:59:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:59:5:
 			// 'SELECT'
 			{
 				this.match("SELECT");
@@ -352,9 +350,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = ASSERTED;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:63:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:63:3: (
 			// 'ASSERTED' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:64:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:64:5:
 			// 'ASSERTED'
 			{
 				this.match("ASSERTED");
@@ -371,9 +369,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = COLON;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:68:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:68:3: (
 			// ':' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:69:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:69:5:
 			// ':'
 			{
 				this.match(':');
@@ -390,9 +388,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = DOT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:73:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:73:3: (
 			// '.' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:74:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:74:5:
 			// '.'
 			{
 				this.match('.');
@@ -409,9 +407,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = PLUS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:80:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:80:3: (
 			// '+' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:81:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:81:5:
 			// '+'
 			{
 				this.match('+');
@@ -428,9 +426,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = CREATE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:87:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:87:3: (
 			// 'create' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:88:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:88:5:
 			// 'create'
 			{
 				this.match("create");
@@ -447,7 +445,7 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = CREATE_INTERSECTION;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:92:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:92:3: (
 			// 'createIntersection' | 'CreateIntersection' )
 			int alt2 = 2;
 			int LA2_0 = this.input.LA(1);
@@ -456,20 +454,19 @@ public class OPPLLexer extends Lexer {
 			} else if (LA2_0 == 'C') {
 				alt2 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 2, 0,
-						this.input);
+				NoViableAltException nvae = new NoViableAltException("", 2, 0, this.input);
 				throw nvae;
 			}
 			switch (alt2) {
 			case 1:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:93:5:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:93:5:
 				// 'createIntersection'
 			{
 				this.match("createIntersection");
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:93:28:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:93:28:
 				// 'CreateIntersection'
 			{
 				this.match("CreateIntersection");
@@ -488,7 +485,7 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = CREATE_DISJUNCTION;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:97:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:97:3: (
 			// 'createUnion' | 'CreateUnion' )
 			int alt3 = 2;
 			int LA3_0 = this.input.LA(1);
@@ -497,20 +494,19 @@ public class OPPLLexer extends Lexer {
 			} else if (LA3_0 == 'C') {
 				alt3 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 3, 0,
-						this.input);
+				NoViableAltException nvae = new NoViableAltException("", 3, 0, this.input);
 				throw nvae;
 			}
 			switch (alt3) {
 			case 1:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:98:5:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:98:5:
 				// 'createUnion'
 			{
 				this.match("createUnion");
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:98:21:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:98:21:
 				// 'CreateUnion'
 			{
 				this.match("CreateUnion");
@@ -529,9 +525,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = BEGIN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:102:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:102:3: (
 			// 'BEGIN' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:103:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:103:5:
 			// 'BEGIN'
 			{
 				this.match("BEGIN");
@@ -548,9 +544,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = END;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:107:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:107:3: (
 			// 'END;' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:108:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:108:5:
 			// 'END;'
 			{
 				this.match("END;");
@@ -567,9 +563,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = OPEN_SQUARE_BRACKET;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:112:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:112:3: (
 			// '[' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:113:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:113:5:
 			// '['
 			{
 				this.match('[');
@@ -586,9 +582,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = CLOSED_SQUARE_BRACKET;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:117:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:117:3: (
 			// ']' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:118:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:118:5:
 			// ']'
 			{
 				this.match(']');
@@ -605,9 +601,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = SUPER_CLASS_OF;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:123:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:123:3: (
 			// 'superClassOf' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:124:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:124:5:
 			// 'superClassOf'
 			{
 				this.match("superClassOf");
@@ -624,9 +620,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = SUPER_PROPERTY_OF;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:128:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:128:3: (
 			// 'superPropertyOf' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:129:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:129:5:
 			// 'superPropertyOf'
 			{
 				this.match("superPropertyOf");
@@ -643,7 +639,7 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = MATCH;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:133:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:133:3: (
 			// 'MATCH' | 'Match' )
 			int alt4 = 2;
 			int LA4_0 = this.input.LA(1);
@@ -654,25 +650,23 @@ public class OPPLLexer extends Lexer {
 				} else if (LA4_1 == 'a') {
 					alt4 = 2;
 				} else {
-					NoViableAltException nvae = new NoViableAltException("", 4,
-							1, this.input);
+					NoViableAltException nvae = new NoViableAltException("", 4, 1, this.input);
 					throw nvae;
 				}
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 4, 0,
-						this.input);
+				NoViableAltException nvae = new NoViableAltException("", 4, 0, this.input);
 				throw nvae;
 			}
 			switch (alt4) {
 			case 1:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:134:4:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:134:4:
 				// 'MATCH'
 			{
 				this.match("MATCH");
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:135:6:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:135:6:
 				// 'Match'
 			{
 				this.match("Match");
@@ -691,7 +685,7 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = FAIL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:139:2: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:139:2: (
 			// 'FAIL' | 'fail' | 'Fail' )
 			int alt5 = 3;
 			int LA5_0 = this.input.LA(1);
@@ -702,34 +696,32 @@ public class OPPLLexer extends Lexer {
 				} else if (LA5_1 == 'a') {
 					alt5 = 3;
 				} else {
-					NoViableAltException nvae = new NoViableAltException("", 5,
-							1, this.input);
+					NoViableAltException nvae = new NoViableAltException("", 5, 1, this.input);
 					throw nvae;
 				}
 			} else if (LA5_0 == 'f') {
 				alt5 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 5, 0,
-						this.input);
+				NoViableAltException nvae = new NoViableAltException("", 5, 0, this.input);
 				throw nvae;
 			}
 			switch (alt5) {
 			case 1:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:140:3:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:140:3:
 				// 'FAIL'
 			{
 				this.match("FAIL");
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:141:5:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:141:5:
 				// 'fail'
 			{
 				this.match("fail");
 			}
 				break;
 			case 3:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:142:5:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:142:5:
 				// 'Fail'
 			{
 				this.match("Fail");
@@ -748,9 +740,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = VALUES;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:146:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:146:3: (
 			// 'VALUES' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:147:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:147:5:
 			// 'VALUES'
 			{
 				this.match("VALUES");
@@ -767,9 +759,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = RENDERING;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:152:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:152:3: (
 			// 'RENDERING' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:153:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:153:5:
 			// 'RENDERING'
 			{
 				this.match("RENDERING");
@@ -786,9 +778,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = GROUPS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:158:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:158:3: (
 			// 'GROUPS' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:159:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:159:5:
 			// 'GROUPS'
 			{
 				this.match("GROUPS");
@@ -803,9 +795,9 @@ public class OPPLLexer extends Lexer {
 	// $ANTLR start "QUESTION_MARK"
 	public final void mQUESTION_MARK() throws RecognitionException {
 		try {
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:164:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:164:3: (
 			// '?' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:165:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:165:5:
 			// '?'
 			{
 				this.match('?');
@@ -820,9 +812,9 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = ESCLAMATION_MARK;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:169:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:169:3: (
 			// '!' )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:170:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:170:5:
 			// '!'
 			{
 				this.match('!');
@@ -839,38 +831,34 @@ public class OPPLLexer extends Lexer {
 		try {
 			int _type = VARIABLE_NAME;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:174:3: (
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:174:3: (
 			// QUESTION_MARK LETTER ( LETTER | DIGIT | '-' | '_' )* )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:175:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:175:5:
 			// QUESTION_MARK LETTER ( LETTER | DIGIT | '-' | '_' )*
 			{
 				this.mQUESTION_MARK();
 				this.gMOWLLexer.mLETTER();
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:175:26:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:175:26:
 				// ( LETTER | DIGIT | '-' | '_' )*
 				loop6: do {
 					int alt6 = 2;
 					int LA6_0 = this.input.LA(1);
-					if (LA6_0 == '-' || LA6_0 >= '0' && LA6_0 <= '9'
-							|| LA6_0 >= 'A' && LA6_0 <= 'Z' || LA6_0 == '_'
-							|| LA6_0 >= 'a' && LA6_0 <= 'z') {
+					if (LA6_0 == '-' || LA6_0 >= '0' && LA6_0 <= '9' || LA6_0 >= 'A'
+							&& LA6_0 <= 'Z' || LA6_0 == '_' || LA6_0 >= 'a' && LA6_0 <= 'z') {
 						alt6 = 1;
 					}
 					switch (alt6) {
 					case 1:
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:
 					{
 						if (this.input.LA(1) == '-' || this.input.LA(1) >= '0'
-								&& this.input.LA(1) <= '9'
-								|| this.input.LA(1) >= 'A'
-								&& this.input.LA(1) <= 'Z'
-								|| this.input.LA(1) == '_'
-								|| this.input.LA(1) >= 'a'
-								&& this.input.LA(1) <= 'z') {
+								&& this.input.LA(1) <= '9' || this.input.LA(1) >= 'A'
+								&& this.input.LA(1) <= 'Z' || this.input.LA(1) == '_'
+								|| this.input.LA(1) >= 'a' && this.input.LA(1) <= 'z') {
 							this.input.consume();
 						} else {
-							MismatchedSetException mse = new MismatchedSetException(
-									null, this.input);
+							MismatchedSetException mse = new MismatchedSetException(null,
+									this.input);
 							this.recover(mse);
 							throw mse;
 						}
@@ -890,7 +878,7 @@ public class OPPLLexer extends Lexer {
 	// $ANTLR end "VARIABLE_NAME"
 	@Override
 	public void mTokens() throws RecognitionException {
-		// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:8: (
+		// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:8: (
 		// VARIABLE_TYPE | ADD | REMOVE | WHERE | NOT_EQUAL | EQUAL | IN |
 		// SELECT | ASSERTED | COLON | DOT | PLUS | CREATE | CREATE_INTERSECTION
 		// | CREATE_DISJUNCTION | BEGIN | END | OPEN_SQUARE_BRACKET |
@@ -901,202 +889,202 @@ public class OPPLLexer extends Lexer {
 		alt7 = this.dfa7.predict(this.input);
 		switch (alt7) {
 		case 1:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:10:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:10:
 			// VARIABLE_TYPE
 		{
 			this.mVARIABLE_TYPE();
 		}
 			break;
 		case 2:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:24:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:24:
 			// ADD
 		{
 			this.mADD();
 		}
 			break;
 		case 3:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:28:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:28:
 			// REMOVE
 		{
 			this.mREMOVE();
 		}
 			break;
 		case 4:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:35:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:35:
 			// WHERE
 		{
 			this.mWHERE();
 		}
 			break;
 		case 5:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:41:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:41:
 			// NOT_EQUAL
 		{
 			this.mNOT_EQUAL();
 		}
 			break;
 		case 6:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:51:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:51:
 			// EQUAL
 		{
 			this.mEQUAL();
 		}
 			break;
 		case 7:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:57: IN
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:57: IN
 		{
 			this.mIN();
 		}
 			break;
 		case 8:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:60:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:60:
 			// SELECT
 		{
 			this.mSELECT();
 		}
 			break;
 		case 9:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:67:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:67:
 			// ASSERTED
 		{
 			this.mASSERTED();
 		}
 			break;
 		case 10:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:76:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:76:
 			// COLON
 		{
 			this.mCOLON();
 		}
 			break;
 		case 11:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:82:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:82:
 			// DOT
 		{
 			this.mDOT();
 		}
 			break;
 		case 12:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:86:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:86:
 			// PLUS
 		{
 			this.mPLUS();
 		}
 			break;
 		case 13:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:91:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:91:
 			// CREATE
 		{
 			this.mCREATE();
 		}
 			break;
 		case 14:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:98:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:98:
 			// CREATE_INTERSECTION
 		{
 			this.mCREATE_INTERSECTION();
 		}
 			break;
 		case 15:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:118:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:118:
 			// CREATE_DISJUNCTION
 		{
 			this.mCREATE_DISJUNCTION();
 		}
 			break;
 		case 16:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:137:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:137:
 			// BEGIN
 		{
 			this.mBEGIN();
 		}
 			break;
 		case 17:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:143:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:143:
 			// END
 		{
 			this.mEND();
 		}
 			break;
 		case 18:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:147:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:147:
 			// OPEN_SQUARE_BRACKET
 		{
 			this.mOPEN_SQUARE_BRACKET();
 		}
 			break;
 		case 19:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:167:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:167:
 			// CLOSED_SQUARE_BRACKET
 		{
 			this.mCLOSED_SQUARE_BRACKET();
 		}
 			break;
 		case 20:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:189:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:189:
 			// SUPER_CLASS_OF
 		{
 			this.mSUPER_CLASS_OF();
 		}
 			break;
 		case 21:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:204:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:204:
 			// SUPER_PROPERTY_OF
 		{
 			this.mSUPER_PROPERTY_OF();
 		}
 			break;
 		case 22:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:222:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:222:
 			// MATCH
 		{
 			this.mMATCH();
 		}
 			break;
 		case 23:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:228:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:228:
 			// FAIL
 		{
 			this.mFAIL();
 		}
 			break;
 		case 24:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:233:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:233:
 			// VALUES
 		{
 			this.mVALUES();
 		}
 			break;
 		case 25:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:240:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:240:
 			// RENDERING
 		{
 			this.mRENDERING();
 		}
 			break;
 		case 26:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:250:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:250:
 			// GROUPS
 		{
 			this.mGROUPS();
 		}
 			break;
 		case 27:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:257:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:257:
 			// ESCLAMATION_MARK
 		{
 			this.mESCLAMATION_MARK();
 		}
 			break;
 		case 28:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:274:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:274:
 			// VARIABLE_NAME
 		{
 			this.mVARIABLE_NAME();
 		}
 			break;
 		case 29:
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g:1:288:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g:1:288:
 			// MOWLLexer. Tokens
 		{
 			this.gMOWLLexer.mTokens();
@@ -1158,16 +1146,14 @@ public class OPPLLexer extends Lexer {
 			+ "\34\1\35\12\uffff\1\5\1\33\22\uffff\1\7\27\uffff\1\2\7\uffff\1\21"
 			+ "\30\uffff\1\27\2\uffff\1\1\10\uffff\1\4\2\uffff\1\20\2\uffff\1\26"
 			+ "\11\uffff\1\3\1\uffff\1\10\2\uffff\1\15\2\uffff\1\30\1\32\21\uffff"
-			+ "\1\11\12\uffff\1\31\15\uffff\1\17\10\uffff\1\24\12\uffff\1\25\4"
-			+ "\uffff\1\16";
+			+ "\1\11\12\uffff\1\31\15\uffff\1\17\10\uffff\1\24\12\uffff\1\25\4" + "\uffff\1\16";
 	static final String DFA7_specialS = "\u00dc\uffff}>";
 	static final String[] DFA7_transitionS = {
 			"\2\32\2\uffff\1\32\22\uffff\1\32\1\10\1\32\4\uffff\3\32\1\uffff"
 					+ "\1\15\1\32\1\uffff\1\14\1\uffff\12\32\1\13\2\uffff\1\11\1\uffff"
 					+ "\1\31\1\uffff\1\5\1\17\1\1\1\3\1\20\1\25\1\30\1\32\1\4\3\32"
 					+ "\1\24\1\32\1\2\2\32\1\6\1\12\2\32\1\27\1\7\3\32\1\21\1\uffff"
-					+ "\1\22\1\32\2\uffff\2\32\1\16\2\32\1\26\14\32\1\23\10\32\1\uffff"
-					+ "\1\32",
+					+ "\1\22\1\32\2\uffff\2\32\1\16\2\32\1\26\14\32\1\23\10\32\1\uffff" + "\1\32",
 			"\1\33\2\uffff\1\34\42\uffff\1\35",
 			"\1\36",
 			"\1\37",
@@ -1199,8 +1185,7 @@ public class OPPLLexer extends Lexer {
 			"\1\65",
 			"\1\66",
 			"\1\67",
-			"\1\32\2\uffff\13\32\6\uffff\3\32\1\70\26\32\4\uffff\1\32\1"
-					+ "\uffff\32\32",
+			"\1\32\2\uffff\13\32\6\uffff\3\32\1\70\26\32\4\uffff\1\32\1" + "\uffff\32\32",
 			"\1\72",
 			"\1\73",
 			"\1\74\1\75",
@@ -1297,44 +1282,34 @@ public class OPPLLexer extends Lexer {
 			"",
 			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
 			"\1\32\2\uffff\13\32\6\uffff\10\32\1\u0091\13\32\1\u0092\5\32"
-					+ "\4\uffff\1\32\1\uffff\32\32", "", "\1\u0094",
-			"\1\u0095", "",
+					+ "\4\uffff\1\32\1\uffff\32\32", "", "\1\u0094", "\1\u0095", "",
 			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\1\u0098", "\1\u0099", "\1\u009a", "\1\u009b", "\1\u009c",
-			"\1\u009d", "\1\u009e", "", "\1\u009f", "", "\1\u00a0", "\1\u00a1",
-			"", "\1\u00a2", "\1\u00a3", "", "",
-			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\1\u00a4", "\1\u00a5", "\1\u00a6", "\1\u00a7", "\1\u00a8",
-			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\1\u00aa", "\1\u00ab", "\1\u00ac", "\1\u00ad", "\1\u00ae",
-			"\1\u00af", "\1\u00b0", "\1\u00b1", "\1\u00b2", "\1\u00b3", "",
-			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\1\u00b5", "\1\u00b6", "\1\u00b7", "\1\u00b8", "\1\u00b9",
-			"\1\u00ba", "\1\u00bb", "\1\u00bc",
-			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u0098", "\1\u0099",
+			"\1\u009a", "\1\u009b", "\1\u009c", "\1\u009d", "\1\u009e", "", "\1\u009f", "",
+			"\1\u00a0", "\1\u00a1", "", "\1\u00a2", "\1\u00a3", "", "",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00a4", "\1\u00a5",
+			"\1\u00a6", "\1\u00a7", "\1\u00a8",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00aa", "\1\u00ab",
+			"\1\u00ac", "\1\u00ad", "\1\u00ae", "\1\u00af", "\1\u00b0", "\1\u00b1", "\1\u00b2",
+			"\1\u00b3", "", "\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\u00b5", "\1\u00b6", "\1\u00b7", "\1\u00b8", "\1\u00b9", "\1\u00ba", "\1\u00bb",
+			"\1\u00bc", "\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "",
 			"\1\u00bd", "\1\u00be", "\1\u00bf", "\1\u00c0", "\1\u00c1",
-			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\1\u00c3", "\1\u00c4", "\1\u00c5",
-			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\1\u00c6", "\1\u00c7", "\1\u00c8", "", "\1\u00c9",
-			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\1\u00ca",
-			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\1\u00cc", "\1\u00cd", "\1\u00ce", "\1\u00cf", "", "\1\u00d0",
-			"\1\u00d1",
-			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
-			"\1\u00d2", "\1\u00d3", "\1\u00d4", "\1\u00d5",
-			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00c3", "\1\u00c4",
+			"\1\u00c5", "\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00c6",
+			"\1\u00c7", "\1\u00c8", "", "\1\u00c9",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00ca",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00cc", "\1\u00cd",
+			"\1\u00ce", "\1\u00cf", "", "\1\u00d0", "\1\u00d1",
+			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "\1\u00d2", "\1\u00d3",
+			"\1\u00d4", "\1\u00d5", "\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
 			"\1\u00d7", "\1\u00d8", "", "\1\u00d9", "\1\u00da",
 			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32",
 			"\1\32\2\uffff\13\32\6\uffff\32\32\4\uffff\1\32\1\uffff\32\32", "" };
 	static final short[] DFA7_eot = DFA.unpackEncodedString(DFA7_eotS);
 	static final short[] DFA7_eof = DFA.unpackEncodedString(DFA7_eofS);
-	static final char[] DFA7_min = DFA
-			.unpackEncodedStringToUnsignedChars(DFA7_minS);
-	static final char[] DFA7_max = DFA
-			.unpackEncodedStringToUnsignedChars(DFA7_maxS);
+	static final char[] DFA7_min = DFA.unpackEncodedStringToUnsignedChars(DFA7_minS);
+	static final char[] DFA7_max = DFA.unpackEncodedStringToUnsignedChars(DFA7_maxS);
 	static final short[] DFA7_accept = DFA.unpackEncodedString(DFA7_acceptS);
 	static final short[] DFA7_special = DFA.unpackEncodedString(DFA7_specialS);
 	static final short[][] DFA7_transition;

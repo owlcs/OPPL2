@@ -79,29 +79,23 @@ RANGE  :
   
 
   
- FUNCTIONAL : 		'Functional'
- 		| 	'functional'
+ FUNCTIONAL : 		('F'|'f')'unctional'':'?
   ;
- SYMMETRIC : 	'Symmetric'
- 		| 'symmetric'	
+ SYMMETRIC : 	('S'|'s')'ymmetric'':'?
+	
   ; 
- ANTI_SYMMETRIC : 'AntiSymmetric'
- 			| 'antiSymmetric'
- 			| 'antisymmetric'
+ ANTI_SYMMETRIC : ('A'|'a')'nti'('S'|'s')'ymmetric'':'?
+
   ;
- REFLEXIVE : 'Reflexive'
- 		| 'reflexive'
+ REFLEXIVE : ('R'|'r')'eflexive'':'?
   ;
- IRREFLEXIVE : 'Irreflexive'
- 		| 'irreflexive'
+ IRREFLEXIVE : ('I' |'i')'rreflexive'':'?
   ;
- TRANSITIVE  : 'Transitive'
- 		| 'transitive'
+ TRANSITIVE  : ('T'|'t')'ransitive'':'?
   ; 
 
-INVERSE_FUNCTIONAL:   'InverseFunctional'
-			| 'inverseFunctional'
-			| 'inversefunctional'
+INVERSE_FUNCTIONAL:   ('I'|'i')'nverse'('F'|'f')'unctional'':'?
+
   ;   
   POW : '^'
   ;
@@ -110,10 +104,10 @@ COMMA :
     ','
   ;
   
-INSTANCE_OF : 'InstanceOf' | 'instanceOf' 
+INSTANCE_OF : ('I'|'i')'nstance'('O'|'o')'f'
   ;
 
-TYPES : 'types' | 'Types'
+TYPES : ('T'|'t')'ypes'
   ;  
 
     

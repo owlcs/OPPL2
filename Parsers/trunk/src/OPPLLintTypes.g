@@ -100,7 +100,7 @@ bottomup // match subexpressions innermost to outermost
 
 lint
 	:
-		^(OPPL_LINT IDENTIFIER ^(s = OPPL_STATEMENT .*) (rc= returnClause) ^(DESCRIPTION .*)) 
+		^(OPPL_LINT IDENTIFIER ^(s = OPPL_STATEMENT .*) rc= returnClause ^(DESCRIPTION .*)) 
 		{
 		  if(s.getOPPLContent() instanceof OPPLScript){
 

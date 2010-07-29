@@ -53,44 +53,6 @@ public interface Variable {
 	public VariableType getType();
 
 	/**
-	 * Adds a possible value (the input OWLObject) the Variable can assume
-	 * 
-	 * @param object
-	 * @throws OWLReasonerException
-	 */
-	// @Deprecated
-	// public boolean addPossibleBinding(OWLObject object)
-	// throws OWLReasonerException;
-	// /**
-	// * @param node
-	// * the BindingNode to be used to solve dependencies on other
-	// * variables
-	// * @return the currently possible values that a Variable can assume
-	// */
-	// @Deprecated
-	// public Set<OWLObject> getPossibleBindings(BindingNode node);
-	//
-	// /**
-	// * @return the currently possible values that a Variable can assume
-	// */
-	// @Deprecated
-	// public Set<OWLObject> getPossibleBindings();
-	//
-	// /**
-	// * Removes the input OWLObject from the set of current possible values the
-	// * Variable can assume
-	// *
-	// * @param object
-	// */
-	// @Deprecated
-	// public boolean removePossibleBinding(OWLObject object);
-	//
-	// /**
-	// * Empties the set of current possible values for the Variable
-	// */
-	// @Deprecated
-	// public void clearBindings();
-	/**
 	 * Sets the scope for the Variable that will be checked by means of the
 	 * input VariableScopeChecker
 	 * 

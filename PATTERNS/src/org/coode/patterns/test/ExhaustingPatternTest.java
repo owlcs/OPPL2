@@ -1,8 +1,10 @@
 package org.coode.patterns.test;
 
+import org.antlr.runtime.tree.CommonTree;
 import org.coode.oppl.OPPLScript;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.SystemErrorEcho;
+import org.coode.parsers.Type;
 import org.coode.parsers.test.AbstractExpectedErrorCheckerErrorListener;
 import org.coode.parsers.test.JunitTestErrorChecker;
 
@@ -15,8 +17,7 @@ public class ExhaustingPatternTest extends AbstractPatternTestCase {
 	}
 
 	public void testRegExpGroupUse() {
-		OPPLScript result = this
-				.parse("?island:CLASS=Match(\"(BoundaryFragment)\"), ?newIsland:CLASS=create(\"Test\"+?island.GROUPS(1)) BEGIN ADD ?newIsland subClassOf ?island END;");
+		OPPLScript result = this.parse("?island:CLASS=Match(\"(BoundaryFragment)\"), ?newIsland:CLASS=create(\"Test\"+?island.GROUPS(1)) BEGIN ADD ?newIsland subClassOf ?island END;");
 		this.expectedCorrect(result);
 		this.execute(result, this.getOntology("test.owl"), 0);
 	}
@@ -59,8 +60,7 @@ public class ExhaustingPatternTest extends AbstractPatternTestCase {
 	}
 
 	public void _testDocumentationScriptPizzaRefersPattern() {
-		String formula = "?x:CLASS[subClassOf Food]\n"
-				+ "BEGIN\n"
+		String formula = "?x:CLASS[subClassOf Food]\n" + "BEGIN\n"
 				+ "ADD $thisClass subClassOf Menu,\n"
 				+ "ADD $thisClass subClassOf contains Course and only ($FreeFromPattern(?x))\n"
 				+ "END;\n" + "A ?x - free Menu";
@@ -69,24 +69,47 @@ public class ExhaustingPatternTest extends AbstractPatternTestCase {
 
 	public void testMultilineError() {
 		String formula = "?x:CLASS[subClassOf Food]\n" + "BEGIN\n"
-				+ "ADD $thisClass sub_ClassOf Menu\n" + "END;\n"
-				+ "A ?x  free Menu";
-		this.parseWrong(formula, this.getOntology("patternedPizza.owl"),
-				AbstractExpectedErrorCheckerErrorListener
-						.getIllegalTokenExpected(new JunitTestErrorChecker(
-								JUNITERR_ERROR_LISTENER)));
+				+ "ADD $thisClass sub_ClassOf Menu\n" + "END;\n" + "A ?x  free Menu";
+		this.parseWrong(
+				formula,
+				this.getOntology("patternedPizza.owl"),
+				new AbstractExpectedErrorCheckerErrorListener(new JunitTestErrorChecker(
+						JUNITERR_ERROR_LISTENER)) {
+					@Override
+					public void illegalToken(CommonTree t, String message) {
+						this.getErrorChecker().getErrorListenerForExpectedError().illegalToken(
+								t,
+								message);
+					}
+
+					@Override
+					public void unrecognisedSymbol(CommonTree t) {
+						this.getErrorChecker().getErrorListenerForExpectedError().unrecognisedSymbol(
+								t);
+					}
+
+					@Override
+					public void incompatibleSymbolType(CommonTree t, Type type,
+							CommonTree expression) {
+						this.getErrorChecker().getErrorListenerForExpectedError().incompatibleSymbolType(
+								t,
+								type,
+								expression);
+						;
+					}
+				});
 	}
 
 	public void testParseMissingQuery() {
-		OPPLScript result = this
-				.parse("?island:INDIVIDUAL BEGIN ADD Asinara InstanceOf Country END;");
+		OPPLScript result = this.parse("?island:INDIVIDUAL BEGIN ADD Asinara InstanceOf Country END;");
 		this.expectedCorrect(result);
 		this.execute(result, this.getOntology("test.owl"), 0);
 		String script = "?island:INDIVIDUAL BEGIN REMOVE Asinara InstanceOf Country END;";
-		this.parseWrong(script, this.getOntology("test.owl"),
-				AbstractExpectedErrorCheckerErrorListener
-						.getIllegalTokenExpected(new JunitTestErrorChecker(
-								JUNITERR_ERROR_LISTENER)));
+		this.parseWrong(
+				script,
+				this.getOntology("test.owl"),
+				AbstractExpectedErrorCheckerErrorListener.getIllegalTokenExpected(new JunitTestErrorChecker(
+						JUNITERR_ERROR_LISTENER)));
 		this.execute(result, this.getOntology("test.owl"), 0);
 	}
 

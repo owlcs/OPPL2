@@ -17,27 +17,20 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.AbstractOPPLParser;
-import org.coode.oppl.ConstraintSystem;
-import org.coode.oppl.Variable;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.DefaultTypeEnforcer;
 import org.coode.parsers.oppl.OPPLDefine;
-import org.coode.parsers.oppl.OPPLLexer;
-import org.coode.parsers.oppl.OPPLScriptParser;
-import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.OPPLTypeEnforcement;
 import org.coode.parsers.oppl.OPPLTypes;
-import org.coode.parsers.oppl.OPPLTypesParts;
 import org.coode.parsers.oppl.patterns.OPPLPatternLexer;
 import org.coode.parsers.oppl.patterns.OPPLPatternScriptParser;
 import org.coode.parsers.oppl.patterns.OPPLPatternsDefine;
 import org.coode.parsers.oppl.patterns.OPPLPatternsSymbolTable;
 import org.coode.parsers.oppl.patterns.OPPLPatternsTypes;
-import org.semanticweb.owl.model.OWLAxiom;
 
 /**
  * @author Luigi Iannone
@@ -169,6 +162,7 @@ public class OPPLPatternParser implements AbstractOPPLParser {
 	 */
 	public PatternModel parse(String input) {
 		OPPLPatternsSymbolTable symtab = this.getSymbolTableFactory().createSymbolTable();
+		symtab.setErrorListener(this.getListener());
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
 		PatternConstraintSystem constraintSystem = this.getOPPLPatternFactory().createConstraintSystem();
