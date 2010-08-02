@@ -1,4 +1,4 @@
-tree grammar OPPLLintTypes;
+tree grammar OPPLLintTypesParts;
 options {
   language = Java;
   tokenVocab = OPPLLintCombined; 
@@ -13,7 +13,7 @@ options {
   private ConstraintSystem constraintSystem;
   private OPPLLintAbstractFactory lintModelFactory;
   
-  public OPPLLintTypes(TreeNodeStream input, OPPLSymbolTable symtab, ErrorListener errorListener, ConstraintSystem constraintSystem, OPPLLintAbstractFactory lintModelFactory) {
+  public OPPLLintTypesParts(TreeNodeStream input, OPPLSymbolTable symtab, ErrorListener errorListener, ConstraintSystem constraintSystem, OPPLLintAbstractFactory lintModelFactory) {
     this(input);
     if(symtab==null){
     	throw new NullPointerException("The symbol table cannot be null");
@@ -94,43 +94,15 @@ options {
 // START: root
 bottomup // match subexpressions innermost to outermost
     :  
-    	lint
-    	| textVariableRef
+    	textVariableRef
     ;
 
 
-lint
-	:
-		^(OPPL_LINT IDENTIFIER ^(s = OPPL_STATEMENT .*) rc= returnClause ^(EXPLANATION .*) ^(DESCRIPTION .*)) 
-		{
-		  if(s.getOPPLContent() instanceof OPPLScript){
 
-		     if(rc!=null){                                
-           		 Variable v = rc;
-			OPPLLintScript lint = this.getLintModelFactory().buildOPPLLintScript($IDENTIFIER.text,
-                                (OPPLScript) s.getOPPLContent(),v, $EXPLANATION.text, $DESCRIPTION.text);
-                        $start.setOPPLContent(lint);        
-	             }                    
-		  }  
-		}		
-  ;
-
-returnClause returns [Variable variable]
-  :
-      ^(RETURN VARIABLE_NAME)
-      {
-        $variable = getConstraintSystem().getVariable($VARIABLE_NAME.getText());
-        if($variable==null){
-          if(getErrorListener()!=null){
-            getErrorListener().illegalToken($VARIABLE_NAME, "Undefined variable");
-          }
-        }
-      }
-  ;
   
  textVariableRef 
  	:
- 		^(TEXT  VARIABLE_NAME)
+ 		^(TEXT VARIABLE_NAME)
  		{
  	 Variable variable = getConstraintSystem().getVariable($VARIABLE_NAME.getText());
         if(variable==null){

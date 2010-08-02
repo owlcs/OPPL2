@@ -13,6 +13,7 @@ tokens{
   OPPL_STATEMENT;
   OPPL_LINT;
   DESCRIPTION;
+  EXPLANATION;
 }
  
 @header {
@@ -70,26 +71,39 @@ tokens{
 
 lint
   :
-    name = lintName SEMICOLON statement returnClause SEMICOLON description ->^(OPPL_LINT $name statement returnClause description) 
+    name = text SEMICOLON  statement returnClause  SEMICOLON exp = text SEMICOLON description ->^(OPPL_LINT IDENTIFIER[$name.text] statement returnClause ^(EXPLANATION[$exp.text] $exp)  description) 
   ;
 
-lintName
+text
+
 @init
 {
   StringBuilder builder = new StringBuilder();
 }
+:
+( t = textBit
+	{
+		builder.append($t.text);
+		builder.append(" ");
+	})+   -> ^(TEXT [builder.toString()] textBit+)
+	;
+
+textBit
 	:
-		(nameBit = . 
-			{
-			      	builder.append($nameBit.text);
-      				builder.append(" ");
-	    		}
-		)+ -> ^(IDENTIFIER [builder.toString()])
+	IDENTIFIER -> ^(TEXT [$IDENTIFIER.text])
+	| VARIABLE_NAME  -> ^(TEXT VARIABLE_NAME)
+	| FUNCTIONAL -> ^(TEXT [$FUNCTIONAL.text])
+    	| INVERSE_FUNCTIONAL -> ^(TEXT [$INVERSE_FUNCTIONAL.text])
+    | SYMMETRIC -> ^(TEXT [$SYMMETRIC.text])
+    | ANTI_SYMMETRIC -> ^(TEXT [$ANTI_SYMMETRIC.text])
+    | REFLEXIVE -> ^(TEXT [$REFLEXIVE.text])
+    | IRREFLEXIVE -> ^(TEXT [$IRREFLEXIVE.text])
+    |  TRANSITIVE -> ^(TEXT [$TRANSITIVE.text])
 	;
 
 statement
   :
-    variableDefinitions? query actions -> ^(OPPL_STATEMENT variableDefinitions? query actions)
+    variableDefinitions? query actions? -> ^(OPPL_STATEMENT variableDefinitions? query actions?)
   ;
   
 
@@ -116,6 +130,8 @@ description
       builder.append(" ");
     }
     )+  ->^(DESCRIPTION [builder.toString()] $a+)
-  ;  
+  ; 
+  
+ 
 
   

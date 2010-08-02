@@ -30,4 +30,7 @@ SEMICOLON
 		';'
 	;
 
+ WS       :           (' '|'\t'|'\f'|'\n'|'\r')+{ $channel=HIDDEN; };
+
+
 
