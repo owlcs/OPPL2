@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g 2010-07-23 22:40:45
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g 2010-08-02 21:55:12
 
   package org.coode.parsers.oppl;
      import org.coode.oppl.entity.OWLEntityRenderer;
@@ -283,11 +283,11 @@ public class OPPLTypes extends TreeFilter {
         OPPLTypes.statement_return retval = new OPPLTypes.statement_return();
         retval.start = input.LT(1);
 
-        List<Variable> vd = null;
+        OPPLTypes.variableDefinitions_return vd = null;
 
-        OPPLQuery q = null;
+        OPPLTypes.query_return q = null;
 
-        List<OWLAxiomChange> actions1 = null;
+        OPPLTypes.actions_return actions1 = null;
 
 
 
@@ -354,17 +354,17 @@ public class OPPLTypes extends TreeFilter {
             if ( state.backtracking==1 ) {
 
               			if(vd!=null){
-              				vds.addAll(vd);
+              				vds.addAll((vd!=null?vd.variables:null));
               			}
-              			if(!actions1.isEmpty()){
+              			if(!(actions1!=null?actions1.actions:null).isEmpty()){
               			 if(q!=null){
               			    ((OPPLSyntaxTree)retval.start).setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),
-              				    					vds, q,
-              					    				actions1));
+              				    					vds, (q!=null?q.query:null),
+              					    				(actions1!=null?actions1.actions:null)));
               			 }else{
               			    ((OPPLSyntaxTree)retval.start).setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),
                                   vds, null,
-                                  actions1));
+                                  (actions1!=null?actions1.actions:null)));
               			 }
               		  } 
               		
@@ -391,11 +391,15 @@ public class OPPLTypes extends TreeFilter {
     }
     // $ANTLR end "statement"
 
+    public static class variableDefinitions_return extends TreeRuleReturnScope {
+        public List<Variable> variables;
+    };
 
     // $ANTLR start "variableDefinitions"
     // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:148:1: variableDefinitions returns [List<Variable> variables] : ^( VARIABLE_DEFINITIONS (vd= variableDefinition )+ ) ;
-    public final List<Variable> variableDefinitions() throws RecognitionException {
-        List<Variable> variables = null;
+    public final OPPLTypes.variableDefinitions_return variableDefinitions() throws RecognitionException {
+        OPPLTypes.variableDefinitions_return retval = new OPPLTypes.variableDefinitions_return();
+        retval.start = input.LT(1);
 
         OPPLTypes.variableDefinition_return vd = null;
 
@@ -404,13 +408,13 @@ public class OPPLTypes extends TreeFilter {
         	List<Variable> toReturn = new ArrayList<Variable>();
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:155:2: ( ^( VARIABLE_DEFINITIONS (vd= variableDefinition )+ ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:156:3: ^( VARIABLE_DEFINITIONS (vd= variableDefinition )+ )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:156:2: ( ^( VARIABLE_DEFINITIONS (vd= variableDefinition )+ ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:157:3: ^( VARIABLE_DEFINITIONS (vd= variableDefinition )+ )
             {
-            match(input,VARIABLE_DEFINITIONS,FOLLOW_VARIABLE_DEFINITIONS_in_variableDefinitions148); if (state.failed) return variables;
+            match(input,VARIABLE_DEFINITIONS,FOLLOW_VARIABLE_DEFINITIONS_in_variableDefinitions148); if (state.failed) return retval;
 
-            match(input, Token.DOWN, null); if (state.failed) return variables;
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:156:26: (vd= variableDefinition )+
+            match(input, Token.DOWN, null); if (state.failed) return retval;
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:157:26: (vd= variableDefinition )+
             int cnt3=0;
             loop3:
             do {
@@ -424,13 +428,13 @@ public class OPPLTypes extends TreeFilter {
 
                 switch (alt3) {
             	case 1 :
-            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:156:27: vd= variableDefinition
+            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:157:27: vd= variableDefinition
             	    {
             	    pushFollow(FOLLOW_variableDefinition_in_variableDefinitions155);
             	    vd=variableDefinition();
 
             	    state._fsp--;
-            	    if (state.failed) return variables;
+            	    if (state.failed) return retval;
             	    if ( state.backtracking==1 ) {
             	      toReturn.add(vd.variable);
             	    }
@@ -440,7 +444,7 @@ public class OPPLTypes extends TreeFilter {
 
             	default :
             	    if ( cnt3 >= 1 ) break loop3;
-            	    if (state.backtracking>0) {state.failed=true; return variables;}
+            	    if (state.backtracking>0) {state.failed=true; return retval;}
                         EarlyExitException eee =
                             new EarlyExitException(3, input);
                         throw eee;
@@ -449,13 +453,14 @@ public class OPPLTypes extends TreeFilter {
             } while (true);
 
 
-            match(input, Token.UP, null); if (state.failed) return variables;
+            match(input, Token.UP, null); if (state.failed) return retval;
 
             }
 
             if ( state.backtracking==1 ) {
 
-              	variables = toReturn;
+              	retval.variables = toReturn;
+              	((OPPLSyntaxTree)retval.start).setOPPLContent(retval.variables);
 
             }
         }
@@ -473,15 +478,19 @@ public class OPPLTypes extends TreeFilter {
           }
         finally {
         }
-        return variables;
+        return retval;
     }
     // $ANTLR end "variableDefinitions"
 
+    public static class query_return extends TreeRuleReturnScope {
+        public OPPLQuery query;
+    };
 
     // $ANTLR start "query"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:159:1: query returns [OPPLQuery query] : ^( QUERY ( selectClause )+ ( constraint )? ) ;
-    public final OPPLQuery query() throws RecognitionException {
-        OPPLQuery query = null;
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:160:1: query returns [OPPLQuery query] : ^( QUERY ( selectClause )+ ( constraint )? ) ;
+    public final OPPLTypes.query_return query() throws RecognitionException {
+        OPPLTypes.query_return retval = new OPPLTypes.query_return();
+        retval.start = input.LT(1);
 
         OPPLTypes.selectClause_return selectClause2 = null;
 
@@ -489,16 +498,16 @@ public class OPPLTypes extends TreeFilter {
 
 
 
-        		query = getOPPLFactory().buildNewQuery(getConstraintSystem());
+        		retval.query = getOPPLFactory().buildNewQuery(getConstraintSystem());
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:163:2: ( ^( QUERY ( selectClause )+ ( constraint )? ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:164:3: ^( QUERY ( selectClause )+ ( constraint )? )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:171:2: ( ^( QUERY ( selectClause )+ ( constraint )? ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:172:3: ^( QUERY ( selectClause )+ ( constraint )? )
             {
-            match(input,QUERY,FOLLOW_QUERY_in_query185); if (state.failed) return query;
+            match(input,QUERY,FOLLOW_QUERY_in_query189); if (state.failed) return retval;
 
-            match(input, Token.DOWN, null); if (state.failed) return query;
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:164:11: ( selectClause )+
+            match(input, Token.DOWN, null); if (state.failed) return retval;
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:172:11: ( selectClause )+
             int cnt4=0;
             loop4:
             do {
@@ -512,20 +521,20 @@ public class OPPLTypes extends TreeFilter {
 
                 switch (alt4) {
             	case 1 :
-            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:164:12: selectClause
+            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:172:12: selectClause
             	    {
-            	    pushFollow(FOLLOW_selectClause_in_query188);
+            	    pushFollow(FOLLOW_selectClause_in_query192);
             	    selectClause2=selectClause();
 
             	    state._fsp--;
-            	    if (state.failed) return query;
+            	    if (state.failed) return retval;
             	    if ( state.backtracking==1 ) {
 
             	      		  if((selectClause2!=null?selectClause2.axiom:null)!=null){
             	      			   if((selectClause2!=null?selectClause2.asserted:false)){
-            	      				  query.addAssertedAxiom((selectClause2!=null?selectClause2.axiom:null));
+            	      				  retval.query.addAssertedAxiom((selectClause2!=null?selectClause2.axiom:null));
             	      			   }else{
-            	      				  query.addAxiom((selectClause2!=null?selectClause2.axiom:null));
+            	      				  retval.query.addAxiom((selectClause2!=null?selectClause2.axiom:null));
             	      			   }
             	      			}
             	      		
@@ -536,7 +545,7 @@ public class OPPLTypes extends TreeFilter {
 
             	default :
             	    if ( cnt4 >= 1 ) break loop4;
-            	    if (state.backtracking>0) {state.failed=true; return query;}
+            	    if (state.backtracking>0) {state.failed=true; return retval;}
                         EarlyExitException eee =
                             new EarlyExitException(4, input);
                         throw eee;
@@ -544,7 +553,7 @@ public class OPPLTypes extends TreeFilter {
                 cnt4++;
             } while (true);
 
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:174:6: ( constraint )?
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:182:6: ( constraint )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -553,17 +562,17 @@ public class OPPLTypes extends TreeFilter {
             }
             switch (alt5) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:174:7: constraint
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:182:7: constraint
                     {
-                    pushFollow(FOLLOW_constraint_in_query201);
+                    pushFollow(FOLLOW_constraint_in_query205);
                     constraint3=constraint();
 
                     state._fsp--;
-                    if (state.failed) return query;
+                    if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
                       				  if((constraint3!=null?constraint3.constraint:null)!=null){
-                      					 query.addConstraint((constraint3!=null?constraint3.constraint:null));
+                      					 retval.query.addConstraint((constraint3!=null?constraint3.constraint:null));
                       					}
                       				
                     }
@@ -574,10 +583,19 @@ public class OPPLTypes extends TreeFilter {
             }
 
 
-            match(input, Token.UP, null); if (state.failed) return query;
+            match(input, Token.UP, null); if (state.failed) return retval;
 
             }
 
+            if ( state.backtracking==1 ) {
+
+              		// No asserted axioms and plains axioms means no query at all.
+              		if(retval.query.getAssertedAxioms().isEmpty() && retval.query.getAxioms().isEmpty()){
+              			retval.query =null;
+              		}
+              		((OPPLSyntaxTree)retval.start).setOPPLContent(retval.query);
+
+            }
         }
 
           catch(RecognitionException exception){
@@ -593,7 +611,7 @@ public class OPPLTypes extends TreeFilter {
           }
         finally {
         }
-        return query;
+        return retval;
     }
     // $ANTLR end "query"
 
@@ -603,7 +621,7 @@ public class OPPLTypes extends TreeFilter {
     };
 
     // $ANTLR start "selectClause"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:183:1: selectClause returns [OWLAxiom axiom, boolean asserted] : ( ^( ASSERTED_CLAUSE a= . ) | ^( PLAIN_CLAUSE a= . ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:191:1: selectClause returns [OWLAxiom axiom, boolean asserted] : ( ^( ASSERTED_CLAUSE a= . ) | ^( PLAIN_CLAUSE a= . ) );
     public final OPPLTypes.selectClause_return selectClause() throws RecognitionException {
         OPPLTypes.selectClause_return retval = new OPPLTypes.selectClause_return();
         retval.start = input.LT(1);
@@ -611,7 +629,7 @@ public class OPPLTypes extends TreeFilter {
         OPPLSyntaxTree a=null;
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:184:2: ( ^( ASSERTED_CLAUSE a= . ) | ^( PLAIN_CLAUSE a= . ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:192:2: ( ^( ASSERTED_CLAUSE a= . ) | ^( PLAIN_CLAUSE a= . ) )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -630,9 +648,9 @@ public class OPPLTypes extends TreeFilter {
             }
             switch (alt6) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:185:3: ^( ASSERTED_CLAUSE a= . )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:193:3: ^( ASSERTED_CLAUSE a= . )
                     {
-                    match(input,ASSERTED_CLAUSE,FOLLOW_ASSERTED_CLAUSE_in_selectClause231); if (state.failed) return retval;
+                    match(input,ASSERTED_CLAUSE,FOLLOW_ASSERTED_CLAUSE_in_selectClause235); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     a=(OPPLSyntaxTree)input.LT(1);
@@ -655,9 +673,9 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:196:5: ^( PLAIN_CLAUSE a= . )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:204:5: ^( PLAIN_CLAUSE a= . )
                     {
-                    match(input,PLAIN_CLAUSE,FOLLOW_PLAIN_CLAUSE_in_selectClause249); if (state.failed) return retval;
+                    match(input,PLAIN_CLAUSE,FOLLOW_PLAIN_CLAUSE_in_selectClause253); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     a=(OPPLSyntaxTree)input.LT(1);
@@ -699,26 +717,30 @@ public class OPPLTypes extends TreeFilter {
     }
     // $ANTLR end "selectClause"
 
+    public static class actions_return extends TreeRuleReturnScope {
+        public List<OWLAxiomChange> actions;
+    };
 
     // $ANTLR start "actions"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:208:1: actions returns [List<OWLAxiomChange> actions] : ^( ACTIONS ( action )+ ) ;
-    public final List<OWLAxiomChange> actions() throws RecognitionException {
-        List<OWLAxiomChange> actions = null;
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:216:1: actions returns [List<OWLAxiomChange> actions] : ^( ACTIONS ( action )+ ) ;
+    public final OPPLTypes.actions_return actions() throws RecognitionException {
+        OPPLTypes.actions_return retval = new OPPLTypes.actions_return();
+        retval.start = input.LT(1);
 
         OWLAxiomChange action4 = null;
 
 
 
-        	actions = new ArrayList<OWLAxiomChange>();
+        	retval.actions = new ArrayList<OWLAxiomChange>();
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:212:2: ( ^( ACTIONS ( action )+ ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:213:3: ^( ACTIONS ( action )+ )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:223:2: ( ^( ACTIONS ( action )+ ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:224:3: ^( ACTIONS ( action )+ )
             {
-            match(input,ACTIONS,FOLLOW_ACTIONS_in_actions282); if (state.failed) return actions;
+            match(input,ACTIONS,FOLLOW_ACTIONS_in_actions290); if (state.failed) return retval;
 
-            match(input, Token.DOWN, null); if (state.failed) return actions;
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:213:13: ( action )+
+            match(input, Token.DOWN, null); if (state.failed) return retval;
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:224:13: ( action )+
             int cnt7=0;
             loop7:
             do {
@@ -732,17 +754,17 @@ public class OPPLTypes extends TreeFilter {
 
                 switch (alt7) {
             	case 1 :
-            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:213:14: action
+            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:224:14: action
             	    {
-            	    pushFollow(FOLLOW_action_in_actions285);
+            	    pushFollow(FOLLOW_action_in_actions293);
             	    action4=action();
 
             	    state._fsp--;
-            	    if (state.failed) return actions;
+            	    if (state.failed) return retval;
             	    if ( state.backtracking==1 ) {
 
             	      		  if(action4!=null){
-            	      		    actions.add(action4);
+            	      		    retval.actions.add(action4);
             	      		  }
             	      		
             	    }
@@ -752,7 +774,7 @@ public class OPPLTypes extends TreeFilter {
 
             	default :
             	    if ( cnt7 >= 1 ) break loop7;
-            	    if (state.backtracking>0) {state.failed=true; return actions;}
+            	    if (state.backtracking>0) {state.failed=true; return retval;}
                         EarlyExitException eee =
                             new EarlyExitException(7, input);
                         throw eee;
@@ -761,10 +783,15 @@ public class OPPLTypes extends TreeFilter {
             } while (true);
 
 
-            match(input, Token.UP, null); if (state.failed) return actions;
+            match(input, Token.UP, null); if (state.failed) return retval;
 
             }
 
+            if ( state.backtracking==1 ) {
+
+              	((OPPLSyntaxTree)retval.start).setOPPLContent(retval.actions);
+
+            }
         }
 
           catch(RecognitionException exception){
@@ -780,20 +807,20 @@ public class OPPLTypes extends TreeFilter {
           }
         finally {
         }
-        return actions;
+        return retval;
     }
     // $ANTLR end "actions"
 
 
     // $ANTLR start "action"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:223:1: action returns [OWLAxiomChange change] : ( ^( ADD a= . ) | ^( REMOVE a= . ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:234:1: action returns [OWLAxiomChange change] : ( ^( ADD a= . ) | ^( REMOVE a= . ) );
     public final OWLAxiomChange action() throws RecognitionException {
         OWLAxiomChange change = null;
 
         OPPLSyntaxTree a=null;
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:224:2: ( ^( ADD a= . ) | ^( REMOVE a= . ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:235:2: ( ^( ADD a= . ) | ^( REMOVE a= . ) )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -812,9 +839,9 @@ public class OPPLTypes extends TreeFilter {
             }
             switch (alt8) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:225:3: ^( ADD a= . )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:236:3: ^( ADD a= . )
                     {
-                    match(input,ADD,FOLLOW_ADD_in_action316); if (state.failed) return change;
+                    match(input,ADD,FOLLOW_ADD_in_action324); if (state.failed) return change;
 
                     match(input, Token.DOWN, null); if (state.failed) return change;
                     a=(OPPLSyntaxTree)input.LT(1);
@@ -835,9 +862,9 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:233:5: ^( REMOVE a= . )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:244:5: ^( REMOVE a= . )
                     {
-                    match(input,REMOVE,FOLLOW_REMOVE_in_action331); if (state.failed) return change;
+                    match(input,REMOVE,FOLLOW_REMOVE_in_action339); if (state.failed) return change;
 
                     match(input, Token.DOWN, null); if (state.failed) return change;
                     a=(OPPLSyntaxTree)input.LT(1);
@@ -883,7 +910,7 @@ public class OPPLTypes extends TreeFilter {
     };
 
     // $ANTLR start "variableDefinition"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:243:1: variableDefinition returns [Variable variable] : ( ^( INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE (vs= variableScope )? ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME generatedVariableAssignment ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( MATCH se= stringOperation ) ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( CREATE_OPPL_FUNCTION value= stringOperation ) ) | ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_INTERSECTION va= IDENTIFIER ) ) | ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_DISJUNCTION va= IDENTIFIER ) ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:254:1: variableDefinition returns [Variable variable] : ( ^( INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE (vs= variableScope )? ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME generatedVariableAssignment ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( MATCH se= stringOperation ) ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( CREATE_OPPL_FUNCTION value= stringOperation ) ) | ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_INTERSECTION va= IDENTIFIER ) ) | ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_DISJUNCTION va= IDENTIFIER ) ) );
     public final OPPLTypes.variableDefinition_return variableDefinition() throws RecognitionException {
         OPPLTypes.variableDefinition_return retval = new OPPLTypes.variableDefinition_return();
         retval.start = input.LT(1);
@@ -910,19 +937,19 @@ public class OPPLTypes extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:244:2: ( ^( INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE (vs= variableScope )? ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME generatedVariableAssignment ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( MATCH se= stringOperation ) ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( CREATE_OPPL_FUNCTION value= stringOperation ) ) | ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_INTERSECTION va= IDENTIFIER ) ) | ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_DISJUNCTION va= IDENTIFIER ) ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:255:2: ( ^( INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE (vs= variableScope )? ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME generatedVariableAssignment ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( MATCH se= stringOperation ) ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( CREATE_OPPL_FUNCTION value= stringOperation ) ) | ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_INTERSECTION va= IDENTIFIER ) ) | ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_DISJUNCTION va= IDENTIFIER ) ) )
             int alt10=6;
             alt10 = dfa10.predict(input);
             switch (alt10) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:245:5: ^( INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE (vs= variableScope )? )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:256:5: ^( INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE (vs= variableScope )? )
                     {
-                    INPUT_VARIABLE_DEFINITION7=(OPPLSyntaxTree)match(input,INPUT_VARIABLE_DEFINITION,FOLLOW_INPUT_VARIABLE_DEFINITION_in_variableDefinition361); if (state.failed) return retval;
+                    INPUT_VARIABLE_DEFINITION7=(OPPLSyntaxTree)match(input,INPUT_VARIABLE_DEFINITION,FOLLOW_INPUT_VARIABLE_DEFINITION_in_variableDefinition369); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    VARIABLE_NAME5=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition363); if (state.failed) return retval;
-                    VARIABLE_TYPE6=(OPPLSyntaxTree)match(input,VARIABLE_TYPE,FOLLOW_VARIABLE_TYPE_in_variableDefinition365); if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:245:64: (vs= variableScope )?
+                    VARIABLE_NAME5=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition371); if (state.failed) return retval;
+                    VARIABLE_TYPE6=(OPPLSyntaxTree)match(input,VARIABLE_TYPE,FOLLOW_VARIABLE_TYPE_in_variableDefinition373); if (state.failed) return retval;
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:256:64: (vs= variableScope )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -931,9 +958,9 @@ public class OPPLTypes extends TreeFilter {
                     }
                     switch (alt9) {
                         case 1 :
-                            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:245:64: vs= variableScope
+                            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:256:64: vs= variableScope
                             {
-                            pushFollow(FOLLOW_variableScope_in_variableDefinition371);
+                            pushFollow(FOLLOW_variableScope_in_variableDefinition379);
                             vs=variableScope();
 
                             state._fsp--;
@@ -962,13 +989,13 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:256:6: ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME generatedVariableAssignment )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:267:6: ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME generatedVariableAssignment )
                     {
-                    match(input,GENERATED_VARIABLE_DEFINITION,FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition387); if (state.failed) return retval;
+                    match(input,GENERATED_VARIABLE_DEFINITION,FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition395); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    VARIABLE_NAME8=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition389); if (state.failed) return retval;
-                    pushFollow(FOLLOW_generatedVariableAssignment_in_variableDefinition391);
+                    VARIABLE_NAME8=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition397); if (state.failed) return retval;
+                    pushFollow(FOLLOW_generatedVariableAssignment_in_variableDefinition399);
                     generatedVariableAssignment9=generatedVariableAssignment();
 
                     state._fsp--;
@@ -987,17 +1014,17 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:263:7: ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( MATCH se= stringOperation ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:274:7: ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( MATCH se= stringOperation ) )
                     {
-                    match(input,GENERATED_VARIABLE_DEFINITION,FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition408); if (state.failed) return retval;
+                    match(input,GENERATED_VARIABLE_DEFINITION,FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition416); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    VARIABLE_NAME11=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition410); if (state.failed) return retval;
-                    VARIABLE_TYPE10=(OPPLSyntaxTree)match(input,VARIABLE_TYPE,FOLLOW_VARIABLE_TYPE_in_variableDefinition412); if (state.failed) return retval;
-                    match(input,MATCH,FOLLOW_MATCH_in_variableDefinition415); if (state.failed) return retval;
+                    VARIABLE_NAME11=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition418); if (state.failed) return retval;
+                    VARIABLE_TYPE10=(OPPLSyntaxTree)match(input,VARIABLE_TYPE,FOLLOW_VARIABLE_TYPE_in_variableDefinition420); if (state.failed) return retval;
+                    match(input,MATCH,FOLLOW_MATCH_in_variableDefinition423); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    pushFollow(FOLLOW_stringOperation_in_variableDefinition421);
+                    pushFollow(FOLLOW_stringOperation_in_variableDefinition429);
                     se=stringOperation();
 
                     state._fsp--;
@@ -1025,17 +1052,17 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:277:6: ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( CREATE_OPPL_FUNCTION value= stringOperation ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:288:6: ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( CREATE_OPPL_FUNCTION value= stringOperation ) )
                     {
-                    match(input,GENERATED_VARIABLE_DEFINITION,FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition440); if (state.failed) return retval;
+                    match(input,GENERATED_VARIABLE_DEFINITION,FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition448); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    VARIABLE_NAME13=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition442); if (state.failed) return retval;
-                    VARIABLE_TYPE12=(OPPLSyntaxTree)match(input,VARIABLE_TYPE,FOLLOW_VARIABLE_TYPE_in_variableDefinition444); if (state.failed) return retval;
-                    match(input,CREATE_OPPL_FUNCTION,FOLLOW_CREATE_OPPL_FUNCTION_in_variableDefinition447); if (state.failed) return retval;
+                    VARIABLE_NAME13=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition450); if (state.failed) return retval;
+                    VARIABLE_TYPE12=(OPPLSyntaxTree)match(input,VARIABLE_TYPE,FOLLOW_VARIABLE_TYPE_in_variableDefinition452); if (state.failed) return retval;
+                    match(input,CREATE_OPPL_FUNCTION,FOLLOW_CREATE_OPPL_FUNCTION_in_variableDefinition455); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    pushFollow(FOLLOW_stringOperation_in_variableDefinition454);
+                    pushFollow(FOLLOW_stringOperation_in_variableDefinition462);
                     value=stringOperation();
 
                     state._fsp--;
@@ -1054,17 +1081,17 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 5 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:282:7: ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_INTERSECTION va= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:293:7: ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_INTERSECTION va= IDENTIFIER ) )
                     {
-                    match(input,GENERATED_VARIABLE_DEFINITION,FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition473); if (state.failed) return retval;
+                    match(input,GENERATED_VARIABLE_DEFINITION,FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition481); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    name=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition479); if (state.failed) return retval;
-                    VARIABLE_TYPE14=(OPPLSyntaxTree)match(input,VARIABLE_TYPE,FOLLOW_VARIABLE_TYPE_in_variableDefinition481); if (state.failed) return retval;
-                    match(input,CREATE_INTERSECTION,FOLLOW_CREATE_INTERSECTION_in_variableDefinition484); if (state.failed) return retval;
+                    name=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition487); if (state.failed) return retval;
+                    VARIABLE_TYPE14=(OPPLSyntaxTree)match(input,VARIABLE_TYPE,FOLLOW_VARIABLE_TYPE_in_variableDefinition489); if (state.failed) return retval;
+                    match(input,CREATE_INTERSECTION,FOLLOW_CREATE_INTERSECTION_in_variableDefinition492); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    va=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_variableDefinition490); if (state.failed) return retval;
+                    va=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_variableDefinition498); if (state.failed) return retval;
 
                     match(input, Token.UP, null); if (state.failed) return retval;
 
@@ -1080,17 +1107,17 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 6 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:288:9: ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_DISJUNCTION va= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:299:9: ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_DISJUNCTION va= IDENTIFIER ) )
                     {
-                    match(input,GENERATED_VARIABLE_DEFINITION,FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition512); if (state.failed) return retval;
+                    match(input,GENERATED_VARIABLE_DEFINITION,FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition520); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    name=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition518); if (state.failed) return retval;
-                    VARIABLE_TYPE15=(OPPLSyntaxTree)match(input,VARIABLE_TYPE,FOLLOW_VARIABLE_TYPE_in_variableDefinition520); if (state.failed) return retval;
-                    match(input,CREATE_DISJUNCTION,FOLLOW_CREATE_DISJUNCTION_in_variableDefinition523); if (state.failed) return retval;
+                    name=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition526); if (state.failed) return retval;
+                    VARIABLE_TYPE15=(OPPLSyntaxTree)match(input,VARIABLE_TYPE,FOLLOW_VARIABLE_TYPE_in_variableDefinition528); if (state.failed) return retval;
+                    match(input,CREATE_DISJUNCTION,FOLLOW_CREATE_DISJUNCTION_in_variableDefinition531); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    va=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_variableDefinition529); if (state.failed) return retval;
+                    va=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_variableDefinition537); if (state.failed) return retval;
 
                     match(input, Token.UP, null); if (state.failed) return retval;
 
@@ -1128,7 +1155,7 @@ public class OPPLTypes extends TreeFilter {
 
 
     // $ANTLR start "stringOperation"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:301:1: stringOperation returns [SingleValueGeneratedValue<String> value] : ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ ) ;
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:312:1: stringOperation returns [SingleValueGeneratedValue<String> value] : ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ ) ;
     public final SingleValueGeneratedValue<String> stringOperation() throws RecognitionException {
         SingleValueGeneratedValue<String> value = null;
 
@@ -1139,13 +1166,13 @@ public class OPPLTypes extends TreeFilter {
             List<SingleValueGeneratedValue<String>> values = new ArrayList<SingleValueGeneratedValue<String>>();
           
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:306:3: ( ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:307:5: ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:317:3: ( ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:318:5: ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ )
             {
-            match(input,STRING_OPERATION,FOLLOW_STRING_OPERATION_in_stringOperation588); if (state.failed) return value;
+            match(input,STRING_OPERATION,FOLLOW_STRING_OPERATION_in_stringOperation596); if (state.failed) return value;
 
             match(input, Token.DOWN, null); if (state.failed) return value;
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:307:25: (valuesToAggregate= stringExpression )+
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:318:25: (valuesToAggregate= stringExpression )+
             int cnt11=0;
             loop11:
             do {
@@ -1159,9 +1186,9 @@ public class OPPLTypes extends TreeFilter {
 
                 switch (alt11) {
             	case 1 :
-            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:307:26: valuesToAggregate= stringExpression
+            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:318:26: valuesToAggregate= stringExpression
             	    {
-            	    pushFollow(FOLLOW_stringExpression_in_stringOperation595);
+            	    pushFollow(FOLLOW_stringExpression_in_stringOperation603);
             	    valuesToAggregate=stringExpression();
 
             	    state._fsp--;
@@ -1214,7 +1241,7 @@ public class OPPLTypes extends TreeFilter {
 
 
     // $ANTLR start "stringExpression"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:314:1: stringExpression returns [SingleValueGeneratedValue<String> value] : ( DBLQUOTE | IDENTIFIER );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:325:1: stringExpression returns [SingleValueGeneratedValue<String> value] : ( DBLQUOTE | IDENTIFIER );
     public final SingleValueGeneratedValue<String> stringExpression() throws RecognitionException {
         SingleValueGeneratedValue<String> value = null;
 
@@ -1222,7 +1249,7 @@ public class OPPLTypes extends TreeFilter {
         OPPLSyntaxTree IDENTIFIER17=null;
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:315:3: ( DBLQUOTE | IDENTIFIER )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:326:3: ( DBLQUOTE | IDENTIFIER )
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -1241,9 +1268,9 @@ public class OPPLTypes extends TreeFilter {
             }
             switch (alt12) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:316:7: DBLQUOTE
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:327:7: DBLQUOTE
                     {
-                    DBLQUOTE16=(OPPLSyntaxTree)match(input,DBLQUOTE,FOLLOW_DBLQUOTE_in_stringExpression632); if (state.failed) return value;
+                    DBLQUOTE16=(OPPLSyntaxTree)match(input,DBLQUOTE,FOLLOW_DBLQUOTE_in_stringExpression640); if (state.failed) return value;
                     if ( state.backtracking==1 ) {
 
                               value = new StringGeneratedValue(DBLQUOTE16.getText());
@@ -1253,9 +1280,9 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:320:7: IDENTIFIER
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:331:7: IDENTIFIER
                     {
-                    IDENTIFIER17=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_stringExpression648); if (state.failed) return value;
+                    IDENTIFIER17=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_stringExpression656); if (state.failed) return value;
                     if ( state.backtracking==1 ) {
 
                               value =symtab.getStringGeneratedValue(IDENTIFIER17, getConstraintSystem());
@@ -1291,7 +1318,7 @@ public class OPPLTypes extends TreeFilter {
     };
 
     // $ANTLR start "generatedVariableAssignment"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:329:1: generatedVariableAssignment returns [Type type, OWLObject owlObject] : ( ^( CLASS ^( EXPRESSION classExpression= . ) ) | ^( OBJECTPROPERTY ^( EXPRESSION objectPropertyExpression= . ) ) | ^( DATAPROPERTY ^( EXPRESSION dataPropertyExpression= . ) ) | ^( INDIVIDUAL ^( EXPRESSION individualExpression= . ) ) | ^( CONSTANT ^( EXPRESSION constantExpression= . ) ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:340:1: generatedVariableAssignment returns [Type type, OWLObject owlObject] : ( ^( CLASS ^( EXPRESSION classExpression= . ) ) | ^( OBJECTPROPERTY ^( EXPRESSION objectPropertyExpression= . ) ) | ^( DATAPROPERTY ^( EXPRESSION dataPropertyExpression= . ) ) | ^( INDIVIDUAL ^( EXPRESSION individualExpression= . ) ) | ^( CONSTANT ^( EXPRESSION constantExpression= . ) ) );
     public final OPPLTypes.generatedVariableAssignment_return generatedVariableAssignment() throws RecognitionException {
         OPPLTypes.generatedVariableAssignment_return retval = new OPPLTypes.generatedVariableAssignment_return();
         retval.start = input.LT(1);
@@ -1303,7 +1330,7 @@ public class OPPLTypes extends TreeFilter {
         OPPLSyntaxTree constantExpression=null;
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:334:3: ( ^( CLASS ^( EXPRESSION classExpression= . ) ) | ^( OBJECTPROPERTY ^( EXPRESSION objectPropertyExpression= . ) ) | ^( DATAPROPERTY ^( EXPRESSION dataPropertyExpression= . ) ) | ^( INDIVIDUAL ^( EXPRESSION individualExpression= . ) ) | ^( CONSTANT ^( EXPRESSION constantExpression= . ) ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:345:3: ( ^( CLASS ^( EXPRESSION classExpression= . ) ) | ^( OBJECTPROPERTY ^( EXPRESSION objectPropertyExpression= . ) ) | ^( DATAPROPERTY ^( EXPRESSION dataPropertyExpression= . ) ) | ^( INDIVIDUAL ^( EXPRESSION individualExpression= . ) ) | ^( CONSTANT ^( EXPRESSION constantExpression= . ) ) )
             int alt13=5;
             switch ( input.LA(1) ) {
             case CLASS:
@@ -1341,12 +1368,12 @@ public class OPPLTypes extends TreeFilter {
 
             switch (alt13) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:335:5: ^( CLASS ^( EXPRESSION classExpression= . ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:346:5: ^( CLASS ^( EXPRESSION classExpression= . ) )
                     {
-                    match(input,CLASS,FOLLOW_CLASS_in_generatedVariableAssignment697); if (state.failed) return retval;
+                    match(input,CLASS,FOLLOW_CLASS_in_generatedVariableAssignment705); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_generatedVariableAssignment700); if (state.failed) return retval;
+                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_generatedVariableAssignment708); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     classExpression=(OPPLSyntaxTree)input.LT(1);
@@ -1365,12 +1392,12 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:340:5: ^( OBJECTPROPERTY ^( EXPRESSION objectPropertyExpression= . ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:351:5: ^( OBJECTPROPERTY ^( EXPRESSION objectPropertyExpression= . ) )
                     {
-                    match(input,OBJECTPROPERTY,FOLLOW_OBJECTPROPERTY_in_generatedVariableAssignment719); if (state.failed) return retval;
+                    match(input,OBJECTPROPERTY,FOLLOW_OBJECTPROPERTY_in_generatedVariableAssignment727); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_generatedVariableAssignment722); if (state.failed) return retval;
+                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_generatedVariableAssignment730); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     objectPropertyExpression=(OPPLSyntaxTree)input.LT(1);
@@ -1389,12 +1416,12 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:345:5: ^( DATAPROPERTY ^( EXPRESSION dataPropertyExpression= . ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:356:5: ^( DATAPROPERTY ^( EXPRESSION dataPropertyExpression= . ) )
                     {
-                    match(input,DATAPROPERTY,FOLLOW_DATAPROPERTY_in_generatedVariableAssignment741); if (state.failed) return retval;
+                    match(input,DATAPROPERTY,FOLLOW_DATAPROPERTY_in_generatedVariableAssignment749); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_generatedVariableAssignment744); if (state.failed) return retval;
+                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_generatedVariableAssignment752); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     dataPropertyExpression=(OPPLSyntaxTree)input.LT(1);
@@ -1413,12 +1440,12 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:350:5: ^( INDIVIDUAL ^( EXPRESSION individualExpression= . ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:361:5: ^( INDIVIDUAL ^( EXPRESSION individualExpression= . ) )
                     {
-                    match(input,INDIVIDUAL,FOLLOW_INDIVIDUAL_in_generatedVariableAssignment763); if (state.failed) return retval;
+                    match(input,INDIVIDUAL,FOLLOW_INDIVIDUAL_in_generatedVariableAssignment771); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_generatedVariableAssignment766); if (state.failed) return retval;
+                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_generatedVariableAssignment774); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     individualExpression=(OPPLSyntaxTree)input.LT(1);
@@ -1437,12 +1464,12 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 5 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:355:5: ^( CONSTANT ^( EXPRESSION constantExpression= . ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:366:5: ^( CONSTANT ^( EXPRESSION constantExpression= . ) )
                     {
-                    match(input,CONSTANT,FOLLOW_CONSTANT_in_generatedVariableAssignment785); if (state.failed) return retval;
+                    match(input,CONSTANT,FOLLOW_CONSTANT_in_generatedVariableAssignment793); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_generatedVariableAssignment788); if (state.failed) return retval;
+                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_generatedVariableAssignment796); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     constantExpression=(OPPLSyntaxTree)input.LT(1);
@@ -1492,7 +1519,7 @@ public class OPPLTypes extends TreeFilter {
     };
 
     // $ANTLR start "variableScope"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:363:1: variableScope returns [Type type, VariableScope variableScope] : ( ^( VARIABLE_SCOPE SUBCLASS_OF classExpression= . ) | ^( VARIABLE_SCOPE SUPER_CLASS_OF classExpression= . ) | ^( VARIABLE_SCOPE SUPER_PROPERTY_OF propertyExpression= . ) | ^( VARIABLE_SCOPE SUBPROPERTY_OF propertyExpression= . ) | ^( VARIABLE_SCOPE ( INSTANCE_OF | TYPES ) individualExpression= . ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:374:1: variableScope returns [Type type, VariableScope variableScope] : ( ^( VARIABLE_SCOPE SUBCLASS_OF classExpression= . ) | ^( VARIABLE_SCOPE SUPER_CLASS_OF classExpression= . ) | ^( VARIABLE_SCOPE SUPER_PROPERTY_OF propertyExpression= . ) | ^( VARIABLE_SCOPE SUBPROPERTY_OF propertyExpression= . ) | ^( VARIABLE_SCOPE ( INSTANCE_OF | TYPES ) individualExpression= . ) );
     public final OPPLTypes.variableScope_return variableScope() throws RecognitionException {
         OPPLTypes.variableScope_return retval = new OPPLTypes.variableScope_return();
         retval.start = input.LT(1);
@@ -1502,7 +1529,7 @@ public class OPPLTypes extends TreeFilter {
         OPPLSyntaxTree individualExpression=null;
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:368:2: ( ^( VARIABLE_SCOPE SUBCLASS_OF classExpression= . ) | ^( VARIABLE_SCOPE SUPER_CLASS_OF classExpression= . ) | ^( VARIABLE_SCOPE SUPER_PROPERTY_OF propertyExpression= . ) | ^( VARIABLE_SCOPE SUBPROPERTY_OF propertyExpression= . ) | ^( VARIABLE_SCOPE ( INSTANCE_OF | TYPES ) individualExpression= . ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:379:2: ( ^( VARIABLE_SCOPE SUBCLASS_OF classExpression= . ) | ^( VARIABLE_SCOPE SUPER_CLASS_OF classExpression= . ) | ^( VARIABLE_SCOPE SUPER_PROPERTY_OF propertyExpression= . ) | ^( VARIABLE_SCOPE SUBPROPERTY_OF propertyExpression= . ) | ^( VARIABLE_SCOPE ( INSTANCE_OF | TYPES ) individualExpression= . ) )
             int alt14=5;
             int LA14_0 = input.LA(1);
 
@@ -1563,12 +1590,12 @@ public class OPPLTypes extends TreeFilter {
             }
             switch (alt14) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:369:5: ^( VARIABLE_SCOPE SUBCLASS_OF classExpression= . )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:380:5: ^( VARIABLE_SCOPE SUBCLASS_OF classExpression= . )
                     {
-                    match(input,VARIABLE_SCOPE,FOLLOW_VARIABLE_SCOPE_in_variableScope836); if (state.failed) return retval;
+                    match(input,VARIABLE_SCOPE,FOLLOW_VARIABLE_SCOPE_in_variableScope844); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    match(input,SUBCLASS_OF,FOLLOW_SUBCLASS_OF_in_variableScope838); if (state.failed) return retval;
+                    match(input,SUBCLASS_OF,FOLLOW_SUBCLASS_OF_in_variableScope846); if (state.failed) return retval;
                     classExpression=(OPPLSyntaxTree)input.LT(1);
                     matchAny(input); if (state.failed) return retval;
 
@@ -1583,12 +1610,12 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:374:7: ^( VARIABLE_SCOPE SUPER_CLASS_OF classExpression= . )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:385:7: ^( VARIABLE_SCOPE SUPER_CLASS_OF classExpression= . )
                     {
-                    match(input,VARIABLE_SCOPE,FOLLOW_VARIABLE_SCOPE_in_variableScope860); if (state.failed) return retval;
+                    match(input,VARIABLE_SCOPE,FOLLOW_VARIABLE_SCOPE_in_variableScope868); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    match(input,SUPER_CLASS_OF,FOLLOW_SUPER_CLASS_OF_in_variableScope862); if (state.failed) return retval;
+                    match(input,SUPER_CLASS_OF,FOLLOW_SUPER_CLASS_OF_in_variableScope870); if (state.failed) return retval;
                     classExpression=(OPPLSyntaxTree)input.LT(1);
                     matchAny(input); if (state.failed) return retval;
 
@@ -1603,12 +1630,12 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:379:5: ^( VARIABLE_SCOPE SUPER_PROPERTY_OF propertyExpression= . )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:390:5: ^( VARIABLE_SCOPE SUPER_PROPERTY_OF propertyExpression= . )
                     {
-                    match(input,VARIABLE_SCOPE,FOLLOW_VARIABLE_SCOPE_in_variableScope886); if (state.failed) return retval;
+                    match(input,VARIABLE_SCOPE,FOLLOW_VARIABLE_SCOPE_in_variableScope894); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    match(input,SUPER_PROPERTY_OF,FOLLOW_SUPER_PROPERTY_OF_in_variableScope888); if (state.failed) return retval;
+                    match(input,SUPER_PROPERTY_OF,FOLLOW_SUPER_PROPERTY_OF_in_variableScope896); if (state.failed) return retval;
                     propertyExpression=(OPPLSyntaxTree)input.LT(1);
                     matchAny(input); if (state.failed) return retval;
 
@@ -1623,12 +1650,12 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:384:6: ^( VARIABLE_SCOPE SUBPROPERTY_OF propertyExpression= . )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:395:6: ^( VARIABLE_SCOPE SUBPROPERTY_OF propertyExpression= . )
                     {
-                    match(input,VARIABLE_SCOPE,FOLLOW_VARIABLE_SCOPE_in_variableScope908); if (state.failed) return retval;
+                    match(input,VARIABLE_SCOPE,FOLLOW_VARIABLE_SCOPE_in_variableScope916); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    match(input,SUBPROPERTY_OF,FOLLOW_SUBPROPERTY_OF_in_variableScope910); if (state.failed) return retval;
+                    match(input,SUBPROPERTY_OF,FOLLOW_SUBPROPERTY_OF_in_variableScope918); if (state.failed) return retval;
                     propertyExpression=(OPPLSyntaxTree)input.LT(1);
                     matchAny(input); if (state.failed) return retval;
 
@@ -1643,9 +1670,9 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 5 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:389:6: ^( VARIABLE_SCOPE ( INSTANCE_OF | TYPES ) individualExpression= . )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:400:6: ^( VARIABLE_SCOPE ( INSTANCE_OF | TYPES ) individualExpression= . )
                     {
-                    match(input,VARIABLE_SCOPE,FOLLOW_VARIABLE_SCOPE_in_variableScope935); if (state.failed) return retval;
+                    match(input,VARIABLE_SCOPE,FOLLOW_VARIABLE_SCOPE_in_variableScope943); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     if ( (input.LA(1)>=INSTANCE_OF && input.LA(1)<=TYPES) ) {
@@ -1702,7 +1729,7 @@ public class OPPLTypes extends TreeFilter {
     };
 
     // $ANTLR start "constraint"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:398:1: constraint returns [AbstractConstraint constraint] : ( ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) ) | ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a= . ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:409:1: constraint returns [AbstractConstraint constraint] : ( ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) ) | ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a= . ) );
     public final OPPLTypes.constraint_return constraint() throws RecognitionException {
         OPPLTypes.constraint_return retval = new OPPLTypes.constraint_return();
         retval.start = input.LT(1);
@@ -1720,7 +1747,7 @@ public class OPPLTypes extends TreeFilter {
             List<OPPLSyntaxTree> identifiers = new ArrayList<OPPLSyntaxTree>();
           
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:403:1: ( ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) ) | ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a= . ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:414:1: ( ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) ) | ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a= . ) )
             int alt16=4;
             switch ( input.LA(1) ) {
             case INEQUALITY_CONSTRAINT:
@@ -1753,13 +1780,13 @@ public class OPPLTypes extends TreeFilter {
 
             switch (alt16) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:404:3: ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:415:3: ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) )
                     {
-                    match(input,INEQUALITY_CONSTRAINT,FOLLOW_INEQUALITY_CONSTRAINT_in_constraint984); if (state.failed) return retval;
+                    match(input,INEQUALITY_CONSTRAINT,FOLLOW_INEQUALITY_CONSTRAINT_in_constraint992); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    IDENTIFIER18=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint986); if (state.failed) return retval;
-                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_constraint989); if (state.failed) return retval;
+                    IDENTIFIER18=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint994); if (state.failed) return retval;
+                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_constraint997); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     expression=(OPPLSyntaxTree)input.LT(1);
@@ -1777,13 +1804,13 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:407:5: ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:418:5: ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ )
                     {
-                    match(input,IN_SET_CONSTRAINT,FOLLOW_IN_SET_CONSTRAINT_in_constraint1003); if (state.failed) return retval;
+                    match(input,IN_SET_CONSTRAINT,FOLLOW_IN_SET_CONSTRAINT_in_constraint1011); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    v=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint1009); if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:407:41: (i= IDENTIFIER )+
+                    v=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint1017); if (state.failed) return retval;
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:418:41: (i= IDENTIFIER )+
                     int cnt15=0;
                     loop15:
                     do {
@@ -1797,9 +1824,9 @@ public class OPPLTypes extends TreeFilter {
 
                         switch (alt15) {
                     	case 1 :
-                    	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:407:42: i= IDENTIFIER
+                    	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:418:42: i= IDENTIFIER
                     	    {
-                    	    i=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint1017); if (state.failed) return retval;
+                    	    i=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint1025); if (state.failed) return retval;
                     	    if ( state.backtracking==1 ) {
                     	      identifiers.add(i);
                     	    }
@@ -1828,13 +1855,13 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:410:5: ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:421:5: ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation )
                     {
-                    match(input,REGEXP_CONSTRAINT,FOLLOW_REGEXP_CONSTRAINT_in_constraint1030); if (state.failed) return retval;
+                    match(input,REGEXP_CONSTRAINT,FOLLOW_REGEXP_CONSTRAINT_in_constraint1038); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    IDENTIFIER19=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint1032); if (state.failed) return retval;
-                    pushFollow(FOLLOW_stringOperation_in_constraint1038);
+                    IDENTIFIER19=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint1040); if (state.failed) return retval;
+                    pushFollow(FOLLOW_stringOperation_in_constraint1046);
                     se=stringOperation();
 
                     state._fsp--;
@@ -1851,9 +1878,9 @@ public class OPPLTypes extends TreeFilter {
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:415:5: ^( NAF_CONSTRAINT a= . )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypes.g:426:5: ^( NAF_CONSTRAINT a= . )
                     {
-                    match(input,NAF_CONSTRAINT,FOLLOW_NAF_CONSTRAINT_in_constraint1050); if (state.failed) return retval;
+                    match(input,NAF_CONSTRAINT,FOLLOW_NAF_CONSTRAINT_in_constraint1058); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     a=(OPPLSyntaxTree)input.LT(1);
@@ -1953,7 +1980,7 @@ public class OPPLTypes extends TreeFilter {
             this.transition = DFA10_transition;
         }
         public String getDescription() {
-            return "243:1: variableDefinition returns [Variable variable] : ( ^( INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE (vs= variableScope )? ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME generatedVariableAssignment ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( MATCH se= stringOperation ) ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( CREATE_OPPL_FUNCTION value= stringOperation ) ) | ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_INTERSECTION va= IDENTIFIER ) ) | ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_DISJUNCTION va= IDENTIFIER ) ) );";
+            return "254:1: variableDefinition returns [Variable variable] : ( ^( INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE (vs= variableScope )? ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME generatedVariableAssignment ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( MATCH se= stringOperation ) ) | ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( CREATE_OPPL_FUNCTION value= stringOperation ) ) | ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_INTERSECTION va= IDENTIFIER ) ) | ^( GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^( CREATE_DISJUNCTION va= IDENTIFIER ) ) );";
         }
     }
  
@@ -1965,75 +1992,75 @@ public class OPPLTypes extends TreeFilter {
     public static final BitSet FOLLOW_actions_in_statement117 = new BitSet(new long[]{0x0000000000000008L});
     public static final BitSet FOLLOW_VARIABLE_DEFINITIONS_in_variableDefinitions148 = new BitSet(new long[]{0x0000000000000004L});
     public static final BitSet FOLLOW_variableDefinition_in_variableDefinitions155 = new BitSet(new long[]{0x0000000000000008L,0x0000000300000000L});
-    public static final BitSet FOLLOW_QUERY_in_query185 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_selectClause_in_query188 = new BitSet(new long[]{0x0000000000000008L,0x00000000F0000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x00000000000A0000L});
-    public static final BitSet FOLLOW_constraint_in_query201 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_ASSERTED_CLAUSE_in_selectClause231 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_PLAIN_CLAUSE_in_selectClause249 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ACTIONS_in_actions282 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_action_in_actions285 = new BitSet(new long[]{0x0000000000000008L,0x000000000C000000L});
-    public static final BitSet FOLLOW_ADD_in_action316 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_REMOVE_in_action331 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_INPUT_VARIABLE_DEFINITION_in_variableDefinition361 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition363 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
-    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition365 = new BitSet(new long[]{0x0000000000000008L,0x0000010000000000L});
-    public static final BitSet FOLLOW_variableScope_in_variableDefinition371 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition387 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition389 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000040L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000F00000L});
-    public static final BitSet FOLLOW_generatedVariableAssignment_in_variableDefinition391 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition408 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition410 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
-    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition412 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0001000000000000L});
-    public static final BitSet FOLLOW_MATCH_in_variableDefinition415 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_stringOperation_in_variableDefinition421 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition440 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition442 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
-    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition444 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L});
-    public static final BitSet FOLLOW_CREATE_OPPL_FUNCTION_in_variableDefinition447 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_stringOperation_in_variableDefinition454 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition473 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition479 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
-    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition481 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
-    public static final BitSet FOLLOW_CREATE_INTERSECTION_in_variableDefinition484 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_variableDefinition490 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition512 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition518 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
-    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition520 = new BitSet(new long[]{0x0000000000000000L,0x0000000000040000L});
-    public static final BitSet FOLLOW_CREATE_DISJUNCTION_in_variableDefinition523 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_variableDefinition529 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_STRING_OPERATION_in_stringOperation588 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_stringExpression_in_stringOperation595 = new BitSet(new long[]{0x0000110000000008L});
-    public static final BitSet FOLLOW_DBLQUOTE_in_stringExpression632 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_stringExpression648 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CLASS_in_generatedVariableAssignment697 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_EXPRESSION_in_generatedVariableAssignment700 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_OBJECTPROPERTY_in_generatedVariableAssignment719 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_EXPRESSION_in_generatedVariableAssignment722 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_DATAPROPERTY_in_generatedVariableAssignment741 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_EXPRESSION_in_generatedVariableAssignment744 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_INDIVIDUAL_in_generatedVariableAssignment763 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_EXPRESSION_in_generatedVariableAssignment766 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_CONSTANT_in_generatedVariableAssignment785 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_EXPRESSION_in_generatedVariableAssignment788 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope836 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_SUBCLASS_OF_in_variableScope838 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x0000000000FFFFFFL});
-    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope860 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_SUPER_CLASS_OF_in_variableScope862 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x0000000000FFFFFFL});
-    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope886 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_SUPER_PROPERTY_OF_in_variableScope888 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x0000000000FFFFFFL});
-    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope908 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_SUBPROPERTY_OF_in_variableScope910 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x0000000000FFFFFFL});
-    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope935 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_set_in_variableScope937 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x0000000000FFFFFFL});
-    public static final BitSet FOLLOW_INEQUALITY_CONSTRAINT_in_constraint984 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_constraint986 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_EXPRESSION_in_constraint989 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IN_SET_CONSTRAINT_in_constraint1003 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_constraint1009 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_constraint1017 = new BitSet(new long[]{0x0000100000000008L});
-    public static final BitSet FOLLOW_REGEXP_CONSTRAINT_in_constraint1030 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_constraint1032 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000400L});
-    public static final BitSet FOLLOW_stringOperation_in_constraint1038 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_NAF_CONSTRAINT_in_constraint1050 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_QUERY_in_query189 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_selectClause_in_query192 = new BitSet(new long[]{0x0000000000000008L,0x00000000F0000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x00000000000A0000L});
+    public static final BitSet FOLLOW_constraint_in_query205 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_ASSERTED_CLAUSE_in_selectClause235 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_PLAIN_CLAUSE_in_selectClause253 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ACTIONS_in_actions290 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_action_in_actions293 = new BitSet(new long[]{0x0000000000000008L,0x000000000C000000L});
+    public static final BitSet FOLLOW_ADD_in_action324 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_REMOVE_in_action339 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_INPUT_VARIABLE_DEFINITION_in_variableDefinition369 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition371 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
+    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition373 = new BitSet(new long[]{0x0000000000000008L,0x0000010000000000L});
+    public static final BitSet FOLLOW_variableScope_in_variableDefinition379 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition395 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition397 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000040L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000F00000L});
+    public static final BitSet FOLLOW_generatedVariableAssignment_in_variableDefinition399 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition416 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition418 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
+    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition420 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0001000000000000L});
+    public static final BitSet FOLLOW_MATCH_in_variableDefinition423 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_stringOperation_in_variableDefinition429 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition448 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition450 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
+    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition452 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L});
+    public static final BitSet FOLLOW_CREATE_OPPL_FUNCTION_in_variableDefinition455 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_stringOperation_in_variableDefinition462 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition481 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition487 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
+    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition489 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
+    public static final BitSet FOLLOW_CREATE_INTERSECTION_in_variableDefinition492 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_variableDefinition498 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition520 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition526 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
+    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition528 = new BitSet(new long[]{0x0000000000000000L,0x0000000000040000L});
+    public static final BitSet FOLLOW_CREATE_DISJUNCTION_in_variableDefinition531 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_variableDefinition537 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_STRING_OPERATION_in_stringOperation596 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_stringExpression_in_stringOperation603 = new BitSet(new long[]{0x0000110000000008L});
+    public static final BitSet FOLLOW_DBLQUOTE_in_stringExpression640 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_stringExpression656 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CLASS_in_generatedVariableAssignment705 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_EXPRESSION_in_generatedVariableAssignment708 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_OBJECTPROPERTY_in_generatedVariableAssignment727 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_EXPRESSION_in_generatedVariableAssignment730 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_DATAPROPERTY_in_generatedVariableAssignment749 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_EXPRESSION_in_generatedVariableAssignment752 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_INDIVIDUAL_in_generatedVariableAssignment771 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_EXPRESSION_in_generatedVariableAssignment774 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_CONSTANT_in_generatedVariableAssignment793 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_EXPRESSION_in_generatedVariableAssignment796 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope844 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_SUBCLASS_OF_in_variableScope846 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x0000000000FFFFFFL});
+    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope868 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_SUPER_CLASS_OF_in_variableScope870 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x0000000000FFFFFFL});
+    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope894 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_SUPER_PROPERTY_OF_in_variableScope896 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x0000000000FFFFFFL});
+    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope916 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_SUBPROPERTY_OF_in_variableScope918 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x0000000000FFFFFFL});
+    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope943 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_set_in_variableScope945 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x0000000000FFFFFFL});
+    public static final BitSet FOLLOW_INEQUALITY_CONSTRAINT_in_constraint992 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_constraint994 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_EXPRESSION_in_constraint997 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IN_SET_CONSTRAINT_in_constraint1011 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_constraint1017 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_constraint1025 = new BitSet(new long[]{0x0000100000000008L});
+    public static final BitSet FOLLOW_REGEXP_CONSTRAINT_in_constraint1038 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_constraint1040 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000400L});
+    public static final BitSet FOLLOW_stringOperation_in_constraint1046 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_NAF_CONSTRAINT_in_constraint1058 = new BitSet(new long[]{0x0000000000000004L});
 
 }

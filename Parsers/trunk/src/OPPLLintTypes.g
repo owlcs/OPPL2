@@ -89,6 +89,9 @@ options {
   import org.coode.oppl.Variable;
   import org.coode.oppl.ConstraintSystem;
   import org.coode.parsers.oppl.OPPLSymbolTable;
+  import org.semanticweb.owl.model.OWLAxiomChange;
+  import java.util.Collections;
+  import org.coode.oppl.OPPLQuery;
 }
 
 // START: root
@@ -101,19 +104,44 @@ bottomup // match subexpressions innermost to outermost
 
 lint
 	:
-		^(OPPL_LINT IDENTIFIER ^(s = OPPL_STATEMENT .*) rc= returnClause ^(EXPLANATION .*) ^(DESCRIPTION .*)) 
+		^(OPPL_LINT IDENTIFIER s = statement rc= returnClause ^(EXPLANATION .*) ^(DESCRIPTION .*)) 
 		{
-		  if(s.getOPPLContent() instanceof OPPLScript){
+		  if(s.statementTree.getOPPLContent() instanceof OPPLScript){
 
 		     if(rc!=null){                                
            		 Variable v = rc;
 			OPPLLintScript lint = this.getLintModelFactory().buildOPPLLintScript($IDENTIFIER.text,
-                                (OPPLScript) s.getOPPLContent(),v, $EXPLANATION.text, $DESCRIPTION.text);
+                                (OPPLScript) s.statementTree.getOPPLContent(),v, $EXPLANATION.text, $DESCRIPTION.text);
                         $start.setOPPLContent(lint);        
 	             }                    
 		  }  
 		}		
   ;
+
+statement returns [OPPLSyntaxTree statementTree]
+@init{
+	List<Variable> vds = new ArrayList<Variable>();
+	
+}
+@after{
+	$statementTree = $start;
+}
+	:
+		^(OPPL_STATEMENT  (^(vd = VARIABLE_DEFINITIONS .*))? ^(query =QUERY .*)  (^(a = ACTIONS .*))?)
+		{
+				if(vd!=null){
+				vds.addAll((List<Variable>)$vd.getOPPLContent());
+			}
+			List<OWLAxiomChange> actions = ($a ==null || $a.getOPPLContent()==null)? Collections.<OWLAxiomChange>emptyList() :(List<OWLAxiomChange>) $a.getOPPLContent();
+			 if($query.getOPPLContent()!=null){
+			    $start.setOPPLContent(getLintModelFactory().getOPPLFactory().buildOPPLScript(getConstraintSystem(),
+				    					vds,(OPPLQuery) $query.getOPPLContent(),
+					    				actions));
+			 }else{
+			    getErrorListener().illegalToken($start,"Invalid query content");
+			 }		  
+		}
+	;
 
 returnClause returns [Variable variable]
   :

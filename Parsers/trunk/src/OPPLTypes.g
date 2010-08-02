@@ -151,6 +151,7 @@ variableDefinitions returns [List<Variable> variables]
 }
 @after{
 	$variables = toReturn;
+	$start.setOPPLContent($variables);
 }
 	:
 		^(VARIABLE_DEFINITIONS (vd = variableDefinition {toReturn.add(vd.variable);})+)		
@@ -159,6 +160,13 @@ variableDefinitions returns [List<Variable> variables]
 query returns [OPPLQuery query]
 @init{
 		$query = getOPPLFactory().buildNewQuery(getConstraintSystem());
+}
+@after{
+		// No asserted axioms and plains axioms means no query at all.
+		if($query.getAssertedAxioms().isEmpty() && $query.getAxioms().isEmpty()){
+			$query=null;
+		}
+		$start.setOPPLContent($query);
 }
 	:
 		^(QUERY (selectClause 
@@ -208,6 +216,9 @@ selectClause returns [OWLAxiom axiom, boolean asserted]
 actions returns [List<OWLAxiomChange> actions]
 @init{
 	$actions = new ArrayList<OWLAxiomChange>();
+}
+@after{
+	$start.setOPPLContent($actions);
 }
 	:
 		^(ACTIONS (action 
