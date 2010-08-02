@@ -21,16 +21,18 @@ import org.protege.editor.core.plugin.JPFUtil;
 import org.protege.editor.core.plugin.PluginUtilities;
 import org.protege.editor.core.plugin.ProtegePlugin;
 import org.protege.editor.owl.OWLEditorKit;
+import org.semanticweb.owl.model.OWLObject;
 
 /**
  * @author Luigi Iannone
  * 
  */
-public final class OPPLLintPlugin implements ProtegePlugin<LintProtegePluginInstanceAdapter<?>> {
+public final class OPPLLintPlugin implements
+		ProtegePlugin<LintProtegePluginInstanceAdapter<OWLObject>> {
 	public static final String LINT_PLUGIN_TYPE_ID = "oppllint";
 	private final IExtension extension;
 	private final OWLEditorKit owlEditorKit;
-	private final ErrorListener errorListener = new ErrorListener() {
+	public static final ErrorListener ERROR_LISTENER = new ErrorListener() {
 		public void unrecognisedSymbol(CommonTree t) {
 			System.err.println("Unerecognised token " + t.getText() + " at line " + t.getLine()
 					+ " position " + t.getCharPositionInLine());
@@ -126,7 +128,7 @@ public final class OPPLLintPlugin implements ProtegePlugin<LintProtegePluginInst
 	/**
 	 * @see org.protege.editor.core.plugin.ProtegePlugin#newInstance()
 	 */
-	public LintProtegePluginInstanceAdapter<?> newInstance() throws ClassNotFoundException,
+	public LintProtegePluginInstanceAdapter<OWLObject> newInstance() throws ClassNotFoundException,
 			IllegalAccessException, InstantiationException {
 		ExtensionInstantiator<OPPLLintScript> instantiator = new ExtensionInstantiator<OPPLLintScript>(
 				this.extension) {
@@ -137,13 +139,13 @@ public final class OPPLLintPlugin implements ProtegePlugin<LintProtegePluginInst
 						OPPLLintPlugin.this.extension,
 						"script");
 				OPPLLintParser parser = ProtegeParserFactory.getInstance(
-						OPPLLintPlugin.this.owlEditorKit).build(OPPLLintPlugin.this.errorListener);
+						OPPLLintPlugin.this.owlEditorKit).build(OPPLLintPlugin.ERROR_LISTENER);
 				OPPLLintScript lint = parser.parse(script);
 				return lint;
 			}
 		};
 		OPPLLintScript instantiated = instantiator.instantiate();
-		LintProtegePluginInstanceAdapter<?> toReturn = instantiated != null ? LintProtegePluginInstanceAdapter.buildLintProtegePluginInstanceAdapter(
+		LintProtegePluginInstanceAdapter<OWLObject> toReturn = instantiated != null ? LintProtegePluginInstanceAdapter.buildLintProtegePluginInstanceAdapter(
 				instantiated,
 				this.extension) : null;
 		return toReturn;

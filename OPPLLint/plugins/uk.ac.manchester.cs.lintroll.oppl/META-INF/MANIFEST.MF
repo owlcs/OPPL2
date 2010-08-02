@@ -36,7 +36,7 @@ Import-Package: org.osgi.framework,
  org.xml.sax.helpers,
  javax.xml.parsers
 Bundle-Version: 1.0.0
-Export-Package: org.coode.oppl.lint, org.coode.oppl.lint.protege
+Export-Package: org.coode.oppl.lint, org.coode.oppl.lint.protege, org.coode.oppl.lint.filtering, org.coode.oppl.lint.filtering.protege
 Bundle-Activator: org.protege.editor.core.plugin.DefaultPluginActivator 
 Require-Bundle: org.eclipse.equinox.registry,
  org.eclipse.equinox.common,

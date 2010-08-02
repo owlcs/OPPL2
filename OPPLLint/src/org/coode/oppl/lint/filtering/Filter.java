@@ -3,7 +3,9 @@
  */
 package org.coode.oppl.lint.filtering;
 
+import org.semanticweb.owl.inference.OWLReasoner;
 import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owl.model.OWLOntologyManager;
 
 /**
  * @author Luigi Iannone
@@ -20,5 +22,18 @@ public interface Filter<O extends OWLObject> {
 	 * @throws NullPointerException
 	 *             if the input is {@code null}.
 	 */
-	boolean accept(O owlObject);
+	public boolean accept(O owlObject);
+
+	/**
+	 * @return The OWLOntologyManager used by this Filter.
+	 */
+	public OWLOntologyManager getOntologyManager();
+
+	/**
+	 * Retrieve the OWLReasoner used by this Filter. Please Notice this <b>may
+	 * be</b> {@code null}.
+	 * 
+	 * @return The OWLReasoner used by this Filter.
+	 */
+	public OWLReasoner getOWLReasoner();
 }

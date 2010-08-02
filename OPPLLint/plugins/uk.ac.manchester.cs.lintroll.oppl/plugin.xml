@@ -1,17 +1,21 @@
 <?xml version="1.0" ?>
   <plugin>
+  <!-- Extension points  -->
  	<extension-point id="oppllint"
                      name="OPPL Lint"
                      schema="schema/OPPLLint.exsd"/>
+ 	<extension-point id="filteroppllint"
+                     name="Filtering OPPL Lint"
+                     schema="schema/FilteringOPPLLint.exsd"/>                     
 <!-- The Loader Factory -->                     
     <extension 
-          point="uk.ac.manchester.cs.lintroll.loaderfactory"  id="ProtegeOPPLLintPLuginLoaderFactory">
+          point="uk.ac.manchester.cs.lintroll.loaderfactory"  id="ProtegeOPPLLintPluginLoaderFactory">
           <label value="OPPL Lint Loader Factory"/>
           <class value="org.coode.oppl.lint.protege.ProtegeOPPLLintPLuginLoaderFactory"/>
-    </extension>                                          
- 	<!-- Example OPPL Lints -->
- 	<extension id="TransitiveObjectPropertyHierarchy" point="uk.ac.manchester.cs.lintroll.oppl.oppllint">
- 		<label value="OPPL Transitive Object Property Hierarchy"/>
- 		<script value="Transitivity in property hierarchies lint; ?x:OBJECTPROPERTY, ?y:OBJECTPROPERTY SELECT ?y subPropertyOf ?x, Transitive ?y, Transitive ?x  WHERE ?x!= ?y BEGIN REMOVE Transitive ?y END; RETURN ?y; Transitive property ?y is also a sub-property of the Trasitive property ?x; Lint that corrects the undesirable situation in which a transitive object property is sub-property of another transitive object property"/> 		
- 	</extension> 	  
+    </extension>
+    <extension 
+          point="uk.ac.manchester.cs.lintroll.loaderfactory"  id="FilteringOPPLLintPluginLoaderFactory">
+          <label value="OPPL Lint Loader Factory"/>
+          <class value="org.coode.oppl.lint.filtering.protege.FilteringOPPLLintLoaderFactory"/>
+    </extension>                                               		  
   </plugin>
