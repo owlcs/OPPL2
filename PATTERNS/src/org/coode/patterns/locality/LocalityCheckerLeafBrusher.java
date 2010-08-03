@@ -30,7 +30,7 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
 	private ConstraintSystem constraintSystem;
 	private PatternModel patternModel;
 	private final Set<OWLEntity> signature = new HashSet<OWLEntity>();
-	private final Map<Variable, Set<OWLObject>> variableBindings = new HashMap<Variable, Set<OWLObject>>();
+	private final Map<Variable, SigmaPlusSigmaMinus> variableBindings = new HashMap<Variable, SigmaPlusSigmaMinus>();
 	private List<BindingNode> exploredBindings = new ArrayList<BindingNode>();
 
 	public List<BindingNode> getExploredBindings() {
@@ -46,7 +46,7 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
 
 	public LocalityCheckerLeafBrusher(LocalityEvaluator evaluator,
 			ConstraintSystem constraintSystem, PatternModel patternModel,
-			Map<Variable, Set<OWLObject>> variableBindings, Set<OWLEntity> signature) {
+			Map<Variable, SigmaPlusSigmaMinus> variableBindings, Set<OWLEntity> signature) {
 		if (evaluator == null) {
 			throw new NullPointerException("The evaluator cannot be null");
 		}
@@ -63,6 +63,7 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
 		this.constraintSystem = constraintSystem;
 		this.patternModel = patternModel;
 		this.signature.addAll(signature);
+		this.variableBindings.putAll(variableBindings);
 	}
 
 	/**
@@ -99,7 +100,11 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
 			OWLAxiom axiom = changes.get(i).getAxiom();
 			OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instantiator);
 			try {
-				if (!this.evaluator.isLocal(instantiatedAxiom, this.signature)) {
+				Set<OWLEntity> actualSignature=new HashSet<OWLEntity>(this.signature);
+				for(SigmaPlusSigmaMinus s:variableBindings.values()) {
+					actualSignature.add(s.getPlus());
+				}
+				if (!this.evaluator.isLocal(instantiatedAxiom, actualSignature)) {
 					this.foundNonLocals.add(instantiatedAxiom);
 					safe = false;
 				}
@@ -126,11 +131,8 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		Set<Variable> unassignedVariables = node.getUnassignedVariables();
 		for (Variable variable : unassignedVariables) {
-			if (this.getVariableBindings().get(variable).size() == 0) {
-				System.out.println("LocalityCheckerLeafBrusher.generateChildren() no values for: "
-						+ variable);
-			} else {
-				for (OWLObject owlObject : this.getVariableBindings().get(variable)) {
+			
+				for (OWLObject owlObject : this.variableBindings.get(variable)) {
 					Set<Variable> childUnassignedVariables = new HashSet<Variable>(
 							unassignedVariables);
 					childUnassignedVariables.remove(variable);
@@ -141,7 +143,7 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
 							childUnassignedVariables);
 					toReturn.add(newNode);
 				}
-			}
+			
 		}
 		return toReturn;
 	}
@@ -162,10 +164,5 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
 		this.signature.addAll(signature);
 	}
 
-	/**
-	 * @return the variableBindings
-	 */
-	public Map<Variable, Set<OWLObject>> getVariableBindings() {
-		return this.variableBindings;
-	}
+	
 }

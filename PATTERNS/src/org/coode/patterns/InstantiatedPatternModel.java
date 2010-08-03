@@ -24,6 +24,7 @@ package org.coode.patterns;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -82,7 +83,12 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript, Pattern
 	private String unresolvedOPPLStatementString;
 
 	public Set<OWLObject> getInstantiations(Variable variable) {
-		return this.instantiations.get(variable);
+		// defensive copy; it also guarantees that no nulls are returned
+		Set<OWLObject> toReturn= new HashSet<OWLObject>();
+		if(this.instantiations.containsKey(variable)) {
+			toReturn.addAll(this.instantiations.get(variable));
+		}
+		return toReturn;
 	}
 
 	/**
@@ -219,28 +225,6 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript, Pattern
 		rootBindingNode.accept(leafBrusher);
 		Set<BindingNode> leaves = leafBrusher.getLeaves();
 		return leaves;
-	}
-
-	public Map<Variable, Set<OWLObject>> extractAllPossibleBindingNodes(OWLOntology o,
-			Set<OWLEntity> signature) {
-		Map<Variable, Set<OWLObject>> toReturn = new HashMap<Variable, Set<OWLObject>>();
-		List<Variable> inputVariables = this.getInputVariables();
-		for (Variable v : inputVariables) {
-			HashSet<OWLObject> values = new HashSet<OWLObject>();
-			values.add(this.getPatternModel().getConstraintSystem().getOntologyManager().getOWLDataFactory().getOWLNothing());
-			toReturn.put(v, values);
-			if (!this.instantiations.containsKey(v)) {
-				Set<? extends OWLObject> referencedValues = v.getType().getReferencedOWLObjects(
-						this.getPatternModel().getConstraintSystem().getOntologyManager().getOntologies());
-				for (OWLObject bind : referencedValues) {
-					if (signature.contains(bind)) {
-						values.add(bind);
-					}
-				}
-				toReturn.put(v, values);
-			}
-		}
-		return toReturn;
 	}
 
 	@SuppressWarnings("unchecked")

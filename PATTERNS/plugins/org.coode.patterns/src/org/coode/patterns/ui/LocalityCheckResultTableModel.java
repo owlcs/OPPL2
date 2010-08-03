@@ -1,8 +1,10 @@
 package org.coode.patterns.ui;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -41,7 +43,7 @@ public class LocalityCheckResultTableModel implements TableModel {
 		return this.dataArray;
 	}
 
-	public LocalityCheckResultTableModel(LocalityChecker checker, OWLEntity not) {
+	public LocalityCheckResultTableModel(LocalityChecker checker) {
 		List<Variable> toAssign = new ArrayList<Variable>(
 				checker.getInstantiatedPatternModel().getInputVariables());
 		List<Boolean> bindingsLocality = checker.getExploredNodesLocality();
@@ -51,13 +53,14 @@ public class LocalityCheckResultTableModel implements TableModel {
 		for (int i = 0; i < toAssign.size(); i++) {
 			this.dataArray[0][i + 1] = toAssign.get(i).getName();
 		}
+		Set<OWLEntity> sigmaMinus=checker.getSigmaMinus();
 		if (bindings.size() == bindingsLocality.size()) {
 			for (int i = 0; i < bindings.size(); i++) {
 				this.setValueAt(bindingsLocality.get(i), i, 0);
 				BindingNode node = bindings.get(i);
 				for (int j = 0; j < toAssign.size(); j++) {
 					Variable v = toAssign.get(j);
-					if (!not.equals(node.getAssignmentValue(v))) {
+					if (!sigmaMinus.contains(node.getAssignmentValue(v))) {
 						this.setValueAt(values.PRESENT.val, i, j + 1);
 					} else {
 						this.setValueAt(values.ABSENT.val, i, j + 1);

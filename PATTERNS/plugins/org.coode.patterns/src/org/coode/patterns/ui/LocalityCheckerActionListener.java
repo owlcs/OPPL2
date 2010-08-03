@@ -90,6 +90,6 @@ public class LocalityCheckerActionListener extends LocalityChecker implements Ac
 	}
 
 	public TableModel print() {
-		return new LocalityCheckResultTableModel(this, this.not);
+		return new LocalityCheckResultTableModel(this);
 	}
 }
