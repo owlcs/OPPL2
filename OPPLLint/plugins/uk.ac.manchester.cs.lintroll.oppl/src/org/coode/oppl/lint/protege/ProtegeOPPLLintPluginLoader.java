@@ -1,9 +1,12 @@
 package org.coode.oppl.lint.protege;
 
+import java.util.EnumSet;
+
 import org.coode.lint.protege.loader.AbstractLintPluginLoader;
 import org.eclipse.core.runtime.IExtension;
 import org.protege.editor.core.plugin.PluginExtensionMatcher;
 import org.protege.editor.owl.OWLEditorKit;
+import org.protege.editor.owl.model.event.EventType;
 
 /**
  * Author: Matthew Horridge<br>
@@ -16,11 +19,9 @@ import org.protege.editor.owl.OWLEditorKit;
  * www.cs.man.ac.uk/~horridgm<br>
  * <br>
  */
-public final class ProtegeOPPLLintPluginLoader extends
-		AbstractLintPluginLoader<OPPLLintPlugin> {
+public final class ProtegeOPPLLintPluginLoader extends AbstractLintPluginLoader<OPPLLintPlugin> {
 	public ProtegeOPPLLintPluginLoader(OWLEditorKit owlEditorKit) {
-		super("uk.ac.manchester.cs.lintroll.oppl",
-				OPPLLintPlugin.LINT_PLUGIN_TYPE_ID, owlEditorKit);
+		super("uk.ac.manchester.cs.lintroll.oppl", OPPLLintPlugin.LINT_PLUGIN_TYPE_ID, owlEditorKit);
 	}
 
 	/**
@@ -60,5 +61,14 @@ public final class ProtegeOPPLLintPluginLoader extends
 				return true;
 			}
 		};
+	}
+
+	@Override
+	public EnumSet<EventType> getRelevantEventTypes() {
+		return EnumSet.of(
+				EventType.ACTIVE_ONTOLOGY_CHANGED,
+				EventType.ONTOLOGY_RELOADED,
+				EventType.REASONER_CHANGED,
+				EventType.ENTITY_RENDERER_CHANGED);
 	}
 }

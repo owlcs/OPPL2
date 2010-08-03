@@ -3,10 +3,13 @@
  */
 package org.coode.oppl.lint.filtering.protege;
 
+import java.util.EnumSet;
+
 import org.coode.lint.protege.loader.AbstractLintPluginLoader;
 import org.eclipse.core.runtime.IExtension;
 import org.protege.editor.core.plugin.PluginExtensionMatcher;
 import org.protege.editor.owl.OWLEditorKit;
+import org.protege.editor.owl.model.event.EventType;
 
 /**
  * @author Luigi Iannone
@@ -48,5 +51,14 @@ public class FilteringOPPLLintPluginLoader extends
 	@Override
 	protected FilteringOPPLLintPlugin createInstance(IExtension extension) {
 		return new FilteringOPPLLintPlugin(extension, this.getOWLEditorKit());
+	}
+
+	@Override
+	public EnumSet<EventType> getRelevantEventTypes() {
+		return EnumSet.of(
+				EventType.ACTIVE_ONTOLOGY_CHANGED,
+				EventType.ONTOLOGY_RELOADED,
+				EventType.REASONER_CHANGED,
+				EventType.ENTITY_RENDERER_CHANGED);
 	}
 }

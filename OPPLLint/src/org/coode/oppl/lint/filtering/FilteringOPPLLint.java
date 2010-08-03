@@ -16,9 +16,12 @@ import org.semanticweb.owl.lint.LintException;
 import org.semanticweb.owl.lint.LintReport;
 import org.semanticweb.owl.lint.LintVisitor;
 import org.semanticweb.owl.lint.LintVisitorEx;
+import org.semanticweb.owl.lint.configuration.LintConfiguration;
 import org.semanticweb.owl.model.OWLObject;
 import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.OWLOntologyManager;
+
+import uk.ac.manchester.cs.owl.lint.commons.NonConfigurableLintConfiguration;
 
 /**
  * @author Luigi Iannone
@@ -75,10 +78,9 @@ public class FilteringOPPLLint implements Lint<OWLObject> {
 	 * @throws LintException
 	 * @see org.coode.oppl.lint.OPPLLintScript#detected(java.util.Collection)
 	 */
-	public LintReport<OWLObject> detected(
-			Collection<? extends OWLOntology> targets) throws LintException {
-		LintReport<OWLObject> delegateDetected = this.getDelegate().detected(
-				targets);
+	public LintReport<OWLObject> detected(Collection<? extends OWLOntology> targets)
+			throws LintException {
+		LintReport<OWLObject> delegateDetected = this.getDelegate().detected(targets);
 		LintReportFilter<OWLObject> lintReportFilter = new LintReportFilter<OWLObject>(
 				this.getFilter());
 		return lintReportFilter.filter(delegateDetected);
@@ -152,8 +154,10 @@ public class FilteringOPPLLint implements Lint<OWLObject> {
 	@Override
 	public String toString() {
 		Formatter formatter = new Formatter();
-		formatter.format("Fiiltering OPPL Lint script: %s, filter: %s", this
-				.getDelegate().toString(), this.getFilter().toString());
+		formatter.format(
+				"Fiiltering OPPL Lint script: %s, filter: %s",
+				this.getDelegate().toString(),
+				this.getFilter().toString());
 		return formatter.out().toString();
 	}
 
@@ -180,10 +184,8 @@ public class FilteringOPPLLint implements Lint<OWLObject> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ (this.delegate == null ? 0 : this.delegate.hashCode());
-		result = prime * result
-				+ (this.filter == null ? 0 : this.filter.hashCode());
+		result = prime * result + (this.delegate == null ? 0 : this.delegate.hashCode());
+		result = prime * result + (this.filter == null ? 0 : this.filter.hashCode());
 		return result;
 	}
 
@@ -219,5 +221,9 @@ public class FilteringOPPLLint implements Lint<OWLObject> {
 			return false;
 		}
 		return true;
+	}
+
+	public LintConfiguration getLintConfiguration() {
+		return NonConfigurableLintConfiguration.getInstance();
 	}
 }
