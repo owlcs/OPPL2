@@ -53,7 +53,7 @@ public class LocalityCheckerTest {
 		toTest.setInstantiatedPatternModel(m);
 		Set<BindingNode> extractBindingNodes = m.extractBindingNodes();
 		m.getConstraintSystem().setLeaves(extractBindingNodes);
-		System.out.println(toTest.isLocal(ontology));
+		System.out.println(toTest.isLocal());
 		print( toTest);
 	}
 

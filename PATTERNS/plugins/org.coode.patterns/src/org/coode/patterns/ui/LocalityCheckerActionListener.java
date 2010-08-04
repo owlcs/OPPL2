@@ -22,19 +22,17 @@ public class LocalityCheckerActionListener extends LocalityChecker implements Ac
 	private static final String SAFETY_ANALYSIS_BREAKDOWN = "Safety analysis breakdown";
 	public final static int DIMENSION = 18;
 	private final JButton resultButton;
-	private OWLOntology activeOntology;
-	private OWLEntity not;
-
+	
 	public LocalityCheckerActionListener(final OWLEditorKit kit, Set<OWLEntity> signature,
 			JButton resultButton) {
 		super(kit.getOWLModelManager().getOWLOntologyManager(),
 				kit.getOWLModelManager().getReasoner(), signature);
-		this.activeOntology = kit.getOWLModelManager().getActiveOntology();
+		
 		this.resultButton = resultButton;
 		this.resultButton.setIcon(this.generateIcon(Color.gray));
 		this.resultButton.setToolTipText("Check not executed yet");
 		this.resultButton.setEnabled(false);
-		this.not = kit.getOWLModelManager().getOWLDataFactory().getOWLNothing();
+		
 	}
 
 	public Icon generateIcon(final Color color) {
@@ -81,7 +79,7 @@ public class LocalityCheckerActionListener extends LocalityChecker implements Ac
 		this.resultButton.setEnabled(true);
 		this.resultButton.setToolTipText(SAFETY_ANALYSIS_BREAKDOWN);
 		if (this.getInstantiatedPatternModel() != null) {
-			if (!this.isLocal(this.activeOntology)) {
+			if (!this.isLocal()) {
 				this.resultButton.setIcon(this.generateIcon(Color.red));
 			} else {
 				this.resultButton.setIcon(this.generateIcon(Color.green));

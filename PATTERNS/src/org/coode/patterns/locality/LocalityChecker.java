@@ -25,95 +25,164 @@ import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
 import org.coode.oppl.variabletypes.INDIVIDUALVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
 import org.coode.patterns.InstantiatedPatternModel;
+import org.semanticweb.owl.apibinding.OWLManager;
 import org.semanticweb.owl.inference.OWLReasoner;
 import org.semanticweb.owl.inference.OWLReasonerException;
 import org.semanticweb.owl.model.OWLAxiom;
+import org.semanticweb.owl.model.OWLClass;
+import org.semanticweb.owl.model.OWLDataFactory;
+import org.semanticweb.owl.model.OWLDataProperty;
 import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owl.model.OWLIndividual;
 import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owl.model.OWLObjectProperty;
 import org.semanticweb.owl.model.OWLOntology;
+import org.semanticweb.owl.model.OWLOntologyChangeException;
+import org.semanticweb.owl.model.OWLOntologyCreationException;
 import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owl.model.OWLOntologyURIMapper;
 import org.semanticweb.owl.util.OWLEntityCollector;
 
 public class LocalityChecker {
-	private InstantiatedPatternModel instantiatedPatternModel;
-	private final Set<OWLEntity> entities = new HashSet<OWLEntity>();
-	private LocalityEvaluator evaluator;
-	private final OWLOntologyManager manager;
-	private LocalityCheckerLeafBrusher leafBrusher;
-	VariableTypeVisitorEx<OWLEntity> plusBuilder = new VariableTypeVisitorEx<OWLEntity>() {
+	private class SigmaBuilder implements VariableTypeVisitorEx<OWLEntity> {
+		private final OWLOntologyManager manager;
+		private final OWLClass thing;
+		private final OWLDataFactory factory;
+
+		private SigmaBuilder(OWLOntologyManager manager) {
+			this.manager = manager;
+			this.factory = manager.getOWLDataFactory();
+			this.thing = this.factory.getOWLThing();
+		}
+
 		URI create() {
 			return URI.create("urn:sigmaplus:a" + UUID.randomUUID().toString());
 		}
 
 		public OWLEntity visit(SingleValueGeneratedVariable<?> v) {
+			// generated variables should not be used for this
 			return null;
 		}
 
 		public OWLEntity visit(INDIVIDUALVariable v) {
-			return manager.getOWLDataFactory().getOWLIndividual(create());
+			OWLIndividual owlIndividual = this.factory
+					.getOWLIndividual(create());
+			try {
+				this.manager.addAxiom(scratchpad, this.factory
+						.getOWLClassAssertionAxiom(owlIndividual, thing));
+			} catch (OWLOntologyChangeException e) {
+				//should never happen 
+				throw new RuntimeException("Unexpected condition", e);
+			}
+			return owlIndividual;
 		}
 
 		public OWLEntity visit(DATAPROPERTYVariable v) {
-			return manager.getOWLDataFactory().getOWLDataProperty(create());
+			OWLDataProperty owlDataProperty = this.factory
+					.getOWLDataProperty(create());
+			try {
+				this.manager.addAxiom(scratchpad,
+						this.factory.getOWLDeclarationAxiom(owlDataProperty));
+			} catch (OWLOntologyChangeException e) {
+				//should never happen 
+				throw new RuntimeException("Unexpected condition", e);
+			}
+			return owlDataProperty;
 		}
 
 		public OWLEntity visit(OBJECTPROPERTYVariable v) {
-			return manager.getOWLDataFactory().getOWLObjectProperty(create());
+			OWLObjectProperty owlObjectProperty = this.factory
+					.getOWLObjectProperty(create());
+			try {
+				this.manager.addAxiom(scratchpad,
+						this.factory.getOWLDeclarationAxiom(owlObjectProperty));
+			} catch (OWLOntologyChangeException e) {
+				//should never happen 
+				throw new RuntimeException("Unexpected condition", e);
+			}
+			return owlObjectProperty;
 		}
 
 		public OWLEntity visit(CONSTANTVariable v) {
+			// it's not an owlentity in this case
 			return null;
 		}
 
 		public OWLEntity visit(CLASSVariable v) {
-			return manager.getOWLDataFactory().getOWLClass(create());
+			OWLClass owlClass = this.factory.getOWLClass(create());
+			try {
+				this.manager.addAxiom(scratchpad,
+						this.factory.getOWLDeclarationAxiom(owlClass));
+			} catch (OWLOntologyChangeException e) {
+				//should never happen 
+				throw new RuntimeException("Unexpected condition", e);
+			}
+			return owlClass;
 		}
-	};
-	VariableTypeVisitorEx<OWLEntity> minusBuilder = new VariableTypeVisitorEx<OWLEntity>() {
-		URI create() {
-			return URI
-					.create("urn:sigmaminus:a" + UUID.randomUUID().toString());
-		}
+	}
 
-		public OWLEntity visit(SingleValueGeneratedVariable<?> v) {
-			return null;
-		}
-
-		public OWLEntity visit(INDIVIDUALVariable v) {
-			return manager.getOWLDataFactory().getOWLIndividual(create());
-		}
-
-		public OWLEntity visit(DATAPROPERTYVariable v) {
-			return manager.getOWLDataFactory().getOWLDataProperty(create());
-		}
-
-		public OWLEntity visit(OBJECTPROPERTYVariable v) {
-			return manager.getOWLDataFactory().getOWLObjectProperty(create());
-		}
-
-		public OWLEntity visit(CONSTANTVariable v) {
-			return null;
-		}
-
-		public OWLEntity visit(CLASSVariable v) {
-			return manager.getOWLDataFactory().getOWLClass(create());
-		}
-	};
+	private InstantiatedPatternModel instantiatedPatternModel;
+	private final Set<OWLEntity> entities = new HashSet<OWLEntity>();
+	private LocalityEvaluator evaluator;
+	private final OWLOntologyManager myManager;
+	private final OWLOntology scratchpad;
+	private LocalityCheckerLeafBrusher leafBrusher;
+	private final VariableTypeVisitorEx<OWLEntity> plusBuilder;
+	private final VariableTypeVisitorEx<OWLEntity> minusBuilder;
 	private Map<Variable, SigmaPlusSigmaMinus> sigmaValues;
+	private OWLReasoner reasoner;
+	private OWLOntologyManager externalManager;
 
-	public LocalityChecker(OWLOntologyManager manager, OWLReasoner r,
+	public LocalityChecker(final OWLOntologyManager manager, OWLReasoner r,
 			Collection<? extends OWLEntity> entities) {
+		this.externalManager = manager;
+		this.myManager = OWLManager.createOWLOntologyManager();
+		myManager.addURIMapper(new OWLOntologyURIMapper() {
+			public URI getPhysicalURI(URI ontologyURI) {
+				return ontologyURI;
+			}
+		});
 		try {
-			r.loadOntologies(manager.getOntologies());
+			this.scratchpad = myManager.createOntology(Collections
+					.<OWLAxiom> emptySet());
+			// neither exceptions should ever be thrown
+		} catch (OWLOntologyCreationException e) {
+			throw new RuntimeException("Unexpected exception type", e);
+		} catch (OWLOntologyChangeException e) {
+			throw new RuntimeException("Unexpected exception type", e);
+		}
+		this.reasoner = r;
+		ensureClassified(r);
+		this.evaluator = new SemanticLocalityEvaluator(externalManager, r);
+		this.entities.addAll(entities);
+		plusBuilder = new SigmaBuilder(myManager);
+		minusBuilder = new SigmaBuilder(myManager) {
+			URI create() {
+				return URI.create("urn:sigmaminus:a"
+						+ UUID.randomUUID().toString());
+			}
+		};
+	}
+
+	private void ensureOntologiesUnloaded(OWLReasoner r) {
+		// removing the ontologies does not seem to work properly
+//		try {
+//			r.clearOntologies();
+//		} catch (OWLReasonerException e) {
+//			e.printStackTrace();
+//		}
+	}
+
+	private void ensureClassified(OWLReasoner r) {
+		try {
+			r.loadOntologies(externalManager.getOntologies());
+			r.loadOntologies(myManager.getOntologies());
 			if (!r.isClassified()) {
 				r.classify();
 			}
 		} catch (OWLReasonerException e) {
 			e.printStackTrace();
 		}
-		this.manager = manager;
-		this.evaluator = new SemanticLocalityEvaluator(manager, r);
-		this.entities.addAll(entities);
 	}
 
 	public void setSignature(Collection<? extends OWLEntity> owlentities) {
@@ -125,8 +194,9 @@ public class LocalityChecker {
 		this.instantiatedPatternModel = m;
 	}
 
-	public boolean isLocal(OWLOntology o) {
-		sigmaValues = buildMinimalBindingNodes(this.entities);
+	public boolean isLocal() {
+		sigmaValues = buildMinimalBindingNodes();
+		ensureClassified( reasoner);
 		BindingNode rootBindingNode = new BindingNode(
 				Collections.<Assignment> emptySet(), sigmaValues.keySet());
 		this.leafBrusher = new LocalityCheckerLeafBrusher(this.getEvaluator(),
@@ -134,7 +204,9 @@ public class LocalityChecker {
 				this.getInstantiatedPatternModel().getInstantiatedPattern(),
 				sigmaValues, this.getEntities());
 		rootBindingNode.accept(this.leafBrusher);
-		return this.leafBrusher.isLocal();
+		boolean local = this.leafBrusher.isLocal();
+		ensureOntologiesUnloaded(reasoner);
+		return local;
 	}
 
 	public Map<Variable, Collection<OWLObject>> extractAllPossibleBindingNodes(
@@ -163,17 +235,16 @@ public class LocalityChecker {
 		return toReturn;
 	}
 
-	public Map<Variable, SigmaPlusSigmaMinus> buildMinimalBindingNodes(
-			Collection<OWLEntity> sig) {
+	public Map<Variable, SigmaPlusSigmaMinus> buildMinimalBindingNodes() {
 		Map<Variable, SigmaPlusSigmaMinus> toReturn = new HashMap<Variable, SigmaPlusSigmaMinus>();
 		List<Variable> inputVariables = instantiatedPatternModel
 				.getInputVariables();
 		for (Variable v : inputVariables) {
-			// XXX this uses the first element coming out of the signature, but it's potentially wrong
-			// however, the right approach, i.e., generating a new symbol, also requires modification to the ontology, i.e., the new class, property, must be declared in the ontology
-			SigmaPlusSigmaMinus values = new SigmaPlusSigmaMinus(sig.iterator()
-					.next(), v.accept(minusBuilder));
-			toReturn.put(v, values);
+			SigmaPlusSigmaMinus values = new SigmaPlusSigmaMinus(
+					v.accept(plusBuilder), v.accept(minusBuilder));
+			if (values.getPlus() != null && values.getMinus() != null) {
+				toReturn.put(v, values);
+			}
 		}
 		return toReturn;
 	}

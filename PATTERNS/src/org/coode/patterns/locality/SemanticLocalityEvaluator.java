@@ -246,8 +246,8 @@ public final class SemanticLocalityEvaluator implements LocalityEvaluator {
 		public void visit(OWLObjectAllRestriction desc) {
 			if (this.signature.contains(desc.getProperty().getNamedProperty()))
 				this.newDescription = SemanticLocalityEvaluator.this.df
-						.getOWLObjectAllRestriction(desc.getProperty(), this
-								.replaceBottom(desc.getFiller()));
+						.getOWLObjectAllRestriction(desc.getProperty(),
+								this.replaceBottom(desc.getFiller()));
 			else
 				this.newDescription = SemanticLocalityEvaluator.this.df
 						.getOWLThing();
@@ -302,8 +302,8 @@ public final class SemanticLocalityEvaluator implements LocalityEvaluator {
 		public void visit(OWLObjectSomeRestriction desc) {
 			if (this.signature.contains(desc.getProperty().getNamedProperty())) {
 				this.newDescription = SemanticLocalityEvaluator.this.df
-						.getOWLObjectSomeRestriction(desc.getProperty(), this
-								.replaceBottom(desc.getFiller()));
+						.getOWLObjectSomeRestriction(desc.getProperty(),
+								this.replaceBottom(desc.getFiller()));
 			} else
 				this.newDescription = SemanticLocalityEvaluator.this.df
 						.getOWLNothing();
@@ -333,11 +333,7 @@ public final class SemanticLocalityEvaluator implements LocalityEvaluator {
 	 * True if the axiom is semantically local w.r.t. given signature
 	 */
 	public boolean isLocal(OWLAxiom axiom, Set<? extends OWLEntity> signature) {
-		// System.out.println("Replacing axiom by Bottom: " + axiom);
-		// OWLAxiom newAxiom = this.bottomReplacer.replaceBottom(axiom,
-		// signature);
-		// System.out.println("Replaced  axiom          : " + newAxiom);
-		// return newAxiom != null && this.axiomVisitor.isLocal(newAxiom);
-		return this.axiomVisitor.isLocal(axiom);
+		OWLAxiom newAxiom = this.bottomReplacer.replaceBottom(axiom, signature);
+		return newAxiom != null && this.axiomVisitor.isLocal(newAxiom);
 	}
 }
