@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="plugins/uk.ac.manchester.cs.lintroll.oppl/src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/OWLLint"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/OPPL2"/>
 	<classpathentry kind="lib" path="/protege-standalone/plugins/org.semanticweb.owl.owlapi/lib/owlapi-bin.jar" sourcepath="/OWLAPI"/>
@@ -11,5 +10,6 @@
 	<classpathentry kind="lib" path="/protege-standalone/osgi/equinox/bundles/org.eclipse.equinox.registry.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Parsers"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/1.5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

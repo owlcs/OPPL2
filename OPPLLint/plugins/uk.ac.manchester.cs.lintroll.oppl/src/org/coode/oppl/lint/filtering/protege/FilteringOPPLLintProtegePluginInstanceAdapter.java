@@ -6,6 +6,7 @@ import org.coode.oppl.lint.filtering.Filter;
 import org.coode.oppl.lint.filtering.FilteringOPPLLint;
 import org.eclipse.core.runtime.IExtension;
 import org.protege.editor.core.plugin.PluginProperties;
+import org.semanticweb.owl.lint.Lint;
 import org.semanticweb.owl.model.OWLObject;
 
 public final class FilteringOPPLLintProtegePluginInstanceAdapter extends FilteringOPPLLint
@@ -39,9 +40,18 @@ public final class FilteringOPPLLintProtegePluginInstanceAdapter extends Filteri
 				this.delegate.getName());
 	}
 
+	@Override
+	public String toString() {
+		return this.delegate.toString();
+	}
+
 	public void dispose() throws Exception {
 	}
 
 	public void initialise() throws Exception {
+	}
+
+	public Lint<?> getOriginatingLint() {
+		return this.delegate;
 	}
 }
