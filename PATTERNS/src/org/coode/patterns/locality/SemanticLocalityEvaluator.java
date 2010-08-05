@@ -47,14 +47,14 @@ public final class SemanticLocalityEvaluator implements LocalityEvaluator {
 		OWLAxiom newAxiom = this.bottomReplacer.replaceBottom(axiom, signature);
 		boolean toReturn = newAxiom == null
 				|| this.axiomVisitor.isLocal(newAxiom);
-		if (axiom instanceof OWLClassAssertionAxiom) {
-			System.out
-					.println("SemanticLocalityEvaluator.isLocal() replaced axiom: "
-							+ axiom
-							+ "\nreplacing axiom: "
-							+ newAxiom
-							+ "\nlocal? " + toReturn);
-		}
+//		if (axiom instanceof OWLClassAssertionAxiom) {
+//			System.out
+//					.println("SemanticLocalityEvaluator.isLocal() replaced axiom: "
+//							+ axiom
+//							+ "\nreplacing axiom: "
+//							+ newAxiom
+//							+ "\nlocal? " + toReturn);
+//		}
 		return toReturn;
 		//		if (newAxiom == null) {
 		//			return this.axiomVisitor.isLocal(axiom);
