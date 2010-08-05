@@ -15,8 +15,9 @@ import org.protege.editor.owl.model.event.EventType;
  * @author Luigi Iannone
  * 
  */
-public class FilteringOPPLLintPluginLoader extends
-		AbstractLintPluginLoader<FilteringOPPLLintPlugin> {
+public class FilteringOPPLLintPluginLoader
+		extends
+		AbstractLintPluginLoader<FilteringOPPLLintPlugin, FilteringOPPLLintProtegePluginInstanceAdapter> {
 	public FilteringOPPLLintPluginLoader(OWLEditorKit owlEditorKit) {
 		super("uk.ac.manchester.cs.lintroll.oppl",
 				FilteringOPPLLintPlugin.FILTER_OPPL_LINT_PLUGIN_TYPE_ID, owlEditorKit);

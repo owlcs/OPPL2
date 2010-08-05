@@ -11,17 +11,15 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.lint.OPPLLintScript;
+import org.coode.oppl.lint.configuration.FilteringOPPLLintConfiguration;
 import org.semanticweb.owl.lint.Lint;
 import org.semanticweb.owl.lint.LintException;
 import org.semanticweb.owl.lint.LintReport;
 import org.semanticweb.owl.lint.LintVisitor;
 import org.semanticweb.owl.lint.LintVisitorEx;
-import org.semanticweb.owl.lint.configuration.LintConfiguration;
 import org.semanticweb.owl.model.OWLObject;
 import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.OWLOntologyManager;
-
-import uk.ac.manchester.cs.owl.lint.commons.NonConfigurableLintConfiguration;
 
 /**
  * @author Luigi Iannone
@@ -30,6 +28,7 @@ import uk.ac.manchester.cs.owl.lint.commons.NonConfigurableLintConfiguration;
 public class FilteringOPPLLint implements Lint<OWLObject> {
 	private final OPPLLintScript delegate;
 	private final Filter<OWLObject> filter;
+	private FilteringOPPLLintConfiguration lintConfiguration = null;;
 
 	/**
 	 * @param delegate
@@ -43,7 +42,8 @@ public class FilteringOPPLLint implements Lint<OWLObject> {
 			throw new NullPointerException("The filter cannot be null");
 		}
 		this.delegate = delegate;
-		this.filter = filter;
+		this.filter = new OPPLLintFilter(this, filter);
+		this.lintConfiguration = new FilteringOPPLLintConfiguration(this, filter);
 	}
 
 	/**
@@ -223,7 +223,7 @@ public class FilteringOPPLLint implements Lint<OWLObject> {
 		return true;
 	}
 
-	public LintConfiguration getLintConfiguration() {
-		return NonConfigurableLintConfiguration.getInstance();
+	public FilteringOPPLLintConfiguration getLintConfiguration() {
+		return this.lintConfiguration;
 	}
 }

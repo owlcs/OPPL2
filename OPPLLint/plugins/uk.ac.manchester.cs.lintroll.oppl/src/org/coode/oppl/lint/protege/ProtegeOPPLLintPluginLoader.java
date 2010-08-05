@@ -2,11 +2,13 @@ package org.coode.oppl.lint.protege;
 
 import java.util.EnumSet;
 
+import org.coode.lint.protege.LintProtegePluginInstanceAdapter;
 import org.coode.lint.protege.loader.AbstractLintPluginLoader;
 import org.eclipse.core.runtime.IExtension;
 import org.protege.editor.core.plugin.PluginExtensionMatcher;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.event.EventType;
+import org.semanticweb.owl.model.OWLObject;
 
 /**
  * Author: Matthew Horridge<br>
@@ -19,7 +21,8 @@ import org.protege.editor.owl.model.event.EventType;
  * www.cs.man.ac.uk/~horridgm<br>
  * <br>
  */
-public final class ProtegeOPPLLintPluginLoader extends AbstractLintPluginLoader<OPPLLintPlugin> {
+public final class ProtegeOPPLLintPluginLoader extends
+		AbstractLintPluginLoader<OPPLLintPlugin, LintProtegePluginInstanceAdapter<OWLObject>> {
 	public ProtegeOPPLLintPluginLoader(OWLEditorKit owlEditorKit) {
 		super("uk.ac.manchester.cs.lintroll.oppl", OPPLLintPlugin.LINT_PLUGIN_TYPE_ID, owlEditorKit);
 	}

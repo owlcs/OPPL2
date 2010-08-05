@@ -3,6 +3,7 @@ package org.coode.oppl.lint.filtering.protege;
 import org.coode.oppl.lint.filtering.Filter;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owl.inference.OWLReasoner;
+import org.semanticweb.owl.lint.configuration.LintConfiguration;
 import org.semanticweb.owl.model.OWLObject;
 import org.semanticweb.owl.model.OWLOntologyManager;
 
@@ -64,5 +65,13 @@ public class ProtegeFilter<O extends OWLObject> implements Filter<O> {
 			throw new NullPointerException("The OWL Editor Kit cannot be null");
 		}
 		return new ProtegeFilter<P>(owlEditorKit, delegate);
+	}
+
+	public LintConfiguration getLintConfiguration() {
+		return this.delegate.getLintConfiguration();
+	}
+
+	public Class<?> getOriginatingFilterClass() {
+		return this.delegate.getClass();
 	}
 }

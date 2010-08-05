@@ -11,8 +11,9 @@ import org.protege.editor.owl.OWLEditorKit;
  * @author Luigi Iannone
  * 
  */
-public class FilteringOPPLLintLoaderFactory implements LoaderFactory<FilteringOPPLLintPlugin> {
-	public AbstractLintPluginLoader<FilteringOPPLLintPlugin> createLintPluginLoader(
+public class FilteringOPPLLintLoaderFactory implements
+		LoaderFactory<FilteringOPPLLintPlugin, FilteringOPPLLintProtegePluginInstanceAdapter> {
+	public AbstractLintPluginLoader<FilteringOPPLLintPlugin, FilteringOPPLLintProtegePluginInstanceAdapter> createLintPluginLoader(
 			OWLEditorKit owlEditorKit) {
 		return new FilteringOPPLLintPluginLoader(owlEditorKit);
 	}
