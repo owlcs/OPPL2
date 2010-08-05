@@ -13,6 +13,7 @@ import org.coode.patterns.OPPLPatternParser;
 import org.coode.patterns.ParserFactory;
 import org.coode.patterns.PatternModel;
 import org.coode.patterns.PatternOPPLScript;
+import org.coode.patterns.UnsuitableOPPLScriptException;
 import org.coode.patterns.locality.LocalityChecker;
 import org.coode.patterns.locality.SigmaPlusSigmaMinus;
 import org.coode.patterns.ui.LocalityCheckResultTableModel;
@@ -20,6 +21,7 @@ import org.semanticweb.owl.apibinding.OWLManager;
 import org.semanticweb.owl.inference.OWLReasoner;
 import org.semanticweb.owl.model.OWLEntity;
 import org.semanticweb.owl.model.OWLOntology;
+import org.semanticweb.owl.model.OWLOntologyCreationException;
 import org.semanticweb.owl.model.OWLOntologyManager;
 import org.semanticweb.owl.model.OWLOntologyURIMapper;
 import org.semanticweb.owl.util.AutoURIMapper;
@@ -33,6 +35,16 @@ public class LocalityCheckerTest {
 				"BEGIN\n" +
 				"ADD ?x subClassOf Thing\n" +
 				"END;";
+		runScript(string);
+		string="?x:CLASS, ?y:INDIVIDUAL\n" +
+				"BEGIN\n" +
+				"ADD ?y types ?x\n" +
+				"END;";
+		runScript(string);
+	}
+
+	private static void runScript(String string)
+			throws OWLOntologyCreationException, UnsuitableOPPLScriptException {
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		OWLOntologyURIMapper siemensmapper = new AutoURIMapper(new File("/Users/ignazio/ontologies/test_caches/"),
 				true);
@@ -53,6 +65,7 @@ public class LocalityCheckerTest {
 		toTest.setInstantiatedPatternModel(m);
 		Set<BindingNode> extractBindingNodes = m.extractBindingNodes();
 		m.getConstraintSystem().setLeaves(extractBindingNodes);
+		System.out.println(string);
 		System.out.println(toTest.isLocal());
 		print( toTest);
 	}

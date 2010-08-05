@@ -53,14 +53,14 @@ public class LocalityCheckResultTableModel implements TableModel {
 		for (int i = 0; i < toAssign.size(); i++) {
 			this.dataArray[0][i + 1] = toAssign.get(i).getName();
 		}
-		Set<OWLEntity> sigmaMinus=checker.getSigmaMinus();
+		Set<OWLEntity> sigmaMinus=checker.getEntities();sigmaMinus.addAll(checker.getSigmaPlus());
 		if (bindings.size() == bindingsLocality.size()) {
 			for (int i = 0; i < bindings.size(); i++) {
 				this.setValueAt(bindingsLocality.get(i), i, 0);
 				BindingNode node = bindings.get(i);
 				for (int j = 0; j < toAssign.size(); j++) {
 					Variable v = toAssign.get(j);
-					if (!sigmaMinus.contains(node.getAssignmentValue(v))) {
+					if (sigmaMinus.contains(node.getAssignmentValue(v))) {
 						this.setValueAt(values.PRESENT.val, i, j + 1);
 					} else {
 						this.setValueAt(values.ABSENT.val, i, j + 1);

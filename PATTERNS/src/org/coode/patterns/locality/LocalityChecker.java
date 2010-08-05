@@ -166,11 +166,11 @@ public class LocalityChecker {
 
 	private void ensureOntologiesUnloaded(OWLReasoner r) {
 		// removing the ontologies does not seem to work properly
-//		try {
-//			r.clearOntologies();
-//		} catch (OWLReasonerException e) {
-//			e.printStackTrace();
-//		}
+		//		try {
+		//			r.clearOntologies();
+		//		} catch (OWLReasonerException e) {
+		//			e.printStackTrace();
+		//		}
 	}
 
 	private void ensureClassified(OWLReasoner r) {
@@ -196,7 +196,7 @@ public class LocalityChecker {
 
 	public boolean isLocal() {
 		sigmaValues = buildMinimalBindingNodes();
-		ensureClassified( reasoner);
+		ensureClassified(reasoner);
 		BindingNode rootBindingNode = new BindingNode(
 				Collections.<Assignment> emptySet(), sigmaValues.keySet());
 		this.leafBrusher = new LocalityCheckerLeafBrusher(this.getEvaluator(),
@@ -240,10 +240,12 @@ public class LocalityChecker {
 		List<Variable> inputVariables = instantiatedPatternModel
 				.getInputVariables();
 		for (Variable v : inputVariables) {
-			SigmaPlusSigmaMinus values = new SigmaPlusSigmaMinus(
-					v.accept(plusBuilder), v.accept(minusBuilder));
-			if (values.getPlus() != null && values.getMinus() != null) {
-				toReturn.put(v, values);
+			if (instantiatedPatternModel.getInstantiations(v).size() == 0) {
+				SigmaPlusSigmaMinus values = new SigmaPlusSigmaMinus(
+						v.accept(plusBuilder), v.accept(minusBuilder));
+				if (values.getPlus() != null && values.getMinus() != null) {
+					toReturn.put(v, values);
+				}
 			}
 		}
 		return toReturn;
@@ -306,6 +308,12 @@ public class LocalityChecker {
 		Set<OWLEntity> externalSigmaValues = new HashSet<OWLEntity>();
 		for (SigmaPlusSigmaMinus s : sigmaValues.values()) {
 			externalSigmaValues.add(s.getMinus());
+		}
+		return externalSigmaValues;
+	}public Set<OWLEntity> getSigmaPlus() {
+		Set<OWLEntity> externalSigmaValues = new HashSet<OWLEntity>();
+		for (SigmaPlusSigmaMinus s : sigmaValues.values()) {
+			externalSigmaValues.add(s.getPlus());
 		}
 		return externalSigmaValues;
 	}
