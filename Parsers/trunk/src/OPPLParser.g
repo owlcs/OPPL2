@@ -40,6 +40,9 @@ options {
  	catch(RecognitionException e){
  		throw e;
  	}
+ 	catch(RewriteEmptyStreamException e){
+   		throw e;
+	}
  }
  
  variableDefinitions
@@ -52,7 +55,7 @@ options {
 
       VARIABLE_NAME COLON VARIABLE_TYPE  EQUAL opplFunction -> ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(opplFunction))      
     | VARIABLE_NAME COLON VARIABLE_TYPE  EQUAL expression -> ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(EXPRESSION expression))
-    | VARIABLE_NAME COLON VARIABLE_TYPE  EQUAL MATCH OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS -> ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(MATCH stringOperation))
+    | VARIABLE_NAME COLON VARIABLE_TYPE  EQUAL regexp -> ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE regexp)
     | VARIABLE_NAME COLON VARIABLE_TYPE (variableScope)? -> ^(INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE variableScope?)    
   ;
   
@@ -63,7 +66,10 @@ variableScope
     OPEN_SQUARE_BRACKET (variableScopeSpecification = SUBCLASS_OF | variableScopeSpecification = SUBPROPERTY_OF | variableScopeSpecification = SUPER_CLASS_OF |  variableScopeSpecification =SUPER_PROPERTY_OF |  variableScopeSpecification = INSTANCE_OF | variableScopeSpecification = TYPES) expression CLOSED_SQUARE_BRACKET -> ^(VARIABLE_SCOPE $variableScopeSpecification ^(EXPRESSION expression))
   ; 
 
-
+regexp
+	:
+		MATCH OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS -> ^(MATCH stringOperation)
+	;
 
  query
   :

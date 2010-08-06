@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2010-07-31 00:52:23
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2010-08-06 21:34:40
 
   package org.coode.parsers.oppl.lint;
   import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -515,7 +515,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: subject, value, propertyExpression
+                    // elements: propertyExpression, subject, value
                     // token labels: 
                     // rule labels: retval, subject
                     // token list labels: 
@@ -795,7 +795,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: rhs, lhs
+                    // elements: lhs, rhs
                     // token labels: 
                     // rule labels: retval, rhs, lhs
                     // token list labels: 
@@ -863,7 +863,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhs, disjoint
+                    // elements: disjoint, lhs
                     // token labels: 
                     // rule labels: retval, disjoint, lhs
                     // token list labels: 
@@ -931,7 +931,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: superProperty, lhs
+                    // elements: lhs, superProperty
                     // token labels: 
                     // rule labels: retval, superProperty, lhs
                     // token list labels: 
@@ -999,7 +999,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: rhsAtomic, INVERSE_OF, lhsID
+                    // elements: INVERSE_OF, rhsAtomic, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval, rhsAtomic
                     // token list labels: 
@@ -1135,7 +1135,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: rhsID, lhsID
+                    // elements: lhsID, rhsID
                     // token labels: 
                     // rule labels: lhsID, retval, rhsID
                     // token list labels: 
@@ -1203,7 +1203,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, DOMAIN, lhsID
+                    // elements: lhsID, expression, DOMAIN
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -1270,7 +1270,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: RANGE, expression, lhsID
+                    // elements: RANGE, lhsID, expression
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -2199,11 +2199,11 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
                 if ( (LA9_1==OPEN_PARENTHESYS) ) {
                     int LA9_2 = input.LA(3);
 
-                    if ( ((LA9_2>=IDENTIFIER && LA9_2<=ENTITY_REFERENCE)||LA9_2==ESCLAMATION_MARK||LA9_2==VARIABLE_NAME) ) {
-                        alt9=2;
-                    }
-                    else if ( (LA9_2==INVERSE) ) {
+                    if ( (LA9_2==INVERSE) ) {
                         alt9=1;
+                    }
+                    else if ( ((LA9_2>=IDENTIFIER && LA9_2<=ENTITY_REFERENCE)||LA9_2==ESCLAMATION_MARK||LA9_2==VARIABLE_NAME) ) {
+                        alt9=2;
                     }
                     else {
                         if (state.backtracking>0) {state.failed=true; return retval;}
@@ -3166,7 +3166,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: unary, INTEGER, propertyExpression, restrictionKind
+            // elements: propertyExpression, INTEGER, unary, restrictionKind
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3829,7 +3829,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: constantValue, type
+            // elements: type, constantValue
             // token labels: constantValue, type
             // rule labels: retval
             // token list labels: 
@@ -4670,27 +4670,27 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
     static final String DFA3_maxS =
         "\4\u01d0\1\54\3\uffff\1\u0164\1\u01d0\1\5\2\u01d0\1\52\1\10\1\u01d0";
     static final String DFA3_acceptS =
-        "\5\uffff\1\3\1\1\1\2\10\uffff";
+        "\5\uffff\1\3\1\2\1\1\10\uffff";
     static final String DFA3_specialS =
         "\20\uffff}>";
     static final String[] DFA3_transitionS = {
             "\1\5\37\uffff\1\1\1\2\147\uffff\1\4\u013a\uffff\1\3",
-            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
-            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
-            "\1\7\22\uffff\2\6\4\uffff\2\7\40\uffff\1\10\106\uffff\1\7\u013a"+
-            "\uffff\1\7",
+            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
+            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
+            "\1\6\22\uffff\2\7\4\uffff\2\6\40\uffff\1\10\106\uffff\1\6\u013a"+
+            "\uffff\1\6",
             "\1\11",
             "",
             "",
             "",
             "\1\13\1\14\1\12",
-            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
+            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
             "\1\15",
-            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
-            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
+            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
+            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
             "\1\16",
             "\1\17",
-            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7"
+            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6"
     };
 
     static final short[] DFA3_eot = DFA.unpackEncodedString(DFA3_eotS);

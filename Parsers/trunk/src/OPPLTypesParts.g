@@ -130,6 +130,7 @@ bottomup // match subexpressions innermost to outermost
     :  
     	constraint
     	| opplFunction
+    	| regexp
     ;
 
 stringOperation returns [SingleValueGeneratedValue<String> value]
@@ -157,7 +158,31 @@ stringExpression returns [SingleValueGeneratedValue<String> value]
       }
 
   ;
+  
+regexp returns [Variable variable]  
+@after
+	{
+		$start.setOPPLContent($variable);
+	} 
+	:
+  ^(MATCH se = stringOperation )
+	     {
+	if(getVariable()!=null){   
 
+          OWLEntityRenderer renderer = getOPPLFactory().getOWLEntityRenderer(getConstraintSystem());
+	  RegExpGenerated<?> v = getVariable().getType().getRegExpGenerated(
+							getVariable().getName(),
+							renderer,
+							se,
+							this.getConstraintSystem().getOntologyManager().getOntologies());
+					this.constraintSystem.importVariable(v);
+          constraintSystem.importVariable(v);
+          $variable = v;
+	     }else{
+			getErrorListener().illegalToken($start, "No variable to evaluate this Regular Expression Variable");
+		}
+	  }
+	;
 opplFunction returns [Variable variable]
 @after
 	{

@@ -1096,8 +1096,10 @@ public class SymbolTable {
 									.getDataFactory()
 									.getOWLDataExactCardinalityRestriction(
 											(OWLDataPropertyExpression) propertyExpression
-													.getOWLObject(), i,
-											(OWLDataRange) filler);
+													.getOWLObject(),
+											i,
+											(OWLDataRange) filler
+													.getOWLObject());
 				}
 			}
 			if (propertyExpression.getEvalType().accept(
@@ -1117,8 +1119,10 @@ public class SymbolTable {
 									.getDataFactory()
 									.getOWLObjectExactCardinalityRestriction(
 											(OWLObjectPropertyExpression) propertyExpression
-													.getOWLObject(), i,
-											(OWLDescription) filler);
+													.getOWLObject(),
+											i,
+											(OWLDescription) filler
+													.getOWLObject());
 				}
 			}
 		}
@@ -1154,7 +1158,9 @@ public class SymbolTable {
 									.getOWLDataMaxCardinalityRestriction(
 											(OWLDataPropertyExpression) propertyExpression
 													.getOWLObject(),
-											cardinality, (OWLDataRange) filler);
+											cardinality,
+											(OWLDataRange) filler
+													.getOWLObject());
 				}
 			}
 			if (propertyExpression.getEvalType().accept(
@@ -1176,7 +1182,8 @@ public class SymbolTable {
 											(OWLObjectPropertyExpression) propertyExpression
 													.getOWLObject(),
 											cardinality,
-											(OWLDescription) filler);
+											(OWLDescription) filler
+													.getOWLObject());
 				}
 			}
 		}
@@ -1212,7 +1219,9 @@ public class SymbolTable {
 									.getOWLDataMinCardinalityRestriction(
 											(OWLDataPropertyExpression) propertyExpression
 													.getOWLObject(),
-											cardinality, (OWLDataRange) filler);
+											cardinality,
+											(OWLDataRange) filler
+													.getOWLObject());
 				}
 			}
 			if (propertyExpression.getEvalType().accept(
