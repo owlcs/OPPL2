@@ -29,7 +29,9 @@ import org.coode.oppl.NAFConstraint;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
+import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.generated.RegExpGenerated;
 import org.coode.oppl.generated.SingleValueGeneratedVariable;
 import org.coode.oppl.protege.ProtegeParserFactory;
 import org.coode.oppl.protege.ui.message.Error;
@@ -776,7 +778,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 	 * 
 	 */
 	public class OPPLVariableListItem extends VariableListItem {
-		final OPPLBuilderModel model;
+		private final OPPLBuilderModel model;
 
 		/**
 		 * @param variable
@@ -803,11 +805,31 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 		 */
 		@Override
 		public void handleEdit() {
-			ConstraintSystem cs = this.model.getConstraintSystem();
-			final AbstractVariableEditor variableEditor = this.getVariable() instanceof SingleValueGeneratedVariable<?> ? new GeneratedVariableEditor(
-					this.getOwlEditorKit(), cs)
-					: new VariableEditor(this.getOwlEditorKit(), cs);
-			variableEditor.setVariable(this.getVariable());
+			final ConstraintSystem cs = this.model.getConstraintSystem();
+			final AbstractVariableEditor<?> variableEditor = this.getVariable()
+					.accept(new VariableVisitor<AbstractVariableEditor<?>>() {
+						public RegExpVariableEditor visit(RegExpGenerated<?> v) {
+							RegExpVariableEditor regExpVariableEditor = new RegExpVariableEditor(
+									OPPLBuilder.this.owlEditorKit, cs);
+							regExpVariableEditor.setVariable(v);
+							return regExpVariableEditor;
+						}
+
+						public AbstractVariableEditor<?> visit(
+								SingleValueGeneratedVariable<?> v) {
+							GeneratedVariableEditor generatedVariableEditor = new GeneratedVariableEditor(
+									OPPLBuilder.this.owlEditorKit, cs);
+							generatedVariableEditor.setVariable(v);
+							return generatedVariableEditor;
+						}
+
+						public AbstractVariableEditor<?> visit(Variable v) {
+							VariableEditor variableEditor = new VariableEditor(
+									OPPLBuilder.this.owlEditorKit, cs);
+							variableEditor.setVariable(v);
+							return variableEditor;
+						}
+					});
 			final VerifyingOptionPane optionPane = new NoDefaultFocusVerifyingOptionPane(
 					variableEditor);
 			final InputVerificationStatusChangedListener verificationListener = new InputVerificationStatusChangedListener() {
@@ -820,7 +842,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 					.getWorkspace(), null);
 			// The editor shouldn't be modal (or should it?)
 			dlg.setModal(true);
-			dlg.setTitle("Action editor");
+			dlg.setTitle(variableEditor.getEditorName());
 			dlg.setResizable(true);
 			dlg.pack();
 			dlg.setLocationRelativeTo(this.getOwlEditorKit().getWorkspace());
@@ -847,7 +869,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 
 	private class OPPLVariableList extends VariableList {
 		private static final long serialVersionUID = -2540053052502672472L;
-		final OPPLBuilderModel model;
+		private final OPPLBuilderModel model;
 
 		@Override
 		protected void handleDelete() {
@@ -861,7 +883,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 
 		@Override
 		protected void handleAdd() {
-			final AbstractVariableEditor variableEditor = this
+			final AbstractVariableEditor<?> variableEditor = this
 					.getSelectedValue() instanceof InputVariableSectionHeader ? new VariableEditor(
 					this.getOWLEditorKit(), this.model.getConstraintSystem())
 					: new GeneratedVariableEditor(this.getOWLEditorKit(),
@@ -878,7 +900,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 					.getWorkspace(), null);
 			// The editor shouldn't be modal (or should it?)
 			dlg.setModal(true);
-			dlg.setTitle("Variable editor");
+			dlg.setTitle(variableEditor.getEditorName());
 			dlg.setResizable(true);
 			dlg.pack();
 			dlg.setLocationRelativeTo(OPPLBuilder.this);

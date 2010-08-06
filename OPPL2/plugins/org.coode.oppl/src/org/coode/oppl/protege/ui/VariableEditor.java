@@ -49,8 +49,6 @@ import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableType;
 import org.coode.oppl.exceptions.InvalidVariableNameException;
 import org.coode.oppl.exceptions.OPPLException;
-import org.coode.oppl.generated.RegExpGenerated;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.VerifyingOptionPane;
@@ -64,7 +62,7 @@ import org.semanticweb.owl.model.OWLException;
  * @author Luigi Iannone
  * 
  */
-public class VariableEditor extends AbstractVariableEditor {
+public class VariableEditor extends AbstractVariableEditor<Variable> {
 	private final class EditScopeActionListener implements ActionListener {
 		private final boolean useScope;
 
@@ -73,10 +71,10 @@ public class VariableEditor extends AbstractVariableEditor {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			VariableType variableType = VariableEditor.this.jRadioButtonTypeMap.get(VariableEditor.this.findSelectedButton());
+			VariableType variableType = VariableEditor.this.jRadioButtonTypeMap
+					.get(VariableEditor.this.findSelectedButton());
 			final ScopeEditor scopeEditor = ScopeEditor.getTypeScopeEditor(
-					variableType,
-					VariableEditor.this.owlEditorKit);
+					variableType, VariableEditor.this.owlEditorKit);
 			if (this.useScope) {
 				scopeEditor.setScope(VariableEditor.this.lastVariableScope);
 			}
@@ -89,27 +87,29 @@ public class VariableEditor extends AbstractVariableEditor {
 			};
 			scopeEditor.addStatusChangedListener(verificationListener);
 			final JDialog dlg = optionPane.createDialog(
-					VariableEditor.this.owlEditorKit.getWorkspace(),
-					null);
+					VariableEditor.this.owlEditorKit.getWorkspace(), null);
 			// The editor shouldn't be modal (or should it?)
 			dlg.setModal(true);
 			dlg.setTitle(scopeEditor.getTitle());
 			dlg.setResizable(true);
 			dlg.pack();
-			dlg.setLocationRelativeTo(VariableEditor.this.owlEditorKit.getWorkspace());
+			dlg.setLocationRelativeTo(VariableEditor.this.owlEditorKit
+					.getWorkspace());
 			dlg.addComponentListener(new ComponentAdapter() {
 				@Override
 				public void componentHidden(ComponentEvent e1) {
 					Object retVal = optionPane.getValue();
 					if (retVal != null && retVal.equals(JOptionPane.OK_OPTION)) {
-						VariableEditor.this.lastVariableScope = scopeEditor.getVariableScope();
+						VariableEditor.this.lastVariableScope = scopeEditor
+								.getVariableScope();
 						VariableEditor.this.handleChange();
 					}
 					if (EditScopeActionListener.this.useScope) {
 						VariableEditor.this.deleteScopeButton.setEnabled(true);
 						VariableEditor.this.editScopeButton.setEnabled(true);
 					}
-					scopeEditor.removeStatusChangedListener(verificationListener);
+					scopeEditor
+							.removeStatusChangedListener(verificationListener);
 					scopeEditor.dispose();
 				}
 			});
@@ -139,48 +139,56 @@ public class VariableEditor extends AbstractVariableEditor {
 	private JButton editScopeButton = new JButton("Edit");
 	private JButton deleteScopeButton = new JButton("Clear");
 
-	public VariableEditor(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
+	public VariableEditor(OWLEditorKit owlEditorKit,
+			ConstraintSystem constraintSystem) {
 		if (owlEditorKit == null) {
 			throw new NullPointerException("The owl editor kit cannot be null");
 		}
 		if (constraintSystem == null) {
-			throw new NullPointerException("The constraint system cannot be null");
+			throw new NullPointerException(
+					"The constraint system cannot be null");
 		}
 		this.setLayout(new BorderLayout());
 		this.owlEditorKit = owlEditorKit;
 		this.constraintSystem = constraintSystem;
-		this.variableNameExpressionEditor = new ExpressionEditor<String>(owlEditorKit,
-				new OWLExpressionChecker<String>() {
+		this.variableNameExpressionEditor = new ExpressionEditor<String>(
+				owlEditorKit, new OWLExpressionChecker<String>() {
 					private String variableName;
 
-					public void check(String text) throws OWLExpressionParserException {
+					public void check(String text)
+							throws OWLExpressionParserException {
 						this.variableName = null;
 						if (text.matches("(\\?)?(\\w)+")) {
-							this.variableName = text.startsWith("?") ? text : "?" + text;
+							this.variableName = text.startsWith("?") ? text
+									: "?" + text;
 						} else {
 							throw new OWLExpressionParserException(
 									new InvalidVariableNameException(text));
 						}
 					}
 
-					public String createObject(String text) throws OWLExpressionParserException {
+					public String createObject(String text)
+							throws OWLExpressionParserException {
 						this.check(text);
 						return this.variableName;
 					}
 				});
 		JPanel variableNamePanel = new JPanel(new BorderLayout());
-		variableNamePanel.setBorder(ComponentFactory.createTitledBorder("Variable name:"));
+		variableNamePanel.setBorder(ComponentFactory
+				.createTitledBorder("Variable name:"));
 		// De-activate OWL default auto-completer
-		for (KeyListener l : this.variableNameExpressionEditor.getKeyListeners()) {
+		for (KeyListener l : this.variableNameExpressionEditor
+				.getKeyListeners()) {
 			this.variableNameExpressionEditor.removeKeyListener(l);
 		}
-		this.variableNameExpressionEditor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
-			public void verifiedStatusChanged(boolean newState) {
-				if (newState) {
-					VariableEditor.this.handleChange();
-				}
-			}
-		});
+		this.variableNameExpressionEditor
+				.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+					public void verifiedStatusChanged(boolean newState) {
+						if (newState) {
+							VariableEditor.this.handleChange();
+						}
+					}
+				});
 		variableNamePanel.add(this.variableNameExpressionEditor);
 		this.add(variableNamePanel, BorderLayout.NORTH);
 		this.variableTypeButtonGroup = new ButtonGroup();
@@ -195,15 +203,18 @@ public class VariableEditor extends AbstractVariableEditor {
 		}
 		this.typeJRadioButonMap.get(VariableType.values()[0]).setSelected(true);
 		JPanel scopeBorderPanel = new JPanel(new BorderLayout());
-		scopeBorderPanel.setBorder(ComponentFactory.createTitledBorder("Variable Scope"));
+		scopeBorderPanel.setBorder(ComponentFactory
+				.createTitledBorder("Variable Scope"));
 		this.createScopeButton.setEnabled(false);
 		this.editScopeButton.setEnabled(false);
 		this.deleteScopeButton.setEnabled(false);
 		JToolBar scopeToolBar = new JToolBar();
 		scopeToolBar.setFloatable(false);
 		scopeToolBar.add(this.createScopeButton);
-		this.createScopeButton.addActionListener(new EditScopeActionListener(false));
-		this.editScopeButton.addActionListener(new EditScopeActionListener(true));
+		this.createScopeButton.addActionListener(new EditScopeActionListener(
+				false));
+		this.editScopeButton
+				.addActionListener(new EditScopeActionListener(true));
 		this.deleteScopeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VariableEditor.this.lastVariableScope = null;
@@ -220,7 +231,8 @@ public class VariableEditor extends AbstractVariableEditor {
 		JPanel typeScopeLabelPanel = new JPanel(new FlowLayout());
 		typeScopeLabelPanel.add(this.typeScopeLabel);
 		variableTypeAndScopePanel.add(typeScopeLabelPanel, BorderLayout.SOUTH);
-		variableTypeAndScopePanel.setBorder(ComponentFactory.createTitledBorder("Variable Type"));
+		variableTypeAndScopePanel.setBorder(ComponentFactory
+				.createTitledBorder("Variable Type"));
 		this.add(variableTypeAndScopePanel, BorderLayout.CENTER);
 	}
 
@@ -229,7 +241,8 @@ public class VariableEditor extends AbstractVariableEditor {
 		VariableType type = this.jRadioButtonTypeMap.get(selectedJRadioButton);
 		if (this.check()) {
 			try {
-				String variableName = this.variableNameExpressionEditor.createObject();
+				String variableName = this.variableNameExpressionEditor
+						.createObject();
 				this.updateVariable(variableName, type);
 				this.updateTypeScope(type);
 				this.notifyListeners();
@@ -266,10 +279,10 @@ public class VariableEditor extends AbstractVariableEditor {
 			JRadioButton radioButton = this.findSelectedButton();
 			if (radioButton != null) {
 				StringBuilder builder = new StringBuilder();
-				Formatter formatter = new Formatter(builder, Locale.getDefault());
-				formatter.format(
-						"[%s %s]",
-						this.lastVariableScope.getDirection(),
+				Formatter formatter = new Formatter(builder, Locale
+						.getDefault());
+				formatter.format("[%s %s]", this.lastVariableScope
+						.getDirection(),
 						this.owlEditorKit.getModelManager().getRendering(
 								this.lastVariableScope.getScopingObject()));
 				this.typeScopeLabel.setText(formatter.toString());
@@ -284,7 +297,8 @@ public class VariableEditor extends AbstractVariableEditor {
 		try {
 			boolean toReturn = true;
 			this.variableNameExpressionEditor.createObject();
-			Object selectedValue = this.jRadioButtonTypeMap.get(this.findSelectedButton());
+			Object selectedValue = this.jRadioButtonTypeMap.get(this
+					.findSelectedButton());
 			toReturn = selectedValue instanceof VariableType;
 			return toReturn;
 		} catch (OWLExpressionParserException e) {
@@ -299,15 +313,18 @@ public class VariableEditor extends AbstractVariableEditor {
 	 * @param type
 	 * @throws OPPLException
 	 */
-	private void updateVariable(String variableName, VariableType type) throws OPPLException {
-		if (this.variable != null) {
-			this.getConstraintSystem().removeVariable(this.variable);
+	private void updateVariable(String variableName, VariableType type)
+			throws OPPLException {
+		if (this.getVariable() != null) {
+			this.getConstraintSystem().removeVariable(this.getVariable());
 		}
-		this.variable = this.getConstraintSystem().createVariable(variableName, type);
+		super.setVariable(this.getConstraintSystem().createVariable(
+				variableName, type));
 		if (this.lastVariableScope != null) {
-			this.variable.setVariableScope(
+			this.getVariable().setVariableScope(
 					this.lastVariableScope,
-					this.getConstraintSystem().getOPPLFactory().getVariableScopeChecker());
+					this.getConstraintSystem().getOPPLFactory()
+							.getVariableScopeChecker());
 		}
 	}
 
@@ -325,21 +342,15 @@ public class VariableEditor extends AbstractVariableEditor {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public void setVariable(SingleValueGeneratedVariable<?> variable) {
-		throw new RuntimeException("GeneratedVariables not allowed on a regular VariableEditor!");
-	}
-
-	@Override
-	public void setVariable(RegExpGenerated variable) {
-		throw new RuntimeException(
-				"RegExpGeneratedVariables not allowed on a regular VariableEditor!");
-	}
-
 	/**
 	 * @return the constraintSystem
 	 */
 	public ConstraintSystem getConstraintSystem() {
 		return this.constraintSystem;
+	}
+
+	@Override
+	public String getEditorName() {
+		return "Input Variable";
 	}
 }

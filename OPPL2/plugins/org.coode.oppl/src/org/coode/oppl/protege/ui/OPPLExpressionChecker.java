@@ -125,7 +125,8 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
 
 		public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
 			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(e
-					.getMessage().replaceAll("Rule", "Incomplete "), 0, 0, 0);
+					.getMessage().replaceAll("rule", "Incomplete or missing "),
+					0, 0, 0);
 		}
 
 		public void incompatibleSymbols(CommonTree parentExpression,
@@ -192,6 +193,7 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
 	protected abstract O parse(String text);
 
 	public O createObject(String text) {
+		this.check(text);
 		return this.lastObject;
 	}
 

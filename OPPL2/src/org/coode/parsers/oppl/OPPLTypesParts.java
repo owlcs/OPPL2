@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g 2010-07-23 22:40:51
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g 2010-08-06 22:33:20
 
   package org.coode.parsers.oppl;
   import org.coode.oppl.Variable;
@@ -248,26 +248,40 @@ public class OPPLTypesParts extends TreeFilter {
 
 
     // $ANTLR start "bottomup"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:129:1: bottomup : ( constraint | opplFunction );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:129:1: bottomup : ( constraint | opplFunction | regexp );
     public final void bottomup() throws RecognitionException {
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:130:5: ( constraint | opplFunction )
-            int alt1=2;
-            int LA1_0 = input.LA(1);
-
-            if ( ((LA1_0>=INEQUALITY_CONSTRAINT && LA1_0<=IN_SET_CONSTRAINT)||LA1_0==REGEXP_CONSTRAINT||LA1_0==NAF_CONSTRAINT) ) {
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:130:5: ( constraint | opplFunction | regexp )
+            int alt1=3;
+            switch ( input.LA(1) ) {
+            case INEQUALITY_CONSTRAINT:
+            case IN_SET_CONSTRAINT:
+            case REGEXP_CONSTRAINT:
+            case NAF_CONSTRAINT:
+                {
                 alt1=1;
-            }
-            else if ( ((LA1_0>=CREATE_INTERSECTION && LA1_0<=CREATE_DISJUNCTION)||LA1_0==CREATE_OPPL_FUNCTION) ) {
+                }
+                break;
+            case CREATE_INTERSECTION:
+            case CREATE_DISJUNCTION:
+            case CREATE_OPPL_FUNCTION:
+                {
                 alt1=2;
-            }
-            else {
+                }
+                break;
+            case MATCH:
+                {
+                alt1=3;
+                }
+                break;
+            default:
                 if (state.backtracking>0) {state.failed=true; return ;}
                 NoViableAltException nvae =
                     new NoViableAltException("", 1, 0, input);
 
                 throw nvae;
             }
+
             switch (alt1) {
                 case 1 :
                     // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:131:6: constraint
@@ -285,6 +299,17 @@ public class OPPLTypesParts extends TreeFilter {
                     {
                     pushFollow(FOLLOW_opplFunction_in_bottomup90);
                     opplFunction();
+
+                    state._fsp--;
+                    if (state.failed) return ;
+
+                    }
+                    break;
+                case 3 :
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:133:8: regexp
+                    {
+                    pushFollow(FOLLOW_regexp_in_bottomup99);
+                    regexp();
 
                     state._fsp--;
                     if (state.failed) return ;
@@ -314,7 +339,7 @@ public class OPPLTypesParts extends TreeFilter {
 
 
     // $ANTLR start "stringOperation"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:135:1: stringOperation returns [SingleValueGeneratedValue<String> value] : ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ ) ;
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:136:1: stringOperation returns [SingleValueGeneratedValue<String> value] : ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ ) ;
     public final SingleValueGeneratedValue<String> stringOperation() throws RecognitionException {
         SingleValueGeneratedValue<String> value = null;
 
@@ -325,13 +350,13 @@ public class OPPLTypesParts extends TreeFilter {
             List<SingleValueGeneratedValue<String>> values = new ArrayList<SingleValueGeneratedValue<String>>();
           
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:140:3: ( ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:141:5: ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:141:3: ( ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:142:5: ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ )
             {
-            match(input,STRING_OPERATION,FOLLOW_STRING_OPERATION_in_stringOperation121); if (state.failed) return value;
+            match(input,STRING_OPERATION,FOLLOW_STRING_OPERATION_in_stringOperation130); if (state.failed) return value;
 
             match(input, Token.DOWN, null); if (state.failed) return value;
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:141:25: (valuesToAggregate= stringExpression )+
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:142:25: (valuesToAggregate= stringExpression )+
             int cnt2=0;
             loop2:
             do {
@@ -345,9 +370,9 @@ public class OPPLTypesParts extends TreeFilter {
 
                 switch (alt2) {
             	case 1 :
-            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:141:26: valuesToAggregate= stringExpression
+            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:142:26: valuesToAggregate= stringExpression
             	    {
-            	    pushFollow(FOLLOW_stringExpression_in_stringOperation128);
+            	    pushFollow(FOLLOW_stringExpression_in_stringOperation137);
             	    valuesToAggregate=stringExpression();
 
             	    state._fsp--;
@@ -400,7 +425,7 @@ public class OPPLTypesParts extends TreeFilter {
 
 
     // $ANTLR start "stringExpression"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:148:1: stringExpression returns [SingleValueGeneratedValue<String> value] : ( DBLQUOTE | IDENTIFIER );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:149:1: stringExpression returns [SingleValueGeneratedValue<String> value] : ( DBLQUOTE | IDENTIFIER );
     public final SingleValueGeneratedValue<String> stringExpression() throws RecognitionException {
         SingleValueGeneratedValue<String> value = null;
 
@@ -408,7 +433,7 @@ public class OPPLTypesParts extends TreeFilter {
         OPPLSyntaxTree IDENTIFIER2=null;
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:149:3: ( DBLQUOTE | IDENTIFIER )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:150:3: ( DBLQUOTE | IDENTIFIER )
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -427,9 +452,9 @@ public class OPPLTypesParts extends TreeFilter {
             }
             switch (alt3) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:150:7: DBLQUOTE
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:151:7: DBLQUOTE
                     {
-                    DBLQUOTE1=(OPPLSyntaxTree)match(input,DBLQUOTE,FOLLOW_DBLQUOTE_in_stringExpression165); if (state.failed) return value;
+                    DBLQUOTE1=(OPPLSyntaxTree)match(input,DBLQUOTE,FOLLOW_DBLQUOTE_in_stringExpression174); if (state.failed) return value;
                     if ( state.backtracking==1 ) {
 
                               value = new StringGeneratedValue(DBLQUOTE1.getText());
@@ -439,9 +464,9 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:154:7: IDENTIFIER
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:155:7: IDENTIFIER
                     {
-                    IDENTIFIER2=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_stringExpression181); if (state.failed) return value;
+                    IDENTIFIER2=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_stringExpression190); if (state.failed) return value;
                     if ( state.backtracking==1 ) {
 
                               value =symtab.getStringGeneratedValue(IDENTIFIER2, getConstraintSystem());
@@ -471,12 +496,84 @@ public class OPPLTypesParts extends TreeFilter {
     }
     // $ANTLR end "stringExpression"
 
+    public static class regexp_return extends TreeRuleReturnScope {
+        public Variable variable;
+    };
+
+    // $ANTLR start "regexp"
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:162:1: regexp returns [Variable variable] : ^( MATCH se= stringOperation ) ;
+    public final OPPLTypesParts.regexp_return regexp() throws RecognitionException {
+        OPPLTypesParts.regexp_return retval = new OPPLTypesParts.regexp_return();
+        retval.start = input.LT(1);
+
+        SingleValueGeneratedValue<String> se = null;
+
+
+        try {
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:167:2: ( ^( MATCH se= stringOperation ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:168:3: ^( MATCH se= stringOperation )
+            {
+            match(input,MATCH,FOLLOW_MATCH_in_regexp229); if (state.failed) return retval;
+
+            match(input, Token.DOWN, null); if (state.failed) return retval;
+            pushFollow(FOLLOW_stringOperation_in_regexp235);
+            se=stringOperation();
+
+            state._fsp--;
+            if (state.failed) return retval;
+
+            match(input, Token.UP, null); if (state.failed) return retval;
+            if ( state.backtracking==1 ) {
+
+              	if(getVariable()!=null){   
+
+                        OWLEntityRenderer renderer = getOPPLFactory().getOWLEntityRenderer(getConstraintSystem());
+              	  RegExpGenerated<?> v = getVariable().getType().getRegExpGenerated(
+              							getVariable().getName(),
+              							renderer,
+              							se,
+              							this.getConstraintSystem().getOntologyManager().getOntologies());
+              					this.constraintSystem.importVariable(v);
+                        constraintSystem.importVariable(v);
+                        retval.variable = v;
+              	     }else{
+              			getErrorListener().illegalToken(((OPPLSyntaxTree)retval.start), "No variable to evaluate this Regular Expression Variable");
+              		}
+              	  
+            }
+
+            }
+
+            if ( state.backtracking==1 ) {
+
+              		((OPPLSyntaxTree)retval.start).setOPPLContent(retval.variable);
+              	
+            }
+        }
+
+          catch(RecognitionException exception){
+            if(errorListener!=null){
+              errorListener.recognitionException(exception);
+            }
+          }
+          
+          catch(RewriteEmptyStreamException exception){
+            if(errorListener!=null){
+              errorListener.rewriteEmptyStreamException(exception);
+            }
+          }
+        finally {
+        }
+        return retval;
+    }
+    // $ANTLR end "regexp"
+
     public static class opplFunction_return extends TreeRuleReturnScope {
         public Variable variable;
     };
 
     // $ANTLR start "opplFunction"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:161:1: opplFunction returns [Variable variable] : ( ^( CREATE_OPPL_FUNCTION value= stringOperation ) | ^( CREATE_INTERSECTION va= IDENTIFIER ) | ^( CREATE_DISJUNCTION va= IDENTIFIER ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:186:1: opplFunction returns [Variable variable] : ( ^( CREATE_OPPL_FUNCTION value= stringOperation ) | ^( CREATE_INTERSECTION va= IDENTIFIER ) | ^( CREATE_DISJUNCTION va= IDENTIFIER ) );
     public final OPPLTypesParts.opplFunction_return opplFunction() throws RecognitionException {
         OPPLTypesParts.opplFunction_return retval = new OPPLTypesParts.opplFunction_return();
         retval.start = input.LT(1);
@@ -486,7 +583,7 @@ public class OPPLTypesParts extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:166:2: ( ^( CREATE_OPPL_FUNCTION value= stringOperation ) | ^( CREATE_INTERSECTION va= IDENTIFIER ) | ^( CREATE_DISJUNCTION va= IDENTIFIER ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:191:2: ( ^( CREATE_OPPL_FUNCTION value= stringOperation ) | ^( CREATE_INTERSECTION va= IDENTIFIER ) | ^( CREATE_DISJUNCTION va= IDENTIFIER ) )
             int alt4=3;
             switch ( input.LA(1) ) {
             case CREATE_OPPL_FUNCTION:
@@ -514,12 +611,12 @@ public class OPPLTypesParts extends TreeFilter {
 
             switch (alt4) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:167:3: ^( CREATE_OPPL_FUNCTION value= stringOperation )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:192:3: ^( CREATE_OPPL_FUNCTION value= stringOperation )
                     {
-                    match(input,CREATE_OPPL_FUNCTION,FOLLOW_CREATE_OPPL_FUNCTION_in_opplFunction216); if (state.failed) return retval;
+                    match(input,CREATE_OPPL_FUNCTION,FOLLOW_CREATE_OPPL_FUNCTION_in_opplFunction269); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    pushFollow(FOLLOW_stringOperation_in_opplFunction223);
+                    pushFollow(FOLLOW_stringOperation_in_opplFunction276);
                     value=stringOperation();
 
                     state._fsp--;
@@ -539,12 +636,12 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:175:6: ^( CREATE_INTERSECTION va= IDENTIFIER )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:200:6: ^( CREATE_INTERSECTION va= IDENTIFIER )
                     {
-                    match(input,CREATE_INTERSECTION,FOLLOW_CREATE_INTERSECTION_in_opplFunction240); if (state.failed) return retval;
+                    match(input,CREATE_INTERSECTION,FOLLOW_CREATE_INTERSECTION_in_opplFunction293); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    va=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_opplFunction246); if (state.failed) return retval;
+                    va=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_opplFunction299); if (state.failed) return retval;
 
                     match(input, Token.UP, null); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
@@ -562,12 +659,12 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:185:9: ^( CREATE_DISJUNCTION va= IDENTIFIER )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:210:9: ^( CREATE_DISJUNCTION va= IDENTIFIER )
                     {
-                    match(input,CREATE_DISJUNCTION,FOLLOW_CREATE_DISJUNCTION_in_opplFunction267); if (state.failed) return retval;
+                    match(input,CREATE_DISJUNCTION,FOLLOW_CREATE_DISJUNCTION_in_opplFunction320); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    va=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_opplFunction273); if (state.failed) return retval;
+                    va=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_opplFunction326); if (state.failed) return retval;
 
                     match(input, Token.UP, null); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
@@ -615,7 +712,7 @@ public class OPPLTypesParts extends TreeFilter {
     };
 
     // $ANTLR start "constraint"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:197:1: constraint returns [AbstractConstraint constraint] : ( ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) ) | ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a= . ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:222:1: constraint returns [AbstractConstraint constraint] : ( ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) ) | ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a= . ) );
     public final OPPLTypesParts.constraint_return constraint() throws RecognitionException {
         OPPLTypesParts.constraint_return retval = new OPPLTypesParts.constraint_return();
         retval.start = input.LT(1);
@@ -633,7 +730,7 @@ public class OPPLTypesParts extends TreeFilter {
             List<OPPLSyntaxTree> identifiers = new ArrayList<OPPLSyntaxTree>();
           
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:206:1: ( ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) ) | ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a= . ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:231:1: ( ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) ) | ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a= . ) )
             int alt6=4;
             switch ( input.LA(1) ) {
             case INEQUALITY_CONSTRAINT:
@@ -666,13 +763,13 @@ public class OPPLTypesParts extends TreeFilter {
 
             switch (alt6) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:207:3: ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:232:3: ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) )
                     {
-                    match(input,INEQUALITY_CONSTRAINT,FOLLOW_INEQUALITY_CONSTRAINT_in_constraint314); if (state.failed) return retval;
+                    match(input,INEQUALITY_CONSTRAINT,FOLLOW_INEQUALITY_CONSTRAINT_in_constraint367); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    IDENTIFIER3=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint316); if (state.failed) return retval;
-                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_constraint319); if (state.failed) return retval;
+                    IDENTIFIER3=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint369); if (state.failed) return retval;
+                    match(input,EXPRESSION,FOLLOW_EXPRESSION_in_constraint372); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     expression=(OPPLSyntaxTree)input.LT(1);
@@ -690,13 +787,13 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:210:5: ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:235:5: ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ )
                     {
-                    match(input,IN_SET_CONSTRAINT,FOLLOW_IN_SET_CONSTRAINT_in_constraint333); if (state.failed) return retval;
+                    match(input,IN_SET_CONSTRAINT,FOLLOW_IN_SET_CONSTRAINT_in_constraint386); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    v=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint339); if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:210:41: (i= IDENTIFIER )+
+                    v=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint392); if (state.failed) return retval;
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:235:41: (i= IDENTIFIER )+
                     int cnt5=0;
                     loop5:
                     do {
@@ -710,9 +807,9 @@ public class OPPLTypesParts extends TreeFilter {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:210:42: i= IDENTIFIER
+                    	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:235:42: i= IDENTIFIER
                     	    {
-                    	    i=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint347); if (state.failed) return retval;
+                    	    i=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint400); if (state.failed) return retval;
                     	    if ( state.backtracking==1 ) {
                     	      identifiers.add(i);
                     	    }
@@ -741,13 +838,13 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:213:5: ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:238:5: ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation )
                     {
-                    match(input,REGEXP_CONSTRAINT,FOLLOW_REGEXP_CONSTRAINT_in_constraint360); if (state.failed) return retval;
+                    match(input,REGEXP_CONSTRAINT,FOLLOW_REGEXP_CONSTRAINT_in_constraint413); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    IDENTIFIER4=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint362); if (state.failed) return retval;
-                    pushFollow(FOLLOW_stringOperation_in_constraint368);
+                    IDENTIFIER4=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint415); if (state.failed) return retval;
+                    pushFollow(FOLLOW_stringOperation_in_constraint421);
                     se=stringOperation();
 
                     state._fsp--;
@@ -764,9 +861,9 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:218:5: ^( NAF_CONSTRAINT a= . )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:243:5: ^( NAF_CONSTRAINT a= . )
                     {
-                    match(input,NAF_CONSTRAINT,FOLLOW_NAF_CONSTRAINT_in_constraint380); if (state.failed) return retval;
+                    match(input,NAF_CONSTRAINT,FOLLOW_NAF_CONSTRAINT_in_constraint433); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     a=(OPPLSyntaxTree)input.LT(1);
@@ -818,25 +915,28 @@ public class OPPLTypesParts extends TreeFilter {
 
     public static final BitSet FOLLOW_constraint_in_bottomup81 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_opplFunction_in_bottomup90 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_STRING_OPERATION_in_stringOperation121 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_stringExpression_in_stringOperation128 = new BitSet(new long[]{0x0000110000000008L});
-    public static final BitSet FOLLOW_DBLQUOTE_in_stringExpression165 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_stringExpression181 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CREATE_OPPL_FUNCTION_in_opplFunction216 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_stringOperation_in_opplFunction223 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_CREATE_INTERSECTION_in_opplFunction240 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_opplFunction246 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_CREATE_DISJUNCTION_in_opplFunction267 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_opplFunction273 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_INEQUALITY_CONSTRAINT_in_constraint314 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_constraint316 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_EXPRESSION_in_constraint319 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IN_SET_CONSTRAINT_in_constraint333 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_constraint339 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_constraint347 = new BitSet(new long[]{0x0000100000000008L});
-    public static final BitSet FOLLOW_REGEXP_CONSTRAINT_in_constraint360 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_constraint362 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000400L});
-    public static final BitSet FOLLOW_stringOperation_in_constraint368 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_NAF_CONSTRAINT_in_constraint380 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_regexp_in_bottomup99 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_STRING_OPERATION_in_stringOperation130 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_stringExpression_in_stringOperation137 = new BitSet(new long[]{0x0000110000000008L});
+    public static final BitSet FOLLOW_DBLQUOTE_in_stringExpression174 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_stringExpression190 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_MATCH_in_regexp229 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_stringOperation_in_regexp235 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_CREATE_OPPL_FUNCTION_in_opplFunction269 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_stringOperation_in_opplFunction276 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_CREATE_INTERSECTION_in_opplFunction293 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_opplFunction299 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_CREATE_DISJUNCTION_in_opplFunction320 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_opplFunction326 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_INEQUALITY_CONSTRAINT_in_constraint367 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_constraint369 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_EXPRESSION_in_constraint372 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IN_SET_CONSTRAINT_in_constraint386 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_constraint392 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_constraint400 = new BitSet(new long[]{0x0000100000000008L});
+    public static final BitSet FOLLOW_REGEXP_CONSTRAINT_in_constraint413 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_constraint415 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000400L});
+    public static final BitSet FOLLOW_stringOperation_in_constraint421 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_NAF_CONSTRAINT_in_constraint433 = new BitSet(new long[]{0x0000000000000004L});
 
 }
