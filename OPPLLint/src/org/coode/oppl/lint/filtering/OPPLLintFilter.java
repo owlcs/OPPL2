@@ -32,8 +32,10 @@ public final class OPPLLintFilter implements Filter<OWLObject> {
 	 * @return
 	 * @see org.coode.oppl.lint.filtering.Filter#accept(org.semanticweb.owl.model.OWLObject)
 	 */
-	public boolean accept(OWLObject owlObject) {
-		return this.delegate.accept(owlObject);
+	public boolean accept(OWLObject owlObject,
+			LintConfiguration lintConfiguration) {
+		return this.delegate
+				.accept(owlObject, this.lint.getLintConfiguration());
 	}
 
 	/**
@@ -50,13 +52,5 @@ public final class OPPLLintFilter implements Filter<OWLObject> {
 	 */
 	public OWLReasoner getOWLReasoner() {
 		return this.delegate.getOWLReasoner();
-	}
-
-	public LintConfiguration getLintConfiguration() {
-		return this.lint.getLintConfiguration();
-	}
-
-	public Class<?> getOriginatingFilterClass() {
-		return this.delegate.getOriginatingFilterClass();
 	}
 }

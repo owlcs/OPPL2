@@ -4,6 +4,7 @@
 package org.coode.oppl.lint.filtering;
 
 import org.semanticweb.owl.lint.LintReport;
+import org.semanticweb.owl.lint.configuration.LintConfiguration;
 import org.semanticweb.owl.model.OWLObject;
 import org.semanticweb.owl.model.OWLOntology;
 
@@ -13,17 +14,24 @@ import uk.ac.manchester.cs.owl.lint.commons.SimpleMatchBasedLintReport;
  * @author Luigi Iannone
  * 
  */
-public class LintReportFilter<O extends OWLObject> {
+public final class LintReportFilter<O extends OWLObject> {
 	private final Filter<O> filter;
+	private final LintConfiguration lintConfiguration;
 
 	/**
 	 * @param filter
 	 */
-	public LintReportFilter(Filter<O> filter) {
+	public LintReportFilter(Filter<O> filter,
+			LintConfiguration lintConfiguration) {
 		if (filter == null) {
 			throw new NullPointerException("The filter cannot be null");
 		}
+		if (lintConfiguration == null) {
+			throw new NullPointerException(
+					"The Lint configuration cannot be null");
+		}
 		this.filter = filter;
+		this.lintConfiguration = lintConfiguration;
 	}
 
 	/**
@@ -50,12 +58,20 @@ public class LintReportFilter<O extends OWLObject> {
 				report.getLint());
 		for (OWLOntology ontology : report.getAffectedOntologies()) {
 			for (O owlObject : report.getAffectedOWLObjects(ontology)) {
-				if (this.getFilter().accept(owlObject)) {
+				if (this.getFilter().accept(owlObject,
+						this.getLintConfiguration())) {
 					toReturn.add(owlObject, ontology, report.getExplanation(
 							owlObject, ontology));
 				}
 			}
 		}
 		return toReturn;
+	}
+
+	/**
+	 * @return the lintConfiguration
+	 */
+	public LintConfiguration getLintConfiguration() {
+		return this.lintConfiguration;
 	}
 }

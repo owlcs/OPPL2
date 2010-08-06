@@ -1,8 +1,10 @@
 package org.coode.oppl.lint.filtering.protege;
 
 import org.coode.oppl.lint.filtering.Filter;
+import org.eclipse.core.runtime.IExtension;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owl.inference.OWLReasoner;
+import org.semanticweb.owl.lint.configuration.ConfigurationStrategy;
 import org.semanticweb.owl.lint.configuration.LintConfiguration;
 import org.semanticweb.owl.model.OWLObject;
 import org.semanticweb.owl.model.OWLOntologyManager;
@@ -10,11 +12,13 @@ import org.semanticweb.owl.model.OWLOntologyManager;
 public class ProtegeFilter<O extends OWLObject> implements Filter<O> {
 	private final OWLEditorKit owlEditorKit;
 	private final Filter<O> delegate;
+	private final LintConfiguration initialLintConfiguration;
 
 	/**
 	 * @param owlEditorKit
 	 */
-	private ProtegeFilter(OWLEditorKit owlEditorKit, Filter<O> delegate) {
+	private ProtegeFilter(OWLEditorKit owlEditorKit, Filter<O> delegate,
+			IExtension extension) {
 		if (delegate == null) {
 			throw new NullPointerException("The delegate cannot be null");
 		}
@@ -23,6 +27,8 @@ public class ProtegeFilter<O extends OWLObject> implements Filter<O> {
 		}
 		this.owlEditorKit = owlEditorKit;
 		this.delegate = delegate;
+		this.initialLintConfiguration = ConfigurationStrategy
+				.getLintConfiguration(delegate.getClass());
 	}
 
 	/**
@@ -37,8 +43,8 @@ public class ProtegeFilter<O extends OWLObject> implements Filter<O> {
 	 * @return
 	 * @see org.coode.oppl.lint.filtering.Filter#accept(org.semanticweb.owl.model.OWLObject)
 	 */
-	public boolean accept(O owlObject) {
-		return this.getDelegate().accept(owlObject);
+	public boolean accept(O owlObject, LintConfiguration lintConfiguration) {
+		return this.getDelegate().accept(owlObject, lintConfiguration);
 	}
 
 	/**
@@ -49,7 +55,8 @@ public class ProtegeFilter<O extends OWLObject> implements Filter<O> {
 	}
 
 	public OWLOntologyManager getOntologyManager() {
-		return this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager();
+		return this.getOWLEditorKit().getOWLModelManager()
+				.getOWLOntologyManager();
 	}
 
 	public OWLReasoner getOWLReasoner() {
@@ -57,21 +64,20 @@ public class ProtegeFilter<O extends OWLObject> implements Filter<O> {
 	}
 
 	public static <P extends OWLObject> ProtegeFilter<P> buildProtegeFilter(
-			OWLEditorKit owlEditorKit, Filter<P> delegate) {
+			OWLEditorKit owlEditorKit, Filter<P> delegate, IExtension extension) {
 		if (delegate == null) {
 			throw new NullPointerException("The delegate cannot be null");
 		}
 		if (owlEditorKit == null) {
 			throw new NullPointerException("The OWL Editor Kit cannot be null");
 		}
-		return new ProtegeFilter<P>(owlEditorKit, delegate);
+		return new ProtegeFilter<P>(owlEditorKit, delegate, extension);
 	}
 
-	public LintConfiguration getLintConfiguration() {
-		return this.delegate.getLintConfiguration();
-	}
-
-	public Class<?> getOriginatingFilterClass() {
-		return this.delegate.getClass();
+	/**
+	 * @return the initialLintConfiguration
+	 */
+	public LintConfiguration getInitialLintConfiguration() {
+		return this.initialLintConfiguration;
 	}
 }

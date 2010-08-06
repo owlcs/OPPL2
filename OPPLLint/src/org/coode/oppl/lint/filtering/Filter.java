@@ -23,7 +23,7 @@ public interface Filter<O extends OWLObject> {
 	 * @throws NullPointerException
 	 *             if the input is {@code null}.
 	 */
-	public boolean accept(O owlObject);
+	public boolean accept(O owlObject, LintConfiguration lintConfiguration);
 
 	/**
 	 * @return The OWLOntologyManager used by this Filter.
@@ -37,14 +37,4 @@ public interface Filter<O extends OWLObject> {
 	 * @return The OWLReasoner used by this Filter.
 	 */
 	public OWLReasoner getOWLReasoner();
-
-	/**
-	 * Provides the LintConfiguration which will beused for all the Lint checks
-	 * that make use of this filter.
-	 * 
-	 * @return
-	 */
-	public LintConfiguration getLintConfiguration();
-
-	Class<?> getOriginatingFilterClass();
 }
