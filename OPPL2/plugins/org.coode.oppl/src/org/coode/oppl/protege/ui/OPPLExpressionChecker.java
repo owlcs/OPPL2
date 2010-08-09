@@ -22,8 +22,7 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
 		 * @param charPositionInline
 		 * @param endIndex
 		 */
-		public ErrorReportImpl(String message, int line,
-				int charPositionInline, int length) {
+		public ErrorReportImpl(String message, int line, int charPositionInline, int length) {
 			if (message == null) {
 				throw new NullPointerException("The message cannot be null");
 			}
@@ -62,8 +61,7 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
 		}
 	}
 
-	private final class OPPLExpressionCheckerErrorListener implements
-			ErrorListener {
+	private final class OPPLExpressionCheckerErrorListener implements ErrorListener {
 		private CommonTree lastErrorTree = null;
 
 		public void clear() {
@@ -73,23 +71,20 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
 		boolean isRedundant(CommonTree possibleParent, CommonTree newErrorTree) {
 			boolean b = possibleParent != null;
 			if (b) {
-				b = possibleParent == newErrorTree
-						|| newErrorTree.equals(possibleParent);
+				b = possibleParent == newErrorTree || newErrorTree.equals(possibleParent);
 				if (!b) {
 					b = possibleParent.parent == newErrorTree;
 					if (!b) {
-						b = this.isRedundant(possibleParent.parent,
-								newErrorTree);
+						b = this.isRedundant(possibleParent.parent, newErrorTree);
 					}
 				}
 			}
 			return b;
 		}
 
-		public void reportThrowable(Throwable t, int line, int charPosInLine,
-				int length) {
-			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(t
-					.getMessage(), line, charPosInLine, length);
+		public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
+			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(t.getMessage(), line,
+					charPosInLine, length);
 		}
 
 		boolean isRedundant(CommonTree newErrorTree) {
@@ -98,39 +93,32 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
 
 		public void unrecognisedSymbol(CommonTree t) {
 			this.lastErrorTree = t;
-			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(
-					"Unrecognised token " + t.getText(), t.getLine(), t
-							.getCharPositionInLine(), t.getText().length());
+			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl("Unrecognised token "
+					+ t.getText(), t.getLine(), t.getCharPositionInLine(), t.getText().length());
 		}
 
 		public void recognitionException(RecognitionException e) {
-			String message = e.getMessage() == null ? e.getClass().getName()
-					: e.getMessage();
-			int endIndex = e.token.getText() == null ? 0 : e.token.getText()
-					.length();
-			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(message
-					+ " on token " + e.token.getText(), e.line,
+			String message = e.getMessage() == null ? e.getClass().getName() : e.getMessage();
+			int endIndex = e.token.getText() == null ? 0 : e.token.getText().length();
+			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(message + " on token "
+					+ e.token.getText(), e.line, e.charPositionInLine, endIndex);
+		}
+
+		public void recognitionException(RecognitionException e, String... tokenNames) {
+			String message = "Recognition exception on the token " + e.token
+					+ e.getClass().getSimpleName();
+			int endIndex = e.token.getText() == null ? 0 : e.token.getText().length();
+			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(message, e.line,
 					e.charPositionInLine, endIndex);
 		}
 
-		public void recognitionException(RecognitionException e,
-				String... tokenNames) {
-			String message = "Recognition exception on the token " + e.token
-					+ e.getClass().getSimpleName();
-			int endIndex = e.token.getText() == null ? 0 : e.token.getText()
-					.length();
-			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(
-					message, e.line, e.charPositionInLine, endIndex);
-		}
-
 		public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
-			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(e
-					.getMessage().replaceAll("rule", "Incomplete or missing "),
-					0, 0, 0);
+			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(e.getMessage().replaceAll(
+					"rule",
+					"Incomplete or missing "), 0, 0, 0);
 		}
 
-		public void incompatibleSymbols(CommonTree parentExpression,
-				CommonTree... expressions) {
+		public void incompatibleSymbols(CommonTree parentExpression, CommonTree... expressions) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("[");
 			boolean first = true;
@@ -138,35 +126,30 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
 				String comma = first ? "" : ", ";
 				first = false;
 				builder.append(comma);
-				builder.append(expression.getText() == null ? "" : expression
-						.getText());
+				builder.append(expression.getText() == null ? "" : expression.getText());
 			}
 			builder.append("]");
 			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(
 					"Incompatible children expressions: " + builder.toString()
-							+ " for the parent expression  "
-							+ parentExpression.getText(), parentExpression
-							.getLine(), parentExpression
-							.getCharPositionInLine(), parentExpression
-							.getText().length());
+							+ " for the parent expression  " + parentExpression.getText(),
+					parentExpression.getLine(), parentExpression.getCharPositionInLine(),
+					parentExpression.getText().length());
 		}
 
-		public void incompatibleSymbolType(CommonTree t, Type type,
-				CommonTree expression) {
+		public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
 			if (!this.isRedundant(t)) {
 				this.lastErrorTree = t;
-				OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(
-						"Incompatible type: " + type + "  for token: "
-								+ t.getText() + " for the parent expression "
-								+ expression.getText(), t.getLine(), t
-								.getCharPositionInLine(), t.getText().length());
+				OPPLExpressionChecker.this.lastReport = new ErrorReportImpl("Incompatible type: "
+						+ type + "  for token: " + t.getText() + " for the parent expression "
+						+ expression.getText(), t.getLine(), t.getCharPositionInLine(),
+						t.getText().length());
 			}
 		}
 
 		public void illegalToken(CommonTree t, String message) {
-			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(
-					"Illegal token: " + t.getText(), t.getLine(), t
-							.getCharPositionInLine(), t.getText().length());
+			OPPLExpressionChecker.this.lastReport = new ErrorReportImpl("Illegal token: "
+					+ t.getText() + " " + message, t.getLine(), t.getCharPositionInLine(),
+					t.getText().length());
 		}
 	}
 
