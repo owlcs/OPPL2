@@ -98,7 +98,9 @@ public class PatternExtractor implements OWLAnnotationVisitorEx<PatternOPPLScrip
 				ParserFactory factory = new ParserFactory(this.ontology, this.ontologyManager);
 				factory.build(visitedPatternNames, this.errorListener);
 				toReturn = parser.parse(value);
-				toReturn.setUri(annotation.getAnnotationURI());
+				if (toReturn != null) {
+					toReturn.setUri(annotation.getAnnotationURI());
+				}
 			}
 		} else {
 			this.getErrorListener().reportThrowable(
