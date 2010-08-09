@@ -46,7 +46,7 @@ public class OPPLLintScript implements Lint<OWLObject> {
 	 * @param returnVariable
 	 */
 	public OPPLLintScript(String name, OPPLScript opplScript, Variable returnVariable,
-			String description, String explanationTemplate, OWLOntologyManager ontologyManager) {
+			String explanationTemplate, String description, OWLOntologyManager ontologyManager) {
 		if (name == null) {
 			throw new NullPointerException("The name cannot be null");
 		}
