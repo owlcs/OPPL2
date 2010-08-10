@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY owl2 "http://www.w3.org/2006/12/owl2#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY formula "http://www.cs.manchester.ac.uk/owlcalculations/formula#" >
+    <!ENTITY purchase "http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#"
+     xml:base="http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:purchase="http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:owl2="http://www.w3.org/2006/12/owl2#"
+     xmlns:formula="http://www.cs.manchester.ac.uk/owlcalculations/formula#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
+    <owl:Ontology rdf:about=""/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&formula;purchaseTotal"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#hasFeature -->
+
+    <owl:ObjectProperty rdf:about="#hasFeature">
+        <rdfs:range rdf:resource="#Feature"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#hasValue -->
+
+    <owl:DatatypeProperty rdf:about="#hasValue">
+        <formula:purchaseTotal rdf:datatype="&xsd;string"
+            >$OVERRIDING$ APPLIESTO &lt;Customer&gt; STORETO &lt;http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#hasFeature[PurchaseTotal]&gt; {price=http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#hasFeature[PurchaseHistoryFeature]!http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#hasFeature[PriceFeature]!http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#hasValue}-&gt; SUM(price);</formula:purchaseTotal>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#Customer -->
+
+    <owl:Class rdf:about="#Customer">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#DeliveryFeature -->
+
+    <owl:Class rdf:about="#DeliveryFeature">
+        <rdfs:subClassOf rdf:resource="#Feature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#Feature -->
+
+    <owl:Class rdf:about="#Feature">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <owl:disjointWith rdf:resource="#Purchase"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#GoldCustomer -->
+
+    <owl:Class rdf:about="#GoldCustomer">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasFeature"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#PurchaseTotal"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="#hasValue"/>
+                                <owl:someValuesFrom>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&owl;DataRange"/>
+                                        <owl2:minExclusive rdf:datatype="&xsd;int">1</owl2:minExclusive>
+                                        <owl2:onDataRange rdf:resource="&xsd;double"/>
+                                    </rdf:Description>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="#Customer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#PriceFeature -->
+
+    <owl:Class rdf:about="#PriceFeature">
+        <rdfs:subClassOf rdf:resource="#Feature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#Purchase -->
+
+    <owl:Class rdf:about="#Purchase">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#PurchaseHistoryFeature -->
+
+    <owl:Class rdf:about="#PurchaseHistoryFeature">
+        <rdfs:subClassOf rdf:resource="#Feature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#PurchaseTotal -->
+
+    <owl:Class rdf:about="#PurchaseTotal">
+        <rdfs:subClassOf rdf:resource="#Feature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#TimeFeature -->
+
+    <owl:Class rdf:about="#TimeFeature">
+        <rdfs:subClassOf rdf:resource="#Feature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#Luigi -->
+
+    <Customer rdf:about="#Luigi">
+        <hasFeature rdf:resource="#aPurchase"/>
+        <hasFeature rdf:resource="#anotherPurchase"/>
+        <hasFeature rdf:resource="&formula;LuigiPurchaseTotal"/>
+    </Customer>
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#aPurchase -->
+
+    <PurchaseHistoryFeature rdf:about="#aPurchase">
+        <hasFeature rdf:resource="#aPurchasePriceFeature"/>
+    </PurchaseHistoryFeature>
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#aPurchasePriceFeature -->
+
+    <PriceFeature rdf:about="#aPurchasePriceFeature">
+        <hasValue rdf:datatype="&xsd;double">2</hasValue>
+    </PriceFeature>
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#anotherPurchase -->
+
+    <PurchaseHistoryFeature rdf:about="#anotherPurchase">
+        <hasFeature rdf:resource="#anotherPurchasePriceFeature"/>
+    </PurchaseHistoryFeature>
+    
+
+
+    <!-- http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase#anotherPurchasePriceFeature -->
+
+    <PriceFeature rdf:about="#anotherPurchasePriceFeature">
+        <hasValue rdf:datatype="&xsd;double">1</hasValue>
+    </PriceFeature>
+    
+
+
+    <!-- http://www.cs.manchester.ac.uk/owlcalculations/formula#LuigiPurchaseTotal -->
+
+    <PurchaseTotal rdf:about="&formula;LuigiPurchaseTotal"/>
+</rdf:RDF>
