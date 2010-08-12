@@ -23,7 +23,7 @@
 package org.coode.oppl.protege.ui;
 
 import org.coode.oppl.Variable;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public interface OPPLMacroListener {
 	/**

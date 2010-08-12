@@ -1,15 +1,15 @@
 package org.coode.parsers;
 
-import org.semanticweb.owl.model.OWLConstant;
+import org.semanticweb.owlapi.model.OWLLiteral;
 
-public class OWLConstantSymbol extends Symbol {
-	private final OWLConstant owlConstant;
+public class OWLLiteralSymbol extends Symbol {
+	private final OWLLiteral owlConstant;
 
 	/**
 	 * @param name
 	 * @param type
 	 */
-	public OWLConstantSymbol(String name, OWLConstant constant) {
+	public OWLLiteralSymbol(String name, OWLLiteral constant) {
 		super(name, OWLType.OWL_CONSTANT);
 		if (constant == null) {
 			throw new NullPointerException("The constant cannot be null");
@@ -20,17 +20,17 @@ public class OWLConstantSymbol extends Symbol {
 	/**
 	 * @return the owlConstant
 	 */
-	public OWLConstant getOWLConstant() {
+	public OWLLiteral getOWLLiteral() {
 		return this.owlConstant;
 	}
 
 	@Override
 	public <O> O accept(SymbolVisitorEx<O> visitor) {
-		return visitor.visitOWLConstant(this);
+		return visitor.visitOWLLiteral(this);
 	}
 
 	@Override
 	public void accept(SymbolVisitor visitor) {
-		visitor.visitOWLConstant(this);
+		visitor.visitOWLLiteral(this);
 	}
 }

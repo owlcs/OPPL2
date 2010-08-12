@@ -3,7 +3,7 @@
  */
 package org.coode.parsers;
 
-import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEntity;
 
 /**
  * @author Luigi Iannone

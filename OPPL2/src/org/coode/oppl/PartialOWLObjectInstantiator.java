@@ -23,44 +23,25 @@
 package org.coode.oppl;
 
 import org.coode.oppl.bindingtree.BindingNode;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLTypedConstant;
-import org.semanticweb.owl.model.OWLUntypedConstant;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone
  * 
  */
 public class PartialOWLObjectInstantiator extends AbstractOWLObjectInstantiator {
-	// OWLDescriptionVisitorEx<OWLDescription>,
-	// OWLPropertyExpressionVisitorEx<OWLObjectPropertyExpression> {
-	public PartialOWLObjectInstantiator(BindingNode bindingNode,
-			ConstraintSystem cs) {
+	public PartialOWLObjectInstantiator(BindingNode bindingNode, ConstraintSystem cs) {
 		super(bindingNode, cs);
 	}
 
 	@Override
-	public OWLObject visit(OWLTypedConstant node) {
-		OWLConstant toReturn = node;
+	public OWLObject visit(OWLLiteral node) {
+		OWLLiteral toReturn = node;
 		if (this.getConstraintSystem().isVariable(node)) {
-			Variable variable = this.getConstraintSystem().getVariable(
-					node.getLiteral());
-			OWLConstant assignmentValue = (OWLConstant) this.getBindingNode()
-					.getAssignmentValue(variable);
-			toReturn = assignmentValue == null ? node : assignmentValue;
-		}
-		return toReturn;
-	}
-
-	@Override
-	public OWLObject visit(OWLUntypedConstant node) {
-		OWLConstant toReturn = node;
-		if (this.getConstraintSystem().isVariable(node)) {
-			Variable variable = this.getConstraintSystem().getVariable(
-					node.getLiteral());
-			OWLConstant assignmentValue = (OWLConstant) this.getBindingNode()
-					.getAssignmentValue(variable);
+			Variable variable = this.getConstraintSystem().getVariable(node.getLiteral());
+			OWLLiteral assignmentValue = (OWLLiteral) this.getBindingNode().getAssignmentValue(
+					variable);
 			toReturn = assignmentValue == null ? node : assignmentValue;
 		}
 		return toReturn;

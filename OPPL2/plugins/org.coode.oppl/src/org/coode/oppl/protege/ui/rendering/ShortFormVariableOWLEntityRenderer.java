@@ -25,8 +25,8 @@ package org.coode.oppl.protege.ui.rendering;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.protege.editor.owl.ui.renderer.OWLEntityRenderer;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.util.SimpleShortFormProvider;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 public class ShortFormVariableOWLEntityRenderer implements OWLEntityRenderer {
 	private final ConstraintSystem constraintSystem;

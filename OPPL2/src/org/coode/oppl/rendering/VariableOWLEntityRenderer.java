@@ -22,12 +22,11 @@
  */
 package org.coode.oppl.rendering;
 
-import java.net.URI;
-
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.coode.oppl.entity.OWLEntityRenderer;
-import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLEntity;
 
 /**
  * @author Luigi Iannone
@@ -50,8 +49,7 @@ public class VariableOWLEntityRenderer implements OWLEntityRenderer {
 	 * @throws NullPointerException
 	 *             when either of the inputs is {@code null}.
 	 */
-	public VariableOWLEntityRenderer(ConstraintSystem constraintSystem,
-			OWLEntityRenderer delegate) {
+	public VariableOWLEntityRenderer(ConstraintSystem constraintSystem, OWLEntityRenderer delegate) {
 		this.constraintSystem = constraintSystem;
 		this.delegate = delegate;
 	}
@@ -64,7 +62,7 @@ public class VariableOWLEntityRenderer implements OWLEntityRenderer {
 	 */
 	public String render(OWLEntity entity) {
 		String toReturn = null;
-		URI uri = entity.getURI();
+		IRI uri = entity.getIRI();
 		Variable variable = this.constraintSystem.getVariable(uri);
 		if (variable != null) {
 			toReturn = this.constraintSystem.render(variable);

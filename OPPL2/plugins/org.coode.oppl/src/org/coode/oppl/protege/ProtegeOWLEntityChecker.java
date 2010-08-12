@@ -2,14 +2,14 @@ package org.coode.oppl.protege;
 
 import org.coode.oppl.utils.DefaultOWLObjectVisitorEx;
 import org.protege.editor.owl.OWLEditorKit;
-import org.semanticweb.owl.expression.OWLEntityChecker;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDataType;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectProperty;
+import org.semanticweb.owlapi.expression.OWLEntityChecker;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 public class ProtegeOWLEntityChecker implements OWLEntityChecker {
 	private final OWLEditorKit owlEditorKit;
@@ -81,18 +81,18 @@ public class ProtegeOWLEntityChecker implements OWLEntityChecker {
 		return toReturn;
 	}
 
-	public OWLDataType getOWLDataType(String name) {
-		OWLDataType toReturn = null;
+	public OWLDatatype getOWLDatatype(String name) {
+		OWLDatatype toReturn = null;
 		OWLEntity owlEntity = this.getOWLEditorKit().getOWLModelManager().getOWLEntity(name);
 		if (owlEntity != null) {
-			toReturn = owlEntity.accept(new DefaultOWLObjectVisitorEx<OWLDataType>() {
+			toReturn = owlEntity.accept(new DefaultOWLObjectVisitorEx<OWLDatatype>() {
 				@Override
-				protected OWLDataType doDefault(OWLObject object) {
+				protected OWLDatatype doDefault(OWLObject object) {
 					return null;
 				}
 
 				@Override
-				public OWLDataType visit(OWLDataType node) {
+				public OWLDatatype visit(OWLDatatype node) {
 					return node;
 				}
 			});

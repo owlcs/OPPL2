@@ -7,9 +7,9 @@ import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableImpl;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public class RegExpDATAPROPERTYVariable extends DATAPROPERTYVariableImpl implements
 		RegExpGenerated<OWLDataProperty> {

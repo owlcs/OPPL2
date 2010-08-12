@@ -27,8 +27,8 @@ import java.util.List;
 
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.utils.ArgCheck;
-import org.semanticweb.owl.model.AddAxiom;
-import org.semanticweb.owl.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /**
  * Returns the changes that will occur if the visited OPPL construct is executed

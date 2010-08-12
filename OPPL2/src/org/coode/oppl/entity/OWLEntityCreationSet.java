@@ -3,8 +3,8 @@ package org.coode.oppl.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
 
 /**
  * Author: Matthew Horridge<br>

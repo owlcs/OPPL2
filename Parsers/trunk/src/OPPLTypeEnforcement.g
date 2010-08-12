@@ -73,8 +73,8 @@ options {
 
 @header {
   package org.coode.parsers.oppl;
-  import org.semanticweb.owl.model.OWLObject;
-  import org.semanticweb.owl.model.OWLAxiom;
+  import org.semanticweb.owlapi.model.OWLObject;
+  import org.semanticweb.owlapi.model.OWLAxiom;
   import org.coode.parsers.oppl.TypesEnforcer;
   import org.coode.parsers.SymbolTable;
   import org.coode.parsers.ErrorListener;

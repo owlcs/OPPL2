@@ -6,7 +6,7 @@ package org.coode.oppl.search;
 import java.util.Iterator;
 
 import org.coode.oppl.ConstraintSystem;
-import org.semanticweb.owl.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
  * @author Luigi Iannone

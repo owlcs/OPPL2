@@ -1,19 +1,18 @@
 package org.coode.oppl.entity;
 
-import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEntity;
 
 public class OWLEntityRendererImpl implements OWLEntityRenderer {
 	public String render(OWLEntity entity) {
 		try {
-			String rendering = entity.getURI().getFragment();
+			String rendering = entity.getIRI().getFragment();
 			if (rendering == null) {
 				// Get last bit of path
-				String path = entity.getURI().getPath();
+				String path = entity.getIRI().toURI().getPath();
 				if (path == null) {
-					return entity.getURI().toString();
+					return entity.getIRI().toString();
 				}
-				return entity.getURI().getPath().substring(
-						path.lastIndexOf("/") + 1);
+				return entity.getIRI().toURI().getPath().substring(path.lastIndexOf("/") + 1);
 			}
 			return RenderingEscapeUtils.getEscapedRendering(rendering);
 		} catch (Exception e) {

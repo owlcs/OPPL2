@@ -22,9 +22,9 @@
  */
 package org.coode.oppl;
 
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLPropertyExpression;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLPropertyExpression;
 
 /**
  * This class consists exclusively of static methods that operate on or return
@@ -39,9 +39,8 @@ public class VariableScopes {
 	 * 
 	 */
 	public enum Direction {
-		SUBCLASSOF("subClassOf"), SUPERCLASSOF("superClassOf"), SUBPROPERTYOF(
-				"subPropertyOf"), SUPERPROPERTYOF("superPropertyOf"), INSTANCEOF(
-				"instanceOf");
+		SUBCLASSOF("subClassOf"), SUPERCLASSOF("superClassOf"), SUBPROPERTYOF("subPropertyOf"), SUPERPROPERTYOF(
+				"superPropertyOf"), INSTANCEOF("instanceOf");
 		private String direction;
 
 		Direction(String s) {
@@ -74,20 +73,19 @@ public class VariableScopes {
 	/**
 	 * @param description
 	 * @return a VariableScope instance restricting values to be sub-classes of
-	 *         the input OWLDescription
+	 *         the input OWLClassExpression 
 	 */
-	public static SubClassVariableScope buildSubClassVariableScope(
-			OWLDescription description) {
+	public static SubClassVariableScope buildSubClassVariableScope(OWLClassExpression description) {
 		return ClassVariableScope.buildSubClassVariableScope(description);
 	}
 
 	/**
 	 * @param description
 	 * @return a VariableScope instance restricting values to be super-classes
-	 *         of the input OWLDescription
+	 *         of the input OWLClassExpression 
 	 */
 	public static SuperClassVariableScope buildSuperClassVariableScope(
-			OWLDescription description) {
+			OWLClassExpression description) {
 		return ClassVariableScope.buildSuperClassVariableScope(description);
 	}
 
@@ -124,11 +122,10 @@ public class VariableScopes {
 	/**
 	 * @param description
 	 * @return a VariableScope instance restricting values to be instances of
-	 *         the input OWLDescription
+	 *         the input OWLClassExpression 
 	 */
 	public static IndividualVariableScope buildIndividualVariableScope(
-			OWLDescription description) {
-		return IndividualVariableScope
-				.buildIndividualVariableScope(description);
+			OWLClassExpression description) {
+		return IndividualVariableScope.buildIndividualVariableScope(description);
 	}
 }

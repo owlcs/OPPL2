@@ -25,9 +25,10 @@ import org.coode.parsers.SymbolTable;
 import org.coode.parsers.SystemErrorEcho;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * @author Luigi Iannone
@@ -65,7 +66,7 @@ public class TestTypeEvaluation {
 		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens);
 		parser.setTreeAdaptor(adaptor);
 		try {
-			ontologyManager.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			ontologyManager.loadOntologyFromOntologyDocument(IRI.create(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
 			RuleReturnScope r = parser.main();
 			CommonTree tree = (CommonTree) r.getTree();
 			System.out.println(tree.toString());

@@ -63,8 +63,8 @@ options {
 
 @header {
   package org.coode.parsers;
-  import org.semanticweb.owl.model.OWLObject;
-  import org.semanticweb.owl.model.OWLAxiom;
+  import org.semanticweb.owlapi.model.OWLObject;
+  import org.semanticweb.owlapi.model.OWLAxiom;
 }
 
 

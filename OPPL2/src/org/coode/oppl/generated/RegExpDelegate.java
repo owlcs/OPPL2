@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.bindingtree.BindingNode;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public class RegExpDelegate<O extends OWLObject> {
 	private final RegExpGeneratedValue<O> value;

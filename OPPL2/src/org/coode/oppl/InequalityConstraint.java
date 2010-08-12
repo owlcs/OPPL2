@@ -23,7 +23,7 @@
 package org.coode.oppl;
 
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone

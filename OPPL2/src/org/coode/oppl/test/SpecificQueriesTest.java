@@ -25,16 +25,16 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.log.Logging;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Type;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.io.PhysicalURIInputSource;
-import org.semanticweb.owl.model.AxiomType;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.AxiomType;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
 public class SpecificQueriesTest extends TestCase {
 	private final ErrorListener errorListener = new ErrorListener() {
@@ -104,9 +104,8 @@ public class SpecificQueriesTest extends TestCase {
 		try {
 			URI skeletonURI = this.getClass().getResource("skeleton.owl").toURI();
 			URI exportURI = this.getClass().getResource("export.owl").toURI();
-			ontologyManager.loadOntology(new PhysicalURIInputSource(skeletonURI));
-			OWLOntology exportOntology = ontologyManager.loadOntology(new PhysicalURIInputSource(
-					exportURI));
+			ontologyManager.loadOntologyFromOntologyDocument(IRI.create(skeletonURI));
+			OWLOntology exportOntology = ontologyManager.loadOntologyFromOntologyDocument(IRI.create(exportURI));
 			OPPLScript opplScript = this.parseScript(opplString, ontologyManager, exportOntology);
 			ChangeExtractor changeExtractor = new ChangeExtractor(opplScript.getConstraintSystem(),
 					true);
@@ -143,10 +142,10 @@ public class SpecificQueriesTest extends TestCase {
 			OWLOntologyManager manager) {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		for (OWLOntology ontology : manager.getOntologies()) {
-			Set<OWLSubClassAxiom> subClassAxioms = ontology.getSubClassAxiomsForRHS(manager.getOWLDataFactory().getOWLClass(
-					URI.create("http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#OWLClass_01234980498623736000")));
-			for (OWLSubClassAxiom owlSubClassAxiom : subClassAxioms) {
-				OWLDescription xValue = owlSubClassAxiom.getSubClass();
+			Set<OWLSubClassOfAxiom> subClassAxioms = ontology.getSubClassAxiomsForSuperClass(manager.getOWLDataFactory().getOWLClass(
+					IRI.create("http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#OWLClass_01234980498623736000")));
+			for (OWLSubClassOfAxiom owlSubClassAxiom : subClassAxioms) {
+				OWLClassExpression xValue = owlSubClassAxiom.getSubClass();
 				toReturn.add(new BindingNode(new HashSet<Assignment>(Arrays.asList(new Assignment(
 						x, xValue))), new HashSet<Variable>()));
 			}
@@ -160,9 +159,8 @@ public class SpecificQueriesTest extends TestCase {
 		try {
 			URI skeletonURI = this.getClass().getResource("skeleton.owl").toURI();
 			URI exportURI = this.getClass().getResource("export.owl").toURI();
-			ontologyManager.loadOntology(new PhysicalURIInputSource(skeletonURI));
-			OWLOntology exportOntology = ontologyManager.loadOntology(new PhysicalURIInputSource(
-					exportURI));
+			ontologyManager.loadOntologyFromOntologyDocument(IRI.create(skeletonURI));
+			OWLOntology exportOntology = ontologyManager.loadOntologyFromOntologyDocument(IRI.create(exportURI));
 			OPPLScript opplScript = this.parseScript(opplString, ontologyManager, exportOntology);
 			ChangeExtractor changeExtractor = new ChangeExtractor(opplScript.getConstraintSystem(),
 					true);
@@ -223,16 +221,16 @@ public class SpecificQueriesTest extends TestCase {
 			OWLOntologyManager manager) {
 		Set<OWLAxiom> toReturn = new HashSet<OWLAxiom>();
 		for (OWLOntology ontology : manager.getOntologies()) {
-			Set<OWLSubClassAxiom> subClassAxioms = ontology.getAxioms(AxiomType.SUBCLASS);
-			for (OWLSubClassAxiom subClassAxiom : subClassAxioms) {
-				OWLDescription x = subClassAxiom.getSubClass();
-				OWLDescription y = subClassAxiom.getSuperClass();
+			Set<OWLSubClassOfAxiom> subClassAxioms = ontology.getAxioms(AxiomType.SUBCLASS_OF);
+			for (OWLSubClassOfAxiom subClassAxiom : subClassAxioms) {
+				OWLClassExpression x = subClassAxiom.getSubClass();
+				OWLClassExpression y = subClassAxiom.getSuperClass();
 				if (!y.isAnonymous()) {
-					for (OWLSubClassAxiom anotherSubClassAxiom : subClassAxioms) {
+					for (OWLSubClassOfAxiom anotherSubClassAxiom : subClassAxioms) {
 						if (anotherSubClassAxiom.getSubClass().equals(y)) {
-							OWLDescription z = anotherSubClassAxiom.getSuperClass();
+							OWLClassExpression z = anotherSubClassAxiom.getSuperClass();
 							if (!z.isAnonymous()) {
-								for (OWLSubClassAxiom yetAnotherSubClassAxiom : subClassAxioms) {
+								for (OWLSubClassOfAxiom yetAnotherSubClassAxiom : subClassAxioms) {
 									if (yetAnotherSubClassAxiom.getSubClass().equals(x)
 											&& yetAnotherSubClassAxiom.getSuperClass().equals(z)) {
 										toReturn.add(subClassAxiom);
@@ -267,8 +265,8 @@ public class SpecificQueriesTest extends TestCase {
 			OWLOntologyManager manager) {
 		Set<OWLAxiom> toReturn = new HashSet<OWLAxiom>();
 		for (OWLOntology ontology : manager.getOntologies()) {
-			toReturn.addAll(ontology.getSubClassAxiomsForRHS(manager.getOWLDataFactory().getOWLClass(
-					URI.create("http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#OWLClass_01234980498623736000"))));
+			toReturn.addAll(ontology.getSubClassAxiomsForSuperClass(manager.getOWLDataFactory().getOWLClass(
+					IRI.create("http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#OWLClass_01234980498623736000"))));
 		}
 		return toReturn;
 	}
@@ -277,16 +275,16 @@ public class SpecificQueriesTest extends TestCase {
 			Variable z, OWLOntologyManager manager) {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		for (OWLOntology ontology : manager.getOntologies()) {
-			Set<OWLSubClassAxiom> subClassAxioms = ontology.getAxioms(AxiomType.SUBCLASS);
-			for (OWLSubClassAxiom subClassAxiom : subClassAxioms) {
-				OWLDescription xValue = subClassAxiom.getSubClass();
-				OWLDescription yValue = subClassAxiom.getSuperClass();
+			Set<OWLSubClassOfAxiom> subClassAxioms = ontology.getAxioms(AxiomType.SUBCLASS_OF);
+			for (OWLSubClassOfAxiom subClassAxiom : subClassAxioms) {
+				OWLClassExpression xValue = subClassAxiom.getSubClass();
+				OWLClassExpression yValue = subClassAxiom.getSuperClass();
 				if (!yValue.isAnonymous()) {
-					for (OWLSubClassAxiom anotherSubClassAxiom : subClassAxioms) {
+					for (OWLSubClassOfAxiom anotherSubClassAxiom : subClassAxioms) {
 						if (anotherSubClassAxiom.getSubClass().equals(yValue)) {
-							OWLDescription zValue = anotherSubClassAxiom.getSuperClass();
+							OWLClassExpression zValue = anotherSubClassAxiom.getSuperClass();
 							if (!zValue.isAnonymous()) {
-								for (OWLSubClassAxiom yetAnotherSubClassAxiom : subClassAxioms) {
+								for (OWLSubClassOfAxiom yetAnotherSubClassAxiom : subClassAxioms) {
 									if (yetAnotherSubClassAxiom.getSubClass().equals(xValue)
 											&& yetAnotherSubClassAxiom.getSuperClass().equals(
 													zValue)) {
@@ -310,7 +308,7 @@ public class SpecificQueriesTest extends TestCase {
 	public void testConstraintsOnPizzaOntology() {
 		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology testOntology = ontologyManager.loadOntology(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			OWLOntology testOntology = ontologyManager.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			String opplString = "?x:CLASS SELECT ASSERTED ?x subClassOf Pizza WHERE ?x!= NamedPizza BEGIN REMOVE ?x subClassOf NamedPizza END;";
 			OPPLScript opplScript = this.parseScript(opplString, ontologyManager, testOntology);
 			ChangeExtractor changeExtractor = new ChangeExtractor(opplScript.getConstraintSystem(),

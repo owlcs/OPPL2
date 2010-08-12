@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.semanticweb.owl.model;
+package org.semanticweb.owlapi.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,14 +22,12 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	/**
 	 * @param delegate
 	 */
-	public OWLPropertyChainImpl(
-			List<? extends OWLObjectPropertyExpression> delegate) {
+	public OWLPropertyChainImpl(List<? extends OWLObjectPropertyExpression> delegate) {
 		if (delegate == null) {
 			throw new NullPointerException("The list cannot be null");
 		}
 		if (delegate.size() < 2) {
-			throw new IllegalArgumentException(
-					"The list cannot have less than 2 elements");
+			throw new IllegalArgumentException("The list cannot have less than 2 elements");
 		}
 		this.delegate.clear();
 		this.delegate.addAll(delegate);
@@ -68,8 +66,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @return
 	 * @see java.util.List#addAll(int, java.util.Collection)
 	 */
-	public boolean addAll(int index,
-			Collection<? extends OWLObjectPropertyExpression> c) {
+	public boolean addAll(int index, Collection<? extends OWLObjectPropertyExpression> c) {
 		return this.delegate.addAll(index, c);
 	}
 
@@ -220,8 +217,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @return
 	 * @see java.util.List#set(int, java.lang.Object)
 	 */
-	public OWLObjectPropertyExpression set(int index,
-			OWLObjectPropertyExpression element) {
+	public OWLObjectPropertyExpression set(int index, OWLObjectPropertyExpression element) {
 		return this.delegate.set(index, element);
 	}
 
@@ -287,7 +283,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 		return Collections.emptySet();
 	}
 
-	public Set<OWLIndividual> getIndividualsInSignature() {
+	public Set<OWLNamedIndividual> getIndividualsInSignature() {
 		return Collections.emptySet();
 	}
 
@@ -295,17 +291,27 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 		return Collections.emptySet();
 	}
 
+	public Set<OWLDatatype> getDatatypesInSignature() {
+		return Collections.emptySet();
+	}
+
 	public Set<OWLObjectProperty> getObjectPropertiesInSignature() {
 		Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
 		for (OWLObjectPropertyExpression propertyExpression : this.delegate) {
-			toReturn
-					.addAll(propertyExpression.getObjectPropertiesInSignature());
+			toReturn.addAll(propertyExpression.getObjectPropertiesInSignature());
 		}
 		return toReturn;
 	}
 
-	public List<OWLObjectPropertyExpression> asList() {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<OWLClassExpression> getNestedClassExpressions() {
+		return Collections.emptySet();
+	}
+
+	public boolean isBottomEntity() {
+		return false;
+	}
+
+	public boolean isTopEntity() {
+		return false;
 	}
 }

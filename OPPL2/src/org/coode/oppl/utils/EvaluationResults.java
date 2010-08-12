@@ -12,12 +12,16 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.semanticweb.owl.model.AddAxiom;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLOntologyChangeVisitor;
-import org.semanticweb.owl.model.RemoveAxiom;
-import org.semanticweb.owl.model.SetOntologyURI;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.AddImport;
+import org.semanticweb.owlapi.model.AddOntologyAnnotation;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLOntologyChangeVisitor;
+import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.model.RemoveImport;
+import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
+import org.semanticweb.owlapi.model.SetOntologyID;
 
 /**
  * Utility class for collecting the evaluation results and dumping them into a
@@ -54,15 +58,30 @@ public class EvaluationResults {
 
 		public void visit(RemoveAxiom change) {
 			this.rendered = "";
-			StringBuilder out = new StringBuilder();
-			Formatter formatter = new Formatter(out, Locale.getDefault());
+			Formatter formatter = new Formatter();
 			String renderedString = this.renderAxiom(change.getAxiom());
 			formatter.format("REMOVE %s", renderedString);
-			this.rendered = out.toString();
+			this.rendered = formatter.toString();
 		}
 
-		public void visit(SetOntologyURI change) {
-			this.rendered = "";
+		public void visit(SetOntologyID change) {
+			this.rendered = "CHANGE ONTOLOGY ID to " + change.getNewOntologyID();
+		}
+
+		public void visit(RemoveImport change) {
+			this.rendered = "REMOVE IMPORT " + change.getImportDeclaration();
+		}
+
+		public void visit(AddImport change) {
+			this.rendered = "ADD IMPORT " + change.getImportDeclaration();
+		}
+
+		public void visit(AddOntologyAnnotation change) {
+			this.rendered = "ADD Ontology Annotation " + change.getAnnotation();
+		}
+
+		public void visit(RemoveOntologyAnnotation change) {
+			this.rendered = "REMOVE Ontology Annotation " + change.getAnnotation();
 		}
 
 		@Override

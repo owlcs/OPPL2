@@ -27,15 +27,15 @@ import org.coode.oppl.variabletypes.CONSTANTVariable;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
 import org.coode.oppl.variabletypes.INDIVIDUALVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * @author Luigi Iannone
@@ -121,16 +121,16 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 		Set<OWLClass> toReturn = new HashSet<OWLClass>();
 		Set<OWLOntology> ontologies = this.getOntologyManager().getOntologies();
 		for (OWLOntology owlOntology : ontologies) {
-			toReturn.addAll(owlOntology.getReferencedClasses());
+			toReturn.addAll(owlOntology.getClassesInSignature());
 		}
 		return toReturn;
 	}
 
-	private Set<OWLConstant> getAllConstants() {
-		Set<OWLConstant> toReturn = new HashSet<OWLConstant>();
+	private Set<OWLLiteral> getAllConstants() {
+		Set<OWLLiteral> toReturn = new HashSet<OWLLiteral>();
 		for (OWLOntology ontology : this.getOntologyManager().getOntologies()) {
 			for (OWLAxiom axiom : ontology.getAxioms()) {
-				toReturn.addAll(OWLObjectExtractor.getAllOWLConstants(axiom));
+				toReturn.addAll(OWLObjectExtractor.getAllOWLLiterals(axiom));
 			}
 		}
 		return toReturn;
@@ -140,16 +140,16 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 		Set<OWLDataProperty> toReturn = new HashSet<OWLDataProperty>();
 		Set<OWLOntology> ontologies = this.getOntologyManager().getOntologies();
 		for (OWLOntology owlOntology : ontologies) {
-			toReturn.addAll(owlOntology.getReferencedDataProperties());
+			toReturn.addAll(owlOntology.getDataPropertiesInSignature());
 		}
 		return toReturn;
 	}
 
-	private Set<OWLIndividual> getAllIndividuals() {
-		Set<OWLIndividual> toReturn = new HashSet<OWLIndividual>();
+	private Set<OWLNamedIndividual> getAllIndividuals() {
+		Set<OWLNamedIndividual> toReturn = new HashSet<OWLNamedIndividual>();
 		Set<OWLOntology> ontologies = this.getOntologyManager().getOntologies();
 		for (OWLOntology owlOntology : ontologies) {
-			toReturn.addAll(owlOntology.getReferencedIndividuals());
+			toReturn.addAll(owlOntology.getIndividualsInSignature());
 		}
 		return toReturn;
 	}
@@ -210,7 +210,7 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 		Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
 		Set<OWLOntology> ontologies = this.getOntologyManager().getOntologies();
 		for (OWLOntology owlOntology : ontologies) {
-			toReturn.addAll(owlOntology.getReferencedObjectProperties());
+			toReturn.addAll(owlOntology.getObjectPropertiesInSignature());
 		}
 		return toReturn;
 	}

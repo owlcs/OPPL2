@@ -25,7 +25,7 @@ package org.coode.oppl;
 import java.util.List;
 
 import org.coode.oppl.exceptions.OPPLException;
-import org.semanticweb.owl.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**
  * @author Luigi Iannone

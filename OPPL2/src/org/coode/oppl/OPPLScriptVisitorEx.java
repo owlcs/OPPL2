@@ -24,7 +24,7 @@ package org.coode.oppl;
 
 import java.util.List;
 
-import org.semanticweb.owl.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /**
  * @author Luigi Iannone

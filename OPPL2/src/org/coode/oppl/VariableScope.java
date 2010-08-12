@@ -23,8 +23,8 @@
 package org.coode.oppl;
 
 import org.coode.oppl.VariableScopes.Direction;
-import org.semanticweb.owl.inference.OWLReasonerException;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 
 /**
  * Represents a limitation in the range of values that can be assigned to a
@@ -34,15 +34,14 @@ import org.semanticweb.owl.model.OWLObject;
  * @author Luigi Iannone
  * 
  */
-public interface VariableScope {
+public interface VariableScope<O extends OWLObject> {
 	/**
 	 * @param owlObject
 	 * @param checker
 	 * @return true if the input OWLObject is into the VariableScope
-	 * @throws OWLReasonerException
+	 * @throws OWLRuntimeException
 	 */
-	boolean check(OWLObject owlObject, VariableScopeChecker checker)
-			throws OWLReasonerException;
+	boolean check(OWLObject owlObject, VariableScopeChecker checker) throws OWLRuntimeException;
 
 	/**
 	 * @return the direction of the VariableScope
@@ -53,5 +52,5 @@ public interface VariableScope {
 	/**
 	 * @return the scope delimiter for the VariableScope
 	 */
-	OWLObject getScopingObject();
+	O getScopingObject();
 }

@@ -23,10 +23,10 @@
 package org.coode.oppl;
 
 import org.coode.oppl.VariableScopes.Direction;
-import org.semanticweb.owl.inference.OWLReasonerException;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 
 /**
  * Represents a range limitations that could be added to a
@@ -38,14 +38,13 @@ import org.semanticweb.owl.model.OWLObject;
  * 
  */
 public class SuperClassVariableScope extends ClassVariableScope {
-	SuperClassVariableScope(OWLDescription description) {
+	SuperClassVariableScope(OWLClassExpression description) {
 		super(description);
 	}
 
 	public boolean check(OWLObject owlObject, VariableScopeChecker checker)
-			throws OWLReasonerException {
-		return owlObject instanceof OWLClass
-				&& checker.check((OWLClass) owlObject, this);
+			throws OWLRuntimeException {
+		return owlObject instanceof OWLClass && checker.check((OWLClass) owlObject, this);
 	}
 
 	/**

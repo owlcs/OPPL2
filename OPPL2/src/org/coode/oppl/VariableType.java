@@ -22,13 +22,11 @@
  */
 package org.coode.oppl;
 
-import java.net.URI;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.coode.manchesterowlsyntax.ManchesterOWLSyntaxEditorParser;
 import org.coode.oppl.VariableScopes.Direction;
 import org.coode.oppl.entity.OWLEntityRenderer;
 import org.coode.oppl.generated.RegExpGenerated;
@@ -40,95 +38,42 @@ import org.coode.oppl.variabletypes.CONSTANTVariableImpl;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableImpl;
 import org.coode.oppl.variabletypes.INDIVIDUALVariableImpl;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableImpl;
-import org.semanticweb.owl.expression.ParserException;
-import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLClassAssertionAxiom;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLConstantAnnotation;
-import org.semanticweb.owl.model.OWLDataAllRestriction;
-import org.semanticweb.owl.model.OWLDataComplementOf;
-import org.semanticweb.owl.model.OWLDataExactCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataFactory;
-import org.semanticweb.owl.model.OWLDataMaxCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataMinCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataOneOf;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLDataRangeFacetRestriction;
-import org.semanticweb.owl.model.OWLDataRangeRestriction;
-import org.semanticweb.owl.model.OWLDataSomeRestriction;
-import org.semanticweb.owl.model.OWLDataSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLDataType;
-import org.semanticweb.owl.model.OWLDataValueRestriction;
-import org.semanticweb.owl.model.OWLDeclarationAxiom;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLDifferentIndividualsAxiom;
-import org.semanticweb.owl.model.OWLDisjointClassesAxiom;
-import org.semanticweb.owl.model.OWLDisjointDataPropertiesAxiom;
-import org.semanticweb.owl.model.OWLDisjointObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLDisjointUnionAxiom;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLEntityAnnotationAxiom;
-import org.semanticweb.owl.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentDataPropertiesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLFunctionalDataPropertyAxiom;
-import org.semanticweb.owl.model.OWLFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLImportsDeclaration;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLInverseFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLInverseObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLIrreflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLNegativeDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLNegativeObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectAllRestriction;
-import org.semanticweb.owl.model.OWLObjectAnnotation;
-import org.semanticweb.owl.model.OWLObjectComplementOf;
-import org.semanticweb.owl.model.OWLObjectExactCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectIntersectionOf;
-import org.semanticweb.owl.model.OWLObjectMaxCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectMinCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectOneOf;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyChainSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyInverse;
-import org.semanticweb.owl.model.OWLObjectPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLObjectSelfRestriction;
-import org.semanticweb.owl.model.OWLObjectSomeRestriction;
-import org.semanticweb.owl.model.OWLObjectSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLObjectUnionOf;
-import org.semanticweb.owl.model.OWLObjectValueRestriction;
-import org.semanticweb.owl.model.OWLObjectVisitorEx;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyAnnotationAxiom;
-import org.semanticweb.owl.model.OWLReflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLSameIndividualsAxiom;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
-import org.semanticweb.owl.model.OWLSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLTransitiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLTypedConstant;
-import org.semanticweb.owl.model.OWLUntypedConstant;
-import org.semanticweb.owl.model.SWRLAtomConstantObject;
-import org.semanticweb.owl.model.SWRLAtomDVariable;
-import org.semanticweb.owl.model.SWRLAtomIVariable;
-import org.semanticweb.owl.model.SWRLAtomIndividualObject;
-import org.semanticweb.owl.model.SWRLBuiltInAtom;
-import org.semanticweb.owl.model.SWRLClassAtom;
-import org.semanticweb.owl.model.SWRLDataRangeAtom;
-import org.semanticweb.owl.model.SWRLDataValuedPropertyAtom;
-import org.semanticweb.owl.model.SWRLDifferentFromAtom;
-import org.semanticweb.owl.model.SWRLObjectPropertyAtom;
-import org.semanticweb.owl.model.SWRLRule;
-import org.semanticweb.owl.model.SWRLSameAsAtom;
-import org.semanticweb.owl.util.OWLObjectVisitorAdapter;
+import org.coode.owlapi.manchesterowlsyntax.ManchesterOWLSyntaxEditorParser;
+import org.semanticweb.owlapi.expression.ParserException;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataExactCardinality;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataHasValue;
+import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
+import org.semanticweb.owlapi.model.OWLDataMinCardinality;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectComplementOf;
+import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
+import org.semanticweb.owlapi.model.OWLObjectHasSelf;
+import org.semanticweb.owlapi.model.OWLObjectHasValue;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
+import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
+import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.util.OWLObjectVisitorAdapter;
+import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /**
  * @author Luigi Iannone
@@ -140,7 +85,7 @@ public enum VariableType {
 		public Set<OWLClass> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies) {
 			Set<OWLClass> referencedValues = new HashSet<OWLClass>();
 			for (OWLOntology owlOntology : ontologies) {
-				referencedValues.addAll(owlOntology.getReferencedClasses());
+				referencedValues.addAll(owlOntology.getClassesInSignature());
 			}
 			return referencedValues;
 		}
@@ -151,9 +96,9 @@ public enum VariableType {
 		}
 
 		@Override
-		public VariableScope parseVariable(VariableScopes.Direction direction,
+		public VariableScope<OWLClassExpression> parseVariable(VariableScopes.Direction direction,
 				ManchesterOWLSyntaxEditorParser parser) throws ParserException {
-			OWLDescription description = parser.parseDescription();
+			OWLClassExpression description = parser.parseClassExpression();
 			if (direction.equals(Direction.SUBCLASSOF)) {
 				return VariableScopes.buildSubClassVariableScope(description);
 			} else {
@@ -167,7 +112,7 @@ public enum VariableType {
 				Collection<? extends OWLOntology> ontologies) {
 			Set<OWLClass> referencedValues = new HashSet<OWLClass>();
 			for (OWLOntology owlOntology : ontologies) {
-				referencedValues.addAll(owlOntology.getReferencedClasses());
+				referencedValues.addAll(owlOntology.getClassesInSignature());
 			}
 			return RegExpGeneratedValue.getOWLClassExpGeneratedValue(
 					referencedValues,
@@ -181,8 +126,8 @@ public enum VariableType {
 		}
 
 		@Override
-		public OWLObject buildOWLObject(OWLDataFactory factory, URI uri, String name) {
-			return factory.getOWLClass(uri);
+		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri, String name) {
+			return factory.getOWLClass(iri);
 		}
 	},
 	DATAPROPERTY("DATAPROPERTY", EnumSet.of(Direction.SUBPROPERTYOF, Direction.SUPERPROPERTYOF)) {
@@ -191,7 +136,7 @@ public enum VariableType {
 				Collection<? extends OWLOntology> ontologies) {
 			Set<OWLDataProperty> referenceValues = new HashSet<OWLDataProperty>();
 			for (OWLOntology owlOntology : ontologies) {
-				referenceValues.addAll(owlOntology.getReferencedDataProperties());
+				referenceValues.addAll(owlOntology.getDataPropertiesInSignature());
 			}
 			return referenceValues;
 		}
@@ -202,7 +147,7 @@ public enum VariableType {
 				Collection<? extends OWLOntology> ontologies) {
 			Set<OWLDataProperty> referencedValues = new HashSet<OWLDataProperty>();
 			for (OWLOntology owlOntology : ontologies) {
-				referencedValues.addAll(owlOntology.getReferencedDataProperties());
+				referencedValues.addAll(owlOntology.getDataPropertiesInSignature());
 			}
 			return RegExpGeneratedValue.getOWLDataPropertyExpGeneratedValue(
 					referencedValues,
@@ -216,7 +161,7 @@ public enum VariableType {
 		}
 
 		@Override
-		public VariableScope parseVariable(Direction direction,
+		public PropertyVariableScope<OWLDataProperty> parseVariable(Direction direction,
 				ManchesterOWLSyntaxEditorParser parser) throws ParserException {
 			OWLDataProperty dataProperty = parser.parseDataProperty();
 			if (direction.equals(Direction.SUPERPROPERTYOF)) {
@@ -232,8 +177,8 @@ public enum VariableType {
 		}
 
 		@Override
-		public OWLObject buildOWLObject(OWLDataFactory factory, URI uri, String name) {
-			return factory.getOWLDataProperty(uri);
+		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri, String name) {
+			return factory.getOWLDataProperty(iri);
 		}
 	},
 	OBJECTPROPERTY("OBJECTPROPERTY", EnumSet.of(Direction.SUBPROPERTYOF, Direction.SUPERPROPERTYOF)) {
@@ -242,7 +187,7 @@ public enum VariableType {
 				Collection<? extends OWLOntology> ontologies) {
 			Set<OWLObjectProperty> referenceValues = new HashSet<OWLObjectProperty>();
 			for (OWLOntology owlOntology : ontologies) {
-				referenceValues.addAll(owlOntology.getReferencedObjectProperties());
+				referenceValues.addAll(owlOntology.getObjectPropertiesInSignature());
 			}
 			return referenceValues;
 		}
@@ -253,7 +198,7 @@ public enum VariableType {
 				Collection<? extends OWLOntology> ontologies) {
 			Set<OWLObjectProperty> referencedValues = new HashSet<OWLObjectProperty>();
 			for (OWLOntology owlOntology : ontologies) {
-				referencedValues.addAll(owlOntology.getReferencedObjectProperties());
+				referencedValues.addAll(owlOntology.getObjectPropertiesInSignature());
 			}
 			return RegExpGeneratedValue.getOWLObjectPropertyExpGeneratedValue(
 					referencedValues,
@@ -267,7 +212,7 @@ public enum VariableType {
 		}
 
 		@Override
-		public VariableScope parseVariable(Direction direction,
+		public PropertyVariableScope<OWLObjectProperty> parseVariable(Direction direction,
 				ManchesterOWLSyntaxEditorParser parser) throws ParserException {
 			OWLObjectProperty objectProperty = (OWLObjectProperty) parser.parseObjectPropertyExpression();
 			if (direction.equals(Direction.SUPERPROPERTYOF)) {
@@ -283,17 +228,17 @@ public enum VariableType {
 		}
 
 		@Override
-		public OWLObject buildOWLObject(OWLDataFactory factory, URI uri, String name) {
-			return factory.getOWLObjectProperty(uri);
+		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri, String name) {
+			return factory.getOWLObjectProperty(iri);
 		}
 	},
 	INDIVIDUAL("INDIVIDUAL", EnumSet.of(Direction.INSTANCEOF)) {
 		@Override
-		public Set<OWLIndividual> getReferencedOWLObjects(
+		public Set<OWLNamedIndividual> getReferencedOWLObjects(
 				Collection<? extends OWLOntology> ontologies) {
-			Set<OWLIndividual> referenceValues = new HashSet<OWLIndividual>();
+			Set<OWLNamedIndividual> referenceValues = new HashSet<OWLNamedIndividual>();
 			for (OWLOntology owlOntology : ontologies) {
-				referenceValues.addAll(owlOntology.getReferencedIndividuals());
+				referenceValues.addAll(owlOntology.getIndividualsInSignature());
 			}
 			return referenceValues;
 		}
@@ -304,7 +249,7 @@ public enum VariableType {
 				Collection<? extends OWLOntology> ontologies) {
 			Set<OWLIndividual> referencedValues = new HashSet<OWLIndividual>();
 			for (OWLOntology owlOntology : ontologies) {
-				referencedValues.addAll(owlOntology.getReferencedIndividuals());
+				referencedValues.addAll(owlOntology.getIndividualsInSignature());
 			}
 			return RegExpGeneratedValue.getOWLIndividualExpGeneratedValue(
 					referencedValues,
@@ -318,42 +263,42 @@ public enum VariableType {
 		}
 
 		@Override
-		public VariableScope parseVariable(Direction direction,
+		public IndividualVariableScope parseVariable(Direction direction,
 				ManchesterOWLSyntaxEditorParser parser) throws ParserException {
-			OWLDescription description = parser.parseDescription();
+			OWLClassExpression description = parser.parseClassExpression();
 			return VariableScopes.buildIndividualVariableScope(description);
 		}
 
 		@Override
 		public Class<? extends OWLEntity> getOWLEntityClass() {
-			return OWLIndividual.class;
+			return OWLNamedIndividual.class;
 		}
 
 		@Override
-		public OWLObject buildOWLObject(OWLDataFactory factory, URI uri, String name) {
-			return factory.getOWLIndividual(uri);
+		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri, String name) {
+			return factory.getOWLNamedIndividual(iri);
 		}
 	},
 	CONSTANT("CONSTANT", EnumSet.noneOf(Direction.class)) {
 		@Override
-		public Set<OWLConstant> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies) {
-			Set<OWLConstant> referencedValues = new HashSet<OWLConstant>();
+		public Set<OWLLiteral> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies) {
+			Set<OWLLiteral> referencedValues = new HashSet<OWLLiteral>();
 			for (OWLOntology owlOntology : ontologies) {
 				for (OWLAxiom axiom : owlOntology.getAxioms()) {
-					referencedValues.addAll(OWLObjectExtractor.getAllOWLConstants(axiom));
+					referencedValues.addAll(OWLObjectExtractor.getAllOWLLiterals(axiom));
 				}
 			}
 			return referencedValues;
 		}
 
 		@Override
-		public RegExpGenerated<OWLConstant> getRegExpGenerated(String name,
+		public RegExpGenerated<OWLLiteral> getRegExpGenerated(String name,
 				OWLEntityRenderer entityRenderer, SingleValueGeneratedValue<String> exp,
 				Collection<? extends OWLOntology> ontologies) {
-			Set<OWLConstant> referencedValues = new HashSet<OWLConstant>();
+			Set<OWLLiteral> referencedValues = new HashSet<OWLLiteral>();
 			for (OWLOntology owlOntology : ontologies) {
 				for (OWLAxiom axiom : owlOntology.getAxioms()) {
-					referencedValues.addAll(OWLObjectExtractor.getAllOWLConstants(axiom));
+					referencedValues.addAll(OWLObjectExtractor.getAllOWLLiterals(axiom));
 				}
 			}
 			return RegExpGeneratedValue.getOWLConstantExpGeneratedValue(
@@ -368,7 +313,7 @@ public enum VariableType {
 		}
 
 		@Override
-		public VariableScope parseVariable(Direction direction,
+		public VariableScope<?> parseVariable(Direction direction,
 				ManchesterOWLSyntaxEditorParser parser) throws ParserException {
 			return null;
 		}
@@ -381,8 +326,8 @@ public enum VariableType {
 		}
 
 		@Override
-		public OWLObject buildOWLObject(OWLDataFactory factory, URI uri, String name) {
-			return factory.getOWLUntypedConstant(name);
+		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri, String name) {
+			return factory.getOWLLiteral(name);
 		}
 	};
 	private final String rendering;
@@ -397,14 +342,14 @@ public enum VariableType {
 
 	public abstract Variable instantiateVariable(String name);
 
-	public abstract VariableScope parseVariable(VariableScopes.Direction direction,
+	public abstract VariableScope<?> parseVariable(VariableScopes.Direction direction,
 			ManchesterOWLSyntaxEditorParser parser) throws ParserException;
 
 	/**
 	 * calls the appropriate factory method according to the type; either uri or
 	 * name are null
 	 */
-	public abstract OWLObject buildOWLObject(OWLDataFactory factory, URI uri, String name);
+	public abstract OWLObject buildOWLObject(OWLDataFactory factory, IRI iri, String name);
 
 	public abstract Set<? extends OWLObject> getReferencedOWLObjects(
 			Collection<? extends OWLOntology> ontologies);
@@ -470,37 +415,37 @@ public enum VariableType {
 		}
 
 		@Override
-		public void visit(OWLObjectSomeRestriction desc) {
+		public void visit(OWLObjectSomeValuesFrom desc) {
 			this.foundValue = CLASS;
 		}
 
 		@Override
-		public void visit(OWLObjectAllRestriction desc) {
+		public void visit(OWLObjectAllValuesFrom desc) {
 			this.foundValue = CLASS;
 		}
 
 		@Override
-		public void visit(OWLObjectValueRestriction desc) {
+		public void visit(OWLObjectHasValue desc) {
 			this.foundValue = CLASS;
 		}
 
 		@Override
-		public void visit(OWLObjectMinCardinalityRestriction desc) {
+		public void visit(OWLObjectMinCardinality desc) {
 			this.foundValue = CLASS;
 		}
 
 		@Override
-		public void visit(OWLObjectExactCardinalityRestriction desc) {
+		public void visit(OWLObjectExactCardinality desc) {
 			this.foundValue = CLASS;
 		}
 
 		@Override
-		public void visit(OWLObjectMaxCardinalityRestriction desc) {
+		public void visit(OWLObjectMaxCardinality desc) {
 			this.foundValue = CLASS;
 		}
 
 		@Override
-		public void visit(OWLObjectSelfRestriction desc) {
+		public void visit(OWLObjectHasSelf desc) {
 			this.foundValue = CLASS;
 		}
 
@@ -510,32 +455,32 @@ public enum VariableType {
 		}
 
 		@Override
-		public void visit(OWLDataSomeRestriction desc) {
+		public void visit(OWLDataSomeValuesFrom desc) {
 			this.foundValue = CLASS;
 		}
 
 		@Override
-		public void visit(OWLDataAllRestriction desc) {
+		public void visit(OWLDataAllValuesFrom desc) {
 			this.foundValue = CLASS;
 		}
 
 		@Override
-		public void visit(OWLDataValueRestriction desc) {
+		public void visit(OWLDataHasValue desc) {
 			this.foundValue = CLASS;
 		}
 
 		@Override
-		public void visit(OWLDataMinCardinalityRestriction desc) {
+		public void visit(OWLDataMinCardinality desc) {
 			this.foundValue = CLASS;
 		}
 
 		@Override
-		public void visit(OWLDataExactCardinalityRestriction desc) {
+		public void visit(OWLDataExactCardinality desc) {
 			this.foundValue = CLASS;
 		}
 
 		@Override
-		public void visit(OWLDataMaxCardinalityRestriction desc) {
+		public void visit(OWLDataMaxCardinality desc) {
 			this.foundValue = CLASS;
 		}
 
@@ -545,7 +490,7 @@ public enum VariableType {
 		}
 
 		@Override
-		public void visit(OWLIndividual owlIndividual) {
+		public void visit(OWLNamedIndividual owlIndividual) {
 			this.foundValue = INDIVIDUAL;
 		}
 
@@ -555,16 +500,19 @@ public enum VariableType {
 		}
 	}
 
-	private final class CompatibilityChecker extends Empty implements OWLObjectVisitorEx<Boolean> {
+	private final class CompatibilityChecker extends OWLObjectVisitorExAdapter<Boolean> implements
+			OWLObjectVisitorEx<Boolean> {
 		private final VariableType variableType;
 
 		/**
 		 * @param variableType
 		 */
 		CompatibilityChecker(VariableType variableType) {
+			super(false);
 			this.variableType = variableType;
 		}
 
+		@Override
 		public Boolean visit(OWLClass cls) {
 			return this.checkClass();
 		}
@@ -573,325 +521,114 @@ public enum VariableType {
 			return this.variableType.equals(VariableType.CLASS);
 		}
 
+		@Override
 		public Boolean visit(OWLObjectProperty property) {
 			return this.variableType.equals(VariableType.OBJECTPROPERTY);
 		}
 
+		@Override
 		public Boolean visit(OWLDataProperty property) {
 			return this.variableType.equals(VariableType.DATAPROPERTY);
 		}
 
-		public Boolean visit(OWLIndividual individual) {
+		@Override
+		public Boolean visit(OWLNamedIndividual individual) {
 			return this.variableType.equals(VariableType.INDIVIDUAL);
 		}
 
-		public Boolean visit(OWLDataType dataType) {
+		@Override
+		public Boolean visit(OWLDatatype dataType) {
 			return false;
 		}
 
+		@Override
 		public Boolean visit(OWLObjectIntersectionOf desc) {
 			return this.checkClass();
 		}
 
+		@Override
 		public Boolean visit(OWLObjectUnionOf desc) {
 			return this.checkClass();
 		}
 
+		@Override
 		public Boolean visit(OWLObjectComplementOf desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLObjectSomeRestriction desc) {
+		@Override
+		public Boolean visit(OWLObjectSomeValuesFrom desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLObjectAllRestriction desc) {
+		@Override
+		public Boolean visit(OWLObjectAllValuesFrom desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLObjectValueRestriction desc) {
+		@Override
+		public Boolean visit(OWLObjectHasValue desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLObjectMinCardinalityRestriction desc) {
+		@Override
+		public Boolean visit(OWLObjectMinCardinality desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLObjectExactCardinalityRestriction desc) {
+		@Override
+		public Boolean visit(OWLObjectExactCardinality desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLObjectMaxCardinalityRestriction desc) {
+		@Override
+		public Boolean visit(OWLObjectMaxCardinality desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLObjectSelfRestriction desc) {
+		@Override
+		public Boolean visit(OWLObjectHasSelf desc) {
 			return this.checkClass();
 		}
 
+		@Override
 		public Boolean visit(OWLObjectOneOf desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLDataSomeRestriction desc) {
+		@Override
+		public Boolean visit(OWLDataSomeValuesFrom desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLDataAllRestriction desc) {
+		@Override
+		public Boolean visit(OWLDataAllValuesFrom desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLDataValueRestriction desc) {
+		@Override
+		public Boolean visit(OWLDataHasValue desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLDataMinCardinalityRestriction desc) {
+		@Override
+		public Boolean visit(OWLDataMinCardinality desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLDataExactCardinalityRestriction desc) {
+		@Override
+		public Boolean visit(OWLDataExactCardinality desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLDataMaxCardinalityRestriction desc) {
+		@Override
+		public Boolean visit(OWLDataMaxCardinality desc) {
 			return this.checkClass();
 		}
 
-		public Boolean visit(OWLTypedConstant node) {
+		@Override
+		public Boolean visit(OWLLiteral node) {
 			return this.variableType.equals(CONSTANT);
-		}
-
-		public Boolean visit(OWLUntypedConstant node) {
-			return this.variableType.equals(CONSTANT);
-		}
-	}
-
-	private static abstract class Empty {
-		public Empty() {
-		}
-
-		public Boolean visit(OWLSubClassAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLReflexiveObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLDisjointClassesAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLDataPropertyDomainAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLImportsDeclaration axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLAxiomAnnotationAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLObjectPropertyDomainAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLDifferentIndividualsAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLDisjointDataPropertiesAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLDisjointObjectPropertiesAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLObjectPropertyRangeAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLObjectPropertyAssertionAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLFunctionalObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLObjectSubPropertyAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLDisjointUnionAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLDeclarationAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLEntityAnnotationAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLOntologyAnnotationAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLSymmetricObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLDataPropertyRangeAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLFunctionalDataPropertyAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLEquivalentDataPropertiesAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLClassAssertionAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLEquivalentClassesAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLDataPropertyAssertionAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLTransitiveObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLDataSubPropertyAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLSameIndividualsAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(OWLInverseObjectPropertiesAxiom axiom) {
-			return null;
-		}
-
-		public Boolean visit(SWRLRule rule) {
-			return null;
-		}
-
-		public Boolean visit(OWLDataComplementOf node) {
-			return null;
-		}
-
-		public Boolean visit(OWLDataOneOf node) {
-			return null;
-		}
-
-		public Boolean visit(OWLDataRangeRestriction node) {
-			return null;
-		}
-
-		public Boolean visit(OWLDataRangeFacetRestriction node) {
-			return null;
-		}
-
-		public Boolean visit(OWLObjectPropertyInverse property) {
-			return null;
-		}
-
-		public Boolean visit(OWLObjectAnnotation annotation) {
-			return null;
-		}
-
-		public Boolean visit(OWLConstantAnnotation annotation) {
-			return null;
-		}
-
-		public Boolean visit(SWRLClassAtom node) {
-			return null;
-		}
-
-		public Boolean visit(SWRLDataRangeAtom node) {
-			return null;
-		}
-
-		public Boolean visit(SWRLObjectPropertyAtom node) {
-			return null;
-		}
-
-		public Boolean visit(SWRLDataValuedPropertyAtom node) {
-			return null;
-		}
-
-		public Boolean visit(SWRLBuiltInAtom node) {
-			return null;
-		}
-
-		public Boolean visit(SWRLAtomDVariable node) {
-			return null;
-		}
-
-		public Boolean visit(SWRLAtomIVariable node) {
-			return null;
-		}
-
-		public Boolean visit(SWRLAtomIndividualObject node) {
-			return null;
-		}
-
-		public Boolean visit(SWRLAtomConstantObject node) {
-			return null;
-		}
-
-		public Boolean visit(SWRLSameAsAtom node) {
-			return null;
-		}
-
-		public Boolean visit(SWRLDifferentFromAtom node) {
-			return null;
-		}
-
-		public Boolean visit(OWLOntology ontology) {
-			return null;
 		}
 	}
 }

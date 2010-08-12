@@ -27,14 +27,14 @@ import org.coode.oppl.variabletypes.CONSTANTVariable;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
 import org.coode.oppl.variabletypes.INDIVIDUALVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
-import org.semanticweb.owl.inference.OWLReasonerException;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 
 /**
  * @author Luigi Iannone
@@ -48,7 +48,7 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	private final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
 	private final Set<OWLDataProperty> allDataProperties = new HashSet<OWLDataProperty>();
 	private final Set<OWLIndividual> allIndividuals = new HashSet<OWLIndividual>();
-	private final Set<OWLConstant> allConstants = new HashSet<OWLConstant>();
+	private final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
 
 	public OPPLAssertedSingleOWLAxiomSearchTree(OWLAxiom targetAxiom,
 			ConstraintSystem constraintSystem) {
@@ -128,7 +128,7 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	private Collection<? extends OWLObject> getAssignableValues(Variable variable) {
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
 		toReturn.addAll(variable.accept(this.assignableValuesVisitor));
-		VariableScope variableScope = variable.getVariableScope();
+		VariableScope<?> variableScope = variable.getVariableScope();
 		if (variableScope != null) {
 			Iterator<OWLObject> iterator = toReturn.iterator();
 			while (iterator.hasNext()) {
@@ -140,11 +140,9 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 					if (!inScope) {
 						iterator.remove();
 					}
-				} catch (OWLReasonerException e) {
-					// TODO Auto-generated catch block
+				} catch (OWLRuntimeException e) {
 					e.printStackTrace();
 				} catch (OPPLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -157,7 +155,7 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 		this.allDataProperties.addAll(OWLObjectExtractor.getAllOWLDataProperties(this.getTargetAxiom()));
 		this.allObjectProperties.addAll(OWLObjectExtractor.getAllOWLObjectProperties(this.getTargetAxiom()));
 		this.allIndividuals.addAll(OWLObjectExtractor.getAllOWLIndividuals(this.getTargetAxiom()));
-		this.allConstants.addAll(OWLObjectExtractor.getAllOWLConstants(this.getTargetAxiom()));
+		this.allConstants.addAll(OWLObjectExtractor.getAllOWLLiterals(this.getTargetAxiom()));
 	}
 
 	/**

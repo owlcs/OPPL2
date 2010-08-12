@@ -8,7 +8,7 @@ import org.coode.oppl.VariableType;
 import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.utils.ArgCheck;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.coode.oppl.Variable;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * Convenience class to represents assignments indexed by variables.

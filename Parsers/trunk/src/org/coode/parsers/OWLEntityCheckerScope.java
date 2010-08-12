@@ -4,12 +4,10 @@
 package org.coode.parsers;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
-import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEntity;
 
 /**
  * Scope based on an OWLEntityChecker instance. All the symbols are derived from
@@ -19,7 +17,6 @@ import org.semanticweb.owl.model.OWLEntity;
  * 
  */
 public class OWLEntityCheckerScope implements Scope {
-	private final Map<String, Symbol> wellKnownSymbols = new HashMap<String, Symbol>();
 	private final DisposableOWLEntityChecker owlEntityChecker;
 	private final EntityFinder entityFinder;
 	private final OWLEntityRenderer owlEntityRenderer;
@@ -86,7 +83,7 @@ public class OWLEntityCheckerScope implements Scope {
 					if (owlEntity != null) {
 						toReturn = new OWLEntitySymbol(name, owlEntity);
 					} else {
-						owlEntity = this.getOWLEntityChecker().getOWLDataType(name);
+						owlEntity = this.getOWLEntityChecker().getOWLDatatype(name);
 						if (owlEntity != null) {
 							toReturn = new OWLEntitySymbol(name, owlEntity);
 						}

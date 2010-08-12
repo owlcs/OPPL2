@@ -33,7 +33,7 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.utils.ArgCheck;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone

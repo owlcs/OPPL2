@@ -7,9 +7,9 @@ import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.variabletypes.CLASSVariableImpl;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public class RegExpCLASSVariable extends CLASSVariableImpl implements RegExpGenerated<OWLClass> {
 	private RegExpDelegate<OWLClass> delegate;

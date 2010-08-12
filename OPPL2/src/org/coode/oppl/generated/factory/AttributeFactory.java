@@ -10,7 +10,7 @@ import org.coode.oppl.VariableType;
 import org.coode.oppl.generated.AbstractCollectionGeneratedValue;
 import org.coode.oppl.generated.Attribute;
 import org.coode.oppl.generated.VariableGeneratedValue;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public class AttributeFactory {
 	private static final Set<VariableType> acceptedTypes = new HashSet<VariableType>(

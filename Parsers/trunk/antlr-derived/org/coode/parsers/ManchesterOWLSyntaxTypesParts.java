@@ -1,8 +1,8 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypesParts.g 2010-08-09 14:36:41
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypesParts.g 2010-08-11 15:41:28
 
   package org.coode.parsers;
-  import org.semanticweb.owl.model.OWLObject;
-  import org.semanticweb.owl.model.OWLAxiom;
+  import org.semanticweb.owlapi.model.OWLObject;
+  import org.semanticweb.owlapi.model.OWLAxiom;
 
 
 import org.antlr.runtime.*;

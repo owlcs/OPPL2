@@ -1,6 +1,6 @@
 package org.coode.oppl.entity;
 
-import org.semanticweb.owl.model.OWLException;
+import org.semanticweb.owlapi.model.OWLException;
 
 /**
  * Author: drummond<br>

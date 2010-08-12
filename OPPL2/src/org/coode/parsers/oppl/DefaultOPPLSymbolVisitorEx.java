@@ -1,7 +1,7 @@
 package org.coode.parsers.oppl;
 
-import org.coode.parsers.OWLConstantSymbol;
 import org.coode.parsers.OWLEntitySymbol;
+import org.coode.parsers.OWLLiteralSymbol;
 import org.coode.parsers.Symbol;
 import org.coode.parsers.oppl.variableattribute.CollectionVariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
@@ -23,7 +23,7 @@ public abstract class DefaultOPPLSymbolVisitorEx<O> implements OPPLSymbolVisitor
 		return this.doDefault(owlEntitySymbol);
 	}
 
-	public O visitOWLConstant(OWLConstantSymbol owlConstantSymbol) {
+	public O visitOWLLiteral(OWLLiteralSymbol owlConstantSymbol) {
 		return this.doDefault(owlConstantSymbol);
 	}
 

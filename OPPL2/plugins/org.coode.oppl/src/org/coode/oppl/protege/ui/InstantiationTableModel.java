@@ -18,7 +18,7 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.protege.editor.owl.OWLEditorKit;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone

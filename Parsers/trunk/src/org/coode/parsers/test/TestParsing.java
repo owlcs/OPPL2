@@ -18,9 +18,10 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.parsers.MOWLLexer;
 import org.coode.parsers.ManchesterOWLSyntaxParser;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * @author Luigi Iannone
@@ -56,7 +57,7 @@ public class TestParsing {
 		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens);
 		parser.setTreeAdaptor(adaptor);
 		try {
-			ontologyManager.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			ontologyManager.loadOntologyFromOntologyDocument(IRI.create(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
 			RuleReturnScope r = parser.main();
 			CommonTree tree = (CommonTree) r.getTree();
 			System.out.println(tree.toStringTree());
@@ -71,9 +72,9 @@ public class TestParsing {
 
 	static void showTypes(ManchesterOWLSyntaxTree t, TokenRewriteStream tokens) {
 		if (t.getEvalType() != null && t.getType() != ManchesterOWLSyntaxParser.EXPRESSION) {
-			System.out.printf("%-17s", tokens.toString(
-					t.getTokenStartIndex(),
-					t.getTokenStopIndex()));
+			System.out.printf(
+					"%-17s",
+					tokens.toString(t.getTokenStartIndex(), t.getTokenStopIndex()));
 			String ts = t.getEvalType().toString();
 			System.out.printf(" type %-8s\n", ts);
 		}

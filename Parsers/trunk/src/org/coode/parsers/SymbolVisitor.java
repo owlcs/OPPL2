@@ -12,5 +12,5 @@ public interface SymbolVisitor {
 
 	void visitOWLEntity(OWLEntitySymbol owlEntitySymbol);
 
-	void visitOWLConstant(OWLConstantSymbol owlConstantSymbol);
+	void visitOWLLiteral(OWLLiteralSymbol owlConstantSymbol);
 }

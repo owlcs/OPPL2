@@ -4,7 +4,7 @@
 package org.coode.oppl.search;
 
 import org.coode.oppl.bindingtree.BindingNode;
-import org.semanticweb.owl.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**
  * @author Luigi Iannone

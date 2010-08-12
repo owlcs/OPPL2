@@ -4,90 +4,93 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
-import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
-import org.semanticweb.owl.model.OWLClassAssertionAxiom;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLConstantAnnotation;
-import org.semanticweb.owl.model.OWLDataAllRestriction;
-import org.semanticweb.owl.model.OWLDataComplementOf;
-import org.semanticweb.owl.model.OWLDataExactCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataMaxCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataMinCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataOneOf;
-import org.semanticweb.owl.model.OWLDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyExpression;
-import org.semanticweb.owl.model.OWLDataPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLDataRangeFacetRestriction;
-import org.semanticweb.owl.model.OWLDataRangeRestriction;
-import org.semanticweb.owl.model.OWLDataSomeRestriction;
-import org.semanticweb.owl.model.OWLDataSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLDataType;
-import org.semanticweb.owl.model.OWLDataValueRestriction;
-import org.semanticweb.owl.model.OWLDeclarationAxiom;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLDifferentIndividualsAxiom;
-import org.semanticweb.owl.model.OWLDisjointClassesAxiom;
-import org.semanticweb.owl.model.OWLDisjointDataPropertiesAxiom;
-import org.semanticweb.owl.model.OWLDisjointObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLDisjointUnionAxiom;
-import org.semanticweb.owl.model.OWLEntityAnnotationAxiom;
-import org.semanticweb.owl.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentDataPropertiesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLFunctionalDataPropertyAxiom;
-import org.semanticweb.owl.model.OWLFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLImportsDeclaration;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLInverseFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLInverseObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLIrreflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLNegativeDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLNegativeObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObjectAllRestriction;
-import org.semanticweb.owl.model.OWLObjectAnnotation;
-import org.semanticweb.owl.model.OWLObjectComplementOf;
-import org.semanticweb.owl.model.OWLObjectExactCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectIntersectionOf;
-import org.semanticweb.owl.model.OWLObjectMaxCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectMinCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectOneOf;
-import org.semanticweb.owl.model.OWLObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyChainSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyExpression;
-import org.semanticweb.owl.model.OWLObjectPropertyInverse;
-import org.semanticweb.owl.model.OWLObjectPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLObjectSelfRestriction;
-import org.semanticweb.owl.model.OWLObjectSomeRestriction;
-import org.semanticweb.owl.model.OWLObjectSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLObjectUnionOf;
-import org.semanticweb.owl.model.OWLObjectValueRestriction;
-import org.semanticweb.owl.model.OWLObjectVisitorEx;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyAnnotationAxiom;
-import org.semanticweb.owl.model.OWLReflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLSameIndividualsAxiom;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
-import org.semanticweb.owl.model.OWLSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLTransitiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.SWRLAtomConstantObject;
-import org.semanticweb.owl.model.SWRLAtomDVariable;
-import org.semanticweb.owl.model.SWRLAtomIVariable;
-import org.semanticweb.owl.model.SWRLAtomIndividualObject;
-import org.semanticweb.owl.model.SWRLBuiltInAtom;
-import org.semanticweb.owl.model.SWRLClassAtom;
-import org.semanticweb.owl.model.SWRLDataRangeAtom;
-import org.semanticweb.owl.model.SWRLDataValuedPropertyAtom;
-import org.semanticweb.owl.model.SWRLDifferentFromAtom;
-import org.semanticweb.owl.model.SWRLObjectPropertyAtom;
-import org.semanticweb.owl.model.SWRLRule;
-import org.semanticweb.owl.model.SWRLSameAsAtom;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAnnotationPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
+import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataComplementOf;
+import org.semanticweb.owlapi.model.OWLDataExactCardinality;
+import org.semanticweb.owlapi.model.OWLDataHasValue;
+import org.semanticweb.owlapi.model.OWLDataIntersectionOf;
+import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
+import org.semanticweb.owlapi.model.OWLDataMinCardinality;
+import org.semanticweb.owlapi.model.OWLDataOneOf;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataUnionOf;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLDatatypeDefinitionAxiom;
+import org.semanticweb.owlapi.model.OWLDatatypeRestriction;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLFacetRestriction;
+import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLHasKeyAxiom;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectComplementOf;
+import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
+import org.semanticweb.owlapi.model.OWLObjectHasSelf;
+import org.semanticweb.owlapi.model.OWLObjectHasValue;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
+import org.semanticweb.owlapi.model.OWLObjectInverseOf;
+import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
+import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
+import org.semanticweb.owlapi.model.OWLSubAnnotationPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom;
+import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.SWRLBuiltInAtom;
+import org.semanticweb.owlapi.model.SWRLClassAtom;
+import org.semanticweb.owlapi.model.SWRLDataPropertyAtom;
+import org.semanticweb.owlapi.model.SWRLDataRangeAtom;
+import org.semanticweb.owlapi.model.SWRLDifferentIndividualsAtom;
+import org.semanticweb.owlapi.model.SWRLIndividualArgument;
+import org.semanticweb.owlapi.model.SWRLLiteralArgument;
+import org.semanticweb.owlapi.model.SWRLObjectPropertyAtom;
+import org.semanticweb.owlapi.model.SWRLRule;
+import org.semanticweb.owlapi.model.SWRLSameIndividualAtom;
+import org.semanticweb.owlapi.model.SWRLVariable;
 
-@SuppressWarnings("unused")
-public abstract class AbstractVariableDetector implements
-		OWLObjectVisitorEx<Boolean> {
+public abstract class AbstractVariableDetector implements OWLObjectVisitorEx<Boolean> {
 	protected ConstraintSystem constraintSystem;
 
 	/**
@@ -99,8 +102,8 @@ public abstract class AbstractVariableDetector implements
 
 	public Boolean visit(OWLObjectIntersectionOf desc) {
 		boolean found = false;
-		Iterator<OWLDescription> it = desc.getOperands().iterator();
-		OWLDescription operand;
+		Iterator<OWLClassExpression> it = desc.getOperands().iterator();
+		OWLClassExpression operand;
 		while (!found && it.hasNext()) {
 			operand = it.next();
 			found = operand.accept(this);
@@ -110,8 +113,8 @@ public abstract class AbstractVariableDetector implements
 
 	public Boolean visit(OWLObjectUnionOf desc) {
 		boolean found = false;
-		Iterator<OWLDescription> it = desc.getOperands().iterator();
-		OWLDescription operand;
+		Iterator<OWLClassExpression> it = desc.getOperands().iterator();
+		OWLClassExpression operand;
 		while (!found && it.hasNext()) {
 			operand = it.next();
 			found = operand.accept(this);
@@ -123,48 +126,42 @@ public abstract class AbstractVariableDetector implements
 		return desc.getOperand().accept(this);
 	}
 
-	public Boolean visit(OWLObjectSomeRestriction desc) {
-		return this.constraintSystem.isVariable(desc.getProperty()
-				.asOWLObjectProperty())
+	public Boolean visit(OWLObjectSomeValuesFrom desc) {
+		return this.constraintSystem.isVariable(desc.getProperty().asOWLObjectProperty())
 				|| desc.getFiller().accept(this);
 	}
 
-	public Boolean visit(OWLObjectAllRestriction desc) {
-		return this.constraintSystem.isVariable(desc.getProperty()
-				.asOWLObjectProperty())
+	public Boolean visit(OWLObjectAllValuesFrom desc) {
+		return this.constraintSystem.isVariable(desc.getProperty().asOWLObjectProperty())
 				|| desc.getFiller().accept(this);
 	}
 
-	public Boolean visit(OWLObjectValueRestriction desc) {
-		return this.constraintSystem.isVariable(desc.getProperty()
-				.asOWLObjectProperty())
-				|| this.constraintSystem.isVariable(desc.getValue());
+	public Boolean visit(OWLObjectHasValue desc) {
+		return this.constraintSystem.isVariable(desc.getProperty().asOWLObjectProperty())
+				|| desc.getValue().accept(this);
 	}
 
-	public Boolean visit(OWLObjectMinCardinalityRestriction desc) {
-		return this.constraintSystem.isVariable(desc.getProperty()
-				.asOWLObjectProperty())
-				|| (desc.getFiller() == null ? false : desc.getFiller().accept(
-						this));
+	public Boolean visit(OWLAnonymousIndividual individual) {
+		return false;
 	}
 
-	public Boolean visit(OWLObjectExactCardinalityRestriction desc) {
-		return this.constraintSystem.isVariable(desc.getProperty()
-				.asOWLObjectProperty())
-				|| (desc.getFiller() == null ? false : desc.getFiller().accept(
-						this));
+	public Boolean visit(OWLObjectMinCardinality desc) {
+		return this.constraintSystem.isVariable(desc.getProperty().asOWLObjectProperty())
+				|| (desc.getFiller() == null ? false : desc.getFiller().accept(this));
 	}
 
-	public Boolean visit(OWLObjectMaxCardinalityRestriction desc) {
-		return this.constraintSystem.isVariable(desc.getProperty()
-				.asOWLObjectProperty())
-				|| (desc.getFiller() == null ? false : desc.getFiller().accept(
-						this));
+	public Boolean visit(OWLObjectExactCardinality desc) {
+		return this.constraintSystem.isVariable(desc.getProperty().asOWLObjectProperty())
+				|| (desc.getFiller() == null ? false : desc.getFiller().accept(this));
 	}
 
-	public Boolean visit(OWLObjectSelfRestriction desc) {
-		return this.constraintSystem.isVariable(desc.getProperty()
-				.asOWLObjectProperty());
+	public Boolean visit(OWLObjectMaxCardinality desc) {
+		return this.constraintSystem.isVariable(desc.getProperty().asOWLObjectProperty())
+				|| (desc.getFiller() == null ? false : desc.getFiller().accept(this));
+	}
+
+	public Boolean visit(OWLObjectHasSelf desc) {
+		return this.constraintSystem.isVariable(desc.getProperty().asOWLObjectProperty());
 	}
 
 	public Boolean visit(OWLObjectOneOf desc) {
@@ -173,53 +170,45 @@ public abstract class AbstractVariableDetector implements
 		OWLIndividual individual;
 		while (!found && it.hasNext()) {
 			individual = it.next();
-			found = this.constraintSystem.isVariable(individual);
+			found = individual.accept(this);
 		}
 		return found;
 	}
 
-	public Boolean visit(OWLDataSomeRestriction desc) {
-		return this.constraintSystem.isVariable(desc.getProperty()
-				.asOWLDataProperty());
+	public Boolean visit(OWLDataSomeValuesFrom desc) {
+		return this.constraintSystem.isVariable(desc.getProperty().asOWLDataProperty());
 	}
 
-	public Boolean visit(OWLDataAllRestriction desc) {
-		return this.constraintSystem.isVariable(desc.getProperty()
-				.asOWLDataProperty());
+	public Boolean visit(OWLDataAllValuesFrom desc) {
+		return this.constraintSystem.isVariable(desc.getProperty().asOWLDataProperty());
 	}
 
-	public Boolean visit(OWLDataValueRestriction desc) {
-		return this.constraintSystem.isVariable(desc.getProperty()
-				.asOWLDataProperty());
+	public Boolean visit(OWLDataHasValue desc) {
+		return this.constraintSystem.isVariable(desc.getProperty().asOWLDataProperty());
 	}
 
-	public Boolean visit(OWLDataMinCardinalityRestriction desc) {
-		return this.constraintSystem.isVariable(desc.getProperty()
-				.asOWLDataProperty());
+	public Boolean visit(OWLDataMinCardinality desc) {
+		return this.constraintSystem.isVariable(desc.getProperty().asOWLDataProperty());
 	}
 
-	public Boolean visit(OWLDataExactCardinalityRestriction desc) {
-		return this.constraintSystem.isVariable(desc.getProperty()
-				.asOWLDataProperty());
+	public Boolean visit(OWLDataExactCardinality desc) {
+		return this.constraintSystem.isVariable(desc.getProperty().asOWLDataProperty());
 	}
 
-	public Boolean visit(OWLDataMaxCardinalityRestriction desc) {
-		return this.constraintSystem.isVariable(desc.getProperty()
-				.asOWLDataProperty());
+	public Boolean visit(OWLDataMaxCardinality desc) {
+		return this.constraintSystem.isVariable(desc.getProperty().asOWLDataProperty());
 	}
 
-	public Boolean visit(OWLSubClassAxiom axiom) {
-		return axiom.getSubClass().accept(this)
-				|| axiom.getSuperClass().accept(this);
+	public Boolean visit(OWLSubClassOfAxiom axiom) {
+		return axiom.getSubClass().accept(this) || axiom.getSuperClass().accept(this);
 	}
 
 	public Boolean visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
-		return axiom.getProperty().accept(this)
-				|| axiom.getSubject().accept(this)
+		return axiom.getProperty().accept(this) || axiom.getSubject().accept(this)
 				|| axiom.getObject().accept(this);
 	}
 
-	public Boolean visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
+	public Boolean visit(OWLAsymmetricObjectPropertyAxiom axiom) {
 		return axiom.getProperty().accept(this);
 	}
 
@@ -228,8 +217,8 @@ public abstract class AbstractVariableDetector implements
 	}
 
 	public Boolean visit(OWLDisjointClassesAxiom axiom) {
-		Set<OWLDescription> descriptions = axiom.getDescriptions();
-		Iterator<OWLDescription> iterator = descriptions.iterator();
+		Set<OWLClassExpression> descriptions = axiom.getClassExpressions();
+		Iterator<OWLClassExpression> iterator = descriptions.iterator();
 		boolean found = false;
 		while (!found && iterator.hasNext()) {
 			found = iterator.next().accept(this);
@@ -238,27 +227,16 @@ public abstract class AbstractVariableDetector implements
 	}
 
 	public Boolean visit(OWLDataPropertyDomainAxiom axiom) {
-		return axiom.getProperty().accept(this)
-				|| axiom.getDomain().accept(this);
-	}
-
-	public Boolean visit(OWLImportsDeclaration axiom) {
-		return Boolean.FALSE;
-	}
-
-	public Boolean visit(OWLAxiomAnnotationAxiom axiom) {
-		return Boolean.FALSE;
+		return axiom.getProperty().accept(this) || axiom.getDomain().accept(this);
 	}
 
 	public Boolean visit(OWLObjectPropertyDomainAxiom axiom) {
-		return axiom.getProperty().accept(this)
-				|| axiom.getDomain().accept(this);
+		return axiom.getProperty().accept(this) || axiom.getDomain().accept(this);
 	}
 
 	public Boolean visit(OWLEquivalentObjectPropertiesAxiom axiom) {
 		Set<OWLObjectPropertyExpression> descriptions = axiom.getProperties();
-		Iterator<OWLObjectPropertyExpression> iterator = descriptions
-				.iterator();
+		Iterator<OWLObjectPropertyExpression> iterator = descriptions.iterator();
 		boolean found = false;
 		while (!found && iterator.hasNext()) {
 			found = iterator.next().accept(this);
@@ -267,8 +245,7 @@ public abstract class AbstractVariableDetector implements
 	}
 
 	public Boolean visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
-		return axiom.getProperty().accept(this)
-				|| axiom.getSubject().accept(this)
+		return axiom.getProperty().accept(this) || axiom.getSubject().accept(this)
 				|| axiom.getObject().accept(this);
 	}
 
@@ -294,8 +271,7 @@ public abstract class AbstractVariableDetector implements
 
 	public Boolean visit(OWLDisjointObjectPropertiesAxiom axiom) {
 		Set<OWLObjectPropertyExpression> descriptions = axiom.getProperties();
-		Iterator<OWLObjectPropertyExpression> iterator = descriptions
-				.iterator();
+		Iterator<OWLObjectPropertyExpression> iterator = descriptions.iterator();
 		boolean found = false;
 		while (!found && iterator.hasNext()) {
 			found = iterator.next().accept(this);
@@ -304,13 +280,11 @@ public abstract class AbstractVariableDetector implements
 	}
 
 	public Boolean visit(OWLObjectPropertyRangeAxiom axiom) {
-		return axiom.getProperty().accept(this)
-				|| axiom.getRange().accept(this);
+		return axiom.getProperty().accept(this) || axiom.getRange().accept(this);
 	}
 
 	public Boolean visit(OWLObjectPropertyAssertionAxiom axiom) {
-		return axiom.getProperty().accept(this)
-				|| axiom.getSubject().accept(this)
+		return axiom.getProperty().accept(this) || axiom.getSubject().accept(this)
 				|| axiom.getObject().accept(this);
 	}
 
@@ -318,14 +292,13 @@ public abstract class AbstractVariableDetector implements
 		return axiom.getProperty().accept(this);
 	}
 
-	public Boolean visit(OWLObjectSubPropertyAxiom axiom) {
-		return axiom.getSubProperty().accept(this)
-				|| axiom.getSuperProperty().accept(this);
+	public Boolean visit(OWLSubObjectPropertyOfAxiom axiom) {
+		return axiom.getSubProperty().accept(this) || axiom.getSuperProperty().accept(this);
 	}
 
 	public Boolean visit(OWLDisjointUnionAxiom axiom) {
-		Set<OWLDescription> descriptions = axiom.getDescriptions();
-		Iterator<OWLDescription> iterator = descriptions.iterator();
+		Set<OWLClassExpression> descriptions = axiom.getClassExpressions();
+		Iterator<OWLClassExpression> iterator = descriptions.iterator();
 		boolean found = false;
 		while (!found && iterator.hasNext()) {
 			found = iterator.next().accept(this);
@@ -337,21 +310,12 @@ public abstract class AbstractVariableDetector implements
 		return Boolean.FALSE;
 	}
 
-	public Boolean visit(OWLEntityAnnotationAxiom axiom) {
-		return Boolean.FALSE;
-	}
-
-	public Boolean visit(OWLOntologyAnnotationAxiom axiom) {
-		return Boolean.FALSE;
-	}
-
 	public Boolean visit(OWLSymmetricObjectPropertyAxiom axiom) {
 		return axiom.getProperty().accept(this);
 	}
 
 	public Boolean visit(OWLDataPropertyRangeAxiom axiom) {
-		return axiom.getProperty().accept(this)
-				|| axiom.getRange().accept(this);
+		return axiom.getProperty().accept(this) || axiom.getRange().accept(this);
 	}
 
 	public Boolean visit(OWLFunctionalDataPropertyAxiom axiom) {
@@ -369,13 +333,12 @@ public abstract class AbstractVariableDetector implements
 	}
 
 	public Boolean visit(OWLClassAssertionAxiom axiom) {
-		return axiom.getDescription().accept(this)
-				|| axiom.getIndividual().accept(this);
+		return axiom.getClassExpression().accept(this) || axiom.getIndividual().accept(this);
 	}
 
 	public Boolean visit(OWLEquivalentClassesAxiom axiom) {
-		Set<OWLDescription> descriptions = axiom.getDescriptions();
-		Iterator<OWLDescription> iterator = descriptions.iterator();
+		Set<OWLClassExpression> descriptions = axiom.getClassExpressions();
+		Iterator<OWLClassExpression> iterator = descriptions.iterator();
 		boolean found = false;
 		while (!found && iterator.hasNext()) {
 			found = iterator.next().accept(this);
@@ -384,8 +347,7 @@ public abstract class AbstractVariableDetector implements
 	}
 
 	public Boolean visit(OWLDataPropertyAssertionAxiom axiom) {
-		return axiom.getProperty().accept(this)
-				|| axiom.getSubject().accept(this)
+		return axiom.getProperty().accept(this) || axiom.getSubject().accept(this)
 				|| axiom.getObject().accept(this);
 	}
 
@@ -397,16 +359,15 @@ public abstract class AbstractVariableDetector implements
 		return axiom.getProperty().accept(this);
 	}
 
-	public Boolean visit(OWLDataSubPropertyAxiom axiom) {
-		return axiom.getSubProperty().accept(this)
-				|| axiom.getSuperProperty().accept(this);
+	public Boolean visit(OWLSubDataPropertyOfAxiom axiom) {
+		return axiom.getSubProperty().accept(this) || axiom.getSuperProperty().accept(this);
 	}
 
 	public Boolean visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
 		return axiom.getProperty().accept(this);
 	}
 
-	public Boolean visit(OWLSameIndividualsAxiom axiom) {
+	public Boolean visit(OWLSameIndividualAxiom axiom) {
 		Iterator<OWLIndividual> iterator = axiom.getIndividuals().iterator();
 		boolean found = false;
 		while (!found && iterator.hasNext()) {
@@ -415,9 +376,8 @@ public abstract class AbstractVariableDetector implements
 		return found;
 	}
 
-	public Boolean visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
-		Iterator<OWLObjectPropertyExpression> iterator = axiom
-				.getPropertyChain().iterator();
+	public Boolean visit(OWLSubPropertyChainOfAxiom axiom) {
+		Iterator<OWLObjectPropertyExpression> iterator = axiom.getPropertyChain().iterator();
 		boolean found = false;
 		while (found && iterator.hasNext()) {
 			found = iterator.next().accept(this);
@@ -426,8 +386,7 @@ public abstract class AbstractVariableDetector implements
 	}
 
 	public Boolean visit(OWLInverseObjectPropertiesAxiom axiom) {
-		Iterator<OWLObjectPropertyExpression> iterator = axiom.getProperties()
-				.iterator();
+		Iterator<OWLObjectPropertyExpression> iterator = axiom.getProperties().iterator();
 		boolean found = false;
 		while (found && iterator.hasNext()) {
 			found = iterator.next().accept(this);
@@ -439,7 +398,7 @@ public abstract class AbstractVariableDetector implements
 		return false;
 	}
 
-	public Boolean visit(OWLDataType node) {
+	public Boolean visit(OWLDatatype node) {
 		return false;
 	}
 
@@ -448,7 +407,7 @@ public abstract class AbstractVariableDetector implements
 	}
 
 	public Boolean visit(OWLDataOneOf node) {
-		Iterator<OWLConstant> iterator = node.getValues().iterator();
+		Iterator<OWLLiteral> iterator = node.getValues().iterator();
 		boolean found = false;
 		while (!found && iterator.hasNext()) {
 			found = iterator.next().accept(this);
@@ -456,24 +415,16 @@ public abstract class AbstractVariableDetector implements
 		return false;
 	}
 
-	public Boolean visit(OWLObjectPropertyInverse property) {
+	public Boolean visit(OWLObjectInverseOf property) {
 		return property.getInverseProperty().accept(this);
 	}
 
-	public Boolean visit(OWLDataRangeRestriction node) {
-		return false;
-	}
-
-	public Boolean visit(OWLObjectAnnotation annotation) {
-		return false;
-	}
-
-	public Boolean visit(OWLConstantAnnotation annotation) {
+	public Boolean visit(OWLDatatypeRestriction node) {
 		return false;
 	}
 
 	public Boolean visit(SWRLClassAtom node) {
-		return null;
+		return false;
 	}
 
 	public Boolean visit(SWRLDataRangeAtom node) {
@@ -484,43 +435,140 @@ public abstract class AbstractVariableDetector implements
 		return false;
 	}
 
-	public Boolean visit(SWRLDataValuedPropertyAtom node) {
+	public Boolean visit(OWLOntology ontology) {
 		return false;
 	}
 
+	/**
+	 * @see org.semanticweb.owlapi.model.OWLAnnotationAxiomVisitorEx#visit(org.semanticweb.owlapi.model.OWLSubAnnotationPropertyOfAxiom)
+	 */
+	public Boolean visit(OWLSubAnnotationPropertyOfAxiom axiom) {
+		return false;
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.OWLAnnotationAxiomVisitorEx#visit(org.semanticweb.owlapi.model.OWLAnnotationPropertyDomainAxiom)
+	 */
+	public Boolean visit(OWLAnnotationPropertyDomainAxiom axiom) {
+		return false;
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.OWLAnnotationAxiomVisitorEx#visit(org.semanticweb.owlapi.model.OWLAnnotationPropertyRangeAxiom)
+	 */
+	public Boolean visit(OWLAnnotationPropertyRangeAxiom axiom) {
+		return false;
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.OWLAnnotationObjectVisitorEx#visit(org.semanticweb.owlapi.model.OWLAnnotation)
+	 */
+	public Boolean visit(OWLAnnotation node) {
+		return false;
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.OWLAnnotationValueVisitorEx#visit(org.semanticweb.owlapi.model.IRI)
+	 */
+	public Boolean visit(IRI iri) {
+		return false;
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.OWLEntityVisitorEx#visit(org.semanticweb.owlapi.model.OWLAnnotationProperty)
+	 */
+	public Boolean visit(OWLAnnotationProperty property) {
+		return false;
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.OWLDataVisitorEx#visit(org.semanticweb.owlapi.model.OWLDataIntersectionOf)
+	 */
+	public Boolean visit(OWLDataIntersectionOf node) {
+		return false;
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.OWLDataVisitorEx#visit(org.semanticweb.owlapi.model.OWLDataUnionOf)
+	 */
+	public Boolean visit(OWLDataUnionOf node) {
+		return false;
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.OWLDataVisitorEx#visit(org.semanticweb.owlapi.model.OWLFacetRestriction)
+	 */
+	public Boolean visit(OWLFacetRestriction node) {
+		return false;
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitorEx#visit(org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom)
+	 */
+	public Boolean visit(OWLAnnotationAssertionAxiom axiom) {
+		return false;
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitorEx#visit(org.semanticweb.owlapi.model.OWLHasKeyAxiom)
+	 */
+	public Boolean visit(OWLHasKeyAxiom axiom) {
+		return false;
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitorEx#visit(org.semanticweb.owlapi.model.OWLDatatypeDefinitionAxiom)
+	 */
+	public Boolean visit(OWLDatatypeDefinitionAxiom axiom) {
+		return false;
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitorEx#visit(org.semanticweb.owlapi.model.SWRLDataPropertyAtom)
+	 */
+	public Boolean visit(SWRLDataPropertyAtom node) {
+		return false;
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitorEx#visit(org.semanticweb.owlapi.model.SWRLBuiltInAtom)
+	 */
 	public Boolean visit(SWRLBuiltInAtom node) {
 		return false;
 	}
 
-	public Boolean visit(OWLDataRangeFacetRestriction node) {
+	/**
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitorEx#visit(org.semanticweb.owlapi.model.SWRLVariable)
+	 */
+	public Boolean visit(SWRLVariable node) {
 		return false;
 	}
 
-	public Boolean visit(SWRLAtomDVariable node) {
+	/**
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitorEx#visit(org.semanticweb.owlapi.model.SWRLIndividualArgument)
+	 */
+	public Boolean visit(SWRLIndividualArgument node) {
 		return false;
 	}
 
-	public Boolean visit(SWRLAtomIVariable node) {
+	/**
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitorEx#visit(org.semanticweb.owlapi.model.SWRLLiteralArgument)
+	 */
+	public Boolean visit(SWRLLiteralArgument node) {
 		return false;
 	}
 
-	public Boolean visit(SWRLAtomIndividualObject node) {
+	/**
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitorEx#visit(org.semanticweb.owlapi.model.SWRLSameIndividualAtom)
+	 */
+	public Boolean visit(SWRLSameIndividualAtom node) {
 		return false;
 	}
 
-	public Boolean visit(SWRLAtomConstantObject node) {
-		return false;
-	}
-
-	public Boolean visit(SWRLSameAsAtom node) {
-		return false;
-	}
-
-	public Boolean visit(SWRLDifferentFromAtom node) {
-		return false;
-	}
-
-	public Boolean visit(OWLOntology ontology) {
+	/**
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitorEx#visit(org.semanticweb.owlapi.model.SWRLDifferentIndividualsAtom)
+	 */
+	public Boolean visit(SWRLDifferentIndividualsAtom node) {
 		return false;
 	}
 }

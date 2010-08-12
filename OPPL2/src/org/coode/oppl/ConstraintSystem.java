@@ -22,13 +22,11 @@
  */
 package org.coode.oppl;
 
-import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,18 +44,18 @@ import org.coode.oppl.utils.VariableDetector;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.oppl.visitors.GeneratedVariableCollector;
 import org.coode.oppl.visitors.InputVariableCollector;
-import org.semanticweb.owl.inference.OWLReasoner;
-import org.semanticweb.owl.inference.OWLReasonerException;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 /**
  * @author Luigi Iannone
@@ -66,7 +64,7 @@ import org.semanticweb.owl.model.OWLOntologyManager;
 public class ConstraintSystem {
 	private final static class VariableSet {
 		private final Map<String, Variable> map = new HashMap<String, Variable>();
-		private final Map<URI, Variable> urisMap = new HashMap<URI, Variable>();
+		private final Map<IRI, Variable> irisMap = new HashMap<IRI, Variable>();
 
 		public VariableSet() {
 		}
@@ -75,17 +73,17 @@ public class ConstraintSystem {
 			return this.map.get(name);
 		}
 
-		public Variable get(URI variableURI) {
-			return this.urisMap.get(variableURI);
+		public Variable get(IRI variableIRI) {
+			return this.irisMap.get(variableIRI);
 		}
 
 		public void store(Variable variable) {
 			this.map.put(variable.getName(), variable);
-			this.urisMap.put(variable.getURI(), variable);
+			this.irisMap.put(variable.getIRI(), variable);
 		}
 
-		public boolean containsVariableURI(URI variableURI) {
-			return this.urisMap.containsKey(variableURI);
+		public boolean containsVariableIRI(IRI variableURI) {
+			return this.irisMap.containsKey(variableURI);
 		}
 
 		public Set<Variable> getInputVariables() {
@@ -111,27 +109,26 @@ public class ConstraintSystem {
 		public void remove(String name) {
 			Variable removed = this.map.remove(name);
 			if (removed != null) {
-				this.urisMap.remove(removed.getURI());
+				this.irisMap.remove(removed.getIRI());
 			}
 		}
 
 		public void clear() {
 			this.map.clear();
-			this.urisMap.clear();
+			this.irisMap.clear();
 		}
 
 		@Override
 		public String toString() {
 			Set<Variable> allVariables = this.getAllVariables();
-			StringBuilder out = new StringBuilder();
-			Formatter formatter = new Formatter(out, Locale.getDefault());
+			Formatter formatter = new Formatter();
 			for (Variable variable : allVariables) {
 				formatter.format(
 						"Variable name: %s generated: %s \n",
 						variable.getName(),
 						this.getGeneratedVariables().contains(variable));
 			}
-			return out.toString();
+			return formatter.toString();
 		}
 	}
 
@@ -162,20 +159,6 @@ public class ConstraintSystem {
 			OWLReasoner reasoner, OPPLAbstractFactory opplAbstractFactory) {
 		this(ontology, ontologyManager, opplAbstractFactory);
 		this.reasoner = reasoner;
-		if (this.reasoner != null) {
-			this.loadReasoner();
-		}
-	}
-
-	/**
-	 *
-	 */
-	private void loadReasoner() {
-		try {
-			this.reasoner.loadOntologies(this.getOntologyManager().getOntologies());
-		} catch (OWLReasonerException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public Variable getVariable(String name) {
@@ -199,29 +182,29 @@ public class ConstraintSystem {
 		return new HashSet<Variable>(axiomVariables);
 	}
 
-	public boolean isVariableURI(URI uri) {
-		return this.variables.containsVariableURI(uri);
+	public boolean isVariableIRI(IRI uri) {
+		return this.variables.containsVariableIRI(uri);
 	}
 
-	public Variable getVariable(URI uri) {
-		return this.variables.get(uri);
+	public Variable getVariable(IRI iri) {
+		return this.variables.get(iri);
 	}
 
-	public boolean isVariable(OWLDescription desc) {
+	public boolean isVariable(OWLClassExpression desc) {
 		VariableDetector variableDetector = new VariableDetector(this);
 		return desc.accept(variableDetector);
 	}
 
 	public boolean isVariable(OWLObjectProperty property) {
-		return this.isVariableURI(property.getURI());
+		return this.isVariableIRI(property.getIRI());
 	}
 
 	public boolean isVariable(OWLDataProperty property) {
-		return this.isVariableURI(property.getURI());
+		return this.isVariableIRI(property.getIRI());
 	}
 
-	public boolean isVariable(OWLIndividual individual) {
-		return this.isVariableURI(individual.getURI());
+	public boolean isVariable(OWLNamedIndividual individual) {
+		return this.isVariableIRI(individual.getIRI());
 	}
 
 	public void addLeaf(BindingNode bindingNode) {
@@ -283,7 +266,7 @@ public class ConstraintSystem {
 		this.leaves.remove(binding);
 	}
 
-	public boolean isVariable(OWLConstant node) {
+	public boolean isVariable(OWLLiteral node) {
 		return node.getLiteral().startsWith("?");
 	}
 
@@ -293,9 +276,6 @@ public class ConstraintSystem {
 
 	public void setReasoner(OWLReasoner reasoner) {
 		this.reasoner = reasoner;
-		if (this.reasoner != null) {
-			this.loadReasoner();
-		}
 	}
 
 	public Set<Variable> getVariables() {
@@ -303,15 +283,12 @@ public class ConstraintSystem {
 	}
 
 	/**
-	 * If the reasoner is not calssified it classifies it first
+	 * 
 	 * 
 	 * @return the reasoner
-	 * @throws OWLReasonerException
+	 * @throws OWLRuntimeException
 	 */
-	public OWLReasoner getReasoner() throws OWLReasonerException {
-		if (this.reasoner != null && !this.reasoner.isClassified()) {
-			this.reasoner.classify();
-		}
+	public OWLReasoner getReasoner() {
 		return this.reasoner;
 	}
 

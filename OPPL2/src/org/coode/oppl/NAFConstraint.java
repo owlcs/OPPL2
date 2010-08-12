@@ -6,7 +6,7 @@ package org.coode.oppl;
 import java.util.Formatter;
 
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.semanticweb.owl.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**
  * @author Luigi Iannone

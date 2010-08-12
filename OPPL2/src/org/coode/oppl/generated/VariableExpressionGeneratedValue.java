@@ -7,7 +7,7 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OWLObjectInstantiator;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public class VariableExpressionGeneratedValue implements
 		SingleValueGeneratedValue<OWLObject> {

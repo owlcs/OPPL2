@@ -99,14 +99,14 @@ import org.coode.oppl.generated.StringGeneratedValue;
 import org.coode.oppl.generated.VariableExpressionGeneratedVariable;
   import org.coode.oppl.OPPLAbstractFactory;
   import org.coode.oppl.InCollectionRegExpConstraint;
-  import org.semanticweb.owl.model.OWLAxiom;
-  import org.semanticweb.owl.model.OWLObject;
-  import org.semanticweb.owl.model.OWLClass;
-  import org.semanticweb.owl.model.OWLAxiomChange;
-  import org.semanticweb.owl.model.OWLPropertyExpression;
-  import org.semanticweb.owl.model.OWLDescription;
-  import org.semanticweb.owl.model.RemoveAxiom;
-import org.semanticweb.owl.model.AddAxiom;    
+  import org.semanticweb.owlapi.model.OWLAxiom;
+  import org.semanticweb.owlapi.model.OWLObject;
+  import org.semanticweb.owlapi.model.OWLClass;
+  import org.semanticweb.owlapi.model.OWLAxiomChange;
+  import org.semanticweb.owlapi.model.OWLPropertyExpression;
+  import org.semanticweb.owlapi.model.OWLClassExpression;
+  import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.model.AddAxiom;    
   import org.coode.parsers.ErrorListener;
   import org.coode.parsers.Type;
   import org.coode.parsers.oppl.OPPLSymbolTable;
@@ -380,12 +380,12 @@ variableScope returns [Type type, VariableScope variableScope]
 	   ^(VARIABLE_SCOPE SUBCLASS_OF   classExpression=.)
 	   {
 		   $type = symtab.getClassVariableScopeType($start, classExpression);
-		   $variableScope = VariableScopes.buildSubClassVariableScope((OWLDescription)classExpression.getOWLObject());
+		   $variableScope = VariableScopes.buildSubClassVariableScope((OWLClassExpression)classExpression.getOWLObject());
 	   }
    |  ^(VARIABLE_SCOPE SUPER_CLASS_OF  classExpression=.)
      {
        $type = symtab.getClassVariableScopeType($start, classExpression);
-       $variableScope = VariableScopes.buildSuperClassVariableScope((OWLDescription)classExpression.getOWLObject());
+       $variableScope = VariableScopes.buildSuperClassVariableScope((OWLClassExpression)classExpression.getOWLObject());
      }	   
 	 | ^(VARIABLE_SCOPE SUPER_PROPERTY_OF  propertyExpression=.)
 	   {
@@ -400,7 +400,7 @@ variableScope returns [Type type, VariableScope variableScope]
    | ^(VARIABLE_SCOPE (INSTANCE_OF | TYPES)  individualExpression=.)
      {
        $type = symtab.getIndividualVariableScopeType($start, individualExpression);
-       $variableScope = VariableScopes.buildIndividualVariableScope((OWLDescription) individualExpression.getOWLObject());
+       $variableScope = VariableScopes.buildIndividualVariableScope((OWLClassExpression) individualExpression.getOWLObject());
      }
 	;
 	

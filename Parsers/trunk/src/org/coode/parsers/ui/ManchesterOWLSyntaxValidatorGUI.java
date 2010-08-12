@@ -32,46 +32,43 @@ import org.coode.parsers.SymbolTable;
 import org.coode.parsers.Type;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
-import org.semanticweb.owl.model.OWLClassAssertionAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLDataSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLDeclarationAxiom;
-import org.semanticweb.owl.model.OWLDifferentIndividualsAxiom;
-import org.semanticweb.owl.model.OWLDisjointClassesAxiom;
-import org.semanticweb.owl.model.OWLDisjointObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLDisjointUnionAxiom;
-import org.semanticweb.owl.model.OWLEntityAnnotationAxiom;
-import org.semanticweb.owl.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentDataPropertiesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLFunctionalDataPropertyAxiom;
-import org.semanticweb.owl.model.OWLFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLImportsDeclaration;
-import org.semanticweb.owl.model.OWLInverseFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLInverseObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLIrreflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLNegativeObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyChainSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLObjectSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLOntologyAnnotationAxiom;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.model.OWLReflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLSameIndividualsAxiom;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
-import org.semanticweb.owl.model.OWLSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLTransitiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.utils.DefaultOWLObjectVisitorEx;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom;
+import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /**
  * @author Luigi Iannone
@@ -251,20 +248,20 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 			this.reset();
 			this.parsed = this.parse(text);
 			this.lastObject = this.parsed == null || this.parsed.getOWLObject() == null ? null
-					: this.parsed.getOWLObject().accept(new DefaultOWLObjectVisitorEx<OWLAxiom>() {
+					: this.parsed.getOWLObject().accept(new OWLObjectVisitorExAdapter<OWLAxiom>() {
 						@Override
-						protected OWLAxiom doDefault(OWLObject owlObject) {
+						protected OWLAxiom getDefaultReturnValue(OWLObject object) {
 							AxiomChecker.this.lastReport = new ErrorReportImpl(
 									"Wrong kind of owl object parsed "
-											+ owlObject.getClass().getName(), 0, 0, 0);
-							return null;
+											+ object.getClass().getName(), 0, 0, 0);
+							return super.getDefaultReturnValue(object);
 						}
 
 						/**
 						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLSubClassAxiom)
 						 */
 						@Override
-						public OWLAxiom visit(OWLSubClassAxiom axiom) {
+						public OWLAxiom visit(OWLSubClassOfAxiom axiom) {
 							return axiom;
 						}
 
@@ -280,7 +277,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom)
 						 */
 						@Override
-						public OWLAxiom visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
+						public OWLAxiom visit(OWLAsymmetricObjectPropertyAxiom axiom) {
 							return axiom;
 						}
 
@@ -305,22 +302,6 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 						 */
 						@Override
 						public OWLAxiom visit(OWLDataPropertyDomainAxiom axiom) {
-							return axiom;
-						}
-
-						/**
-						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLImportsDeclaration)
-						 */
-						@Override
-						public OWLAxiom visit(OWLImportsDeclaration axiom) {
-							return axiom;
-						}
-
-						/**
-						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLAxiomAnnotationAxiom)
-						 */
-						@Override
-						public OWLAxiom visit(OWLAxiomAnnotationAxiom axiom) {
 							return axiom;
 						}
 
@@ -384,7 +365,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLObjectSubPropertyAxiom)
 						 */
 						@Override
-						public OWLAxiom visit(OWLObjectSubPropertyAxiom axiom) {
+						public OWLAxiom visit(OWLSubObjectPropertyOfAxiom axiom) {
 							return axiom;
 						}
 
@@ -401,22 +382,6 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 						 */
 						@Override
 						public OWLAxiom visit(OWLDeclarationAxiom axiom) {
-							return axiom;
-						}
-
-						/**
-						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLEntityAnnotationAxiom)
-						 */
-						@Override
-						public OWLAxiom visit(OWLEntityAnnotationAxiom axiom) {
-							return axiom;
-						}
-
-						/**
-						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLOntologyAnnotationAxiom)
-						 */
-						@Override
-						public OWLAxiom visit(OWLOntologyAnnotationAxiom axiom) {
 							return axiom;
 						}
 
@@ -496,7 +461,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLDataSubPropertyAxiom)
 						 */
 						@Override
-						public OWLAxiom visit(OWLDataSubPropertyAxiom axiom) {
+						public OWLAxiom visit(OWLSubDataPropertyOfAxiom axiom) {
 							return axiom;
 						}
 
@@ -512,7 +477,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLSameIndividualsAxiom)
 						 */
 						@Override
-						public OWLAxiom visit(OWLSameIndividualsAxiom axiom) {
+						public OWLAxiom visit(OWLSameIndividualAxiom axiom) {
 							return axiom;
 						}
 
@@ -520,7 +485,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 						 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl.model.OWLObjectPropertyChainSubPropertyAxiom)
 						 */
 						@Override
-						public OWLAxiom visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
+						public OWLAxiom visit(OWLSubPropertyChainOfAxiom axiom) {
 							return axiom;
 						}
 
@@ -608,7 +573,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 
 	public void loadOntology(URI uri) {
 		try {
-			this.manager.loadOntology(uri);
+			this.manager.loadOntology(IRI.create(uri));
 		} catch (OWLOntologyCreationException e) {
 			JOptionPane.showMessageDialog(
 					this,

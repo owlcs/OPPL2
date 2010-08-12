@@ -3,183 +3,189 @@
  */
 package org.coode.oppl.similarity;
 
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataAllRestriction;
-import org.semanticweb.owl.model.OWLDataComplementOf;
-import org.semanticweb.owl.model.OWLDataExactCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataMaxCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataMinCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataOneOf;
-import org.semanticweb.owl.model.OWLDataRange;
-import org.semanticweb.owl.model.OWLDataRangeFacetRestriction;
-import org.semanticweb.owl.model.OWLDataRangeRestriction;
-import org.semanticweb.owl.model.OWLDataSomeRestriction;
-import org.semanticweb.owl.model.OWLDataType;
-import org.semanticweb.owl.model.OWLDataValueRestriction;
-import org.semanticweb.owl.model.OWLDataVisitorEx;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLDescriptionVisitorEx;
-import org.semanticweb.owl.model.OWLObjectAllRestriction;
-import org.semanticweb.owl.model.OWLObjectComplementOf;
-import org.semanticweb.owl.model.OWLObjectExactCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectIntersectionOf;
-import org.semanticweb.owl.model.OWLObjectMaxCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectMinCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectOneOf;
-import org.semanticweb.owl.model.OWLObjectPropertyInverse;
-import org.semanticweb.owl.model.OWLObjectSelfRestriction;
-import org.semanticweb.owl.model.OWLObjectSomeRestriction;
-import org.semanticweb.owl.model.OWLObjectUnionOf;
-import org.semanticweb.owl.model.OWLObjectValueRestriction;
-import org.semanticweb.owl.model.OWLTypedConstant;
-import org.semanticweb.owl.model.OWLUntypedConstant;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLClassExpressionVisitorEx;
+import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataComplementOf;
+import org.semanticweb.owlapi.model.OWLDataExactCardinality;
+import org.semanticweb.owlapi.model.OWLDataHasValue;
+import org.semanticweb.owlapi.model.OWLDataIntersectionOf;
+import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
+import org.semanticweb.owlapi.model.OWLDataMinCardinality;
+import org.semanticweb.owlapi.model.OWLDataOneOf;
+import org.semanticweb.owlapi.model.OWLDataRange;
+import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataUnionOf;
+import org.semanticweb.owlapi.model.OWLDataVisitorEx;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLDatatypeRestriction;
+import org.semanticweb.owlapi.model.OWLFacetRestriction;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectComplementOf;
+import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
+import org.semanticweb.owlapi.model.OWLObjectHasSelf;
+import org.semanticweb.owlapi.model.OWLObjectHasValue;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
+import org.semanticweb.owlapi.model.OWLObjectInverseOf;
+import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
+import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectUnionOf;
 
 enum OWLConstruct {
-	AND, OR, OBJECT_NOT, DATA_NOT, OBJECT_ONE_OF, OBJECT_SOME, DATA_SOME, OBJECT_ALL, DATA_ALL, PRIMITIVE, OBJECT_HAS_VALUE, DATA_HAS_VALUE, DATA_MIN, DATA_EXACT, DATA_MAX, OBJECT_MIN, OBJECT_EXACT, OBJECT_MAX, OBJECT_SELF, DATA_ONE_OF, DATA_FACET, DATA_TYPE, DATA_RANGE_RESTRICTION, TYPED_CONSTANT, UNTYPED_CONSTANT, INVERSE, PROPERTY_CHAIN;
-	public static OWLConstruct getOWLConstruct(OWLDescription description) {
-		return description.accept(new OWLDescriptionVisitorEx<OWLConstruct>() {
+	AND, OR, OBJECT_NOT, DATA_NOT, OBJECT_ONE_OF, OBJECT_SOME, DATA_SOME, OBJECT_ALL, DATA_ALL, PRIMITIVE, OBJECT_HAS_VALUE, DATA_HAS_VALUE, DATA_MIN, DATA_EXACT, DATA_MAX, OBJECT_MIN, OBJECT_EXACT, OBJECT_MAX, OBJECT_SELF, DATA_ONE_OF, DATA_FACET, DATA_TYPE, DATA_RANGE_RESTRICTION, TYPED_CONSTANT, UNTYPED_CONSTANT, INVERSE, PROPERTY_CHAIN, DATA_INTERSECTION_OF, DATA_UNION_OF;
+	public static OWLConstruct getOWLConstruct(OWLClassExpression description) {
+		return description.accept(new OWLClassExpressionVisitorEx<OWLConstruct>() {
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
-			 *      .semanticweb.owl.model.OWLClass)
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org .semanticweb.owl.model.OWLClass)
 			 */
 			public OWLConstruct visit(OWLClass owlClass) {
 				return PRIMITIVE;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
-			 *      .semanticweb.owl.model.OWLDataAllRestriction)
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org .semanticweb.owl.model.OWLDataAllRestriction)
 			 */
-			public OWLConstruct visit(OWLDataAllRestriction description) {
+			public OWLConstruct visit(OWLDataAllValuesFrom description) {
 				return DATA_ALL;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org
 			 *      .semanticweb.owl.model.OWLDataExactCardinalityRestriction )
 			 */
-			public OWLConstruct visit(OWLDataExactCardinalityRestriction description) {
+			public OWLConstruct visit(OWLDataExactCardinality description) {
 				return DATA_EXACT;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org
 			 *      .semanticweb.owl.model.OWLDataMaxCardinalityRestriction )
 			 */
-			public OWLConstruct visit(OWLDataMaxCardinalityRestriction arg0) {
+			public OWLConstruct visit(OWLDataMaxCardinality arg0) {
 				return DATA_MAX;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org
 			 *      .semanticweb.owl.model.OWLDataMinCardinalityRestriction )
 			 */
-			public OWLConstruct visit(OWLDataMinCardinalityRestriction arg0) {
+			public OWLConstruct visit(OWLDataMinCardinality arg0) {
 				return DATA_MIN;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
-			 *      .semanticweb.owl.model.OWLDataSomeRestriction)
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org .semanticweb.owl.model.OWLDataSomeRestriction)
 			 */
-			public OWLConstruct visit(OWLDataSomeRestriction arg0) {
+			public OWLConstruct visit(OWLDataSomeValuesFrom arg0) {
 				return DATA_SOME;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
-			 *      .semanticweb.owl.model.OWLDataValueRestriction)
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org .semanticweb.owl.model.OWLDataValueRestriction)
 			 */
-			public OWLConstruct visit(OWLDataValueRestriction arg0) {
+			public OWLConstruct visit(OWLDataHasValue arg0) {
 				return DATA_HAS_VALUE;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
-			 *      .semanticweb.owl.model.OWLObjectAllRestriction)
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org .semanticweb.owl.model.OWLObjectAllRestriction)
 			 */
-			public OWLConstruct visit(OWLObjectAllRestriction arg0) {
+			public OWLConstruct visit(OWLObjectAllValuesFrom arg0) {
 				return OBJECT_ALL;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
-			 *      .semanticweb.owl.model.OWLObjectComplementOf)
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org .semanticweb.owl.model.OWLObjectComplementOf)
 			 */
 			public OWLConstruct visit(OWLObjectComplementOf arg0) {
 				return OBJECT_NOT;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
 			 *      #visit(org.semanticweb.owl.model.
 			 *      OWLObjectExactCardinalityRestriction)
 			 */
-			public OWLConstruct visit(OWLObjectExactCardinalityRestriction arg0) {
+			public OWLConstruct visit(OWLObjectExactCardinality arg0) {
 				return OBJECT_EXACT;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
-			 *      .semanticweb.owl.model.OWLObjectIntersectionOf)
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org .semanticweb.owl.model.OWLObjectIntersectionOf)
 			 */
 			public OWLConstruct visit(OWLObjectIntersectionOf arg0) {
 				return AND;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org
 			 *      .semanticweb.owl.model.OWLObjectMaxCardinalityRestriction )
 			 */
-			public OWLConstruct visit(OWLObjectMaxCardinalityRestriction arg0) {
+			public OWLConstruct visit(OWLObjectMaxCardinality arg0) {
 				return OBJECT_MAX;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org
 			 *      .semanticweb.owl.model.OWLObjectMinCardinalityRestriction )
 			 */
-			public OWLConstruct visit(OWLObjectMinCardinalityRestriction arg0) {
+			public OWLConstruct visit(OWLObjectMinCardinality arg0) {
 				return OBJECT_MIN;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
-			 *      .semanticweb.owl.model.OWLObjectOneOf)
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org .semanticweb.owl.model.OWLObjectOneOf)
 			 */
 			public OWLConstruct visit(OWLObjectOneOf arg0) {
 				return OBJECT_ONE_OF;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
-			 *      .semanticweb.owl.model.OWLObjectSelfRestriction)
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org .semanticweb.owl.model.OWLObjectSelfRestriction)
 			 */
-			public OWLConstruct visit(OWLObjectSelfRestriction arg0) {
+			public OWLConstruct visit(OWLObjectHasSelf arg0) {
 				return OBJECT_SELF;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
-			 *      .semanticweb.owl.model.OWLObjectSomeRestriction)
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org .semanticweb.owl.model.OWLObjectSomeRestriction)
 			 */
-			public OWLConstruct visit(OWLObjectSomeRestriction arg0) {
+			public OWLConstruct visit(OWLObjectSomeValuesFrom arg0) {
 				return OBJECT_SOME;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
-			 *      .semanticweb.owl.model.OWLObjectUnionOf)
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org .semanticweb.owl.model.OWLObjectUnionOf)
 			 */
 			public OWLConstruct visit(OWLObjectUnionOf arg0) {
 				return OR;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx #visit(org
-			 *      .semanticweb.owl.model.OWLObjectValueRestriction)
+			 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx
+			 *      #visit(org .semanticweb.owl.model.OWLObjectValueRestriction)
 			 */
-			public OWLConstruct visit(OWLObjectValueRestriction arg0) {
+			public OWLConstruct visit(OWLObjectHasValue arg0) {
 				return OBJECT_HAS_VALUE;
 			}
 		});
@@ -194,6 +200,14 @@ enum OWLConstruct {
 				return DATA_NOT;
 			}
 
+			public OWLConstruct visit(OWLDataIntersectionOf node) {
+				return DATA_INTERSECTION_OF;
+			}
+
+			public OWLConstruct visit(OWLDataUnionOf node) {
+				return DATA_UNION_OF;
+			}
+
 			/**
 			 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.model.OWLDataOneOf)
 			 */
@@ -204,45 +218,38 @@ enum OWLConstruct {
 			/**
 			 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.model.OWLDataRangeFacetRestriction)
 			 */
-			public OWLConstruct visit(OWLDataRangeFacetRestriction range) {
+			public OWLConstruct visit(OWLFacetRestriction range) {
 				return DATA_FACET;
 			}
 
 			/**
 			 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.model.OWLDataRangeRestriction)
 			 */
-			public OWLConstruct visit(OWLDataRangeRestriction range) {
+			public OWLConstruct visit(OWLDatatypeRestriction range) {
 				return DATA_RANGE_RESTRICTION;
 			}
 
 			/**
-			 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.model.OWLDataType)
+			 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.model.OWLDatatype)
 			 */
-			public OWLConstruct visit(OWLDataType range) {
+			public OWLConstruct visit(OWLDatatype range) {
 				return DATA_TYPE;
 			}
 
 			/**
 			 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.model.OWLTypedConstant)
 			 */
-			public OWLConstruct visit(OWLTypedConstant constant) {
-				return TYPED_CONSTANT;
-			}
-
-			/**
-			 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.model.OWLUntypedConstant)
-			 */
-			public OWLConstruct visit(OWLUntypedConstant constant) {
-				return UNTYPED_CONSTANT;
+			public OWLConstruct visit(OWLLiteral constant) {
+				return constant.isRDFPlainLiteral() ? UNTYPED_CONSTANT : TYPED_CONSTANT;
 			}
 		});
 	}
 
-	public static OWLConstruct getOWLConstruct(OWLDataRangeFacetRestriction facet) {
+	public static OWLConstruct getOWLConstruct(OWLFacetRestriction facet) {
 		return DATA_FACET;
 	}
 
-	public static OWLConstruct getOWLConstruct(OWLObjectPropertyInverse inverse) {
+	public static OWLConstruct getOWLConstruct(OWLObjectInverseOf inverse) {
 		return INVERSE;
 	}
 }

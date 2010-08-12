@@ -9,9 +9,9 @@ import java.util.Set;
 
 import org.coode.oppl.utils.OWLObjectExtractor;
 import org.coode.oppl.utils.PrimeNumbersUtils;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone
@@ -19,7 +19,7 @@ import org.semanticweb.owl.model.OWLObject;
  */
 public class SymbolBasedHashFunction implements HashFunction {
 	private final Map<OWLEntity, Integer> entityHashCodes = new HashMap<OWLEntity, Integer>();
-	private final Map<OWLConstant, Integer> owlConstantHashCodes = new HashMap<OWLConstant, Integer>();
+	private final Map<OWLLiteral, Integer> owlConstantHashCodes = new HashMap<OWLLiteral, Integer>();
 	private int maxPrime = 1;
 
 	public int getHashCode(OWLObject owlObject) {
@@ -28,14 +28,14 @@ public class SymbolBasedHashFunction implements HashFunction {
 		for (OWLEntity owlEntity : entities) {
 			toReturn = toReturn * this.createHashCode(owlEntity);
 		}
-		Set<OWLConstant> allOWLConstants = OWLObjectExtractor.getAllOWLConstants(owlObject);
-		for (OWLConstant owlConstant : allOWLConstants) {
+		Set<OWLLiteral> allOWLConstants = OWLObjectExtractor.getAllOWLLiterals(owlObject);
+		for (OWLLiteral owlConstant : allOWLConstants) {
 			toReturn = toReturn * this.createHashCode(owlConstant);
 		}
 		return toReturn;
 	}
 
-	protected int createHashCode(OWLConstant constant) {
+	protected int createHashCode(OWLLiteral constant) {
 		return this.createHashCode(constant, this.owlConstantHashCodes);
 	}
 

@@ -89,7 +89,7 @@ options {
   import org.coode.oppl.Variable;
   import org.coode.oppl.ConstraintSystem;
   import org.coode.parsers.oppl.OPPLSymbolTable;
-  import org.semanticweb.owl.model.OWLAxiomChange;
+  import org.semanticweb.owlapi.model.OWLAxiomChange;
   import java.util.Collections;
   import org.coode.oppl.OPPLQuery;
 }

@@ -1,13 +1,14 @@
 package org.coode.parsers;
 
-import org.semanticweb.owl.expression.OWLEntityChecker;
-import org.semanticweb.owl.expression.ShortFormEntityChecker;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDataType;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.util.SimpleShortFormProvider;
+import org.semanticweb.owlapi.expression.OWLEntityChecker;
+import org.semanticweb.owlapi.expression.ShortFormEntityChecker;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 public class DisposableShortFormEntityChecker implements DisposableOWLEntityChecker {
 	private final BidirectionalShortFormProviderAdapter shrotFormProviderAdaptor;
@@ -57,8 +58,8 @@ public class DisposableShortFormEntityChecker implements DisposableOWLEntityChec
 	 * @return
 	 * @see org.semanticweb.owl.expression.OWLEntityChecker#getOWLDataType(java.lang.String)
 	 */
-	public OWLDataType getOWLDataType(String name) {
-		return this.delegate.getOWLDataType(name);
+	public OWLDatatype getOWLDatatype(String name) {
+		return this.delegate.getOWLDatatype(name);
 	}
 
 	/**
@@ -66,7 +67,7 @@ public class DisposableShortFormEntityChecker implements DisposableOWLEntityChec
 	 * @return
 	 * @see org.semanticweb.owl.expression.OWLEntityChecker#getOWLIndividual(java.lang.String)
 	 */
-	public OWLIndividual getOWLIndividual(String name) {
+	public OWLNamedIndividual getOWLIndividual(String name) {
 		return this.delegate.getOWLIndividual(name);
 	}
 
@@ -77,6 +78,10 @@ public class DisposableShortFormEntityChecker implements DisposableOWLEntityChec
 	 */
 	public OWLObjectProperty getOWLObjectProperty(String name) {
 		return this.delegate.getOWLObjectProperty(name);
+	}
+
+	public OWLAnnotationProperty getOWLAnnotationProperty(String name) {
+		return this.delegate.getOWLAnnotationProperty(name);
 	}
 
 	public void dispose() {

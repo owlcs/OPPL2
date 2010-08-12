@@ -27,58 +27,58 @@ import org.coode.oppl.variabletypes.CONSTANTVariable;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
 import org.coode.oppl.variabletypes.INDIVIDUALVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
-import org.semanticweb.owl.inference.OWLReasonerException;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLClassAssertionAxiom;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLDataAllRestriction;
-import org.semanticweb.owl.model.OWLDataExactCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataMaxCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataMinCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLDataSomeRestriction;
-import org.semanticweb.owl.model.OWLDataValueRestriction;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLDescriptionVisitor;
-import org.semanticweb.owl.model.OWLDisjointClassesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLNegativeDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectAllRestriction;
-import org.semanticweb.owl.model.OWLObjectComplementOf;
-import org.semanticweb.owl.model.OWLObjectExactCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectIntersectionOf;
-import org.semanticweb.owl.model.OWLObjectMaxCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectMinCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectOneOf;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLObjectSelfRestriction;
-import org.semanticweb.owl.model.OWLObjectSomeRestriction;
-import org.semanticweb.owl.model.OWLObjectUnionOf;
-import org.semanticweb.owl.model.OWLObjectValueRestriction;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLQuantifiedRestriction;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
-import org.semanticweb.owl.util.OWLAxiomVisitorAdapter;
-import org.semanticweb.owl.util.OWLObjectVisitorAdapter;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLClassExpressionVisitor;
+import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataExactCardinality;
+import org.semanticweb.owlapi.model.OWLDataHasValue;
+import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
+import org.semanticweb.owlapi.model.OWLDataMinCardinality;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectComplementOf;
+import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
+import org.semanticweb.owlapi.model.OWLObjectHasSelf;
+import org.semanticweb.owlapi.model.OWLObjectHasValue;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
+import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
+import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLQuantifiedRestriction;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
+import org.semanticweb.owlapi.util.OWLObjectVisitorAdapter;
 
 public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxiomSearchNode> {
 	/** test */
 	private final class ConstantCollector extends OWLAxiomVisitorAdapter {
-		private final Set<OWLConstant> toReturn;
-		private final OWLDescriptionVisitor constantExtractor;
+		private final Set<OWLLiteral> toReturn;
+		private final OWLClassExpressionVisitor constantExtractor;
 
-		ConstantCollector(Set<OWLConstant> toReturn, OWLDescriptionVisitor constantExtractor) {
+		ConstantCollector(Set<OWLLiteral> toReturn, OWLClassExpressionVisitor constantExtractor) {
 			this.toReturn = toReturn;
 			this.constantExtractor = constantExtractor;
 		}
 
 		@Override
 		public void visit(OWLClassAssertionAxiom axiom) {
-			axiom.getDescription().accept(this.constantExtractor);
+			axiom.getClassExpression().accept(this.constantExtractor);
 		}
 
 		@Override
@@ -88,14 +88,14 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 
 		@Override
 		public void visit(OWLDisjointClassesAxiom axiom) {
-			for (OWLDescription description : axiom.getDescriptions()) {
+			for (OWLClassExpression description : axiom.getClassExpressions()) {
 				description.accept(this.constantExtractor);
 			}
 		}
 
 		@Override
 		public void visit(OWLEquivalentClassesAxiom axiom) {
-			for (OWLDescription description : axiom.getDescriptions()) {
+			for (OWLClassExpression description : axiom.getClassExpressions()) {
 				description.accept(this.constantExtractor);
 			}
 		}
@@ -106,7 +106,7 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 		}
 
 		@Override
-		public void visit(OWLSubClassAxiom axiom) {
+		public void visit(OWLSubClassOfAxiom axiom) {
 			axiom.getSubClass().accept(this.constantExtractor);
 			axiom.getSuperClass().accept(this.constantExtractor);
 		}
@@ -117,7 +117,7 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	private final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
 	private final Set<OWLDataProperty> allDataProperties = new HashSet<OWLDataProperty>();
 	private final Set<OWLIndividual> allIndividuals = new HashSet<OWLIndividual>();
-	private final Set<OWLConstant> allConstants = new HashSet<OWLConstant>();
+	private final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
 
 	protected AbstractOPPLAxiomSearchTree(ConstraintSystem constraintSystem) {
 		if (constraintSystem == null) {
@@ -172,42 +172,42 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	private Collection<OWLClass> getAllClasses() {
 		Set<OWLClass> toReturn = new HashSet<OWLClass>();
 		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
-			toReturn.addAll(owlOntology.getReferencedClasses());
+			toReturn.addAll(owlOntology.getClassesInSignature());
 		}
 		return toReturn;
 	}
 
-	private Collection<? extends OWLConstant> getAllConstants() {
-		final Set<OWLConstant> toReturn = new HashSet<OWLConstant>();
+	private Collection<OWLLiteral> getAllConstants() {
+		final Set<OWLLiteral> toReturn = new HashSet<OWLLiteral>();
 		final OWLObjectVisitorAdapter constantExtractor = new OWLObjectVisitorAdapter() {
 			protected void visitOWLQuantifiedRestriction(OWLQuantifiedRestriction<?, ?> restriction) {
-				if (restriction.isQualified()) {
+				if (restriction.getFiller() != null) {
 					restriction.getFiller().accept(this);
 				}
 			}
 
 			@Override
-			public void visit(OWLDataMaxCardinalityRestriction desc) {
+			public void visit(OWLDataMaxCardinality desc) {
 				this.visitOWLQuantifiedRestriction(desc);
 			}
 
 			@Override
-			public void visit(OWLDataExactCardinalityRestriction desc) {
+			public void visit(OWLDataExactCardinality desc) {
 				this.visitOWLQuantifiedRestriction(desc);
 			}
 
 			@Override
-			public void visit(OWLDataMinCardinalityRestriction desc) {
+			public void visit(OWLDataMinCardinality desc) {
 				this.visitOWLQuantifiedRestriction(desc);
 			}
 
 			@Override
-			public void visit(OWLDataAllRestriction desc) {
+			public void visit(OWLDataAllValuesFrom desc) {
 				this.visitOWLQuantifiedRestriction(desc);
 			}
 
 			@Override
-			public void visit(OWLDataSomeRestriction desc) {
+			public void visit(OWLDataSomeValuesFrom desc) {
 				this.visitOWLQuantifiedRestriction(desc);
 			}
 
@@ -216,40 +216,40 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 			}
 
 			@Override
-			public void visit(OWLObjectSelfRestriction desc) {
+			public void visit(OWLObjectHasSelf desc) {
 			}
 
 			@Override
-			public void visit(OWLObjectMaxCardinalityRestriction desc) {
+			public void visit(OWLObjectMaxCardinality desc) {
 				this.visitOWLQuantifiedRestriction(desc);
 			}
 
 			@Override
-			public void visit(OWLObjectExactCardinalityRestriction desc) {
+			public void visit(OWLObjectExactCardinality desc) {
 				this.visitOWLQuantifiedRestriction(desc);
 			}
 
 			@Override
-			public void visit(OWLObjectMinCardinalityRestriction desc) {
+			public void visit(OWLObjectMinCardinality desc) {
 				this.visitOWLQuantifiedRestriction(desc);
 			}
 
 			@Override
-			public void visit(OWLObjectValueRestriction desc) {
+			public void visit(OWLObjectHasValue desc) {
 			}
 
 			@Override
-			public void visit(OWLObjectAllRestriction desc) {
+			public void visit(OWLObjectAllValuesFrom desc) {
 				this.visitOWLQuantifiedRestriction(desc);
 			}
 
 			@Override
-			public void visit(OWLDataValueRestriction desc) {
+			public void visit(OWLDataHasValue desc) {
 				toReturn.add(desc.getValue());
 			}
 
 			@Override
-			public void visit(OWLObjectSomeRestriction desc) {
+			public void visit(OWLObjectSomeValuesFrom desc) {
 				this.visitOWLQuantifiedRestriction(desc);
 			}
 
@@ -286,7 +286,7 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	private Collection<OWLDataProperty> getAllDataProperties() {
 		Set<OWLDataProperty> toReturn = new HashSet<OWLDataProperty>();
 		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
-			toReturn.addAll(owlOntology.getReferencedDataProperties());
+			toReturn.addAll(owlOntology.getDataPropertiesInSignature());
 		}
 		return toReturn;
 	}
@@ -294,7 +294,7 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	private Collection<OWLIndividual> getAllIndividuals() {
 		Set<OWLIndividual> toReturn = new HashSet<OWLIndividual>();
 		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
-			toReturn.addAll(owlOntology.getReferencedIndividuals());
+			toReturn.addAll(owlOntology.getIndividualsInSignature());
 		}
 		return toReturn;
 	}
@@ -348,7 +348,7 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 				return Collections.emptySet();
 			}
 		}));
-		VariableScope variableScope = variable.getVariableScope();
+		VariableScope<?> variableScope = variable.getVariableScope();
 		if (variableScope != null) {
 			Iterator<OWLObject> iterator = toReturn.iterator();
 			while (iterator.hasNext()) {
@@ -360,35 +360,13 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 					if (!inScope) {
 						iterator.remove();
 					}
-				} catch (OWLReasonerException e) {
-					// TODO Auto-generated catch block
+				} catch (OWLRuntimeException e) {
 					e.printStackTrace();
 				} catch (OPPLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
-		// VariableType type = variable.getType();
-		// switch (type) {
-		// case CLASS:
-		// toReturn.addAll(this.allClasses);
-		// break;
-		// case DATAPROPERTY:
-		// toReturn.addAll(this.allDataProperties);
-		// break;
-		// case OBJECTPROPERTY:
-		// toReturn.addAll(this.allObjectProperties);
-		// break;
-		// case INDIVIDUAL:
-		// toReturn.addAll(this.allIndividuals);
-		// break;
-		// case CONSTANT:
-		// toReturn.addAll(this.allConstants);
-		// break;
-		// default:
-		// break;
-		// }
 		return toReturn;
 	}
 
@@ -423,7 +401,7 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	private Collection<OWLObjectProperty> getObjectProperties() {
 		Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
 		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
-			toReturn.addAll(owlOntology.getReferencedObjectProperties());
+			toReturn.addAll(owlOntology.getObjectPropertiesInSignature());
 		}
 		return toReturn;
 	}

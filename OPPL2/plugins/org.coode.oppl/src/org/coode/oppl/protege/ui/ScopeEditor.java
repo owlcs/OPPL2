@@ -53,11 +53,11 @@ import org.protege.editor.owl.ui.clsdescriptioneditor.OWLDescriptionChecker;
 import org.protege.editor.owl.ui.selector.AbstractHierarchySelectorPanel;
 import org.protege.editor.owl.ui.selector.OWLDataPropertySelectorPanel;
 import org.protege.editor.owl.ui.selector.OWLObjectPropertySelectorPanel;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLException;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 /**
  * @author Luigi Iannone
@@ -70,7 +70,7 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
 		 *
 		 */
 		private static final long serialVersionUID = 1748983757452740791L;
-		private final ExpressionEditor<OWLDescription> editor = new ExpressionEditor<OWLDescription>(
+		private final ExpressionEditor<OWLClassExpression> editor = new ExpressionEditor<OWLClassExpression>(
 				this.owlEditorKit, new OWLDescriptionChecker(this.owlEditorKit.getModelManager()));
 		private final ButtonGroup directionButtonGroup = new ButtonGroup();
 		private final Map<JRadioButton, Direction> radioButtonDirectionMap = new HashMap<JRadioButton, Direction>();
@@ -122,7 +122,7 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
 				JRadioButton button = this.findSelectedButton();
 				if (button != null) {
 					Direction direction = this.radioButtonDirectionMap.get(button);
-					OWLDescription object = null;
+					OWLClassExpression  object = null;
 					try {
 						object = this.editor.createObject();
 					} catch (OWLException e) {
@@ -142,7 +142,7 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
 			JRadioButton selectedButton = this.findSelectedButton();
 			if (selectedButton != null) {
 				Direction direction = this.radioButtonDirectionMap.get(selectedButton);
-				OWLDescription object = null;
+				OWLClassExpression  object = null;
 				try {
 					object = this.editor.createObject();
 					if (direction.equals(Direction.SUPERCLASSOF)) {
@@ -179,7 +179,7 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
 		 *
 		 */
 		private static final long serialVersionUID = 1748983757452740791L;
-		private final ExpressionEditor<OWLDescription> editor = new ExpressionEditor<OWLDescription>(
+		private final ExpressionEditor<OWLClassExpression> editor = new ExpressionEditor<OWLClassExpression>(
 				this.owlEditorKit, new OWLDescriptionChecker(this.owlEditorKit.getModelManager()));
 		private static final String INDIVIDUAL_TITLE = "Individual Variable Scope";
 

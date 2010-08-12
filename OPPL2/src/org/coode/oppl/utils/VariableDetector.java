@@ -23,12 +23,11 @@
 package org.coode.oppl.utils;
 
 import org.coode.oppl.ConstraintSystem;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLTypedConstant;
-import org.semanticweb.owl.model.OWLUntypedConstant;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 /**
  * @author Luigi Iannone
@@ -43,14 +42,10 @@ public class VariableDetector extends AbstractVariableDetector {
 	}
 
 	public Boolean visit(OWLClass desc) {
-		return this.constraintSystem.isVariableURI(desc.getURI());
+		return this.constraintSystem.isVariableIRI(desc.getIRI());
 	}
 
-	public Boolean visit(OWLTypedConstant node) {
-		return this.constraintSystem.isVariable(node);
-	}
-
-	public Boolean visit(OWLUntypedConstant node) {
+	public Boolean visit(OWLLiteral node) {
 		return this.constraintSystem.isVariable(node);
 	}
 
@@ -62,7 +57,7 @@ public class VariableDetector extends AbstractVariableDetector {
 		return this.constraintSystem.isVariable(property);
 	}
 
-	public Boolean visit(OWLIndividual individual) {
+	public Boolean visit(OWLNamedIndividual individual) {
 		return this.constraintSystem.isVariable(individual);
 	}
 }

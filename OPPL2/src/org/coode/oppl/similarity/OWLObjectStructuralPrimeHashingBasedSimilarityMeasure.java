@@ -3,7 +3,7 @@
  */
 package org.coode.oppl.similarity;
 
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * This measure is based on an Hashing function that maps each OWLObject into a

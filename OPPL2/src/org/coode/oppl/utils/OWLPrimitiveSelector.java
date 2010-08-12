@@ -3,17 +3,16 @@
  */
 package org.coode.oppl.utils;
 
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDataType;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLObjectVisitorEx;
-import org.semanticweb.owl.model.OWLTypedConstant;
-import org.semanticweb.owl.model.OWLUntypedConstant;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /**
  * This class determines if an OWLObject is either an OWLEntity or a an
@@ -23,12 +22,8 @@ import org.semanticweb.owl.model.OWLUntypedConstant;
  * 
  */
 public final class OWLPrimitiveSelector {
-	private static final OWLObjectVisitorEx<Boolean> allPrimitiveSelector = new DefaultOWLObjectVisitorEx<Boolean>() {
-		@Override
-		protected Boolean doDefault(OWLObject object) {
-			return false;
-		}
-
+	private static final OWLObjectVisitorEx<Boolean> allPrimitiveSelector = new OWLObjectVisitorExAdapter<Boolean>(
+			false) {
 		@Override
 		public Boolean visit(OWLClass desc) {
 			return true;
@@ -45,31 +40,22 @@ public final class OWLPrimitiveSelector {
 		}
 
 		@Override
-		public Boolean visit(OWLIndividual individual) {
+		public Boolean visit(OWLNamedIndividual individual) {
 			return true;
 		}
 
 		@Override
-		public Boolean visit(OWLUntypedConstant constant) {
+		public Boolean visit(OWLLiteral constant) {
 			return true;
 		}
 
 		@Override
-		public Boolean visit(OWLTypedConstant constant) {
-			return true;
-		}
-
-		@Override
-		public Boolean visit(OWLDataType node) {
+		public Boolean visit(OWLDatatype node) {
 			return true;
 		}
 	};
-	private static final OWLObjectVisitorEx<Boolean> allOWLEntitySelector = new DefaultOWLObjectVisitorEx<Boolean>() {
-		@Override
-		protected Boolean doDefault(OWLObject object) {
-			return false;
-		}
-
+	private static final OWLObjectVisitorEx<Boolean> allOWLEntitySelector = new OWLObjectVisitorExAdapter<Boolean>(
+			false) {
 		@Override
 		public Boolean visit(OWLClass desc) {
 			return true;
@@ -86,83 +72,54 @@ public final class OWLPrimitiveSelector {
 		}
 
 		@Override
-		public Boolean visit(OWLIndividual individual) {
+		public Boolean visit(OWLNamedIndividual individual) {
 			return true;
 		}
 
 		@Override
-		public Boolean visit(OWLDataType dataType) {
+		public Boolean visit(OWLDatatype dataType) {
 			return true;
 		}
 	};
-	private static final OWLObjectVisitorEx<Boolean> allOWLClassSelector = new DefaultOWLObjectVisitorEx<Boolean>() {
-		@Override
-		protected Boolean doDefault(OWLObject object) {
-			return false;
-		}
-
+	private static final OWLObjectVisitorEx<Boolean> allOWLClassSelector = new OWLObjectVisitorExAdapter<Boolean>(
+			false) {
 		@Override
 		public Boolean visit(OWLClass desc) {
 			return true;
 		}
 	};
-	private static final OWLObjectVisitorEx<Boolean> allOWLDataPropertySelector = new DefaultOWLObjectVisitorEx<Boolean>() {
-		@Override
-		protected Boolean doDefault(OWLObject object) {
-			return false;
-		}
-
+	private static final OWLObjectVisitorEx<Boolean> allOWLDataPropertySelector = new OWLObjectVisitorExAdapter<Boolean>(
+			false) {
 		@Override
 		public Boolean visit(OWLDataProperty property) {
 			return true;
 		}
 	};
-	private static final OWLObjectVisitorEx<Boolean> allOWLObjectPropertySelector = new DefaultOWLObjectVisitorEx<Boolean>() {
-		@Override
-		protected Boolean doDefault(OWLObject object) {
-			return false;
-		}
-
+	private static final OWLObjectVisitorEx<Boolean> allOWLObjectPropertySelector = new OWLObjectVisitorExAdapter<Boolean>(
+			false) {
 		@Override
 		public Boolean visit(OWLObjectProperty property) {
 			return true;
 		}
 	};
-	private static final OWLObjectVisitorEx<Boolean> allOWLIndividualSelector = new DefaultOWLObjectVisitorEx<Boolean>() {
+	private static final OWLObjectVisitorEx<Boolean> allOWLIndividualSelector = new OWLObjectVisitorExAdapter<Boolean>(
+			false) {
 		@Override
-		protected Boolean doDefault(OWLObject object) {
-			return false;
-		}
-
-		@Override
-		public Boolean visit(OWLIndividual individual) {
+		public Boolean visit(OWLNamedIndividual individual) {
 			return true;
 		}
 	};
-	private static final OWLObjectVisitorEx<Boolean> allOWLDataTypeSelector = new DefaultOWLObjectVisitorEx<Boolean>() {
+	private static final OWLObjectVisitorEx<Boolean> allOWLDatatypeSelector = new OWLObjectVisitorExAdapter<Boolean>(
+			false) {
 		@Override
-		protected Boolean doDefault(OWLObject object) {
-			return false;
-		}
-
-		@Override
-		public Boolean visit(OWLDataType dataType) {
+		public Boolean visit(OWLDatatype dataType) {
 			return true;
 		}
 	};
-	private static final OWLObjectVisitorEx<Boolean> allOWLConstantSelector = new DefaultOWLObjectVisitorEx<Boolean>() {
+	private static final OWLObjectVisitorEx<Boolean> allOWLConstantSelector = new OWLObjectVisitorExAdapter<Boolean>(
+			false) {
 		@Override
-		protected Boolean doDefault(OWLObject object) {
-			return false;
-		}
-
-		@Override
-		public Boolean visit(OWLUntypedConstant constant) {
-			return true;
-		}
-
-		@Override
-		public Boolean visit(OWLTypedConstant constant) {
+		public Boolean visit(OWLLiteral constant) {
 			return true;
 		}
 	};
@@ -224,13 +181,13 @@ public final class OWLPrimitiveSelector {
 
 	/**
 	 * Retrieves an {@link OWLObjectVisitorEx} returning {@code true} if
-	 * visiting an {@link OWLDataType}.
+	 * visiting an {@link OWLDatatype}.
 	 * 
 	 * @return an {@link OWLObjectVisitorEx} returning {@code true} if visiting
-	 *         an {@link OWLDataType}.
+	 *         an {@link OWLDatatype}.
 	 */
-	public static OWLObjectVisitorEx<Boolean> getAllOWLDataTypeSelector() {
-		return allOWLDataTypeSelector;
+	public static OWLObjectVisitorEx<Boolean> getAllOWLDatatypeSelector() {
+		return allOWLDatatypeSelector;
 	}
 
 	/**

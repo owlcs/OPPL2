@@ -37,20 +37,21 @@ import org.coode.oppl.variabletypes.INDIVIDUALVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.test.JUnitTestErrorListener;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.AxiomType;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
-import org.semanticweb.owl.util.OWLAxiomVisitorAdapter;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.AxiomType;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
 public class SearchTest extends TestCase {
 	private final ErrorListener errorListener = new JUnitTestErrorListener();
@@ -108,12 +109,12 @@ public class SearchTest extends TestCase {
 	public void testOWLAxiomSearch() {
 		final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology ontology = manager.loadOntology(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			OWLOntology ontology = manager.loadOntologyFromOntologyDocument(IRI.create(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
 			OWLClass namedPizzaClass = manager.getOWLDataFactory().getOWLClass(
-					URI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#NamedPizza"));
+					IRI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#NamedPizza"));
 			OWLClass pizzaClass = manager.getOWLDataFactory().getOWLClass(
-					URI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza"));
-			final OWLSubClassAxiom subClassAxiom = manager.getOWLDataFactory().getOWLSubClassAxiom(
+					IRI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza"));
+			final OWLSubClassOfAxiom subClassAxiom = manager.getOWLDataFactory().getOWLSubClassOfAxiom(
 					namedPizzaClass,
 					pizzaClass);
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf ?y BEGIN ADD ?x subClassOf ?y END;";
@@ -174,29 +175,9 @@ public class SearchTest extends TestCase {
 					}
 				};
 
-				private Collection<? extends OWLObject> getAssignableValues(Variable variable) {
+				private Set<OWLObject> getAssignableValues(Variable variable) {
 					Set<OWLObject> toReturn = new HashSet<OWLObject>();
 					toReturn.addAll(variable.accept(this.assignableValuesVisitor));
-					// VariableType type = variable.getType();
-					// switch (type) {
-					// case CLASS:
-					// toReturn.addAll(this.getAllClasses());
-					// break;
-					// case DATAPROPERTY:
-					// toReturn.addAll(this.getAllDataProperties());
-					// break;
-					// case OBJECTPROPERTY:
-					// toReturn.addAll(this.getObjectProperties());
-					// break;
-					// case INDIVIDUAL:
-					// toReturn.addAll(this.getAllIndividuals());
-					// break;
-					// case CONSTANT:
-					// toReturn.addAll(this.getAllConstants());
-					// break;
-					// default:
-					// break;
-					// }
 					return toReturn;
 				}
 
@@ -204,38 +185,38 @@ public class SearchTest extends TestCase {
 					return Collections.emptySet();
 				}
 
-				private Collection<? extends OWLObject> getAllIndividuals() {
-					Set<OWLIndividual> toReturn = new HashSet<OWLIndividual>();
+				private Set<OWLNamedIndividual> getAllIndividuals() {
+					Set<OWLNamedIndividual> toReturn = new HashSet<OWLNamedIndividual>();
 					Set<OWLOntology> ontologies = manager.getOntologies();
 					for (OWLOntology owlOntology : ontologies) {
-						toReturn.addAll(owlOntology.getReferencedIndividuals());
+						toReturn.addAll(owlOntology.getIndividualsInSignature());
 					}
 					return toReturn;
 				}
 
-				private Collection<? extends OWLObject> getObjectProperties() {
+				private Set<OWLObjectProperty> getObjectProperties() {
 					Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
 					Set<OWLOntology> ontologies = manager.getOntologies();
 					for (OWLOntology owlOntology : ontologies) {
-						toReturn.addAll(owlOntology.getReferencedObjectProperties());
+						toReturn.addAll(owlOntology.getObjectPropertiesInSignature());
 					}
 					return toReturn;
 				}
 
-				private Collection<? extends OWLObject> getAllDataProperties() {
+				private Set<OWLDataProperty> getAllDataProperties() {
 					Set<OWLDataProperty> toReturn = new HashSet<OWLDataProperty>();
 					Set<OWLOntology> ontologies = manager.getOntologies();
 					for (OWLOntology owlOntology : ontologies) {
-						toReturn.addAll(owlOntology.getReferencedDataProperties());
+						toReturn.addAll(owlOntology.getDataPropertiesInSignature());
 					}
 					return toReturn;
 				}
 
-				private Collection<? extends OWLObject> getAllClasses() {
+				private Set<OWLClass> getAllClasses() {
 					Set<OWLClass> toReturn = new HashSet<OWLClass>();
 					Set<OWLOntology> ontologies = manager.getOntologies();
 					for (OWLOntology owlOntology : ontologies) {
-						toReturn.addAll(owlOntology.getReferencedClasses());
+						toReturn.addAll(owlOntology.getClassesInSignature());
 					}
 					return toReturn;
 				}
@@ -262,7 +243,7 @@ public class SearchTest extends TestCase {
 	public void testOWLAxiomSearchTree() {
 		final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology ontology = manager.loadOntology(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			OWLOntology ontology = manager.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf ?y BEGIN ADD ?x subClassOf ?y END;";
 			final OPPLScript opplScript = this.parseScript(manager, ontology, opplString);
 			OWLAxiom start = opplScript.getQuery().getAssertedAxioms().iterator().next();
@@ -279,13 +260,13 @@ public class SearchTest extends TestCase {
 			}
 			final Set<OWLAxiom> subClassAxioms = new HashSet<OWLAxiom>(solutions.size());
 			for (OWLOntology onOwlOntology : manager.getOntologies()) {
-				Set<OWLSubClassAxiom> axioms = onOwlOntology.getAxioms(AxiomType.SUBCLASS);
-				for (OWLSubClassAxiom owlSubClassAxiom : axioms) {
+				Set<OWLSubClassOfAxiom> axioms = onOwlOntology.getAxioms(AxiomType.SUBCLASS_OF);
+				for (OWLSubClassOfAxiom owlSubClassAxiom : axioms) {
 					owlSubClassAxiom.accept(new OWLAxiomVisitorAdapter() {
 						@Override
-						public void visit(OWLSubClassAxiom axiom) {
-							OWLDescription subClass = axiom.getSubClass();
-							OWLDescription superClass = axiom.getSuperClass();
+						public void visit(OWLSubClassOfAxiom axiom) {
+							OWLClassExpression subClass = axiom.getSubClass();
+							OWLClassExpression superClass = axiom.getSuperClass();
 							if (!subClass.isAnonymous() && !superClass.isAnonymous()) {
 								subClassAxioms.add(axiom);
 							}
@@ -304,7 +285,7 @@ public class SearchTest extends TestCase {
 	public void testOWLAxiomOPPLSearchTreeMultipleAxiomsVersusQueryNotFound() {
 		final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology ontology = manager.loadOntology(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			OWLOntology ontology = manager.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf Pizza, ASSERTED ?x subClassOf hasTopping some MozzarellaTopping BEGIN ADD ?x subClassOf ?y END;";
 			final OPPLScript opplScript = this.parseScript(manager, ontology, opplString);
 			final OPPLScript checkOPPLScript = this.parseScript(manager, ontology, opplString);
@@ -374,7 +355,7 @@ public class SearchTest extends TestCase {
 	public void testOWLAxiomOPPLSearchTreeMultipleAxiomsVersusQueryFound() {
 		final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology ontology = manager.loadOntology(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			OWLOntology ontology = manager.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf NamedPizza, ASSERTED ?x subClassOf hasTopping some MozzarellaTopping BEGIN ADD ?x subClassOf ?y END;";
 			final OPPLScript opplScript = this.parseScript(manager, ontology, opplString);
 			final OPPLScript checkOPPLScript = this.parseScript(manager, ontology, opplString);

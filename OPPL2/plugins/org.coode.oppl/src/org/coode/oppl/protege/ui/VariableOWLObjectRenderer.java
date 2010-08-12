@@ -13,28 +13,28 @@ import org.protege.editor.owl.ui.OWLDescriptionComparator;
 import org.protege.editor.owl.ui.renderer.OWLEntityRenderer;
 import org.protege.editor.owl.ui.renderer.OWLObjectRenderer;
 import org.protege.editor.owl.ui.renderer.OWLRendererPreferences;
-import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLClassAssertionAxiom;
-import org.semanticweb.owl.model.OWLConstantAnnotation;
-import org.semanticweb.owl.model.OWLDataPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owl.model.OWLImportsDeclaration;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectAnnotation;
-import org.semanticweb.owl.model.OWLObjectIntersectionOf;
-import org.semanticweb.owl.model.OWLObjectPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLObjectUnionOf;
-import org.semanticweb.owl.model.OWLObjectVisitor;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLRestriction;
-import org.semanticweb.owl.model.OWLUntypedConstant;
+import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomAnnotationAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLConstantAnnotation;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLImportsDeclaration;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectAnnotation;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLObjectVisitor;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLRestriction;
+import org.semanticweb.owlapi.model.OWLUntypedConstant;
 
 /**
  * Author: Luigi Iannone<br>
@@ -106,21 +106,21 @@ public class VariableOWLObjectRenderer extends AbstractRenderer implements
 		this.focusedObject = focusedObject;
 		if (focusedObject instanceof OWLDescription) {
 			this.comparator
-					.setFocusedDescription((OWLDescription) focusedObject);
+					.setFocusedDescription((OWLClassExpression) focusedObject);
 		}
 	}
 
 	public void setup(OWLModelManager owlModelManager) {
 	}
 
-	private List<OWLDescription> sort(Set<OWLDescription> descriptions) {
-		List<OWLDescription> sortedDescs = new ArrayList<OWLDescription>(
+	private List<OWLClassExpression> sort(Set<OWLClassExpression> descriptions) {
+		List<OWLClassExpression> sortedDescs = new ArrayList<OWLClassExpression>(
 				descriptions);
 		Collections.sort(sortedDescs, this.comparator);
 		return sortedDescs;
 	}
 
-	public void visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
+	public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
 		this.write("AntiSymmetric: ");
 		axiom.getProperty().accept(this);
 	}
@@ -142,7 +142,7 @@ public class VariableOWLObjectRenderer extends AbstractRenderer implements
 		axiom.getDescription().accept(this);
 	}
 
-	public void visit(OWLConstantAnnotation annotation) {
+	public void visit(OWLLiteralAnnotation annotation) {
 		this.write(this.owlModelManager.getURIRendering(annotation
 				.getAnnotationURI()));
 		this.write(" ");
@@ -162,17 +162,17 @@ public class VariableOWLObjectRenderer extends AbstractRenderer implements
 	}
 
 	public void visit(OWLEquivalentClassesAxiom node) {
-		List<OWLDescription> orderedDescs = this.sort(node.getDescriptions());
-		for (Iterator<OWLDescription> it = orderedDescs.iterator(); it
+		List<OWLClassExpression> orderedDescs = this.sort(node.getDescriptions());
+		for (Iterator<OWLClassExpression> it = orderedDescs.iterator(); it
 				.hasNext();) {
-			OWLDescription desc = it.next();
+			OWLClassExpression  desc = it.next();
 			if (orderedDescs.get(0).isOWLNothing()) {
 				it.remove();
 				orderedDescs.add(desc);
 				break;
 			}
 		}
-		for (Iterator<OWLDescription> it = orderedDescs.iterator(); it
+		for (Iterator<OWLClassExpression> it = orderedDescs.iterator(); it
 				.hasNext();) {
 			it.next().accept(this);
 			if (it.hasNext()) {
@@ -182,7 +182,7 @@ public class VariableOWLObjectRenderer extends AbstractRenderer implements
 	}
 
 	public void visit(OWLImportsDeclaration axiom) {
-		this.writeOntologyURI(axiom.getImportedOntologyURI());
+		this.writeOntologyIRI(axiom.getImportedOntologyURI());
 		if (this.owlModelManager.getOWLOntologyManager().getImportedOntology(
 				axiom) == null) {
 			this.write("      (Not Loaded)");
@@ -193,7 +193,7 @@ public class VariableOWLObjectRenderer extends AbstractRenderer implements
 		if (node.isAnonymous()) {
 			this.write("Anonymous : [");
 			for (OWLOntology ont : this.owlModelManager.getActiveOntologies()) {
-				for (OWLDescription desc : node.getTypes(ont)) {
+				for (OWLClassExpression desc : node.getTypes(ont)) {
 					this.write(" ");
 					desc.accept(this);
 				}
@@ -213,9 +213,9 @@ public class VariableOWLObjectRenderer extends AbstractRenderer implements
 
 	public void visit(OWLObjectIntersectionOf node) {
 		int indent = this.getIndent();
-		List<OWLDescription> ops = this.sort(node.getOperands());
+		List<OWLClassExpression> ops = this.sort(node.getOperands());
 		for (int i = 0; i < ops.size(); i++) {
-			OWLDescription curOp = ops.get(i);
+			OWLClassExpression  curOp = ops.get(i);
 			curOp.accept(this);
 			if (i < ops.size() - 1) {
 				this.write("\n");
@@ -254,9 +254,9 @@ public class VariableOWLObjectRenderer extends AbstractRenderer implements
 
 	public void visit(OWLObjectUnionOf node) {
 		int indent = this.getIndent();
-		for (Iterator<OWLDescription> it = this.sort(node.getOperands())
+		for (Iterator<OWLClassExpression> it = this.sort(node.getOperands())
 				.iterator(); it.hasNext();) {
-			OWLDescription curOp = it.next();
+			OWLClassExpression  curOp = it.next();
 			this.writeOpenBracket(curOp);
 			curOp.accept(this);
 			this.writeCloseBracket(curOp);

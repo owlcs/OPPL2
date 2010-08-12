@@ -17,14 +17,14 @@ import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.OPPLScope;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.protege.editor.owl.OWLEditorKit;
-import org.semanticweb.owl.expression.OWLEntityChecker;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDataType;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.util.SimpleShortFormProvider;
+import org.semanticweb.owlapi.expression.OWLEntityChecker;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -88,13 +88,13 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 					fullRegExp);
 		}
 
-		public Set<OWLDataType> getMatchingOWLDataTypes(String match) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getEntityFinder().getMatchingOWLDataTypes(
+		public Set<OWLDatatype> getMatchingOWLDatatypes(String match) {
+			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getEntityFinder().getMatchingOWLDatatypes(
 					match);
 		}
 
-		public Set<OWLDataType> getMatchingOWLDataTypes(String match, boolean fullRegExp) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getEntityFinder().getMatchingOWLDataTypes(
+		public Set<OWLDatatype> getMatchingOWLDatatypes(String match, boolean fullRegExp) {
+			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getEntityFinder().getMatchingOWLDatatypes(
 					match,
 					fullRegExp);
 		}

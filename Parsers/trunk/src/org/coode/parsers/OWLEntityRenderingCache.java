@@ -2,12 +2,12 @@ package org.coode.parsers;
 
 import java.util.Set;
 
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDataType;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 /**
  * Author: Matthew Horridge<br>
@@ -39,7 +39,7 @@ public interface OWLEntityRenderingCache {
 
 	public OWLIndividual getOWLIndividual(String rendering);
 
-	public OWLDataType getOWLDataType(String rendering);
+	public OWLDatatype getOWLDataType(String rendering);
 
 	public Set<String> getOWLClassRenderings();
 

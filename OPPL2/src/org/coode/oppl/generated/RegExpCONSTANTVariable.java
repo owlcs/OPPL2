@@ -7,17 +7,17 @@ import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.variabletypes.CONSTANTVariableImpl;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public class RegExpCONSTANTVariable extends CONSTANTVariableImpl implements
-		RegExpGenerated<OWLConstant> {
-	private RegExpDelegate<OWLConstant> delegate;
+		RegExpGenerated<OWLLiteral> {
+	private RegExpDelegate<OWLLiteral> delegate;
 
-	public RegExpCONSTANTVariable(String name, RegExpGeneratedValue<OWLConstant> exp) {
+	public RegExpCONSTANTVariable(String name, RegExpGeneratedValue<OWLLiteral> exp) {
 		super(name);
-		this.delegate = new RegExpDelegate<OWLConstant>(exp);
+		this.delegate = new RegExpDelegate<OWLLiteral>(exp);
 	}
 
 	public String getOPPLFunction() {
@@ -32,20 +32,20 @@ public class RegExpCONSTANTVariable extends CONSTANTVariableImpl implements
 		return this.delegate.generateObject(v);
 	}
 
-	public OWLConstant getGeneratedOWLObject(BindingNode bindingNode) {
+	public OWLLiteral getGeneratedOWLObject(BindingNode bindingNode) {
 		return this.delegate.getGeneratedOWLObject(bindingNode);
 	}
 
-	public List<OWLConstant> getGeneratedOWLObjectCollection(BindingNode bindingNode) {
+	public List<OWLLiteral> getGeneratedOWLObjectCollection(BindingNode bindingNode) {
 		return this.delegate.getGeneratedOWLObjectCollection(bindingNode);
 	}
 
-	public RegExpGeneratedValue<OWLConstant> getValue() {
+	public RegExpGeneratedValue<OWLLiteral> getValue() {
 		return this.delegate.getValue();
 	}
 
-	public void setValue(SingleValueGeneratedValue<List<OWLConstant>> value) {
-		this.delegate = new RegExpDelegate<OWLConstant>((RegExpGeneratedValue<OWLConstant>) value);
+	public void setValue(SingleValueGeneratedValue<List<OWLLiteral>> value) {
+		this.delegate = new RegExpDelegate<OWLLiteral>((RegExpGeneratedValue<OWLLiteral>) value);
 	}
 
 	public <P> SingleValueGeneratedVariable<P> replaceValue(
@@ -73,8 +73,8 @@ public class RegExpCONSTANTVariable extends CONSTANTVariableImpl implements
 		return this.delegate.toString(super.toString());
 	}
 
-	public VariableIndexGeneratedValue<OWLConstant> getVariableIndexGeneratedVariable(int index) {
-		return new VariableIndexGeneratedValue<OWLConstant>(this, index,
+	public VariableIndexGeneratedValue<OWLLiteral> getVariableIndexGeneratedVariable(int index) {
+		return new VariableIndexGeneratedValue<OWLLiteral>(this, index,
 				this.delegate.getPossibleBindings());
 	}
 }

@@ -34,7 +34,7 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.search.OPPLInferredOWLAxiomSearchTree;
 import org.coode.oppl.search.OPPLOWLAxiomSearchNode;
 import org.coode.oppl.utils.VariableExtractor;
-import org.semanticweb.owl.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**
  * @author Luigi Iannone

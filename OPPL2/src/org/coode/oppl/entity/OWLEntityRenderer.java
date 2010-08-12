@@ -3,7 +3,7 @@
  */
 package org.coode.oppl.entity;
 
-import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEntity;
 
 /**
  * Renders an OWLEntity into a String.

@@ -22,8 +22,6 @@
  */
 package org.coode.oppl.variabletypes;
 
-import java.net.URI;
-
 import org.coode.oppl.ManchesterVariableSyntax;
 import org.coode.oppl.PlainVariableVisitor;
 import org.coode.oppl.Variable;
@@ -33,6 +31,7 @@ import org.coode.oppl.VariableType;
 import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.utils.ArgCheck;
+import org.semanticweb.owlapi.model.IRI;
 
 /**
  * @author Luigi Iannone
@@ -41,23 +40,23 @@ import org.coode.oppl.utils.ArgCheck;
 public abstract class VariableImpl implements Variable {
 	private final String name;
 	private final VariableType type;
-	private final URI uri;
-	private VariableScope variableScope = null;
+	private final IRI iri;
+	private VariableScope<?> variableScope = null;
 
 	protected VariableImpl(String name, VariableType type) {
 		ArgCheck.checkNullArgument("The name", name);
 		ArgCheck.checkNullArgument("The type", type);
 		this.name = name;
 		this.type = type;
-		this.uri = URI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
+		this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
 	}
 
 	public String getName() {
 		return this.name;
 	}
 
-	public URI getURI() {
-		return this.uri;
+	public IRI getIRI() {
+		return this.iri;
 	}
 
 	/**
@@ -82,11 +81,11 @@ public abstract class VariableImpl implements Variable {
 		return this.name.hashCode();
 	}
 
-	public VariableScope getVariableScope() {
+	public VariableScope<?> getVariableScope() {
 		return this.variableScope;
 	}
 
-	public void setVariableScope(VariableScope variableScope,
+	public void setVariableScope(VariableScope<?> variableScope,
 			VariableScopeChecker variableScopeChecker) {
 		this.variableScope = variableScope;
 	}

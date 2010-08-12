@@ -22,8 +22,8 @@
  */
 package org.coode.oppl;
 
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLPropertyExpression;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLPropertyExpression;
 
 /**
  * Represents a range limitations that could be added to a

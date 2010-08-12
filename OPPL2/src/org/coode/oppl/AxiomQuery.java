@@ -22,7 +22,7 @@
  */
 package org.coode.oppl;
 
-import org.semanticweb.owl.model.OWLAxiomVisitor;
+import org.semanticweb.owlapi.model.OWLAxiomVisitor;
 
 /**
  * Verifies whether an axiom holds in the ontology

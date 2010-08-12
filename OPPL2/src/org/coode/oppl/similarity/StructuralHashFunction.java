@@ -3,7 +3,6 @@
  */
 package org.coode.oppl.similarity;
 
-import java.net.URI;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -11,15 +10,98 @@ import java.util.Map;
 
 import org.coode.oppl.utils.OWLVocabulary;
 import org.coode.oppl.utils.PrimeNumbersUtils;
-import org.semanticweb.owl.model.*;
+import org.semanticweb.owlapi.model.AxiomType;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLCardinalityRestriction;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataComplementOf;
+import org.semanticweb.owlapi.model.OWLDataExactCardinality;
+import org.semanticweb.owlapi.model.OWLDataHasValue;
+import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
+import org.semanticweb.owlapi.model.OWLDataMinCardinality;
+import org.semanticweb.owlapi.model.OWLDataOneOf;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyCharacteristicAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLDatatypeRestriction;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEntityVisitorEx;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLFacetRestriction;
+import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLHasValueRestriction;
+import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLNaryBooleanClassExpression;
+import org.semanticweb.owlapi.model.OWLNaryClassAxiom;
+import org.semanticweb.owlapi.model.OWLNaryIndividualAxiom;
+import org.semanticweb.owlapi.model.OWLNaryPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectComplementOf;
+import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
+import org.semanticweb.owlapi.model.OWLObjectHasSelf;
+import org.semanticweb.owlapi.model.OWLObjectHasValue;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
+import org.semanticweb.owlapi.model.OWLObjectInverseOf;
+import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
+import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyCharacteristicAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLQuantifiedRestriction;
+import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom;
+import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.SWRLRule;
+import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /**
  * @author Luigi Iannone
  * 
  */
-public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<Integer> {
+public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> implements
+		HashFunction, OWLObjectVisitorEx<Integer> {
 	private final static Map<AxiomType<?>, Integer> axiomTypeHashCodes = new HashMap<AxiomType<?>, Integer>();
-	private final static Map<URI, Integer> uriHashCodes = new HashMap<URI, Integer>();
+	private final static Map<IRI, Integer> iriHashCodes = new HashMap<IRI, Integer>();
 	private final static Map<OWLEntity, Integer> entityHashCodes = new HashMap<OWLEntity, Integer>();
 	private final static EnumMap<OWLConstruct, Integer> constructHashCodes = new EnumMap<OWLConstruct, Integer>(
 			OWLConstruct.class);
@@ -32,29 +114,20 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	// sequenceHashCodes = new HashMap<List<? extends OWLObject>, Integer>();
 	private static int maxPrime = 1;
 
+	public StructuralHashFunction() {
+		super(1);
+	}
+
 	/**
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLSubClassAxiom)
 	 */
-	public Integer visit(OWLSubClassAxiom axiom) {
+	@Override
+	public Integer visit(OWLSubClassOfAxiom axiom) {
 		return this.getAxiomTypeHashValue(axiom.getAxiomType()) * axiom.getSubClass().accept(this)
-				* axiom.getSuperClass().accept(this)
-		// * this.getPairHashCode(new
-		// OrderedPair<OWLDescription>(axiom.getSubClass(),
-		// axiom.getSuperClass()));
-		;
+				* axiom.getSuperClass().accept(this);
 	}
 
-	// private Integer getPairHashCode(OrderedPair<?> pair) {
-	// Integer toReturn = pairHashCodes.get(pair);
-	// if (toReturn == null) {
-	// toReturn = this.createHashCode(pair);
-	// }
-	// return toReturn;
-	// }
-	// protected int createHashCode(OrderedPair<?> pair) {
-	// return this.createHashCode(pair, StructuralHashFunction.pairHashCodes);
-	// }
 	private Integer getAxiomTypeHashValue(AxiomType<?> axiomType) {
 		Integer toReturn = axiomTypeHashCodes.get(axiomType);
 		if (toReturn == null) {
@@ -71,6 +144,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLNegativeObjectPropertyAssertionAxiom)
 	 */
+	@Override
 	public Integer visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
 		return this.getPropertyAssertionHashCode(axiom);
 	}
@@ -79,7 +153,8 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLAntiSymmetricObjectPropertyAxiom)
 	 */
-	public Integer visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
+	@Override
+	public Integer visit(OWLAsymmetricObjectPropertyAxiom axiom) {
 		return this.getOWLObjectPropertyCharacteristicAxiomHashCode(axiom);
 	}
 
@@ -96,6 +171,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLReflexiveObjectPropertyAxiom)
 	 */
+	@Override
 	public Integer visit(OWLReflexiveObjectPropertyAxiom axiom) {
 		return this.getOWLObjectPropertyCharacteristicAxiomHashCode(axiom);
 	}
@@ -104,6 +180,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLDisjointClassesAxiom)
 	 */
+	@Override
 	public Integer visit(OWLDisjointClassesAxiom axiom) {
 		return this.getNaryClassAxiomHashCode(axiom);
 	}
@@ -114,7 +191,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 */
 	private int getNaryClassAxiomHashCode(OWLNaryClassAxiom axiom) {
 		return this.getAxiomTypeHashValue(axiom.getAxiomType())
-				* this.getCollectionHashCode(axiom.getDescriptions());
+				* this.getCollectionHashCode(axiom.getClassExpressions());
 	}
 
 	private int getCollectionHashCode(Collection<? extends OWLObject> collection) {
@@ -129,6 +206,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLDataPropertyDomainAxiom)
 	 */
+	@Override
 	public Integer visit(OWLDataPropertyDomainAxiom axiom) {
 		return this.getOWLPropertyDomainAxiomHashCode(axiom);
 	}
@@ -142,40 +220,23 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 				* axiom.getDomain().accept(this);
 	}
 
-	/**
-	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
-	 *      .model.OWLImportsDeclaration)
-	 */
-	public Integer visit(OWLImportsDeclaration axiom) {
-		return this.getAxiomTypeHashValue(axiom.getAxiomType())
-				* this.getURIHashCode(axiom.getImportedOntologyURI());
-	}
-
-	private Integer getURIHashCode(URI uri) {
-		Integer toReturn = uriHashCodes.get(uri);
+	private Integer getIRIHashCode(IRI uri) {
+		Integer toReturn = iriHashCodes.get(uri);
 		if (toReturn == null) {
 			toReturn = this.createHashCode(uri);
 		}
 		return toReturn;
 	}
 
-	protected int createHashCode(URI uri) {
-		return this.createHashCode(uri, uriHashCodes);
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
-	 *      .model.OWLAxiomAnnotationAxiom)
-	 */
-	public Integer visit(OWLAxiomAnnotationAxiom axiom) {
-		return this.getAxiomTypeHashValue(axiom.getAxiomType())
-				* axiom.getAnnotation().accept(this);
+	protected int createHashCode(IRI uri) {
+		return this.createHashCode(uri, iriHashCodes);
 	}
 
 	/**
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLObjectPropertyDomainAxiom)
 	 */
+	@Override
 	public Integer visit(OWLObjectPropertyDomainAxiom axiom) {
 		return this.getOWLPropertyDomainAxiomHashCode(axiom);
 	}
@@ -184,6 +245,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLEquivalentObjectPropertiesAxiom)
 	 */
+	@Override
 	public Integer visit(OWLEquivalentObjectPropertiesAxiom axiom) {
 		return this.getNaryPropertyAxiomHashCode(axiom);
 	}
@@ -201,6 +263,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLNegativeDataPropertyAssertionAxiom)
 	 */
+	@Override
 	public Integer visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
 		return this.getPropertyAssertionHashCode(axiom);
 	}
@@ -218,6 +281,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLDifferentIndividualsAxiom)
 	 */
+	@Override
 	public Integer visit(OWLDifferentIndividualsAxiom axiom) {
 		return this.getNaryIndividualAxiomHashCode(axiom);
 	}
@@ -235,6 +299,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLDisjointDataPropertiesAxiom)
 	 */
+	@Override
 	public Integer visit(OWLDisjointDataPropertiesAxiom axiom) {
 		return this.getNaryPropertyAxiomHashCode(axiom);
 	}
@@ -243,6 +308,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLDisjointObjectPropertiesAxiom)
 	 */
+	@Override
 	public Integer visit(OWLDisjointObjectPropertiesAxiom axiom) {
 		return this.getNaryPropertyAxiomHashCode(axiom);
 	}
@@ -251,6 +317,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLObjectPropertyRangeAxiom)
 	 */
+	@Override
 	public Integer visit(OWLObjectPropertyRangeAxiom axiom) {
 		return this.getOWLPropertyRangeAxiomHashCode(axiom);
 	}
@@ -268,6 +335,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLObjectPropertyAssertionAxiom)
 	 */
+	@Override
 	public Integer visit(OWLObjectPropertyAssertionAxiom axiom) {
 		return this.getPropertyAssertionHashCode(axiom);
 	}
@@ -276,6 +344,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLFunctionalObjectPropertyAxiom)
 	 */
+	@Override
 	public Integer visit(OWLFunctionalObjectPropertyAxiom axiom) {
 		return this.getOWLObjectPropertyCharacteristicAxiomHashCode(axiom);
 	}
@@ -284,7 +353,8 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLObjectSubPropertyAxiom)
 	 */
-	public Integer visit(OWLObjectSubPropertyAxiom axiom) {
+	@Override
+	public Integer visit(OWLSubObjectPropertyOfAxiom axiom) {
 		return this.getOWLSubPropertyAxiomHashCode(axiom);
 	}
 
@@ -304,40 +374,26 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLDisjointUnionAxiom)
 	 */
+	@Override
 	public Integer visit(OWLDisjointUnionAxiom axiom) {
-		return this.getNaryClassAxiomHashCode(axiom);
+		return this.getAxiomTypeHashValue(axiom.getAxiomType())
+				* this.getCollectionHashCode(axiom.getClassExpressions());
 	}
 
 	/**
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLDeclarationAxiom)
 	 */
+	@Override
 	public Integer visit(OWLDeclarationAxiom axiom) {
 		return this.getAxiomTypeHashValue(axiom.getAxiomType()) * axiom.getEntity().accept(this);
 	}
 
 	/**
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
-	 *      .model.OWLEntityAnnotationAxiom)
-	 */
-	public Integer visit(OWLEntityAnnotationAxiom axiom) {
-		return this.getAxiomTypeHashValue(axiom.getAxiomType())
-				* axiom.getAnnotation().accept(this);
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
-	 *      .model.OWLOntologyAnnotationAxiom)
-	 */
-	public Integer visit(OWLOntologyAnnotationAxiom axiom) {
-		return this.getAxiomTypeHashValue(axiom.getAxiomType()) * axiom.getSubject().accept(this)
-				* axiom.getAnnotation().accept(this);
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLSymmetricObjectPropertyAxiom)
 	 */
+	@Override
 	public Integer visit(OWLSymmetricObjectPropertyAxiom axiom) {
 		return this.getOWLObjectPropertyCharacteristicAxiomHashCode(axiom);
 	}
@@ -346,6 +402,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLDataPropertyRangeAxiom)
 	 */
+	@Override
 	public Integer visit(OWLDataPropertyRangeAxiom axiom) {
 		return this.getOWLPropertyRangeAxiomHashCode(axiom);
 	}
@@ -354,6 +411,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLFunctionalDataPropertyAxiom)
 	 */
+	@Override
 	public Integer visit(OWLFunctionalDataPropertyAxiom axiom) {
 		return this.getOWLDataPropertyCharacteristicAxiomHashCode(axiom);
 	}
@@ -371,6 +429,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLEquivalentDataPropertiesAxiom)
 	 */
+	@Override
 	public Integer visit(OWLEquivalentDataPropertiesAxiom axiom) {
 		return this.getNaryPropertyAxiomHashCode(axiom);
 	}
@@ -379,15 +438,17 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLClassAssertionAxiom)
 	 */
+	@Override
 	public Integer visit(OWLClassAssertionAxiom axiom) {
 		return this.getAxiomTypeHashValue(axiom.getAxiomType())
-				* axiom.getDescription().accept(this) * axiom.getIndividual().accept(this);
+				* axiom.getClassExpression().accept(this) * axiom.getIndividual().accept(this);
 	}
 
 	/**
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLEquivalentClassesAxiom)
 	 */
+	@Override
 	public Integer visit(OWLEquivalentClassesAxiom axiom) {
 		return this.getNaryClassAxiomHashCode(axiom);
 	}
@@ -396,6 +457,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLDataPropertyAssertionAxiom)
 	 */
+	@Override
 	public Integer visit(OWLDataPropertyAssertionAxiom axiom) {
 		return this.getPropertyAssertionHashCode(axiom);
 	}
@@ -404,6 +466,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLTransitiveObjectPropertyAxiom)
 	 */
+	@Override
 	public Integer visit(OWLTransitiveObjectPropertyAxiom axiom) {
 		return this.getOWLObjectPropertyCharacteristicAxiomHashCode(axiom);
 	}
@@ -412,6 +475,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLIrreflexiveObjectPropertyAxiom)
 	 */
+	@Override
 	public Integer visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
 		return this.getOWLObjectPropertyCharacteristicAxiomHashCode(axiom);
 	}
@@ -420,7 +484,8 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLDataSubPropertyAxiom)
 	 */
-	public Integer visit(OWLDataSubPropertyAxiom axiom) {
+	@Override
+	public Integer visit(OWLSubDataPropertyOfAxiom axiom) {
 		return this.getOWLSubPropertyAxiomHashCode(axiom);
 	}
 
@@ -428,6 +493,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLInverseFunctionalObjectPropertyAxiom)
 	 */
+	@Override
 	public Integer visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
 		return this.getOWLObjectPropertyCharacteristicAxiomHashCode(axiom);
 	}
@@ -436,7 +502,8 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLSameIndividualsAxiom)
 	 */
-	public Integer visit(OWLSameIndividualsAxiom axiom) {
+	@Override
+	public Integer visit(OWLSameIndividualAxiom axiom) {
 		return this.getNaryIndividualAxiomHashCode(axiom);
 	}
 
@@ -444,31 +511,19 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLObjectPropertyChainSubPropertyAxiom)
 	 */
-	public Integer visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
+	@Override
+	public Integer visit(OWLSubPropertyChainOfAxiom axiom) {
 		return this.getAxiomTypeHashValue(axiom.getAxiomType())
 				* axiom.getSuperProperty().accept(this)
 				* this.getOWLConstructHashCode(OWLConstruct.PROPERTY_CHAIN)
-				* this.getCollectionHashCode(axiom.getPropertyChain())
-		// * this.getSequenceHashCode(axiom.getPropertyChain())
-		;
+				* this.getCollectionHashCode(axiom.getPropertyChain());
 	}
 
-	// private Integer getSequenceHashCode(List<? extends OWLObject> sequence) {
-	// Integer toReturn =
-	// StructuralHashFunction.sequenceHashCodes.get(sequence);
-	// if (toReturn == null) {
-	// toReturn = this.createHashCode(sequence);
-	// }
-	// return toReturn;
-	// }
-	// protected int createHashCode(List<? extends OWLObject> sequence) {
-	// return this.createHashCode(sequence,
-	// StructuralHashFunction.sequenceHashCodes);
-	// }
 	/**
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLInverseObjectPropertiesAxiom)
 	 */
+	@Override
 	public Integer visit(OWLInverseObjectPropertiesAxiom axiom) {
 		return this.getNaryPropertyAxiomHashCode(axiom);
 	}
@@ -477,17 +532,24 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLAxiomVisitorEx#visit(org.semanticweb.owl
 	 *      .model.SWRLRule)
 	 */
+	@Override
 	public Integer visit(SWRLRule axiom) {
 		return this.getAxiomTypeHashValue(axiom.getAxiomType()) * axiom.getBody().hashCode()
 				* axiom.getHead().hashCode();
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLClass)
 	 */
+	@Override
 	public Integer visit(OWLClass owlClass) {
 		return this.getOWLEntityHashCode(owlClass);
+	}
+
+	@Override
+	public Integer visit(IRI iri) {
+		return this.getIRIHashCode(iri);
 	}
 
 	private int getOWLEntityHashCode(OWLEntity owlEntity) {
@@ -500,14 +562,18 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 			}
 
 			public OWLEntity visit(OWLObjectProperty property) {
-				return OWLVocabulary.getTopOWLObjectProperty();
+				return OWLVocabulary.getOWLTopObjectProperty();
 			}
 
 			public OWLEntity visit(OWLDataProperty property) {
-				return OWLVocabulary.getTopOWLDataProperty();
+				return OWLVocabulary.getOWLTopDataProperty();
 			}
 
-			public OWLEntity visit(OWLIndividual individual) {
+			public OWLEntity visit(OWLAnnotationProperty property) {
+				return OWLVocabulary.getTopDatatype();
+			}
+
+			public OWLEntity visit(OWLNamedIndividual individual) {
 				// We return the same prime as the one corresponding to
 				// an
 				// OWLClass as there can never be a structure where an
@@ -516,8 +582,8 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 				return OWLVocabulary.getOWLThing();
 			}
 
-			public OWLEntity visit(OWLDataType dataType) {
-				return OWLVocabulary.getTopDataType();
+			public OWLEntity visit(OWLDatatype dataType) {
+				return OWLVocabulary.getTopDatatype();
 			}
 		});
 		Integer toReturn = entityHashCodes.get(representative);
@@ -532,9 +598,10 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLObjectIntersectionOf)
 	 */
+	@Override
 	public Integer visit(OWLObjectIntersectionOf description) {
 		return this.getNaryBooleanClassDescriptionHasCode(description);
 	}
@@ -543,7 +610,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @param description
 	 * @return
 	 */
-	private int getNaryBooleanClassDescriptionHasCode(OWLNaryBooleanDescription description) {
+	private int getNaryBooleanClassDescriptionHasCode(OWLNaryBooleanClassExpression description) {
 		return this.getOWLConstructHashCode(OWLConstruct.getOWLConstruct(description))
 				* this.getCollectionHashCode(description.getOperands());
 	}
@@ -561,27 +628,30 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLObjectUnionOf)
 	 */
+	@Override
 	public Integer visit(OWLObjectUnionOf description) {
 		return this.getNaryBooleanClassDescriptionHasCode(description);
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLObjectComplementOf)
 	 */
+	@Override
 	public Integer visit(OWLObjectComplementOf description) {
 		return this.getOWLConstructHashCode(OWLConstruct.getOWLConstruct(description))
 				* description.getOperand().accept(this);
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLObjectSomeRestriction)
 	 */
-	public Integer visit(OWLObjectSomeRestriction description) {
+	@Override
+	public Integer visit(OWLObjectSomeValuesFrom description) {
 		return this.getOWLQuantifiedRestrictionHashCode(description);
 	}
 
@@ -595,18 +665,20 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLObjectAllRestriction)
 	 */
-	public Integer visit(OWLObjectAllRestriction description) {
+	@Override
+	public Integer visit(OWLObjectAllValuesFrom description) {
 		return this.getOWLQuantifiedRestrictionHashCode(description);
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLObjectValueRestriction)
 	 */
-	public Integer visit(OWLObjectValueRestriction description) {
+	@Override
+	public Integer visit(OWLObjectHasValue description) {
 		return this.getOWLValueRestricitonHashCode(description);
 	}
 
@@ -614,16 +686,17 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @param description
 	 * @return
 	 */
-	private int getOWLValueRestricitonHashCode(OWLValueRestriction<?, ?> description) {
+	private int getOWLValueRestricitonHashCode(OWLHasValueRestriction<?, ?> description) {
 		return this.getOWLConstructHashCode(OWLConstruct.getOWLConstruct(description))
 				* description.getProperty().accept(this) * description.getValue().accept(this);
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLObjectMinCardinalityRestriction)
 	 */
-	public Integer visit(OWLObjectMinCardinalityRestriction description) {
+	@Override
+	public Integer visit(OWLObjectMinCardinality description) {
 		return this.getOWLCardinalityRestrictionHashCode(description);
 	}
 
@@ -650,92 +723,103 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLObjectExactCardinalityRestriction)
 	 */
-	public Integer visit(OWLObjectExactCardinalityRestriction description) {
+	@Override
+	public Integer visit(OWLObjectExactCardinality description) {
 		return this.getOWLCardinalityRestrictionHashCode(description);
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLObjectMaxCardinalityRestriction)
 	 */
-	public Integer visit(OWLObjectMaxCardinalityRestriction descrption) {
+	@Override
+	public Integer visit(OWLObjectMaxCardinality descrption) {
 		return this.getOWLCardinalityRestrictionHashCode(descrption);
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLObjectSelfRestriction)
 	 */
-	public Integer visit(OWLObjectSelfRestriction description) {
+	@Override
+	public Integer visit(OWLObjectHasSelf description) {
 		return this.getOWLConstructHashCode(OWLConstruct.getOWLConstruct(description))
 				* description.getProperty().accept(this);
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLObjectOneOf)
 	 */
+	@Override
 	public Integer visit(OWLObjectOneOf description) {
 		return this.getOWLConstructHashCode(OWLConstruct.getOWLConstruct(description))
 				* this.getCollectionHashCode(description.getIndividuals());
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLDataSomeRestriction)
 	 */
-	public Integer visit(OWLDataSomeRestriction description) {
+	@Override
+	public Integer visit(OWLDataSomeValuesFrom description) {
 		return this.getOWLQuantifiedRestrictionHashCode(description);
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLDataAllRestriction)
 	 */
-	public Integer visit(OWLDataAllRestriction description) {
+	@Override
+	public Integer visit(OWLDataAllValuesFrom description) {
 		return this.getOWLQuantifiedRestrictionHashCode(description);
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLDataValueRestriction)
 	 */
-	public Integer visit(OWLDataValueRestriction description) {
+	@Override
+	public Integer visit(OWLDataHasValue description) {
 		return this.getOWLValueRestricitonHashCode(description);
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLDataMinCardinalityRestriction)
 	 */
-	public Integer visit(OWLDataMinCardinalityRestriction description) {
+	@Override
+	public Integer visit(OWLDataMinCardinality description) {
 		return this.getOWLCardinalityRestrictionHashCode(description);
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLDataExactCardinalityRestriction)
 	 */
-	public Integer visit(OWLDataExactCardinalityRestriction description) {
+	@Override
+	public Integer visit(OWLDataExactCardinality description) {
 		return this.getOWLCardinalityRestrictionHashCode(description);
 	}
 
 	/**
-	 * @see org.semanticweb.owl.model.OWLDescriptionVisitorEx#visit(org.semanticweb
+	 * @see org.semanticweb.owl.model.OWLClassExpressionVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLDataMaxCardinalityRestriction)
 	 */
-	public Integer visit(OWLDataMaxCardinalityRestriction description) {
+	@Override
+	public Integer visit(OWLDataMaxCardinality description) {
 		return this.getOWLCardinalityRestrictionHashCode(description);
 	}
 
 	/**
 	 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.
-	 *      model.OWLDataType)
+	 *      model.OWLDatatype)
 	 */
-	public Integer visit(OWLDataType dataType) {
+	@Override
+	public Integer visit(OWLDatatype dataType) {
 		return this.getOWLEntityHashCode(dataType);
 	}
 
@@ -750,6 +834,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.
 	 *      model.OWLDataComplementOf)
 	 */
+	@Override
 	public Integer visit(OWLDataComplementOf dataComplementOf) {
 		return this.getOWLConstructHashCode(OWLConstruct.getOWLConstruct(dataComplementOf))
 				* dataComplementOf.getDataRange().accept(this);
@@ -759,6 +844,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.
 	 *      model.OWLDataOneOf)
 	 */
+	@Override
 	public Integer visit(OWLDataOneOf dataOneOf) {
 		return this.getOWLConstructHashCode(OWLConstruct.getOWLConstruct(dataOneOf))
 				* this.getCollectionHashCode(dataOneOf.getValues());
@@ -768,9 +854,10 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.
 	 *      model.OWLDataRangeRestriction)
 	 */
-	public Integer visit(OWLDataRangeRestriction dataRangeRestriction) {
+	@Override
+	public Integer visit(OWLDatatypeRestriction dataRangeRestriction) {
 		return this.getOWLConstructHashCode(OWLConstruct.getOWLConstruct(dataRangeRestriction))
-				* dataRangeRestriction.getDataRange().accept(this)
+				* dataRangeRestriction.getDatatype().accept(this)
 				* (dataRangeRestriction.getFacetRestrictions().isEmpty() ? 1
 						: this.getCollectionHashCode(dataRangeRestriction.getFacetRestrictions()));
 	}
@@ -779,37 +866,27 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.
 	 *      model.OWLTypedConstant)
 	 */
-	public Integer visit(OWLTypedConstant constant) {
+	@Override
+	public Integer visit(OWLLiteral constant) {
 		return this.getOWLConstantHashCode(constant);
 	}
 
-	private Integer getOWLConstantHashCode(OWLConstant constant) {
+	private Integer getOWLConstantHashCode(OWLLiteral constant) {
 		// For each constant a single representative will be used for computing
 		// the corresponding prime.
-		Integer toReturn = entityHashCodes.get(OWLVocabulary.getTopDataType());
+		Integer toReturn = entityHashCodes.get(OWLVocabulary.getTopDatatype());
 		if (toReturn == null) {
-			toReturn = this.createHashCode(OWLVocabulary.getTopDataType());
+			toReturn = this.createHashCode(OWLVocabulary.getTopDatatype());
 		}
 		return toReturn;
-	}
-
-	// protected int createHashCode(OWLConstant constant) {
-	// return this.createHashCode(OWLVocabulary.getTopDataType(),
-	// entityHashCodes);
-	// }
-	/**
-	 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.
-	 *      model.OWLUntypedConstant)
-	 */
-	public Integer visit(OWLUntypedConstant constant) {
-		return this.getOWLConstantHashCode(constant);
 	}
 
 	/**
 	 * @see org.semanticweb.owl.model.OWLDataVisitorEx#visit(org.semanticweb.owl.
 	 *      model.OWLDataRangeFacetRestriction)
 	 */
-	public Integer visit(OWLDataRangeFacetRestriction facet) {
+	@Override
+	public Integer visit(OWLFacetRestriction facet) {
 		return this.getOWLConstructHashCode(OWLConstruct.getOWLConstruct(facet))
 				* facet.getFacetValue().accept(this);
 	}
@@ -818,6 +895,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLPropertyExpressionVisitorEx#visit(org.
 	 *      semanticweb . owl . model . OWLObjectProperty )
 	 */
+	@Override
 	public Integer visit(OWLObjectProperty property) {
 		return this.getOWLEntityHashCode(property);
 	}
@@ -826,7 +904,8 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLPropertyExpressionVisitorEx#visit(org.
 	 *      semanticweb . owl . model . OWLObjectPropertyInverse )
 	 */
-	public Integer visit(OWLObjectPropertyInverse inverse) {
+	@Override
+	public Integer visit(OWLObjectInverseOf inverse) {
 		return this.getOWLConstructHashCode(OWLConstruct.getOWLConstruct(inverse))
 				* inverse.getInverseProperty().accept(this);
 	}
@@ -835,6 +914,7 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLPropertyExpressionVisitorEx#visit(org.
 	 *      semanticweb . owl . model . OWLDataProperty )
 	 */
+	@Override
 	public Integer visit(OWLDataProperty property) {
 		return this.getOWLEntityHashCode(property);
 	}
@@ -843,122 +923,18 @@ public class StructuralHashFunction implements HashFunction, OWLObjectVisitorEx<
 	 * @see org.semanticweb.owl.model.OWLEntityVisitorEx#visit(org.semanticweb.owl
 	 *      .model.OWLIndividual)
 	 */
-	public Integer visit(OWLIndividual individual) {
+	@Override
+	public Integer visit(OWLNamedIndividual individual) {
 		return this.getOWLEntityHashCode(individual);
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.OWLAnnotationVisitorEx#visit(org.semanticweb
-	 *      .owl.model.OWLObjectAnnotation)
-	 */
-	public Integer visit(OWLObjectAnnotation objectAnnotation) {
-		return this.getURIHashCode(objectAnnotation.getAnnotationURI())
-				* objectAnnotation.getAnnotationValue().accept(this);
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.OWLAnnotationVisitorEx#visit(org.semanticweb
-	 *      .owl.model.OWLConstantAnnotation)
-	 */
-	public Integer visit(OWLConstantAnnotation annotation) {
-		return this.getURIHashCode(annotation.getAnnotationURI())
-				* annotation.getAnnotationValue().accept(this);
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.SWRLObjectVisitorEx#visit(org.semanticweb.owl
-	 *      .model.SWRLClassAtom)
-	 */
-	public Integer visit(SWRLClassAtom arg0) {
-		return 1;
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.SWRLObjectVisitorEx#visit(org.semanticweb.owl
-	 *      .model.SWRLDataRangeAtom)
-	 */
-	public Integer visit(SWRLDataRangeAtom arg0) {
-		return 1;
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.SWRLObjectVisitorEx#visit(org.semanticweb.owl
-	 *      .model.SWRLObjectPropertyAtom)
-	 */
-	public Integer visit(SWRLObjectPropertyAtom arg0) {
-		return 1;
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.SWRLObjectVisitorEx#visit(org.semanticweb.owl
-	 *      .model.SWRLDataValuedPropertyAtom)
-	 */
-	public Integer visit(SWRLDataValuedPropertyAtom arg0) {
-		return 1;
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.SWRLObjectVisitorEx#visit(org.semanticweb.owl
-	 *      .model.SWRLBuiltInAtom)
-	 */
-	public Integer visit(SWRLBuiltInAtom arg0) {
-		return 1;
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.SWRLObjectVisitorEx#visit(org.semanticweb.owl
-	 *      .model.SWRLAtomDVariable)
-	 */
-	public Integer visit(SWRLAtomDVariable arg0) {
-		return 1;
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.SWRLObjectVisitorEx#visit(org.semanticweb.owl
-	 *      .model.SWRLAtomIVariable)
-	 */
-	public Integer visit(SWRLAtomIVariable arg0) {
-		return 1;
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.SWRLObjectVisitorEx#visit(org.semanticweb.owl
-	 *      .model.SWRLAtomIndividualObject)
-	 */
-	public Integer visit(SWRLAtomIndividualObject arg0) {
-		return 1;
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.SWRLObjectVisitorEx#visit(org.semanticweb.owl
-	 *      .model.SWRLAtomConstantObject)
-	 */
-	public Integer visit(SWRLAtomConstantObject arg0) {
-		return 1;
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.SWRLObjectVisitorEx#visit(org.semanticweb.owl
-	 *      .model.SWRLSameAsAtom)
-	 */
-	public Integer visit(SWRLSameAsAtom arg0) {
-		return 1;
-	}
-
-	/**
-	 * @see org.semanticweb.owl.model.SWRLObjectVisitorEx#visit(org.semanticweb.owl
-	 *      .model.SWRLDifferentFromAtom)
-	 */
-	public Integer visit(SWRLDifferentFromAtom arg0) {
-		return 1;
 	}
 
 	/**
 	 * @see org.semanticweb.owl.model.OWLNamedObjectVisitorEx#visit(org.semanticweb
 	 *      .owl.model.OWLOntology)
 	 */
+	@Override
 	public Integer visit(OWLOntology ontology) {
-		return this.getURIHashCode(ontology.getURI());
+		return this.getIRIHashCode(ontology.getOntologyID().getOntologyIRI());
 	}
 
 	/**

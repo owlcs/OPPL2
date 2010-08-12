@@ -24,12 +24,11 @@ package org.coode.oppl.utils;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLTypedConstant;
-import org.semanticweb.owl.model.OWLUntypedConstant;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 /**
  * Detects the presence of a particular variable in an OWLObject instance.
@@ -43,45 +42,33 @@ public class NamedVariableDetector extends AbstractVariableDetector {
 	/**
 	 * @param constraintSystem
 	 */
-	public NamedVariableDetector(Variable variable,
-			ConstraintSystem constraintSystem) {
+	public NamedVariableDetector(Variable variable, ConstraintSystem constraintSystem) {
 		super(constraintSystem);
 		this.variable = variable;
 	}
 
 	public Boolean visit(OWLClass desc) {
-		return this.constraintSystem.isVariableURI(desc.getURI())
-				&& this.constraintSystem.getVariable(desc.getURI()).equals(
-						this.variable);
+		return this.constraintSystem.isVariableIRI(desc.getIRI())
+				&& this.constraintSystem.getVariable(desc.getIRI()).equals(this.variable);
 	}
 
-	public Boolean visit(OWLTypedConstant node) {
+	public Boolean visit(OWLLiteral node) {
 		return this.constraintSystem.isVariable(node)
-				&& this.constraintSystem.getVariable(node.getLiteral()).equals(
-						this.variable);
-	}
-
-	public Boolean visit(OWLUntypedConstant node) {
-		return this.constraintSystem.isVariable(node)
-				&& this.constraintSystem.getVariable(node.getLiteral()).equals(
-						this.variable);
+				&& this.constraintSystem.getVariable(node.getLiteral()).equals(this.variable);
 	}
 
 	public Boolean visit(OWLObjectProperty property) {
 		return this.constraintSystem.isVariable(property)
-				&& this.constraintSystem.getVariable(property.getURI()).equals(
-						this.variable);
+				&& this.constraintSystem.getVariable(property.getIRI()).equals(this.variable);
 	}
 
 	public Boolean visit(OWLDataProperty property) {
 		return this.constraintSystem.isVariable(property)
-				&& this.constraintSystem.getVariable(property.getURI()).equals(
-						this.variable);
+				&& this.constraintSystem.getVariable(property.getIRI()).equals(this.variable);
 	}
 
-	public Boolean visit(OWLIndividual individual) {
+	public Boolean visit(OWLNamedIndividual individual) {
 		return this.constraintSystem.isVariable(individual)
-				&& this.constraintSystem.getVariable(individual.getURI())
-						.equals(this.variable);
+				&& this.constraintSystem.getVariable(individual.getIRI()).equals(this.variable);
 	}
 }

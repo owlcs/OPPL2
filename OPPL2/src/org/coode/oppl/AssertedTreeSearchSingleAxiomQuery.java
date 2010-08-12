@@ -41,9 +41,9 @@ import org.coode.oppl.search.SearchTree;
 import org.coode.oppl.similarity.OWLObjectStructuralPrimeHashingBasedSimilarityMeasure;
 import org.coode.oppl.utils.OWLObjectExtractor;
 import org.coode.oppl.utils.VariableExtractor;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
  * @author Luigi Iannone

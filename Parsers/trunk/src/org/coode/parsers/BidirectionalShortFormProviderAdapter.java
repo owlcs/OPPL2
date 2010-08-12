@@ -4,17 +4,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.semanticweb.owl.model.AddAxiom;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLException;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyChange;
-import org.semanticweb.owl.model.OWLOntologyChangeListener;
-import org.semanticweb.owl.model.OWLOntologyLoaderListener;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.model.RemoveAxiom;
-import org.semanticweb.owl.util.CachingBidirectionalShortFormProvider;
-import org.semanticweb.owl.util.ShortFormProvider;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
+import org.semanticweb.owlapi.model.OWLOntologyLoaderListener;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.util.CachingBidirectionalShortFormProvider;
+import org.semanticweb.owlapi.util.ReferencedEntitySetProvider;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * Author: Matthew Horridge<br>
@@ -35,8 +36,7 @@ public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalS
 			BidirectionalShortFormProviderAdapter.this.ontologies.clear();
 			BidirectionalShortFormProviderAdapter.this.ontologies.addAll(BidirectionalShortFormProviderAdapter.this.man.getOntologies());
 			BidirectionalShortFormProviderAdapter.this.rebuild(new ReferencedEntitySetProvider(
-					BidirectionalShortFormProviderAdapter.this.ontologies,
-					BidirectionalShortFormProviderAdapter.this.man.getOWLDataFactory()));
+					BidirectionalShortFormProviderAdapter.this.ontologies));
 		}
 
 		public void startedLoadingOntology(LoadingStartedEvent event) {
@@ -80,7 +80,7 @@ public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalS
 		this.shortFormProvider = shortFormProvider;
 		this.man = man;
 		this.man.addOntologyChangeListener(this.changeListener);
-		this.rebuild(new ReferencedEntitySetProvider(ontologies, man.getOWLDataFactory()));
+		this.rebuild(new ReferencedEntitySetProvider(ontologies));
 		man.addOntologyLoaderListener(this.loaderListener);
 	}
 
@@ -120,7 +120,7 @@ public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalS
 							processed.add(ent);
 							boolean stillRef = false;
 							for (OWLOntology ont : this.ontologies) {
-								if (ont.containsEntityReference(ent)) {
+								if (ont.containsEntityInSignature(ent)) {
 									stillRef = true;
 									break;
 								}

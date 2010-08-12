@@ -1,6 +1,5 @@
 package org.coode.parsers.oppl.test;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import junit.framework.TestCase;
@@ -33,10 +32,11 @@ import org.coode.parsers.oppl.OPPLTypeEnforcement;
 import org.coode.parsers.oppl.OPPLTypes;
 import org.coode.parsers.oppl.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.test.ComprehensiveAxiomTestCase;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * Test for the AST generation for OPPL
@@ -83,9 +83,9 @@ public class OPPLScriptTypesParserTest extends TestCase {
 
 	static {
 		try {
-			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
-					"syntaxTest.owl").toURI());
+			ONTOLOGY_MANAGER.loadOntologyFromOntologyDocument(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI.create(ComprehensiveAxiomTestCase.class.getResource(
+					"syntaxTest.owl").toURI()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -106,8 +106,8 @@ public class OPPLScriptTypesParserTest extends TestCase {
 	public void testGeneratedVariable() {
 		OWLOntology ontology;
 		try {
-			ontology = ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(this.getClass().getResource(
-					"ondrejTest.owl").toURI());
+			ontology = ONTOLOGY_MANAGER.loadOntologyFromOntologyDocument(IRI.create(this.getClass().getResource(
+					"ondrejTest.owl").toURI()));
 			String query = "?x:CLASS, ?y:OBJECTPROPERTY = MATCH(\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x subClassOf ?y some ?z BEGIN REMOVE ?x subClassOf ?y some ?z, ADD ?x subClassOf !hasFeature some (?feature and !hasValue some ?z) END;";
 			OPPLSyntaxTree parsed = this.parse(query, ontology);
 			System.out.println(parsed.toStringTree());

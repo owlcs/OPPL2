@@ -22,7 +22,7 @@
  */
 package org.coode.oppl;
 
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * 

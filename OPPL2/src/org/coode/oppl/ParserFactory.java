@@ -5,9 +5,9 @@ import org.coode.parsers.ErrorListener;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.oppl.factory.SimpleSymbolTableFactory;
-import org.semanticweb.owl.inference.OWLReasoner;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 public class ParserFactory implements AbstractParserFactory {
 	private final OWLOntologyManager ontologyManager;

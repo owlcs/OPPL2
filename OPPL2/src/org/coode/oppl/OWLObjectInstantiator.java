@@ -23,10 +23,8 @@
 package org.coode.oppl;
 
 import org.coode.oppl.bindingtree.BindingNode;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLTypedConstant;
-import org.semanticweb.owl.model.OWLUntypedConstant;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone
@@ -38,27 +36,13 @@ public class OWLObjectInstantiator extends AbstractOWLObjectInstantiator {
 	}
 
 	@Override
-	public OWLObject visit(OWLTypedConstant node) {
-		OWLConstant toReturn = node;
+	public OWLObject visit(OWLLiteral node) {
+		OWLLiteral toReturn = node;
 		if (this.getConstraintSystem().isVariable(node)) {
 			// XXX the other OwlOBjectInstantiator uses getLiteral - is this the
 			// same?
-			Variable variable = this.getConstraintSystem().getVariable(
-					node.toString());
-			toReturn = (OWLConstant) this.getBindingNode().getAssignmentValue(
-					variable);
-		}
-		return toReturn;
-	}
-
-	@Override
-	public OWLObject visit(OWLUntypedConstant node) {
-		OWLConstant toReturn = node;
-		if (this.getConstraintSystem().isVariable(node)) {
-			Variable variable = this.getConstraintSystem().getVariable(
-					node.getLiteral());
-			toReturn = (OWLConstant) this.getBindingNode().getAssignmentValue(
-					variable);
+			Variable variable = this.getConstraintSystem().getVariable(node.toString());
+			toReturn = (OWLLiteral) this.getBindingNode().getAssignmentValue(variable);
 		}
 		return toReturn;
 	}

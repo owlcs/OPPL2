@@ -3,7 +3,7 @@ package org.coode.oppl.generated;
 import java.util.List;
 
 import org.coode.oppl.Variable;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public interface AttributeGenerator<N> {
 	/**

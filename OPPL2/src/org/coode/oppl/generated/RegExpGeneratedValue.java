@@ -12,18 +12,17 @@ import java.util.regex.Pattern;
 
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.entity.OWLEntityRenderer;
-import org.coode.oppl.utils.DefaultOWLObjectVisitorEx;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLTypedConstant;
-import org.semanticweb.owl.model.OWLUntypedConstant;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 public abstract class RegExpGeneratedValue<O extends OWLObject> extends
-		DefaultOWLObjectVisitorEx<List<String>> implements SingleValueGeneratedValue<List<O>> {
+		OWLObjectVisitorExAdapter<List<String>> implements SingleValueGeneratedValue<List<O>> {
 	private final OWLEntityRenderer renderer;
 	private final SingleValueGeneratedValue<String> expression;
 	private final List<O> candidates = new ArrayList<O>();
@@ -32,6 +31,7 @@ public abstract class RegExpGeneratedValue<O extends OWLObject> extends
 
 	private RegExpGeneratedValue(Collection<? extends O> candidates,
 			SingleValueGeneratedValue<String> exp, OWLEntityRenderer r) {
+		super(Collections.<String> emptyList());
 		this.candidates.addAll(candidates);
 		this.expression = exp;
 		this.renderer = r;
@@ -65,9 +65,9 @@ public abstract class RegExpGeneratedValue<O extends OWLObject> extends
 	}
 
 	private String render(O owlObject) {
-		DefaultOWLObjectVisitorEx<String> myRenderer = new DefaultOWLObjectVisitorEx<String>() {
+		OWLObjectVisitorExAdapter<String> myRenderer = new OWLObjectVisitorExAdapter<String>() {
 			@Override
-			protected String doDefault(OWLObject object) {
+			protected String getDefaultReturnValue(OWLObject object) {
 				return object.toString();
 			}
 
@@ -87,7 +87,7 @@ public abstract class RegExpGeneratedValue<O extends OWLObject> extends
 			}
 
 			@Override
-			public String visit(OWLIndividual individual) {
+			public String visit(OWLNamedIndividual individual) {
 				return RegExpGeneratedValue.this.renderer.render(individual);
 			}
 		};
@@ -124,13 +124,6 @@ public abstract class RegExpGeneratedValue<O extends OWLObject> extends
 		return Collections.emptyList();
 	}
 
-	// Overriding of
-	// org.coode.oppl.utils.DefaultOWLObjectVisitorEx<List<String>>
-	@Override
-	protected List<String> doDefault(OWLObject object) {
-		return Collections.emptyList();
-	}
-
 	@Override
 	public List<String> visit(OWLClass cls) {
 		return this.retrieve(cls);
@@ -147,17 +140,12 @@ public abstract class RegExpGeneratedValue<O extends OWLObject> extends
 	}
 
 	@Override
-	public List<String> visit(OWLIndividual individual) {
+	public List<String> visit(OWLNamedIndividual individual) {
 		return this.retrieve(individual);
 	}
 
 	@Override
-	public List<String> visit(OWLTypedConstant node) {
-		return this.retrieve(node);
-	}
-
-	@Override
-	public List<String> visit(OWLUntypedConstant node) {
+	public List<String> visit(OWLLiteral node) {
 		return this.retrieve(node);
 	}
 
@@ -233,12 +221,12 @@ public abstract class RegExpGeneratedValue<O extends OWLObject> extends
 		};
 	}
 
-	public static RegExpGeneratedValue<OWLConstant> getOWLConstantExpGeneratedValue(
-			Collection<? extends OWLConstant> candidates, SingleValueGeneratedValue<String> exp,
+	public static RegExpGeneratedValue<OWLLiteral> getOWLConstantExpGeneratedValue(
+			Collection<? extends OWLLiteral> candidates, SingleValueGeneratedValue<String> exp,
 			OWLEntityRenderer r) {
-		return new RegExpGeneratedValue<OWLConstant>(candidates, exp, r) {
+		return new RegExpGeneratedValue<OWLLiteral>(candidates, exp, r) {
 			@Override
-			public RegExpGenerated<OWLConstant> getGeneratedVariable(String name) {
+			public RegExpGenerated<OWLLiteral> getGeneratedVariable(String name) {
 				return new RegExpCONSTANTVariable(name, this);
 			}
 		};

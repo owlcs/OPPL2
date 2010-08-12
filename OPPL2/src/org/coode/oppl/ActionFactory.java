@@ -28,11 +28,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.bindingtree.BindingNode;
-import org.semanticweb.owl.model.AddAxiom;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.RemoveAxiom;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.RemoveAxiom;
 
 /**
  * Adapts actions to appropriate changes

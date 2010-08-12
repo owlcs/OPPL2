@@ -14,7 +14,7 @@ import org.coode.oppl.generated.AbstractCollectionGeneratedValue;
 import org.coode.oppl.generated.Attribute;
 import org.coode.oppl.generated.SingleValueGeneratedValueVisitor;
 import org.coode.oppl.generated.SingleValueGeneratedValueVisitorEx;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public class OWLObjectCollectionGeneratedValue extends
 		AbstractCollectionGeneratedValue<OWLObject> {

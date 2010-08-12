@@ -28,8 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * Constraint that verifies whether a variable values are contained in a
@@ -38,8 +37,7 @@ import org.semanticweb.owl.model.OWLObject;
  * @author Luigi Iannone
  * 
  */
-public class InCollectionConstraint<P extends OWLObject> implements
-		AbstractConstraint {
+public class InCollectionConstraint<P extends OWLObject> implements AbstractConstraint {
 	private final Variable variable;
 	private final Set<P> collection = new HashSet<P>();
 	private final ConstraintSystem constraintSystem;
@@ -49,36 +47,31 @@ public class InCollectionConstraint<P extends OWLObject> implements
 	 * @param collection
 	 * @param constraintSystem
 	 */
-	public InCollectionConstraint(Variable variable,
-			Collection<? extends P> collection,
+	public InCollectionConstraint(Variable variable, Collection<? extends P> collection,
 			ConstraintSystem constraintSystem) {
 		if (variable == null) {
 			throw new NullPointerException("The variable cannot be null");
 		}
 		if (collection == null) {
-			throw new NullPointerException(
-					"The collection of values cannot be null");
+			throw new NullPointerException("The collection of values cannot be null");
 		}
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The constraint system cannot be null");
+			throw new NullPointerException("The constraint system cannot be null");
 		}
 		if (collection.isEmpty()) {
-			throw new IllegalArgumentException(
-					"The collection of values cannot be empty");
+			throw new IllegalArgumentException("The collection of values cannot be empty");
 		}
 		for (P p : collection) {
 			if (!variable.getType().isCompatibleWith(p)) {
-				ManchesterSyntaxRenderer manchesterSyntaxRenderer = constraintSystem
-						.getOPPLFactory().getManchesterSyntaxRenderer(
-								constraintSystem);
+				ManchesterSyntaxRenderer manchesterSyntaxRenderer = constraintSystem.getOPPLFactory().getManchesterSyntaxRenderer(
+						constraintSystem);
 				p.accept(manchesterSyntaxRenderer);
 				Formatter formatter = new Formatter();
-				formatter
-						.format(
-								"The value %s is incompatible with variable %s of type %s",
-								manchesterSyntaxRenderer.toString(), variable,
-								variable.getType());
+				formatter.format(
+						"The value %s is incompatible with variable %s of type %s",
+						manchesterSyntaxRenderer.toString(),
+						variable,
+						variable.getType());
 				throw new IllegalArgumentException(formatter.out().toString());
 			}
 		}
@@ -135,18 +128,14 @@ public class InCollectionConstraint<P extends OWLObject> implements
 		buffer.append(" IN {");
 		boolean first = true;
 		String comma;
-		SimpleVariableShortFormProvider simpleVariableShortFormProvider = new SimpleVariableShortFormProvider(
-				this.constraintSystem);
 		for (P p : this.collection) {
+			ManchesterSyntaxRenderer manchesterSyntaxRenderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+					this.getConstraintSystem());
 			comma = !first ? ", " : "";
 			first = false;
 			buffer.append(comma);
-			if (p instanceof OWLEntity) {
-				buffer.append(simpleVariableShortFormProvider
-						.getShortForm((OWLEntity) p));
-			} else {
-				buffer.append(p.toString());
-			}
+			p.accept(manchesterSyntaxRenderer);
+			buffer.append(manchesterSyntaxRenderer.toString());
 		}
 		buffer.append('}');
 		return buffer.toString();
@@ -162,9 +151,8 @@ public class InCollectionConstraint<P extends OWLObject> implements
 			comma = !first ? ", " : "";
 			first = false;
 			buffer.append(comma);
-			ManchesterSyntaxRenderer renderer = this.getConstraintSystem()
-					.getOPPLFactory().getManchesterSyntaxRenderer(
-							this.getConstraintSystem());
+			ManchesterSyntaxRenderer renderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+					this.getConstraintSystem());
 			p.accept(renderer);
 			buffer.append(renderer.toString());
 		}

@@ -29,9 +29,10 @@ import org.coode.parsers.SymbolTable;
 import org.coode.parsers.SystemErrorEcho;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * @author Luigi Iannone
@@ -64,9 +65,9 @@ public class TestExpressionParsing extends TestCase {
 	private SymbolTable symtab;
 	static {
 		try {
-			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-			ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
-					"syntaxTest.owl").toURI());
+			ONTOLOGY_MANAGER.loadOntologyFromOntologyDocument(IRI.create(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
+			ONTOLOGY_MANAGER.loadOntology(IRI.create(ComprehensiveAxiomTestCase.class.getResource(
+					"syntaxTest.owl").toURI()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {

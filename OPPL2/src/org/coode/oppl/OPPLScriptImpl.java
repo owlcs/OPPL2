@@ -27,8 +27,8 @@ import java.util.List;
 
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.visitors.InputVariableCollector;
-import org.semanticweb.owl.model.AddAxiom;
-import org.semanticweb.owl.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /**
  * @author Luigi Iannone

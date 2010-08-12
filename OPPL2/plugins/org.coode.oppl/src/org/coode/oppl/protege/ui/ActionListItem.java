@@ -23,8 +23,8 @@
 package org.coode.oppl.protege.ui;
 
 import org.protege.editor.core.ui.list.MListItem;
-import org.semanticweb.owl.model.AddAxiom;
-import org.semanticweb.owl.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /**
  * @author Luigi Iannone

@@ -6,14 +6,15 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDataType;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * Author: Matthew Horridge<br>
@@ -69,20 +70,20 @@ public class EntityFinderImpl implements EntityFinder {
 		return this.getEntities(match, OWLDataProperty.class, fullRegExp);
 	}
 
-	public Set<OWLIndividual> getMatchingOWLIndividuals(String match) {
-		return this.getEntities(match, OWLIndividual.class, this.useRegularExpressions);
+	public Set<OWLNamedIndividual> getMatchingOWLIndividuals(String match) {
+		return this.getEntities(match, OWLNamedIndividual.class, this.useRegularExpressions);
 	}
 
-	public Set<OWLIndividual> getMatchingOWLIndividuals(String match, boolean fullRegExp) {
-		return this.getEntities(match, OWLIndividual.class, fullRegExp);
+	public Set<OWLNamedIndividual> getMatchingOWLIndividuals(String match, boolean fullRegExp) {
+		return this.getEntities(match, OWLNamedIndividual.class, fullRegExp);
 	}
 
-	public Set<OWLDataType> getMatchingOWLDataTypes(String match) {
-		return this.getEntities(match, OWLDataType.class, this.useRegularExpressions);
+	public Set<OWLDatatype> getMatchingOWLDataTypes(String match) {
+		return this.getEntities(match, OWLDatatype.class, this.useRegularExpressions);
 	}
 
-	public Set<OWLDataType> getMatchingOWLDataTypes(String match, boolean fullRegExp) {
-		return this.getEntities(match, OWLDataType.class, fullRegExp);
+	public Set<OWLDatatype> getMatchingOWLDataTypes(String match, boolean fullRegExp) {
+		return this.getEntities(match, OWLDatatype.class, fullRegExp);
 	}
 
 	public Set<OWLEntity> getEntities(String match) {
@@ -180,23 +181,21 @@ public class EntityFinderImpl implements EntityFinder {
 
 	@SuppressWarnings("unchecked")
 	private <T extends OWLEntity> Set<T> getAllEntities(Class<T> type) {
-		if (type.equals(OWLDataType.class)) {
-			return (Set<T>) new OWLDataTypeUtils(this.manager).getKnownDatatypes(this.manager.getOntologies());
-		} else {
-			Set<T> entities = new HashSet<T>();
-			for (OWLOntology ont : this.manager.getOntologies()) {
-				if (type.equals(OWLClass.class)) {
-					entities.addAll((Set<T>) ont.getReferencedClasses());
-				} else if (type.equals(OWLObjectProperty.class)) {
-					entities.addAll((Set<T>) ont.getReferencedObjectProperties());
-				} else if (type.equals(OWLDataProperty.class)) {
-					entities.addAll((Set<T>) ont.getReferencedDataProperties());
-				} else if (type.equals(OWLIndividual.class)) {
-					entities.addAll((Set<T>) ont.getReferencedIndividuals());
-				}
+		Set<T> entities = new HashSet<T>();
+		for (OWLOntology ont : this.manager.getOntologies()) {
+			if (type.equals(OWLClass.class)) {
+				entities.addAll((Set<T>) ont.getClassesInSignature());
+			} else if (type.equals(OWLObjectProperty.class)) {
+				entities.addAll((Set<T>) ont.getObjectPropertiesInSignature());
+			} else if (type.equals(OWLDataProperty.class)) {
+				entities.addAll((Set<T>) ont.getDataPropertiesInSignature());
+			} else if (type.equals(OWLIndividual.class)) {
+				entities.addAll((Set<T>) ont.getIndividualsInSignature());
+			} else if (type.equals(OWLDatatype.class)) {
+				entities.addAll((Set<T>) ont.getDatatypesInSignature());
 			}
-			return entities;
 		}
+		return entities;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -209,7 +208,7 @@ public class EntityFinderImpl implements EntityFinder {
 			return (T) this.renderingCache.getOWLDataProperty(rendering);
 		} else if (type.equals(OWLIndividual.class)) {
 			return (T) this.renderingCache.getOWLIndividual(rendering);
-		} else if (type.equals(OWLDataType.class)) {
+		} else if (type.equals(OWLDatatype.class)) {
 			return (T) this.renderingCache.getOWLDataType(rendering);
 		} else {
 			return (T) this.renderingCache.getOWLEntity(rendering);
@@ -225,7 +224,7 @@ public class EntityFinderImpl implements EntityFinder {
 			return this.renderingCache.getOWLDataPropertyRenderings();
 		} else if (type.equals(OWLIndividual.class)) {
 			return this.renderingCache.getOWLIndividualRenderings();
-		} else if (type.equals(OWLDataType.class)) {
+		} else if (type.equals(OWLDatatype.class)) {
 			return this.renderingCache.getOWLDatatypeRenderings();
 		} else {
 			return this.renderingCache.getOWLEntityRenderings();

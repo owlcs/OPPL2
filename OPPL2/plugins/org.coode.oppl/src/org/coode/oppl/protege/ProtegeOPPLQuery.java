@@ -29,7 +29,7 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.exceptions.OPPLException;
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owl.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**
  * @author Luigi Iannone

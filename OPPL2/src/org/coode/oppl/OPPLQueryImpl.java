@@ -33,12 +33,11 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.log.Logging;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.protege.editor.owl.model.inference.NoOpReasoner;
-import org.semanticweb.owl.inference.OWLReasonerException;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLException;
-import org.semanticweb.owl.model.OWLOntologyChange;
-import org.semanticweb.owl.model.OWLOntologyChangeListener;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 
 /**
  * @author Luigi Iannone
@@ -282,17 +281,17 @@ public class OPPLQueryImpl implements OPPLQuery {
 			try {
 				this.doExecute();
 				this.setDirty(false);
-			} catch (OWLReasonerException e) {
+			} catch (OWLRuntimeException e) {
 				throw new OPPLException("Query threw an reasoning exception", e);
 			}
 		}
 	}
 
 	/**
-	 * @throws OWLReasonerException
+	 * @throws OWLRuntimeException
 	 * 
 	 */
-	private void doExecute() throws OWLReasonerException {
+	private void doExecute() throws OWLRuntimeException {
 		this.getConstraintSystem().reset();
 		for (OWLAxiom axiom : this.getAssertedAxioms()) {
 			this.matchAssertedAxiom(axiom);
@@ -322,7 +321,7 @@ public class OPPLQueryImpl implements OPPLQuery {
 		}
 	}
 
-	private void matchAxiom(OWLAxiom axiom) throws OWLReasonerException {
+	private void matchAxiom(OWLAxiom axiom) throws OWLRuntimeException {
 		assert axiom != null;
 		this.updateBindings(axiom);
 	}
@@ -332,7 +331,7 @@ public class OPPLQueryImpl implements OPPLQuery {
 		this.updateBindingsAssertedAxiom(axiom);
 	}
 
-	private void updateBindings(OWLAxiom axiom) throws OWLReasonerException {
+	private void updateBindings(OWLAxiom axiom) throws OWLRuntimeException {
 		assert axiom != null;
 		if (this.isVariableAxiom(axiom)) {
 			Logging.getQueryLogger().log(
@@ -340,16 +339,7 @@ public class OPPLQueryImpl implements OPPLQuery {
 					"Initial size: "
 							+ (this.getConstraintSystem().getLeaves() == null ? "empty"
 									: this.getConstraintSystem().getLeaves().size()));
-			// AxiomQuery query = this.getConstraintSystem().getReasoner() ==
-			// null
-			// || this.getConstraintSystem().getReasoner() instanceof
-			// NoOpReasoner ? new AssertedTreeSearchSingleAxiomQuery(
-			// this.getConstraintSystem().getOntologyManager()
-			// .getOntologies(), this.getConstraintSystem())
-			// : new InferredAxiomQuery(this.getConstraintSystem(), this
-			// .getConstraintSystem().getReasoner());
-			AxiomQuery query = this.getConstraintSystem().getReasoner() == null
-					|| this.getConstraintSystem().getReasoner() instanceof NoOpReasoner ? new AssertedTreeSearchSingleAxiomQuery(
+			AxiomQuery query = this.getConstraintSystem().getReasoner() == null ? new AssertedTreeSearchSingleAxiomQuery(
 					this.getConstraintSystem().getOntologyManager().getOntologies(),
 					this.getConstraintSystem()) : new InferredTreeSearchAxiomQuery(
 					this.getConstraintSystem());

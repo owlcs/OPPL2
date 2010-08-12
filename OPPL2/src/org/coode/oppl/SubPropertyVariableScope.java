@@ -25,11 +25,11 @@ package org.coode.oppl;
 import java.util.Set;
 
 import org.coode.oppl.VariableScopes.Direction;
-import org.semanticweb.owl.inference.OWLReasonerException;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLProperty;
-import org.semanticweb.owl.model.OWLPropertyExpression;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLProperty;
+import org.semanticweb.owlapi.model.OWLPropertyExpression;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 
 /**
  * Represents a range limitations that could be added to a
@@ -48,7 +48,7 @@ public class SubPropertyVariableScope<P extends OWLPropertyExpression<?, ?>> ext
 	}
 
 	public boolean check(OWLObject owlObject, VariableScopeChecker checker)
-			throws OWLReasonerException {
+			throws OWLRuntimeException {
 		return owlObject instanceof OWLProperty
 				&& this.check(this.getProperty(), checker.getOntologyManager().getOntologies());
 	}

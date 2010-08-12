@@ -30,15 +30,15 @@ import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.rendering.VariableOWLEntityRenderer;
 import org.coode.oppl.utils.ArgCheck;
-import org.semanticweb.owl.expression.OWLEntityChecker;
-import org.semanticweb.owl.expression.ShortFormEntityChecker;
-import org.semanticweb.owl.inference.OWLReasoner;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLDataFactory;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.util.BidirectionalShortFormProviderAdapter;
-import org.semanticweb.owl.util.SimpleShortFormProvider;
+import org.semanticweb.owlapi.expression.OWLEntityChecker;
+import org.semanticweb.owlapi.expression.ShortFormEntityChecker;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.util.BidirectionalShortFormProviderAdapter;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -133,7 +133,7 @@ public class OPPLFactory implements OPPLAbstractFactory {
 
 	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs) {
 		ArgCheck.checkNullArgument("The constraint system", cs);
-		return new ManchesterSyntaxRenderer(this.ontologyManager, this.getOWLEntityRenderer(cs), cs);
+		return new ManchesterSyntaxRenderer(new SimpleShortFormProvider());
 	}
 
 	public OWLOntologyManager getOntologyManager() {

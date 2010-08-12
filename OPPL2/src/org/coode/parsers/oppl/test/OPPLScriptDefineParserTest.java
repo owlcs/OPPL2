@@ -1,6 +1,5 @@
 package org.coode.parsers.oppl.test;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Set;
 
@@ -31,10 +30,11 @@ import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.test.ComprehensiveAxiomTestCase;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * Test for the AST generation for OPPL
@@ -81,9 +81,9 @@ public class OPPLScriptDefineParserTest extends TestCase {
 
 	static {
 		try {
-			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
-					"syntaxTest.owl").toURI());
+			ONTOLOGY_MANAGER.loadOntologyFromOntologyDocument(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI.create(ComprehensiveAxiomTestCase.class.getResource(
+					"syntaxTest.owl").toURI()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {

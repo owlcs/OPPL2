@@ -22,9 +22,8 @@
  */
 package org.coode.oppl;
 
-import java.net.URI;
-
 import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.semanticweb.owlapi.model.IRI;
 
 /**
  * Any variable not generated implements this interface; generated variables
@@ -44,7 +43,7 @@ public interface Variable {
 	/**
 	 * @return an URI for the Variable
 	 */
-	public URI getURI();
+	public IRI getIRI();
 
 	/**
 	 * @return the type of the Variable
@@ -59,14 +58,14 @@ public interface Variable {
 	 * @param variableScope
 	 * @param variableScopeChecker
 	 */
-	public void setVariableScope(VariableScope variableScope,
+	public void setVariableScope(VariableScope<?> variableScope,
 			VariableScopeChecker variableScopeChecker);
 
 	/**
 	 * @return the scope for the Variable (can be null if not previously
 	 *         assigned)
 	 */
-	public VariableScope getVariableScope();
+	public VariableScope<?> getVariableScope();
 
 	/**
 	 * Visitor pattern interface method for visitors with return type

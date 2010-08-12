@@ -36,7 +36,7 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.generated.RegExpGeneratedValue;
 import org.coode.oppl.generated.SingleValueGeneratedValue;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * Constraint that verifies whether a variable values are contained in a

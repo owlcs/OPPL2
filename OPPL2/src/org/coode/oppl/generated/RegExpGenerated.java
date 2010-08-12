@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public interface RegExpGenerated<P extends OWLObject> extends Variable {
 	public RegExpGeneratedValue<P> getValue();

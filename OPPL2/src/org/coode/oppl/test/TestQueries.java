@@ -1,7 +1,6 @@
 package org.coode.oppl.test;
 
 import java.io.StringWriter;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -46,27 +45,28 @@ import org.coode.oppl.variabletypes.INDIVIDUALVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Type;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.AddAxiom;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataFactory;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyChangeException;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
-import org.semanticweb.owl.model.RemoveAxiom;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyChangeException;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.RemoveAxiom;
 
 public class TestQueries extends TestCase {
 	private enum DescriptionType {
-		// visit(OWLObjectSelfRestriction)
+		// visit(OWLObjectHasSelf)
 		CLASS, OWLDATARESTRICTION, OWLDATAEXACTCARDINALITYRESTRICTION, OWLDATAMINCARDINALITYRESTRICTION, OWLDATAMAXCARDINALITYRESTRICTION, OWLDATASOMERESTRICTION, OWLDATAVALUERESTRICTION, OWLOBJECTALLRESTRICTION, OWLOBJECTCOMPLEMENTOF, OWLOBJECTEXACTCARDINALITYRESTRICTION, OWLOBJECTINTERSECTIONOF, OWLOBJECTEXACTCARDINALITYRESTRCTION, OWLOBJECTMAXCARDINALITYRESTRICTION, OWLOBJECTMINCARDINALITYRESTRICTION, OWLOBJECTONEOF, OWLOBJECTSOMERESTRICTION, OWLOBJECTUNIONOF, OWLOBJECTVALUERESTRICTION
 	}
 
@@ -126,7 +126,7 @@ public class TestQueries extends TestCase {
 			fail(out.toString());
 		}
 	};
-	private final static URI TEST_NS = URI.create("http://www.co-ode.org/opp/test#");
+	private final static IRI TEST_NS = IRI.create("http://www.co-ode.org/opp/test#");
 
 	@Override
 	protected void setUp() throws Exception {
@@ -204,44 +204,33 @@ public class TestQueries extends TestCase {
 			public OWLObject visit(SingleValueGeneratedVariable<?> v) {
 				return v.getType().buildOWLObject(
 						dataFactory,
-						URI.create(TEST_NS.toString() + string),
+						IRI.create(TEST_NS.toString() + string),
 						null);
 			}
 
 			public OWLObject visit(INDIVIDUALVariable v) {
-				return dataFactory.getOWLIndividual(URI.create(TEST_NS.toString() + string));
+				return dataFactory.getOWLNamedIndividual(IRI.create(TEST_NS.toString() + string));
 			}
 
 			public OWLObject visit(DATAPROPERTYVariable v) {
-				return dataFactory.getOWLDataProperty(URI.create(TEST_NS.toString() + string));
+				return dataFactory.getOWLDataProperty(IRI.create(TEST_NS.toString() + string));
 			}
 
 			public OWLObject visit(OBJECTPROPERTYVariable v) {
-				return dataFactory.getOWLObjectProperty(URI.create(TEST_NS.toString() + string));
+				return dataFactory.getOWLObjectProperty(IRI.create(TEST_NS.toString() + string));
 			}
 
 			public OWLObject visit(CONSTANTVariable v) {
-				return dataFactory.getOWLUntypedConstant(string);
+				return dataFactory.getOWLLiteral(string);
 			}
 
 			public OWLObject visit(CLASSVariable v) {
-				return dataFactory.getOWLClass(URI.create(TEST_NS.toString() + string));
+				return dataFactory.getOWLClass(IRI.create(TEST_NS.toString() + string));
 			}
 		};
 		return variable.accept(visitor);
-		// switch (variable.getType()) {
-		// case CLASS:
-		//
-		// case OBJECTPROPERTY:
-		// case DATAPROPERTY:
-		// case INDIVIDUAL:
-		// case CONSTANT:
-		// default:
-		// return null;
-		// }
 	}
 
-	// TRANSITIVE_OBJECT_PROPERTY : AxiomType<OWLTransitiveObjectPropertyAxiom>
 	public void testTransitiveObjectPropertyQuery() {
 		String opplString = "?x:OBJECTPROPERTY SELECT ASSERTED Transitive ?x BEGIN ADD transitive ?x END;";
 		this.genericTestQuery(opplString);
@@ -405,14 +394,16 @@ public class TestQueries extends TestCase {
 			OWLOntology testOntology = ontologyManager.createOntology(TEST_NS);
 			OPPLAbstractFactory opplFactory = new OPPLFactory(ontologyManager, testOntology, null);
 			ConstraintSystem cs = opplFactory.createConstraintSystem();
-			Set<OWLDescription> subClasses = this.generateClasses(dataFactory, 0, cs);
-			Set<OWLDescription> superClasses = this.generateClasses(dataFactory, 1, cs);
+			Set<OWLClassExpression> subClasses = this.generateClasses(dataFactory, 0, cs);
+			Set<OWLClassExpression> superClasses = this.generateClasses(dataFactory, 1, cs);
 			VariableExtractor variableExtractor = new VariableExtractor(cs, false);
 			int testSize = subClasses.size() * superClasses.size();
 			int i = 1;
-			for (OWLDescription subClass : subClasses) {
-				for (OWLDescription superClass : superClasses) {
-					OWLSubClassAxiom axiom = dataFactory.getOWLSubClassAxiom(subClass, superClass);
+			for (OWLClassExpression subClass : subClasses) {
+				for (OWLClassExpression superClass : superClasses) {
+					OWLSubClassOfAxiom axiom = dataFactory.getOWLSubClassOfAxiom(
+							subClass,
+							superClass);
 					Set<Variable> variables = variableExtractor.extractVariables(axiom);
 					OPPLQuery query = opplFactory.buildNewQuery(cs);
 					query.addAssertedAxiom(axiom);
@@ -531,10 +522,10 @@ public class TestQueries extends TestCase {
 		return correctResults;
 	}
 
-	private Set<OWLDescription> generateClasses(OWLDataFactory dataFactory, int counter,
+	private Set<OWLClassExpression> generateClasses(OWLDataFactory dataFactory, int counter,
 			ConstraintSystem cs) throws OPPLException {
 		EnumSet<DescriptionType> descriptionTypes = EnumSet.allOf(DescriptionType.class);
-		Set<OWLDescription> toReturn = new HashSet<OWLDescription>();
+		Set<OWLClassExpression> toReturn = new HashSet<OWLClassExpression>();
 		for (DescriptionType descriptionType : descriptionTypes) {
 			Variable classVariable = cs.createVariable("?aClass_" + counter, VariableType.CLASS);
 			Variable anotherClassVariable = cs.createVariable(
@@ -557,80 +548,80 @@ public class TestQueries extends TestCase {
 					VariableType.INDIVIDUAL);
 			switch (descriptionType) {
 			case CLASS:
-				toReturn.add(dataFactory.getOWLClass(classVariable.getURI()));
+				toReturn.add(dataFactory.getOWLClass(classVariable.getIRI()));
 				break;
 			case OWLDATAEXACTCARDINALITYRESTRICTION:
-				toReturn.add(dataFactory.getOWLDataExactCardinalityRestriction(
-						dataFactory.getOWLDataProperty(dataPropertyVariable.getURI()),
-						3));
+				toReturn.add(dataFactory.getOWLDataExactCardinality(
+						3,
+						dataFactory.getOWLDataProperty(dataPropertyVariable.getIRI())));
 				break;
 			case OWLDATAMAXCARDINALITYRESTRICTION:
-				toReturn.add(dataFactory.getOWLDataMaxCardinalityRestriction(
-						dataFactory.getOWLDataProperty(dataPropertyVariable.getURI()),
-						3));
+				toReturn.add(dataFactory.getOWLDataMaxCardinality(
+						3,
+						dataFactory.getOWLDataProperty(dataPropertyVariable.getIRI())));
 				break;
 			case OWLDATAMINCARDINALITYRESTRICTION:
-				toReturn.add(dataFactory.getOWLDataMinCardinalityRestriction(
-						dataFactory.getOWLDataProperty(dataPropertyVariable.getURI()),
-						3));
+				toReturn.add(dataFactory.getOWLDataMinCardinality(
+						3,
+						dataFactory.getOWLDataProperty(dataPropertyVariable.getIRI())));
 				break;
 			case OWLDATAVALUERESTRICTION:
-				toReturn.add(dataFactory.getOWLDataValueRestriction(
-						dataFactory.getOWLDataProperty(dataPropertyVariable.getURI()),
-						dataFactory.getOWLUntypedConstant(constantVariable.getName())));
+				toReturn.add(dataFactory.getOWLDataHasValue(
+						dataFactory.getOWLDataProperty(dataPropertyVariable.getIRI()),
+						dataFactory.getOWLLiteral(constantVariable.getName())));
 				break;
 			case OWLOBJECTALLRESTRICTION:
-				toReturn.add(dataFactory.getOWLObjectAllRestriction(
-						dataFactory.getOWLObjectProperty(objectPropertyVariable.getURI()),
-						dataFactory.getOWLClass(classVariable.getURI())));
+				toReturn.add(dataFactory.getOWLObjectAllValuesFrom(
+						dataFactory.getOWLObjectProperty(objectPropertyVariable.getIRI()),
+						dataFactory.getOWLClass(classVariable.getIRI())));
 				break;
 			case OWLOBJECTCOMPLEMENTOF:
-				toReturn.add(dataFactory.getOWLObjectComplementOf(dataFactory.getOWLClass(classVariable.getURI())));
+				toReturn.add(dataFactory.getOWLObjectComplementOf(dataFactory.getOWLClass(classVariable.getIRI())));
 				break;
 			case OWLOBJECTEXACTCARDINALITYRESTRICTION:
-				toReturn.add(dataFactory.getOWLObjectExactCardinalityRestriction(
-						dataFactory.getOWLObjectProperty(objectPropertyVariable.getURI()),
-						2));
+				toReturn.add(dataFactory.getOWLObjectExactCardinality(
+						2,
+						dataFactory.getOWLObjectProperty(objectPropertyVariable.getIRI())));
 				break;
 			case OWLOBJECTINTERSECTIONOF:
 				toReturn.add(dataFactory.getOWLObjectIntersectionOf(
-						dataFactory.getOWLClass(classVariable.getURI()),
-						dataFactory.getOWLClass(anotherClassVariable.getURI())));
+						dataFactory.getOWLClass(classVariable.getIRI()),
+						dataFactory.getOWLClass(anotherClassVariable.getIRI())));
 				break;
 			case OWLOBJECTEXACTCARDINALITYRESTRCTION:
-				toReturn.add(dataFactory.getOWLObjectExactCardinalityRestriction(
-						dataFactory.getOWLObjectProperty(objectPropertyVariable.getURI()),
-						4));
+				toReturn.add(dataFactory.getOWLObjectExactCardinality(
+						4,
+						dataFactory.getOWLObjectProperty(objectPropertyVariable.getIRI())));
 				break;
 			case OWLOBJECTMINCARDINALITYRESTRICTION:
-				toReturn.add(dataFactory.getOWLObjectMinCardinalityRestriction(
-						dataFactory.getOWLObjectProperty(objectPropertyVariable.getURI()),
-						4));
+				toReturn.add(dataFactory.getOWLObjectMinCardinality(
+						4,
+						dataFactory.getOWLObjectProperty(objectPropertyVariable.getIRI())));
 				break;
 			case OWLOBJECTSOMERESTRICTION:
-				toReturn.add(dataFactory.getOWLObjectSomeRestriction(
-						dataFactory.getOWLObjectProperty(objectPropertyVariable.getURI()),
-						dataFactory.getOWLClass(classVariable.getURI())));
+				toReturn.add(dataFactory.getOWLObjectSomeValuesFrom(
+						dataFactory.getOWLObjectProperty(objectPropertyVariable.getIRI()),
+						dataFactory.getOWLClass(classVariable.getIRI())));
 				break;
 			case OWLOBJECTONEOF:
 				toReturn.add(dataFactory.getOWLObjectOneOf(
-						dataFactory.getOWLIndividual(anIndividualVariable.getURI()),
-						dataFactory.getOWLIndividual(anotherIndividualVariable.getURI())));
+						dataFactory.getOWLNamedIndividual(anIndividualVariable.getIRI()),
+						dataFactory.getOWLNamedIndividual(anotherIndividualVariable.getIRI())));
 				break;
 			case OWLOBJECTUNIONOF:
 				toReturn.add(dataFactory.getOWLObjectUnionOf(
-						dataFactory.getOWLClass(classVariable.getURI()),
-						dataFactory.getOWLClass(anotherClassVariable.getURI())));
+						dataFactory.getOWLClass(classVariable.getIRI()),
+						dataFactory.getOWLClass(anotherClassVariable.getIRI())));
 				break;
 			case OWLOBJECTVALUERESTRICTION:
-				toReturn.add(dataFactory.getOWLObjectValueRestriction(
-						dataFactory.getOWLObjectProperty(objectPropertyVariable.getURI()),
-						dataFactory.getOWLIndividual(anIndividualVariable.getURI())));
+				toReturn.add(dataFactory.getOWLObjectHasValue(
+						dataFactory.getOWLObjectProperty(objectPropertyVariable.getIRI()),
+						dataFactory.getOWLNamedIndividual(anIndividualVariable.getIRI())));
 				break;
 			case OWLOBJECTMAXCARDINALITYRESTRICTION:
-				toReturn.add(dataFactory.getOWLObjectMaxCardinalityRestriction(
-						dataFactory.getOWLObjectProperty(objectPropertyVariable.getURI()),
-						4));
+				toReturn.add(dataFactory.getOWLObjectMaxCardinality(
+						4,
+						dataFactory.getOWLObjectProperty(objectPropertyVariable.getIRI())));
 				break;
 			default:
 				break;
@@ -645,9 +636,9 @@ public class TestQueries extends TestCase {
 		try {
 			testOntology = ontologyManager.createOntology(TEST_NS);
 			OWLDataFactory dataFactory = ontologyManager.getOWLDataFactory();
-			OWLObjectProperty aProperty = dataFactory.getOWLObjectProperty(URI.create(TEST_NS.toString()
+			OWLObjectProperty aProperty = dataFactory.getOWLObjectProperty(IRI.create(TEST_NS.toString()
 					+ "aProperty"));
-			OWLObjectProperty anotherProperty = dataFactory.getOWLObjectProperty(URI.create(TEST_NS.toString()
+			OWLObjectProperty anotherProperty = dataFactory.getOWLObjectProperty(IRI.create(TEST_NS.toString()
 					+ "anotherProperty"));
 			ontologyManager.applyChange(new AddAxiom(testOntology,
 					dataFactory.getOWLEquivalentObjectPropertiesAxiom(aProperty, anotherProperty)));
@@ -674,9 +665,9 @@ public class TestQueries extends TestCase {
 		try {
 			testOntology = ontologyManager.createOntology(TEST_NS);
 			OWLDataFactory dataFactory = ontologyManager.getOWLDataFactory();
-			OWLDataProperty aProperty = dataFactory.getOWLDataProperty(URI.create(TEST_NS.toString()
+			OWLDataProperty aProperty = dataFactory.getOWLDataProperty(IRI.create(TEST_NS.toString()
 					+ "aProperty"));
-			OWLDataProperty anotherProperty = dataFactory.getOWLDataProperty(URI.create(TEST_NS.toString()
+			OWLDataProperty anotherProperty = dataFactory.getOWLDataProperty(IRI.create(TEST_NS.toString()
 					+ "anotherProperty"));
 			ontologyManager.applyChange(new AddAxiom(testOntology,
 					dataFactory.getOWLEquivalentDataPropertiesAxiom(aProperty, anotherProperty)));
@@ -703,9 +694,9 @@ public class TestQueries extends TestCase {
 		try {
 			testOntology = ontologyManager.createOntology(TEST_NS);
 			OWLDataFactory dataFactory = ontologyManager.getOWLDataFactory();
-			OWLDataProperty aProperty = dataFactory.getOWLDataProperty(URI.create(TEST_NS.toString()
+			OWLDataProperty aProperty = dataFactory.getOWLDataProperty(IRI.create(TEST_NS.toString()
 					+ "aProperty"));
-			OWLDataProperty anotherProperty = dataFactory.getOWLDataProperty(URI.create(TEST_NS.toString()
+			OWLDataProperty anotherProperty = dataFactory.getOWLDataProperty(IRI.create(TEST_NS.toString()
 					+ "anotherProperty"));
 			ontologyManager.applyChange(new AddAxiom(testOntology,
 					dataFactory.getOWLDisjointDataPropertiesAxiom(aProperty, anotherProperty)));
@@ -732,9 +723,9 @@ public class TestQueries extends TestCase {
 		try {
 			testOntology = ontologyManager.createOntology(TEST_NS);
 			OWLDataFactory dataFactory = ontologyManager.getOWLDataFactory();
-			OWLObjectProperty aProperty = dataFactory.getOWLObjectProperty(URI.create(TEST_NS.toString()
+			OWLObjectProperty aProperty = dataFactory.getOWLObjectProperty(IRI.create(TEST_NS.toString()
 					+ "aProperty"));
-			OWLObjectProperty anotherProperty = dataFactory.getOWLObjectProperty(URI.create(TEST_NS.toString()
+			OWLObjectProperty anotherProperty = dataFactory.getOWLObjectProperty(IRI.create(TEST_NS.toString()
 					+ "anotherProperty"));
 			ontologyManager.applyChange(new AddAxiom(testOntology,
 					dataFactory.getOWLDisjointObjectPropertiesAxiom(aProperty, anotherProperty)));
@@ -761,8 +752,8 @@ public class TestQueries extends TestCase {
 		try {
 			testOntology = ontologyManager.createOntology(TEST_NS);
 			OWLDataFactory dataFactory = ontologyManager.getOWLDataFactory();
-			OWLClass aClass = dataFactory.getOWLClass(URI.create(TEST_NS.toString() + "aClass"));
-			OWLClass anotherClass = dataFactory.getOWLClass(URI.create(TEST_NS.toString()
+			OWLClass aClass = dataFactory.getOWLClass(IRI.create(TEST_NS.toString() + "aClass"));
+			OWLClass anotherClass = dataFactory.getOWLClass(IRI.create(TEST_NS.toString()
 					+ "anotherClass"));
 			ontologyManager.applyChange(new AddAxiom(testOntology,
 					dataFactory.getOWLEquivalentClassesAxiom(aClass, anotherClass)));
@@ -789,8 +780,8 @@ public class TestQueries extends TestCase {
 		try {
 			testOntology = ontologyManager.createOntology(TEST_NS);
 			OWLDataFactory dataFactory = ontologyManager.getOWLDataFactory();
-			OWLClass aClass = dataFactory.getOWLClass(URI.create(TEST_NS.toString() + "aClass"));
-			OWLClass anotherClass = dataFactory.getOWLClass(URI.create(TEST_NS.toString()
+			OWLClass aClass = dataFactory.getOWLClass(IRI.create(TEST_NS.toString() + "aClass"));
+			OWLClass anotherClass = dataFactory.getOWLClass(IRI.create(TEST_NS.toString()
 					+ "anotherClass"));
 			ontologyManager.applyChange(new AddAxiom(testOntology,
 					dataFactory.getOWLDisjointClassesAxiom(aClass, anotherClass)));
@@ -817,13 +808,14 @@ public class TestQueries extends TestCase {
 		try {
 			testOntology = ontologyManager.createOntology(TEST_NS);
 			OWLDataFactory dataFactory = ontologyManager.getOWLDataFactory();
-			OWLIndividual anIndividual = dataFactory.getOWLIndividual(URI.create(TEST_NS.toString()
+			OWLIndividual anIndividual = dataFactory.getOWLNamedIndividual(IRI.create(TEST_NS.toString()
 					+ "anIndividual"));
-			OWLIndividual anotherIndividual = dataFactory.getOWLIndividual(URI.create(TEST_NS.toString()
+			OWLIndividual anotherIndividual = dataFactory.getOWLNamedIndividual(IRI.create(TEST_NS.toString()
 					+ "anotherIndividual"));
 			ontologyManager.applyChange(new AddAxiom(testOntology,
-					dataFactory.getOWLSameIndividualsAxiom(new HashSet<OWLIndividual>(
-							Arrays.asList(anIndividual, anotherIndividual)))));
+					dataFactory.getOWLSameIndividualAxiom(new HashSet<OWLIndividual>(Arrays.asList(
+							anIndividual,
+							anotherIndividual)))));
 			String opplString = "?x:INDIVIDUAL, ?y:INDIVIDUAL SELECT ASSERTED ?x SameAs ?y BEGIN ADD ?x SameAs ?y END;";
 			OPPLScript opplScript = this.parseScript(opplString, ontologyManager, testOntology);
 			Set<OWLAxiom> results = this.getOPPLScriptResults(opplScript);
@@ -847,9 +839,9 @@ public class TestQueries extends TestCase {
 		try {
 			testOntology = ontologyManager.createOntology(TEST_NS);
 			OWLDataFactory dataFactory = ontologyManager.getOWLDataFactory();
-			OWLIndividual anIndividual = dataFactory.getOWLIndividual(URI.create(TEST_NS.toString()
+			OWLIndividual anIndividual = dataFactory.getOWLNamedIndividual(IRI.create(TEST_NS.toString()
 					+ "anIndividual"));
-			OWLIndividual anotherIndividual = dataFactory.getOWLIndividual(URI.create(TEST_NS.toString()
+			OWLIndividual anotherIndividual = dataFactory.getOWLNamedIndividual(IRI.create(TEST_NS.toString()
 					+ "anotherIndividual"));
 			ontologyManager.applyChange(new AddAxiom(testOntology,
 					dataFactory.getOWLDifferentIndividualsAxiom(anIndividual, anotherIndividual)));
@@ -876,12 +868,13 @@ public class TestQueries extends TestCase {
 		try {
 			testOntology = ontologyManager.createOntology(TEST_NS);
 			OWLDataFactory dataFactory = ontologyManager.getOWLDataFactory();
-			OWLClass aClass = dataFactory.getOWLClass(URI.create(TEST_NS.toString() + "A"));
-			OWLClass anotherClass = dataFactory.getOWLClass(URI.create(TEST_NS.toString() + "B"));
-			OWLClass yetAnotherClass = dataFactory.getOWLClass(URI.create(TEST_NS.toString() + "C"));
-			ontologyManager.applyChange(new AddAxiom(testOntology, dataFactory.getOWLSubClassAxiom(
-					dataFactory.getOWLObjectIntersectionOf(aClass, anotherClass),
-					yetAnotherClass)));
+			OWLClass aClass = dataFactory.getOWLClass(IRI.create(TEST_NS.toString() + "A"));
+			OWLClass anotherClass = dataFactory.getOWLClass(IRI.create(TEST_NS.toString() + "B"));
+			OWLClass yetAnotherClass = dataFactory.getOWLClass(IRI.create(TEST_NS.toString() + "C"));
+			ontologyManager.applyChange(new AddAxiom(testOntology,
+					dataFactory.getOWLSubClassOfAxiom(
+							dataFactory.getOWLObjectIntersectionOf(aClass, anotherClass),
+							yetAnotherClass)));
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x and ?y subClassOf C BEGIN ADD ?x and ?y subClassOf C END;";
 			OPPLScript opplScript = this.parseScript(opplString, ontologyManager, testOntology);
 			Set<OWLAxiom> results = this.getOPPLScriptResults(opplScript);

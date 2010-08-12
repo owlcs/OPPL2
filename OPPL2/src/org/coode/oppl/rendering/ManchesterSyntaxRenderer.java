@@ -22,236 +22,794 @@
  */
 package org.coode.oppl.rendering;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.io.StringWriter;
 
-import org.coode.oppl.ConstraintSystem;
-import org.coode.oppl.Variable;
-import org.coode.oppl.entity.OWLEntityRenderer;
 import org.coode.oppl.utils.ArgCheck;
-import org.protege.editor.owl.ui.renderer.OWLRendererPreferences;
-import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLClassAssertionAxiom;
-import org.semanticweb.owl.model.OWLConstantAnnotation;
-import org.semanticweb.owl.model.OWLDataPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owl.model.OWLImportsDeclaration;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObjectAnnotation;
-import org.semanticweb.owl.model.OWLObjectIntersectionOf;
-import org.semanticweb.owl.model.OWLObjectPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLObjectUnionOf;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.model.OWLRestriction;
-import org.semanticweb.owl.model.OWLUntypedConstant;
-import org.semanticweb.owl.util.SimpleURIShortFormProvider;
-import org.semanticweb.owl.util.URIShortFormProvider;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLAnnotationPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
+import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataComplementOf;
+import org.semanticweb.owlapi.model.OWLDataExactCardinality;
+import org.semanticweb.owlapi.model.OWLDataHasValue;
+import org.semanticweb.owlapi.model.OWLDataIntersectionOf;
+import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
+import org.semanticweb.owlapi.model.OWLDataMinCardinality;
+import org.semanticweb.owlapi.model.OWLDataOneOf;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataUnionOf;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLDatatypeDefinitionAxiom;
+import org.semanticweb.owlapi.model.OWLDatatypeRestriction;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLFacetRestriction;
+import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLHasKeyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectComplementOf;
+import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
+import org.semanticweb.owlapi.model.OWLObjectHasSelf;
+import org.semanticweb.owlapi.model.OWLObjectHasValue;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
+import org.semanticweb.owlapi.model.OWLObjectInverseOf;
+import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
+import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLObjectVisitor;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
+import org.semanticweb.owlapi.model.OWLSubAnnotationPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom;
+import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.SWRLBuiltInAtom;
+import org.semanticweb.owlapi.model.SWRLClassAtom;
+import org.semanticweb.owlapi.model.SWRLDataPropertyAtom;
+import org.semanticweb.owlapi.model.SWRLDataRangeAtom;
+import org.semanticweb.owlapi.model.SWRLDifferentIndividualsAtom;
+import org.semanticweb.owlapi.model.SWRLIndividualArgument;
+import org.semanticweb.owlapi.model.SWRLLiteralArgument;
+import org.semanticweb.owlapi.model.SWRLObjectPropertyAtom;
+import org.semanticweb.owlapi.model.SWRLRule;
+import org.semanticweb.owlapi.model.SWRLSameIndividualAtom;
+import org.semanticweb.owlapi.model.SWRLVariable;
+import org.semanticweb.owlapi.util.ShortFormProvider;
+
+import uk.ac.manchester.cs.owl.owlapi.mansyntaxrenderer.ManchesterOWLSyntaxObjectRenderer;
 
 /**
  * @author Luigi Iannone
  * 
  */
-public class ManchesterSyntaxRenderer extends AbstractRenderer {
-	private final OWLOntologyManager ontologyManager;
-	private final ConstraintSystem constraintSystem;
+public class ManchesterSyntaxRenderer implements OWLObjectVisitor {
+	private final OWLObjectVisitor delegate;
+	private final StringWriter out = new StringWriter();
 
 	/**
 	 * Builds a renderer in Manchester OWL Syntax <b>non frame based</b>
 	 * 
-	 * @param ontologyManager
-	 *            Cannot be {@code null}.
-	 * @param entityRenderer
-	 *            the renderer according to which the named entities will be
-	 *            rendered. Cannot be {@code null}.
-	 * @param constraintSystem
-	 *            the ConstraintSystem . Cannot be {@code null}.
+	 * @param shortFormProvider
+	 *            The ShortFormProvide this rendere will use. Cannot be
+	 *            {@code null}.
 	 * @throws NullPointerException
 	 *             if any of the inputs is {@code null}.
 	 */
-	public ManchesterSyntaxRenderer(OWLOntologyManager ontologyManager,
-			OWLEntityRenderer entityRenderer, ConstraintSystem constraintSystem) {
-		ArgCheck.checkNullArgument("The ontology manager", ontologyManager);
-		ArgCheck.checkNullArgument("The entity renderer", entityRenderer);
-		ArgCheck.checkNullArgument("The constraint system", constraintSystem);
-		this.ontologyManager = ontologyManager;
-		this.entityRenderer = entityRenderer;
-		this.constraintSystem = constraintSystem;
-		init();
+	public ManchesterSyntaxRenderer(ShortFormProvider shortFormProvider) {
+		ArgCheck.checkNullArgument("The short form provider", shortFormProvider);
+		this.delegate = new ManchesterOWLSyntaxObjectRenderer(this.out, shortFormProvider);
 	}
 
 	@Override
 	public String toString() {
-		return this.buffer.toString();
+		return this.out.toString();
 	}
 
-	public void visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
-		write("AntiSymmetric: ");
-		axiom.getProperty().accept(this);
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitor#visit(org.semanticweb.owlapi.model.SWRLClassAtom)
+	 */
+	public void visit(SWRLClassAtom node) {
+		this.delegate.visit(node);
 	}
 
-	public void visit(OWLAxiomAnnotationAxiom axiom) {
-		axiom.getSubject().accept(this);
-		write(" ");
-		axiom.getAnnotation().accept(this);
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitor#visit(org.semanticweb.owlapi.model.SWRLDataRangeAtom)
+	 */
+	public void visit(SWRLDataRangeAtom node) {
+		this.delegate.visit(node);
 	}
 
-	public void visit(OWLClass node) {
-		write(getRendering(node));
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitor#visit(org.semanticweb.owlapi.model.SWRLObjectPropertyAtom)
+	 */
+	public void visit(SWRLObjectPropertyAtom node) {
+		this.delegate.visit(node);
 	}
 
-	public void visit(OWLClassAssertionAxiom axiom) {
-		axiom.getIndividual().accept(this);
-		write(" types ");
-		axiom.getDescription().accept(this);
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitor#visit(org.semanticweb.owlapi.model.SWRLDataPropertyAtom)
+	 */
+	public void visit(SWRLDataPropertyAtom node) {
+		this.delegate.visit(node);
 	}
 
-	public void visit(OWLConstantAnnotation annotation) {
-		URIShortFormProvider uriShortFormProvider = new SimpleURIShortFormProvider();
-		write(uriShortFormProvider.getShortForm(annotation.getAnnotationURI()));
-		write(" ");
-		write(annotation.getAnnotationValue().toString());
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitor#visit(org.semanticweb.owlapi.model.SWRLBuiltInAtom)
+	 */
+	public void visit(SWRLBuiltInAtom node) {
+		this.delegate.visit(node);
 	}
 
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitor#visit(org.semanticweb.owlapi.model.SWRLVariable)
+	 */
+	public void visit(SWRLVariable node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitor#visit(org.semanticweb.owlapi.model.SWRLIndividualArgument)
+	 */
+	public void visit(SWRLIndividualArgument node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitor#visit(org.semanticweb.owlapi.model.SWRLLiteralArgument)
+	 */
+	public void visit(SWRLLiteralArgument node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitor#visit(org.semanticweb.owlapi.model.SWRLSameIndividualAtom)
+	 */
+	public void visit(SWRLSameIndividualAtom node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.SWRLObjectVisitor#visit(org.semanticweb.owlapi.model.SWRLDifferentIndividualsAtom)
+	 */
+	public void visit(SWRLDifferentIndividualsAtom node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param individual
+	 * @see org.semanticweb.owlapi.model.OWLIndividualVisitor#visit(org.semanticweb.owlapi.model.OWLAnonymousIndividual)
+	 */
+	public void visit(OWLAnonymousIndividual individual) {
+		this.delegate.visit(individual);
+	}
+
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.OWLAnnotationObjectVisitor#visit(org.semanticweb.owlapi.model.OWLAnnotation)
+	 */
+	public void visit(OWLAnnotation node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAnnotationAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom)
+	 */
+	public void visit(OWLAnnotationAssertionAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.OWLDataVisitor#visit(org.semanticweb.owlapi.model.OWLLiteral)
+	 */
+	public void visit(OWLLiteral node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.OWLDataRangeVisitor#visit(org.semanticweb.owlapi.model.OWLDatatype)
+	 */
+	public void visit(OWLDatatype node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param property
+	 * @see org.semanticweb.owlapi.model.OWLPropertyExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectProperty)
+	 */
+	public void visit(OWLObjectProperty property) {
+		this.delegate.visit(property);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAnnotationAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLSubAnnotationPropertyOfAxiom)
+	 */
+	public void visit(OWLSubAnnotationPropertyOfAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param iri
+	 * @see org.semanticweb.owlapi.model.OWLAnnotationValueVisitor#visit(org.semanticweb.owlapi.model.IRI)
+	 */
+	public void visit(IRI iri) {
+		this.delegate.visit(iri);
+	}
+
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.OWLDataVisitor#visit(org.semanticweb.owlapi.model.OWLFacetRestriction)
+	 */
+	public void visit(OWLFacetRestriction node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.OWLDataRangeVisitor#visit(org.semanticweb.owlapi.model.OWLDataOneOf)
+	 */
+	public void visit(OWLDataOneOf node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param property
+	 * @see org.semanticweb.owlapi.model.OWLPropertyExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectInverseOf)
+	 */
+	public void visit(OWLObjectInverseOf property) {
+		this.delegate.visit(property);
+	}
+
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.OWLDataRangeVisitor#visit(org.semanticweb.owlapi.model.OWLDataComplementOf)
+	 */
+	public void visit(OWLDataComplementOf node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAnnotationAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLAnnotationPropertyDomainAxiom)
+	 */
+	public void visit(OWLAnnotationPropertyDomainAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDeclarationAxiom)
+	 */
+	public void visit(OWLDeclarationAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param property
+	 * @see org.semanticweb.owlapi.model.OWLPropertyExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLDataProperty)
+	 */
+	public void visit(OWLDataProperty property) {
+		this.delegate.visit(property);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLClass)
+	 */
+	public void visit(OWLClass ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.OWLDataRangeVisitor#visit(org.semanticweb.owlapi.model.OWLDataIntersectionOf)
+	 */
+	public void visit(OWLDataIntersectionOf node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param individual
+	 * @see org.semanticweb.owlapi.model.OWLEntityVisitor#visit(org.semanticweb.owlapi.model.OWLNamedIndividual)
+	 */
+	public void visit(OWLNamedIndividual individual) {
+		this.delegate.visit(individual);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAnnotationAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLAnnotationPropertyRangeAxiom)
+	 */
+	public void visit(OWLAnnotationPropertyRangeAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param ontology
+	 * @see org.semanticweb.owlapi.model.OWLObjectVisitor#visit(org.semanticweb.owlapi.model.OWLOntology)
+	 */
+	public void visit(OWLOntology ontology) {
+		this.delegate.visit(ontology);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLSubClassOfAxiom)
+	 */
+	public void visit(OWLSubClassOfAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectIntersectionOf)
+	 */
+	public void visit(OWLObjectIntersectionOf ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.OWLDataRangeVisitor#visit(org.semanticweb.owlapi.model.OWLDataUnionOf)
+	 */
+	public void visit(OWLDataUnionOf node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom)
+	 */
+	public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectUnionOf)
+	 */
+	public void visit(OWLObjectUnionOf ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param node
+	 * @see org.semanticweb.owlapi.model.OWLDataRangeVisitor#visit(org.semanticweb.owlapi.model.OWLDatatypeRestriction)
+	 */
+	public void visit(OWLDatatypeRestriction node) {
+		this.delegate.visit(node);
+	}
+
+	/**
+	 * @param property
+	 * @see org.semanticweb.owlapi.model.OWLEntityVisitor#visit(org.semanticweb.owlapi.model.OWLAnnotationProperty)
+	 */
+	public void visit(OWLAnnotationProperty property) {
+		this.delegate.visit(property);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectComplementOf)
+	 */
+	public void visit(OWLObjectComplementOf ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom)
+	 */
+	public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom)
+	 */
+	public void visit(OWLObjectSomeValuesFrom ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom)
+	 */
+	public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectAllValuesFrom)
+	 */
+	public void visit(OWLObjectAllValuesFrom ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectHasValue)
+	 */
+	public void visit(OWLObjectHasValue ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDisjointClassesAxiom)
+	 */
+	public void visit(OWLDisjointClassesAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectMinCardinality)
+	 */
+	public void visit(OWLObjectMinCardinality ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom)
+	 */
 	public void visit(OWLDataPropertyDomainAxiom axiom) {
-		axiom.getProperty().accept(this);
-		write(" domain ");
-		axiom.getDomain().accept(this);
+		this.delegate.visit(axiom);
 	}
 
-	public void visit(OWLDataPropertyRangeAxiom axiom) {
-		axiom.getProperty().accept(this);
-		write(" range ");
-		axiom.getRange().accept(this);
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectExactCardinality)
+	 */
+	public void visit(OWLObjectExactCardinality ce) {
+		this.delegate.visit(ce);
 	}
 
-	public void visit(OWLEquivalentClassesAxiom node) {
-		List<OWLDescription> orderedDescs = new ArrayList<OWLDescription>(node
-				.getDescriptions());
-		for (Iterator<OWLDescription> it = orderedDescs.iterator(); it
-				.hasNext();) {
-			OWLDescription desc = it.next();
-			if (orderedDescs.get(0).isOWLNothing()) {
-				it.remove();
-				orderedDescs.add(desc);
-				break;
-			}
-		}
-		for (Iterator<OWLDescription> it = orderedDescs.iterator(); it
-				.hasNext();) {
-			it.next().accept(this);
-			if (it.hasNext()) {
-				write(" equivalentTo ");
-			}
-		}
-	}
-
-	public void visit(OWLImportsDeclaration axiom) {
-		writeOntologyURI(axiom.getImportedOntologyURI());
-		if (this.ontologyManager.getImportedOntology(axiom) == null) {
-			write("      (Not Loaded)");
-		}
-	}
-
-	public void visit(OWLIndividual node) {
-		if (node.isAnonymous()) {
-			write("Anonymous : [");
-			for (OWLOntology ont : this.ontologyManager.getOntologies()) {
-				for (OWLDescription desc : node.getTypes(ont)) {
-					write(" ");
-					desc.accept(this);
-				}
-			}
-			write(" ]");
-		} else {
-			write(getRendering(node));
-		}
-	}
-
-	public void visit(OWLObjectAnnotation owlObjectAnnotation) {
-		URIShortFormProvider uriShortFormProvider = new SimpleURIShortFormProvider();
-		write(uriShortFormProvider.getShortForm(owlObjectAnnotation
-				.getAnnotationURI()));
-		write(" ");
-		owlObjectAnnotation.getAnnotationValue().accept(this);
-	}
-
-	public void visit(OWLObjectIntersectionOf node) {
-		int indent = getIndent();
-		List<OWLDescription> ops = new ArrayList<OWLDescription>(node
-				.getOperands());
-		for (int i = 0; i < ops.size(); i++) {
-			OWLDescription curOp = ops.get(i);
-			curOp.accept(this);
-			if (i < ops.size() - 1) {
-				write("\n");
-				insertIndent(indent);
-				if (curOp instanceof OWLClass
-						&& ops.get(i + 1) instanceof OWLRestriction<?>
-						&& OWLRendererPreferences.getInstance()
-								.isUseThatKeyword()) {
-					write("that ");
-				} else {
-					writeAndKeyword();
-				}
-			}
-		}
-	}
-
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom)
+	 */
 	public void visit(OWLObjectPropertyDomainAxiom axiom) {
-		if (!OWLRendererPreferences.getInstance().isRenderDomainAxiomsAsGCIs()) {
-			axiom.getProperty().accept(this);
-			write(" domain ");
-			axiom.getDomain().accept(this);
-		} else {
-			axiom.getProperty().accept(this);
-			write(" some ");
-			this.ontologyManager.getOWLDataFactory().getOWLThing().accept(this);
-			write(" subClassOf ");
-			axiom.getDomain().accept(this);
-		}
+		this.delegate.visit(axiom);
 	}
 
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectMaxCardinality)
+	 */
+	public void visit(OWLObjectMaxCardinality ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom)
+	 */
+	public void visit(OWLEquivalentObjectPropertiesAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectHasSelf)
+	 */
+	public void visit(OWLObjectHasSelf ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLObjectOneOf)
+	 */
+	public void visit(OWLObjectOneOf ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom)
+	 */
+	public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLDataSomeValuesFrom)
+	 */
+	public void visit(OWLDataSomeValuesFrom ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom)
+	 */
+	public void visit(OWLDifferentIndividualsAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLDataAllValuesFrom)
+	 */
+	public void visit(OWLDataAllValuesFrom ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLDataHasValue)
+	 */
+	public void visit(OWLDataHasValue ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom)
+	 */
+	public void visit(OWLDisjointDataPropertiesAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLDataMinCardinality)
+	 */
+	public void visit(OWLDataMinCardinality ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom)
+	 */
+	public void visit(OWLDisjointObjectPropertiesAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLDataExactCardinality)
+	 */
+	public void visit(OWLDataExactCardinality ce) {
+		this.delegate.visit(ce);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom)
+	 */
 	public void visit(OWLObjectPropertyRangeAxiom axiom) {
-		axiom.getProperty().accept(this);
-		write(" range ");
-		axiom.getRange().accept(this);
+		this.delegate.visit(axiom);
 	}
 
-	public void visit(OWLObjectUnionOf node) {
-		int indent = getIndent();
-		for (Iterator<OWLDescription> it = node.getOperands().iterator(); it
-				.hasNext();) {
-			OWLDescription curOp = it.next();
-			writeOpenBracket(curOp);
-			curOp.accept(this);
-			writeCloseBracket(curOp);
-			if (it.hasNext()) {
-				write("\n");
-				insertIndent(indent);
-				writeOrKeyword();
-			}
-		}
+	/**
+	 * @param ce
+	 * @see org.semanticweb.owlapi.model.OWLClassExpressionVisitor#visit(org.semanticweb.owlapi.model.OWLDataMaxCardinality)
+	 */
+	public void visit(OWLDataMaxCardinality ce) {
+		this.delegate.visit(ce);
 	}
 
-	public void visit(OWLUntypedConstant node) {
-		if (this.constraintSystem.isVariable(node)) {
-			Variable v = this.constraintSystem.getVariable(node.getLiteral());
-			write(this.constraintSystem.render(v));
-		} else {
-			write("\"");
-			write(node.getLiteral());
-			write("\"");
-			if (node.hasLang()) {
-				write("@");
-				write(node.getLang());
-			}
-		}
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom)
+	 */
+	public void visit(OWLObjectPropertyAssertionAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom)
+	 */
+	public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom)
+	 */
+	public void visit(OWLSubObjectPropertyOfAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDisjointUnionAxiom)
+	 */
+	public void visit(OWLDisjointUnionAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom)
+	 */
+	public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom)
+	 */
+	public void visit(OWLDataPropertyRangeAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom)
+	 */
+	public void visit(OWLFunctionalDataPropertyAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom)
+	 */
+	public void visit(OWLEquivalentDataPropertiesAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLClassAssertionAxiom)
+	 */
+	public void visit(OWLClassAssertionAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom)
+	 */
+	public void visit(OWLEquivalentClassesAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom)
+	 */
+	public void visit(OWLDataPropertyAssertionAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom)
+	 */
+	public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom)
+	 */
+	public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom)
+	 */
+	public void visit(OWLSubDataPropertyOfAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom)
+	 */
+	public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLSameIndividualAxiom)
+	 */
+	public void visit(OWLSameIndividualAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom)
+	 */
+	public void visit(OWLSubPropertyChainOfAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom)
+	 */
+	public void visit(OWLInverseObjectPropertiesAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLHasKeyAxiom)
+	 */
+	public void visit(OWLHasKeyAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param axiom
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDatatypeDefinitionAxiom)
+	 */
+	public void visit(OWLDatatypeDefinitionAxiom axiom) {
+		this.delegate.visit(axiom);
+	}
+
+	/**
+	 * @param rule
+	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.SWRLRule)
+	 */
+	public void visit(SWRLRule rule) {
+		this.delegate.visit(rule);
 	}
 }

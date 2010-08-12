@@ -1,8 +1,8 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g 2010-04-29 11:20:06
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g 2010-08-11 15:37:59
 
   package org.coode.parsers;
   import java.util.Collections;
-  import org.semanticweb.owl.model.OWLObject;
+  import org.semanticweb.owlapi.model.OWLObject;
   
 
 
@@ -16,98 +16,98 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "RULE", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "STANDALONE_EXPRESSION", "INCOMPLETE_TYPE_ASSERTION", "INCOMPLETE_ROLE_ASSERTION", "INCOMPLETE_UNARY_AXIOM", "INCOMPLETE_SUB_CLASS_AXIOM", "INCOMPLETE_EQUIVALENT_TO_AXIOM", "INCOMPLETE_DISJOINT_WITH_AXIOM", "INCOMPLETE_SUB_PROPERTY_AXIOM", "INCOMPLETE_SAME_AS_AXIOM", "INCOMPLETE_DIFFERENT_FROM_AXIOM", "INCOMPLETE_DOMAIN", "INCOMPLETE_RANGE", "INCOMPLETE_INVERSE_OF", "INCOMPLETE_PROPERTY_CHAIN", "INCOMPLETE_DISJUNCTION", "INCOMPLETE_CONJUNCTION", "INCOMPLETE_INVERSE_OBJECT_PROPERTY_EXPRESSION", "INCOMPLETE_NEGATED_EXPRESSION", "INCOMPLETE_SOME_RESTRICTION", "INCOMPLETE_ALL_RESTRICTION", "INCOMPLETE_CARDINALITY_RESTRICTION", "INCOMPLETE_ONE_OF", "INCOMPLETE_VALUE_RESTRICTION", "INCOMPLETE_EXPRESSION"
     };
-    public static final int VALUE_RESTRICTION=63;
-    public static final int INCOMPLETE_INVERSE_OF=83;
-    public static final int LETTER=43;
-    public static final int TYPES=39;
-    public static final int SAME_AS_AXIOM=52;
-    public static final int INVERSE_OF=25;
-    public static final int NOT=12;
-    public static final int SUBCLASS_OF=20;
-    public static final int EOF=-1;
-    public static final int INCOMPLETE_ONE_OF=92;
-    public static final int POW=36;
-    public static final int INCOMPLETE_INVERSE_OBJECT_PROPERTY_EXPRESSION=87;
-    public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION=68;
-    public static final int INSTANCE_OF=38;
-    public static final int INCOMPLETE_TYPE_ASSERTION=72;
-    public static final int SYMMETRIC=30;
-    public static final int INCOMPLETE_NEGATED_EXPRESSION=88;
-    public static final int INCOMPLETE_DIFFERENT_FROM_AXIOM=80;
-    public static final int INCOMPLETE_SUB_PROPERTY_AXIOM=78;
-    public static final int CARDINALITY_RESTRICTION=64;
-    public static final int ROLE_ASSERTION=67;
-    public static final int DIFFERENT_FROM_AXIOM=53;
-    public static final int INCOMPLETE_ALL_RESTRICTION=90;
-    public static final int INCOMPLETE_SUB_CLASS_AXIOM=75;
-    public static final int ANTI_SYMMETRIC=31;
-    public static final int TRANSITIVE=34;
-    public static final int RULE=46;
-    public static final int ALL_RESTRICTION=62;
-    public static final int CONJUNCTION=56;
-    public static final int NEGATED_ASSERTION=59;
-    public static final int WHITESPACE=9;
-    public static final int VALUE=18;
-    public static final int OPEN_CURLY_BRACES=6;
-    public static final int DISJUNCTION=55;
-    public static final int INVERSE=19;
-    public static final int INCOMPLETE_ROLE_ASSERTION=73;
-    public static final int INCOMPLETE_SOME_RESTRICTION=89;
-    public static final int DBLQUOTE=40;
-    public static final int OR=11;
-    public static final int CONSTANT=70;
-    public static final int INCOMPLETE_EXPRESSION=94;
-    public static final int ENTITY_REFERENCE=45;
-    public static final int COMPOSITION=4;
-    public static final int INCOMPLETE_DISJOINT_WITH_AXIOM=77;
-    public static final int INCOMPLETE_VALUE_RESTRICTION=93;
-    public static final int SAME_AS=23;
-    public static final int INCOMPLETE_CONJUNCTION=86;
-    public static final int DISJOINT_WITH=26;
-    public static final int CLOSED_PARENTHESYS=8;
-    public static final int ONLY=14;
-    public static final int EQUIVALENT_TO_AXIOM=49;
-    public static final int INCOMPLETE_EQUIVALENT_TO_AXIOM=76;
-    public static final int SUB_PROPERTY_OF=21;
-    public static final int NEGATED_EXPRESSION=58;
-    public static final int MAX=16;
-    public static final int AND=10;
-    public static final int INVERSE_PROPERTY=60;
-    public static final int DIFFERENT_FROM=24;
-    public static final int EQUIVALENT_TO=22;
-    public static final int UNARY_AXIOM=54;
     public static final int COMMA=37;
-    public static final int CLOSED_CURLY_BRACES=7;
-    public static final int INCOMPLETE_CARDINALITY_RESTRICTION=91;
-    public static final int IDENTIFIER=44;
-    public static final int SOME=13;
-    public static final int OPEN_PARENTHESYS=5;
-    public static final int REFLEXIVE=32;
-    public static final int DIGIT=41;
-    public static final int EXPRESSION=69;
-    public static final int SOME_RESTRICTION=61;
-    public static final int INTEGER=42;
-    public static final int INCOMPLETE_DISJUNCTION=85;
-    public static final int INCOMPLETE_SAME_AS_AXIOM=79;
-    public static final int INCOMPLETE_RANGE=82;
-    public static final int EXACTLY=17;
-    public static final int SUB_PROPERTY_AXIOM=51;
-    public static final int RANGE=28;
-    public static final int ONE_OF=65;
-    public static final int MIN=15;
-    public static final int SUB_CLASS_AXIOM=48;
-    public static final int Tokens=47;
-    public static final int DOMAIN=27;
-    public static final int DISJOINT_WITH_AXIOM=50;
-    public static final int STANDALONE_EXPRESSION=71;
-    public static final int INVERSE_FUNCTIONAL=35;
-    public static final int IRREFLEXIVE=33;
-    public static final int INCOMPLETE_PROPERTY_CHAIN=84;
-    public static final int INCOMPLETE_DOMAIN=81;
-    public static final int FUNCTIONAL=29;
-    public static final int PROPERTY_CHAIN=57;
-    public static final int INCOMPLETE_UNARY_AXIOM=74;
+    public static final int DIFFERENT_FROM=24;
     public static final int TYPE_ASSERTION=66;
+    public static final int INCOMPLETE_CONJUNCTION=86;
+    public static final int SAME_AS_AXIOM=52;
+    public static final int INCOMPLETE_SUB_CLASS_AXIOM=75;
+    public static final int ROLE_ASSERTION=67;
+    public static final int TYPES=39;
+    public static final int ALL_RESTRICTION=62;
+    public static final int AND=10;
+    public static final int EXPRESSION=69;
+    public static final int CONSTANT=70;
+    public static final int VALUE_RESTRICTION=63;
+    public static final int ONE_OF=65;
+    public static final int CARDINALITY_RESTRICTION=64;
+    public static final int SAME_AS=23;
+    public static final int EXACTLY=17;
+    public static final int TRANSITIVE=34;
+    public static final int CONJUNCTION=56;
+    public static final int SUBCLASS_OF=20;
+    public static final int ENTITY_REFERENCE=45;
+    public static final int INVERSE_OF=25;
+    public static final int RANGE=28;
+    public static final int CLOSED_PARENTHESYS=8;
+    public static final int PROPERTY_CHAIN=57;
+    public static final int EQUIVALENT_TO_AXIOM=49;
+    public static final int INCOMPLETE_ALL_RESTRICTION=90;
+    public static final int SYMMETRIC=30;
+    public static final int DISJOINT_WITH=26;
+    public static final int INCOMPLETE_VALUE_RESTRICTION=93;
+    public static final int DISJUNCTION=55;
+    public static final int INCOMPLETE_CARDINALITY_RESTRICTION=91;
+    public static final int NEGATED_EXPRESSION=58;
+    public static final int DIFFERENT_FROM_AXIOM=53;
+    public static final int EQUIVALENT_TO=22;
+    public static final int DOMAIN=27;
+    public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION=68;
+    public static final int SUB_PROPERTY_OF=21;
+    public static final int INVERSE_PROPERTY=60;
+    public static final int INCOMPLETE_INVERSE_OBJECT_PROPERTY_EXPRESSION=87;
+    public static final int INCOMPLETE_DIFFERENT_FROM_AXIOM=80;
+    public static final int SUB_PROPERTY_AXIOM=51;
+    public static final int SUB_CLASS_AXIOM=48;
+    public static final int UNARY_AXIOM=54;
+    public static final int IDENTIFIER=44;
+    public static final int INCOMPLETE_PROPERTY_CHAIN=84;
+    public static final int OPEN_CURLY_BRACES=6;
+    public static final int STANDALONE_EXPRESSION=71;
+    public static final int INSTANCE_OF=38;
+    public static final int INCOMPLETE_DISJUNCTION=85;
+    public static final int SOME_RESTRICTION=61;
+    public static final int RULE=46;
+    public static final int INCOMPLETE_SUB_PROPERTY_AXIOM=78;
+    public static final int INCOMPLETE_INVERSE_OF=83;
+    public static final int INCOMPLETE_DOMAIN=81;
+    public static final int INCOMPLETE_UNARY_AXIOM=74;
+    public static final int VALUE=18;
+    public static final int INVERSE_FUNCTIONAL=35;
+    public static final int OR=11;
+    public static final int INCOMPLETE_EXPRESSION=94;
+    public static final int INTEGER=42;
+    public static final int INVERSE=19;
+    public static final int DISJOINT_WITH_AXIOM=50;
+    public static final int INCOMPLETE_DISJOINT_WITH_AXIOM=77;
+    public static final int DIGIT=41;
+    public static final int COMPOSITION=4;
+    public static final int INCOMPLETE_RANGE=82;
+    public static final int FUNCTIONAL=29;
+    public static final int LETTER=43;
+    public static final int MAX=16;
+    public static final int INCOMPLETE_ROLE_ASSERTION=73;
+    public static final int NEGATED_ASSERTION=59;
+    public static final int ONLY=14;
+    public static final int DBLQUOTE=40;
+    public static final int MIN=15;
+    public static final int POW=36;
+    public static final int INCOMPLETE_TYPE_ASSERTION=72;
+    public static final int INCOMPLETE_ONE_OF=92;
+    public static final int INCOMPLETE_NEGATED_EXPRESSION=88;
+    public static final int WHITESPACE=9;
+    public static final int SOME=13;
+    public static final int INCOMPLETE_SAME_AS_AXIOM=79;
+    public static final int INCOMPLETE_EQUIVALENT_TO_AXIOM=76;
+    public static final int EOF=-1;
+    public static final int ANTI_SYMMETRIC=31;
+    public static final int Tokens=47;
+    public static final int CLOSED_CURLY_BRACES=7;
+    public static final int INCOMPLETE_SOME_RESTRICTION=89;
+    public static final int REFLEXIVE=32;
+    public static final int NOT=12;
+    public static final int OPEN_PARENTHESYS=5;
+    public static final int IRREFLEXIVE=33;
 
     // delegates
     // delegators
@@ -3825,7 +3825,8 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
         "\1\4\12\2\1\uffff\1\4\1\uffff\7\4\4\2\1\3\6\2\1\3\2\2\1\3\1\2\1"+
         "\3\1\2\5\3\6\2\1\3\13\2\1\3\3\2\1\3\6\2\1\3\5\2\1\3\6\2\1\3\2\2"+
         "\5\3\6\2\1\3\1\2\6\3\6\2\1\3\1\2\1\3\6\2\1\3\1\2\1\3\6\2\1\3\1\2"+
-        "\2\3\3\2\1\3\6\2\1\3\5\2\1\3\6\2\1\3\2\2\2\3\3\2\1\3\6\2\1\3\2\2";
+        "\1\3\3\2\1\3\6\2\1\3\2\2\1\3\3\2\1\3\6\2\1\3\2\2\1\3\3\2\1\3\6\2"+
+        "\1\3\2\2\1\3";
     static final String DFA3_maxS =
         "\13\136\1\uffff\1\136\1\uffff\u00a3\136";
     static final String DFA3_acceptS =
@@ -3960,60 +3961,60 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
             "\1\15\133\13",
             "\1\15\133\13",
             "\1\15\133\13",
-            "\1\u0087\50\13\1\u008b\1\u0092\11\13\1\u0088\1\u008a\1\u0089"+
-            "\1\u008c\2\13\1\u008d\1\u008e\1\u0091\1\u008f\1\u0090\2\13\1"+
-            "\u0094\1\13\1\u0093\30\13",
+            "\1\u0094\50\13\1\u008a\1\u0091\11\13\1\u0087\1\u0089\1\u0088"+
+            "\1\u008b\2\13\1\u008c\1\u008d\1\u0090\1\u008e\1\u008f\2\13\1"+
+            "\u0093\1\13\1\u0092\30\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
-            "\1\u0087\50\13\1\u008b\1\u0092\11\13\1\u0088\1\u008a\1\u0089"+
-            "\1\u008c\2\13\1\u008d\1\u008e\1\u0091\1\u008f\1\u0090\2\13\1"+
-            "\u0094\1\13\1\u0093\30\13",
-            "\1\15\134\13",
-            "\1\u00a2\50\13\1\u0098\1\u009f\11\13\1\u0095\1\u0097\1\u0096"+
-            "\1\u0099\2\13\1\u009a\1\u009b\1\u009e\1\u009c\1\u009d\2\13\1"+
-            "\u00a1\1\13\1\u00a0\30\13",
-            "\1\15\134\13",
-            "\1\15\134\13",
-            "\1\15\134\13",
-            "\1\15\134\13",
-            "\1\15\134\13",
+            "\1\u0094\50\13\1\u008a\1\u0091\11\13\1\u0087\1\u0089\1\u0088"+
+            "\1\u008b\2\13\1\u008c\1\u008d\1\u0090\1\u008e\1\u008f\2\13\1"+
+            "\u0093\1\13\1\u0092\30\13",
             "\1\15\134\13",
             "\1\u00a2\50\13\1\u0098\1\u009f\11\13\1\u0095\1\u0097\1\u0096"+
             "\1\u0099\2\13\1\u009a\1\u009b\1\u009e\1\u009c\1\u009d\2\13\1"+
             "\u00a1\1\13\1\u00a0\30\13",
             "\1\15\134\13",
-            "\1\u00a3\50\13\1\u00a7\1\u00ae\11\13\1\u00a4\1\u00a6\1\u00a5"+
-            "\1\u00a8\2\13\1\u00a9\1\u00aa\1\u00ad\1\u00ab\1\u00ac\2\13\1"+
-            "\u00b0\1\13\1\u00af\30\13",
+            "\1\15\134\13",
+            "\1\15\134\13",
+            "\1\15\134\13",
+            "\1\15\134\13",
+            "\1\15\134\13",
+            "\1\u00a2\50\13\1\u0098\1\u009f\11\13\1\u0095\1\u0097\1\u0096"+
+            "\1\u0099\2\13\1\u009a\1\u009b\1\u009e\1\u009c\1\u009d\2\13\1"+
+            "\u00a1\1\13\1\u00a0\30\13",
+            "\1\15\134\13",
+            "\1\u00b0\50\13\1\u00a6\1\u00ad\11\13\1\u00a3\1\u00a5\1\u00a4"+
+            "\1\u00a7\2\13\1\u00a8\1\u00a9\1\u00ac\1\u00aa\1\u00ab\2\13\1"+
+            "\u00af\1\13\1\u00ae\30\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
-            "\1\u00a3\50\13\1\u00a7\1\u00ae\11\13\1\u00a4\1\u00a6\1\u00a5"+
-            "\1\u00a8\2\13\1\u00a9\1\u00aa\1\u00ad\1\u00ab\1\u00ac\2\13\1"+
-            "\u00b0\1\13\1\u00af\30\13",
+            "\1\u00b0\50\13\1\u00a6\1\u00ad\11\13\1\u00a3\1\u00a5\1\u00a4"+
+            "\1\u00a7\2\13\1\u00a8\1\u00a9\1\u00ac\1\u00aa\1\u00ab\2\13\1"+
+            "\u00af\1\13\1\u00ae\30\13",
             "\1\15\134\13",
             "\1\15\133\13",
+            "\1\15\134\13",
+            "\1\15\134\13",
+            "\1\15\134\13",
+            "\1\u0094\133\13",
+            "\1\15\134\13",
+            "\1\15\134\13",
+            "\1\15\134\13",
+            "\1\15\134\13",
+            "\1\15\134\13",
+            "\1\15\134\13",
+            "\1\u0094\133\13",
+            "\1\15\134\13",
+            "\1\15\134\13",
             "\1\15\133\13",
-            "\1\15\134\13",
-            "\1\15\134\13",
-            "\1\15\134\13",
-            "\1\u0087\133\13",
-            "\1\15\134\13",
-            "\1\15\134\13",
-            "\1\15\134\13",
-            "\1\15\134\13",
-            "\1\15\134\13",
-            "\1\15\134\13",
-            "\1\u0087\133\13",
-            "\1\15\134\13",
-            "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
@@ -4028,20 +4029,20 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\133\13",
-            "\1\15\133\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
-            "\1\u00a3\133\13",
+            "\1\u00b0\133\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
             "\1\15\134\13",
-            "\1\u00a3\133\13",
+            "\1\u00b0\133\13",
             "\1\15\134\13",
-            "\1\15\134\13"
+            "\1\15\134\13",
+            "\1\15\133\13"
     };
 
     static final short[] DFA3_eot = DFA.unpackEncodedString(DFA3_eotS);
@@ -4149,7 +4150,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
             "\51\12\1\121\1\130\14\12\1\122\2\12\1\123\1\124\1\127\1\125"+
             "\1\126\4\12\1\131\30\12",
             "\1\13\134\12",
-            "\1\13\1\133\50\12\1\132\62\12",
+            "\1\13\1\132\50\12\1\133\62\12",
             "\1\13\133\12",
             "\1\13\134\12",
             "\1\13\134\12",
@@ -4193,8 +4194,8 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
             "\1\13\134\12",
             "\1\171\133\12",
             "\1\13\134\12",
-            "\1\133\133\12",
             "\1\13\133\12",
+            "\1\132\133\12",
             "\1\13\133\12",
             "\1\13\133\12",
             "\1\u0087\50\12\1\175\1\u0084\11\12\1\172\1\174\1\173\1\176"+

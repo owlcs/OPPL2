@@ -11,8 +11,8 @@ import org.coode.parsers.OWLEntityCheckerScope;
 import org.coode.parsers.OWLEntityRenderingCacheImpl;
 import org.coode.parsers.ShortFormEntityRenderer;
 import org.coode.parsers.SymbolTable;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.util.SimpleShortFormProvider;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 /**
  * @author Luigi Iannone

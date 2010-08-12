@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.coode.oppl.utils.OWLObjectExtractor;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * Compares OWLObject instances only based on the symbols they contain.

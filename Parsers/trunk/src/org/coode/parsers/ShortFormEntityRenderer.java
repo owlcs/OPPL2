@@ -3,8 +3,8 @@
  */
 package org.coode.parsers;
 
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.util.ShortFormProvider;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone

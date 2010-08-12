@@ -29,58 +29,49 @@ import org.coode.parsers.SystemErrorEcho;
 import org.coode.parsers.Type;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
-import org.semanticweb.owl.model.OWLClassAssertionAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLDataSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLDeclarationAxiom;
-import org.semanticweb.owl.model.OWLDifferentIndividualsAxiom;
-import org.semanticweb.owl.model.OWLDisjointClassesAxiom;
-import org.semanticweb.owl.model.OWLDisjointDataPropertiesAxiom;
-import org.semanticweb.owl.model.OWLDisjointObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLDisjointUnionAxiom;
-import org.semanticweb.owl.model.OWLEntityAnnotationAxiom;
-import org.semanticweb.owl.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentDataPropertiesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLFunctionalDataPropertyAxiom;
-import org.semanticweb.owl.model.OWLFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLImportsDeclaration;
-import org.semanticweb.owl.model.OWLInverseFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLInverseObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLIrreflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLNegativeDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLNegativeObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyChainSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLObjectSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLOntologyAnnotationAxiom;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.model.OWLReflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLSameIndividualsAxiom;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
-import org.semanticweb.owl.model.OWLSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLTransitiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.SWRLRule;
-import org.semanticweb.owl.model.utils.DefaultOWLObjectVisitorEx;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom;
+import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.SWRLRule;
+import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 public class ComprehensiveAxiomTestCase extends TestCase {
-	private static final class TypeAssociation extends DefaultOWLObjectVisitorEx<OWLAxiomType> {
+	private static final class TypeAssociation extends OWLObjectVisitorExAdapter<OWLAxiomType> {
 		@Override
-		protected OWLAxiomType doDefault(OWLObject owlObject) {
-			return null;
-		}
-
-		@Override
-		public OWLAxiomType visit(OWLSubClassAxiom axiom) {
+		public OWLAxiomType visit(OWLSubClassOfAxiom axiom) {
 			return OWLAxiomType.SUBCLASS;
 		}
 
@@ -90,7 +81,7 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		}
 
 		@Override
-		public OWLAxiomType visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
+		public OWLAxiomType visit(OWLAsymmetricObjectPropertyAxiom axiom) {
 			return OWLAxiomType.SYMMETRIC_OBJECT_PROPERTY;
 		}
 
@@ -107,16 +98,6 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		@Override
 		public OWLAxiomType visit(OWLDataPropertyDomainAxiom axiom) {
 			return OWLAxiomType.DATA_PROPERTY_DOMAIN;
-		}
-
-		@Override
-		public OWLAxiomType visit(OWLImportsDeclaration axiom) {
-			return null;
-		}
-
-		@Override
-		public OWLAxiomType visit(OWLAxiomAnnotationAxiom axiom) {
-			return null;
 		}
 
 		@Override
@@ -165,7 +146,7 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		}
 
 		@Override
-		public OWLAxiomType visit(OWLObjectSubPropertyAxiom axiom) {
+		public OWLAxiomType visit(OWLSubObjectPropertyOfAxiom axiom) {
 			return OWLAxiomType.SUB_OBJECT_PROPERTY;
 		}
 
@@ -176,16 +157,6 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 
 		@Override
 		public OWLAxiomType visit(OWLDeclarationAxiom axiom) {
-			return null;
-		}
-
-		@Override
-		public OWLAxiomType visit(OWLEntityAnnotationAxiom axiom) {
-			return null;
-		}
-
-		@Override
-		public OWLAxiomType visit(OWLOntologyAnnotationAxiom axiom) {
 			return null;
 		}
 
@@ -235,7 +206,7 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		}
 
 		@Override
-		public OWLAxiomType visit(OWLDataSubPropertyAxiom axiom) {
+		public OWLAxiomType visit(OWLSubDataPropertyOfAxiom axiom) {
 			return OWLAxiomType.SUB_DATA_PROPERTY;
 		}
 
@@ -245,12 +216,12 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		}
 
 		@Override
-		public OWLAxiomType visit(OWLSameIndividualsAxiom axiom) {
+		public OWLAxiomType visit(OWLSameIndividualAxiom axiom) {
 			return OWLAxiomType.SAME_INDIVIDUAL;
 		}
 
 		@Override
-		public OWLAxiomType visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
+		public OWLAxiomType visit(OWLSubPropertyChainOfAxiom axiom) {
 			return OWLAxiomType.PROPERTY_CHAIN_SUB_PROPERTY;
 		}
 
@@ -272,9 +243,9 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 			ONTOLOGY_MANAGER);
 	static {
 		try {
-			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-			ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
-					"syntaxTest.owl").toURI());
+			ONTOLOGY_MANAGER.loadOntologyFromOntologyDocument(IRI.create(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
+			ONTOLOGY_MANAGER.loadOntology(IRI.create(ComprehensiveAxiomTestCase.class.getResource(
+					"syntaxTest.owl").toURI()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {

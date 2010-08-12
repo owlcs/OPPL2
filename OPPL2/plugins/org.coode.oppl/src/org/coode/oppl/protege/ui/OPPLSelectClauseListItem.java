@@ -1,7 +1,7 @@
 package org.coode.oppl.protege.ui;
 
 import org.protege.editor.core.ui.list.MListItem;
-import org.semanticweb.owl.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**
  * @author Luigi Iannone

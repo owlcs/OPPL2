@@ -34,8 +34,8 @@ import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.entity.OWLEntityRenderer;
 import org.coode.oppl.generated.RegExpGenerated;
 import org.coode.oppl.generated.SingleValueGeneratedVariable;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone

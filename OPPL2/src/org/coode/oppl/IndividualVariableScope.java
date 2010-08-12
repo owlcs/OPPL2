@@ -26,37 +26,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.coode.oppl.VariableScopes.Direction;
-import org.semanticweb.owl.inference.OWLReasonerException;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 
 /**
  * Represents a range limitations that could be added to a
  * {@link GeneratedVariable} instance with INDIVIDUAL {@link VariableType}, in
  * particular this restricts the possible values to the set of individuals that
- * are instances of a given OWLDescription
+ * are instances of a given OWLClassExpression 
  * 
  * @author Luigi Iannone
  * 
  */
-public class IndividualVariableScope implements VariableScope {
-	private static Map<OWLDescription, IndividualVariableScope> cache = new HashMap<OWLDescription, IndividualVariableScope>();
-	protected OWLDescription description;
+public class IndividualVariableScope implements VariableScope<OWLClassExpression> {
+	private static Map<OWLClassExpression, IndividualVariableScope> cache = new HashMap<OWLClassExpression, IndividualVariableScope>();
+	private OWLClassExpression classExpression;
 
 	/**
-	 * @param description
+	 * @param classExpression
 	 */
-	IndividualVariableScope(OWLDescription description) {
-		this.description = description;
+	IndividualVariableScope(OWLClassExpression classExpression) {
+		this.classExpression = classExpression;
 	}
 
-	static IndividualVariableScope buildIndividualVariableScope(
-			OWLDescription individual) {
-		IndividualVariableScope toReturn = cache.get(individual);
+	static IndividualVariableScope buildIndividualVariableScope(OWLClassExpression classDescription) {
+		IndividualVariableScope toReturn = cache.get(classDescription);
 		if (toReturn == null) {
-			toReturn = new IndividualVariableScope(individual);
-			cache.put(individual, toReturn);
+			toReturn = new IndividualVariableScope(classDescription);
+			cache.put(classDescription, toReturn);
 		}
 		return toReturn;
 	}
@@ -64,22 +63,21 @@ public class IndividualVariableScope implements VariableScope {
 	/**
 	 * @return the description
 	 */
-	public OWLDescription getDescription() {
-		return this.description;
+	public OWLClassExpression getClassExpression() {
+		return this.classExpression;
 	}
 
 	/**
-	 * @param description
+	 * @param classExpression
 	 *            the description to set
 	 */
-	public void setDescription(OWLDescription description) {
-		this.description = description;
+	public void setDescription(OWLClassExpression classExpression) {
+		this.classExpression = classExpression;
 	}
 
 	public boolean check(OWLObject owlObject, VariableScopeChecker checker)
-			throws OWLReasonerException {
-		return owlObject instanceof OWLIndividual
-				&& checker.check((OWLIndividual) owlObject, this);
+			throws OWLRuntimeException {
+		return owlObject instanceof OWLIndividual && checker.check((OWLIndividual) owlObject, this);
 	}
 
 	/**
@@ -92,7 +90,7 @@ public class IndividualVariableScope implements VariableScope {
 	/**
 	 * @see org.coode.oppl.VariableScope#getScopingObject()
 	 */
-	public OWLObject getScopingObject() {
-		return this.getDescription();
+	public OWLClassExpression getScopingObject() {
+		return this.getClassExpression();
 	}
 }

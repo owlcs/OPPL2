@@ -9,7 +9,7 @@ import org.coode.oppl.generated.AbstractCollectionGeneratedValue;
 import org.coode.oppl.generated.Attribute;
 import org.coode.oppl.generated.SingleValueGeneratedValue;
 import org.coode.oppl.generated.factory.RenderingVariableGeneratedValue;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone

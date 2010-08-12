@@ -7,9 +7,9 @@ import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.variabletypes.INDIVIDUALVariableImpl;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public class RegExpINDIVIDUALVariable extends INDIVIDUALVariableImpl implements
 		RegExpGenerated<OWLIndividual> {

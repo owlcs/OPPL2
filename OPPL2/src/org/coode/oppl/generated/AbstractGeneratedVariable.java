@@ -33,8 +33,9 @@ import org.coode.oppl.VariableScopeChecker;
 import org.coode.oppl.VariableType;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.semanticweb.owl.inference.OWLReasonerException;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 
 /**
  * @author Luigi Iannone
@@ -72,16 +73,16 @@ public abstract class AbstractGeneratedVariable<N> implements SingleValueGenerat
 	}
 
 	/**
-	 * @see org.coode.oppl.variablemansyntax.GeneratedVariable#getURI()
+	 * @see org.coode.oppl.variablemansyntax.GeneratedVariable.getIRI()
 	 */
-	public URI getURI() {
-		return URI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
+	public IRI getIRI() {
+		return IRI.create(URI.create(ManchesterVariableSyntax.NAMESPACE + this.getName()));
 	}
 
 	/**
 	 * @see org.coode.oppl.variablemansyntax.GeneratedVariable#getVariableScope()
 	 */
-	public VariableScope getVariableScope() {
+	public VariableScope<?> getVariableScope() {
 		return null;
 	}
 
@@ -89,11 +90,11 @@ public abstract class AbstractGeneratedVariable<N> implements SingleValueGenerat
 	 * @see org.coode.oppl.variablemansyntax.GeneratedVariable#setVariableScope(org.coode.oppl.VariableScope,
 	 *      org.coode.oppl.VariableScopeChecker)
 	 */
-	public void setVariableScope(VariableScope variableScope,
+	public void setVariableScope(VariableScope<?> variableScope,
 			VariableScopeChecker variableScopeChecker) {
 	}
 
-	public boolean addPossibleBinding(OWLObject object) throws OWLReasonerException {
+	public boolean addPossibleBinding(OWLObject object) throws OWLRuntimeException {
 		return Boolean.FALSE;
 	}
 

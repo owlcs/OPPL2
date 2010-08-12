@@ -3,7 +3,7 @@
  */
 package org.coode.parsers;
 
-import org.semanticweb.owl.expression.OWLEntityChecker;
+import org.semanticweb.owlapi.expression.OWLEntityChecker;
 
 /**
  * @author Luigi Iannone

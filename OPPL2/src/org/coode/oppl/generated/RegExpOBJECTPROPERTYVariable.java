@@ -7,9 +7,9 @@ import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableImpl;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 public class RegExpOBJECTPROPERTYVariable extends OBJECTPROPERTYVariableImpl implements
 		RegExpGenerated<OWLObjectProperty> {

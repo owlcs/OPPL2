@@ -31,7 +31,7 @@ import org.coode.oppl.OPPLScriptVisitor;
 import org.coode.oppl.OPPLScriptVisitorEx;
 import org.coode.oppl.Variable;
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owl.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /**
  * @author Luigi Iannone

@@ -24,9 +24,9 @@ import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.VariableAttribute;
 import org.coode.parsers.oppl.variableattribute.VariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.VariableAttributeType;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataFactory;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public class OPPLSymbolTable extends SymbolTable {
 	/**

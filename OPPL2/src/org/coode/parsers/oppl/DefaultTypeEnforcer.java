@@ -11,7 +11,7 @@ import org.coode.parsers.OWLEntitySymbol;
 import org.coode.parsers.OWLType;
 import org.coode.parsers.Type;
 import org.coode.parsers.TypeVistorAdapter;
-import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEntity;
 
 /**
  * @author Luigi Iannone

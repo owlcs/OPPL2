@@ -57,16 +57,16 @@ import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
-import org.semanticweb.owl.model.AddAxiom;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLDeclarationAxiom;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLException;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLOntologyChange;
-import org.semanticweb.owl.model.OWLOntologyChangeListener;
-import org.semanticweb.owl.model.RemoveAxiom;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
+import org.semanticweb.owlapi.model.RemoveAxiom;
 
 /**
  * View that allows to record macros in OPPL
@@ -274,7 +274,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements OWLOntolo
 				OWLAxiom axiom = axiomChange.getAxiom();
 				Set<OWLEntity> referencedEntities = axiom.getReferencedEntities();
 				for (OWLEntity entity : referencedEntities) {
-					boolean found = this.constraintSystem.isVariableURI(entity.getURI());
+					boolean found = this.constraintSystem.isVariableIRI(entity.getURI());
 					for (int j = 0; j < entitiesModel.size() && !found; j++) {
 						Object object = entitiesModel.get(j);
 						if (object instanceof OWLObjectListItem) {

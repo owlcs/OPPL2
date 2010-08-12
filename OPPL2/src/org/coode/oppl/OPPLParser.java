@@ -32,8 +32,8 @@ import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.OPPLTypeEnforcement;
 import org.coode.parsers.oppl.OPPLTypes;
 import org.coode.parsers.oppl.OPPLTypesParts;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLConstant;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLLiteral;
 
 /**
  * @author Luigi Iannone
@@ -383,7 +383,7 @@ public class OPPLParser implements AbstractOPPLParser {
 		}
 	}
 
-	public OWLConstant parsePlainConstant(String input) {
+	public OWLLiteral parsePlainConstant(String input) {
 		OPPLSymbolTable symbolTable = this.getSymbolTableFactory().createSymbolTable();
 		symbolTable.setErrorListener(this.getListener());
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
@@ -406,7 +406,7 @@ public class OPPLParser implements AbstractOPPLParser {
 			ManchesterOWLSyntaxTypesParts mOWLTypes = new ManchesterOWLSyntaxTypesParts(nodes,
 					symbolTable, this.getListener());
 			mOWLTypes.downup(tree);
-			return (OWLConstant) ((ManchesterOWLSyntaxTree) tree).getOWLObject();
+			return (OWLLiteral) ((ManchesterOWLSyntaxTree) tree).getOWLObject();
 		} catch (RecognitionException e) {
 			this.listener.recognitionException(e);
 			return null;

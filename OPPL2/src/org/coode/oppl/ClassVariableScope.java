@@ -25,8 +25,7 @@ package org.coode.oppl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLClassExpression;
 
 /**
  * Represents a range limitations that could be added to a
@@ -35,27 +34,26 @@ import org.semanticweb.owl.model.OWLObject;
  * @author Luigi Iannone
  * 
  */
-public abstract class ClassVariableScope implements VariableScope {
-	private final OWLDescription description;
-	private static Map<OWLDescription, SuperClassVariableScope> superClassesScopes = new HashMap<OWLDescription, SuperClassVariableScope>();
-	private static Map<OWLDescription, SubClassVariableScope> subClassesScopes = new HashMap<OWLDescription, SubClassVariableScope>();
+public abstract class ClassVariableScope implements VariableScope<OWLClassExpression> {
+	private final OWLClassExpression description;
+	private static Map<OWLClassExpression, SuperClassVariableScope> superClassesScopes = new HashMap<OWLClassExpression, SuperClassVariableScope>();
+	private static Map<OWLClassExpression, SubClassVariableScope> subClassesScopes = new HashMap<OWLClassExpression, SubClassVariableScope>();
 
 	/**
 	 * @param description
 	 */
-	ClassVariableScope(OWLDescription description) {
+	ClassVariableScope(OWLClassExpression description) {
 		this.description = description;
 	}
 
 	/**
 	 * @return the description
 	 */
-	public OWLDescription getDescription() {
+	public OWLClassExpression getDescription() {
 		return this.description;
 	}
 
-	static SubClassVariableScope buildSubClassVariableScope(
-			OWLDescription description) {
+	static SubClassVariableScope buildSubClassVariableScope(OWLClassExpression description) {
 		SubClassVariableScope toReturn = subClassesScopes.get(description);
 		if (toReturn == null) {
 			toReturn = new SubClassVariableScope(description);
@@ -64,8 +62,7 @@ public abstract class ClassVariableScope implements VariableScope {
 		return toReturn;
 	}
 
-	static SuperClassVariableScope buildSuperClassVariableScope(
-			OWLDescription description) {
+	static SuperClassVariableScope buildSuperClassVariableScope(OWLClassExpression description) {
 		SuperClassVariableScope toReturn = superClassesScopes.get(description);
 		if (toReturn == null) {
 			toReturn = new SuperClassVariableScope(description);
@@ -77,7 +74,7 @@ public abstract class ClassVariableScope implements VariableScope {
 	/**
 	 * @see org.coode.oppl.VariableScope#getScopingObject()
 	 */
-	public OWLObject getScopingObject() {
-		return getDescription();
+	public OWLClassExpression getScopingObject() {
+		return this.getDescription();
 	}
 }

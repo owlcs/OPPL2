@@ -2,7 +2,7 @@ package org.coode.oppl.generated;
 
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public interface SingleValueGeneratedVariable<N> extends Variable {
 	/**
