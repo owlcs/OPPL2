@@ -1,0 +1,210 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY Demo "http://siemens-health.com/Demo#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY meta "http://www.co-ode.org/ontologies/meta/meta.owl#" >
+    <!ENTITY data "http://www.siemens-health.com/SiemensDemo/data.owl#" >
+    <!ENTITY beliefs "http://www.siemens-health.com/SiemensDemo/beliefs.owl#" >
+    <!ENTITY UPPER "http://www/siemens-health.com/cpoe-microdemo/UPPER.owl#" >
+    <!ENTITY skeleton "http://www.siemens-health.com/SiemensDemo/skeleton.owl#" >
+    <!ENTITY medicine "http://www.siemens-health.com/SiemensDemo/medicine.owl#" >
+    <!ENTITY medicine4 "http://www.siemens-health.com/SiemensDemo/medicine.owl#3" >
+    <!ENTITY medicine7 "http://www.siemens-health.com/SiemensDemo/medicine.owl#4" >
+    <!ENTITY medicine2 "http://www.siemens-health.com/SiemensDemo/medicine.owl#1" >
+    <!ENTITY medicine3 "http://www.siemens-health.com/SiemensDemo/medicine.owl#2" >
+    <!ENTITY medicine5 "http://www.siemens-health.com/SiemensDemo/medicine.owl#5" >
+    <!ENTITY medicine6 "http://www.siemens-health.com/SiemensDemo/medicine.owl#6" >
+    <!ENTITY START-HERE "http://www.siemens-health.com/SiemensDemo/START-HERE.owl#" >
+    <!ENTITY annotations "http://www.siemens-health.com/SiemensDemo/annotations.owl#" >
+    <!ENTITY documentation "http://www.siemens-health.com/SiemensDemo/documentation.owl#" >
+    <!ENTITY considerations "http://www.siemens-health.com/SiemensDemo/considerations.owl#" >
+    <!ENTITY Procedures-examples-alr "http://www.siemens-health.com/tiny-demo/Procedures-examples-alr.owl#" >
+    <!ENTITY beliefs2documentation "http://www.siemens-health.com/SiemensDemo/beliefs2documentation.owl#" >
+    <!ENTITY documentation2medicine "http://www.siemens-health.com/SiemensDemo/documentation2medicine.owl#" >
+    <!ENTITY considerations2documentation "http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#" >
+    <!ENTITY doc-and-template-demo-four "http://www.siemens-health.com/cpoe-micro-demo/doc-and-template-demo-four.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.siemens-health.com/SiemensDemo/START-HERE.owl#"
+     xml:base="http://www.siemens-health.com/SiemensDemo/START-HERE.owl"
+     xmlns:beliefs="http://www.siemens-health.com/SiemensDemo/beliefs.owl#"
+     xmlns:data="http://www.siemens-health.com/SiemensDemo/data.owl#"
+     xmlns:skeleton="http://www.siemens-health.com/SiemensDemo/skeleton.owl#"
+     xmlns:meta="http://www.co-ode.org/ontologies/meta/meta.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:considerations="http://www.siemens-health.com/SiemensDemo/considerations.owl#"
+     xmlns:START-HERE="http://www.siemens-health.com/SiemensDemo/START-HERE.owl#"
+     xmlns:doc-and-template-demo-four="http://www.siemens-health.com/cpoe-micro-demo/doc-and-template-demo-four.owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:beliefs2documentation="http://www.siemens-health.com/SiemensDemo/beliefs2documentation.owl#"
+     xmlns:medicine="http://www.siemens-health.com/SiemensDemo/medicine.owl#"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:Demo="http://siemens-health.com/Demo#"
+     xmlns:documentation2medicine="http://www.siemens-health.com/SiemensDemo/documentation2medicine.owl#"
+     xmlns:medicine2="&medicine;1"
+     xmlns:medicine3="&medicine;2"
+     xmlns:medicine4="&medicine;3"
+     xmlns:medicine5="&medicine;5"
+     xmlns:medicine6="&medicine;6"
+     xmlns:medicine7="&medicine;4"
+     xmlns:considerations2documentation="http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:documentation="http://www.siemens-health.com/SiemensDemo/documentation.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:annotations="http://www.siemens-health.com/SiemensDemo/annotations.owl#"
+     xmlns:Procedures-examples-alr="http://www.siemens-health.com/tiny-demo/Procedures-examples-alr.owl#"
+     xmlns:UPPER="http://www/siemens-health.com/cpoe-microdemo/UPPER.owl#">
+    <owl:Ontology rdf:about="">
+        <annotations:display-name
+            >For every relevant class contains the string to be used by the application driven by the ontology.
+
+URI: http://www.siemens-health.com/SiemensDemo/annotations.owl#display-name</annotations:display-name>
+        <Demo:LabelDelimiter>;</Demo:LabelDelimiter>
+        <Demo:Labels
+            >http://www.siemens-health.com/SiemensDemo/annotations.owl#display-name;http://www.w3.org/2000/01/rdf-schema#label</Demo:Labels>
+        <rdfs:comment
+            >Ontology URI: http://www.siemens-health.com/SiemensDemo/start-here.owl</rdfs:comment>
+        <annotations:SNOMED-reference
+            >Placeholder for links to SNOMED.
+
+http://www.siemens-health.com/SiemensDemo/annotations.owl#SNOMED-reference</annotations:SNOMED-reference>
+        <owl:imports rdf:resource="http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl"/>
+        <owl:imports rdf:resource="http://www.siemens-health.com/SiemensDemo/documentation2medicine.owl"/>
+        <owl:imports rdf:resource="http://www.siemens-health.com/tiny-demo/Procedures-examples-alr.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&UPPER;devel_comment"/>
+    <owl:AnnotationProperty rdf:about="&annotations;qualified_UI_name"/>
+    <owl:AnnotationProperty rdf:about="&Demo;Labels"/>
+    <owl:AnnotationProperty rdf:about="#Reference_Vocab_ID"/>
+    <owl:AnnotationProperty rdf:about="#Reference_Concept_Name"/>
+    <owl:AnnotationProperty rdf:about="&meta;index"/>
+    <owl:AnnotationProperty rdf:about="&annotations;display-name"/>
+    <owl:AnnotationProperty rdf:about="&annotations;SNOMED-reference"/>
+    <owl:AnnotationProperty rdf:about="&doc-and-template-demo-four;display_name"/>
+    <owl:AnnotationProperty rdf:about="&Demo;LabelDelimiter"/>
+    <owl:AnnotationProperty rdf:about="&annotations;qualified_SNOMED_code"/>
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
+    <owl:AnnotationProperty rdf:about="&Demo;XMLNodeLabel-subclasses"/>
+    <owl:AnnotationProperty rdf:about="&annotations;reference-code-system"/>
+    <owl:AnnotationProperty rdf:about="#Reference_Term_Name"/>
+    <owl:AnnotationProperty rdf:about="#Reference_Term_ID"/>
+    <owl:AnnotationProperty rdf:about="#Reference_Concept_ID"/>
+    <owl:AnnotationProperty rdf:about="&Demo;Sharing-subclasses"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/START-HERE.owl#OWLClass_00000004177006167541 -->
+
+    <owl:Class rdf:about="#OWLClass_00000004177006167541">
+        <Demo:Sharing-subclasses>non-shared</Demo:Sharing-subclasses>
+        <Demo:XMLNodeLabel-subclasses>Value</Demo:XMLNodeLabel-subclasses>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/START-HERE.owl#OWLClass_00000085664168823691 -->
+
+    <owl:Class rdf:about="#OWLClass_00000085664168823691">
+        <Demo:Sharing-subclasses>non-shared</Demo:Sharing-subclasses>
+        <Demo:XMLNodeLabel-subclasses>Value</Demo:XMLNodeLabel-subclasses>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/START-HERE.owl#OWLClass_00000085830033373794 -->
+
+    <owl:Class rdf:about="#OWLClass_00000085830033373794">
+        <Demo:Sharing-subclasses>non-shared</Demo:Sharing-subclasses>
+        <Demo:XMLNodeLabel-subclasses>Value</Demo:XMLNodeLabel-subclasses>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/START-HERE.owl#OWLClass_01241020662461326000 -->
+
+    <owl:Class rdf:about="#OWLClass_01241020662461326000">
+        <Demo:Sharing-subclasses>non-shared</Demo:Sharing-subclasses>
+        <Demo:XMLNodeLabel-subclasses>Value</Demo:XMLNodeLabel-subclasses>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/documentation.owl#OWLClass_01235004399107799000 -->
+
+    <owl:Class rdf:about="&documentation;OWLClass_01235004399107799000">
+        <Demo:Sharing-subclasses>non-shared</Demo:Sharing-subclasses>
+        <Demo:XMLNodeLabel-subclasses>Value</Demo:XMLNodeLabel-subclasses>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/documentation.owl#OWLClass_01235042825966780000 -->
+
+    <owl:Class rdf:about="&documentation;OWLClass_01235042825966780000">
+        <Demo:Sharing-subclasses>non-shared</Demo:Sharing-subclasses>
+        <Demo:XMLNodeLabel-subclasses>Value</Demo:XMLNodeLabel-subclasses>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/documentation.owl#OWLClass_01235043447941445000 -->
+
+    <owl:Class rdf:about="&documentation;OWLClass_01235043447941445000">
+        <Demo:XMLNodeLabel-subclasses>Value</Demo:XMLNodeLabel-subclasses>
+        <Demo:Sharing-subclasses>non-shared</Demo:Sharing-subclasses>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/documentation.owl#OWLClass_01236606394659272000 -->
+
+    <owl:Class rdf:about="&documentation;OWLClass_01236606394659272000">
+        <Demo:XMLNodeLabel-subclasses>Value</Demo:XMLNodeLabel-subclasses>
+        <Demo:Sharing-subclasses>non-shared</Demo:Sharing-subclasses>
+    </owl:Class>
+    
+
+
+    <!-- http://www.siemens-health.com/SiemensDemo/documentation.owl#Present_or_absent_value -->
+
+    <owl:Class rdf:about="&documentation;Present_or_absent_value">
+        <Demo:XMLNodeLabel-subclasses>Value</Demo:XMLNodeLabel-subclasses>
+        <Demo:Sharing-subclasses>non-shared</Demo:Sharing-subclasses>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1138) http://owlapi.sourceforge.net -->
+
