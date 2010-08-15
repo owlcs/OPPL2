@@ -30,6 +30,7 @@ import org.coode.oppl.exceptions.NullReasonerException;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.expression.OWLEntityChecker;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -86,8 +87,9 @@ public interface OPPLAbstractFactory {
 	 *         input Variable instances the input OPPLQuery and the input set of
 	 *         actions
 	 */
-	OPPLScript buildOPPLScript(ConstraintSystem constraintSystem, List<Variable> variables,
-			OPPLQuery opplQuery, List<OWLAxiomChange> actions);
+	OPPLScript buildOPPLScript(ConstraintSystem constraintSystem,
+			List<Variable> variables, OPPLQuery opplQuery,
+			List<OWLAxiomChange> actions);
 
 	/**
 	 * @return a new blank OPPLQuery instance
@@ -111,7 +113,8 @@ public interface OPPLAbstractFactory {
 	 * @throws NullPointerException
 	 *             when the input is {@code null}.
 	 */
-	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs);
+	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(
+			ConstraintSystem cs);
 
 	/**
 	 * @return the appropriate OWLDataFactory used by this OPPLAbstractFactory
@@ -135,4 +138,12 @@ public interface OPPLAbstractFactory {
 	 *             when the input is {@code null}.
 	 */
 	OPPLScript importOPPLScript(OPPLScript opplScript);
+
+	/**
+	 * Retrieves a default IRI which will serve the purpose of an Ontology IRI
+	 * when the one returned by {@code this.getOntology()} is {@code null}.
+	 * 
+	 * @return
+	 */
+	IRI getDefaultOntologyIRI();
 }

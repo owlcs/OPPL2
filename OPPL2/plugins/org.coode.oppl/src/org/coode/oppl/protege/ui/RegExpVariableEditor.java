@@ -26,7 +26,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,8 +51,9 @@ import org.coode.parsers.ui.ExpressionEditor;
 import org.coode.parsers.ui.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.OWLEditorKit;
-import org.protege.editor.owl.model.description.OWLExpressionParserException;
+import org.protege.editor.owl.model.classexpression.OWLExpressionParserException;
 import org.protege.editor.owl.ui.clsdescriptioneditor.OWLExpressionChecker;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLException;
 
 /**
@@ -243,16 +243,16 @@ public class RegExpVariableEditor extends
 	private Variable createTempVariable(final String name,
 			final VariableType type) {
 		return new Variable() {
-			public void setVariableScope(VariableScope variableScope,
+			public void setVariableScope(VariableScope<?> variableScope,
 					VariableScopeChecker variableScopeChecker) {
 			}
 
-			public VariableScope getVariableScope() {
+			public VariableScope<?> getVariableScope() {
 				return null;
 			}
 
-			public URI getURI() {
-				return URI.create(ManchesterVariableSyntax.NAMESPACE
+			public IRI getIRI() {
+				return IRI.create(ManchesterVariableSyntax.NAMESPACE
 						+ this.getName());
 			}
 

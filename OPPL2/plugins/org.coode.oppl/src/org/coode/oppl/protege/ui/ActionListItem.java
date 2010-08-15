@@ -50,8 +50,11 @@ public class ActionListItem implements MListItem {
 				: "REMOVE ";
 		String toFrom = this.axiomChange instanceof AddAxiom ? " to "
 				: " from ";
-		return addOrRemove + " the axiom" + toFrom
-				+ this.axiomChange.getOntology().getURI().toString();
+		return addOrRemove
+				+ " the axiom"
+				+ toFrom
+				+ this.axiomChange.getOntology().getOntologyID()
+						.getOntologyIRI().toString();
 	}
 
 	/**

@@ -53,7 +53,7 @@ import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.VerifyingOptionPane;
 import org.protege.editor.owl.OWLEditorKit;
-import org.protege.editor.owl.model.description.OWLExpressionParserException;
+import org.protege.editor.owl.model.classexpression.OWLExpressionParserException;
 import org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor;
 import org.protege.editor.owl.ui.clsdescriptioneditor.OWLExpressionChecker;
 import org.semanticweb.owlapi.model.OWLException;
@@ -134,7 +134,7 @@ public class VariableEditor extends AbstractVariableEditor<Variable> {
 	private final JLabel typeScopeLabel = new JLabel();
 	private final Map<JRadioButton, VariableType> jRadioButtonTypeMap = new HashMap<JRadioButton, VariableType>();
 	private final Map<VariableType, JRadioButton> typeJRadioButonMap = new HashMap<VariableType, JRadioButton>();
-	private VariableScope lastVariableScope = null;
+	private VariableScope<?> lastVariableScope = null;
 	private JButton createScopeButton = new JButton("Create");
 	private JButton editScopeButton = new JButton("Edit");
 	private JButton deleteScopeButton = new JButton("Clear");

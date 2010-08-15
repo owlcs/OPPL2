@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog id="XML Catalog File (see http://www.oasis-open.org/committees/entity/spec-2001-08-06.html) - Created By Protege 4" prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <group id="Folder Repository, directory=/Users/luigi/Documents/workspace/OPPL2/ontologies, Auto-Update=true" prefer="public" xml:base="">
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://purl.org/obo/owl/mymf" uri="solomf.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.cellcycleontology.org/ontology/owl/CCO" uri="cco_A_thaliana.oppl.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.semanticweb.org/family.owl" uri="mikelsFamily.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.semanticweb.org/dogs.owl" uri="dogs.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.siemens-health.com/SiemensDemo/data.owl" uri="data.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.cs.manchester.owl/owlarithmetics/bmi.owl" uri="bmi.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.cs.manchester.ac.uk/ontologies/testDerived.owl" uri="testDerived.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.semanticweb.org/oppl_constant.owl" uri="oppl_constant.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.siemens-health.com/SiemensDemo/documentation2medicine.owl" uri="documentation2medicine.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.siemens-health.com/SiemensDemo/medicine.owl" uri="medicine.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.cs.manchester.ac.uk/ontologies/OPPL/testLabelRenderingsBase.owl" uri="testLabelRenderingsBase.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.siemens-health.com/SiemensDemo/skeleton.owl" uri="skeleton.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl" uri="considerations2documentation.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.cs.manchester.ac.uk/~iannone/owlclaculations/examples/geometry.owl" uri="complicatedGeometry.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.siemens-health.com/SiemensDemo/considerations.owl" uri="considerations.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.siemens-health.com/SiemensDemo/START-HERE.owl" uri="START-HERE.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.w3.org/2006/12/owl2-xml#" uri="test.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.coode.org/patterns/examples/food" uri="food.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.siemens-health.com/tiny-demo/Procedures-examples-alr.owl" uri="Procedures-examples-alr.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.cs.manchester.ac.uk/ontologies/OPPL/testLabelRenderingsIndirect.owl" uri="testLabelRenderingsIndirect.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.siemens-health.com/SiemensDemo/documentation.owl" uri="documentation.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="duplicate:http://www.semanticweb.org/descen.owl" uri="descen.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="duplicate:http://www.semanticweb.org/descen.owl" uri="mikelsDescen.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl" uri="NAF.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.siemens-health.com/SiemensDemo/AnnotatedSiemensStart" uri="AnnotatedSiemensStart.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.semanticweb.org/ontologies/2010/2/Ontology1268325704928.owl" uri="testRegexpPropertyNames.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.ca.manchester.ac.uk/~iannonel/owlcalculations/examples/purchase" uri="purchase.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://mikeleganaaranguren.com/oppl_test.owl" uri="mikelsTest.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.co-ode.org/patterns/ontologies/patternedDUL" uri="patternedDUL.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.co-ode.org/patterns/pizza" uri="patternedPizza.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.cs.man.ac.uk/~iannonel/oppl/examples" uri="example.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl" uri="geometry.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1281695601208" name="http://www.cs.manchester.ac.uk/ontologies/OPPL/testLabelRenderings.owl" uri="testLabelRenderings.owl"/>
+    </group>
+</catalog>

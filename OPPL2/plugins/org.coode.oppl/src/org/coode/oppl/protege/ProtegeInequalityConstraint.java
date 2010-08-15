@@ -23,8 +23,6 @@
 package org.coode.oppl.protege;
 
 import org.coode.oppl.InequalityConstraint;
-import org.coode.oppl.protege.ui.VariableOWLObjectRenderer;
-import org.coode.oppl.protege.ui.rendering.ShortFormVariableOWLEntityRenderer;
 import org.protege.editor.owl.model.OWLModelManager;
 
 /**
@@ -32,8 +30,6 @@ import org.protege.editor.owl.model.OWLModelManager;
  * 
  */
 public class ProtegeInequalityConstraint extends InequalityConstraint {
-	private ShortFormVariableOWLEntityRenderer entityRenderer;
-	private final VariableOWLObjectRenderer variableOWLObjectRenderer;
 	private final InequalityConstraint constraint;
 
 	public ProtegeInequalityConstraint(InequalityConstraint constraint,
@@ -41,29 +37,10 @@ public class ProtegeInequalityConstraint extends InequalityConstraint {
 		super(constraint.getVariable(), constraint.getExpression(), constraint
 				.getConstraintSystem());
 		this.constraint = constraint;
-		this.variableOWLObjectRenderer = new VariableOWLObjectRenderer(
-				modelManager);
 	}
 
 	@Override
 	public String toString() {
-		this.entityRenderer = new ShortFormVariableOWLEntityRenderer(
-				getConstraintSystem());
-		return this.constraint.getVariable().getName()
-				+ " != "
-				+ this.variableOWLObjectRenderer.render(getExpression(),
-						this.entityRenderer);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		// the changes in this class are not relevant for hashcode and equals
-		return super.equals(obj);
-	}
-
-	@Override
-	public int hashCode() {
-		// the changes in this class are not relevant for hashcode and equals
-		return super.hashCode();
+		return this.constraint.toString();
 	}
 }

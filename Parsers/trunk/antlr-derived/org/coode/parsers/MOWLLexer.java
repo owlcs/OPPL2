@@ -1,6 +1,6 @@
 package org.coode.parsers;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g 2010-07-29 13:11:22
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g 2010-08-13 08:22:17
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -74,7 +74,7 @@ public class MOWLLexer extends Lexer {
 
 	@Override
 	public String getGrammarFileName() {
-		return "/Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g";
+		return "/Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g";
 	}
 
 	// $ANTLR start "COMPOSITION"
@@ -82,9 +82,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = COMPOSITION;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:10:13: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:10:13: (
 			// 'o' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:11:3:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:11:3:
 			// 'o'
 			{
 				this.match('o');
@@ -101,9 +101,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = OPEN_PARENTHESYS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:14:19: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:14:19: (
 			// '(' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:15:3:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:15:3:
 			// '('
 			{
 				this.match('(');
@@ -120,9 +120,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = OPEN_CURLY_BRACES;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:18:19: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:18:19: (
 			// '{' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:19:5:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:19:5:
 			// '{'
 			{
 				this.match('{');
@@ -139,9 +139,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = CLOSED_CURLY_BRACES;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:22:21: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:22:21: (
 			// '}' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:23:5:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:23:5:
 			// '}'
 			{
 				this.match('}');
@@ -158,9 +158,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = CLOSED_PARENTHESYS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:26:21: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:26:21: (
 			// ')' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:27:3:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:27:3:
 			// ')'
 			{
 				this.match(')');
@@ -177,16 +177,17 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = WHITESPACE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:30:13: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:30:13: (
 			// ( ' ' | '\\t' | '\\n' | '\\r' ) )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:30:15: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:30:15: (
 			// ' ' | '\\t' | '\\n' | '\\r' )
 			{
 				if (this.input.LA(1) >= '\t' && this.input.LA(1) <= '\n'
 						|| this.input.LA(1) == '\r' || this.input.LA(1) == ' ') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -204,9 +205,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = AND;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:33:5: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:33:5: (
 			// 'and' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:33:7:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:33:7:
 			// 'and'
 			{
 				this.match("and");
@@ -223,9 +224,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = OR;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:35:5: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:35:5: (
 			// 'or' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:35:7:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:35:7:
 			// 'or'
 			{
 				this.match("or");
@@ -242,7 +243,7 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = NOT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:37:5: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:37:5: (
 			// 'not' | 'NOT' | 'Not' )
 			int alt1 = 3;
 			int LA1_0 = this.input.LA(1);
@@ -255,30 +256,32 @@ public class MOWLLexer extends Lexer {
 				} else if (LA1_2 == 'o') {
 					alt1 = 3;
 				} else {
-					NoViableAltException nvae = new NoViableAltException("", 1, 2, this.input);
+					NoViableAltException nvae = new NoViableAltException("", 1,
+							2, this.input);
 					throw nvae;
 				}
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 1, 0, this.input);
+				NoViableAltException nvae = new NoViableAltException("", 1, 0,
+						this.input);
 				throw nvae;
 			}
 			switch (alt1) {
 			case 1:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:37:7:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:37:7:
 				// 'not'
 			{
 				this.match("not");
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:37:15:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:37:15:
 				// 'NOT'
 			{
 				this.match("NOT");
 			}
 				break;
 			case 3:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:37:23:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:37:23:
 				// 'Not'
 			{
 				this.match("Not");
@@ -297,9 +300,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = SOME;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:39:7: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:39:7: (
 			// 'some' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:39:9:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:39:9:
 			// 'some'
 			{
 				this.match("some");
@@ -316,9 +319,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = ONLY;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:41:7: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:41:7: (
 			// 'only' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:41:9:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:41:9:
 			// 'only'
 			{
 				this.match("only");
@@ -335,9 +338,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = MIN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:43:7: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:43:7: (
 			// 'min' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:43:9:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:43:9:
 			// 'min'
 			{
 				this.match("min");
@@ -354,9 +357,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = MAX;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:45:7: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:45:7: (
 			// 'max' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:45:9:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:45:9:
 			// 'max'
 			{
 				this.match("max");
@@ -373,9 +376,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = EXACTLY;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:47:11: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:47:11: (
 			// 'exactly' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:47:13:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:47:13:
 			// 'exactly'
 			{
 				this.match("exactly");
@@ -392,9 +395,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = VALUE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:49:7: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:49:7: (
 			// 'value' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:49:9:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:49:9:
 			// 'value'
 			{
 				this.match("value");
@@ -411,9 +414,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = INVERSE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:51:9: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:51:9: (
 			// 'INV' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:51:11:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:51:11:
 			// 'INV'
 			{
 				this.match("INV");
@@ -430,12 +433,20 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = SUBCLASS_OF;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:54:13: (
-			// 'subClassOf' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:54:15:
-			// 'subClassOf'
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:54:13: (
+			// ( 'S' | 's' ) 'ubClassOf' )
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:54:15: (
+			// 'S' | 's' ) 'ubClassOf'
 			{
-				this.match("subClassOf");
+				if (this.input.LA(1) == 'S' || this.input.LA(1) == 's') {
+					this.input.consume();
+				} else {
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
+					this.recover(mse);
+					throw mse;
+				}
+				this.match("ubClassOf");
 			}
 			this.state.type = _type;
 			this.state.channel = _channel;
@@ -449,9 +460,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = SUB_PROPERTY_OF;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:57:17: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:57:17: (
 			// 'subPropertyOf' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:57:19:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:57:19:
 			// 'subPropertyOf'
 			{
 				this.match("subPropertyOf");
@@ -468,9 +479,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = EQUIVALENT_TO;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:59:15: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:59:15: (
 			// 'equivalentTo' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:59:17:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:59:17:
 			// 'equivalentTo'
 			{
 				this.match("equivalentTo");
@@ -487,7 +498,7 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = SAME_AS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:62:9: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:62:9: (
 			// 'sameAs' | 'SameAs' )
 			int alt2 = 2;
 			int LA2_0 = this.input.LA(1);
@@ -496,19 +507,20 @@ public class MOWLLexer extends Lexer {
 			} else if (LA2_0 == 'S') {
 				alt2 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 2, 0, this.input);
+				NoViableAltException nvae = new NoViableAltException("", 2, 0,
+						this.input);
 				throw nvae;
 			}
 			switch (alt2) {
 			case 1:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:62:10:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:62:10:
 				// 'sameAs'
 			{
 				this.match("sameAs");
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:62:21:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:62:21:
 				// 'SameAs'
 			{
 				this.match("SameAs");
@@ -527,7 +539,7 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = DIFFERENT_FROM;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:65:17: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:65:17: (
 			// 'differentFrom' | 'DifferentFrom' )
 			int alt3 = 2;
 			int LA3_0 = this.input.LA(1);
@@ -536,19 +548,20 @@ public class MOWLLexer extends Lexer {
 			} else if (LA3_0 == 'D') {
 				alt3 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 3, 0, this.input);
+				NoViableAltException nvae = new NoViableAltException("", 3, 0,
+						this.input);
 				throw nvae;
 			}
 			switch (alt3) {
 			case 1:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:65:19:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:65:19:
 				// 'differentFrom'
 			{
 				this.match("differentFrom");
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:65:37:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:65:37:
 				// 'DifferentFrom'
 			{
 				this.match("DifferentFrom");
@@ -567,7 +580,7 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = INVERSE_OF;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:68:11: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:68:11: (
 			// 'InverseOf' | 'inverseOf' )
 			int alt4 = 2;
 			int LA4_0 = this.input.LA(1);
@@ -576,19 +589,20 @@ public class MOWLLexer extends Lexer {
 			} else if (LA4_0 == 'i') {
 				alt4 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 4, 0, this.input);
+				NoViableAltException nvae = new NoViableAltException("", 4, 0,
+						this.input);
 				throw nvae;
 			}
 			switch (alt4) {
 			case 1:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:68:15:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:68:15:
 				// 'InverseOf'
 			{
 				this.match("InverseOf");
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:68:29:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:68:29:
 				// 'inverseOf'
 			{
 				this.match("inverseOf");
@@ -607,7 +621,7 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = DISJOINT_WITH;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:70:15: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:70:15: (
 			// 'DisjointWith' | 'disjointWith' )
 			int alt5 = 2;
 			int LA5_0 = this.input.LA(1);
@@ -616,19 +630,20 @@ public class MOWLLexer extends Lexer {
 			} else if (LA5_0 == 'd') {
 				alt5 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 5, 0, this.input);
+				NoViableAltException nvae = new NoViableAltException("", 5, 0,
+						this.input);
 				throw nvae;
 			}
 			switch (alt5) {
 			case 1:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:70:17:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:70:17:
 				// 'DisjointWith'
 			{
 				this.match("DisjointWith");
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:70:34:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:70:34:
 				// 'disjointWith'
 			{
 				this.match("disjointWith");
@@ -647,7 +662,7 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = DOMAIN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:73:9: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:73:9: (
 			// 'Domain' | 'domain' )
 			int alt6 = 2;
 			int LA6_0 = this.input.LA(1);
@@ -656,19 +671,20 @@ public class MOWLLexer extends Lexer {
 			} else if (LA6_0 == 'd') {
 				alt6 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 6, 0, this.input);
+				NoViableAltException nvae = new NoViableAltException("", 6, 0,
+						this.input);
 				throw nvae;
 			}
 			switch (alt6) {
 			case 1:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:74:5:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:74:5:
 				// 'Domain'
 			{
 				this.match("Domain");
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:74:16:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:74:16:
 				// 'domain'
 			{
 				this.match("domain");
@@ -687,7 +703,7 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = RANGE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:76:8: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:76:8: (
 			// 'Range' | 'range' )
 			int alt7 = 2;
 			int LA7_0 = this.input.LA(1);
@@ -696,19 +712,20 @@ public class MOWLLexer extends Lexer {
 			} else if (LA7_0 == 'r') {
 				alt7 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 7, 0, this.input);
+				NoViableAltException nvae = new NoViableAltException("", 7, 0,
+						this.input);
 				throw nvae;
 			}
 			switch (alt7) {
 			case 1:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:77:5:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:77:5:
 				// 'Range'
 			{
 				this.match("Range");
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:77:15:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:77:15:
 				// 'range'
 			{
 				this.match("range");
@@ -727,20 +744,21 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = FUNCTIONAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:82:13: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:82:13: (
 			// ( 'F' | 'f' ) 'unctional' ( ':' )? )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:82:17: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:82:17: (
 			// 'F' | 'f' ) 'unctional' ( ':' )?
 			{
 				if (this.input.LA(1) == 'F' || this.input.LA(1) == 'f') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				this.match("unctional");
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:82:37:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:82:37:
 				// ( ':' )?
 				int alt8 = 2;
 				int LA8_0 = this.input.LA(1);
@@ -749,7 +767,7 @@ public class MOWLLexer extends Lexer {
 				}
 				switch (alt8) {
 				case 1:
-					// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:82:37:
+					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:82:37:
 					// ':'
 				{
 					this.match(':');
@@ -769,20 +787,21 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = SYMMETRIC;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:84:12: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:84:12: (
 			// ( 'S' | 's' ) 'ymmetric' ( ':' )? )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:84:15: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:84:15: (
 			// 'S' | 's' ) 'ymmetric' ( ':' )?
 			{
 				if (this.input.LA(1) == 'S' || this.input.LA(1) == 's') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				this.match("ymmetric");
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:84:34:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:84:34:
 				// ( ':' )?
 				int alt9 = 2;
 				int LA9_0 = this.input.LA(1);
@@ -791,7 +810,7 @@ public class MOWLLexer extends Lexer {
 				}
 				switch (alt9) {
 				case 1:
-					// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:84:34:
+					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:84:34:
 					// ':'
 				{
 					this.match(':');
@@ -811,15 +830,16 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = ANTI_SYMMETRIC;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:87:17: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:87:17: (
 			// ( 'A' | 'a' ) 'nti' ( 'S' | 's' ) 'ymmetric' ( ':' )? )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:87:19: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:87:19: (
 			// 'A' | 'a' ) 'nti' ( 'S' | 's' ) 'ymmetric' ( ':' )?
 			{
 				if (this.input.LA(1) == 'A' || this.input.LA(1) == 'a') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -827,12 +847,13 @@ public class MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'S' || this.input.LA(1) == 's') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				this.match("ymmetric");
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:87:52:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:87:52:
 				// ( ':' )?
 				int alt10 = 2;
 				int LA10_0 = this.input.LA(1);
@@ -841,7 +862,7 @@ public class MOWLLexer extends Lexer {
 				}
 				switch (alt10) {
 				case 1:
-					// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:87:52:
+					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:87:52:
 					// ':'
 				{
 					this.match(':');
@@ -861,20 +882,21 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = REFLEXIVE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:90:12: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:90:12: (
 			// ( 'R' | 'r' ) 'eflexive' ( ':' )? )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:90:14: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:90:14: (
 			// 'R' | 'r' ) 'eflexive' ( ':' )?
 			{
 				if (this.input.LA(1) == 'R' || this.input.LA(1) == 'r') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				this.match("eflexive");
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:90:33:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:90:33:
 				// ( ':' )?
 				int alt11 = 2;
 				int LA11_0 = this.input.LA(1);
@@ -883,7 +905,7 @@ public class MOWLLexer extends Lexer {
 				}
 				switch (alt11) {
 				case 1:
-					// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:90:33:
+					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:90:33:
 					// ':'
 				{
 					this.match(':');
@@ -903,20 +925,21 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = IRREFLEXIVE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:92:14: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:92:14: (
 			// ( 'I' | 'i' ) 'rreflexive' ( ':' )? )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:92:16: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:92:16: (
 			// 'I' | 'i' ) 'rreflexive' ( ':' )?
 			{
 				if (this.input.LA(1) == 'I' || this.input.LA(1) == 'i') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				this.match("rreflexive");
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:92:38:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:92:38:
 				// ( ':' )?
 				int alt12 = 2;
 				int LA12_0 = this.input.LA(1);
@@ -925,7 +948,7 @@ public class MOWLLexer extends Lexer {
 				}
 				switch (alt12) {
 				case 1:
-					// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:92:38:
+					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:92:38:
 					// ':'
 				{
 					this.match(':');
@@ -945,20 +968,21 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = TRANSITIVE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:94:14: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:94:14: (
 			// ( 'T' | 't' ) 'ransitive' ( ':' )? )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:94:16: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:94:16: (
 			// 'T' | 't' ) 'ransitive' ( ':' )?
 			{
 				if (this.input.LA(1) == 'T' || this.input.LA(1) == 't') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				this.match("ransitive");
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:94:36:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:94:36:
 				// ( ':' )?
 				int alt13 = 2;
 				int LA13_0 = this.input.LA(1);
@@ -967,7 +991,7 @@ public class MOWLLexer extends Lexer {
 				}
 				switch (alt13) {
 				case 1:
-					// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:94:36:
+					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:94:36:
 					// ':'
 				{
 					this.match(':');
@@ -987,15 +1011,16 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = INVERSE_FUNCTIONAL;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:97:19: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:97:19: (
 			// ( 'I' | 'i' ) 'nverse' ( 'F' | 'f' ) 'unctional' ( ':' )? )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:97:23: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:97:23: (
 			// 'I' | 'i' ) 'nverse' ( 'F' | 'f' ) 'unctional' ( ':' )?
 			{
 				if (this.input.LA(1) == 'I' || this.input.LA(1) == 'i') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1003,12 +1028,13 @@ public class MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'F' || this.input.LA(1) == 'f') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				this.match("unctional");
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:97:60:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:97:60:
 				// ( ':' )?
 				int alt14 = 2;
 				int LA14_0 = this.input.LA(1);
@@ -1017,7 +1043,7 @@ public class MOWLLexer extends Lexer {
 				}
 				switch (alt14) {
 				case 1:
-					// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:97:60:
+					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:97:60:
 					// ':'
 				{
 					this.match(':');
@@ -1037,9 +1063,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = POW;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:100:7: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:100:7: (
 			// '^' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:100:9:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:100:9:
 			// '^'
 			{
 				this.match('^');
@@ -1056,9 +1082,9 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = COMMA;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:103:7: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:103:7: (
 			// ',' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:104:5:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:104:5:
 			// ','
 			{
 				this.match(',');
@@ -1075,15 +1101,16 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = INSTANCE_OF;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:107:13:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:107:13:
 			// ( ( 'I' | 'i' ) 'nstance' ( 'O' | 'o' ) 'f' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:107:15:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:107:15:
 			// ( 'I' | 'i' ) 'nstance' ( 'O' | 'o' ) 'f'
 			{
 				if (this.input.LA(1) == 'I' || this.input.LA(1) == 'i') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1091,7 +1118,8 @@ public class MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'O' || this.input.LA(1) == 'o') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1109,15 +1137,16 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = TYPES;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:110:7: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:110:7: (
 			// ( 'T' | 't' ) 'ypes' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:110:9: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:110:9: (
 			// 'T' | 't' ) 'ypes'
 			{
 				if (this.input.LA(1) == 'T' || this.input.LA(1) == 't') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1135,13 +1164,13 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = DBLQUOTE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:116:10:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:116:10:
 			// ( '\"' (~ '\"' | '\"\"' )* '\"' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:117:7:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:117:7:
 			// '\"' (~ '\"' | '\"\"' )* '\"'
 			{
 				this.match('\"');
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:118:7:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:118:7:
 				// (~ '\"' | '\"\"' )*
 				loop15: do {
 					int alt15 = 3;
@@ -1151,28 +1180,30 @@ public class MOWLLexer extends Lexer {
 						if (LA15_1 == '\"') {
 							alt15 = 2;
 						}
-					} else if (LA15_0 >= '\u0000' && LA15_0 <= '!' || LA15_0 >= '#'
-							&& LA15_0 <= '\uFFFF') {
+					} else if (LA15_0 >= '\u0000' && LA15_0 <= '!'
+							|| LA15_0 >= '#' && LA15_0 <= '\uFFFF') {
 						alt15 = 1;
 					}
 					switch (alt15) {
 					case 1:
-						// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:118:8:
+						// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:118:8:
 						// ~ '\"'
 					{
-						if (this.input.LA(1) >= '\u0000' && this.input.LA(1) <= '!'
-								|| this.input.LA(1) >= '#' && this.input.LA(1) <= '\uFFFF') {
+						if (this.input.LA(1) >= '\u0000'
+								&& this.input.LA(1) <= '!'
+								|| this.input.LA(1) >= '#'
+								&& this.input.LA(1) <= '\uFFFF') {
 							this.input.consume();
 						} else {
-							MismatchedSetException mse = new MismatchedSetException(null,
-									this.input);
+							MismatchedSetException mse = new MismatchedSetException(
+									null, this.input);
 							this.recover(mse);
 							throw mse;
 						}
 					}
 						break;
 					case 2:
-						// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:118:15:
+						// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:118:15:
 						// '\"\"'
 					{
 						this.match("\"\"");
@@ -1208,12 +1239,12 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = INTEGER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:140:8: (
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:140:8: (
 			// ( DIGIT )+ )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:140:10:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:140:10:
 			// ( DIGIT )+
 			{
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:140:10:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:140:10:
 				// ( DIGIT )+
 				int cnt16 = 0;
 				loop16: do {
@@ -1224,7 +1255,7 @@ public class MOWLLexer extends Lexer {
 					}
 					switch (alt16) {
 					case 1:
-						// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:140:10:
+						// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:140:10:
 						// DIGIT
 					{
 						this.mDIGIT();
@@ -1234,7 +1265,8 @@ public class MOWLLexer extends Lexer {
 						if (cnt16 >= 1) {
 							break loop16;
 						}
-						EarlyExitException eee = new EarlyExitException(16, this.input);
+						EarlyExitException eee = new EarlyExitException(16,
+								this.input);
 						throw eee;
 					}
 					cnt16++;
@@ -1250,16 +1282,17 @@ public class MOWLLexer extends Lexer {
 	// $ANTLR start "LETTER"
 	public final void mLETTER() throws RecognitionException {
 		try {
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:141:17:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:141:17:
 			// ( ( 'a' .. 'z' | 'A' .. 'Z' ) )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:141:19:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:141:19:
 			// ( 'a' .. 'z' | 'A' .. 'Z' )
 			{
-				if (this.input.LA(1) >= 'A' && this.input.LA(1) <= 'Z' || this.input.LA(1) >= 'a'
-						&& this.input.LA(1) <= 'z') {
+				if (this.input.LA(1) >= 'A' && this.input.LA(1) <= 'Z'
+						|| this.input.LA(1) >= 'a' && this.input.LA(1) <= 'z') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(
+							null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1272,9 +1305,9 @@ public class MOWLLexer extends Lexer {
 	// $ANTLR start "DIGIT"
 	public final void mDIGIT() throws RecognitionException {
 		try {
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:142:15:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:142:15:
 			// ( '0' .. '9' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:142:17:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:142:17:
 			// '0' .. '9'
 			{
 				this.matchRange('0', '9');
@@ -1289,33 +1322,37 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = IDENTIFIER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:144:12:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:144:12:
 			// ( LETTER ( LETTER | DIGIT | '-' | '_' | ':' )* )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:144:14:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:144:14:
 			// LETTER ( LETTER | DIGIT | '-' | '_' | ':' )*
 			{
 				this.mLETTER();
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:144:21:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:144:21:
 				// ( LETTER | DIGIT | '-' | '_' | ':' )*
 				loop17: do {
 					int alt17 = 2;
 					int LA17_0 = this.input.LA(1);
-					if (LA17_0 == '-' || LA17_0 >= '0' && LA17_0 <= ':' || LA17_0 >= 'A'
-							&& LA17_0 <= 'Z' || LA17_0 == '_' || LA17_0 >= 'a' && LA17_0 <= 'z') {
+					if (LA17_0 == '-' || LA17_0 >= '0' && LA17_0 <= ':'
+							|| LA17_0 >= 'A' && LA17_0 <= 'Z' || LA17_0 == '_'
+							|| LA17_0 >= 'a' && LA17_0 <= 'z') {
 						alt17 = 1;
 					}
 					switch (alt17) {
 					case 1:
-						// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:
+						// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:
 					{
 						if (this.input.LA(1) == '-' || this.input.LA(1) >= '0'
-								&& this.input.LA(1) <= ':' || this.input.LA(1) >= 'A'
-								&& this.input.LA(1) <= 'Z' || this.input.LA(1) == '_'
-								|| this.input.LA(1) >= 'a' && this.input.LA(1) <= 'z') {
+								&& this.input.LA(1) <= ':'
+								|| this.input.LA(1) >= 'A'
+								&& this.input.LA(1) <= 'Z'
+								|| this.input.LA(1) == '_'
+								|| this.input.LA(1) >= 'a'
+								&& this.input.LA(1) <= 'z') {
 							this.input.consume();
 						} else {
-							MismatchedSetException mse = new MismatchedSetException(null,
-									this.input);
+							MismatchedSetException mse = new MismatchedSetException(
+									null, this.input);
 							this.recover(mse);
 							throw mse;
 						}
@@ -1338,24 +1375,25 @@ public class MOWLLexer extends Lexer {
 		try {
 			int _type = ENTITY_REFERENCE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:145:18:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:145:18:
 			// ( '\\'' ( IDENTIFIER )+ '\\'' )
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:146:5:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:146:5:
 			// '\\'' ( IDENTIFIER )+ '\\''
 			{
 				this.match('\'');
-				// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:146:10:
+				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:146:10:
 				// ( IDENTIFIER )+
 				int cnt18 = 0;
 				loop18: do {
 					int alt18 = 2;
 					int LA18_0 = this.input.LA(1);
-					if (LA18_0 >= 'A' && LA18_0 <= 'Z' || LA18_0 >= 'a' && LA18_0 <= 'z') {
+					if (LA18_0 >= 'A' && LA18_0 <= 'Z' || LA18_0 >= 'a'
+							&& LA18_0 <= 'z') {
 						alt18 = 1;
 					}
 					switch (alt18) {
 					case 1:
-						// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:146:10:
+						// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:146:10:
 						// IDENTIFIER
 					{
 						this.mIDENTIFIER();
@@ -1365,7 +1403,8 @@ public class MOWLLexer extends Lexer {
 						if (cnt18 >= 1) {
 							break loop18;
 						}
-						EarlyExitException eee = new EarlyExitException(18, this.input);
+						EarlyExitException eee = new EarlyExitException(18,
+								this.input);
 						throw eee;
 					}
 					cnt18++;
@@ -1381,7 +1420,7 @@ public class MOWLLexer extends Lexer {
 	// $ANTLR end "ENTITY_REFERENCE"
 	@Override
 	public void mTokens() throws RecognitionException {
-		// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:8: (
+		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:8: (
 		// COMPOSITION | OPEN_PARENTHESYS | OPEN_CURLY_BRACES |
 		// CLOSED_CURLY_BRACES | CLOSED_PARENTHESYS | WHITESPACE | AND | OR |
 		// NOT | SOME | ONLY | MIN | MAX | EXACTLY | VALUE | INVERSE |
@@ -1394,280 +1433,280 @@ public class MOWLLexer extends Lexer {
 		alt19 = this.dfa19.predict(this.input);
 		switch (alt19) {
 		case 1:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:10:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:10:
 			// COMPOSITION
 		{
 			this.mCOMPOSITION();
 		}
 			break;
 		case 2:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:22:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:22:
 			// OPEN_PARENTHESYS
 		{
 			this.mOPEN_PARENTHESYS();
 		}
 			break;
 		case 3:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:39:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:39:
 			// OPEN_CURLY_BRACES
 		{
 			this.mOPEN_CURLY_BRACES();
 		}
 			break;
 		case 4:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:57:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:57:
 			// CLOSED_CURLY_BRACES
 		{
 			this.mCLOSED_CURLY_BRACES();
 		}
 			break;
 		case 5:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:77:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:77:
 			// CLOSED_PARENTHESYS
 		{
 			this.mCLOSED_PARENTHESYS();
 		}
 			break;
 		case 6:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:96:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:96:
 			// WHITESPACE
 		{
 			this.mWHITESPACE();
 		}
 			break;
 		case 7:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:107:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:107:
 			// AND
 		{
 			this.mAND();
 		}
 			break;
 		case 8:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:111:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:111:
 			// OR
 		{
 			this.mOR();
 		}
 			break;
 		case 9:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:114:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:114:
 			// NOT
 		{
 			this.mNOT();
 		}
 			break;
 		case 10:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:118:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:118:
 			// SOME
 		{
 			this.mSOME();
 		}
 			break;
 		case 11:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:123:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:123:
 			// ONLY
 		{
 			this.mONLY();
 		}
 			break;
 		case 12:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:128:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:128:
 			// MIN
 		{
 			this.mMIN();
 		}
 			break;
 		case 13:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:132:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:132:
 			// MAX
 		{
 			this.mMAX();
 		}
 			break;
 		case 14:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:136:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:136:
 			// EXACTLY
 		{
 			this.mEXACTLY();
 		}
 			break;
 		case 15:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:144:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:144:
 			// VALUE
 		{
 			this.mVALUE();
 		}
 			break;
 		case 16:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:150:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:150:
 			// INVERSE
 		{
 			this.mINVERSE();
 		}
 			break;
 		case 17:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:158:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:158:
 			// SUBCLASS_OF
 		{
 			this.mSUBCLASS_OF();
 		}
 			break;
 		case 18:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:170:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:170:
 			// SUB_PROPERTY_OF
 		{
 			this.mSUB_PROPERTY_OF();
 		}
 			break;
 		case 19:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:186:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:186:
 			// EQUIVALENT_TO
 		{
 			this.mEQUIVALENT_TO();
 		}
 			break;
 		case 20:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:200:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:200:
 			// SAME_AS
 		{
 			this.mSAME_AS();
 		}
 			break;
 		case 21:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:208:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:208:
 			// DIFFERENT_FROM
 		{
 			this.mDIFFERENT_FROM();
 		}
 			break;
 		case 22:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:223:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:223:
 			// INVERSE_OF
 		{
 			this.mINVERSE_OF();
 		}
 			break;
 		case 23:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:234:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:234:
 			// DISJOINT_WITH
 		{
 			this.mDISJOINT_WITH();
 		}
 			break;
 		case 24:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:248:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:248:
 			// DOMAIN
 		{
 			this.mDOMAIN();
 		}
 			break;
 		case 25:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:255:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:255:
 			// RANGE
 		{
 			this.mRANGE();
 		}
 			break;
 		case 26:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:261:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:261:
 			// FUNCTIONAL
 		{
 			this.mFUNCTIONAL();
 		}
 			break;
 		case 27:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:272:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:272:
 			// SYMMETRIC
 		{
 			this.mSYMMETRIC();
 		}
 			break;
 		case 28:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:282:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:282:
 			// ANTI_SYMMETRIC
 		{
 			this.mANTI_SYMMETRIC();
 		}
 			break;
 		case 29:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:297:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:297:
 			// REFLEXIVE
 		{
 			this.mREFLEXIVE();
 		}
 			break;
 		case 30:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:307:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:307:
 			// IRREFLEXIVE
 		{
 			this.mIRREFLEXIVE();
 		}
 			break;
 		case 31:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:319:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:319:
 			// TRANSITIVE
 		{
 			this.mTRANSITIVE();
 		}
 			break;
 		case 32:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:330:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:330:
 			// INVERSE_FUNCTIONAL
 		{
 			this.mINVERSE_FUNCTIONAL();
 		}
 			break;
 		case 33:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:349:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:349:
 			// POW
 		{
 			this.mPOW();
 		}
 			break;
 		case 34:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:353:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:353:
 			// COMMA
 		{
 			this.mCOMMA();
 		}
 			break;
 		case 35:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:359:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:359:
 			// INSTANCE_OF
 		{
 			this.mINSTANCE_OF();
 		}
 			break;
 		case 36:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:371:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:371:
 			// TYPES
 		{
 			this.mTYPES();
 		}
 			break;
 		case 37:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:377:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:377:
 			// DBLQUOTE
 		{
 			this.mDBLQUOTE();
 		}
 			break;
 		case 38:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:386:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:386:
 			// INTEGER
 		{
 			this.mINTEGER();
 		}
 			break;
 		case 39:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:394:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:394:
 			// IDENTIFIER
 		{
 			this.mIDENTIFIER();
 		}
 			break;
 		case 40:
-			// /Users/luigi/Documents/workspace/Parsers/src/MOWLLexer.g:1:405:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLLexer.g:1:405:
 			// ENTITY_REFERENCE
 		{
 			this.mENTITY_REFERENCE();
@@ -1677,79 +1716,79 @@ public class MOWLLexer extends Lexer {
 	}
 
 	protected DFA19 dfa19 = new DFA19(this);
-	static final String DFA19_eotS = "\1\uffff\1\40\5\uffff\21\34\6\uffff\1\76\1\34\1\uffff\35\34\1\uffff"
-			+ "\1\34\1\141\1\34\3\143\4\34\1\151\1\152\3\34\1\156\21\34\1\u0080"
-			+ "\1\uffff\1\34\1\uffff\1\u0082\4\34\2\uffff\3\34\1\uffff\21\34\1"
-			+ "\uffff\1\34\1\uffff\6\34\1\u00a2\13\34\1\u00ae\1\34\1\u00ae\2\34"
-			+ "\1\u00b2\3\34\1\u00b6\3\34\1\uffff\3\34\1\u00b6\2\34\1\u00bf\2\34"
-			+ "\1\u00bf\1\34\1\uffff\3\34\1\uffff\3\34\1\uffff\1\34\1\u00ca\6\34"
-			+ "\1\uffff\12\34\1\uffff\20\34\1\u00ed\1\34\1\u00ef\7\34\1\u00ef\1"
-			+ "\u00f8\3\34\1\u00fc\1\34\1\u00ed\1\uffff\1\34\1\uffff\1\34\1\u0100"
-			+ "\5\34\1\u00f8\1\uffff\1\u0107\1\u0109\1\34\1\uffff\3\34\1\uffff"
-			+ "\1\u010e\4\34\1\u0107\1\uffff\1\u0109\1\uffff\2\34\1\u0116\1\34"
-			+ "\1\uffff\1\u010e\1\34\1\u0119\1\34\1\u0119\1\u011b\1\u011d\1\uffff"
-			+ "\1\34\1\u011f\1\uffff\1\u011f\1\uffff\1\u011b\1\uffff\1\34\1\uffff"
-			+ "\2\34\1\u0123\1\uffff\1\u0123";
-	static final String DFA19_eofS = "\u0125\uffff";
+	static final String DFA19_eotS = "\1\uffff\1\40\5\uffff\21\34\6\uffff\1\77\1\34\1\uffff\36\34\1\uffff"
+			+ "\1\34\1\143\1\34\3\145\4\34\1\153\1\154\3\34\1\160\22\34\1\u0082"
+			+ "\1\uffff\1\34\1\uffff\1\u0084\4\34\2\uffff\3\34\1\uffff\21\34\1"
+			+ "\uffff\1\34\1\uffff\6\34\1\u00a4\13\34\1\u00b0\1\34\1\u00b0\2\34"
+			+ "\1\u00b4\3\34\1\u00b8\3\34\1\uffff\3\34\1\u00b8\2\34\1\u00c1\2\34"
+			+ "\1\u00c1\1\34\1\uffff\3\34\1\uffff\3\34\1\uffff\1\34\1\u00cc\6\34"
+			+ "\1\uffff\12\34\1\uffff\20\34\1\u00ee\1\34\1\u00f1\7\34\1\u00f1\1"
+			+ "\u00f9\3\34\1\u00fe\1\34\1\uffff\1\u00ee\1\34\1\uffff\1\34\1\u0102"
+			+ "\5\34\1\uffff\1\u00f9\1\u0109\1\u010a\1\34\1\uffff\3\34\1\uffff"
+			+ "\1\u0110\4\34\1\u0109\2\uffff\1\u010a\2\34\1\u0118\1\34\1\uffff"
+			+ "\1\u0110\1\34\1\u011b\1\34\1\u011b\1\u011e\1\u011f\1\uffff\1\34"
+			+ "\1\u0121\1\uffff\1\u0121\1\u011e\2\uffff\1\34\1\uffff\2\34\1\u0125"
+			+ "\1\uffff\1\u0125";
+	static final String DFA19_eofS = "\u0127\uffff";
 	static final String DFA19_minS = "\1\11\1\55\5\uffff\1\156\1\157\1\117\2\141\1\161\1\141\1\116\1\141"
 			+ "\2\151\1\156\2\141\1\165\1\156\1\162\6\uffff\1\55\1\154\1\uffff"
 			+ "\1\144\1\164\1\124\1\164\1\155\1\142\2\155\1\156\1\170\1\141\1\165"
-			+ "\1\154\1\126\1\163\1\162\1\155\1\146\1\155\1\146\1\155\1\163\1\156"
-			+ "\1\146\2\156\1\164\1\141\1\160\1\uffff\1\171\1\55\1\151\3\55\1\145"
-			+ "\1\103\1\145\1\155\2\55\1\143\1\151\1\165\1\55\1\145\1\164\2\145"
-			+ "\1\146\1\152\1\141\1\146\1\152\1\141\1\145\1\147\1\154\1\147\1\143"
-			+ "\1\156\1\145\1\55\1\uffff\1\123\1\uffff\1\55\1\154\1\162\1\101\1"
-			+ "\145\2\uffff\1\164\1\166\1\145\1\uffff\1\162\1\141\1\146\1\101\1"
-			+ "\145\1\157\1\151\1\145\1\157\1\151\1\162\3\145\1\164\2\163\1\uffff"
-			+ "\1\171\1\uffff\1\141\1\157\1\163\1\164\1\154\1\141\1\55\1\163\1"
-			+ "\156\1\154\1\163\1\162\1\151\1\156\1\162\1\151\1\156\1\163\1\55"
-			+ "\1\170\1\55\2\151\1\55\1\155\1\163\1\160\1\55\1\162\1\171\1\154"
-			+ "\1\uffff\1\145\1\143\1\145\1\55\1\145\1\156\1\55\1\145\1\156\1\55"
-			+ "\1\145\1\uffff\1\151\1\157\1\164\1\uffff\1\155\1\163\1\145\1\uffff"
-			+ "\1\151\1\55\1\145\1\106\1\145\1\170\1\156\1\164\1\uffff\1\156\1"
-			+ "\164\1\106\1\166\1\156\1\151\1\145\1\117\1\162\1\143\1\uffff\1\156"
-			+ "\1\146\1\165\1\117\1\151\1\164\1\127\1\164\1\127\1\146\1\145\1\141"
-			+ "\1\166\1\164\1\146\1\164\1\55\1\164\1\55\1\156\1\146\1\166\1\106"
-			+ "\1\151\1\106\1\151\2\55\1\154\1\145\1\162\1\55\1\171\1\55\1\uffff"
-			+ "\1\124\1\uffff\1\143\1\55\1\145\1\162\1\164\1\162\1\164\1\55\1\uffff"
-			+ "\2\55\1\151\1\uffff\1\117\1\157\1\164\1\uffff\1\55\1\157\1\150\1"
-			+ "\157\1\150\1\55\1\uffff\1\55\1\uffff\1\143\1\146\1\55\1\151\1\uffff"
-			+ "\1\55\1\155\1\55\1\155\3\55\1\uffff\1\157\1\55\1\uffff\1\55\1\uffff"
-			+ "\1\55\1\uffff\1\156\1\uffff\1\141\1\154\1\55\1\uffff\1\55";
+			+ "\1\154\1\126\1\163\1\162\1\142\1\155\1\146\1\155\1\146\1\155\1\163"
+			+ "\1\156\1\146\2\156\1\164\1\141\1\160\1\uffff\1\171\1\55\1\151\3"
+			+ "\55\1\145\1\103\1\145\1\155\2\55\1\143\1\151\1\165\1\55\1\145\1"
+			+ "\164\1\145\1\103\1\145\1\146\1\152\1\141\1\146\1\152\1\141\1\145"
+			+ "\1\147\1\154\1\147\1\143\1\156\1\145\1\55\1\uffff\1\123\1\uffff"
+			+ "\1\55\1\154\1\162\1\101\1\145\2\uffff\1\164\1\166\1\145\1\uffff"
+			+ "\1\162\1\141\1\146\1\101\1\145\1\157\1\151\1\145\1\157\1\151\1\162"
+			+ "\3\145\1\164\2\163\1\uffff\1\171\1\uffff\1\141\1\157\1\163\1\164"
+			+ "\1\154\1\141\1\55\1\163\1\156\1\154\1\163\1\162\1\151\1\156\1\162"
+			+ "\1\151\1\156\1\163\1\55\1\170\1\55\2\151\1\55\1\155\1\163\1\160"
+			+ "\1\55\1\162\1\171\1\154\1\uffff\1\145\1\143\1\145\1\55\1\145\1\156"
+			+ "\1\55\1\145\1\156\1\55\1\145\1\uffff\1\151\1\157\1\164\1\uffff\1"
+			+ "\155\1\163\1\145\1\uffff\1\151\1\55\1\145\1\106\1\145\1\170\1\156"
+			+ "\1\164\1\uffff\1\156\1\164\1\106\1\166\1\156\1\151\1\145\1\117\1"
+			+ "\162\1\143\1\uffff\1\156\1\146\1\165\1\117\1\151\1\164\1\127\1\164"
+			+ "\1\127\1\146\1\145\1\141\1\166\1\164\1\146\1\164\1\55\1\164\1\55"
+			+ "\1\156\1\146\1\166\1\106\1\151\1\106\1\151\2\55\1\154\1\145\1\162"
+			+ "\1\55\1\171\1\uffff\1\55\1\124\1\uffff\1\143\1\55\1\145\1\162\1"
+			+ "\164\1\162\1\164\1\uffff\3\55\1\151\1\uffff\1\117\1\157\1\164\1"
+			+ "\uffff\1\55\1\157\1\150\1\157\1\150\1\55\2\uffff\1\55\1\143\1\146"
+			+ "\1\55\1\151\1\uffff\1\55\1\155\1\55\1\155\3\55\1\uffff\1\157\1\55"
+			+ "\1\uffff\2\55\2\uffff\1\156\1\uffff\1\141\1\154\1\55\1\uffff\1\55";
 	static final String DFA19_maxS = "\1\175\1\172\5\uffff\1\156\2\157\1\171\1\151\1\170\1\141\1\162\1"
 			+ "\171\2\157\1\162\2\145\1\165\1\156\1\171\6\uffff\1\172\1\154\1\uffff"
 			+ "\2\164\1\124\1\164\1\155\1\142\2\155\1\156\1\170\1\141\1\165\1\154"
-			+ "\1\126\1\166\1\162\1\155\1\163\1\155\1\163\1\155\1\166\1\156\1\146"
-			+ "\2\156\1\164\1\141\1\160\1\uffff\1\171\1\172\1\151\3\172\1\145\1"
-			+ "\120\1\145\1\155\2\172\1\143\1\151\1\165\1\172\1\145\1\164\2\145"
-			+ "\1\146\1\152\1\141\1\146\1\152\1\141\1\145\1\147\1\154\1\147\1\143"
-			+ "\1\156\1\145\1\172\1\uffff\1\163\1\uffff\1\172\1\154\1\162\1\101"
-			+ "\1\145\2\uffff\1\164\1\166\1\145\1\uffff\1\162\1\141\1\146\1\101"
-			+ "\1\145\1\157\1\151\1\145\1\157\1\151\1\162\3\145\1\164\2\163\1\uffff"
-			+ "\1\171\1\uffff\1\141\1\157\1\163\1\164\1\154\1\141\1\172\1\163\1"
-			+ "\156\1\154\1\163\1\162\1\151\1\156\1\162\1\151\1\156\1\163\1\172"
-			+ "\1\170\1\172\2\151\1\172\1\155\1\163\1\160\1\172\1\162\1\171\1\154"
-			+ "\1\uffff\1\145\1\143\1\145\1\172\1\145\1\156\1\172\1\145\1\156\1"
-			+ "\172\1\145\1\uffff\1\151\1\157\1\164\1\uffff\1\155\1\163\1\145\1"
-			+ "\uffff\1\151\1\172\1\145\1\146\1\145\1\170\1\156\1\164\1\uffff\1"
-			+ "\156\1\164\1\146\1\166\1\156\1\151\1\145\1\117\1\162\1\143\1\uffff"
-			+ "\1\156\1\146\1\165\1\157\1\151\1\164\1\127\1\164\1\127\1\146\1\145"
-			+ "\1\141\1\166\1\164\1\146\1\164\1\172\1\164\1\172\1\156\1\146\1\166"
-			+ "\1\106\1\151\1\106\1\151\2\172\1\154\1\145\1\162\1\172\1\171\1\172"
-			+ "\1\uffff\1\124\1\uffff\1\143\1\172\1\145\1\162\1\164\1\162\1\164"
-			+ "\1\172\1\uffff\2\172\1\151\1\uffff\1\117\1\157\1\164\1\uffff\1\172"
-			+ "\1\157\1\150\1\157\1\150\1\172\1\uffff\1\172\1\uffff\1\143\1\146"
-			+ "\1\172\1\151\1\uffff\1\172\1\155\1\172\1\155\3\172\1\uffff\1\157"
-			+ "\1\172\1\uffff\1\172\1\uffff\1\172\1\uffff\1\156\1\uffff\1\141\1"
-			+ "\154\1\172\1\uffff\1\172";
+			+ "\1\126\1\166\1\162\1\142\1\155\1\163\1\155\1\163\1\155\1\166\1\156"
+			+ "\1\146\2\156\1\164\1\141\1\160\1\uffff\1\171\1\172\1\151\3\172\1"
+			+ "\145\1\120\1\145\1\155\2\172\1\143\1\151\1\165\1\172\1\145\1\164"
+			+ "\1\145\1\103\1\145\1\146\1\152\1\141\1\146\1\152\1\141\1\145\1\147"
+			+ "\1\154\1\147\1\143\1\156\1\145\1\172\1\uffff\1\163\1\uffff\1\172"
+			+ "\1\154\1\162\1\101\1\145\2\uffff\1\164\1\166\1\145\1\uffff\1\162"
+			+ "\1\141\1\146\1\101\1\145\1\157\1\151\1\145\1\157\1\151\1\162\3\145"
+			+ "\1\164\2\163\1\uffff\1\171\1\uffff\1\141\1\157\1\163\1\164\1\154"
+			+ "\1\141\1\172\1\163\1\156\1\154\1\163\1\162\1\151\1\156\1\162\1\151"
+			+ "\1\156\1\163\1\172\1\170\1\172\2\151\1\172\1\155\1\163\1\160\1\172"
+			+ "\1\162\1\171\1\154\1\uffff\1\145\1\143\1\145\1\172\1\145\1\156\1"
+			+ "\172\1\145\1\156\1\172\1\145\1\uffff\1\151\1\157\1\164\1\uffff\1"
+			+ "\155\1\163\1\145\1\uffff\1\151\1\172\1\145\1\146\1\145\1\170\1\156"
+			+ "\1\164\1\uffff\1\156\1\164\1\146\1\166\1\156\1\151\1\145\1\117\1"
+			+ "\162\1\143\1\uffff\1\156\1\146\1\165\1\157\1\151\1\164\1\127\1\164"
+			+ "\1\127\1\146\1\145\1\141\1\166\1\164\1\146\1\164\1\172\1\164\1\172"
+			+ "\1\156\1\146\1\166\1\106\1\151\1\106\1\151\2\172\1\154\1\145\1\162"
+			+ "\1\172\1\171\1\uffff\1\172\1\124\1\uffff\1\143\1\172\1\145\1\162"
+			+ "\1\164\1\162\1\164\1\uffff\3\172\1\151\1\uffff\1\117\1\157\1\164"
+			+ "\1\uffff\1\172\1\157\1\150\1\157\1\150\1\172\2\uffff\1\172\1\143"
+			+ "\1\146\1\172\1\151\1\uffff\1\172\1\155\1\172\1\155\3\172\1\uffff"
+			+ "\1\157\1\172\1\uffff\2\172\2\uffff\1\156\1\uffff\1\141\1\154\1\172"
+			+ "\1\uffff\1\172";
 	static final String DFA19_acceptS = "\2\uffff\1\2\1\3\1\4\1\5\1\6\21\uffff\1\41\1\42\1\45\1\46\1\47\1"
-			+ "\50\2\uffff\1\1\35\uffff\1\10\42\uffff\1\7\1\uffff\1\11\5\uffff"
+			+ "\50\2\uffff\1\1\36\uffff\1\10\43\uffff\1\7\1\uffff\1\11\5\uffff"
 			+ "\1\14\1\15\3\uffff\1\20\21\uffff\1\13\1\uffff\1\12\37\uffff\1\17"
 			+ "\13\uffff\1\31\3\uffff\1\44\3\uffff\1\24\10\uffff\1\30\12\uffff"
-			+ "\1\16\42\uffff\1\33\1\uffff\1\26\10\uffff\1\35\3\uffff\1\21\3\uffff"
-			+ "\1\43\6\uffff\1\32\1\uffff\1\37\4\uffff\1\36\7\uffff\1\23\2\uffff"
-			+ "\1\27\1\uffff\1\34\1\uffff\1\22\1\uffff\1\25\3\uffff\1\40\1\uffff";
-	static final String DFA19_specialS = "\u0125\uffff}>";
+			+ "\1\16\41\uffff\1\33\2\uffff\1\26\7\uffff\1\35\4\uffff\1\21\3\uffff"
+			+ "\1\43\6\uffff\1\32\1\37\5\uffff\1\36\7\uffff\1\23\2\uffff\1\27\2"
+			+ "\uffff\1\34\1\22\1\uffff\1\25\3\uffff\1\40\1\uffff";
+	static final String DFA19_specialS = "\u0127\uffff}>";
 	static final String[] DFA19_transitionS = {
 			"\2\6\2\uffff\1\6\22\uffff\1\6\1\uffff\1\32\4\uffff\1\35\1\2"
 					+ "\1\5\2\uffff\1\31\3\uffff\12\33\7\uffff\1\26\2\34\1\21\1\34"
@@ -1757,90 +1796,315 @@ public class MOWLLexer extends Lexer {
 					+ "\30\2\uffff\1\7\2\34\1\20\1\14\1\25\2\34\1\22\3\34\1\13\1\10"
 					+ "\1\1\2\34\1\24\1\12\1\27\1\34\1\15\4\34\1\3\1\uffff\1\4",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\15\34"
-					+ "\1\37\3\34\1\36\10\34", "", "", "", "", "", "\1\41", "\1\42",
-			"\1\43\37\uffff\1\44", "\1\47\15\uffff\1\45\5\uffff\1\46\3\uffff\1\50",
-			"\1\52\7\uffff\1\51", "\1\54\6\uffff\1\53", "\1\55",
-			"\1\56\37\uffff\1\57\3\uffff\1\60", "\1\61\27\uffff\1\50", "\1\62\5\uffff\1\63",
-			"\1\64\5\uffff\1\65", "\1\66\3\uffff\1\60", "\1\67\3\uffff\1\70", "\1\71\3\uffff\1\70",
-			"\1\72", "\1\73", "\1\74\6\uffff\1\75", "", "", "", "", "", "",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\77", "",
-			"\1\100\17\uffff\1\101", "\1\102", "\1\103", "\1\104", "\1\105", "\1\106", "\1\107",
-			"\1\110", "\1\111", "\1\112", "\1\113", "\1\114", "\1\115", "\1\116",
-			"\1\120\2\uffff\1\117", "\1\121", "\1\122", "\1\123\14\uffff\1\124", "\1\125",
-			"\1\126\14\uffff\1\127", "\1\130", "\1\120\2\uffff\1\131", "\1\132", "\1\133",
-			"\1\134", "\1\135", "\1\101", "\1\136", "\1\137", "", "\1\140",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\142",
+					+ "\1\37\3\34\1\36\10\34",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"\1\41",
+			"\1\42",
+			"\1\43\37\uffff\1\44",
+			"\1\47\15\uffff\1\45\5\uffff\1\46\3\uffff\1\50",
+			"\1\52\7\uffff\1\51",
+			"\1\54\6\uffff\1\53",
+			"\1\55",
+			"\1\56\37\uffff\1\57\3\uffff\1\60",
+			"\1\62\23\uffff\1\61\3\uffff\1\50",
+			"\1\63\5\uffff\1\64",
+			"\1\65\5\uffff\1\66",
+			"\1\67\3\uffff\1\60",
+			"\1\70\3\uffff\1\71",
+			"\1\72\3\uffff\1\71",
+			"\1\73",
+			"\1\74",
+			"\1\75\6\uffff\1\76",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\100",
+			"",
+			"\1\101\17\uffff\1\102",
+			"\1\103",
+			"\1\104",
+			"\1\105",
+			"\1\106",
+			"\1\107",
+			"\1\110",
+			"\1\111",
+			"\1\112",
+			"\1\113",
+			"\1\114",
+			"\1\115",
+			"\1\116",
+			"\1\117",
+			"\1\121\2\uffff\1\120",
+			"\1\122",
+			"\1\123",
+			"\1\124",
+			"\1\125\14\uffff\1\126",
+			"\1\127",
+			"\1\130\14\uffff\1\131",
+			"\1\132",
+			"\1\121\2\uffff\1\133",
+			"\1\134",
+			"\1\135",
+			"\1\136",
+			"\1\137",
+			"\1\102",
+			"\1\140",
+			"\1\141",
+			"",
+			"\1\142",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\144",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\144",
-			"\1\145\14\uffff\1\146", "\1\147", "\1\150",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\153", "\1\154",
-			"\1\155", "\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\157",
-			"\1\160", "\1\161", "\1\162", "\1\163", "\1\164", "\1\165", "\1\166", "\1\167",
-			"\1\170", "\1\171", "\1\172", "\1\173", "\1\174", "\1\175", "\1\176", "\1\177",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "",
-			"\1\u0081\37\uffff\1\u0081", "",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u0083", "\1\u0084",
-			"\1\u0085", "\1\u0086", "", "", "\1\u0087", "\1\u0088", "\1\u0089", "", "\1\u008a",
-			"\1\u008b", "\1\u008c", "\1\u008d", "\1\u008e", "\1\u008f", "\1\u0090", "\1\u0091",
-			"\1\u0092", "\1\u0093", "\1\u0094", "\1\u0095", "\1\u0096", "\1\u0097", "\1\u0098",
-			"\1\u0099", "\1\u009a", "", "\1\u009b", "", "\1\u009c", "\1\u009d", "\1\u009e",
-			"\1\u009f", "\1\u00a0", "\1\u00a1",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u00a3", "\1\u00a4",
-			"\1\u00a5", "\1\u00a6", "\1\u00a7", "\1\u00a8", "\1\u00a9", "\1\u00aa", "\1\u00ab",
-			"\1\u00ac", "\1\u00ad", "\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
-			"\1\u00af", "\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u00b0",
-			"\1\u00b1", "\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u00b3",
-			"\1\u00b4", "\1\u00b5", "\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
-			"\1\u00b7", "\1\u00b8", "\1\u00b9", "", "\1\u00ba", "\1\u00bb", "\1\u00bc",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u00bd", "\1\u00be",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u00c0", "\1\u00c1",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u00c2", "",
-			"\1\u00c3", "\1\u00c4", "\1\u00c5", "", "\1\u00c6", "\1\u00c7", "\1\u00c8", "",
-			"\1\u00c9", "\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u00cb",
-			"\1\u00cd\10\uffff\1\u00cc\26\uffff\1\u00cd", "\1\u00ce", "\1\u00cf", "\1\u00d0",
-			"\1\u00d1", "", "\1\u00d2", "\1\u00d3", "\1\u00cd\10\uffff\1\u00d4\26\uffff\1\u00cd",
-			"\1\u00d5", "\1\u00d6", "\1\u00d7", "\1\u00d8", "\1\u00d9", "\1\u00da", "\1\u00db", "",
-			"\1\u00dc", "\1\u00dd", "\1\u00de", "\1\u00df\37\uffff\1\u00df", "\1\u00e0",
-			"\1\u00e1", "\1\u00e2", "\1\u00e3", "\1\u00e4", "\1\u00e5", "\1\u00e6", "\1\u00e7",
-			"\1\u00e8", "\1\u00e9", "\1\u00ea", "\1\u00eb",
-			"\1\34\2\uffff\12\34\1\u00ec\6\uffff\32\34\4\uffff\1\34\1\uffff" + "\32\34",
-			"\1\u00ee", "\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u00f0",
-			"\1\u00f1", "\1\u00f2", "\1\u00f3", "\1\u00f4", "\1\u00f5", "\1\u00f6",
+			"\1\146",
+			"\1\147\14\uffff\1\150",
+			"\1\151",
+			"\1\152",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
-			"\1\34\2\uffff\12\34\1\u00f7\6\uffff\32\34\4\uffff\1\34\1\uffff" + "\32\34",
-			"\1\u00f9", "\1\u00fa", "\1\u00fb",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u00fd",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "", "\1\u00fe", "",
-			"\1\u00ff", "\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u0101",
-			"\1\u0102", "\1\u0103", "\1\u0104", "\1\u0105",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "",
-			"\1\34\2\uffff\12\34\1\u0106\6\uffff\32\34\4\uffff\1\34\1\uffff" + "\32\34",
-			"\1\34\2\uffff\12\34\1\u0108\6\uffff\32\34\4\uffff\1\34\1\uffff" + "\32\34",
-			"\1\u010a", "", "\1\u010b", "\1\u010c", "\1\u010d", "",
-			"\1\34\2\uffff\12\34\1\u010f\6\uffff\32\34\4\uffff\1\34\1\uffff" + "\32\34",
-			"\1\u0110", "\1\u0111", "\1\u0112", "\1\u0113",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "", "\1\u0114",
-			"\1\u0115", "\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u0117",
-			"", "\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u0118",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "\1\u011a",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
-			"\1\34\2\uffff\12\34\1\u011c\6\uffff\32\34\4\uffff\1\34\1\uffff" + "\32\34",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "", "\1\u011e",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "", "\1\u0120", "",
-			"\1\u0121", "\1\u0122",
-			"\1\34\2\uffff\12\34\1\u0124\6\uffff\32\34\4\uffff\1\34\1\uffff" + "\32\34", "",
+			"\1\155",
+			"\1\156",
+			"\1\157",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\161",
+			"\1\162",
+			"\1\163",
+			"\1\147",
+			"\1\164",
+			"\1\165",
+			"\1\166",
+			"\1\167",
+			"\1\170",
+			"\1\171",
+			"\1\172",
+			"\1\173",
+			"\1\174",
+			"\1\175",
+			"\1\176",
+			"\1\177",
+			"\1\u0080",
+			"\1\u0081",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"",
+			"\1\u0083\37\uffff\1\u0083",
+			"",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u0085",
+			"\1\u0086",
+			"\1\u0087",
+			"\1\u0088",
+			"",
+			"",
+			"\1\u0089",
+			"\1\u008a",
+			"\1\u008b",
+			"",
+			"\1\u008c",
+			"\1\u008d",
+			"\1\u008e",
+			"\1\u008f",
+			"\1\u0090",
+			"\1\u0091",
+			"\1\u0092",
+			"\1\u0093",
+			"\1\u0094",
+			"\1\u0095",
+			"\1\u0096",
+			"\1\u0097",
+			"\1\u0098",
+			"\1\u0099",
+			"\1\u009a",
+			"\1\u009b",
+			"\1\u009c",
+			"",
+			"\1\u009d",
+			"",
+			"\1\u009e",
+			"\1\u009f",
+			"\1\u00a0",
+			"\1\u00a1",
+			"\1\u00a2",
+			"\1\u00a3",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u00a5",
+			"\1\u00a6",
+			"\1\u00a7",
+			"\1\u00a8",
+			"\1\u00a9",
+			"\1\u00aa",
+			"\1\u00ab",
+			"\1\u00ac",
+			"\1\u00ad",
+			"\1\u00ae",
+			"\1\u00af",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u00b1",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u00b2",
+			"\1\u00b3",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u00b5",
+			"\1\u00b6",
+			"\1\u00b7",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u00b9",
+			"\1\u00ba",
+			"\1\u00bb",
+			"",
+			"\1\u00bc",
+			"\1\u00bd",
+			"\1\u00be",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u00bf",
+			"\1\u00c0",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u00c2",
+			"\1\u00c3",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u00c4",
+			"",
+			"\1\u00c5",
+			"\1\u00c6",
+			"\1\u00c7",
+			"",
+			"\1\u00c8",
+			"\1\u00c9",
+			"\1\u00ca",
+			"",
+			"\1\u00cb",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u00cd",
+			"\1\u00cf\10\uffff\1\u00ce\26\uffff\1\u00cf",
+			"\1\u00d0",
+			"\1\u00d1",
+			"\1\u00d2",
+			"\1\u00d3",
+			"",
+			"\1\u00d4",
+			"\1\u00d5",
+			"\1\u00cf\10\uffff\1\u00d6\26\uffff\1\u00cf",
+			"\1\u00d7",
+			"\1\u00d8",
+			"\1\u00d9",
+			"\1\u00da",
+			"\1\u00db",
+			"\1\u00dc",
+			"\1\u00dd",
+			"",
+			"\1\u00de",
+			"\1\u00df",
+			"\1\u00e0",
+			"\1\u00e1\37\uffff\1\u00e1",
+			"\1\u00e2",
+			"\1\u00e3",
+			"\1\u00e4",
+			"\1\u00e5",
+			"\1\u00e6",
+			"\1\u00e7",
+			"\1\u00e8",
+			"\1\u00e9",
+			"\1\u00ea",
+			"\1\u00eb",
+			"\1\u00ec",
+			"\1\u00ed",
+			"\1\34\2\uffff\12\34\1\u00ef\6\uffff\32\34\4\uffff\1\34\1\uffff"
+					+ "\32\34",
+			"\1\u00f0",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u00f2",
+			"\1\u00f3",
+			"\1\u00f4",
+			"\1\u00f5",
+			"\1\u00f6",
+			"\1\u00f7",
+			"\1\u00f8",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\34\2\uffff\12\34\1\u00fa\6\uffff\32\34\4\uffff\1\34\1\uffff"
+					+ "\32\34",
+			"\1\u00fb",
+			"\1\u00fc",
+			"\1\u00fd",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u00ff",
+			"",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u0100",
+			"",
+			"\1\u0101",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u0103",
+			"\1\u0104",
+			"\1\u0105",
+			"\1\u0106",
+			"\1\u0107",
+			"",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\34\2\uffff\12\34\1\u0108\6\uffff\32\34\4\uffff\1\34\1\uffff"
+					+ "\32\34",
+			"\1\34\2\uffff\12\34\1\u010b\6\uffff\32\34\4\uffff\1\34\1\uffff"
+					+ "\32\34",
+			"\1\u010c",
+			"",
+			"\1\u010d",
+			"\1\u010e",
+			"\1\u010f",
+			"",
+			"\1\34\2\uffff\12\34\1\u0111\6\uffff\32\34\4\uffff\1\34\1\uffff"
+					+ "\32\34",
+			"\1\u0112",
+			"\1\u0113",
+			"\1\u0114",
+			"\1\u0115",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"",
+			"",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u0116",
+			"\1\u0117",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u0119",
+			"",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u011a",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\u011c",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\34\2\uffff\12\34\1\u011d\6\uffff\32\34\4\uffff\1\34\1\uffff"
+					+ "\32\34",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"",
+			"\1\u0120",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"",
+			"",
+			"\1\u0122",
+			"",
+			"\1\u0123",
+			"\1\u0124",
+			"\1\34\2\uffff\12\34\1\u0126\6\uffff\32\34\4\uffff\1\34\1\uffff"
+					+ "\32\34", "",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34" };
 	static final short[] DFA19_eot = DFA.unpackEncodedString(DFA19_eotS);
 	static final short[] DFA19_eof = DFA.unpackEncodedString(DFA19_eofS);
-	static final char[] DFA19_min = DFA.unpackEncodedStringToUnsignedChars(DFA19_minS);
-	static final char[] DFA19_max = DFA.unpackEncodedStringToUnsignedChars(DFA19_maxS);
+	static final char[] DFA19_min = DFA
+			.unpackEncodedStringToUnsignedChars(DFA19_minS);
+	static final char[] DFA19_max = DFA
+			.unpackEncodedStringToUnsignedChars(DFA19_maxS);
 	static final short[] DFA19_accept = DFA.unpackEncodedString(DFA19_acceptS);
-	static final short[] DFA19_special = DFA.unpackEncodedString(DFA19_specialS);
+	static final short[] DFA19_special = DFA
+			.unpackEncodedString(DFA19_specialS);
 	static final short[][] DFA19_transition;
 	static {
 		int numStates = DFA19_transitionS.length;

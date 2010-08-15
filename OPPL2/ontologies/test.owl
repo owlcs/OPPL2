@@ -2,119 +2,122 @@
 
 
 <!DOCTYPE Ontology [
-    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
-    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
-    <!ENTITY country "http://www.co-ode.org/roberts/country.owl#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
 ]>
 
 
-<Ontology xmlns="http://www.w3.org/2006/12/owl2-xml#"
-     xml:base="http://www.w3.org/2006/12/owl2-xml#"
-     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
-     xmlns:country="http://www.co-ode.org/roberts/country.owl#"
-     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.co-ode.org/roberts/country.owl"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:owl="http://www.w3.org/2002/07/owl#"
-     URI="http://www.co-ode.org/roberts/country.owl">
-    <SubClassOf>
-        <Class URI="&country;BoundaryFragment"/>
-        <Class URI="&country;Fragment"/>
-    </SubClassOf>
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://www.co-ode.org/roberts/country.owl">
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl2xml" IRI="http://www.w3.org/2006/12/owl2-xml#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="" IRI="http://www.w3.org/2006/12/owl2-xml#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="country" IRI="http://www.co-ode.org/roberts/country.owl#"/>
+    <Declaration>
+        <Class IRI="#Chunk"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Fragment"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#size"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Asinara"/>
+    </Declaration>
     <EquivalentClasses>
-        <Class URI="&country;Chunk"/>
-        <Class URI="&country;Fragment"/>
+        <Class IRI="#Chunk"/>
+        <Class IRI="#Fragment"/>
     </EquivalentClasses>
-    <Declaration>
-        <Class URI="&country;Chunk"/>
-    </Declaration>
-    <Declaration>
-        <Class URI="&country;Fragment"/>
-    </Declaration>
     <SubClassOf>
-        <Class URI="&country;LandBoundaryFragment"/>
-        <Class URI="&country;BoundaryFragment"/>
+        <Class IRI="#BoundaryFragment"/>
+        <Class IRI="#Fragment"/>
     </SubClassOf>
     <SubClassOf>
-        <Class URI="&country;WaterBoundaryFragment"/>
-        <Class URI="&country;BoundaryFragment"/>
+        <Class IRI="#LandBoundaryFragment"/>
+        <Class IRI="#BoundaryFragment"/>
     </SubClassOf>
-    <ObjectPropertyDomain>
-        <ObjectProperty URI="&country;adjacentTo"/>
-        <Class URI="&country;Country"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyRange>
-        <ObjectProperty URI="&country;adjacentTo"/>
-        <Class URI="&country;Country"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyDomain>
-        <ObjectProperty URI="&country;borders"/>
-        <Class URI="&country;Country"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyRange>
-        <ObjectProperty URI="&country;borders"/>
-        <Class URI="&country;Country"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyDomain>
-        <ObjectProperty URI="&country;dependencyOf"/>
-        <Class URI="&country;Country"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyRange>
-        <ObjectProperty URI="&country;dependencyOf"/>
-        <Class URI="&country;Country"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyDomain>
-        <ObjectProperty URI="&country;hasBoundary"/>
-        <Class URI="&country;Country"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyRange>
-        <ObjectProperty URI="&country;hasBoundary"/>
-        <Class URI="&country;BoundaryFragment"/>
-    </ObjectPropertyRange>
+    <SubClassOf>
+        <Class IRI="#WaterBoundaryFragment"/>
+        <Class IRI="#BoundaryFragment"/>
+    </SubClassOf>
+    <ClassAssertion>
+        <Class IRI="#Country"/>
+        <NamedIndividual IRI="#Asinara"/>
+    </ClassAssertion>
     <SubObjectPropertyOf>
-        <ObjectProperty URI="&country;hasLandBoundary"/>
-        <ObjectProperty URI="&country;hasBoundary"/>
+        <ObjectProperty IRI="#hasLandBoundary"/>
+        <ObjectProperty IRI="#hasBoundary"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasWaterBoundary"/>
+        <ObjectProperty IRI="#hasBoundary"/>
     </SubObjectPropertyOf>
     <ObjectPropertyDomain>
-        <ObjectProperty URI="&country;hasLandBoundary"/>
-        <Class URI="&country;Country"/>
+        <ObjectProperty IRI="#adjacentTo"/>
+        <Class IRI="#Country"/>
     </ObjectPropertyDomain>
-    <ObjectPropertyRange>
-        <ObjectProperty URI="&country;hasLandBoundary"/>
-        <Class URI="&country;LandBoundaryFragment"/>
-    </ObjectPropertyRange>
-    <SubObjectPropertyOf>
-        <ObjectProperty URI="&country;hasWaterBoundary"/>
-        <ObjectProperty URI="&country;hasBoundary"/>
-    </SubObjectPropertyOf>
     <ObjectPropertyDomain>
-        <ObjectProperty URI="&country;hasWaterBoundary"/>
-        <Class URI="&country;Country"/>
+        <ObjectProperty IRI="#borders"/>
+        <Class IRI="#Country"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#dependencyOf"/>
+        <Class IRI="#Country"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasBoundary"/>
+        <Class IRI="#Country"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasLandBoundary"/>
+        <Class IRI="#Country"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasWaterBoundary"/>
+        <Class IRI="#Country"/>
     </ObjectPropertyDomain>
     <ObjectPropertyRange>
-        <ObjectProperty URI="&country;hasWaterBoundary"/>
-        <Class URI="&country;WaterBoundaryFragment"/>
+        <ObjectProperty IRI="#adjacentTo"/>
+        <Class IRI="#Country"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#borders"/>
+        <Class IRI="#Country"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#dependencyOf"/>
+        <Class IRI="#Country"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasBoundary"/>
+        <Class IRI="#BoundaryFragment"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasLandBoundary"/>
+        <Class IRI="#LandBoundaryFragment"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasWaterBoundary"/>
+        <Class IRI="#WaterBoundaryFragment"/>
     </ObjectPropertyRange>
     <DataPropertyRange>
-        <DataProperty URI="&country;size"/>
-        <Datatype URI="&xsd;int"/>
+        <DataProperty IRI="#size"/>
+        <Datatype abbreviatedIRI="xsd:int"/>
     </DataPropertyRange>
-    <Declaration>
-        <DataProperty URI="&country;size"/>
-    </Declaration>
-    <ClassAssertion>
-        <Class URI="&country;Country"/>
-        <Individual URI="&country;Asinara"/>
-    </ClassAssertion>
-    <Declaration>
-        <Individual URI="&country;Asinara"/>
-    </Declaration>
 </Ontology>
 
 
 
-<!-- Generated by the OWL API (version 2.2.1.1138) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 3.0.0.1585) http://owlapi.sourceforge.net -->
 

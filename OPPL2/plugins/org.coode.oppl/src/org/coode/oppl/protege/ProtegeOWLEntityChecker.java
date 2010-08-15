@@ -1,18 +1,21 @@
 package org.coode.oppl.protege;
 
-import org.coode.oppl.utils.DefaultOWLObjectVisitorEx;
+import java.util.Set;
+
 import org.protege.editor.owl.OWLEditorKit;
+import org.protege.editor.owl.model.find.OWLEntityFinder;
 import org.semanticweb.owlapi.expression.OWLEntityChecker;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 
-public class ProtegeOWLEntityChecker implements OWLEntityChecker {
+public final class ProtegeOWLEntityChecker implements OWLEntityChecker {
 	private final OWLEditorKit owlEditorKit;
+	private final OWLEntityFinder delegate;
 
 	/**
 	 * @param protegeParserFactory
@@ -22,101 +25,8 @@ public class ProtegeOWLEntityChecker implements OWLEntityChecker {
 			throw new NullPointerException("The OWL editor kit cannot be null");
 		}
 		this.owlEditorKit = owlEditorKit;
-	}
-
-	public OWLClass getOWLClass(String name) {
-		OWLClass toReturn = null;
-		OWLEntity owlEntity = this.getOWLEditorKit().getOWLModelManager().getOWLEntity(name);
-		if (owlEntity != null) {
-			toReturn = owlEntity.accept(new DefaultOWLObjectVisitorEx<OWLClass>() {
-				@Override
-				protected OWLClass doDefault(OWLObject object) {
-					return null;
-				}
-
-				@Override
-				public OWLClass visit(OWLClass desc) {
-					return desc;
-				}
-			});
-		}
-		return toReturn;
-	}
-
-	public OWLDataProperty getOWLDataProperty(String name) {
-		OWLDataProperty toReturn = null;
-		OWLEntity owlEntity = this.getOWLEditorKit().getOWLModelManager().getOWLEntity(name);
-		if (owlEntity != null) {
-			toReturn = owlEntity.accept(new DefaultOWLObjectVisitorEx<OWLDataProperty>() {
-				@Override
-				protected OWLDataProperty doDefault(OWLObject object) {
-					return null;
-				}
-
-				@Override
-				public OWLDataProperty visit(OWLDataProperty property) {
-					return property;
-				}
-			});
-		}
-		return toReturn;
-	}
-
-	public OWLObjectProperty getOWLObjectProperty(String name) {
-		OWLObjectProperty toReturn = null;
-		OWLEntity owlEntity = this.getOWLEditorKit().getOWLModelManager().getOWLEntity(name);
-		if (owlEntity != null) {
-			toReturn = owlEntity.accept(new DefaultOWLObjectVisitorEx<OWLObjectProperty>() {
-				@Override
-				protected OWLObjectProperty doDefault(OWLObject object) {
-					return null;
-				}
-
-				@Override
-				public OWLObjectProperty visit(OWLObjectProperty property) {
-					return property;
-				}
-			});
-		}
-		return toReturn;
-	}
-
-	public OWLDatatype getOWLDatatype(String name) {
-		OWLDatatype toReturn = null;
-		OWLEntity owlEntity = this.getOWLEditorKit().getOWLModelManager().getOWLEntity(name);
-		if (owlEntity != null) {
-			toReturn = owlEntity.accept(new DefaultOWLObjectVisitorEx<OWLDatatype>() {
-				@Override
-				protected OWLDatatype doDefault(OWLObject object) {
-					return null;
-				}
-
-				@Override
-				public OWLDatatype visit(OWLDatatype node) {
-					return node;
-				}
-			});
-		}
-		return toReturn;
-	}
-
-	public OWLIndividual getOWLIndividual(String name) {
-		OWLIndividual toReturn = null;
-		OWLEntity owlEntity = this.getOWLEditorKit().getOWLModelManager().getOWLEntity(name);
-		if (owlEntity != null) {
-			toReturn = owlEntity.accept(new DefaultOWLObjectVisitorEx<OWLIndividual>() {
-				@Override
-				protected OWLIndividual doDefault(OWLObject object) {
-					return null;
-				}
-
-				@Override
-				public OWLIndividual visit(OWLIndividual individual) {
-					return individual;
-				}
-			});
-		}
-		return toReturn;
+		this.delegate = this.getOWLEditorKit().getOWLModelManager()
+				.getOWLEntityFinder();
 	}
 
 	/**
@@ -124,5 +34,76 @@ public class ProtegeOWLEntityChecker implements OWLEntityChecker {
 	 */
 	public OWLEditorKit getOWLEditorKit() {
 		return this.owlEditorKit;
+	}
+
+	/**
+	 * @param rendering
+	 * @return
+	 * @see org.protege.editor.owl.model.find.OWLEntityFinder#getOWLAnnotationProperty(java.lang.String)
+	 */
+	public OWLAnnotationProperty getOWLAnnotationProperty(String rendering) {
+		return this.delegate.getOWLAnnotationProperty(rendering);
+	}
+
+	/**
+	 * @param rendering
+	 * @return
+	 * @see org.protege.editor.owl.model.find.OWLEntityFinder#getOWLClass(java.lang.String)
+	 */
+	public OWLClass getOWLClass(String rendering) {
+		return this.delegate.getOWLClass(rendering);
+	}
+
+	/**
+	 * @param rendering
+	 * @return
+	 * @see org.protege.editor.owl.model.find.OWLEntityFinder#getOWLDataProperty(java.lang.String)
+	 */
+	public OWLDataProperty getOWLDataProperty(String rendering) {
+		return this.delegate.getOWLDataProperty(rendering);
+	}
+
+	/**
+	 * @param rendering
+	 * @return
+	 * @see org.protege.editor.owl.model.find.OWLEntityFinder#getOWLDatatype(java.lang.String)
+	 */
+	public OWLDatatype getOWLDatatype(String rendering) {
+		return this.delegate.getOWLDatatype(rendering);
+	}
+
+	/**
+	 * @param rendering
+	 * @return
+	 * @see org.protege.editor.owl.model.find.OWLEntityFinder#getOWLEntity(java.lang.String)
+	 */
+	public OWLEntity getOWLEntity(String rendering) {
+		return this.delegate.getOWLEntity(rendering);
+	}
+
+	/**
+	 * @return
+	 * @see org.protege.editor.owl.model.find.OWLEntityFinder#getOWLEntityRenderings()
+	 */
+	public Set<String> getOWLEntityRenderings() {
+		return this.delegate.getOWLEntityRenderings();
+	}
+
+	/**
+	 * @param rendering
+	 * @return
+	 * @see org.protege.editor.owl.model.find.OWLEntityFinder#getOWLIndividual(java.lang.String)
+	 */
+	public OWLNamedIndividual getOWLIndividual(String rendering) {
+		return this.delegate.getOWLIndividual(rendering);
+	}
+
+	/**
+	 * @param rendering
+	 * @return
+	 * @see org.protege.editor.owl.model.find.OWLEntityFinder#getOWLObjectProperty(java.lang.String)
+	 */
+	public OWLObjectProperty getOWLObjectProperty(String rendering) {
+		return this.delegate.getOWLObjectProperty(rendering);
 	}
 }

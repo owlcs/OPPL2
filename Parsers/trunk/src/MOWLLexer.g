@@ -51,7 +51,7 @@ VALUE : 'value'
 INVERSE : 'INV'
   ;
 
-SUBCLASS_OF : 'subClassOf'
+SUBCLASS_OF : ('S'|'s')'ubClassOf'
   ;
 
 SUB_PROPERTY_OF : 'subPropertyOf'

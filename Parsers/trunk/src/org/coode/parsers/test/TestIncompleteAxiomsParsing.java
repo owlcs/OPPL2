@@ -38,7 +38,8 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  * 
  */
 public class TestIncompleteAxiomsParsing extends TestCase {
-	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
+	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager
+			.createOWLOntologyManager();
 	private final static SymbolTableFactory<SymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
 	public static TreeAdaptor adaptor = new CommonTreeAdaptor() {
@@ -56,7 +57,8 @@ public class TestIncompleteAxiomsParsing extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop,
+				RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
@@ -64,9 +66,13 @@ public class TestIncompleteAxiomsParsing extends TestCase {
 	private SymbolTable symtab;
 	static {
 		try {
-			ONTOLOGY_MANAGER.loadOntologyFromOntologyDocument(IRI.create(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
-			ONTOLOGY_MANAGER.loadOntology(IRI.create(ComprehensiveAxiomTestCase.class.getResource(
-					"syntaxTest.owl").toURI()));
+			ONTOLOGY_MANAGER
+					.loadOntology(IRI
+							.create(URI
+									.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
+			ONTOLOGY_MANAGER.loadOntology(IRI
+					.create(ComprehensiveAxiomTestCase.class.getResource(
+							"syntaxTest.owl").toURI()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -87,7 +93,8 @@ public class TestIncompleteAxiomsParsing extends TestCase {
 			nodes.setTokenStream(tokens); // where to find tokens
 			nodes.setTreeAdaptor(adaptor);
 			this.symtab.setErrorListener(this.errorListener);
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
@@ -110,7 +117,8 @@ public class TestIncompleteAxiomsParsing extends TestCase {
 	}
 
 	public void testSubClassAxiom() {
-		ManchesterOWLSyntaxTree parsed = this.parse("Pizza subClassOf NamedPizza and");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("Pizza subClassOf NamedPizza and");
 		assertNotNull(parsed);
 		System.out.println(parsed.toStringTree());
 	}

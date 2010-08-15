@@ -1,15 +1,14 @@
 package org.coode.oppl.protege;
 
-import java.net.URI;
-
 import org.coode.oppl.EntityFactory;
 import org.coode.oppl.entity.OWLEntityCreationException;
 import org.coode.oppl.entity.OWLEntityCreationSet;
 import org.coode.oppl.entity.OWLEntityFactory;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 public class ProtegeOWLEntityFactory implements OWLEntityFactory {
@@ -19,134 +18,39 @@ public class ProtegeOWLEntityFactory implements OWLEntityFactory {
 		this.delegateFactory = new EntityFactory(f);
 	}
 
-	public OWLEntityCreationSet<OWLClass> createOWLClass(String shortName, URI baseURI)
+	public OWLEntityCreationSet<OWLClass> createOWLClass(String shortName,
+			IRI baseIRI) throws OWLEntityCreationException {
+		return this.delegateFactory.createOWLClass(shortName, baseIRI);
+	}
+
+	public OWLEntityCreationSet<OWLDataProperty> createOWLDataProperty(
+			String shortName, IRI baseIRI) throws OWLEntityCreationException {
+		return this.delegateFactory.createOWLDataProperty(shortName, baseIRI);
+	}
+
+	public <T extends OWLEntity> OWLEntityCreationSet<T> createOWLEntity(
+			Class<T> type, String shortName, IRI baseIRI)
 			throws OWLEntityCreationException {
-		return this.delegateFactory.createOWLClass(shortName, baseURI);
+		return this.delegateFactory.createOWLEntity(type, shortName, baseIRI);
 	}
 
-	public OWLEntityCreationSet<OWLDataProperty> createOWLDataProperty(String shortName, URI baseURI)
-			throws OWLEntityCreationException {
-		return this.delegateFactory.createOWLDataProperty(shortName, baseURI);
+	public OWLEntityCreationSet<OWLNamedIndividual> createOWLIndividual(
+			String shortName, IRI baseIRI) throws OWLEntityCreationException {
+		return this.delegateFactory.createOWLIndividual(shortName, baseIRI);
 	}
 
-	public <T extends OWLEntity> OWLEntityCreationSet<T> createOWLEntity(Class<T> type,
-			String shortName, URI baseURI) throws OWLEntityCreationException {
-		return this.delegateFactory.createOWLEntity(type, shortName, baseURI);
+	public OWLEntityCreationSet<OWLObjectProperty> createOWLObjectProperty(
+			String shortName, IRI baseIRI) throws OWLEntityCreationException {
+		return this.delegateFactory.createOWLObjectProperty(shortName, baseIRI);
 	}
 
-	public OWLEntityCreationSet<OWLIndividual> createOWLIndividual(String shortName, URI baseURI)
-			throws OWLEntityCreationException {
-		return this.delegateFactory.createOWLIndividual(shortName, baseURI);
+	public <T extends OWLEntity> OWLEntityCreationSet<T> preview(Class<T> type,
+			String shortName, IRI baseIRI) throws OWLEntityCreationException {
+		return this.delegateFactory.preview(type, shortName, baseIRI);
 	}
 
-	public OWLEntityCreationSet<OWLObjectProperty> createOWLObjectProperty(String shortName,
-			URI baseURI) throws OWLEntityCreationException {
-		return this.delegateFactory.createOWLObjectProperty(shortName, baseURI);
+	public void tryCreate(Class<? extends OWLEntity> type, String shortName,
+			IRI baseIRI) throws OWLEntityCreationException {
+		this.delegateFactory.tryCreate(type, shortName, baseIRI);
 	}
-
-	public <T extends OWLEntity> OWLEntityCreationSet<T> preview(Class<T> type, String shortName,
-			URI baseURI) throws OWLEntityCreationException {
-		return this.delegateFactory.preview(type, shortName, baseURI);
-	}
-
-	public void tryCreate(Class<? extends OWLEntity> type, String shortName, URI baseURI)
-			throws OWLEntityCreationException {
-		this.delegateFactory.tryCreate(type, shortName, baseURI);
-	}
-	// private <T extends OWLEntity> OWLEntityCreationSet<T> convert(
-	// org.protege.editor.owl.model.entity.OWLEntityCreationSet<T>
-	// protegeCreationSet) {
-	// List<? extends OWLOntologyChange> changes = protegeCreationSet
-	// .getOntologyChanges();
-	// T entity = protegeCreationSet.getOWLEntity();
-	// OWLEntityCreationSet<T> toReturn = new OWLEntityCreationSet<T>(entity,
-	// changes);
-	// return toReturn;
-	// }
-	//
-	//
-	// public OWLEntityCreationSet<OWLClass> createOWLClass(String shortName,
-	// URI baseURI) throws OWLEntityCreationException {
-	// try {
-	// org.protege.editor.owl.model.entity.OWLEntityCreationSet<OWLClass>
-	// protegeCreationSet = this.protegeOWLEntityFactory
-	// .createOWLClass(shortName, baseURI);
-	// return this.convert(protegeCreationSet);
-	// } catch (org.protege.editor.owl.model.entity.OWLEntityCreationException
-	// e) {
-	// throw new OWLEntityCreationException(e);
-	// }
-	// }
-	//
-	// public OWLEntityCreationSet<OWLDataProperty> createOWLDataProperty(
-	// String shortName, URI baseURI) throws OWLEntityCreationException {
-	// try {
-	// org.protege.editor.owl.model.entity.OWLEntityCreationSet<OWLDataProperty>
-	// protegeCreationSet = this.protegeOWLEntityFactory
-	// .createOWLDataProperty(shortName, baseURI);
-	// return this.convert(protegeCreationSet);
-	// } catch (org.protege.editor.owl.model.entity.OWLEntityCreationException
-	// e) {
-	// throw new OWLEntityCreationException(e);
-	// }
-	// }
-	//
-	// public <T extends OWLEntity> OWLEntityCreationSet<T> createOWLEntity(
-	// Class<T> type, String shortName, URI baseURI)
-	// throws OWLEntityCreationException {
-	// try {
-	// org.protege.editor.owl.model.entity.OWLEntityCreationSet<T>
-	// protegeCreationSet = this.protegeOWLEntityFactory
-	// .createOWLEntity(type, shortName, baseURI);
-	// return this.convert(protegeCreationSet);
-	// } catch (org.protege.editor.owl.model.entity.OWLEntityCreationException
-	// e) {
-	// throw new OWLEntityCreationException(e);
-	// }
-	// }
-	//
-	// public OWLEntityCreationSet<OWLIndividual> createOWLIndividual(
-	// String shortName, URI baseURI) throws OWLEntityCreationException {
-	// try {
-	// org.protege.editor.owl.model.entity.OWLEntityCreationSet<OWLIndividual>
-	// protegeCreationSet = this.protegeOWLEntityFactory
-	// .createOWLIndividual(shortName, baseURI);
-	// return this.convert(protegeCreationSet);
-	// } catch (org.protege.editor.owl.model.entity.OWLEntityCreationException
-	// e) {
-	// throw new OWLEntityCreationException(e);
-	// }
-	// }
-	//
-	// public OWLEntityCreationSet<OWLObjectProperty> createOWLObjectProperty(
-	// String shortName, URI baseURI) throws OWLEntityCreationException {
-	// try {
-	// org.protege.editor.owl.model.entity.OWLEntityCreationSet<OWLObjectProperty>
-	// protegeCreationSet = this.protegeOWLEntityFactory
-	// .createOWLObjectProperty(shortName, baseURI);
-	// return this.convert(protegeCreationSet);
-	// } catch (org.protege.editor.owl.model.entity.OWLEntityCreationException
-	// e) {
-	// throw new OWLEntityCreationException(e);
-	// }
-	// }
-	//
-	// public <T extends OWLEntity> OWLEntityCreationSet<T> preview(Class<T>
-	// type,
-	// String shortName, URI baseURI) throws OWLEntityCreationException {
-	// try {
-	// org.protege.editor.owl.model.entity.OWLEntityCreationSet<T>
-	// protegeCreationSet = this.protegeOWLEntityFactory
-	// .preview(type, shortName, baseURI);
-	// return this.convert(protegeCreationSet);
-	// } catch (org.protege.editor.owl.model.entity.OWLEntityCreationException
-	// e) {
-	// throw new OWLEntityCreationException(e);
-	// }
-	// }
-	//
-	// public void tryCreate(Class<? extends OWLEntity> type, String shortName,
-	// URI baseURI) throws OWLEntityCreationException {
-	// // TODO: not sure how this goes
-	// }
 }

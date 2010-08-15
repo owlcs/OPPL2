@@ -43,13 +43,15 @@ public class TestParsing {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop,
+				RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
 
 	public static void main(String[] args) {
-		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
 		String input = "hasTopping subPropertyOf INV (hasTopping)";
 		System.out.println(input);
 		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
@@ -57,7 +59,10 @@ public class TestParsing {
 		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens);
 		parser.setTreeAdaptor(adaptor);
 		try {
-			ontologyManager.loadOntologyFromOntologyDocument(IRI.create(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
+			ontologyManager
+					.loadOntology(IRI
+							.create(URI
+									.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
 			RuleReturnScope r = parser.main();
 			CommonTree tree = (CommonTree) r.getTree();
 			System.out.println(tree.toStringTree());
@@ -71,10 +76,10 @@ public class TestParsing {
 	}
 
 	static void showTypes(ManchesterOWLSyntaxTree t, TokenRewriteStream tokens) {
-		if (t.getEvalType() != null && t.getType() != ManchesterOWLSyntaxParser.EXPRESSION) {
-			System.out.printf(
-					"%-17s",
-					tokens.toString(t.getTokenStartIndex(), t.getTokenStopIndex()));
+		if (t.getEvalType() != null
+				&& t.getType() != ManchesterOWLSyntaxParser.EXPRESSION) {
+			System.out.printf("%-17s", tokens.toString(t.getTokenStartIndex(),
+					t.getTokenStopIndex()));
 			String ts = t.getEvalType().toString();
 			System.out.printf(" type %-8s\n", ts);
 		}

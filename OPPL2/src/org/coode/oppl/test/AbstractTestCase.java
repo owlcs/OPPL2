@@ -3,7 +3,8 @@ package org.coode.oppl.test;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyDocumentAlreadyExistsException;
 import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
@@ -32,14 +34,12 @@ import org.semanticweb.owlapi.util.AutoIRIMapper;
 
 public abstract class AbstractTestCase extends TestCase {
 	private static final int TOLERANCE = 3;
-	// ontology file for tests
-	private static String baseURI = "file:///" + new File("../OPPL2/ontologies/").getAbsolutePath()
-			+ "/";
 	// ontology manager
-	protected static OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+	protected static OWLOntologyManager ontologyManager = OWLManager
+			.createOWLOntologyManager();
 	// ontology for tests
-	private OWLOntologyIRIMapper siemensmapper = new AutoIRIMapper(
-			new File("../OPPL2/ontologies/"), true);
+	private OWLOntologyIRIMapper siemensmapper = new AutoIRIMapper(new File(
+			"../OPPL2/ontologies/"), true);
 	// private static Map<String, OWLOntology> cache = new HashMap<String,
 	// OWLOntology>();
 	protected TestQueries testQueries = new TestQueries();
@@ -54,19 +54,29 @@ public abstract class AbstractTestCase extends TestCase {
 	}
 
 	public OWLOntology getOntology(String name) {
+		OWLOntology o = null;
 		try {
 			// if (cache.containsKey(name)) {
 			// return cache.get(name);
 			// }
-			OWLOntology o = ontologyManager.loadOntologyFromOntologyDocument(IRI.create(URI.create(baseURI
-					+ name)));
-			// cache.put(name, o);
-			return o;
-		} catch (OWLOntologyCreationException e) {
-			// TODO Auto-generated catch block
+			URL resource = this.getClass().getClassLoader().getResource(name);
+			if (resource != null) {
+				IRI iri = IRI.create(resource.toURI());
+				o = ontologyManager.contains(iri) ? ontologyManager
+						.getOntology(iri) : ontologyManager.loadOntology(iri);
+			} else {
+				fail("Could not load the ontology " + name);
+			}
+		} catch (OWLOntologyDocumentAlreadyExistsException e) {
+			o = ontologyManager.getOntology(e.getOntologyDocumentIRI());
+		} catch (URISyntaxException e) {
 			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
 		}
-		return null;
+		return o;
 	}
 
 	// last generated exception; used to check that the exception being raised
@@ -79,13 +89,14 @@ public abstract class AbstractTestCase extends TestCase {
 
 	protected void execute(OPPLScript script, OWLOntology ontology, int expected) {
 		try {
-			ChangeExtractor changeExtractor = new ChangeExtractor(script.getConstraintSystem(),
-					true);
+			ChangeExtractor changeExtractor = new ChangeExtractor(script
+					.getConstraintSystem(), true);
 			List<OWLAxiomChange> changes = script.accept(changeExtractor);
 			List<OWLAxiomChange> actions = new ArrayList<OWLAxiomChange>();
 			changeExtractor.visitActions(changes, actions);
 			try {
-				changeExtractor.getConstraintSystem().getOntologyManager().applyChanges(actions);
+				changeExtractor.getConstraintSystem().getOntologyManager()
+						.applyChanges(actions);
 			} catch (OWLOntologyChangeException e) {
 				e.printStackTrace();
 			}
@@ -95,7 +106,8 @@ public abstract class AbstractTestCase extends TestCase {
 		} catch (Exception e) {
 			this.log(e);
 		}
-		this.testQueries.testQueryManualExpected(expected, script, ontologyManager, ontology);
+		this.testQueries.testQueryManualExpected(expected, script,
+				ontologyManager, ontology);
 	}
 
 	@Override
@@ -108,6 +120,9 @@ public abstract class AbstractTestCase extends TestCase {
 	protected void tearDown() throws Exception {
 		this.lastStackTrace = new StringWriter();
 		this.p = new PrintWriter(this.lastStackTrace);
+		for (OWLOntology ontology : ontologyManager.getOntologies()) {
+			ontologyManager.removeOntology(ontology);
+		}
 		super.tearDown();
 	}
 
@@ -118,7 +133,8 @@ public abstract class AbstractTestCase extends TestCase {
 		return toReturn;
 	}
 
-	protected OWLReasoner initReasoner(OWLOntology ontology) throws OWLRuntimeException {
+	protected OWLReasoner initReasoner(OWLOntology ontology)
+			throws OWLRuntimeException {
 		OWLReasonerFactory reasonerFactory = new com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory();
 		OWLReasoner reasoner = reasonerFactory.createReasoner(ontology);
 		return reasoner;
@@ -152,10 +168,11 @@ public abstract class AbstractTestCase extends TestCase {
 		return null;
 	}
 
-	protected OPPLScript parse(String script, String ontology, OWLReasoner reasoner) {
+	protected OPPLScript parse(String script, String ontology,
+			OWLReasoner reasoner) {
 		try {
-			OPPLParser parser = new ParserFactory(ontologyManager, this.getOntology(ontology),
-					reasoner).build(this.errorListener);
+			OPPLParser parser = new ParserFactory(ontologyManager, this
+					.getOntology(ontology), reasoner).build(this.errorListener);
 			return parser.parse(script);
 		} catch (Exception e) {
 			if (this.longStackTrace) {
@@ -199,25 +216,34 @@ public abstract class AbstractTestCase extends TestCase {
 					int value = Integer.parseInt(columnIndex.trim());
 					if (Math.abs(value - expectedIndex) < TOLERANCE) {
 						// then the position is close enough
-						System.out.println("ExhaustingTestCase.testParseDoubleVariableDeclaration() Correct stack trace");
+						System.out
+								.println("ExhaustingTestCase.testParseDoubleVariableDeclaration() Correct stack trace");
 					} else {
-						System.out.println("ExhaustingTestCase The error type is correct but the column does not match the expected one. Expected error column: "
-								+ expectedIndex);
+						System.out
+								.println("ExhaustingTestCase The error type is correct but the column does not match the expected one. Expected error column: "
+										+ expectedIndex);
 						System.out.println(stackTrace);
 					}
 				} catch (NumberFormatException e) {
-					System.out.println("ExhaustingTestCase.checkProperStackTrace() Could not parse a column number to verify the correctness of the stack trace:\nExpected error type: "
-							+ expected + "\nExpected error column: " + expectedIndex);
+					System.out
+							.println("ExhaustingTestCase.checkProperStackTrace() Could not parse a column number to verify the correctness of the stack trace:\nExpected error type: "
+									+ expected
+									+ "\nExpected error column: "
+									+ expectedIndex);
 					System.out.println(stackTrace);
 				}
 			} else {
 				// there is no full stop after the expected string. No column
 				// number info should be available
-				System.out.println("ExhaustingTestCase.testParseDoubleVariableDeclaration() No column info checked; stack trace correct unless a column number was expected.");
+				System.out
+						.println("ExhaustingTestCase.testParseDoubleVariableDeclaration() No column info checked; stack trace correct unless a column number was expected.");
 			}
 		} else {
-			System.out.println("ExhaustingTestCase The stack trace does not correspond to the expected one! \nExpected error type: "
-					+ expected + "\nExpected error column: " + expectedIndex);
+			System.out
+					.println("ExhaustingTestCase The stack trace does not correspond to the expected one! \nExpected error type: "
+							+ expected
+							+ "\nExpected error column: "
+							+ expectedIndex);
 			System.out.println(stackTrace);
 		}
 	}
@@ -225,7 +251,8 @@ public abstract class AbstractTestCase extends TestCase {
 	protected void reportUnexpectedStacktrace(String stackTrace) {
 		// assertEquals(0, stackTrace.length());
 		if (stackTrace.length() != 0) {
-			System.out.println("ExhaustingTestCase There should not have been a stacktrace!");
+			System.out
+					.println("ExhaustingTestCase There should not have been a stacktrace!");
 			System.out.println(stackTrace);
 		}
 	}

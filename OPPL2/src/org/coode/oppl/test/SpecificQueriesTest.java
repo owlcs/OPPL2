@@ -46,12 +46,14 @@ public class SpecificQueriesTest extends TestCase {
 			fail(e.getMessage());
 		}
 
-		public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
-			fail(t.getMessage() + " at line " + line + " position " + charPosInLine + " length "
-					+ length);
+		public void reportThrowable(Throwable t, int line, int charPosInLine,
+				int length) {
+			fail(t.getMessage() + " at line " + line + " position "
+					+ charPosInLine + " length " + length);
 		}
 
-		public void recognitionException(RecognitionException e, String... tokenNames) {
+		public void recognitionException(RecognitionException e,
+				String... tokenNames) {
 			StringBuilder out = new StringBuilder();
 			Formatter formatter = new Formatter(out, Locale.getDefault());
 			for (String string : tokenNames) {
@@ -64,31 +66,32 @@ public class SpecificQueriesTest extends TestCase {
 			fail(e.getMessage());
 		}
 
-		public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
+		public void incompatibleSymbols(CommonTree parentExpression,
+				CommonTree... trees) {
 			StringBuilder out = new StringBuilder();
 			Formatter formatter = new Formatter(out, Locale.getDefault());
-			formatter.format("Incompatible symbols in %s ", parentExpression.getText());
+			formatter.format("Incompatible symbols in %s ", parentExpression
+					.getText());
 			for (CommonTree commonTree : trees) {
 				formatter.format("%s ", commonTree.getText());
 			}
 			fail(out.toString());
 		}
 
-		public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
+		public void incompatibleSymbolType(CommonTree t, Type type,
+				CommonTree expression) {
 			StringBuilder out = new StringBuilder();
 			Formatter formatter = new Formatter(out, Locale.getDefault());
-			formatter.format(
-					"Incompatible symbols type [%s] for %s  in %s ",
-					type,
-					t.getText(),
-					expression.getText());
+			formatter.format("Incompatible symbols type [%s] for %s  in %s ",
+					type, t.getText(), expression.getText());
 			fail(out.toString());
 		}
 
 		public void illegalToken(CommonTree t, String message) {
 			StringBuilder out = new StringBuilder();
 			Formatter formatter = new Formatter(out, Locale.getDefault());
-			formatter.format("Illegal token %s  additional information: [%s]", t, message);
+			formatter.format("Illegal token %s  additional information: [%s]",
+					t, message);
 			fail(out.toString());
 		}
 	};
@@ -100,28 +103,40 @@ public class SpecificQueriesTest extends TestCase {
 
 	public void testMBTExportRedundantContentComponentQuery() {
 		String opplString = "?x:CLASS SELECT ASSERTED ?x subClassOf OWLClass_01234980498623736000 BEGIN REMOVE ?x subClassOf OWLClass_01234980498623736000 END;";
-		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
 		try {
-			URI skeletonURI = this.getClass().getResource("skeleton.owl").toURI();
+			URI skeletonURI = this.getClass().getResource("skeleton.owl")
+					.toURI();
 			URI exportURI = this.getClass().getResource("export.owl").toURI();
-			ontologyManager.loadOntologyFromOntologyDocument(IRI.create(skeletonURI));
-			OWLOntology exportOntology = ontologyManager.loadOntologyFromOntologyDocument(IRI.create(exportURI));
-			OPPLScript opplScript = this.parseScript(opplString, ontologyManager, exportOntology);
-			ChangeExtractor changeExtractor = new ChangeExtractor(opplScript.getConstraintSystem(),
-					true);
+			ontologyManager.loadOntologyFromOntologyDocument(IRI
+					.create(skeletonURI));
+			OWLOntology exportOntology = ontologyManager.loadOntology(IRI
+					.create(exportURI));
+			OPPLScript opplScript = this.parseScript(opplString,
+					ontologyManager, exportOntology);
+			ChangeExtractor changeExtractor = new ChangeExtractor(opplScript
+					.getConstraintSystem(), true);
 			List<OWLAxiomChange> changes = opplScript.accept(changeExtractor);
 			assertTrue(changes.size() > 0);
-			Logging.getQueryTestLogging().log(Level.INFO, "Changes count " + changes.size());
+			Logging.getQueryTestLogging().log(Level.INFO,
+					"Changes count " + changes.size());
 			assertTrue(
 					"Instantiated axioms count expected "
-							+ this.getMBTExportRedundantContentComponentInstantiatedAxioms(
-									ontologyManager).size() + " actual "
-							+ this.getOPPLScriptInstantiatedAxioms(opplScript).size(),
-					this.getMBTExportRedundantContentComponentInstantiatedAxioms(ontologyManager).size() == this.getOPPLScriptInstantiatedAxioms(
-							opplScript).size());
-			assertTrue(this.getOPPLLeaves(opplScript).size() == this.getMBTExportRedundantContentComponentLeaves(
-					opplScript.getConstraintSystem().getVariable("?x"),
-					ontologyManager).size());
+							+ this
+									.getMBTExportRedundantContentComponentInstantiatedAxioms(
+											ontologyManager).size()
+							+ " actual "
+							+ this.getOPPLScriptInstantiatedAxioms(opplScript)
+									.size(),
+					this
+							.getMBTExportRedundantContentComponentInstantiatedAxioms(
+									ontologyManager).size() == this
+							.getOPPLScriptInstantiatedAxioms(opplScript).size());
+			assertTrue(this.getOPPLLeaves(opplScript).size() == this
+					.getMBTExportRedundantContentComponentLeaves(
+							opplScript.getConstraintSystem().getVariable("?x"),
+							ontologyManager).size());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -131,23 +146,29 @@ public class SpecificQueriesTest extends TestCase {
 		}
 	}
 
-	private OPPLScript parseScript(String opplString, OWLOntologyManager ontologyManager,
-			OWLOntology exportOntology) {
-		OPPLScript opplScript = new ParserFactory(ontologyManager, exportOntology, null).build(
-				this.errorListener).parse(opplString);
+	private OPPLScript parseScript(String opplString,
+			OWLOntologyManager ontologyManager, OWLOntology exportOntology) {
+		OPPLScript opplScript = new ParserFactory(ontologyManager,
+				exportOntology, null).build(this.errorListener).parse(
+				opplString);
 		return opplScript;
 	}
 
-	private Set<BindingNode> getMBTExportRedundantContentComponentLeaves(Variable x,
-			OWLOntologyManager manager) {
+	private Set<BindingNode> getMBTExportRedundantContentComponentLeaves(
+			Variable x, OWLOntologyManager manager) {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		for (OWLOntology ontology : manager.getOntologies()) {
-			Set<OWLSubClassOfAxiom> subClassAxioms = ontology.getSubClassAxiomsForSuperClass(manager.getOWLDataFactory().getOWLClass(
-					IRI.create("http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#OWLClass_01234980498623736000")));
+			Set<OWLSubClassOfAxiom> subClassAxioms = ontology
+					.getSubClassAxiomsForSuperClass(manager
+							.getOWLDataFactory()
+							.getOWLClass(
+									IRI
+											.create("http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#OWLClass_01234980498623736000")));
 			for (OWLSubClassOfAxiom owlSubClassAxiom : subClassAxioms) {
 				OWLClassExpression xValue = owlSubClassAxiom.getSubClass();
-				toReturn.add(new BindingNode(new HashSet<Assignment>(Arrays.asList(new Assignment(
-						x, xValue))), new HashSet<Variable>()));
+				toReturn.add(new BindingNode(new HashSet<Assignment>(Arrays
+						.asList(new Assignment(x, xValue))),
+						new HashSet<Variable>()));
 			}
 		}
 		return toReturn;
@@ -155,38 +176,45 @@ public class SpecificQueriesTest extends TestCase {
 
 	public void testMBTExportRedundantSubClassesQuery() {
 		String opplString = "?x:CLASS, ?y:CLASS, ?z:CLASS SELECT ASSERTED ?x subClassOf ?y, ASSERTED ?y subClassOf ?z, ASSERTED ?x subClassOf ?z BEGIN REMOVE ?x subClassOf ?z END;";
-		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
 		try {
-			URI skeletonURI = this.getClass().getResource("skeleton.owl").toURI();
+			URI skeletonURI = this.getClass().getResource("skeleton.owl")
+					.toURI();
 			URI exportURI = this.getClass().getResource("export.owl").toURI();
-			ontologyManager.loadOntologyFromOntologyDocument(IRI.create(skeletonURI));
-			OWLOntology exportOntology = ontologyManager.loadOntologyFromOntologyDocument(IRI.create(exportURI));
-			OPPLScript opplScript = this.parseScript(opplString, ontologyManager, exportOntology);
-			ChangeExtractor changeExtractor = new ChangeExtractor(opplScript.getConstraintSystem(),
-					true);
+			ontologyManager.loadOntology(IRI.create(skeletonURI));
+			OWLOntology exportOntology = ontologyManager
+					.loadOntologyFromOntologyDocument(IRI.create(exportURI));
+			OPPLScript opplScript = this.parseScript(opplString,
+					ontologyManager, exportOntology);
+			ChangeExtractor changeExtractor = new ChangeExtractor(opplScript
+					.getConstraintSystem(), true);
 			List<OWLAxiomChange> changes = opplScript.accept(changeExtractor);
 			assertTrue(changes.size() > 0);
-			Logging.getQueryTestLogging().log(Level.INFO, "Changes count " + changes.size());
-			this.displaySetDifference(
-					this.getMBTExportRedundantSubClassesInstantiatedAxioms(ontologyManager),
-					this.getOPPLScriptInstantiatedAxioms(opplScript));
-			assertTrue(
-					"Instantiated axioms count expected "
-							+ this.getMBTExportRedundantSubClassesInstantiatedAxioms(
-									ontologyManager).size() + " actual "
-							+ this.getOPPLScriptInstantiatedAxioms(opplScript).size(),
-					this.getMBTExportRedundantSubClassesInstantiatedAxioms(ontologyManager).size() == this.getOPPLScriptInstantiatedAxioms(
-							opplScript).size());
-			assertTrue(
-					"Leaves count expected "
-							+ this.getOPPLLeaves(opplScript).size()
-							+ " actual "
-							+ this.getMBTExportRedundantSubClassesLeaves(
-									opplScript.getConstraintSystem().getVariable("?x"),
-									opplScript.getConstraintSystem().getVariable("?y"),
-									opplScript.getConstraintSystem().getVariable("?z"),
-									ontologyManager).size(),
-					this.getOPPLLeaves(opplScript).size() == this.getMBTExportRedundantSubClassesLeaves(
+			Logging.getQueryTestLogging().log(Level.INFO,
+					"Changes count " + changes.size());
+			this
+					.displaySetDifference(
+							this
+									.getMBTExportRedundantSubClassesInstantiatedAxioms(ontologyManager),
+							this.getOPPLScriptInstantiatedAxioms(opplScript));
+			assertTrue("Instantiated axioms count expected "
+					+ this.getMBTExportRedundantSubClassesInstantiatedAxioms(
+							ontologyManager).size() + " actual "
+					+ this.getOPPLScriptInstantiatedAxioms(opplScript).size(),
+					this.getMBTExportRedundantSubClassesInstantiatedAxioms(
+							ontologyManager).size() == this
+							.getOPPLScriptInstantiatedAxioms(opplScript).size());
+			assertTrue("Leaves count expected "
+					+ this.getOPPLLeaves(opplScript).size()
+					+ " actual "
+					+ this.getMBTExportRedundantSubClassesLeaves(
+							opplScript.getConstraintSystem().getVariable("?x"),
+							opplScript.getConstraintSystem().getVariable("?y"),
+							opplScript.getConstraintSystem().getVariable("?z"),
+							ontologyManager).size(), this.getOPPLLeaves(
+					opplScript).size() == this
+					.getMBTExportRedundantSubClassesLeaves(
 							opplScript.getConstraintSystem().getVariable("?x"),
 							opplScript.getConstraintSystem().getVariable("?y"),
 							opplScript.getConstraintSystem().getVariable("?z"),
@@ -205,12 +233,14 @@ public class SpecificQueriesTest extends TestCase {
 		Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
 		if (leaves != null) {
 			for (BindingNode bindingNode : leaves) {
-				List<OWLAxiom> queryAxioms = opplScript.getQuery().getAssertedAxioms();
+				List<OWLAxiom> queryAxioms = opplScript.getQuery()
+						.getAssertedAxioms();
 				queryAxioms.addAll(opplScript.getQuery().getAxioms());
 				PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
 						bindingNode, opplScript.getConstraintSystem());
 				for (OWLAxiom axiom : queryAxioms) {
-					toReturn.add((OWLAxiom) axiom.accept(partialOWLObjectInstantiator));
+					toReturn.add((OWLAxiom) axiom
+							.accept(partialOWLObjectInstantiator));
 				}
 			}
 		}
@@ -221,18 +251,22 @@ public class SpecificQueriesTest extends TestCase {
 			OWLOntologyManager manager) {
 		Set<OWLAxiom> toReturn = new HashSet<OWLAxiom>();
 		for (OWLOntology ontology : manager.getOntologies()) {
-			Set<OWLSubClassOfAxiom> subClassAxioms = ontology.getAxioms(AxiomType.SUBCLASS_OF);
+			Set<OWLSubClassOfAxiom> subClassAxioms = ontology
+					.getAxioms(AxiomType.SUBCLASS_OF);
 			for (OWLSubClassOfAxiom subClassAxiom : subClassAxioms) {
 				OWLClassExpression x = subClassAxiom.getSubClass();
 				OWLClassExpression y = subClassAxiom.getSuperClass();
 				if (!y.isAnonymous()) {
 					for (OWLSubClassOfAxiom anotherSubClassAxiom : subClassAxioms) {
 						if (anotherSubClassAxiom.getSubClass().equals(y)) {
-							OWLClassExpression z = anotherSubClassAxiom.getSuperClass();
+							OWLClassExpression z = anotherSubClassAxiom
+									.getSuperClass();
 							if (!z.isAnonymous()) {
 								for (OWLSubClassOfAxiom yetAnotherSubClassAxiom : subClassAxioms) {
-									if (yetAnotherSubClassAxiom.getSubClass().equals(x)
-											&& yetAnotherSubClassAxiom.getSuperClass().equals(z)) {
+									if (yetAnotherSubClassAxiom.getSubClass()
+											.equals(x)
+											&& yetAnotherSubClassAxiom
+													.getSuperClass().equals(z)) {
 										toReturn.add(subClassAxiom);
 										toReturn.add(anotherSubClassAxiom);
 										toReturn.add(yetAnotherSubClassAxiom);
@@ -265,35 +299,53 @@ public class SpecificQueriesTest extends TestCase {
 			OWLOntologyManager manager) {
 		Set<OWLAxiom> toReturn = new HashSet<OWLAxiom>();
 		for (OWLOntology ontology : manager.getOntologies()) {
-			toReturn.addAll(ontology.getSubClassAxiomsForSuperClass(manager.getOWLDataFactory().getOWLClass(
-					IRI.create("http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#OWLClass_01234980498623736000"))));
+			toReturn
+					.addAll(ontology
+							.getSubClassAxiomsForSuperClass(manager
+									.getOWLDataFactory()
+									.getOWLClass(
+											IRI
+													.create("http://www.siemens-health.com/SiemensDemo/considerations2documentation.owl#OWLClass_01234980498623736000"))));
 		}
 		return toReturn;
 	}
 
-	private Set<BindingNode> getMBTExportRedundantSubClassesLeaves(Variable x, Variable y,
-			Variable z, OWLOntologyManager manager) {
+	private Set<BindingNode> getMBTExportRedundantSubClassesLeaves(Variable x,
+			Variable y, Variable z, OWLOntologyManager manager) {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		for (OWLOntology ontology : manager.getOntologies()) {
-			Set<OWLSubClassOfAxiom> subClassAxioms = ontology.getAxioms(AxiomType.SUBCLASS_OF);
+			Set<OWLSubClassOfAxiom> subClassAxioms = ontology
+					.getAxioms(AxiomType.SUBCLASS_OF);
 			for (OWLSubClassOfAxiom subClassAxiom : subClassAxioms) {
 				OWLClassExpression xValue = subClassAxiom.getSubClass();
 				OWLClassExpression yValue = subClassAxiom.getSuperClass();
 				if (!yValue.isAnonymous()) {
 					for (OWLSubClassOfAxiom anotherSubClassAxiom : subClassAxioms) {
 						if (anotherSubClassAxiom.getSubClass().equals(yValue)) {
-							OWLClassExpression zValue = anotherSubClassAxiom.getSuperClass();
+							OWLClassExpression zValue = anotherSubClassAxiom
+									.getSuperClass();
 							if (!zValue.isAnonymous()) {
 								for (OWLSubClassOfAxiom yetAnotherSubClassAxiom : subClassAxioms) {
-									if (yetAnotherSubClassAxiom.getSubClass().equals(xValue)
-											&& yetAnotherSubClassAxiom.getSuperClass().equals(
-													zValue)) {
-										toReturn.add(new BindingNode(new HashSet<Assignment>(
-												Arrays.asList(
-														new Assignment(x, xValue),
-														new Assignment(y, yValue),
-														new Assignment(z, zValue))),
-												new HashSet<Variable>()));
+									if (yetAnotherSubClassAxiom.getSubClass()
+											.equals(xValue)
+											&& yetAnotherSubClassAxiom
+													.getSuperClass().equals(
+															zValue)) {
+										toReturn
+												.add(new BindingNode(
+														new HashSet<Assignment>(
+																Arrays
+																		.asList(
+																				new Assignment(
+																						x,
+																						xValue),
+																				new Assignment(
+																						y,
+																						yValue),
+																				new Assignment(
+																						z,
+																						zValue))),
+														new HashSet<Variable>()));
 									}
 								}
 							}
@@ -306,25 +358,31 @@ public class SpecificQueriesTest extends TestCase {
 	}
 
 	public void testConstraintsOnPizzaOntology() {
-		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
 		try {
-			OWLOntology testOntology = ontologyManager.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			OWLOntology testOntology = ontologyManager
+					.loadOntology(IRI
+							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			String opplString = "?x:CLASS SELECT ASSERTED ?x subClassOf Pizza WHERE ?x!= NamedPizza BEGIN REMOVE ?x subClassOf NamedPizza END;";
-			OPPLScript opplScript = this.parseScript(opplString, ontologyManager, testOntology);
-			ChangeExtractor changeExtractor = new ChangeExtractor(opplScript.getConstraintSystem(),
-					true);
+			OPPLScript opplScript = this.parseScript(opplString,
+					ontologyManager, testOntology);
+			ChangeExtractor changeExtractor = new ChangeExtractor(opplScript
+					.getConstraintSystem(), true);
 			List<OWLAxiomChange> changes = opplScript.accept(changeExtractor);
-			assertTrue(
-					"Expected empty changes list obtained, instead " + changes,
-					changes.size() == 0);
-			Logging.getQueryTestLogging().log(Level.INFO, "Changes count " + changes.size());
+			assertTrue("Expected empty changes list obtained, instead "
+					+ changes, changes.size() == 0);
+			Logging.getQueryTestLogging().log(Level.INFO,
+					"Changes count " + changes.size());
 			Set<BindingNode> leaves = this.getOPPLLeaves(opplScript);
+			assertTrue("Expected empty leaf set, obtained, instead "
+					+ leaves.toString(), leaves.isEmpty());
+			Set<OWLAxiom> instantiatedAxioms = this
+					.getOPPLScriptInstantiatedAxioms(opplScript);
 			assertTrue(
-					"Expected empty leaf set, obtained, instead " + leaves.toString(),
-					leaves.isEmpty());
-			Set<OWLAxiom> instantiatedAxioms = this.getOPPLScriptInstantiatedAxioms(opplScript);
-			assertTrue("Expected empty instantiated axiom set, obtained, instead "
-					+ instantiatedAxioms.toString(), instantiatedAxioms.isEmpty());
+					"Expected empty instantiated axiom set, obtained, instead "
+							+ instantiatedAxioms.toString(), instantiatedAxioms
+							.isEmpty());
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
