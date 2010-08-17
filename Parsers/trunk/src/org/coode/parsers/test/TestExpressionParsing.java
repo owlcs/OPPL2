@@ -132,4 +132,10 @@ public class TestExpressionParsing extends TestCase {
 		assertNotNull(parsed);
 		System.out.println(parsed.toStringTree());
 	}
+
+	public void testEntityReference() {
+		ManchesterOWLSyntaxTree parsed = this.parse("'Pizza (the italian)'");
+		assertNotNull(parsed);
+		System.out.println(parsed.toStringTree());
+	}
 }

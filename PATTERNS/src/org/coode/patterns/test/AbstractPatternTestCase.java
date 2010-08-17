@@ -7,7 +7,7 @@ import org.coode.patterns.OPPLPatternParser;
 import org.coode.patterns.ParserFactory;
 import org.coode.patterns.PatternModel;
 import org.coode.patterns.PatternOPPLScript;
-import org.semanticweb.owl.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 public abstract class AbstractPatternTestCase extends AbstractTestCase {
 	private final ErrorListener erroListener = new JUnitTestErrorListener();

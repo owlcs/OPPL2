@@ -2,8 +2,8 @@ package org.coode.patterns.locality;
 
 import java.util.Set;
 
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
 
 /**
  * <p>

@@ -4,50 +4,18 @@
 package org.coode.patterns;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.coode.parsers.ErrorListener;
-import org.coode.parsers.oppl.OPPLSyntaxTree;
-import org.coode.parsers.oppl.patterns.OPPLPatternsSymbolTable;
 import org.coode.parsers.oppl.patterns.factory.SimpleSymbolTableFactory;
 import org.coode.patterns.OPPLPatternParser.AbstractParserFactory;
-import org.coode.patterns.OPPLPatternParser.PatternReferenceResolver;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * @author Luigi Iannone
  * 
  */
 public class ParserFactory implements AbstractParserFactory {
-	private static final class VisitedPatternReferenceResolver implements PatternReferenceResolver {
-		private final Set<String> visited = new HashSet<String>();
-
-		public VisitedPatternReferenceResolver(Collection<? extends String> visitedPatterns) {
-			assert visitedPatterns != null;
-			this.visited.addAll(visitedPatterns);
-		}
-
-		public void resolvePattern(OPPLSyntaxTree reference, String patternName,
-				PatternConstraintSystem constraintSystem, OPPLPatternsSymbolTable symbolTable,
-				String... args) {
-			symbolTable.resolvePattern(
-					reference,
-					patternName,
-					constraintSystem,
-					this.getVisited(),
-					args);
-		}
-
-		/**
-		 * @return the visited
-		 */
-		public Set<String> getVisited() {
-			return new HashSet<String>(this.visited);
-		}
-	}
-
 	private final OWLOntology ontology;
 	private final OWLOntologyManager ontologyManager;
 

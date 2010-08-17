@@ -12,7 +12,7 @@ import javax.swing.table.TableModel;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.patterns.locality.LocalityChecker;
-import org.semanticweb.owl.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEntity;
 
 public class LocalityCheckResultTableModel implements TableModel {
 	private static enum values {

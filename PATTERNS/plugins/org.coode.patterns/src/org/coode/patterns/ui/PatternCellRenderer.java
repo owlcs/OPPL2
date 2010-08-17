@@ -44,13 +44,13 @@ import org.coode.patterns.protege.ProtegeParserFactory;
 import org.coode.patterns.utils.Utils;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
-import org.semanticweb.owl.model.OWLAnnotation;
-import org.semanticweb.owl.model.OWLAnnotationAxiom;
-import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomAnnotationAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLSubClassAxiom;
 
 /**
  * @author Luigi Iannone
@@ -128,7 +128,7 @@ public class PatternCellRenderer implements ListCellRenderer {
 					.getAnnotationAxioms(this.owlEditorKit.getModelManager()
 							.getActiveOntology());
 			if (Utils.isPatternGenerated(annotationAxioms)) {
-				Set<OWLDescription> descriptions = new HashSet<OWLDescription>(
+				Set<OWLClassExpression> descriptions = new HashSet<OWLClassExpression>(
 						annotationAxiom.getDescriptions());
 				descriptions
 						.remove(((PatternOWLEquivalentClassesAxiomFrameSectionRow) value)

@@ -22,7 +22,6 @@
  */
 package org.coode.patterns.test;
 
-import java.net.URI;
 import java.util.List;
 
 import org.coode.patterns.ClassPatternExecutor;
@@ -30,11 +29,12 @@ import org.coode.patterns.NonClassPatternExecutor;
 import org.coode.patterns.PatternModelFactory;
 import org.coode.patterns.PatternOPPLScript;
 import org.coode.patterns.UnsuitableOPPLScriptException;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyChangeException;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyChangeException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * @author Luigi Iannone
@@ -42,24 +42,21 @@ import org.semanticweb.owl.model.OWLOntologyManager;
  *         Jun 12, 2008
  */
 public class TestPatternHarness {
-	private URI uri = URI.create("http://mytest.com/testpatternharness#test");
+	private IRI iri = IRI.create("http://mytest.com/testpatternharness#test");
 	OWLOntologyManager manager;
 	OWLOntology ontology;
 	PatternModelFactory factory;
 
-	protected TestPatternHarness(OWLOntology ontology,
-			OWLOntologyManager manager) {
+	protected TestPatternHarness(OWLOntology ontology, OWLOntologyManager manager) {
 		this.manager = manager;
 		this.ontology = ontology;
 		this.factory = new PatternModelFactory(ontology, manager);
 	}
 
-	public void executeNonClass(PatternOPPLScript editor)
-			throws UnsuitableOPPLScriptException {
+	public void executeNonClass(PatternOPPLScript editor) throws UnsuitableOPPLScriptException {
 		NonClassPatternExecutor patternExecutor = new NonClassPatternExecutor(
-				this.factory.createInstantiatedPatternModel(this.factory
-						.createPatternModel(editor)), this.ontology,
-				this.manager, this.uri);
+				this.factory.createInstantiatedPatternModel(this.factory.createPatternModel(editor)),
+				this.ontology, this.manager, this.iri);
 		List<OWLAxiomChange> changes = editor.accept(patternExecutor);
 		for (OWLAxiomChange change : changes) {
 			try {
@@ -72,10 +69,10 @@ public class TestPatternHarness {
 
 	public void executeClass(OWLClass clazz, PatternOPPLScript editor)
 			throws UnsuitableOPPLScriptException {
-		ClassPatternExecutor patternExecutor = new ClassPatternExecutor(clazz,
-				this.factory.createInstantiatedPatternModel(this.factory
-						.createPatternModel(editor)), this.ontology,
-				this.manager, this.uri);
+		ClassPatternExecutor patternExecutor = new ClassPatternExecutor(
+				clazz,
+				this.factory.createInstantiatedPatternModel(this.factory.createPatternModel(editor)),
+				this.ontology, this.manager, this.iri);
 		List<OWLAxiomChange> changes = editor.accept(patternExecutor);
 		for (OWLAxiomChange change : changes) {
 			try {

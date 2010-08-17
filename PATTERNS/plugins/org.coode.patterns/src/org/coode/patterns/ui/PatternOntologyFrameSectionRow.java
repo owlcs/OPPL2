@@ -52,18 +52,18 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.frame.AbstractOWLFrameSectionRow;
 import org.protege.editor.owl.ui.frame.OWLFrameSection;
 import org.protege.editor.owl.ui.frame.OWLFrameSectionRowObjectEditor;
-import org.semanticweb.owl.model.OWLAnnotation;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLConstantAnnotation;
-import org.semanticweb.owl.model.OWLDataFactory;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyAnnotationAxiom;
-import org.semanticweb.owl.model.OWLOntologyChange;
-import org.semanticweb.owl.model.OWLOntologyChangeException;
-import org.semanticweb.owl.model.RemoveAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLConstant;
+import org.semanticweb.owlapi.model.OWLConstantAnnotation;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyAnnotationAxiom;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyChangeException;
+import org.semanticweb.owlapi.model.RemoveAxiom;
 
 /**
  * @author Luigi Iannone
@@ -169,7 +169,7 @@ public class PatternOntologyFrameSectionRow extends
 		// + " dependencies " + dependingPatterns);
 		for (PatternOPPLScript patternscript : dependingPatterns) {
 			for (OWLOntology ontology : this.getOWLEditorKit().getModelManager().getOntologies()) {
-				Set<? extends OWLAxiom> dependingAxioms = patternscript.getOWLAxioms(
+				Set<? extends OWLAxiom> dependingAxioms = patternscript.getOWLObjects(
 						ontology,
 						PatternManager.getDefaultErrorListener());
 				for (OWLAxiom dependingAxiom : dependingAxioms) {
@@ -178,7 +178,7 @@ public class PatternOntologyFrameSectionRow extends
 			}
 		}
 		for (OWLOntology ontology : ontologies) {
-			Set<? extends OWLAxiom> axioms = this.patternModel.getOWLAxioms(
+			Set<? extends OWLAxiom> axioms = this.patternModel.getOWLObjects(
 					ontology,
 					PatternManager.getDefaultErrorListener());
 			for (OWLAxiom ax : axioms) {

@@ -5,15 +5,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLEntity;
 
 /**
  * holder for the extra symbols, one to be added to the signature, one to stay
  * outside the signature
  */
-public class SigmaPlusSigmaMinus extends AbstractCollection<OWLEntity>
-		implements Collection<OWLEntity> {
+public class SigmaPlusSigmaMinus extends AbstractCollection<OWLEntity> implements
+		Collection<OWLEntity> {
 	private final OWLEntity plus;
 	private final OWLEntity minus;
 
@@ -30,7 +29,7 @@ public class SigmaPlusSigmaMinus extends AbstractCollection<OWLEntity>
 
 	@Override
 	public Iterator<OWLEntity> iterator() {
-		return Arrays.asList(plus, minus).iterator();
+		return Arrays.asList(this.plus, this.minus).iterator();
 	}
 
 	@Override

@@ -25,9 +25,9 @@ package org.coode.patterns.ui;
 import org.coode.patterns.PatternModel;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.frame.OWLSubClassAxiomFrameSectionRow;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLSubClassAxiom;
 
 /**
  * @author Luigi Iannone

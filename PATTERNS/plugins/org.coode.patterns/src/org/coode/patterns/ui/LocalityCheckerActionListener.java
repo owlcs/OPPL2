@@ -15,24 +15,21 @@ import javax.swing.table.TableModel;
 
 import org.coode.patterns.locality.LocalityChecker;
 import org.protege.editor.owl.OWLEditorKit;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLEntity;
 
 public class LocalityCheckerActionListener extends LocalityChecker implements ActionListener {
 	private static final String SAFETY_ANALYSIS_BREAKDOWN = "Safety analysis breakdown";
 	public final static int DIMENSION = 18;
 	private final JButton resultButton;
-	
+
 	public LocalityCheckerActionListener(final OWLEditorKit kit, Set<OWLEntity> signature,
 			JButton resultButton) {
 		super(kit.getOWLModelManager().getOWLOntologyManager(),
 				kit.getOWLModelManager().getReasoner(), signature);
-		
 		this.resultButton = resultButton;
 		this.resultButton.setIcon(this.generateIcon(Color.gray));
 		this.resultButton.setToolTipText("Check not executed yet");
 		this.resultButton.setEnabled(false);
-		
 	}
 
 	public Icon generateIcon(final Color color) {

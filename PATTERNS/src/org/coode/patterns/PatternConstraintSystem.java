@@ -22,7 +22,6 @@
  */
 package org.coode.patterns;
 
-import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,11 +38,11 @@ import org.coode.oppl.generated.AbstractCollectionGeneratedValue;
 import org.coode.oppl.generated.SingleValueGeneratedValue;
 import org.coode.oppl.generated.SingleValueGeneratedVariable;
 import org.coode.parsers.ErrorListener;
-import org.semanticweb.owl.inference.OWLReasoner;
-import org.semanticweb.owl.inference.OWLReasonerException;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 /**
  * @author Luigi Iannone
@@ -61,11 +60,7 @@ public class PatternConstraintSystem extends ConstraintSystem {
 	public PatternConstraintSystem(ConstraintSystem cs, OWLOntologyManager ontologyManager,
 			AbstractPatternModelFactory f) {
 		super(cs.getOntology(), ontologyManager, f.getOPPLFactory());
-		try {
-			this.setReasoner(cs.getReasoner());
-		} catch (OWLReasonerException e) {
-			e.printStackTrace();
-		}
+		this.setReasoner(cs.getReasoner());
 		this.constraintSystem = cs;
 		this.factory = f;
 		this.init();
@@ -127,33 +122,33 @@ public class PatternConstraintSystem extends ConstraintSystem {
 	}
 
 	@Override
-	public Variable getVariable(URI uri) {
-		Variable variable = this.constraintSystem.getVariable(uri);
+	public Variable getVariable(IRI iri) {
+		Variable variable = this.constraintSystem.getVariable(iri);
 		if (variable == null) {
-			variable = this.getSpecialVariable(uri);
+			variable = this.getSpecialVariable(iri);
 		}
 		return variable;
 	}
 
-	private Variable getSpecialVariable(URI uri) {
+	private Variable getSpecialVariable(IRI iri) {
 		boolean found = false;
 		Iterator<? extends Variable> it = this.specialVariables.values().iterator();
 		Variable variable = null;
 		while (!found && it.hasNext()) {
 			variable = it.next();
-			found = uri.equals(variable.getURI());
+			found = iri.equals(variable.getIRI());
 		}
 		return found ? variable : null;
 	}
 
 	@Override
-	public boolean isVariableURI(URI uri) {
-		boolean found = this.constraintSystem.isVariableURI(uri);
+	public boolean isVariableIRI(IRI uri) {
+		boolean found = this.constraintSystem.isVariableIRI(uri);
 		if (!found) {
 			Iterator<? extends Variable> it = this.specialVariables.values().iterator();
 			while (!found && it.hasNext()) {
 				Variable variable = it.next();
-				found = uri.equals(variable.getURI());
+				found = uri.equals(variable.getIRI());
 			}
 		}
 		return found;

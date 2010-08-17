@@ -118,11 +118,7 @@ DBLQUOTE :
       (~'"' | '""')*
       '"'
       {
-                 
-                String quote, dblDblQuote, cont; 
-                 
-                char quoteChr = 34;                                   
-                quote = "\n"; 
+ 
                 String txt = getText(); 
                         
                 // Remove first and last double-quote 
@@ -143,5 +139,19 @@ fragment DIGIT: '0' .. '9';
 
 IDENTIFIER : LETTER (LETTER  | DIGIT |'-'|'_' | ':')*;
 ENTITY_REFERENCE :
-    '\'' IDENTIFIER+ '\''
+    '\'' (~'\'' | '\'\'')* '\''
+    {
+                 
+
+                String txt = getText(); 
+                        
+                // Remove first and last quote 
+                if (txt.startsWith("'")){
+                   txt = txt.substring(1);
+                } 
+                if (txt.endsWith("'")){                 
+                  txt = txt.substring(0,txt.length() - 1);
+                }
+                setText(txt);                                
+      }
     ;

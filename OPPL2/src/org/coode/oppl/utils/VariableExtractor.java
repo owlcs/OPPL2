@@ -215,7 +215,7 @@ public class VariableExtractor {
 		public Set<Variable> visit(OWLSubClassOfAxiom axiom) {
 			OWLClassExpression subClass = axiom.getSubClass();
 			OWLClassExpression superClass = axiom.getSuperClass();
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			toReturn.addAll(superClass.accept(this));
 			toReturn.addAll(subClass.accept(this));
 			return toReturn;
@@ -226,7 +226,7 @@ public class VariableExtractor {
 			OWLIndividual object = axiom.getObject();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			OWLIndividual subject = axiom.getSubject();
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			toReturn.addAll(property.accept(this));
 			toReturn.addAll(object.accept(this));
 			toReturn.addAll(subject.accept(this));
@@ -235,7 +235,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLAsymmetricObjectPropertyAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			toReturn.addAll(property.accept(this));
 			return toReturn;
@@ -243,7 +243,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLReflexiveObjectPropertyAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			toReturn.addAll(property.accept(this));
 			return toReturn;
@@ -251,7 +251,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDisjointClassesAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			Set<OWLClassExpression> descriptions = axiom.getClassExpressions();
 			for (OWLClassExpression description : descriptions) {
 				toReturn.addAll(description.accept(this));
@@ -261,7 +261,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDataPropertyDomainAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLDataPropertyExpression property = axiom.getProperty();
 			OWLClassExpression domain = axiom.getDomain();
 			toReturn.addAll(property.accept(this));
@@ -271,7 +271,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectPropertyDomainAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			OWLClassExpression domain = axiom.getDomain();
 			toReturn.addAll(property.accept(this));
@@ -281,7 +281,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			Set<OWLObjectPropertyExpression> properties = axiom.getProperties();
 			for (OWLObjectPropertyExpression objectPropertyExpression : properties) {
 				toReturn.addAll(objectPropertyExpression.accept(this));
@@ -291,7 +291,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLLiteral object = axiom.getObject();
 			OWLDataPropertyExpression property = axiom.getProperty();
 			OWLIndividual subject = axiom.getSubject();
@@ -303,7 +303,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDifferentIndividualsAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			Set<OWLIndividual> individuals = axiom.getIndividuals();
 			for (OWLIndividual individual : individuals) {
 				toReturn.addAll(individual.accept(this));
@@ -313,7 +313,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDisjointDataPropertiesAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			Set<OWLDataPropertyExpression> properties = axiom.getProperties();
 			for (OWLDataPropertyExpression dataPropertyExpression : properties) {
 				toReturn.addAll(dataPropertyExpression.accept(this));
@@ -323,7 +323,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDisjointObjectPropertiesAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			Set<OWLObjectPropertyExpression> properties = axiom.getProperties();
 			for (OWLObjectPropertyExpression objectPropertyExpression : properties) {
 				toReturn.addAll(objectPropertyExpression.accept(this));
@@ -333,7 +333,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectPropertyRangeAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			OWLClassExpression range = axiom.getRange();
 			toReturn.addAll(property.accept(this));
@@ -343,7 +343,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectPropertyAssertionAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			OWLIndividual subject = axiom.getSubject();
 			OWLIndividual object = axiom.getObject();
@@ -355,7 +355,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLFunctionalObjectPropertyAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			toReturn.addAll(property.accept(this));
 			return toReturn;
@@ -363,7 +363,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLSubObjectPropertyOfAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression subProperty = axiom.getSubProperty();
 			OWLObjectPropertyExpression superProperty = axiom.getSuperProperty();
 			toReturn.addAll(subProperty.accept(this));
@@ -373,7 +373,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDisjointUnionAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			Set<OWLClassExpression> descriptions = axiom.getClassExpressions();
 			for (OWLClassExpression description : descriptions) {
 				toReturn.addAll(description.accept(this));
@@ -383,7 +383,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLSymmetricObjectPropertyAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			toReturn.addAll(property.accept(this));
 			return toReturn;
@@ -391,7 +391,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDataPropertyRangeAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLDataPropertyExpression property = axiom.getProperty();
 			OWLDataRange range = axiom.getRange();
 			toReturn.addAll(property.accept(this));
@@ -401,7 +401,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLFunctionalDataPropertyAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLDataPropertyExpression property = axiom.getProperty();
 			toReturn.addAll(property.accept(this));
 			return toReturn;
@@ -409,7 +409,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLEquivalentDataPropertiesAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			Set<OWLDataPropertyExpression> properties = axiom.getProperties();
 			for (OWLDataPropertyExpression dataPropertyExpression : properties) {
 				toReturn.addAll(dataPropertyExpression.accept(this));
@@ -419,7 +419,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLClassAssertionAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLIndividual individual = axiom.getIndividual();
 			OWLClassExpression description = axiom.getClassExpression();
 			toReturn.addAll(individual.accept(this));
@@ -429,7 +429,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLEquivalentClassesAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			Set<OWLClassExpression> descriptions = axiom.getClassExpressions();
 			for (OWLClassExpression description : descriptions) {
 				toReturn.addAll(description.accept(this));
@@ -439,7 +439,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDataPropertyAssertionAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLLiteral object = axiom.getObject();
 			OWLIndividual subject = axiom.getSubject();
 			OWLDataPropertyExpression property = axiom.getProperty();
@@ -451,7 +451,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLTransitiveObjectPropertyAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			toReturn.addAll(property.accept(this));
 			return toReturn;
@@ -459,7 +459,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			toReturn.addAll(property.accept(this));
 			return toReturn;
@@ -467,7 +467,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLSubDataPropertyOfAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLDataPropertyExpression subProperty = axiom.getSubProperty();
 			OWLDataPropertyExpression superProperty = axiom.getSuperProperty();
 			toReturn.addAll(subProperty.accept(this));
@@ -477,7 +477,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			toReturn.addAll(property.accept(this));
 			return toReturn;
@@ -485,7 +485,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLSameIndividualAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			Set<OWLIndividual> individuals = axiom.getIndividuals();
 			for (OWLIndividual individual : individuals) {
 				toReturn.addAll(individual.accept(this));
@@ -495,7 +495,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLSubPropertyChainOfAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			List<OWLObjectPropertyExpression> propertyChain = axiom.getPropertyChain();
 			for (OWLObjectPropertyExpression objectPropertyExpression : propertyChain) {
 				toReturn.addAll(objectPropertyExpression.accept(this));
@@ -505,7 +505,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLInverseObjectPropertiesAxiom axiom) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression firstProperty = axiom.getFirstProperty();
 			OWLObjectPropertyExpression secondProperty = axiom.getSecondProperty();
 			toReturn.addAll(firstProperty.accept(this));
@@ -516,7 +516,7 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable> visit(OWLClass desc) {
 			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(desc);
-			final Set<Variable> toReturn = Collections.emptySet();
+			final Set<Variable> toReturn = new HashSet<Variable>();
 			if (isVariable) {
 				Variable variable = VariableExtractor.this.getConstraintSystem().getVariable(
 						desc.getIRI());
@@ -553,7 +553,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectIntersectionOf desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			Set<OWLClassExpression> operands = desc.getOperands();
 			for (OWLClassExpression description : operands) {
 				toReturn.addAll(description.accept(this));
@@ -563,7 +563,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectUnionOf desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			Set<OWLClassExpression> operands = desc.getOperands();
 			for (OWLClassExpression description : operands) {
 				toReturn.addAll(description.accept(this));
@@ -573,7 +573,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectComplementOf desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLClassExpression operand = desc.getOperand();
 			toReturn.addAll(operand.accept(this));
 			return toReturn;
@@ -581,7 +581,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectSomeValuesFrom desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLClassExpression filler = desc.getFiller();
 			OWLObjectPropertyExpression property = desc.getProperty();
 			toReturn.addAll(filler.accept(this));
@@ -591,7 +591,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectAllValuesFrom desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLClassExpression filler = desc.getFiller();
 			OWLObjectPropertyExpression property = desc.getProperty();
 			toReturn.addAll(filler.accept(this));
@@ -601,7 +601,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectHasValue desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLIndividual value = desc.getValue();
 			OWLObjectPropertyExpression property = desc.getProperty();
 			toReturn.addAll(value.accept(this));
@@ -611,7 +611,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectMinCardinality desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLClassExpression filler = desc.getFiller();
 			OWLObjectPropertyExpression property = desc.getProperty();
 			toReturn.addAll(filler.accept(this));
@@ -621,7 +621,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectExactCardinality desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLClassExpression filler = desc.getFiller();
 			OWLObjectPropertyExpression property = desc.getProperty();
 			toReturn.addAll(filler.accept(this));
@@ -631,7 +631,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectMaxCardinality desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLClassExpression filler = desc.getFiller();
 			OWLObjectPropertyExpression property = desc.getProperty();
 			toReturn.addAll(filler.accept(this));
@@ -641,7 +641,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectHasSelf desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression property = desc.getProperty();
 			toReturn.addAll(property.accept(this));
 			return toReturn;
@@ -649,7 +649,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectOneOf desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			Set<OWLIndividual> individuals = desc.getIndividuals();
 			for (OWLIndividual individual : individuals) {
 				toReturn.addAll(individual.accept(this));
@@ -659,7 +659,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDataSomeValuesFrom desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLDataPropertyExpression property = desc.getProperty();
 			OWLDataRange filler = desc.getFiller();
 			toReturn.addAll(property.accept(this));
@@ -669,7 +669,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDataAllValuesFrom desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLDataPropertyExpression property = desc.getProperty();
 			OWLDataRange filler = desc.getFiller();
 			toReturn.addAll(property.accept(this));
@@ -679,7 +679,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDataHasValue desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLDataPropertyExpression property = desc.getProperty();
 			OWLLiteral value = desc.getValue();
 			toReturn.addAll(property.accept(this));
@@ -689,7 +689,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDataMinCardinality desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLDataRange filler = desc.getFiller();
 			OWLDataPropertyExpression property = desc.getProperty();
 			toReturn.addAll(filler.accept(this));
@@ -699,7 +699,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDataExactCardinality desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLDataRange filler = desc.getFiller();
 			OWLDataPropertyExpression property = desc.getProperty();
 			toReturn.addAll(filler.accept(this));
@@ -709,7 +709,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDataMaxCardinality desc) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLDataRange filler = desc.getFiller();
 			OWLDataPropertyExpression property = desc.getProperty();
 			toReturn.addAll(filler.accept(this));
@@ -719,7 +719,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDataComplementOf node) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLDataRange dataRange = node.getDataRange();
 			toReturn.addAll(dataRange.accept(this));
 			return toReturn;
@@ -727,7 +727,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDataOneOf node) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			Set<OWLLiteral> values = node.getValues();
 			for (OWLLiteral constant : values) {
 				toReturn.addAll(constant.accept(this));
@@ -737,7 +737,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDatatypeRestriction node) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLDataRange dataRange = node.getDatatype();
 			toReturn.addAll(dataRange.accept(this));
 			return toReturn;
@@ -745,7 +745,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLLiteral node) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(node);
 			if (isVariable) {
 				Variable variable = VariableExtractor.this.getConstraintSystem().getVariable(
@@ -757,7 +757,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectProperty property) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(property);
 			if (isVariable) {
 				Variable variable = VariableExtractor.this.getConstraintSystem().getVariable(
@@ -769,7 +769,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLObjectInverseOf property) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			OWLObjectPropertyExpression inverse = property.getInverse();
 			toReturn.addAll(inverse.accept(this));
 			return toReturn;
@@ -777,7 +777,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLDataProperty property) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(property);
 			if (isVariable) {
 				Variable variable = VariableExtractor.this.getConstraintSystem().getVariable(
@@ -789,7 +789,7 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable> visit(OWLNamedIndividual individual) {
-			Set<Variable> toReturn = Collections.emptySet();
+			Set<Variable> toReturn = new HashSet<Variable>();
 			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(individual);
 			if (isVariable) {
 				Variable variable = VariableExtractor.this.getConstraintSystem().getVariable(

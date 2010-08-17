@@ -1,6 +1,5 @@
 package org.coode.parsers.oppl.patterns.test;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import junit.framework.TestCase;
@@ -37,10 +36,11 @@ import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.OPPLPatternParser.PatternReferenceResolver;
 import org.coode.patterns.PatternConstraintSystem;
 import org.coode.patterns.PatternModelFactory;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * Test for the AST generation for OPPL
@@ -91,9 +91,9 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 
 	static {
 		try {
-			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
-					"syntaxTest.owl").toURI());
+			ONTOLOGY_MANAGER.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI.create(ComprehensiveAxiomTestCase.class.getResource(
+					"syntaxTest.owl").toURI()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -104,13 +104,13 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 	public void testFood() {
 		OWLOntology referencedPatternOntology;
 		try {
-			referencedPatternOntology = ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
+			referencedPatternOntology = ONTOLOGY_MANAGER.loadOntology(IRI.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
 			String patternString = "?x:CLASS, ?y:CLASS, ?forbiddenContent:CLASS = createUnion(?x.VALUES) BEGIN ADD $thisClass equivalentTo contains only (not ?forbiddenContent) END; A ?x free stuff; RETURN $thisClass";
 			OPPLSyntaxTree parsed = this.parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
 			assertNotNull(parsed.getOPPLContent());
-			ONTOLOGY_MANAGER.removeOntology(referencedPatternOntology.getURI());
+			ONTOLOGY_MANAGER.removeOntology(referencedPatternOntology);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail();
@@ -120,12 +120,12 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 	public void testMenu() {
 		String patternString = "?x:CLASS[subClassOf Food] BEGIN ADD $thisClass subClassOf Menu, ADD $thisClass subClassOf contains only (Course and contains only ($Free(?x))) END; A ?x free Menu";
 		try {
-			OWLOntology referencedPatternOntology = ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
+			OWLOntology referencedPatternOntology = ONTOLOGY_MANAGER.loadOntology(IRI.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
 			OPPLSyntaxTree parsed = this.parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
 			assertNotNull(parsed.getOPPLContent());
-			ONTOLOGY_MANAGER.removeOntology(referencedPatternOntology.getURI());
+			ONTOLOGY_MANAGER.removeOntology(referencedPatternOntology);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail();
@@ -134,13 +134,13 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 
 	public void testPizza() {
 		try {
-			OWLOntology pizzaOntology = ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
+			OWLOntology pizzaOntology = ONTOLOGY_MANAGER.loadOntology(IRI.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
 			String patternString = "?base:CLASS,?topping:CLASS, ?allToppings:CLASS = createUnion(?topping.VALUES) BEGIN ADD $thisClass subClassOf Pizza, ADD $thisClass subClassOf hasTopping some ?topping,  ADD $thisClass subClassOf hasTopping only ?allToppings, ADD $thisClass subClassOf hasBase some ?base  END; A pizza with ?base base and ?topping toppings";
 			OPPLSyntaxTree parsed = this.parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
 			assertNotNull(parsed.getOPPLContent());
-			ONTOLOGY_MANAGER.removeOntology(pizzaOntology.getURI());
+			ONTOLOGY_MANAGER.removeOntology(pizzaOntology);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail();
@@ -149,13 +149,13 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 
 	public void testDOLCEInformationRealization() {
 		try {
-			OWLOntology dolceOntology = ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.loa-cnr.it/ontologies/DUL.owl"));
+			OWLOntology dolceOntology = ONTOLOGY_MANAGER.loadOntology(IRI.create("http://www.loa-cnr.it/ontologies/DUL.owl"));
 			String patternString = "?informationObject:CLASS, ?informationRealization:CLASS, ?realizationProperty:OBJECTPROPERTY BEGIN ADD ?informationRealization subClassOf InformationRealization, ADD ?informationObject subClassOf InformationObject, ADD ?realizationProperty subPropertyOf realizes, ADD ?informationRealization subClassOf PhysicalObject and ?realizationProperty some ?informationObject END; Information Realization Pattern: ?informationRealization ?realizationProperty ?informationObject";
 			OPPLSyntaxTree parsed = this.parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
 			assertNotNull(parsed.getOPPLContent());
-			ONTOLOGY_MANAGER.removeOntology(dolceOntology.getURI());
+			ONTOLOGY_MANAGER.removeOntology(dolceOntology);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail();
@@ -164,13 +164,13 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 
 	public void testDOLCEPersonRoleTimeInterval() {
 		try {
-			OWLOntology dolceOntology = ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.loa-cnr.it/ontologies/DUL.owl"));
+			OWLOntology dolceOntology = ONTOLOGY_MANAGER.loadOntology(IRI.create("http://www.loa-cnr.it/ontologies/DUL.owl"));
 			String patternString = "?person:CLASS, ?role:CLASS, ?timeInterval:CLASS BEGIN ADD $thisClass subClassOf Situation, ADD $thisClass subClassOf isSettingFor some ?person, ADD $thisClass subClassOf isSettingFor some ?role, ADD $thisClass subClassOf isSettingFor some ?timeInterval END; Situation where ?person play the role ?role during the time interval ?timeInterval";
 			OPPLSyntaxTree parsed = this.parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
 			assertNotNull(parsed.getOPPLContent());
-			ONTOLOGY_MANAGER.removeOntology(dolceOntology.getURI());
+			ONTOLOGY_MANAGER.removeOntology(dolceOntology);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail();

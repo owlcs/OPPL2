@@ -1,6 +1,5 @@
 package org.coode.parsers.oppl.patterns.test;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Set;
 
@@ -34,10 +33,11 @@ import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.OPPLPatternParser;
 import org.coode.patterns.PatternConstraintSystem;
 import org.coode.patterns.PatternModelFactory;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * Test for the AST generation for OPPL
@@ -66,16 +66,16 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 		}
 	};
 	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
-	private final static SymbolTableFactory SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
+	private final static SymbolTableFactory<OPPLPatternsSymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
 	private OPPLPatternsSymbolTable symtab;
 	private static OWLOntology SYNTAX_ONTOLOGY;
 	private final ErrorListener listener = new SystemErrorEcho();
 	static {
 		try {
-			ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(ComprehensiveAxiomTestCase.class.getResource(
-					"syntaxTest.owl").toURI());
+			ONTOLOGY_MANAGER.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI.create(ComprehensiveAxiomTestCase.class.getResource(
+					"syntaxTest.owl").toURI()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -97,7 +97,7 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 	public void testMenu() {
 		String patternString = "?x:CLASS[subClassOf Food] BEGIN ADD $thisClass subClassOf Menu, ADD $thisClass subClassOf contains only (Course and contains only ($Free(?x))) END; A ?x free Menu";
 		try {
-			OWLOntology referencedPatternOntology = ONTOLOGY_MANAGER.loadOntologyFromPhysicalURI(URI.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
+			OWLOntology referencedPatternOntology = ONTOLOGY_MANAGER.loadOntology(IRI.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
 			OPPLSyntaxTree parsed = this.parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
@@ -105,7 +105,7 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 			assertTrue(
 					"Exected 3 actual " + definedSymbols.size() + " " + definedSymbols,
 					definedSymbols.size() == 3);
-			ONTOLOGY_MANAGER.removeOntology(referencedPatternOntology.getURI());
+			ONTOLOGY_MANAGER.removeOntology(referencedPatternOntology);
 		} catch (OWLOntologyCreationException e) {
 			fail();
 			e.printStackTrace();
@@ -183,7 +183,7 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		this.symtab = (OPPLPatternsSymbolTable) SYMBOL_TABLE_FACTORY.createSymbolTable();
+		this.symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
 		this.symtab.setErrorListener(this.listener);
 	}
 

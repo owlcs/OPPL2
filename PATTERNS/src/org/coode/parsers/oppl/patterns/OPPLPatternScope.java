@@ -19,7 +19,7 @@ import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.patterns.PatternConstraintSystem;
 import org.coode.patterns.PatternException;
 import org.coode.patterns.PatternOPPLScript;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * @author Luigi Iannone

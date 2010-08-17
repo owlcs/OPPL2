@@ -22,7 +22,6 @@
  */
 package org.coode.patterns;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Set;
 
@@ -36,11 +35,14 @@ import org.coode.oppl.entity.OWLEntityRendererImpl;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.rendering.VariableOWLEntityRenderer;
 import org.coode.parsers.ErrorListener;
-import org.semanticweb.owl.inference.OWLReasoner;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLConstantAnnotation;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -83,7 +85,7 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 		return new PatternExtractor(this.ontology, this.ontologyManager, errorListener);
 	}
 
-	public PatternExtractor getPatternExtractor(Set<OWLConstantAnnotation> visitedAnnotations,
+	public PatternExtractor getPatternExtractor(Set<OWLAnnotation> visitedAnnotations,
 			ErrorListener errorListener) {
 		return new PatternExtractor(this.ontology, this.ontologyManager, errorListener,
 				visitedAnnotations);
@@ -96,9 +98,8 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 
 	/**
 	 * @see org.coode.patterns.AbstractPatternModelFactory#createPatternModel(java.lang.String,
-	 *      java.util.List, java.util.List,
-	 *      org.coode.oppl.Variable, java.lang.String,
-	 *      org.coode.oppl.ConstraintSystem)
+	 *      java.util.List, java.util.List, org.coode.oppl.Variable,
+	 *      java.lang.String, org.coode.oppl.ConstraintSystem)
 	 */
 	public PatternModel createPatternModel(String name, List<Variable> variables,
 			List<OWLAxiomChange> actions, Variable returnClause, String rendering,
@@ -117,7 +118,7 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 			try {
 				PatternModel patternModel = this.createPatternModel(opplScript);
 				patternModel.setRendering(rendering);
-				patternModel.setUri(URI.create(PatternModel.NAMESPACE + name));
+				patternModel.setIRI(IRI.create(PatternModel.NAMESPACE + name));
 				return patternModel;
 			} catch (UnsuitableOPPLScriptException e) {
 				throw new RuntimeException(e);
@@ -139,9 +140,17 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 		return this.ontology;
 	}
 
-	public ManchesterSyntaxRenderer getRenderer(PatternConstraintSystem patternConstraintSystem) {
-		return new ManchesterSyntaxRenderer(this.ontologyManager,
-				this.getOWLEntityRenderer(patternConstraintSystem), patternConstraintSystem);
+	public ManchesterSyntaxRenderer getRenderer(
+			final PatternConstraintSystem patternConstraintSystem) {
+		return new ManchesterSyntaxRenderer(new ShortFormProvider() {
+			public String getShortForm(OWLEntity entity) {
+				return PatternModelFactory.this.getOWLEntityRenderer(patternConstraintSystem).render(
+						entity);
+			}
+
+			public void dispose() {
+			}
+		});
 	}
 
 	public OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {

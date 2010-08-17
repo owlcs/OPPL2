@@ -3,71 +3,67 @@ package org.coode.patterns.locality;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
-import org.semanticweb.owl.model.OWLAxiomVisitor;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLClassAssertionAxiom;
-import org.semanticweb.owl.model.OWLDataAllRestriction;
-import org.semanticweb.owl.model.OWLDataExactCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataFactory;
-import org.semanticweb.owl.model.OWLDataMaxCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataMinCardinalityRestriction;
-import org.semanticweb.owl.model.OWLDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyExpression;
-import org.semanticweb.owl.model.OWLDataPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLDataSomeRestriction;
-import org.semanticweb.owl.model.OWLDataSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLDataValueRestriction;
-import org.semanticweb.owl.model.OWLDeclarationAxiom;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLDescriptionVisitor;
-import org.semanticweb.owl.model.OWLDifferentIndividualsAxiom;
-import org.semanticweb.owl.model.OWLDisjointClassesAxiom;
-import org.semanticweb.owl.model.OWLDisjointDataPropertiesAxiom;
-import org.semanticweb.owl.model.OWLDisjointObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLDisjointUnionAxiom;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLEntityAnnotationAxiom;
-import org.semanticweb.owl.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentDataPropertiesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLFunctionalDataPropertyAxiom;
-import org.semanticweb.owl.model.OWLFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLImportsDeclaration;
-import org.semanticweb.owl.model.OWLInverseFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLInverseObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLIrreflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLNegativeDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLNegativeObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObjectAllRestriction;
-import org.semanticweb.owl.model.OWLObjectComplementOf;
-import org.semanticweb.owl.model.OWLObjectExactCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectIntersectionOf;
-import org.semanticweb.owl.model.OWLObjectMaxCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectMinCardinalityRestriction;
-import org.semanticweb.owl.model.OWLObjectOneOf;
-import org.semanticweb.owl.model.OWLObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyChainSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLObjectSelfRestriction;
-import org.semanticweb.owl.model.OWLObjectSomeRestriction;
-import org.semanticweb.owl.model.OWLObjectSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLObjectUnionOf;
-import org.semanticweb.owl.model.OWLObjectValueRestriction;
-import org.semanticweb.owl.model.OWLOntologyAnnotationAxiom;
-import org.semanticweb.owl.model.OWLReflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLSameIndividualsAxiom;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
-import org.semanticweb.owl.model.OWLSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLTransitiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.SWRLRule;
-import org.semanticweb.owl.util.OWLAxiomVisitorAdapter;
+import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomVisitor;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLClassExpressionVisitor;
+import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLDataExactCardinality;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataHasValue;
+import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
+import org.semanticweb.owlapi.model.OWLDataMinCardinality;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectComplementOf;
+import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
+import org.semanticweb.owlapi.model.OWLObjectHasSelf;
+import org.semanticweb.owlapi.model.OWLObjectHasValue;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
+import org.semanticweb.owlapi.model.OWLObjectMaxCardinality;
+import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLObjectUnionOf;
+import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
+import org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom;
+import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.SWRLRule;
+import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
-public class BottomReplacer implements OWLAxiomVisitor, OWLDescriptionVisitor {
+public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVisitor,
+		OWLClassExpressionVisitor {
 	/**
 	 * 
 	 */
@@ -77,12 +73,12 @@ public class BottomReplacer implements OWLAxiomVisitor, OWLDescriptionVisitor {
 
 	BottomReplacer(OWLDataFactory df) {
 		this.df = df;
-		nothing = df.getOWLNothing();
-		thing = df.getOWLThing();
+		this.nothing = df.getOWLNothing();
+		this.thing = df.getOWLThing();
 	}
 
 	private OWLAxiom newAxiom;
-	private OWLDescription newDescription;
+	private OWLClassExpression newDescription;
 	private Set<? extends OWLEntity> signature;
 
 	public OWLAxiom getResult() {
@@ -95,19 +91,20 @@ public class BottomReplacer implements OWLAxiomVisitor, OWLDescriptionVisitor {
 		return this.getResult();
 	}
 
-	// Takes an OWLDescription and a signature replaces by bottom the
+	// Takes an OWLClassExpression and a signature replaces by bottom the
 	// entities not in the signature
-	public OWLDescription replaceBottom(OWLDescription desc) {
+	public OWLClassExpression replaceBottom(OWLClassExpression desc) {
 		this.newDescription = null;
 		desc.accept(this);
-		if (this.newDescription == null)
+		if (this.newDescription == null) {
 			throw new RuntimeException("Unsupported description " + desc);
+		}
 		return this.newDescription;
 	}
 
-	public Set<OWLDescription> replaceBottom(Set<OWLDescription> descriptions) {
-		Set<OWLDescription> result = new HashSet<OWLDescription>();
-		for (OWLDescription desc : descriptions) {
+	public Set<OWLClassExpression> replaceBottom(Set<OWLClassExpression> descriptions) {
+		Set<OWLClassExpression> result = new HashSet<OWLClassExpression>();
+		for (OWLClassExpression desc : descriptions) {
 			result.add(this.replaceBottom(desc));
 		}
 		return result;
@@ -119,281 +116,307 @@ public class BottomReplacer implements OWLAxiomVisitor, OWLDescriptionVisitor {
 	}
 
 	public void visit(OWLClass desc) {
-		if (this.signature.contains(desc))
+		if (this.signature.contains(desc)) {
 			this.newDescription = desc;
-		else
-			this.newDescription = nothing;
+		} else {
+			this.newDescription = this.nothing;
+		}
 	}
 
-	public void visit(OWLDataAllRestriction desc) {
-		if (this.signature.contains(desc.getProperty().asOWLDataProperty()))
+	public void visit(OWLDataAllValuesFrom desc) {
+		if (this.signature.contains(desc.getProperty().asOWLDataProperty())) {
 			this.newDescription = desc;
-		else
-			this.newDescription = thing;
+		} else {
+			this.newDescription = this.thing;
+		}
 	}
 
-	public void visit(OWLDataExactCardinalityRestriction desc) {
-		if (this.signature.contains(desc.getProperty().asOWLDataProperty()))
+	public void visit(OWLDataExactCardinality desc) {
+		if (this.signature.contains(desc.getProperty().asOWLDataProperty())) {
 			this.newDescription = desc;
-		else
-			this.newDescription = nothing;
+		} else {
+			this.newDescription = this.nothing;
+		}
 	}
 
-	public void visit(OWLDataMaxCardinalityRestriction desc) {
-		if (this.signature.contains(desc.getProperty().asOWLDataProperty()))
+	public void visit(OWLDataMaxCardinality desc) {
+		if (this.signature.contains(desc.getProperty().asOWLDataProperty())) {
 			this.newDescription = desc;
-		else
-			this.newDescription = thing;
+		} else {
+			this.newDescription = this.thing;
+		}
 	}
 
-	public void visit(OWLDataMinCardinalityRestriction desc) {
-		if (this.signature.contains(desc.getProperty().asOWLDataProperty()))
+	public void visit(OWLDataMinCardinality desc) {
+		if (this.signature.contains(desc.getProperty().asOWLDataProperty())) {
 			this.newDescription = desc;
-		else
-			this.newDescription = nothing;
+		} else {
+			this.newDescription = this.nothing;
+		}
 	}
 
-	public void visit(OWLDataSomeRestriction desc) {
-		if (this.signature.contains(desc.getProperty().asOWLDataProperty()))
+	public void visit(OWLDataSomeValuesFrom desc) {
+		if (this.signature.contains(desc.getProperty().asOWLDataProperty())) {
 			this.newDescription = desc;
-		else
-			this.newDescription = nothing;
+		} else {
+			this.newDescription = this.nothing;
+		}
 	}
 
-	public void visit(OWLDataValueRestriction desc) {
-		newDescription = desc;
+	public void visit(OWLDataHasValue desc) {
+		this.newDescription = desc;
 	}
 
+	@Override
 	public void visit(OWLDisjointClassesAxiom ax) {
-		Set<OWLDescription> disjointclasses = this.replaceBottom(ax
-				.getDescriptions());
+		Set<OWLClassExpression> disjointclasses = this.replaceBottom(ax.getClassExpressions());
 		this.newAxiom = this.df.getOWLDisjointClassesAxiom(disjointclasses);
 	}
 
+	@Override
 	public void visit(OWLEquivalentClassesAxiom ax) {
-		Set<OWLDescription> eqclasses = this
-				.replaceBottom(ax.getDescriptions());
+		Set<OWLClassExpression> eqclasses = this.replaceBottom(ax.getClassExpressions());
 		this.newAxiom = this.df.getOWLEquivalentClassesAxiom(eqclasses);
 	}
 
-	public void visit(OWLObjectAllRestriction desc) {
-		if (this.signature.contains(desc.getProperty().getNamedProperty()))
-			this.newDescription = this.df.getOWLObjectAllRestriction(
-					desc.getProperty(), this.replaceBottom(desc.getFiller()));
-		else
-			this.newDescription = thing;
+	public void visit(OWLObjectAllValuesFrom desc) {
+		if (this.signature.contains(desc.getProperty().getNamedProperty())) {
+			this.newDescription = this.df.getOWLObjectAllValuesFrom(
+					desc.getProperty(),
+					this.replaceBottom(desc.getFiller()));
+		} else {
+			this.newDescription = this.thing;
+		}
 	}
 
 	public void visit(OWLObjectComplementOf desc) {
-		this.newDescription = this.df.getOWLObjectComplementOf(this
-				.replaceBottom(desc.getOperand()));
+		this.newDescription = this.df.getOWLObjectComplementOf(this.replaceBottom(desc.getOperand()));
 	}
 
-	public void visit(OWLObjectExactCardinalityRestriction desc) {
-		if (this.signature.contains(desc.getProperty().getNamedProperty()))
+	public void visit(OWLObjectExactCardinality desc) {
+		if (this.signature.contains(desc.getProperty().getNamedProperty())) {
 			this.newDescription = desc;
-		else
-			this.newDescription = nothing;
+		} else {
+			this.newDescription = this.nothing;
+		}
 	}
 
 	public void visit(OWLObjectIntersectionOf desc) {
-		Set<OWLDescription> operands = desc.getOperands();
-		this.newDescription = this.df.getOWLObjectIntersectionOf(this
-				.replaceBottom(operands));
+		Set<OWLClassExpression> operands = desc.getOperands();
+		this.newDescription = this.df.getOWLObjectIntersectionOf(this.replaceBottom(operands));
 	}
 
-	public void visit(OWLObjectMaxCardinalityRestriction desc) {
-		if (this.signature.contains(desc.getProperty().getNamedProperty()))
+	public void visit(OWLObjectMaxCardinality desc) {
+		if (this.signature.contains(desc.getProperty().getNamedProperty())) {
 			this.newDescription = desc;
-		else
-			this.newDescription = thing;
+		} else {
+			this.newDescription = this.thing;
+		}
 	}
 
-	public void visit(OWLObjectMinCardinalityRestriction desc) {
-		if (this.signature.contains(desc.getProperty().getNamedProperty()))
+	public void visit(OWLObjectMinCardinality desc) {
+		if (this.signature.contains(desc.getProperty().getNamedProperty())) {
 			this.newDescription = desc;
-		else
-			this.newDescription = nothing;
+		} else {
+			this.newDescription = this.nothing;
+		}
 	}
 
 	public void visit(OWLObjectOneOf desc) {
-		newDescription = desc;
+		this.newDescription = desc;
 	}
 
-	public void visit(OWLObjectSelfRestriction desc) {
-		newDescription = desc;
+	public void visit(OWLObjectHasSelf desc) {
+		this.newDescription = desc;
 	}
 
-	public void visit(OWLObjectSomeRestriction desc) {
+	public void visit(OWLObjectSomeValuesFrom desc) {
 		if (this.signature.contains(desc.getProperty().getNamedProperty())) {
-			this.newDescription = this.df.getOWLObjectSomeRestriction(
-					desc.getProperty(), this.replaceBottom(desc.getFiller()));
-		} else
-			this.newDescription = nothing;
+			this.newDescription = this.df.getOWLObjectSomeValuesFrom(
+					desc.getProperty(),
+					this.replaceBottom(desc.getFiller()));
+		} else {
+			this.newDescription = this.nothing;
+		}
 	}
 
 	public void visit(OWLObjectUnionOf desc) {
-		Set<OWLDescription> operands = desc.getOperands();
-		this.newDescription = this.df.getOWLObjectUnionOf(this
-				.replaceBottom(operands));
+		Set<OWLClassExpression> operands = desc.getOperands();
+		this.newDescription = this.df.getOWLObjectUnionOf(this.replaceBottom(operands));
 	}
 
-	public void visit(OWLObjectValueRestriction desc) {
-		newDescription = desc;
+	public void visit(OWLObjectHasValue desc) {
+		this.newDescription = desc;
 	}
 
-	public void visit(OWLSubClassAxiom ax) {
-		OWLDescription sup = this.replaceBottom(ax.getSuperClass());
-		OWLDescription sub = this.replaceBottom(ax.getSubClass());
-		this.newAxiom = this.df.getOWLSubClassAxiom(sub, sup);
+	@Override
+	public void visit(OWLSubClassOfAxiom ax) {
+		OWLClassExpression sup = this.replaceBottom(ax.getSuperClass());
+		OWLClassExpression sub = this.replaceBottom(ax.getSubClass());
+		this.newAxiom = this.df.getOWLSubClassOfAxiom(sub, sup);
 	}
 
+	@Override
 	public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
 	private void nullIfOutside(OWLAxiom axiom) {
 		for (OWLEntity e : axiom.getSignature()) {
-			if (!signature.contains(e)) {
+			if (!this.signature.contains(e)) {
 				return;
 			}
 		}
-		newAxiom = axiom;
+		this.newAxiom = axiom;
 	}
 
-	public void visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
-		nullIfOutside(axiom);
+	@Override
+	public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLDataPropertyDomainAxiom axiom) {
-		newAxiom = df.getOWLDataPropertyDomainAxiom(axiom.getProperty(),
+		this.newAxiom = this.df.getOWLDataPropertyDomainAxiom(
+				axiom.getProperty(),
 				this.replaceBottom(axiom.getDomain()));
 	}
 
-	public void visit(OWLImportsDeclaration axiom) {
-		nullIfOutside(axiom);
-	}
-
-	public void visit(OWLAxiomAnnotationAxiom axiom) {
-		nullIfOutside(axiom);
-	}
-
+	@Override
 	public void visit(OWLObjectPropertyDomainAxiom axiom) {
-		newAxiom = df.getOWLObjectPropertyDomainAxiom(axiom.getProperty(),
+		this.newAxiom = this.df.getOWLObjectPropertyDomainAxiom(
+				axiom.getProperty(),
 				this.replaceBottom(axiom.getDomain()));
 	}
 
+	@Override
 	public void visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLDifferentIndividualsAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLDisjointDataPropertiesAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLDisjointObjectPropertiesAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLObjectPropertyRangeAxiom axiom) {
-		newAxiom = df.getOWLObjectPropertyRangeAxiom(axiom.getProperty(),
-				replaceBottom(axiom.getRange()));
+		this.newAxiom = this.df.getOWLObjectPropertyRangeAxiom(
+				axiom.getProperty(),
+				this.replaceBottom(axiom.getRange()));
 	}
 
+	@Override
 	public void visit(OWLObjectPropertyAssertionAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
-	public void visit(OWLObjectSubPropertyAxiom axiom) {
-		nullIfOutside(axiom);
+	@Override
+	public void visit(OWLSubObjectPropertyOfAxiom axiom) {
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLDisjointUnionAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLDeclarationAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
-	public void visit(OWLEntityAnnotationAxiom axiom) {
-		nullIfOutside(axiom);
-	}
-
-	public void visit(OWLOntologyAnnotationAxiom axiom) {
-		nullIfOutside(axiom);
-	}
-
+	@Override
 	public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLDataPropertyRangeAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLFunctionalDataPropertyAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLEquivalentDataPropertiesAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLClassAssertionAxiom axiom) {
-		nullIfOutside(axiom);
-//		newAxiom=df.getOWLClassAssertionAxiom(axiom.getIndividual(), replaceBottom(axiom.getDescription()));
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLDataPropertyAssertionAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
-	public void visit(OWLDataSubPropertyAxiom axiom) {
-		nullIfOutside(axiom);
+	@Override
+	public void visit(OWLSubDataPropertyOfAxiom axiom) {
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
-	public void visit(OWLSameIndividualsAxiom axiom) {
-		nullIfOutside(axiom);
+	@Override
+	public void visit(OWLSameIndividualAxiom axiom) {
+		this.nullIfOutside(axiom);
 	}
 
-	public void visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
-		nullIfOutside(axiom);
+	@Override
+	public void visit(OWLSubPropertyChainOfAxiom axiom) {
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(OWLInverseObjectPropertiesAxiom axiom) {
-		nullIfOutside(axiom);
+		this.nullIfOutside(axiom);
 	}
 
+	@Override
 	public void visit(SWRLRule rule) {
-
 	}
 }

@@ -36,19 +36,17 @@ import org.coode.oppl.generated.SingleValueGeneratedValue;
 import org.coode.oppl.generated.SingleValueGeneratedValueVisitor;
 import org.coode.oppl.generated.SingleValueGeneratedValueVisitorEx;
 import org.coode.oppl.generated.SingleValueGeneratedVariable;
-import org.semanticweb.owl.model.OWLDataFactory;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone
  * 
  *         Jun 24, 2008
  */
-public class PatternConstant<P extends OWLEntity> extends
-		AbstractGeneratedVariable<OWLObject> {
-	private class EmptyConstantGeratedValue implements
-			SingleValueGeneratedValue<OWLObject> {
+public class PatternConstant<P extends OWLEntity> extends AbstractGeneratedVariable<OWLObject> {
+	private class EmptyConstantGeratedValue implements SingleValueGeneratedValue<OWLObject> {
 		private final OWLDataFactory dataFactory;
 
 		/**
@@ -60,7 +58,8 @@ public class PatternConstant<P extends OWLEntity> extends
 
 		public OWLObject getGeneratedValue(BindingNode node) {
 			return PatternConstant.this.getType().buildOWLObject(
-					this.dataFactory, PatternConstant.this.getURI(),
+					this.dataFactory,
+					PatternConstant.this.getIRI(),
 					PatternConstant.this.getName());
 		}
 
@@ -93,8 +92,7 @@ public class PatternConstant<P extends OWLEntity> extends
 		}
 
 		public List<OWLObject> computePossibleValues() {
-			return new ArrayList<OWLObject>(Collections
-					.singleton(this.constantValue));
+			return new ArrayList<OWLObject>(Collections.singleton(this.constantValue));
 		}
 
 		public void accept(SingleValueGeneratedValueVisitor visitor) {
@@ -111,8 +109,7 @@ public class PatternConstant<P extends OWLEntity> extends
 		super(name, type, value);
 	}
 
-	public PatternConstant(String name, VariableType type,
-			OWLDataFactory dataFactory) {
+	public PatternConstant(String name, VariableType type, OWLDataFactory dataFactory) {
 		super(name, type, null);
 		this.setValue(new EmptyConstantGeratedValue(dataFactory));
 	}
@@ -128,8 +125,7 @@ public class PatternConstant<P extends OWLEntity> extends
 	}
 
 	@Override
-	protected SingleValueGeneratedVariable<OWLObject> replace(
-			SingleValueGeneratedValue<OWLObject> v) {
+	protected SingleValueGeneratedVariable<OWLObject> replace(SingleValueGeneratedValue<OWLObject> v) {
 		return this;
 	}
 
@@ -142,7 +138,7 @@ public class PatternConstant<P extends OWLEntity> extends
 		return new HashSet<OWLObject>(this.getValue().computePossibleValues());
 	}
 
-	public <P> P accept(VariableTypeVisitorEx<P> visitor) {
+	public <O> O accept(VariableTypeVisitorEx<O> visitor) {
 		return visitor.visit(this);
 	}
 

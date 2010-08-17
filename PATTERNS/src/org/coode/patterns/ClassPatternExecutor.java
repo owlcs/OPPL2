@@ -22,7 +22,6 @@
  */
 package org.coode.patterns;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -31,12 +30,13 @@ import java.util.Set;
 
 import org.coode.oppl.ActionType;
 import org.coode.oppl.ChangeExtractor;
-import org.semanticweb.owl.model.AddAxiom;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * @author Luigi Iannone
@@ -46,35 +46,36 @@ import org.semanticweb.owl.model.OWLOntologyManager;
 public class ClassPatternExecutor extends ChangeExtractor {
 	private InstantiatedPatternModel instantiatedPatternModel;
 	private OWLClass owlClass;
-	private URI annotationURI;
+	private IRI annotationIRI;
 	private OWLOntology ontology;
 	private OWLOntologyManager ontologyManager;
 
 	public ClassPatternExecutor(OWLClass thisClass,
-			InstantiatedPatternModel instantiatedPatternModel,
-			OWLOntology ontology, OWLOntologyManager ontologyManager,
-			URI annotationURI) {
+			InstantiatedPatternModel instantiatedPatternModel, OWLOntology ontology,
+			OWLOntologyManager ontologyManager, IRI annotationIRI) {
 		super(instantiatedPatternModel.getConstraintSystem(), true);
 		this.owlClass = thisClass;
 		this.instantiatedPatternModel = instantiatedPatternModel;
-		this.annotationURI = annotationURI;
+		this.annotationIRI = annotationIRI;
 		this.ontology = ontology;
 		this.ontologyManager = ontologyManager;
 	}
 
 	@Override
-	public List<OWLAxiomChange> visitActions(List<OWLAxiomChange> changes,
-			List<OWLAxiomChange> p1) {
+	public List<OWLAxiomChange> visitActions(List<OWLAxiomChange> changes, List<OWLAxiomChange> p1) {
 		Set<OWLAxiomChange> p = new HashSet<OWLAxiomChange>(changes.size());
 		for (OWLAxiomChange axiomChange : changes) {
 			ActionType actionType = axiomChange instanceof AddAxiom ? ActionType.ADD
 					: ActionType.REMOVE;
 			OWLAxiom axiom = axiomChange.getAxiom();
-			Collection<? extends OWLAxiomChange> createdChanges = PatternActionFactory
-					.createChange(this.owlClass, actionType, axiom,
-							this.instantiatedPatternModel, this.ontologyManager
-									.getOWLDataFactory(), this.annotationURI,
-							this.ontology);
+			Collection<? extends OWLAxiomChange> createdChanges = PatternActionFactory.createChange(
+					this.owlClass,
+					actionType,
+					axiom,
+					this.instantiatedPatternModel,
+					this.ontologyManager.getOWLDataFactory(),
+					this.annotationIRI,
+					this.ontology);
 			p.addAll(createdChanges);
 		}
 		return new ArrayList<OWLAxiomChange>(p);

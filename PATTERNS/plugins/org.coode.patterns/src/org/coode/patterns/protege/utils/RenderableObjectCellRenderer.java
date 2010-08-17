@@ -5,7 +5,7 @@ import javax.swing.Icon;
 import org.coode.patterns.protege.utils.VariableListModel.VariableListItem;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * Specialized OWLCellRenderer that deals with VariableListItems and

@@ -41,8 +41,8 @@ import org.coode.patterns.PatternModel;
 import org.coode.patterns.PatternModelFactory;
 import org.coode.patterns.UnsuitableOPPLScriptException;
 import org.protege.editor.owl.model.OWLModelManager;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLConstantAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /**
  * @author Luigi Iannone
@@ -75,9 +75,8 @@ public class ProtegePatternModelFactory implements AbstractPatternModelFactory {
 	 * @throws EmptyActionListException
 	 * @throws UnsuitableOPPLScriptException
 	 * @see org.coode.patterns.AbstractPatternModelFactory#createPatternModel(java.lang.String,
-	 *      java.util.List, java.util.List,
-	 *      org.coode.oppl.Variable, java.lang.String,
-	 *      org.coode.oppl.ConstraintSystem)
+	 *      java.util.List, java.util.List, org.coode.oppl.Variable,
+	 *      java.lang.String, org.coode.oppl.ConstraintSystem)
 	 */
 	public PatternModel createPatternModel(String name, List<Variable> variables,
 			List<OWLAxiomChange> actions, Variable returnClause, String rendering,
@@ -128,7 +127,7 @@ public class ProtegePatternModelFactory implements AbstractPatternModelFactory {
 	 * @see org.coode.patterns.AbstractPatternModelFactory#getPatternExtractor(java.util.Set,
 	 *      org.coode.parsers.ErrorListener)
 	 */
-	public PatternExtractor getPatternExtractor(Set<OWLConstantAnnotation> visitedAnnotations,
+	public PatternExtractor getPatternExtractor(Set<OWLAnnotation> visitedAnnotations,
 			ErrorListener errorListener) {
 		return this.delegate.getPatternExtractor(visitedAnnotations, errorListener);
 	}

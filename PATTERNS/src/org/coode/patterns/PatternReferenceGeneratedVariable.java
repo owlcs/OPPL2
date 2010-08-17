@@ -37,7 +37,7 @@ import org.coode.oppl.generated.SingleValueGeneratedValueVisitor;
 import org.coode.oppl.generated.SingleValueGeneratedValueVisitorEx;
 import org.coode.oppl.generated.SingleValueGeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone

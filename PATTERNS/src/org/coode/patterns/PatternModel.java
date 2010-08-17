@@ -22,7 +22,6 @@
  */
 package org.coode.patterns;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -50,59 +49,29 @@ import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
 import org.coode.oppl.visitors.InputVariableCollector;
 import org.coode.parsers.ErrorListener;
 import org.coode.patterns.utils.Utils;
-import org.semanticweb.owl.model.AddAxiom;
-import org.semanticweb.owl.model.OWLAnnotationAxiom;
-import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLAxiomVisitorEx;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLClassAssertionAxiom;
-import org.semanticweb.owl.model.OWLDataFactory;
-import org.semanticweb.owl.model.OWLDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLDataPropertyExpression;
-import org.semanticweb.owl.model.OWLDataPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLDataSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLDeclarationAxiom;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLDifferentIndividualsAxiom;
-import org.semanticweb.owl.model.OWLDisjointClassesAxiom;
-import org.semanticweb.owl.model.OWLDisjointDataPropertiesAxiom;
-import org.semanticweb.owl.model.OWLDisjointObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLDisjointUnionAxiom;
-import org.semanticweb.owl.model.OWLEntityAnnotationAxiom;
-import org.semanticweb.owl.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentDataPropertiesAxiom;
-import org.semanticweb.owl.model.OWLEquivalentObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLFunctionalDataPropertyAxiom;
-import org.semanticweb.owl.model.OWLFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLImportsDeclaration;
-import org.semanticweb.owl.model.OWLInverseFunctionalObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLInverseObjectPropertiesAxiom;
-import org.semanticweb.owl.model.OWLIrreflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLNegativeDataPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLNegativeObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectPropertyAssertionAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyChainSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyDomainAxiom;
-import org.semanticweb.owl.model.OWLObjectPropertyExpression;
-import org.semanticweb.owl.model.OWLObjectPropertyRangeAxiom;
-import org.semanticweb.owl.model.OWLObjectSubPropertyAxiom;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyAnnotationAxiom;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.model.OWLPropertyExpression;
-import org.semanticweb.owl.model.OWLPropertyRange;
-import org.semanticweb.owl.model.OWLReflexiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLSameIndividualsAxiom;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
-import org.semanticweb.owl.model.OWLSymmetricObjectPropertyAxiom;
-import org.semanticweb.owl.model.OWLTransitiveObjectPropertyAxiom;
-import org.semanticweb.owl.model.SWRLRule;
-import org.semanticweb.owl.util.NamespaceUtil;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLAxiomVisitorEx;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
+import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLPropertyExpression;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.util.NamespaceUtil;
+import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /**
  * @author Luigi Iannone
@@ -110,8 +79,7 @@ import org.semanticweb.owl.util.NamespaceUtil;
  *         Jun 10, 2008
  */
 public class PatternModel implements OPPLScript, PatternOPPLScript {
-	private final static class PatternOPPLScriptValidator implements
-			OPPLScriptValidator {
+	private final static class PatternOPPLScriptValidator implements OPPLScriptValidator {
 		public PatternOPPLScriptValidator() {
 		}
 
@@ -133,167 +101,29 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		}
 	}
 
-	class ClassPatternDetector implements OWLAxiomVisitorEx<Boolean>,
-			OPPLScriptVisitorEx<Boolean> {
-		private OWLClass thisClass = PatternModel.this.ontologyManager
-				.getOWLDataFactory().getOWLClass(
-						PatternModel.this.getConstraintSystem()
-								.getThisClassVariable().getURI());
-		private boolean detected = false;
+	class ClassPatternDetector extends OWLObjectVisitorExAdapter<Boolean> implements
+			OWLAxiomVisitorEx<Boolean>, OPPLScriptVisitorEx<Boolean> {
+		private OWLClass thisClass = PatternModel.this.ontologyManager.getOWLDataFactory().getOWLClass(
+				PatternModel.this.getConstraintSystem().getThisClassVariable().getIRI());
 
-		public Boolean visit(OWLSubClassAxiom axiom) {
+		@Override
+		protected Boolean getDefaultReturnValue(OWLObject object) {
+			return false;
+		}
+
+		@Override
+		public Boolean visit(OWLSubClassOfAxiom axiom) {
 			return axiom.getSubClass().equals(this.thisClass);
 		}
 
-		public Boolean visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLReflexiveObjectPropertyAxiom axiom) {
-			return false;
-		}
-
+		@Override
 		public Boolean visit(OWLDisjointClassesAxiom axiom) {
-			return axiom.getDescriptions().contains(this.thisClass);
+			return axiom.getClassExpressions().contains(this.thisClass);
 		}
 
-		public Boolean visit(OWLDataPropertyDomainAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLImportsDeclaration axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLAxiomAnnotationAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLObjectPropertyDomainAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLDifferentIndividualsAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLDisjointDataPropertiesAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLDisjointObjectPropertiesAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLObjectPropertyRangeAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLObjectPropertyAssertionAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLFunctionalObjectPropertyAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLObjectSubPropertyAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLDisjointUnionAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLDeclarationAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLEntityAnnotationAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLOntologyAnnotationAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLSymmetricObjectPropertyAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLDataPropertyRangeAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLFunctionalDataPropertyAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLEquivalentDataPropertiesAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLClassAssertionAxiom axiom) {
-			return false;
-		}
-
+		@Override
 		public Boolean visit(OWLEquivalentClassesAxiom axiom) {
-			return axiom.getDescriptions().contains(this.thisClass);
-		}
-
-		public Boolean visit(OWLDataPropertyAssertionAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLTransitiveObjectPropertyAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLDataSubPropertyAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLSameIndividualsAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(OWLInverseObjectPropertiesAxiom axiom) {
-			return false;
-		}
-
-		public Boolean visit(SWRLRule rule) {
-			return false;
-		}
-
-		/**
-		 * @return the detected
-		 */
-		public boolean isDetected() {
-			return this.detected;
+			return axiom.getClassExpressions().contains(this.thisClass);
 		}
 
 		public Boolean visit(OPPLQuery q) {
@@ -338,10 +168,10 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 	 * 
 	 *         Jun 26, 2008
 	 */
-	static class DefinitorialExtractor implements OWLAxiomVisitorEx<OWLObject>,
-			OPPLScriptVisitorEx<OWLDescription> {
-		protected OWLDescription extractedDescription = null;
-		protected OWLPropertyExpression<? extends OWLPropertyExpression<?, ?>, ? extends OWLPropertyRange> extractedProperty = null;
+	static class DefinitorialExtractor extends OWLObjectVisitorExAdapter<OWLObject> implements
+			OWLAxiomVisitorEx<OWLObject>, OPPLScriptVisitorEx<OWLClassExpression> {
+		protected OWLClassExpression extractedDescription = null;
+		protected OWLPropertyExpression<?, ?> extractedProperty = null;
 		protected OWLObject owlObject;
 		protected OWLDataFactory dataFactory;
 		protected ReferenceReplacement referenceReplacement;
@@ -359,8 +189,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 				toReturn = this.extractedProperty;
 				break;
 			default:
-				throw new RuntimeException("Unsupported variable type: "
-						+ this.variableType
+				throw new RuntimeException("Unsupported variable type: " + this.variableType
 						+ " for pattern used in functional mode");
 			}
 			return toReturn;
@@ -371,9 +200,9 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		 * @param referenceReplacement
 		 * @param replacemnts
 		 */
-		public DefinitorialExtractor(OWLObject owlObject,
-				VariableType variableType, OWLDataFactory dataFactory,
-				ReferenceReplacement referenceReplacement) {
+		public DefinitorialExtractor(OWLObject owlObject, VariableType variableType,
+				OWLDataFactory dataFactory, ReferenceReplacement referenceReplacement) {
+			super();
 			this.owlObject = owlObject;
 			this.dataFactory = dataFactory;
 			this.referenceReplacement = referenceReplacement;
@@ -383,230 +212,79 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		/**
 		 * @return the extractedDescription
 		 */
-		public OWLDescription getExtractedDescription() {
+		public OWLClassExpression getExtractedDescription() {
 			return this.extractedDescription;
 		}
 
-		public OWLDescription visit(OWLSubClassAxiom axiom) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		public OWLDescription visit(OWLEquivalentClassesAxiom axiom) {
-			OWLDescription toReturn = null;
+		@Override
+		public OWLClassExpression visit(OWLEquivalentClassesAxiom axiom) {
+			OWLClassExpression toReturn = null;
 			if (this.variableType.equals(VariableType.CLASS)) {
-				OWLEquivalentClassesAxiom replacedAxiom = (OWLEquivalentClassesAxiom) axiom
-						.accept(this.referenceReplacement);
-				Set<OWLDescription> descriptions = new HashSet<OWLDescription>(
-						replacedAxiom.getDescriptions());
+				OWLEquivalentClassesAxiom replacedAxiom = (OWLEquivalentClassesAxiom) axiom.accept(this.referenceReplacement);
+				Set<OWLClassExpression> descriptions = new HashSet<OWLClassExpression>(
+						replacedAxiom.getClassExpressions());
 				descriptions.remove(this.owlObject);
-				toReturn = !descriptions.isEmpty() ? descriptions.iterator()
-						.next() : null;
+				toReturn = !descriptions.isEmpty() ? descriptions.iterator().next() : null;
 			}
 			return toReturn;
 		}
 
-		public OWLObject visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLReflexiveObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLDisjointClassesAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLDataPropertyDomainAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLImportsDeclaration axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLAxiomAnnotationAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLObjectPropertyDomainAxiom axiom) {
-			return null;
-		}
-
-		public OWLObjectPropertyExpression visit(
-				OWLEquivalentObjectPropertiesAxiom axiom) {
+		@Override
+		public OWLObjectPropertyExpression visit(OWLEquivalentObjectPropertiesAxiom axiom) {
 			OWLObjectPropertyExpression toReturn = null;
 			if (this.variableType.equals(VariableType.OBJECTPROPERTY)) {
-				OWLEquivalentObjectPropertiesAxiom replacedAxiom = (OWLEquivalentObjectPropertiesAxiom) axiom
-						.accept(this.referenceReplacement);
+				OWLEquivalentObjectPropertiesAxiom replacedAxiom = (OWLEquivalentObjectPropertiesAxiom) axiom.accept(this.referenceReplacement);
 				Set<OWLObjectPropertyExpression> properties = new HashSet<OWLObjectPropertyExpression>(
 						replacedAxiom.getProperties());
 				properties.remove(this.owlObject);
-				toReturn = !properties.isEmpty() ? properties.iterator().next()
-						: null;
+				toReturn = !properties.isEmpty() ? properties.iterator().next() : null;
 				this.extractedProperty = toReturn;
 			}
 			return toReturn;
 		}
 
-		public OWLObject visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLDifferentIndividualsAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLDisjointDataPropertiesAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLDisjointObjectPropertiesAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLObjectPropertyRangeAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLObjectPropertyAssertionAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLFunctionalObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLObjectSubPropertyAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLDisjointUnionAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLDeclarationAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLEntityAnnotationAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLOntologyAnnotationAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLSymmetricObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLDataPropertyRangeAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLFunctionalDataPropertyAxiom axiom) {
-			return null;
-		}
-
-		public OWLDataPropertyExpression visit(
-				OWLEquivalentDataPropertiesAxiom axiom) {
+		@Override
+		public OWLDataPropertyExpression visit(OWLEquivalentDataPropertiesAxiom axiom) {
 			OWLDataPropertyExpression toReturn = null;
 			if (this.variableType.equals(VariableType.DATAPROPERTY)) {
-				OWLEquivalentDataPropertiesAxiom replacedAxiom = (OWLEquivalentDataPropertiesAxiom) axiom
-						.accept(this.referenceReplacement);
+				OWLEquivalentDataPropertiesAxiom replacedAxiom = (OWLEquivalentDataPropertiesAxiom) axiom.accept(this.referenceReplacement);
 				Set<OWLDataPropertyExpression> properties = new HashSet<OWLDataPropertyExpression>(
 						replacedAxiom.getProperties());
 				properties.remove(this.owlObject);
-				toReturn = !properties.isEmpty() ? properties.iterator().next()
-						: null;
+				toReturn = !properties.isEmpty() ? properties.iterator().next() : null;
 				this.extractedProperty = toReturn;
 			}
 			return toReturn;
 		}
 
-		public OWLObject visit(OWLClassAssertionAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLDataPropertyAssertionAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLTransitiveObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLDataSubPropertyAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLSameIndividualsAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(OWLInverseObjectPropertiesAxiom axiom) {
-			return null;
-		}
-
-		public OWLObject visit(SWRLRule rule) {
-			return null;
-		}
-
-		public OWLDescription visit(OPPLQuery q) {
-			return null;
-		}
-
-		public OWLDescription visit(Variable v) {
-			return null;
-		}
-
-		public OWLDescription visitActions(List<OWLAxiomChange> changes) {
-			OWLDescription toReturn = null;
+		public OWLClassExpression visitActions(List<OWLAxiomChange> changes) {
+			OWLClassExpression toReturn = null;
 			for (OWLAxiomChange axiomChange : changes) {
 				OWLAxiom axiom = axiomChange.getAxiom();
 				OWLObject description = axiom.accept(this);
-				toReturn = toReturn == null ? (OWLDescription) description
-						: this.dataFactory.getOWLObjectIntersectionOf(toReturn,
-								(OWLDescription) description);
+				toReturn = toReturn == null ? (OWLClassExpression) description
+						: this.dataFactory.getOWLObjectIntersectionOf(
+								toReturn,
+								(OWLClassExpression) description);
 			}
 			return toReturn;
 		}
 
-		public OWLDescription visit(OPPLQuery q, OWLDescription p) {
+		public OWLClassExpression visit(OPPLQuery q, OWLClassExpression p) {
 			return null;
 		}
 
-		public OWLDescription visit(Variable v, OWLDescription p) {
+		public OWLClassExpression visit(Variable v, OWLClassExpression p) {
 			return null;
 		}
 
-		public OWLDescription visitActions(List<OWLAxiomChange> changes,
-				OWLDescription p) {
+		public OWLClassExpression visitActions(List<OWLAxiomChange> changes, OWLClassExpression p) {
 			return this.visitActions(changes);
 		}
 	}
 
 	static class ReplacementExtractor {
-		public static List<List<Object>> permutations(
-				List<List<Object>> elements) {
+		public static List<List<Object>> permutations(List<List<Object>> elements) {
 			return permutations(new ArrayList<Object>(), elements);
 		}
 
@@ -622,8 +300,8 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 					toReturn.addAll(permutations(newPath, elements));
 				}
 			} else {
-				return new ArrayList<List<Object>>(Collections
-						.singleton(new ArrayList<Object>(path)));
+				return new ArrayList<List<Object>>(
+						Collections.singleton(new ArrayList<Object>(path)));
 			}
 			return toReturn;
 		}
@@ -631,7 +309,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 
 	private List<PatternOPPLScript> dependencies = new ArrayList<PatternOPPLScript>();
 	protected String rendering = null;
-	private URI uri = null;
+	private IRI iri = null;
 	private final OPPLScript opplStatement;
 	private final OWLOntologyManager ontologyManager;
 	protected boolean valid = true;
@@ -649,12 +327,10 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		return this.ontologyManager;
 	}
 
-	public PatternModel(OPPLScript opplScript,
-			OWLOntologyManager ontologyManager, AbstractPatternModelFactory f)
-			throws UnsuitableOPPLScriptException {
+	public PatternModel(OPPLScript opplScript, OWLOntologyManager ontologyManager,
+			AbstractPatternModelFactory f) throws UnsuitableOPPLScriptException {
 		ArgCheck.checkNullArgument("The OPPL script", opplScript);
-		ArgCheck.checkNullArgument("The ontology manager cannot be null",
-				ontologyManager);
+		ArgCheck.checkNullArgument("The ontology manager cannot be null", ontologyManager);
 		if (!getScriptValidator().accept(opplScript)) {
 			throw new UnsuitableOPPLScriptException(opplScript,
 					getScriptValidator().getValidationRuleDescription());
@@ -748,18 +424,18 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 	}
 
 	/**
-	 * @return the uri
+	 * @return the iri
 	 */
-	public URI getUri() {
-		return this.uri;
+	public IRI getIRI() {
+		return this.iri;
 	}
 
 	/**
-	 * @param uri
-	 *            the uri to set
+	 * @param iri
+	 *            the iri to set
 	 */
-	public void setUri(URI uri) {
-		this.uri = uri;
+	public void setIRI(IRI iri) {
+		this.iri = iri;
 	}
 
 	/**
@@ -771,9 +447,9 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 
 	public String getPatternLocalName() {
 		String toReturn = null;
-		if (this.uri != null) {
+		if (this.iri != null) {
 			NamespaceUtil nsUtil = new NamespaceUtil();
-			String[] split = nsUtil.split(this.uri.toString(), null);
+			String[] split = nsUtil.split(this.iri.toString(), null);
 			if (split.length == 2) {
 				toReturn = split[1];
 			}
@@ -782,37 +458,29 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 	}
 
 	public PatternConstraintSystem getConstraintSystem() {
-		return this.opplStatement == null ? this.factory
-				.createConstraintSystem()
-				: (PatternConstraintSystem) this.opplStatement
-						.getConstraintSystem();
+		return this.opplStatement == null ? this.factory.createConstraintSystem()
+				: (PatternConstraintSystem) this.opplStatement.getConstraintSystem();
 	}
 
 	public String getDefinitorialPortionStrings(List<List<Object>> replacements)
 			throws PatternException {
 		if (this.isFunctional()) {
 			String toReturn = "";
-			List<List<Object>> replacementTuples = ReplacementExtractor
-					.permutations(replacements);
-			List<OWLObject> replacedObjects = this
-					.getDefinitorialPortions(replacementTuples);
+			List<List<Object>> replacementTuples = ReplacementExtractor.permutations(replacements);
+			List<OWLObject> replacedObjects = this.getDefinitorialPortions(replacementTuples);
 			if (!replacedObjects.isEmpty()) {
-				if (this.getReturnVariable().getType().equals(
-						VariableType.CLASS)) {
-					ManchesterSyntaxRenderer renderer = this.factory
-							.getRenderer(this.getConstraintSystem());
-					Set<OWLDescription> descriptions = new HashSet<OWLDescription>();
+				if (this.getReturnVariable().getType().equals(VariableType.CLASS)) {
+					ManchesterSyntaxRenderer renderer = this.factory.getRenderer(this.getConstraintSystem());
+					Set<OWLClassExpression> descriptions = new HashSet<OWLClassExpression>();
 					for (OWLObject object : replacedObjects) {
-						descriptions.add((OWLDescription) object);
+						descriptions.add((OWLClassExpression) object);
 					}
-					this.ontologyManager.getOWLDataFactory()
-							.getOWLObjectIntersectionOf(descriptions).accept(
-									renderer);
+					this.ontologyManager.getOWLDataFactory().getOWLObjectIntersectionOf(
+							descriptions).accept(renderer);
 					toReturn = renderer.toString();
 				} else {
 					for (OWLObject object : replacedObjects) {
-						ManchesterSyntaxRenderer renderer = this.factory
-								.getRenderer(this.getConstraintSystem());
+						ManchesterSyntaxRenderer renderer = this.factory.getRenderer(this.getConstraintSystem());
 						object.accept(renderer);
 						toReturn += renderer.toString() + " ";
 					}
@@ -829,18 +497,17 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 	 * @param replacedObjects
 	 * @throws PatternException
 	 */
-	public List<OWLObject> getDefinitorialPortions(
-			List<List<Object>> replacementTuples) throws PatternException {
+	public List<OWLObject> getDefinitorialPortions(List<List<Object>> replacementTuples)
+			throws PatternException {
 		List<OWLObject> toReturn = new ArrayList<OWLObject>();
 		for (List<Object> tuple : replacementTuples) {
 			ReferenceReplacement referenceReplacement = new ReferenceReplacement(
-					this.getPatternLocalName(), this.getInputVariables(),
-					tuple, this.getConstraintSystem(), this.ontologyManager
-							.getOWLDataFactory());
+					this.getPatternLocalName(), this.getInputVariables(), tuple,
+					this.getConstraintSystem(), this.ontologyManager.getOWLDataFactory());
 			DefinitorialExtractor extractor = this.createDefinitorialExtractor(
-					this.getReturnVariable(), referenceReplacement);
-			OWLDescription extractedDescription = this.opplStatement
-					.accept(extractor);
+					this.getReturnVariable(),
+					referenceReplacement);
+			OWLClassExpression extractedDescription = this.opplStatement.accept(extractor);
 			if (extractedDescription != null) {
 				toReturn.add(extractedDescription);
 			}
@@ -848,27 +515,24 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		return toReturn;
 	}
 
-	private DefinitorialExtractor createDefinitorialExtractor(
-			Variable variable, ReferenceReplacement referenceReplacement) {
-		final OWLDataFactory dataFactory = this.ontologyManager
-				.getOWLDataFactory();
+	private DefinitorialExtractor createDefinitorialExtractor(Variable variable,
+			ReferenceReplacement referenceReplacement) {
+		final OWLDataFactory dataFactory = this.ontologyManager.getOWLDataFactory();
 		OWLObject owlObject = null;
 		VariableTypeVisitorEx<OWLObject> visitor = new VariableTypeVisitorEx<OWLObject>() {
 			public OWLObject visit(SingleValueGeneratedVariable<?> v) {
 				switch (v.getType()) {
 				case CLASS:
-					return dataFactory.getOWLClass(v.getURI());
+					return dataFactory.getOWLClass(v.getIRI());
 				case DATAPROPERTY:
-					return dataFactory.getOWLDataProperty(v.getURI());
+					return dataFactory.getOWLDataProperty(v.getIRI());
 				case OBJECTPROPERTY:
-					return dataFactory.getOWLObjectProperty(v.getURI());
+					return dataFactory.getOWLObjectProperty(v.getIRI());
 				case CONSTANT:
-					throw new RuntimeException("Unsupported variable type: "
-							+ v.getType()
+					throw new RuntimeException("Unsupported variable type: " + v.getType()
 							+ " for pattern used in functional mode");
 				case INDIVIDUAL:
-					throw new RuntimeException("Unsupported variable type: "
-							+ v.getType()
+					throw new RuntimeException("Unsupported variable type: " + v.getType()
 							+ " for pattern used in functional mode");
 				default:
 					return null;
@@ -877,44 +541,44 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 			}
 
 			public OWLObject visit(INDIVIDUALVariable v) {
-				throw new RuntimeException("Unsupported variable type: "
-						+ v.getType() + " for pattern used in functional mode");
+				throw new RuntimeException("Unsupported variable type: " + v.getType()
+						+ " for pattern used in functional mode");
 			}
 
 			public OWLObject visit(DATAPROPERTYVariable v) {
-				return dataFactory.getOWLDataProperty(v.getURI());
+				return dataFactory.getOWLDataProperty(v.getIRI());
 			}
 
 			public OWLObject visit(OBJECTPROPERTYVariable v) {
-				return dataFactory.getOWLObjectProperty(v.getURI());
+				return dataFactory.getOWLObjectProperty(v.getIRI());
 			}
 
 			public OWLObject visit(CONSTANTVariable v) {
-				throw new RuntimeException("Unsupported variable type: "
-						+ v.getType() + " for pattern used in functional mode");
+				throw new RuntimeException("Unsupported variable type: " + v.getType()
+						+ " for pattern used in functional mode");
 			}
 
 			public OWLObject visit(CLASSVariable v) {
-				return dataFactory.getOWLClass(v.getURI());
+				return dataFactory.getOWLClass(v.getIRI());
 			}
 		};
 		owlObject = variable.accept(visitor);
 		// switch (v.getType()) {
 		// case CLASS:
-		// owlObject = dataFactory.getOWLClass(v.getURI());
+		// owlObject = dataFactory.getOWLClass(v.getIRI());
 		// break;
 		// case OBJECTPROPERTY:
-		// owlObject = dataFactory.getOWLObjectProperty(v.getURI());
+		// owlObject = dataFactory.getOWLObjectProperty(v.getIRI());
 		// break;
 		// case DATAPROPERTY:
-		// owlObject = dataFactory.getOWLDataProperty(v.getURI());
+		// owlObject = dataFactory.getOWLDataProperty(v.getIRI());
 		// break;
 		// default:
 		// throw new RuntimeException("Unsupported variable type: "
 		// + v.getType() + " for pattern used in functional mode");
 		// }
-		return new DefinitorialExtractor(owlObject, variable.getType(),
-				dataFactory, referenceReplacement);
+		return new DefinitorialExtractor(owlObject, variable.getType(), dataFactory,
+				referenceReplacement);
 	}
 
 	public void setUnresolvedOPPLStatement(String unresolvedString) {
@@ -933,8 +597,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 			Iterator<PatternOPPLScript> it = this.dependencies.iterator();
 			while (!toReturn && it.hasNext()) {
 				PatternOPPLScript aPatternModel = it.next();
-				toReturn = aPatternModel.getName().equals(
-						patternModel.getName())
+				toReturn = aPatternModel.getName().equals(patternModel.getName())
 						|| aPatternModel.dependsOn(patternModel);
 			}
 		}
@@ -951,17 +614,15 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 	 *         notice that InstantiatedPatternModel instances will be returned
 	 *         as well
 	 */
-	public Set<PatternOPPLScript> getDependingPatterns(
-			Set<OWLOntology> ontologies, ErrorListener errorListener) {
+	public Set<PatternOPPLScript> getDependingPatterns(Set<OWLOntology> ontologies,
+			ErrorListener errorListener) {
 		Set<PatternOPPLScript> toReturn = new HashSet<PatternOPPLScript>();
 		for (OWLOntology ontology : ontologies) {
-			Set<PatternModel> existingPatterns = Utils.getExistingPatterns(
-					ontology, this.factory);
+			Set<PatternModel> existingPatterns = Utils.getExistingPatterns(ontology, this.factory);
 			for (PatternModel patternModel : existingPatterns) {
 				if (patternModel.dependsOn(this)) {
 					toReturn.add(patternModel);
-					toReturn.addAll(patternModel
-							.getInstantiations(errorListener));
+					toReturn.addAll(patternModel.getInstantiations(errorListener));
 				}
 			}
 		}
@@ -969,27 +630,22 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		return toReturn;
 	}
 
-	public Set<InstantiatedPatternModel> getInstantiations(
-			ErrorListener errorListener) {
+	public Set<InstantiatedPatternModel> getInstantiations(ErrorListener errorListener) {
 		Set<InstantiatedPatternModel> toReturn = new HashSet<InstantiatedPatternModel>();
 		Set<OWLOntology> ontologies = this.ontologyManager.getOntologies();
-		PatternExtractor patternExtractor = this.factory
-				.getPatternExtractor(errorListener);
+		PatternExtractor patternExtractor = this.factory.getPatternExtractor(errorListener);
 		for (OWLOntology ontology : ontologies) {
-			Set<OWLClass> referencedClasses = ontology.getReferencedClasses();
+			Set<OWLClass> referencedClasses = ontology.getClassesInSignature();
 			for (OWLClass owlClass : referencedClasses) {
-				Set<OWLAnnotationAxiom> annotationAxioms = owlClass
-						.getAnnotationAxioms(ontology);
-				for (OWLAnnotationAxiom annotationAxiom : annotationAxioms) {
-					OPPLScript extractedPatternModel = (OPPLScript) annotationAxiom
-							.getAnnotation().accept(patternExtractor);
+				Set<OWLAnnotationAssertionAxiom> annotationAxioms = owlClass.getAnnotationAssertionAxioms(ontology);
+				for (OWLAnnotationAssertionAxiom annotationAxiom : annotationAxioms) {
+					OPPLScript extractedPatternModel = annotationAxiom.getAnnotation().accept(
+							patternExtractor);
 					if (extractedPatternModel != null
 							&& extractedPatternModel instanceof InstantiatedPatternModel
-							&& ((InstantiatedPatternModel) extractedPatternModel)
-									.getInstantiatedPatternLocalName().equals(
-											this.getPatternLocalName())) {
-						toReturn
-								.add((InstantiatedPatternModel) extractedPatternModel);
+							&& ((InstantiatedPatternModel) extractedPatternModel).getInstantiatedPatternLocalName().equals(
+									this.getPatternLocalName())) {
+						toReturn.add((InstantiatedPatternModel) extractedPatternModel);
 					}
 				}
 			}
@@ -997,20 +653,17 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		return toReturn;
 	}
 
-	public Set<? extends OWLAxiom> getOWLAxioms(OWLOntology ontology,
-			ErrorListener errorListener) {
-		Set<OWLOntologyAnnotationAxiom> toReturn = new HashSet<OWLOntologyAnnotationAxiom>();
+	public Set<OWLObject> getOWLObjects(OWLOntology ontology, ErrorListener errorListener) {
+		Set<OWLObject> toReturn = new HashSet<OWLObject>();
 		boolean found = false;
-		OWLOntologyAnnotationAxiom ontologyAnnotationAxiom = null;
-		Iterator<OWLOntologyAnnotationAxiom> annotationIterator = ontology
-				.getOntologyAnnotationAxioms().iterator();
+		OWLAnnotation ontologyAnnotation = null;
+		Iterator<OWLAnnotation> annotationIterator = ontology.getAnnotations().iterator();
 		while (!found && annotationIterator.hasNext()) {
-			ontologyAnnotationAxiom = annotationIterator.next();
-			found = this.uri.equals(ontologyAnnotationAxiom.getAnnotation()
-					.getAnnotationURI());
+			ontologyAnnotation = annotationIterator.next();
+			found = this.iri.equals(ontologyAnnotation.getProperty().getIRI());
 		}
 		if (found) {
-			toReturn.add(ontologyAnnotationAxiom);
+			toReturn.add(ontologyAnnotation);
 		}
 		return toReturn;
 	}
@@ -1021,15 +674,13 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		boolean found = false;
 		Iterator<OWLOntology> it = ontologies.iterator();
 		OWLOntology ontology = null;
-		OWLOntologyAnnotationAxiom ontologyAnnotationAxiom = null;
+		OWLAnnotation ontologyAnnotation = null;
 		while (!found && it.hasNext()) {
 			ontology = it.next();
-			Iterator<OWLOntologyAnnotationAxiom> annotationIterator = ontology
-					.getOntologyAnnotationAxioms().iterator();
+			Iterator<OWLAnnotation> annotationIterator = ontology.getAnnotations().iterator();
 			while (!found && annotationIterator.hasNext()) {
-				ontologyAnnotationAxiom = annotationIterator.next();
-				found = this.uri.equals(ontologyAnnotationAxiom.getAnnotation()
-						.getAnnotationURI());
+				ontologyAnnotation = annotationIterator.next();
+				found = this.iri.equals(ontologyAnnotation.getProperty().getIRI());
 			}
 		}
 		if (found) {
@@ -1084,8 +735,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 	}
 
 	public List<Variable> getInputVariables() {
-		InputVariableCollector visitor = new InputVariableCollector(
-				new ArrayList<Variable>());
+		InputVariableCollector visitor = new InputVariableCollector(new ArrayList<Variable>());
 		for (Variable variable : this.getVariables()) {
 			variable.accept(visitor);
 		}

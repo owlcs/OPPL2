@@ -32,11 +32,11 @@ import org.coode.patterns.utils.Utils;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.frame.OWLFrame;
 import org.protege.editor.owl.ui.frame.OWLSubClassAxiomFrameSection;
-import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomAnnotationAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLSubClassAxiom;
 
 /**
  * @author Luigi Iannone
@@ -62,7 +62,7 @@ public class PatternOWLSubCLassAxiomFrameSection extends
 			OWLOntology ont) {
 		Set<OWLSubClassAxiom> toReturn = new HashSet<OWLSubClassAxiom>();
 		if (!descr.isAnonymous()) {
-			for (OWLSubClassAxiom ax : ont
+			for (OWLSubClassOfAxiom ax : ont
 					.getSubClassAxiomsForLHS(getRootObject().asOWLClass())) {
 				Set<OWLAxiomAnnotationAxiom> annotationAxioms = ax
 						.getAnnotationAxioms(ont);
@@ -77,7 +77,7 @@ public class PatternOWLSubCLassAxiomFrameSection extends
 	}
 
 	@Override
-	protected void addAxiom(OWLSubClassAxiom ax, OWLOntology ontology) {
+	protected void addAxiom(OWLSubClassOfAxiom ax, OWLOntology ontology) {
 		Set<OWLAxiomAnnotationAxiom> annotationAxioms = ax
 				.getAnnotationAxioms(ontology);
 		boolean isPatternGenerated = Utils.isPatternGenerated(annotationAxioms);

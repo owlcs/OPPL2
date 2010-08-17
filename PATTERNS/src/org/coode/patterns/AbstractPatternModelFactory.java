@@ -31,8 +31,8 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.parsers.ErrorListener;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLConstantAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /**
  * @author Luigi Iannone
@@ -103,7 +103,7 @@ public interface AbstractPatternModelFactory {
 	 * @throws NullPointerException
 	 *             if either input is {@code null}.
 	 */
-	PatternExtractor getPatternExtractor(Set<OWLConstantAnnotation> visitedAnnotations,
+	PatternExtractor getPatternExtractor(Set<OWLAnnotation> visitedAnnotations,
 			ErrorListener errorListener);
 
 	/**

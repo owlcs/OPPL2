@@ -25,7 +25,7 @@ package org.coode.patterns.ui;
 import org.coode.patterns.AbstractPatternModelFactory;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.frame.AbstractOWLFrame;
-import org.semanticweb.owl.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClass;
 
 /**
  * @author Luigi Iannone

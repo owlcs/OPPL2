@@ -22,7 +22,6 @@
  */
 package org.coode.patterns;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,14 +32,13 @@ import java.util.Set;
 
 import org.coode.oppl.Variable;
 import org.coode.parsers.ErrorListener;
-import org.semanticweb.owl.expression.OWLEntityChecker;
-import org.semanticweb.owl.model.OWLAnnotation;
-import org.semanticweb.owl.model.OWLConstantAnnotation;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyAnnotationAxiom;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.util.NamespaceUtil;
+import org.semanticweb.owlapi.expression.OWLEntityChecker;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.util.NamespaceUtil;
 
 /**
  * @author Luigi Iannone
@@ -99,15 +97,15 @@ public class PatternReference {
 		// first check whether a pattern with that name is present
 		while (!found && ontologyIterator.hasNext()) {
 			anOntology = ontologyIterator.next();
-			Set<OWLOntologyAnnotationAxiom> ontologyAnnotationAxioms = anOntology.getOntologyAnnotationAxioms();
-			Iterator<OWLOntologyAnnotationAxiom> it = ontologyAnnotationAxioms.iterator();
-			OWLOntologyAnnotationAxiom anOntologyAnnotationAxiom;
+			Set<OWLAnnotation> ontologyAnnotationAxioms = anOntology.getAnnotations();
+			Iterator<OWLAnnotation> it = ontologyAnnotationAxioms.iterator();
 			while (!found && it.hasNext()) {
-				anOntologyAnnotationAxiom = it.next();
-				OWLAnnotation<? extends OWLObject> annotation = anOntologyAnnotationAxiom.getAnnotation();
-				if (!this.hasBeenVisited(annotation.getAnnotationURI())) {
+				OWLAnnotation annotation = it.next();
+				if (!this.hasBeenVisited(annotation.getProperty().getIRI())) {
 					NamespaceUtil nsUtil = new NamespaceUtil();
-					String[] split = nsUtil.split(annotation.getAnnotationURI().toString(), null);
+					String[] split = nsUtil.split(
+							annotation.getProperty().getIRI().toString(),
+							null);
 					if (split[1].compareTo(this.patternName) == 0) {
 						PatternExtractor patternExtractor = this.patternConstraintSystem.getPatternModelFactory().getPatternExtractor(
 								this.getVisitedAnnotations(),
@@ -124,9 +122,6 @@ public class PatternReference {
 		// Now check its variable compatibility
 		this.checkCompatibility(args);
 		this.resolvable = this.isResolvable(args);
-		// List<Object> replacements = this.computeReplacements(args);
-		// this.resolution = this.extractedPattern
-		// .getDefinitorialPortion(replacements);
 		this.arguments = args;
 	}
 
@@ -159,7 +154,7 @@ public class PatternReference {
 			toReturn = entityChecker.getOWLDataProperty(string);
 		}
 		if (toReturn == null) {
-			toReturn = entityChecker.getOWLDataType(string);
+			toReturn = entityChecker.getOWLDatatype(string);
 		}
 		if (toReturn == null) {
 			toReturn = entityChecker.getOWLIndividual(string);
@@ -261,35 +256,35 @@ public class PatternReference {
 		return this.extractedPattern.getDefinitorialPortions(replacements);
 	}
 
-	protected boolean hasBeenVisited(URI annotationURI) {
+	protected boolean hasBeenVisited(IRI annotationIRI) {
 		boolean found = false;
 		// TODO performance wise: have visited contain the complete uris or
 		// check that the uri starts with the namespace before creating the
 		// namespaceutil object
 		NamespaceUtil nsUtil = new NamespaceUtil();
-		String[] split = nsUtil.split(annotationURI.toString(), null);
+		String[] split = nsUtil.split(annotationIRI.toString(), null);
 		if (split != null && split.length == 2 && split[0].equals(PatternModel.NAMESPACE)) {
 			found = this.visited.contains(split[1]);
 		}
 		return found;
 	}
 
-	protected Set<OWLConstantAnnotation> getVisitedAnnotations() {
-		Set<OWLConstantAnnotation> toReturn = new HashSet<OWLConstantAnnotation>();
+	protected Set<OWLAnnotation> getVisitedAnnotations() {
+		Set<OWLAnnotation> toReturn = new HashSet<OWLAnnotation>();
 		for (String visitedPatternName : this.visited) {
 			Iterator<OWLOntology> it = this.ontologyManger.getOntologies().iterator();
 			boolean found = false;
 			OWLOntology ontology;
 			while (!found && it.hasNext()) {
 				ontology = it.next();
-				Iterator<OWLOntologyAnnotationAxiom> annotationIterator = ontology.getOntologyAnnotationAxioms().iterator();
-				OWLOntologyAnnotationAxiom anOntologyAnnotationAxiom = null;
+				Iterator<OWLAnnotation> annotationIterator = ontology.getAnnotations().iterator();
+				OWLAnnotation anOntologyAnnotation = null;
 				while (!found && annotationIterator.hasNext()) {
-					anOntologyAnnotationAxiom = annotationIterator.next();
-					found = anOntologyAnnotationAxiom.getAnnotation().getAnnotationURI().equals(
-							URI.create(PatternModel.NAMESPACE + visitedPatternName));
+					anOntologyAnnotation = annotationIterator.next();
+					found = anOntologyAnnotation.getProperty().getIRI().equals(
+							IRI.create(PatternModel.NAMESPACE + visitedPatternName));
 					if (found) {
-						toReturn.add((OWLConstantAnnotation) anOntologyAnnotationAxiom.getAnnotation());
+						toReturn.add(anOntologyAnnotation);
 					}
 				}
 			}

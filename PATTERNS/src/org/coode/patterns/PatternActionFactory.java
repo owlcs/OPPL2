@@ -22,9 +22,9 @@
  */
 package org.coode.patterns;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -32,16 +32,15 @@ import org.coode.oppl.ActionType;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.VariableType;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.semanticweb.owl.model.AddAxiom;
-import org.semanticweb.owl.model.OWLAnnotation;
-import org.semanticweb.owl.model.OWLAnnotationAxiom;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLAxiomChange;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataFactory;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.RemoveAxiom;
+import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.RemoveAxiom;
 
 /**
  * @author Luigi Iannone
@@ -51,18 +50,20 @@ import org.semanticweb.owl.model.RemoveAxiom;
 public class PatternActionFactory {
 	public static final String CREATED_BY = "createdBy";
 
-	public static Collection<? extends OWLAxiomChange> createChange(
-			OWLClass thisClass, ActionType actionType, OWLAxiom axiom,
-			InstantiatedPatternModel instantiatedPatternModel,
-			OWLDataFactory owlDataFactory, URI annotationURI,
-			OWLOntology ontology) {
+	public static Collection<? extends OWLAxiomChange> createChange(OWLClass thisClass,
+			ActionType actionType, OWLAxiom axiom,
+			InstantiatedPatternModel instantiatedPatternModel, OWLDataFactory owlDataFactory,
+			IRI annotationIRI, OWLOntology ontology) {
 		instantiatedPatternModel.getConstraintSystem().instantiateThisClass(
-				new PatternConstant<OWLClass>(
-						PatternConstraintSystem.THIS_CLASS_VARIABLE_NAME,
-						VariableType.CLASS, PatternConstant
-								.createConstantGeneratedValue(thisClass)));
-		return createChange(actionType, axiom, instantiatedPatternModel,
-				owlDataFactory, annotationURI, ontology);
+				new PatternConstant<OWLClass>(PatternConstraintSystem.THIS_CLASS_VARIABLE_NAME,
+						VariableType.CLASS, PatternConstant.createConstantGeneratedValue(thisClass)));
+		return createChange(
+				actionType,
+				axiom,
+				instantiatedPatternModel,
+				owlDataFactory,
+				annotationIRI,
+				ontology);
 	}
 
 	/**
@@ -72,62 +73,52 @@ public class PatternActionFactory {
 	 * @param instantiatedPatternModel
 	 * @param owlDataFactory
 	 * @param ontology
-	 * @param annotationURI
+	 * @param annotationIRI
 	 */
-	private static void addChange(OWLAxiom instantiatedAxiom,
-			ActionType actionType, List<OWLAxiomChange> changes,
-			InstantiatedPatternModel instantiatedPatternModel,
-			OWLDataFactory owlDataFactory, OWLOntology ontology,
-			URI annotationURI) {
+	private static void addChange(OWLAxiom instantiatedAxiom, ActionType actionType,
+			List<OWLAxiomChange> changes, InstantiatedPatternModel instantiatedPatternModel,
+			OWLDataFactory owlDataFactory, OWLOntology ontology, IRI annotationIRI) {
 		OWLAxiomChange axiomChange = null;
-		if (instantiatedPatternModel.getConstraintSystem().getAxiomVariables(
-				instantiatedAxiom).isEmpty()) {
+		if (instantiatedPatternModel.getConstraintSystem().getAxiomVariables(instantiatedAxiom).isEmpty()) {
 			switch (actionType) {
-				case ADD:
-					OWLAnnotation<? extends OWLObject> annotation = owlDataFactory
-							.getOWLConstantAnnotation(URI
-									.create(PatternModel.NAMESPACE
-											+ PatternActionFactory.CREATED_BY),
-									owlDataFactory
-											.getOWLTypedConstant(annotationURI
-													.toString()));
-					OWLAnnotationAxiom<OWLAxiom> annotationAxiom = owlDataFactory
-							.getOWLAxiomAnnotationAxiom(instantiatedAxiom,
-									annotation);
-					axiomChange = new AddAxiom(ontology, instantiatedAxiom);
-					changes.add(axiomChange);
-					changes.add(new AddAxiom(ontology, annotationAxiom));
-					break;
-				case REMOVE:
-					axiomChange = new RemoveAxiom(ontology, instantiatedAxiom);
-					changes.add(axiomChange);
-					break;
-				default:
-					break;
+			case ADD:
+				OWLAnnotation annotation = owlDataFactory.getOWLAnnotation(
+						owlDataFactory.getOWLAnnotationProperty(IRI.create(PatternModel.NAMESPACE
+								+ PatternActionFactory.CREATED_BY)),
+						owlDataFactory.getOWLLiteral(annotationIRI.toString()));
+				instantiatedAxiom = instantiatedAxiom.getAnnotatedAxiom(Collections.singleton(annotation));
+				axiomChange = new AddAxiom(ontology, instantiatedAxiom);
+				changes.add(axiomChange);
+				break;
+			case REMOVE:
+				axiomChange = new RemoveAxiom(ontology, instantiatedAxiom);
+				changes.add(axiomChange);
+				break;
+			default:
+				break;
 			}
 		}
 	}
 
-	public static Collection<? extends OWLAxiomChange> createChange(
-			ActionType actionType, OWLAxiom axiom,
-			InstantiatedPatternModel instantiatedPatternModel,
-			OWLDataFactory owlDataFactory, URI annotationURI,
-			OWLOntology ontology) {
+	public static Collection<? extends OWLAxiomChange> createChange(ActionType actionType,
+			OWLAxiom axiom, InstantiatedPatternModel instantiatedPatternModel,
+			OWLDataFactory owlDataFactory, IRI annotationIRI, OWLOntology ontology) {
 		List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
-		Set<BindingNode> bindingNodes = instantiatedPatternModel
-				.extractBindingNodes();
+		Set<BindingNode> bindingNodes = instantiatedPatternModel.extractBindingNodes();
 		if (bindingNodes != null && !bindingNodes.isEmpty()) {
-			instantiatedPatternModel.getConstraintSystem().setLeaves(
-					bindingNodes);
+			instantiatedPatternModel.getConstraintSystem().setLeaves(bindingNodes);
 			for (BindingNode bindingNode : bindingNodes) {
 				PartialOWLObjectInstantiator instatiator = new PartialOWLObjectInstantiator(
-						bindingNode, instantiatedPatternModel
-								.getConstraintSystem());
-				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom
-						.accept(instatiator);
-				addChange(instantiatedAxiom, actionType, toReturn,
-						instantiatedPatternModel, owlDataFactory, ontology,
-						annotationURI);
+						bindingNode, instantiatedPatternModel.getConstraintSystem());
+				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instatiator);
+				addChange(
+						instantiatedAxiom,
+						actionType,
+						toReturn,
+						instantiatedPatternModel,
+						owlDataFactory,
+						ontology,
+						annotationIRI);
 			}
 		}
 		return toReturn;

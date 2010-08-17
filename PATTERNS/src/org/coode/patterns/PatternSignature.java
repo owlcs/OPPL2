@@ -27,7 +27,7 @@ import java.util.Set;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableType;
 import org.coode.patterns.utils.Utils;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * @author Luigi Iannone

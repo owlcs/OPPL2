@@ -13,8 +13,8 @@ import org.coode.parsers.ShortFormEntityRenderer;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.OPPLScope;
 import org.coode.parsers.oppl.patterns.OPPLPatternsSymbolTable;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.util.SimpleShortFormProvider;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 /**
  * @author Luigi Iannone
