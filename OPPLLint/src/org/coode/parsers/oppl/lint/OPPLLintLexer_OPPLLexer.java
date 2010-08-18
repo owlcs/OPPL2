@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.lint;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLLexer.g 2010-07-30 23:42:47
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLLexer.g 2010-08-18 10:23:58
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -43,7 +43,7 @@ public class OPPLLintLexer_OPPLLexer extends Lexer {
 	public static final int MATCH = 176;
 	public static final int SEMICOLON = 422;
 	public static final int VALUE = 18;
-	public static final int FAIL = 535;
+	public static final int FAIL = 466;
 	public static final int GROUPS = 356;
 	public static final int OPEN_CURLY_BRACES = 6;
 	public static final int DISJUNCTION = 55;

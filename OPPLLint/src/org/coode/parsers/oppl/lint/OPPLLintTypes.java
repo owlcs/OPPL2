@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g 2010-08-02 22:01:32
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g 2010-08-18 10:35:12
 
   package org.coode.parsers.oppl.lint;
   import org.coode.parsers.ErrorListener;
@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.HashMap;
 public class OPPLLintTypes extends TreeFilter {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED", "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION", "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF", "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE", "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION", "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "OPPL_LINT", "ESCLAMATION_MARK", "MATCH", "VALUES", "RENDERING", "GROUPS", "DOLLAR", "RETURN", "SEMICOLON", "VARIABLE_NAME", "DESCRIPTION", "EXPLANATION", "TEXT"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED", "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION", "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF", "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE", "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION", "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "OPPL_LINT", "ESCLAMATION_MARK", "MATCH", "VALUES", "RENDERING", "GROUPS", "DOLLAR", "RETURN", "SEMICOLON", "VARIABLE_NAME", "FAIL", "NAF_CONSTRAINT", "DESCRIPTION", "EXPLANATION", "TEXT"
     };
     public static final int VALUE_RESTRICTION=63;
     public static final int LETTER=43;
@@ -64,10 +64,12 @@ public class OPPLLintTypes extends TreeFilter {
     public static final int IN_SET_CONSTRAINT=95;
     public static final int SEMICOLON=422;
     public static final int VALUE=18;
+    public static final int FAIL=466;
     public static final int GROUPS=356;
     public static final int OPEN_CURLY_BRACES=6;
     public static final int DISJUNCTION=55;
     public static final int INVERSE=19;
+    public static final int NAF_CONSTRAINT=467;
     public static final int OPPL_LINT=119;
     public static final int DBLQUOTE=40;
     public static final int OR=11;
@@ -156,7 +158,7 @@ public class OPPLLintTypes extends TreeFilter {
         
 
     public String[] getTokenNames() { return OPPLLintTypes.tokenNames; }
-    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g"; }
+    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g"; }
 
 
       private OPPLSymbolTable symtab;
@@ -218,10 +220,10 @@ public class OPPLLintTypes extends TreeFilter {
 
 
     // $ANTLR start "bottomup"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:98:1: bottomup : ( lint | textVariableRef );
+    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:98:1: bottomup : ( lint | textVariableRef );
     public final void bottomup() throws RecognitionException {
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:99:5: ( lint | textVariableRef )
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:99:5: ( lint | textVariableRef )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -240,7 +242,7 @@ public class OPPLLintTypes extends TreeFilter {
             }
             switch (alt1) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:100:6: lint
+                    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:100:6: lint
                     {
                     pushFollow(FOLLOW_lint_in_bottomup81);
                     lint();
@@ -251,7 +253,7 @@ public class OPPLLintTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:101:8: textVariableRef
+                    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:101:8: textVariableRef
                     {
                     pushFollow(FOLLOW_textVariableRef_in_bottomup90);
                     textVariableRef();
@@ -286,7 +288,7 @@ public class OPPLLintTypes extends TreeFilter {
     };
 
     // $ANTLR start "lint"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:105:1: lint : ^( OPPL_LINT IDENTIFIER s= statement rc= returnClause ^( EXPLANATION ( . )* ) ^( DESCRIPTION ( . )* ) ) ;
+    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:105:1: lint : ^( OPPL_LINT IDENTIFIER s= statement rc= returnClause ^( EXPLANATION ( . )* ) ^( DESCRIPTION ( . )* ) ) ;
     public final OPPLLintTypes.lint_return lint() throws RecognitionException {
         OPPLLintTypes.lint_return retval = new OPPLLintTypes.lint_return();
         retval.start = input.LT(1);
@@ -300,8 +302,8 @@ public class OPPLLintTypes extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:106:2: ( ^( OPPL_LINT IDENTIFIER s= statement rc= returnClause ^( EXPLANATION ( . )* ) ^( DESCRIPTION ( . )* ) ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:107:3: ^( OPPL_LINT IDENTIFIER s= statement rc= returnClause ^( EXPLANATION ( . )* ) ^( DESCRIPTION ( . )* ) )
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:106:2: ( ^( OPPL_LINT IDENTIFIER s= statement rc= returnClause ^( EXPLANATION ( . )* ) ^( DESCRIPTION ( . )* ) ) )
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:107:3: ^( OPPL_LINT IDENTIFIER s= statement rc= returnClause ^( EXPLANATION ( . )* ) ^( DESCRIPTION ( . )* ) )
             {
             match(input,OPPL_LINT,FOLLOW_OPPL_LINT_in_lint108); if (state.failed) return retval;
 
@@ -321,7 +323,7 @@ public class OPPLLintTypes extends TreeFilter {
 
             if ( input.LA(1)==Token.DOWN ) {
                 match(input, Token.DOWN, null); if (state.failed) return retval;
-                // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:107:71: ( . )*
+                // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:107:71: ( . )*
                 loop2:
                 do {
                     int alt2=2;
@@ -337,7 +339,7 @@ public class OPPLLintTypes extends TreeFilter {
 
                     switch (alt2) {
                 	case 1 :
-                	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:107:71: .
+                	    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:107:71: .
                 	    {
                 	    matchAny(input); if (state.failed) return retval;
 
@@ -356,7 +358,7 @@ public class OPPLLintTypes extends TreeFilter {
 
             if ( input.LA(1)==Token.DOWN ) {
                 match(input, Token.DOWN, null); if (state.failed) return retval;
-                // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:107:89: ( . )*
+                // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:107:89: ( . )*
                 loop3:
                 do {
                     int alt3=2;
@@ -372,7 +374,7 @@ public class OPPLLintTypes extends TreeFilter {
 
                     switch (alt3) {
                 	case 1 :
-                	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:107:89: .
+                	    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:107:89: .
                 	    {
                 	    matchAny(input); if (state.failed) return retval;
 
@@ -429,7 +431,7 @@ public class OPPLLintTypes extends TreeFilter {
     };
 
     // $ANTLR start "statement"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:121:1: statement returns [OPPLSyntaxTree statementTree] : ^( OPPL_STATEMENT ( ^(vd= VARIABLE_DEFINITIONS ( . )* ) )? ^(query= QUERY ( . )* ) ( ^(a= ACTIONS ( . )* ) )? ) ;
+    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:121:1: statement returns [OPPLSyntaxTree statementTree] : ^( OPPL_STATEMENT ( ^(vd= VARIABLE_DEFINITIONS ( . )* ) )? ^(query= QUERY ( . )* ) ( ^(a= ACTIONS ( . )* ) )? ) ;
     public final OPPLLintTypes.statement_return statement() throws RecognitionException {
         OPPLLintTypes.statement_return retval = new OPPLLintTypes.statement_return();
         retval.start = input.LT(1);
@@ -443,13 +445,13 @@ public class OPPLLintTypes extends TreeFilter {
         	
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:129:2: ( ^( OPPL_STATEMENT ( ^(vd= VARIABLE_DEFINITIONS ( . )* ) )? ^(query= QUERY ( . )* ) ( ^(a= ACTIONS ( . )* ) )? ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:130:3: ^( OPPL_STATEMENT ( ^(vd= VARIABLE_DEFINITIONS ( . )* ) )? ^(query= QUERY ( . )* ) ( ^(a= ACTIONS ( . )* ) )? )
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:129:2: ( ^( OPPL_STATEMENT ( ^(vd= VARIABLE_DEFINITIONS ( . )* ) )? ^(query= QUERY ( . )* ) ( ^(a= ACTIONS ( . )* ) )? ) )
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:130:3: ^( OPPL_STATEMENT ( ^(vd= VARIABLE_DEFINITIONS ( . )* ) )? ^(query= QUERY ( . )* ) ( ^(a= ACTIONS ( . )* ) )? )
             {
             match(input,OPPL_STATEMENT,FOLLOW_OPPL_STATEMENT_in_statement170); if (state.failed) return retval;
 
             match(input, Token.DOWN, null); if (state.failed) return retval;
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:130:21: ( ^(vd= VARIABLE_DEFINITIONS ( . )* ) )?
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:130:21: ( ^(vd= VARIABLE_DEFINITIONS ( . )* ) )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -458,13 +460,13 @@ public class OPPLLintTypes extends TreeFilter {
             }
             switch (alt5) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:130:22: ^(vd= VARIABLE_DEFINITIONS ( . )* )
+                    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:130:22: ^(vd= VARIABLE_DEFINITIONS ( . )* )
                     {
                     vd=(OPPLSyntaxTree)match(input,VARIABLE_DEFINITIONS,FOLLOW_VARIABLE_DEFINITIONS_in_statement179); if (state.failed) return retval;
 
                     if ( input.LA(1)==Token.DOWN ) {
                         match(input, Token.DOWN, null); if (state.failed) return retval;
-                        // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:130:50: ( . )*
+                        // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:130:50: ( . )*
                         loop4:
                         do {
                             int alt4=2;
@@ -480,7 +482,7 @@ public class OPPLLintTypes extends TreeFilter {
 
                             switch (alt4) {
                         	case 1 :
-                        	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:130:50: .
+                        	    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:130:50: .
                         	    {
                         	    matchAny(input); if (state.failed) return retval;
 
@@ -505,7 +507,7 @@ public class OPPLLintTypes extends TreeFilter {
 
             if ( input.LA(1)==Token.DOWN ) {
                 match(input, Token.DOWN, null); if (state.failed) return retval;
-                // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:130:71: ( . )*
+                // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:130:71: ( . )*
                 loop6:
                 do {
                     int alt6=2;
@@ -521,7 +523,7 @@ public class OPPLLintTypes extends TreeFilter {
 
                     switch (alt6) {
                 	case 1 :
-                	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:130:71: .
+                	    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:130:71: .
                 	    {
                 	    matchAny(input); if (state.failed) return retval;
 
@@ -536,7 +538,7 @@ public class OPPLLintTypes extends TreeFilter {
 
                 match(input, Token.UP, null); if (state.failed) return retval;
             }
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:130:76: ( ^(a= ACTIONS ( . )* ) )?
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:130:76: ( ^(a= ACTIONS ( . )* ) )?
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -545,13 +547,13 @@ public class OPPLLintTypes extends TreeFilter {
             }
             switch (alt8) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:130:77: ^(a= ACTIONS ( . )* )
+                    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:130:77: ^(a= ACTIONS ( . )* )
                     {
                     a=(OPPLSyntaxTree)match(input,ACTIONS,FOLLOW_ACTIONS_in_statement204); if (state.failed) return retval;
 
                     if ( input.LA(1)==Token.DOWN ) {
                         match(input, Token.DOWN, null); if (state.failed) return retval;
-                        // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:130:91: ( . )*
+                        // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:130:91: ( . )*
                         loop7:
                         do {
                             int alt7=2;
@@ -567,7 +569,7 @@ public class OPPLLintTypes extends TreeFilter {
 
                             switch (alt7) {
                         	case 1 :
-                        	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:130:91: .
+                        	    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:130:91: .
                         	    {
                         	    matchAny(input); if (state.failed) return retval;
 
@@ -634,15 +636,15 @@ public class OPPLLintTypes extends TreeFilter {
 
 
     // $ANTLR start "returnClause"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:146:1: returnClause returns [Variable variable] : ^( RETURN VARIABLE_NAME ) ;
+    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:146:1: returnClause returns [Variable variable] : ^( RETURN VARIABLE_NAME ) ;
     public final Variable returnClause() throws RecognitionException {
         Variable variable = null;
 
         OPPLSyntaxTree VARIABLE_NAME4=null;
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:147:3: ( ^( RETURN VARIABLE_NAME ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:148:7: ^( RETURN VARIABLE_NAME )
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:147:3: ( ^( RETURN VARIABLE_NAME ) )
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:148:7: ^( RETURN VARIABLE_NAME )
             {
             match(input,RETURN,FOLLOW_RETURN_in_returnClause238); if (state.failed) return variable;
 
@@ -684,13 +686,13 @@ public class OPPLLintTypes extends TreeFilter {
 
 
     // $ANTLR start "textVariableRef"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:159:2: textVariableRef : ^( TEXT VARIABLE_NAME ) ;
+    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:159:2: textVariableRef : ^( TEXT VARIABLE_NAME ) ;
     public final void textVariableRef() throws RecognitionException {
         OPPLSyntaxTree VARIABLE_NAME5=null;
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:160:3: ( ^( TEXT VARIABLE_NAME ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypes.g:161:4: ^( TEXT VARIABLE_NAME )
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:160:3: ( ^( TEXT VARIABLE_NAME ) )
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypes.g:161:4: ^( TEXT VARIABLE_NAME )
             {
             match(input,TEXT,FOLLOW_TEXT_in_textVariableRef270); if (state.failed) return ;
 

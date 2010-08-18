@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-08-06 21:34:40
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-08-18 10:34:57
 
   package org.coode.parsers.oppl.lint;
   import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -55,13 +55,13 @@ public class OPPLLintCombined_OPPLParser extends Parser {
     public static final int IN_SET_CONSTRAINT=95;
     public static final int SEMICOLON=422;
     public static final int VALUE=18;
-    public static final int FAIL=535;
+    public static final int FAIL=466;
     public static final int GROUPS=356;
     public static final int OPEN_CURLY_BRACES=6;
     public static final int DISJUNCTION=55;
     public static final int INVERSE=19;
     public static final int WS=546;
-    public static final int NAF_CONSTRAINT=574;
+    public static final int NAF_CONSTRAINT=467;
     public static final int OPPL_LINT=119;
     public static final int DBLQUOTE=40;
     public static final int STRING_OPERATION=586;
@@ -475,7 +475,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: opplFunction, VARIABLE_TYPE, VARIABLE_NAME
+                    // elements: VARIABLE_NAME, opplFunction, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -535,7 +535,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, expression, VARIABLE_TYPE
+                    // elements: expression, VARIABLE_TYPE, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -597,7 +597,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: regexp, VARIABLE_TYPE, VARIABLE_NAME
+                    // elements: VARIABLE_TYPE, VARIABLE_NAME, regexp
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -665,7 +665,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: variableScope, VARIABLE_TYPE, VARIABLE_NAME
+                    // elements: variableScope, VARIABLE_NAME, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -979,7 +979,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: stringOperation, MATCH
+            // elements: MATCH, stringOperation
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3007,7 +3007,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, a, DOT
+                    // elements: a, DOT, VARIABLE_NAME
                     // token labels: a
                     // rule labels: retval
                     // token list labels: 
@@ -3059,7 +3059,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: GROUPS, attributeSelector, VARIABLE_NAME, DOT
+                    // elements: attributeSelector, GROUPS, VARIABLE_NAME, DOT
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3252,9 +3252,9 @@ public class OPPLLintCombined_OPPLParser extends Parser {
     public static final BitSet FOLLOW_selectClause_in_query517 = new BitSet(new long[]{0x0000002000000002L,0x0000000000000080L});
     public static final BitSet FOLLOW_COMMA_in_query520 = new BitSet(new long[]{0x0000310FE4781060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
     public static final BitSet FOLLOW_selectClause_in_query522 = new BitSet(new long[]{0x0000002000000002L,0x0000000000000080L});
-    public static final BitSet FOLLOW_WHERE_in_query527 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_WHERE_in_query527 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000050000L});
     public static final BitSet FOLLOW_constraint_in_query529 = new BitSet(new long[]{0x0000002000000002L});
-    public static final BitSet FOLLOW_COMMA_in_query532 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_COMMA_in_query532 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000050000L});
     public static final BitSet FOLLOW_constraint_in_query534 = new BitSet(new long[]{0x0000002000000002L});
     public static final BitSet FOLLOW_ASSERTED_in_selectClause571 = new BitSet(new long[]{0x0000310FE4781060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
     public static final BitSet FOLLOW_axiom_in_selectClause573 = new BitSet(new long[]{0x0000000000000002L});

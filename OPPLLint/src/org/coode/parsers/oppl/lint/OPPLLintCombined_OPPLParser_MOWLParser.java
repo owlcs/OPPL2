@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2010-08-06 21:34:40
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2010-08-18 10:34:57
 
   package org.coode.parsers.oppl.lint;
   import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -55,13 +55,13 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
     public static final int IN_SET_CONSTRAINT=95;
     public static final int SEMICOLON=422;
     public static final int VALUE=18;
-    public static final int FAIL=535;
+    public static final int FAIL=466;
     public static final int GROUPS=356;
     public static final int OPEN_CURLY_BRACES=6;
     public static final int DISJUNCTION=55;
     public static final int INVERSE=19;
     public static final int WS=546;
-    public static final int NAF_CONSTRAINT=574;
+    public static final int NAF_CONSTRAINT=467;
     public static final int OPPL_LINT=119;
     public static final int DBLQUOTE=40;
     public static final int STRING_OPERATION=586;
@@ -863,7 +863,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: disjoint, lhs
+                    // elements: lhs, disjoint
                     // token labels: 
                     // rule labels: retval, disjoint, lhs
                     // token list labels: 
@@ -931,7 +931,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhs, superProperty
+                    // elements: superProperty, lhs
                     // token labels: 
                     // rule labels: retval, superProperty, lhs
                     // token list labels: 
@@ -1135,7 +1135,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, rhsID
+                    // elements: rhsID, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval, rhsID
                     // token list labels: 
@@ -1203,7 +1203,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, expression, DOMAIN
+                    // elements: expression, DOMAIN, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -1270,7 +1270,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: RANGE, lhsID, expression
+                    // elements: expression, lhsID, RANGE
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -2455,7 +2455,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: head, rest
+                    // elements: rest, head
                     // token labels: 
                     // rule labels: retval, head
                     // token list labels: 
@@ -3166,7 +3166,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: propertyExpression, INTEGER, unary, restrictionKind
+            // elements: unary, propertyExpression, restrictionKind, INTEGER
             // token labels: 
             // rule labels: retval
             // token list labels: 

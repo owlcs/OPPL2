@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g 2010-08-06 21:34:40
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g 2010-08-18 10:34:57
 package org.coode.parsers.oppl.lint;
 
 import org.antlr.runtime.BitSet;
@@ -52,8 +52,8 @@ public class OPPLLintCombinedParser extends Parser {
 			"VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE",
 			"VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "OPPL_LINT",
 			"ESCLAMATION_MARK", "MATCH", "VALUES", "RENDERING", "GROUPS",
-			"DOLLAR", "RETURN", "SEMICOLON", "VARIABLE_NAME", "DESCRIPTION",
-			"EXPLANATION", "TEXT", "FAIL", "WS", "NAF_CONSTRAINT",
+			"DOLLAR", "RETURN", "SEMICOLON", "VARIABLE_NAME", "FAIL",
+			"NAF_CONSTRAINT", "DESCRIPTION", "EXPLANATION", "TEXT", "WS",
 			"REGEXP_CONSTRAINT", "ATTRIBUTE_SELECTOR", "STRING_OPERATION",
 			"SUBPROPERTY_OF" };
 	public static final int VALUE_RESTRICTION = 63;
@@ -96,13 +96,13 @@ public class OPPLLintCombinedParser extends Parser {
 	public static final int IN_SET_CONSTRAINT = 95;
 	public static final int SEMICOLON = 422;
 	public static final int VALUE = 18;
-	public static final int FAIL = 535;
+	public static final int FAIL = 466;
 	public static final int GROUPS = 356;
 	public static final int OPEN_CURLY_BRACES = 6;
 	public static final int DISJUNCTION = 55;
 	public static final int INVERSE = 19;
 	public static final int WS = 546;
-	public static final int NAF_CONSTRAINT = 574;
+	public static final int NAF_CONSTRAINT = 467;
 	public static final int OPPL_LINT = 119;
 	public static final int DBLQUOTE = 40;
 	public static final int STRING_OPERATION = 586;
@@ -213,7 +213,7 @@ public class OPPLLintCombinedParser extends Parser {
 
 	@Override
 	public String getGrammarFileName() {
-		return "/Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g";
+		return "/Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g";
 	}
 
 	private ErrorListener errorListener;
@@ -257,7 +257,7 @@ public class OPPLLintCombinedParser extends Parser {
 	};
 
 	// $ANTLR start "lint"
-	// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:72:1:
+	// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:72:1:
 	// lint : name= text SEMICOLON statement returnClause SEMICOLON exp= text
 	// SEMICOLON description -> ^( OPPL_LINT IDENTIFIER[$name.text] statement
 	// returnClause ^( EXPLANATION[$exp.text] $exp) description ) ;
@@ -288,12 +288,12 @@ public class OPPLLintCombinedParser extends Parser {
 		RewriteRuleSubtreeStream stream_description = new RewriteRuleSubtreeStream(
 				this.adaptor, "rule description");
 		try {
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:73:3:
+			// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:73:3:
 			// (name= text SEMICOLON statement returnClause SEMICOLON exp= text
 			// SEMICOLON description -> ^( OPPL_LINT IDENTIFIER[$name.text]
 			// statement returnClause ^( EXPLANATION[$exp.text] $exp)
 			// description ) )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:74:5:
+			// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:74:5:
 			// name= text SEMICOLON statement returnClause SEMICOLON exp= text
 			// SEMICOLON description
 			{
@@ -367,7 +367,7 @@ public class OPPLLintCombinedParser extends Parser {
 					stream_description.add(description6.getTree());
 				}
 				// AST REWRITE
-				// elements: statement, returnClause, exp, description
+				// elements: returnClause, description, exp, statement
 				// token labels:
 				// rule labels: exp, retval
 				// token list labels:
@@ -386,7 +386,7 @@ public class OPPLLintCombinedParser extends Parser {
 					// returnClause ^( EXPLANATION[$exp.text] $exp) description
 					// )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:74:97:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:74:97:
 						// ^( OPPL_LINT IDENTIFIER[$name.text] statement
 						// returnClause ^( EXPLANATION[$exp.text] $exp)
 						// description )
@@ -404,7 +404,7 @@ public class OPPLLintCombinedParser extends Parser {
 									.nextTree());
 							this.adaptor.addChild(root_1, stream_returnClause
 									.nextTree());
-							// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:74:155:
+							// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:74:155:
 							// ^( EXPLANATION[$exp.text] $exp)
 							{
 								OPPLSyntaxTree root_2 = (OPPLSyntaxTree) this.adaptor
@@ -459,7 +459,7 @@ public class OPPLLintCombinedParser extends Parser {
 	};
 
 	// $ANTLR start "text"
-	// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:77:1:
+	// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:77:1:
 	// text : (t= textBit )+ -> ^( TEXT[builder.toString()] ( textBit )+ ) ;
 	public final OPPLLintCombinedParser.text_return text()
 			throws RecognitionException {
@@ -471,12 +471,12 @@ public class OPPLLintCombinedParser extends Parser {
 				this.adaptor, "rule textBit");
 		StringBuilder builder = new StringBuilder();
 		try {
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:83:1:
+			// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:83:1:
 			// ( (t= textBit )+ -> ^( TEXT[builder.toString()] ( textBit )+ ) )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:84:1:
+			// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:84:1:
 			// (t= textBit )+
 			{
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:84:1:
+				// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:84:1:
 				// (t= textBit )+
 				int cnt1 = 0;
 				loop1: do {
@@ -488,7 +488,7 @@ public class OPPLLintCombinedParser extends Parser {
 					}
 					switch (alt1) {
 					case 1:
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:84:3:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:84:3:
 						// t= textBit
 					{
 						this.pushFollow(FOLLOW_textBit_in_text186);
@@ -536,7 +536,7 @@ public class OPPLLintCombinedParser extends Parser {
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
 					// 88:8: -> ^( TEXT[builder.toString()] ( textBit )+ )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:88:11:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:88:11:
 						// ^( TEXT[builder.toString()] ( textBit )+ )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor
@@ -589,7 +589,7 @@ public class OPPLLintCombinedParser extends Parser {
 	};
 
 	// $ANTLR start "textBit"
-	// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:91:1:
+	// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:91:1:
 	// textBit : ( IDENTIFIER -> ^( TEXT[$IDENTIFIER.text] ) | VARIABLE_NAME ->
 	// ^( TEXT VARIABLE_NAME ) | FUNCTIONAL -> ^( TEXT[$FUNCTIONAL.text] ) |
 	// INVERSE_FUNCTIONAL -> ^( TEXT[$INVERSE_FUNCTIONAL.text] ) | SYMMETRIC ->
@@ -639,7 +639,7 @@ public class OPPLLintCombinedParser extends Parser {
 		RewriteRuleTokenStream stream_IRREFLEXIVE = new RewriteRuleTokenStream(
 				this.adaptor, "token IRREFLEXIVE");
 		try {
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:92:2:
+			// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:92:2:
 			// ( IDENTIFIER -> ^( TEXT[$IDENTIFIER.text] ) | VARIABLE_NAME -> ^(
 			// TEXT VARIABLE_NAME ) | FUNCTIONAL -> ^( TEXT[$FUNCTIONAL.text] )
 			// | INVERSE_FUNCTIONAL -> ^( TEXT[$INVERSE_FUNCTIONAL.text] ) |
@@ -697,7 +697,7 @@ public class OPPLLintCombinedParser extends Parser {
 			}
 			switch (alt2) {
 			case 1:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:93:2:
+				// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:93:2:
 				// IDENTIFIER
 			{
 				IDENTIFIER7 = (Token) this.match(this.input, IDENTIFIER,
@@ -723,7 +723,7 @@ public class OPPLLintCombinedParser extends Parser {
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
 					// 93:13: -> ^( TEXT[$IDENTIFIER.text] )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:93:16:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:93:16:
 						// ^( TEXT[$IDENTIFIER.text] )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor
@@ -740,7 +740,7 @@ public class OPPLLintCombinedParser extends Parser {
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:94:4:
+				// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:94:4:
 				// VARIABLE_NAME
 			{
 				VARIABLE_NAME8 = (Token) this.match(this.input, VARIABLE_NAME,
@@ -766,7 +766,7 @@ public class OPPLLintCombinedParser extends Parser {
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
 					// 94:19: -> ^( TEXT VARIABLE_NAME )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:94:22:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:94:22:
 						// ^( TEXT VARIABLE_NAME )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor
@@ -783,7 +783,7 @@ public class OPPLLintCombinedParser extends Parser {
 			}
 				break;
 			case 3:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:95:4:
+				// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:95:4:
 				// FUNCTIONAL
 			{
 				FUNCTIONAL9 = (Token) this.match(this.input, FUNCTIONAL,
@@ -809,7 +809,7 @@ public class OPPLLintCombinedParser extends Parser {
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
 					// 95:15: -> ^( TEXT[$FUNCTIONAL.text] )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:95:18:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:95:18:
 						// ^( TEXT[$FUNCTIONAL.text] )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor
@@ -826,7 +826,7 @@ public class OPPLLintCombinedParser extends Parser {
 			}
 				break;
 			case 4:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:96:8:
+				// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:96:8:
 				// INVERSE_FUNCTIONAL
 			{
 				INVERSE_FUNCTIONAL10 = (Token) this.match(this.input,
@@ -853,7 +853,7 @@ public class OPPLLintCombinedParser extends Parser {
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
 					// 96:27: -> ^( TEXT[$INVERSE_FUNCTIONAL.text] )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:96:30:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:96:30:
 						// ^( TEXT[$INVERSE_FUNCTIONAL.text] )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor
@@ -875,7 +875,7 @@ public class OPPLLintCombinedParser extends Parser {
 			}
 				break;
 			case 5:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:97:7:
+				// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:97:7:
 				// SYMMETRIC
 			{
 				SYMMETRIC11 = (Token) this.match(this.input, SYMMETRIC,
@@ -901,7 +901,7 @@ public class OPPLLintCombinedParser extends Parser {
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
 					// 97:17: -> ^( TEXT[$SYMMETRIC.text] )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:97:20:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:97:20:
 						// ^( TEXT[$SYMMETRIC.text] )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor
@@ -918,7 +918,7 @@ public class OPPLLintCombinedParser extends Parser {
 			}
 				break;
 			case 6:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:98:7:
+				// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:98:7:
 				// ANTI_SYMMETRIC
 			{
 				ANTI_SYMMETRIC12 = (Token) this.match(this.input,
@@ -944,7 +944,7 @@ public class OPPLLintCombinedParser extends Parser {
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
 					// 98:22: -> ^( TEXT[$ANTI_SYMMETRIC.text] )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:98:25:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:98:25:
 						// ^( TEXT[$ANTI_SYMMETRIC.text] )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor
@@ -966,7 +966,7 @@ public class OPPLLintCombinedParser extends Parser {
 			}
 				break;
 			case 7:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:99:7:
+				// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:99:7:
 				// REFLEXIVE
 			{
 				REFLEXIVE13 = (Token) this.match(this.input, REFLEXIVE,
@@ -992,7 +992,7 @@ public class OPPLLintCombinedParser extends Parser {
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
 					// 99:17: -> ^( TEXT[$REFLEXIVE.text] )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:99:20:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:99:20:
 						// ^( TEXT[$REFLEXIVE.text] )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor
@@ -1009,7 +1009,7 @@ public class OPPLLintCombinedParser extends Parser {
 			}
 				break;
 			case 8:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:100:7:
+				// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:100:7:
 				// IRREFLEXIVE
 			{
 				IRREFLEXIVE14 = (Token) this.match(this.input, IRREFLEXIVE,
@@ -1035,7 +1035,7 @@ public class OPPLLintCombinedParser extends Parser {
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
 					// 100:19: -> ^( TEXT[$IRREFLEXIVE.text] )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:100:22:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:100:22:
 						// ^( TEXT[$IRREFLEXIVE.text] )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor
@@ -1057,7 +1057,7 @@ public class OPPLLintCombinedParser extends Parser {
 			}
 				break;
 			case 9:
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:101:8:
+				// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:101:8:
 				// TRANSITIVE
 			{
 				TRANSITIVE15 = (Token) this.match(this.input, TRANSITIVE,
@@ -1083,7 +1083,7 @@ public class OPPLLintCombinedParser extends Parser {
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
 					// 101:19: -> ^( TEXT[$TRANSITIVE.text] )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:101:22:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:101:22:
 						// ^( TEXT[$TRANSITIVE.text] )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor
@@ -1136,7 +1136,7 @@ public class OPPLLintCombinedParser extends Parser {
 	};
 
 	// $ANTLR start "statement"
-	// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:104:1:
+	// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:104:1:
 	// statement : ( variableDefinitions )? query ( actions )? -> ^(
 	// OPPL_STATEMENT ( variableDefinitions )? query ( actions )? ) ;
 	public final OPPLLintCombinedParser.statement_return statement()
@@ -1154,13 +1154,13 @@ public class OPPLLintCombinedParser extends Parser {
 		RewriteRuleSubtreeStream stream_actions = new RewriteRuleSubtreeStream(
 				this.adaptor, "rule actions");
 		try {
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:105:3:
+			// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:105:3:
 			// ( ( variableDefinitions )? query ( actions )? -> ^(
 			// OPPL_STATEMENT ( variableDefinitions )? query ( actions )? ) )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:106:5:
+			// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:106:5:
 			// ( variableDefinitions )? query ( actions )?
 			{
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:106:5:
+				// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:106:5:
 				// ( variableDefinitions )?
 				int alt3 = 2;
 				int LA3_0 = this.input.LA(1);
@@ -1169,7 +1169,7 @@ public class OPPLLintCombinedParser extends Parser {
 				}
 				switch (alt3) {
 				case 1:
-					// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:106:5:
+					// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:106:5:
 					// variableDefinitions
 				{
 					this.pushFollow(FOLLOW_variableDefinitions_in_statement365);
@@ -1194,7 +1194,7 @@ public class OPPLLintCombinedParser extends Parser {
 				if (this.state.backtracking == 0) {
 					stream_query.add(query17.getTree());
 				}
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:106:32:
+				// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:106:32:
 				// ( actions )?
 				int alt4 = 2;
 				int LA4_0 = this.input.LA(1);
@@ -1203,7 +1203,7 @@ public class OPPLLintCombinedParser extends Parser {
 				}
 				switch (alt4) {
 				case 1:
-					// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:106:32:
+					// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:106:32:
 					// actions
 				{
 					this.pushFollow(FOLLOW_actions_in_statement370);
@@ -1219,7 +1219,7 @@ public class OPPLLintCombinedParser extends Parser {
 					break;
 				}
 				// AST REWRITE
-				// elements: variableDefinitions, actions, query
+				// elements: query, variableDefinitions, actions
 				// token labels:
 				// rule labels: retval
 				// token list labels:
@@ -1234,7 +1234,7 @@ public class OPPLLintCombinedParser extends Parser {
 					// 106:41: -> ^( OPPL_STATEMENT ( variableDefinitions )?
 					// query ( actions )? )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:106:44:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:106:44:
 						// ^( OPPL_STATEMENT ( variableDefinitions )? query (
 						// actions )? )
 						{
@@ -1243,7 +1243,7 @@ public class OPPLLintCombinedParser extends Parser {
 							root_1 = (OPPLSyntaxTree) this.adaptor.becomeRoot(
 									this.adaptor.create(OPPL_STATEMENT,
 											"OPPL_STATEMENT"), root_1);
-							// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:106:61:
+							// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:106:61:
 							// ( variableDefinitions )?
 							if (stream_variableDefinitions.hasNext()) {
 								this.adaptor.addChild(root_1,
@@ -1252,7 +1252,7 @@ public class OPPLLintCombinedParser extends Parser {
 							stream_variableDefinitions.reset();
 							this.adaptor.addChild(root_1, stream_query
 									.nextTree());
-							// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:106:88:
+							// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:106:88:
 							// ( actions )?
 							if (stream_actions.hasNext()) {
 								this.adaptor.addChild(root_1, stream_actions
@@ -1296,7 +1296,7 @@ public class OPPLLintCombinedParser extends Parser {
 	};
 
 	// $ANTLR start "returnClause"
-	// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:111:1:
+	// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:111:1:
 	// returnClause : RETURN returnValue -> ^( RETURN returnValue ) ;
 	public final OPPLLintCombinedParser.returnClause_return returnClause()
 			throws RecognitionException {
@@ -1311,9 +1311,9 @@ public class OPPLLintCombinedParser extends Parser {
 		RewriteRuleSubtreeStream stream_returnValue = new RewriteRuleSubtreeStream(
 				this.adaptor, "rule returnValue");
 		try {
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:112:3:
+			// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:112:3:
 			// ( RETURN returnValue -> ^( RETURN returnValue ) )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:113:5:
+			// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:113:5:
 			// RETURN returnValue
 			{
 				RETURN19 = (Token) this.match(this.input, RETURN,
@@ -1348,7 +1348,7 @@ public class OPPLLintCombinedParser extends Parser {
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
 					// 113:25: -> ^( RETURN returnValue )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:113:27:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:113:27:
 						// ^( RETURN returnValue )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor
@@ -1394,7 +1394,7 @@ public class OPPLLintCombinedParser extends Parser {
 	};
 
 	// $ANTLR start "returnValue"
-	// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:116:1:
+	// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:116:1:
 	// returnValue : VARIABLE_NAME -> VARIABLE_NAME ;
 	public final OPPLLintCombinedParser.returnValue_return returnValue()
 			throws RecognitionException {
@@ -1406,9 +1406,9 @@ public class OPPLLintCombinedParser extends Parser {
 		RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(
 				this.adaptor, "token VARIABLE_NAME");
 		try {
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:117:3:
+			// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:117:3:
 			// ( VARIABLE_NAME -> VARIABLE_NAME )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:118:7:
+			// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:118:7:
 			// VARIABLE_NAME
 			{
 				VARIABLE_NAME21 = (Token) this.match(this.input, VARIABLE_NAME,
@@ -1471,7 +1471,7 @@ public class OPPLLintCombinedParser extends Parser {
 	};
 
 	// $ANTLR start "description"
-	// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:121:1:
+	// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:121:1:
 	// description : (a= . )+ -> ^( DESCRIPTION[builder.toString()] ( $a)+ ) ;
 	public final OPPLLintCombinedParser.description_return description()
 			throws RecognitionException {
@@ -1482,12 +1482,12 @@ public class OPPLLintCombinedParser extends Parser {
 		OPPLSyntaxTree a_tree = null;
 		StringBuilder builder = new StringBuilder();
 		try {
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:126:3:
+			// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:126:3:
 			// ( (a= . )+ -> ^( DESCRIPTION[builder.toString()] ( $a)+ ) )
-			// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:127:5:
+			// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:127:5:
 			// (a= . )+
 			{
-				// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:127:5:
+				// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:127:5:
 				// (a= . )+
 				int cnt5 = 0;
 				loop5: do {
@@ -1498,7 +1498,7 @@ public class OPPLLintCombinedParser extends Parser {
 					}
 					switch (alt5) {
 					case 1:
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:127:6:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:127:6:
 						// a= .
 					{
 						a = this.input.LT(1);
@@ -1547,7 +1547,7 @@ public class OPPLLintCombinedParser extends Parser {
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
 					// 132:9: -> ^( DESCRIPTION[builder.toString()] ( $a)+ )
 					{
-						// /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintCombined.g:132:11:
+						// /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintCombined.g:132:11:
 						// ^( DESCRIPTION[builder.toString()] ( $a)+ )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor
@@ -1591,19 +1591,14 @@ public class OPPLLintCombinedParser extends Parser {
 
 	// $ANTLR end "description"
 	// Delegated rules
-	public OPPLLintCombined_OPPLParser_MOWLParser.oneOf_return oneOf()
-			throws RecognitionException {
-		return this.gMOWLParser.oneOf();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.restrictionKind_return restrictionKind()
-			throws RecognitionException {
-		return this.gMOWLParser.restrictionKind();
-	}
-
 	public OPPLLintCombined_OPPLParser_MOWLParser.unaryCharacteristic_return unaryCharacteristic()
 			throws RecognitionException {
 		return this.gMOWLParser.unaryCharacteristic();
+	}
+
+	public OPPLLintCombined_OPPLParser.stringExpression_return stringExpression()
+			throws RecognitionException {
+		return this.gOPPLParser.stringExpression();
 	}
 
 	public OPPLLintCombined_OPPLParser_MOWLParser.assertionAxiom_return assertionAxiom()
@@ -1611,44 +1606,39 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gMOWLParser.assertionAxiom();
 	}
 
-	public OPPLLintCombined_OPPLParser.stringOperation_return stringOperation()
+	public OPPLLintCombined_OPPLParser.atomic_return atomic()
 			throws RecognitionException {
-		return this.gOPPLParser.stringOperation();
+		return this.gOPPLParser.atomic();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.conjunction_return conjunction()
+	public OPPLLintCombined_OPPLParser.variableDefinitions_return variableDefinitions()
 			throws RecognitionException {
-		return this.gMOWLParser.conjunction();
+		return this.gOPPLParser.variableDefinitions();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.axiom_return axiom()
+	public OPPLLintCombined_OPPLParser.variableDefinition_return variableDefinition()
 			throws RecognitionException {
-		return this.gMOWLParser.axiom();
+		return this.gOPPLParser.variableDefinition();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.propertyExpression_return propertyExpression()
+	public OPPLLintCombined_OPPLParser.opplFunction_return opplFunction()
 			throws RecognitionException {
-		return this.gMOWLParser.propertyExpression();
+		return this.gOPPLParser.opplFunction();
 	}
 
-	public OPPLLintCombined_OPPLParser.createIdentifier_return createIdentifier()
+	public OPPLLintCombined_OPPLParser_MOWLParser.constant_return constant()
 			throws RecognitionException {
-		return this.gOPPLParser.createIdentifier();
+		return this.gMOWLParser.constant();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.value_return value()
+	public OPPLLintCombined_OPPLParser.query_return query()
 			throws RecognitionException {
-		return this.gMOWLParser.value();
+		return this.gOPPLParser.query();
 	}
 
 	public OPPLLintCombined_OPPLParser_MOWLParser.cardinalityRestriction_return cardinalityRestriction()
 			throws RecognitionException {
 		return this.gMOWLParser.cardinalityRestriction();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.unary_return unary()
-			throws RecognitionException {
-		return this.gMOWLParser.unary();
 	}
 
 	public OPPLLintCombined_OPPLParser.regexp_return regexp()
@@ -1661,9 +1651,19 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gMOWLParser.expression();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.constant_return constant()
+	public OPPLLintCombined_OPPLParser.variableScope_return variableScope()
 			throws RecognitionException {
-		return this.gMOWLParser.constant();
+		return this.gOPPLParser.variableScope();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.axiom_return axiom()
+			throws RecognitionException {
+		return this.gMOWLParser.axiom();
+	}
+
+	public OPPLLintCombined_OPPLParser.constraint_return constraint()
+			throws RecognitionException {
+		return this.gOPPLParser.constraint();
 	}
 
 	public OPPLLintCombined_OPPLParser_MOWLParser.unaryAxiom_return unaryAxiom()
@@ -1671,29 +1671,44 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gMOWLParser.unaryAxiom();
 	}
 
-	public OPPLLintCombined_OPPLParser.variableDefinitions_return variableDefinitions()
+	public OPPLLintCombined_OPPLParser_MOWLParser.propertyExpression_return propertyExpression()
 			throws RecognitionException {
-		return this.gOPPLParser.variableDefinitions();
+		return this.gMOWLParser.propertyExpression();
 	}
 
-	public OPPLLintCombined_OPPLParser.opplFunction_return opplFunction()
+	public OPPLLintCombined_OPPLParser_MOWLParser.value_return value()
 			throws RecognitionException {
-		return this.gOPPLParser.opplFunction();
+		return this.gMOWLParser.value();
 	}
 
-	public OPPLLintCombined_OPPLParser.variableScope_return variableScope()
+	public OPPLLintCombined_OPPLParser.selectClause_return selectClause()
 			throws RecognitionException {
-		return this.gOPPLParser.variableScope();
+		return this.gOPPLParser.selectClause();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.valueRestriction_return valueRestriction()
+	public OPPLLintCombined_OPPLParser.stringOperation_return stringOperation()
 			throws RecognitionException {
-		return this.gMOWLParser.valueRestriction();
+		return this.gOPPLParser.stringOperation();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.qualifiedRestriction_return qualifiedRestriction()
+	public OPPLLintCombined_OPPLParser_MOWLParser.conjunction_return conjunction()
 			throws RecognitionException {
-		return this.gMOWLParser.qualifiedRestriction();
+		return this.gMOWLParser.conjunction();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.oneOf_return oneOf()
+			throws RecognitionException {
+		return this.gMOWLParser.oneOf();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.restrictionKind_return restrictionKind()
+			throws RecognitionException {
+		return this.gMOWLParser.restrictionKind();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.binaryAxiom_return binaryAxiom()
+			throws RecognitionException {
+		return this.gMOWLParser.binaryAxiom();
 	}
 
 	public OPPLLintCombined_OPPLParser_MOWLParser.complexPropertyExpression_return complexPropertyExpression()
@@ -1701,9 +1716,29 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gMOWLParser.complexPropertyExpression();
 	}
 
-	public OPPLLintCombined_OPPLParser.atomic_return atomic()
+	public OPPLLintCombined_OPPLParser_MOWLParser.valueRestriction_return valueRestriction()
 			throws RecognitionException {
-		return this.gOPPLParser.atomic();
+		return this.gMOWLParser.valueRestriction();
+	}
+
+	public OPPLLintCombined_OPPLParser.action_return action()
+			throws RecognitionException {
+		return this.gOPPLParser.action();
+	}
+
+	public OPPLLintCombined_OPPLParser.actions_return actions()
+			throws RecognitionException {
+		return this.gOPPLParser.actions();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.unary_return unary()
+			throws RecognitionException {
+		return this.gMOWLParser.unary();
+	}
+
+	public OPPLLintCombined_OPPLParser.createIdentifier_return createIdentifier()
+			throws RecognitionException {
+		return this.gOPPLParser.createIdentifier();
 	}
 
 	public OPPLLintCombined_OPPLParser.variableAttributeReference_return variableAttributeReference()
@@ -1716,44 +1751,9 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gOPPLParser.attributeSelector();
 	}
 
-	public OPPLLintCombined_OPPLParser.action_return action()
+	public OPPLLintCombined_OPPLParser_MOWLParser.qualifiedRestriction_return qualifiedRestriction()
 			throws RecognitionException {
-		return this.gOPPLParser.action();
-	}
-
-	public OPPLLintCombined_OPPLParser.stringExpression_return stringExpression()
-			throws RecognitionException {
-		return this.gOPPLParser.stringExpression();
-	}
-
-	public OPPLLintCombined_OPPLParser.query_return query()
-			throws RecognitionException {
-		return this.gOPPLParser.query();
-	}
-
-	public OPPLLintCombined_OPPLParser.variableDefinition_return variableDefinition()
-			throws RecognitionException {
-		return this.gOPPLParser.variableDefinition();
-	}
-
-	public OPPLLintCombined_OPPLParser.constraint_return constraint()
-			throws RecognitionException {
-		return this.gOPPLParser.constraint();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.binaryAxiom_return binaryAxiom()
-			throws RecognitionException {
-		return this.gMOWLParser.binaryAxiom();
-	}
-
-	public OPPLLintCombined_OPPLParser.actions_return actions()
-			throws RecognitionException {
-		return this.gOPPLParser.actions();
-	}
-
-	public OPPLLintCombined_OPPLParser.selectClause_return selectClause()
-			throws RecognitionException {
-		return this.gOPPLParser.selectClause();
+		return this.gMOWLParser.qualifiedRestriction();
 	}
 
 	public static final BitSet FOLLOW_text_in_lint119 = new BitSet(new long[] {

@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypesParts.g 2010-07-30 22:17:19
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypesParts.g 2010-08-18 10:35:36
 
   package org.coode.parsers.oppl.lint;
   import org.coode.parsers.ErrorListener;
@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.HashMap;
 public class OPPLLintTypesParts extends TreeFilter {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED", "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION", "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF", "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE", "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION", "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "OPPL_LINT", "ESCLAMATION_MARK", "MATCH", "VALUES", "RENDERING", "GROUPS", "DOLLAR", "RETURN", "SEMICOLON", "VARIABLE_NAME", "DESCRIPTION", "EXPLANATION", "TEXT"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED", "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION", "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF", "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE", "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION", "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "OPPL_LINT", "ESCLAMATION_MARK", "MATCH", "VALUES", "RENDERING", "GROUPS", "DOLLAR", "RETURN", "SEMICOLON", "VARIABLE_NAME", "FAIL", "NAF_CONSTRAINT", "DESCRIPTION", "EXPLANATION", "TEXT"
     };
     public static final int VALUE_RESTRICTION=63;
     public static final int LETTER=43;
@@ -61,10 +61,12 @@ public class OPPLLintTypesParts extends TreeFilter {
     public static final int IN_SET_CONSTRAINT=95;
     public static final int SEMICOLON=422;
     public static final int VALUE=18;
+    public static final int FAIL=466;
     public static final int GROUPS=356;
     public static final int OPEN_CURLY_BRACES=6;
     public static final int DISJUNCTION=55;
     public static final int INVERSE=19;
+    public static final int NAF_CONSTRAINT=467;
     public static final int OPPL_LINT=119;
     public static final int DBLQUOTE=40;
     public static final int OR=11;
@@ -153,7 +155,7 @@ public class OPPLLintTypesParts extends TreeFilter {
         
 
     public String[] getTokenNames() { return OPPLLintTypesParts.tokenNames; }
-    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypesParts.g"; }
+    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypesParts.g"; }
 
 
       private OPPLSymbolTable symtab;
@@ -215,11 +217,11 @@ public class OPPLLintTypesParts extends TreeFilter {
 
 
     // $ANTLR start "bottomup"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypesParts.g:95:1: bottomup : textVariableRef ;
+    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypesParts.g:95:1: bottomup : textVariableRef ;
     public final void bottomup() throws RecognitionException {
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypesParts.g:96:5: ( textVariableRef )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypesParts.g:97:6: textVariableRef
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypesParts.g:96:5: ( textVariableRef )
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypesParts.g:97:6: textVariableRef
             {
             pushFollow(FOLLOW_textVariableRef_in_bottomup81);
             textVariableRef();
@@ -250,13 +252,13 @@ public class OPPLLintTypesParts extends TreeFilter {
 
 
     // $ANTLR start "textVariableRef"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypesParts.g:103:2: textVariableRef : ^( TEXT VARIABLE_NAME ) ;
+    // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypesParts.g:103:2: textVariableRef : ^( TEXT VARIABLE_NAME ) ;
     public final void textVariableRef() throws RecognitionException {
         OPPLSyntaxTree VARIABLE_NAME1=null;
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypesParts.g:104:3: ( ^( TEXT VARIABLE_NAME ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLLintTypesParts.g:105:4: ^( TEXT VARIABLE_NAME )
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypesParts.g:104:3: ( ^( TEXT VARIABLE_NAME ) )
+            // /Users/luigi/Documents/workspace/Parsers_OWL_API_2/src/OPPLLintTypesParts.g:105:4: ^( TEXT VARIABLE_NAME )
             {
             match(input,TEXT,FOLLOW_TEXT_in_textVariableRef107); if (state.failed) return ;
 

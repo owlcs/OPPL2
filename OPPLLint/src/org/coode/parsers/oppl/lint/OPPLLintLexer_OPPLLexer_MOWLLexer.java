@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.lint;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLLexer.g 2010-07-30 23:42:48
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLLexer.g 2010-08-18 10:23:58
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -44,7 +44,7 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 	public static final int MATCH = 176;
 	public static final int SEMICOLON = 422;
 	public static final int VALUE = 18;
-	public static final int FAIL = 535;
+	public static final int FAIL = 466;
 	public static final int GROUPS = 356;
 	public static final int OPEN_CURLY_BRACES = 6;
 	public static final int DISJUNCTION = 55;
@@ -1178,9 +1178,6 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 					}
 				} while (true);
 				this.match('\"');
-				String quote, dblDblQuote, cont;
-				char quoteChr = 34;
-				quote = "\n";
 				String txt = this.getText();
 				// Remove first and last double-quote
 				if (txt.startsWith("\"")) {
@@ -1203,10 +1200,10 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 		try {
 			int _type = INTEGER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// MOWLLexer.g:140:8: ( ( DIGIT )+ )
-			// MOWLLexer.g:140:10: ( DIGIT )+
+			// MOWLLexer.g:136:8: ( ( DIGIT )+ )
+			// MOWLLexer.g:136:10: ( DIGIT )+
 			{
-				// MOWLLexer.g:140:10: ( DIGIT )+
+				// MOWLLexer.g:136:10: ( DIGIT )+
 				int cnt16 = 0;
 				loop16: do {
 					int alt16 = 2;
@@ -1216,7 +1213,7 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 					}
 					switch (alt16) {
 					case 1:
-						// MOWLLexer.g:140:10: DIGIT
+						// MOWLLexer.g:136:10: DIGIT
 					{
 						this.mDIGIT();
 					}
@@ -1242,8 +1239,8 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 	// $ANTLR start "LETTER"
 	public final void mLETTER() throws RecognitionException {
 		try {
-			// MOWLLexer.g:141:17: ( ( 'a' .. 'z' | 'A' .. 'Z' ) )
-			// MOWLLexer.g:141:19: ( 'a' .. 'z' | 'A' .. 'Z' )
+			// MOWLLexer.g:137:17: ( ( 'a' .. 'z' | 'A' .. 'Z' ) )
+			// MOWLLexer.g:137:19: ( 'a' .. 'z' | 'A' .. 'Z' )
 			{
 				if (this.input.LA(1) >= 'A' && this.input.LA(1) <= 'Z'
 						|| this.input.LA(1) >= 'a' && this.input.LA(1) <= 'z') {
@@ -1263,8 +1260,8 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 	// $ANTLR start "DIGIT"
 	public final void mDIGIT() throws RecognitionException {
 		try {
-			// MOWLLexer.g:142:15: ( '0' .. '9' )
-			// MOWLLexer.g:142:17: '0' .. '9'
+			// MOWLLexer.g:138:15: ( '0' .. '9' )
+			// MOWLLexer.g:138:17: '0' .. '9'
 			{
 				this.matchRange('0', '9');
 			}
@@ -1278,12 +1275,12 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 		try {
 			int _type = IDENTIFIER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// MOWLLexer.g:144:12: ( LETTER ( LETTER | DIGIT | '-' | '_' | ':'
+			// MOWLLexer.g:140:12: ( LETTER ( LETTER | DIGIT | '-' | '_' | ':'
 			// )* )
-			// MOWLLexer.g:144:14: LETTER ( LETTER | DIGIT | '-' | '_' | ':' )*
+			// MOWLLexer.g:140:14: LETTER ( LETTER | DIGIT | '-' | '_' | ':' )*
 			{
 				this.mLETTER();
-				// MOWLLexer.g:144:21: ( LETTER | DIGIT | '-' | '_' | ':' )*
+				// MOWLLexer.g:140:21: ( LETTER | DIGIT | '-' | '_' | ':' )*
 				loop17: do {
 					int alt17 = 2;
 					int LA17_0 = this.input.LA(1);
@@ -1329,37 +1326,60 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 		try {
 			int _type = ENTITY_REFERENCE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// MOWLLexer.g:145:18: ( '\\'' ( IDENTIFIER )+ '\\'' )
-			// MOWLLexer.g:146:5: '\\'' ( IDENTIFIER )+ '\\''
+			// MOWLLexer.g:141:18: ( '\\'' (~ '\\'' | '\\'\\'' )* '\\'' )
+			// MOWLLexer.g:142:5: '\\'' (~ '\\'' | '\\'\\'' )* '\\''
 			{
 				this.match('\'');
-				// MOWLLexer.g:146:10: ( IDENTIFIER )+
-				int cnt18 = 0;
+				// MOWLLexer.g:142:10: (~ '\\'' | '\\'\\'' )*
 				loop18: do {
-					int alt18 = 2;
+					int alt18 = 3;
 					int LA18_0 = this.input.LA(1);
-					if (LA18_0 >= 'A' && LA18_0 <= 'Z' || LA18_0 >= 'a'
-							&& LA18_0 <= 'z') {
+					if (LA18_0 == '\'') {
+						int LA18_1 = this.input.LA(2);
+						if (LA18_1 == '\'') {
+							alt18 = 2;
+						}
+					} else if (LA18_0 >= '\u0000' && LA18_0 <= '&'
+							|| LA18_0 >= '(' && LA18_0 <= '\uFFFF') {
 						alt18 = 1;
 					}
 					switch (alt18) {
 					case 1:
-						// MOWLLexer.g:146:10: IDENTIFIER
+						// MOWLLexer.g:142:11: ~ '\\''
 					{
-						this.mIDENTIFIER();
+						if (this.input.LA(1) >= '\u0000'
+								&& this.input.LA(1) <= '&'
+								|| this.input.LA(1) >= '('
+								&& this.input.LA(1) <= '\uFFFF') {
+							this.input.consume();
+						} else {
+							MismatchedSetException mse = new MismatchedSetException(
+									null, this.input);
+							this.recover(mse);
+							throw mse;
+						}
+					}
+						break;
+					case 2:
+						// MOWLLexer.g:142:19: '\\'\\''
+					{
+						this.match("''");
 					}
 						break;
 					default:
-						if (cnt18 >= 1) {
-							break loop18;
-						}
-						EarlyExitException eee = new EarlyExitException(18,
-								this.input);
-						throw eee;
+						break loop18;
 					}
-					cnt18++;
 				} while (true);
 				this.match('\'');
+				String txt = this.getText();
+				// Remove first and last double-quote
+				if (txt.startsWith("'")) {
+					txt = txt.substring(1);
+				}
+				if (txt.endsWith("'")) {
+					txt = txt.substring(0, txt.length() - 1);
+				}
+				this.setText(txt);
 			}
 			this.state.type = _type;
 			this.state.channel = _channel;
@@ -1631,13 +1651,13 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 			+ "\uffff\1\34\1\uffff\6\34\1\u00a2\13\34\1\u00ae\1\34\1\u00ae\2\34"
 			+ "\1\u00b2\3\34\1\u00b6\3\34\1\uffff\3\34\1\u00b6\2\34\1\u00bf\2\34"
 			+ "\1\u00bf\1\34\1\uffff\3\34\1\uffff\3\34\1\uffff\1\34\1\u00ca\6\34"
-			+ "\1\uffff\12\34\1\uffff\20\34\1\u00ec\1\34\1\u00ef\7\34\1\u00ef\1"
-			+ "\u00f7\3\34\1\u00fc\1\34\1\uffff\1\u00ec\1\34\1\uffff\1\34\1\u0100"
-			+ "\5\34\1\uffff\1\u00f7\1\u0106\1\u0108\1\34\1\uffff\3\34\1\uffff"
-			+ "\1\u010e\4\34\1\uffff\1\u0106\1\uffff\1\u0108\2\34\1\u0116\1\34"
-			+ "\1\uffff\1\u010e\1\34\1\u0119\1\34\1\u0119\1\u011c\1\u011d\1\uffff"
+			+ "\1\uffff\12\34\1\uffff\20\34\1\u00ed\1\34\1\u00ef\7\34\1\u00ef\1"
+			+ "\u00f8\3\34\1\u00fc\1\34\1\u00ed\1\uffff\1\34\1\uffff\1\34\1\u0100"
+			+ "\5\34\1\u00f8\1\uffff\1\u0107\1\u0109\1\34\1\uffff\3\34\1\uffff"
+			+ "\1\u010f\4\34\1\u0107\1\uffff\1\u0109\1\uffff\2\34\1\u0116\1\34"
+			+ "\1\u010f\1\uffff\1\34\1\u0119\1\34\1\u0119\1\u011c\1\u011d\1\uffff"
 			+ "\1\34\1\u011f\1\uffff\1\u011f\1\u011c\2\uffff\1\34\1\uffff\2\34"
-			+ "\1\u0123\1\uffff\1\u0123";
+			+ "\2\u0124\1\uffff";
 	static final String DFA19_eofS = "\u0125\uffff";
 	static final String DFA19_minS = "\1\11\1\55\5\uffff\1\156\1\157\1\117\2\141\1\161\1\141\1\116\1\141"
 			+ "\2\151\1\156\2\141\1\165\1\156\1\162\6\uffff\1\55\1\154\1\uffff"
@@ -1658,12 +1678,12 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 			+ "\164\1\106\1\166\1\156\1\151\1\145\1\117\1\162\1\143\1\uffff\1\156"
 			+ "\1\146\1\165\1\117\1\151\1\164\1\127\1\164\1\127\1\146\1\145\1\141"
 			+ "\1\166\1\164\1\146\1\164\1\55\1\164\1\55\1\156\1\146\1\166\1\106"
-			+ "\1\151\1\106\1\151\2\55\1\154\1\145\1\162\1\55\1\171\1\uffff\1\55"
-			+ "\1\124\1\uffff\1\143\1\55\1\145\1\162\1\164\1\162\1\164\1\uffff"
-			+ "\3\55\1\151\1\uffff\1\117\1\157\1\164\1\uffff\1\55\1\157\1\150\1"
-			+ "\157\1\150\1\uffff\1\55\1\uffff\1\55\1\143\1\146\1\55\1\151\1\uffff"
-			+ "\1\55\1\155\1\55\1\155\3\55\1\uffff\1\157\1\55\1\uffff\2\55\2\uffff"
-			+ "\1\156\1\uffff\1\141\1\154\1\55\1\uffff\1\55";
+			+ "\1\151\1\106\1\151\2\55\1\154\1\145\1\162\1\55\1\171\1\55\1\uffff"
+			+ "\1\124\1\uffff\1\143\1\55\1\145\1\162\1\164\1\162\1\164\1\55\1\uffff"
+			+ "\2\55\1\151\1\uffff\1\117\1\157\1\164\1\uffff\1\55\1\157\1\150\1"
+			+ "\157\1\150\1\55\1\uffff\1\55\1\uffff\1\143\1\146\1\55\1\151\1\55"
+			+ "\1\uffff\1\155\1\55\1\155\3\55\1\uffff\1\157\1\55\1\uffff\2\55\2"
+			+ "\uffff\1\156\1\uffff\1\141\1\154\2\55\1\uffff";
 	static final String DFA19_maxS = "\1\175\1\172\5\uffff\1\156\2\157\1\171\1\151\1\170\1\141\1\162\1"
 			+ "\171\2\157\1\162\2\145\1\165\1\156\1\171\6\uffff\1\172\1\154\1\uffff"
 			+ "\2\164\1\124\1\164\1\155\1\142\2\155\1\156\1\170\1\141\1\165\1\154"
@@ -1683,20 +1703,19 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 			+ "\156\1\164\1\146\1\166\1\156\1\151\1\145\1\117\1\162\1\143\1\uffff"
 			+ "\1\156\1\146\1\165\1\157\1\151\1\164\1\127\1\164\1\127\1\146\1\145"
 			+ "\1\141\1\166\1\164\1\146\1\164\1\172\1\164\1\172\1\156\1\146\1\166"
-			+ "\1\106\1\151\1\106\1\151\2\172\1\154\1\145\1\162\1\172\1\171\1\uffff"
-			+ "\1\172\1\124\1\uffff\1\143\1\172\1\145\1\162\1\164\1\162\1\164\1"
-			+ "\uffff\3\172\1\151\1\uffff\1\117\1\157\1\164\1\uffff\1\172\1\157"
-			+ "\1\150\1\157\1\150\1\uffff\1\172\1\uffff\1\172\1\143\1\146\1\172"
-			+ "\1\151\1\uffff\1\172\1\155\1\172\1\155\3\172\1\uffff\1\157\1\172"
-			+ "\1\uffff\2\172\2\uffff\1\156\1\uffff\1\141\1\154\1\172\1\uffff\1"
-			+ "\172";
+			+ "\1\106\1\151\1\106\1\151\2\172\1\154\1\145\1\162\1\172\1\171\1\172"
+			+ "\1\uffff\1\124\1\uffff\1\143\1\172\1\145\1\162\1\164\1\162\1\164"
+			+ "\1\172\1\uffff\2\172\1\151\1\uffff\1\117\1\157\1\164\1\uffff\1\172"
+			+ "\1\157\1\150\1\157\1\150\1\172\1\uffff\1\172\1\uffff\1\143\1\146"
+			+ "\1\172\1\151\1\172\1\uffff\1\155\1\172\1\155\3\172\1\uffff\1\157"
+			+ "\1\172\1\uffff\2\172\2\uffff\1\156\1\uffff\1\141\1\154\2\172\1\uffff";
 	static final String DFA19_acceptS = "\2\uffff\1\2\1\3\1\4\1\5\1\6\21\uffff\1\41\1\42\1\45\1\46\1\47\1"
 			+ "\50\2\uffff\1\1\35\uffff\1\10\42\uffff\1\7\1\uffff\1\11\5\uffff"
 			+ "\1\14\1\15\3\uffff\1\20\21\uffff\1\13\1\uffff\1\12\37\uffff\1\17"
 			+ "\13\uffff\1\31\3\uffff\1\44\3\uffff\1\24\10\uffff\1\30\12\uffff"
-			+ "\1\16\41\uffff\1\33\2\uffff\1\26\7\uffff\1\35\4\uffff\1\21\3\uffff"
-			+ "\1\43\5\uffff\1\32\1\uffff\1\37\5\uffff\1\36\7\uffff\1\23\2\uffff"
-			+ "\1\27\2\uffff\1\34\1\22\1\uffff\1\25\3\uffff\1\40\1\uffff";
+			+ "\1\16\42\uffff\1\33\1\uffff\1\26\10\uffff\1\35\3\uffff\1\21\3\uffff"
+			+ "\1\43\6\uffff\1\32\1\uffff\1\37\5\uffff\1\36\6\uffff\1\23\2\uffff"
+			+ "\1\27\2\uffff\1\34\1\22\1\uffff\1\25\4\uffff\1\40";
 	static final String DFA19_specialS = "\u0125\uffff}>";
 	static final String[] DFA19_transitionS = {
 			"\2\6\2\uffff\1\6\22\uffff\1\6\1\uffff\1\32\4\uffff\1\35\1\2"
@@ -1923,7 +1942,7 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\u00e9",
 			"\1\u00ea",
 			"\1\u00eb",
-			"\1\34\2\uffff\12\34\1\u00ed\6\uffff\32\34\4\uffff\1\34\1\uffff"
+			"\1\34\2\uffff\12\34\1\u00ec\6\uffff\32\34\4\uffff\1\34\1\uffff"
 					+ "\32\34",
 			"\1\u00ee",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
@@ -1935,15 +1954,15 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\u00f5",
 			"\1\u00f6",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
-			"\1\34\2\uffff\12\34\1\u00f8\6\uffff\32\34\4\uffff\1\34\1\uffff"
+			"\1\34\2\uffff\12\34\1\u00f7\6\uffff\32\34\4\uffff\1\34\1\uffff"
 					+ "\32\34",
 			"\1\u00f9",
 			"\1\u00fa",
 			"\1\u00fb",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"\1\u00fd",
-			"",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"",
 			"\1\u00fe",
 			"",
 			"\1\u00ff",
@@ -1953,11 +1972,11 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\u0103",
 			"\1\u0104",
 			"\1\u0105",
-			"",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
-			"\1\34\2\uffff\12\34\1\u0107\6\uffff\32\34\4\uffff\1\34\1\uffff"
+			"",
+			"\1\34\2\uffff\12\34\1\u0106\6\uffff\32\34\4\uffff\1\34\1\uffff"
 					+ "\32\34",
-			"\1\34\2\uffff\12\34\1\u0109\6\uffff\32\34\4\uffff\1\34\1\uffff"
+			"\1\34\2\uffff\12\34\1\u0108\6\uffff\32\34\4\uffff\1\34\1\uffff"
 					+ "\32\34",
 			"\1\u010a",
 			"",
@@ -1965,22 +1984,22 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\u010c",
 			"\1\u010d",
 			"",
-			"\1\34\2\uffff\12\34\1\u010f\6\uffff\32\34\4\uffff\1\34\1\uffff"
+			"\1\34\2\uffff\12\34\1\u010e\6\uffff\32\34\4\uffff\1\34\1\uffff"
 					+ "\32\34",
 			"\1\u0110",
 			"\1\u0111",
 			"\1\u0112",
 			"\1\u0113",
-			"",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"",
 			"\1\u0114",
 			"\1\u0115",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"\1\u0117",
-			"",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"",
 			"\1\u0118",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"\1\u011a",
@@ -2000,9 +2019,9 @@ public class OPPLLintLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"",
 			"\1\u0121",
 			"\1\u0122",
-			"\1\34\2\uffff\12\34\1\u0124\6\uffff\32\34\4\uffff\1\34\1\uffff"
-					+ "\32\34", "",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34" };
+			"\1\34\2\uffff\12\34\1\u0123\6\uffff\32\34\4\uffff\1\34\1\uffff"
+					+ "\32\34",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34", "" };
 	static final short[] DFA19_eot = DFA.unpackEncodedString(DFA19_eotS);
 	static final short[] DFA19_eof = DFA.unpackEncodedString(DFA19_eofS);
 	static final char[] DFA19_min = DFA
