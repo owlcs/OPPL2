@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.utils.ArgCheck;
+import org.coode.oppl.utils.VariableExtractor;
 import org.semanticweb.owl.model.AddAxiom;
 import org.semanticweb.owl.model.OWLAxiomChange;
 
@@ -36,22 +37,21 @@ import org.semanticweb.owl.model.OWLAxiomChange;
  * @author Luigi Iannone
  * 
  */
-public class ChangeExtractor implements
-		OPPLScriptVisitorEx<List<OWLAxiomChange>> {
+public class ChangeExtractor implements OPPLScriptVisitorEx<List<OWLAxiomChange>> {
 	private final boolean considerImportClosure;
 	private final ConstraintSystem constraintSystem;
 
 	/**
 	 * @param ontologyManager
 	 */
-	public ChangeExtractor(ConstraintSystem constraintSystem,
-			boolean considerImportClosure) {
+	public ChangeExtractor(ConstraintSystem constraintSystem, boolean considerImportClosure) {
 		ArgCheck.checkNullArgument("The constraint system", constraintSystem);
 		this.constraintSystem = constraintSystem;
 		this.considerImportClosure = considerImportClosure;
 	}
 
 	public List<OWLAxiomChange> visit(OPPLQuery q, List<OWLAxiomChange> p) {
+		VariableExtractor.clear();
 		if (q != null) {
 			try {
 				q.execute();
@@ -62,13 +62,11 @@ public class ChangeExtractor implements
 		return p;
 	}
 
-	@SuppressWarnings("unused")
 	public List<OWLAxiomChange> visit(Variable v, List<OWLAxiomChange> p) {
 		return p;
 	}
 
-	public List<OWLAxiomChange> visitActions(List<OWLAxiomChange> changes,
-			List<OWLAxiomChange> p) {
+	public List<OWLAxiomChange> visitActions(List<OWLAxiomChange> changes, List<OWLAxiomChange> p) {
 		if (p == null) {
 			p = new ArrayList<OWLAxiomChange>();
 		}
@@ -76,15 +74,18 @@ public class ChangeExtractor implements
 			boolean isAdd = change instanceof AddAxiom;
 			ActionType action = isAdd ? ActionType.ADD : ActionType.REMOVE;
 			if (this.considerImportClosure && !isAdd) {
-				p.addAll(ActionFactory.createChanges(action, change.getAxiom(),
-						this.constraintSystem, this.getConstraintSystem()
-								.getOntologyManager().getImportsClosure(
-										this.getConstraintSystem()
-												.getOntology())));
+				p.addAll(ActionFactory.createChanges(
+						action,
+						change.getAxiom(),
+						this.constraintSystem,
+						this.getConstraintSystem().getOntologyManager().getImportsClosure(
+								this.getConstraintSystem().getOntology())));
 			} else {
-				p.addAll(ActionFactory.createChanges(action, change.getAxiom(),
-						this.getConstraintSystem(), this.getConstraintSystem()
-								.getOntology()));
+				p.addAll(ActionFactory.createChanges(
+						action,
+						change.getAxiom(),
+						this.getConstraintSystem(),
+						this.getConstraintSystem().getOntology()));
 			}
 		}
 		return p;

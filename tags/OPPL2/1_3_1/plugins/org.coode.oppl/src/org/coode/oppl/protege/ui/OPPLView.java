@@ -495,7 +495,10 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 			this.bindingTable.setModel(this.bindingTableModel);
 			OPPLAbstractFactory opplFactory = ProtegeParserFactory.getInstance(
 					this.getOWLEditorKit()).getOPPLFactory();
-			this.statementModel = opplFactory.importOPPLScript(this.editor.getOPPLScript());
+			OPPLScript opplScript = this.editor.getOPPLScript();
+			if (opplScript != null) {
+				this.statementModel = opplFactory.importOPPLScript(opplScript);
+			}
 			ActionListModel model = (ActionListModel) OPPLView.this.affectedAxioms.getModel();
 			model.clear();
 			this.instantiatedAxiomListModel.clear();
