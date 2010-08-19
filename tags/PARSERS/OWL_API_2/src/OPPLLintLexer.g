@@ -31,6 +31,11 @@ SEMICOLON
 	;
 
  WS       :           (' '|'\t'|'\f'|'\n'|'\r')+{ $channel=HIDDEN; };
+ 
+ INFERENCE
+ 	:
+ 		('I'|'i')('N'|'n')('F'|'f')('E'|'e')('R'|'r')('E'|'e')('N'|'n')('C'|'c')('E'|'e') SEMICOLON
+ 	;
 
 
 

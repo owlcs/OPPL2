@@ -104,14 +104,14 @@ bottomup // match subexpressions innermost to outermost
 
 lint
 	:
-		^(OPPL_LINT IDENTIFIER s = statement rc= returnClause ^(EXPLANATION .*) ^(DESCRIPTION .*)) 
+		^(OPPL_LINT IDENTIFIER inference = INFERENCE? s = statement rc= returnClause ^(EXPLANATION .*) ^(DESCRIPTION .*)) 
 		{
 		  if(s.statementTree.getOPPLContent() instanceof OPPLScript){
 
 		     if(rc!=null){                                
            		 Variable v = rc;
 			OPPLLintScript lint = this.getLintModelFactory().buildOPPLLintScript($IDENTIFIER.text,
-                                (OPPLScript) s.statementTree.getOPPLContent(),v, $EXPLANATION.text, $DESCRIPTION.text);
+                                (OPPLScript) s.statementTree.getOPPLContent(),v, $EXPLANATION.text, $DESCRIPTION.text, inference!=null);
                         $start.setOPPLContent(lint);        
 	             }                    
 		  }  

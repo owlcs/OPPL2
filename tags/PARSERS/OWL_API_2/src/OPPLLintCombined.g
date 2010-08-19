@@ -71,7 +71,7 @@ tokens{
 
 lint
   :
-    name = text SEMICOLON  statement returnClause  SEMICOLON exp = text SEMICOLON description ->^(OPPL_LINT IDENTIFIER[$name.text] statement returnClause ^(EXPLANATION[$exp.text] $exp)  description) 
+    name = text SEMICOLON INFERENCE? statement returnClause  SEMICOLON exp = text SEMICOLON description ->^(OPPL_LINT IDENTIFIER[$name.text] INFERENCE? statement returnClause ^(EXPLANATION[$exp.text] $exp)  description) 
   ;
 
 text
