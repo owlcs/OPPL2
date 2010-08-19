@@ -11,8 +11,8 @@ public interface OPPLLintAbstractFactory {
 	 * @param string
 	 * 
 	 */
-	OPPLLintScript buildOPPLLintScript(String name, OPPLScript opplScript,
-			Variable v, String explanationTemplate, String description);
+	OPPLLintScript buildOPPLLintScript(String name, OPPLScript opplScript, Variable v,
+			String explanationTemplate, String description, boolean inferenceRequired);
 
 	OPPLAbstractFactory getOPPLFactory();
 }

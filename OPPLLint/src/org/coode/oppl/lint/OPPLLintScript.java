@@ -40,13 +40,15 @@ public class OPPLLintScript implements Lint<OWLObject> {
 	private final Variable returnVariable;
 	private final OWLOntologyManager ontologyManager;
 	private final String explanationTemplate;
+	private final boolean inferenceRequired;
 
 	/**
 	 * @param opplScript
 	 * @param returnVariable
 	 */
 	public OPPLLintScript(String name, OPPLScript opplScript, Variable returnVariable,
-			String explanationTemplate, String description, OWLOntologyManager ontologyManager) {
+			String explanationTemplate, String description, OWLOntologyManager ontologyManager,
+			boolean inferenceRequired) {
 		if (name == null) {
 			throw new NullPointerException("The name cannot be null");
 		}
@@ -71,6 +73,7 @@ public class OPPLLintScript implements Lint<OWLObject> {
 		this.description = description;
 		this.explanationTemplate = explanationTemplate;
 		this.ontologyManager = ontologyManager;
+		this.inferenceRequired = inferenceRequired;
 	}
 
 	public Set<OWLObject> getDetectedObjects(OWLOntology ontology,
@@ -209,5 +212,9 @@ public class OPPLLintScript implements Lint<OWLObject> {
 
 	public LintConfiguration getLintConfiguration() {
 		return NonConfigurableLintConfiguration.getInstance();
+	}
+
+	public boolean isInferenceRequired() {
+		return this.inferenceRequired;
 	}
 }

@@ -3,6 +3,7 @@ package org.coode.oppl.lint.filtering.protege;
 import org.coode.oppl.lint.filtering.Filter;
 import org.eclipse.core.runtime.IExtension;
 import org.protege.editor.owl.OWLEditorKit;
+import org.protege.editor.owl.model.inference.NoOpReasoner;
 import org.semanticweb.owl.inference.OWLReasoner;
 import org.semanticweb.owl.lint.configuration.ConfigurationStrategy;
 import org.semanticweb.owl.lint.configuration.LintConfiguration;
@@ -17,8 +18,7 @@ public class ProtegeFilter<O extends OWLObject> implements Filter<O> {
 	/**
 	 * @param owlEditorKit
 	 */
-	private ProtegeFilter(OWLEditorKit owlEditorKit, Filter<O> delegate,
-			IExtension extension) {
+	private ProtegeFilter(OWLEditorKit owlEditorKit, Filter<O> delegate, IExtension extension) {
 		if (delegate == null) {
 			throw new NullPointerException("The delegate cannot be null");
 		}
@@ -27,8 +27,7 @@ public class ProtegeFilter<O extends OWLObject> implements Filter<O> {
 		}
 		this.owlEditorKit = owlEditorKit;
 		this.delegate = delegate;
-		this.initialLintConfiguration = ConfigurationStrategy
-				.getLintConfiguration(delegate.getClass());
+		this.initialLintConfiguration = ConfigurationStrategy.getLintConfiguration(delegate.getClass());
 	}
 
 	/**
@@ -43,8 +42,13 @@ public class ProtegeFilter<O extends OWLObject> implements Filter<O> {
 	 * @return
 	 * @see org.coode.oppl.lint.filtering.Filter#accept(org.semanticweb.owl.model.OWLObject)
 	 */
-	public boolean accept(O owlObject, LintConfiguration lintConfiguration) {
-		return this.getDelegate().accept(owlObject, lintConfiguration);
+	public boolean accept(O owlObject, OWLOntologyManager ontologyManager, OWLReasoner reasoner,
+			LintConfiguration lintConfiguration) {
+		return this.getDelegate().accept(
+				owlObject,
+				this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager(),
+				this.getOWLReasoner(),
+				lintConfiguration);
 	}
 
 	/**
@@ -54,13 +58,9 @@ public class ProtegeFilter<O extends OWLObject> implements Filter<O> {
 		return this.delegate;
 	}
 
-	public OWLOntologyManager getOntologyManager() {
-		return this.getOWLEditorKit().getOWLModelManager()
-				.getOWLOntologyManager();
-	}
-
 	public OWLReasoner getOWLReasoner() {
-		return this.getOWLEditorKit().getOWLModelManager().getReasoner();
+		return this.getOWLEditorKit().getOWLModelManager().getReasoner() instanceof NoOpReasoner ? null
+				: this.getOWLEditorKit().getOWLModelManager().getReasoner();
 	}
 
 	public static <P extends OWLObject> ProtegeFilter<P> buildProtegeFilter(

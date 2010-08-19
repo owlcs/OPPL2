@@ -1,5 +1,6 @@
 package org.coode.oppl.lint.filtering.protege;
 
+import java.util.Collection;
 import java.util.Formatter;
 
 import org.coode.lint.protege.LintProtegePluginInstance;
@@ -7,11 +8,16 @@ import org.coode.oppl.lint.OPPLLintScript;
 import org.coode.oppl.lint.filtering.FilteringOPPLLint;
 import org.eclipse.core.runtime.IExtension;
 import org.protege.editor.core.plugin.PluginProperties;
+import org.semanticweb.owl.lint.LintException;
+import org.semanticweb.owl.lint.LintReport;
 import org.semanticweb.owl.lint.configuration.LintConfiguration;
 import org.semanticweb.owl.model.OWLObject;
+import org.semanticweb.owl.model.OWLOntology;
 
-public final class FilteringOPPLLintProtegePluginInstanceAdapter extends
-		FilteringOPPLLint implements LintProtegePluginInstance<OWLObject> {
+import uk.ac.manchester.cs.owl.lint.commons.SimpleMatchBasedLintReport;
+
+public final class FilteringOPPLLintProtegePluginInstanceAdapter extends FilteringOPPLLint
+		implements LintProtegePluginInstance<OWLObject> {
 	private static final String NAME_PARAM = "label";
 	private final FilteringOPPLLint delegate;
 	private final IExtension extension;
@@ -37,8 +43,19 @@ public final class FilteringOPPLLintProtegePluginInstanceAdapter extends
 	 */
 	@Override
 	public String getName() {
-		return PluginProperties.getParameterValue(this.extension, NAME_PARAM,
+		return PluginProperties.getParameterValue(
+				this.extension,
+				NAME_PARAM,
 				this.delegate.getName());
+	}
+
+	@Override
+	public LintReport<OWLObject> detected(Collection<? extends OWLOntology> targets)
+			throws LintException {
+		LintReport<OWLObject> detected = super.detected(targets);
+		SimpleMatchBasedLintReport<OWLObject> toReturn = new SimpleMatchBasedLintReport<OWLObject>(
+				this, detected);
+		return toReturn;
 	}
 
 	@Override
@@ -54,8 +71,7 @@ public final class FilteringOPPLLintProtegePluginInstanceAdapter extends
 
 	public String getId() {
 		Formatter formatter = new Formatter();
-		formatter.format("filteroppllint.%s", this.extension
-				.getSimpleIdentifier());
+		formatter.format("filteroppllint.%s", this.extension.getSimpleIdentifier());
 		String string = formatter.out().toString();
 		return string;
 	}

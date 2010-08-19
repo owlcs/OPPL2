@@ -17,8 +17,7 @@ import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.OWLOntologyChangeException;
 import org.semanticweb.owl.model.OWLOntologyManager;
 
-public class ActingOPPLLintScript extends OPPLLintScript implements
-		ActingLint<OWLObject> {
+public class ActingOPPLLintScript extends OPPLLintScript implements ActingLint<OWLObject> {
 	/**
 	 * @param name
 	 * @param opplScript
@@ -27,23 +26,21 @@ public class ActingOPPLLintScript extends OPPLLintScript implements
 	 * @param explanationTemplate
 	 * @param ontologyManager
 	 */
-	public ActingOPPLLintScript(String name, OPPLScript opplScript,
-			Variable returnVariable, String description,
-			String explanationTemplate, OWLOntologyManager ontologyManager) {
-		super(name, opplScript, returnVariable, description,
-				explanationTemplate, ontologyManager);
+	public ActingOPPLLintScript(String name, OPPLScript opplScript, Variable returnVariable,
+			String description, String explanationTemplate, OWLOntologyManager ontologyManager,
+			boolean inferenceRequired) {
+		super(name, opplScript, returnVariable, description, explanationTemplate, ontologyManager,
+				inferenceRequired);
 		if (opplScript.getActions().isEmpty()) {
 			throw new IllegalArgumentException(
 					"The OPPL Script has no action, therefore it should not be wrapped into an ActingLint implementation");
 		}
 	}
 
-	public List<OWLAxiomChange> getChanges(OWLOntology ontology,
-			OWLOntologyManager ontologyManager) {
-		ChangeExtractor changeExtractor = new ChangeExtractor(this
-				.getOPPLScript().getConstraintSystem(), true);
-		List<OWLAxiomChange> changes = this.getOPPLScript().accept(
-				changeExtractor);
+	public List<OWLAxiomChange> getChanges(OWLOntology ontology, OWLOntologyManager ontologyManager) {
+		ChangeExtractor changeExtractor = new ChangeExtractor(
+				this.getOPPLScript().getConstraintSystem(), true);
+		List<OWLAxiomChange> changes = this.getOPPLScript().accept(changeExtractor);
 		return changes;
 	}
 
@@ -69,9 +66,7 @@ public class ActingOPPLLintScript extends OPPLLintScript implements
 			throws LintActionException {
 		List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
 		for (OWLOntology ontology : ontologies) {
-			changes
-					.addAll(this
-							.getChanges(ontology, this.getOntologyManager()));
+			changes.addAll(this.getChanges(ontology, this.getOntologyManager()));
 		}
 		try {
 			this.getOntologyManager().applyChanges(changes);
@@ -83,8 +78,7 @@ public class ActingOPPLLintScript extends OPPLLintScript implements
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof ActingOPPLLintScript) {
-			return this.getName().equals(
-					((ActingOPPLLintScript) obj).getName());
+			return this.getName().equals(((ActingOPPLLintScript) obj).getName());
 		}
 		return false;
 	}

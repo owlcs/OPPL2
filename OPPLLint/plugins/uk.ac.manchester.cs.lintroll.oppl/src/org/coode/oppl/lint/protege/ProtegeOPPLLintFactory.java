@@ -31,16 +31,15 @@ public class ProtegeOPPLLintFactory implements OPPLLintAbstractFactory {
 	 *      org.coode.oppl.OPPLScript, org.coode.oppl.Variable,
 	 *      java.lang.String)
 	 */
-	public OPPLLintScript buildOPPLLintScript(String name,
-			OPPLScript opplScript, Variable v, String explanationTemplate,
-			String description) {
-		return opplScript.getActions().isEmpty() ? new OPPLLintScript(name,
-				opplScript, v, explanationTemplate, description, this
-						.getOWLEditorKit().getOWLModelManager()
-						.getOWLOntologyManager()) : new ActingOPPLLintScript(
-				name, opplScript, v, explanationTemplate, description, this
-						.getOWLEditorKit().getOWLModelManager()
-						.getOWLOntologyManager());
+	public OPPLLintScript buildOPPLLintScript(String name, OPPLScript opplScript, Variable v,
+			String explanationTemplate, String description, boolean inferenceRequired) {
+		return opplScript.getActions().isEmpty() ? new OPPLLintScript(name, opplScript, v,
+				explanationTemplate, description,
+				this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager(),
+				inferenceRequired) : new ActingOPPLLintScript(name, opplScript, v,
+				explanationTemplate, description,
+				this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager(),
+				inferenceRequired);
 	}
 
 	public OPPLAbstractFactory getOPPLFactory() {

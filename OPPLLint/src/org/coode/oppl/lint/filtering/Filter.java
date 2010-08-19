@@ -18,23 +18,15 @@ public interface Filter<O extends OWLObject> {
 	 * 
 	 * @param owlObject
 	 *            The input object to filter.
+	 * @param ontologyManager
+	 *            The ontology manager. Cannot be {@code null}.
+	 * @param reasoner
+	 *            The OWLReasoner.
 	 * @return {@code true} when the input owlObject is acceptable for this
 	 *         Filter.
 	 * @throws NullPointerException
-	 *             if the input is {@code null}.
+	 *             if any input is {@code null} except for the reasoner.
 	 */
-	public boolean accept(O owlObject, LintConfiguration lintConfiguration);
-
-	/**
-	 * @return The OWLOntologyManager used by this Filter.
-	 */
-	public OWLOntologyManager getOntologyManager();
-
-	/**
-	 * Retrieve the OWLReasoner used by this Filter. Please Notice this <b>may
-	 * be</b> {@code null}.
-	 * 
-	 * @return The OWLReasoner used by this Filter.
-	 */
-	public OWLReasoner getOWLReasoner();
+	public boolean accept(O owlObject, OWLOntologyManager ontologyManager, OWLReasoner reasoner,
+			LintConfiguration lintConfiguration);
 }
