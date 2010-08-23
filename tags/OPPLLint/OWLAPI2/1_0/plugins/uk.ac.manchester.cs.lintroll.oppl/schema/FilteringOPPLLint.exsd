@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="uk.ac.manchester.cs.lintroll">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="uk.ac.manchester.cs.lintroll" id="filteroppllint" name="Filtering OPPL Lint"/>
+      </appInfo>
+      <documentation>
+        Filtering  OPPL Lint provides a lint derived from a valid OPPL Lint and a Filter which filters in the accepted results from the original OPPL Lint..
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="label"/>
+            <element ref="script"/>
+            <element ref="filter"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="label">
+      <annotation>
+         <documentation>
+            The label that will appear in the view menu etc.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="value" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="script">
+      <annotation>
+         <documentation>
+            The OPPL Script
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="value" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The actual string in the script
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="java.lang.String:"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+     <element name="script">
+      <annotation>
+         <documentation>
+            The OPPL Script
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="value" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The actual string in the script
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="java.lang.String:"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+   <element name="class">
+      <annotation>
+         <documentation>
+            The class that should be instantiated to create the Filter.
+        This must implement the org.coode.oppl.lint.filtering.Filter<O> interface
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="value" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="org.coode.oppl.lint.filtering.Filter<O>:"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+   
+</schema>
