@@ -185,7 +185,7 @@ query returns [OPPLQuery query]
 					 $query.addConstraint($constraint.constraint);
 					}
 				}
-		)?)
+		)*)
 	;
 
 selectClause returns [OWLAxiom axiom, boolean asserted]
