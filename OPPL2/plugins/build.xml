@@ -57,9 +57,7 @@
 			<filelist dir="${basedir}/lib">
 				<file name="antlr-3.2.jar"/>
 			</filelist>					
-			<filelist dir="${owlapi.bin.dir}">
-				<file name="${owlapi.bin.jar}"/>
-			</filelist>
+			<pathelement location="${owalpi.jar}"/>
 	</path>
 	
  	<target name="parsers">

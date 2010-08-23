@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-08-06 21:32:33
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-08-23 15:00:28
 
   package org.coode.parsers.oppl;
   import org.coode.parsers.ErrorListener;
@@ -466,7 +466,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: opplFunction, VARIABLE_TYPE, VARIABLE_NAME
+                    // elements: VARIABLE_TYPE, VARIABLE_NAME, opplFunction
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -526,7 +526,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, VARIABLE_NAME, VARIABLE_TYPE
+                    // elements: VARIABLE_TYPE, expression, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -588,7 +588,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_TYPE, VARIABLE_NAME, regexp
+                    // elements: VARIABLE_NAME, regexp, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -656,7 +656,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, variableScope, VARIABLE_TYPE
+                    // elements: variableScope, VARIABLE_TYPE, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -863,7 +863,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: expression, variableScopeSpecification
+            // elements: variableScopeSpecification, expression
             // token labels: variableScopeSpecification
             // rule labels: retval
             // token list labels: 
@@ -1938,7 +1938,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: axiom, ADD
+                    // elements: ADD, axiom
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3050,7 +3050,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: GROUPS, attributeSelector, DOT, VARIABLE_NAME
+                    // elements: DOT, GROUPS, VARIABLE_NAME, attributeSelector
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 

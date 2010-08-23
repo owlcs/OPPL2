@@ -1,7 +1,10 @@
 package org.coode.oppl.test;
 
-import java.io.File;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 import junit.framework.TestCase;
@@ -30,16 +33,15 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyDocumentAlreadyExistsException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 public class OPPLPartsTestCase extends TestCase {
 	// ontology manager
-	private final static OWLOntologyManager ontologyManager = OWLManager
+	private final OWLOntologyManager ontologyManager = OWLManager
 			.createOWLOntologyManager();
 	private final ErrorListener errorListener = new SystemErrorEcho();
-	// ontology file for tests
-	private static String baseURI = "file:///"
-			+ new File("../OPPL2/ontologies/").getAbsolutePath() + "/";
+	private final Map<String, OWLOntology> loadedOntologies = new HashMap<String, OWLOntology>();
 
 	@Override
 	protected void setUp() throws Exception {
@@ -47,21 +49,38 @@ public class OPPLPartsTestCase extends TestCase {
 	}
 
 	protected OPPLParser getParser(String ontology) {
-		OPPLParser parser = new ParserFactory(ontologyManager, this
+		OPPLParser parser = new ParserFactory(this.ontologyManager, this
 				.getOntology(ontology), null).build(this.errorListener);
 		return parser;
 	}
 
 	private OWLOntology getOntology(String name) {
-		try {
-			OWLOntology o = ontologyManager.loadOntology(IRI.create(URI
-					.create(baseURI + name)));
-			return o;
-		} catch (OWLOntologyCreationException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
+		OWLOntology o = this.loadedOntologies.get(name);
+		if (o == null) {
+			try {
+				URL resource = this.getClass().getClassLoader().getResource(
+						name);
+				if (resource != null) {
+					IRI iri = IRI.create(resource.toURI());
+					o = this.ontologyManager.contains(iri) ? this.ontologyManager
+							.getOntology(iri)
+							: this.ontologyManager.loadOntology(iri);
+				} else {
+					fail("Could not load the ontology " + name);
+				}
+			} catch (OWLOntologyDocumentAlreadyExistsException e) {
+				o = this.ontologyManager
+						.getOntology(e.getOntologyDocumentIRI());
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+				fail(e.getMessage());
+			} catch (OWLOntologyCreationException e) {
+				e.printStackTrace();
+				fail(e.getMessage());
+			}
+			this.loadedOntologies.put(name, o);
 		}
-		return null;
+		return o;
 	}
 
 	public void testParseInSetConstraint() {

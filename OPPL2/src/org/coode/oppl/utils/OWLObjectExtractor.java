@@ -43,6 +43,7 @@ import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLNaryBooleanClassExpression;
 import org.semanticweb.owlapi.model.OWLNaryClassAxiom;
 import org.semanticweb.owlapi.model.OWLNaryIndividualAxiom;
@@ -586,7 +587,8 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
 		return this.visitPrimitive(property);
 	}
 
-	public Set<O> visit(OWLIndividual individual) {
+	@Override
+	public Set<O> visit(OWLNamedIndividual individual) {
 		return this.visitPrimitive(individual);
 	}
 
