@@ -1,10 +1,12 @@
 package org.coode.parsers;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -16,6 +18,7 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.util.CachingBidirectionalShortFormProvider;
 import org.semanticweb.owlapi.util.ReferencedEntitySetProvider;
 import org.semanticweb.owlapi.util.ShortFormProvider;
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 /**
  * Author: Matthew Horridge<br>
@@ -27,16 +30,20 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
  * A bidirectional short form provider which uses a specified short form
  * provider to generate the bidirectional entity--shortform mappings.
  */
-public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalShortFormProvider {
+public class BidirectionalShortFormProviderAdapter extends
+		CachingBidirectionalShortFormProvider {
 	private ShortFormProvider shortFormProvider;
 	private Set<OWLOntology> ontologies;
 	private OWLOntologyManager man;
 	private OWLOntologyLoaderListener loaderListener = new OWLOntologyLoaderListener() {
 		public void finishedLoadingOntology(LoadingFinishedEvent event) {
 			BidirectionalShortFormProviderAdapter.this.ontologies.clear();
-			BidirectionalShortFormProviderAdapter.this.ontologies.addAll(BidirectionalShortFormProviderAdapter.this.man.getOntologies());
-			BidirectionalShortFormProviderAdapter.this.rebuild(new ReferencedEntitySetProvider(
-					BidirectionalShortFormProviderAdapter.this.ontologies));
+			BidirectionalShortFormProviderAdapter.this.ontologies
+					.addAll(BidirectionalShortFormProviderAdapter.this.man
+							.getOntologies());
+			BidirectionalShortFormProviderAdapter.this
+					.rebuild(new ReferencedEntitySetProvider(
+							BidirectionalShortFormProviderAdapter.this.ontologies));
 		}
 
 		public void startedLoadingOntology(LoadingStartedEvent event) {
@@ -50,7 +57,8 @@ public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalS
 		}
 	};
 
-	public BidirectionalShortFormProviderAdapter(ShortFormProvider shortFormProvider) {
+	public BidirectionalShortFormProviderAdapter(
+			ShortFormProvider shortFormProvider) {
 		this.shortFormProvider = shortFormProvider;
 	}
 
@@ -81,7 +89,25 @@ public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalS
 		this.man = man;
 		this.man.addOntologyChangeListener(this.changeListener);
 		this.rebuild(new ReferencedEntitySetProvider(ontologies));
+		// Apparently Thing, Nothing, and the well know datatypes are not
+		// referenced entities, so I need to add them.
+		this.addWellKnownEntities(man);
 		man.addOntologyLoaderListener(this.loaderListener);
+	}
+
+	/**
+	 * @param man
+	 */
+	private void addWellKnownEntities(OWLOntologyManager man) {
+		OWLDataFactory dataFactory = man.getOWLDataFactory();
+		this.add(dataFactory.getOWLThing());
+		this.add(dataFactory.getOWLNothing());
+		this.add(dataFactory.getTopDatatype());
+		this.add(dataFactory.getOWLTopObjectProperty());
+		this.add(dataFactory.getOWLTopDataProperty());
+		for (OWL2Datatype datatype : EnumSet.allOf(OWL2Datatype.class)) {
+			this.add(dataFactory.getOWLDatatype(datatype.getIRI()));
+		}
 	}
 
 	@Override
