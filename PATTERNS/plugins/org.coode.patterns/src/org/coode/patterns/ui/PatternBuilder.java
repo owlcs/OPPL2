@@ -87,8 +87,7 @@ import org.coode.patterns.UnsuitableOPPLScriptException;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.core.ui.util.VerifyingOptionPane;
 import org.protege.editor.owl.OWLEditorKit;
-import org.protege.editor.owl.ui.frame.AbstractOWLFrameSectionRowObjectEditor;
-import org.protege.editor.owl.ui.frame.OWLFrameSectionRowObjectEditor;
+import org.protege.editor.owl.ui.editor.AbstractOWLObjectEditor;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
@@ -97,10 +96,8 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
  * 
  *         Jun 10, 2008
  */
-public class PatternBuilder extends
-		AbstractOWLFrameSectionRowObjectEditor<PatternModel> implements
-		OWLFrameSectionRowObjectEditor<PatternModel>, VerifiedInputEditor,
-		PatternModelChangeListener {
+public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel>
+		implements VerifiedInputEditor, PatternModelChangeListener {
 	private final class PatternBuilderModel {
 		private String name = "";
 		private final List<Variable> variables = new ArrayList<Variable>();
@@ -271,15 +268,19 @@ public class PatternBuilder extends
 		}
 
 		public void importPatternModel(PatternModel pattern) {
-			this.constraintSystem = pattern.getConstraintSystem();
-			this.name = pattern.getName();
-			this.variables.clear();
-			this.variables.addAll(pattern.getVariables());
-			this.actions.clear();
-			this.actions.addAll(pattern.getActions());
-			this.modelRendering = pattern.getRendering();
-			this.returnVariable = pattern.getReturnVariable();
-			this.notifyBuilder();
+			if (pattern != null) {
+				this.constraintSystem = pattern.getConstraintSystem();
+				this.name = pattern.getName();
+				this.variables.clear();
+				this.variables.addAll(pattern.getVariables());
+				this.actions.clear();
+				this.actions.addAll(pattern.getActions());
+				this.modelRendering = pattern.getRendering();
+				this.returnVariable = pattern.getReturnVariable();
+				this.notifyBuilder();
+			} else {
+				this.reset();
+			}
 		}
 
 		public void reset() {
@@ -379,8 +380,7 @@ public class PatternBuilder extends
 			actionEditor.addStatusChangedListener(verificationListener);
 			final JDialog dlg = optionPane.createDialog(
 					PatternBuilder.this.owlEditorKit.getWorkspace(), null);
-			// The editor shouldn't be modal (or should it?)
-			dlg.setModal(false);
+			dlg.setModal(true);
 			dlg.setTitle("Action editor");
 			dlg.setResizable(true);
 			dlg.pack();
@@ -469,8 +469,7 @@ public class PatternBuilder extends
 			actionEditor.addStatusChangedListener(verificationListener);
 			final JDialog dlg = optionPane.createDialog(
 					PatternBuilder.this.owlEditorKit.getWorkspace(), null);
-			// The editor shouldn't be modal (or should it?)
-			dlg.setModal(false);
+			dlg.setModal(true);
 			dlg.setTitle("Action editor");
 			dlg.setResizable(true);
 			dlg.pack();
@@ -510,8 +509,7 @@ public class PatternBuilder extends
 			variableEditor.addStatusChangedListener(verificationListener);
 			final JDialog dlg = optionPane.createDialog(
 					PatternBuilder.this.owlEditorKit.getWorkspace(), null);
-			// The editor shouldn't be modal (or should it?)
-			dlg.setModal(false);
+			dlg.setModal(true);
 			dlg.setTitle(variableEditor.getEditorName());
 			dlg.setResizable(true);
 			dlg.pack();
@@ -682,7 +680,6 @@ public class PatternBuilder extends
 			variableEditor.addStatusChangedListener(verificationListener);
 			final JDialog dlg = optionPane.createDialog(
 					PatternBuilder.this.owlEditorKit.getWorkspace(), null);
-			// The editor shouldn't be modal (or should it?)
 			dlg.setModal(true);
 			dlg.setTitle(variableEditor.getEditorName());
 			dlg.setResizable(true);
@@ -973,10 +970,6 @@ public class PatternBuilder extends
 		listener.verifiedStatusChanged(newState);
 	}
 
-	public void clear() {
-		this.patternBuilderModel.reset();
-	}
-
 	public void dispose() {
 	}
 
@@ -993,8 +986,22 @@ public class PatternBuilder extends
 	 *            the patternModel to set
 	 */
 	public void setPatternModel(PatternModel patternModel) {
-		this.clear();
-		this.patternBuilderModel.importPatternModel(patternModel);
+		if (patternModel != null) {
+			this.patternBuilderModel.importPatternModel(patternModel);
+		}
+	}
+
+	public boolean canEdit(Object object) {
+		return true;
+	}
+
+	public boolean setEditedObject(PatternModel editedObject) {
+		this.setPatternModel(editedObject);
+		return true;
+	}
+
+	public String getEditorTypeName() {
+		return "Build Pattern Model";
 	}
 
 	/**

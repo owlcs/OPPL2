@@ -26,11 +26,7 @@
   	<delete dir="${dist}/configuration/org.eclipse.core.runtime"/>
   	<delete dir="${dist}/configuration/org.eclipse.osgi"/>
   	<mkdir dir="${classes}/lib"/>
-  	<delete>
-  		<fileset dir="${dist}/configuration/">
-  			<include name="*.log"/>
-  		</fileset>
-  	</delete>
+
   	<copy toFile="${classes}/plugin.xml" file="${basedir}/plugins/org.coode.patterns/plugin.xml" overwrite="true" />
 
 
@@ -39,7 +35,7 @@
   	</copy>
     <jar basedir = "${classes}"
          jarfile  = "${jardest}"
-         manifest = "${basedir}/plugins/org.coode.patterns/META-INF/MANIFEST.MF" update="true"/>
+         manifest = "${basedir}/plugins/org.coode.patterns/META-INF/MANIFEST.MF"/>
   </target>
 
 	<!-- =================================

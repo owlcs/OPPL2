@@ -2,7 +2,7 @@ package org.coode.patterns.ui;
 
 import org.coode.patterns.PatternModel;
 import org.protege.editor.owl.OWLEditorKit;
-import org.protege.editor.owl.ui.frame.OWLEquivalentClassesAxiomFrameSectionRow;
+import org.protege.editor.owl.ui.frame.cls.OWLEquivalentClassesAxiomFrameSectionRow;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;

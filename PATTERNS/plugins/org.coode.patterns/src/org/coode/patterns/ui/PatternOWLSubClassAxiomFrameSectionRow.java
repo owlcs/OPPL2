@@ -24,10 +24,10 @@ package org.coode.patterns.ui;
 
 import org.coode.patterns.PatternModel;
 import org.protege.editor.owl.OWLEditorKit;
-import org.protege.editor.owl.ui.frame.OWLSubClassAxiomFrameSectionRow;
+import org.protege.editor.owl.ui.frame.cls.OWLSubClassAxiomFrameSectionRow;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLSubClassAxiom;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
 /**
  * @author Luigi Iannone
@@ -47,7 +47,7 @@ public class PatternOWLSubClassAxiomFrameSectionRow extends
 	 */
 	public PatternOWLSubClassAxiomFrameSectionRow(OWLEditorKit owlEditorKit,
 			PatternOWLSubCLassAxiomFrameSection section, OWLOntology ontology,
-			OWLClass rootObject, OWLSubClassAxiom axiom,
+			OWLClass rootObject, OWLSubClassOfAxiom axiom,
 			PatternModel generatingPatternModel) {
 		super(owlEditorKit, section, ontology, rootObject, axiom);
 		this.generatingPatternModel = generatingPatternModel;

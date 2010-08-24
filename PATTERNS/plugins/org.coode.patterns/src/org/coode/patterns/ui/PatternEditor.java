@@ -37,42 +37,48 @@ import org.coode.parsers.ui.InputVerificationStatusChangedListener;
 import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.PatternModel;
 import org.protege.editor.owl.OWLEditorKit;
-import org.protege.editor.owl.ui.frame.AbstractOWLFrameSectionRowObjectEditor;
+import org.protege.editor.owl.ui.editor.AbstractOWLObjectEditor;
 
 /**
  * @author Luigi Iannone
  * 
  *         Apr 2, 2009
  */
-public class PatternEditor extends AbstractOWLFrameSectionRowObjectEditor<PatternModel> implements
-		org.protege.editor.core.ui.util.VerifiedInputEditor, ChangeListener {
+public class PatternEditor extends AbstractOWLObjectEditor<PatternModel>
+		implements org.protege.editor.core.ui.util.VerifiedInputEditor,
+		ChangeListener {
 	private final JTabbedPane mainPanel = new JTabbedPane();
 	private final Set<org.protege.editor.core.ui.util.InputVerificationStatusChangedListener> listeners = new HashSet<org.protege.editor.core.ui.util.InputVerificationStatusChangedListener>();
 	private final PatternBuilder patternBuilder;
 	private final TypeInPatternBuilder patternTextEditor;
 	private PatternModel patternModel = null;
 
-	public PatternEditor(OWLEditorKit owlEditorKit, AbstractPatternModelFactory f) {
+	public PatternEditor(OWLEditorKit owlEditorKit,
+			AbstractPatternModelFactory f) {
 		this.patternBuilder = new PatternBuilder(owlEditorKit, f);
 		this.patternTextEditor = new TypeInPatternBuilder(owlEditorKit);
-		this.patternBuilder.addStatusChangedListener(new InputVerificationStatusChangedListener() {
-			public void verifiedStatusChanged(boolean newState) {
-				PatternEditor.this.patternModel = null;
-				if (newState) {
-					PatternEditor.this.patternModel = PatternEditor.this.patternBuilder.getEditedObject();
-				}
-				PatternEditor.this.handleChange();
-			}
-		});
-		this.patternTextEditor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
-			public void verifiedStatusChanged(boolean newState) {
-				PatternEditor.this.patternModel = null;
-				if (newState) {
-					PatternEditor.this.patternModel = PatternEditor.this.patternTextEditor.getEditedObject();
-				}
-				PatternEditor.this.handleChange();
-			}
-		});
+		this.patternBuilder
+				.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+					public void verifiedStatusChanged(boolean newState) {
+						PatternEditor.this.patternModel = null;
+						if (newState) {
+							PatternEditor.this.patternModel = PatternEditor.this.patternBuilder
+									.getEditedObject();
+						}
+						PatternEditor.this.handleChange();
+					}
+				});
+		this.patternTextEditor
+				.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+					public void verifiedStatusChanged(boolean newState) {
+						PatternEditor.this.patternModel = null;
+						if (newState) {
+							PatternEditor.this.patternModel = PatternEditor.this.patternTextEditor
+									.getEditedObject();
+						}
+						PatternEditor.this.handleChange();
+					}
+				});
 		this.mainPanel.addChangeListener(this);
 		this.initGUI();
 		this.handleChange();
@@ -119,12 +125,8 @@ public class PatternEditor extends AbstractOWLFrameSectionRowObjectEditor<Patter
 		this.listeners.remove(listener);
 	}
 
-	public void clear() {
-		this.patternBuilder.clear();
-		this.patternTextEditor.clear();
-	}
-
 	public void dispose() {
+		this.listeners.clear();
 		this.patternBuilder.dispose();
 		this.patternTextEditor.dispose();
 	}
@@ -140,10 +142,12 @@ public class PatternEditor extends AbstractOWLFrameSectionRowObjectEditor<Patter
 	public void stateChanged(ChangeEvent e) {
 		Component selectedComponent = this.mainPanel.getSelectedComponent();
 		if (this.patternModel != null) {
-			if (selectedComponent.equals(this.patternBuilder.getEditorComponent())) {
+			if (selectedComponent.equals(this.patternBuilder
+					.getEditorComponent())) {
 				this.patternBuilder.setPatternModel(this.patternModel);
 			}
-			if (selectedComponent.equals(this.patternTextEditor.getEditorComponent())) {
+			if (selectedComponent.equals(this.patternTextEditor
+					.getEditorComponent())) {
 				this.patternTextEditor.setPatternModel(this.patternModel);
 			}
 		}
@@ -152,5 +156,18 @@ public class PatternEditor extends AbstractOWLFrameSectionRowObjectEditor<Patter
 	public void setPatternModel(PatternModel patternModel) {
 		this.patternTextEditor.setPatternModel(patternModel);
 		this.patternBuilder.setPatternModel(patternModel);
+	}
+
+	public boolean canEdit(Object object) {
+		return true;
+	}
+
+	public String getEditorTypeName() {
+		return "Pattern model editor";
+	}
+
+	public boolean setEditedObject(PatternModel editedObject) {
+		this.setPatternModel(editedObject);
+		return true;
 	}
 }

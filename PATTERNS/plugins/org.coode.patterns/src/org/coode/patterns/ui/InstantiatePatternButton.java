@@ -51,4 +51,19 @@ public class InstantiatePatternButton extends MListButton {
 				.getBounds().y
 				+ g.getFontMetrics().getAscent() / 2 + h / 2);
 	}
+
+	@Override
+	public int hashCode() {
+		return this.getActionListener().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		boolean toReturn = obj == this;
+		if (!toReturn && obj instanceof InstantiatePatternButton) {
+			((InstantiatePatternButton) obj).getActionListener().equals(
+					this.getActionListener());
+		}
+		return toReturn;
+	}
 }

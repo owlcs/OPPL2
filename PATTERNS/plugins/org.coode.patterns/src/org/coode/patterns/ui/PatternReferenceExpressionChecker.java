@@ -31,7 +31,7 @@ import org.coode.patterns.PatternReferenceNotFoundException;
 import org.coode.patterns.protege.ProtegeParserFactory;
 import org.coode.patterns.utils.Utils;
 import org.protege.editor.owl.OWLEditorKit;
-import org.protege.editor.owl.model.description.OWLExpressionParserException;
+import org.protege.editor.owl.model.classexpression.OWLExpressionParserException;
 import org.protege.editor.owl.ui.clsdescriptioneditor.OWLExpressionChecker;
 import org.semanticweb.owlapi.model.OWLOntology;
 
@@ -57,22 +57,25 @@ public class PatternReferenceExpressionChecker implements
 	 * @see org.protege.editor.owl.ui.clsdescriptioneditor.OWLExpressionChecker#check(java.lang.String)
 	 */
 	public void check(String text) throws OWLExpressionParserException {
-		Iterator<OWLOntology> it = this.owlEditorKit.getModelManager().getOntologies().iterator();
+		Iterator<OWLOntology> it = this.owlEditorKit.getModelManager()
+				.getOntologies().iterator();
 		this.instantiatedPatternModel = null;
 		boolean found = false;
 		PatternModel patternModel = null;
-		AbstractPatternModelFactory patternFactory = ProtegeParserFactory.getInstance(
-				this.owlEditorKit).getPatternFactory();
+		AbstractPatternModelFactory patternFactory = ProtegeParserFactory
+				.getInstance(this.owlEditorKit).getPatternFactory();
 		while (!found && it.hasNext()) {
 			OWLOntology ontology = it.next();
 			patternModel = Utils.find(text, ontology, patternFactory);
 			found = patternModel != null;
 		}
 		if (found) {
-			this.instantiatedPatternModel = patternFactory.createInstantiatedPatternModel(patternModel);
+			this.instantiatedPatternModel = patternFactory
+					.createInstantiatedPatternModel(patternModel);
 		} else {
-			throw new OWLExpressionParserException(new PatternReferenceNotFoundException(
-					"Invalid pattern name: " + text));
+			throw new OWLExpressionParserException(
+					new PatternReferenceNotFoundException(
+							"Invalid pattern name: " + text));
 		}
 	}
 
@@ -81,7 +84,8 @@ public class PatternReferenceExpressionChecker implements
 	 * 
 	 * @see org.protege.editor.owl.ui.clsdescriptioneditor.OWLExpressionChecker#createObject(java.lang.String)
 	 */
-	public InstantiatedPatternModel createObject(String text) throws OWLExpressionParserException {
+	public InstantiatedPatternModel createObject(String text)
+			throws OWLExpressionParserException {
 		this.check(text);
 		return this.instantiatedPatternModel;
 	}
