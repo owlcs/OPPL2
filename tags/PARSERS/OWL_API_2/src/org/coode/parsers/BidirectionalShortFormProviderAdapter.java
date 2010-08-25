@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.semanticweb.owl.model.AddAxiom;
+import org.semanticweb.owl.model.OWLDataFactory;
 import org.semanticweb.owl.model.OWLEntity;
 import org.semanticweb.owl.model.OWLException;
 import org.semanticweb.owl.model.OWLOntology;
@@ -81,7 +82,13 @@ public class BidirectionalShortFormProviderAdapter extends CachingBidirectionalS
 		this.man = man;
 		this.man.addOntologyChangeListener(this.changeListener);
 		this.rebuild(new ReferencedEntitySetProvider(ontologies, man.getOWLDataFactory()));
+		this.addWellKnownEntities(man.getOWLDataFactory());
 		man.addOntologyLoaderListener(this.loaderListener);
+	}
+
+	private void addWellKnownEntities(OWLDataFactory dataFactory) {
+		this.add(dataFactory.getOWLThing());
+		this.add(dataFactory.getOWLNothing());
 	}
 
 	@Override
