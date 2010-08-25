@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY owl11 "http://www.w3.org/2006/12/owl11#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl11xml "http://www.w3.org/2006/12/owl11-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY bmi "http://www.cs.manchester.owl/owlarithmetics/bmi.owl#" >
+    <!ENTITY formula "http://www.cs.manchester.ac.uk/owlarithmetics/formula#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.cs.manchester.owl/owlarithmetics/bmi.owl#"
+     xml:base="http://www.cs.manchester.owl/owlarithmetics/bmi.owl"
+     xmlns:owl11="http://www.w3.org/2006/12/owl11#"
+     xmlns:owl11xml="http://www.w3.org/2006/12/owl11-xml#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:bmi="http://www.cs.manchester.owl/owlarithmetics/bmi.owl#"
+     xmlns:formula="http://www.cs.manchester.ac.uk/owlarithmetics/formula#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
+    <owl:Ontology rdf:about=""/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&formula;bmi"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.cs.manchester.owl/owlarithmetics/bmi.owl#hasBMI -->
+
+    <owl:DatatypeProperty rdf:about="#hasBMI">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+        <formula:bmi
+            >APPLIESTO &lt;Person&gt;{h=http://www.cs.manchester.owl/owlarithmetics/bmi.owl#hasHeight, w=http://www.cs.manchester.owl/owlarithmetics/bmi.owl#hasWeight}-&gt;w /h^2;</formula:bmi>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.cs.manchester.owl/owlarithmetics/bmi.owl#hasHeight -->
+
+    <owl:DatatypeProperty rdf:about="#hasHeight">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.cs.manchester.owl/owlarithmetics/bmi.owl#hasWeight -->
+
+    <owl:DatatypeProperty rdf:about="#hasWeight">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.cs.manchester.owl/owlarithmetics/bmi.owl#Female -->
+
+    <owl:Class rdf:about="#Female">
+        <rdfs:subClassOf rdf:resource="#Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.manchester.owl/owlarithmetics/bmi.owl#Male -->
+
+    <owl:Class rdf:about="#Male">
+        <rdfs:subClassOf rdf:resource="#Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.manchester.owl/owlarithmetics/bmi.owl#Person -->
+
+    <owl:Class rdf:about="#Person">
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#hasWeight"/>
+                        <owl:someValuesFrom rdf:resource="&xsd;double"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#hasBMI"/>
+                        <owl:someValuesFrom rdf:resource="&xsd;double"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#hasHeight"/>
+                        <owl:someValuesFrom rdf:resource="&xsd;double"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.cs.manchester.owl/owlarithmetics/bmi.owl#Luigi -->
+
+    <Male rdf:about="#Luigi">
+        <hasHeight rdf:datatype="&xsd;double">1.83</hasHeight>
+        <hasWeight rdf:datatype="&xsd;double">78</hasWeight>
+    </Male>
+</rdf:RDF>

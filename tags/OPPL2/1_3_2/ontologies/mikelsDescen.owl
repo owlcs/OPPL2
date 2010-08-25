@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+   <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+   <!ENTITY owl2 "http://www.w3.org/2006/12/owl2#" >
+   <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+   <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+   <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+   <!ENTITY descen "http://www.semanticweb.org/descen.owl#" >
+   <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/descen.owl#"
+    xml:base="http://www.semanticweb.org/descen.owl"
+    xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+    xmlns:descen="http://www.semanticweb.org/descen.owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:owl2="http://www.w3.org/2006/12/owl2#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#">
+   <owl:Ontology rdf:about=""/>
+
+
+
+   <!-- 
+   ///////////////////////////////////////////////////////////////////////////////////////
+   //
+   // Object Properties
+   //
+   ///////////////////////////////////////////////////////////////////////////////////////
+    -->
+
+
+
+
+   <!-- http://www.semanticweb.org/descen.owl#has_part -->
+
+   <owl:ObjectProperty rdf:about="#has_part"/>
+
+
+
+   <!-- 
+   ///////////////////////////////////////////////////////////////////////////////////////
+   //
+   // Classes
+   //
+   ///////////////////////////////////////////////////////////////////////////////////////
+    -->
+
+
+
+
+   <!-- http://www.semanticweb.org/descen.owl#building -->
+
+   <owl:Class rdf:about="#building">
+       <owl:equivalentClass>
+           <owl:Restriction>
+               <owl:onProperty rdf:resource="#has_part"/>
+               <owl:someValuesFrom rdf:resource="#wall"/>
+           </owl:Restriction>
+       </owl:equivalentClass>
+       <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+   </owl:Class>
+
+
+
+   <!-- http://www.semanticweb.org/descen.owl#house -->
+
+   <owl:Class rdf:about="#house">
+       <owl:equivalentClass>
+           <owl:Restriction>
+               <owl:onProperty rdf:resource="#has_part"/>
+               <owl:someValuesFrom rdf:resource="#roof"/>
+           </owl:Restriction>
+       </owl:equivalentClass>
+       <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+       <rdfs:subClassOf>
+           <owl:Restriction>
+               <owl:onProperty rdf:resource="#has_part"/>
+               <owl:someValuesFrom rdf:resource="#wall"/>
+           </owl:Restriction>
+       </rdfs:subClassOf>
+   </owl:Class>
+
+
+
+   <!-- http://www.semanticweb.org/descen.owl#my_house -->
+
+   <owl:Class rdf:about="#my_house">
+       <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+       <rdfs:subClassOf>
+           <owl:Restriction>
+               <owl:onProperty rdf:resource="#has_part"/>
+               <owl:someValuesFrom rdf:resource="#roof"/>
+           </owl:Restriction>
+       </rdfs:subClassOf>
+   </owl:Class>
+
+
+
+   <!-- http://www.semanticweb.org/descen.owl#roof -->
+
+   <owl:Class rdf:about="#roof">
+       <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+   </owl:Class>
+
+
+
+   <!-- http://www.semanticweb.org/descen.owl#wall -->
+
+   <owl:Class rdf:about="#wall">
+       <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+   </owl:Class>
+
+
+
+   <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+   <owl:Class rdf:about="&owl;Thing"/>
+</rdf:RDF>
