@@ -17,11 +17,10 @@ public class ParserFactory implements AbstractParserFactory {
 	/**
 	 * @param ontologyManager
 	 */
-	public ParserFactory(OWLOntologyManager ontologyManager,
-			OWLOntology ontology, OWLReasoner reasoner) {
+	public ParserFactory(OWLOntologyManager ontologyManager, OWLOntology ontology,
+			OWLReasoner reasoner) {
 		if (ontologyManager == null) {
-			throw new NullPointerException(
-					"The ontology manager cannot be null");
+			throw new NullPointerException("The ontology manager cannot be null");
 		}
 		if (ontology == null) {
 			throw new NullPointerException("The ontology cannot be null");
@@ -34,16 +33,19 @@ public class ParserFactory implements AbstractParserFactory {
 	public OPPLParser build(ErrorListener errorListener) {
 		SymbolTableFactory<OPPLSymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
 				this.getOntologyManager());
-		return new OPPLParser(this.getOPPLFactory(), errorListener,
-				symbolTableFactory);
+		return this.build(errorListener, symbolTableFactory);
+	}
+
+	public OPPLParser build(ErrorListener errorListener,
+			SymbolTableFactory<OPPLSymbolTable> symbolTableFactory) {
+		return new OPPLParser(this.getOPPLFactory(), errorListener, symbolTableFactory);
 	}
 
 	/**
 	 * @return
 	 */
 	public OPPLFactory getOPPLFactory() {
-		return new OPPLFactory(this.getOntologyManager(), this.getOntology(),
-				this.getReasoner());
+		return new OPPLFactory(this.getOntologyManager(), this.getOntology(), this.getReasoner());
 	}
 
 	/**
