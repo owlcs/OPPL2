@@ -131,7 +131,7 @@ public class OPPLScriptImpl implements OPPLScript {
 			first = false;
 			buffer.append(commaString);
 			buffer.append(v.toString());
-			VariableScope variableScope = v.getVariableScope();
+			VariableScope<?> variableScope = v.getVariableScope();
 			if (variableScope != null) {
 				buffer.append('[');
 				buffer.append(variableScope.getDirection().toString());
@@ -175,7 +175,7 @@ public class OPPLScriptImpl implements OPPLScript {
 			buffer.append(commaString);
 			first = false;
 			buffer.append(v.toString());
-			VariableScope variableScope = v.getVariableScope();
+			VariableScope<?> variableScope = v.getVariableScope();
 			if (variableScope != null) {
 				buffer.append('[');
 				buffer.append(variableScope.getDirection().toString());

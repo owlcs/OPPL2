@@ -22,7 +22,6 @@
  */
 package org.coode.oppl;
 
-import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLPropertyExpression;
 
 /**
@@ -33,8 +32,8 @@ import org.semanticweb.owlapi.model.OWLPropertyExpression;
  * @author Luigi Iannone
  * 
  */
-public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?>>
-		implements VariableScope {
+public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?>> implements
+		VariableScope<P> {
 	private final P property;
 
 	/**
@@ -64,7 +63,7 @@ public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?
 	/**
 	 * @see org.coode.oppl.VariableScope#getScopingObject()
 	 */
-	public OWLObject getScopingObject() {
+	public P getScopingObject() {
 		return this.getProperty();
 	}
 }

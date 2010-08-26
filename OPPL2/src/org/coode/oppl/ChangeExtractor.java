@@ -36,16 +36,14 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
  * @author Luigi Iannone
  * 
  */
-public class ChangeExtractor implements
-		OPPLScriptVisitorEx<List<OWLAxiomChange>> {
+public class ChangeExtractor implements OPPLScriptVisitorEx<List<OWLAxiomChange>> {
 	private final boolean considerImportClosure;
 	private final ConstraintSystem constraintSystem;
 
 	/**
 	 * @param ontologyManager
 	 */
-	public ChangeExtractor(ConstraintSystem constraintSystem,
-			boolean considerImportClosure) {
+	public ChangeExtractor(ConstraintSystem constraintSystem, boolean considerImportClosure) {
 		ArgCheck.checkNullArgument("The constraint system", constraintSystem);
 		this.constraintSystem = constraintSystem;
 		this.considerImportClosure = considerImportClosure;
@@ -62,13 +60,11 @@ public class ChangeExtractor implements
 		return p;
 	}
 
-	@SuppressWarnings("unused")
 	public List<OWLAxiomChange> visit(Variable v, List<OWLAxiomChange> p) {
 		return p;
 	}
 
-	public List<OWLAxiomChange> visitActions(List<OWLAxiomChange> changes,
-			List<OWLAxiomChange> p) {
+	public List<OWLAxiomChange> visitActions(List<OWLAxiomChange> changes, List<OWLAxiomChange> p) {
 		if (p == null) {
 			p = new ArrayList<OWLAxiomChange>();
 		}
@@ -76,15 +72,18 @@ public class ChangeExtractor implements
 			boolean isAdd = change instanceof AddAxiom;
 			ActionType action = isAdd ? ActionType.ADD : ActionType.REMOVE;
 			if (this.considerImportClosure && !isAdd) {
-				p.addAll(ActionFactory.createChanges(action, change.getAxiom(),
-						this.constraintSystem, this.getConstraintSystem()
-								.getOntologyManager().getImportsClosure(
-										this.getConstraintSystem()
-												.getOntology())));
+				p.addAll(ActionFactory.createChanges(
+						action,
+						change.getAxiom(),
+						this.constraintSystem,
+						this.getConstraintSystem().getOntologyManager().getImportsClosure(
+								this.getConstraintSystem().getOntology())));
 			} else {
-				p.addAll(ActionFactory.createChanges(action, change.getAxiom(),
-						this.getConstraintSystem(), this.getConstraintSystem()
-								.getOntology()));
+				p.addAll(ActionFactory.createChanges(
+						action,
+						change.getAxiom(),
+						this.getConstraintSystem(),
+						this.getConstraintSystem().getOntology()));
 			}
 		}
 		return p;
