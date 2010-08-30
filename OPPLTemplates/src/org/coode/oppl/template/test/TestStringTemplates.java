@@ -8,12 +8,12 @@ import java.util.Properties;
 import junit.framework.TestCase;
 
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.template.KeyBasedReplacementStrategy;
 import org.coode.oppl.template.OPPLParserCreationStrategy;
 import org.coode.oppl.template.commons.AnnotationBasedSimpleOPPLParserCreationStrategy;
 import org.coode.oppl.template.commons.JavaFormatterReplacementStrategy;
+import org.coode.oppl.template.commons.KeyBasedReplacementStrategy;
 import org.coode.oppl.template.commons.SimpleOPPLParserCreationStrategy;
-import org.coode.oppl.template.commons.StringTemplateWithParamCollection;
+import org.coode.oppl.template.commons.StringTemplate;
 import org.coode.parsers.test.JUnitTestErrorListener;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -35,7 +35,7 @@ public class TestStringTemplates extends TestCase {
 			OPPLParserCreationStrategy parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
 					ontologyManager, emptyOntology, null, ERROR_LISTENER);
 			String template = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
-			StringTemplateWithParamCollection stringTemplate = new StringTemplateWithParamCollection(
+			StringTemplate stringTemplate = new StringTemplate(
 					template, new JavaFormatterReplacementStrategy(Collections.emptyList()),
 					parserCreationStrategy);
 			OPPLScript opplScript = stringTemplate.replace();
@@ -54,7 +54,7 @@ public class TestStringTemplates extends TestCase {
 			OPPLParserCreationStrategy parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
 					ontologyManager, emptyOntology, null, ERROR_LISTENER);
 			String template = "?x:CLASS SELECT ?x subClassOf %s BEGIN ADD ?x subClassOf Thing END;";
-			StringTemplateWithParamCollection stringTemplate = new StringTemplateWithParamCollection(
+			StringTemplate stringTemplate = new StringTemplate(
 					template, new JavaFormatterReplacementStrategy(Arrays.asList("Thing")),
 					parserCreationStrategy);
 			OPPLScript opplScript = stringTemplate.replace();
@@ -73,7 +73,7 @@ public class TestStringTemplates extends TestCase {
 			OPPLParserCreationStrategy parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
 					ontologyManager, emptyOntology, null, ERROR_LISTENER);
 			String template = "?x:CLASS SELECT ?x subClassOf %s BEGIN ADD ?x subClassOf Thing END;";
-			StringTemplateWithParamCollection stringTemplate = new StringTemplateWithParamCollection(
+			StringTemplate stringTemplate = new StringTemplate(
 					template, new JavaFormatterReplacementStrategy(Collections.emptyList()),
 					parserCreationStrategy);
 			stringTemplate.replace();
@@ -94,7 +94,7 @@ public class TestStringTemplates extends TestCase {
 			String template = "?x:CLASS SELECT ?x subClassOf %Thing BEGIN ADD ?x subClassOf Thing END;";
 			Properties properties = new Properties();
 			properties.setProperty("Thing", "Thing");
-			StringTemplateWithParamCollection stringTemplate = new StringTemplateWithParamCollection(
+			StringTemplate stringTemplate = new StringTemplate(
 					template, new KeyBasedReplacementStrategy(properties), parserCreationStrategy);
 			OPPLScript opplScript = stringTemplate.replace();
 			assertNotNull(opplScript);
@@ -114,7 +114,7 @@ public class TestStringTemplates extends TestCase {
 					ontologyManager, emptyOntology, null, ERROR_LISTENER);
 			String template = "?x:CLASS SELECT ?x subClassOf %Thing BEGIN ADD ?x subClassOf Thing END;";
 			Properties properties = new Properties();
-			StringTemplateWithParamCollection stringTemplate = new StringTemplateWithParamCollection(
+			StringTemplate stringTemplate = new StringTemplate(
 					template, new KeyBasedReplacementStrategy(properties), parserCreationStrategy);
 			stringTemplate.replace();
 			fail("Should not get to here");
@@ -136,7 +136,7 @@ public class TestStringTemplates extends TestCase {
 			String template = "?x:CLASS SELECT ?x subClassOf %Thing BEGIN ADD ?x subClassOf %Thing END;";
 			Properties properties = new Properties();
 			properties.setProperty("Thing", "Thing");
-			StringTemplateWithParamCollection stringTemplate = new StringTemplateWithParamCollection(
+			StringTemplate stringTemplate = new StringTemplate(
 					template, new KeyBasedReplacementStrategy(properties), parserCreationStrategy);
 			OPPLScript opplScript = stringTemplate.replace();
 			assertNotNull(opplScript);
@@ -158,7 +158,7 @@ public class TestStringTemplates extends TestCase {
 			String template = "?x:CLASS SELECT ?x subClassOf %ValuePartition BEGIN ADD ?x subClassOf Thing END;";
 			Properties properties = new Properties();
 			properties.setProperty("ValuePartition", "ValorDaParticao");
-			StringTemplateWithParamCollection stringTemplate = new StringTemplateWithParamCollection(
+			StringTemplate stringTemplate = new StringTemplate(
 					template, new KeyBasedReplacementStrategy(properties), parserCreationStrategy);
 			OPPLScript opplScript = stringTemplate.replace();
 			assertNotNull(opplScript);

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.coode.oppl.template;
+package org.coode.oppl.template.commons;
 
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
+import org.coode.oppl.template.OPPLParserCreationStrategy;
+import org.coode.oppl.template.ReplacementStrategy;
 
 /**
  * This strategy assumes that place-holders are also keys in a
