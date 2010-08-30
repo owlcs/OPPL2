@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="uk.ac.manchester.cs.lintroll">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="uk.ac.manchester.cs.lintroll" id="OPPLLint" name="Lint"/>
+      </appInfo>
+      <documentation>
+         OPPL Lint provides a lint derived from a valid OPPL Script that can be executed on the set of currently loaded ontologies.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="label"/>
+            <element ref="script"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="label">
+      <annotation>
+         <documentation>
+            The label that will appear in the view menu etc.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="value" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="script">
+      <annotation>
+         <documentation>
+            The OPPL Script
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="value" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The actual string in the script
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="java.lang.String:"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+</schema>

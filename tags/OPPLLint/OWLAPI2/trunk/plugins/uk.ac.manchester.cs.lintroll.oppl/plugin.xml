@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+  <plugin>
+  <!-- Extension points  -->
+ 	<extension-point id="oppllint"
+                     name="OPPL Lint"
+                     schema="schema/OPPLLint.exsd"/>
+ 	<extension-point id="filteroppllint"
+                     name="Filtering OPPL Lint"
+                     schema="schema/FilteringOPPLLint.exsd"/>                     
+<!-- The Loader Factory -->                     
+    <extension 
+          point="uk.ac.manchester.cs.lintroll.loaderfactory"  id="ProtegeOPPLLintPluginLoaderFactory">
+          <label value="OPPL Lint Loader Factory"/>
+          <class value="org.coode.oppl.lint.protege.ProtegeOPPLLintPLuginLoaderFactory"/>
+    </extension>
+    <extension 
+          point="uk.ac.manchester.cs.lintroll.loaderfactory"  id="FilteringOPPLLintPluginLoaderFactory">
+          <label value="OPPL Lint Loader Factory"/>
+          <class value="org.coode.oppl.lint.filtering.protege.FilteringOPPLLintLoaderFactory"/>
+    </extension>                                               		  
+  </plugin>

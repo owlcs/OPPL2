@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="plugins/uk.ac.manchester.cs.lintroll.oppl/src"/>
+	<classpathentry kind="lib" path="/protege-standalone/osgi/equinox/bundles/org.eclipse.equinox.registry.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/OPPL2Protege4.0"/>
+	<classpathentry kind="lib" path="/OPPL2Protege4.0/lib/antlr-3.2.jar"/>
+	<classpathentry kind="lib" path="/protege-standalone/plugins/org.semanticweb.owl.owlapi/lib/owlapi-bin.jar" sourcepath="/OWLAPI"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/protege-standalone"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Parsers_OWL_API_2"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/OWLLintOWLAPI2"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
