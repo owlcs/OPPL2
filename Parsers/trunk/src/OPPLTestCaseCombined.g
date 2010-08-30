@@ -1,25 +1,30 @@
-grammar OPPLLintCombined;
+grammar OPPLTestCaseCombined;
 
 options {
   language = Java;
   output = AST;
   ASTLabelType = OPPLSyntaxTree; // use custom tree nodes
-  tokenVocab = OPPLLintCombined;
+  tokenVocab = OPPLTestCaseCombined;
 }
 
-import OPPLLintLexer, OPPLParser;
+import OPPLTestCaseLexer, OPPLParser;
 
 tokens{
   OPPL_STATEMENT;
-  OPPL_LINT;
-  DESCRIPTION;
-  EXPLANATION;
+  OPPL_TEST_CASE;
+  MESSAGE;
+  TEST;
+  ASSERT_EQUAL;
+  ASSERT_NOT_EQUAL;
+  ASSERT_TRUE;
+  ASSERT_FALSE;
+  TEXT;
 }
  
 @header {
-  package org.coode.parsers.oppl.lint;
-  import org.coode.parsers.oppl.OPPLSyntaxTree;
-    import org.coode.parsers.ErrorListener;
+	package org.coode.parsers.oppl.testcase;
+	import org.coode.parsers.oppl.OPPLSyntaxTree;
+	import org.coode.parsers.ErrorListener;
 }
 
 
@@ -27,7 +32,7 @@ tokens{
 
   private  ErrorListener errorListener;
   
-  public OPPLLintCombinedParser(TokenStream input, ErrorListener errorListener) {
+  public OPPLTestCaseCombinedParser(TokenStream input, ErrorListener errorListener) {
     this(input);   
     if(errorListener == null){
     	throw new NullPointerException("The error listener cannot be null");
@@ -69,10 +74,34 @@ tokens{
 }  
   
 
-lint
+testCase
   :
-    name = text SEMICOLON INFERENCE? statement returnClause  SEMICOLON exp = text SEMICOLON description ->^(OPPL_LINT IDENTIFIER[$name.text] INFERENCE? statement returnClause ^(EXPLANATION[$exp.text] $exp)  description) 
+    name = text SEMICOLON INFERENCE? statement  test+->^(OPPL_TEST_CASE IDENTIFIER[$name.text] INFERENCE? statement test+) 
   ;
+
+
+test
+	:
+		ASSERT assertion (SEMICOLON message= text)? -> ^(TEST assertion ^(MESSAGE[$message.text] $message)? )
+	;
+	
+
+assertion options{backtrack = true;}
+	:
+		left =assertionExpression EQUAL right= assertionExpression -> ^(ASSERT_EQUAL $left $right)
+		| left =assertionExpression NOT_EQUAL right= assertionExpression -> ^(ASSERT_NOT_EQUAL $left $right)
+		| VARIABLE_NAME 	CONTAINS expression ->^(CONTAINS VARIABLE_NAME  expression)
+		| NOT OPEN_PARENTHESYS assertion CLOSED_PARENTHESYS ->^(NOT assertion)
+	;
+	
+assertionExpression
+	:
+		COUNT OPEN_PARENTHESYS VARIABLE_NAME CLOSED_PARENTHESYS ->^(COUNT VARIABLE_NAME)
+		| INTEGER 
+		| expression ->^(EXPRESSION exporession)
+	;
+
+
 
 text
 
@@ -112,39 +141,21 @@ textBit
    | DOMAIN -> ^(TEXT [$DOMAIN.text])   
    | RANGE -> ^(TEXT [$RANGE.text])
    | TYPES -> ^(TEXT [$TYPES.text])      
+   | INTEGER -> ^(TEXT [$INTEGER.text])      
+   | COUNT -> ^(TEXT [$COUNT.text])   
   ; 
 
 statement
   :
-    variableDefinitions? query actions? -> ^(OPPL_STATEMENT variableDefinitions? query actions?)
+    variableDefinitions? query  -> ^(OPPL_STATEMENT variableDefinitions? query)
   ;
   
 
 
-returnClause
-  :
-    RETURN returnValue  ->^(RETURN returnValue)
-  ;
-  
-returnValue
-  :
-      VARIABLE_NAME -> VARIABLE_NAME
-  ;
 
-description 
-@init
-{
-  StringBuilder builder = new StringBuilder();
-}
-  :
-    (a= .
-    {
-      builder.append($a.text);
-      builder.append(" ");
-    }
-    )+  ->^(DESCRIPTION [builder.toString()] $a+)
-  ; 
-  
+
+
  
 
   
+

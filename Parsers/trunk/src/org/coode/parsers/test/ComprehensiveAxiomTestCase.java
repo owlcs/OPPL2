@@ -385,6 +385,11 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		assertTrue("parse type " + parseType,
 				parseType == OWLAxiomType.EQUIVALENT_CLASSES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_CLASSES);
+		parsed = this.parse("NamedPizza  equivalentTo Pizza");
+		parseType = parsed.getEvalType();
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.EQUIVALENT_CLASSES);
+		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_CLASSES);
 	}
 
 	public void testDisjointClasses() {
