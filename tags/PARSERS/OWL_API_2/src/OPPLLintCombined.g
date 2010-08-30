@@ -90,16 +90,29 @@ text
 
 textBit
 	:
-	IDENTIFIER -> ^(TEXT [$IDENTIFIER.text])
-	| VARIABLE_NAME  -> ^(TEXT VARIABLE_NAME)
-	| FUNCTIONAL -> ^(TEXT [$FUNCTIONAL.text])
-    	| INVERSE_FUNCTIONAL -> ^(TEXT [$INVERSE_FUNCTIONAL.text])
-    | SYMMETRIC -> ^(TEXT [$SYMMETRIC.text])
-    | ANTI_SYMMETRIC -> ^(TEXT [$ANTI_SYMMETRIC.text])
-    | REFLEXIVE -> ^(TEXT [$REFLEXIVE.text])
-    | IRREFLEXIVE -> ^(TEXT [$IRREFLEXIVE.text])
-    |  TRANSITIVE -> ^(TEXT [$TRANSITIVE.text])
-	;
+   IDENTIFIER -> ^(TEXT [$IDENTIFIER.text])
+   | VARIABLE_NAME  -> ^(TEXT VARIABLE_NAME)
+   | FUNCTIONAL -> ^(TEXT [$FUNCTIONAL.text])
+   | INVERSE_FUNCTIONAL -> ^(TEXT [$INVERSE_FUNCTIONAL.text])
+   | SYMMETRIC -> ^(TEXT [$SYMMETRIC.text])
+   | ANTI_SYMMETRIC -> ^(TEXT [$ANTI_SYMMETRIC.text])
+   | REFLEXIVE -> ^(TEXT [$REFLEXIVE.text])
+   | IRREFLEXIVE -> ^(TEXT [$IRREFLEXIVE.text])
+   |  TRANSITIVE -> ^(TEXT [$TRANSITIVE.text])
+   | NOT -> ^(TEXT [$NOT.text])
+   | AND -> ^(TEXT [$AND.text])
+   | OR -> ^(TEXT [$OR.text])
+   | SOME -> ^(TEXT [$SOME.text])
+   | ONLY -> ^(TEXT [$ONLY.text])
+   | MIN -> ^(TEXT [$MIN.text])
+   | MAX -> ^(TEXT [$MAX.text])   
+   | EXACTLY -> ^(TEXT [$EXACTLY.text])   
+   | VALUE -> ^(TEXT [$VALUE.text])   
+   | INVERSE -> ^(TEXT [$INVERSE.text])   
+   | DOMAIN -> ^(TEXT [$DOMAIN.text])   
+   | RANGE -> ^(TEXT [$RANGE.text])
+   | TYPES -> ^(TEXT [$TYPES.text])      
+  ; 
 
 statement
   :
