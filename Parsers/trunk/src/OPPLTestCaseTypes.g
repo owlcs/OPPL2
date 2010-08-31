@@ -90,6 +90,8 @@ options {
   import org.semanticweb.owlapi.model.OWLAxiomChange;
   import java.util.Collections;
   import org.coode.oppl.OPPLQuery;
+  import org.coode.parsers.oppl.testcase.assertions.Assertion;
+  import org.coode.parsers.oppl.testcase.assertions.AssertionExpression;
 }
 
 // START: root
@@ -102,15 +104,26 @@ bottomup // match subexpressions innermost to outermost
 
 testCase
 	:
-		^(OPPL_TEST_CASE IDENTIFIER INFERENCE? statement test+) 
+		^(OPPL_TEST_CASE IDENTIFIER INFERENCE? s = statement someTests = tests) 
 		{
 		  if(s.statementTree.getOPPLContent() instanceof OPPLScript){
-			OPPLTestCase testCase = this.getTestCaseFactory().buildOPPLTestCase($IDENTIFIER,
-			(OPPLScript) s.statementTree.getOPPLContent());
+			OPPLTestCase testCase = this.getTestCaseFactory().buildOPPLTestCase($IDENTIFIER.text,
+			(OPPLScript) s.statementTree.getOPPLContent(), someTests, $INFERENCE==null);
 			$start.setOPPLContent(testCase);        
 		  }  
 		}		
   ;
+  
+tests returns  [List<Test> tests]
+@init{
+	tests = new ArrayList<Test>();
+}
+
+	:
+		( t = test{
+			tests.add(t);
+		})+
+	;
 
 statement returns [OPPLSyntaxTree statementTree]
 @init{
@@ -121,7 +134,7 @@ statement returns [OPPLSyntaxTree statementTree]
 	$statementTree = $start;
 }
 	:
-		^(OPPL_STATEMENT  (^(vd = VARIABLE_DEFINITIONS .*))? ^(query =QUERY .*)  (^(a = ACTIONS .*))?)
+		^(OPPL_STATEMENT  (^(vd = VARIABLE_DEFINITIONS .*))? ^(query =QUERY .*))
 		{
 				if(vd!=null){
 				vds.addAll((List<Variable>)$vd.getOPPLContent());
@@ -137,8 +150,47 @@ statement returns [OPPLSyntaxTree statementTree]
 		}
 	;
 
+test returns [Test t]
+	:
+	^(TEST anAssertion = assertion (^(MESSAGE .*))? )
+	{
+		$t = ($MESSAGE==null)? new Test(anAssertion.a): new Test($MESSAGE.text,anAssertion.a);
+	}
+	;
 
 
+assertion returns [Assertion a]
+	:
+		^(ASSERT_EQUAL left=assertionExpression right =assertionExpression){
+			 $a = getSymbolTable().getAssertEqual(left.ae,left.node,right.ae, right.node,$start);
+		}
+		| ^(ASSERT_NOT_EQUAL left=assertionExpression right =assertionExpression){
+			 $a = getSymbolTable().getAssertNotEqual(left.ae,left.node,right.ae, right.node,$start);
+		}
+		| ^(CONTAINS VARIABLE_NAME expr= assertionExpression){
+			$a = getSymbolTable().getAssertContains($VARIABLE_NAME,expr.node, getConstraintSystem(), getTestCaseFactory(), $start);
+		}
+		| ^(NOT anAssertion= assertion){
+			$a = getSymbolTable().getAssertionComplement(anAssertion.a);
+		}
+		
+	;
+
+assertionExpression returns  [AssertionExpression ae, OPPLSyntaxTree node]
+@after{
+	$node = $start;
+}	
+	:
+		^(COUNT VARIABLE_NAME){
+			$ae = getSymbolTable().getCountAssertionExpression($VARIABLE_NAME, getConstraintSystem());
+		}
+		| INTEGER {
+			$ae = getSymbolTable().getIntegerAssertionExpression($INTEGER);
+		}
+		| ^(EXPRESSION .*){
+			$ae = getSymbolTable().getOWLExpressionAssertionExpression($EXPRESSION,getConstraintSystem(), getTestCaseFactory());			
+		}	
+	;
   
  textVariableRef 
  	:
