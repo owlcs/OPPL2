@@ -3,6 +3,8 @@
  */
 package org.coode.parsers.oppl.testcase;
 
+import java.util.List;
+
 import org.coode.oppl.OPPLAbstractFactory;
 import org.coode.oppl.OPPLScript;
 
@@ -11,7 +13,8 @@ import org.coode.oppl.OPPLScript;
  * 
  */
 public interface AbstractOPPLTestCaseFactory {
-	OPPLTestCase buildOPPLTestCase(OPPLScript opplContent);
+	OPPLTestCase buildOPPLTestCase(String name, OPPLScript opplContent, List<Test> tests,
+			boolean requiresInference);
 
 	OPPLAbstractFactory getOPPLFactory();
 }
