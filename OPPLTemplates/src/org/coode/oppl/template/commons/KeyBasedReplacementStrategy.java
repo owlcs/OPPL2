@@ -7,10 +7,8 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.coode.oppl.OPPLParser;
-import org.coode.oppl.OPPLScript;
-import org.coode.oppl.template.opplscript.OPPLScriptParsingStrategy;
-import org.coode.oppl.template.opplscript.OPPLScriptReplacementStrategy;
+import org.coode.oppl.template.ParsingStrategy;
+import org.coode.oppl.template.ReplacementStrategy;
 
 /**
  * This strategy assumes that place-holders are also keys in a
@@ -21,8 +19,8 @@ import org.coode.oppl.template.opplscript.OPPLScriptReplacementStrategy;
  * @author Luigi Iannone
  * 
  */
-public final class KeyBasedReplacementStrategy implements
-		OPPLScriptReplacementStrategy {
+public final class KeyBasedReplacementStrategy<O> implements
+		ReplacementStrategy<O> {
 	private final Properties properties;
 
 	/**
@@ -39,22 +37,20 @@ public final class KeyBasedReplacementStrategy implements
 	 * @see org.coode.oppl.template.opplscript.OPPLScriptReplacementStrategy#replace(java.lang.String,
 	 *      org.coode.oppl.template.opplscript.OPPLScriptParsingStrategy)
 	 */
-	public OPPLScript replace(String templateString,
-			OPPLScriptParsingStrategy parserCreationStrategy) {
+	public O replace(String templateString,
+			ParsingStrategy<O> parsingStrategy) {
 		// Non greedy matching
 		Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
-		String opplScriptString = templateString;
-		Matcher matcher = pattern.matcher(opplScriptString);
+		String replacedString = templateString;
+		Matcher matcher = pattern.matcher(replacedString);
 		while (matcher.find()) {
 			String placeholder = matcher.group();
 			String key = matcher.group(1);
-			opplScriptString = opplScriptString.replaceAll(this
+			replacedString = replacedString.replaceAll(this
 					.encode(placeholder), this.getReplacement(key));
-			matcher = pattern.matcher(opplScriptString);
+			matcher = pattern.matcher(replacedString);
 		}
-		OPPLParser parser = parserCreationStrategy.build();
-		OPPLScript opplScript = parser.parse(opplScriptString);
-		return opplScript;
+		return parsingStrategy.parse(replacedString);
 	}
 
 	private String encode(String placeholder) {

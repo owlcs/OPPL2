@@ -6,7 +6,7 @@ package org.coode.oppl.template.opplscript.commons;
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.ParserFactory;
-import org.coode.oppl.template.opplscript.OPPLScriptParsingStrategy;
+import org.coode.oppl.template.ParsingStrategy;
 import org.coode.parsers.ErrorListener;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -17,7 +17,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
  * 
  */
 public class SimpleOPPLParserCreationStrategy implements
-		OPPLScriptParsingStrategy {
+		ParsingStrategy<OPPLScript> {
 	private final ErrorListener errorListener;
 	private final ParserFactory parserFactory;
 
@@ -42,7 +42,7 @@ public class SimpleOPPLParserCreationStrategy implements
 		this.errorListener = errorListener;
 	}
 
-	private OPPLParser build() {
+	protected OPPLParser build() {
 		return this.parserFactory.build(this.getErrorListener());
 	}
 

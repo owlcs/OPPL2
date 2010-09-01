@@ -1,15 +1,19 @@
-package org.coode.oppl.template.opplscript;
-
-import org.coode.oppl.OPPLScript;
+/**
+ * 
+ */
+package org.coode.oppl.template;
 
 /**
  * Abstraction over the replacement strategy. Implementations specify how they
- * perform the substitution of place-holders with Params instances.
+ * perform the substitution of place-holders. The result of the replacement is
+ * parametrised.
  * 
+ * @param <O>
+ *            The type of replacement result.
  * @author Luigi Iannone
  * 
  */
-public interface OPPLScriptReplacementStrategy {
+public interface ReplacementStrategy<O> {
 	/**
 	 * Replace the place-holders in the input templateString and builds the
 	 * relative OPPLScript.
@@ -28,5 +32,5 @@ public interface OPPLScriptReplacementStrategy {
 	 *             if either input is <code>null</code>.
 	 * 
 	 */
-	OPPLScript replace(String templateString, OPPLScriptParsingStrategy parserCreationStrategy);
+	O replace(String templateString, ParsingStrategy<O> parserCreationStrategy);
 }

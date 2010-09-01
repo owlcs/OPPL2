@@ -1,25 +1,24 @@
 /**
  * 
  */
-package org.coode.oppl.template.opplscript.commons;
+package org.coode.oppl.template.commons;
 
-import org.coode.oppl.OPPLScript;
-import org.coode.oppl.template.opplscript.OPPLScriptParsingStrategy;
-import org.coode.oppl.template.opplscript.OPPLScriptReplacementStrategy;
-import org.coode.oppl.template.opplscript.OPPLScriptTemplate;
+import org.coode.oppl.template.OPPLTemplate;
+import org.coode.oppl.template.ParsingStrategy;
+import org.coode.oppl.template.ReplacementStrategy;
 
 /**
  * @author Luigi Iannone
  * 
  */
-public final class StringTemplate implements OPPLScriptTemplate {
+public class StringTemplate<O> implements OPPLTemplate<O> {
 	private final String templateString;
-	private final OPPLScriptReplacementStrategy replacementStrategy;
-	private final OPPLScriptParsingStrategy parserCreationStrategy;
+	private final ReplacementStrategy<O> replacementStrategy;
+	private final ParsingStrategy<O> parserCreationStrategy;
 
 	public StringTemplate(String templateString,
-			OPPLScriptReplacementStrategy replacementStrategy,
-			OPPLScriptParsingStrategy parserCreationStrategy) {
+			ReplacementStrategy<O> replacementStrategy,
+			ParsingStrategy<O> parserCreationStrategy) {
 		if (templateString == null) {
 			throw new NullPointerException("The template string cannot be null");
 		}
@@ -38,7 +37,7 @@ public final class StringTemplate implements OPPLScriptTemplate {
 	/**
 	 * @see org.coode.oppl.template.OPPLTemplate#replace()
 	 */
-	public OPPLScript replace() {
+	public O replace() {
 		return this.getReplacementStrategy().replace(this.getTemplateString(),
 				this.parserCreationStrategy);
 	}
@@ -46,7 +45,7 @@ public final class StringTemplate implements OPPLScriptTemplate {
 	/**
 	 * @return the replacementStrategy
 	 */
-	public OPPLScriptReplacementStrategy getReplacementStrategy() {
+	public ReplacementStrategy<O> getReplacementStrategy() {
 		return this.replacementStrategy;
 	}
 
