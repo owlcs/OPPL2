@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.coode.oppl.template.commons;
+package org.coode.oppl.template.opplscript.commons;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,8 +11,8 @@ import java.util.MissingFormatArgumentException;
 
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.template.OPPLParserCreationStrategy;
-import org.coode.oppl.template.ReplacementStrategy;
+import org.coode.oppl.template.opplscript.OPPLScriptParsingStrategy;
+import org.coode.oppl.template.opplscript.OPPLScriptReplacementStrategy;
 
 /**
  * Uses {@link Formatter} to perform the substitution.
@@ -20,7 +20,7 @@ import org.coode.oppl.template.ReplacementStrategy;
  * @author Luigi Iannone
  * 
  */
-public final class JavaFormatterReplacementStrategy implements ReplacementStrategy {
+public final class JavaFormatterReplacementStrategy implements OPPLScriptReplacementStrategy {
 	private List<Object> params;
 
 	public JavaFormatterReplacementStrategy(Collection<? extends Object> params) {
@@ -34,11 +34,11 @@ public final class JavaFormatterReplacementStrategy implements ReplacementStrate
 	 * @throws MissingFormatArgumentException
 	 *             when there is an argument in the template whose replacement
 	 *             is missing
-	 * @see org.coode.oppl.template.ReplacementStrategy#replace(java.lang.String,
-	 *      org.coode.oppl.template.OPPLParserCreationStrategy)
+	 * @see org.coode.oppl.template.opplscript.OPPLScriptReplacementStrategy#replace(java.lang.String,
+	 *      org.coode.oppl.template.opplscript.OPPLScriptParsingStrategy)
 	 */
 	public OPPLScript replace(String templateString,
-			OPPLParserCreationStrategy parserCreationStrategy) {
+			OPPLScriptParsingStrategy parserCreationStrategy) {
 		Formatter formatter = new Formatter();
 		formatter.format(templateString, this.params.toArray());
 		String opplScriptString = formatter.toString();

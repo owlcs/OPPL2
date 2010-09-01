@@ -1,18 +1,13 @@
-/**
- * 
- */
 package org.coode.oppl.template;
-
-import org.coode.oppl.OPPLScript;
 
 /**
  * A template is a String with place-holders. Replacing such place holders with
- * the appropriate String will produce an OPPL Script.
+ * the appropriate String will produce an instanceof the parameter O.
  * 
  * @author Luigi Iannone
  * 
  */
-public interface OPPLTemplate {
+public interface OPPLTemplate<O> {
 	/**
 	 * Retrieves the template String.
 	 * 
@@ -25,8 +20,8 @@ public interface OPPLTemplate {
 	 * 
 	 * 
 	 * 
-	 * @return an OPPLScript if the replacement produced a valid
-	 *         {@link OPPLScript}. <code>null</code> otherwise.
+	 * @return an instance of O if the replacement did not incur in parsing
+	 *         errors. <code>null</code> otherwise.
 	 */
-	OPPLScript replace();
+	O replace();
 }

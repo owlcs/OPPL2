@@ -1,4 +1,4 @@
-package org.coode.oppl.template;
+package org.coode.oppl.template.opplscript;
 
 import org.coode.oppl.OPPLScript;
 
@@ -9,7 +9,7 @@ import org.coode.oppl.OPPLScript;
  * @author Luigi Iannone
  * 
  */
-public interface ReplacementStrategy {
+public interface OPPLScriptReplacementStrategy {
 	/**
 	 * Replace the place-holders in the input templateString and builds the
 	 * relative OPPLScript.
@@ -28,5 +28,5 @@ public interface ReplacementStrategy {
 	 *             if either input is <code>null</code>.
 	 * 
 	 */
-	OPPLScript replace(String templateString, OPPLParserCreationStrategy parserCreationStrategy);
+	OPPLScript replace(String templateString, OPPLScriptParsingStrategy parserCreationStrategy);
 }

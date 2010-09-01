@@ -1,11 +1,12 @@
 /**
  * 
  */
-package org.coode.oppl.template.commons;
+package org.coode.oppl.template.opplscript.commons;
 
 import org.coode.oppl.OPPLParser;
+import org.coode.oppl.OPPLScript;
 import org.coode.oppl.ParserFactory;
-import org.coode.oppl.template.OPPLParserCreationStrategy;
+import org.coode.oppl.template.opplscript.OPPLScriptParsingStrategy;
 import org.coode.parsers.ErrorListener;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -15,7 +16,8 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
  * @author Luigi Iannone
  * 
  */
-public class SimpleOPPLParserCreationStrategy implements OPPLParserCreationStrategy {
+public class SimpleOPPLParserCreationStrategy implements
+		OPPLScriptParsingStrategy {
 	private final ErrorListener errorListener;
 	private final ParserFactory parserFactory;
 
@@ -23,9 +25,11 @@ public class SimpleOPPLParserCreationStrategy implements OPPLParserCreationStrat
 	 * @param errorListener
 	 */
 	public SimpleOPPLParserCreationStrategy(OWLOntologyManager ontologyManager,
-			OWLOntology ontology, OWLReasoner reasoner, ErrorListener errorListener) {
+			OWLOntology ontology, OWLReasoner reasoner,
+			ErrorListener errorListener) {
 		if (ontologyManager == null) {
-			throw new NullPointerException("The ontology manager cannot be null");
+			throw new NullPointerException(
+					"The ontology manager cannot be null");
 		}
 		if (ontology == null) {
 			throw new NullPointerException("The ontology cannot be null");
@@ -33,15 +37,18 @@ public class SimpleOPPLParserCreationStrategy implements OPPLParserCreationStrat
 		if (errorListener == null) {
 			throw new NullPointerException("The error listener cannot be null");
 		}
-		this.parserFactory = new ParserFactory(ontologyManager, ontology, reasoner);
+		this.parserFactory = new ParserFactory(ontologyManager, ontology,
+				reasoner);
 		this.errorListener = errorListener;
 	}
 
-	/**
-	 * @see org.coode.oppl.template.OPPLParserCreationStrategy#build()
-	 */
-	public OPPLParser build() {
+	private OPPLParser build() {
 		return this.parserFactory.build(this.getErrorListener());
+	}
+
+	public OPPLScript parse(String input) {
+		OPPLParser parser = this.build();
+		return parser.parse(input);
 	}
 
 	/**

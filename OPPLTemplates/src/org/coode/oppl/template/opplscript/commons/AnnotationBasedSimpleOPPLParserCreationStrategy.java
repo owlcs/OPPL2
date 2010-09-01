@@ -1,4 +1,4 @@
-package org.coode.oppl.template.commons;
+package org.coode.oppl.template.opplscript.commons;
 
 import java.util.List;
 

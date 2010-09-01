@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
 
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.template.OPPLParserCreationStrategy;
-import org.coode.oppl.template.ReplacementStrategy;
+import org.coode.oppl.template.opplscript.OPPLScriptParsingStrategy;
+import org.coode.oppl.template.opplscript.OPPLScriptReplacementStrategy;
 
 /**
  * This strategy assumes that place-holders are also keys in a
@@ -21,7 +21,8 @@ import org.coode.oppl.template.ReplacementStrategy;
  * @author Luigi Iannone
  * 
  */
-public final class KeyBasedReplacementStrategy implements ReplacementStrategy {
+public final class KeyBasedReplacementStrategy implements
+		OPPLScriptReplacementStrategy {
 	private final Properties properties;
 
 	/**
@@ -35,19 +36,20 @@ public final class KeyBasedReplacementStrategy implements ReplacementStrategy {
 	}
 
 	/**
-	 * @see org.coode.oppl.template.ReplacementStrategy#replace(java.lang.String,
-	 *      org.coode.oppl.template.OPPLParserCreationStrategy)
+	 * @see org.coode.oppl.template.opplscript.OPPLScriptReplacementStrategy#replace(java.lang.String,
+	 *      org.coode.oppl.template.opplscript.OPPLScriptParsingStrategy)
 	 */
 	public OPPLScript replace(String templateString,
-			OPPLParserCreationStrategy parserCreationStrategy) {
-		Pattern pattern = Pattern.compile("%\\w+");
+			OPPLScriptParsingStrategy parserCreationStrategy) {
+		// Non greedy matching
+		Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
 		String opplScriptString = templateString;
 		Matcher matcher = pattern.matcher(opplScriptString);
 		while (matcher.find()) {
 			String placeholder = matcher.group();
-			opplScriptString = opplScriptString.replaceAll(
-					placeholder,
-					this.getReplacement(placeholder));
+			String key = matcher.group(1);
+			opplScriptString = opplScriptString.replaceAll(this
+					.encode(placeholder), this.getReplacement(key));
 			matcher = pattern.matcher(opplScriptString);
 		}
 		OPPLParser parser = parserCreationStrategy.build();
@@ -55,10 +57,16 @@ public final class KeyBasedReplacementStrategy implements ReplacementStrategy {
 		return opplScript;
 	}
 
+	private String encode(String placeholder) {
+		return placeholder.replaceAll("(\\$)", "\\\\$1").replaceAll("(\\{)",
+				"\\\\$1").replaceAll("(\\})", "\\\\$1");
+	}
+
 	private String getReplacement(String placeholder) {
-		String replacement = this.properties.getProperty(placeholder.substring(1));
+		String replacement = this.properties.getProperty(placeholder);
 		if (replacement == null) {
-			throw new NullPointerException("Missing value for place-holder " + placeholder);
+			throw new NullPointerException("Missing value for place-holder "
+					+ placeholder);
 		}
 		return replacement;
 	}
