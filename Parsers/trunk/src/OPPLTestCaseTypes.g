@@ -108,7 +108,7 @@ testCase
 		{
 		  if(s.statementTree.getOPPLContent() instanceof OPPLScript){
 			OPPLTestCase testCase = this.getTestCaseFactory().buildOPPLTestCase($IDENTIFIER.text,
-			(OPPLScript) s.statementTree.getOPPLContent(), someTests, $INFERENCE==null);
+			(OPPLScript) s.statementTree.getOPPLContent(), someTests, $INFERENCE!=null);
 			$start.setOPPLContent(testCase);        
 		  }  
 		}		
