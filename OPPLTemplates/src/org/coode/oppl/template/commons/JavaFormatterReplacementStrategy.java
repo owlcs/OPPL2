@@ -9,7 +9,6 @@ import java.util.Formatter;
 import java.util.List;
 import java.util.MissingFormatArgumentException;
 
-import org.coode.oppl.template.ParsingStrategy;
 import org.coode.oppl.template.ReplacementStrategy;
 
 /**
@@ -18,8 +17,8 @@ import org.coode.oppl.template.ReplacementStrategy;
  * @author Luigi Iannone
  * 
  */
-public final class JavaFormatterReplacementStrategy<O> implements
-		ReplacementStrategy<O> {
+public final class JavaFormatterReplacementStrategy implements
+		ReplacementStrategy<String, String> {
 	private List<Object> params;
 
 	public JavaFormatterReplacementStrategy(Collection<? extends Object> params) {
@@ -37,12 +36,11 @@ public final class JavaFormatterReplacementStrategy<O> implements
 	 * @see org.coode.oppl.template.opplscript.OPPLScriptReplacementStrategy#replace(java.lang.String,
 	 *      org.coode.oppl.template.opplscript.OPPLScriptParsingStrategy)
 	 */
-	public O replace(String templateString,
-			ParsingStrategy<O> parsingStrategy) {
+	public String replace(String templateString) {
 		Formatter formatter = new Formatter();
 		formatter.format(templateString, this.params.toArray());
 		String replacedString = formatter.toString();
-		return parsingStrategy.parse(replacedString);
+		return replacedString;
 	}
 
 	@Override

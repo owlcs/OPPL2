@@ -8,12 +8,14 @@ package org.coode.oppl.template;
  * perform the substitution of place-holders. The result of the replacement is
  * parametrised.
  * 
+ * @param <I>
+ *            The type of input
  * @param <O>
  *            The type of replacement result.
  * @author Luigi Iannone
  * 
  */
-public interface ReplacementStrategy<O> {
+public interface ReplacementStrategy<I, O> {
 	/**
 	 * Replace the place-holders in the input templateString and builds the
 	 * relative OPPLScript.
@@ -32,5 +34,5 @@ public interface ReplacementStrategy<O> {
 	 *             if either input is <code>null</code>.
 	 * 
 	 */
-	O replace(String templateString, ParsingStrategy<O> parserCreationStrategy);
+	O replace(I template);
 }

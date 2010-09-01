@@ -7,7 +7,6 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.coode.oppl.template.ParsingStrategy;
 import org.coode.oppl.template.ReplacementStrategy;
 
 /**
@@ -19,8 +18,8 @@ import org.coode.oppl.template.ReplacementStrategy;
  * @author Luigi Iannone
  * 
  */
-public final class KeyBasedReplacementStrategy<O> implements
-		ReplacementStrategy<O> {
+public final class KeyBasedReplacementStrategy implements
+		ReplacementStrategy<String, String> {
 	private final Properties properties;
 
 	/**
@@ -37,8 +36,7 @@ public final class KeyBasedReplacementStrategy<O> implements
 	 * @see org.coode.oppl.template.opplscript.OPPLScriptReplacementStrategy#replace(java.lang.String,
 	 *      org.coode.oppl.template.opplscript.OPPLScriptParsingStrategy)
 	 */
-	public O replace(String templateString,
-			ParsingStrategy<O> parsingStrategy) {
+	public String replace(String templateString) {
 		// Non greedy matching
 		Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
 		String replacedString = templateString;
@@ -46,11 +44,11 @@ public final class KeyBasedReplacementStrategy<O> implements
 		while (matcher.find()) {
 			String placeholder = matcher.group();
 			String key = matcher.group(1);
-			replacedString = replacedString.replaceAll(this
-					.encode(placeholder), this.getReplacement(key));
+			replacedString = replacedString.replaceAll(
+					this.encode(placeholder), this.getReplacement(key));
 			matcher = pattern.matcher(replacedString);
 		}
-		return parsingStrategy.parse(replacedString);
+		return replacedString;
 	}
 
 	private String encode(String placeholder) {

@@ -33,12 +33,12 @@ public class TestStringTemplates extends TestCase {
 				.createOWLOntologyManager();
 		try {
 			OWLOntology emptyOntology = ontologyManager.createOntology();
-			ParsingStrategy<OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
+			ParsingStrategy<String, OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
 					ontologyManager, emptyOntology, null, ERROR_LISTENER);
 			String template = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
 			StringTemplate<OPPLScript> stringTemplate = new StringTemplate<OPPLScript>(
-					template, new JavaFormatterReplacementStrategy<OPPLScript>(
-							Collections.emptyList()), parserCreationStrategy);
+					template, new JavaFormatterReplacementStrategy(Collections
+							.emptyList()), parserCreationStrategy);
 			OPPLScript opplScript = stringTemplate.replace();
 			assertNotNull(opplScript);
 			System.out
@@ -55,12 +55,12 @@ public class TestStringTemplates extends TestCase {
 				.createOWLOntologyManager();
 		try {
 			OWLOntology emptyOntology = ontologyManager.createOntology();
-			ParsingStrategy<OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
+			ParsingStrategy<String, OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
 					ontologyManager, emptyOntology, null, ERROR_LISTENER);
 			String template = "?x:CLASS SELECT ?x subClassOf %s BEGIN ADD ?x subClassOf Thing END;";
 			StringTemplate<OPPLScript> stringTemplate = new StringTemplate<OPPLScript>(
-					template, new JavaFormatterReplacementStrategy<OPPLScript>(
-							Arrays.asList("Thing")), parserCreationStrategy);
+					template, new JavaFormatterReplacementStrategy(Arrays
+							.asList("Thing")), parserCreationStrategy);
 			OPPLScript opplScript = stringTemplate.replace();
 			assertNotNull(opplScript);
 			System.out
@@ -77,12 +77,12 @@ public class TestStringTemplates extends TestCase {
 				.createOWLOntologyManager();
 		try {
 			OWLOntology emptyOntology = ontologyManager.createOntology();
-			ParsingStrategy<OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
+			ParsingStrategy<String, OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
 					ontologyManager, emptyOntology, null, ERROR_LISTENER);
 			String template = "?x:CLASS SELECT ?x subClassOf %s BEGIN ADD ?x subClassOf Thing END;";
 			StringTemplate<OPPLScript> stringTemplate = new StringTemplate<OPPLScript>(
-					template, new JavaFormatterReplacementStrategy<OPPLScript>(
-							Collections.emptyList()), parserCreationStrategy);
+					template, new JavaFormatterReplacementStrategy(Collections
+							.emptyList()), parserCreationStrategy);
 			stringTemplate.replace();
 			fail("Should not get to here");
 		} catch (OWLOntologyCreationException e) {
@@ -97,14 +97,14 @@ public class TestStringTemplates extends TestCase {
 				.createOWLOntologyManager();
 		try {
 			OWLOntology emptyOntology = ontologyManager.createOntology();
-			ParsingStrategy<OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
+			ParsingStrategy<String, OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
 					ontologyManager, emptyOntology, null, ERROR_LISTENER);
 			String template = "?x:CLASS SELECT ?x subClassOf ${Thing} BEGIN ADD ?x subClassOf Thing END;";
 			Properties properties = new Properties();
 			properties.setProperty("Thing", "Thing");
 			StringTemplate<OPPLScript> stringTemplate = new StringTemplate<OPPLScript>(
-					template, new KeyBasedReplacementStrategy<OPPLScript>(
-							properties), parserCreationStrategy);
+					template, new KeyBasedReplacementStrategy(properties),
+					parserCreationStrategy);
 			OPPLScript opplScript = stringTemplate.replace();
 			assertNotNull(opplScript);
 			System.out
@@ -121,13 +121,13 @@ public class TestStringTemplates extends TestCase {
 				.createOWLOntologyManager();
 		try {
 			OWLOntology emptyOntology = ontologyManager.createOntology();
-			ParsingStrategy<OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
+			ParsingStrategy<String, OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
 					ontologyManager, emptyOntology, null, ERROR_LISTENER);
 			String template = "?x:CLASS SELECT ?x subClassOf ${Thing} BEGIN ADD ?x subClassOf Thing END;";
 			Properties properties = new Properties();
 			StringTemplate<OPPLScript> stringTemplate = new StringTemplate<OPPLScript>(
-					template, new KeyBasedReplacementStrategy<OPPLScript>(
-							properties), parserCreationStrategy);
+					template, new KeyBasedReplacementStrategy(properties),
+					parserCreationStrategy);
 			stringTemplate.replace();
 			fail("Should not get to here");
 		} catch (OWLOntologyCreationException e) {
@@ -145,14 +145,14 @@ public class TestStringTemplates extends TestCase {
 				.createOWLOntologyManager();
 		try {
 			OWLOntology emptyOntology = ontologyManager.createOntology();
-			ParsingStrategy<OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
+			ParsingStrategy<String, OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
 					ontologyManager, emptyOntology, null, ERROR_LISTENER);
 			String template = "?x:CLASS SELECT ?x subClassOf ${Thing} BEGIN ADD ?x subClassOf ${Thing} END;";
 			Properties properties = new Properties();
 			properties.setProperty("Thing", "Thing");
 			StringTemplate<OPPLScript> stringTemplate = new StringTemplate<OPPLScript>(
-					template, new KeyBasedReplacementStrategy<OPPLScript>(
-							properties), parserCreationStrategy);
+					template, new KeyBasedReplacementStrategy(properties),
+					parserCreationStrategy);
 			OPPLScript opplScript = stringTemplate.replace();
 			assertNotNull(opplScript);
 			System.out
@@ -171,7 +171,7 @@ public class TestStringTemplates extends TestCase {
 			OWLOntology emptyOntology = ontologyManager
 					.loadOntology(IRI
 							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-			ParsingStrategy<OPPLScript> parserCreationStrategy = new AnnotationBasedSimpleOPPLParserCreationStrategy(
+			ParsingStrategy<String, OPPLScript> parserCreationStrategy = new AnnotationBasedSimpleOPPLParserCreationStrategy(
 					Arrays
 							.asList(IRI
 									.create("http://www.w3.org/2000/01/rdf-schema#label")),
@@ -180,8 +180,8 @@ public class TestStringTemplates extends TestCase {
 			Properties properties = new Properties();
 			properties.setProperty("ValuePartition", "ValorDaParticao");
 			StringTemplate<OPPLScript> stringTemplate = new StringTemplate<OPPLScript>(
-					template, new KeyBasedReplacementStrategy<OPPLScript>(
-							properties), parserCreationStrategy);
+					template, new KeyBasedReplacementStrategy(properties),
+					parserCreationStrategy);
 			OPPLScript opplScript = stringTemplate.replace();
 			assertNotNull(opplScript);
 			System.out

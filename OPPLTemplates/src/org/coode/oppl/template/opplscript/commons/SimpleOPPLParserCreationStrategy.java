@@ -17,7 +17,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
  * 
  */
 public class SimpleOPPLParserCreationStrategy implements
-		ParsingStrategy<OPPLScript> {
+		ParsingStrategy<String, OPPLScript> {
 	private final ErrorListener errorListener;
 	private final ParserFactory parserFactory;
 

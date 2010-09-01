@@ -13,12 +13,12 @@ import org.coode.oppl.template.ReplacementStrategy;
  */
 public class StringTemplate<O> implements OPPLTemplate<O> {
 	private final String templateString;
-	private final ReplacementStrategy<O> replacementStrategy;
-	private final ParsingStrategy<O> parserCreationStrategy;
+	private final ReplacementStrategy<String, String> replacementStrategy;
+	private final ParsingStrategy<String, O> parserCreationStrategy;
 
 	public StringTemplate(String templateString,
-			ReplacementStrategy<O> replacementStrategy,
-			ParsingStrategy<O> parserCreationStrategy) {
+			ReplacementStrategy<String, String> replacementStrategy,
+			ParsingStrategy<String, O> parserCreationStrategy) {
 		if (templateString == null) {
 			throw new NullPointerException("The template string cannot be null");
 		}
@@ -38,14 +38,15 @@ public class StringTemplate<O> implements OPPLTemplate<O> {
 	 * @see org.coode.oppl.template.OPPLTemplate#replace()
 	 */
 	public O replace() {
-		return this.getReplacementStrategy().replace(this.getTemplateString(),
-				this.parserCreationStrategy);
+		String replacedString = this.getReplacementStrategy().replace(
+				this.getTemplateString());
+		return this.getParserCreationStrategy().parse(replacedString);
 	}
 
 	/**
 	 * @return the replacementStrategy
 	 */
-	public ReplacementStrategy<O> getReplacementStrategy() {
+	public ReplacementStrategy<String, String> getReplacementStrategy() {
 		return this.replacementStrategy;
 	}
 
@@ -54,5 +55,12 @@ public class StringTemplate<O> implements OPPLTemplate<O> {
 	 */
 	public String getTemplateString() {
 		return this.templateString;
+	}
+
+	/**
+	 * @return the parserCreationStrategy
+	 */
+	public ParsingStrategy<String, O> getParserCreationStrategy() {
+		return this.parserCreationStrategy;
 	}
 }
