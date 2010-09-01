@@ -24,7 +24,8 @@ public class OPPLInferredOWLAxiomSearchTree extends AbstractOPPLAxiomSearchTree 
 	protected boolean goalReached(OPPLOWLAxiomSearchNode start) {
 		boolean toReturn = start.getBinding().isLeaf();
 		if (toReturn) {
-			toReturn = this.getConstraintSystem().getReasoner().isEntailed(start.getAxiom());
+			toReturn = this.getConstraintSystem().getReasoner().isEntailed(
+					start.getAxiom());
 		}
 		return toReturn;
 	}
