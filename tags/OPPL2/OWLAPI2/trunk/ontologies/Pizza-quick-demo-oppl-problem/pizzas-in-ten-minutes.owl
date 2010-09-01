@@ -1,0 +1,800 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY pizzas-in-ten-minutes "http://www.co-ode.org/pizzas-in-ten-minutes#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.co-ode.org/pizzas-in-ten-minutes#"
+     xml:base="http://www.co-ode.org/pizzas-in-ten-minutes"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:pizzas-in-ten-minutes="http://www.co-ode.org/pizzas-in-ten-minutes#"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
+    <owl:Ontology rdf:about=""/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLObjectProperty_01225388437827506000 -->
+
+    <owl:ObjectProperty rdf:about="#OWLObjectProperty_01225388437827506000">
+        <rdfs:label
+            >relational_property</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLObjectProperty_01225388448461453000 -->
+
+    <owl:ObjectProperty rdf:about="#OWLObjectProperty_01225388448461453000">
+        <rdfs:label
+            >modifier_property</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLObjectProperty_01225388454100567000 -->
+
+    <owl:ObjectProperty rdf:about="#OWLObjectProperty_01225388454100567000">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label>has_topping</rdfs:label>
+        <rdfs:domain rdf:resource="#OWLClass_01225385455906853000"/>
+        <rdfs:range rdf:resource="#OWLClass_01225385455907461000"/>
+        <rdfs:subPropertyOf rdf:resource="#OWLObjectProperty_01225388437827506000"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLObjectProperty_01225388464678188000 -->
+
+    <owl:ObjectProperty rdf:about="#OWLObjectProperty_01225388464678188000">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label>has_base</rdfs:label>
+        <rdfs:domain rdf:resource="#OWLClass_01225385455906853000"/>
+        <rdfs:range rdf:resource="#OWLClass_01225385455907916000"/>
+        <rdfs:subPropertyOf rdf:resource="#OWLObjectProperty_01225388437827506000"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLObjectProperty_01225388472782497000 -->
+
+    <owl:ObjectProperty rdf:about="#OWLObjectProperty_01225388472782497000">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label>has_spiciness</rdfs:label>
+        <rdfs:domain rdf:resource="#OWLClass_01225385455907461000"/>
+        <rdfs:range rdf:resource="#OWLClass_01225388021251924000"/>
+        <rdfs:subPropertyOf rdf:resource="#OWLObjectProperty_01225388448461453000"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLObjectProperty_01238100200645029000 -->
+
+    <owl:ObjectProperty rdf:about="#OWLObjectProperty_01238100200645029000">
+        <rdfs:label>is_of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385424260418000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385424260418000">
+        <rdfs:label>Domain_entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385455906853000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385455906853000">
+        <rdfs:label>Pizza</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225387811621649000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385455907461000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385455907461000">
+        <rdfs:label>Pizza_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225387811621649000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385455907916000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385455907916000">
+        <rdfs:label>Pizza_base</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225387811621649000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691421513000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691421513000">
+        <rdfs:label>Tomato_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385691427177000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388472782497000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225388021253014000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="#OWLClass_01225385691427652000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691422083000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691422083000">
+        <rdfs:label>Cheese_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385455907461000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388472782497000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225388021253014000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691422570000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691422570000">
+        <rdfs:label
+            >Mozzarella_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385691422083000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691423050000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691423050000">
+        <rdfs:label
+            >Gorganzolla_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385691422083000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691423511000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691423511000">
+        <rdfs:label>Meat_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385455907461000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691423974000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691423974000">
+        <rdfs:label
+            >Pepperoni_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385691423511000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388472782497000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225388021253388000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="#OWLClass_01225385691424426000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691424426000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691424426000">
+        <rdfs:label>Ham_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385691423511000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388472782497000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225388021253388000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691424876000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691424876000">
+        <rdfs:label>Seafood_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385455907461000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691425321000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691425321000">
+        <rdfs:label>Anchovy_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385691424876000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388472782497000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225388021253014000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="#OWLClass_01225385691425767000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691425767000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691425767000">
+        <rdfs:label>Tuna_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385691424876000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388472782497000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225388021253014000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691426210000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691426210000">
+        <rdfs:label>Fruit_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385455907461000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388472782497000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225388021253014000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691426722000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691426722000">
+        <rdfs:label
+            >Pinapple_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385691426210000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691427177000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691427177000">
+        <rdfs:label
+            >Vegetable_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385455907461000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225385691427652000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225385691427652000">
+        <rdfs:label>Onion_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385691427177000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388472782497000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225388021253388000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225387378787624000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225387378787624000">
+        <rdfs:label
+            >Thick_crust_base</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385455907916000"/>
+        <owl:disjointWith rdf:resource="#OWLClass_01225387378788153000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225387378788153000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225387378788153000">
+        <rdfs:label>Thin_crust_base</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385455907916000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225387476140226000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225387476140226000">
+        <rdfs:label>Maguerita_pizza</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385455906853000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225385691422570000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#OWLClass_01225385691421513000"/>
+                            <rdf:Description rdf:about="#OWLClass_01225385691422570000"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#OWLClass_01238100198025353000"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="#OWLObjectProperty_01238100200645029000"/>
+                                <owl:someValuesFrom rdf:resource="#OWLClass_01225385691421513000"/>
+                            </owl:Restriction>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >Pizza with at least tomato and Mozzarella toppings</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225387476141970000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225387476141970000">
+        <rdfs:label
+            >Hot_and_spicy_pizza</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385455906853000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225385691421513000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225385691422570000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225389920048219000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >Pizza with chse and spicy beef</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225387476142487000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225387476142487000">
+        <rdfs:label
+            >Vegetarian_pizza</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#OWLClass_01225385455906853000"/>
+                    <owl:Class>
+                        <owl:complementOf>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:unionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="#OWLClass_01225385691423511000"/>
+                                            <rdf:Description rdf:about="#OWLClass_01225385691424876000"/>
+                                        </owl:unionOf>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:complementOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <dc:description
+            >Pizza with no meat or fish toppings - i.e. only vegetable or fruit toppings</dc:description>
+        <rdfs:comment
+            >Either definition will do and should be equivalent</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225387476142958000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225387476142958000">
+        <rdfs:label>Cheesey_pizza</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#OWLClass_01225385455906853000"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                        <owl:onClass rdf:resource="#OWLClass_01225385691422083000"/>
+                        <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <dc:description
+            >Pizza with more than one kind of cheese</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225387476143364000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225387476143364000">
+        <rdfs:label
+            >Tuna_anchovy_pizza</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385455906853000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225385691425321000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225385691421513000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#OWLClass_01225385691421513000"/>
+                            <rdf:Description rdf:about="#OWLClass_01225385691422570000"/>
+                            <rdf:Description rdf:about="#OWLClass_01225385691425321000"/>
+                            <rdf:Description rdf:about="#OWLClass_01225385691425767000"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225385691425767000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225385691422570000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <dc:description
+            >Pizza with tuna and anchovy topping</dc:description>
+        <rdfs:comment
+            >We might want to provide defined &quot;Seafood&quot; later and change the name</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225387803301245000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225387803301245000">
+        <rdfs:label>Value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385424260418000"/>
+        <owl:disjointWith rdf:resource="#OWLClass_01225387811621649000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225387811621649000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225387811621649000">
+        <rdfs:label
+            >Independent_entity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385424260418000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225388021251924000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225388021251924000">
+        <rdfs:label>Spiciness_value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225387803301245000"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#OWLClass_01225388021252533000"/>
+                    <rdf:Description rdf:about="#OWLClass_01225388021253014000"/>
+                    <rdf:Description rdf:about="#OWLClass_01225388021253388000"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225388021252533000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225388021252533000">
+        <rdfs:label>Hot_value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225388021251924000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225388021253014000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225388021253014000">
+        <rdfs:label>Mild_value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225388021251924000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225388021253388000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225388021253388000">
+        <rdfs:label>Medium_value</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225388021251924000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225389920048219000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225389920048219000">
+        <rdfs:label>Spicy_beef</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385691423511000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388472782497000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225388021252533000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225440928061851000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225440928061851000">
+        <rdfs:label>Ricotta_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385691422083000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225440937756686000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225440937756686000">
+        <rdfs:label
+            >Parmesan_topping</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385691422083000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225441041346831000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225441041346831000">
+        <rdfs:label>Spicy_pizza</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#OWLClass_01225385455906853000"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                        <owl:someValuesFrom rdf:resource="#OWLClass_01225442839179222000"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <dc:description
+            >Pizza with at least one spicy topping</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225441997216023000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225441997216023000">
+        <rdfs:label
+            >Quattro_formaggi_pizza</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385455906853000"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="#OWLClass_01225385691422570000"/>
+                            <rdf:Description rdf:about="#OWLClass_01225385691423050000"/>
+                            <rdf:Description rdf:about="#OWLClass_01225440928061851000"/>
+                            <rdf:Description rdf:about="#OWLClass_01225440937756686000"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225440937756686000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225440928061851000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225385691422570000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#OWLObjectProperty_01225388454100567000"/>
+                <owl:someValuesFrom rdf:resource="#OWLClass_01225385691423050000"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01225442839179222000 -->
+
+    <owl:Class rdf:about="#OWLClass_01225442839179222000">
+        <rdfs:label>Spicy_topping</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#OWLClass_01225385455907461000"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="#OWLObjectProperty_01225388472782497000"/>
+                        <owl:someValuesFrom rdf:resource="#OWLClass_01225388021252533000"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.co-ode.org/pizzas-in-ten-minutes#OWLClass_01238100198025353000 -->
+
+    <owl:Class rdf:about="#OWLClass_01238100198025353000">
+        <rdfs:label>Portion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OWLClass_01225385424260418000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="#OWLClass_01225385691422083000"/>
+            <rdf:Description rdf:about="#OWLClass_01225385691423511000"/>
+            <rdf:Description rdf:about="#OWLClass_01225385691424876000"/>
+            <rdf:Description rdf:about="#OWLClass_01225385691426210000"/>
+            <rdf:Description rdf:about="#OWLClass_01225385691427177000"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="#OWLClass_01225385691422570000"/>
+            <rdf:Description rdf:about="#OWLClass_01225385691423050000"/>
+            <rdf:Description rdf:about="#OWLClass_01225440928061851000"/>
+            <rdf:Description rdf:about="#OWLClass_01225440937756686000"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="#OWLClass_01225388021252533000"/>
+            <rdf:Description rdf:about="#OWLClass_01225388021253014000"/>
+            <rdf:Description rdf:about="#OWLClass_01225388021253388000"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="#OWLClass_01225385455906853000"/>
+            <rdf:Description rdf:about="#OWLClass_01225385455907461000"/>
+            <rdf:Description rdf:about="#OWLClass_01225385455907916000"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1042) http://owlapi.sourceforge.net -->
+
