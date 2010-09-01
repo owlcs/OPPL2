@@ -65,13 +65,15 @@ import org.semanticweb.owl.model.OWLSubClassAxiom;
 import org.semanticweb.owl.util.OWLAxiomVisitorAdapter;
 import org.semanticweb.owl.util.OWLObjectVisitorAdapter;
 
-public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxiomSearchNode> {
+public abstract class AbstractOPPLAxiomSearchTree extends
+		SearchTree<OPPLOWLAxiomSearchNode> {
 	/** test */
 	private final class ConstantCollector extends OWLAxiomVisitorAdapter {
 		private final Set<OWLConstant> toReturn;
 		private final OWLDescriptionVisitor constantExtractor;
 
-		ConstantCollector(Set<OWLConstant> toReturn, OWLDescriptionVisitor constantExtractor) {
+		ConstantCollector(Set<OWLConstant> toReturn,
+				OWLDescriptionVisitor constantExtractor) {
 			this.toReturn = toReturn;
 			this.constantExtractor = constantExtractor;
 		}
@@ -121,7 +123,8 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 
 	protected AbstractOPPLAxiomSearchTree(ConstraintSystem constraintSystem) {
 		if (constraintSystem == null) {
-			throw new NullPointerException("The constraint system cannot be null");
+			throw new NullPointerException(
+					"The constraint system cannot be null");
 		}
 		this.constraintSystem = constraintSystem;
 	}
@@ -133,12 +136,14 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	 * @see org.coode.oppl.search.SearchTree#getChildren(java.lang.Object)
 	 */
 	@Override
-	protected List<OPPLOWLAxiomSearchNode> getChildren(OPPLOWLAxiomSearchNode node) {
+	protected List<OPPLOWLAxiomSearchNode> getChildren(
+			OPPLOWLAxiomSearchNode node) {
 		Set<BindingNode> leaves = this.getConstraintSystem().getLeaves();
 		List<OPPLOWLAxiomSearchNode> toReturn = new ArrayList<OPPLOWLAxiomSearchNode>();
-		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
-				false);
-		Set<Variable> variables = variableExtractor.extractVariables(node.getAxiom());
+		VariableExtractor variableExtractor = new VariableExtractor(this
+				.getConstraintSystem(), false);
+		Set<Variable> variables = variableExtractor.extractVariables(node
+				.getAxiom());
 		BindingNode binding = node.getBinding();
 		for (Variable variable : variables) {
 			Collection<OWLObject> values = new HashSet<OWLObject>();
@@ -155,14 +160,15 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 			}
 			for (OWLObject value : values) {
 				Assignment assignment = new Assignment(variable, value);
-				BindingNode childBinding = new BindingNode(binding.getAssignments(),
-						binding.getUnassignedVariables());
+				BindingNode childBinding = new BindingNode(binding
+						.getAssignments(), binding.getUnassignedVariables());
 				childBinding.addAssignment(assignment);
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
 						childBinding, this.getConstraintSystem());
-				OWLAxiom instantiatedAxiom = (OWLAxiom) node.getAxiom().accept(instantiator);
-				OPPLOWLAxiomSearchNode child = new OPPLOWLAxiomSearchNode(instantiatedAxiom,
-						childBinding);
+				OWLAxiom instantiatedAxiom = (OWLAxiom) node.getAxiom().accept(
+						instantiator);
+				OPPLOWLAxiomSearchNode child = new OPPLOWLAxiomSearchNode(
+						instantiatedAxiom, childBinding);
 				toReturn.add(child);
 			}
 		}
@@ -171,7 +177,8 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 
 	private Collection<OWLClass> getAllClasses() {
 		Set<OWLClass> toReturn = new HashSet<OWLClass>();
-		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
+		for (OWLOntology owlOntology : this.getConstraintSystem()
+				.getOntologyManager().getOntologies()) {
 			toReturn.addAll(owlOntology.getReferencedClasses());
 		}
 		return toReturn;
@@ -180,7 +187,8 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	private Collection<? extends OWLConstant> getAllConstants() {
 		final Set<OWLConstant> toReturn = new HashSet<OWLConstant>();
 		final OWLObjectVisitorAdapter constantExtractor = new OWLObjectVisitorAdapter() {
-			protected void visitOWLQuantifiedRestriction(OWLQuantifiedRestriction<?, ?> restriction) {
+			protected void visitOWLQuantifiedRestriction(
+					OWLQuantifiedRestriction<?, ?> restriction) {
 				if (restriction.isQualified()) {
 					restriction.getFiller().accept(this);
 				}
@@ -258,7 +266,8 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 				desc.getOperand().accept(this);
 			}
 
-			protected void visitOWLObjectCollection(Collection<? extends OWLObject> collection) {
+			protected void visitOWLObjectCollection(
+					Collection<? extends OWLObject> collection) {
 				for (OWLObject owlObject : collection) {
 					owlObject.accept(this);
 				}
@@ -274,8 +283,10 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 				this.visitOWLObjectCollection(desc.getOperands());
 			}
 		};
-		ConstantCollector visitor = new ConstantCollector(toReturn, constantExtractor);
-		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
+		ConstantCollector visitor = new ConstantCollector(toReturn,
+				constantExtractor);
+		for (OWLOntology owlOntology : this.getConstraintSystem()
+				.getOntologyManager().getOntologies()) {
 			for (OWLAxiom axiomToVisit : owlOntology.getAxioms()) {
 				axiomToVisit.accept(visitor);
 			}
@@ -285,7 +296,8 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 
 	private Collection<OWLDataProperty> getAllDataProperties() {
 		Set<OWLDataProperty> toReturn = new HashSet<OWLDataProperty>();
-		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
+		for (OWLOntology owlOntology : this.getConstraintSystem()
+				.getOntologyManager().getOntologies()) {
 			toReturn.addAll(owlOntology.getReferencedDataProperties());
 		}
 		return toReturn;
@@ -293,7 +305,8 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 
 	private Collection<OWLIndividual> getAllIndividuals() {
 		Set<OWLIndividual> toReturn = new HashSet<OWLIndividual>();
-		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
+		for (OWLOntology owlOntology : this.getConstraintSystem()
+				.getOntologyManager().getOntologies()) {
 			toReturn.addAll(owlOntology.getReferencedIndividuals());
 		}
 		return toReturn;
@@ -325,38 +338,46 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 		}
 	};
 
-	private Collection<? extends OWLObject> getAssignableValues(Variable variable) {
+	private Collection<? extends OWLObject> getAssignableValues(
+			Variable variable) {
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
-		toReturn.addAll(variable.accept(new VariableVisitor<Set<? extends OWLObject>>() {
-			public Set<? extends OWLObject> visit(Variable v) {
-				return v.accept(AbstractOPPLAxiomSearchTree.this.assignableValuesVisitor);
-			}
+		toReturn.addAll(variable
+				.accept(new VariableVisitor<Set<? extends OWLObject>>() {
+					public Set<? extends OWLObject> visit(Variable v) {
+						return v
+								.accept(AbstractOPPLAxiomSearchTree.this.assignableValuesVisitor);
+					}
 
-			public Set<? extends OWLObject> visit(RegExpGenerated<?> v) {
-				Set<OWLObject> toReturn = new HashSet<OWLObject>();
-				Set<BindingNode> leaves = AbstractOPPLAxiomSearchTree.this.getConstraintSystem().getLeaves();
-				if (leaves == null) {
-					leaves = Collections.singleton(BindingNode.getEmptyBindingNode());
-				}
-				for (BindingNode bindingNode : leaves) {
-					toReturn.addAll(v.getGeneratedOWLObjectCollection(bindingNode));
-				}
-				return toReturn;
-			}
+					public Set<? extends OWLObject> visit(RegExpGenerated<?> v) {
+						Set<OWLObject> toReturn = new HashSet<OWLObject>();
+						Set<BindingNode> leaves = AbstractOPPLAxiomSearchTree.this
+								.getConstraintSystem().getLeaves();
+						if (leaves == null) {
+							leaves = Collections.singleton(BindingNode
+									.getEmptyBindingNode());
+						}
+						for (BindingNode bindingNode : leaves) {
+							toReturn
+									.addAll(v
+											.getGeneratedOWLObjectCollection(bindingNode));
+						}
+						return toReturn;
+					}
 
-			public Set<? extends OWLObject> visit(SingleValueGeneratedVariable<?> v) {
-				return Collections.emptySet();
-			}
-		}));
+					public Set<? extends OWLObject> visit(
+							SingleValueGeneratedVariable<?> v) {
+						return Collections.emptySet();
+					}
+				}));
 		VariableScope variableScope = variable.getVariableScope();
 		if (variableScope != null) {
 			Iterator<OWLObject> iterator = toReturn.iterator();
 			while (iterator.hasNext()) {
 				OWLObject owlObject = iterator.next();
 				try {
-					boolean inScope = variableScope.check(
-							owlObject,
-							this.getConstraintSystem().getOPPLFactory().getVariableScopeChecker());
+					boolean inScope = variableScope.check(owlObject, this
+							.getConstraintSystem().getOPPLFactory()
+							.getVariableScopeChecker());
 					if (!inScope) {
 						iterator.remove();
 					}
@@ -394,22 +415,23 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 
 	private void initAssignableValues() {
 		this.allClasses.addAll(this.getAllClasses());
-		Logging.getQueryLogger().log(Level.FINE, "Possible class values " + this.allClasses.size());
+		Logging.getQueryLogger().log(Level.FINE,
+				"Possible class values " + this.allClasses.size());
 		this.allDataProperties.addAll(this.getAllDataProperties());
 		Logging.getQueryLogger().log(
 				Level.FINE,
-				"Possible data property values " + this.allDataProperties.size());
+				"Possible data property values "
+						+ this.allDataProperties.size());
 		this.allObjectProperties.addAll(this.getObjectProperties());
 		Logging.getQueryLogger().log(
 				Level.FINE,
-				"Possible object property values " + this.allObjectProperties.size());
+				"Possible object property values "
+						+ this.allObjectProperties.size());
 		this.allIndividuals.addAll(this.getAllIndividuals());
-		Logging.getQueryLogger().log(
-				Level.FINE,
+		Logging.getQueryLogger().log(Level.FINE,
 				"Possible individual  values " + this.allIndividuals.size());
 		this.allConstants.addAll(this.getAllConstants());
-		Logging.getQueryLogger().log(
-				Level.FINE,
+		Logging.getQueryLogger().log(Level.FINE,
 				"Possible constant  values " + this.allConstants.size());
 	}
 
@@ -422,7 +444,8 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 
 	private Collection<OWLObjectProperty> getObjectProperties() {
 		Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
-		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
+		for (OWLOntology owlOntology : this.getConstraintSystem()
+				.getOntologyManager().getOntologies()) {
 			toReturn.addAll(owlOntology.getReferencedObjectProperties());
 		}
 		return toReturn;
@@ -436,28 +459,32 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	public boolean exhaustiveSearchTree(OPPLOWLAxiomSearchNode start,
 			List<List<OPPLOWLAxiomSearchNode>> solutions) {
 		this.initAssignableValues();
-		Set<BindingNode> existingLeaves = this.getConstraintSystem().getLeaves();
+		Set<BindingNode> existingLeaves = this.getConstraintSystem()
+				.getLeaves();
 		boolean found = false;
 		if (existingLeaves != null) {
-			Logging.getQueryTestLogging().log(
-					Level.INFO,
+			Logging.getQueryTestLogging().log(Level.INFO,
 					"Existing leaves count: " + existingLeaves.size());
 			int leafIndex = 1;
 			for (BindingNode bindingNode : existingLeaves) {
 				Logging.getQueryTestLogging().log(
 						Level.FINER,
-						"Exhaustive search on leaf: " + leafIndex++ + " out of "
-								+ existingLeaves.size());
+						"Exhaustive search on leaf: " + leafIndex++
+								+ " out of " + existingLeaves.size());
 				PartialOWLObjectInstantiator partialObjectInstantiator = new PartialOWLObjectInstantiator(
 						bindingNode, this.getConstraintSystem());
 				OWLAxiom newStartAxiom = (OWLAxiom) start.getAxiom().accept(
 						partialObjectInstantiator);
-				OPPLOWLAxiomSearchNode newStart = new OPPLOWLAxiomSearchNode(newStartAxiom,
-						bindingNode);
+				VariableExtractor variableExtractor = new VariableExtractor(
+						this.getConstraintSystem(), false);
+				BindingNode newBindingNode = new BindingNode(bindingNode
+						.getAssignments(), variableExtractor
+						.extractVariables(newStartAxiom));
+				OPPLOWLAxiomSearchNode newStart = new OPPLOWLAxiomSearchNode(
+						newStartAxiom, newBindingNode);
 				List<List<OPPLOWLAxiomSearchNode>> bindingNodeSolutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
 				boolean bindingNodeSearch = super.exhaustiveSearchTree(
-						newStart,
-						bindingNodeSolutions);
+						newStart, bindingNodeSolutions);
 				found = found || bindingNodeSearch;
 				if (bindingNodeSearch) {
 					solutions.addAll(bindingNodeSolutions);
