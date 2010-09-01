@@ -5,6 +5,7 @@ package org.coode.parsers.oppl.testcase.assertions;
 
 import java.util.Set;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.bindingtree.BindingNode;
 
 /**
@@ -29,9 +30,12 @@ public interface AssertionExpression<T> {
 	 * @param bindings
 	 *            The Set of bindings providing value for the variables. Cannot
 	 *            be <code>null</code>.
+	 * @param constraintSystem
+	 *            Cannot be <code>null</code>.
 	 * @return an object of class <code>T</code>.
 	 * @throws NullPointerException
-	 *             if the input is <code>null</code>.
+	 *             if either input is <code>null</code>.
 	 */
-	T resolve(Set<? extends BindingNode> bindings);
+	T resolve(Set<? extends BindingNode> bindings,
+			ConstraintSystem constraintSystem);
 }

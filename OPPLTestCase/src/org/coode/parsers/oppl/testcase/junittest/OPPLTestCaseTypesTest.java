@@ -52,7 +52,8 @@ public class OPPLTestCaseTypesTest extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop,
+				RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
@@ -62,14 +63,19 @@ public class OPPLTestCaseTypesTest extends TestCase {
 			OWLOntologyManager ontologyManager) {
 		SimpleSymbolTableFactory simpleSymbolTableFactory = new SimpleSymbolTableFactory(
 				ontologyManager);
-		OPPLTestCaseSymbolTable symtab = simpleSymbolTableFactory.createSymbolTable();
-		AbstractOPPLTestCaseFactory testCaseFactory = new OPPLTestCaseFactory(ontology,
-				ontologyManager, null);
-		ConstraintSystem constraintSystem = testCaseFactory.getOPPLFactory().createConstraintSystem();
+		OPPLTestCaseSymbolTable symtab = simpleSymbolTableFactory
+				.createSymbolTable();
+		AbstractOPPLTestCaseFactory testCaseFactory = new OPPLTestCaseFactory(
+				ontology, ontologyManager, null);
+		ConstraintSystem constraintSystem = testCaseFactory.getOPPLFactory()
+				.createConstraintSystem();
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
-		OPPLTestCaseLexer opplTestCaseLexer = new OPPLTestCaseLexer(antlrStringStream);
-		final TokenRewriteStream tokens = new TokenRewriteStream(opplTestCaseLexer);
-		OPPLTestCaseCombinedParser parser = new OPPLTestCaseCombinedParser(tokens, ERROR_LISTENER);
+		OPPLTestCaseLexer opplTestCaseLexer = new OPPLTestCaseLexer(
+				antlrStringStream);
+		final TokenRewriteStream tokens = new TokenRewriteStream(
+				opplTestCaseLexer);
+		OPPLTestCaseCombinedParser parser = new OPPLTestCaseCombinedParser(
+				tokens, ERROR_LISTENER);
 		parser.setTreeAdaptor(adaptor);
 		try {
 			RuleReturnScope r = parser.testCase();
@@ -79,36 +85,38 @@ public class OPPLTestCaseTypesTest extends TestCase {
 			nodes.setTreeAdaptor(adaptor);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
-			OPPLDefine define = new OPPLDefine(nodes, symtab, ERROR_LISTENER, constraintSystem);
+			OPPLDefine define = new OPPLDefine(nodes, symtab, ERROR_LISTENER,
+					constraintSystem);
 			define.setTreeAdaptor(adaptor);
 			define.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab,
-					ERROR_LISTENER);
+			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(
+					nodes, symtab, ERROR_LISTENER);
 			mOWLTypes.downup(tree);
 			nodes.reset();
 			OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(
-					nodes,
-					symtab,
-					new DefaultTypeEnforcer(symtab,
-							testCaseFactory.getOPPLFactory().getOWLEntityFactory(), ERROR_LISTENER),
+					nodes, symtab, new DefaultTypeEnforcer(symtab,
+							testCaseFactory.getOPPLFactory()
+									.getOWLEntityFactory(), ERROR_LISTENER),
 					ERROR_LISTENER);
 			typeEnforcement.downup(tree);
 			nodes.reset();
 			mOWLTypes.downup(tree);
 			nodes.reset();
-			OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, ERROR_LISTENER, constraintSystem,
-					testCaseFactory.getOPPLFactory());
+			OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, ERROR_LISTENER,
+					constraintSystem, testCaseFactory.getOPPLFactory());
 			opplTypes.downup(tree);
 			nodes.reset();
-			OPPLTestCaseTypes opplTestCaseTypes = new OPPLTestCaseTypes(nodes, symtab,
-					ERROR_LISTENER, constraintSystem, testCaseFactory);
+			OPPLTestCaseTypes opplTestCaseTypes = new OPPLTestCaseTypes(nodes,
+					symtab, ERROR_LISTENER, constraintSystem, testCaseFactory);
 			opplTestCaseTypes.downup(tree);
-			return (OPPLTestCase) ((OPPLSyntaxTree) r.getTree()).getOPPLContent();
+			return (OPPLTestCase) ((OPPLSyntaxTree) r.getTree())
+					.getOPPLContent();
 		} catch (RecognitionException e) {
 			e.printStackTrace();
 			return null;
@@ -117,13 +125,16 @@ public class OPPLTestCaseTypesTest extends TestCase {
 
 	public void testOneAssertion() {
 		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x = Thing";
-		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
 		OWLOntology ontology;
 		try {
 			ontology = ontologyManager.createOntology();
-			OPPLTestCase parsed = this.parse(testCase, ontology, ontologyManager);
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
 			assertNotNull(parsed);
-			System.out.println("OPPLTestCaseParserTest.testOneAssertion()\n" + parsed);
+			System.out.println("OPPLTestCaseParserTest.testOneAssertion()\n"
+					+ parsed);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -132,13 +143,17 @@ public class OPPLTestCaseTypesTest extends TestCase {
 
 	public void testOneAssertionWithMessage() {
 		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x = Thing; ?x is not equal to Thing";
-		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
 		OWLOntology ontology;
 		try {
 			ontology = ontologyManager.createOntology();
-			OPPLTestCase parsed = this.parse(testCase, ontology, ontologyManager);
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
 			assertNotNull(parsed);
-			System.out.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n" + parsed);
+			System.out
+					.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n"
+							+ parsed);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -147,13 +162,17 @@ public class OPPLTestCaseTypesTest extends TestCase {
 
 	public void testNotEqualAssertionWithMessage() {
 		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x != Thing; ?x is equal to Thing;";
-		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
 		OWLOntology ontology;
 		try {
 			ontology = ontologyManager.createOntology();
-			OPPLTestCase parsed = this.parse(testCase, ontology, ontologyManager);
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
 			assertNotNull(parsed);
-			System.out.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n" + parsed);
+			System.out
+					.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n"
+							+ parsed);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -162,13 +181,17 @@ public class OPPLTestCaseTypesTest extends TestCase {
 
 	public void testCountAssertionWithMessage() {
 		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT count(?x) = 2; ?x values count is not 2;";
-		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
 		OWLOntology ontology;
 		try {
 			ontology = ontologyManager.createOntology();
-			OPPLTestCase parsed = this.parse(testCase, ontology, ontologyManager);
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
 			assertNotNull(parsed);
-			System.out.println("OPPLTestCaseParserTest.testCountAssertionWithMessage()\n" + parsed);
+			System.out
+					.println("OPPLTestCaseParserTest.testCountAssertionWithMessage()\n"
+							+ parsed);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -177,13 +200,36 @@ public class OPPLTestCaseTypesTest extends TestCase {
 
 	public void testContainsAssertionWithMessage() {
 		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x CONTAINS Thing; ?x values do not contain Thing;";
-		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
 		OWLOntology ontology;
 		try {
 			ontology = ontologyManager.createOntology();
-			OPPLTestCase parsed = this.parse(testCase, ontology, ontologyManager);
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
 			assertNotNull(parsed);
-			System.out.println("OPPLTestCaseParserTest.testCountAssertionWithMessage()\n" + parsed);
+			System.out
+					.println("OPPLTestCaseTypesTest.testContainsAssertionWithMessage()\n"
+							+ parsed);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testVariableEqualAssertionWithMessage() {
+		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT ?x = ?y; ?x values are not equal to ?y;";
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
+		OWLOntology ontology;
+		try {
+			ontology = ontologyManager.createOntology();
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
+			assertNotNull(parsed);
+			System.out
+					.println("OPPLTestCaseTypesTest.testVariableEqualAssertionWithMessage()\n"
+							+ parsed);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail(e.getMessage());

@@ -1,8 +1,10 @@
 package org.coode.parsers.oppl.testcase.assertions;
 
 import java.util.Formatter;
+import java.util.HashSet;
 import java.util.Set;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -31,7 +33,8 @@ public class CountAssertionExpression implements AssertionExpression<Integer> {
 		assertionExpressionVisitor.visitCountAssertionExpression(this);
 	}
 
-	public <O> O accept(AssertionExpressionVisitorEx<O> assertionExpressionVisitor) {
+	public <O> O accept(
+			AssertionExpressionVisitorEx<O> assertionExpressionVisitor) {
 		return assertionExpressionVisitor.visitCountAssertionExpression(this);
 	}
 
@@ -42,14 +45,16 @@ public class CountAssertionExpression implements AssertionExpression<Integer> {
 		return formatter.toString();
 	}
 
-	public Integer resolve(Set<? extends BindingNode> bindings) {
-		int count = 0;
+	public Integer resolve(Set<? extends BindingNode> bindings,
+			ConstraintSystem constraintSystem) {
+		Set<OWLObject> values = new HashSet<OWLObject>(bindings.size());
 		for (BindingNode bindingNode : bindings) {
-			OWLObject value = bindingNode.getAssignmentValue(this.getVariable());
+			OWLObject value = bindingNode
+					.getAssignmentValue(this.getVariable());
 			if (value != null) {
-				count++;
+				values.add(value);
 			}
 		}
-		return count;
+		return values.size();
 	}
 }

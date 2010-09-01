@@ -3,9 +3,12 @@
  */
 package org.coode.parsers.oppl.testcase.assertions;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.PartialOWLObjectInstantiator;
+import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.parsers.oppl.testcase.AbstractOPPLTestCaseFactory;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -16,7 +19,8 @@ import org.semanticweb.owlapi.model.OWLObject;
  * @author Luigi Iannone
  * 
  */
-public class OWLExpressionAssertionExpression implements AssertionExpression<Set<OWLObject>> {
+public class OWLExpressionAssertionExpression implements
+		AssertionExpression<Set<OWLObject>> {
 	private final OWLObject owlObject;
 	private final AbstractOPPLTestCaseFactory testCaseFactory;
 	private final ConstraintSystem constraintSystem;
@@ -25,16 +29,19 @@ public class OWLExpressionAssertionExpression implements AssertionExpression<Set
 	 * @param owlObject
 	 * @param testCaseFactory
 	 */
-	public OWLExpressionAssertionExpression(OWLObject owlObject, ConstraintSystem constraintSystem,
+	public OWLExpressionAssertionExpression(OWLObject owlObject,
+			ConstraintSystem constraintSystem,
 			AbstractOPPLTestCaseFactory testCaseFactory) {
 		if (owlObject == null) {
 			throw new NullPointerException("The OWL object cannot be null");
 		}
 		if (testCaseFactory == null) {
-			throw new NullPointerException("The test case factory cannot be null");
+			throw new NullPointerException(
+					"The test case factory cannot be null");
 		}
 		if (constraintSystem == null) {
-			throw new NullPointerException("The constraint system cannot be null");
+			throw new NullPointerException(
+					"The constraint system cannot be null");
 		}
 		this.owlObject = owlObject;
 		this.testCaseFactory = testCaseFactory;
@@ -45,8 +52,10 @@ public class OWLExpressionAssertionExpression implements AssertionExpression<Set
 		assertionExpressionVisitor.visitOWLExpressionAssertionExpression(this);
 	}
 
-	public <O> O accept(AssertionExpressionVisitorEx<O> assertionExpressionVisitor) {
-		return assertionExpressionVisitor.visitOWLExpressionAssertionExpression(this);
+	public <O> O accept(
+			AssertionExpressionVisitorEx<O> assertionExpressionVisitor) {
+		return assertionExpressionVisitor
+				.visitOWLExpressionAssertionExpression(this);
 	}
 
 	/**
@@ -65,8 +74,9 @@ public class OWLExpressionAssertionExpression implements AssertionExpression<Set
 
 	@Override
 	public String toString() {
-		ManchesterSyntaxRenderer renderer = this.getTestCaseFactory().getOPPLFactory().getManchesterSyntaxRenderer(
-				this.getConstraintSystem());
+		ManchesterSyntaxRenderer renderer = this.getTestCaseFactory()
+				.getOPPLFactory().getManchesterSyntaxRenderer(
+						this.getConstraintSystem());
 		this.owlObject.accept(renderer);
 		return renderer.toString();
 	}
@@ -76,5 +86,16 @@ public class OWLExpressionAssertionExpression implements AssertionExpression<Set
 	 */
 	public ConstraintSystem getConstraintSystem() {
 		return this.constraintSystem;
+	}
+
+	public Set<OWLObject> resolve(Set<? extends BindingNode> bindings,
+			ConstraintSystem constraintSystem) {
+		Set<OWLObject> toReturn = new HashSet<OWLObject>();
+		for (BindingNode bindingNode : bindings) {
+			PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
+					bindingNode, constraintSystem);
+			toReturn.add(this.owlObject.accept(instantiator));
+		}
+		return toReturn;
 	}
 }

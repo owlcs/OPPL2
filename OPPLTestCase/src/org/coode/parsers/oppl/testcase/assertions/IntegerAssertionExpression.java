@@ -2,6 +2,7 @@ package org.coode.parsers.oppl.testcase.assertions;
 
 import java.util.Set;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.bindingtree.BindingNode;
 
 /**
@@ -24,8 +25,10 @@ public class IntegerAssertionExpression implements AssertionExpression<Integer> 
 		assertionExpressionVisitor.visitIntegerAssertionExpressionVisitor(this);
 	}
 
-	public <O> O accept(AssertionExpressionVisitorEx<O> assertionExpressionVisitor) {
-		return assertionExpressionVisitor.visitIntegerAssertionExpressionVisitor(this);
+	public <O> O accept(
+			AssertionExpressionVisitorEx<O> assertionExpressionVisitor) {
+		return assertionExpressionVisitor
+				.visitIntegerAssertionExpressionVisitor(this);
 	}
 
 	/**
@@ -40,7 +43,8 @@ public class IntegerAssertionExpression implements AssertionExpression<Integer> 
 		return Integer.toString(this.getIntValue());
 	}
 
-	public Integer resolve(Set<? extends BindingNode> bindings) {
+	public Integer resolve(Set<? extends BindingNode> bindings,
+			ConstraintSystem constraintSystem) {
 		return this.getIntValue();
 	}
 }

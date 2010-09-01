@@ -4,6 +4,10 @@
 package org.coode.parsers.oppl.testcase.assertions;
 
 import java.util.Formatter;
+import java.util.Set;
+
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.bindingtree.BindingNode;
 
 /**
  * Asserts that the expression on the left is equal to the one on the right.
@@ -12,19 +16,21 @@ import java.util.Formatter;
  * 
  */
 public class AssertEqual implements Assertion {
-	private final AssertionExpression left;
-	private final AssertionExpression right;
+	private final AssertionExpression<?> left;
+	private final AssertionExpression<?> right;
 
 	/**
 	 * @param left
 	 * @param right
 	 */
-	public AssertEqual(AssertionExpression left, AssertionExpression right) {
+	public AssertEqual(AssertionExpression<?> left, AssertionExpression<?> right) {
 		if (left == null) {
-			throw new NullPointerException("The left hand side on this equality cannot be null");
+			throw new NullPointerException(
+					"The left hand side on this equality cannot be null");
 		}
 		if (right == null) {
-			throw new NullPointerException("The right hand side on this equality cannot be null");
+			throw new NullPointerException(
+					"The right hand side on this equality cannot be null");
 		}
 		this.left = left;
 		this.right = right;
@@ -49,14 +55,14 @@ public class AssertEqual implements Assertion {
 	/**
 	 * @return the left
 	 */
-	public AssertionExpression getLeft() {
+	public AssertionExpression<?> getLeft() {
 		return this.left;
 	}
 
 	/**
 	 * @return the right
 	 */
-	public AssertionExpression getRight() {
+	public AssertionExpression<?> getRight() {
 		return this.right;
 	}
 
@@ -65,5 +71,13 @@ public class AssertEqual implements Assertion {
 		Formatter formatter = new Formatter();
 		formatter.format("%s = %s", this.getLeft(), this.getRight());
 		return formatter.toString();
+	}
+
+	public boolean holds(Set<? extends BindingNode> bindings,
+			ConstraintSystem constraintSystem) {
+		Object leftObjects = this.getLeft().resolve(bindings, constraintSystem);
+		Object rightObjects = this.getRight().resolve(bindings,
+				constraintSystem);
+		return leftObjects.equals(rightObjects);
 	}
 }

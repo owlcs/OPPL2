@@ -36,7 +36,8 @@ public class OPPLTestCaseParserTest extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop,
+				RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
@@ -44,9 +45,12 @@ public class OPPLTestCaseParserTest extends TestCase {
 
 	protected OPPLSyntaxTree parse(String input) {
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
-		OPPLTestCaseLexer opplTestCaseLexer = new OPPLTestCaseLexer(antlrStringStream);
-		final TokenRewriteStream tokens = new TokenRewriteStream(opplTestCaseLexer);
-		OPPLTestCaseCombinedParser parser = new OPPLTestCaseCombinedParser(tokens, ERROR_LISTENER);
+		OPPLTestCaseLexer opplTestCaseLexer = new OPPLTestCaseLexer(
+				antlrStringStream);
+		final TokenRewriteStream tokens = new TokenRewriteStream(
+				opplTestCaseLexer);
+		OPPLTestCaseCombinedParser parser = new OPPLTestCaseCombinedParser(
+				tokens, ERROR_LISTENER);
 		parser.setTreeAdaptor(adaptor);
 		try {
 			RuleReturnScope r = parser.testCase();
@@ -56,7 +60,8 @@ public class OPPLTestCaseParserTest extends TestCase {
 			nodes.setTreeAdaptor(adaptor);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			return (OPPLSyntaxTree) r.getTree();
@@ -70,38 +75,52 @@ public class OPPLTestCaseParserTest extends TestCase {
 		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x = Thing";
 		OPPLSyntaxTree parsed = this.parse(testCase);
 		assertNotNull(parsed);
-		System.out.println("OPPLTestCaseParserTest.testOneAssertion()\n" + parsed.toStringTree());
+		System.out.println("OPPLTestCaseParserTest.testOneAssertion()\n"
+				+ parsed.toStringTree());
 	}
 
 	public void testOneAssertionWithMessage() {
 		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x = Thing; ?x is not equal to Thing";
 		OPPLSyntaxTree parsed = this.parse(testCase);
 		assertNotNull(parsed);
-		System.out.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n"
-				+ parsed.toStringTree());
+		System.out
+				.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n"
+						+ parsed.toStringTree());
 	}
 
 	public void testNotEqualAssertionWithMessage() {
 		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x != Thing; ?x is equal to Thing;";
 		OPPLSyntaxTree parsed = this.parse(testCase);
 		assertNotNull(parsed);
-		System.out.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n"
-				+ parsed.toStringTree());
+		System.out
+				.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n"
+						+ parsed.toStringTree());
 	}
 
 	public void testCountAssertionWithMessage() {
 		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT count(?x) = 2; ?x values count is not 2;";
 		OPPLSyntaxTree parsed = this.parse(testCase);
 		assertNotNull(parsed);
-		System.out.println("OPPLTestCaseParserTest.testCountAssertionWithMessage()\n"
-				+ parsed.toStringTree());
+		System.out
+				.println("OPPLTestCaseParserTest.testCountAssertionWithMessage()\n"
+						+ parsed.toStringTree());
 	}
 
 	public void testContainsAssertionWithMessage() {
 		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x CONTAINS Thing; ?x values do not contain Thing;";
 		OPPLSyntaxTree parsed = this.parse(testCase);
 		assertNotNull(parsed);
-		System.out.println("OPPLTestCaseParserTest.testCountAssertionWithMessage()\n"
-				+ parsed.toStringTree());
+		System.out
+				.println("OPPLTestCaseParserTest.testCountAssertionWithMessage()\n"
+						+ parsed.toStringTree());
+	}
+
+	public void testVariableEqualAssertionWithMessage() {
+		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT ?x = ?y; ?x values are not equal to ?y;";
+		OPPLSyntaxTree parsed = this.parse(testCase);
+		assertNotNull(parsed);
+		System.out
+				.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n"
+						+ parsed.toStringTree());
 	}
 }

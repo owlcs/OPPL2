@@ -3,6 +3,10 @@
  */
 package org.coode.parsers.oppl.testcase.assertions;
 
+import java.util.Set;
+
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.bindingtree.BindingNode;
 
 /**
  * @author Luigi Iannone
@@ -39,5 +43,10 @@ public class AssertionComplement implements Assertion {
 
 	public Assertion getOperand() {
 		return this.assertion;
+	}
+
+	public boolean holds(Set<? extends BindingNode> bindings,
+			ConstraintSystem constraintSystem) {
+		return !this.getOperand().holds(bindings, constraintSystem);
 	}
 }

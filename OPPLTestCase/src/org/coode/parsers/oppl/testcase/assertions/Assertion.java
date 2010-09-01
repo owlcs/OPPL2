@@ -5,6 +5,7 @@ package org.coode.parsers.oppl.testcase.assertions;
 
 import java.util.Set;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.bindingtree.BindingNode;
 
 /**
@@ -24,9 +25,12 @@ public interface Assertion {
 	 * @param bindings
 	 *            The bindings against which this Assertion will be checked.
 	 *            Cannot be <code>null</code>.
+	 * @param constraintSystem
+	 *            . Cannot be <code>null</code>.
 	 * @return <code>true</code> if this Assertion holds.
 	 * @throws NullPointerException
-	 *             if the input binding set is <code>null</code>.
+	 *             if either input is <code>null</code>.
 	 */
-	public boolean holds(Set<? extends BindingNode> bindings);
+	public boolean holds(Set<? extends BindingNode> bindings,
+			ConstraintSystem constraintSystem);
 }
