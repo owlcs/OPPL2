@@ -1,0 +1,41 @@
+/**
+ * 
+ */
+package org.coode.oppl.template.commons.oppltestcase;
+
+import java.util.List;
+
+import org.coode.parsers.ErrorListener;
+import org.coode.parsers.factory.SymbolTableFactory;
+import org.coode.parsers.oppl.testcase.AnnotationBasedSymbolTableFactory;
+import org.coode.parsers.oppl.testcase.OPPLTestCaseParser;
+import org.coode.parsers.oppl.testcase.OPPLTestCaseSymbolTable;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+
+/**
+ * @author Luigi Iannone
+ * 
+ */
+public class AnnotationBasedSimpleOPPLTestCaseParserCreationStrategy extends
+		SimpleOPPLTestCaseParsingStrategy {
+	private final SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory;
+
+	public AnnotationBasedSimpleOPPLTestCaseParserCreationStrategy(List<IRI> iris,
+			OWLOntologyManager ontologyManager, OWLOntology ontology, OWLReasoner reasoner,
+			ErrorListener errorListener) {
+		super(ontologyManager, ontology, reasoner, errorListener);
+		if (iris == null) {
+			throw new NullPointerException(
+					"The collection of annotation property IRIs cannot be null");
+		}
+		this.symbolTableFactory = new AnnotationBasedSymbolTableFactory(ontologyManager, iris);
+	}
+
+	@Override
+	public OPPLTestCaseParser build() {
+		return this.getParserFactory().build(this.getErrorListener(), this.symbolTableFactory);
+	}
+}

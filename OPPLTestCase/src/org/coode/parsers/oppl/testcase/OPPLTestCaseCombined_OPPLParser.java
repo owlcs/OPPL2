@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-08-31 14:48:02
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-09-02 16:07:10
 
 	package org.coode.parsers.oppl.testcase;
 	import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -480,7 +480,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, opplFunction, VARIABLE_TYPE
+                    // elements: opplFunction, VARIABLE_NAME, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -540,7 +540,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, VARIABLE_NAME, VARIABLE_TYPE
+                    // elements: expression, VARIABLE_TYPE, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -602,7 +602,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: regexp, VARIABLE_TYPE, VARIABLE_NAME
+                    // elements: regexp, VARIABLE_NAME, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -670,7 +670,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_TYPE, variableScope, VARIABLE_NAME
+                    // elements: VARIABLE_NAME, variableScope, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -877,7 +877,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: variableScopeSpecification, expression
+            // elements: expression, variableScopeSpecification
             // token labels: variableScopeSpecification
             // rule labels: retval
             // token list labels: 
@@ -984,7 +984,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: MATCH, stringOperation
+            // elements: stringOperation, MATCH
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2189,7 +2189,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: CREATE_INTERSECTION, atomic
+                    // elements: atomic, CREATE_INTERSECTION
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3012,7 +3012,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: a, VARIABLE_NAME, DOT
+                    // elements: VARIABLE_NAME, a, DOT
                     // token labels: a
                     // rule labels: retval
                     // token list labels: 
@@ -3064,7 +3064,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: DOT, VARIABLE_NAME, attributeSelector, GROUPS
+                    // elements: VARIABLE_NAME, GROUPS, attributeSelector, DOT
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 

@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2010-08-31 14:48:02
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2010-09-02 16:07:10
 
 	package org.coode.parsers.oppl.testcase;
 	import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -450,7 +450,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: i, expression
+                    // elements: expression, i
                     // token labels: 
                     // rule labels: i, retval
                     // token list labels: 
@@ -732,7 +732,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhs, superClass
+                    // elements: superClass, lhs
                     // token labels: 
                     // rule labels: lhs, retval, superClass
                     // token list labels: 
@@ -868,7 +868,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhs, disjoint
+                    // elements: disjoint, lhs
                     // token labels: 
                     // rule labels: lhs, disjoint, retval
                     // token list labels: 
@@ -1004,7 +1004,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: rhsAtomic, INVERSE_OF, lhsID
+                    // elements: lhsID, INVERSE_OF, rhsAtomic
                     // token labels: 
                     // rule labels: lhsID, rhsAtomic, retval
                     // token list labels: 
@@ -1140,7 +1140,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, rhsID
+                    // elements: rhsID, lhsID
                     // token labels: 
                     // rule labels: rhsID, lhsID, retval
                     // token list labels: 
@@ -1208,7 +1208,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, DOMAIN, expression
+                    // elements: expression, lhsID, DOMAIN
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -1275,7 +1275,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, expression, RANGE
+                    // elements: expression, RANGE, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -1384,7 +1384,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: unary, unaryCharacteristic
+            // elements: unaryCharacteristic, unary
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2460,7 +2460,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: head, rest
+                    // elements: rest, head
                     // token labels: 
                     // rule labels: head, retval
                     // token list labels: 
@@ -2790,7 +2790,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, propertyExpression
+                    // elements: propertyExpression, expression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3171,7 +3171,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: INTEGER, restrictionKind, propertyExpression, unary
+            // elements: restrictionKind, unary, propertyExpression, INTEGER
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3834,7 +3834,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: type, constantValue
+            // elements: constantValue, type
             // token labels: type, constantValue
             // rule labels: retval
             // token list labels: 

@@ -23,11 +23,10 @@ public class ParserFactory implements AbstractParserFactory {
 	 * @param ontology
 	 * @param ontologyManager
 	 */
-	public ParserFactory(OWLOntology ontology,
-			OWLOntologyManager ontologyManager, OWLReasoner reasoner) {
+	public ParserFactory(OWLOntology ontology, OWLOntologyManager ontologyManager,
+			OWLReasoner reasoner) {
 		if (ontologyManager == null) {
-			throw new NullPointerException(
-					"The ontology manager cannot be null");
+			throw new NullPointerException("The ontology manager cannot be null");
 		}
 		if (ontology == null) {
 			throw new NullPointerException("The ontology cannot be null");
@@ -37,8 +36,7 @@ public class ParserFactory implements AbstractParserFactory {
 		this.reasoner = reasoner;
 	}
 
-	public ParserFactory(OWLOntology ontology,
-			OWLOntologyManager ontologyManager) {
+	public ParserFactory(OWLOntology ontology, OWLOntologyManager ontologyManager) {
 		this(ontology, ontologyManager, null);
 	}
 
@@ -52,13 +50,18 @@ public class ParserFactory implements AbstractParserFactory {
 	public OPPLTestCaseParser build(ErrorListener errorListener) {
 		SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
 				this.getOntologyManager());
-		return new OPPLTestCaseParser(this.getOPPLTestCaseFactory(),
-				errorListener, symbolTableFactory);
+		return this.build(errorListener, symbolTableFactory);
+	}
+
+	public OPPLTestCaseParser build(ErrorListener errorListener,
+			SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory) {
+		return new OPPLTestCaseParser(this.getOPPLTestCaseFactory(), errorListener,
+				symbolTableFactory);
 	}
 
 	public AbstractOPPLTestCaseFactory getOPPLTestCaseFactory() {
-		return new OPPLTestCaseFactory(this.getOntology(), this
-				.getOntologyManager(), this.getReasoner());
+		return new OPPLTestCaseFactory(this.getOntology(), this.getOntologyManager(),
+				this.getReasoner());
 	}
 
 	/**

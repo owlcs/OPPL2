@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.coode.oppl.template.opplscript.commons;
+package org.coode.oppl.template.commons.opplscript;
 
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
