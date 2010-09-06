@@ -264,13 +264,18 @@ variableDefinition returns [Variable variable]
 		      getErrorListener().reportThrowable(e, $INPUT_VARIABLE_DEFINITION.token.getLine(), $INPUT_VARIABLE_DEFINITION.token.getCharPositionInLine(),$INPUT_VARIABLE_DEFINITION.token.getText().length());
 		   }
 		  }
-	  | ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME generatedVariableAssignment)
-	    {
-	       VariableExpressionGeneratedVariable variableExpressionGeneratedVariable = new VariableExpressionGeneratedVariable(
-        $VARIABLE_NAME.getText(), $generatedVariableAssignment.owlObject, getConstraintSystem());
-        getConstraintSystem().importVariable(variableExpressionGeneratedVariable);
-        $variable = variableExpressionGeneratedVariable;
-	    }
+			| ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( expr = EXPRESSION .*))
+	    	{
+	    		Type type = getSymbolTable().getExpressionGeneratedVariableType($start,$VARIABLE_TYPE, expr);
+	    		if(type!=null){
+		       		VariableExpressionGeneratedVariable variableExpressionGeneratedVariable = new VariableExpressionGeneratedVariable(
+        								$VARIABLE_NAME.getText(), expr.getOWLObject(), getConstraintSystem());
+								        getConstraintSystem().importVariable(variableExpressionGeneratedVariable);
+			        $variable = variableExpressionGeneratedVariable;
+				}else{
+					getErrorListener().reportThrowable(new NullPointerException("The type of the generated variable is null"), $start.token.getLine(), $start.token.getCharPositionInLine(),$start.token.getText().length());
+				}
+			}
 	  |  ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(MATCH se = stringOperation ))
 	     {
 	       org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
@@ -337,38 +342,7 @@ stringExpression returns [SingleValueGeneratedValue<String> value]
   
   
   
-generatedVariableAssignment returns [Type type, OWLObject owlObject]
-@after 
-  { 
-    $start.setEvalType($type);     
-  } // do after any alternative
-  : 
-    ^(CLASS ^(EXPRESSION classExpression=.))
-    {
-      $type = symtab.getClassGeneratedVariable($start, classExpression);
-      $owlObject = classExpression.getOWLObject();
-    }
-  | ^(OBJECTPROPERTY ^(EXPRESSION objectPropertyExpression=.))
-    {
-      $type = symtab.getObjectPropertyGeneratedVariable($start, objectPropertyExpression);
-      $owlObject = objectPropertyExpression.getOWLObject();
-    }
-  | ^(DATAPROPERTY ^(EXPRESSION dataPropertyExpression=.))
-    {
-      $type = symtab.getDataPropertyGeneratedVariable($start, dataPropertyExpression);
-      $owlObject = dataPropertyExpression.getOWLObject();
-    }
-  | ^(INDIVIDUAL ^(EXPRESSION individualExpression=.))
-    {
-      $type = symtab.getIndividualGeneratedVariable($start, individualExpression);
-      $owlObject = individualExpression.getOWLObject();
-    }
-  | ^(CONSTANT ^(EXPRESSION constantExpression=.))
-    {
-      $type = symtab.getConstantGeneratedVariable($start, constantExpression);
-      $owlObject = constantExpression.getOWLObject();
-    }       
-;
+
 
 
 variableScope returns [Type type, VariableScope variableScope]
