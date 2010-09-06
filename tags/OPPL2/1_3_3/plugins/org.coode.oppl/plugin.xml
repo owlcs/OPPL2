@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+  <plugin>
+  	<extension id="OPPLView"
+			point="org.protege.editor.core.application.ViewComponent">
+  		<label value="OPPL"/>
+  		<class value="org.coode.oppl.protege.ui.OPPLView"/>
+		<headerColor value="@org.protege.ontologycolor"/>
+        <category value="@org.protege.ontologycategory"/>
+  	</extension>
+  	<extension id="OPPLMacroView"
+			point="org.protege.editor.core.application.ViewComponent">
+  		<label value="OPPL Macros"/>
+  		<class value="org.coode.oppl.protege.ui.OPPLMacroView"/>
+		<headerColor value="@org.protege.ontologycolor"/>
+        <category value="@org.protege.ontologycategory"/>
+  	</extension>  	
+  </plugin>
