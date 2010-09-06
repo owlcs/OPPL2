@@ -46,9 +46,7 @@ tokens {
 
 
 
-standaloneExpression  :
-    expression EOF ->^(STANDALONE_EXPRESSION ^(EXPRESSION expression))
-  ;
+
 
 incompleteAxiom :
     incompleteBinaryAxiom -> ^(incompleteBinaryAxiom)

@@ -392,6 +392,20 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_CLASSES);
 	}
 
+	public void testEquivalentClassEscapedEntities() {
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("NamedPizza or not ('hasTopping' some Pizza) equivalentTo Pizza and  NamedPizza");
+		Type parseType = parsed.getEvalType();
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.EQUIVALENT_CLASSES);
+		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_CLASSES);
+		parsed = this.parse("NamedPizza  equivalentTo Pizza");
+		parseType = parsed.getEvalType();
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.EQUIVALENT_CLASSES);
+		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_CLASSES);
+	}
+
 	public void testDisjointClasses() {
 		ManchesterOWLSyntaxTree parsed = this
 				.parse("NamedPizza or not (hasTopping some Pizza) DisjointWith Pizza and  NamedPizza");

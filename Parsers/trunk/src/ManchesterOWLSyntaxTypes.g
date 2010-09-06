@@ -296,6 +296,12 @@ returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject]
         $type = symbol==null ? null: symbol.getType();
         $owlObject = this.getSymbolTable().getOWLObject($IDENTIFIER);
       }
+      | ENTITY_REFERENCE 
+			{
+				Symbol symbol = this.getSymbolTable().resolve($ENTITY_REFERENCE);
+				$type = symbol==null ? null: symbol.getType();
+				$owlObject = this.getSymbolTable().getOWLObject($ENTITY_REFERENCE);
+			}
     | complexPropertyExpression
       {
         $type = $complexPropertyExpression.type;

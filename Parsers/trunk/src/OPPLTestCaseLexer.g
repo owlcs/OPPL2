@@ -21,10 +21,10 @@ SEMICOLON
 		';'
 	;	
 
-CONTAINS
-	:
-		'CONTAINS'
+CONTAINS : 
+	('C'|'c')('O'|'o')('N'|'n')('T'|'t')('A'|'a')('I'|'i')('N'|'n')('S'|'s') 
 	;
+
 
 
 	

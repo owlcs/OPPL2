@@ -160,6 +160,9 @@ test returns [Test t]
 
 
 assertion returns [Assertion a]
+@init{
+	List<OPPLSyntaxTree> containedAssertionExpressions = new ArrayList<OPPLSyntaxTree>();
+}
 	:
 		^(ASSERT_EQUAL left=assertionExpression right =assertionExpression){
 			 $a = getSymbolTable().getAssertEqual(left.ae,left.node,right.ae, right.node,$start);
@@ -167,8 +170,8 @@ assertion returns [Assertion a]
 		| ^(ASSERT_NOT_EQUAL left=assertionExpression right =assertionExpression){
 			 $a = getSymbolTable().getAssertNotEqual(left.ae,left.node,right.ae, right.node,$start);
 		}
-		| ^(CONTAINS VARIABLE_NAME expr= assertionExpression){
-			$a = getSymbolTable().getAssertContains($VARIABLE_NAME,expr.node, getConstraintSystem(), getTestCaseFactory(), $start);
+		| ^(CONTAINS VARIABLE_NAME (expr= assertionExpression {containedAssertionExpressions.add(expr.node); })+){
+			$a = getSymbolTable().getAssertContains($VARIABLE_NAME,containedAssertionExpressions, getConstraintSystem(), getTestCaseFactory(), $start);
 		}
 		| ^(NOT anAssertion= assertion){
 			$a = getSymbolTable().getAssertionComplement(anAssertion.a);

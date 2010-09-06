@@ -90,7 +90,7 @@ assertion options{backtrack = true;}
 	:
 		left =assertionExpression EQUAL right= assertionExpression -> ^(ASSERT_EQUAL $left $right)
 		| left =assertionExpression NOT_EQUAL right= assertionExpression -> ^(ASSERT_NOT_EQUAL $left $right)
-		| VARIABLE_NAME 	CONTAINS assertionExpression ->^(CONTAINS VARIABLE_NAME  assertionExpression)
+		| VARIABLE_NAME 	CONTAINS assertionExpression (COMMA assertionExpression)? ->^(CONTAINS VARIABLE_NAME  assertionExpression+)
 		| NOT OPEN_PARENTHESYS assertion CLOSED_PARENTHESYS ->^(NOT assertion)
 	;
 	
@@ -99,6 +99,7 @@ assertionExpression
 		COUNT OPEN_PARENTHESYS VARIABLE_NAME CLOSED_PARENTHESYS ->^(COUNT VARIABLE_NAME)
 		| INTEGER 
 		| expression ->^(EXPRESSION expression)
+		
 	;
 
 

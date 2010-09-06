@@ -15,10 +15,10 @@ import   MOWLLexer,  ManchesterOWLSyntaxAutoCompleteBase;
 main: 
 (   
   options {backtrack=true;}:  
-    standaloneExpression -> ^(standaloneExpression)
-  | axiom EOF -> ^(axiom)
-  | incompleteAxiom EOF -> ^(incompleteAxiom)
-  | incompleteExpression EOF -> ^(incompleteExpression)
+    expression -> ^(STANDALONE_EXPRESSION expression)
+  | axiom  -> ^(axiom)
+  | incompleteAxiom  -> ^(incompleteAxiom)
+  | incompleteExpression  -> ^(incompleteExpression)
  )
 ; 
  

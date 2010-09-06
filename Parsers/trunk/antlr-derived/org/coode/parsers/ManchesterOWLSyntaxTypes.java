@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g 2010-08-11 15:36:29
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g 2010-09-03 11:04:08
 
   package org.coode.parsers;
   import org.semanticweb.owlapi.model.OWLObject;
@@ -15,74 +15,74 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT"
     };
-    public static final int COMMA=37;
-    public static final int OPEN_CURLY_BRACES=6;
-    public static final int DIFFERENT_FROM=24;
-    public static final int TYPE_ASSERTION=66;
-    public static final int INSTANCE_OF=38;
-    public static final int SAME_AS_AXIOM=52;
-    public static final int SOME_RESTRICTION=61;
-    public static final int ROLE_ASSERTION=67;
-    public static final int TYPES=39;
-    public static final int VALUE=18;
-    public static final int INVERSE_FUNCTIONAL=35;
-    public static final int OR=11;
-    public static final int ALL_RESTRICTION=62;
-    public static final int QUESTION_MARK=46;
-    public static final int INTEGER=42;
-    public static final int EXPRESSION=69;
-    public static final int AND=10;
-    public static final int CONSTANT=70;
-    public static final int VALUE_RESTRICTION=63;
-    public static final int INVERSE=19;
-    public static final int ONE_OF=65;
-    public static final int DISJOINT_WITH_AXIOM=50;
-    public static final int CARDINALITY_RESTRICTION=64;
-    public static final int EXACTLY=17;
     public static final int SAME_AS=23;
-    public static final int DIGIT=41;
-    public static final int TRANSITIVE=34;
-    public static final int COMPOSITION=4;
-    public static final int CONJUNCTION=56;
-    public static final int ENTITY_REFERENCE=45;
-    public static final int SUBCLASS_OF=20;
-    public static final int INVERSE_OF=25;
-    public static final int FUNCTIONAL=29;
-    public static final int MAX=16;
-    public static final int RANGE=28;
-    public static final int LETTER=43;
-    public static final int NEGATED_ASSERTION=59;
-    public static final int PROPERTY_CHAIN=57;
+    public static final int DISJOINT_WITH=26;
+    public static final int VALUE_RESTRICTION=63;
     public static final int CLOSED_PARENTHESYS=8;
+    public static final int LETTER=43;
     public static final int EQUIVALENT_TO_AXIOM=49;
     public static final int ONLY=14;
-    public static final int DBLQUOTE=40;
-    public static final int SYMMETRIC=30;
-    public static final int MIN=15;
-    public static final int DISJOINT_WITH=26;
-    public static final int POW=36;
-    public static final int DISJUNCTION=55;
-    public static final int WHITESPACE=9;
-    public static final int SOME=13;
-    public static final int NEGATED_EXPRESSION=58;
-    public static final int DIFFERENT_FROM_AXIOM=53;
-    public static final int EOF=-1;
-    public static final int EQUIVALENT_TO=22;
-    public static final int DOMAIN=27;
-    public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION=68;
     public static final int SUB_PROPERTY_OF=21;
-    public static final int INVERSE_PROPERTY=60;
-    public static final int Tokens=47;
-    public static final int ANTI_SYMMETRIC=31;
-    public static final int CLOSED_CURLY_BRACES=7;
-    public static final int SUB_PROPERTY_AXIOM=51;
-    public static final int SUB_CLASS_AXIOM=48;
-    public static final int UNARY_AXIOM=54;
-    public static final int IDENTIFIER=44;
-    public static final int REFLEXIVE=32;
+    public static final int NEGATED_EXPRESSION=58;
+    public static final int MAX=16;
+    public static final int SAME_AS_AXIOM=52;
+    public static final int TYPES=39;
+    public static final int INVERSE_OF=25;
     public static final int NOT=12;
+    public static final int AND=10;
+    public static final int SUBCLASS_OF=20;
+    public static final int EOF=-1;
+    public static final int INVERSE_PROPERTY=60;
+    public static final int DIFFERENT_FROM=24;
+    public static final int POW=36;
+    public static final int EQUIVALENT_TO=22;
+    public static final int UNARY_AXIOM=54;
+    public static final int CLOSED_CURLY_BRACES=7;
+    public static final int COMMA=37;
+    public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION=68;
+    public static final int IDENTIFIER=44;
+    public static final int SOME=13;
+    public static final int INSTANCE_OF=38;
+    public static final int QUESTION_MARK=46;
     public static final int OPEN_PARENTHESYS=5;
+    public static final int REFLEXIVE=32;
+    public static final int SYMMETRIC=30;
+    public static final int DIGIT=41;
+    public static final int CARDINALITY_RESTRICTION=64;
+    public static final int EXPRESSION=69;
+    public static final int ROLE_ASSERTION=67;
+    public static final int DIFFERENT_FROM_AXIOM=53;
+    public static final int SOME_RESTRICTION=61;
+    public static final int INTEGER=42;
+    public static final int ANTI_SYMMETRIC=31;
+    public static final int TRANSITIVE=34;
+    public static final int ALL_RESTRICTION=62;
+    public static final int SUB_PROPERTY_AXIOM=51;
+    public static final int EXACTLY=17;
+    public static final int CONJUNCTION=56;
+    public static final int NEGATED_ASSERTION=59;
+    public static final int WHITESPACE=9;
+    public static final int RANGE=28;
+    public static final int ONE_OF=65;
+    public static final int SUB_CLASS_AXIOM=48;
+    public static final int MIN=15;
+    public static final int VALUE=18;
+    public static final int Tokens=47;
+    public static final int OPEN_CURLY_BRACES=6;
+    public static final int DOMAIN=27;
+    public static final int DISJUNCTION=55;
+    public static final int DISJOINT_WITH_AXIOM=50;
+    public static final int INVERSE=19;
+    public static final int INVERSE_FUNCTIONAL=35;
     public static final int IRREFLEXIVE=33;
+    public static final int DBLQUOTE=40;
+    public static final int OR=11;
+    public static final int CONSTANT=70;
+    public static final int PROPERTY_CHAIN=57;
+    public static final int FUNCTIONAL=29;
+    public static final int ENTITY_REFERENCE=45;
+    public static final int TYPE_ASSERTION=66;
+    public static final int COMPOSITION=4;
 
     // delegates
     // delegators
@@ -98,7 +98,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         
 
     public String[] getTokenNames() { return ManchesterOWLSyntaxTypes.tokenNames; }
-    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g"; }
+    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g"; }
 
 
       private  SymbolTable symtab;
@@ -140,10 +140,10 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
 
     // $ANTLR start "bottomup"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:73:1: bottomup : ( expressionRoot | axiom );
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:73:1: bottomup : ( expressionRoot | axiom );
     public final void bottomup() throws RecognitionException {
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:74:5: ( expressionRoot | axiom )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:74:5: ( expressionRoot | axiom )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -162,7 +162,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
             }
             switch (alt1) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:74:9: expressionRoot
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:74:9: expressionRoot
                     {
                     pushFollow(FOLLOW_expressionRoot_in_bottomup81);
                     expressionRoot();
@@ -173,7 +173,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:75:8: axiom
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:75:8: axiom
                     {
                     pushFollow(FOLLOW_axiom_in_bottomup91);
                     axiom();
@@ -206,15 +206,15 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
 
     // $ANTLR start "expressionRoot"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:78:1: expressionRoot : ^( EXPRESSION expression ) ;
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:78:1: expressionRoot : ^( EXPRESSION expression ) ;
     public final void expressionRoot() throws RecognitionException {
         ManchesterOWLSyntaxTree EXPRESSION1=null;
         ManchesterOWLSyntaxTypes.expression_return expression2 = null;
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:79:5: ( ^( EXPRESSION expression ) )
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:79:9: ^( EXPRESSION expression )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:79:5: ( ^( EXPRESSION expression ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:79:9: ^( EXPRESSION expression )
             {
             EXPRESSION1=(ManchesterOWLSyntaxTree)match(input,EXPRESSION,FOLLOW_EXPRESSION_in_expressionRoot118); if (state.failed) return ;
 
@@ -261,7 +261,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     };
 
     // $ANTLR start "axiom"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:88:1: axiom returns [Type type, ManchesterOWLSyntaxTree node, OWLAxiom owlAxiom] : ( ^( SUB_CLASS_AXIOM ^( EXPRESSION subClass= expression ) ^( EXPRESSION superClass= expression ) ) | ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( INVERSE_OF ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION anotherProperty= IDENTIFIER ) ) | ^( DISJOINT_WITH_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( SUB_PROPERTY_AXIOM ^( EXPRESSION subProperty= expression ) ^( EXPRESSION superProperty= unary ) ) | ^( ROLE_ASSERTION ^( EXPRESSION subject= IDENTIFIER ) ^( EXPRESSION predicate= propertyExpression ) ^( EXPRESSION object= unary ) ) | ^( TYPE_ASSERTION ^( EXPRESSION description= expression ) ^( EXPRESSION subject= IDENTIFIER ) ) | ^( DOMAIN ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION domain= expression ) ) | ^( RANGE ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION range= expression ) ) | ^( SAME_AS_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( UNARY_AXIOM FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM INVERSE_FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM IRREFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM REFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM SYMMETRIC ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM TRANSITIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( NEGATED_ASSERTION a= axiom ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:88:1: axiom returns [Type type, ManchesterOWLSyntaxTree node, OWLAxiom owlAxiom] : ( ^( SUB_CLASS_AXIOM ^( EXPRESSION subClass= expression ) ^( EXPRESSION superClass= expression ) ) | ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( INVERSE_OF ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION anotherProperty= IDENTIFIER ) ) | ^( DISJOINT_WITH_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( SUB_PROPERTY_AXIOM ^( EXPRESSION subProperty= expression ) ^( EXPRESSION superProperty= unary ) ) | ^( ROLE_ASSERTION ^( EXPRESSION subject= IDENTIFIER ) ^( EXPRESSION predicate= propertyExpression ) ^( EXPRESSION object= unary ) ) | ^( TYPE_ASSERTION ^( EXPRESSION description= expression ) ^( EXPRESSION subject= IDENTIFIER ) ) | ^( DOMAIN ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION domain= expression ) ) | ^( RANGE ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION range= expression ) ) | ^( SAME_AS_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( UNARY_AXIOM FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM INVERSE_FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM IRREFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM REFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM SYMMETRIC ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM TRANSITIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( NEGATED_ASSERTION a= axiom ) );
     public final ManchesterOWLSyntaxTypes.axiom_return axiom() throws RecognitionException {
         ManchesterOWLSyntaxTypes.axiom_return retval = new ManchesterOWLSyntaxTypes.axiom_return();
         retval.start = input.LT(1);
@@ -297,12 +297,12 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:95:1: ( ^( SUB_CLASS_AXIOM ^( EXPRESSION subClass= expression ) ^( EXPRESSION superClass= expression ) ) | ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( INVERSE_OF ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION anotherProperty= IDENTIFIER ) ) | ^( DISJOINT_WITH_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( SUB_PROPERTY_AXIOM ^( EXPRESSION subProperty= expression ) ^( EXPRESSION superProperty= unary ) ) | ^( ROLE_ASSERTION ^( EXPRESSION subject= IDENTIFIER ) ^( EXPRESSION predicate= propertyExpression ) ^( EXPRESSION object= unary ) ) | ^( TYPE_ASSERTION ^( EXPRESSION description= expression ) ^( EXPRESSION subject= IDENTIFIER ) ) | ^( DOMAIN ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION domain= expression ) ) | ^( RANGE ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION range= expression ) ) | ^( SAME_AS_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( UNARY_AXIOM FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM INVERSE_FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM IRREFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM REFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM SYMMETRIC ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM TRANSITIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( NEGATED_ASSERTION a= axiom ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:95:1: ( ^( SUB_CLASS_AXIOM ^( EXPRESSION subClass= expression ) ^( EXPRESSION superClass= expression ) ) | ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( INVERSE_OF ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION anotherProperty= IDENTIFIER ) ) | ^( DISJOINT_WITH_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( SUB_PROPERTY_AXIOM ^( EXPRESSION subProperty= expression ) ^( EXPRESSION superProperty= unary ) ) | ^( ROLE_ASSERTION ^( EXPRESSION subject= IDENTIFIER ) ^( EXPRESSION predicate= propertyExpression ) ^( EXPRESSION object= unary ) ) | ^( TYPE_ASSERTION ^( EXPRESSION description= expression ) ^( EXPRESSION subject= IDENTIFIER ) ) | ^( DOMAIN ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION domain= expression ) ) | ^( RANGE ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION range= expression ) ) | ^( SAME_AS_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( UNARY_AXIOM FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM INVERSE_FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM IRREFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM REFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM SYMMETRIC ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM TRANSITIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( NEGATED_ASSERTION a= axiom ) )
             int alt2=18;
             alt2 = dfa2.predict(input);
             switch (alt2) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:96:3: ^( SUB_CLASS_AXIOM ^( EXPRESSION subClass= expression ) ^( EXPRESSION superClass= expression ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:96:3: ^( SUB_CLASS_AXIOM ^( EXPRESSION subClass= expression ) ^( EXPRESSION superClass= expression ) )
                     {
                     match(input,SUB_CLASS_AXIOM,FOLLOW_SUB_CLASS_AXIOM_in_axiom164); if (state.failed) return retval;
 
@@ -339,7 +339,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:101:5: ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:101:5: ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) )
                     {
                     match(input,EQUIVALENT_TO_AXIOM,FOLLOW_EQUIVALENT_TO_AXIOM_in_axiom200); if (state.failed) return retval;
 
@@ -376,7 +376,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:106:4: ^( INVERSE_OF ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION anotherProperty= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:106:4: ^( INVERSE_OF ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION anotherProperty= IDENTIFIER ) )
                     {
                     match(input,INVERSE_OF,FOLLOW_INVERSE_OF_in_axiom235); if (state.failed) return retval;
 
@@ -405,7 +405,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:111:5: ^( DISJOINT_WITH_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:111:5: ^( DISJOINT_WITH_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) )
                     {
                     match(input,DISJOINT_WITH_AXIOM,FOLLOW_DISJOINT_WITH_AXIOM_in_axiom266); if (state.failed) return retval;
 
@@ -442,7 +442,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 5 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:115:4: ^( SUB_PROPERTY_AXIOM ^( EXPRESSION subProperty= expression ) ^( EXPRESSION superProperty= unary ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:115:4: ^( SUB_PROPERTY_AXIOM ^( EXPRESSION subProperty= expression ) ^( EXPRESSION superProperty= unary ) )
                     {
                     match(input,SUB_PROPERTY_AXIOM,FOLLOW_SUB_PROPERTY_AXIOM_in_axiom298); if (state.failed) return retval;
 
@@ -479,7 +479,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 6 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:120:4: ^( ROLE_ASSERTION ^( EXPRESSION subject= IDENTIFIER ) ^( EXPRESSION predicate= propertyExpression ) ^( EXPRESSION object= unary ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:120:4: ^( ROLE_ASSERTION ^( EXPRESSION subject= IDENTIFIER ) ^( EXPRESSION predicate= propertyExpression ) ^( EXPRESSION object= unary ) )
                     {
                     match(input,ROLE_ASSERTION,FOLLOW_ROLE_ASSERTION_in_axiom332); if (state.failed) return retval;
 
@@ -522,7 +522,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 7 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:124:5: ^( TYPE_ASSERTION ^( EXPRESSION description= expression ) ^( EXPRESSION subject= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:124:5: ^( TYPE_ASSERTION ^( EXPRESSION description= expression ) ^( EXPRESSION subject= IDENTIFIER ) )
                     {
                     match(input,TYPE_ASSERTION,FOLLOW_TYPE_ASSERTION_in_axiom373); if (state.failed) return retval;
 
@@ -555,7 +555,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 8 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:129:4: ^( DOMAIN ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION domain= expression ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:129:4: ^( DOMAIN ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION domain= expression ) )
                     {
                     match(input,DOMAIN,FOLLOW_DOMAIN_in_axiom405); if (state.failed) return retval;
 
@@ -588,7 +588,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 9 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:134:5: ^( RANGE ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION range= expression ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:134:5: ^( RANGE ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION range= expression ) )
                     {
                     match(input,RANGE,FOLLOW_RANGE_in_axiom437); if (state.failed) return retval;
 
@@ -621,7 +621,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 10 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:139:6: ^( SAME_AS_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:139:6: ^( SAME_AS_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) )
                     {
                     match(input,SAME_AS_AXIOM,FOLLOW_SAME_AS_AXIOM_in_axiom471); if (state.failed) return retval;
 
@@ -650,7 +650,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 11 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:144:7: ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:144:7: ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) )
                     {
                     match(input,DIFFERENT_FROM_AXIOM,FOLLOW_DIFFERENT_FROM_AXIOM_in_axiom505); if (state.failed) return retval;
 
@@ -679,7 +679,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 12 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:149:5: ^( UNARY_AXIOM FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:149:5: ^( UNARY_AXIOM FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) )
                     {
                     match(input,UNARY_AXIOM,FOLLOW_UNARY_AXIOM_in_axiom537); if (state.failed) return retval;
 
@@ -703,7 +703,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 13 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:154:5: ^( UNARY_AXIOM INVERSE_FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:154:5: ^( UNARY_AXIOM INVERSE_FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) )
                     {
                     match(input,UNARY_AXIOM,FOLLOW_UNARY_AXIOM_in_axiom561); if (state.failed) return retval;
 
@@ -727,7 +727,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 14 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:159:7: ^( UNARY_AXIOM IRREFLEXIVE ^( EXPRESSION p= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:159:7: ^( UNARY_AXIOM IRREFLEXIVE ^( EXPRESSION p= IDENTIFIER ) )
                     {
                     match(input,UNARY_AXIOM,FOLLOW_UNARY_AXIOM_in_axiom588); if (state.failed) return retval;
 
@@ -751,7 +751,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 15 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:164:6: ^( UNARY_AXIOM REFLEXIVE ^( EXPRESSION p= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:164:6: ^( UNARY_AXIOM REFLEXIVE ^( EXPRESSION p= IDENTIFIER ) )
                     {
                     match(input,UNARY_AXIOM,FOLLOW_UNARY_AXIOM_in_axiom614); if (state.failed) return retval;
 
@@ -775,7 +775,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 16 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:169:6: ^( UNARY_AXIOM SYMMETRIC ^( EXPRESSION p= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:169:6: ^( UNARY_AXIOM SYMMETRIC ^( EXPRESSION p= IDENTIFIER ) )
                     {
                     match(input,UNARY_AXIOM,FOLLOW_UNARY_AXIOM_in_axiom640); if (state.failed) return retval;
 
@@ -799,7 +799,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 17 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:174:7: ^( UNARY_AXIOM TRANSITIVE ^( EXPRESSION p= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:174:7: ^( UNARY_AXIOM TRANSITIVE ^( EXPRESSION p= IDENTIFIER ) )
                     {
                     match(input,UNARY_AXIOM,FOLLOW_UNARY_AXIOM_in_axiom668); if (state.failed) return retval;
 
@@ -823,7 +823,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 18 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:179:6: ^( NEGATED_ASSERTION a= axiom )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:179:6: ^( NEGATED_ASSERTION a= axiom )
                     {
                     match(input,NEGATED_ASSERTION,FOLLOW_NEGATED_ASSERTION_in_axiom694); if (state.failed) return retval;
 
@@ -879,7 +879,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     };
 
     // $ANTLR start "expression"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:185:1: expression returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( ^( DISJUNCTION (disjuncts+= conjunction )+ ) | ^( PROPERTY_CHAIN (chainItems+= expression )+ ) | conjunction | complexPropertyExpression );
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:185:1: expression returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( ^( DISJUNCTION (disjuncts+= conjunction )+ ) | ^( PROPERTY_CHAIN (chainItems+= expression )+ ) | conjunction | complexPropertyExpression );
     public final ManchesterOWLSyntaxTypes.expression_return expression() throws RecognitionException {
         ManchesterOWLSyntaxTypes.expression_return retval = new ManchesterOWLSyntaxTypes.expression_return();
         retval.start = input.LT(1);
@@ -893,7 +893,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         RuleReturnScope disjuncts = null;
         RuleReturnScope chainItems = null;
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:192:2: ( ^( DISJUNCTION (disjuncts+= conjunction )+ ) | ^( PROPERTY_CHAIN (chainItems+= expression )+ ) | conjunction | complexPropertyExpression )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:192:2: ( ^( DISJUNCTION (disjuncts+= conjunction )+ ) | ^( PROPERTY_CHAIN (chainItems+= expression )+ ) | conjunction | complexPropertyExpression )
             int alt5=4;
             switch ( input.LA(1) ) {
             case DISJUNCTION:
@@ -935,12 +935,12 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
             switch (alt5) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:193:4: ^( DISJUNCTION (disjuncts+= conjunction )+ )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:193:4: ^( DISJUNCTION (disjuncts+= conjunction )+ )
                     {
                     match(input,DISJUNCTION,FOLLOW_DISJUNCTION_in_expression735); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:193:29: (disjuncts+= conjunction )+
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:193:29: (disjuncts+= conjunction )+
                     int cnt3=0;
                     loop3:
                     do {
@@ -954,7 +954,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
                         switch (alt3) {
                     	case 1 :
-                    	    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:193:29: disjuncts+= conjunction
+                    	    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:193:29: disjuncts+= conjunction
                     	    {
                     	    pushFollow(FOLLOW_conjunction_in_expression741);
                     	    disjuncts=conjunction();
@@ -994,12 +994,12 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:202:6: ^( PROPERTY_CHAIN (chainItems+= expression )+ )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:202:6: ^( PROPERTY_CHAIN (chainItems+= expression )+ )
                     {
                     match(input,PROPERTY_CHAIN,FOLLOW_PROPERTY_CHAIN_in_expression757); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:202:34: (chainItems+= expression )+
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:202:34: (chainItems+= expression )+
                     int cnt4=0;
                     loop4:
                     do {
@@ -1013,7 +1013,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:202:34: chainItems+= expression
+                    	    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:202:34: chainItems+= expression
                     	    {
                     	    pushFollow(FOLLOW_expression_in_expression762);
                     	    chainItems=expression();
@@ -1053,7 +1053,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:211:5: conjunction
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:211:5: conjunction
                     {
                     pushFollow(FOLLOW_conjunction_in_expression776);
                     conjunction3=conjunction();
@@ -1070,7 +1070,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:216:5: complexPropertyExpression
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:216:5: complexPropertyExpression
                     {
                     pushFollow(FOLLOW_complexPropertyExpression_in_expression788);
                     complexPropertyExpression4=complexPropertyExpression();
@@ -1121,7 +1121,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     };
 
     // $ANTLR start "conjunction"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:224:1: conjunction returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( ^( CONJUNCTION (conjuncts+= unary )+ ) | unary );
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:224:1: conjunction returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( ^( CONJUNCTION (conjuncts+= unary )+ ) | unary );
     public final ManchesterOWLSyntaxTypes.conjunction_return conjunction() throws RecognitionException {
         ManchesterOWLSyntaxTypes.conjunction_return retval = new ManchesterOWLSyntaxTypes.conjunction_return();
         retval.start = input.LT(1);
@@ -1131,7 +1131,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
         RuleReturnScope conjuncts = null;
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:231:2: ( ^( CONJUNCTION (conjuncts+= unary )+ ) | unary )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:231:2: ( ^( CONJUNCTION (conjuncts+= unary )+ ) | unary )
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -1150,12 +1150,12 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
             }
             switch (alt7) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:232:2: ^( CONJUNCTION (conjuncts+= unary )+ )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:232:2: ^( CONJUNCTION (conjuncts+= unary )+ )
                     {
                     match(input,CONJUNCTION,FOLLOW_CONJUNCTION_in_conjunction825); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:232:26: (conjuncts+= unary )+
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:232:26: (conjuncts+= unary )+
                     int cnt6=0;
                     loop6:
                     do {
@@ -1169,7 +1169,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
                         switch (alt6) {
                     	case 1 :
-                    	    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:232:26: conjuncts+= unary
+                    	    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:232:26: conjuncts+= unary
                     	    {
                     	    pushFollow(FOLLOW_unary_in_conjunction830);
                     	    conjuncts=unary();
@@ -1209,7 +1209,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:241:4: unary
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:241:4: unary
                     {
                     pushFollow(FOLLOW_unary_in_conjunction841);
                     unary5=unary();
@@ -1260,7 +1260,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     };
 
     // $ANTLR start "unary"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:247:1: unary returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( IDENTIFIER | ^( NEGATED_EXPRESSION e= expression ) | qualifiedRestriction | ENTITY_REFERENCE | ^( CONSTANT value= . (constantType= IDENTIFIER )? ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:247:1: unary returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( IDENTIFIER | ^( NEGATED_EXPRESSION e= expression ) | qualifiedRestriction | ENTITY_REFERENCE | ^( CONSTANT value= . (constantType= IDENTIFIER )? ) );
     public final ManchesterOWLSyntaxTypes.unary_return unary() throws RecognitionException {
         ManchesterOWLSyntaxTypes.unary_return retval = new ManchesterOWLSyntaxTypes.unary_return();
         retval.start = input.LT(1);
@@ -1275,7 +1275,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:254:1: ( IDENTIFIER | ^( NEGATED_EXPRESSION e= expression ) | qualifiedRestriction | ENTITY_REFERENCE | ^( CONSTANT value= . (constantType= IDENTIFIER )? ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:254:1: ( IDENTIFIER | ^( NEGATED_EXPRESSION e= expression ) | qualifiedRestriction | ENTITY_REFERENCE | ^( CONSTANT value= . (constantType= IDENTIFIER )? ) )
             int alt9=5;
             switch ( input.LA(1) ) {
             case IDENTIFIER:
@@ -1317,7 +1317,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
             switch (alt9) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:255:3: IDENTIFIER
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:255:3: IDENTIFIER
                     {
                     IDENTIFIER6=(ManchesterOWLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_unary868); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
@@ -1331,7 +1331,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:261:5: ^( NEGATED_EXPRESSION e= expression )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:261:5: ^( NEGATED_EXPRESSION e= expression )
                     {
                     match(input,NEGATED_EXPRESSION,FOLLOW_NEGATED_EXPRESSION_in_unary881); if (state.failed) return retval;
 
@@ -1353,7 +1353,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:266:5: qualifiedRestriction
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:266:5: qualifiedRestriction
                     {
                     pushFollow(FOLLOW_qualifiedRestriction_in_unary901);
                     qualifiedRestriction7=qualifiedRestriction();
@@ -1370,7 +1370,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:271:5: ENTITY_REFERENCE
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:271:5: ENTITY_REFERENCE
                     {
                     ENTITY_REFERENCE8=(ManchesterOWLSyntaxTree)match(input,ENTITY_REFERENCE,FOLLOW_ENTITY_REFERENCE_in_unary915); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
@@ -1384,14 +1384,14 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 5 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:277:5: ^( CONSTANT value= . (constantType= IDENTIFIER )? )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:277:5: ^( CONSTANT value= . (constantType= IDENTIFIER )? )
                     {
                     match(input,CONSTANT,FOLLOW_CONSTANT_in_unary928); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     value=(ManchesterOWLSyntaxTree)input.LT(1);
                     matchAny(input); if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:277:38: (constantType= IDENTIFIER )?
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:277:38: (constantType= IDENTIFIER )?
                     int alt8=2;
                     int LA8_0 = input.LA(1);
 
@@ -1400,7 +1400,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     switch (alt8) {
                         case 1 :
-                            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:277:38: constantType= IDENTIFIER
+                            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:277:38: constantType= IDENTIFIER
                             {
                             constantType=(ManchesterOWLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_unary939); if (state.failed) return retval;
 
@@ -1455,36 +1455,46 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     };
 
     // $ANTLR start "propertyExpression"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:284:1: propertyExpression returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( IDENTIFIER | complexPropertyExpression );
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:284:1: propertyExpression returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( IDENTIFIER | ENTITY_REFERENCE | complexPropertyExpression );
     public final ManchesterOWLSyntaxTypes.propertyExpression_return propertyExpression() throws RecognitionException {
         ManchesterOWLSyntaxTypes.propertyExpression_return retval = new ManchesterOWLSyntaxTypes.propertyExpression_return();
         retval.start = input.LT(1);
 
         ManchesterOWLSyntaxTree IDENTIFIER9=null;
-        ManchesterOWLSyntaxTypes.complexPropertyExpression_return complexPropertyExpression10 = null;
+        ManchesterOWLSyntaxTree ENTITY_REFERENCE10=null;
+        ManchesterOWLSyntaxTypes.complexPropertyExpression_return complexPropertyExpression11 = null;
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:292:1: ( IDENTIFIER | complexPropertyExpression )
-            int alt10=2;
-            int LA10_0 = input.LA(1);
-
-            if ( (LA10_0==IDENTIFIER) ) {
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:292:1: ( IDENTIFIER | ENTITY_REFERENCE | complexPropertyExpression )
+            int alt10=3;
+            switch ( input.LA(1) ) {
+            case IDENTIFIER:
+                {
                 alt10=1;
-            }
-            else if ( (LA10_0==INVERSE_OBJECT_PROPERTY_EXPRESSION) ) {
+                }
+                break;
+            case ENTITY_REFERENCE:
+                {
                 alt10=2;
-            }
-            else {
+                }
+                break;
+            case INVERSE_OBJECT_PROPERTY_EXPRESSION:
+                {
+                alt10=3;
+                }
+                break;
+            default:
                 if (state.backtracking>0) {state.failed=true; return retval;}
                 NoViableAltException nvae =
                     new NoViableAltException("", 10, 0, input);
 
                 throw nvae;
             }
+
             switch (alt10) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:293:7: IDENTIFIER
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:293:7: IDENTIFIER
                     {
                     IDENTIFIER9=(ManchesterOWLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_propertyExpression976); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
@@ -1498,17 +1508,31 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:299:7: complexPropertyExpression
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:299:9: ENTITY_REFERENCE
                     {
-                    pushFollow(FOLLOW_complexPropertyExpression_in_propertyExpression992);
-                    complexPropertyExpression10=complexPropertyExpression();
+                    ENTITY_REFERENCE10=(ManchesterOWLSyntaxTree)match(input,ENTITY_REFERENCE,FOLLOW_ENTITY_REFERENCE_in_propertyExpression994); if (state.failed) return retval;
+                    if ( state.backtracking==1 ) {
+
+                      				Symbol symbol = this.getSymbolTable().resolve(ENTITY_REFERENCE10);
+                      				retval.type = symbol==null ? null: symbol.getType();
+                      				retval.owlObject = this.getSymbolTable().getOWLObject(ENTITY_REFERENCE10);
+                      			
+                    }
+
+                    }
+                    break;
+                case 3 :
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:305:7: complexPropertyExpression
+                    {
+                    pushFollow(FOLLOW_complexPropertyExpression_in_propertyExpression1008);
+                    complexPropertyExpression11=complexPropertyExpression();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
-                              retval.type = (complexPropertyExpression10!=null?complexPropertyExpression10.type:null);
-                              retval.owlObject = (complexPropertyExpression10!=null?complexPropertyExpression10.owlObject:null);
+                              retval.type = (complexPropertyExpression11!=null?complexPropertyExpression11.type:null);
+                              retval.owlObject = (complexPropertyExpression11!=null?complexPropertyExpression11.owlObject:null);
                             
                     }
 
@@ -1549,17 +1573,17 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     };
 
     // $ANTLR start "complexPropertyExpression"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:306:1: complexPropertyExpression returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( ^( INVERSE_OBJECT_PROPERTY_EXPRESSION p= complexPropertyExpression ) | ^( INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:312:1: complexPropertyExpression returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( ^( INVERSE_OBJECT_PROPERTY_EXPRESSION p= complexPropertyExpression ) | ^( INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER ) );
     public final ManchesterOWLSyntaxTypes.complexPropertyExpression_return complexPropertyExpression() throws RecognitionException {
         ManchesterOWLSyntaxTypes.complexPropertyExpression_return retval = new ManchesterOWLSyntaxTypes.complexPropertyExpression_return();
         retval.start = input.LT(1);
 
-        ManchesterOWLSyntaxTree IDENTIFIER11=null;
+        ManchesterOWLSyntaxTree IDENTIFIER12=null;
         ManchesterOWLSyntaxTypes.complexPropertyExpression_return p = null;
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:313:1: ( ^( INVERSE_OBJECT_PROPERTY_EXPRESSION p= complexPropertyExpression ) | ^( INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:319:1: ( ^( INVERSE_OBJECT_PROPERTY_EXPRESSION p= complexPropertyExpression ) | ^( INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER ) )
             int alt11=2;
             int LA11_0 = input.LA(1);
 
@@ -1600,12 +1624,12 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
             }
             switch (alt11) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:314:2: ^( INVERSE_OBJECT_PROPERTY_EXPRESSION p= complexPropertyExpression )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:320:2: ^( INVERSE_OBJECT_PROPERTY_EXPRESSION p= complexPropertyExpression )
                     {
-                    match(input,INVERSE_OBJECT_PROPERTY_EXPRESSION,FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1025); if (state.failed) return retval;
+                    match(input,INVERSE_OBJECT_PROPERTY_EXPRESSION,FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1041); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    pushFollow(FOLLOW_complexPropertyExpression_in_complexPropertyExpression1031);
+                    pushFollow(FOLLOW_complexPropertyExpression_in_complexPropertyExpression1047);
                     p=complexPropertyExpression();
 
                     state._fsp--;
@@ -1622,19 +1646,19 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:319:4: ^( INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:325:4: ^( INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER )
                     {
-                    match(input,INVERSE_OBJECT_PROPERTY_EXPRESSION,FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1041); if (state.failed) return retval;
+                    match(input,INVERSE_OBJECT_PROPERTY_EXPRESSION,FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1057); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    IDENTIFIER11=(ManchesterOWLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_complexPropertyExpression1043); if (state.failed) return retval;
+                    IDENTIFIER12=(ManchesterOWLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_complexPropertyExpression1059); if (state.failed) return retval;
 
                     match(input, Token.UP, null); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
-                      				Symbol symbol = this.getSymbolTable().resolve(IDENTIFIER11);
-                      				retval.type = this.getSymbolTable().getInversePropertyType(((ManchesterOWLSyntaxTree)retval.start), IDENTIFIER11);
-                      				retval.owlObject = this.getSymbolTable().getInverseProperty(((ManchesterOWLSyntaxTree)retval.start), IDENTIFIER11);
+                      				Symbol symbol = this.getSymbolTable().resolve(IDENTIFIER12);
+                      				retval.type = this.getSymbolTable().getInversePropertyType(((ManchesterOWLSyntaxTree)retval.start), IDENTIFIER12);
+                      				retval.owlObject = this.getSymbolTable().getInverseProperty(((ManchesterOWLSyntaxTree)retval.start), IDENTIFIER12);
                       	
                     }
 
@@ -1675,7 +1699,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     };
 
     // $ANTLR start "qualifiedRestriction"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:327:1: qualifiedRestriction returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( ^( SOME_RESTRICTION p= propertyExpression f= expression ) | ^( ALL_RESTRICTION p= propertyExpression f= expression ) | cardinalityRestriction | oneOf | valueRestriction );
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:333:1: qualifiedRestriction returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( ^( SOME_RESTRICTION p= propertyExpression f= expression ) | ^( ALL_RESTRICTION p= propertyExpression f= expression ) | cardinalityRestriction | oneOf | valueRestriction );
     public final ManchesterOWLSyntaxTypes.qualifiedRestriction_return qualifiedRestriction() throws RecognitionException {
         ManchesterOWLSyntaxTypes.qualifiedRestriction_return retval = new ManchesterOWLSyntaxTypes.qualifiedRestriction_return();
         retval.start = input.LT(1);
@@ -1684,15 +1708,15 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
         ManchesterOWLSyntaxTypes.expression_return f = null;
 
-        ManchesterOWLSyntaxTypes.cardinalityRestriction_return cardinalityRestriction12 = null;
+        ManchesterOWLSyntaxTypes.cardinalityRestriction_return cardinalityRestriction13 = null;
 
-        ManchesterOWLSyntaxTypes.oneOf_return oneOf13 = null;
+        ManchesterOWLSyntaxTypes.oneOf_return oneOf14 = null;
 
-        ManchesterOWLSyntaxTypes.valueRestriction_return valueRestriction14 = null;
+        ManchesterOWLSyntaxTypes.valueRestriction_return valueRestriction15 = null;
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:333:2: ( ^( SOME_RESTRICTION p= propertyExpression f= expression ) | ^( ALL_RESTRICTION p= propertyExpression f= expression ) | cardinalityRestriction | oneOf | valueRestriction )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:339:2: ( ^( SOME_RESTRICTION p= propertyExpression f= expression ) | ^( ALL_RESTRICTION p= propertyExpression f= expression ) | cardinalityRestriction | oneOf | valueRestriction )
             int alt12=5;
             switch ( input.LA(1) ) {
             case SOME_RESTRICTION:
@@ -1730,17 +1754,17 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
             switch (alt12) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:334:6: ^( SOME_RESTRICTION p= propertyExpression f= expression )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:340:6: ^( SOME_RESTRICTION p= propertyExpression f= expression )
                     {
-                    match(input,SOME_RESTRICTION,FOLLOW_SOME_RESTRICTION_in_qualifiedRestriction1074); if (state.failed) return retval;
+                    match(input,SOME_RESTRICTION,FOLLOW_SOME_RESTRICTION_in_qualifiedRestriction1090); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    pushFollow(FOLLOW_propertyExpression_in_qualifiedRestriction1079);
+                    pushFollow(FOLLOW_propertyExpression_in_qualifiedRestriction1095);
                     p=propertyExpression();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    pushFollow(FOLLOW_expression_in_qualifiedRestriction1085);
+                    pushFollow(FOLLOW_expression_in_qualifiedRestriction1101);
                     f=expression();
 
                     state._fsp--;
@@ -1757,17 +1781,17 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:339:7: ^( ALL_RESTRICTION p= propertyExpression f= expression )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:345:7: ^( ALL_RESTRICTION p= propertyExpression f= expression )
                     {
-                    match(input,ALL_RESTRICTION,FOLLOW_ALL_RESTRICTION_in_qualifiedRestriction1107); if (state.failed) return retval;
+                    match(input,ALL_RESTRICTION,FOLLOW_ALL_RESTRICTION_in_qualifiedRestriction1123); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    pushFollow(FOLLOW_propertyExpression_in_qualifiedRestriction1114);
+                    pushFollow(FOLLOW_propertyExpression_in_qualifiedRestriction1130);
                     p=propertyExpression();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    pushFollow(FOLLOW_expression_in_qualifiedRestriction1119);
+                    pushFollow(FOLLOW_expression_in_qualifiedRestriction1135);
                     f=expression();
 
                     state._fsp--;
@@ -1784,51 +1808,51 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:344:7: cardinalityRestriction
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:350:7: cardinalityRestriction
                     {
-                    pushFollow(FOLLOW_cardinalityRestriction_in_qualifiedRestriction1135);
-                    cardinalityRestriction12=cardinalityRestriction();
+                    pushFollow(FOLLOW_cardinalityRestriction_in_qualifiedRestriction1151);
+                    cardinalityRestriction13=cardinalityRestriction();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
-                      						retval.type = (cardinalityRestriction12!=null?cardinalityRestriction12.type:null);
-                      						retval.owlObject = (cardinalityRestriction12!=null?cardinalityRestriction12.owlObject:null);
+                      						retval.type = (cardinalityRestriction13!=null?cardinalityRestriction13.type:null);
+                      						retval.owlObject = (cardinalityRestriction13!=null?cardinalityRestriction13.owlObject:null);
                       					
                     }
 
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:349:7: oneOf
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:355:7: oneOf
                     {
-                    pushFollow(FOLLOW_oneOf_in_qualifiedRestriction1151);
-                    oneOf13=oneOf();
+                    pushFollow(FOLLOW_oneOf_in_qualifiedRestriction1167);
+                    oneOf14=oneOf();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
-                      						retval.type = (oneOf13!=null?oneOf13.type:null);
-                      						retval.owlObject = (oneOf13!=null?oneOf13.owlObject:null);
+                      						retval.type = (oneOf14!=null?oneOf14.type:null);
+                      						retval.owlObject = (oneOf14!=null?oneOf14.owlObject:null);
                       					
                     }
 
                     }
                     break;
                 case 5 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:354:7: valueRestriction
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:360:7: valueRestriction
                     {
-                    pushFollow(FOLLOW_valueRestriction_in_qualifiedRestriction1167);
-                    valueRestriction14=valueRestriction();
+                    pushFollow(FOLLOW_valueRestriction_in_qualifiedRestriction1183);
+                    valueRestriction15=valueRestriction();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
-                      						retval.type = (valueRestriction14!=null?valueRestriction14.type:null);
-                      						retval.owlObject = (valueRestriction14!=null?valueRestriction14.owlObject:null);
+                      						retval.type = (valueRestriction15!=null?valueRestriction15.type:null);
+                      						retval.owlObject = (valueRestriction15!=null?valueRestriction15.owlObject:null);
                       					
                     }
 
@@ -1869,7 +1893,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     };
 
     // $ANTLR start "cardinalityRestriction"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:363:1: cardinalityRestriction returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( ^( CARDINALITY_RESTRICTION MIN i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION MAX i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER p= unary (filler= expression )? ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:369:1: cardinalityRestriction returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject] : ( ^( CARDINALITY_RESTRICTION MIN i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION MAX i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER p= unary (filler= expression )? ) );
     public final ManchesterOWLSyntaxTypes.cardinalityRestriction_return cardinalityRestriction() throws RecognitionException {
         ManchesterOWLSyntaxTypes.cardinalityRestriction_return retval = new ManchesterOWLSyntaxTypes.cardinalityRestriction_return();
         retval.start = input.LT(1);
@@ -1881,7 +1905,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:369:1: ( ^( CARDINALITY_RESTRICTION MIN i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION MAX i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER p= unary (filler= expression )? ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:375:1: ( ^( CARDINALITY_RESTRICTION MIN i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION MAX i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER p= unary (filler= expression )? ) )
             int alt16=3;
             int LA16_0 = input.LA(1);
 
@@ -1931,19 +1955,19 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
             }
             switch (alt16) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:370:5: ^( CARDINALITY_RESTRICTION MIN i= INTEGER p= unary (filler= expression )? )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:376:5: ^( CARDINALITY_RESTRICTION MIN i= INTEGER p= unary (filler= expression )? )
                     {
-                    match(input,CARDINALITY_RESTRICTION,FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1204); if (state.failed) return retval;
+                    match(input,CARDINALITY_RESTRICTION,FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1220); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    match(input,MIN,FOLLOW_MIN_in_cardinalityRestriction1207); if (state.failed) return retval;
-                    i=(ManchesterOWLSyntaxTree)match(input,INTEGER,FOLLOW_INTEGER_in_cardinalityRestriction1212); if (state.failed) return retval;
-                    pushFollow(FOLLOW_unary_in_cardinalityRestriction1218);
+                    match(input,MIN,FOLLOW_MIN_in_cardinalityRestriction1223); if (state.failed) return retval;
+                    i=(ManchesterOWLSyntaxTree)match(input,INTEGER,FOLLOW_INTEGER_in_cardinalityRestriction1228); if (state.failed) return retval;
+                    pushFollow(FOLLOW_unary_in_cardinalityRestriction1234);
                     p=unary();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:370:65: (filler= expression )?
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:376:65: (filler= expression )?
                     int alt13=2;
                     int LA13_0 = input.LA(1);
 
@@ -1952,9 +1976,9 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     switch (alt13) {
                         case 1 :
-                            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:370:65: filler= expression
+                            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:376:65: filler= expression
                             {
-                            pushFollow(FOLLOW_expression_in_cardinalityRestriction1225);
+                            pushFollow(FOLLOW_expression_in_cardinalityRestriction1241);
                             filler=expression();
 
                             state._fsp--;
@@ -1979,19 +2003,19 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:377:6: ^( CARDINALITY_RESTRICTION MAX i= INTEGER p= unary (filler= expression )? )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:383:6: ^( CARDINALITY_RESTRICTION MAX i= INTEGER p= unary (filler= expression )? )
                     {
-                    match(input,CARDINALITY_RESTRICTION,FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1240); if (state.failed) return retval;
+                    match(input,CARDINALITY_RESTRICTION,FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1256); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    match(input,MAX,FOLLOW_MAX_in_cardinalityRestriction1243); if (state.failed) return retval;
-                    i=(ManchesterOWLSyntaxTree)match(input,INTEGER,FOLLOW_INTEGER_in_cardinalityRestriction1247); if (state.failed) return retval;
-                    pushFollow(FOLLOW_unary_in_cardinalityRestriction1253);
+                    match(input,MAX,FOLLOW_MAX_in_cardinalityRestriction1259); if (state.failed) return retval;
+                    i=(ManchesterOWLSyntaxTree)match(input,INTEGER,FOLLOW_INTEGER_in_cardinalityRestriction1263); if (state.failed) return retval;
+                    pushFollow(FOLLOW_unary_in_cardinalityRestriction1269);
                     p=unary();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:377:65: (filler= expression )?
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:383:65: (filler= expression )?
                     int alt14=2;
                     int LA14_0 = input.LA(1);
 
@@ -2000,9 +2024,9 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     switch (alt14) {
                         case 1 :
-                            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:377:65: filler= expression
+                            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:383:65: filler= expression
                             {
-                            pushFollow(FOLLOW_expression_in_cardinalityRestriction1260);
+                            pushFollow(FOLLOW_expression_in_cardinalityRestriction1276);
                             filler=expression();
 
                             state._fsp--;
@@ -2026,19 +2050,19 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:383:8: ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER p= unary (filler= expression )? )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:389:8: ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER p= unary (filler= expression )? )
                     {
-                    match(input,CARDINALITY_RESTRICTION,FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1279); if (state.failed) return retval;
+                    match(input,CARDINALITY_RESTRICTION,FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1295); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    match(input,EXACTLY,FOLLOW_EXACTLY_in_cardinalityRestriction1282); if (state.failed) return retval;
-                    i=(ManchesterOWLSyntaxTree)match(input,INTEGER,FOLLOW_INTEGER_in_cardinalityRestriction1287); if (state.failed) return retval;
-                    pushFollow(FOLLOW_unary_in_cardinalityRestriction1294);
+                    match(input,EXACTLY,FOLLOW_EXACTLY_in_cardinalityRestriction1298); if (state.failed) return retval;
+                    i=(ManchesterOWLSyntaxTree)match(input,INTEGER,FOLLOW_INTEGER_in_cardinalityRestriction1303); if (state.failed) return retval;
+                    pushFollow(FOLLOW_unary_in_cardinalityRestriction1310);
                     p=unary();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:383:73: (filler= expression )?
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:389:73: (filler= expression )?
                     int alt15=2;
                     int LA15_0 = input.LA(1);
 
@@ -2047,9 +2071,9 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     }
                     switch (alt15) {
                         case 1 :
-                            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:383:73: filler= expression
+                            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:389:73: filler= expression
                             {
-                            pushFollow(FOLLOW_expression_in_cardinalityRestriction1301);
+                            pushFollow(FOLLOW_expression_in_cardinalityRestriction1317);
                             filler=expression();
 
                             state._fsp--;
@@ -2107,7 +2131,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     };
 
     // $ANTLR start "oneOf"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:391:1: oneOf returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject] : ^( ONE_OF (individuals+= IDENTIFIER )+ ) ;
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:397:1: oneOf returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject] : ^( ONE_OF (individuals+= IDENTIFIER )+ ) ;
     public final ManchesterOWLSyntaxTypes.oneOf_return oneOf() throws RecognitionException {
         ManchesterOWLSyntaxTypes.oneOf_return retval = new ManchesterOWLSyntaxTypes.oneOf_return();
         retval.start = input.LT(1);
@@ -2116,13 +2140,13 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         List list_individuals=null;
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:397:2: ( ^( ONE_OF (individuals+= IDENTIFIER )+ ) )
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:398:3: ^( ONE_OF (individuals+= IDENTIFIER )+ )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:403:2: ( ^( ONE_OF (individuals+= IDENTIFIER )+ ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:404:3: ^( ONE_OF (individuals+= IDENTIFIER )+ )
             {
-            match(input,ONE_OF,FOLLOW_ONE_OF_in_oneOf1336); if (state.failed) return retval;
+            match(input,ONE_OF,FOLLOW_ONE_OF_in_oneOf1352); if (state.failed) return retval;
 
             match(input, Token.DOWN, null); if (state.failed) return retval;
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:398:23: (individuals+= IDENTIFIER )+
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:404:23: (individuals+= IDENTIFIER )+
             int cnt17=0;
             loop17:
             do {
@@ -2136,9 +2160,9 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
                 switch (alt17) {
             	case 1 :
-            	    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:398:23: individuals+= IDENTIFIER
+            	    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:404:23: individuals+= IDENTIFIER
             	    {
-            	    individuals=(ManchesterOWLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_oneOf1340); if (state.failed) return retval;
+            	    individuals=(ManchesterOWLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_oneOf1356); if (state.failed) return retval;
             	    if (list_individuals==null) list_individuals=new ArrayList();
             	    list_individuals.add(individuals);
 
@@ -2206,7 +2230,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     };
 
     // $ANTLR start "valueRestriction"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:411:1: valueRestriction returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject] : ^( VALUE_RESTRICTION p= unary value= unary ) ;
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:417:1: valueRestriction returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject] : ^( VALUE_RESTRICTION p= unary value= unary ) ;
     public final ManchesterOWLSyntaxTypes.valueRestriction_return valueRestriction() throws RecognitionException {
         ManchesterOWLSyntaxTypes.valueRestriction_return retval = new ManchesterOWLSyntaxTypes.valueRestriction_return();
         retval.start = input.LT(1);
@@ -2217,18 +2241,18 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:417:2: ( ^( VALUE_RESTRICTION p= unary value= unary ) )
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypes.g:418:3: ^( VALUE_RESTRICTION p= unary value= unary )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:423:2: ( ^( VALUE_RESTRICTION p= unary value= unary ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:424:3: ^( VALUE_RESTRICTION p= unary value= unary )
             {
-            match(input,VALUE_RESTRICTION,FOLLOW_VALUE_RESTRICTION_in_valueRestriction1373); if (state.failed) return retval;
+            match(input,VALUE_RESTRICTION,FOLLOW_VALUE_RESTRICTION_in_valueRestriction1389); if (state.failed) return retval;
 
             match(input, Token.DOWN, null); if (state.failed) return retval;
-            pushFollow(FOLLOW_unary_in_valueRestriction1380);
+            pushFollow(FOLLOW_unary_in_valueRestriction1396);
             p=unary();
 
             state._fsp--;
             if (state.failed) return retval;
-            pushFollow(FOLLOW_unary_in_valueRestriction1387);
+            pushFollow(FOLLOW_unary_in_valueRestriction1403);
             value=unary();
 
             state._fsp--;
@@ -2453,39 +2477,40 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     public static final BitSet FOLLOW_CONSTANT_in_unary928 = new BitSet(new long[]{0x0000000000000004L});
     public static final BitSet FOLLOW_IDENTIFIER_in_unary939 = new BitSet(new long[]{0x0000000000000008L});
     public static final BitSet FOLLOW_IDENTIFIER_in_propertyExpression976 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_complexPropertyExpression_in_propertyExpression992 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1025 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_complexPropertyExpression_in_complexPropertyExpression1031 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_ENTITY_REFERENCE_in_propertyExpression994 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_complexPropertyExpression_in_propertyExpression1008 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1041 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_complexPropertyExpression1043 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_SOME_RESTRICTION_in_qualifiedRestriction1074 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_propertyExpression_in_qualifiedRestriction1079 = new BitSet(new long[]{0xE780300000000008L,0x0000000000000053L});
-    public static final BitSet FOLLOW_expression_in_qualifiedRestriction1085 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_ALL_RESTRICTION_in_qualifiedRestriction1107 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_propertyExpression_in_qualifiedRestriction1114 = new BitSet(new long[]{0xE780300000000008L,0x0000000000000053L});
-    public static final BitSet FOLLOW_expression_in_qualifiedRestriction1119 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_cardinalityRestriction_in_qualifiedRestriction1135 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_oneOf_in_qualifiedRestriction1151 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_valueRestriction_in_qualifiedRestriction1167 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1204 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_MIN_in_cardinalityRestriction1207 = new BitSet(new long[]{0x0000040000000000L});
-    public static final BitSet FOLLOW_INTEGER_in_cardinalityRestriction1212 = new BitSet(new long[]{0xE500300000000008L,0x0000000000000043L});
-    public static final BitSet FOLLOW_unary_in_cardinalityRestriction1218 = new BitSet(new long[]{0xE780300000000008L,0x0000000000000053L});
-    public static final BitSet FOLLOW_expression_in_cardinalityRestriction1225 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1240 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_MAX_in_cardinalityRestriction1243 = new BitSet(new long[]{0x0000040000000000L});
-    public static final BitSet FOLLOW_INTEGER_in_cardinalityRestriction1247 = new BitSet(new long[]{0xE500300000000008L,0x0000000000000043L});
-    public static final BitSet FOLLOW_unary_in_cardinalityRestriction1253 = new BitSet(new long[]{0xE780300000000008L,0x0000000000000053L});
-    public static final BitSet FOLLOW_expression_in_cardinalityRestriction1260 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1279 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_EXACTLY_in_cardinalityRestriction1282 = new BitSet(new long[]{0x0000040000000000L});
-    public static final BitSet FOLLOW_INTEGER_in_cardinalityRestriction1287 = new BitSet(new long[]{0xE500300000000008L,0x0000000000000043L});
-    public static final BitSet FOLLOW_unary_in_cardinalityRestriction1294 = new BitSet(new long[]{0xE780300000000008L,0x0000000000000053L});
-    public static final BitSet FOLLOW_expression_in_cardinalityRestriction1301 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_ONE_OF_in_oneOf1336 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_oneOf1340 = new BitSet(new long[]{0x0000100000000008L});
-    public static final BitSet FOLLOW_VALUE_RESTRICTION_in_valueRestriction1373 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_unary_in_valueRestriction1380 = new BitSet(new long[]{0xE500300000000008L,0x0000000000000043L});
-    public static final BitSet FOLLOW_unary_in_valueRestriction1387 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_complexPropertyExpression_in_complexPropertyExpression1047 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1057 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_complexPropertyExpression1059 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_SOME_RESTRICTION_in_qualifiedRestriction1090 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_propertyExpression_in_qualifiedRestriction1095 = new BitSet(new long[]{0xE780300000000008L,0x0000000000000053L});
+    public static final BitSet FOLLOW_expression_in_qualifiedRestriction1101 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_ALL_RESTRICTION_in_qualifiedRestriction1123 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_propertyExpression_in_qualifiedRestriction1130 = new BitSet(new long[]{0xE780300000000008L,0x0000000000000053L});
+    public static final BitSet FOLLOW_expression_in_qualifiedRestriction1135 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_cardinalityRestriction_in_qualifiedRestriction1151 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_oneOf_in_qualifiedRestriction1167 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_valueRestriction_in_qualifiedRestriction1183 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1220 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_MIN_in_cardinalityRestriction1223 = new BitSet(new long[]{0x0000040000000000L});
+    public static final BitSet FOLLOW_INTEGER_in_cardinalityRestriction1228 = new BitSet(new long[]{0xE500300000000008L,0x0000000000000043L});
+    public static final BitSet FOLLOW_unary_in_cardinalityRestriction1234 = new BitSet(new long[]{0xE780300000000008L,0x0000000000000053L});
+    public static final BitSet FOLLOW_expression_in_cardinalityRestriction1241 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1256 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_MAX_in_cardinalityRestriction1259 = new BitSet(new long[]{0x0000040000000000L});
+    public static final BitSet FOLLOW_INTEGER_in_cardinalityRestriction1263 = new BitSet(new long[]{0xE500300000000008L,0x0000000000000043L});
+    public static final BitSet FOLLOW_unary_in_cardinalityRestriction1269 = new BitSet(new long[]{0xE780300000000008L,0x0000000000000053L});
+    public static final BitSet FOLLOW_expression_in_cardinalityRestriction1276 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1295 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_EXACTLY_in_cardinalityRestriction1298 = new BitSet(new long[]{0x0000040000000000L});
+    public static final BitSet FOLLOW_INTEGER_in_cardinalityRestriction1303 = new BitSet(new long[]{0xE500300000000008L,0x0000000000000043L});
+    public static final BitSet FOLLOW_unary_in_cardinalityRestriction1310 = new BitSet(new long[]{0xE780300000000008L,0x0000000000000053L});
+    public static final BitSet FOLLOW_expression_in_cardinalityRestriction1317 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_ONE_OF_in_oneOf1352 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_oneOf1356 = new BitSet(new long[]{0x0000100000000008L});
+    public static final BitSet FOLLOW_VALUE_RESTRICTION_in_valueRestriction1389 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_unary_in_valueRestriction1396 = new BitSet(new long[]{0xE500300000000008L,0x0000000000000043L});
+    public static final BitSet FOLLOW_unary_in_valueRestriction1403 = new BitSet(new long[]{0x0000000000000008L});
 
 }
