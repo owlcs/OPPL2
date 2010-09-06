@@ -3,6 +3,10 @@
  */
 package org.coode.parsers.oppl.testcase;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.coode.parsers.Scope;
@@ -73,25 +77,34 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
 	}
 
 	public AssertContains getAssertContains(OPPLSyntaxTree variableNode,
-			OPPLSyntaxTree expressionNode, ConstraintSystem constraintSystem,
+			Collection<? extends OPPLSyntaxTree> expressionNodes,
+			ConstraintSystem constraintSystem,
 			AbstractOPPLTestCaseFactory testCaseFactory,
 			OPPLSyntaxTree parentExpression) {
 		Variable variable = constraintSystem
 				.getVariable(variableNode.getText());
 		AssertContains toReturn = null;
-		if (variable != null) {
+		Set<OWLObject> expressions = new HashSet<OWLObject>();
+		boolean allFine = true;
+		for (OPPLSyntaxTree expressionNode : expressionNodes) {
 			OWLObject owlObject = expressionNode.getOWLObject();
 			if (owlObject != null) {
 				if (variable.getType().isCompatibleWith(owlObject)) {
-					toReturn = new AssertContains(variable, owlObject,
-							constraintSystem, testCaseFactory);
+					expressions.add(owlObject);
 				} else {
+					allFine = false;
 					this.getErrorListener().incompatibleSymbols(
 							parentExpression, variableNode, expressionNode);
 				}
 			} else {
 				this.getErrorListener().illegalToken(expressionNode,
 						"Null OWL object");
+			}
+		}
+		if (variable != null) {
+			if (allFine) {
+				toReturn = new AssertContains(variable, expressions,
+						constraintSystem, testCaseFactory);
 			}
 		} else {
 			this.getErrorListener().illegalToken(variableNode,

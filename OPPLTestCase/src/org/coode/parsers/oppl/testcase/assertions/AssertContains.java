@@ -3,8 +3,9 @@
  */
 package org.coode.parsers.oppl.testcase.assertions;
 
+import java.util.Collection;
 import java.util.Formatter;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
@@ -22,22 +23,26 @@ import org.semanticweb.owlapi.model.OWLObject;
  */
 public class AssertContains implements Assertion {
 	private final Variable variable;
-	private final OWLObject value;
 	private final ConstraintSystem constraintSystem;
+	private final Set<OWLObject> values = new HashSet<OWLObject>();
 	private final AbstractOPPLTestCaseFactory testCaseFactory;
 
 	/**
 	 * @param variable
 	 * @param value
 	 */
-	public AssertContains(Variable variable, OWLObject value,
+	public AssertContains(Variable variable,
+			Collection<? extends OWLObject> values,
 			ConstraintSystem constraintSystem,
 			AbstractOPPLTestCaseFactory testCaseFactory) {
 		if (variable == null) {
 			throw new NullPointerException("The variable cannot be null");
 		}
-		if (value == null) {
-			throw new NullPointerException("The value cannot be null");
+		if (values == null) {
+			throw new NullPointerException("The values cannot be null");
+		}
+		if (values.isEmpty()) {
+			throw new IllegalArgumentException("The values cannot be empty");
 		}
 		if (constraintSystem == null) {
 			throw new NullPointerException(
@@ -48,7 +53,7 @@ public class AssertContains implements Assertion {
 					"The test case factory cannot be null");
 		}
 		this.variable = variable;
-		this.value = value;
+		this.values.addAll(values);
 		this.constraintSystem = constraintSystem;
 		this.testCaseFactory = testCaseFactory;
 	}
@@ -58,13 +63,6 @@ public class AssertContains implements Assertion {
 	 */
 	public Variable getVariable() {
 		return this.variable;
-	}
-
-	/**
-	 * @return the value
-	 */
-	public OWLObject getValue() {
-		return this.value;
 	}
 
 	public <O> O accept(AssertionVisitorEx<O> visitor) {
@@ -78,12 +76,17 @@ public class AssertContains implements Assertion {
 	@Override
 	public String toString() {
 		Formatter formatter = new Formatter();
-		ManchesterSyntaxRenderer renderer = this.getTestCaseFactory()
-				.getOPPLFactory().getManchesterSyntaxRenderer(
-						this.getConstraintSystem());
-		this.getValue().accept(renderer);
-		formatter.format("%s CONTAINS %s", this.getVariable().getName(),
-				renderer.toString());
+		formatter.format("%s CONTAINS ", this.getVariable().getName());
+		boolean first = true;
+		for (OWLObject v : this.getValues()) {
+			String comma = first ? "" : ", ";
+			first = false;
+			ManchesterSyntaxRenderer renderer = this.getTestCaseFactory()
+					.getOPPLFactory().getManchesterSyntaxRenderer(
+							this.getConstraintSystem());
+			v.accept(renderer);
+			formatter.format("%s%s", comma, renderer.toString());
+		}
 		return formatter.toString();
 	}
 
@@ -103,13 +106,20 @@ public class AssertContains implements Assertion {
 
 	public boolean holds(Set<? extends BindingNode> bindings,
 			ConstraintSystem constraintSystem) {
-		boolean found = false;
-		Iterator<? extends BindingNode> iterator = bindings.iterator();
-		while (!found && iterator.hasNext()) {
-			BindingNode bindingNode = iterator.next();
-			found = bindingNode.getAssignmentValue(this.getVariable()).equals(
-					this.getValue());
+		Set<OWLObject> containerValues = new HashSet<OWLObject>(bindings.size());
+		for (BindingNode bindingNode : bindings) {
+			OWLObject value = bindingNode.getAssignmentValue(this.variable);
+			if (value != null) {
+				containerValues.add(value);
+			}
 		}
-		return found;
+		return containerValues.containsAll(this.getValues());
+	}
+
+	/**
+	 * @return the values
+	 */
+	public Set<OWLObject> getValues() {
+		return new HashSet<OWLObject>(this.values);
 	}
 }

@@ -217,6 +217,25 @@ public class OPPLTestCaseTypesTest extends TestCase {
 		}
 	}
 
+	public void testContainsAssertionWithMessageWithMoreThanOneOWLObject() {
+		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x CONTAINS Thing, Nothing; ?x values do not contain Thing and Nothing;";
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
+		OWLOntology ontology;
+		try {
+			ontology = ontologyManager.createOntology();
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
+			assertNotNull(parsed);
+			System.out
+					.println("OPPLTestCaseTypesTest.testContainsAssertionWithMessageWithMoreThanOneOWLObject()\n"
+							+ parsed);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
 	public void testVariableEqualAssertionWithMessage() {
 		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT ?x = ?y; ?x values are not equal to ?y;";
 		OWLOntologyManager ontologyManager = OWLManager

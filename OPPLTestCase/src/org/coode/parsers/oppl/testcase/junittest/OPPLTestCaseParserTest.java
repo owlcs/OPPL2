@@ -93,7 +93,7 @@ public class OPPLTestCaseParserTest extends TestCase {
 		OPPLSyntaxTree parsed = this.parse(testCase);
 		assertNotNull(parsed);
 		System.out
-				.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n"
+				.println("OPPLTestCaseParserTest.testNotEqualAssertionWithMessage\n"
 						+ parsed.toStringTree());
 	}
 
@@ -112,6 +112,15 @@ public class OPPLTestCaseParserTest extends TestCase {
 		assertNotNull(parsed);
 		System.out
 				.println("OPPLTestCaseParserTest.testCountAssertionWithMessage()\n"
+						+ parsed.toStringTree());
+	}
+
+	public void testContainsAssertionWithMessageWithMoreThanObject() {
+		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x CONTAINS Thing, Nothing; ?x values do not contain Thing and Nothing;";
+		OPPLSyntaxTree parsed = this.parse(testCase);
+		assertNotNull(parsed);
+		System.out
+				.println("OPPLTestCaseParserTest.testContainsAssertionWithMessageWithMoreThanObject\n"
 						+ parsed.toStringTree());
 	}
 
