@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.testcase;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLLexer.g 2010-09-03 11:32:02
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLLexer.g 2010-09-06 16:10:14
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -12,6 +12,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 
 public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
+	public static final int STAR = 482;
 	public static final int VALUE_RESTRICTION = 63;
 	public static final int LETTER = 43;
 	public static final int CONTAINS = 471;
@@ -38,6 +39,7 @@ public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
 	public static final int DIFFERENT_FROM_AXIOM = 53;
 	public static final int TRANSITIVE = 34;
 	public static final int ANTI_SYMMETRIC = 31;
+	public static final int GREATER_THAN_EQUAL = 486;
 	public static final int INFERENCE = 470;
 	public static final int ALL_RESTRICTION = 62;
 	public static final int CONJUNCTION = 56;
@@ -54,6 +56,7 @@ public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
 	public static final int INVERSE = 19;
 	public static final int DBLQUOTE = 40;
 	public static final int OR = 11;
+	public static final int LESS_THAN = 483;
 	public static final int CONSTANT = 70;
 	public static final int ENTITY_REFERENCE = 45;
 	public static final int END = 84;
@@ -93,6 +96,7 @@ public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
 	public static final int SOME_RESTRICTION = 61;
 	public static final int ADD = 90;
 	public static final int INTEGER = 42;
+	public static final int GREATER_THAN = 485;
 	public static final int EXACTLY = 17;
 	public static final int SUB_PROPERTY_AXIOM = 51;
 	public static final int OPEN_SQUARE_BRACKET = 85;
@@ -110,6 +114,7 @@ public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
 	public static final int INVERSE_FUNCTIONAL = 35;
 	public static final int RENDERING = 355;
 	public static final int IRREFLEXIVE = 33;
+	public static final int LESS_THAN_EQUAL = 484;
 	public static final int ASSERTED = 76;
 	public static final int FUNCTIONAL = 29;
 	public static final int PROPERTY_CHAIN = 57;
@@ -1660,12 +1665,12 @@ public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
 			+ "\1\u00b4\3\34\1\u00b8\3\34\1\uffff\3\34\1\u00b8\2\34\1\u00c1\2\34"
 			+ "\1\u00c1\1\34\1\uffff\3\34\1\uffff\3\34\1\uffff\1\34\1\u00cc\6\34"
 			+ "\1\uffff\12\34\1\uffff\20\34\1\u00ee\1\34\1\u00f1\7\34\1\u00f1\1"
-			+ "\u00fa\3\34\1\u00fe\1\34\1\uffff\1\u00ee\1\34\1\uffff\1\34\1\u0102"
-			+ "\5\34\1\u00fa\1\uffff\1\u0109\1\u010a\1\34\1\uffff\3\34\1\uffff"
-			+ "\1\u0110\4\34\1\u0109\2\uffff\1\u010a\2\34\1\u0118\1\34\1\uffff"
-			+ "\1\u0110\1\34\1\u011b\1\34\1\u011b\1\u011e\1\u011f\1\uffff\1\34"
-			+ "\1\u0121\1\uffff\1\u0121\1\u011e\2\uffff\1\34\1\uffff\2\34\1\u0125"
-			+ "\1\uffff\1\u0125";
+			+ "\u00f9\3\34\1\u00fe\1\34\1\uffff\1\u00ee\1\34\1\uffff\1\34\1\u0102"
+			+ "\5\34\1\uffff\1\u00f9\1\u0108\1\u010a\1\34\1\uffff\3\34\1\uffff"
+			+ "\1\u0110\4\34\1\uffff\1\u0108\1\uffff\1\u010a\2\34\1\u0118\1\34"
+			+ "\1\uffff\1\u0110\1\34\1\u011b\1\34\1\u011b\1\u011d\1\u011f\1\uffff"
+			+ "\1\34\1\u0121\1\uffff\1\u0121\1\uffff\1\u011d\1\uffff\1\34\1\uffff"
+			+ "\2\34\1\u0125\1\uffff\1\u0125";
 	static final String DFA19_eofS = "\u0127\uffff";
 	static final String DFA19_minS = "\1\11\1\55\5\uffff\1\156\1\157\1\117\2\141\1\161\1\141\1\116\1\141"
 			+ "\2\151\1\156\2\141\1\165\1\156\1\162\6\uffff\1\55\1\154\1\uffff"
@@ -1688,11 +1693,11 @@ public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
 			+ "\1\127\1\146\1\145\1\141\1\166\1\164\1\146\1\164\1\55\1\164\1\55"
 			+ "\1\156\1\146\1\166\1\106\1\151\1\106\1\151\2\55\1\154\1\145\1\162"
 			+ "\1\55\1\171\1\uffff\1\55\1\124\1\uffff\1\143\1\55\1\145\1\162\1"
-			+ "\164\1\162\1\164\1\55\1\uffff\2\55\1\151\1\uffff\1\117\1\157\1\164"
-			+ "\1\uffff\1\55\1\157\1\150\1\157\1\150\1\55\2\uffff\1\55\1\143\1"
-			+ "\146\1\55\1\151\1\uffff\1\55\1\155\1\55\1\155\3\55\1\uffff\1\157"
-			+ "\1\55\1\uffff\2\55\2\uffff\1\156\1\uffff\1\141\1\154\1\55\1\uffff"
-			+ "\1\55";
+			+ "\164\1\162\1\164\1\uffff\3\55\1\151\1\uffff\1\117\1\157\1\164\1"
+			+ "\uffff\1\55\1\157\1\150\1\157\1\150\1\uffff\1\55\1\uffff\1\55\1"
+			+ "\143\1\146\1\55\1\151\1\uffff\1\55\1\155\1\55\1\155\3\55\1\uffff"
+			+ "\1\157\1\55\1\uffff\1\55\1\uffff\1\55\1\uffff\1\156\1\uffff\1\141"
+			+ "\1\154\1\55\1\uffff\1\55";
 	static final String DFA19_maxS = "\1\175\1\172\5\uffff\1\156\2\157\1\171\1\151\1\170\1\141\1\162\1"
 			+ "\171\2\157\1\162\2\145\1\165\1\156\1\171\6\uffff\1\172\1\154\1\uffff"
 			+ "\2\164\1\124\1\164\1\155\1\142\2\155\1\156\1\170\1\141\1\165\1\154"
@@ -1714,18 +1719,18 @@ public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
 			+ "\1\127\1\146\1\145\1\141\1\166\1\164\1\146\1\164\1\172\1\164\1\172"
 			+ "\1\156\1\146\1\166\1\106\1\151\1\106\1\151\2\172\1\154\1\145\1\162"
 			+ "\1\172\1\171\1\uffff\1\172\1\124\1\uffff\1\143\1\172\1\145\1\162"
-			+ "\1\164\1\162\1\164\1\172\1\uffff\2\172\1\151\1\uffff\1\117\1\157"
-			+ "\1\164\1\uffff\1\172\1\157\1\150\1\157\1\150\1\172\2\uffff\1\172"
+			+ "\1\164\1\162\1\164\1\uffff\3\172\1\151\1\uffff\1\117\1\157\1\164"
+			+ "\1\uffff\1\172\1\157\1\150\1\157\1\150\1\uffff\1\172\1\uffff\1\172"
 			+ "\1\143\1\146\1\172\1\151\1\uffff\1\172\1\155\1\172\1\155\3\172\1"
-			+ "\uffff\1\157\1\172\1\uffff\2\172\2\uffff\1\156\1\uffff\1\141\1\154"
-			+ "\1\172\1\uffff\1\172";
+			+ "\uffff\1\157\1\172\1\uffff\1\172\1\uffff\1\172\1\uffff\1\156\1\uffff"
+			+ "\1\141\1\154\1\172\1\uffff\1\172";
 	static final String DFA19_acceptS = "\2\uffff\1\2\1\3\1\4\1\5\1\6\21\uffff\1\41\1\42\1\45\1\46\1\47\1"
 			+ "\50\2\uffff\1\1\36\uffff\1\10\43\uffff\1\7\1\uffff\1\11\5\uffff"
 			+ "\1\14\1\15\3\uffff\1\20\21\uffff\1\13\1\uffff\1\12\37\uffff\1\17"
 			+ "\13\uffff\1\31\3\uffff\1\44\3\uffff\1\24\10\uffff\1\30\12\uffff"
-			+ "\1\16\41\uffff\1\33\2\uffff\1\26\10\uffff\1\35\3\uffff\1\21\3\uffff"
-			+ "\1\43\6\uffff\1\32\1\37\5\uffff\1\36\7\uffff\1\23\2\uffff\1\27\2"
-			+ "\uffff\1\34\1\22\1\uffff\1\25\3\uffff\1\40\1\uffff";
+			+ "\1\16\41\uffff\1\33\2\uffff\1\26\7\uffff\1\35\4\uffff\1\21\3\uffff"
+			+ "\1\43\5\uffff\1\32\1\uffff\1\37\5\uffff\1\36\7\uffff\1\23\2\uffff"
+			+ "\1\27\1\uffff\1\34\1\uffff\1\22\1\uffff\1\25\3\uffff\1\40\1\uffff";
 	static final String DFA19_specialS = "\u0127\uffff}>";
 	static final String[] DFA19_transitionS = {
 			"\2\6\2\uffff\1\6\22\uffff\1\6\1\uffff\1\32\4\uffff\1\35\1\2"
@@ -1966,7 +1971,7 @@ public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\u00f7",
 			"\1\u00f8",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
-			"\1\34\2\uffff\12\34\1\u00f9\6\uffff\32\34\4\uffff\1\34\1\uffff"
+			"\1\34\2\uffff\12\34\1\u00fa\6\uffff\32\34\4\uffff\1\34\1\uffff"
 					+ "\32\34",
 			"\1\u00fb",
 			"\1\u00fc",
@@ -1984,9 +1989,9 @@ public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\u0105",
 			"\1\u0106",
 			"\1\u0107",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"",
-			"\1\34\2\uffff\12\34\1\u0108\6\uffff\32\34\4\uffff\1\34\1\uffff"
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
+			"\1\34\2\uffff\12\34\1\u0109\6\uffff\32\34\4\uffff\1\34\1\uffff"
 					+ "\32\34",
 			"\1\34\2\uffff\12\34\1\u010b\6\uffff\32\34\4\uffff\1\34\1\uffff"
 					+ "\32\34",
@@ -2002,8 +2007,8 @@ public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\u0113",
 			"\1\u0114",
 			"\1\u0115",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"\1\u0116",
@@ -2016,7 +2021,7 @@ public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"\1\u011c",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
-			"\1\34\2\uffff\12\34\1\u011d\6\uffff\32\34\4\uffff\1\34\1\uffff"
+			"\1\34\2\uffff\12\34\1\u011e\6\uffff\32\34\4\uffff\1\34\1\uffff"
 					+ "\32\34",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"",
@@ -2024,8 +2029,8 @@ public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"",
 			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
-			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"",
+			"\1\34\2\uffff\13\34\6\uffff\32\34\4\uffff\1\34\1\uffff\32\34",
 			"",
 			"\1\u0122",
 			"",

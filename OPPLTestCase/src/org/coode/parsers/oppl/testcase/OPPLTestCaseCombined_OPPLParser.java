@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-09-03 16:18:24
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-09-06 17:02:09
 
 	package org.coode.parsers.oppl.testcase;
 	import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -15,6 +15,7 @@ import java.util.HashMap;
 import org.antlr.runtime.tree.*;
 
 public class OPPLTestCaseCombined_OPPLParser extends Parser {
+    public static final int STAR=482;
     public static final int VALUE_RESTRICTION=63;
     public static final int LETTER=43;
     public static final int CONTAINS=471;
@@ -48,7 +49,9 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
     public static final int CREATE_OPPL_FUNCTION=98;
     public static final int TRANSITIVE=34;
     public static final int ANTI_SYMMETRIC=31;
+    public static final int GREATER_THAN_EQUAL=486;
     public static final int INFERENCE=470;
+    public static final int ASSERT_LESS_THAN=487;
     public static final int ALL_RESTRICTION=62;
     public static final int CONJUNCTION=56;
     public static final int OPPL_STATEMENT=107;
@@ -70,12 +73,14 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
     public static final int DBLQUOTE=40;
     public static final int STRING_OPERATION=394;
     public static final int OR=11;
+    public static final int LESS_THAN=483;
     public static final int TEST=475;
     public static final int CONSTANT=70;
     public static final int QUERY=103;
     public static final int ENTITY_REFERENCE=45;
     public static final int END=84;
     public static final int COMPOSITION=4;
+    public static final int ASSERT_GREATER_THAN=489;
     public static final int CLOSED_SQUARE_BRACKET=86;
     public static final int SAME_AS=23;
     public static final int WHERE=71;
@@ -88,6 +93,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
     public static final int EQUIVALENT_TO_AXIOM=49;
     public static final int SUB_PROPERTY_OF=21;
     public static final int NEGATED_EXPRESSION=58;
+    public static final int ASSERT_GREATER_THAN_EQUAL=490;
     public static final int MAX=16;
     public static final int CREATE_DISJUNCTION=82;
     public static final int AND=10;
@@ -114,12 +120,14 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
     public static final int SOME_RESTRICTION=61;
     public static final int ADD=90;
     public static final int INTEGER=42;
+    public static final int GREATER_THAN=485;
     public static final int GENERATED_VARIABLE_DEFINITION=97;
     public static final int EXACTLY=17;
     public static final int SUB_PROPERTY_AXIOM=51;
     public static final int OPEN_SQUARE_BRACKET=85;
     public static final int VALUES=354;
     public static final int REGEXP_CONSTRAINT=465;
+    public static final int ASSERT_LESS_THAN_EQUAL=488;
     public static final int RANGE=28;
     public static final int ONE_OF=65;
     public static final int VARIABLE_DEFINITIONS=102;
@@ -139,6 +147,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
     public static final int RENDERING=355;
     public static final int VARIABLE_IDENTIFIER=106;
     public static final int IRREFLEXIVE=33;
+    public static final int LESS_THAN_EQUAL=484;
     public static final int VARIABLE_ATTRIBUTE=99;
     public static final int ASSERTED=76;
     public static final int FUNCTIONAL=29;
@@ -385,13 +394,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
                         if ( (LA3_3==EQUAL) ) {
                             switch ( input.LA(5) ) {
-                            case CREATE:
-                            case CREATE_INTERSECTION:
-                            case CREATE_DISJUNCTION:
-                                {
-                                alt3=1;
-                                }
-                                break;
                             case OPEN_PARENTHESYS:
                             case OPEN_CURLY_BRACES:
                             case NOT:
@@ -410,6 +412,13 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                             case MATCH:
                                 {
                                 alt3=3;
+                                }
+                                break;
+                            case CREATE:
+                            case CREATE_INTERSECTION:
+                            case CREATE_DISJUNCTION:
+                                {
+                                alt3=1;
                                 }
                                 break;
                             default:
@@ -480,7 +489,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_TYPE, VARIABLE_NAME, opplFunction
+                    // elements: VARIABLE_NAME, VARIABLE_TYPE, opplFunction
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -540,7 +549,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_TYPE, VARIABLE_NAME, expression
+                    // elements: VARIABLE_TYPE, expression, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -602,7 +611,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: regexp, VARIABLE_NAME, VARIABLE_TYPE
+                    // elements: VARIABLE_TYPE, regexp, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -670,7 +679,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, VARIABLE_TYPE, variableScope
+                    // elements: variableScope, VARIABLE_NAME, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -984,7 +993,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: stringOperation, MATCH
+            // elements: MATCH, stringOperation
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1268,7 +1277,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
             if ( (LA8_0==ASSERTED) ) {
                 alt8=1;
             }
-            else if ( (LA8_0==EOF||(LA8_0>=OPEN_PARENTHESYS && LA8_0<=OPEN_CURLY_BRACES)||LA8_0==CLOSED_PARENTHESYS||(LA8_0>=AND && LA8_0<=NOT)||(LA8_0>=INVERSE && LA8_0<=EQUIVALENT_TO)||LA8_0==DISJOINT_WITH||(LA8_0>=FUNCTIONAL && LA8_0<=INVERSE_FUNCTIONAL)||LA8_0==COMMA||LA8_0==DBLQUOTE||(LA8_0>=IDENTIFIER && LA8_0<=ENTITY_REFERENCE)||(LA8_0>=NOT_EQUAL && LA8_0<=EQUAL)||LA8_0==CLOSED_SQUARE_BRACKET||LA8_0==ESCLAMATION_MARK||LA8_0==VARIABLE_NAME||LA8_0==SEMICOLON||LA8_0==ASSERT) ) {
+            else if ( (LA8_0==EOF||(LA8_0>=OPEN_PARENTHESYS && LA8_0<=OPEN_CURLY_BRACES)||LA8_0==CLOSED_PARENTHESYS||(LA8_0>=AND && LA8_0<=NOT)||(LA8_0>=INVERSE && LA8_0<=EQUIVALENT_TO)||LA8_0==DISJOINT_WITH||(LA8_0>=FUNCTIONAL && LA8_0<=INVERSE_FUNCTIONAL)||LA8_0==COMMA||LA8_0==DBLQUOTE||(LA8_0>=IDENTIFIER && LA8_0<=ENTITY_REFERENCE)||(LA8_0>=NOT_EQUAL && LA8_0<=EQUAL)||LA8_0==CLOSED_SQUARE_BRACKET||LA8_0==ESCLAMATION_MARK||LA8_0==VARIABLE_NAME||LA8_0==SEMICOLON||LA8_0==ASSERT||(LA8_0>=LESS_THAN && LA8_0<=GREATER_THAN_EQUAL)) ) {
                 alt8=2;
             }
             else {
@@ -2597,7 +2606,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                 if ( (LA16_3==DOT) ) {
                     alt16=5;
                 }
-                else if ( (LA16_3==EOF||LA16_3==COMPOSITION||(LA16_3>=CLOSED_CURLY_BRACES && LA16_3<=CLOSED_PARENTHESYS)||(LA16_3>=AND && LA16_3<=OR)||(LA16_3>=SOME && LA16_3<=RANGE)||(LA16_3>=COMMA && LA16_3<=DBLQUOTE)||(LA16_3>=IDENTIFIER && LA16_3<=ENTITY_REFERENCE)||(LA16_3>=WHERE && LA16_3<=EQUAL)||LA16_3==SELECT||LA16_3==END||LA16_3==CLOSED_SQUARE_BRACKET||LA16_3==ESCLAMATION_MARK||LA16_3==VARIABLE_NAME||LA16_3==SEMICOLON||LA16_3==ASSERT) ) {
+                else if ( (LA16_3==EOF||LA16_3==COMPOSITION||(LA16_3>=CLOSED_CURLY_BRACES && LA16_3<=CLOSED_PARENTHESYS)||(LA16_3>=AND && LA16_3<=OR)||(LA16_3>=SOME && LA16_3<=RANGE)||(LA16_3>=COMMA && LA16_3<=DBLQUOTE)||(LA16_3>=IDENTIFIER && LA16_3<=ENTITY_REFERENCE)||(LA16_3>=WHERE && LA16_3<=EQUAL)||LA16_3==SELECT||LA16_3==END||LA16_3==CLOSED_SQUARE_BRACKET||LA16_3==ESCLAMATION_MARK||LA16_3==VARIABLE_NAME||LA16_3==SEMICOLON||LA16_3==ASSERT||(LA16_3>=LESS_THAN && LA16_3<=GREATER_THAN_EQUAL)) ) {
                     alt16=3;
                 }
                 else {
@@ -3012,7 +3021,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, a, DOT
+                    // elements: DOT, a, VARIABLE_NAME
                     // token labels: a
                     // rule labels: retval
                     // token list labels: 

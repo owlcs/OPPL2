@@ -132,4 +132,48 @@ public class OPPLTestCaseParserTest extends TestCase {
 				.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n"
 						+ parsed.toStringTree());
 	}
+
+	public void testCountStarWithMessage() {
+		String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) = 1; The total count of bindings is not 1";
+		OPPLSyntaxTree parsed = this.parse(testCase);
+		assertNotNull(parsed);
+		System.out
+				.println("OPPLTestCaseParserTest.testCountStarWithMessage()\n"
+						+ parsed.toStringTree());
+	}
+
+	public void testLessThanWithMessage() {
+		String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) < 1; The total count of bindings is greater than or equal to 1";
+		OPPLSyntaxTree parsed = this.parse(testCase);
+		assertNotNull(parsed);
+		System.out.println("OPPLTestCaseParserTest.testLessThanWithMessage()\n"
+				+ parsed.toStringTree());
+	}
+
+	public void testLessThanEqualToWithMessage() {
+		String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) <= 1; The total count of bindings is greater than 1";
+		OPPLSyntaxTree parsed = this.parse(testCase);
+		assertNotNull(parsed);
+		System.out
+				.println("OPPLTestCaseParserTest.testLessThanEqualToWithMessage()\n"
+						+ parsed.toStringTree());
+	}
+
+	public void testGreaterThanEqualToWithMessage() {
+		String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) >= 1; The total count of bindings is less than 1";
+		OPPLSyntaxTree parsed = this.parse(testCase);
+		assertNotNull(parsed);
+		System.out
+				.println("OPPLTestCaseParserTest.testGreaterThanEqualToWithMessage()\n"
+						+ parsed);
+	}
+
+	public void testGreaterThanWithMessage() {
+		String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) > 1; The total count of bindings is less than or equal to 1";
+		OPPLSyntaxTree parsed = this.parse(testCase);
+		assertNotNull(parsed);
+		System.out
+				.println("OPPLTestCaseParserTest.testGreaterThanWithMessage()\n"
+						+ parsed);
+	}
 }

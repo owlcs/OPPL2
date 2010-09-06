@@ -65,6 +65,7 @@ public class OPPLTestCaseTypesTest extends TestCase {
 				ontologyManager);
 		OPPLTestCaseSymbolTable symtab = simpleSymbolTableFactory
 				.createSymbolTable();
+		symtab.setErrorListener(ERROR_LISTENER);
 		AbstractOPPLTestCaseFactory testCaseFactory = new OPPLTestCaseFactory(
 				ontology, ontologyManager, null);
 		ConstraintSystem constraintSystem = testCaseFactory.getOPPLFactory()
@@ -248,6 +249,101 @@ public class OPPLTestCaseTypesTest extends TestCase {
 			assertNotNull(parsed);
 			System.out
 					.println("OPPLTestCaseTypesTest.testVariableEqualAssertionWithMessage()\n"
+							+ parsed);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testCountStarAssertionWithMessage() {
+		String testCase = "testOneAssertion;  ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*)= 1; The total count of bindings is not 1;";
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
+		OWLOntology ontology;
+		try {
+			ontology = ontologyManager.createOntology();
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
+			assertNotNull(parsed);
+			System.out
+					.println("OPPLTestCaseTypesTest.testCountStarAssertionWithMessage()\n"
+							+ parsed);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testLessThanAssertionWithMessage() {
+		String testCase = "testOneAssertion;  ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*)< 1; The total count of bindings is greater than or equal to 1;";
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
+		OWLOntology ontology;
+		try {
+			ontology = ontologyManager.createOntology();
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
+			assertNotNull(parsed);
+			System.out
+					.println("OPPLTestCaseTypesTest.testLessThanAssertionWithMessage()\n"
+							+ parsed);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testLessThanEqualToAssertionWithMessage() {
+		String testCase = "testOneAssertion;  ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*)<= 1; The total count of bindings is greater 1;";
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
+		OWLOntology ontology;
+		try {
+			ontology = ontologyManager.createOntology();
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
+			assertNotNull(parsed);
+			System.out
+					.println("OPPLTestCaseTypesTest.testLessThanEqualToAssertionWithMessage()\n"
+							+ parsed);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testGreaterThanEqualToAssertionWithMessage() {
+		String testCase = "testOneAssertion;  ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) >= 1; The total count of bindings is Less than 1;";
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
+		OWLOntology ontology;
+		try {
+			ontology = ontologyManager.createOntology();
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
+			assertNotNull(parsed);
+			System.out
+					.println("OPPLTestCaseTypesTest.testGreaterThanEqualToAssertionWithMessage()\n"
+							+ parsed);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testGreaterThanAssertionWithMessage() {
+		String testCase = "testOneAssertion;  ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*)> 1; The total count of bindings is Less than or equal to 1;";
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
+		OWLOntology ontology;
+		try {
+			ontology = ontologyManager.createOntology();
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
+			assertNotNull(parsed);
+			System.out
+					.println("OPPLTestCaseTypesTest.testGreaterThanAssertionWithMessage()\n"
 							+ parsed);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();

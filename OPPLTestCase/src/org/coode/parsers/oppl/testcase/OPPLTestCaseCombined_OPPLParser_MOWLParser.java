@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2010-09-03 16:18:25
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2010-09-06 17:02:09
 
 	package org.coode.parsers.oppl.testcase;
 	import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -15,6 +15,7 @@ import java.util.HashMap;
 import org.antlr.runtime.tree.*;
 
 public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
+    public static final int STAR=482;
     public static final int VALUE_RESTRICTION=63;
     public static final int LETTER=43;
     public static final int CONTAINS=471;
@@ -48,7 +49,9 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
     public static final int CREATE_OPPL_FUNCTION=98;
     public static final int TRANSITIVE=34;
     public static final int ANTI_SYMMETRIC=31;
+    public static final int GREATER_THAN_EQUAL=486;
     public static final int INFERENCE=470;
+    public static final int ASSERT_LESS_THAN=487;
     public static final int ALL_RESTRICTION=62;
     public static final int CONJUNCTION=56;
     public static final int OPPL_STATEMENT=107;
@@ -70,12 +73,14 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
     public static final int DBLQUOTE=40;
     public static final int STRING_OPERATION=394;
     public static final int OR=11;
+    public static final int LESS_THAN=483;
     public static final int TEST=475;
     public static final int CONSTANT=70;
     public static final int QUERY=103;
     public static final int ENTITY_REFERENCE=45;
     public static final int END=84;
     public static final int COMPOSITION=4;
+    public static final int ASSERT_GREATER_THAN=489;
     public static final int CLOSED_SQUARE_BRACKET=86;
     public static final int SAME_AS=23;
     public static final int WHERE=71;
@@ -88,6 +93,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
     public static final int EQUIVALENT_TO_AXIOM=49;
     public static final int SUB_PROPERTY_OF=21;
     public static final int NEGATED_EXPRESSION=58;
+    public static final int ASSERT_GREATER_THAN_EQUAL=490;
     public static final int MAX=16;
     public static final int CREATE_DISJUNCTION=82;
     public static final int AND=10;
@@ -114,12 +120,14 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
     public static final int SOME_RESTRICTION=61;
     public static final int ADD=90;
     public static final int INTEGER=42;
+    public static final int GREATER_THAN=485;
     public static final int GENERATED_VARIABLE_DEFINITION=97;
     public static final int EXACTLY=17;
     public static final int SUB_PROPERTY_AXIOM=51;
     public static final int OPEN_SQUARE_BRACKET=85;
     public static final int VALUES=354;
     public static final int REGEXP_CONSTRAINT=465;
+    public static final int ASSERT_LESS_THAN_EQUAL=488;
     public static final int RANGE=28;
     public static final int ONE_OF=65;
     public static final int VARIABLE_DEFINITIONS=102;
@@ -139,6 +147,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
     public static final int RENDERING=355;
     public static final int VARIABLE_IDENTIFIER=106;
     public static final int IRREFLEXIVE=33;
+    public static final int LESS_THAN_EQUAL=484;
     public static final int VARIABLE_ATTRIBUTE=99;
     public static final int ASSERTED=76;
     public static final int FUNCTIONAL=29;
@@ -450,7 +459,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: i, expression
+                    // elements: expression, i
                     // token labels: 
                     // rule labels: retval, i
                     // token list labels: 
@@ -800,7 +809,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhs, rhs
+                    // elements: rhs, lhs
                     // token labels: 
                     // rule labels: retval, rhs, lhs
                     // token list labels: 
@@ -1004,7 +1013,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: rhsAtomic, lhsID, INVERSE_OF
+                    // elements: lhsID, INVERSE_OF, rhsAtomic
                     // token labels: 
                     // rule labels: lhsID, retval, rhsAtomic
                     // token list labels: 
@@ -1140,7 +1149,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, rhsID
+                    // elements: rhsID, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval, rhsID
                     // token list labels: 
@@ -1208,7 +1217,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: DOMAIN, lhsID, expression
+                    // elements: lhsID, expression, DOMAIN
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -1275,7 +1284,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, expression, RANGE
+                    // elements: RANGE, expression, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -2204,11 +2213,11 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
                 if ( (LA9_1==OPEN_PARENTHESYS) ) {
                     int LA9_2 = input.LA(3);
 
-                    if ( (LA9_2==INVERSE) ) {
-                        alt9=1;
-                    }
-                    else if ( ((LA9_2>=IDENTIFIER && LA9_2<=ENTITY_REFERENCE)||LA9_2==ESCLAMATION_MARK||LA9_2==VARIABLE_NAME) ) {
+                    if ( ((LA9_2>=IDENTIFIER && LA9_2<=ENTITY_REFERENCE)||LA9_2==ESCLAMATION_MARK||LA9_2==VARIABLE_NAME) ) {
                         alt9=2;
+                    }
+                    else if ( (LA9_2==INVERSE) ) {
+                        alt9=1;
                     }
                     else {
                         if (state.backtracking>0) {state.failed=true; return retval;}
@@ -2740,7 +2749,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: propertyExpression, expression
+                    // elements: expression, propertyExpression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3171,7 +3180,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: propertyExpression, unary, restrictionKind, INTEGER
+            // elements: propertyExpression, restrictionKind, INTEGER, unary
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3587,7 +3596,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: value, propertyExpression
+            // elements: propertyExpression, value
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3834,7 +3843,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: type, constantValue
+            // elements: constantValue, type
             // token labels: constantValue, type
             // rule labels: retval
             // token list labels: 
@@ -4675,27 +4684,27 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
     static final String DFA3_maxS =
         "\4\u01d0\1\54\3\uffff\1\u0164\1\u01d0\1\5\2\u01d0\1\52\1\10\1\u01d0";
     static final String DFA3_acceptS =
-        "\5\uffff\1\3\1\2\1\1\10\uffff";
+        "\5\uffff\1\3\1\1\1\2\10\uffff";
     static final String DFA3_specialS =
         "\20\uffff}>";
     static final String[] DFA3_transitionS = {
             "\1\5\37\uffff\1\1\1\2\147\uffff\1\4\u013a\uffff\1\3",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\40\uffff\1\10\106\uffff\1\6\u013a"+
-            "\uffff\1\6",
+            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
+            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
+            "\1\7\22\uffff\2\6\4\uffff\2\7\40\uffff\1\10\106\uffff\1\7\u013a"+
+            "\uffff\1\7",
             "\1\11",
             "",
             "",
             "",
             "\1\13\1\14\1\12",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
+            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
             "\1\15",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
+            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
+            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
             "\1\16",
             "\1\17",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6"
+            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7"
     };
 
     static final short[] DFA3_eot = DFA.unpackEncodedString(DFA3_eotS);
@@ -5022,22 +5031,26 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
         }
     }
     static final String DFA7_eotS =
-        "\34\uffff";
+        "\40\uffff";
     static final String DFA7_eofS =
-        "\1\1\33\uffff";
+        "\1\1\37\uffff";
     static final String DFA7_minS =
-        "\1\5\25\uffff\1\0\5\uffff";
+        "\1\5\31\uffff\1\0\5\uffff";
     static final String DFA7_maxS =
-        "\1\u01e1\25\uffff\1\0\5\uffff";
+        "\1\u01e6\31\uffff\1\0\5\uffff";
     static final String DFA7_acceptS =
-        "\1\uffff\1\1\20\uffff\1\2\7\uffff\1\4\1\3";
+        "\1\uffff\1\1\24\uffff\1\2\7\uffff\1\4\1\3";
     static final String DFA7_specialS =
-        "\26\uffff\1\0\5\uffff}>";
+        "\32\uffff\1\0\5\uffff}>";
     static final String[] DFA7_transitionS = {
-            "\1\32\1\22\1\uffff\1\1\1\uffff\2\1\1\22\6\uffff\1\26\3\1\3\uffff"+
-            "\1\1\12\uffff\1\1\2\uffff\1\22\3\uffff\2\22\31\uffff\3\1\1\uffff"+
-            "\1\1\10\uffff\1\1\1\uffff\1\1\76\uffff\1\22\u013a\uffff\1\22"+
-            "\4\uffff\1\1\13\uffff\1\1",
+            "\1\36\1\26\1\uffff\1\1\1\uffff\2\1\1\26\6\uffff\1\32\3\1\3\uffff"+
+            "\1\1\12\uffff\1\1\2\uffff\1\26\3\uffff\2\26\31\uffff\3\1\1\uffff"+
+            "\1\1\10\uffff\1\1\1\uffff\1\1\76\uffff\1\26\u013a\uffff\1\26"+
+            "\4\uffff\1\1\13\uffff\1\1\1\uffff\4\1",
+            "",
+            "",
+            "",
+            "",
             "",
             "",
             "",
@@ -5104,18 +5117,18 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA7_22 = input.LA(1);
+                        int LA7_26 = input.LA(1);
 
                          
-                        int index7_22 = input.index();
+                        int index7_26 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred14_MOWLParser()) ) {s = 18;}
+                        if ( (synpred14_MOWLParser()) ) {s = 22;}
 
-                        else if ( (synpred15_MOWLParser()) ) {s = 27;}
+                        else if ( (synpred15_MOWLParser()) ) {s = 31;}
 
                          
-                        input.seek(index7_22);
+                        input.seek(index7_26);
                         if ( s>=0 ) return s;
                         break;
             }

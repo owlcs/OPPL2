@@ -20,7 +20,13 @@ import org.coode.parsers.oppl.testcase.assertions.AssertionComplement;
 import org.coode.parsers.oppl.testcase.assertions.AssertionExpression;
 import org.coode.parsers.oppl.testcase.assertions.AssertionExpressionVisitorEx;
 import org.coode.parsers.oppl.testcase.assertions.CountAssertionExpression;
+import org.coode.parsers.oppl.testcase.assertions.CountStarAssertionExpression;
+import org.coode.parsers.oppl.testcase.assertions.DefaultAssertionExpressionVisitorExAdapter;
+import org.coode.parsers.oppl.testcase.assertions.GreatThanAssertion;
+import org.coode.parsers.oppl.testcase.assertions.GreaterThanEqualToAssertion;
 import org.coode.parsers.oppl.testcase.assertions.IntegerAssertionExpression;
+import org.coode.parsers.oppl.testcase.assertions.LessThanAssertion;
+import org.coode.parsers.oppl.testcase.assertions.LessThanEqualToAssertion;
 import org.coode.parsers.oppl.testcase.assertions.OWLExpressionAssertionExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -30,6 +36,27 @@ import org.semanticweb.owlapi.model.OWLObject;
  * 
  */
 public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
+	private static final DefaultAssertionExpressionVisitorExAdapter<Boolean> INTEGER_EXPRESSION_DETECTOR = new DefaultAssertionExpressionVisitorExAdapter<Boolean>(
+			false) {
+		@Override
+		public Boolean visitIntegerAssertionExpressionVisitor(
+				IntegerAssertionExpression integerAssertionExpression) {
+			return true;
+		}
+
+		@Override
+		public Boolean visitCountAssertionExpression(
+				CountAssertionExpression countAssertionExpression) {
+			return true;
+		}
+
+		@Override
+		public Boolean visitCountStarAssertionExpression(
+				CountStarAssertionExpression countStarAssertionExpression) {
+			return true;
+		}
+	};
+
 	/**
 	 * @param globalScope
 	 * @param dataFactory
@@ -57,8 +84,8 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
 		return toReturn;
 	}
 
-	public AssertNotEqual getAssertNotEqual(AssertionExpression left,
-			OPPLSyntaxTree leftNode, AssertionExpression right,
+	public AssertNotEqual getAssertNotEqual(AssertionExpression<?> left,
+			OPPLSyntaxTree leftNode, AssertionExpression<?> right,
 			OPPLSyntaxTree rightNode, OPPLSyntaxTree parentExpression) {
 		AssertNotEqual toReturn = null;
 		if (left == null) {
@@ -180,6 +207,36 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
 								return true;
 							}
 
+							public Boolean visitCountStarAssertionExpression(
+									CountStarAssertionExpression countStarAssertionExpression) {
+								return true;
+							}
+
+							public Boolean visitOWLExpressionAssertionExpression(
+									OWLExpressionAssertionExpression owlExpressionAssertionExpression) {
+								return false;
+							}
+						};
+					}
+
+					public AssertionExpressionVisitorEx<Boolean> visitCountStarAssertionExpression(
+							CountStarAssertionExpression countStarAssertionExpression) {
+						return new AssertionExpressionVisitorEx<Boolean>() {
+							public Boolean visitCountAssertionExpression(
+									CountAssertionExpression countAssertionExpression) {
+								return true;
+							}
+
+							public Boolean visitIntegerAssertionExpressionVisitor(
+									IntegerAssertionExpression integerAssertionExpression) {
+								return true;
+							}
+
+							public Boolean visitCountStarAssertionExpression(
+									CountStarAssertionExpression countStarAssertionExpression) {
+								return true;
+							}
+
 							public Boolean visitOWLExpressionAssertionExpression(
 									OWLExpressionAssertionExpression owlExpressionAssertionExpression) {
 								return false;
@@ -192,6 +249,11 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
 						return new AssertionExpressionVisitorEx<Boolean>() {
 							public Boolean visitCountAssertionExpression(
 									CountAssertionExpression countAssertionExpression) {
+								return true;
+							}
+
+							public Boolean visitCountStarAssertionExpression(
+									CountStarAssertionExpression countStarAssertionExpression) {
 								return true;
 							}
 
@@ -220,6 +282,11 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
 								return false;
 							}
 
+							public Boolean visitCountStarAssertionExpression(
+									CountStarAssertionExpression countStarAssertionExpression) {
+								return false;
+							}
+
 							public Boolean visitOWLExpressionAssertionExpression(
 									OWLExpressionAssertionExpression owlExpressionAssertionExpression) {
 								return true;
@@ -230,7 +297,128 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
 	}
 
 	public AssertionComplement getAssertionComplement(Assertion a) {
-		// TODO Auto-generated method stub
-		return null;
+		return new AssertionComplement(a);
+	}
+
+	public CountStarAssertionExpression getCountStarAssertionExpression() {
+		return CountStarAssertionExpression.getInstance();
+	}
+
+	@SuppressWarnings("unchecked")
+	public LessThanAssertion getAssertLessThan(AssertionExpression<?> left,
+			OPPLSyntaxTree leftNode, AssertionExpression<?> right,
+			OPPLSyntaxTree rightNode, OPPLSyntaxTree parentExpression) {
+		LessThanAssertion toReturn = null;
+		if (left == null) {
+			this.getErrorListener().illegalToken(leftNode,
+					"null left hand side assertion expression");
+		} else if (right == null) {
+			this.getErrorListener().illegalToken(leftNode,
+					"null right hand side assertion expression");
+		} else if (!left.accept(INTEGER_EXPRESSION_DETECTOR)) {
+			this
+					.getErrorListener()
+					.illegalToken(leftNode,
+							"Only integer values expressions can be used for comparisons");
+		} else if (!right.accept(INTEGER_EXPRESSION_DETECTOR)) {
+			this
+					.getErrorListener()
+					.illegalToken(rightNode,
+							"Only integer values expressions can be used for comparisons");
+		} else {
+			toReturn = new LessThanAssertion(
+					(AssertionExpression<Integer>) left,
+					(AssertionExpression<Integer>) right);
+		}
+		return toReturn;
+	}
+
+	@SuppressWarnings("unchecked")
+	public LessThanEqualToAssertion getAssertLessThanEqualtTo(
+			AssertionExpression<?> left, OPPLSyntaxTree leftNode,
+			AssertionExpression<?> right, OPPLSyntaxTree rightNode,
+			OPPLSyntaxTree parentExpression) {
+		LessThanEqualToAssertion toReturn = null;
+		if (left == null) {
+			this.getErrorListener().illegalToken(leftNode,
+					"null left hand side assertion expression");
+		} else if (right == null) {
+			this.getErrorListener().illegalToken(leftNode,
+					"null right hand side assertion expression");
+		} else if (!left.accept(INTEGER_EXPRESSION_DETECTOR)) {
+			this
+					.getErrorListener()
+					.illegalToken(leftNode,
+							"Only integer values expressions can be used for comparisons");
+		} else if (!right.accept(INTEGER_EXPRESSION_DETECTOR)) {
+			this
+					.getErrorListener()
+					.illegalToken(rightNode,
+							"Only integer values expressions can be used for comparisons");
+		} else {
+			toReturn = new LessThanEqualToAssertion(
+					(AssertionExpression<Integer>) left,
+					(AssertionExpression<Integer>) right);
+		}
+		return toReturn;
+	}
+
+	@SuppressWarnings("unchecked")
+	public GreatThanAssertion getAssertGreaterThan(AssertionExpression<?> left,
+			OPPLSyntaxTree leftNode, AssertionExpression<?> right,
+			OPPLSyntaxTree rightNode, OPPLSyntaxTree parentExpression) {
+		GreatThanAssertion toReturn = null;
+		if (left == null) {
+			this.getErrorListener().illegalToken(leftNode,
+					"null left hand side assertion expression");
+		} else if (right == null) {
+			this.getErrorListener().illegalToken(leftNode,
+					"null right hand side assertion expression");
+		} else if (!left.accept(INTEGER_EXPRESSION_DETECTOR)) {
+			this
+					.getErrorListener()
+					.illegalToken(leftNode,
+							"Only integer values expressions can be used for comparisons");
+		} else if (!right.accept(INTEGER_EXPRESSION_DETECTOR)) {
+			this
+					.getErrorListener()
+					.illegalToken(rightNode,
+							"Only integer values expressions can be used for comparisons");
+		} else {
+			toReturn = new GreatThanAssertion(
+					(AssertionExpression<Integer>) left,
+					(AssertionExpression<Integer>) right);
+		}
+		return toReturn;
+	}
+
+	@SuppressWarnings("unchecked")
+	public GreaterThanEqualToAssertion getAssertGreaterThanEqualTo(
+			AssertionExpression<?> left, OPPLSyntaxTree leftNode,
+			AssertionExpression<?> right, OPPLSyntaxTree rightNode,
+			OPPLSyntaxTree parentExpression) {
+		GreaterThanEqualToAssertion toReturn = null;
+		if (left == null) {
+			this.getErrorListener().illegalToken(leftNode,
+					"null left hand side assertion expression");
+		} else if (right == null) {
+			this.getErrorListener().illegalToken(leftNode,
+					"null right hand side assertion expression");
+		} else if (!left.accept(INTEGER_EXPRESSION_DETECTOR)) {
+			this
+					.getErrorListener()
+					.illegalToken(leftNode,
+							"Only integer values expressions can be used for comparisons");
+		} else if (!right.accept(INTEGER_EXPRESSION_DETECTOR)) {
+			this
+					.getErrorListener()
+					.illegalToken(rightNode,
+							"Only integer values expressions can be used for comparisons");
+		} else {
+			toReturn = new GreaterThanEqualToAssertion(
+					(AssertionExpression<Integer>) left,
+					(AssertionExpression<Integer>) right);
+		}
+		return toReturn;
 	}
 }

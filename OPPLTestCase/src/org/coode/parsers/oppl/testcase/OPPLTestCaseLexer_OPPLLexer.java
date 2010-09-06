@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.testcase;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLLexer.g 2010-09-03 11:32:02
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLLexer.g 2010-09-06 16:10:14
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -11,6 +11,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 
 public class OPPLTestCaseLexer_OPPLLexer extends Lexer {
+	public static final int STAR = 482;
 	public static final int VALUE_RESTRICTION = 63;
 	public static final int LETTER = 43;
 	public static final int CONTAINS = 471;
@@ -37,6 +38,7 @@ public class OPPLTestCaseLexer_OPPLLexer extends Lexer {
 	public static final int DIFFERENT_FROM_AXIOM = 53;
 	public static final int TRANSITIVE = 34;
 	public static final int ANTI_SYMMETRIC = 31;
+	public static final int GREATER_THAN_EQUAL = 486;
 	public static final int INFERENCE = 470;
 	public static final int ALL_RESTRICTION = 62;
 	public static final int CONJUNCTION = 56;
@@ -53,6 +55,7 @@ public class OPPLTestCaseLexer_OPPLLexer extends Lexer {
 	public static final int INVERSE = 19;
 	public static final int DBLQUOTE = 40;
 	public static final int OR = 11;
+	public static final int LESS_THAN = 483;
 	public static final int CONSTANT = 70;
 	public static final int ENTITY_REFERENCE = 45;
 	public static final int END = 84;
@@ -92,6 +95,7 @@ public class OPPLTestCaseLexer_OPPLLexer extends Lexer {
 	public static final int SOME_RESTRICTION = 61;
 	public static final int ADD = 90;
 	public static final int INTEGER = 42;
+	public static final int GREATER_THAN = 485;
 	public static final int EXACTLY = 17;
 	public static final int SUB_PROPERTY_AXIOM = 51;
 	public static final int OPEN_SQUARE_BRACKET = 85;
@@ -109,6 +113,7 @@ public class OPPLTestCaseLexer_OPPLLexer extends Lexer {
 	public static final int INVERSE_FUNCTIONAL = 35;
 	public static final int RENDERING = 355;
 	public static final int IRREFLEXIVE = 33;
+	public static final int LESS_THAN_EQUAL = 484;
 	public static final int ASSERTED = 76;
 	public static final int FUNCTIONAL = 29;
 	public static final int PROPERTY_CHAIN = 57;

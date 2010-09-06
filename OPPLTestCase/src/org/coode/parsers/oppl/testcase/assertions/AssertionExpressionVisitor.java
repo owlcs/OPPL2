@@ -10,11 +10,15 @@ package org.coode.parsers.oppl.testcase.assertions;
  * 
  */
 public interface AssertionExpressionVisitor {
-	void visitCountAssertionExpression(CountAssertionExpression countAssertionExpression);
+	void visitCountAssertionExpression(
+			CountAssertionExpression countAssertionExpression);
 
 	void visitIntegerAssertionExpressionVisitor(
 			IntegerAssertionExpression integerAssertionExpression);
 
 	void visitOWLExpressionAssertionExpression(
 			OWLExpressionAssertionExpression owlExpressionAssertionExpression);
+
+	void visitCountStarAssertionExpression(
+			CountStarAssertionExpression countStarAssertionExpression);
 }
