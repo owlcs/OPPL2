@@ -170,6 +170,18 @@ assertion returns [Assertion a]
 		| ^(ASSERT_NOT_EQUAL left=assertionExpression right =assertionExpression){
 			 $a = getSymbolTable().getAssertNotEqual(left.ae,left.node,right.ae, right.node,$start);
 		}
+		| ^(ASSERT_LESS_THAN left=assertionExpression right =assertionExpression){
+			 $a = getSymbolTable().getAssertLessThan(left.ae,left.node,right.ae, right.node,$start);
+		}
+		| ^(ASSERT_LESS_THAN_EQUAL left=assertionExpression right =assertionExpression){
+			 $a = getSymbolTable().getAssertLessThanEqualtTo(left.ae,left.node,right.ae, right.node,$start);
+		}
+		| ^(ASSERT_GREATER_THAN left=assertionExpression right =assertionExpression){
+			 $a = getSymbolTable().getAssertGreaterThan(left.ae,left.node,right.ae, right.node,$start);
+		}
+		| ^(ASSERT_GREATER_THAN_EQUAL left=assertionExpression right =assertionExpression){
+			 $a = getSymbolTable().getAssertGreaterThanEqualTo(left.ae,left.node,right.ae, right.node,$start);
+		}
 		| ^(CONTAINS VARIABLE_NAME (expr= assertionExpression {containedAssertionExpressions.add(expr.node); })+){
 			$a = getSymbolTable().getAssertContains($VARIABLE_NAME,containedAssertionExpressions, getConstraintSystem(), getTestCaseFactory(), $start);
 		}
@@ -186,6 +198,9 @@ assertionExpression returns  [AssertionExpression ae, OPPLSyntaxTree node]
 	:
 		^(COUNT VARIABLE_NAME){
 			$ae = getSymbolTable().getCountAssertionExpression($VARIABLE_NAME, getConstraintSystem());
+		}
+		| ^(COUNT STAR){
+			$ae = getSymbolTable().getCountStarAssertionExpression();
 		}
 		| INTEGER {
 			$ae = getSymbolTable().getIntegerAssertionExpression($INTEGER);

@@ -19,6 +19,10 @@ tokens{
   ASSERT_TRUE;
   ASSERT_FALSE;
   TEXT;
+  ASSERT_LESS_THAN;
+  ASSERT_LESS_THAN_EQUAL;
+  ASSERT_GREATER_THAN;
+  ASSERT_GREATER_THAN_EQUAL;
 }
  
 @header {
@@ -90,6 +94,10 @@ assertion options{backtrack = true;}
 	:
 		left =assertionExpression EQUAL right= assertionExpression -> ^(ASSERT_EQUAL $left $right)
 		| left =assertionExpression NOT_EQUAL right= assertionExpression -> ^(ASSERT_NOT_EQUAL $left $right)
+		| left =assertionExpression LESS_THAN right= assertionExpression -> ^(ASSERT_LESS_THAN $left $right)
+		| left =assertionExpression LESS_THAN_EQUAL right= assertionExpression -> ^(ASSERT_LESS_THAN_EQUAL $left $right)		
+		| left =assertionExpression GREATER_THAN right= assertionExpression -> ^(ASSERT_GREATER_THAN $left $right)		
+		| left =assertionExpression GREATER_THAN_EQUAL right= assertionExpression -> ^(ASSERT_GREATER_THAN_EQUAL $left $right)		
 		| VARIABLE_NAME 	CONTAINS assertionExpression (COMMA assertionExpression)? ->^(CONTAINS VARIABLE_NAME  assertionExpression+)
 		| NOT OPEN_PARENTHESYS assertion CLOSED_PARENTHESYS ->^(NOT assertion)
 	;
@@ -97,6 +105,7 @@ assertion options{backtrack = true;}
 assertionExpression
 	:
 		COUNT OPEN_PARENTHESYS VARIABLE_NAME CLOSED_PARENTHESYS ->^(COUNT VARIABLE_NAME)
+		| COUNT OPEN_PARENTHESYS STAR CLOSED_PARENTHESYS ->^(COUNT STAR)
 		| INTEGER 
 		| expression ->^(EXPRESSION expression)
 		

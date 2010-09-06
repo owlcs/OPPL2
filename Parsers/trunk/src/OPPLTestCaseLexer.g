@@ -31,4 +31,26 @@ CONTAINS :
  INFERENCE
  	:
  		('I'|'i')('N'|'n')('F'|'f')('E'|'e')('R'|'r')('E'|'e')('N'|'n')('C'|'c')('E'|'e') SEMICOLON
- 	;	
+ 	;
+ 	
+STAR
+	:
+		'*'
+	;
+
+LESS_THAN	
+	:
+		'<'
+	;
+LESS_THAN_EQUAL
+	:
+		LESS_THAN EQUAL
+	;
+GREATER_THAN
+	:
+		'>'
+	;
+GREATER_THAN_EQUAL
+	:
+		GREATER_THAN EQUAL
+	;
