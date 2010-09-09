@@ -107,9 +107,15 @@ testCase
 		^(OPPL_TEST_CASE IDENTIFIER INFERENCE? s = statement someTests = tests) 
 		{
 		  if(s.statementTree.getOPPLContent() instanceof OPPLScript){
-			OPPLTestCase testCase = this.getTestCaseFactory().buildOPPLTestCase($IDENTIFIER.text,
-			(OPPLScript) s.statementTree.getOPPLContent(), someTests, $INFERENCE!=null);
-			$start.setOPPLContent(testCase);        
+		  	if(!someTests.isEmpty()){
+				OPPLTestCase testCase = this.getTestCaseFactory().buildOPPLTestCase($IDENTIFIER.text,
+				(OPPLScript) s.statementTree.getOPPLContent(), someTests, $INFERENCE!=null);
+				$start.setOPPLContent(testCase);
+			}else{
+				getErrorListener().illegalToken($start,"No Valid Tests");
+			}
+		  }else{
+		  		getErrorListener().illegalToken($start,"Invalid OPPL statement");
 		  }  
 		}		
   ;
@@ -121,7 +127,9 @@ tests returns  [List<Test> tests]
 
 	:
 		( t = test{
-			tests.add(t);
+			if(t!=null){
+				tests.add(t);
+			}
 		})+
 	;
 
@@ -154,7 +162,9 @@ test returns [Test t]
 	:
 	^(TEST anAssertion = assertion (^(MESSAGE .*))? )
 	{
-		$t = ($MESSAGE==null)? new Test(anAssertion.a): new Test($MESSAGE.text,anAssertion.a);
+		if(anAssertion.a!=null){
+			$t = ($MESSAGE==null)? new Test(anAssertion.a): new Test($MESSAGE.text,anAssertion.a);
+		}
 	}
 	;
 

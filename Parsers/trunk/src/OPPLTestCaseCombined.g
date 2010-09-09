@@ -98,7 +98,7 @@ assertion options{backtrack = true;}
 		| left =assertionExpression LESS_THAN_EQUAL right= assertionExpression -> ^(ASSERT_LESS_THAN_EQUAL $left $right)		
 		| left =assertionExpression GREATER_THAN right= assertionExpression -> ^(ASSERT_GREATER_THAN $left $right)		
 		| left =assertionExpression GREATER_THAN_EQUAL right= assertionExpression -> ^(ASSERT_GREATER_THAN_EQUAL $left $right)		
-		| VARIABLE_NAME 	CONTAINS assertionExpression (COMMA assertionExpression)? ->^(CONTAINS VARIABLE_NAME  assertionExpression+)
+		| VARIABLE_NAME 	CONTAINS assertionExpression (COMMA assertionExpression)* ->^(CONTAINS VARIABLE_NAME  assertionExpression+)
 		| NOT OPEN_PARENTHESYS assertion CLOSED_PARENTHESYS ->^(NOT assertion)
 	;
 	
