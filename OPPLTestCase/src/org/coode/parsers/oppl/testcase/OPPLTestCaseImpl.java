@@ -89,4 +89,64 @@ public class OPPLTestCaseImpl implements OPPLTestCase {
 		}
 		return formatter.toString();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (this.name == null ? 0 : this.name.hashCode());
+		result = prime * result + (this.opplScript == null ? 0 : this.opplScript.hashCode());
+		result = prime * result + (this.requiresInference ? 1231 : 1237);
+		result = prime * result + (this.tests == null ? 0 : this.tests.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		OPPLTestCaseImpl other = (OPPLTestCaseImpl) obj;
+		if (this.name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!this.name.equals(other.name)) {
+			return false;
+		}
+		if (this.opplScript == null) {
+			if (other.opplScript != null) {
+				return false;
+			}
+		} else if (!this.opplScript.equals(other.opplScript)) {
+			return false;
+		}
+		if (this.requiresInference != other.requiresInference) {
+			return false;
+		}
+		if (this.tests == null) {
+			if (other.tests != null) {
+				return false;
+			}
+		} else if (!this.tests.equals(other.tests)) {
+			return false;
+		}
+		return true;
+	}
 }

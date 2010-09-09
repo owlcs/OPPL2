@@ -45,8 +45,47 @@ public class AssertionComplement implements Assertion {
 		return this.assertion;
 	}
 
-	public boolean holds(Set<? extends BindingNode> bindings,
-			ConstraintSystem constraintSystem) {
+	public boolean holds(Set<? extends BindingNode> bindings, ConstraintSystem constraintSystem) {
 		return !this.getOperand().holds(bindings, constraintSystem);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (this.assertion == null ? 0 : this.assertion.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		AssertionComplement other = (AssertionComplement) obj;
+		if (this.assertion == null) {
+			if (other.assertion != null) {
+				return false;
+			}
+		} else if (!this.assertion.equals(other.assertion)) {
+			return false;
+		}
+		return true;
 	}
 }

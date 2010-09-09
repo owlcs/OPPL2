@@ -66,4 +66,52 @@ public class Test {
 				this.getMessage().equals(NO_MESSAGE) ? NO_MESSAGE : "; " + this.getMessage());
 		return formatter.toString();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (this.assertion == null ? 0 : this.assertion.hashCode());
+		result = prime * result + (this.message == null ? 0 : this.message.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		Test other = (Test) obj;
+		if (this.assertion == null) {
+			if (other.assertion != null) {
+				return false;
+			}
+		} else if (!this.assertion.equals(other.assertion)) {
+			return false;
+		}
+		if (this.message == null) {
+			if (other.message != null) {
+				return false;
+			}
+		} else if (!this.message.equals(other.message)) {
+			return false;
+		}
+		return true;
+	}
 }

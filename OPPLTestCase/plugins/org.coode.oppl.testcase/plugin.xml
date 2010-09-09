@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+  <plugin>
+   	<extension id="OntologyOPPLTestCaseView"
+			point="org.protege.editor.core.application.ViewComponent">
+  		<label value="OPPL Test cases"/>
+  		<class value="org.coode.parsers.oppl.testcase.ui.OPPLTestCaseView"/>
+		<headerColor value="@org.protege.ontologycolor"/>
+        <category value="@org.protege.ontologycategory"/>
+  	</extension> 	
+  </plugin>

@@ -31,10 +31,8 @@ public class AssertContains implements Assertion {
 	 * @param variable
 	 * @param value
 	 */
-	public AssertContains(Variable variable,
-			Collection<? extends OWLObject> values,
-			ConstraintSystem constraintSystem,
-			AbstractOPPLTestCaseFactory testCaseFactory) {
+	public AssertContains(Variable variable, Collection<? extends OWLObject> values,
+			ConstraintSystem constraintSystem, AbstractOPPLTestCaseFactory testCaseFactory) {
 		if (variable == null) {
 			throw new NullPointerException("The variable cannot be null");
 		}
@@ -45,12 +43,10 @@ public class AssertContains implements Assertion {
 			throw new IllegalArgumentException("The values cannot be empty");
 		}
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The constraint system cannot be null");
+			throw new NullPointerException("The constraint system cannot be null");
 		}
 		if (testCaseFactory == null) {
-			throw new NullPointerException(
-					"The test case factory cannot be null");
+			throw new NullPointerException("The test case factory cannot be null");
 		}
 		this.variable = variable;
 		this.values.addAll(values);
@@ -81,9 +77,8 @@ public class AssertContains implements Assertion {
 		for (OWLObject v : this.getValues()) {
 			String comma = first ? "" : ", ";
 			first = false;
-			ManchesterSyntaxRenderer renderer = this.getTestCaseFactory()
-					.getOPPLFactory().getManchesterSyntaxRenderer(
-							this.getConstraintSystem());
+			ManchesterSyntaxRenderer renderer = this.getTestCaseFactory().getOPPLFactory().getManchesterSyntaxRenderer(
+					this.getConstraintSystem());
 			v.accept(renderer);
 			formatter.format("%s%s", comma, renderer.toString());
 		}
@@ -104,8 +99,7 @@ public class AssertContains implements Assertion {
 		return this.testCaseFactory;
 	}
 
-	public boolean holds(Set<? extends BindingNode> bindings,
-			ConstraintSystem constraintSystem) {
+	public boolean holds(Set<? extends BindingNode> bindings, ConstraintSystem constraintSystem) {
 		Set<OWLObject> containerValues = new HashSet<OWLObject>(bindings.size());
 		for (BindingNode bindingNode : bindings) {
 			OWLObject value = bindingNode.getAssignmentValue(this.variable);
@@ -121,5 +115,53 @@ public class AssertContains implements Assertion {
 	 */
 	public Set<OWLObject> getValues() {
 		return new HashSet<OWLObject>(this.values);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (this.values == null ? 0 : this.values.hashCode());
+		result = prime * result + (this.variable == null ? 0 : this.variable.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		AssertContains other = (AssertContains) obj;
+		if (this.values == null) {
+			if (other.values != null) {
+				return false;
+			}
+		} else if (!this.values.equals(other.values)) {
+			return false;
+		}
+		if (this.variable == null) {
+			if (other.variable != null) {
+				return false;
+			}
+		} else if (!this.variable.equals(other.variable)) {
+			return false;
+		}
+		return true;
 	}
 }
