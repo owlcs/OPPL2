@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+
+<!--====================================
+		In order to use the build-file the following variable must be
+		set in a build.properties file
+
+		classes = location where both binaries of the OPPL Lint and binaries of the plug-in are.
+		srcAPI = the absolute path of the directoy containing the source code for the OPPL Lint API		
+		dist = the absolute path of the plugins directory  of the installation of Protege 4 you want to deploy the bundle to
+		owlapi.bin = the absloute path of the directory containing the compiled version of the OWL-API (loose classes, not jar)
+		oppl.bin = the absolute path of the directory containing the compiled version of the OPPL 2 API (loose classes, not jar)				
+	====================================-->
+
+<project name="OPPL Lint plugin" default="bundle" basedir="..">
+	<property file="${basedir}/plugins/build.properties" />
+	<property name="src" location="${basedir}/uk.ac.manchester.cs.lintroll.oppl/src" />
+	<property name="source" location="1.5" />
+	<property name="jardest" location="${dist}/plugins/uk.ac.manchester.cs.lintroll.oppl.jar" />	
+	<property name="releasejardest" location="${releasedownloads}/uk.ac.manchester.cs.lintroll.jar" />
+	<property name="releasezipsourcedest" location="${releasedownloads}/uk.ac.manchester.cs.lintroll-src.zip" />
+	<property name="releaselintjarname" value="lint.jar" />
+	<property name="releaselintjardest" location="${releasedownloads}/${releaselintjarname}" />
+
+	<!--
+	Path for compileAPI classpath
+	-->
+	<path id="lintapi.classpath">
+		<dirset dir="${owlapi.bin}">
+		</dirset>
+		<dirset dir="${oppl.bin}">
+		</dirset>
+	</path>
+
+	<!--====================================
+		target: init
+		Initialisation and clean-up
+	====================================-->
+	<target name="init">
+		<echo message="---------------Building the Bundle-------------" />
+
+
+		<delete dir="${projectLocation}/release">
+		</delete>
+	</target>
+
+
+
+	<!--====================================
+		target: bundle
+		Creates the Protege 4 bundle
+	====================================-->
+	<target name="bundle" depends="init">
+
+		<delete dir="${dist}/configuration/org.eclipse.core.runtime" />
+		<delete dir="${dist}/configuration/org.eclipse.osgi" />
+		<mkdir dir="${classes}/lib" />
+
+		<copy toFile="${classes}/plugin.xml" file="${basedir}/plugins/uk.ac.manchester.cs.lintroll.oppl/plugin.xml" overwrite="true" />
+
+
+		
+		<jar basedir="${classes}" jarfile="${jardest}" manifest="${basedir}/plugins/uk.ac.manchester.cs.lintroll.oppl/META-INF/MANIFEST.MF" update="true" />
+		<delete dir="${classes}/lib" />
+	</target>
+
+	<target name="release" depends="bundle,compileAPI, buildAPIJavaDoc">
+		<copy overwrite="true" tofile="${releasejardest}" file="${jardest}" />
+		<zip update="true" zipfile="${releasezipsourcedest}" basedir="${srcAPI}" />
+		<copy overwrite="true" tofile="${releaselintjardest}" file="${projectLocation}/release/${releaselintjarname}" />
+		<copy overwrite="true" todir="${releasedownloads}" file="${basedir}/plugins/uk.ac.manchester.cs.lintroll/update.properties" />
+
+	</target>
+
+
+
+	<!-- ====================================
+		target: compileAPI
+		compiles the Lint API
+	=========================================-->
+	<target name="compileAPI" depends="init">
+		<mkdir dir="${projectLocation}/release" />
+		<mkdir dir="${projectLocation}/release/classes" />
+		<javac destdir="${projectLocation}/release/classes" failonerror="true" srcdir="${srcAPI}">
+			<classpath refid="lintapi.classpath">
+			</classpath>
+		</javac>
+		<jar destfile="${projectLocation}/release/${releaselintjarname}" basedir="${projectLocation}/release/classes">
+		</jar>
+		<delete dir="${projectLocation}/release/classes" />
+	</target>
+
+	<!-- ====================================
+		target: clean
+		cleans up
+	=========================================-->
+	<target name="cleanup">
+		<delete dir="${projectLocation}/release"/>
+	</target>
+	
+	<target name="buildAPIJavaDoc">
+	<delete dir="${releasedir}/documentation"/>	
+	<javadoc author="no" failonerror="true" destdir="${releasedir}/documentation" >
+		<classpath refid="lintapi.classpath"></classpath>
+	    <packageset dir="${srcAPI}" defaultexcludes="yes">
+	      <include name="org/semanticweb/owl/lint/**"/>
+	      <include name="uk/ac/manchester/cs/owl/lint/**"/>
+	      <exclude name ="uk/ac/manchester/cs/owl/lint/test/**"/>	
+	      <exclude name ="uk/ac/manchester/cs/owl/lint/examples/**"/>	
+	    </packageset>
+	</javadoc>
+	</target>
+
+</project>
