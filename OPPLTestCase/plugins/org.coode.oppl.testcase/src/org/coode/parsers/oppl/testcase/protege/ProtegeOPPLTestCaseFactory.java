@@ -36,8 +36,8 @@ public class ProtegeOPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
 	 *      (java.lang.String, org.coode.oppl.OPPLScript, java.util.List,
 	 *      boolean)
 	 */
-	public OPPLTestCase buildOPPLTestCase(String name, OPPLScript opplContent, List<Test> tests,
-			boolean requiresInference) {
+	public OPPLTestCase buildOPPLTestCase(String name, OPPLScript opplContent,
+			List<? extends Test> tests, boolean requiresInference) {
 		return new OPPLTestCaseImpl(name, opplContent, tests, requiresInference);
 	}
 

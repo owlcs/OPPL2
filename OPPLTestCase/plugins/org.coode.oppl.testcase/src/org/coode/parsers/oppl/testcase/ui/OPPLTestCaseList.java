@@ -17,6 +17,8 @@ import org.protege.editor.core.ui.list.MListButton;
 import org.protege.editor.core.ui.list.MListItem;
 import org.protege.editor.core.ui.list.MListSectionHeader;
 import org.protege.editor.owl.OWLEditorKit;
+import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
+import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.protege.editor.owl.ui.list.AbstractAnnotationsList;
 import org.semanticweb.owlapi.model.AddOntologyAnnotation;
 import org.semanticweb.owlapi.model.IRI;
@@ -38,10 +40,12 @@ public abstract class OPPLTestCaseList extends
 		/**
 		 * @param annot
 		 */
-		public OPPLTestCaseListItem(OWLAnnotation annot, OPPLTestCase opplTestCase) {
+		public OPPLTestCaseListItem(OWLAnnotation annot,
+				OPPLTestCase opplTestCase) {
 			super(annot);
 			if (opplTestCase == null) {
-				throw new NullPointerException("The pattern model cannot be null");
+				throw new NullPointerException(
+						"The pattern model cannot be null");
 			}
 			this.opplTestCase = opplTestCase;
 		}
@@ -62,30 +66,38 @@ public abstract class OPPLTestCaseList extends
 
 		@Override
 		public void handleEdit() {
-			OPPLTestCaseList.this.getEditor().setEditedObject(this.getOPPLTestCase());
+			OPPLTestCaseList.this.getEditor().setEditedObject(
+					this.getOPPLTestCase());
 			int ret = JOptionPaneEx.showValidatingConfirmDialog(
 					OPPLTestCaseList.this.getOWLEditorKit().getWorkspace(),
-					"Test Case Editor",
-					OPPLTestCaseList.this.getEditor().getEditorComponent(),
-					OPPLTestCaseList.this.getEditor(),
-					JOptionPane.PLAIN_MESSAGE,
-					JOptionPane.OK_CANCEL_OPTION,
-					OPPLTestCaseList.this.getComponentPopupMenu());
+					"Test Case Editor", OPPLTestCaseList.this.getEditor()
+							.getEditorComponent(), OPPLTestCaseList.this
+							.getEditor(), JOptionPane.PLAIN_MESSAGE,
+					JOptionPane.OK_CANCEL_OPTION, OPPLTestCaseList.this
+							.getComponentPopupMenu());
 			if (ret == JOptionPane.OK_OPTION) {
-				OPPLTestCase newOPPLTestCase = OPPLTestCaseList.this.getEditor().getEditedObject();
-				OWLDataFactory dataFactory = OPPLTestCaseList.this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager().getOWLDataFactory();
-				OWLLiteral literal = dataFactory.getOWLLiteral(newOPPLTestCase.toString());
+				OPPLTestCase newOPPLTestCase = OPPLTestCaseList.this
+						.getEditor().getEditedObject();
+				OWLDataFactory dataFactory = OPPLTestCaseList.this
+						.getOWLEditorKit().getOWLModelManager()
+						.getOWLOntologyManager().getOWLDataFactory();
+				OWLLiteral literal = dataFactory.getOWLLiteral(newOPPLTestCase
+						.toString());
 				IRI annotationIRI = Preferences.getTestCaseAnnotationProperty(
-						OPPLTestCaseList.this.getOWLEditorKit().getOWLModelManager().getOWLDataFactory()).getIRI();
+						OPPLTestCaseList.this.getOWLEditorKit()
+								.getOWLModelManager().getOWLDataFactory())
+						.getIRI();
 				OWLAnnotation newAnnotation = dataFactory.getOWLAnnotation(
 						dataFactory.getOWLAnnotationProperty(annotationIRI),
 						literal);
 				if (!newAnnotation.equals(this.getAnnotation())) {
-					OPPLTestCaseList.this.buttons.remove(this.getOPPLTestCase());
-					List<OWLOntologyChange> changes = OPPLTestCaseList.this.getReplaceChanges(
-							this.getAnnotation(),
-							newAnnotation);
-					OPPLTestCaseList.this.getOWLEditorKit().getModelManager().applyChanges(changes);
+					OPPLTestCaseList.this.buttons
+							.remove(this.getOPPLTestCase());
+					List<OWLOntologyChange> changes = OPPLTestCaseList.this
+							.getReplaceChanges(this.getAnnotation(),
+									newAnnotation);
+					OPPLTestCaseList.this.getOWLEditorKit().getModelManager()
+							.applyChanges(changes);
 				}
 			}
 		}
@@ -108,6 +120,7 @@ public abstract class OPPLTestCaseList extends
 	private final OWLEditorKit owlEditorKit;
 	private final OPPLTestCaseEditor editor;
 	private final Map<OPPLTestCase, List<MListButton>> buttons = new HashMap<OPPLTestCase, List<MListButton>>();
+	private final OWLModelManagerListener modelManagerListener;
 
 	/**
 	 * @param owlEditorKit
@@ -117,33 +130,48 @@ public abstract class OPPLTestCaseList extends
 		// Have to do this as the super class does not expose the OWLEdtorKit
 		this.owlEditorKit = owlEditorKit;
 		this.editor = new OPPLTestCaseEditor(this.getOWLEditorKit());
+		this.modelManagerListener = new OWLModelManagerListener() {
+			public void handleChange(OWLModelManagerChangeEvent event) {
+				// Force refresh
+				OPPLTestCaseList.this
+						.setRootObject(new OPPLTestCaseAnnotationContainer(
+								OPPLTestCaseList.this.getOWLEditorKit()));
+			}
+		};
+		this.getOWLEditorKit().getOWLModelManager().addListener(
+				this.modelManagerListener);
 	}
 
 	@Override
 	protected List<OWLOntologyChange> getAddChanges(OWLAnnotation annot) {
 		List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
-		changes.add(new AddOntologyAnnotation(this.getRoot().getOntology(), annot));
+		changes.add(new AddOntologyAnnotation(this.getRoot().getOntology(),
+				annot));
 		return changes;
 	}
 
 	@Override
-	protected List<OWLOntologyChange> getReplaceChanges(OWLAnnotation oldAnnotation,
-			OWLAnnotation newAnnotation) {
+	protected List<OWLOntologyChange> getReplaceChanges(
+			OWLAnnotation oldAnnotation, OWLAnnotation newAnnotation) {
 		List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
-		changes.add(new RemoveOntologyAnnotation(this.getRoot().getOntology(), oldAnnotation));
-		changes.add(new AddOntologyAnnotation(this.getRoot().getOntology(), newAnnotation));
+		changes.add(new RemoveOntologyAnnotation(this.getRoot().getOntology(),
+				oldAnnotation));
+		changes.add(new AddOntologyAnnotation(this.getRoot().getOntology(),
+				newAnnotation));
 		return changes;
 	}
 
 	@Override
 	protected List<OWLOntologyChange> getDeleteChanges(OWLAnnotation annot) {
 		List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
-		changes.add(new RemoveOntologyAnnotation(this.getRoot().getOntology(), annot));
+		changes.add(new RemoveOntologyAnnotation(this.getRoot().getOntology(),
+				annot));
 		return changes;
 	}
 
 	@Override
-	protected void handleOntologyChanges(List<? extends OWLOntologyChange> changes) {
+	protected void handleOntologyChanges(
+			List<? extends OWLOntologyChange> changes) {
 		for (OWLOntologyChange change : changes) {
 			if (change instanceof AddOntologyAnnotation
 					|| change instanceof RemoveOntologyAnnotation) {
@@ -164,22 +192,25 @@ public abstract class OPPLTestCaseList extends
 		this.getEditor().setEditedObject(null);
 		int ret = JOptionPaneEx.showValidatingConfirmDialog(
 				OPPLTestCaseList.this.getOWLEditorKit().getWorkspace(),
-				"OPPL Test Case Editor",
-				OPPLTestCaseList.this.getEditor().getEditorComponent(),
-				OPPLTestCaseList.this.getEditor(),
-				JOptionPane.PLAIN_MESSAGE,
-				JOptionPane.OK_CANCEL_OPTION,
-				OPPLTestCaseList.this.getComponentPopupMenu());
+				"OPPL Test Case Editor", OPPLTestCaseList.this.getEditor()
+						.getEditorComponent(), OPPLTestCaseList.this
+						.getEditor(), JOptionPane.PLAIN_MESSAGE,
+				JOptionPane.OK_CANCEL_OPTION, OPPLTestCaseList.this
+						.getComponentPopupMenu());
 		if (ret == JOptionPane.OK_OPTION) {
 			OPPLTestCase OPPLTestCase = this.getEditor().getEditedObject();
-			OWLDataFactory dataFactory = this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager().getOWLDataFactory();
-			OWLLiteral literal = dataFactory.getOWLLiteral(OPPLTestCase.toString());
+			OWLDataFactory dataFactory = this.getOWLEditorKit()
+					.getOWLModelManager().getOWLOntologyManager()
+					.getOWLDataFactory();
+			OWLLiteral literal = dataFactory.getOWLLiteral(OPPLTestCase
+					.toString());
 			IRI annotationIRI = Preferences.getTestCaseAnnotationProperty(
-					this.getOWLEditorKit().getOWLModelManager().getOWLDataFactory()).getIRI();
-			OWLAnnotation annotation = dataFactory.getOWLAnnotation(
-					dataFactory.getOWLAnnotationProperty(annotationIRI),
-					literal);
-			this.getOWLEditorKit().getModelManager().applyChanges(this.getAddChanges(annotation));
+					this.getOWLEditorKit().getOWLModelManager()
+							.getOWLDataFactory()).getIRI();
+			OWLAnnotation annotation = dataFactory.getOWLAnnotation(dataFactory
+					.getOWLAnnotationProperty(annotationIRI), literal);
+			this.getOWLEditorKit().getModelManager().applyChanges(
+					this.getAddChanges(annotation));
 		}
 	}
 
@@ -191,7 +222,8 @@ public abstract class OPPLTestCaseList extends
 		if (root != null) {
 			// @@TODO ordering
 			for (OWLAnnotation annot : root.getAnnotations()) {
-				data.add(new OPPLTestCaseListItem(annot, root.getOPPLTestCase(annot)));
+				data.add(new OPPLTestCaseListItem(annot, root
+						.getOPPLTestCase(annot)));
 			}
 		}
 		this.setListData(data.toArray());
@@ -208,10 +240,11 @@ public abstract class OPPLTestCaseList extends
 	@Override
 	protected List<MListButton> getListItemButtons(MListItem item) {
 		// super.getListItemButtons(item) does NOT make a defensive copy!!!!
-		List<MListButton> listItemButtons = new ArrayList<MListButton>(
-				super.getListItemButtons(item));
+		List<MListButton> listItemButtons = new ArrayList<MListButton>(super
+				.getListItemButtons(item));
 		if (item instanceof OPPLTestCaseListItem) {
-			final OPPLTestCase opplTestCase = ((OPPLTestCaseListItem) item).getOPPLTestCase();
+			final OPPLTestCase opplTestCase = ((OPPLTestCaseListItem) item)
+					.getOPPLTestCase();
 			List<MListButton> list = this.buttons.get(opplTestCase);
 			if (list == null) {
 				ActionListener actionListener = new ActionListener() {
@@ -233,4 +266,11 @@ public abstract class OPPLTestCaseList extends
 	}
 
 	protected abstract void runTest(OPPLTestCase opplTestCase);
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		this.getOWLEditorKit().getOWLModelManager().removeListener(
+				this.modelManagerListener);
+	}
 }

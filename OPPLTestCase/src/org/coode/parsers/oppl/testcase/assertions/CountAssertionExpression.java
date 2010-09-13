@@ -57,4 +57,45 @@ public class CountAssertionExpression implements AssertionExpression<Integer> {
 		}
 		return values.size();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ (this.variable == null ? 0 : this.variable.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		CountAssertionExpression other = (CountAssertionExpression) obj;
+		if (this.variable == null) {
+			if (other.variable != null) {
+				return false;
+			}
+		} else if (!this.variable.equals(other.variable)) {
+			return false;
+		}
+		return true;
+	}
 }

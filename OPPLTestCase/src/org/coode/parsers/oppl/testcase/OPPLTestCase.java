@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.testcase;
 
-import java.util.Set;
+import java.util.List;
 
 import org.coode.oppl.OPPLScript;
 
@@ -36,9 +36,9 @@ public interface OPPLTestCase {
 	OPPLScript getOPPLScript();
 
 	/**
-	 * Retrieves the set of Test instances for this OPPLTestCase.
+	 * Retrieves the list of Test instances for this OPPLTestCase.
 	 * 
-	 * @return A Set containing all the tests.
+	 * @return A List containing all the tests.
 	 */
-	Set<Test> getTests();
+	List<Test> getTests();
 }

@@ -3,6 +3,7 @@
  */
 package org.coode.parsers.oppl.testcase.assertions;
 
+import java.util.Formatter;
 import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
@@ -45,7 +46,8 @@ public class AssertionComplement implements Assertion {
 		return this.assertion;
 	}
 
-	public boolean holds(Set<? extends BindingNode> bindings, ConstraintSystem constraintSystem) {
+	public boolean holds(Set<? extends BindingNode> bindings,
+			ConstraintSystem constraintSystem) {
 		return !this.getOperand().holds(bindings, constraintSystem);
 	}
 
@@ -58,7 +60,8 @@ public class AssertionComplement implements Assertion {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (this.assertion == null ? 0 : this.assertion.hashCode());
+		result = prime * result
+				+ (this.assertion == null ? 0 : this.assertion.hashCode());
 		return result;
 	}
 
@@ -87,5 +90,12 @@ public class AssertionComplement implements Assertion {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		Formatter formatter = new Formatter();
+		formatter.format("NOT %s", this.getOperand().toString());
+		return formatter.toString();
 	}
 }

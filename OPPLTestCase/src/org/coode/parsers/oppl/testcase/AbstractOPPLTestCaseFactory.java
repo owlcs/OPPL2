@@ -13,8 +13,8 @@ import org.coode.oppl.OPPLScript;
  * 
  */
 public interface AbstractOPPLTestCaseFactory {
-	OPPLTestCase buildOPPLTestCase(String name, OPPLScript opplContent, List<Test> tests,
-			boolean requiresInference);
+	OPPLTestCase buildOPPLTestCase(String name, OPPLScript opplContent,
+			List<? extends Test> tests, boolean requiresInference);
 
 	OPPLAbstractFactory getOPPLFactory();
 }

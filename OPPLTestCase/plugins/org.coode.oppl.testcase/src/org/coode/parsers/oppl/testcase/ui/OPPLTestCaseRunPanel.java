@@ -27,7 +27,8 @@ import org.protege.editor.core.ui.util.ComponentFactory;
  * 
  */
 public class OPPLTestCaseRunPanel extends JPanel {
-	private final class RunTest extends SwingWorker<Map<OPPLTestCase, List<Report>>, Object> {
+	private final class RunTest extends
+			SwingWorker<Map<OPPLTestCase, List<Report>>, Object> {
 		private final OPPLTestCase opplTestCase;
 
 		/**
@@ -38,8 +39,10 @@ public class OPPLTestCaseRunPanel extends JPanel {
 		}
 
 		@Override
-		protected Map<OPPLTestCase, List<Report>> doInBackground() throws Exception {
-			ReportingTestRunner reportingTestRunner = new ReportingTestRunner(this.opplTestCase);
+		protected Map<OPPLTestCase, List<Report>> doInBackground()
+				throws Exception {
+			ReportingTestRunner reportingTestRunner = new ReportingTestRunner(
+					this.opplTestCase);
 			return reportingTestRunner.run();
 		}
 
@@ -48,7 +51,8 @@ public class OPPLTestCaseRunPanel extends JPanel {
 			try {
 				Map<OPPLTestCase, List<Report>> reports = this.get();
 				if (reports != null) {
-					OPPLTestCaseRunPanel.this.resultTreeModel.addReports(reports);
+					OPPLTestCaseRunPanel.this.resultTreeModel
+							.addReports(reports);
 				}
 			} catch (InterruptedException e) {
 				ProtegeApplication.getErrorLog().logError(e);
@@ -84,7 +88,8 @@ public class OPPLTestCaseRunPanel extends JPanel {
 		private void expandUnsucessfulNodes() {
 			OPPLTestCaseRunPanel.this.resultTree.collapsePath(new TreePath(
 					OPPLTestCaseRunPanel.this.resultTreeModel.getRoot()));
-			TreePath[] unsuccessfulTreePaths = OPPLTestCaseRunPanel.this.resultTreeModel.getUnsuccessfulTreePaths();
+			TreePath[] unsuccessfulTreePaths = OPPLTestCaseRunPanel.this.resultTreeModel
+					.getUnsuccessfulTreePaths();
 			for (TreePath treePath : unsuccessfulTreePaths) {
 				OPPLTestCaseRunPanel.this.resultTree.expandPath(treePath);
 			}
@@ -97,8 +102,10 @@ public class OPPLTestCaseRunPanel extends JPanel {
 
 	private void initGUI() {
 		this.setLayout(new BorderLayout());
-		JScrollPane resultTreeScrollPane = ComponentFactory.createScrollPane(this.resultTree);
-		resultTreeScrollPane.setBorder(ComponentFactory.createTitledBorder("Test cases results"));
+		JScrollPane resultTreeScrollPane = ComponentFactory
+				.createScrollPane(this.resultTree);
+		resultTreeScrollPane.setBorder(ComponentFactory
+				.createTitledBorder("Test cases results"));
 		this.resultTree.setCellRenderer(new ReportTreeCellRenderer());
 		this.resultTreeModel.addTreeModelListener(this.treeModelLister);
 		this.add(resultTreeScrollPane, BorderLayout.CENTER);

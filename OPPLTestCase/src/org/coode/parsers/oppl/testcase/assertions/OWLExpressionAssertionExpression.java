@@ -98,4 +98,45 @@ public class OWLExpressionAssertionExpression implements
 		}
 		return toReturn;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ (this.owlObject == null ? 0 : this.owlObject.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		OWLExpressionAssertionExpression other = (OWLExpressionAssertionExpression) obj;
+		if (this.owlObject == null) {
+			if (other.owlObject != null) {
+				return false;
+			}
+		} else if (!this.owlObject.equals(other.owlObject)) {
+			return false;
+		}
+		return true;
+	}
 }

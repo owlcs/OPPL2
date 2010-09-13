@@ -21,10 +21,11 @@ public class OPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
 	private final OWLOntologyManager ontologyManager;
 	private final OWLReasoner reasoner;
 
-	public OPPLTestCaseFactory(OWLOntology ontology, OWLOntologyManager ontologyManager,
-			OWLReasoner reasoner) {
+	public OPPLTestCaseFactory(OWLOntology ontology,
+			OWLOntologyManager ontologyManager, OWLReasoner reasoner) {
 		if (ontologyManager == null) {
-			throw new NullPointerException("The ontology manager cannot be null");
+			throw new NullPointerException(
+					"The ontology manager cannot be null");
 		}
 		if (ontology == null) {
 			throw new NullPointerException("The ontology  cannot be null");
@@ -38,8 +39,8 @@ public class OPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
 	 * @see org.coode.parsers.oppl.testcase.AbstractOPPLTestCaseFactory#buildOPPLTestCase
 	 *      (java.lang.String, org.coode.oppl.OPPLScript, boolean)
 	 */
-	public OPPLTestCase buildOPPLTestCase(String name, OPPLScript opplContent, List<Test> tests,
-			boolean requiresInference) {
+	public OPPLTestCase buildOPPLTestCase(String name, OPPLScript opplContent,
+			List<? extends Test> tests, boolean requiresInference) {
 		return new OPPLTestCaseImpl(name, opplContent, tests, requiresInference);
 	}
 
@@ -47,7 +48,8 @@ public class OPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
 	 * @see org.coode.parsers.oppl.testcase.AbstractOPPLTestCaseFactory#getOPPLFactory()
 	 */
 	public OPPLAbstractFactory getOPPLFactory() {
-		return new OPPLFactory(this.getOntologyManager(), this.getOntology(), this.getReasoner());
+		return new OPPLFactory(this.getOntologyManager(), this.getOntology(),
+				this.getReasoner());
 	}
 
 	/**

@@ -3,10 +3,9 @@
  */
 package org.coode.parsers.oppl.testcase;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Formatter;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.coode.oppl.OPPLScript;
 
@@ -18,15 +17,15 @@ public class OPPLTestCaseImpl implements OPPLTestCase {
 	private final String name;
 	private final OPPLScript opplScript;
 	private final boolean requiresInference;
-	private final Set<Test> tests = new HashSet<Test>();
+	private final List<Test> tests = new ArrayList<Test>();
 
 	/**
 	 * @param name
 	 * @param opplScript
 	 * @param requiresInference
 	 */
-	public OPPLTestCaseImpl(String name, OPPLScript opplScript, Collection<? extends Test> tests,
-			boolean requiresInference) {
+	public OPPLTestCaseImpl(String name, OPPLScript opplScript,
+			List<? extends Test> tests, boolean requiresInference) {
 		if (name == null) {
 			throw new NullPointerException("The name cannot be null");
 		}
@@ -37,10 +36,12 @@ public class OPPLTestCaseImpl implements OPPLTestCase {
 			throw new NullPointerException("The test collection cannot be null");
 		}
 		if (!opplScript.getActions().isEmpty()) {
-			throw new IllegalArgumentException("No actions allowed in OPPL Test case scripts");
+			throw new IllegalArgumentException(
+					"No actions allowed in OPPL Test case scripts");
 		}
 		if (tests.isEmpty()) {
-			throw new IllegalArgumentException("There should be at least one test");
+			throw new IllegalArgumentException(
+					"There should be at least one test");
 		}
 		this.name = name;
 		this.opplScript = opplScript;
@@ -72,8 +73,8 @@ public class OPPLTestCaseImpl implements OPPLTestCase {
 	/**
 	 * @see org.coode.parsers.oppl.testcase.OPPLTestCase#getAssertions()
 	 */
-	public Set<Test> getTests() {
-		return new HashSet<Test>(this.tests);
+	public List<Test> getTests() {
+		return new ArrayList<Test>(this.tests);
 	}
 
 	@Override
@@ -99,10 +100,13 @@ public class OPPLTestCaseImpl implements OPPLTestCase {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (this.name == null ? 0 : this.name.hashCode());
-		result = prime * result + (this.opplScript == null ? 0 : this.opplScript.hashCode());
+		result = prime * result
+				+ (this.name == null ? 0 : this.name.hashCode());
+		result = prime * result
+				+ (this.opplScript == null ? 0 : this.opplScript.hashCode());
 		result = prime * result + (this.requiresInference ? 1231 : 1237);
-		result = prime * result + (this.tests == null ? 0 : this.tests.hashCode());
+		result = prime * result
+				+ (this.tests == null ? 0 : this.tests.hashCode());
 		return result;
 	}
 

@@ -15,7 +15,6 @@ import java.util.Set;
 
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
@@ -29,10 +28,10 @@ import org.coode.parsers.oppl.testcase.ui.report.SuccessfulExecutionReport;
  * 
  */
 public final class ReportTreeModel implements TreeModel {
-	private static final DefaultMutableTreeNode DEFAULT_ROOT = new DefaultMutableTreeNode(
-			"No Test Case");
+	private static final String TEST_CASES_EXECUTED = "Test Cases executed";
+	private static final String DEFAULT_ROOT = "No Test Case";
 	private final Map<OPPLTestCase, List<Report>> reportMap = new HashMap<OPPLTestCase, List<Report>>();
-	private DefaultMutableTreeNode root = DEFAULT_ROOT;
+	private String root = DEFAULT_ROOT;
 	private final Set<TreeModelListener> listeners = new HashSet<TreeModelListener>();
 	private final static Comparator<OPPLTestCase> LEXICOGRAPHIC_COMPARATOR = new Comparator<OPPLTestCase>() {
 		public int compare(OPPLTestCase o1, OPPLTestCase o2) {
@@ -62,7 +61,8 @@ public final class ReportTreeModel implements TreeModel {
 	public Object getChild(Object parent, int index) {
 		Object toReturn = null;
 		if (parent == this.getRoot()) {
-			List<OPPLTestCase> list = new ArrayList<OPPLTestCase>(this.reportMap.keySet());
+			List<OPPLTestCase> list = new ArrayList<OPPLTestCase>(
+					this.reportMap.keySet());
 			Collections.sort(list, LEXICOGRAPHIC_COMPARATOR);
 			if (index >= 0 && index < list.size()) {
 				toReturn = list.get(index);
@@ -115,7 +115,8 @@ public final class ReportTreeModel implements TreeModel {
 	public int getIndexOfChild(Object parent, Object child) {
 		int toReturn = -1;
 		if (parent == this.getRoot()) {
-			List<OPPLTestCase> list = new ArrayList<OPPLTestCase>(this.reportMap.keySet());
+			List<OPPLTestCase> list = new ArrayList<OPPLTestCase>(
+					this.reportMap.keySet());
 			Collections.sort(list, LEXICOGRAPHIC_COMPARATOR);
 			toReturn = list.indexOf(child);
 		} else {
@@ -147,7 +148,8 @@ public final class ReportTreeModel implements TreeModel {
 
 	private void notifyListeners() {
 		for (TreeModelListener l : this.listeners) {
-			l.treeStructureChanged(new TreeModelEvent(this, new Object[] { this.getRoot() }));
+			l.treeStructureChanged(new TreeModelEvent(this, new Object[] { this
+					.getRoot() }));
 		}
 	}
 
@@ -159,7 +161,7 @@ public final class ReportTreeModel implements TreeModel {
 
 	public void addReports(Map<OPPLTestCase, List<Report>> reports) {
 		if (this.reportMap.isEmpty()) {
-			this.root = new DefaultMutableTreeNode("Test Cases execuetd");
+			this.root = ReportTreeModel.TEST_CASES_EXECUTED;
 		}
 		this.reportMap.putAll(reports);
 		this.notifyListeners();
@@ -176,7 +178,8 @@ public final class ReportTreeModel implements TreeModel {
 	public boolean isSuccessful() {
 		boolean toReturn = this.reportMap.isEmpty();
 		if (!toReturn) {
-			Iterator<List<Report>> iterator = this.reportMap.values().iterator();
+			Iterator<List<Report>> iterator = this.reportMap.values()
+					.iterator();
 			boolean found = false;
 			while (!found && iterator.hasNext()) {
 				List<Report> list = iterator.next();
@@ -208,7 +211,8 @@ public final class ReportTreeModel implements TreeModel {
 	 */
 	public boolean isSuccessful(OPPLTestCase opplTestCase) {
 		if (opplTestCase == null) {
-			throw new NullPointerException("The input OPPLTestCase cannot be null");
+			throw new NullPointerException(
+					"The input OPPLTestCase cannot be null");
 		}
 		if (!this.reportMap.keySet().contains(opplTestCase)) {
 			throw new IllegalArgumentException(
@@ -252,7 +256,7 @@ public final class ReportTreeModel implements TreeModel {
 			for (Report report : reportList) {
 				if (this.isUnsuccessful(report)) {
 					toReturn.add(new TreePath(new Object[] { this.getRoot(),
-							report.getOPPLTestCase() }));
+							report.getOPPLTestCase(), report }));
 				}
 			}
 		}

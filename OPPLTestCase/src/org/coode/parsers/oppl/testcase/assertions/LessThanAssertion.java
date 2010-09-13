@@ -3,6 +3,7 @@
  */
 package org.coode.parsers.oppl.testcase.assertions;
 
+import java.util.Formatter;
 import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
@@ -23,12 +24,15 @@ public class LessThanAssertion implements Assertion {
 	 * @param left
 	 * @param right
 	 */
-	public LessThanAssertion(AssertionExpression<Integer> left, AssertionExpression<Integer> right) {
+	public LessThanAssertion(AssertionExpression<Integer> left,
+			AssertionExpression<Integer> right) {
 		if (left == null) {
-			throw new NullPointerException("The left hand side on this equality cannot be null");
+			throw new NullPointerException(
+					"The left hand side on this equality cannot be null");
 		}
 		if (right == null) {
-			throw new NullPointerException("The right hand side on this equality cannot be null");
+			throw new NullPointerException(
+					"The right hand side on this equality cannot be null");
 		}
 		this.left = left;
 		this.right = right;
@@ -56,10 +60,10 @@ public class LessThanAssertion implements Assertion {
 		return visitor.visitAssertLessThan(this);
 	}
 
-	public boolean holds(Set<? extends BindingNode> bindings, ConstraintSystem constraintSystem) {
-		return this.getLeft().resolve(bindings, constraintSystem) < this.getRight().resolve(
-				bindings,
-				constraintSystem);
+	public boolean holds(Set<? extends BindingNode> bindings,
+			ConstraintSystem constraintSystem) {
+		return this.getLeft().resolve(bindings, constraintSystem) < this
+				.getRight().resolve(bindings, constraintSystem);
 	}
 
 	/*
@@ -71,8 +75,10 @@ public class LessThanAssertion implements Assertion {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (this.left == null ? 0 : this.left.hashCode());
-		result = prime * result + (this.right == null ? 0 : this.right.hashCode());
+		result = prime * result
+				+ (this.left == null ? 0 : this.left.hashCode());
+		result = prime * result
+				+ (this.right == null ? 0 : this.right.hashCode());
 		return result;
 	}
 
@@ -108,5 +114,13 @@ public class LessThanAssertion implements Assertion {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		Formatter formatter = new Formatter();
+		formatter.format("%s < %s", this.getLeft().toString(), this.getRight()
+				.toString());
+		return formatter.toString();
 	}
 }
