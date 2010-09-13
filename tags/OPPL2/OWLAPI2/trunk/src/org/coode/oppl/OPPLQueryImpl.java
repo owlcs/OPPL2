@@ -33,7 +33,6 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.log.Logging;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.protege.editor.owl.model.inference.NoOpReasoner;
 import org.semanticweb.owl.inference.OWLReasonerException;
 import org.semanticweb.owl.model.OWLAxiom;
 import org.semanticweb.owl.model.OWLException;
@@ -74,12 +73,15 @@ public class OPPLQueryImpl implements OPPLQuery {
 	/**
 	 * @param constraintSystem
 	 */
-	public OPPLQueryImpl(ConstraintSystem constraintSystem, OPPLAbstractFactory factory) {
+	public OPPLQueryImpl(ConstraintSystem constraintSystem,
+			OPPLAbstractFactory factory) {
 		if (constraintSystem == null) {
-			throw new NullPointerException("The constraint system cannot be null");
+			throw new NullPointerException(
+					"The constraint system cannot be null");
 		}
 		this.constraintSystem = constraintSystem;
-		this.getConstraintSystem().getOntologyManager().addOntologyChangeListener(this.listener);
+		this.getConstraintSystem().getOntologyManager()
+				.addOntologyChangeListener(this.listener);
 		this.factory = factory;
 	}
 
@@ -137,7 +139,8 @@ public class OPPLQueryImpl implements OPPLQuery {
 		StringBuffer buffer = new StringBuffer("SELECT ");
 		int i = 0;
 		for (OWLAxiom axiom : this.getAssertedAxioms()) {
-			ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
+			ManchesterSyntaxRenderer renderer = this.factory
+					.getManchesterSyntaxRenderer(this.constraintSystem);
 			buffer.append("ASSERTED ");
 			axiom.accept(renderer);
 			buffer.append(renderer.toString());
@@ -149,7 +152,8 @@ public class OPPLQueryImpl implements OPPLQuery {
 		}
 		i = 0;
 		for (OWLAxiom axiom : this.getAxioms()) {
-			ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
+			ManchesterSyntaxRenderer renderer = this.factory
+					.getManchesterSyntaxRenderer(this.constraintSystem);
 			axiom.accept(renderer);
 			buffer.append(renderer.toString());
 			if (i < this.getAxioms().size() - 1) {
@@ -177,7 +181,8 @@ public class OPPLQueryImpl implements OPPLQuery {
 		StringBuffer buffer = new StringBuffer("SELECT ");
 		int i = 0;
 		for (OWLAxiom axiom : this.getAssertedAxioms()) {
-			ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
+			ManchesterSyntaxRenderer renderer = this.factory
+					.getManchesterSyntaxRenderer(this.constraintSystem);
 			buffer.append("ASSERTED ");
 			axiom.accept(renderer);
 			buffer.append(renderer.toString());
@@ -189,7 +194,8 @@ public class OPPLQueryImpl implements OPPLQuery {
 		}
 		i = 0;
 		for (OWLAxiom axiom : this.getAxioms()) {
-			ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
+			ManchesterSyntaxRenderer renderer = this.factory
+					.getManchesterSyntaxRenderer(this.constraintSystem);
 			axiom.accept(renderer);
 			buffer.append(renderer.toString());
 			if (i < this.getAxioms().size() - 1) {
@@ -229,10 +235,14 @@ public class OPPLQueryImpl implements OPPLQuery {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime
+				* result
+				+ (this.assertedAxioms == null ? 0 : this.assertedAxioms
+						.hashCode());
 		result = prime * result
-				+ (this.assertedAxioms == null ? 0 : this.assertedAxioms.hashCode());
-		result = prime * result + (this.axioms == null ? 0 : this.axioms.hashCode());
-		result = prime * result + (this.constraints == null ? 0 : this.constraints.hashCode());
+				+ (this.axioms == null ? 0 : this.axioms.hashCode());
+		result = prime * result
+				+ (this.constraints == null ? 0 : this.constraints.hashCode());
 		return result;
 	}
 
@@ -335,11 +345,14 @@ public class OPPLQueryImpl implements OPPLQuery {
 	private void updateBindings(OWLAxiom axiom) throws OWLReasonerException {
 		assert axiom != null;
 		if (this.isVariableAxiom(axiom)) {
-			Logging.getQueryLogger().log(
-					Level.INFO,
-					"Initial size: "
-							+ (this.getConstraintSystem().getLeaves() == null ? "empty"
-									: this.getConstraintSystem().getLeaves().size()));
+			Logging
+					.getQueryLogger()
+					.log(
+							Level.INFO,
+							"Initial size: "
+									+ (this.getConstraintSystem().getLeaves() == null ? "empty"
+											: this.getConstraintSystem()
+													.getLeaves().size()));
 			// AxiomQuery query = this.getConstraintSystem().getReasoner() ==
 			// null
 			// || this.getConstraintSystem().getReasoner() instanceof
@@ -348,13 +361,12 @@ public class OPPLQueryImpl implements OPPLQuery {
 			// .getOntologies(), this.getConstraintSystem())
 			// : new InferredAxiomQuery(this.getConstraintSystem(), this
 			// .getConstraintSystem().getReasoner());
-			AxiomQuery query = this.getConstraintSystem().getReasoner() == null
-					|| this.getConstraintSystem().getReasoner() instanceof NoOpReasoner ? new AssertedTreeSearchSingleAxiomQuery(
-					this.getConstraintSystem().getOntologyManager().getOntologies(),
-					this.getConstraintSystem()) : new InferredTreeSearchAxiomQuery(
-					this.getConstraintSystem());
-			Logging.getQueryTestLogging().log(
-					Level.INFO,
+			AxiomQuery query = this.getConstraintSystem().getReasoner() == null ? new AssertedTreeSearchSingleAxiomQuery(
+					this.getConstraintSystem().getOntologyManager()
+							.getOntologies(), this.getConstraintSystem())
+					: new InferredTreeSearchAxiomQuery(this
+							.getConstraintSystem());
+			Logging.getQueryTestLogging().log(Level.INFO,
 					"Used engine: " + query.getClass().getName());
 			axiom.accept(query);
 		}
@@ -363,14 +375,17 @@ public class OPPLQueryImpl implements OPPLQuery {
 	private void updateBindingsAssertedAxiom(OWLAxiom axiom) {
 		assert axiom != null;
 		if (this.isVariableAxiom(axiom)) {
-			Logging.getQueryLogger().log(
-					Level.FINE,
-					"Initial size: "
-							+ (this.getConstraintSystem().getLeaves() == null ? "empty"
-									: this.getConstraintSystem().getLeaves().size()));
+			Logging
+					.getQueryLogger()
+					.log(
+							Level.FINE,
+							"Initial size: "
+									+ (this.getConstraintSystem().getLeaves() == null ? "empty"
+											: this.getConstraintSystem()
+													.getLeaves().size()));
 			AxiomQuery query = new AssertedTreeSearchSingleAxiomQuery(
-					this.getConstraintSystem().getOntologyManager().getOntologies(),
-					this.getConstraintSystem());
+					this.getConstraintSystem().getOntologyManager()
+							.getOntologies(), this.getConstraintSystem());
 			axiom.accept(query);
 		}
 	}
@@ -397,8 +412,8 @@ public class OPPLQueryImpl implements OPPLQuery {
 	// }
 	private boolean checkConstraint(BindingNode leaf, AbstractConstraint c) {
 		boolean hold = true;
-		ConstraintChecker constraintChecker = new ConstraintChecker(leaf,
-				this.getConstraintSystem());
+		ConstraintChecker constraintChecker = new ConstraintChecker(leaf, this
+				.getConstraintSystem());
 		hold = c.accept(constraintChecker);
 		return hold;
 	}

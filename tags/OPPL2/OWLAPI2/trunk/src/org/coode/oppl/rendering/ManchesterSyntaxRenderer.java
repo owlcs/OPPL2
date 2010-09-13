@@ -30,7 +30,6 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.coode.oppl.entity.OWLEntityRenderer;
 import org.coode.oppl.utils.ArgCheck;
-import org.protege.editor.owl.ui.renderer.OWLRendererPreferences;
 import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLAxiomAnnotationAxiom;
 import org.semanticweb.owl.model.OWLClass;
@@ -49,7 +48,6 @@ import org.semanticweb.owl.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owl.model.OWLObjectUnionOf;
 import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.model.OWLRestriction;
 import org.semanticweb.owl.model.OWLUntypedConstant;
 import org.semanticweb.owl.util.SimpleURIShortFormProvider;
 import org.semanticweb.owl.util.URIShortFormProvider;
@@ -83,7 +81,7 @@ public class ManchesterSyntaxRenderer extends AbstractRenderer {
 		this.ontologyManager = ontologyManager;
 		this.entityRenderer = entityRenderer;
 		this.constraintSystem = constraintSystem;
-		init();
+		this.init();
 	}
 
 	@Override
@@ -92,42 +90,43 @@ public class ManchesterSyntaxRenderer extends AbstractRenderer {
 	}
 
 	public void visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
-		write("AntiSymmetric: ");
+		this.write("AntiSymmetric: ");
 		axiom.getProperty().accept(this);
 	}
 
 	public void visit(OWLAxiomAnnotationAxiom axiom) {
 		axiom.getSubject().accept(this);
-		write(" ");
+		this.write(" ");
 		axiom.getAnnotation().accept(this);
 	}
 
 	public void visit(OWLClass node) {
-		write(getRendering(node));
+		this.write(this.getRendering(node));
 	}
 
 	public void visit(OWLClassAssertionAxiom axiom) {
 		axiom.getIndividual().accept(this);
-		write(" types ");
+		this.write(" types ");
 		axiom.getDescription().accept(this);
 	}
 
 	public void visit(OWLConstantAnnotation annotation) {
 		URIShortFormProvider uriShortFormProvider = new SimpleURIShortFormProvider();
-		write(uriShortFormProvider.getShortForm(annotation.getAnnotationURI()));
-		write(" ");
-		write(annotation.getAnnotationValue().toString());
+		this.write(uriShortFormProvider.getShortForm(annotation
+				.getAnnotationURI()));
+		this.write(" ");
+		this.write(annotation.getAnnotationValue().toString());
 	}
 
 	public void visit(OWLDataPropertyDomainAxiom axiom) {
 		axiom.getProperty().accept(this);
-		write(" domain ");
+		this.write(" domain ");
 		axiom.getDomain().accept(this);
 	}
 
 	public void visit(OWLDataPropertyRangeAxiom axiom) {
 		axiom.getProperty().accept(this);
-		write(" range ");
+		this.write(" range ");
 		axiom.getRange().accept(this);
 	}
 
@@ -147,95 +146,82 @@ public class ManchesterSyntaxRenderer extends AbstractRenderer {
 				.hasNext();) {
 			it.next().accept(this);
 			if (it.hasNext()) {
-				write(" equivalentTo ");
+				this.write(" equivalentTo ");
 			}
 		}
 	}
 
 	public void visit(OWLImportsDeclaration axiom) {
-		writeOntologyURI(axiom.getImportedOntologyURI());
+		this.writeOntologyURI(axiom.getImportedOntologyURI());
 		if (this.ontologyManager.getImportedOntology(axiom) == null) {
-			write("      (Not Loaded)");
+			this.write("      (Not Loaded)");
 		}
 	}
 
 	public void visit(OWLIndividual node) {
 		if (node.isAnonymous()) {
-			write("Anonymous : [");
+			this.write("Anonymous : [");
 			for (OWLOntology ont : this.ontologyManager.getOntologies()) {
 				for (OWLDescription desc : node.getTypes(ont)) {
-					write(" ");
+					this.write(" ");
 					desc.accept(this);
 				}
 			}
-			write(" ]");
+			this.write(" ]");
 		} else {
-			write(getRendering(node));
+			this.write(this.getRendering(node));
 		}
 	}
 
 	public void visit(OWLObjectAnnotation owlObjectAnnotation) {
 		URIShortFormProvider uriShortFormProvider = new SimpleURIShortFormProvider();
-		write(uriShortFormProvider.getShortForm(owlObjectAnnotation
+		this.write(uriShortFormProvider.getShortForm(owlObjectAnnotation
 				.getAnnotationURI()));
-		write(" ");
+		this.write(" ");
 		owlObjectAnnotation.getAnnotationValue().accept(this);
 	}
 
 	public void visit(OWLObjectIntersectionOf node) {
-		int indent = getIndent();
+		int indent = this.getIndent();
 		List<OWLDescription> ops = new ArrayList<OWLDescription>(node
 				.getOperands());
 		for (int i = 0; i < ops.size(); i++) {
 			OWLDescription curOp = ops.get(i);
 			curOp.accept(this);
 			if (i < ops.size() - 1) {
-				write("\n");
-				insertIndent(indent);
-				if (curOp instanceof OWLClass
-						&& ops.get(i + 1) instanceof OWLRestriction<?>
-						&& OWLRendererPreferences.getInstance()
-								.isUseThatKeyword()) {
-					write("that ");
-				} else {
-					writeAndKeyword();
-				}
+				this.write("\n");
+				this.insertIndent(indent);
+				this.writeAndKeyword();
 			}
 		}
 	}
 
 	public void visit(OWLObjectPropertyDomainAxiom axiom) {
-		if (!OWLRendererPreferences.getInstance().isRenderDomainAxiomsAsGCIs()) {
-			axiom.getProperty().accept(this);
-			write(" domain ");
-			axiom.getDomain().accept(this);
-		} else {
-			axiom.getProperty().accept(this);
-			write(" some ");
-			this.ontologyManager.getOWLDataFactory().getOWLThing().accept(this);
-			write(" subClassOf ");
-			axiom.getDomain().accept(this);
-		}
+		axiom.getProperty().accept(this);
+		this.write(" some ");
+		this.ontologyManager.getOWLDataFactory().getOWLThing().accept(this);
+		this.write(" subClassOf ");
+		axiom.getDomain().accept(this);
 	}
 
 	public void visit(OWLObjectPropertyRangeAxiom axiom) {
 		axiom.getProperty().accept(this);
-		write(" range ");
+		this.write(" range ");
 		axiom.getRange().accept(this);
 	}
 
 	public void visit(OWLObjectUnionOf node) {
-		int indent = getIndent();
+		int indent = this.getIndent();
 		for (Iterator<OWLDescription> it = node.getOperands().iterator(); it
 				.hasNext();) {
 			OWLDescription curOp = it.next();
-			writeOpenBracket(curOp);
+			this.writeOpenBracket(curOp);
 			curOp.accept(this);
-			writeCloseBracket(curOp);
+			this.writeCloseBracket(curOp);
 			if (it.hasNext()) {
-				write("\n");
-				insertIndent(indent);
-				writeOrKeyword();
+				this.write("\n");
+				this.insertIndent(indent);
+				this.writeOrKeyword();
 			}
 		}
 	}
@@ -243,14 +229,14 @@ public class ManchesterSyntaxRenderer extends AbstractRenderer {
 	public void visit(OWLUntypedConstant node) {
 		if (this.constraintSystem.isVariable(node)) {
 			Variable v = this.constraintSystem.getVariable(node.getLiteral());
-			write(this.constraintSystem.render(v));
+			this.write(this.constraintSystem.render(v));
 		} else {
-			write("\"");
-			write(node.getLiteral());
-			write("\"");
+			this.write("\"");
+			this.write(node.getLiteral());
+			this.write("\"");
 			if (node.hasLang()) {
-				write("@");
-				write(node.getLang());
+				this.write("@");
+				this.write(node.getLang());
 			}
 		}
 	}
