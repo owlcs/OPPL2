@@ -96,7 +96,7 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	 */
 	@Override
 	protected boolean goalReached(OPPLOWLAxiomSearchNode start) {
-		return this.targetAxiom.equals(start.getAxiom());
+		return this.targetAxiom.getAxiomWithoutAnnotations().equals(start.getAxiom());
 	}
 
 	private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor = new VariableTypeVisitorEx<Set<? extends OWLObject>>() {
