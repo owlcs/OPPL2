@@ -150,18 +150,14 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 					ProtegeParserFactory.this.getOWLEntityChecker());
 			ShortFormEntityRenderer entityRenderer = ProtegeParserFactory.this
 					.getEntityRenderer();
-			EntityFinder entityFinder = ProtegeParserFactory.this
-					.getEntityFinder();
 			return new OPPLSymbolTable(new OPPLScope(entityChecker,
-					entityFinder, entityRenderer), ProtegeParserFactory.this
-					.getOWLEditorKit().getOWLModelManager().getOWLDataFactory());
+					new ProtegeEntityFinder(), entityRenderer),
+					ProtegeParserFactory.this.getOWLEditorKit()
+							.getOWLModelManager().getOWLDataFactory());
 		}
 	}
 
 	private final OWLEditorKit owlEditorKit;
-	private final ProtegeOWLEntityChecker protegeOWLEntityChecker;
-	private final EntityFinder protegeEntityFinder;
-	private final ShortFormEntityRenderer entityRenderer;
 	private final OPPLLintAbstractFactory opplLintAbstractFactory;
 	private static ProtegeParserFactory instance = null;
 
@@ -171,10 +167,6 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 	private ProtegeParserFactory(OWLEditorKit owlEditorKit) {
 		assert owlEditorKit != null;
 		this.owlEditorKit = owlEditorKit;
-		this.protegeOWLEntityChecker = new ProtegeOWLEntityChecker(this
-				.getOWLEditorKit());
-		this.protegeEntityFinder = new ProtegeEntityFinder();
-		this.entityRenderer = new ProtegeOWLEntityRenderer();
 		this.opplLintAbstractFactory = new ProtegeOPPLLintFactory(this
 				.getOWLEditorKit());
 	}
@@ -196,19 +188,15 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 		return this.owlEditorKit;
 	}
 
-	public EntityFinder getEntityFinder() {
-		return this.protegeEntityFinder;
-	}
-
 	/**
 	 * @return the entityRenderer
 	 */
 	public ShortFormEntityRenderer getEntityRenderer() {
-		return this.entityRenderer;
+		return new ProtegeOWLEntityRenderer();
 	}
 
 	public OWLEntityChecker getOWLEntityChecker() {
-		return this.protegeOWLEntityChecker;
+		return new ProtegeOWLEntityChecker(this.getOWLEditorKit());
 	}
 
 	public static ProtegeParserFactory getInstance(OWLEditorKit owlEditorKit) {
