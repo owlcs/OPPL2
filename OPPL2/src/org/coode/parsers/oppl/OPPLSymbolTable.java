@@ -327,14 +327,25 @@ public class OPPLSymbolTable extends SymbolTable {
 			Symbol variableSymbol = this.resolve(v);
 			final Type variableType = variableSymbol.getType();
 			for (OPPLSyntaxTree element : elements) {
-				final boolean isCompatible = this.checkCompatibleTypes(
-						variableType, this.resolve(element).getType())
-						&& element.getOWLObject() != null;
-				allCompatible = allCompatible && isCompatible;
-				if (!isCompatible) {
-					incompatibles.add(element);
-				} else {
-					owlObjects.add(element.getOWLObject());
+				Symbol resolvedElement = this.resolve(element);
+				if (resolvedElement == null) {
+					this.reportUnrecognisedSymbol(element);
+					allCompatible = false;
+				}
+			}
+			if (allCompatible) {
+				for (OPPLSyntaxTree element : elements) {
+					Symbol resolvedElement = this.resolve(element);
+					final boolean isCompatible = resolvedElement != null
+							&& this.checkCompatibleTypes(variableType,
+									resolvedElement.getType())
+							&& element.getOWLObject() != null;
+					allCompatible = allCompatible && isCompatible;
+					if (!isCompatible) {
+						incompatibles.add(element);
+					} else {
+						owlObjects.add(element.getOWLObject());
+					}
 				}
 			}
 			if (allCompatible) {
@@ -345,7 +356,7 @@ public class OPPLSymbolTable extends SymbolTable {
 					toReturn = new InCollectionConstraint<OWLObject>(variable,
 							owlObjects, constraintSystem);
 				}
-			} else {
+			} else if (!incompatibles.isEmpty()) {
 				incompatibles.add(0, v);
 				this.reportIncompatibleSymbols(parentExpression, incompatibles
 						.toArray(new OPPLSyntaxTree[incompatibles.size()]));

@@ -340,6 +340,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 		this.getOWLEditorKit().getModelManager().removeListener(this);
 		this.editor.removeStatusChangedListener(this);
 		this.editor.dispose();
+		ProtegeParserFactory.getInstance(this.getOWLEditorKit()).dispose();
 	}
 
 	@Override
@@ -349,6 +350,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 		mainPanel.setDividerLocation(.6);
 		mainPanel.setResizeWeight(.6);
 		JPanel statementPanel = new JPanel(new BorderLayout());
+		ProtegeParserFactory.reset();
 		OPPLAbstractFactory opplFactory = ProtegeParserFactory.getInstance(
 				this.getOWLEditorKit()).getOPPLFactory();
 		this.affectedAxioms = new ActionList(
@@ -378,20 +380,12 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 						OPPLView.this.execute.setEnabled(false);
 					}
 				});
-		statementPanel.add(this.considerImportClosureCheckBox,
-				BorderLayout.EAST);
 		this.instantiatedAxiomsList.setCellRenderer(cellRenderer);
 		this.getOWLEditorKit().getModelManager().addListener(this);
 		this.getOWLModelManager().getOWLOntologyManager()
 				.addOntologyChangeListener(this);
 		this.editor = new OPPLEditor(this.getOWLEditorKit(), this.validator);
 		this.editor.setPreferredSize(new Dimension(200, 300));
-		JToolBar statementToolBar = new JToolBar(JToolBar.HORIZONTAL);
-		statementToolBar.setFloatable(false);
-		statementToolBar.add(this.copyResultsAction);
-		statementPanel.add(ComponentFactory.createScrollPane(this.editor),
-				BorderLayout.NORTH);
-		statementPanel.add(statementToolBar, BorderLayout.WEST);
 		statementPanel.add(this.evaluate, BorderLayout.SOUTH);
 		mainPanel.add(statementPanel, JSplitPane.TOP);
 		// Effects GUI portion
@@ -404,6 +398,16 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 				.createTitledBorder(OPPLView.INSTANTIATED_AXIOMS_TITLE));
 		this.affectedScrollPane.setBorder(ComponentFactory
 				.createTitledBorder("Affected axioms:"));
+		JPanel bottomPanel = new JPanel(new BorderLayout());
+		JToolBar toolBar = new JToolBar(JToolBar.HORIZONTAL);
+		toolBar.setFloatable(false);
+		toolBar.add(this.copyResultsAction);
+		statementPanel.add(ComponentFactory.createScrollPane(this.editor),
+				BorderLayout.CENTER);
+		JPanel toolBarPanel = new JPanel(new BorderLayout());
+		toolBarPanel.add(toolBar, BorderLayout.WEST);
+		toolBarPanel.add(this.considerImportClosureCheckBox, BorderLayout.EAST);
+		bottomPanel.add(toolBarPanel, BorderLayout.NORTH);
 		effects.add(this.affectedScrollPane, JSplitPane.LEFT);
 		JSplitPane instantiatonPanel = new JSplitPane();
 		this.bindingTreeScrollPane = ComponentFactory
@@ -413,7 +417,8 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 		instantiatonPanel.add(this.bindingTreeScrollPane, JSplitPane.LEFT);
 		instantiatonPanel.add(this.instantiatedScrollPane, JSplitPane.RIGHT);
 		effects.add(instantiatonPanel, JSplitPane.RIGHT);
-		mainPanel.add(effects, JSplitPane.BOTTOM);
+		bottomPanel.add(effects, BorderLayout.CENTER);
+		mainPanel.add(bottomPanel, JSplitPane.BOTTOM);
 		this.add(mainPanel, BorderLayout.CENTER);
 		this.add(this.execute, BorderLayout.SOUTH);
 		this.evaluate.setEnabled(false);
@@ -561,19 +566,19 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 
 	public void handleChange(OWLModelManagerChangeEvent event) {
 		if (event.getType().equals(EventType.REASONER_CHANGED)) {
-			this.bindingTableModel = InstantiationTableModel
-					.getNoOPPLScriptTableModel();
 			this.bindingTable.setModel(this.bindingTableModel);
 			OPPLAbstractFactory opplFactory = ProtegeParserFactory.getInstance(
 					this.getOWLEditorKit()).getOPPLFactory();
-			this.statementModel = opplFactory.importOPPLScript(this.editor
-					.getOPPLScript());
+			this.statementModel = this.editor.getOPPLScript() == null ? null
+					: opplFactory.importOPPLScript(this.editor.getOPPLScript());
 			ActionListModel model = (ActionListModel) OPPLView.this.affectedAxioms
 					.getModel();
 			model.clear();
 			this.instantiatedAxiomListModel.clear();
-			this.bindingTableModel = new InstantiationTableModel(
-					this.statementModel, this.getOWLEditorKit());
+			this.bindingTableModel = this.statementModel == null ? InstantiationTableModel
+					.getNoOPPLScriptTableModel()
+					: new InstantiationTableModel(this.statementModel, this
+							.getOWLEditorKit());
 			this.bindingTable.setModel(this.bindingTableModel);
 			OPPLView.this.bindingTreeScrollPane.setBorder(ComponentFactory
 					.createTitledBorder(BINDINGS_TITLE));

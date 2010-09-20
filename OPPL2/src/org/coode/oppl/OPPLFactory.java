@@ -85,10 +85,6 @@ public class OPPLFactory implements OPPLAbstractFactory {
 		return this.entityChecker;
 	}
 
-	public void setOWLEntityChecker(OWLEntityChecker c) {
-		this.entityChecker = c;
-	}
-
 	/**
 	 * @return the variableScopeChecker
 	 * @throws OPPLException

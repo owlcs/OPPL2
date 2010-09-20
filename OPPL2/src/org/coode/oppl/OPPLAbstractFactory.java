@@ -49,14 +49,6 @@ public interface OPPLAbstractFactory {
 	OWLEntityChecker getOWLEntityChecker();
 
 	/**
-	 * sets the OWLEntityChecker used by the factory
-	 * 
-	 * @param c
-	 *            the new OWLEntityChecker
-	 */
-	void setOWLEntityChecker(OWLEntityChecker c);
-
-	/**
 	 * @return the VariableScopeChecker used by the factory
 	 * @throws NullReasonerException
 	 *             if no reasoner is available for checking the scope

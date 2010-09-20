@@ -82,7 +82,8 @@ public class OPPLParser implements AbstractOPPLParser {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop,
+				RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
@@ -102,7 +103,8 @@ public class OPPLParser implements AbstractOPPLParser {
 			throw new NullPointerException("The error listener cannot be null");
 		}
 		if (symbolTableFactory == null) {
-			throw new NullPointerException("The symbol table factory cannot be null");
+			throw new NullPointerException(
+					"The symbol table factory cannot be null");
 		}
 		this.opplFactory = factory;
 		this.listener = listener;
@@ -116,13 +118,16 @@ public class OPPLParser implements AbstractOPPLParser {
 	 * @see org.coode.oppl.AbstractOPPLParser#parse(java.lang.String)
 	 */
 	public OPPLScript parse(String input) {
-		OPPLSymbolTable symtab = this.getSymbolTableFactory().createSymbolTable();
+		OPPLSymbolTable symtab = this.getSymbolTableFactory()
+				.createSymbolTable();
 		symtab.setErrorListener(this.getListener());
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
-		ConstraintSystem constraintSystem = this.getOPPLAbstractFactory().createConstraintSystem();
+		ConstraintSystem constraintSystem = this.getOPPLAbstractFactory()
+				.createConstraintSystem();
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-		OPPLScriptParser parser = new OPPLScriptParser(tokens, this.getListener());
+		OPPLScriptParser parser = new OPPLScriptParser(tokens, this
+				.getListener());
 		parser.setTreeAdaptor(ADAPTOR);
 		try {
 			RuleReturnScope r = parser.statement();
@@ -133,32 +138,36 @@ public class OPPLParser implements AbstractOPPLParser {
 				nodes.setTreeAdaptor(ADAPTOR);
 				nodes.reset();
 				// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-				ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+				ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+						nodes);
 				simplify.setTreeAdaptor(ADAPTOR);
 				simplify.downup(tree);
 				nodes.reset();
-				OPPLDefine define = new OPPLDefine(nodes, symtab, this.getListener(),
-						constraintSystem);
+				OPPLDefine define = new OPPLDefine(nodes, symtab, this
+						.getListener(), constraintSystem);
 				define.setTreeAdaptor(ADAPTOR);
 				define.downup(tree);
 				nodes.reset();
-				ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab,
-						this.getListener());
+				ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(
+						nodes, symtab, this.getListener());
 				mOWLTypes.downup(tree);
 				nodes.reset();
-				OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, symtab,
-						new DefaultTypeEnforcer(symtab,
-								this.getOPPLAbstractFactory().getOWLEntityFactory(),
-								this.getListener()), this.getListener());
+				OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(
+						nodes, symtab, new DefaultTypeEnforcer(symtab,
+								this.getOPPLAbstractFactory()
+										.getOWLEntityFactory(), this
+										.getListener()), this.getListener());
 				typeEnforcement.downup(tree);
 				nodes.reset();
 				mOWLTypes.downup(tree);
 				nodes.reset();
-				OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, this.getListener(),
-						constraintSystem, this.getOPPLAbstractFactory());
+				OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, this
+						.getListener(), constraintSystem, this
+						.getOPPLAbstractFactory());
 				opplTypes.downup(tree);
 			}
-			return tree != null ? (OPPLScript) ((OPPLSyntaxTree) tree).getOPPLContent() : null;
+			return tree != null ? (OPPLScript) ((OPPLSyntaxTree) tree)
+					.getOPPLContent() : null;
 		} catch (RecognitionException e) {
 			this.listener.recognitionException(e);
 			return null;
@@ -192,13 +201,14 @@ public class OPPLParser implements AbstractOPPLParser {
 		return this.opplFactory;
 	}
 
-	public AbstractConstraint parseConstraint(String input, OPPLSymbolTable symbolTable,
-			ConstraintSystem constraintSystem) {
+	public AbstractConstraint parseConstraint(String input,
+			OPPLSymbolTable symbolTable, ConstraintSystem constraintSystem) {
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		OPPLScriptParser parser = new OPPLScriptParser(tokens);
 		parser.setTreeAdaptor(ADAPTOR);
+		symbolTable.setErrorListener(this.getListener());
 		try {
 			RuleReturnScope r = parser.constraint();
 			CommonTree tree = (CommonTree) r.getTree();
@@ -207,23 +217,26 @@ public class OPPLParser implements AbstractOPPLParser {
 			nodes.setTreeAdaptor(ADAPTOR);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
 			simplify.setTreeAdaptor(ADAPTOR);
 			simplify.downup(tree);
 			nodes.reset();
-			OPPLDefine define = new OPPLDefine(nodes, symbolTable, this.getListener(),
-					constraintSystem);
+			OPPLDefine define = new OPPLDefine(nodes, symbolTable, this
+					.getListener(), constraintSystem);
 			define.setTreeAdaptor(ADAPTOR);
 			define.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symbolTable,
-					this.getListener());
+			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(
+					nodes, symbolTable, this.getListener());
 			mOWLTypes.downup(tree);
 			nodes.reset();
-			OPPLTypesParts opplTypes = new OPPLTypesParts(nodes, symbolTable, this.getListener(),
-					constraintSystem, this.getOPPLAbstractFactory());
+			OPPLTypesParts opplTypes = new OPPLTypesParts(nodes, symbolTable,
+					this.getListener(), constraintSystem, this
+							.getOPPLAbstractFactory());
 			opplTypes.downup(tree);
-			return (AbstractConstraint) ((OPPLSyntaxTree) tree).getOPPLContent();
+			return (AbstractConstraint) ((OPPLSyntaxTree) tree)
+					.getOPPLContent();
 		} catch (RecognitionException e) {
 			this.listener.recognitionException(e);
 			return null;
@@ -236,13 +249,14 @@ public class OPPLParser implements AbstractOPPLParser {
 		}
 	}
 
-	public Variable parseOPPLFunction(String input, Variable variable, OPPLSymbolTable symbolTable,
-			ConstraintSystem constraintSystem) {
+	public Variable parseOPPLFunction(String input, Variable variable,
+			OPPLSymbolTable symbolTable, ConstraintSystem constraintSystem) {
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		OPPLScriptParser parser = new OPPLScriptParser(tokens);
 		parser.setTreeAdaptor(ADAPTOR);
+		symbolTable.setErrorListener(this.getListener());
 		try {
 			RuleReturnScope r = parser.opplFunction();
 			CommonTree tree = (CommonTree) r.getTree();
@@ -251,23 +265,25 @@ public class OPPLParser implements AbstractOPPLParser {
 			nodes.setTreeAdaptor(ADAPTOR);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
 			simplify.setTreeAdaptor(ADAPTOR);
 			simplify.downup(tree);
 			nodes.reset();
-			OPPLDefine define = new OPPLDefine(nodes, symbolTable, this.getListener(),
-					constraintSystem);
+			OPPLDefine define = new OPPLDefine(nodes, symbolTable, this
+					.getListener(), constraintSystem);
 			define.setTreeAdaptor(ADAPTOR);
 			define.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symbolTable,
-					this.getListener());
+			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(
+					nodes, symbolTable, this.getListener());
 			mOWLTypes.downup(tree);
 			nodes.reset();
 			mOWLTypes.downup(tree);
 			nodes.reset();
-			OPPLTypesParts opplTypes = new OPPLTypesParts(nodes, symbolTable, this.getListener(),
-					constraintSystem, this.getOPPLAbstractFactory());
+			OPPLTypesParts opplTypes = new OPPLTypesParts(nodes, symbolTable,
+					this.getListener(), constraintSystem, this
+							.getOPPLAbstractFactory());
 			opplTypes.setVariable(variable);
 			opplTypes.downup(tree);
 			return (Variable) ((OPPLSyntaxTree) tree).getOPPLContent();
@@ -283,13 +299,14 @@ public class OPPLParser implements AbstractOPPLParser {
 		}
 	}
 
-	public Variable parseRegExp(String input, Variable variable, OPPLSymbolTable symbolTable,
-			ConstraintSystem constraintSystem) {
+	public Variable parseRegExp(String input, Variable variable,
+			OPPLSymbolTable symbolTable, ConstraintSystem constraintSystem) {
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		OPPLScriptParser parser = new OPPLScriptParser(tokens);
 		parser.setTreeAdaptor(ADAPTOR);
+		symbolTable.setErrorListener(this.getListener());
 		try {
 			RuleReturnScope r = parser.regexp();
 			CommonTree tree = (CommonTree) r.getTree();
@@ -298,23 +315,25 @@ public class OPPLParser implements AbstractOPPLParser {
 			nodes.setTreeAdaptor(ADAPTOR);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
 			simplify.setTreeAdaptor(ADAPTOR);
 			simplify.downup(tree);
 			nodes.reset();
-			OPPLDefine define = new OPPLDefine(nodes, symbolTable, this.getListener(),
-					constraintSystem);
+			OPPLDefine define = new OPPLDefine(nodes, symbolTable, this
+					.getListener(), constraintSystem);
 			define.setTreeAdaptor(ADAPTOR);
 			define.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symbolTable,
-					this.getListener());
+			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(
+					nodes, symbolTable, this.getListener());
 			mOWLTypes.downup(tree);
 			nodes.reset();
 			mOWLTypes.downup(tree);
 			nodes.reset();
-			OPPLTypesParts opplTypes = new OPPLTypesParts(nodes, symbolTable, this.getListener(),
-					constraintSystem, this.getOPPLAbstractFactory());
+			OPPLTypesParts opplTypes = new OPPLTypesParts(nodes, symbolTable,
+					this.getListener(), constraintSystem, this
+							.getOPPLAbstractFactory());
 			opplTypes.setVariable(variable);
 			opplTypes.downup(tree);
 			return (Variable) ((OPPLSyntaxTree) tree).getOPPLContent();
@@ -340,6 +359,7 @@ public class OPPLParser implements AbstractOPPLParser {
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		OPPLScriptParser parser = new OPPLScriptParser(tokens);
 		parser.setTreeAdaptor(ADAPTOR);
+		symbolTable.setErrorListener(this.getListener());
 		try {
 			RuleReturnScope r = parser.axiom();
 			CommonTree tree = (CommonTree) r.getTree();
@@ -348,25 +368,25 @@ public class OPPLParser implements AbstractOPPLParser {
 			nodes.setTreeAdaptor(ADAPTOR);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
 			simplify.setTreeAdaptor(ADAPTOR);
 			simplify.downup(tree);
 			nodes.reset();
-			OPPLDefine define = new OPPLDefine(nodes, symbolTable, this.getListener(),
-					constraintSystem);
+			OPPLDefine define = new OPPLDefine(nodes, symbolTable, this
+					.getListener(), constraintSystem);
 			define.setTreeAdaptor(ADAPTOR);
 			define.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symbolTable,
-					this.getListener());
+			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(
+					nodes, symbolTable, this.getListener());
 			mOWLTypes.downup(tree);
 			nodes.reset();
 			OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(
-					nodes,
-					symbolTable,
-					new DefaultTypeEnforcer(symbolTable,
-							this.getOPPLAbstractFactory().getOWLEntityFactory(), this.getListener()),
-					this.getListener());
+					nodes, symbolTable,
+					new DefaultTypeEnforcer(symbolTable, this
+							.getOPPLAbstractFactory().getOWLEntityFactory(),
+							this.getListener()), this.getListener());
 			typeEnforcement.downup(tree);
 			nodes.reset();
 			mOWLTypes.downup(tree);
@@ -384,7 +404,8 @@ public class OPPLParser implements AbstractOPPLParser {
 	}
 
 	public OWLLiteral parsePlainConstant(String input) {
-		OPPLSymbolTable symbolTable = this.getSymbolTableFactory().createSymbolTable();
+		OPPLSymbolTable symbolTable = this.getSymbolTableFactory()
+				.createSymbolTable();
 		symbolTable.setErrorListener(this.getListener());
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		MOWLLexer lexer = new MOWLLexer(antlrStringStream);
@@ -399,12 +420,13 @@ public class OPPLParser implements AbstractOPPLParser {
 			nodes.setTreeAdaptor(ADAPTOR);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
 			simplify.setTreeAdaptor(ADAPTOR);
 			simplify.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypesParts mOWLTypes = new ManchesterOWLSyntaxTypesParts(nodes,
-					symbolTable, this.getListener());
+			ManchesterOWLSyntaxTypesParts mOWLTypes = new ManchesterOWLSyntaxTypesParts(
+					nodes, symbolTable, this.getListener());
 			mOWLTypes.downup(tree);
 			return (OWLLiteral) ((ManchesterOWLSyntaxTree) tree).getOWLObject();
 		} catch (RecognitionException e) {

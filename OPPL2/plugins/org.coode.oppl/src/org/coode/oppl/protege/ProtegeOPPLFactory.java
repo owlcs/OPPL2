@@ -76,9 +76,6 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 
 	private final OWLEditorKit owlEditorKit;
 	private ProtegeScopeVariableChecker variableScopeVariableChecker = null;
-	private final ProtegeOWLEntityFactory entityFactory;
-	private final ProtegeOWLEntityRenderer entityRenderer;
-	private OWLEntityChecker entityChecker;
 
 	/**
 	 * @param modelManager
@@ -90,20 +87,13 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 			throw new NullPointerException("The owlEditorKit cannot be null");
 		}
 		this.owlEditorKit = owlEditorKit;
-		this.entityFactory = new ProtegeOWLEntityFactory(this);
-		this.entityRenderer = new ProtegeOWLEntityRenderer();
-		this.entityChecker = new ProtegeOWLEntityChecker(this.getOWLEditorKit());
 	}
 
 	/**
 	 * @see org.coode.oppl.OPPLAbstractFactory#getOWLEntityChecker()
 	 */
 	public OWLEntityChecker getOWLEntityChecker() {
-		return this.entityChecker;
-	}
-
-	public void setOWLEntityChecker(OWLEntityChecker c) {
-		this.entityChecker = c;
+		return new ProtegeOWLEntityChecker(this.getOWLEditorKit());
 	}
 
 	/**
@@ -123,14 +113,14 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	public org.coode.oppl.entity.OWLEntityRenderer getOWLEntityRenderer(
 			ConstraintSystem cs) {
 		ArgCheck.checkNullArgument("The constraint system", cs);
-		return new VariableOWLEntityRenderer(cs, this.entityRenderer);
+		return new VariableOWLEntityRenderer(cs, new ProtegeOWLEntityRenderer());
 	}
 
 	/**
 	 * @see org.coode.oppl.OPPLAbstractFactory#getOWLEntityFactory()
 	 */
 	public OWLEntityFactory getOWLEntityFactory() {
-		return this.entityFactory;
+		return new ProtegeOWLEntityFactory(this);
 	}
 
 	public OPPLScript buildOPPLScript(ConstraintSystem constraintSystem1,
@@ -181,11 +171,12 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	 * @see org.coode.oppl.OPPLAbstractFactory#getManchesterSyntaxRenderer()
 	 */
 	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(
-			ConstraintSystem cs) {
+			final ConstraintSystem cs) {
 		ArgCheck.checkNullArgument("The constraint system", cs);
 		return new ManchesterSyntaxRenderer(new ShortFormProvider() {
 			public String getShortForm(OWLEntity entity) {
-				return ProtegeOPPLFactory.this.entityRenderer.render(entity);
+				return ProtegeOPPLFactory.this.getOWLEntityRenderer(cs).render(
+						entity);
 			}
 
 			public void dispose() {

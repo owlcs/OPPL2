@@ -17,6 +17,8 @@ import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.OPPLScope;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.protege.editor.owl.OWLEditorKit;
+import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
+import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.semanticweb.owlapi.expression.OWLEntityChecker;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
@@ -144,6 +146,11 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 	private final EntityFinder protegeEntityFinder;
 	private final OPPLAbstractFactory opplFactory;
 	private final ShortFormEntityRenderer entityRenderer;
+	private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
+		public void handleChange(OWLModelManagerChangeEvent event) {
+			reset();
+		}
+	};
 
 	/**
 	 * @param owlEditorKit
@@ -151,6 +158,8 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 	private ProtegeParserFactory(OWLEditorKit owlEditorKit) {
 		assert owlEditorKit != null;
 		this.owlEditorKit = owlEditorKit;
+		this.owlEditorKit.getOWLModelManager().addListener(
+				this.modelManagerListener);
 		this.protegeOWLEntityChecker = new ProtegeOWLEntityChecker(this
 				.getOWLEditorKit());
 		this.protegeEntityFinder = new ProtegeEntityFinder();
@@ -206,5 +215,14 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 	 */
 	public ShortFormEntityRenderer getEntityRenderer() {
 		return this.entityRenderer;
+	}
+
+	public void dispose() {
+		this.owlEditorKit.getOWLModelManager().removeListener(
+				this.modelManagerListener);
+	}
+
+	public static void reset() {
+		instance = null;
 	}
 }

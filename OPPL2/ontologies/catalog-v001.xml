@@ -8,8 +8,6 @@
         <uri id="Automatically generated entry, Timestamp=1282555404900" name="http://www.cs.manchester.ac.uk/~iannone/owlclaculations/examples/geometry.owl" uri="complicatedGeometry.owl"/>
         <uri id="Automatically generated entry, Timestamp=1282555404900" name="http://www.co-ode.org/roberts/country.owl" uri="test.owl"/>
         <uri id="Automatically generated entry, Timestamp=1282555404900" name="http://www.coode.org/patterns/examples/food" uri="food.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1282555404900" name="duplicate:duplicate:http://www.semanticweb.org/descen.owl" uri="descen.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1282555404900" name="duplicate:duplicate:http://www.semanticweb.org/descen.owl" uri="mikelsDescen.owl"/>
         <uri id="Automatically generated entry, Timestamp=1282555404900" name="http://www.cs.manchester.owl/owlarithmetics/bmi.owl" uri="bmi.owl"/>
         <uri id="Automatically generated entry, Timestamp=1282555404900" name="http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl" uri="NAF.owl"/>
         <uri id="Automatically generated entry, Timestamp=1282555404900" name="http://www.cs.manchester.ac.uk/ontologies/testDerived.owl" uri="testDerived.owl"/>
@@ -26,5 +24,13 @@
         <uri id="Automatically generated entry, Timestamp=1282555404900" name="http://www.cs.manchester.ac.uk/owlarithmetics/examples/geometry.owl" uri="geometry.owl"/>
         <uri id="Automatically generated entry, Timestamp=1282555404900" name="http://www.siemens-health.com/SiemensDemo/skeleton.owl" uri="skeleton.owl"/>
         <uri id="Automatically generated entry, Timestamp=1282555404900" name="http://www.cs.manchester.ac.uk/ontologies/OPPL/testLabelRenderings.owl" uri="testLabelRenderings.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1284993295961" name="http://www.semanticweb.org/descen.owl" uri="descen.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1284993295961" name="http://www.semanticweb.org/descen.owl" uri="mikelsDescen.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1284993295961" name="http://www.w3.org/2006/12/owl2-xml#" uri="Hydrontology/hydrOntology_Inconsistent_v2.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1284993295961" name="http://www.co-ode.org/roberts/Travel.owl" uri="travel/c14.rdf.englishCounties.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1284993295961" name="http://www.co-ode.org/roberts/Travel.owl" uri="travel/c14.rdf.maximumHeight.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1284993295961" name="http://www.co-ode.org/roberts/Travel.owl" uri="travel/c14.rdf.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1284993295961" name="http://www.co-ode.org/ontologies/roberts/upper.owl" uri="travel/upper.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1284993295961" name="http://www.co-ode.org/pizzas-in-ten-minutes" uri="Pizza-quick-demo-oppl-problem/pizzas-in-ten-minutes.owl"/>
     </group>
 </catalog>

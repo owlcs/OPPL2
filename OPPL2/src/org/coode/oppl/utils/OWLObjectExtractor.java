@@ -323,7 +323,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
 	public Set<O> visit(OWLClassAssertionAxiom axiom) {
 		Set<O> toReturn = new HashSet<O>();
 		toReturn.addAll(axiom.getClassExpression().accept(this));
-		toReturn.addAll(axiom.getClassExpression().accept(this));
+		toReturn.addAll(axiom.getIndividual().accept(this));
 		return toReturn;
 	}
 
