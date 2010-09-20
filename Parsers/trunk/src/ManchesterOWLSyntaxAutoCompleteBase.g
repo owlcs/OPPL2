@@ -4,7 +4,6 @@ options {
   language = Java;
   output = AST;
   ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
-  tokenVocab = ManchesterOWLSyntaxAutoCompleteBase;
 }
 
 
@@ -40,12 +39,11 @@ tokens {
   INCOMPLETE_EXPRESSION;
 }
 
-//@header {
-//  package org.coode.parsers;
-//}
 
-
-
+standaloneExpression
+	:
+	   exp = expression -> ^(STANDALONE_EXPRESSION  ^(EXPRESSION $exp))
+	;
 
 
 incompleteAxiom :

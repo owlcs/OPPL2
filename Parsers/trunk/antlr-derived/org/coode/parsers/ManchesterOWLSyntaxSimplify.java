@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g 2010-04-29 14:43:39
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g 2010-09-20 22:26:52
 
   package org.coode.parsers;
 
@@ -105,7 +105,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
     }
 
     public String[] getTokenNames() { return ManchesterOWLSyntaxSimplify.tokenNames; }
-    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g"; }
+    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g"; }
 
 
     public static class bottomup_return extends TreeRuleReturnScope {
@@ -114,7 +114,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
     };
 
     // $ANTLR start "bottomup"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:15:1: bottomup : ( conjunction | disjunction );
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:15:1: bottomup : ( conjunction | disjunction );
     public final ManchesterOWLSyntaxSimplify.bottomup_return bottomup() throws RecognitionException {
         ManchesterOWLSyntaxSimplify.bottomup_return retval = new ManchesterOWLSyntaxSimplify.bottomup_return();
         retval.start = input.LT(1);
@@ -131,7 +131,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:15:11: ( conjunction | disjunction )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:15:11: ( conjunction | disjunction )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -150,7 +150,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
             }
             switch (alt1) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:16:5: conjunction
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:16:5: conjunction
                     {
                     _last = (ManchesterOWLSyntaxTree)input.LT(1);
                     pushFollow(FOLLOW_conjunction_in_bottomup72);
@@ -169,7 +169,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:17:7: disjunction
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:17:7: disjunction
                     {
                     _last = (ManchesterOWLSyntaxTree)input.LT(1);
                     pushFollow(FOLLOW_disjunction_in_bottomup81);
@@ -206,7 +206,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
     };
 
     // $ANTLR start "conjunction"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:21:1: conjunction : ^( CONJUNCTION single= expression ) -> ^( $single) ;
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:21:1: conjunction : ^( CONJUNCTION single= expression ) -> ^( $single) ;
     public final ManchesterOWLSyntaxSimplify.conjunction_return conjunction() throws RecognitionException {
         ManchesterOWLSyntaxSimplify.conjunction_return retval = new ManchesterOWLSyntaxSimplify.conjunction_return();
         retval.start = input.LT(1);
@@ -224,8 +224,8 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
         RewriteRuleNodeStream stream_CONJUNCTION=new RewriteRuleNodeStream(adaptor,"token CONJUNCTION");
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:21:13: ( ^( CONJUNCTION single= expression ) -> ^( $single) )
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:22:3: ^( CONJUNCTION single= expression )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:21:13: ( ^( CONJUNCTION single= expression ) -> ^( $single) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:22:3: ^( CONJUNCTION single= expression )
             {
             _last = (ManchesterOWLSyntaxTree)input.LT(1);
             {
@@ -269,7 +269,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
             root_0 = (ManchesterOWLSyntaxTree)adaptor.nil();
             // 22:37: -> ^( $single)
             {
-                // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:22:40: ^( $single)
+                // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:22:40: ^( $single)
                 {
                 ManchesterOWLSyntaxTree root_1 = (ManchesterOWLSyntaxTree)adaptor.nil();
                 root_1 = (ManchesterOWLSyntaxTree)adaptor.becomeRoot(stream_single.nextNode(), root_1);
@@ -303,7 +303,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
     };
 
     // $ANTLR start "disjunction"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:25:1: disjunction : ^( DISJUNCTION single= expression ) -> ^( $single) ;
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:25:1: disjunction : ^( DISJUNCTION single= expression ) -> ^( $single) ;
     public final ManchesterOWLSyntaxSimplify.disjunction_return disjunction() throws RecognitionException {
         ManchesterOWLSyntaxSimplify.disjunction_return retval = new ManchesterOWLSyntaxSimplify.disjunction_return();
         retval.start = input.LT(1);
@@ -321,8 +321,8 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
         RewriteRuleNodeStream stream_DISJUNCTION=new RewriteRuleNodeStream(adaptor,"token DISJUNCTION");
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:25:14: ( ^( DISJUNCTION single= expression ) -> ^( $single) )
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:26:2: ^( DISJUNCTION single= expression )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:25:14: ( ^( DISJUNCTION single= expression ) -> ^( $single) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:26:2: ^( DISJUNCTION single= expression )
             {
             _last = (ManchesterOWLSyntaxTree)input.LT(1);
             {
@@ -366,7 +366,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
             root_0 = (ManchesterOWLSyntaxTree)adaptor.nil();
             // 26:36: -> ^( $single)
             {
-                // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:26:39: ^( $single)
+                // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:26:39: ^( $single)
                 {
                 ManchesterOWLSyntaxTree root_1 = (ManchesterOWLSyntaxTree)adaptor.nil();
                 root_1 = (ManchesterOWLSyntaxTree)adaptor.becomeRoot(stream_single.nextNode(), root_1);
@@ -400,7 +400,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
     };
 
     // $ANTLR start "expression"
-    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:29:2: expression : ( . | );
+    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:29:2: expression : ( . | );
     public final ManchesterOWLSyntaxSimplify.expression_return expression() throws RecognitionException {
         ManchesterOWLSyntaxSimplify.expression_return retval = new ManchesterOWLSyntaxSimplify.expression_return();
         retval.start = input.LT(1);
@@ -415,7 +415,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
         ManchesterOWLSyntaxTree wildcard5_tree=null;
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:29:13: ( . | )
+            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:29:13: ( . | )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -434,7 +434,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
             }
             switch (alt2) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:30:3: .
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:30:3: .
                     {
                     _last = (ManchesterOWLSyntaxTree)input.LT(1);
                     wildcard5=(ManchesterOWLSyntaxTree)input.LT(1);
@@ -450,7 +450,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxSimplify.g:31:3: 
+                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g:31:3: 
                     {
                     if ( state.backtracking==1 ) {
                     retval.tree = (ManchesterOWLSyntaxTree)_first_0;

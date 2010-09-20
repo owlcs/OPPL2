@@ -1,6 +1,6 @@
 package org.coode.parsers;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g 2010-07-23 23:11:16
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g 2010-09-20 17:51:46
 import java.util.ArrayList;
 import java.util.List;
 
@@ -234,18 +234,28 @@ public class MOWLParser extends Parser {
 			// | assertionAxiom -> ^( assertionAxiom ) )
 			int alt1 = 3;
 			switch (this.input.LA(1)) {
-			case OPEN_PARENTHESYS:
-			case OPEN_CURLY_BRACES:
-			case INVERSE:
-			case SUBCLASS_OF:
-			case SUB_PROPERTY_OF:
-			case EQUIVALENT_TO:
-			case DISJOINT_WITH:
-			case DBLQUOTE: {
-				alt1 = 1;
+			case IDENTIFIER: {
+				int LA1_1 = this.input.LA(2);
+				if (LA1_1 == COMPOSITION || LA1_1 >= AND && LA1_1 <= OR
+						|| LA1_1 >= SOME && LA1_1 <= VALUE
+						|| LA1_1 >= SUBCLASS_OF && LA1_1 <= RANGE) {
+					alt1 = 1;
+				} else if (LA1_1 == INVERSE || LA1_1 >= INSTANCE_OF
+						&& LA1_1 <= TYPES || LA1_1 >= IDENTIFIER
+						&& LA1_1 <= ENTITY_REFERENCE) {
+					alt1 = 3;
+				} else {
+					if (this.state.backtracking > 0) {
+						this.state.failed = true;
+						return retval;
+					}
+					NoViableAltException nvae = new NoViableAltException("", 1,
+							1, this.input);
+					throw nvae;
+				}
 			}
 				break;
-			case IDENTIFIER: {
+			case ENTITY_REFERENCE: {
 				int LA1_2 = this.input.LA(2);
 				if (LA1_2 == COMPOSITION || LA1_2 >= AND && LA1_2 <= OR
 						|| LA1_2 >= SOME && LA1_2 <= VALUE
@@ -266,25 +276,11 @@ public class MOWLParser extends Parser {
 				}
 			}
 				break;
-			case ENTITY_REFERENCE: {
-				int LA1_3 = this.input.LA(2);
-				if (LA1_3 == COMPOSITION || LA1_3 >= AND && LA1_3 <= OR
-						|| LA1_3 >= SOME && LA1_3 <= VALUE
-						|| LA1_3 >= SUBCLASS_OF && LA1_3 <= RANGE) {
-					alt1 = 1;
-				} else if (LA1_3 == INVERSE || LA1_3 >= INSTANCE_OF
-						&& LA1_3 <= TYPES || LA1_3 >= IDENTIFIER
-						&& LA1_3 <= ENTITY_REFERENCE) {
-					alt1 = 3;
-				} else {
-					if (this.state.backtracking > 0) {
-						this.state.failed = true;
-						return retval;
-					}
-					NoViableAltException nvae = new NoViableAltException("", 1,
-							3, this.input);
-					throw nvae;
-				}
+			case OPEN_PARENTHESYS:
+			case OPEN_CURLY_BRACES:
+			case INVERSE:
+			case DBLQUOTE: {
+				alt1 = 1;
 			}
 				break;
 			case NOT: {
@@ -295,13 +291,14 @@ public class MOWLParser extends Parser {
 					break;
 				case IDENTIFIER: {
 					int LA1_7 = this.input.LA(3);
-					if (LA1_7 >= AND && LA1_7 <= OR || LA1_7 >= SUBCLASS_OF
-							&& LA1_7 <= EQUIVALENT_TO || LA1_7 == DISJOINT_WITH) {
-						alt1 = 1;
-					} else if (LA1_7 == INVERSE || LA1_7 >= INSTANCE_OF
+					if (LA1_7 == INVERSE || LA1_7 >= INSTANCE_OF
 							&& LA1_7 <= TYPES || LA1_7 >= IDENTIFIER
 							&& LA1_7 <= ENTITY_REFERENCE) {
 						alt1 = 3;
+					} else if (LA1_7 >= AND && LA1_7 <= OR
+							|| LA1_7 >= SUBCLASS_OF && LA1_7 <= EQUIVALENT_TO
+							|| LA1_7 == DISJOINT_WITH) {
+						alt1 = 1;
 					} else {
 						if (this.state.backtracking > 0) {
 							this.state.failed = true;
@@ -315,14 +312,13 @@ public class MOWLParser extends Parser {
 					break;
 				case ENTITY_REFERENCE: {
 					int LA1_8 = this.input.LA(3);
-					if (LA1_8 == INVERSE || LA1_8 >= INSTANCE_OF
+					if (LA1_8 >= AND && LA1_8 <= OR || LA1_8 >= SUBCLASS_OF
+							&& LA1_8 <= EQUIVALENT_TO || LA1_8 == DISJOINT_WITH) {
+						alt1 = 1;
+					} else if (LA1_8 == INVERSE || LA1_8 >= INSTANCE_OF
 							&& LA1_8 <= TYPES || LA1_8 >= IDENTIFIER
 							&& LA1_8 <= ENTITY_REFERENCE) {
 						alt1 = 3;
-					} else if (LA1_8 >= AND && LA1_8 <= OR
-							|| LA1_8 >= SUBCLASS_OF && LA1_8 <= EQUIVALENT_TO
-							|| LA1_8 == DISJOINT_WITH) {
-						alt1 = 1;
 					} else {
 						if (this.state.backtracking > 0) {
 							this.state.failed = true;
@@ -596,11 +592,11 @@ public class MOWLParser extends Parser {
 				break;
 			case ENTITY_REFERENCE: {
 				int LA3_2 = this.input.LA(2);
-				if (LA3_2 >= INSTANCE_OF && LA3_2 <= TYPES) {
-					alt3 = 1;
-				} else if (LA3_2 == INVERSE || LA3_2 >= IDENTIFIER
+				if (LA3_2 == INVERSE || LA3_2 >= IDENTIFIER
 						&& LA3_2 <= ENTITY_REFERENCE) {
 					alt3 = 2;
+				} else if (LA3_2 >= INSTANCE_OF && LA3_2 <= TYPES) {
+					alt3 = 1;
 				} else {
 					if (this.state.backtracking > 0) {
 						this.state.failed = true;
@@ -789,7 +785,7 @@ public class MOWLParser extends Parser {
 					stream_value.add(value8.getTree());
 				}
 				// AST REWRITE
-				// elements: value, subject, propertyExpression
+				// elements: propertyExpression, value, subject
 				// token labels:
 				// rule labels: retval, subject
 				// token list labels:
@@ -1074,7 +1070,7 @@ public class MOWLParser extends Parser {
 					stream_expression.add(superClass.getTree());
 				}
 				// AST REWRITE
-				// elements: lhs, superClass
+				// elements: superClass, lhs
 				// token labels:
 				// rule labels: retval, superClass, lhs
 				// token list labels:
@@ -1265,7 +1261,7 @@ public class MOWLParser extends Parser {
 					stream_expression.add(disjoint.getTree());
 				}
 				// AST REWRITE
-				// elements: lhs, disjoint
+				// elements: disjoint, lhs
 				// token labels:
 				// rule labels: retval, disjoint, lhs
 				// token list labels:
@@ -1362,7 +1358,7 @@ public class MOWLParser extends Parser {
 					stream_propertyExpression.add(superProperty.getTree());
 				}
 				// AST REWRITE
-				// elements: superProperty, lhs
+				// elements: lhs, superProperty
 				// token labels:
 				// rule labels: retval, superProperty, lhs
 				// token list labels:
@@ -1457,7 +1453,7 @@ public class MOWLParser extends Parser {
 					stream_atomic.add(rhsAtomic.getTree());
 				}
 				// AST REWRITE
-				// elements: lhsID, rhsAtomic, INVERSE_OF
+				// elements: rhsAtomic, INVERSE_OF, lhsID
 				// token labels:
 				// rule labels: lhsID, retval, rhsAtomic
 				// token list labels:
@@ -1647,7 +1643,7 @@ public class MOWLParser extends Parser {
 					stream_atomic.add(rhsID.getTree());
 				}
 				// AST REWRITE
-				// elements: rhsID, lhsID
+				// elements: lhsID, rhsID
 				// token labels:
 				// rule labels: lhsID, retval, rhsID
 				// token list labels:
@@ -1742,7 +1738,7 @@ public class MOWLParser extends Parser {
 					stream_expression.add(expression19.getTree());
 				}
 				// AST REWRITE
-				// elements: DOMAIN, expression, lhsID
+				// elements: lhsID, DOMAIN, expression
 				// token labels:
 				// rule labels: lhsID, retval
 				// token list labels:
@@ -1961,7 +1957,7 @@ public class MOWLParser extends Parser {
 					stream_unary.add(unary23.getTree());
 				}
 				// AST REWRITE
-				// elements: unaryCharacteristic, unary
+				// elements: unary, unaryCharacteristic
 				// token labels:
 				// rule labels: retval
 				// token list labels:
@@ -2444,10 +2440,10 @@ public class MOWLParser extends Parser {
 
 	// $ANTLR start "expression"
 	// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:109:1:
-	// expression : ( options {backtrack=true; } : | conjunction ( OR
-	// conjunction )* -> ^( DISJUNCTION ( conjunction )+ ) |
-	// complexPropertyExpression -> ^( complexPropertyExpression ) |
-	// OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^( expression ) ) ;
+	// expression : ( options {backtrack=true; } : conjunction ( OR conjunction
+	// )* -> ^( DISJUNCTION ( conjunction )+ ) | complexPropertyExpression -> ^(
+	// complexPropertyExpression ) | OPEN_PARENTHESYS expression
+	// CLOSED_PARENTHESYS -> ^( expression ) ) ;
 	public final MOWLParser.expression_return expression()
 			throws RecognitionException {
 		MOWLParser.expression_return retval = new MOWLParser.expression_return();
@@ -2477,36 +2473,68 @@ public class MOWLParser extends Parser {
 				this.adaptor, "rule complexPropertyExpression");
 		try {
 			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:109:11:
-			// ( ( options {backtrack=true; } : | conjunction ( OR conjunction
-			// )* -> ^( DISJUNCTION ( conjunction )+ ) |
-			// complexPropertyExpression -> ^( complexPropertyExpression ) |
-			// OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^( expression )
-			// ) )
-			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:110:5:
-			// ( options {backtrack=true; } : | conjunction ( OR conjunction )*
+			// ( ( options {backtrack=true; } : conjunction ( OR conjunction )*
 			// -> ^( DISJUNCTION ( conjunction )+ ) | complexPropertyExpression
 			// -> ^( complexPropertyExpression ) | OPEN_PARENTHESYS expression
+			// CLOSED_PARENTHESYS -> ^( expression ) ) )
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:110:5:
+			// ( options {backtrack=true; } : conjunction ( OR conjunction )* ->
+			// ^( DISJUNCTION ( conjunction )+ ) | complexPropertyExpression ->
+			// ^( complexPropertyExpression ) | OPEN_PARENTHESYS expression
 			// CLOSED_PARENTHESYS -> ^( expression ) )
 			{
 				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:110:5:
-				// ( options {backtrack=true; } : | conjunction ( OR conjunction
+				// ( options {backtrack=true; } : conjunction ( OR conjunction
 				// )* -> ^( DISJUNCTION ( conjunction )+ ) |
 				// complexPropertyExpression -> ^( complexPropertyExpression ) |
 				// OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(
 				// expression ) )
-				int alt7 = 4;
-				alt7 = this.dfa7.predict(this.input);
-				switch (alt7) {
-				case 1:
-					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:4:
-				{
+				int alt7 = 3;
+				switch (this.input.LA(1)) {
+				case OPEN_CURLY_BRACES:
+				case NOT:
+				case DBLQUOTE:
+				case IDENTIFIER:
+				case ENTITY_REFERENCE: {
+					alt7 = 1;
 				}
 					break;
-				case 2:
-					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:6:
+				case INVERSE: {
+					int LA7_3 = this.input.LA(2);
+					if (this.synpred13_MOWLParser()) {
+						alt7 = 1;
+					} else if (this.synpred14_MOWLParser()) {
+						alt7 = 2;
+					} else {
+						if (this.state.backtracking > 0) {
+							this.state.failed = true;
+							return retval;
+						}
+						NoViableAltException nvae = new NoViableAltException(
+								"", 7, 3, this.input);
+						throw nvae;
+					}
+				}
+					break;
+				case OPEN_PARENTHESYS: {
+					alt7 = 3;
+				}
+					break;
+				default:
+					if (this.state.backtracking > 0) {
+						this.state.failed = true;
+						return retval;
+					}
+					NoViableAltException nvae = new NoViableAltException("", 7,
+							0, this.input);
+					throw nvae;
+				}
+				switch (alt7) {
+				case 1:
+					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:5:
 					// conjunction ( OR conjunction )*
 				{
-					this.pushFollow(FOLLOW_conjunction_in_expression1015);
+					this.pushFollow(FOLLOW_conjunction_in_expression1014);
 					conjunction31 = this.conjunction();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -2515,7 +2543,7 @@ public class MOWLParser extends Parser {
 					if (this.state.backtracking == 0) {
 						stream_conjunction.add(conjunction31.getTree());
 					}
-					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:18:
+					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:17:
 					// ( OR conjunction )*
 					loop6: do {
 						int alt6 = 2;
@@ -2525,11 +2553,11 @@ public class MOWLParser extends Parser {
 						}
 						switch (alt6) {
 						case 1:
-							// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:19:
+							// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:18:
 							// OR conjunction
 						{
 							OR32 = (Token) this.match(this.input, OR,
-									FOLLOW_OR_in_expression1018);
+									FOLLOW_OR_in_expression1017);
 							if (this.state.failed) {
 								return retval;
 							}
@@ -2537,7 +2565,7 @@ public class MOWLParser extends Parser {
 								stream_OR.add(OR32);
 							}
 							this
-									.pushFollow(FOLLOW_conjunction_in_expression1020);
+									.pushFollow(FOLLOW_conjunction_in_expression1019);
 							conjunction33 = this.conjunction();
 							this.state._fsp--;
 							if (this.state.failed) {
@@ -2565,9 +2593,9 @@ public class MOWLParser extends Parser {
 								this.adaptor, "rule retval",
 								retval != null ? retval.tree : null);
 						root_0 = (ManchesterOWLSyntaxTree) this.adaptor.nil();
-						// 112:36: -> ^( DISJUNCTION ( conjunction )+ )
+						// 112:35: -> ^( DISJUNCTION ( conjunction )+ )
 						{
-							// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:39:
+							// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:38:
 							// ^( DISJUNCTION ( conjunction )+ )
 							{
 								ManchesterOWLSyntaxTree root_1 = (ManchesterOWLSyntaxTree) this.adaptor
@@ -2591,12 +2619,12 @@ public class MOWLParser extends Parser {
 					}
 				}
 					break;
-				case 3:
+				case 2:
 					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:113:6:
 					// complexPropertyExpression
 				{
 					this
-							.pushFollow(FOLLOW_complexPropertyExpression_in_expression1039);
+							.pushFollow(FOLLOW_complexPropertyExpression_in_expression1038);
 					complexPropertyExpression34 = this
 							.complexPropertyExpression();
 					this.state._fsp--;
@@ -2638,20 +2666,20 @@ public class MOWLParser extends Parser {
 					}
 				}
 					break;
-				case 4:
+				case 3:
 					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:114:6:
 					// OPEN_PARENTHESYS expression CLOSED_PARENTHESYS
 				{
 					OPEN_PARENTHESYS35 = (Token) this.match(this.input,
 							OPEN_PARENTHESYS,
-							FOLLOW_OPEN_PARENTHESYS_in_expression1052);
+							FOLLOW_OPEN_PARENTHESYS_in_expression1051);
 					if (this.state.failed) {
 						return retval;
 					}
 					if (this.state.backtracking == 0) {
 						stream_OPEN_PARENTHESYS.add(OPEN_PARENTHESYS35);
 					}
-					this.pushFollow(FOLLOW_expression_in_expression1054);
+					this.pushFollow(FOLLOW_expression_in_expression1053);
 					expression36 = this.expression();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -2662,7 +2690,7 @@ public class MOWLParser extends Parser {
 					}
 					CLOSED_PARENTHESYS37 = (Token) this.match(this.input,
 							CLOSED_PARENTHESYS,
-							FOLLOW_CLOSED_PARENTHESYS_in_expression1056);
+							FOLLOW_CLOSED_PARENTHESYS_in_expression1055);
 					if (this.state.failed) {
 						return retval;
 					}
@@ -2749,7 +2777,7 @@ public class MOWLParser extends Parser {
 			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:123:5:
 			// unary ( AND unary )*
 			{
-				this.pushFollow(FOLLOW_unary_in_conjunction1089);
+				this.pushFollow(FOLLOW_unary_in_conjunction1088);
 				unary38 = this.unary();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -2772,14 +2800,14 @@ public class MOWLParser extends Parser {
 						// AND unary
 					{
 						AND39 = (Token) this.match(this.input, AND,
-								FOLLOW_AND_in_conjunction1092);
+								FOLLOW_AND_in_conjunction1091);
 						if (this.state.failed) {
 							return retval;
 						}
 						if (this.state.backtracking == 0) {
 							stream_AND.add(AND39);
 						}
-						this.pushFollow(FOLLOW_unary_in_conjunction1094);
+						this.pushFollow(FOLLOW_unary_in_conjunction1093);
 						unary40 = this.unary();
 						this.state._fsp--;
 						if (this.state.failed) {
@@ -2907,10 +2935,10 @@ public class MOWLParser extends Parser {
 				int LA9_1 = this.input.LA(2);
 				if (LA9_1 == OPEN_PARENTHESYS) {
 					int LA9_2 = this.input.LA(3);
-					if (LA9_2 == INVERSE) {
-						alt9 = 1;
-					} else if (LA9_2 >= IDENTIFIER && LA9_2 <= ENTITY_REFERENCE) {
+					if (LA9_2 >= IDENTIFIER && LA9_2 <= ENTITY_REFERENCE) {
 						alt9 = 2;
+					} else if (LA9_2 == INVERSE) {
+						alt9 = 1;
 					} else {
 						if (this.state.backtracking > 0) {
 							this.state.failed = true;
@@ -2945,7 +2973,7 @@ public class MOWLParser extends Parser {
 				// CLOSED_PARENTHESYS
 			{
 				INVERSE41 = (Token) this.match(this.input, INVERSE,
-						FOLLOW_INVERSE_in_complexPropertyExpression1115);
+						FOLLOW_INVERSE_in_complexPropertyExpression1114);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -2954,7 +2982,7 @@ public class MOWLParser extends Parser {
 				}
 				OPEN_PARENTHESYS42 = (Token) this
 						.match(this.input, OPEN_PARENTHESYS,
-								FOLLOW_OPEN_PARENTHESYS_in_complexPropertyExpression1117);
+								FOLLOW_OPEN_PARENTHESYS_in_complexPropertyExpression1116);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -2962,7 +2990,7 @@ public class MOWLParser extends Parser {
 					stream_OPEN_PARENTHESYS.add(OPEN_PARENTHESYS42);
 				}
 				this
-						.pushFollow(FOLLOW_complexPropertyExpression_in_complexPropertyExpression1119);
+						.pushFollow(FOLLOW_complexPropertyExpression_in_complexPropertyExpression1118);
 				complexPropertyExpression43 = this.complexPropertyExpression();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -2974,7 +3002,7 @@ public class MOWLParser extends Parser {
 				}
 				CLOSED_PARENTHESYS44 = (Token) this
 						.match(this.input, CLOSED_PARENTHESYS,
-								FOLLOW_CLOSED_PARENTHESYS_in_complexPropertyExpression1121);
+								FOLLOW_CLOSED_PARENTHESYS_in_complexPropertyExpression1120);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -3026,7 +3054,7 @@ public class MOWLParser extends Parser {
 				// INVERSE OPEN_PARENTHESYS atomic CLOSED_PARENTHESYS
 			{
 				INVERSE45 = (Token) this.match(this.input, INVERSE,
-						FOLLOW_INVERSE_in_complexPropertyExpression1134);
+						FOLLOW_INVERSE_in_complexPropertyExpression1133);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -3035,14 +3063,14 @@ public class MOWLParser extends Parser {
 				}
 				OPEN_PARENTHESYS46 = (Token) this
 						.match(this.input, OPEN_PARENTHESYS,
-								FOLLOW_OPEN_PARENTHESYS_in_complexPropertyExpression1136);
+								FOLLOW_OPEN_PARENTHESYS_in_complexPropertyExpression1135);
 				if (this.state.failed) {
 					return retval;
 				}
 				if (this.state.backtracking == 0) {
 					stream_OPEN_PARENTHESYS.add(OPEN_PARENTHESYS46);
 				}
-				this.pushFollow(FOLLOW_atomic_in_complexPropertyExpression1138);
+				this.pushFollow(FOLLOW_atomic_in_complexPropertyExpression1137);
 				atomic47 = this.atomic();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -3053,7 +3081,7 @@ public class MOWLParser extends Parser {
 				}
 				CLOSED_PARENTHESYS48 = (Token) this
 						.match(this.input, CLOSED_PARENTHESYS,
-								FOLLOW_CLOSED_PARENTHESYS_in_complexPropertyExpression1140);
+								FOLLOW_CLOSED_PARENTHESYS_in_complexPropertyExpression1139);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -3184,7 +3212,7 @@ public class MOWLParser extends Parser {
 				// head= propertyExpression ( COMPOSITION rest+=
 				// propertyExpression )+
 			{
-				this.pushFollow(FOLLOW_propertyExpression_in_unary1177);
+				this.pushFollow(FOLLOW_propertyExpression_in_unary1176);
 				head = this.propertyExpression();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -3208,14 +3236,14 @@ public class MOWLParser extends Parser {
 						// COMPOSITION rest+= propertyExpression
 					{
 						COMPOSITION49 = (Token) this.match(this.input,
-								COMPOSITION, FOLLOW_COMPOSITION_in_unary1180);
+								COMPOSITION, FOLLOW_COMPOSITION_in_unary1179);
 						if (this.state.failed) {
 							return retval;
 						}
 						if (this.state.backtracking == 0) {
 							stream_COMPOSITION.add(COMPOSITION49);
 						}
-						this.pushFollow(FOLLOW_propertyExpression_in_unary1184);
+						this.pushFollow(FOLLOW_propertyExpression_in_unary1183);
 						rest = this.propertyExpression();
 						this.state._fsp--;
 						if (this.state.failed) {
@@ -3289,7 +3317,7 @@ public class MOWLParser extends Parser {
 				// NOT OPEN_PARENTHESYS expression CLOSED_PARENTHESYS
 			{
 				NOT50 = (Token) this.match(this.input, NOT,
-						FOLLOW_NOT_in_unary1206);
+						FOLLOW_NOT_in_unary1205);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -3297,14 +3325,14 @@ public class MOWLParser extends Parser {
 					stream_NOT.add(NOT50);
 				}
 				OPEN_PARENTHESYS51 = (Token) this.match(this.input,
-						OPEN_PARENTHESYS, FOLLOW_OPEN_PARENTHESYS_in_unary1208);
+						OPEN_PARENTHESYS, FOLLOW_OPEN_PARENTHESYS_in_unary1207);
 				if (this.state.failed) {
 					return retval;
 				}
 				if (this.state.backtracking == 0) {
 					stream_OPEN_PARENTHESYS.add(OPEN_PARENTHESYS51);
 				}
-				this.pushFollow(FOLLOW_expression_in_unary1210);
+				this.pushFollow(FOLLOW_expression_in_unary1209);
 				expression52 = this.expression();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -3315,7 +3343,7 @@ public class MOWLParser extends Parser {
 				}
 				CLOSED_PARENTHESYS53 = (Token) this.match(this.input,
 						CLOSED_PARENTHESYS,
-						FOLLOW_CLOSED_PARENTHESYS_in_unary1212);
+						FOLLOW_CLOSED_PARENTHESYS_in_unary1211);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -3360,14 +3388,14 @@ public class MOWLParser extends Parser {
 				// NOT atomic
 			{
 				NOT54 = (Token) this.match(this.input, NOT,
-						FOLLOW_NOT_in_unary1226);
+						FOLLOW_NOT_in_unary1225);
 				if (this.state.failed) {
 					return retval;
 				}
 				if (this.state.backtracking == 0) {
 					stream_NOT.add(NOT54);
 				}
-				this.pushFollow(FOLLOW_atomic_in_unary1228);
+				this.pushFollow(FOLLOW_atomic_in_unary1227);
 				atomic55 = this.atomic();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -3413,7 +3441,7 @@ public class MOWLParser extends Parser {
 				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:136:5:
 				// qualifiedRestriction
 			{
-				this.pushFollow(FOLLOW_qualifiedRestriction_in_unary1251);
+				this.pushFollow(FOLLOW_qualifiedRestriction_in_unary1250);
 				qualifiedRestriction56 = this.qualifiedRestriction();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -3458,7 +3486,7 @@ public class MOWLParser extends Parser {
 				// constant
 			{
 				root_0 = (ManchesterOWLSyntaxTree) this.adaptor.nil();
-				this.pushFollow(FOLLOW_constant_in_unary1263);
+				this.pushFollow(FOLLOW_constant_in_unary1262);
 				constant57 = this.constant();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -3474,7 +3502,7 @@ public class MOWLParser extends Parser {
 				// atomic
 			{
 				root_0 = (ManchesterOWLSyntaxTree) this.adaptor.nil();
-				this.pushFollow(FOLLOW_atomic_in_unary1269);
+				this.pushFollow(FOLLOW_atomic_in_unary1268);
 				atomic58 = this.atomic();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -3550,7 +3578,7 @@ public class MOWLParser extends Parser {
 			{
 				root_0 = (ManchesterOWLSyntaxTree) this.adaptor.nil();
 				IDENTIFIER59 = (Token) this.match(this.input, IDENTIFIER,
-						FOLLOW_IDENTIFIER_in_atomic1283);
+						FOLLOW_IDENTIFIER_in_atomic1282);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -3567,7 +3595,7 @@ public class MOWLParser extends Parser {
 			{
 				ENTITY_REFERENCE60 = (Token) this
 						.match(this.input, ENTITY_REFERENCE,
-								FOLLOW_ENTITY_REFERENCE_in_atomic1290);
+								FOLLOW_ENTITY_REFERENCE_in_atomic1289);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -3697,11 +3725,11 @@ public class MOWLParser extends Parser {
 				switch (this.input.LA(1)) {
 				case IDENTIFIER: {
 					int LA13_1 = this.input.LA(2);
-					if (this.synpred21_MOWLParser()) {
+					if (this.synpred20_MOWLParser()) {
 						alt13 = 1;
-					} else if (this.synpred22_MOWLParser()) {
+					} else if (this.synpred21_MOWLParser()) {
 						alt13 = 2;
-					} else if (this.synpred23_MOWLParser()) {
+					} else if (this.synpred22_MOWLParser()) {
 						alt13 = 3;
 					} else if (true) {
 						alt13 = 5;
@@ -3718,11 +3746,11 @@ public class MOWLParser extends Parser {
 					break;
 				case ENTITY_REFERENCE: {
 					int LA13_2 = this.input.LA(2);
-					if (this.synpred21_MOWLParser()) {
+					if (this.synpred20_MOWLParser()) {
 						alt13 = 1;
-					} else if (this.synpred22_MOWLParser()) {
+					} else if (this.synpred21_MOWLParser()) {
 						alt13 = 2;
-					} else if (this.synpred23_MOWLParser()) {
+					} else if (this.synpred22_MOWLParser()) {
 						alt13 = 3;
 					} else if (true) {
 						alt13 = 5;
@@ -3739,11 +3767,11 @@ public class MOWLParser extends Parser {
 					break;
 				case INVERSE: {
 					int LA13_3 = this.input.LA(2);
-					if (this.synpred21_MOWLParser()) {
+					if (this.synpred20_MOWLParser()) {
 						alt13 = 1;
-					} else if (this.synpred22_MOWLParser()) {
+					} else if (this.synpred21_MOWLParser()) {
 						alt13 = 2;
-					} else if (this.synpred23_MOWLParser()) {
+					} else if (this.synpred22_MOWLParser()) {
 						alt13 = 3;
 					} else if (true) {
 						alt13 = 5;
@@ -3777,7 +3805,7 @@ public class MOWLParser extends Parser {
 					// propertyExpression SOME expression
 				{
 					this
-							.pushFollow(FOLLOW_propertyExpression_in_qualifiedRestriction1342);
+							.pushFollow(FOLLOW_propertyExpression_in_qualifiedRestriction1341);
 					propertyExpression61 = this.propertyExpression();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -3788,7 +3816,7 @@ public class MOWLParser extends Parser {
 								.getTree());
 					}
 					SOME62 = (Token) this.match(this.input, SOME,
-							FOLLOW_SOME_in_qualifiedRestriction1345);
+							FOLLOW_SOME_in_qualifiedRestriction1344);
 					if (this.state.failed) {
 						return retval;
 					}
@@ -3796,7 +3824,7 @@ public class MOWLParser extends Parser {
 						stream_SOME.add(SOME62);
 					}
 					this
-							.pushFollow(FOLLOW_expression_in_qualifiedRestriction1349);
+							.pushFollow(FOLLOW_expression_in_qualifiedRestriction1348);
 					expression63 = this.expression();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -3847,7 +3875,7 @@ public class MOWLParser extends Parser {
 					// propertyExpression ONLY expression
 				{
 					this
-							.pushFollow(FOLLOW_propertyExpression_in_qualifiedRestriction1378);
+							.pushFollow(FOLLOW_propertyExpression_in_qualifiedRestriction1377);
 					propertyExpression64 = this.propertyExpression();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -3858,7 +3886,7 @@ public class MOWLParser extends Parser {
 								.getTree());
 					}
 					ONLY65 = (Token) this.match(this.input, ONLY,
-							FOLLOW_ONLY_in_qualifiedRestriction1380);
+							FOLLOW_ONLY_in_qualifiedRestriction1379);
 					if (this.state.failed) {
 						return retval;
 					}
@@ -3866,7 +3894,7 @@ public class MOWLParser extends Parser {
 						stream_ONLY.add(ONLY65);
 					}
 					this
-							.pushFollow(FOLLOW_expression_in_qualifiedRestriction1383);
+							.pushFollow(FOLLOW_expression_in_qualifiedRestriction1382);
 					expression66 = this.expression();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -3917,7 +3945,7 @@ public class MOWLParser extends Parser {
 					// cardinalityRestriction
 				{
 					this
-							.pushFollow(FOLLOW_cardinalityRestriction_in_qualifiedRestriction1402);
+							.pushFollow(FOLLOW_cardinalityRestriction_in_qualifiedRestriction1401);
 					cardinalityRestriction67 = this.cardinalityRestriction();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -3962,7 +3990,7 @@ public class MOWLParser extends Parser {
 					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:152:7:
 					// oneOf
 				{
-					this.pushFollow(FOLLOW_oneOf_in_qualifiedRestriction1416);
+					this.pushFollow(FOLLOW_oneOf_in_qualifiedRestriction1415);
 					oneOf68 = this.oneOf();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -4006,7 +4034,7 @@ public class MOWLParser extends Parser {
 					// valueRestriction
 				{
 					this
-							.pushFollow(FOLLOW_valueRestriction_in_qualifiedRestriction1430);
+							.pushFollow(FOLLOW_valueRestriction_in_qualifiedRestriction1429);
 					valueRestriction69 = this.valueRestriction();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -4113,7 +4141,7 @@ public class MOWLParser extends Parser {
 				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:158:7:
 				// atomic
 			{
-				this.pushFollow(FOLLOW_atomic_in_propertyExpression1462);
+				this.pushFollow(FOLLOW_atomic_in_propertyExpression1461);
 				atomic70 = this.atomic();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -4157,7 +4185,7 @@ public class MOWLParser extends Parser {
 				// complexPropertyExpression
 			{
 				this
-						.pushFollow(FOLLOW_complexPropertyExpression_in_propertyExpression1476);
+						.pushFollow(FOLLOW_complexPropertyExpression_in_propertyExpression1475);
 				complexPropertyExpression71 = this.complexPropertyExpression();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -4258,7 +4286,7 @@ public class MOWLParser extends Parser {
 			// propertyExpression restrictionKind INTEGER ( unary )?
 			{
 				this
-						.pushFollow(FOLLOW_propertyExpression_in_cardinalityRestriction1518);
+						.pushFollow(FOLLOW_propertyExpression_in_cardinalityRestriction1517);
 				propertyExpression72 = this.propertyExpression();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -4269,7 +4297,7 @@ public class MOWLParser extends Parser {
 							.getTree());
 				}
 				this
-						.pushFollow(FOLLOW_restrictionKind_in_cardinalityRestriction1521);
+						.pushFollow(FOLLOW_restrictionKind_in_cardinalityRestriction1520);
 				restrictionKind73 = this.restrictionKind();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -4279,7 +4307,7 @@ public class MOWLParser extends Parser {
 					stream_restrictionKind.add(restrictionKind73.getTree());
 				}
 				INTEGER74 = (Token) this.match(this.input, INTEGER,
-						FOLLOW_INTEGER_in_cardinalityRestriction1523);
+						FOLLOW_INTEGER_in_cardinalityRestriction1522);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -4300,7 +4328,7 @@ public class MOWLParser extends Parser {
 					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:164:46:
 					// unary
 				{
-					this.pushFollow(FOLLOW_unary_in_cardinalityRestriction1525);
+					this.pushFollow(FOLLOW_unary_in_cardinalityRestriction1524);
 					unary75 = this.unary();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -4313,7 +4341,7 @@ public class MOWLParser extends Parser {
 					break;
 				}
 				// AST REWRITE
-				// elements: INTEGER, restrictionKind, unary, propertyExpression
+				// elements: unary, INTEGER, propertyExpression, restrictionKind
 				// token labels:
 				// rule labels: retval
 				// token list labels:
@@ -4436,7 +4464,7 @@ public class MOWLParser extends Parser {
 				// MIN
 			{
 				MIN76 = (Token) this.match(this.input, MIN,
-						FOLLOW_MIN_in_restrictionKind1558);
+						FOLLOW_MIN_in_restrictionKind1557);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -4477,7 +4505,7 @@ public class MOWLParser extends Parser {
 				// MAX
 			{
 				MAX77 = (Token) this.match(this.input, MAX,
-						FOLLOW_MAX_in_restrictionKind1572);
+						FOLLOW_MAX_in_restrictionKind1571);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -4518,7 +4546,7 @@ public class MOWLParser extends Parser {
 				// EXACTLY
 			{
 				EXACTLY78 = (Token) this.match(this.input, EXACTLY,
-						FOLLOW_EXACTLY_in_restrictionKind1586);
+						FOLLOW_EXACTLY_in_restrictionKind1585);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -4618,7 +4646,7 @@ public class MOWLParser extends Parser {
 			{
 				OPEN_CURLY_BRACES79 = (Token) this.match(this.input,
 						OPEN_CURLY_BRACES,
-						FOLLOW_OPEN_CURLY_BRACES_in_oneOf1608);
+						FOLLOW_OPEN_CURLY_BRACES_in_oneOf1607);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -4626,7 +4654,7 @@ public class MOWLParser extends Parser {
 					stream_OPEN_CURLY_BRACES.add(OPEN_CURLY_BRACES79);
 				}
 				IDENTIFIER80 = (Token) this.match(this.input, IDENTIFIER,
-						FOLLOW_IDENTIFIER_in_oneOf1610);
+						FOLLOW_IDENTIFIER_in_oneOf1609);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -4647,7 +4675,7 @@ public class MOWLParser extends Parser {
 						// COMMA IDENTIFIER
 					{
 						COMMA81 = (Token) this.match(this.input, COMMA,
-								FOLLOW_COMMA_in_oneOf1613);
+								FOLLOW_COMMA_in_oneOf1612);
 						if (this.state.failed) {
 							return retval;
 						}
@@ -4655,7 +4683,7 @@ public class MOWLParser extends Parser {
 							stream_COMMA.add(COMMA81);
 						}
 						IDENTIFIER82 = (Token) this.match(this.input,
-								IDENTIFIER, FOLLOW_IDENTIFIER_in_oneOf1615);
+								IDENTIFIER, FOLLOW_IDENTIFIER_in_oneOf1614);
 						if (this.state.failed) {
 							return retval;
 						}
@@ -4670,7 +4698,7 @@ public class MOWLParser extends Parser {
 				} while (true);
 				CLOSED_CURLY_BRACES83 = (Token) this.match(this.input,
 						CLOSED_CURLY_BRACES,
-						FOLLOW_CLOSED_CURLY_BRACES_in_oneOf1619);
+						FOLLOW_CLOSED_CURLY_BRACES_in_oneOf1618);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -4767,7 +4795,7 @@ public class MOWLParser extends Parser {
 			// propertyExpression VALUE value
 			{
 				this
-						.pushFollow(FOLLOW_propertyExpression_in_valueRestriction1639);
+						.pushFollow(FOLLOW_propertyExpression_in_valueRestriction1638);
 				propertyExpression84 = this.propertyExpression();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -4778,14 +4806,14 @@ public class MOWLParser extends Parser {
 							.getTree());
 				}
 				VALUE85 = (Token) this.match(this.input, VALUE,
-						FOLLOW_VALUE_in_valueRestriction1641);
+						FOLLOW_VALUE_in_valueRestriction1640);
 				if (this.state.failed) {
 					return retval;
 				}
 				if (this.state.backtracking == 0) {
 					stream_VALUE.add(VALUE85);
 				}
-				this.pushFollow(FOLLOW_value_in_valueRestriction1643);
+				this.pushFollow(FOLLOW_value_in_valueRestriction1642);
 				value86 = this.value();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -4795,7 +4823,7 @@ public class MOWLParser extends Parser {
 					stream_value.add(value86.getTree());
 				}
 				// AST REWRITE
-				// elements: value, propertyExpression
+				// elements: propertyExpression, value
 				// token labels:
 				// rule labels: retval
 				// token list labels:
@@ -4891,7 +4919,7 @@ public class MOWLParser extends Parser {
 				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:182:7:
 				// atomic
 			{
-				this.pushFollow(FOLLOW_atomic_in_value1668);
+				this.pushFollow(FOLLOW_atomic_in_value1667);
 				atomic87 = this.atomic();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -4934,7 +4962,7 @@ public class MOWLParser extends Parser {
 				// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:183:7:
 				// constant
 			{
-				this.pushFollow(FOLLOW_constant_in_value1683);
+				this.pushFollow(FOLLOW_constant_in_value1682);
 				constant88 = this.constant();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -5029,7 +5057,7 @@ public class MOWLParser extends Parser {
 			// constantValue= DBLQUOTE ( POW type= IDENTIFIER )?
 			{
 				constantValue = (Token) this.match(this.input, DBLQUOTE,
-						FOLLOW_DBLQUOTE_in_constant1708);
+						FOLLOW_DBLQUOTE_in_constant1707);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -5049,7 +5077,7 @@ public class MOWLParser extends Parser {
 					// POW type= IDENTIFIER
 				{
 					POW89 = (Token) this.match(this.input, POW,
-							FOLLOW_POW_in_constant1712);
+							FOLLOW_POW_in_constant1711);
 					if (this.state.failed) {
 						return retval;
 					}
@@ -5057,7 +5085,7 @@ public class MOWLParser extends Parser {
 						stream_POW.add(POW89);
 					}
 					type = (Token) this.match(this.input, IDENTIFIER,
-							FOLLOW_IDENTIFIER_in_constant1718);
+							FOLLOW_IDENTIFIER_in_constant1717);
 					if (this.state.failed) {
 						return retval;
 					}
@@ -5374,21 +5402,21 @@ public class MOWLParser extends Parser {
 	}
 
 	// $ANTLR end synpred12_MOWLParser
-	// $ANTLR start synpred14_MOWLParser
-	public final void synpred14_MOWLParser_fragment()
+	// $ANTLR start synpred13_MOWLParser
+	public final void synpred13_MOWLParser_fragment()
 			throws RecognitionException {
-		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:6: (
+		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:5: (
 		// conjunction ( OR conjunction )* )
-		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:6:
+		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:5:
 		// conjunction ( OR conjunction )*
 		{
-			this.pushFollow(FOLLOW_conjunction_in_synpred14_MOWLParser1015);
+			this.pushFollow(FOLLOW_conjunction_in_synpred13_MOWLParser1014);
 			this.conjunction();
 			this.state._fsp--;
 			if (this.state.failed) {
 				return;
 			}
-			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:18:
+			// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:17:
 			// ( OR conjunction )*
 			loop20: do {
 				int alt20 = 2;
@@ -5398,16 +5426,16 @@ public class MOWLParser extends Parser {
 				}
 				switch (alt20) {
 				case 1:
-					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:19:
+					// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:112:18:
 					// OR conjunction
 				{
 					this.match(this.input, OR,
-							FOLLOW_OR_in_synpred14_MOWLParser1018);
+							FOLLOW_OR_in_synpred13_MOWLParser1017);
 					if (this.state.failed) {
 						return;
 					}
 					this
-							.pushFollow(FOLLOW_conjunction_in_synpred14_MOWLParser1020);
+							.pushFollow(FOLLOW_conjunction_in_synpred13_MOWLParser1019);
 					this.conjunction();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -5422,9 +5450,9 @@ public class MOWLParser extends Parser {
 		}
 	}
 
-	// $ANTLR end synpred14_MOWLParser
-	// $ANTLR start synpred15_MOWLParser
-	public final void synpred15_MOWLParser_fragment()
+	// $ANTLR end synpred13_MOWLParser
+	// $ANTLR start synpred14_MOWLParser
+	public final void synpred14_MOWLParser_fragment()
 			throws RecognitionException {
 		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:113:6: (
 		// complexPropertyExpression )
@@ -5432,7 +5460,7 @@ public class MOWLParser extends Parser {
 		// complexPropertyExpression
 		{
 			this
-					.pushFollow(FOLLOW_complexPropertyExpression_in_synpred15_MOWLParser1039);
+					.pushFollow(FOLLOW_complexPropertyExpression_in_synpred14_MOWLParser1038);
 			this.complexPropertyExpression();
 			this.state._fsp--;
 			if (this.state.failed) {
@@ -5441,9 +5469,9 @@ public class MOWLParser extends Parser {
 		}
 	}
 
-	// $ANTLR end synpred15_MOWLParser
-	// $ANTLR start synpred16_MOWLParser
-	public final void synpred16_MOWLParser_fragment()
+	// $ANTLR end synpred14_MOWLParser
+	// $ANTLR start synpred15_MOWLParser
+	public final void synpred15_MOWLParser_fragment()
 			throws RecognitionException {
 		List list_rest = null;
 		MOWLParser.propertyExpression_return head = null;
@@ -5455,7 +5483,7 @@ public class MOWLParser extends Parser {
 		// head= propertyExpression ( COMPOSITION rest+= propertyExpression )+
 		{
 			this
-					.pushFollow(FOLLOW_propertyExpression_in_synpred16_MOWLParser1177);
+					.pushFollow(FOLLOW_propertyExpression_in_synpred15_MOWLParser1176);
 			head = this.propertyExpression();
 			this.state._fsp--;
 			if (this.state.failed) {
@@ -5476,12 +5504,12 @@ public class MOWLParser extends Parser {
 					// COMPOSITION rest+= propertyExpression
 				{
 					this.match(this.input, COMPOSITION,
-							FOLLOW_COMPOSITION_in_synpred16_MOWLParser1180);
+							FOLLOW_COMPOSITION_in_synpred15_MOWLParser1179);
 					if (this.state.failed) {
 						return;
 					}
 					this
-							.pushFollow(FOLLOW_propertyExpression_in_synpred16_MOWLParser1184);
+							.pushFollow(FOLLOW_propertyExpression_in_synpred15_MOWLParser1183);
 					rest = this.propertyExpression();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -5510,32 +5538,54 @@ public class MOWLParser extends Parser {
 		}
 	}
 
-	// $ANTLR end synpred16_MOWLParser
-	// $ANTLR start synpred17_MOWLParser
-	public final void synpred17_MOWLParser_fragment()
+	// $ANTLR end synpred15_MOWLParser
+	// $ANTLR start synpred16_MOWLParser
+	public final void synpred16_MOWLParser_fragment()
 			throws RecognitionException {
 		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:134:5: (
 		// NOT OPEN_PARENTHESYS expression CLOSED_PARENTHESYS )
 		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:134:5: NOT
 		// OPEN_PARENTHESYS expression CLOSED_PARENTHESYS
 		{
-			this.match(this.input, NOT, FOLLOW_NOT_in_synpred17_MOWLParser1206);
+			this.match(this.input, NOT, FOLLOW_NOT_in_synpred16_MOWLParser1205);
 			if (this.state.failed) {
 				return;
 			}
 			this.match(this.input, OPEN_PARENTHESYS,
-					FOLLOW_OPEN_PARENTHESYS_in_synpred17_MOWLParser1208);
+					FOLLOW_OPEN_PARENTHESYS_in_synpred16_MOWLParser1207);
 			if (this.state.failed) {
 				return;
 			}
-			this.pushFollow(FOLLOW_expression_in_synpred17_MOWLParser1210);
+			this.pushFollow(FOLLOW_expression_in_synpred16_MOWLParser1209);
 			this.expression();
 			this.state._fsp--;
 			if (this.state.failed) {
 				return;
 			}
 			this.match(this.input, CLOSED_PARENTHESYS,
-					FOLLOW_CLOSED_PARENTHESYS_in_synpred17_MOWLParser1212);
+					FOLLOW_CLOSED_PARENTHESYS_in_synpred16_MOWLParser1211);
+			if (this.state.failed) {
+				return;
+			}
+		}
+	}
+
+	// $ANTLR end synpred16_MOWLParser
+	// $ANTLR start synpred17_MOWLParser
+	public final void synpred17_MOWLParser_fragment()
+			throws RecognitionException {
+		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:135:5: (
+		// NOT atomic )
+		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:135:5: NOT
+		// atomic
+		{
+			this.match(this.input, NOT, FOLLOW_NOT_in_synpred17_MOWLParser1225);
+			if (this.state.failed) {
+				return;
+			}
+			this.pushFollow(FOLLOW_atomic_in_synpred17_MOWLParser1227);
+			this.atomic();
+			this.state._fsp--;
 			if (this.state.failed) {
 				return;
 			}
@@ -5546,35 +5596,13 @@ public class MOWLParser extends Parser {
 	// $ANTLR start synpred18_MOWLParser
 	public final void synpred18_MOWLParser_fragment()
 			throws RecognitionException {
-		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:135:5: (
-		// NOT atomic )
-		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:135:5: NOT
-		// atomic
-		{
-			this.match(this.input, NOT, FOLLOW_NOT_in_synpred18_MOWLParser1226);
-			if (this.state.failed) {
-				return;
-			}
-			this.pushFollow(FOLLOW_atomic_in_synpred18_MOWLParser1228);
-			this.atomic();
-			this.state._fsp--;
-			if (this.state.failed) {
-				return;
-			}
-		}
-	}
-
-	// $ANTLR end synpred18_MOWLParser
-	// $ANTLR start synpred19_MOWLParser
-	public final void synpred19_MOWLParser_fragment()
-			throws RecognitionException {
 		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:136:5: (
 		// qualifiedRestriction )
 		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:136:5:
 		// qualifiedRestriction
 		{
 			this
-					.pushFollow(FOLLOW_qualifiedRestriction_in_synpred19_MOWLParser1251);
+					.pushFollow(FOLLOW_qualifiedRestriction_in_synpred18_MOWLParser1250);
 			this.qualifiedRestriction();
 			this.state._fsp--;
 			if (this.state.failed) {
@@ -5583,9 +5611,9 @@ public class MOWLParser extends Parser {
 		}
 	}
 
-	// $ANTLR end synpred19_MOWLParser
-	// $ANTLR start synpred21_MOWLParser
-	public final void synpred21_MOWLParser_fragment()
+	// $ANTLR end synpred18_MOWLParser
+	// $ANTLR start synpred20_MOWLParser
+	public final void synpred20_MOWLParser_fragment()
 			throws RecognitionException {
 		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:149:7: (
 		// propertyExpression SOME expression )
@@ -5593,18 +5621,48 @@ public class MOWLParser extends Parser {
 		// propertyExpression SOME expression
 		{
 			this
-					.pushFollow(FOLLOW_propertyExpression_in_synpred21_MOWLParser1342);
+					.pushFollow(FOLLOW_propertyExpression_in_synpred20_MOWLParser1341);
 			this.propertyExpression();
 			this.state._fsp--;
 			if (this.state.failed) {
 				return;
 			}
 			this.match(this.input, SOME,
-					FOLLOW_SOME_in_synpred21_MOWLParser1345);
+					FOLLOW_SOME_in_synpred20_MOWLParser1344);
 			if (this.state.failed) {
 				return;
 			}
-			this.pushFollow(FOLLOW_expression_in_synpred21_MOWLParser1349);
+			this.pushFollow(FOLLOW_expression_in_synpred20_MOWLParser1348);
+			this.expression();
+			this.state._fsp--;
+			if (this.state.failed) {
+				return;
+			}
+		}
+	}
+
+	// $ANTLR end synpred20_MOWLParser
+	// $ANTLR start synpred21_MOWLParser
+	public final void synpred21_MOWLParser_fragment()
+			throws RecognitionException {
+		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:150:7: (
+		// propertyExpression ONLY expression )
+		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:150:7:
+		// propertyExpression ONLY expression
+		{
+			this
+					.pushFollow(FOLLOW_propertyExpression_in_synpred21_MOWLParser1377);
+			this.propertyExpression();
+			this.state._fsp--;
+			if (this.state.failed) {
+				return;
+			}
+			this.match(this.input, ONLY,
+					FOLLOW_ONLY_in_synpred21_MOWLParser1379);
+			if (this.state.failed) {
+				return;
+			}
+			this.pushFollow(FOLLOW_expression_in_synpred21_MOWLParser1382);
 			this.expression();
 			this.state._fsp--;
 			if (this.state.failed) {
@@ -5617,43 +5675,13 @@ public class MOWLParser extends Parser {
 	// $ANTLR start synpred22_MOWLParser
 	public final void synpred22_MOWLParser_fragment()
 			throws RecognitionException {
-		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:150:7: (
-		// propertyExpression ONLY expression )
-		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:150:7:
-		// propertyExpression ONLY expression
-		{
-			this
-					.pushFollow(FOLLOW_propertyExpression_in_synpred22_MOWLParser1378);
-			this.propertyExpression();
-			this.state._fsp--;
-			if (this.state.failed) {
-				return;
-			}
-			this.match(this.input, ONLY,
-					FOLLOW_ONLY_in_synpred22_MOWLParser1380);
-			if (this.state.failed) {
-				return;
-			}
-			this.pushFollow(FOLLOW_expression_in_synpred22_MOWLParser1383);
-			this.expression();
-			this.state._fsp--;
-			if (this.state.failed) {
-				return;
-			}
-		}
-	}
-
-	// $ANTLR end synpred22_MOWLParser
-	// $ANTLR start synpred23_MOWLParser
-	public final void synpred23_MOWLParser_fragment()
-			throws RecognitionException {
 		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:151:7: (
 		// cardinalityRestriction )
 		// /Users/luigi/Documents/workspace/PARSERS/src/MOWLParser.g:151:7:
 		// cardinalityRestriction
 		{
 			this
-					.pushFollow(FOLLOW_cardinalityRestriction_in_synpred23_MOWLParser1402);
+					.pushFollow(FOLLOW_cardinalityRestriction_in_synpred22_MOWLParser1401);
 			this.cardinalityRestriction();
 			this.state._fsp--;
 			if (this.state.failed) {
@@ -5662,28 +5690,13 @@ public class MOWLParser extends Parser {
 		}
 	}
 
-	// $ANTLR end synpred23_MOWLParser
+	// $ANTLR end synpred22_MOWLParser
 	// Delegated rules
 	public final boolean synpred22_MOWLParser() {
 		this.state.backtracking++;
 		int start = this.input.mark();
 		try {
 			this.synpred22_MOWLParser_fragment(); // can never throw exception
-		} catch (RecognitionException re) {
-			System.err.println("impossible: " + re);
-		}
-		boolean success = !this.state.failed;
-		this.input.rewind(start);
-		this.state.backtracking--;
-		this.state.failed = false;
-		return success;
-	}
-
-	public final boolean synpred23_MOWLParser() {
-		this.state.backtracking++;
-		int start = this.input.mark();
-		try {
-			this.synpred23_MOWLParser_fragment(); // can never throw exception
 		} catch (RecognitionException re) {
 			System.err.println("impossible: " + re);
 		}
@@ -5784,21 +5797,6 @@ public class MOWLParser extends Parser {
 		return success;
 	}
 
-	public final boolean synpred19_MOWLParser() {
-		this.state.backtracking++;
-		int start = this.input.mark();
-		try {
-			this.synpred19_MOWLParser_fragment(); // can never throw exception
-		} catch (RecognitionException re) {
-			System.err.println("impossible: " + re);
-		}
-		boolean success = !this.state.failed;
-		this.input.rewind(start);
-		this.state.backtracking--;
-		this.state.failed = false;
-		return success;
-	}
-
 	public final boolean synpred16_MOWLParser() {
 		this.state.backtracking++;
 		int start = this.input.mark();
@@ -5889,6 +5887,21 @@ public class MOWLParser extends Parser {
 		return success;
 	}
 
+	public final boolean synpred20_MOWLParser() {
+		this.state.backtracking++;
+		int start = this.input.mark();
+		try {
+			this.synpred20_MOWLParser_fragment(); // can never throw exception
+		} catch (RecognitionException re) {
+			System.err.println("impossible: " + re);
+		}
+		boolean success = !this.state.failed;
+		this.input.rewind(start);
+		this.state.backtracking--;
+		this.state.failed = false;
+		return success;
+	}
+
 	public final boolean synpred18_MOWLParser() {
 		this.state.backtracking++;
 		int start = this.input.mark();
@@ -5919,20 +5932,34 @@ public class MOWLParser extends Parser {
 		return success;
 	}
 
+	public final boolean synpred13_MOWLParser() {
+		this.state.backtracking++;
+		int start = this.input.mark();
+		try {
+			this.synpred13_MOWLParser_fragment(); // can never throw exception
+		} catch (RecognitionException re) {
+			System.err.println("impossible: " + re);
+		}
+		boolean success = !this.state.failed;
+		this.input.rewind(start);
+		this.state.backtracking--;
+		this.state.failed = false;
+		return success;
+	}
+
 	protected DFA4 dfa4 = new DFA4(this);
-	protected DFA7 dfa7 = new DFA7(this);
 	protected DFA11 dfa11 = new DFA11(this);
 	static final String DFA4_eotS = "\21\uffff";
 	static final String DFA4_eofS = "\21\uffff";
-	static final String DFA4_minS = "\1\5\1\uffff\7\0\10\uffff";
-	static final String DFA4_maxS = "\1\55\1\uffff\7\0\10\uffff";
-	static final String DFA4_acceptS = "\1\uffff\1\1\7\uffff\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11";
-	static final String DFA4_specialS = "\2\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\10\uffff}>";
+	static final String DFA4_minS = "\1\5\7\0\11\uffff";
+	static final String DFA4_maxS = "\1\55\7\0\11\uffff";
+	static final String DFA4_acceptS = "\10\uffff\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11";
+	static final String DFA4_specialS = "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\11\uffff}>";
 	static final String[] DFA4_transitionS = {
-			"\1\10\1\6\5\uffff\1\5\6\uffff\1\4\1\1\1\13\1\11\3\uffff\1\12"
-					+ "\15\uffff\1\7\3\uffff\1\2\1\3", "", "\1\uffff",
-			"\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff",
-			"\1\uffff", "", "", "", "", "", "", "", "" };
+			"\1\7\1\5\5\uffff\1\4\6\uffff\1\3\24\uffff\1\6\3\uffff\1\1\1"
+					+ "\2", "\1\uffff", "\1\uffff", "\1\uffff", "\1\uffff",
+			"\1\uffff", "\1\uffff", "\1\uffff", "", "", "", "", "", "", "", "",
+			"" };
 	static final short[] DFA4_eot = DFA.unpackEncodedString(DFA4_eotS);
 	static final short[] DFA4_eof = DFA.unpackEncodedString(DFA4_eofS);
 	static final char[] DFA4_min = DFA
@@ -5975,12 +6002,41 @@ public class MOWLParser extends Parser {
 			int _s = s;
 			switch (s) {
 			case 0:
+				int LA4_1 = input.LA(1);
+				int index4_1 = input.index();
+				input.rewind();
+				s = -1;
+				if (MOWLParser.this.synpred5_MOWLParser()) {
+					s = 8;
+				} else if (MOWLParser.this.synpred6_MOWLParser()) {
+					s = 9;
+				} else if (MOWLParser.this.synpred7_MOWLParser()) {
+					s = 10;
+				} else if (MOWLParser.this.synpred8_MOWLParser()) {
+					s = 11;
+				} else if (MOWLParser.this.synpred9_MOWLParser()) {
+					s = 12;
+				} else if (MOWLParser.this.synpred10_MOWLParser()) {
+					s = 13;
+				} else if (MOWLParser.this.synpred11_MOWLParser()) {
+					s = 14;
+				} else if (MOWLParser.this.synpred12_MOWLParser()) {
+					s = 15;
+				} else if (true) {
+					s = 16;
+				}
+				input.seek(index4_1);
+				if (s >= 0) {
+					return s;
+				}
+				break;
+			case 1:
 				int LA4_2 = input.LA(1);
 				int index4_2 = input.index();
 				input.rewind();
 				s = -1;
 				if (MOWLParser.this.synpred5_MOWLParser()) {
-					s = 1;
+					s = 8;
 				} else if (MOWLParser.this.synpred6_MOWLParser()) {
 					s = 9;
 				} else if (MOWLParser.this.synpred7_MOWLParser()) {
@@ -6003,42 +6059,32 @@ public class MOWLParser extends Parser {
 					return s;
 				}
 				break;
-			case 1:
+			case 2:
 				int LA4_3 = input.LA(1);
 				int index4_3 = input.index();
 				input.rewind();
 				s = -1;
 				if (MOWLParser.this.synpred5_MOWLParser()) {
-					s = 1;
+					s = 8;
 				} else if (MOWLParser.this.synpred6_MOWLParser()) {
 					s = 9;
 				} else if (MOWLParser.this.synpred7_MOWLParser()) {
 					s = 10;
 				} else if (MOWLParser.this.synpred8_MOWLParser()) {
 					s = 11;
-				} else if (MOWLParser.this.synpred9_MOWLParser()) {
-					s = 12;
-				} else if (MOWLParser.this.synpred10_MOWLParser()) {
-					s = 13;
-				} else if (MOWLParser.this.synpred11_MOWLParser()) {
-					s = 14;
-				} else if (MOWLParser.this.synpred12_MOWLParser()) {
-					s = 15;
-				} else if (true) {
-					s = 16;
 				}
 				input.seek(index4_3);
 				if (s >= 0) {
 					return s;
 				}
 				break;
-			case 2:
+			case 3:
 				int LA4_4 = input.LA(1);
 				int index4_4 = input.index();
 				input.rewind();
 				s = -1;
 				if (MOWLParser.this.synpred5_MOWLParser()) {
-					s = 1;
+					s = 8;
 				} else if (MOWLParser.this.synpred6_MOWLParser()) {
 					s = 9;
 				} else if (MOWLParser.this.synpred7_MOWLParser()) {
@@ -6051,13 +6097,13 @@ public class MOWLParser extends Parser {
 					return s;
 				}
 				break;
-			case 3:
+			case 4:
 				int LA4_5 = input.LA(1);
 				int index4_5 = input.index();
 				input.rewind();
 				s = -1;
 				if (MOWLParser.this.synpred5_MOWLParser()) {
-					s = 1;
+					s = 8;
 				} else if (MOWLParser.this.synpred6_MOWLParser()) {
 					s = 9;
 				} else if (MOWLParser.this.synpred7_MOWLParser()) {
@@ -6070,13 +6116,13 @@ public class MOWLParser extends Parser {
 					return s;
 				}
 				break;
-			case 4:
+			case 5:
 				int LA4_6 = input.LA(1);
 				int index4_6 = input.index();
 				input.rewind();
 				s = -1;
 				if (MOWLParser.this.synpred5_MOWLParser()) {
-					s = 1;
+					s = 8;
 				} else if (MOWLParser.this.synpred6_MOWLParser()) {
 					s = 9;
 				} else if (MOWLParser.this.synpred7_MOWLParser()) {
@@ -6089,13 +6135,13 @@ public class MOWLParser extends Parser {
 					return s;
 				}
 				break;
-			case 5:
+			case 6:
 				int LA4_7 = input.LA(1);
 				int index4_7 = input.index();
 				input.rewind();
 				s = -1;
 				if (MOWLParser.this.synpred5_MOWLParser()) {
-					s = 1;
+					s = 8;
 				} else if (MOWLParser.this.synpred6_MOWLParser()) {
 					s = 9;
 				} else if (MOWLParser.this.synpred7_MOWLParser()) {
@@ -6108,25 +6154,6 @@ public class MOWLParser extends Parser {
 					return s;
 				}
 				break;
-			case 6:
-				int LA4_8 = input.LA(1);
-				int index4_8 = input.index();
-				input.rewind();
-				s = -1;
-				if (MOWLParser.this.synpred5_MOWLParser()) {
-					s = 1;
-				} else if (MOWLParser.this.synpred6_MOWLParser()) {
-					s = 9;
-				} else if (MOWLParser.this.synpred7_MOWLParser()) {
-					s = 10;
-				} else if (MOWLParser.this.synpred8_MOWLParser()) {
-					s = 11;
-				}
-				input.seek(index4_8);
-				if (s >= 0) {
-					return s;
-				}
-				break;
 			}
 			if (MOWLParser.this.state.backtracking > 0) {
 				MOWLParser.this.state.failed = true;
@@ -6134,84 +6161,6 @@ public class MOWLParser extends Parser {
 			}
 			NoViableAltException nvae = new NoViableAltException(this
 					.getDescription(), 4, _s, input);
-			this.error(nvae);
-			throw nvae;
-		}
-	}
-
-	static final String DFA7_eotS = "\21\uffff";
-	static final String DFA7_eofS = "\1\1\20\uffff";
-	static final String DFA7_minS = "\1\5\12\uffff\1\0\5\uffff";
-	static final String DFA7_maxS = "\1\55\12\uffff\1\0\5\uffff";
-	static final String DFA7_acceptS = "\1\uffff\1\1\7\uffff\1\2\5\uffff\1\4\1\3";
-	static final String DFA7_specialS = "\13\uffff\1\0\5\uffff}>";
-	static final String[] DFA7_transitionS = {
-			"\1\17\1\11\1\uffff\1\1\1\uffff\2\1\1\11\6\uffff\1\13\3\1\3\uffff"
-					+ "\1\1\15\uffff\1\11\3\uffff\2\11", "", "", "", "", "",
-			"", "", "", "", "", "\1\uffff", "", "", "", "", "" };
-	static final short[] DFA7_eot = DFA.unpackEncodedString(DFA7_eotS);
-	static final short[] DFA7_eof = DFA.unpackEncodedString(DFA7_eofS);
-	static final char[] DFA7_min = DFA
-			.unpackEncodedStringToUnsignedChars(DFA7_minS);
-	static final char[] DFA7_max = DFA
-			.unpackEncodedStringToUnsignedChars(DFA7_maxS);
-	static final short[] DFA7_accept = DFA.unpackEncodedString(DFA7_acceptS);
-	static final short[] DFA7_special = DFA.unpackEncodedString(DFA7_specialS);
-	static final short[][] DFA7_transition;
-	static {
-		int numStates = DFA7_transitionS.length;
-		DFA7_transition = new short[numStates][];
-		for (int i = 0; i < numStates; i++) {
-			DFA7_transition[i] = DFA.unpackEncodedString(DFA7_transitionS[i]);
-		}
-	}
-
-	class DFA7 extends DFA {
-		public DFA7(BaseRecognizer recognizer) {
-			this.recognizer = recognizer;
-			this.decisionNumber = 7;
-			this.eot = DFA7_eot;
-			this.eof = DFA7_eof;
-			this.min = DFA7_min;
-			this.max = DFA7_max;
-			this.accept = DFA7_accept;
-			this.special = DFA7_special;
-			this.transition = DFA7_transition;
-		}
-
-		@Override
-		public String getDescription() {
-			return "110:5: ( options {backtrack=true; } : | conjunction ( OR conjunction )* -> ^( DISJUNCTION ( conjunction )+ ) | complexPropertyExpression -> ^( complexPropertyExpression ) | OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^( expression ) )";
-		}
-
-		@Override
-		public int specialStateTransition(int s, IntStream _input)
-				throws NoViableAltException {
-			TokenStream input = (TokenStream) _input;
-			int _s = s;
-			switch (s) {
-			case 0:
-				int LA7_11 = input.LA(1);
-				int index7_11 = input.index();
-				input.rewind();
-				s = -1;
-				if (MOWLParser.this.synpred14_MOWLParser()) {
-					s = 9;
-				} else if (MOWLParser.this.synpred15_MOWLParser()) {
-					s = 16;
-				}
-				input.seek(index7_11);
-				if (s >= 0) {
-					return s;
-				}
-				break;
-			}
-			if (MOWLParser.this.state.backtracking > 0) {
-				MOWLParser.this.state.failed = true;
-				return -1;
-			}
-			NoViableAltException nvae = new NoViableAltException(this
-					.getDescription(), 7, _s, input);
 			this.error(nvae);
 			throw nvae;
 		}
@@ -6274,9 +6223,9 @@ public class MOWLParser extends Parser {
 				int index11_1 = input.index();
 				input.rewind();
 				s = -1;
-				if (MOWLParser.this.synpred16_MOWLParser()) {
+				if (MOWLParser.this.synpred15_MOWLParser()) {
 					s = 7;
-				} else if (MOWLParser.this.synpred19_MOWLParser()) {
+				} else if (MOWLParser.this.synpred18_MOWLParser()) {
 					s = 5;
 				} else if (true) {
 					s = 8;
@@ -6291,9 +6240,9 @@ public class MOWLParser extends Parser {
 				int index11_2 = input.index();
 				input.rewind();
 				s = -1;
-				if (MOWLParser.this.synpred16_MOWLParser()) {
+				if (MOWLParser.this.synpred15_MOWLParser()) {
 					s = 7;
-				} else if (MOWLParser.this.synpred19_MOWLParser()) {
+				} else if (MOWLParser.this.synpred18_MOWLParser()) {
 					s = 5;
 				} else if (true) {
 					s = 8;
@@ -6308,9 +6257,9 @@ public class MOWLParser extends Parser {
 				int index11_3 = input.index();
 				input.rewind();
 				s = -1;
-				if (MOWLParser.this.synpred16_MOWLParser()) {
+				if (MOWLParser.this.synpred15_MOWLParser()) {
 					s = 7;
-				} else if (MOWLParser.this.synpred19_MOWLParser()) {
+				} else if (MOWLParser.this.synpred18_MOWLParser()) {
 					s = 5;
 				}
 				input.seek(index11_3);
@@ -6323,9 +6272,9 @@ public class MOWLParser extends Parser {
 				int index11_4 = input.index();
 				input.rewind();
 				s = -1;
-				if (MOWLParser.this.synpred17_MOWLParser()) {
+				if (MOWLParser.this.synpred16_MOWLParser()) {
 					s = 9;
-				} else if (MOWLParser.this.synpred18_MOWLParser()) {
+				} else if (MOWLParser.this.synpred17_MOWLParser()) {
 					s = 10;
 				}
 				input.seek(index11_4);
@@ -6441,131 +6390,131 @@ public class MOWLParser extends Parser {
 			new long[] { 0x0000000000000002L });
 	public static final BitSet FOLLOW_TRANSITIVE_in_unaryCharacteristic972 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_conjunction_in_expression1015 = new BitSet(
+	public static final BitSet FOLLOW_conjunction_in_expression1014 = new BitSet(
 			new long[] { 0x0000000000000802L });
-	public static final BitSet FOLLOW_OR_in_expression1018 = new BitSet(
+	public static final BitSet FOLLOW_OR_in_expression1017 = new BitSet(
 			new long[] { 0x0000310000081040L });
-	public static final BitSet FOLLOW_conjunction_in_expression1020 = new BitSet(
+	public static final BitSet FOLLOW_conjunction_in_expression1019 = new BitSet(
 			new long[] { 0x0000000000000802L });
-	public static final BitSet FOLLOW_complexPropertyExpression_in_expression1039 = new BitSet(
+	public static final BitSet FOLLOW_complexPropertyExpression_in_expression1038 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_expression1052 = new BitSet(
-			new long[] { 0x0000310000081160L });
-	public static final BitSet FOLLOW_expression_in_expression1054 = new BitSet(
+	public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_expression1051 = new BitSet(
+			new long[] { 0x0000310000081060L });
+	public static final BitSet FOLLOW_expression_in_expression1053 = new BitSet(
 			new long[] { 0x0000000000000100L });
-	public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_expression1056 = new BitSet(
+	public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_expression1055 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_unary_in_conjunction1089 = new BitSet(
+	public static final BitSet FOLLOW_unary_in_conjunction1088 = new BitSet(
 			new long[] { 0x0000000000000402L });
-	public static final BitSet FOLLOW_AND_in_conjunction1092 = new BitSet(
+	public static final BitSet FOLLOW_AND_in_conjunction1091 = new BitSet(
 			new long[] { 0x0000310000081040L });
-	public static final BitSet FOLLOW_unary_in_conjunction1094 = new BitSet(
+	public static final BitSet FOLLOW_unary_in_conjunction1093 = new BitSet(
 			new long[] { 0x0000000000000402L });
-	public static final BitSet FOLLOW_INVERSE_in_complexPropertyExpression1115 = new BitSet(
+	public static final BitSet FOLLOW_INVERSE_in_complexPropertyExpression1114 = new BitSet(
 			new long[] { 0x0000000000000020L });
-	public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_complexPropertyExpression1117 = new BitSet(
+	public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_complexPropertyExpression1116 = new BitSet(
 			new long[] { 0x0000300000080000L });
-	public static final BitSet FOLLOW_complexPropertyExpression_in_complexPropertyExpression1119 = new BitSet(
+	public static final BitSet FOLLOW_complexPropertyExpression_in_complexPropertyExpression1118 = new BitSet(
 			new long[] { 0x0000000000000100L });
-	public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_complexPropertyExpression1121 = new BitSet(
+	public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_complexPropertyExpression1120 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_INVERSE_in_complexPropertyExpression1134 = new BitSet(
+	public static final BitSet FOLLOW_INVERSE_in_complexPropertyExpression1133 = new BitSet(
 			new long[] { 0x0000000000000020L });
-	public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_complexPropertyExpression1136 = new BitSet(
+	public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_complexPropertyExpression1135 = new BitSet(
 			new long[] { 0x0000300000000000L });
-	public static final BitSet FOLLOW_atomic_in_complexPropertyExpression1138 = new BitSet(
+	public static final BitSet FOLLOW_atomic_in_complexPropertyExpression1137 = new BitSet(
 			new long[] { 0x0000000000000100L });
-	public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_complexPropertyExpression1140 = new BitSet(
+	public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_complexPropertyExpression1139 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_propertyExpression_in_unary1177 = new BitSet(
+	public static final BitSet FOLLOW_propertyExpression_in_unary1176 = new BitSet(
 			new long[] { 0x0000000000000010L });
-	public static final BitSet FOLLOW_COMPOSITION_in_unary1180 = new BitSet(
+	public static final BitSet FOLLOW_COMPOSITION_in_unary1179 = new BitSet(
 			new long[] { 0x0000300000080000L });
-	public static final BitSet FOLLOW_propertyExpression_in_unary1184 = new BitSet(
+	public static final BitSet FOLLOW_propertyExpression_in_unary1183 = new BitSet(
 			new long[] { 0x0000000000000012L });
-	public static final BitSet FOLLOW_NOT_in_unary1206 = new BitSet(
+	public static final BitSet FOLLOW_NOT_in_unary1205 = new BitSet(
 			new long[] { 0x0000000000000020L });
-	public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_unary1208 = new BitSet(
-			new long[] { 0x0000310000081160L });
-	public static final BitSet FOLLOW_expression_in_unary1210 = new BitSet(
+	public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_unary1207 = new BitSet(
+			new long[] { 0x0000310000081060L });
+	public static final BitSet FOLLOW_expression_in_unary1209 = new BitSet(
 			new long[] { 0x0000000000000100L });
-	public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_unary1212 = new BitSet(
+	public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_unary1211 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_NOT_in_unary1226 = new BitSet(
+	public static final BitSet FOLLOW_NOT_in_unary1225 = new BitSet(
 			new long[] { 0x0000300000000000L });
-	public static final BitSet FOLLOW_atomic_in_unary1228 = new BitSet(
+	public static final BitSet FOLLOW_atomic_in_unary1227 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_qualifiedRestriction_in_unary1251 = new BitSet(
+	public static final BitSet FOLLOW_qualifiedRestriction_in_unary1250 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_constant_in_unary1263 = new BitSet(
+	public static final BitSet FOLLOW_constant_in_unary1262 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_atomic_in_unary1269 = new BitSet(
+	public static final BitSet FOLLOW_atomic_in_unary1268 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_IDENTIFIER_in_atomic1283 = new BitSet(
+	public static final BitSet FOLLOW_IDENTIFIER_in_atomic1282 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_ENTITY_REFERENCE_in_atomic1290 = new BitSet(
+	public static final BitSet FOLLOW_ENTITY_REFERENCE_in_atomic1289 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_propertyExpression_in_qualifiedRestriction1342 = new BitSet(
+	public static final BitSet FOLLOW_propertyExpression_in_qualifiedRestriction1341 = new BitSet(
 			new long[] { 0x0000000000002000L });
-	public static final BitSet FOLLOW_SOME_in_qualifiedRestriction1345 = new BitSet(
+	public static final BitSet FOLLOW_SOME_in_qualifiedRestriction1344 = new BitSet(
 			new long[] { 0x0000310000081060L });
-	public static final BitSet FOLLOW_expression_in_qualifiedRestriction1349 = new BitSet(
+	public static final BitSet FOLLOW_expression_in_qualifiedRestriction1348 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_propertyExpression_in_qualifiedRestriction1378 = new BitSet(
+	public static final BitSet FOLLOW_propertyExpression_in_qualifiedRestriction1377 = new BitSet(
 			new long[] { 0x0000000000004000L });
-	public static final BitSet FOLLOW_ONLY_in_qualifiedRestriction1380 = new BitSet(
+	public static final BitSet FOLLOW_ONLY_in_qualifiedRestriction1379 = new BitSet(
 			new long[] { 0x0000310000081060L });
-	public static final BitSet FOLLOW_expression_in_qualifiedRestriction1383 = new BitSet(
+	public static final BitSet FOLLOW_expression_in_qualifiedRestriction1382 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_cardinalityRestriction_in_qualifiedRestriction1402 = new BitSet(
+	public static final BitSet FOLLOW_cardinalityRestriction_in_qualifiedRestriction1401 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_oneOf_in_qualifiedRestriction1416 = new BitSet(
+	public static final BitSet FOLLOW_oneOf_in_qualifiedRestriction1415 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_valueRestriction_in_qualifiedRestriction1430 = new BitSet(
+	public static final BitSet FOLLOW_valueRestriction_in_qualifiedRestriction1429 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_atomic_in_propertyExpression1462 = new BitSet(
+	public static final BitSet FOLLOW_atomic_in_propertyExpression1461 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_complexPropertyExpression_in_propertyExpression1476 = new BitSet(
+	public static final BitSet FOLLOW_complexPropertyExpression_in_propertyExpression1475 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_propertyExpression_in_cardinalityRestriction1518 = new BitSet(
+	public static final BitSet FOLLOW_propertyExpression_in_cardinalityRestriction1517 = new BitSet(
 			new long[] { 0x0000000000038000L });
-	public static final BitSet FOLLOW_restrictionKind_in_cardinalityRestriction1521 = new BitSet(
+	public static final BitSet FOLLOW_restrictionKind_in_cardinalityRestriction1520 = new BitSet(
 			new long[] { 0x0000040000000000L });
-	public static final BitSet FOLLOW_INTEGER_in_cardinalityRestriction1523 = new BitSet(
+	public static final BitSet FOLLOW_INTEGER_in_cardinalityRestriction1522 = new BitSet(
 			new long[] { 0x0000310000081042L });
-	public static final BitSet FOLLOW_unary_in_cardinalityRestriction1525 = new BitSet(
+	public static final BitSet FOLLOW_unary_in_cardinalityRestriction1524 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_MIN_in_restrictionKind1558 = new BitSet(
+	public static final BitSet FOLLOW_MIN_in_restrictionKind1557 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_MAX_in_restrictionKind1572 = new BitSet(
+	public static final BitSet FOLLOW_MAX_in_restrictionKind1571 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_EXACTLY_in_restrictionKind1586 = new BitSet(
+	public static final BitSet FOLLOW_EXACTLY_in_restrictionKind1585 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_OPEN_CURLY_BRACES_in_oneOf1608 = new BitSet(
+	public static final BitSet FOLLOW_OPEN_CURLY_BRACES_in_oneOf1607 = new BitSet(
 			new long[] { 0x0000100000000000L });
-	public static final BitSet FOLLOW_IDENTIFIER_in_oneOf1610 = new BitSet(
+	public static final BitSet FOLLOW_IDENTIFIER_in_oneOf1609 = new BitSet(
 			new long[] { 0x0000002000000080L });
-	public static final BitSet FOLLOW_COMMA_in_oneOf1613 = new BitSet(
+	public static final BitSet FOLLOW_COMMA_in_oneOf1612 = new BitSet(
 			new long[] { 0x0000100000000000L });
-	public static final BitSet FOLLOW_IDENTIFIER_in_oneOf1615 = new BitSet(
+	public static final BitSet FOLLOW_IDENTIFIER_in_oneOf1614 = new BitSet(
 			new long[] { 0x0000002000000080L });
-	public static final BitSet FOLLOW_CLOSED_CURLY_BRACES_in_oneOf1619 = new BitSet(
+	public static final BitSet FOLLOW_CLOSED_CURLY_BRACES_in_oneOf1618 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_propertyExpression_in_valueRestriction1639 = new BitSet(
+	public static final BitSet FOLLOW_propertyExpression_in_valueRestriction1638 = new BitSet(
 			new long[] { 0x0000000000040000L });
-	public static final BitSet FOLLOW_VALUE_in_valueRestriction1641 = new BitSet(
+	public static final BitSet FOLLOW_VALUE_in_valueRestriction1640 = new BitSet(
 			new long[] { 0x0000310000000000L });
-	public static final BitSet FOLLOW_value_in_valueRestriction1643 = new BitSet(
+	public static final BitSet FOLLOW_value_in_valueRestriction1642 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_atomic_in_value1668 = new BitSet(
+	public static final BitSet FOLLOW_atomic_in_value1667 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_constant_in_value1683 = new BitSet(
+	public static final BitSet FOLLOW_constant_in_value1682 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_DBLQUOTE_in_constant1708 = new BitSet(
+	public static final BitSet FOLLOW_DBLQUOTE_in_constant1707 = new BitSet(
 			new long[] { 0x0000001000000002L });
-	public static final BitSet FOLLOW_POW_in_constant1712 = new BitSet(
+	public static final BitSet FOLLOW_POW_in_constant1711 = new BitSet(
 			new long[] { 0x0000100000000000L });
-	public static final BitSet FOLLOW_IDENTIFIER_in_constant1718 = new BitSet(
+	public static final BitSet FOLLOW_IDENTIFIER_in_constant1717 = new BitSet(
 			new long[] { 0x0000000000000002L });
 	public static final BitSet FOLLOW_expression_in_synpred5_MOWLParser406 = new BitSet(
 			new long[] { 0x0000000000100000L });
@@ -6615,46 +6564,46 @@ public class MOWLParser extends Parser {
 			new long[] { 0x0000310000081060L });
 	public static final BitSet FOLLOW_expression_in_synpred12_MOWLParser725 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_conjunction_in_synpred14_MOWLParser1015 = new BitSet(
+	public static final BitSet FOLLOW_conjunction_in_synpred13_MOWLParser1014 = new BitSet(
 			new long[] { 0x0000000000000802L });
-	public static final BitSet FOLLOW_OR_in_synpred14_MOWLParser1018 = new BitSet(
+	public static final BitSet FOLLOW_OR_in_synpred13_MOWLParser1017 = new BitSet(
 			new long[] { 0x0000310000081040L });
-	public static final BitSet FOLLOW_conjunction_in_synpred14_MOWLParser1020 = new BitSet(
+	public static final BitSet FOLLOW_conjunction_in_synpred13_MOWLParser1019 = new BitSet(
 			new long[] { 0x0000000000000802L });
-	public static final BitSet FOLLOW_complexPropertyExpression_in_synpred15_MOWLParser1039 = new BitSet(
+	public static final BitSet FOLLOW_complexPropertyExpression_in_synpred14_MOWLParser1038 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_propertyExpression_in_synpred16_MOWLParser1177 = new BitSet(
+	public static final BitSet FOLLOW_propertyExpression_in_synpred15_MOWLParser1176 = new BitSet(
 			new long[] { 0x0000000000000010L });
-	public static final BitSet FOLLOW_COMPOSITION_in_synpred16_MOWLParser1180 = new BitSet(
+	public static final BitSet FOLLOW_COMPOSITION_in_synpred15_MOWLParser1179 = new BitSet(
 			new long[] { 0x0000300000080000L });
-	public static final BitSet FOLLOW_propertyExpression_in_synpred16_MOWLParser1184 = new BitSet(
+	public static final BitSet FOLLOW_propertyExpression_in_synpred15_MOWLParser1183 = new BitSet(
 			new long[] { 0x0000000000000012L });
-	public static final BitSet FOLLOW_NOT_in_synpred17_MOWLParser1206 = new BitSet(
+	public static final BitSet FOLLOW_NOT_in_synpred16_MOWLParser1205 = new BitSet(
 			new long[] { 0x0000000000000020L });
-	public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_synpred17_MOWLParser1208 = new BitSet(
-			new long[] { 0x0000310000081160L });
-	public static final BitSet FOLLOW_expression_in_synpred17_MOWLParser1210 = new BitSet(
+	public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_synpred16_MOWLParser1207 = new BitSet(
+			new long[] { 0x0000310000081060L });
+	public static final BitSet FOLLOW_expression_in_synpred16_MOWLParser1209 = new BitSet(
 			new long[] { 0x0000000000000100L });
-	public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_synpred17_MOWLParser1212 = new BitSet(
+	public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_synpred16_MOWLParser1211 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_NOT_in_synpred18_MOWLParser1226 = new BitSet(
+	public static final BitSet FOLLOW_NOT_in_synpred17_MOWLParser1225 = new BitSet(
 			new long[] { 0x0000300000000000L });
-	public static final BitSet FOLLOW_atomic_in_synpred18_MOWLParser1228 = new BitSet(
+	public static final BitSet FOLLOW_atomic_in_synpred17_MOWLParser1227 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_qualifiedRestriction_in_synpred19_MOWLParser1251 = new BitSet(
+	public static final BitSet FOLLOW_qualifiedRestriction_in_synpred18_MOWLParser1250 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_propertyExpression_in_synpred21_MOWLParser1342 = new BitSet(
+	public static final BitSet FOLLOW_propertyExpression_in_synpred20_MOWLParser1341 = new BitSet(
 			new long[] { 0x0000000000002000L });
-	public static final BitSet FOLLOW_SOME_in_synpred21_MOWLParser1345 = new BitSet(
+	public static final BitSet FOLLOW_SOME_in_synpred20_MOWLParser1344 = new BitSet(
 			new long[] { 0x0000310000081060L });
-	public static final BitSet FOLLOW_expression_in_synpred21_MOWLParser1349 = new BitSet(
+	public static final BitSet FOLLOW_expression_in_synpred20_MOWLParser1348 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_propertyExpression_in_synpred22_MOWLParser1378 = new BitSet(
+	public static final BitSet FOLLOW_propertyExpression_in_synpred21_MOWLParser1377 = new BitSet(
 			new long[] { 0x0000000000004000L });
-	public static final BitSet FOLLOW_ONLY_in_synpred22_MOWLParser1380 = new BitSet(
+	public static final BitSet FOLLOW_ONLY_in_synpred21_MOWLParser1379 = new BitSet(
 			new long[] { 0x0000310000081060L });
-	public static final BitSet FOLLOW_expression_in_synpred22_MOWLParser1383 = new BitSet(
+	public static final BitSet FOLLOW_expression_in_synpred21_MOWLParser1382 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_cardinalityRestriction_in_synpred23_MOWLParser1402 = new BitSet(
+	public static final BitSet FOLLOW_cardinalityRestriction_in_synpred22_MOWLParser1401 = new BitSet(
 			new long[] { 0x0000000000000002L });
 }

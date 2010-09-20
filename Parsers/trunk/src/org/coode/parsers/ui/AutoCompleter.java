@@ -32,8 +32,12 @@ import javax.swing.text.JTextComponent;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RuleReturnScope;
+import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenRewriteStream;
+import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.TreeAdaptor;
@@ -60,7 +64,26 @@ import org.coode.parsers.Type;
  */
 public abstract class AutoCompleter {
 	public static final int DEFAULT_MAX_ENTRIES = 100;
-	private final TreeAdaptor adaptor;
+	private TreeAdaptor adaptor = new CommonTreeAdaptor() {
+		@Override
+		public Object create(Token token) {
+			return new ManchesterOWLSyntaxTree(token);
+		}
+
+		@Override
+		public Object dupNode(Object t) {
+			if (t == null) {
+				return null;
+			}
+			return this.create(((ManchesterOWLSyntaxTree) t).token);
+		}
+
+		@Override
+		public Object errorNode(TokenStream input, Token start, Token stop,
+				RecognitionException e) {
+			return new CommonErrorNode(input, start, stop, e);
+		}
+	};
 	private JTextComponent textComponent;
 	private Set<String> wordDelimeters;
 	private JList popupList;
@@ -77,11 +100,16 @@ public abstract class AutoCompleter {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			if (e.getKeyCode() != KeyEvent.VK_UP && e.getKeyCode() != KeyEvent.VK_DOWN) {
+			if (e.getKeyCode() != KeyEvent.VK_UP
+					&& e.getKeyCode() != KeyEvent.VK_DOWN) {
 				if (AutoCompleter.this.popupWindow.isVisible()
-						&& !AutoCompleter.this.lastTextUpdate.equals(AutoCompleter.this.textComponent.getText())) {
-					AutoCompleter.this.lastTextUpdate = AutoCompleter.this.textComponent.getText();
-					AutoCompleter.this.updatePopup(AutoCompleter.this.getMatches());
+						&& !AutoCompleter.this.lastTextUpdate
+								.equals(AutoCompleter.this.textComponent
+										.getText())) {
+					AutoCompleter.this.lastTextUpdate = AutoCompleter.this.textComponent
+							.getText();
+					AutoCompleter.this.updatePopup(AutoCompleter.this
+							.getMatches());
 				}
 			}
 		}
@@ -112,9 +140,11 @@ public abstract class AutoCompleter {
 		public void hierarchyChanged(HierarchyEvent e) {
 			if ((e.getChangeFlags() & HierarchyEvent.PARENT_CHANGED) != 0) {
 				AutoCompleter.this.createPopupWindow();
-				Container frame = AutoCompleter.this.textComponent.getTopLevelAncestor();
+				Container frame = AutoCompleter.this.textComponent
+						.getTopLevelAncestor();
 				if (frame != null) {
-					frame.addComponentListener(AutoCompleter.this.componentListener);
+					frame
+							.addComponentListener(AutoCompleter.this.componentListener);
 				}
 			}
 		}
@@ -140,22 +170,26 @@ public abstract class AutoCompleter {
 		public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
 		}
 
-		public void recognitionException(RecognitionException e, String... tokenNames) {
+		public void recognitionException(RecognitionException e,
+				String... tokenNames) {
 		}
 
 		public void recognitionException(RecognitionException e) {
 		}
 
-		public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
+		public void incompatibleSymbols(CommonTree parentExpression,
+				CommonTree... trees) {
 		}
 
-		public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
+		public void incompatibleSymbolType(CommonTree t, Type type,
+				CommonTree expression) {
 		}
 
 		public void illegalToken(CommonTree t, String message) {
 		}
 
-		public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
+		public void reportThrowable(Throwable t, int line, int charPosInLine,
+				int length) {
 		}
 	};
 
@@ -239,19 +273,40 @@ public abstract class AutoCompleter {
 	private List<String> getMatches() {
 		List<String> toReturn = new ArrayList<String>();
 		String text = this.textComponent.getText();
-		ManchesterOWLSyntaxTree tree = this.getTree(text);
 		boolean newWord = text.matches(".*\\s");
-		if (tree != null) {
-			System.out.println(tree.toStringTree());
-			CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
-			nodes.reset();
-			ManchesterOWLSyntaxAutoComplete autoComplete = new ManchesterOWLSyntaxAutoComplete(
-					nodes, this.getSymbolTable());
-			autoComplete.setNewWord(newWord);
-			autoComplete.downup(tree);
-			if (tree.getCompletions() != null) {
-				toReturn.addAll(tree.getCompletions());
+		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(text));
+		TokenRewriteStream tokens = new TokenRewriteStream(lexer);
+		ManchesterOWLSyntaxAutoCompleteCombinedParser parser = new ManchesterOWLSyntaxAutoCompleteCombinedParser(
+				tokens);
+		parser.setTreeAdaptor(this.adaptor);
+		try {
+			RuleReturnScope r = parser.main();
+			ManchesterOWLSyntaxTree tree = (ManchesterOWLSyntaxTree) r
+					.getTree();
+			if (tree != null) {
+				CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
+				nodes.setTokenStream(tokens); // where to find tokens
+				nodes.setTreeAdaptor(this.adaptor);
+				ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+						nodes);
+				simplify.setTreeAdaptor(this.adaptor);
+				simplify.downup(tree);
+				nodes.reset();
+				ManchesterOWLSyntaxTypes types = new ManchesterOWLSyntaxTypes(
+						nodes, this.getSymbolTable(), silentErrorListener);
+				types.downup(tree);
+				nodes.reset();
+				ManchesterOWLSyntaxAutoComplete autoComplete = new ManchesterOWLSyntaxAutoComplete(
+						nodes, this.getSymbolTable());
+				autoComplete.setNewWord(newWord);
+				autoComplete.downup(tree);
+				if (tree.getCompletions() != null) {
+					toReturn.addAll(tree.getCompletions());
+				}
+				System.out.println(tree.toStringTree());
 			}
+		} catch (RecognitionException e) {
+			e.printStackTrace();
 		}
 		return toReturn;
 	}
@@ -269,12 +324,13 @@ public abstract class AutoCompleter {
 				CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
 				nodes.setTokenStream(tokens); // where to find tokens
 				nodes.setTreeAdaptor(this.adaptor);
-				ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+				ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+						nodes);
 				simplify.setTreeAdaptor(this.adaptor);
 				simplify.downup(tree);
 				nodes.reset();
-				ManchesterOWLSyntaxTypes types = new ManchesterOWLSyntaxTypes(nodes,
-						this.getSymbolTable(), silentErrorListener);
+				ManchesterOWLSyntaxTypes types = new ManchesterOWLSyntaxTypes(
+						nodes, this.getSymbolTable(), silentErrorListener);
 				types.downup(tree);
 			}
 			return (ManchesterOWLSyntaxTree) tree;
@@ -288,9 +344,8 @@ public abstract class AutoCompleter {
 
 	private void createPopupWindow() {
 		JScrollPane sp = new JScrollPane(this.popupList);
-		this.popupWindow = new JWindow((Window) SwingUtilities.getAncestorOfClass(
-				Window.class,
-				this.textComponent));
+		this.popupWindow = new JWindow((Window) SwingUtilities
+				.getAncestorOfClass(Window.class, this.textComponent));
 		// popupWindow.setAlwaysOnTop(true); // this doesn't appear to work with
 		// certain Windows/java combinations
 		this.popupWindow.getContentPane().setLayout(new BorderLayout());
@@ -325,9 +380,11 @@ public abstract class AutoCompleter {
 			int index = this.getWordIndex();
 			int caretIndex = this.textComponent.getCaretPosition();
 			if (caretIndex > 0 && caretIndex > index) {
-				this.textComponent.getDocument().remove(index, caretIndex - index);
+				this.textComponent.getDocument().remove(index,
+						caretIndex - index);
 			}
-			this.textComponent.getDocument().insertString(index, word + " ", null);
+			this.textComponent.getDocument().insertString(index, word + " ",
+					null);
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
@@ -347,7 +404,8 @@ public abstract class AutoCompleter {
 				}
 				SwingUtilities.convertPointToScreen(p, this.textComponent);
 				p.y = p.y
-						+ this.textComponent.getFontMetrics(this.textComponent.getFont()).getHeight();
+						+ this.textComponent.getFontMetrics(
+								this.textComponent.getFont()).getHeight();
 				this.popupWindow.setLocation(p);
 			} catch (BadLocationException e) {
 				e.printStackTrace();
@@ -383,7 +441,8 @@ public abstract class AutoCompleter {
 				selIndex = 0;
 			}
 			this.popupList.setSelectedIndex(selIndex);
-			this.popupList.scrollRectToVisible(this.popupList.getCellBounds(selIndex, selIndex));
+			this.popupList.scrollRectToVisible(this.popupList.getCellBounds(
+					selIndex, selIndex));
 		}
 	}
 
@@ -395,7 +454,8 @@ public abstract class AutoCompleter {
 				selIndex = this.popupList.getModel().getSize() - 1;
 			}
 			this.popupList.setSelectedIndex(selIndex);
-			this.popupList.scrollRectToVisible(this.popupList.getCellBounds(selIndex, selIndex));
+			this.popupList.scrollRectToVisible(this.popupList.getCellBounds(
+					selIndex, selIndex));
 		}
 	}
 
@@ -412,7 +472,8 @@ public abstract class AutoCompleter {
 	private int getEscapedWordIndex() {
 		try {
 			int caretPos = Math.max(0, this.getEffectiveCaretPosition() - 1);
-			String expression = this.textComponent.getDocument().getText(0, caretPos);
+			String expression = this.textComponent.getDocument().getText(0,
+					caretPos);
 			int escapeEnd = -1;
 			do {
 				int escapeStart = expression.indexOf("'", escapeEnd + 1);
@@ -436,9 +497,8 @@ public abstract class AutoCompleter {
 			int caretPos = Math.max(0, this.getEffectiveCaretPosition() - 1);
 			if (caretPos > 0) {
 				for (int index = caretPos; index > -1; index--) {
-					if (this.wordDelimeters.contains(this.textComponent.getDocument().getText(
-							index,
-							1))) {
+					if (this.wordDelimeters.contains(this.textComponent
+							.getDocument().getText(index, 1))) {
 						return index + 1;
 					}
 					if (index == 0) {

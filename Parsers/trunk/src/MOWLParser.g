@@ -109,7 +109,7 @@ unaryCharacteristic :
 expression:
     (		
     	options {backtrack=true;}: 
-			| conjunction (OR conjunction)* -> ^(DISJUNCTION  conjunction+)
+			 conjunction (OR conjunction)* -> ^(DISJUNCTION  conjunction+)
 			| complexPropertyExpression -> ^(complexPropertyExpression)
 			| OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(expression)
 
