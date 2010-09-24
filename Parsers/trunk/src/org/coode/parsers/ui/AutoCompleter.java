@@ -17,7 +17,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,28 +27,6 @@ import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
-
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RuleReturnScope;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenRewriteStream;
-import org.antlr.runtime.TokenStream;
-import org.antlr.runtime.tree.CommonErrorNode;
-import org.antlr.runtime.tree.CommonTree;
-import org.antlr.runtime.tree.CommonTreeAdaptor;
-import org.antlr.runtime.tree.CommonTreeNodeStream;
-import org.antlr.runtime.tree.RewriteEmptyStreamException;
-import org.antlr.runtime.tree.TreeAdaptor;
-import org.coode.parsers.ErrorListener;
-import org.coode.parsers.MOWLLexer;
-import org.coode.parsers.ManchesterOWLSyntaxAutoComplete;
-import org.coode.parsers.ManchesterOWLSyntaxAutoCompleteCombinedParser;
-import org.coode.parsers.ManchesterOWLSyntaxSimplify;
-import org.coode.parsers.ManchesterOWLSyntaxTree;
-import org.coode.parsers.ManchesterOWLSyntaxTypes;
-import org.coode.parsers.SymbolTable;
-import org.coode.parsers.Type;
 
 /**
  * Author: Matthew Horridge<br>
@@ -62,32 +39,13 @@ import org.coode.parsers.Type;
  * www.cs.man.ac.uk/~horridgm<br>
  * <br>
  */
-public abstract class AutoCompleter {
+public final class AutoCompleter {
 	public static final int DEFAULT_MAX_ENTRIES = 100;
-	private TreeAdaptor adaptor = new CommonTreeAdaptor() {
-		@Override
-		public Object create(Token token) {
-			return new ManchesterOWLSyntaxTree(token);
-		}
-
-		@Override
-		public Object dupNode(Object t) {
-			if (t == null) {
-				return null;
-			}
-			return this.create(((ManchesterOWLSyntaxTree) t).token);
-		}
-
-		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop,
-				RecognitionException e) {
-			return new CommonErrorNode(input, start, stop, e);
-		}
-	};
 	private JTextComponent textComponent;
 	private Set<String> wordDelimeters;
 	private JList popupList;
 	private JWindow popupWindow;
+	private final AutoCompletionMatcher matcher;
 	public static final int POPUP_WIDTH = 350;
 	public static final int POPUP_HEIGHT = 300;
 	private String lastTextUpdate = "*";
@@ -163,38 +121,16 @@ public abstract class AutoCompleter {
 			AutoCompleter.this.hidePopup();
 		}
 	};
-	private static ErrorListener silentErrorListener = new ErrorListener() {
-		public void unrecognisedSymbol(CommonTree t) {
-		}
 
-		public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
+	public AutoCompleter(JTextComponent tc, AutoCompletionMatcher matcher) {
+		if (tc == null) {
+			throw new NullPointerException("The text component cannot be null");
 		}
-
-		public void recognitionException(RecognitionException e,
-				String... tokenNames) {
+		if (matcher == null) {
+			throw new NullPointerException("The matcher cannot be null");
 		}
-
-		public void recognitionException(RecognitionException e) {
-		}
-
-		public void incompatibleSymbols(CommonTree parentExpression,
-				CommonTree... trees) {
-		}
-
-		public void incompatibleSymbolType(CommonTree t, Type type,
-				CommonTree expression) {
-		}
-
-		public void illegalToken(CommonTree t, String message) {
-		}
-
-		public void reportThrowable(Throwable t, int line, int charPosInLine,
-				int length) {
-		}
-	};
-
-	public AutoCompleter(JTextComponent tc, TreeAdaptor adaptor) {
 		this.textComponent = tc;
+		this.matcher = matcher;
 		this.wordDelimeters = new HashSet<String>();
 		this.wordDelimeters.add(" ");
 		this.wordDelimeters.add("\n");
@@ -206,7 +142,6 @@ public abstract class AutoCompleter {
 		this.wordDelimeters.add(")");
 		this.wordDelimeters.add(",");
 		this.wordDelimeters.add("^");
-		this.adaptor = adaptor;
 		this.popupList = new JList();
 		this.popupList.setAutoscrolls(true);
 		this.popupList.addMouseListener(this.mouseListener);
@@ -271,76 +206,8 @@ public abstract class AutoCompleter {
 	}
 
 	private List<String> getMatches() {
-		List<String> toReturn = new ArrayList<String>();
-		String text = this.textComponent.getText();
-		boolean newWord = text.matches(".*\\s");
-		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(text));
-		TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-		ManchesterOWLSyntaxAutoCompleteCombinedParser parser = new ManchesterOWLSyntaxAutoCompleteCombinedParser(
-				tokens);
-		parser.setTreeAdaptor(this.adaptor);
-		try {
-			RuleReturnScope r = parser.main();
-			ManchesterOWLSyntaxTree tree = (ManchesterOWLSyntaxTree) r
-					.getTree();
-			if (tree != null) {
-				CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
-				nodes.setTokenStream(tokens); // where to find tokens
-				nodes.setTreeAdaptor(this.adaptor);
-				ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-						nodes);
-				simplify.setTreeAdaptor(this.adaptor);
-				simplify.downup(tree);
-				nodes.reset();
-				ManchesterOWLSyntaxTypes types = new ManchesterOWLSyntaxTypes(
-						nodes, this.getSymbolTable(), silentErrorListener);
-				types.downup(tree);
-				nodes.reset();
-				ManchesterOWLSyntaxAutoComplete autoComplete = new ManchesterOWLSyntaxAutoComplete(
-						nodes, this.getSymbolTable());
-				autoComplete.setNewWord(newWord);
-				autoComplete.downup(tree);
-				if (tree.getCompletions() != null) {
-					toReturn.addAll(tree.getCompletions());
-				}
-				System.out.println(tree.toStringTree());
-			}
-		} catch (RecognitionException e) {
-			e.printStackTrace();
-		}
-		return toReturn;
+		return this.matcher.getMatches(this.textComponent.getText());
 	}
-
-	protected ManchesterOWLSyntaxTree getTree(String input) {
-		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
-		TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-		ManchesterOWLSyntaxAutoCompleteCombinedParser parser = new ManchesterOWLSyntaxAutoCompleteCombinedParser(
-				tokens);
-		parser.setTreeAdaptor(this.adaptor);
-		try {
-			RuleReturnScope r = parser.main();
-			CommonTree tree = (CommonTree) r.getTree();
-			if (tree != null) {
-				CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
-				nodes.setTokenStream(tokens); // where to find tokens
-				nodes.setTreeAdaptor(this.adaptor);
-				ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-						nodes);
-				simplify.setTreeAdaptor(this.adaptor);
-				simplify.downup(tree);
-				nodes.reset();
-				ManchesterOWLSyntaxTypes types = new ManchesterOWLSyntaxTypes(
-						nodes, this.getSymbolTable(), silentErrorListener);
-				types.downup(tree);
-			}
-			return (ManchesterOWLSyntaxTree) tree;
-		} catch (RecognitionException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	protected abstract SymbolTable getSymbolTable();
 
 	private void createPopupWindow() {
 		JScrollPane sp = new JScrollPane(this.popupList);

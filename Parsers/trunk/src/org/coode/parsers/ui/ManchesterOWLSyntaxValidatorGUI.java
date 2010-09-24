@@ -566,14 +566,15 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 			this.symbolTable = ManchesterOWLSyntaxValidatorGUI.this.symbolTableFactory
 					.createSymbolTable();
 			if (this.autoCompleter == null) {
-				this.autoCompleter = new AutoCompleter(
-						ManchesterOWLSyntaxValidatorGUI.this.axiomValidator,
-						this.adaptor) {
+				AutoCompletionMatcher matcher = new ParseTreeBasedAutoCompletionMatcher() {
 					@Override
 					protected SymbolTable getSymbolTable() {
 						return AxiomChecker.this.symbolTable;
 					}
 				};
+				this.autoCompleter = new AutoCompleter(
+						ManchesterOWLSyntaxValidatorGUI.this.axiomValidator,
+						matcher);
 			}
 		}
 
