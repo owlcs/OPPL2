@@ -256,7 +256,7 @@ public final class ReportTreeModel implements TreeModel {
 			for (Report report : reportList) {
 				if (this.isUnsuccessful(report)) {
 					toReturn.add(new TreePath(new Object[] { this.getRoot(),
-							report.getOPPLTestCase(), report }));
+							report.getOPPLTestCase() }));
 				}
 			}
 		}
