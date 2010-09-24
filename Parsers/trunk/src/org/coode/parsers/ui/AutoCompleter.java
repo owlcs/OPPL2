@@ -28,6 +28,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
+import org.coode.parsers.ui.autocompletionmatcher.AutoCompletionMatcher;
+
 /**
  * Author: Matthew Horridge<br>
  * The University Of Manchester<br>
@@ -206,7 +208,7 @@ public final class AutoCompleter {
 	}
 
 	private List<String> getMatches() {
-		return this.matcher.getMatches(this.textComponent.getText());
+		return this.matcher.getMatches(this.getWordToComplete());
 	}
 
 	private void createPopupWindow() {
@@ -379,16 +381,17 @@ public final class AutoCompleter {
 		return -1;
 	}
 
-	// private String getWordToComplete() {
-	// try {
-	// int index = this.getWordIndex();
-	// int caretIndex = this.getEffectiveCaretPosition();
-	// return this.textComponent.getDocument().getText(index,
-	// caretIndex - index);
-	// } catch (BadLocationException e) {
-	// return "";
-	// }
-	// }
+	private String getWordToComplete() {
+		try {
+			int index = this.getWordIndex();
+			int caretIndex = this.getEffectiveCaretPosition();
+			return this.textComponent.getDocument().getText(index,
+					caretIndex - index);
+		} catch (BadLocationException e) {
+			return "";
+		}
+	}
+
 	// the caret pos should be read as the start of the selection if there is
 	// one
 	private int getEffectiveCaretPosition() {

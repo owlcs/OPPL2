@@ -28,10 +28,13 @@ import org.coode.parsers.ManchesterOWLSyntaxParser;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
+import org.coode.parsers.ShortFormEntityRenderer;
 import org.coode.parsers.SymbolTable;
 import org.coode.parsers.Type;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
+import org.coode.parsers.ui.autocompletionmatcher.AutoCompletionMatcher;
+import org.coode.parsers.ui.autocompletionmatcher.ManchesterOWLSyntaxSimpleAutoCompletionMatcher;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
@@ -69,6 +72,7 @@ import org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom;
 import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -566,12 +570,17 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 			this.symbolTable = ManchesterOWLSyntaxValidatorGUI.this.symbolTableFactory
 					.createSymbolTable();
 			if (this.autoCompleter == null) {
-				AutoCompletionMatcher matcher = new ParseTreeBasedAutoCompletionMatcher() {
-					@Override
-					protected SymbolTable getSymbolTable() {
-						return AxiomChecker.this.symbolTable;
-					}
-				};
+				// AutoCompletionMatcher matcher = new
+				// ParseTreeBasedAutoCompletionMatcher() {
+				// @Override
+				// protected SymbolTable getSymbolTable() {
+				// return AxiomChecker.this.symbolTable;
+				// }
+				// };
+				AutoCompletionMatcher matcher = new ManchesterOWLSyntaxSimpleAutoCompletionMatcher(
+						new ShortFormEntityRenderer(
+								new SimpleShortFormProvider()),
+						ManchesterOWLSyntaxValidatorGUI.this.manager);
 				this.autoCompleter = new AutoCompleter(
 						ManchesterOWLSyntaxValidatorGUI.this.axiomValidator,
 						matcher);

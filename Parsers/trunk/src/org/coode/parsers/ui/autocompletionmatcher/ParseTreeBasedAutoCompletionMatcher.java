@@ -1,4 +1,4 @@
-package org.coode.parsers.ui;
+package org.coode.parsers.ui.autocompletionmatcher;
 
 import java.util.ArrayList;
 import java.util.List;
