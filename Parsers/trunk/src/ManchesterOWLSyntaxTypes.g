@@ -328,6 +328,12 @@ returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject]
 				$type = this.getSymbolTable().getInversePropertyType($start, $IDENTIFIER);
 				$owlObject = this.getSymbolTable().getInverseProperty($start, $IDENTIFIER);
 	}
+	| ^(INVERSE_OBJECT_PROPERTY_EXPRESSION ENTITY_REFERENCE)
+	{
+				Symbol symbol = this.getSymbolTable().resolve($ENTITY_REFERENCE);
+				$type = this.getSymbolTable().getInversePropertyType($start, $ENTITY_REFERENCE);
+				$owlObject = this.getSymbolTable().getInverseProperty($start, $ENTITY_REFERENCE);
+	}
 	;
 
 qualifiedRestriction returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject]
@@ -401,7 +407,7 @@ oneOf	returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject]
           $start.setOWLObject($owlObject);
         }
 	:
-		^(ONE_OF individuals+=IDENTIFIER+) 
+		^(ONE_OF individuals+=unary+) 
 		{
 		    List<ManchesterOWLSyntaxTree> nodes = new ArrayList<ManchesterOWLSyntaxTree>(list_individuals.size());
         for(Object node :list_individuals){

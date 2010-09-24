@@ -4,6 +4,7 @@ options {
   output = AST;              // build trees
   ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
   language = Java;
+  tokenVocab = ManchesterOWLSyntaxAutoCompleteCombined;
 }
 import   MOWLLexer,  ManchesterOWLSyntaxAutoCompleteBase;  
 
@@ -62,12 +63,13 @@ import   MOWLLexer,  ManchesterOWLSyntaxAutoCompleteBase;
 
   
 main: 
-(   
-  options {backtrack=true;}:  
-standaloneExpression -> standaloneExpression
-  | axiom  -> axiom
+(       options {backtrack=true;}:       
+
+  axiom  -> axiom
   | incompleteAxiom  -> incompleteAxiom
-  | incompleteExpression  -> incompleteExpression
- )
+  | incompleteExpression  -> incompleteExpression  
+    |   standaloneExpression -> standaloneExpression
+
+ ) 
 ; 
  

@@ -41,10 +41,8 @@ public class ManchesterOWLSyntaxTree extends CommonTree {
 
 	@Override
 	public String toString() {
-		return this.token.getText()
-				+ " type: "
-				+ (this.getEvalType() == null ? "(none)" : this.getEvalType()
-						.toString());
+		return this.token.getText() + " type: "
+				+ (this.getEvalType() == null ? "(none)" : this.getEvalType().toString());
 	}
 
 	/**
@@ -71,6 +69,6 @@ public class ManchesterOWLSyntaxTree extends CommonTree {
 	 * @return the completions
 	 */
 	public List<String> getCompletions() {
-		return this.completions;
+		return new ArrayList<String>(this.completions);
 	}
 }

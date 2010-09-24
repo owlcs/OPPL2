@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g 2010-09-20 22:44:15
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g 2010-09-22 17:36:39
 
   package org.coode.parsers;
 
@@ -14,98 +14,100 @@ import org.antlr.runtime.tree.*;
 
 public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "STANDALONE_EXPRESSION", "INCOMPLETE_TYPE_ASSERTION", "INCOMPLETE_ROLE_ASSERTION", "INCOMPLETE_UNARY_AXIOM", "INCOMPLETE_SUB_CLASS_AXIOM", "INCOMPLETE_EQUIVALENT_TO_AXIOM", "INCOMPLETE_DISJOINT_WITH_AXIOM", "INCOMPLETE_SUB_PROPERTY_AXIOM", "INCOMPLETE_SAME_AS_AXIOM", "INCOMPLETE_DIFFERENT_FROM_AXIOM", "INCOMPLETE_DOMAIN", "INCOMPLETE_RANGE", "INCOMPLETE_INVERSE_OF", "INCOMPLETE_PROPERTY_CHAIN", "INCOMPLETE_DISJUNCTION", "INCOMPLETE_CONJUNCTION", "INCOMPLETE_INVERSE_OBJECT_PROPERTY_EXPRESSION", "INCOMPLETE_NEGATED_EXPRESSION", "INCOMPLETE_SOME_RESTRICTION", "INCOMPLETE_ALL_RESTRICTION", "INCOMPLETE_CARDINALITY_RESTRICTION", "INCOMPLETE_ONE_OF", "INCOMPLETE_VALUE_RESTRICTION", "INCOMPLETE_EXPRESSION"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "STANDALONE_EXPRESSION", "INCOMPLETE_TYPE_ASSERTION", "INCOMPLETE_ROLE_ASSERTION", "INCOMPLETE_UNARY_AXIOM", "INCOMPLETE_SUB_CLASS_AXIOM", "INCOMPLETE_EQUIVALENT_TO_AXIOM", "INCOMPLETE_DISJOINT_WITH_AXIOM", "INCOMPLETE_SUB_PROPERTY_AXIOM", "INCOMPLETE_SAME_AS_AXIOM", "INCOMPLETE_DIFFERENT_FROM_AXIOM", "INCOMPLETE_DOMAIN", "INCOMPLETE_RANGE", "INCOMPLETE_INVERSE_OF", "INCOMPLETE_PROPERTY_CHAIN", "INCOMPLETE_DISJUNCTION", "INCOMPLETE_CONJUNCTION", "INCOMPLETE_INVERSE_OBJECT_PROPERTY_EXPRESSION", "INCOMPLETE_NEGATED_EXPRESSION", "INCOMPLETE_SOME_RESTRICTION", "INCOMPLETE_ALL_RESTRICTION", "INCOMPLETE_CARDINALITY_RESTRICTION", "INCOMPLETE_ONE_OF", "INCOMPLETE_VALUE_RESTRICTION", "INCOMPLETE_EXPRESSION", "624", "625", "626", "627", "628", "629", "630", "631", "632", "633", "634", "635", "636", "637", "638", "639", "640", "641", "642", "643", "644", "645", "646", "647", "648", "649", "650", "651", "652", "653", "654", "655", "656", "657", "658", "659", "660", "661", "662", "663", "664", "665", "666", "667", "668", "669", "670", "671", "672", "673", "674", "675", "676", "677", "678", "679", "680", "681", "682", "683", "684", "685", "686", "687", "688", "689", "690", "691", "692", "693", "694", "695", "696", "697", "698", "699", "700", "701", "702", "703", "704", "705", "706", "707", "708", "709", "710", "711", "712"
     };
-    public static final int VALUE_RESTRICTION=61;
-    public static final int LETTER=43;
-    public static final int INCOMPLETE_INVERSE_OF=81;
-    public static final int TYPES=39;
-    public static final int SAME_AS_AXIOM=50;
-    public static final int INVERSE_OF=25;
-    public static final int NOT=12;
-    public static final int SUBCLASS_OF=20;
-    public static final int EOF=-1;
-    public static final int INCOMPLETE_ONE_OF=90;
-    public static final int POW=36;
-    public static final int INCOMPLETE_INVERSE_OBJECT_PROPERTY_EXPRESSION=85;
-    public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION=66;
-    public static final int INSTANCE_OF=38;
-    public static final int INCOMPLETE_TYPE_ASSERTION=70;
-    public static final int SYMMETRIC=30;
-    public static final int INCOMPLETE_DIFFERENT_FROM_AXIOM=78;
-    public static final int INCOMPLETE_NEGATED_EXPRESSION=86;
-    public static final int INCOMPLETE_SUB_PROPERTY_AXIOM=76;
-    public static final int CARDINALITY_RESTRICTION=62;
-    public static final int ROLE_ASSERTION=65;
-    public static final int DIFFERENT_FROM_AXIOM=51;
-    public static final int INCOMPLETE_SUB_CLASS_AXIOM=73;
-    public static final int INCOMPLETE_ALL_RESTRICTION=88;
-    public static final int TRANSITIVE=34;
-    public static final int ANTI_SYMMETRIC=31;
-    public static final int ALL_RESTRICTION=60;
-    public static final int CONJUNCTION=54;
-    public static final int NEGATED_ASSERTION=57;
-    public static final int WHITESPACE=9;
-    public static final int VALUE=18;
-    public static final int OPEN_CURLY_BRACES=6;
-    public static final int DISJUNCTION=53;
-    public static final int INVERSE=19;
-    public static final int INCOMPLETE_ROLE_ASSERTION=71;
-    public static final int INCOMPLETE_SOME_RESTRICTION=87;
-    public static final int DBLQUOTE=40;
-    public static final int OR=11;
-    public static final int CONSTANT=68;
-    public static final int INCOMPLETE_EXPRESSION=92;
-    public static final int ENTITY_REFERENCE=45;
-    public static final int COMPOSITION=4;
-    public static final int INCOMPLETE_DISJOINT_WITH_AXIOM=75;
-    public static final int INCOMPLETE_VALUE_RESTRICTION=91;
-    public static final int SAME_AS=23;
-    public static final int INCOMPLETE_CONJUNCTION=84;
-    public static final int DISJOINT_WITH=26;
-    public static final int CLOSED_PARENTHESYS=8;
-    public static final int ONLY=14;
-    public static final int EQUIVALENT_TO_AXIOM=47;
-    public static final int INCOMPLETE_EQUIVALENT_TO_AXIOM=74;
-    public static final int SUB_PROPERTY_OF=21;
-    public static final int NEGATED_EXPRESSION=56;
-    public static final int MAX=16;
-    public static final int AND=10;
-    public static final int INVERSE_PROPERTY=58;
-    public static final int DIFFERENT_FROM=24;
-    public static final int EQUIVALENT_TO=22;
-    public static final int UNARY_AXIOM=52;
     public static final int COMMA=37;
-    public static final int CLOSED_CURLY_BRACES=7;
-    public static final int INCOMPLETE_CARDINALITY_RESTRICTION=89;
-    public static final int IDENTIFIER=44;
-    public static final int SOME=13;
-    public static final int OPEN_PARENTHESYS=5;
-    public static final int REFLEXIVE=32;
-    public static final int DIGIT=41;
-    public static final int EXPRESSION=67;
-    public static final int SOME_RESTRICTION=59;
-    public static final int INTEGER=42;
-    public static final int INCOMPLETE_DISJUNCTION=83;
-    public static final int INCOMPLETE_SAME_AS_AXIOM=77;
-    public static final int INCOMPLETE_RANGE=80;
+    public static final int DIFFERENT_FROM=24;
+    public static final int TYPE_ASSERTION=66;
+    public static final int INCOMPLETE_CONJUNCTION=615;
+    public static final int SAME_AS_AXIOM=52;
+    public static final int INCOMPLETE_SUB_CLASS_AXIOM=604;
+    public static final int TYPES=39;
+    public static final int ROLE_ASSERTION=67;
+    public static final int ALL_RESTRICTION=62;
+    public static final int QUESTION_MARK=46;
+    public static final int AND=10;
+    public static final int EXPRESSION=69;
+    public static final int CONSTANT=70;
+    public static final int VALUE_RESTRICTION=63;
+    public static final int ONE_OF=65;
+    public static final int CARDINALITY_RESTRICTION=64;
+    public static final int SAME_AS=23;
     public static final int EXACTLY=17;
-    public static final int SUB_PROPERTY_AXIOM=49;
+    public static final int TRANSITIVE=34;
+    public static final int SUBCLASS_OF=20;
+    public static final int ENTITY_REFERENCE=45;
+    public static final int CONJUNCTION=56;
+    public static final int INVERSE_OF=25;
     public static final int RANGE=28;
-    public static final int ONE_OF=63;
-    public static final int MIN=15;
-    public static final int SUB_CLASS_AXIOM=46;
+    public static final int CLOSED_PARENTHESYS=8;
+    public static final int PROPERTY_CHAIN=57;
+    public static final int EQUIVALENT_TO_AXIOM=49;
+    public static final int INCOMPLETE_ALL_RESTRICTION=619;
+    public static final int SYMMETRIC=30;
+    public static final int DISJOINT_WITH=26;
+    public static final int INCOMPLETE_VALUE_RESTRICTION=622;
+    public static final int DISJUNCTION=55;
+    public static final int INCOMPLETE_CARDINALITY_RESTRICTION=620;
+    public static final int NEGATED_EXPRESSION=58;
+    public static final int DIFFERENT_FROM_AXIOM=53;
+    public static final int EQUIVALENT_TO=22;
     public static final int DOMAIN=27;
-    public static final int DISJOINT_WITH_AXIOM=48;
-    public static final int STANDALONE_EXPRESSION=69;
+    public static final int SUB_PROPERTY_OF=21;
+    public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION=68;
+    public static final int INVERSE_PROPERTY=60;
+    public static final int SUB_CLASS_AXIOM=48;
+    public static final int SUB_PROPERTY_AXIOM=51;
+    public static final int INCOMPLETE_DIFFERENT_FROM_AXIOM=609;
+    public static final int INCOMPLETE_INVERSE_OBJECT_PROPERTY_EXPRESSION=616;
+    public static final int IDENTIFIER=44;
+    public static final int UNARY_AXIOM=54;
+    public static final int INCOMPLETE_PROPERTY_CHAIN=613;
+    public static final int OPEN_CURLY_BRACES=6;
+    public static final int STANDALONE_EXPRESSION=600;
+    public static final int INSTANCE_OF=38;
+    public static final int INCOMPLETE_DISJUNCTION=614;
+    public static final int SOME_RESTRICTION=61;
+    public static final int INCOMPLETE_SUB_PROPERTY_AXIOM=607;
+    public static final int INCOMPLETE_INVERSE_OF=612;
+    public static final int INCOMPLETE_DOMAIN=610;
+    public static final int VALUE=18;
+    public static final int INCOMPLETE_UNARY_AXIOM=603;
     public static final int INVERSE_FUNCTIONAL=35;
-    public static final int IRREFLEXIVE=33;
-    public static final int INCOMPLETE_PROPERTY_CHAIN=82;
+    public static final int OR=11;
+    public static final int INCOMPLETE_EXPRESSION=623;
+    public static final int INTEGER=42;
+    public static final int INVERSE=19;
+    public static final int DISJOINT_WITH_AXIOM=50;
+    public static final int INCOMPLETE_DISJOINT_WITH_AXIOM=606;
+    public static final int DIGIT=41;
+    public static final int COMPOSITION=4;
+    public static final int INCOMPLETE_RANGE=611;
     public static final int FUNCTIONAL=29;
-    public static final int PROPERTY_CHAIN=55;
-    public static final int INCOMPLETE_DOMAIN=79;
-    public static final int INCOMPLETE_UNARY_AXIOM=72;
-    public static final int TYPE_ASSERTION=64;
+    public static final int LETTER=43;
+    public static final int MAX=16;
+    public static final int INCOMPLETE_ROLE_ASSERTION=602;
+    public static final int NEGATED_ASSERTION=59;
+    public static final int ONLY=14;
+    public static final int DBLQUOTE=40;
+    public static final int MIN=15;
+    public static final int POW=36;
+    public static final int INCOMPLETE_TYPE_ASSERTION=601;
+    public static final int INCOMPLETE_ONE_OF=621;
+    public static final int INCOMPLETE_NEGATED_EXPRESSION=617;
+    public static final int WHITESPACE=9;
+    public static final int SOME=13;
+    public static final int INCOMPLETE_SAME_AS_AXIOM=608;
+    public static final int INCOMPLETE_EQUIVALENT_TO_AXIOM=605;
+    public static final int EOF=-1;
+    public static final int ANTI_SYMMETRIC=31;
+    public static final int Tokens=47;
+    public static final int CLOSED_CURLY_BRACES=7;
+    public static final int INCOMPLETE_SOME_RESTRICTION=618;
+    public static final int REFLEXIVE=32;
+    public static final int NOT=12;
+    public static final int OPEN_PARENTHESYS=5;
+    public static final int IRREFLEXIVE=33;
 
     // delegates
     public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser gMOWLParser;
@@ -133,7 +135,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     }
 
     public String[] getTokenNames() { return ManchesterOWLSyntaxAutoCompleteCombinedParser.tokenNames; }
-    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g"; }
+    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g"; }
 
 
 
@@ -176,75 +178,43 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     };
 
     // $ANTLR start "main"
-    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:64:1: main : ( options {backtrack=true; } : standaloneExpression -> standaloneExpression | axiom -> axiom | incompleteAxiom -> incompleteAxiom | incompleteExpression -> incompleteExpression ) ;
+    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:65:1: main : ( options {backtrack=true; } : axiom -> axiom | incompleteAxiom -> incompleteAxiom | incompleteExpression -> incompleteExpression | standaloneExpression -> standaloneExpression ) ;
     public final ManchesterOWLSyntaxAutoCompleteCombinedParser.main_return main() throws RecognitionException {
         ManchesterOWLSyntaxAutoCompleteCombinedParser.main_return retval = new ManchesterOWLSyntaxAutoCompleteCombinedParser.main_return();
         retval.start = input.LT(1);
 
         ManchesterOWLSyntaxTree root_0 = null;
 
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.standaloneExpression_return standaloneExpression1 = null;
+        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.axiom_return axiom1 = null;
 
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.axiom_return axiom2 = null;
+        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom_return incompleteAxiom2 = null;
 
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom_return incompleteAxiom3 = null;
+        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return incompleteExpression3 = null;
 
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return incompleteExpression4 = null;
+        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.standaloneExpression_return standaloneExpression4 = null;
 
 
-        RewriteRuleSubtreeStream stream_incompleteAxiom=new RewriteRuleSubtreeStream(adaptor,"rule incompleteAxiom");
         RewriteRuleSubtreeStream stream_incompleteExpression=new RewriteRuleSubtreeStream(adaptor,"rule incompleteExpression");
+        RewriteRuleSubtreeStream stream_incompleteAxiom=new RewriteRuleSubtreeStream(adaptor,"rule incompleteAxiom");
         RewriteRuleSubtreeStream stream_axiom=new RewriteRuleSubtreeStream(adaptor,"rule axiom");
         RewriteRuleSubtreeStream stream_standaloneExpression=new RewriteRuleSubtreeStream(adaptor,"rule standaloneExpression");
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:64:5: ( ( options {backtrack=true; } : standaloneExpression -> standaloneExpression | axiom -> axiom | incompleteAxiom -> incompleteAxiom | incompleteExpression -> incompleteExpression ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:65:1: ( options {backtrack=true; } : standaloneExpression -> standaloneExpression | axiom -> axiom | incompleteAxiom -> incompleteAxiom | incompleteExpression -> incompleteExpression )
+            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:65:5: ( ( options {backtrack=true; } : axiom -> axiom | incompleteAxiom -> incompleteAxiom | incompleteExpression -> incompleteExpression | standaloneExpression -> standaloneExpression ) )
+            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:66:1: ( options {backtrack=true; } : axiom -> axiom | incompleteAxiom -> incompleteAxiom | incompleteExpression -> incompleteExpression | standaloneExpression -> standaloneExpression )
             {
-            // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:65:1: ( options {backtrack=true; } : standaloneExpression -> standaloneExpression | axiom -> axiom | incompleteAxiom -> incompleteAxiom | incompleteExpression -> incompleteExpression )
+            // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:66:1: ( options {backtrack=true; } : axiom -> axiom | incompleteAxiom -> incompleteAxiom | incompleteExpression -> incompleteExpression | standaloneExpression -> standaloneExpression )
             int alt1=4;
             alt1 = dfa1.predict(input);
             switch (alt1) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:67:1: standaloneExpression
+                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:68:3: axiom
                     {
-                    pushFollow(FOLLOW_standaloneExpression_in_main107);
-                    standaloneExpression1=standaloneExpression();
+                    pushFollow(FOLLOW_axiom_in_main125);
+                    axiom1=axiom();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_standaloneExpression.add(standaloneExpression1.getTree());
-
-
-                    // AST REWRITE
-                    // elements: standaloneExpression
-                    // token labels: 
-                    // rule labels: retval
-                    // token list labels: 
-                    // rule list labels: 
-                    // wildcard labels: 
-                    if ( state.backtracking==0 ) {
-                    retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
-
-                    root_0 = (ManchesterOWLSyntaxTree)adaptor.nil();
-                    // 67:22: -> standaloneExpression
-                    {
-                        adaptor.addChild(root_0, stream_standaloneExpression.nextTree());
-
-                    }
-
-                    retval.tree = root_0;}
-                    }
-                    break;
-                case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:68:5: axiom
-                    {
-                    pushFollow(FOLLOW_axiom_in_main117);
-                    axiom2=axiom();
-
-                    state._fsp--;
-                    if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_axiom.add(axiom2.getTree());
+                    if ( state.backtracking==0 ) stream_axiom.add(axiom1.getTree());
 
 
                     // AST REWRITE
@@ -259,7 +229,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (ManchesterOWLSyntaxTree)adaptor.nil();
-                    // 68:12: -> axiom
+                    // 68:10: -> axiom
                     {
                         adaptor.addChild(root_0, stream_axiom.nextTree());
 
@@ -268,15 +238,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                     retval.tree = root_0;}
                     }
                     break;
-                case 3 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:69:5: incompleteAxiom
+                case 2 :
+                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:69:5: incompleteAxiom
                     {
-                    pushFollow(FOLLOW_incompleteAxiom_in_main128);
-                    incompleteAxiom3=incompleteAxiom();
+                    pushFollow(FOLLOW_incompleteAxiom_in_main136);
+                    incompleteAxiom2=incompleteAxiom();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_incompleteAxiom.add(incompleteAxiom3.getTree());
+                    if ( state.backtracking==0 ) stream_incompleteAxiom.add(incompleteAxiom2.getTree());
 
 
                     // AST REWRITE
@@ -300,15 +270,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                     retval.tree = root_0;}
                     }
                     break;
-                case 4 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:70:5: incompleteExpression
+                case 3 :
+                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:70:5: incompleteExpression
                     {
-                    pushFollow(FOLLOW_incompleteExpression_in_main139);
-                    incompleteExpression4=incompleteExpression();
+                    pushFollow(FOLLOW_incompleteExpression_in_main147);
+                    incompleteExpression3=incompleteExpression();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_incompleteExpression.add(incompleteExpression4.getTree());
+                    if ( state.backtracking==0 ) stream_incompleteExpression.add(incompleteExpression3.getTree());
 
 
                     // AST REWRITE
@@ -326,6 +296,38 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                     // 70:27: -> incompleteExpression
                     {
                         adaptor.addChild(root_0, stream_incompleteExpression.nextTree());
+
+                    }
+
+                    retval.tree = root_0;}
+                    }
+                    break;
+                case 4 :
+                    // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:71:9: standaloneExpression
+                    {
+                    pushFollow(FOLLOW_standaloneExpression_in_main164);
+                    standaloneExpression4=standaloneExpression();
+
+                    state._fsp--;
+                    if (state.failed) return retval;
+                    if ( state.backtracking==0 ) stream_standaloneExpression.add(standaloneExpression4.getTree());
+
+
+                    // AST REWRITE
+                    // elements: standaloneExpression
+                    // token labels: 
+                    // rule labels: retval
+                    // token list labels: 
+                    // rule list labels: 
+                    // wildcard labels: 
+                    if ( state.backtracking==0 ) {
+                    retval.tree = root_0;
+                    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
+
+                    root_0 = (ManchesterOWLSyntaxTree)adaptor.nil();
+                    // 71:30: -> standaloneExpression
+                    {
+                        adaptor.addChild(root_0, stream_standaloneExpression.nextTree());
 
                     }
 
@@ -366,11 +368,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
     // $ANTLR start synpred1_ManchesterOWLSyntaxAutoCompleteCombined
     public final void synpred1_ManchesterOWLSyntaxAutoCompleteCombined_fragment() throws RecognitionException {   
-        // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:67:1: ( standaloneExpression )
-        // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:67:1: standaloneExpression
+        // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:68:3: ( axiom )
+        // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:68:3: axiom
         {
-        pushFollow(FOLLOW_standaloneExpression_in_synpred1_ManchesterOWLSyntaxAutoCompleteCombined107);
-        standaloneExpression();
+        pushFollow(FOLLOW_axiom_in_synpred1_ManchesterOWLSyntaxAutoCompleteCombined125);
+        axiom();
 
         state._fsp--;
         if (state.failed) return ;
@@ -381,11 +383,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
     // $ANTLR start synpred2_ManchesterOWLSyntaxAutoCompleteCombined
     public final void synpred2_ManchesterOWLSyntaxAutoCompleteCombined_fragment() throws RecognitionException {   
-        // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:68:5: ( axiom )
-        // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:68:5: axiom
+        // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:69:5: ( incompleteAxiom )
+        // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:69:5: incompleteAxiom
         {
-        pushFollow(FOLLOW_axiom_in_synpred2_ManchesterOWLSyntaxAutoCompleteCombined117);
-        axiom();
+        pushFollow(FOLLOW_incompleteAxiom_in_synpred2_ManchesterOWLSyntaxAutoCompleteCombined136);
+        incompleteAxiom();
 
         state._fsp--;
         if (state.failed) return ;
@@ -396,11 +398,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
     // $ANTLR start synpred3_ManchesterOWLSyntaxAutoCompleteCombined
     public final void synpred3_ManchesterOWLSyntaxAutoCompleteCombined_fragment() throws RecognitionException {   
-        // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:69:5: ( incompleteAxiom )
-        // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxAutoCompleteCombined.g:69:5: incompleteAxiom
+        // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:70:5: ( incompleteExpression )
+        // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:70:5: incompleteExpression
         {
-        pushFollow(FOLLOW_incompleteAxiom_in_synpred3_ManchesterOWLSyntaxAutoCompleteCombined128);
-        incompleteAxiom();
+        pushFollow(FOLLOW_incompleteExpression_in_synpred3_ManchesterOWLSyntaxAutoCompleteCombined147);
+        incompleteExpression();
 
         state._fsp--;
         if (state.failed) return ;
@@ -410,43 +412,43 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     // $ANTLR end synpred3_ManchesterOWLSyntaxAutoCompleteCombined
 
     // Delegated rules
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unaryAxiom_return unaryAxiom() throws RecognitionException { return gMOWLParser.unaryAxiom(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.qualifiedRestriction_return qualifiedRestriction() throws RecognitionException { return gMOWLParser.qualifiedRestriction(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteOneOf_return incompleteOneOf() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteOneOf(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.cardinalityRestriction_return cardinalityRestriction() throws RecognitionException { return gMOWLParser.cardinalityRestriction(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAssertionAxiom_return incompleteAssertionAxiom() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteAssertionAxiom(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unaryCharacteristic_return unaryCharacteristic() throws RecognitionException { return gMOWLParser.unaryCharacteristic(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return propertyExpression() throws RecognitionException { return gMOWLParser.propertyExpression(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteConjunction_return incompleteConjunction() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteConjunction(); }
     public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.valueRestriction_return valueRestriction() throws RecognitionException { return gMOWLParser.valueRestriction(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.assertionAxiom_return assertionAxiom() throws RecognitionException { return gMOWLParser.assertionAxiom(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnaryAxiom_return incompleteUnaryAxiom() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteUnaryAxiom(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return incompleteExpression() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteExpression(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteBinaryAxiom_return incompleteBinaryAxiom() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteBinaryAxiom(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return atomic() throws RecognitionException { return gMOWLParser.atomic(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnary_return incompleteUnary() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteUnary(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.constant_return constant() throws RecognitionException { return gMOWLParser.constant(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteCardinalityRestriction_return incompleteCardinalityRestriction() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteCardinalityRestriction(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.binaryAxiom_return binaryAxiom() throws RecognitionException { return gMOWLParser.binaryAxiom(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.cardinalityRestriction_return cardinalityRestriction() throws RecognitionException { return gMOWLParser.cardinalityRestriction(); }
     public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return expression() throws RecognitionException { return gMOWLParser.expression(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.axiom_return axiom() throws RecognitionException { return gMOWLParser.axiom(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.standaloneExpression_return standaloneExpression() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.standaloneExpression(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.restrictionKind_return restrictionKind() throws RecognitionException { return gMOWLParser.restrictionKind(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.oneOf_return oneOf() throws RecognitionException { return gMOWLParser.oneOf(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom_return incompleteAxiom() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteValueRestriction_return incompleteValueRestriction() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteValueRestriction(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.conjunction_return conjunction() throws RecognitionException { return gMOWLParser.conjunction(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteOneOf_return incompleteOneOf() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteOneOf(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.qualifiedRestriction_return qualifiedRestriction() throws RecognitionException { return gMOWLParser.qualifiedRestriction(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unaryCharacteristic_return unaryCharacteristic() throws RecognitionException { return gMOWLParser.unaryCharacteristic(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteBinaryAxiom_return incompleteBinaryAxiom() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteBinaryAxiom(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.constant_return constant() throws RecognitionException { return gMOWLParser.constant(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnary_return incompleteUnary() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteUnary(); }
     public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.value_return value() throws RecognitionException { return gMOWLParser.value(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteQualifiedRestriction_return incompleteQualifiedRestriction() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteQualifiedRestriction(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.complexPropertyExpression_return complexPropertyExpression() throws RecognitionException { return gMOWLParser.complexPropertyExpression(); }
-    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unary_return unary() throws RecognitionException { return gMOWLParser.unary(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return propertyExpression() throws RecognitionException { return gMOWLParser.propertyExpression(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteValueRestriction_return incompleteValueRestriction() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteValueRestriction(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnaryAxiom_return incompleteUnaryAxiom() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteUnaryAxiom(); }
     public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteComplexPropertyExpression_return incompleteComplexPropertyExpression() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteComplexPropertyExpression(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAssertionAxiom_return incompleteAssertionAxiom() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteAssertionAxiom(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.assertionAxiom_return assertionAxiom() throws RecognitionException { return gMOWLParser.assertionAxiom(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.restrictionKind_return restrictionKind() throws RecognitionException { return gMOWLParser.restrictionKind(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteQualifiedRestriction_return incompleteQualifiedRestriction() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteQualifiedRestriction(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.standaloneExpression_return standaloneExpression() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.standaloneExpression(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.conjunction_return conjunction() throws RecognitionException { return gMOWLParser.conjunction(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteConjunction_return incompleteConjunction() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteConjunction(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.axiom_return axiom() throws RecognitionException { return gMOWLParser.axiom(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unaryAxiom_return unaryAxiom() throws RecognitionException { return gMOWLParser.unaryAxiom(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom_return incompleteAxiom() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.binaryAxiom_return binaryAxiom() throws RecognitionException { return gMOWLParser.binaryAxiom(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return incompleteExpression() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteExpression(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.oneOf_return oneOf() throws RecognitionException { return gMOWLParser.oneOf(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return atomic() throws RecognitionException { return gMOWLParser.atomic(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteCardinalityRestriction_return incompleteCardinalityRestriction() throws RecognitionException { return gManchesterOWLSyntaxAutoCompleteBase.incompleteCardinalityRestriction(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unary_return unary() throws RecognitionException { return gMOWLParser.unary(); }
+    public ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.complexPropertyExpression_return complexPropertyExpression() throws RecognitionException { return gMOWLParser.complexPropertyExpression(); }
 
-    public final boolean synpred3_ManchesterOWLSyntaxAutoCompleteCombined() {
+    public final boolean synpred1_ManchesterOWLSyntaxAutoCompleteCombined() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred3_ManchesterOWLSyntaxAutoCompleteCombined_fragment(); // can never throw exception
+            synpred1_ManchesterOWLSyntaxAutoCompleteCombined_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -470,11 +472,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred1_ManchesterOWLSyntaxAutoCompleteCombined() {
+    public final boolean synpred3_ManchesterOWLSyntaxAutoCompleteCombined() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred1_ManchesterOWLSyntaxAutoCompleteCombined_fragment(); // can never throw exception
+            synpred3_ManchesterOWLSyntaxAutoCompleteCombined_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -553,7 +555,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
             this.transition = DFA1_transition;
         }
         public String getDescription() {
-            return "65:1: ( options {backtrack=true; } : standaloneExpression -> standaloneExpression | axiom -> axiom | incompleteAxiom -> incompleteAxiom | incompleteExpression -> incompleteExpression )";
+            return "66:1: ( options {backtrack=true; } : axiom -> axiom | incompleteAxiom -> incompleteAxiom | incompleteExpression -> incompleteExpression | standaloneExpression -> standaloneExpression )";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
@@ -699,9 +701,9 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         int index1_8 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
+                        if ( (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 15;}
 
-                        else if ( (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 17;}
+                        else if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
 
                          
                         input.seek(index1_8);
@@ -714,9 +716,9 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         int index1_9 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
+                        if ( (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 15;}
 
-                        else if ( (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 17;}
+                        else if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
 
                          
                         input.seek(index1_9);
@@ -729,9 +731,9 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         int index1_10 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
+                        if ( (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 15;}
 
-                        else if ( (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 17;}
+                        else if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
 
                          
                         input.seek(index1_10);
@@ -744,9 +746,9 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         int index1_11 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
+                        if ( (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 15;}
 
-                        else if ( (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 17;}
+                        else if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
 
                          
                         input.seek(index1_11);
@@ -759,9 +761,9 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         int index1_12 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
+                        if ( (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 15;}
 
-                        else if ( (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 17;}
+                        else if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
 
                          
                         input.seek(index1_12);
@@ -774,9 +776,9 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         int index1_13 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
+                        if ( (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 15;}
 
-                        else if ( (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 17;}
+                        else if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
 
                          
                         input.seek(index1_13);
@@ -789,9 +791,9 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         int index1_14 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
+                        if ( (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 15;}
 
-                        else if ( (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 17;}
+                        else if ( (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) ) {s = 16;}
 
                          
                         input.seek(index1_14);
@@ -807,12 +809,12 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     }
  
 
-    public static final BitSet FOLLOW_standaloneExpression_in_main107 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_axiom_in_main117 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_incompleteAxiom_in_main128 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_incompleteExpression_in_main139 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_standaloneExpression_in_synpred1_ManchesterOWLSyntaxAutoCompleteCombined107 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_axiom_in_synpred2_ManchesterOWLSyntaxAutoCompleteCombined117 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_incompleteAxiom_in_synpred3_ManchesterOWLSyntaxAutoCompleteCombined128 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_axiom_in_main125 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_incompleteAxiom_in_main136 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_incompleteExpression_in_main147 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_standaloneExpression_in_main164 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_axiom_in_synpred1_ManchesterOWLSyntaxAutoCompleteCombined125 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_incompleteAxiom_in_synpred2_ManchesterOWLSyntaxAutoCompleteCombined136 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_incompleteExpression_in_synpred3_ManchesterOWLSyntaxAutoCompleteCombined147 = new BitSet(new long[]{0x0000000000000002L});
 
 }

@@ -90,10 +90,10 @@ incompleteBinaryAxiom :
 incompleteExpression:
     (   
       options {backtrack=true;}: 
-      head = propertyExpression (COMPOSITION rest+=propertyExpression )+ COMPOSITION  -> ^(INCOMPLETE_PROPERTY_CHAIN  $head $rest)
-      | (conjunction (OR .)*) OR  incompleteConjunction?  -> ^(INCOMPLETE_DISJUNCTION  ^(incompleteConjunction)?)
-      | incompleteConjunction -> ^(INCOMPLETE_DISJUNCTION  ^(incompleteConjunction)?) 
-      | incompleteUnary -> ^(incompleteUnary)
+      head = propertyExpression (COMPOSITION rest+=propertyExpression )+ COMPOSITION  -> ^(INCOMPLETE_EXPRESSION ^(INCOMPLETE_PROPERTY_CHAIN  $head $rest))
+      | (conjunction (OR .)*) OR  incompleteConjunction  -> ^(INCOMPLETE_EXPRESSION ^(INCOMPLETE_DISJUNCTION  incompleteConjunction))
+      | incompleteConjunction -> ^(INCOMPLETE_EXPRESSION ^(INCOMPLETE_DISJUNCTION  incompleteConjunction)) 
+      | incompleteUnary -> ^(INCOMPLETE_EXPRESSION incompleteUnary)
       | expression IDENTIFIER ->^(INCOMPLETE_EXPRESSION ^(EXPRESSION expression) IDENTIFIER)  
     )    
   ;  
@@ -108,19 +108,20 @@ incompleteComplexPropertyExpression:
   
 incompleteUnary :    
     NOT OPEN_PARENTHESYS  -> ^(INCOMPLETE_NEGATED_EXPRESSION)                  
-    | incompleteQualifiedRestriction -> ^(incompleteQualifiedRestriction)         
+    | incompleteQualifiedRestriction -> incompleteQualifiedRestriction
   ;
 
-incompleteQualifiedRestriction:
-        (
-          options{backtrack = true;}:
+incompleteQualifiedRestriction:	
+(       options {backtrack=true;}: 
           propertyExpression  SOME -> ^(INCOMPLETE_SOME_RESTRICTION propertyExpression)                 
         | propertyExpression ONLY -> ^(INCOMPLETE_ALL_RESTRICTION propertyExpression)
-        | incompleteCardinalityRestriction -> ^(incompleteCardinalityRestriction)
         | incompleteOneOf -> ^(incompleteOneOf)
-        | incompleteValueRestriction -> ^(incompleteValueRestriction)
-        )
-    ;
+	| incompleteCardinalityRestriction -> incompleteCardinalityRestriction
+        | incompleteValueRestriction -> incompleteValueRestriction
+   )
+ ;
+ 
+
 
 incompleteCardinalityRestriction  :
           propertyExpression  restrictionKind INTEGER  -> ^(INCOMPLETE_CARDINALITY_RESTRICTION  restrictionKind INTEGER propertyExpression)
