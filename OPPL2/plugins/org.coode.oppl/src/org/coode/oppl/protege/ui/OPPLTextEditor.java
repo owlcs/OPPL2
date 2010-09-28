@@ -23,7 +23,6 @@
 package org.coode.oppl.protege.ui;
 
 import java.awt.BorderLayout;
-import java.awt.event.KeyListener;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +34,8 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.protege.ProtegeParserFactory;
 import org.coode.oppl.utils.ArgCheck;
 import org.coode.oppl.validation.OPPLScriptValidator;
+import org.coode.parsers.oppl.ui.autocompletionmatcher.ProtegeOPPLAutoCompletionMatcher;
+import org.coode.parsers.ui.AutoCompleter;
 import org.coode.parsers.ui.ExpressionEditor;
 import org.coode.parsers.ui.InputVerificationStatusChangedListener;
 import org.coode.parsers.ui.VerifiedInputEditor;
@@ -59,6 +60,7 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
 	private final org.coode.parsers.ui.ExpressionEditor<OPPLScript> editor;
 	protected final OPPLScriptValidator validator;
 	private final OPPLExpressionChecker<OPPLScript> opplExpressionChecker;
+	private final ProtegeOPPLAutoCompletionMatcher autoCompletionMatcher;
 
 	/**
 	 * @return the opplScript
@@ -126,8 +128,10 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
 				OPPLTextEditor.this.handleChange();
 			}
 		});
-		this.removeKeyListeners();
+		// this.removeKeyListeners();
+		this.autoCompletionMatcher = new ProtegeOPPLAutoCompletionMatcher(this.getOWLEditorKit());
 		this.getOWLEditorKit().getModelManager().addListener(this);
+		new AutoCompleter(this.editor, this.autoCompletionMatcher);
 		this.initGUI();
 	}
 
@@ -188,15 +192,15 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
 
 	public void dispose() {
 		this.getOWLEditorKit().getModelManager().removeListener(this);
+		this.autoCompletionMatcher.dispose();
 	}
-
-	/**
-	 *
-	 */
-	private void removeKeyListeners() {
-		KeyListener[] keyListeners = this.editor.getKeyListeners();
-		for (KeyListener keyListener : keyListeners) {
-			this.editor.removeKeyListener(keyListener);
-		}
-	}
+	// /**
+	// *
+	// */
+	// private void removeKeyListeners() {
+	// KeyListener[] keyListeners = this.editor.getKeyListeners();
+	// for (KeyListener keyListener : keyListeners) {
+	// this.editor.removeKeyListener(keyListener);
+	// }
+	// }
 }

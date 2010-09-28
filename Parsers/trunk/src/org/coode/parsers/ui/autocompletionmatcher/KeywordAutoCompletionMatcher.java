@@ -19,14 +19,12 @@ import java.util.regex.Pattern;
  * @author Luigi Iannone
  * 
  */
-public final class KeywordAutoCompletionMatcher implements
-		AutoCompletionMatcher {
+public final class KeywordAutoCompletionMatcher implements AutoCompletionMatcher {
 	private final Set<String> keywords = new HashSet<String>();
 
 	public KeywordAutoCompletionMatcher(Collection<? extends String> keywords) {
 		if (keywords == null) {
-			throw new NullPointerException(
-					"The keywords colleciton cannot be null");
+			throw new NullPointerException("The keywords colleciton cannot be null");
 		}
 		this.keywords.addAll(keywords);
 	}
@@ -35,9 +33,8 @@ public final class KeywordAutoCompletionMatcher implements
 	 * @see org.coode.parsers.ui.autocompletionmatcher.AutoCompletionMatcher#getMatches(java.lang.String)
 	 */
 	public List<String> getMatches(String string2Complete) {
-		Pattern pattern = Pattern.compile("^" + string2Complete,
-				Pattern.CASE_INSENSITIVE);
 		List<String> toReturn = new ArrayList<String>();
+		Pattern pattern = Pattern.compile("\\A" + string2Complete + ".*", Pattern.CASE_INSENSITIVE);
 		for (String kw : this.keywords) {
 			Matcher matcher = pattern.matcher(kw);
 			if (matcher.matches()) {
