@@ -191,4 +191,8 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 	public ShortFormEntityRenderer getEntityRenderer() {
 		return this.entityRenderer;
 	}
+
+	public static void reset() {
+		instance = null;
+	}
 }

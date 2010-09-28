@@ -194,6 +194,7 @@ public class OPPLParser implements AbstractOPPLParser {
 
 	public AbstractConstraint parseConstraint(String input, OPPLSymbolTable symbolTable,
 			ConstraintSystem constraintSystem) {
+		symbolTable.setErrorListener(this.getListener());
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
@@ -238,6 +239,7 @@ public class OPPLParser implements AbstractOPPLParser {
 
 	public Variable parseOPPLFunction(String input, Variable variable, OPPLSymbolTable symbolTable,
 			ConstraintSystem constraintSystem) {
+		symbolTable.setErrorListener(this.getListener());
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
@@ -285,6 +287,7 @@ public class OPPLParser implements AbstractOPPLParser {
 
 	public Variable parseRegExp(String input, Variable variable, OPPLSymbolTable symbolTable,
 			ConstraintSystem constraintSystem) {
+		symbolTable.setErrorListener(this.getListener());
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
@@ -335,6 +338,7 @@ public class OPPLParser implements AbstractOPPLParser {
 	 */
 	public OWLAxiom parseAxiom(String input, OPPLSymbolTable symbolTable,
 			ConstraintSystem constraintSystem) {
+		symbolTable.setErrorListener(this.getListener());
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);

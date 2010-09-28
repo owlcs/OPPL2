@@ -28,10 +28,13 @@ import org.coode.parsers.ManchesterOWLSyntaxParser;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
+import org.coode.parsers.ShortFormEntityRenderer;
 import org.coode.parsers.SymbolTable;
 import org.coode.parsers.Type;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
+import org.coode.parsers.ui.autocompletionmatcher.AutoCompletionMatcher;
+import org.coode.parsers.ui.autocompletionmatcher.ManchesterOWLSyntaxSimpleAutoCompletionMatcher;
 import org.semanticweb.owl.apibinding.OWLManager;
 import org.semanticweb.owl.model.OWLAntiSymmetricObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLAxiom;
@@ -72,6 +75,7 @@ import org.semanticweb.owl.model.OWLSubClassAxiom;
 import org.semanticweb.owl.model.OWLSymmetricObjectPropertyAxiom;
 import org.semanticweb.owl.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owl.model.utils.DefaultOWLObjectVisitorEx;
+import org.semanticweb.owl.util.SimpleShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -544,13 +548,11 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 			this.listener.clear();
 			this.symbolTable = ManchesterOWLSyntaxValidatorGUI.this.symbolTableFactory.createSymbolTable();
 			if (this.autoCompleter == null) {
+				AutoCompletionMatcher matcher = new ManchesterOWLSyntaxSimpleAutoCompletionMatcher(
+						new ShortFormEntityRenderer(new SimpleShortFormProvider()),
+						ManchesterOWLSyntaxValidatorGUI.this.manager);
 				this.autoCompleter = new AutoCompleter(
-						ManchesterOWLSyntaxValidatorGUI.this.axiomValidator, this.adaptor) {
-					@Override
-					protected SymbolTable getSymbolTable() {
-						return AxiomChecker.this.symbolTable;
-					}
-				};
+						ManchesterOWLSyntaxValidatorGUI.this.axiomValidator, matcher);
 			}
 		}
 

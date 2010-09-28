@@ -70,7 +70,6 @@ import org.coode.oppl.validation.OPPLScriptValidator;
 import org.jdesktop.swingworker.SwingWorker;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
-import org.protege.editor.owl.model.event.EventType;
 import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.protege.editor.owl.model.inference.NoOpReasoner;
@@ -321,6 +320,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 		mainPanel.setDividerLocation(.6);
 		mainPanel.setResizeWeight(.6);
 		JPanel statementPanel = new JPanel(new BorderLayout());
+		ProtegeParserFactory.reset();
 		OPPLAbstractFactory opplFactory = ProtegeParserFactory.getInstance(this.getOWLEditorKit()).getOPPLFactory();
 		this.affectedAxioms = new ActionList(this.getOWLEditorKit(), new ConstraintSystem(
 				this.getOWLEditorKit().getModelManager().getActiveOntology(),
@@ -490,24 +490,18 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 	}
 
 	public void handleChange(OWLModelManagerChangeEvent event) {
-		if (event.getType().equals(EventType.REASONER_CHANGED)) {
-			this.bindingTableModel = InstantiationTableModel.getNoOPPLScriptTableModel();
-			this.bindingTable.setModel(this.bindingTableModel);
-			OPPLAbstractFactory opplFactory = ProtegeParserFactory.getInstance(
-					this.getOWLEditorKit()).getOPPLFactory();
-			OPPLScript opplScript = this.editor.getOPPLScript();
-			if (opplScript != null) {
-				this.statementModel = opplFactory.importOPPLScript(opplScript);
-			}
-			ActionListModel model = (ActionListModel) OPPLView.this.affectedAxioms.getModel();
-			model.clear();
-			this.instantiatedAxiomListModel.clear();
-			this.bindingTableModel = new InstantiationTableModel(this.statementModel,
-					this.getOWLEditorKit());
-			this.bindingTable.setModel(this.bindingTableModel);
-			OPPLView.this.bindingTreeScrollPane.setBorder(ComponentFactory.createTitledBorder(BINDINGS_TITLE));
-			OPPLView.this.affectedScrollPane.setBorder(ComponentFactory.createTitledBorder("Affected axioms: "));
-			this.evaluate.setEnabled(true);
-		}
+		this.bindingTable.setModel(this.bindingTableModel);
+		OPPLAbstractFactory opplFactory = ProtegeParserFactory.getInstance(this.getOWLEditorKit()).getOPPLFactory();
+		this.statementModel = this.editor.getOPPLScript() == null ? null
+				: opplFactory.importOPPLScript(this.editor.getOPPLScript());
+		ActionListModel model = (ActionListModel) OPPLView.this.affectedAxioms.getModel();
+		model.clear();
+		this.instantiatedAxiomListModel.clear();
+		this.bindingTableModel = this.statementModel == null ? InstantiationTableModel.getNoOPPLScriptTableModel()
+				: new InstantiationTableModel(this.statementModel, this.getOWLEditorKit());
+		this.bindingTable.setModel(this.bindingTableModel);
+		OPPLView.this.bindingTreeScrollPane.setBorder(ComponentFactory.createTitledBorder(BINDINGS_TITLE));
+		OPPLView.this.affectedScrollPane.setBorder(ComponentFactory.createTitledBorder("Affected axioms: "));
+		this.evaluate.setEnabled(true);
 	}
 }
