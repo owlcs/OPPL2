@@ -352,13 +352,8 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 
 	@Override
 	public String toString() {
-		// String statementRendering;
-		// if (this.unresolvedOPPLStatementString == null) {
-		// statementRendering = this.opplStatement.toString();
-		// } else {
-		// statementRendering = this.unresolvedOPPLStatementString;
-		// }
-		return this.opplStatement.toString() + " " + this.rendering;
+		String rendering = this.rendering == null ? "" : this.rendering;
+		return String.format("%s %s", this.opplStatement, rendering).trim();
 	}
 
 	/**
