@@ -20,4 +20,7 @@ public interface AssertionExpressionVisitorEx<O> {
 
 	O visitCountStarAssertionExpression(
 			CountStarAssertionExpression countStarAssertionExpression);
+
+	O visitBindingNodeCountAssertionExpression(
+			BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression);
 }

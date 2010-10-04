@@ -32,6 +32,7 @@ import org.coode.parsers.oppl.testcase.OPPLTestCaseTypes;
 import org.coode.parsers.oppl.testcase.SimpleSymbolTableFactory;
 import org.coode.parsers.test.JUnitTestErrorListener;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -91,6 +92,7 @@ public class OPPLTestCaseTypesTest extends TestCase {
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
+			System.out.println(tree.toStringTree());
 			OPPLDefine define = new OPPLDefine(nodes, symtab, ERROR_LISTENER,
 					constraintSystem);
 			define.setTreeAdaptor(adaptor);
@@ -344,6 +346,46 @@ public class OPPLTestCaseTypesTest extends TestCase {
 			assertNotNull(parsed);
 			System.out
 					.println("OPPLTestCaseTypesTest.testGreaterThanAssertionWithMessage()\n"
+							+ parsed);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testBindingWithMessage() {
+		String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(?x=Thing, ?y=Thing) > 0; The total count of bindings with ?x=Thing and ?y=Thing is less or equal than 0";
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
+		OWLOntology ontology;
+		try {
+			ontology = ontologyManager.createOntology();
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
+			assertNotNull(parsed);
+			System.out
+					.println("OPPLTestCaseTypesTest.testBindingWithMessage()\n"
+							+ parsed);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void test2BindingsWithOutMessages() {
+		String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(?x=Pizza, ?y=PizzaBase) > 0 ASSERT count(?x=Thing, ?y=Nothing) > 0";
+		OWLOntologyManager ontologyManager = OWLManager
+				.createOWLOntologyManager();
+		OWLOntology ontology;
+		try {
+			ontology = ontologyManager
+					.loadOntology(IRI
+							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			OPPLTestCase parsed = this.parse(testCase, ontology,
+					ontologyManager);
+			assertNotNull(parsed);
+			System.out
+					.println("OPPLTestCaseTypesTest.test2BindingsWithMessages()\n"
 							+ parsed);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();

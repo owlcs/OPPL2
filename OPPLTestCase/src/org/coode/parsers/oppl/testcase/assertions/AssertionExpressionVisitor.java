@@ -21,4 +21,7 @@ public interface AssertionExpressionVisitor {
 
 	void visitCountStarAssertionExpression(
 			CountStarAssertionExpression countStarAssertionExpression);
+
+	void visitBindingNodeCountAssertionExpression(
+			BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression);
 }

@@ -133,6 +133,7 @@ public abstract class OPPLTestCaseList extends
 		this.modelManagerListener = new OWLModelManagerListener() {
 			public void handleChange(OWLModelManagerChangeEvent event) {
 				// Force refresh
+				OPPLTestCaseList.this.buttons.clear();
 				OPPLTestCaseList.this
 						.setRootObject(new OPPLTestCaseAnnotationContainer(
 								OPPLTestCaseList.this.getOWLEditorKit()));

@@ -51,4 +51,9 @@ public abstract class DefaultAssertionExpressionVisitorExAdapter<O> implements
 			OWLExpressionAssertionExpression owlExpressionAssertionExpression) {
 		return this.getDefaultValue(owlExpressionAssertionExpression);
 	}
+
+	public O visitBindingNodeCountAssertionExpression(
+			BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression) {
+		return this.getDefaultValue(bindingNodeCountAssertionExpression);
+	}
 }
