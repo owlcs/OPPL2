@@ -32,7 +32,6 @@ import org.semanticweb.owlapi.model.OWLObject;
 public class Assignment {
 	private final Variable assignedVariable;
 	private final OWLObject assignment;
-	private final int hashcode;
 
 	/**
 	 * @param assignedVariable
@@ -41,7 +40,6 @@ public class Assignment {
 	public Assignment(Variable assignedVariable, OWLObject assignment) {
 		this.assignedVariable = assignedVariable;
 		this.assignment = assignment;
-		this.hashcode = assignedVariable.hashCode() * assignment.hashCode();
 	}
 
 	/**
@@ -60,22 +58,59 @@ public class Assignment {
 
 	@Override
 	public String toString() {
-		return this.assignedVariable.getName() + "=" + this.assignment.toString();
+		return this.assignedVariable.getName() + "="
+				+ this.assignment.toString();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
-		return this.hashcode;
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ (this.assignedVariable == null ? 0 : this.assignedVariable
+						.hashCode());
+		result = prime * result
+				+ (this.assignment == null ? 0 : this.assignment.hashCode());
+		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
-		boolean toReturn = obj instanceof Assignment;
-		if (toReturn) {
-			Assignment toCompare = (Assignment) obj;
-			toReturn = this.assignedVariable.equals(toCompare.assignedVariable)
-					&& this.assignment.equals(toCompare.assignment);
+		if (this == obj) {
+			return true;
 		}
-		return toReturn;
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		Assignment other = (Assignment) obj;
+		if (this.assignedVariable == null) {
+			if (other.assignedVariable != null) {
+				return false;
+			}
+		} else if (!this.assignedVariable.equals(other.assignedVariable)) {
+			return false;
+		}
+		if (this.assignment == null) {
+			if (other.assignment != null) {
+				return false;
+			}
+		} else if (!this.assignment.equals(other.assignment)) {
+			return false;
+		}
+		return true;
 	}
 }

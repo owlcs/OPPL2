@@ -48,7 +48,8 @@ public abstract class VariableImpl implements Variable {
 		ArgCheck.checkNullArgument("The type", type);
 		this.name = name;
 		this.type = type;
-		this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
+		this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE
+				+ this.getName());
 	}
 
 	public String getName() {
@@ -71,16 +72,6 @@ public abstract class VariableImpl implements Variable {
 		return this.name + ":" + this.getType();
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		return obj instanceof Variable && this.name.equals(((Variable) obj).getName());
-	}
-
-	@Override
-	public int hashCode() {
-		return this.name.hashCode();
-	}
-
 	public VariableScope<?> getVariableScope() {
 		return this.variableScope;
 	}
@@ -98,5 +89,46 @@ public abstract class VariableImpl implements Variable {
 
 	public void accept(PlainVariableVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ (this.name == null ? 0 : this.name.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		VariableImpl other = (VariableImpl) obj;
+		if (this.name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!this.name.equals(other.name)) {
+			return false;
+		}
+		return true;
 	}
 }

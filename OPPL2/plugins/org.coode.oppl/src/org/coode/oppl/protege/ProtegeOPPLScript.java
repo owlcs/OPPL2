@@ -109,4 +109,45 @@ public class ProtegeOPPLScript implements OPPLScript {
 	public void addVariable(Variable variable) {
 		this.opplScript.addVariable(variable);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ (this.opplScript == null ? 0 : this.opplScript.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		ProtegeOPPLScript other = (ProtegeOPPLScript) obj;
+		if (this.opplScript == null) {
+			if (other.opplScript != null) {
+				return false;
+			}
+		} else if (!this.opplScript.equals(other.opplScript)) {
+			return false;
+		}
+		return true;
+	}
 }

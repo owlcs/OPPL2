@@ -111,4 +111,45 @@ public class ProtegeOPPLQuery implements OPPLQuery {
 			e.printStackTrace();
 		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ (this.opplQuery == null ? 0 : this.opplQuery.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		ProtegeOPPLQuery other = (ProtegeOPPLQuery) obj;
+		if (this.opplQuery == null) {
+			if (other.opplQuery != null) {
+				return false;
+			}
+		} else if (!this.opplQuery.equals(other.opplQuery)) {
+			return false;
+		}
+		return true;
+	}
 }

@@ -43,7 +43,8 @@ import org.semanticweb.owlapi.model.OWLObject;
  */
 public class BindingNode implements VariableVisitor<OWLObject> {
 	private static final BindingNode EMPTY_BINDING_NODE = new BindingNode(
-			Collections.<Assignment> emptySet(), Collections.<Variable> emptySet());
+			Collections.<Assignment> emptySet(), Collections
+					.<Variable> emptySet());
 
 	private static class VariableInspector implements PlainVariableVisitor {
 		private Set<Variable> toUpdate;
@@ -77,7 +78,8 @@ public class BindingNode implements VariableVisitor<OWLObject> {
 	 * @param assignments
 	 * @param unassignedVariables
 	 */
-	public BindingNode(Set<Assignment> assignments, Set<Variable> unassignedVariables) {
+	public BindingNode(Set<Assignment> assignments,
+			Set<Variable> unassignedVariables) {
 		this.assignments.addAll(assignments);
 		this.unassignedVariables.addAll(unassignedVariables);
 	}
@@ -110,23 +112,27 @@ public class BindingNode implements VariableVisitor<OWLObject> {
 
 	@Override
 	public String toString() {
-		return this.assignments + "\n"
-				+ (this.unassignedVariables.isEmpty() ? "" : this.unassignedVariables);
+		return this.assignments
+				+ "\n"
+				+ (this.unassignedVariables.isEmpty() ? ""
+						: this.unassignedVariables);
 	}
 
 	public String render(ConstraintSystem cs) {
 		boolean first = true;
 		StringWriter stringWriter = new StringWriter();
-		OWLEntityRenderer entityRenderer = cs.getOPPLFactory().getOWLEntityRenderer(cs);
+		OWLEntityRenderer entityRenderer = cs.getOPPLFactory()
+				.getOWLEntityRenderer(cs);
 		for (Assignment assignment : this.assignments) {
 			OWLObject value = assignment.getAssignment();
-			String assignmentRendering = value instanceof OWLEntity ? entityRenderer.render((OWLEntity) value)
+			String assignmentRendering = value instanceof OWLEntity ? entityRenderer
+					.render((OWLEntity) value)
 					: value.toString();
 			String commaString = first ? "" : ", ";
 			stringWriter.append(commaString);
 			first = false;
-			stringWriter.append(assignment.getAssignedVariable().getName() + " = "
-					+ assignmentRendering);
+			stringWriter.append(assignment.getAssignedVariable().getName()
+					+ " = " + assignmentRendering);
 		}
 		if (!this.unassignedVariables.isEmpty()) {
 			stringWriter.append(" ");
@@ -143,7 +149,8 @@ public class BindingNode implements VariableVisitor<OWLObject> {
 		assignment.getAssignedVariable().accept(new PlainVariableVisitor() {
 			public void visit(RegExpGenerated<?> regExpGenerated) {
 				BindingNode.this.assignments.add(assignment);
-				BindingNode.this.unassignedVariables.remove(assignment.getAssignedVariable());
+				BindingNode.this.unassignedVariables.remove(assignment
+						.getAssignedVariable());
 			}
 
 			public void visit(SingleValueGeneratedVariable<?> v) {
@@ -151,7 +158,8 @@ public class BindingNode implements VariableVisitor<OWLObject> {
 
 			public void visit(Variable v) {
 				BindingNode.this.assignments.add(assignment);
-				BindingNode.this.unassignedVariables.remove(assignment.getAssignedVariable());
+				BindingNode.this.unassignedVariables.remove(assignment
+						.getAssignedVariable());
 			}
 		});
 	}
@@ -169,29 +177,6 @@ public class BindingNode implements VariableVisitor<OWLObject> {
 	 */
 	public Set<Assignment> getAssignments() {
 		return new HashSet<Assignment>(this.assignments);
-	}
-
-	@Override
-	public int hashCode() {
-		int hashCode = 1;
-		for (Variable unassignedVariable : this.unassignedVariables) {
-			hashCode *= unassignedVariable.hashCode();
-		}
-		for (Assignment assignment : this.assignments) {
-			hashCode *= assignment.hashCode();
-		}
-		return hashCode;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		boolean toReturn = obj instanceof BindingNode;
-		if (toReturn) {
-			BindingNode toCompare = (BindingNode) obj;
-			toReturn = this.assignments.equals(toCompare.assignments)
-					&& this.unassignedVariables.equals(toCompare.unassignedVariables);
-		}
-		return toReturn;
 	}
 
 	public Set<Variable> getUnassignedVariables() {
@@ -242,5 +227,62 @@ public class BindingNode implements VariableVisitor<OWLObject> {
 
 	public static BindingNode getEmptyBindingNode() {
 		return BindingNode.EMPTY_BINDING_NODE;
+	}
+
+	public static BindingNode createNewEmptyBindingNode() {
+		return new BindingNode(Collections.<Assignment> emptySet(), Collections
+				.<Variable> emptySet());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ (this.assignments == null ? 0 : this.assignments.hashCode());
+		result = prime
+				* result
+				+ (this.unassignedVariables == null ? 0
+						: this.unassignedVariables.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		BindingNode other = (BindingNode) obj;
+		if (this.assignments == null) {
+			if (other.assignments != null) {
+				return false;
+			}
+		} else if (!this.assignments.equals(other.assignments)) {
+			return false;
+		}
+		if (this.unassignedVariables == null) {
+			if (other.unassignedVariables != null) {
+				return false;
+			}
+		} else if (!this.unassignedVariables.equals(other.unassignedVariables)) {
+			return false;
+		}
+		return true;
 	}
 }
