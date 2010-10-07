@@ -26,6 +26,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.KeyListener;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JComponent;
@@ -46,8 +47,13 @@ import org.coode.patterns.protege.ProtegeParserFactory;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.classexpression.OWLExpressionParserException;
+import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
+import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.protege.editor.owl.ui.clsdescriptioneditor.OWLExpressionChecker;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 
 /**
  * @author Luigi Iannone
@@ -68,11 +74,25 @@ public class TypeInPatternBuilder implements VerifiedInputEditor,
 	private IRI iri;
 	private org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor<String> patternNameTextField;
 	private final ProtegeOPPLPatternsAutoCompletionMatcher autoCompletionMatcher;
+	private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
+		public void handleChange(OWLModelManagerChangeEvent event) {
+			TypeInPatternBuilder.this.patternModelEditor.setText(TypeInPatternBuilder.this.patternModelEditor.getText());
+		}
+	};
+	private final OWLOntologyChangeListener ontologyChangeListener = new OWLOntologyChangeListener() {
+		public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
+				throws OWLException {
+			TypeInPatternBuilder.this.patternModelEditor.setText(TypeInPatternBuilder.this.patternModelEditor.getText());
+		}
+	};
 
 	public TypeInPatternBuilder(OWLEditorKit owlEditorKit) {
 		this.mainPanel.setLayout(new BorderLayout());
 		this.mainPanel.setName("Pattern Text Editor");
 		this.owlEditorKit = owlEditorKit;
+		this.getOWLEditorKit().getOWLModelManager().addListener(this.modelManagerListener);
+		this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager().addOntologyChangeListener(
+				this.ontologyChangeListener);
 		this.patternNameTextField = new org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor<String>(
 				owlEditorKit, new OWLExpressionChecker<String>() {
 					private String lastName;
@@ -205,6 +225,9 @@ public class TypeInPatternBuilder implements VerifiedInputEditor,
 		}
 		this.patternModelEditor.removeStatusChangedListener(this);
 		this.autoCompletionMatcher.dispose();
+		this.getOWLEditorKit().getOWLModelManager().removeListener(this.modelManagerListener);
+		this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager().removeOntologyChangeListener(
+				this.ontologyChangeListener);
 	}
 
 	public PatternModel getEditedObject() {

@@ -32,7 +32,6 @@ import java.util.Set;
 import org.coode.oppl.OPPLScript;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.SystemErrorEcho;
-import org.protege.editor.core.ProtegeApplication;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
@@ -148,7 +147,7 @@ public class PatternManager implements OWLOntologyChangeListener {
 				try {
 					this.ontologyManager.applyChanges(changes);
 				} catch (OWLOntologyChangeException e) {
-					ProtegeApplication.getErrorLog().logError(e);
+					throw new RuntimeException("Could not store the pattern inside the ontology", e);
 				}
 			}
 		}
