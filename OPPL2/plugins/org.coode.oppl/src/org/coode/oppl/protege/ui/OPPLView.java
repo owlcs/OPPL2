@@ -70,18 +70,13 @@ import org.coode.oppl.validation.OPPLScriptValidator;
 import org.jdesktop.swingworker.SwingWorker;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
-import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
-import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.protege.editor.owl.model.inference.NoOpReasoner;
 import org.protege.editor.owl.ui.list.OWLLinkedObjectList;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
-import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 /**
@@ -89,7 +84,9 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
  * 
  */
 public final class OPPLView extends AbstractOWLViewComponent implements
-		InputVerificationStatusChangedListener, OWLOntologyChangeListener, OWLModelManagerListener {
+		InputVerificationStatusChangedListener
+// , OWLOntologyChangeListener, OWLModelManagerListener
+{
 	private static final String INSTANTIATED_AXIOMS_TITLE = "Instantiated axioms: ";
 	private static final String BINDINGS_TITLE = "Bindings:";
 
@@ -308,7 +305,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 
 	@Override
 	protected void disposeOWLView() {
-		this.getOWLEditorKit().getModelManager().removeListener(this);
+		// this.getOWLEditorKit().getModelManager().removeListener(this);
 		this.editor.removeStatusChangedListener(this);
 		this.editor.dispose();
 		ProtegeParserFactory.getInstance(this.getOWLEditorKit()).dispose();
@@ -342,8 +339,8 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 			}
 		});
 		this.instantiatedAxiomsList.setCellRenderer(cellRenderer);
-		this.getOWLEditorKit().getModelManager().addListener(this);
-		this.getOWLModelManager().getOWLOntologyManager().addOntologyChangeListener(this);
+		// this.getOWLEditorKit().getModelManager().addListener(this);
+		// this.getOWLModelManager().getOWLOntologyManager().addOntologyChangeListener(this);
 		this.editor = new OPPLEditor(this.getOWLEditorKit(), this.validator);
 		this.editor.setPreferredSize(new Dimension(200, 300));
 		statementPanel.add(this.evaluate, BorderLayout.SOUTH);
@@ -484,29 +481,5 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 					this.getOWLEditorKit());
 			this.bindingTable.setModel(this.bindingTableModel);
 		}
-	}
-
-	public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException {
-		ActionListModel model = (ActionListModel) OPPLView.this.affectedAxioms.getModel();
-		OPPLView.this.bindingTreeScrollPane.setBorder(ComponentFactory.createTitledBorder(BINDINGS_TITLE));
-		this.instantiatedAxiomListModel.clear();
-		model.clear();
-		OPPLView.this.affectedScrollPane.setBorder(ComponentFactory.createTitledBorder("Affected axioms: "));
-	}
-
-	public void handleChange(OWLModelManagerChangeEvent event) {
-		this.bindingTable.setModel(this.bindingTableModel);
-		OPPLAbstractFactory opplFactory = ProtegeParserFactory.getInstance(this.getOWLEditorKit()).getOPPLFactory();
-		this.statementModel = this.editor.getOPPLScript() == null ? null
-				: opplFactory.importOPPLScript(this.editor.getOPPLScript());
-		ActionListModel model = (ActionListModel) OPPLView.this.affectedAxioms.getModel();
-		model.clear();
-		this.instantiatedAxiomListModel.clear();
-		this.bindingTableModel = this.statementModel == null ? InstantiationTableModel.getNoOPPLScriptTableModel()
-				: new InstantiationTableModel(this.statementModel, this.getOWLEditorKit());
-		this.bindingTable.setModel(this.bindingTableModel);
-		OPPLView.this.bindingTreeScrollPane.setBorder(ComponentFactory.createTitledBorder(BINDINGS_TITLE));
-		OPPLView.this.affectedScrollPane.setBorder(ComponentFactory.createTitledBorder("Affected axioms: "));
-		this.evaluate.setEnabled(true);
 	}
 }

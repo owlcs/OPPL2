@@ -24,8 +24,7 @@ public class NAFConstraint implements AbstractConstraint {
 			throw new NullPointerException("The OWLAxiom xannot be null");
 		}
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The Constraint system cannot be null");
+			throw new NullPointerException("The Constraint system cannot be null");
 		}
 		this.axiom = axiom;
 		this.constraintSystem = constraintSystem;
@@ -52,9 +51,8 @@ public class NAFConstraint implements AbstractConstraint {
 	 */
 	public String render() {
 		Formatter formatter = new Formatter();
-		ManchesterSyntaxRenderer manchesterSyntaxRenderer = this
-				.getConstraintSystem().getOPPLFactory()
-				.getManchesterSyntaxRenderer(this.getConstraintSystem());
+		ManchesterSyntaxRenderer manchesterSyntaxRenderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+				this.getConstraintSystem());
 		this.getAxiom().accept(manchesterSyntaxRenderer);
 		formatter.format("FAIL %s", manchesterSyntaxRenderer.toString());
 		return formatter.out().toString();
@@ -79,5 +77,45 @@ public class NAFConstraint implements AbstractConstraint {
 	 */
 	public ConstraintSystem getConstraintSystem() {
 		return this.constraintSystem;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (this.axiom == null ? 0 : this.axiom.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		NAFConstraint other = (NAFConstraint) obj;
+		if (this.axiom == null) {
+			if (other.axiom != null) {
+				return false;
+			}
+		} else if (!this.axiom.equals(other.axiom)) {
+			return false;
+		}
+		return true;
 	}
 }

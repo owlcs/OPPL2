@@ -32,5 +32,6 @@
         <uri id="Automatically generated entry, Timestamp=1284993295961" name="http://www.co-ode.org/roberts/Travel.owl" uri="travel/c14.rdf.owl"/>
         <uri id="Automatically generated entry, Timestamp=1284993295961" name="http://www.co-ode.org/ontologies/roberts/upper.owl" uri="travel/upper.owl"/>
         <uri id="Automatically generated entry, Timestamp=1284993295961" name="http://www.co-ode.org/pizzas-in-ten-minutes" uri="Pizza-quick-demo-oppl-problem/pizzas-in-ten-minutes.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1286380851171" name="http://www.semanticweb.org/ontologies/2010/9/testTrasitiveSubClass.owl" uri="testTrasitiveSubClass.owl"/>
     </group>
 </catalog>

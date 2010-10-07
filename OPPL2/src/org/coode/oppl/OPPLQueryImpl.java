@@ -32,6 +32,10 @@ import java.util.logging.Level;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.log.Logging;
+import org.coode.oppl.querymatching.AssertedSolvabilityBasedAxiomQuery;
+import org.coode.oppl.querymatching.AxiomQuery;
+import org.coode.oppl.querymatching.ConstraintChecker;
+import org.coode.oppl.querymatching.InferredSolvabilityBasedTreeSearchAxiomQuery;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLException;
@@ -339,9 +343,14 @@ public class OPPLQueryImpl implements OPPLQuery {
 					"Initial size: "
 							+ (this.getConstraintSystem().getLeaves() == null ? "empty"
 									: this.getConstraintSystem().getLeaves().size()));
-			AxiomQuery query = this.getConstraintSystem().getReasoner() == null ? new AssertedTreeSearchSingleAxiomQuery(
+			// AxiomQuery query = this.getConstraintSystem().getReasoner() ==
+			// null ? new AssertedTreeSearchSingleAxiomQuery(
+			// this.getConstraintSystem().getOntologyManager().getOntologies(),
+			// this.getConstraintSystem()) : new InferredTreeSearchAxiomQuery(
+			// this.getConstraintSystem());
+			AxiomQuery query = this.getConstraintSystem().getReasoner() == null ? new AssertedSolvabilityBasedAxiomQuery(
 					this.getConstraintSystem().getOntologyManager().getOntologies(),
-					this.getConstraintSystem()) : new InferredTreeSearchAxiomQuery(
+					this.getConstraintSystem()) : new InferredSolvabilityBasedTreeSearchAxiomQuery(
 					this.getConstraintSystem());
 			Logging.getQueryTestLogging().log(
 					Level.INFO,
@@ -358,7 +367,10 @@ public class OPPLQueryImpl implements OPPLQuery {
 					"Initial size: "
 							+ (this.getConstraintSystem().getLeaves() == null ? "empty"
 									: this.getConstraintSystem().getLeaves().size()));
-			AxiomQuery query = new AssertedTreeSearchSingleAxiomQuery(
+			// AxiomQuery query = new AssertedTreeSearchSingleAxiomQuery(
+			// this.getConstraintSystem().getOntologyManager().getOntologies(),
+			// this.getConstraintSystem());
+			AxiomQuery query = new AssertedSolvabilityBasedAxiomQuery(
 					this.getConstraintSystem().getOntologyManager().getOntologies(),
 					this.getConstraintSystem());
 			axiom.accept(query);

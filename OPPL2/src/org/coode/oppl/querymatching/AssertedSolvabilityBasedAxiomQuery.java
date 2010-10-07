@@ -20,7 +20,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package org.coode.oppl;
+package org.coode.oppl.querymatching;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,15 +32,23 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.PartialOWLObjectInstantiator;
+import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.log.Logging;
 import org.coode.oppl.search.OPPLAssertedSingleOWLAxiomSearchTree;
 import org.coode.oppl.search.OPPLOWLAxiomSearchNode;
 import org.coode.oppl.search.SearchTree;
+import org.coode.oppl.search.solvability.AssertedModelQuerySolver;
+import org.coode.oppl.search.solvability.AssertedSolvabilitySearchTree;
+import org.coode.oppl.search.solvability.AxiomSolvability;
+import org.coode.oppl.search.solvability.SolvabilitySearchNode;
 import org.coode.oppl.similarity.OWLObjectStructuralPrimeHashingBasedSimilarityMeasure;
 import org.coode.oppl.utils.OWLObjectExtractor;
 import org.coode.oppl.utils.VariableExtractor;
+import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -49,14 +57,14 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * @author Luigi Iannone
  * 
  */
-public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
+public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
 	private final Map<OWLAxiom, SearchTree<OPPLOWLAxiomSearchNode>> searchTrees = new HashMap<OWLAxiom, SearchTree<OPPLOWLAxiomSearchNode>>();
 	private final ConstraintSystem constraintSystem;
 	private final Set<OWLOntology> ontologies = new HashSet<OWLOntology>();
 	private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
 	private final Map<OWLAxiom, Collection<? extends OWLObject>> cache = new HashMap<OWLAxiom, Collection<? extends OWLObject>>();
 
-	public AssertedTreeSearchSingleAxiomQuery(Set<OWLOntology> ontologies,
+	public AssertedSolvabilityBasedAxiomQuery(Collection<? extends OWLOntology> ontologies,
 			ConstraintSystem constraintSystem) {
 		if (ontologies == null) {
 			throw new NullPointerException("The ontologies collection cannot be null");
@@ -72,7 +80,7 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
 	protected void match(OWLAxiom axiom) {
 		this.clearInstantions();
 		Set<BindingNode> leaves = this.getConstraintSystem().getLeaves();
-		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
+		List<List<? extends OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<? extends OPPLOWLAxiomSearchNode>>();
 		if (leaves == null) {
 			VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
 					false);
@@ -100,14 +108,25 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
 
 	/**
 	 * @param axiom
-	 * @param start
+	 * @param newStart
 	 */
-	private List<List<OPPLOWLAxiomSearchNode>> doMatch(OPPLOWLAxiomSearchNode start) {
-		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
-		for (OWLOntology ontology : this.getOntologies()) {
-			for (OWLAxiom targetAxiom : this.filterAxioms(start.getAxiom(), ontology.getAxioms())) {
-				if (start.getAxiom().getAxiomType().equals(targetAxiom.getAxiomType())) {
-					solutions.addAll(this.matchTargetAxiom(start, targetAxiom));
+	private List<List<? extends OPPLOWLAxiomSearchNode>> doMatch(OPPLOWLAxiomSearchNode newStart) {
+		List<List<? extends OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<? extends OPPLOWLAxiomSearchNode>>();
+		OWLAxiom axiom = newStart.getAxiom();
+		// Solvability based search is not worth applying if the axiom is not of
+		// a specific kind.
+		if (axiom.getAxiomType() == AxiomType.SUBCLASS_OF) {
+			solutions.addAll(this.solvabilityBasedMatching(SolvabilitySearchNode.buildSolvabilitySearchNode(
+					axiom,
+					new AxiomSolvability(this.getConstraintSystem(), newStart.getBinding(),
+							new AssertedModelQuerySolver(
+									this.getConstraintSystem().getOntologyManager())))));
+		} else {
+			for (OWLOntology ontology : this.getOntologies()) {
+				for (OWLAxiom targetAxiom : this.filterAxioms(axiom, ontology.getAxioms())) {
+					if (axiom.getAxiomType().equals(targetAxiom.getAxiomType())) {
+						solutions.addAll(this.matchTargetAxiom(newStart, targetAxiom));
+					}
 				}
 			}
 		}
@@ -115,9 +134,9 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
 	}
 
 	private Collection<? extends BindingNode> extractLeaves(
-			List<List<OPPLOWLAxiomSearchNode>> solutions) {
+			List<List<? extends OPPLOWLAxiomSearchNode>> solutions) {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
-		for (List<OPPLOWLAxiomSearchNode> path : solutions) {
+		for (List<? extends OPPLOWLAxiomSearchNode> path : solutions) {
 			OPPLOWLAxiomSearchNode searchLeaf = path.get(path.size() - 1);
 			BindingNode leaf = searchLeaf.getBinding();
 			toReturn.add(leaf);
@@ -134,6 +153,14 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
 			OWLAxiom targetAxiom) {
 		SearchTree<OPPLOWLAxiomSearchNode> searchTree = this.getSearchTree(targetAxiom);
 		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
+		searchTree.exhaustiveSearchTree(start, solutions);
+		return solutions;
+	}
+
+	private List<List<SolvabilitySearchNode>> solvabilityBasedMatching(SolvabilitySearchNode start) {
+		SearchTree<SolvabilitySearchNode> searchTree = new AssertedSolvabilitySearchTree(
+				this.getConstraintSystem(), this.getConstraintSystem().getOntologyManager());
+		List<List<SolvabilitySearchNode>> solutions = new ArrayList<List<SolvabilitySearchNode>>();
 		searchTree.exhaustiveSearchTree(start, solutions);
 		return solutions;
 	}

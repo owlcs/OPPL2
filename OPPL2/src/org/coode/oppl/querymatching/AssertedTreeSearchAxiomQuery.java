@@ -20,7 +20,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package org.coode.oppl;
+package org.coode.oppl.querymatching;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,32 +29,41 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.search.OPPLInferredOWLAxiomSearchTree;
+import org.coode.oppl.search.OPPLAssertedOWLAxiomSearchTree;
 import org.coode.oppl.search.OPPLOWLAxiomSearchNode;
 import org.coode.oppl.utils.VariableExtractor;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
  * @author Luigi Iannone
  * 
  */
-public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
+public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
 	private final ConstraintSystem constraintSystem;
+	private final Set<OWLOntology> ontologies = new HashSet<OWLOntology>();
 	private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
 
-	public InferredTreeSearchAxiomQuery(ConstraintSystem constraintSystem) {
+	public AssertedTreeSearchAxiomQuery(Set<OWLOntology> ontologies,
+			ConstraintSystem constraintSystem) {
+		if (ontologies == null) {
+			throw new NullPointerException("The ontologies collection cannot be null");
+		}
 		if (constraintSystem == null) {
 			throw new NullPointerException("The constraint system cannot be null");
 		}
 		this.constraintSystem = constraintSystem;
+		this.ontologies.addAll(ontologies);
 	}
 
 	@Override
 	protected void match(OWLAxiom axiom) {
 		this.clearInstantions();
-		OPPLInferredOWLAxiomSearchTree searchTree = new OPPLInferredOWLAxiomSearchTree(
+		OPPLAssertedOWLAxiomSearchTree searchTree = new OPPLAssertedOWLAxiomSearchTree(
 				this.getConstraintSystem());
 		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
 				false);
@@ -88,5 +97,9 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
 	 */
 	public ConstraintSystem getConstraintSystem() {
 		return this.constraintSystem;
+	}
+
+	public Set<OWLOntology> getOntologies() {
+		return new HashSet<OWLOntology>(this.ontologies);
 	}
 }

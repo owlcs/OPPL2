@@ -24,6 +24,7 @@ package org.coode.oppl.protege.ui;
 
 import java.awt.BorderLayout;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -44,6 +45,9 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.event.EventType;
 import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
+import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 
 /**
  * Text based editor for OPPL scripts
@@ -61,6 +65,19 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
 	protected final OPPLScriptValidator validator;
 	private final OPPLExpressionChecker<OPPLScript> opplExpressionChecker;
 	private final ProtegeOPPLAutoCompletionMatcher autoCompletionMatcher;
+	private final OWLOntologyChangeListener ontologyChangeListener = new OWLOntologyChangeListener() {
+		public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
+				throws OWLException {
+			// Force refresh
+			OPPLTextEditor.this.editor.setText(OPPLTextEditor.this.editor.getText());
+		}
+	};
+	private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
+		public void handleChange(OWLModelManagerChangeEvent event) {
+			// Force refresh
+			OPPLTextEditor.this.editor.setText(OPPLTextEditor.this.editor.getText());
+		}
+	};
 
 	/**
 	 * @return the opplScript
@@ -128,7 +145,9 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
 				OPPLTextEditor.this.handleChange();
 			}
 		});
-		// this.removeKeyListeners();
+		this.getOWLEditorKit().getOWLModelManager().addListener(this.modelManagerListener);
+		this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager().addOntologyChangeListener(
+				this.ontologyChangeListener);
 		this.autoCompletionMatcher = new ProtegeOPPLAutoCompletionMatcher(this.getOWLEditorKit());
 		this.getOWLEditorKit().getModelManager().addListener(this);
 		new AutoCompleter(this.editor, this.autoCompletionMatcher);
@@ -193,14 +212,8 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
 	public void dispose() {
 		this.getOWLEditorKit().getModelManager().removeListener(this);
 		this.autoCompletionMatcher.dispose();
+		this.getOWLEditorKit().getOWLModelManager().removeListener(this.modelManagerListener);
+		this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager().removeOntologyChangeListener(
+				this.ontologyChangeListener);
 	}
-	// /**
-	// *
-	// */
-	// private void removeKeyListeners() {
-	// KeyListener[] keyListeners = this.editor.getKeyListeners();
-	// for (KeyListener keyListener : keyListeners) {
-	// this.editor.removeKeyListener(keyListener);
-	// }
-	// }
 }

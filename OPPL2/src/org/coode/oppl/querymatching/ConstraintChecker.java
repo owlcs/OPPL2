@@ -20,13 +20,21 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package org.coode.oppl;
+package org.coode.oppl.querymatching;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.ConstraintVisitorEx;
+import org.coode.oppl.InCollectionConstraint;
+import org.coode.oppl.InCollectionRegExpConstraint;
+import org.coode.oppl.InequalityConstraint;
+import org.coode.oppl.NAFConstraint;
+import org.coode.oppl.OWLObjectInstantiator;
+import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.log.Logging;
 import org.semanticweb.owlapi.model.OWLAxiom;

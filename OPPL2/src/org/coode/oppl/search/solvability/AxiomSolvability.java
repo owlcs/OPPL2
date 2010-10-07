@@ -17,9 +17,8 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
  * @author Luigi Iannone
  * 
  */
-public final class AxiomSolvability extends
-		OWLObjectVisitorExAdapter<SolvabilitySearchNode> implements
-		OWLAxiomVisitorEx<SolvabilitySearchNode> {
+public final class AxiomSolvability extends OWLObjectVisitorExAdapter<SolvabilitySearchNode>
+		implements OWLAxiomVisitorEx<SolvabilitySearchNode> {
 	private final VariableExtractor variableExtractor;
 	private final BindingNode bindingNode;
 	private final QuerySolver querySolver;
@@ -27,11 +26,10 @@ public final class AxiomSolvability extends
 	/**
 	 * @param constraintSystem
 	 */
-	public AxiomSolvability(ConstraintSystem constraintSystem,
-			BindingNode bindingNode, QuerySolver querySolver) {
+	public AxiomSolvability(ConstraintSystem constraintSystem, BindingNode bindingNode,
+			QuerySolver querySolver) {
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The constraint system cannot be null");
+			throw new NullPointerException("The constraint system cannot be null");
 		}
 		if (bindingNode == null) {
 			throw new NullPointerException("The binding node cannot be null");
@@ -51,31 +49,24 @@ public final class AxiomSolvability extends
 
 	@Override
 	public SolvabilitySearchNode visit(OWLSubClassOfAxiom axiom) {
-		SolvabilitySearchNode toReturn = new UnsolvableSearchNode(axiom,
-				this.bindingNode);
+		SolvabilitySearchNode toReturn = new UnsolvableSearchNode(axiom, this.bindingNode);
 		// Solvable sub-class axioms are in the form ?x subClassOf <Variable
 		// Free Class Expression>
 		// or <Variable Free Class Expression> subClassOf ?x
-		boolean isSolvable = this.variableExtractor.extractVariables(axiom)
-				.size() == 1
-				&& (this.variableExtractor.extractVariables(
-						axiom.getSuperClass()).isEmpty()
+		boolean isSolvable = this.variableExtractor.extractVariables(axiom).size() == 1
+				&& (this.variableExtractor.extractVariables(axiom.getSuperClass()).isEmpty()
 						&& !axiom.getSubClass().isAnonymous()
-						&& this.variableExtractor.extractVariables(
-								axiom.getSubClass()).size() == 1 || this.variableExtractor
-						.extractVariables(axiom.getSubClass()).isEmpty()
+						&& this.variableExtractor.extractVariables(axiom.getSubClass()).size() == 1 || this.variableExtractor.extractVariables(
+						axiom.getSubClass()).isEmpty()
 						&& !axiom.getSuperClass().isAnonymous()
-						&& this.variableExtractor.extractVariables(
-								axiom.getSuperClass()).size() == 1);
+						&& this.variableExtractor.extractVariables(axiom.getSuperClass()).size() == 1);
 		if (isSolvable) {
-			Variable variable = this.variableExtractor.extractVariables(axiom)
-					.iterator().next();
-			toReturn = axiom.getSubClass().isAnonymous() ? new SolvableSearchNode(
-					variable, axiom, this.bindingNode, this.querySolver
-							.getSuperClasses(axiom.getSubClass()))
+			Variable variable = this.variableExtractor.extractVariables(axiom).iterator().next();
+			toReturn = this.variableExtractor.extractVariables(axiom.getSubClass()).isEmpty() ? new SolvableSearchNode(
+					variable, axiom, this.bindingNode,
+					this.querySolver.getSuperClasses(axiom.getSubClass()))
 					: new SolvableSearchNode(variable, axiom, this.bindingNode,
-							this.querySolver.getSubClasses(axiom
-									.getSuperClass()));
+							this.querySolver.getSubClasses(axiom.getSuperClass()));
 		}
 		return toReturn;
 	}

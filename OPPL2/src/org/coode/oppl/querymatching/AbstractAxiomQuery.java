@@ -1,4 +1,4 @@
-package org.coode.oppl;
+package org.coode.oppl.querymatching;
 
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLAnnotationPropertyDomainAxiom;
