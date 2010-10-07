@@ -40,8 +40,9 @@ public class ReportTreeCellRenderer implements TreeCellRenderer {
 		if (model instanceof ReportTreeModel) {
 			ReportTreeModel reportTreeModel = (ReportTreeModel) model;
 			if (reportTreeModel.getRoot() == value) {
-				Icon icon = reportTreeModel.isSuccessful() ? this.getSuccessIcon(16, 16)
-						: this.getErrorIcon(16, 16);
+				Icon icon = reportTreeModel.isSuccessful() ? ReportTreeCellRenderer.getSuccessIcon(
+						16,
+						16) : getErrorIcon(16, 16);
 				defaultTreeCellRenderer.setOpenIcon(icon);
 				defaultTreeCellRenderer.setClosedIcon(icon);
 				defaultTreeCellRenderer.setLeafIcon(icon);
@@ -55,8 +56,8 @@ public class ReportTreeCellRenderer implements TreeCellRenderer {
 						hasFocus);
 			} else if (value instanceof OPPLTestCase) {
 				OPPLTestCase opplTestCase = (OPPLTestCase) value;
-				Icon icon = reportTreeModel.isSuccessful(opplTestCase) ? this.getSuccessIcon(16, 16)
-						: this.getErrorIcon(16, 16);
+				Icon icon = reportTreeModel.isSuccessful(opplTestCase) ? getSuccessIcon(16, 16)
+						: getErrorIcon(16, 16);
 				defaultTreeCellRenderer.setOpenIcon(icon);
 				defaultTreeCellRenderer.setClosedIcon(icon);
 				defaultTreeCellRenderer.setLeafIcon(icon);
@@ -69,9 +70,8 @@ public class ReportTreeCellRenderer implements TreeCellRenderer {
 						row,
 						hasFocus);
 			} else if (value instanceof Report) {
-				Icon icon = !reportTreeModel.isUnsuccessful((Report) value) ? this.getSuccessIcon(
-						16,
-						16) : this.getErrorIcon(16, 16);
+				Icon icon = !reportTreeModel.isUnsuccessful((Report) value) ? getSuccessIcon(16, 16)
+						: getErrorIcon(16, 16);
 				defaultTreeCellRenderer.setOpenIcon(icon);
 				defaultTreeCellRenderer.setClosedIcon(icon);
 				defaultTreeCellRenderer.setLeafIcon(icon);
@@ -97,18 +97,16 @@ public class ReportTreeCellRenderer implements TreeCellRenderer {
 		return toReturn;
 	}
 
-	private final Icon getErrorIcon(final int width, final int height) {
+	final static Icon getErrorIcon(final int width, final int height) {
 		return new Icon() {
 			public void paintIcon(Component c, Graphics g, int x, int y) {
 				Color oldColour = g.getColor();
 				Color oldBackground = ((Graphics2D) g).getBackground();
-				((Graphics2D) g).setBackground(Color.WHITE);
 				Stroke oldStroke = ((Graphics2D) g).getStroke();
 				((Graphics2D) g).setRenderingHint(
 						RenderingHints.KEY_ANTIALIASING,
 						RenderingHints.VALUE_ANTIALIAS_ON);
 				((Graphics2D) g).setStroke(ICON_STROKE);
-				g.clearRect(x, y, width, height);
 				g.setColor(Color.RED);
 				int inset = 4;
 				g.drawLine(x + inset, y + inset, x + width - inset, y + height - inset);
@@ -128,18 +126,16 @@ public class ReportTreeCellRenderer implements TreeCellRenderer {
 		};
 	}
 
-	private final Icon getSuccessIcon(final int width, final int height) {
+	final static Icon getSuccessIcon(final int width, final int height) {
 		return new Icon() {
 			public void paintIcon(Component c, Graphics g, int x, int y) {
 				Color oldColour = g.getColor();
 				Color oldBackground = ((Graphics2D) g).getBackground();
-				((Graphics2D) g).setBackground(Color.WHITE);
 				Stroke oldStroke = ((Graphics2D) g).getStroke();
 				((Graphics2D) g).setRenderingHint(
 						RenderingHints.KEY_ANTIALIASING,
 						RenderingHints.VALUE_ANTIALIAS_ON);
 				((Graphics2D) g).setStroke(ICON_STROKE);
-				g.clearRect(x, y, width, height);
 				g.setColor(Color.GREEN);
 				int inset = 4;
 				g.drawLine(x + inset, y + height / 2, x + width / 2, y + height - inset);

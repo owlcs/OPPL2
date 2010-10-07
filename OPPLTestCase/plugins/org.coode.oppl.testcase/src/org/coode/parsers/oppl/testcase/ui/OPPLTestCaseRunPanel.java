@@ -5,6 +5,7 @@ package org.coode.parsers.oppl.testcase.ui;
 
 import java.awt.BorderLayout;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -49,6 +50,7 @@ public class OPPLTestCaseRunPanel extends JPanel {
 				Map<OPPLTestCase, List<Report>> reports = this.get();
 				if (reports != null) {
 					OPPLTestCaseRunPanel.this.resultTreeModel.addReports(reports);
+					OPPLTestCaseRunPanel.this.summaryPanel.addReports(reports);
 				}
 			} catch (InterruptedException e) {
 				ProtegeApplication.getErrorLog().logError(e);
@@ -64,6 +66,7 @@ public class OPPLTestCaseRunPanel extends JPanel {
 	private static final long serialVersionUID = -5802632215147728332L;
 	private final ReportTreeModel resultTreeModel = new ReportTreeModel();
 	private final JTree resultTree = new JTree(this.resultTreeModel);
+	private final SummaryPanel summaryPanel = new SummaryPanel();
 	private TreeModelListener treeModelLister = new TreeModelListener() {
 		public void treeStructureChanged(TreeModelEvent e) {
 			this.expandUnsucessfulNodes();
@@ -82,7 +85,6 @@ public class OPPLTestCaseRunPanel extends JPanel {
 		}
 
 		private void expandUnsucessfulNodes() {
-			
 			TreePath[] unsuccessfulTreePaths = OPPLTestCaseRunPanel.this.resultTreeModel.getUnsuccessfulTreePaths();
 			for (TreePath treePath : unsuccessfulTreePaths) {
 				OPPLTestCaseRunPanel.this.resultTree.expandPath(treePath);
@@ -100,11 +102,18 @@ public class OPPLTestCaseRunPanel extends JPanel {
 		resultTreeScrollPane.setBorder(ComponentFactory.createTitledBorder("Test cases results"));
 		this.resultTree.setCellRenderer(new ReportTreeCellRenderer());
 		this.resultTreeModel.addTreeModelListener(this.treeModelLister);
+		this.add(this.summaryPanel, BorderLayout.NORTH);
 		this.add(resultTreeScrollPane, BorderLayout.CENTER);
 	}
 
 	public void runTests(Collection<? extends OPPLTestCase> testCases) {
 		this.resultTreeModel.clear();
+		this.summaryPanel.clear();
+		Map<OPPLTestCase, List<Report>> emptyReports = new HashMap<OPPLTestCase, List<Report>>();
+		for (OPPLTestCase opplTestCase : testCases) {
+			emptyReports.put(opplTestCase, null);
+		}
+		this.summaryPanel.addReports(emptyReports);
 		for (OPPLTestCase opplTestCase : testCases) {
 			RunTest runTest = new RunTest(opplTestCase);
 			runTest.execute();
