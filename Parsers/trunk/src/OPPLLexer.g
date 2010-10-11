@@ -44,11 +44,6 @@ NOT_EQUAL
     '!='  
   ;
 
-EQUAL
-  :
-    '='
-  ;
-
 IN
   :
     'IN'
@@ -108,15 +103,6 @@ PLUS
     'END;'
   ;
   
-OPEN_SQUARE_BRACKET
-  :
-    '['
-  ;
-
-CLOSED_SQUARE_BRACKET
-  :
-    ']'
-  ;
 
 
 SUPER_CLASS_OF

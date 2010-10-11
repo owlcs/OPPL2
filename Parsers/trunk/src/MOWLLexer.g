@@ -110,7 +110,38 @@ INSTANCE_OF : ('I'|'i')'nstance'('O'|'o')'f'
 TYPES : ('T'|'t')'ypes'
   ;  
 
-    
+
+OPEN_SQUARE_BRACKET
+  :
+    '['
+  ;
+
+CLOSED_SQUARE_BRACKET
+  :
+    ']'
+  ;
+
+EQUAL
+  :
+    '='
+  ;
+
+LESS_THAN	
+	:
+		'<'
+	;
+LESS_THAN_EQUAL
+	:
+		LESS_THAN EQUAL
+	;
+GREATER_THAN
+	:
+		'>'
+	;
+GREATER_THAN_EQUAL
+	:
+		GREATER_THAN EQUAL
+	;    
 
 
 DBLQUOTE :  

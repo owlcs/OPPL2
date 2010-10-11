@@ -37,20 +37,3 @@ STAR
 	:
 		'*'
 	;
-
-LESS_THAN	
-	:
-		'<'
-	;
-LESS_THAN_EQUAL
-	:
-		LESS_THAN EQUAL
-	;
-GREATER_THAN
-	:
-		'>'
-	;
-GREATER_THAN_EQUAL
-	:
-		GREATER_THAN EQUAL
-	;

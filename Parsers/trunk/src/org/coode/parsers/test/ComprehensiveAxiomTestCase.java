@@ -597,4 +597,31 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 				parseType == OWLAxiomType.NEGATIVE_OBJECT_PROPERTY_ASSERTION);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.NEGATIVE_OBJECT_PROPERTY_ASSERTION);
 	}
+
+	public void testDataRange() {
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("Thing subClassOf aDataProperty some int [ > \"1\"]");
+		Type parseType = parsed.getEvalType();
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.SUBCLASS);
+		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.SUBCLASS);
+	}
+
+	public void testDataRangeConjuntion() {
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("Thing subClassOf aDataProperty some (int [ > \"1\"] and int[>\"3\"])");
+		Type parseType = parsed.getEvalType();
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.SUBCLASS);
+		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.SUBCLASS);
+	}
+
+	public void testDataRangeDisjuntion() {
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("Thing subClassOf aDataProperty some (int [ > \"1\"] or int[>\"3\"])");
+		Type parseType = parsed.getEvalType();
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.SUBCLASS);
+		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.SUBCLASS);
+	}
 }

@@ -29,6 +29,7 @@ tokens {
   SOME_RESTRICTION;
   ALL_RESTRICTION;
   VALUE_RESTRICTION;
+  DATA_RANGE;
   CARDINALITY_RESTRICTION;
   ONE_OF;
   TYPE_ASSERTION;
@@ -134,9 +135,24 @@ unary	 options{backtrack = true;}:
 		| NOT OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(NEGATED_EXPRESSION expression)
 		| NOT atomic -> ^(NEGATED_EXPRESSION atomic) 				 			
 		| qualifiedRestriction -> ^(qualifiedRestriction)
+		| dataRange
 		| constant
-		| atomic		
+		| atomic
+		
 	;
+
+dataRange
+	:
+		 IDENTIFIER OPEN_SQUARE_BRACKET dataRangeFacet (COMMA dataRangeFacet)* CLOSED_SQUARE_BRACKET -> ^(DATA_RANGE IDENTIFIER dataRangeFacet+)
+	;
+	
+dataRangeFacet	
+	:
+		LESS_THAN constant -> ^(LESS_THAN constant)
+		|	LESS_THAN_EQUAL constant  -> ^(LESS_THAN_EQUAL constant)
+		|	GREATER_THAN constant -> ^(GREATER_THAN constant)
+		|	GREATER_THAN_EQUAL constant -> ^(GREATER_THAN_EQUAL constant)
+	;	
 
 atomic	:
 		IDENTIFIER 

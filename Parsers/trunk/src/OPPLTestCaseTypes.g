@@ -84,7 +84,9 @@ options {
   import org.coode.parsers.ErrorListener;
   import org.coode.parsers.oppl.OPPLSyntaxTree;
   import org.coode.oppl.OPPLScript;
+  import org.coode.oppl.bindingtree.Assignment;  
   import org.coode.oppl.Variable;
+  import org.coode.oppl.bindingtree.BindingNode;
   import org.coode.oppl.ConstraintSystem;
   import org.coode.parsers.oppl.testcase.OPPLTestCaseSymbolTable;
   import org.semanticweb.owlapi.model.OWLAxiomChange;
@@ -92,6 +94,7 @@ options {
   import org.coode.oppl.OPPLQuery;
   import org.coode.parsers.oppl.testcase.assertions.Assertion;
   import org.coode.parsers.oppl.testcase.assertions.AssertionExpression;
+  import org.semanticweb.owlapi.model.OWLObject;  
 }
 
 // START: root
@@ -202,6 +205,10 @@ assertion returns [Assertion a]
 	;
 
 assertionExpression returns  [AssertionExpression ae, OPPLSyntaxTree node]
+@init{
+	BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
+	boolean allFine = true;
+}
 @after{
 	$node = $start;
 }	
@@ -212,6 +219,17 @@ assertionExpression returns  [AssertionExpression ae, OPPLSyntaxTree node]
 		| ^(COUNT STAR){
 			$ae = getSymbolTable().getCountStarAssertionExpression();
 		}
+		| ^(COUNT (bn = bindingDescription {
+			if(bn.v!=null && bn.exp !=null){
+				bindingNode.addAssignment(new Assignment(bn.v,bn.exp));
+			}else{
+				allFine = false;
+			}
+		})+){
+			if(allFine){
+				$ae = getSymbolTable().getBindingNodeCount(bindingNode,getConstraintSystem(), getTestCaseFactory());
+			}
+		}
 		| INTEGER {
 			$ae = getSymbolTable().getIntegerAssertionExpression($INTEGER);
 		}
@@ -219,6 +237,29 @@ assertionExpression returns  [AssertionExpression ae, OPPLSyntaxTree node]
 			$ae = getSymbolTable().getOWLExpressionAssertionExpression($EXPRESSION,getConstraintSystem(), getTestCaseFactory());			
 		}	
 	;
+
+bindingDescription returns [Variable v, OWLObject exp]
+	:
+		^(BINDING VARIABLE_NAME  ^(EXPRESSION .*)){
+			$v = getConstraintSystem().getVariable($VARIABLE_NAME.getText());
+		        if($v == null){
+          			if(getErrorListener()!=null){
+			            getErrorListener().illegalToken($VARIABLE_NAME, "Undefined variable");
+          			}
+			}else{
+				$exp = $EXPRESSION.getOWLObject();
+				if($exp == null){
+				        if(getErrorListener()!=null){
+          					getErrorListener().illegalToken($EXPRESSION, "Null expression");
+          				}
+				}
+			}
+		}
+	;
+
+  
+ 
+  
   
  textVariableRef 
  	:

@@ -278,7 +278,64 @@ unary returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject]
 				$type = OWLType.OWL_CONSTANT;
 				$owlObject = constantType ==null ? this.getSymbolTable().getOWLUntypedConstant($start,value) : this.getSymbolTable().getOWLTypedConstant($start,value, constantType);				
 			}
+		| dataRange {
+				$type = $dataRange.type;
+				$owlObject = $dataRange.owlObject;
+		}
 	;
+
+dataRange returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject]
+@init{
+	List<ManchesterOWLSyntaxTree> facets = new ArrayList<ManchesterOWLSyntaxTree>(); 
+}
+@after 
+
+			{ 
+				$start.setEvalType($type); 
+				$node = $start;
+				$start.setOWLObject($owlObject);
+			} // do after any alternative
+	:
+	
+		^(DATA_RANGE dataType = unary (f=facet{
+			facets.add(f.node);
+			
+		})*)
+		{
+			$type = getSymbolTable().getOWLDataRangeType($dataType.node, $start, facets.toArray(new ManchesterOWLSyntaxTree[facets.size()]));
+			$owlObject = getSymbolTable().getOWLDataRange($dataType.node, $start, facets.toArray(new ManchesterOWLSyntaxTree[facets.size()]));
+		}
+
+	;
+
+facet	
+returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject]
+@after 
+
+			{ 
+				$start.setEvalType($type); 
+				$node = $start;
+				$start.setOWLObject($owlObject);
+			} // do after any alternative
+	:
+		^(f = LESS_THAN value = unary){
+			$type = getSymbolTable().getOWLFacetRestrictionType($f, $value.node, $start);
+			$owlObject = getSymbolTable().getOWLFacetRestriction($f, $value.node, $start);
+		}
+		| ^(f= LESS_THAN_EQUAL value = unary){
+			$type = getSymbolTable().getOWLFacetRestrictionType($f, $value.node, $start);
+			$owlObject = getSymbolTable().getOWLFacetRestriction($f, $value.node, $start);		}
+		| ^(f = GREATER_THAN value = unary){
+			$type = getSymbolTable().getOWLFacetRestrictionType($f, $value.node, $start);
+			$owlObject = getSymbolTable().getOWLFacetRestriction($f, $value.node, $start);
+		}
+		| ^(f = GREATER_THAN_EQUAL value = unary){
+			$type = getSymbolTable().getOWLFacetRestrictionType($f, $value.node, $start);
+			$owlObject = getSymbolTable().getOWLFacetRestriction($f, $value.node, $start);
+		}
+	;	
+
+	
 
 
 propertyExpression  

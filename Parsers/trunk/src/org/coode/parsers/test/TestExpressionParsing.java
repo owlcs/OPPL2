@@ -152,4 +152,30 @@ public class TestExpressionParsing extends TestCase {
 		assertNotNull(parsed);
 		System.out.println(parsed.toStringTree());
 	}
+
+	public void testDataRange() {
+		ManchesterOWLSyntaxTree parsed = this.parse("int [ > \"1\"]");
+		assertNotNull(parsed);
+		System.out.println(parsed.toStringTree());
+	}
+
+	public void testComplexDataRange() {
+		ManchesterOWLSyntaxTree parsed = this.parse("float[ > \"1\", > \"2\"]");
+		assertNotNull(parsed);
+		System.out.println(parsed.toStringTree());
+	}
+
+	public void testDataRestriction() {
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("hasKCal some float[ > \"1\", > \"2\"]");
+		assertNotNull(parsed);
+		System.out.println(parsed.toStringTree());
+	}
+
+	public void testDataIntersectionOf() {
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("float[ > \"1\"] and int [< \"1\"]");
+		assertNotNull(parsed);
+		System.out.println(parsed.toStringTree());
+	}
 }

@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g 2010-09-20 22:26:52
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxSimplify.g 2010-10-11 10:58:10
 
   package org.coode.parsers;
 
@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "EQUAL", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "LESS_THAN", "LESS_THAN_EQUAL", "GREATER_THAN", "GREATER_THAN_EQUAL"
     };
     public static final int SAME_AS=23;
     public static final int DISJOINT_WITH=26;
@@ -42,6 +42,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
     public static final int IDENTIFIER=44;
     public static final int SOME=13;
     public static final int INSTANCE_OF=38;
+    public static final int EQUAL=73;
     public static final int QUESTION_MARK=46;
     public static final int OPEN_PARENTHESYS=5;
     public static final int REFLEXIVE=32;
@@ -55,7 +56,10 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
     public static final int INTEGER=42;
     public static final int ANTI_SYMMETRIC=31;
     public static final int TRANSITIVE=34;
+    public static final int GREATER_THAN_EQUAL=486;
+    public static final int GREATER_THAN=485;
     public static final int ALL_RESTRICTION=62;
+    public static final int OPEN_SQUARE_BRACKET=85;
     public static final int SUB_PROPERTY_AXIOM=51;
     public static final int EXACTLY=17;
     public static final int CONJUNCTION=56;
@@ -76,12 +80,15 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
     public static final int IRREFLEXIVE=33;
     public static final int DBLQUOTE=40;
     public static final int OR=11;
+    public static final int LESS_THAN=483;
     public static final int CONSTANT=70;
+    public static final int LESS_THAN_EQUAL=484;
     public static final int PROPERTY_CHAIN=57;
     public static final int FUNCTIONAL=29;
     public static final int ENTITY_REFERENCE=45;
     public static final int TYPE_ASSERTION=66;
     public static final int COMPOSITION=4;
+    public static final int CLOSED_SQUARE_BRACKET=86;
 
     // delegates
     // delegators
@@ -419,7 +426,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
             int alt2=2;
             int LA2_0 = input.LA(1);
 
-            if ( ((LA2_0>=COMPOSITION && LA2_0<=CONSTANT)) ) {
+            if ( ((LA2_0>=COMPOSITION && LA2_0<=GREATER_THAN_EQUAL)) ) {
                 alt2=1;
             }
             else if ( (LA2_0==UP) ) {

@@ -18,6 +18,7 @@ tokens{
   ASSERT_NOT_EQUAL;
   ASSERT_TRUE;
   ASSERT_FALSE;
+  BINDING;
   TEXT;
   ASSERT_LESS_THAN;
   ASSERT_LESS_THAN_EQUAL;
@@ -104,11 +105,17 @@ assertion options{backtrack = true;}
 	
 assertionExpression
 	:
-		COUNT OPEN_PARENTHESYS VARIABLE_NAME CLOSED_PARENTHESYS ->^(COUNT VARIABLE_NAME)
+		COUNT OPEN_PARENTHESYS bindingDescription (COMMA bindingDescription)* CLOSED_PARENTHESYS ->^(COUNT bindingDescription+)
+		| COUNT OPEN_PARENTHESYS VARIABLE_NAME CLOSED_PARENTHESYS ->^(COUNT VARIABLE_NAME)
 		| COUNT OPEN_PARENTHESYS STAR CLOSED_PARENTHESYS ->^(COUNT STAR)
 		| INTEGER 
 		| expression ->^(EXPRESSION expression)
 		
+	;
+
+bindingDescription
+	:
+		VARIABLE_NAME EQUAL expression -> ^(BINDING VARIABLE_NAME  ^(EXPRESSION expression))
 	;
 
 
@@ -153,6 +160,7 @@ textBit
    | TYPES -> ^(TEXT [$TYPES.text])      
    | INTEGER -> ^(TEXT [$INTEGER.text])      
    | COUNT -> ^(TEXT [$COUNT.text])   
+   | EQUAL -> ^(TEXT [$EQUAL.text])   
   ; 
 
 statement

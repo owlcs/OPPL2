@@ -64,13 +64,14 @@ public class TokenFileSorter {
 			String line = null;
 			try {
 				while ((line = reader.readLine()) != null) {
-					Pattern pattern = Pattern.compile("(.*)=(.*)",
+					Pattern pattern = Pattern.compile("(\\w*)\\s*=\\s*(\\w*)",
 							Pattern.DOTALL);
 					Matcher matcher = pattern.matcher(line);
 					boolean matches = matcher.matches();
 					if (matches) {
 						final String tokenName = matcher.group(1);
-						final int type = Integer.parseInt(matcher.group(2));
+						final int type = Integer.parseInt(matcher.group(2)
+								.trim());
 						this.tokens.add(new Token() {
 							public void setType(int arg0) {
 							}
