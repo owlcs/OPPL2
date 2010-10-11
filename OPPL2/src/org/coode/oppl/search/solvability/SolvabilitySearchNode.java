@@ -28,7 +28,8 @@ public abstract class SolvabilitySearchNode extends OPPLOWLAxiomSearchNode {
 	public abstract <O> O accept(SolvabilitySearchNodeVisitorEx<O> visitor);
 
 	public static SolvabilitySearchNode buildSolvabilitySearchNode(
-			OWLAxiom axiom, AxiomSolvability axiomSolvability) {
-		return axiom.accept(axiomSolvability);
+			OWLAxiom axiom, AxiomSolvability axiomSolvability,
+			BindingNode bindingNode) {
+		return axiomSolvability.getSolvabilitySearchNode(axiom, bindingNode);
 	}
 }

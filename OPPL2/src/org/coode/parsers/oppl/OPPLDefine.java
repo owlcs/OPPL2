@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g 2010-07-19 14:08:17
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g 2010-10-11 21:46:05
 
   package org.coode.parsers.oppl;
   import org.coode.parsers.ErrorListener;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class OPPLDefine extends TreeRewriter {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED", "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION", "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF", "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE", "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION", "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING", "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED", "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION", "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF", "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE", "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION", "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING", "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL", "NAF_CONSTRAINT"
     };
     public static final int VALUE_RESTRICTION=63;
     public static final int LETTER=43;
@@ -54,10 +54,12 @@ public class OPPLDefine extends TreeRewriter {
     public static final int MATCH=176;
     public static final int IN_SET_CONSTRAINT=95;
     public static final int VALUE=18;
+    public static final int FAIL=466;
     public static final int GROUPS=356;
     public static final int OPEN_CURLY_BRACES=6;
     public static final int DISJUNCTION=55;
     public static final int INVERSE=19;
+    public static final int NAF_CONSTRAINT=467;
     public static final int DBLQUOTE=40;
     public static final int STRING_OPERATION=394;
     public static final int OR=11;
@@ -154,7 +156,7 @@ public class OPPLDefine extends TreeRewriter {
     }
 
     public String[] getTokenNames() { return OPPLDefine.tokenNames; }
-    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g"; }
+    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g"; }
 
 
       private  OPPLSymbolTable symtab;
@@ -209,7 +211,7 @@ public class OPPLDefine extends TreeRewriter {
     };
 
     // $ANTLR start "bottomup"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:79:1: bottomup : ( variableDefinition | groupAttributeReferences | variableAttributeReferences );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:79:1: bottomup : ( variableDefinition | groupAttributeReferences | variableAttributeReferences );
     public final OPPLDefine.bottomup_return bottomup() throws RecognitionException {
         OPPLDefine.bottomup_return retval = new OPPLDefine.bottomup_return();
         retval.start = input.LT(1);
@@ -228,7 +230,7 @@ public class OPPLDefine extends TreeRewriter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:79:11: ( variableDefinition | groupAttributeReferences | variableAttributeReferences )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:79:11: ( variableDefinition | groupAttributeReferences | variableAttributeReferences )
             int alt1=3;
             int LA1_0 = input.LA(1);
 
@@ -294,7 +296,7 @@ public class OPPLDefine extends TreeRewriter {
             }
             switch (alt1) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:80:5: variableDefinition
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:80:5: variableDefinition
                     {
                     _last = (OPPLSyntaxTree)input.LT(1);
                     pushFollow(FOLLOW_variableDefinition_in_bottomup82);
@@ -313,7 +315,7 @@ public class OPPLDefine extends TreeRewriter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:81:7: groupAttributeReferences
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:81:7: groupAttributeReferences
                     {
                     _last = (OPPLSyntaxTree)input.LT(1);
                     pushFollow(FOLLOW_groupAttributeReferences_in_bottomup90);
@@ -332,7 +334,7 @@ public class OPPLDefine extends TreeRewriter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:82:7: variableAttributeReferences
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:82:7: variableAttributeReferences
                     {
                     _last = (OPPLSyntaxTree)input.LT(1);
                     pushFollow(FOLLOW_variableAttributeReferences_in_bottomup98);
@@ -377,7 +379,7 @@ public class OPPLDefine extends TreeRewriter {
     };
 
     // $ANTLR start "variableDefinition"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:87:1: variableDefinition : ^( ( INPUT_VARIABLE_DEFINITION | GENERATED_VARIABLE_DEFINITION ) VARIABLE_NAME VARIABLE_TYPE ( . )* ) ;
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:87:1: variableDefinition : ^( ( INPUT_VARIABLE_DEFINITION | GENERATED_VARIABLE_DEFINITION ) VARIABLE_NAME VARIABLE_TYPE ( . )* ) ;
     public final OPPLDefine.variableDefinition_return variableDefinition() throws RecognitionException {
         OPPLDefine.variableDefinition_return retval = new OPPLDefine.variableDefinition_return();
         retval.start = input.LT(1);
@@ -398,8 +400,8 @@ public class OPPLDefine extends TreeRewriter {
         OPPLSyntaxTree wildcard7_tree=null;
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:88:2: ( ^( ( INPUT_VARIABLE_DEFINITION | GENERATED_VARIABLE_DEFINITION ) VARIABLE_NAME VARIABLE_TYPE ( . )* ) )
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:89:3: ^( ( INPUT_VARIABLE_DEFINITION | GENERATED_VARIABLE_DEFINITION ) VARIABLE_NAME VARIABLE_TYPE ( . )* )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:88:2: ( ^( ( INPUT_VARIABLE_DEFINITION | GENERATED_VARIABLE_DEFINITION ) VARIABLE_NAME VARIABLE_TYPE ( . )* ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:89:3: ^( ( INPUT_VARIABLE_DEFINITION | GENERATED_VARIABLE_DEFINITION ) VARIABLE_NAME VARIABLE_TYPE ( . )* )
             {
             _last = (OPPLSyntaxTree)input.LT(1);
             {
@@ -432,13 +434,13 @@ public class OPPLDefine extends TreeRewriter {
              
             if ( state.backtracking==1 )
             if ( _first_1==null ) _first_1 = VARIABLE_TYPE6;
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:89:93: ( . )*
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:89:93: ( . )*
             loop2:
             do {
                 int alt2=2;
                 int LA2_0 = input.LA(1);
 
-                if ( ((LA2_0>=COMPOSITION && LA2_0<=REGEXP_CONSTRAINT)) ) {
+                if ( ((LA2_0>=COMPOSITION && LA2_0<=NAF_CONSTRAINT)) ) {
                     alt2=1;
                 }
                 else if ( (LA2_0==UP) ) {
@@ -448,7 +450,7 @@ public class OPPLDefine extends TreeRewriter {
 
                 switch (alt2) {
             	case 1 :
-            	    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:89:93: .
+            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:89:93: .
             	    {
             	    _last = (OPPLSyntaxTree)input.LT(1);
             	    wildcard7=(OPPLSyntaxTree)input.LT(1);
@@ -510,7 +512,7 @@ public class OPPLDefine extends TreeRewriter {
     };
 
     // $ANTLR start "groupAttributeReferences"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:95:1: groupAttributeReferences : ^(i= IDENTIFIER VARIABLE_NAME DOT GROUPS ^( ATTRIBUTE_SELECTOR INTEGER ) ) -> ^( $i) ;
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:95:1: groupAttributeReferences : ^(i= IDENTIFIER VARIABLE_NAME DOT GROUPS ^( ATTRIBUTE_SELECTOR INTEGER ) ) -> ^( $i) ;
     public final OPPLDefine.groupAttributeReferences_return groupAttributeReferences() throws RecognitionException {
         OPPLDefine.groupAttributeReferences_return retval = new OPPLDefine.groupAttributeReferences_return();
         retval.start = input.LT(1);
@@ -541,8 +543,8 @@ public class OPPLDefine extends TreeRewriter {
         RewriteRuleNodeStream stream_GROUPS=new RewriteRuleNodeStream(adaptor,"token GROUPS");
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:96:3: ( ^(i= IDENTIFIER VARIABLE_NAME DOT GROUPS ^( ATTRIBUTE_SELECTOR INTEGER ) ) -> ^( $i) )
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:97:4: ^(i= IDENTIFIER VARIABLE_NAME DOT GROUPS ^( ATTRIBUTE_SELECTOR INTEGER ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:96:3: ( ^(i= IDENTIFIER VARIABLE_NAME DOT GROUPS ^( ATTRIBUTE_SELECTOR INTEGER ) ) -> ^( $i) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:97:4: ^(i= IDENTIFIER VARIABLE_NAME DOT GROUPS ^( ATTRIBUTE_SELECTOR INTEGER ) )
             {
             _last = (OPPLSyntaxTree)input.LT(1);
             {
@@ -614,7 +616,7 @@ public class OPPLDefine extends TreeRewriter {
             root_0 = (OPPLSyntaxTree)adaptor.nil();
             // 101:5: -> ^( $i)
             {
-                // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:101:8: ^( $i)
+                // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:101:8: ^( $i)
                 {
                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
                 root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_i.nextNode(), root_1);
@@ -656,7 +658,7 @@ public class OPPLDefine extends TreeRewriter {
     };
 
     // $ANTLR start "variableAttributeReferences"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:104:1: variableAttributeReferences : ^(i= IDENTIFIER VARIABLE_NAME DOT (a= VALUES | a= RENDERING ) ) -> ^( $i) ;
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:104:1: variableAttributeReferences : ^(i= IDENTIFIER VARIABLE_NAME DOT (a= VALUES | a= RENDERING ) ) -> ^( $i) ;
     public final OPPLDefine.variableAttributeReferences_return variableAttributeReferences() throws RecognitionException {
         OPPLDefine.variableAttributeReferences_return retval = new OPPLDefine.variableAttributeReferences_return();
         retval.start = input.LT(1);
@@ -682,8 +684,8 @@ public class OPPLDefine extends TreeRewriter {
         RewriteRuleNodeStream stream_VALUES=new RewriteRuleNodeStream(adaptor,"token VALUES");
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:105:3: ( ^(i= IDENTIFIER VARIABLE_NAME DOT (a= VALUES | a= RENDERING ) ) -> ^( $i) )
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:106:4: ^(i= IDENTIFIER VARIABLE_NAME DOT (a= VALUES | a= RENDERING ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:105:3: ( ^(i= IDENTIFIER VARIABLE_NAME DOT (a= VALUES | a= RENDERING ) ) -> ^( $i) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:106:4: ^(i= IDENTIFIER VARIABLE_NAME DOT (a= VALUES | a= RENDERING ) )
             {
             _last = (OPPLSyntaxTree)input.LT(1);
             {
@@ -705,7 +707,7 @@ public class OPPLDefine extends TreeRewriter {
             DOT14=(OPPLSyntaxTree)match(input,DOT,FOLLOW_DOT_in_variableAttributeReferences213); if (state.failed) return retval; 
             if ( state.backtracking==1 ) stream_DOT.add(DOT14);
 
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:106:41: (a= VALUES | a= RENDERING )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:106:41: (a= VALUES | a= RENDERING )
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -724,7 +726,7 @@ public class OPPLDefine extends TreeRewriter {
             }
             switch (alt3) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:106:42: a= VALUES
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:106:42: a= VALUES
                     {
                     _last = (OPPLSyntaxTree)input.LT(1);
                     a=(OPPLSyntaxTree)match(input,VALUES,FOLLOW_VALUES_in_variableAttributeReferences221); if (state.failed) return retval; 
@@ -738,7 +740,7 @@ public class OPPLDefine extends TreeRewriter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:106:55: a= RENDERING
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:106:55: a= RENDERING
                     {
                     _last = (OPPLSyntaxTree)input.LT(1);
                     a=(OPPLSyntaxTree)match(input,RENDERING,FOLLOW_RENDERING_in_variableAttributeReferences229); if (state.failed) return retval; 
@@ -780,7 +782,7 @@ public class OPPLDefine extends TreeRewriter {
             root_0 = (OPPLSyntaxTree)adaptor.nil();
             // 110:4: -> ^( $i)
             {
-                // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:110:7: ^( $i)
+                // /Users/luigi/Documents/workspace/PARSERS/src/OPPLDefine.g:110:7: ^( $i)
                 {
                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
                 root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_i.nextNode(), root_1);
@@ -826,7 +828,7 @@ public class OPPLDefine extends TreeRewriter {
     public static final BitSet FOLLOW_variableAttributeReferences_in_bottomup98 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_variableDefinition117 = new BitSet(new long[]{0x0000000000000004L});
     public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition124 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
-    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition127 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF8L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x000000000003FFFFL});
+    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition127 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF8L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x00000000000FFFFFL});
     public static final BitSet FOLLOW_IDENTIFIER_in_groupAttributeReferences155 = new BitSet(new long[]{0x0000000000000004L});
     public static final BitSet FOLLOW_VARIABLE_NAME_in_groupAttributeReferences157 = new BitSet(new long[]{0x0000000000000000L,0x0000000000004000L});
     public static final BitSet FOLLOW_DOT_in_groupAttributeReferences159 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000001000000000L});

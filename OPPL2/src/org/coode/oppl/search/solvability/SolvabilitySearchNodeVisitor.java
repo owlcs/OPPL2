@@ -6,4 +6,7 @@ public interface SolvabilitySearchNodeVisitor {
 	void visitUnsolvableSearchNode(UnsolvableSearchNode unsolvableSearchNode);
 
 	void visitSolvableSearchNode(SolvableSearchNode solvableSearchNode);
+
+	void visitNoSolutionSolvableSearchNode(
+			NoSolutionSolvableSearchNode noSolutionSolvableSearchNode);
 }

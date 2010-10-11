@@ -3,6 +3,7 @@
  */
 package org.coode.oppl.search.solvability;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -34,12 +35,15 @@ public class AssertedSolvabilitySearchTree extends
 		this.ontologyManager = ontologyManager;
 	}
 
-	/**
-	 * @see org.coode.oppl.search.solvability.AbstractSolvabilityOPPLOWLAxiomSearchTree#getQuerySolver()
-	 */
 	@Override
-	protected QuerySolver getQuerySolver() {
-		return new AssertedModelQuerySolver(this.getOntologyManager());
+	protected AxiomSolvability getAxiomSolvability() {
+		AssertedModelQuerySolver querySolver = new AssertedModelQuerySolver(
+				this.getOntologyManager());
+		return new MultipleAxiomSolvability(Arrays.asList(
+				new OWLClassSubClassOfAxiomSolvability(this
+						.getConstraintSystem(), querySolver),
+				new NoResultsAxiomSolvability(this.getConstraintSystem(),
+						querySolver)));
 	}
 
 	/**

@@ -6,4 +6,7 @@ public interface SolvabilitySearchNodeVisitorEx<O> {
 	O visitUnsolvableSearchNode(UnsolvableSearchNode unsolvableSearchNode);
 
 	O visitSolvableSearchNode(SolvableSearchNode solvableSearchNode);
+
+	O visitNoSolutionSolvableSearchNode(
+			NoSolutionSolvableSearchNode noSolutionSolvableSearchNode);
 }

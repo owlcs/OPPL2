@@ -171,6 +171,14 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 				return true;
 			}
 
+			public Boolean visitNoSolutionSolvableSearchNode(
+					NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
+				// I have reached a node whose children will never lead to a
+				// solution. This node will have no children but will not
+				// represent a solution either.
+				return false;
+			}
+
 			public Boolean visitSolvableSearchNode(
 					SolvableSearchNode solvableSearchNode) {
 				// Next round each of them may generate a bunch of solved ones.
@@ -240,6 +248,11 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 						return AbstractSolvabilityOPPLOWLAxiomSearchTree.this
 								.getUnsolvableNodeChildren(unsolvableSearchNode);
 					}
+
+					public List<SolvabilitySearchNode> visitNoSolutionSolvableSearchNode(
+							NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
+						return Collections.emptyList();
+					}
 				});
 	}
 
@@ -275,10 +288,8 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 				OWLAxiom instantiatedAxiom = (OWLAxiom) node.getAxiom().accept(
 						instantiator);
 				SolvabilitySearchNode child = SolvabilitySearchNode
-						.buildSolvabilitySearchNode(instantiatedAxiom,
-								new AxiomSolvability(
-										this.getConstraintSystem(),
-										childBinding, this.getQuerySolver()));
+						.buildSolvabilitySearchNode(instantiatedAxiom, this
+								.getAxiomSolvability(), childBinding);
 				toReturn.add(child);
 			}
 		}
@@ -536,10 +547,8 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 						.getAssignments(), variableExtractor
 						.extractVariables(newStartAxiom));
 				SolvabilitySearchNode newStart = SolvabilitySearchNode
-						.buildSolvabilitySearchNode(newStartAxiom,
-								new AxiomSolvability(
-										this.getConstraintSystem(),
-										newBindingNode, this.getQuerySolver()));
+						.buildSolvabilitySearchNode(newStartAxiom, this
+								.getAxiomSolvability(), newBindingNode);
 				List<List<SolvabilitySearchNode>> bindingNodeSolutions = new ArrayList<List<SolvabilitySearchNode>>();
 				boolean bindingNodeSearch = super.exhaustiveSearchTree(
 						newStart, bindingNodeSolutions);
@@ -561,5 +570,11 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 		return found;
 	}
 
-	protected abstract QuerySolver getQuerySolver();
+	protected abstract AxiomSolvability getAxiomSolvability();
+
+	public SolvabilitySearchNode buildSolvabilitySearchNode(OWLAxiom axiom,
+			BindingNode bindingNode) {
+		return SolvabilitySearchNode.buildSolvabilitySearchNode(axiom, this
+				.getAxiomSolvability(), bindingNode);
+	}
 }
