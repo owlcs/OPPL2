@@ -22,7 +22,7 @@ import org.coode.parsers.ManchesterOWLSyntaxParser;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.SymbolTable;
-import org.coode.parsers.SystemErrorEcho;
+import org.coode.parsers.common.SystemErrorEcho;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;

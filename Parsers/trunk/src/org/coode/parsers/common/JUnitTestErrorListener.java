@@ -1,4 +1,4 @@
-package org.coode.parsers.test;
+package org.coode.parsers.common;
 
 import java.util.Formatter;
 import java.util.Locale;

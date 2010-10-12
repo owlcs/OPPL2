@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.coode.parsers;
+package org.coode.parsers.common;
 
 import java.util.Formatter;
 import java.util.Locale;
@@ -10,6 +10,8 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
+import org.coode.parsers.ErrorListener;
+import org.coode.parsers.Type;
 
 public final class SystemErrorEcho implements ErrorListener {
 	public void unrecognisedSymbol(CommonTree t) {
