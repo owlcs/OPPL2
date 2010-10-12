@@ -3,13 +3,13 @@ package org.coode.parsers.oppl.testcase.junittest;
 import junit.framework.TestCase;
 
 import org.coode.parsers.ErrorListener;
+import org.coode.parsers.common.JUnitTestErrorListener;
 import org.coode.parsers.oppl.testcase.JUnitTestCaseRunner;
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 import org.coode.parsers.oppl.testcase.OPPLTestCaseParser;
 import org.coode.parsers.oppl.testcase.ParserFactory;
 import org.coode.parsers.oppl.testcase.Test;
 import org.coode.parsers.oppl.testcase.TestCaseRunner;
-import org.coode.parsers.test.JUnitTestErrorListener;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;

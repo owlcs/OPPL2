@@ -15,10 +15,10 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
+import org.coode.parsers.common.JUnitTestErrorListener;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.testcase.OPPLTestCaseCombinedParser;
 import org.coode.parsers.oppl.testcase.OPPLTestCaseLexer;
-import org.coode.parsers.test.JUnitTestErrorListener;
 
 public class OPPLTestCaseParserTest extends TestCase {
 	private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
