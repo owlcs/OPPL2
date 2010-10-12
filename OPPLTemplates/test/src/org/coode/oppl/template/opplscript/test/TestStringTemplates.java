@@ -14,7 +14,7 @@ import org.coode.oppl.template.commons.KeyBasedReplacementStrategy;
 import org.coode.oppl.template.commons.StringTemplate;
 import org.coode.oppl.template.commons.opplscript.AnnotationBasedSimpleOPPLParserCreationStrategy;
 import org.coode.oppl.template.commons.opplscript.SimpleOPPLParserCreationStrategy;
-import org.coode.parsers.test.JUnitTestErrorListener;
+import org.coode.parsers.common.JUnitTestErrorListener;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
