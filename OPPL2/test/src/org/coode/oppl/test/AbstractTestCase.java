@@ -22,7 +22,7 @@ import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.parsers.ErrorListener;
-import org.coode.parsers.SystemErrorEcho;
+import org.coode.parsers.common.SystemErrorEcho;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;

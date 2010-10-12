@@ -36,7 +36,7 @@ import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
 import org.coode.oppl.variabletypes.INDIVIDUALVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
 import org.coode.parsers.ErrorListener;
-import org.coode.parsers.test.JUnitTestErrorListener;
+import org.coode.parsers.common.JUnitTestErrorListener;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;

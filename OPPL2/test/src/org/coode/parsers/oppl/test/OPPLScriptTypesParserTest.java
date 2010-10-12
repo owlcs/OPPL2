@@ -20,7 +20,7 @@ import org.coode.oppl.OPPLFactory;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
-import org.coode.parsers.SystemErrorEcho;
+import org.coode.parsers.common.SystemErrorEcho;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.DefaultTypeEnforcer;
 import org.coode.parsers.oppl.OPPLDefine;

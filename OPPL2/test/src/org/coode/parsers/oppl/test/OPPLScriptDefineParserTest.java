@@ -21,7 +21,7 @@ import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.Symbol;
-import org.coode.parsers.SystemErrorEcho;
+import org.coode.parsers.common.SystemErrorEcho;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.OPPLDefine;
 import org.coode.parsers.oppl.OPPLLexer;

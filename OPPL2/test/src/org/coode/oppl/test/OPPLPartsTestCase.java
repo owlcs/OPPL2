@@ -26,7 +26,7 @@ import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.log.Logging;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
-import org.coode.parsers.SystemErrorEcho;
+import org.coode.parsers.common.SystemErrorEcho;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;

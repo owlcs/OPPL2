@@ -58,6 +58,7 @@
 				<file name="antlr-3.2.jar"/>
 			</filelist>					
 			<pathelement location="${owlapi.jar}"/>
+			<pathelement location="${junit.jar}"/>
 	</path>
 	
  	<target name="parsers">
