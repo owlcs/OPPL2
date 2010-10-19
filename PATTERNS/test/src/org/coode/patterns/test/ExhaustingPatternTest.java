@@ -3,8 +3,8 @@ package org.coode.patterns.test;
 import org.antlr.runtime.tree.CommonTree;
 import org.coode.oppl.OPPLScript;
 import org.coode.parsers.ErrorListener;
-import org.coode.parsers.SystemErrorEcho;
 import org.coode.parsers.Type;
+import org.coode.parsers.common.SystemErrorEcho;
 import org.coode.parsers.test.AbstractExpectedErrorCheckerErrorListener;
 import org.coode.parsers.test.JunitTestErrorChecker;
 

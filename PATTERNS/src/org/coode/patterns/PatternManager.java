@@ -31,7 +31,7 @@ import java.util.Set;
 
 import org.coode.oppl.OPPLScript;
 import org.coode.parsers.ErrorListener;
-import org.coode.parsers.SystemErrorEcho;
+import org.coode.parsers.common.SystemErrorEcho;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;

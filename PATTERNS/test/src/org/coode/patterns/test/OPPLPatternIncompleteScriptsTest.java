@@ -6,7 +6,7 @@ package org.coode.patterns.test;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.coode.parsers.ErrorListener;
-import org.coode.parsers.SystemErrorEcho;
+import org.coode.parsers.common.SystemErrorEcho;
 import org.coode.parsers.test.AbstractExpectedErrorCheckerErrorListener;
 import org.coode.parsers.test.JunitTestErrorChecker;
 

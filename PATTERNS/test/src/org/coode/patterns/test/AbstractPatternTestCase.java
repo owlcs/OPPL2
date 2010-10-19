@@ -2,7 +2,7 @@ package org.coode.patterns.test;
 
 import org.coode.oppl.test.AbstractTestCase;
 import org.coode.parsers.ErrorListener;
-import org.coode.parsers.test.JUnitTestErrorListener;
+import org.coode.parsers.common.JUnitTestErrorListener;
 import org.coode.patterns.OPPLPatternParser;
 import org.coode.patterns.ParserFactory;
 import org.coode.patterns.PatternModel;
