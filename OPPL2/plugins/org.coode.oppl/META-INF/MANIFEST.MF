@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: OPPL
 Bundle-SymbolicName: org.coode.oppl;singleton:=true
 Bundle-Category: protege
-Update-Url: http://oppl2.sourceforge.net/update.properties
+Update-Url: http://oppl2.sourceforge.net/OWLAPI3/update.properties
 Bundle-Description: OPPL plug-in for Protege 4
 Bundle-Vendor: The CO-ODE Group
 Bundle-DocURL: http://www.co-ode.org
