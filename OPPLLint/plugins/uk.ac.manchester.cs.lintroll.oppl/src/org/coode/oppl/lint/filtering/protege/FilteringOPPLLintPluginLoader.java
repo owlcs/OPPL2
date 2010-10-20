@@ -6,6 +6,7 @@ package org.coode.oppl.lint.filtering.protege;
 import java.util.EnumSet;
 
 import org.coode.lint.protege.loader.AbstractLintPluginLoader;
+import org.coode.oppl.protege.ProtegeParserFactory;
 import org.eclipse.core.runtime.IExtension;
 import org.protege.editor.core.plugin.PluginExtensionMatcher;
 import org.protege.editor.owl.OWLEditorKit;
@@ -60,6 +61,13 @@ public class FilteringOPPLLintPluginLoader
 				EventType.ACTIVE_ONTOLOGY_CHANGED,
 				EventType.ONTOLOGY_RELOADED,
 				EventType.REASONER_CHANGED,
+				EventType.ABOUT_TO_CLASSIFY,
+				EventType.ONTOLOGY_CLASSIFIED,
 				EventType.ENTITY_RENDERER_CHANGED);
+	}
+
+	@Override
+	public void dispose() {
+		ProtegeParserFactory.getInstance(this.getOWLEditorKit()).dispose();
 	}
 }

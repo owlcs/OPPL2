@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import org.coode.oppl.lint.OPPLLintParser;
 import org.coode.oppl.lint.OPPLLintScript;
 import org.coode.oppl.lint.ParserFactory;
-import org.coode.parsers.test.JUnitTestErrorListener;
+import org.coode.parsers.common.JUnitTestErrorListener;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;

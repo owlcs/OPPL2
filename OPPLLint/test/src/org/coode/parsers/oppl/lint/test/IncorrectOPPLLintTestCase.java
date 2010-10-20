@@ -6,7 +6,7 @@ import org.coode.oppl.lint.OPPLLintParser;
 import org.coode.oppl.lint.OPPLLintScript;
 import org.coode.oppl.lint.ParserFactory;
 import org.coode.parsers.ErrorListener;
-import org.coode.parsers.SystemErrorEcho;
+import org.coode.parsers.common.SystemErrorEcho;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
