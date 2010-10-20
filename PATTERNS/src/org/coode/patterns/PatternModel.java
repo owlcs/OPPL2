@@ -364,7 +364,9 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 	public String render() {
 		StringBuffer buffer = new StringBuffer(this.getOpplStatement().render());
 		buffer.append('\n');
-		buffer.append(this.getRendering());
+		if (this.getRendering() != null) {
+			buffer.append(this.getRendering());
+		}
 		Variable v = this.getReturnVariable();
 		if (v != null) {
 			buffer.append(";\n RETURN ");

@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-08-06 21:33:32
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-10-20 10:08:24
 
   package org.coode.parsers.oppl.patterns;
   import org.coode.parsers.oppl.OPPLSyntaxTree;  
@@ -15,132 +15,137 @@ import java.util.HashMap;
 import org.antlr.runtime.tree.*;
 
 public class OPPLPatternScript_OPPLParser extends Parser {
-    public static final int VALUE_RESTRICTION=63;
-    public static final int LETTER=43;
-    public static final int REMOVE=91;
-    public static final int TYPES=39;
-    public static final int SAME_AS_AXIOM=52;
-    public static final int INVERSE_OF=25;
-    public static final int NOT=12;
-    public static final int SUBCLASS_OF=20;
-    public static final int EOF=-1;
-    public static final int ESCLAMATION_MARK=149;
-    public static final int ACTIONS=101;
-    public static final int CREATE_IDENTIFIER=151;
-    public static final int CREATE=80;
-    public static final int POW=36;
-    public static final int INPUT_VARIABLE_DEFINITION=96;
-    public static final int NOT_EQUAL=72;
-    public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION=68;
-    public static final int INSTANCE_OF=38;
-    public static final int BEGIN=83;
-    public static final int RETURN=415;
-    public static final int VARIABLE_SCOPE=104;
-    public static final int INEQUALITY_CONSTRAINT=94;
-    public static final int QUESTION_MARK=46;
-    public static final int SYMMETRIC=30;
-    public static final int CARDINALITY_RESTRICTION=64;
-    public static final int SELECT=75;
-    public static final int ROLE_ASSERTION=67;
-    public static final int DIFFERENT_FROM_AXIOM=53;
-    public static final int CREATE_OPPL_FUNCTION=98;
-    public static final int TRANSITIVE=34;
-    public static final int ANTI_SYMMETRIC=31;
-    public static final int ARGUMENTS=417;
-    public static final int ALL_RESTRICTION=62;
-    public static final int CONJUNCTION=56;
-    public static final int OPPL_STATEMENT=107;
-    public static final int NEGATED_ASSERTION=59;
-    public static final int WHITESPACE=9;
-    public static final int MATCH=176;
-    public static final int IN_SET_CONSTRAINT=95;
-    public static final int SEMICOLON=422;
-    public static final int VALUE=18;
-    public static final int FAIL=466;
-    public static final int GROUPS=356;
-    public static final int OPEN_CURLY_BRACES=6;
-    public static final int DISJUNCTION=55;
-    public static final int INVERSE=19;
-    public static final int NAF_CONSTRAINT=467;
-    public static final int DBLQUOTE=40;
-    public static final int STRING_OPERATION=394;
-    public static final int OR=11;
-    public static final int CONSTANT=70;
-    public static final int QUERY=103;
-    public static final int ENTITY_REFERENCE=45;
-    public static final int END=84;
-    public static final int COMPOSITION=4;
-    public static final int CLOSED_SQUARE_BRACKET=86;
-    public static final int DOLLAR=400;
-    public static final int SAME_AS=23;
-    public static final int WHERE=71;
-    public static final int DISJOINT_WITH=26;
-    public static final int SUPER_PROPERTY_OF=88;
-    public static final int VARIABLE_TYPE=89;
-    public static final int ATTRIBUTE_SELECTOR=283;
-    public static final int CLOSED_PARENTHESYS=8;
-    public static final int ONLY=14;
-    public static final int EQUIVALENT_TO_AXIOM=49;
-    public static final int SUB_PROPERTY_OF=21;
-    public static final int NEGATED_EXPRESSION=58;
-    public static final int MAX=16;
-    public static final int CREATE_DISJUNCTION=82;
-    public static final int AND=10;
-    public static final int ASSERTED_CLAUSE=92;
-    public static final int INVERSE_PROPERTY=60;
-    public static final int OPPL_PATTERN=419;
-    public static final int VARIABLE_NAME=464;
-    public static final int THIS_CLASS=416;
-    public static final int DIFFERENT_FROM=24;
-    public static final int IN=74;
-    public static final int EQUIVALENT_TO=22;
-    public static final int UNARY_AXIOM=54;
     public static final int COMMA=37;
-    public static final int CLOSED_CURLY_BRACES=7;
-    public static final int IDENTIFIER=44;
-    public static final int SOME=13;
-    public static final int EQUAL=73;
-    public static final int OPEN_PARENTHESYS=5;
-    public static final int REFLEXIVE=32;
-    public static final int PLUS=79;
-    public static final int DIGIT=41;
-    public static final int DOT=78;
-    public static final int SUPER_CLASS_OF=87;
-    public static final int EXPRESSION=69;
-    public static final int SOME_RESTRICTION=61;
-    public static final int ADD=90;
-    public static final int INTEGER=42;
-    public static final int GENERATED_VARIABLE_DEFINITION=97;
-    public static final int EXACTLY=17;
-    public static final int SUB_PROPERTY_AXIOM=51;
-    public static final int OPEN_SQUARE_BRACKET=85;
-    public static final int VALUES=354;
-    public static final int REGEXP_CONSTRAINT=465;
-    public static final int RANGE=28;
-    public static final int ONE_OF=65;
-    public static final int VARIABLE_DEFINITIONS=102;
-    public static final int MIN=15;
-    public static final int SUB_CLASS_AXIOM=48;
-    public static final int PLAIN_CLAUSE=93;
-    public static final int Tokens=47;
-    public static final int DOMAIN=27;
-    public static final int SUBPROPERTY_OF=105;
-    public static final int OPPL_FUNCTION=100;
-    public static final int COLON=77;
-    public static final int DISJOINT_WITH_AXIOM=50;
-    public static final int CREATE_INTERSECTION=81;
-    public static final int HYPHEN=465;
-    public static final int INVERSE_FUNCTIONAL=35;
-    public static final int RENDERING=355;
-    public static final int VARIABLE_IDENTIFIER=106;
-    public static final int IRREFLEXIVE=33;
-    public static final int PLAIN_IDENTIFIER=152;
-    public static final int VARIABLE_ATTRIBUTE=99;
+    public static final int GREATER_THAN=509;
     public static final int ASSERTED=76;
-    public static final int FUNCTIONAL=29;
-    public static final int PROPERTY_CHAIN=57;
-    public static final int PATTERN_REFERENCE=421;
+    public static final int VARIABLE_DEFINITIONS=102;
+    public static final int REGEXP_CONSTRAINT=465;
+    public static final int END=84;
+    public static final int HYPHEN=465;
+    public static final int DIFFERENT_FROM=24;
+    public static final int LESS_THAN=507;
     public static final int TYPE_ASSERTION=66;
+    public static final int SAME_AS_AXIOM=52;
+    public static final int TYPES=39;
+    public static final int ROLE_ASSERTION=67;
+    public static final int CREATE_OPPL_FUNCTION=98;
+    public static final int ESCLAMATION_MARK=149;
+    public static final int VARIABLE_IDENTIFIER=106;
+    public static final int ASSERTED_CLAUSE=92;
+    public static final int DOT=78;
+    public static final int ALL_RESTRICTION=62;
+    public static final int QUESTION_MARK=46;
+    public static final int PLAIN_IDENTIFIER=152;
+    public static final int AND=10;
+    public static final int EXPRESSION=69;
+    public static final int CONSTANT=70;
+    public static final int VALUE_RESTRICTION=63;
+    public static final int ONE_OF=65;
+    public static final int SUBPROPERTY_OF=105;
+    public static final int THIS_CLASS=416;
+    public static final int SELECT=75;
+    public static final int CARDINALITY_RESTRICTION=64;
+    public static final int SAME_AS=23;
+    public static final int EXACTLY=17;
+    public static final int PLUS=79;
+    public static final int TRANSITIVE=34;
+    public static final int IN_SET_CONSTRAINT=95;
+    public static final int SUBCLASS_OF=20;
+    public static final int ENTITY_REFERENCE=45;
+    public static final int CONJUNCTION=56;
+    public static final int INVERSE_OF=25;
+    public static final int RANGE=28;
+    public static final int ARGUMENTS=417;
+    public static final int DATA_RANGE=565;
+    public static final int CLOSED_PARENTHESYS=8;
+    public static final int PROPERTY_CHAIN=57;
+    public static final int CREATE_INTERSECTION=81;
+    public static final int EQUIVALENT_TO_AXIOM=49;
+    public static final int OPEN_SQUARE_BRACKET=85;
+    public static final int NAF_CONSTRAINT=467;
+    public static final int SYMMETRIC=30;
+    public static final int DOLLAR=400;
+    public static final int DISJOINT_WITH=26;
+    public static final int VARIABLE_TYPE=89;
+    public static final int DISJUNCTION=55;
+    public static final int GROUPS=356;
+    public static final int NEGATED_EXPRESSION=58;
+    public static final int EQUAL=73;
+    public static final int SEMICOLON=422;
+    public static final int PATTERN_REFERENCE=421;
+    public static final int DIFFERENT_FROM_AXIOM=53;
+    public static final int GREATER_THAN_EQUAL=510;
+    public static final int ACTIONS=101;
+    public static final int EQUIVALENT_TO=22;
+    public static final int DOMAIN=27;
+    public static final int SUB_PROPERTY_OF=21;
+    public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION=68;
+    public static final int INVERSE_PROPERTY=60;
+    public static final int COLON=77;
+    public static final int GENERATED_VARIABLE_DEFINITION=97;
+    public static final int VARIABLE_ATTRIBUTE=99;
+    public static final int SUB_CLASS_AXIOM=48;
+    public static final int SUB_PROPERTY_AXIOM=51;
+    public static final int IDENTIFIER=44;
+    public static final int UNARY_AXIOM=54;
+    public static final int ADD=90;
+    public static final int WHERE=71;
+    public static final int CREATE=80;
+    public static final int VARIABLE_SCOPE=104;
+    public static final int OPEN_CURLY_BRACES=6;
+    public static final int CLOSED_SQUARE_BRACKET=86;
+    public static final int INSTANCE_OF=38;
+    public static final int VALUES=354;
+    public static final int QUERY=103;
+    public static final int SOME_RESTRICTION=61;
+    public static final int LESS_THAN_EQUAL=508;
+    public static final int VALUE=18;
+    public static final int RENDERING=355;
+    public static final int INVERSE_FUNCTIONAL=35;
+    public static final int ATTRIBUTE_SELECTOR=283;
+    public static final int PLAIN_CLAUSE=93;
+    public static final int OR=11;
+    public static final int INTEGER=42;
+    public static final int INVERSE=19;
+    public static final int DISJOINT_WITH_AXIOM=50;
+    public static final int SUPER_CLASS_OF=87;
+    public static final int OPPL_FUNCTION=100;
+    public static final int DIGIT=41;
+    public static final int COMPOSITION=4;
+    public static final int OPPL_STATEMENT=107;
+    public static final int FUNCTIONAL=29;
+    public static final int NOT_EQUAL=72;
+    public static final int LETTER=43;
+    public static final int MAX=16;
+    public static final int FAIL=466;
+    public static final int NEGATED_ASSERTION=59;
+    public static final int INPUT_VARIABLE_DEFINITION=96;
+    public static final int ONLY=14;
+    public static final int CREATE_DISJUNCTION=82;
+    public static final int REMOVE=91;
+    public static final int DBLQUOTE=40;
+    public static final int MIN=15;
+    public static final int POW=36;
+    public static final int MATCH=176;
+    public static final int BEGIN=83;
+    public static final int OPPL_PATTERN=419;
+    public static final int WHITESPACE=9;
+    public static final int IN=74;
+    public static final int SUPER_PROPERTY_OF=88;
+    public static final int INEQUALITY_CONSTRAINT=94;
+    public static final int SOME=13;
+    public static final int RETURN=415;
+    public static final int EOF=-1;
+    public static final int CREATE_IDENTIFIER=151;
+    public static final int ANTI_SYMMETRIC=31;
+    public static final int Tokens=47;
+    public static final int CLOSED_CURLY_BRACES=7;
+    public static final int REFLEXIVE=32;
+    public static final int NOT=12;
+    public static final int STRING_OPERATION=394;
+    public static final int OPEN_PARENTHESYS=5;
+    public static final int VARIABLE_NAME=464;
+    public static final int IRREFLEXIVE=33;
 
     // delegates
     public OPPLPatternScript_OPPLParser_MOWLParser gMOWLParser;
@@ -359,13 +364,13 @@ public class OPPLPatternScript_OPPLParser extends Parser {
         OPPLSyntaxTree COLON20_tree=null;
         OPPLSyntaxTree VARIABLE_TYPE21_tree=null;
         RewriteRuleTokenStream stream_COLON=new RewriteRuleTokenStream(adaptor,"token COLON");
-        RewriteRuleTokenStream stream_VARIABLE_NAME=new RewriteRuleTokenStream(adaptor,"token VARIABLE_NAME");
-        RewriteRuleTokenStream stream_VARIABLE_TYPE=new RewriteRuleTokenStream(adaptor,"token VARIABLE_TYPE");
         RewriteRuleTokenStream stream_EQUAL=new RewriteRuleTokenStream(adaptor,"token EQUAL");
-        RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
-        RewriteRuleSubtreeStream stream_variableScope=new RewriteRuleSubtreeStream(adaptor,"rule variableScope");
+        RewriteRuleTokenStream stream_VARIABLE_TYPE=new RewriteRuleTokenStream(adaptor,"token VARIABLE_TYPE");
+        RewriteRuleTokenStream stream_VARIABLE_NAME=new RewriteRuleTokenStream(adaptor,"token VARIABLE_NAME");
         RewriteRuleSubtreeStream stream_opplFunction=new RewriteRuleSubtreeStream(adaptor,"rule opplFunction");
         RewriteRuleSubtreeStream stream_regexp=new RewriteRuleSubtreeStream(adaptor,"rule regexp");
+        RewriteRuleSubtreeStream stream_variableScope=new RewriteRuleSubtreeStream(adaptor,"rule variableScope");
+        RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         try {
             // OPPLParser.g:54:3: ( VARIABLE_NAME COLON VARIABLE_TYPE EQUAL opplFunction -> ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( opplFunction ) ) | VARIABLE_NAME COLON VARIABLE_TYPE EQUAL expression -> ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( EXPRESSION expression ) ) | VARIABLE_NAME COLON VARIABLE_TYPE EQUAL regexp -> ^( GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE regexp ) | VARIABLE_NAME COLON VARIABLE_TYPE ( variableScope )? -> ^( INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ( variableScope )? ) )
             int alt3=4;
@@ -387,28 +392,26 @@ public class OPPLPatternScript_OPPLParser extends Parser {
                                 alt3=3;
                                 }
                                 break;
-                            case CREATE:
-                            case CREATE_INTERSECTION:
-                            case CREATE_DISJUNCTION:
-                                {
-                                alt3=1;
-                                }
-                                break;
                             case OPEN_PARENTHESYS:
                             case OPEN_CURLY_BRACES:
                             case NOT:
                             case INVERSE:
-                            case COMMA:
                             case DBLQUOTE:
                             case IDENTIFIER:
                             case ENTITY_REFERENCE:
-                            case BEGIN:
                             case ESCLAMATION_MARK:
                             case DOLLAR:
                             case THIS_CLASS:
                             case VARIABLE_NAME:
                                 {
                                 alt3=2;
+                                }
+                                break;
+                            case CREATE:
+                            case CREATE_INTERSECTION:
+                            case CREATE_DISJUNCTION:
+                                {
+                                alt3=1;
                                 }
                                 break;
                             default:
@@ -479,7 +482,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_TYPE, VARIABLE_NAME, opplFunction
+                    // elements: VARIABLE_NAME, opplFunction, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -539,7 +542,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, VARIABLE_TYPE, VARIABLE_NAME
+                    // elements: expression, VARIABLE_NAME, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -601,7 +604,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: regexp, VARIABLE_TYPE, VARIABLE_NAME
+                    // elements: VARIABLE_NAME, VARIABLE_TYPE, regexp
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -750,13 +753,13 @@ public class OPPLPatternScript_OPPLParser extends Parser {
         OPPLSyntaxTree OPEN_SQUARE_BRACKET23_tree=null;
         OPPLSyntaxTree CLOSED_SQUARE_BRACKET25_tree=null;
         RewriteRuleTokenStream stream_TYPES=new RewriteRuleTokenStream(adaptor,"token TYPES");
-        RewriteRuleTokenStream stream_SUPER_PROPERTY_OF=new RewriteRuleTokenStream(adaptor,"token SUPER_PROPERTY_OF");
+        RewriteRuleTokenStream stream_SUBPROPERTY_OF=new RewriteRuleTokenStream(adaptor,"token SUBPROPERTY_OF");
         RewriteRuleTokenStream stream_SUBCLASS_OF=new RewriteRuleTokenStream(adaptor,"token SUBCLASS_OF");
         RewriteRuleTokenStream stream_OPEN_SQUARE_BRACKET=new RewriteRuleTokenStream(adaptor,"token OPEN_SQUARE_BRACKET");
         RewriteRuleTokenStream stream_SUPER_CLASS_OF=new RewriteRuleTokenStream(adaptor,"token SUPER_CLASS_OF");
-        RewriteRuleTokenStream stream_INSTANCE_OF=new RewriteRuleTokenStream(adaptor,"token INSTANCE_OF");
-        RewriteRuleTokenStream stream_SUBPROPERTY_OF=new RewriteRuleTokenStream(adaptor,"token SUBPROPERTY_OF");
         RewriteRuleTokenStream stream_CLOSED_SQUARE_BRACKET=new RewriteRuleTokenStream(adaptor,"token CLOSED_SQUARE_BRACKET");
+        RewriteRuleTokenStream stream_INSTANCE_OF=new RewriteRuleTokenStream(adaptor,"token INSTANCE_OF");
+        RewriteRuleTokenStream stream_SUPER_PROPERTY_OF=new RewriteRuleTokenStream(adaptor,"token SUPER_PROPERTY_OF");
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         try {
             // OPPLParser.g:65:3: ( OPEN_SQUARE_BRACKET (variableScopeSpecification= SUBCLASS_OF | variableScopeSpecification= SUBPROPERTY_OF | variableScopeSpecification= SUPER_CLASS_OF | variableScopeSpecification= SUPER_PROPERTY_OF | variableScopeSpecification= INSTANCE_OF | variableScopeSpecification= TYPES ) expression CLOSED_SQUARE_BRACKET -> ^( VARIABLE_SCOPE $variableScopeSpecification ^( EXPRESSION expression ) ) )
@@ -983,7 +986,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: MATCH, stringOperation
+            // elements: stringOperation, MATCH
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1062,11 +1065,11 @@ public class OPPLPatternScript_OPPLParser extends Parser {
         OPPLSyntaxTree COMMA32_tree=null;
         OPPLSyntaxTree WHERE34_tree=null;
         OPPLSyntaxTree COMMA36_tree=null;
-        RewriteRuleTokenStream stream_WHERE=new RewriteRuleTokenStream(adaptor,"token WHERE");
         RewriteRuleTokenStream stream_COMMA=new RewriteRuleTokenStream(adaptor,"token COMMA");
         RewriteRuleTokenStream stream_SELECT=new RewriteRuleTokenStream(adaptor,"token SELECT");
-        RewriteRuleSubtreeStream stream_constraint=new RewriteRuleSubtreeStream(adaptor,"rule constraint");
+        RewriteRuleTokenStream stream_WHERE=new RewriteRuleTokenStream(adaptor,"token WHERE");
         RewriteRuleSubtreeStream stream_selectClause=new RewriteRuleSubtreeStream(adaptor,"rule selectClause");
+        RewriteRuleSubtreeStream stream_constraint=new RewriteRuleSubtreeStream(adaptor,"rule constraint");
         try {
             // OPPLParser.g:75:3: ( SELECT selectClause ( COMMA selectClause )* ( WHERE constraint ( COMMA constraint )* )? -> ^( QUERY ( selectClause )+ ( constraint )* ) )
             // OPPLParser.g:76:5: SELECT selectClause ( COMMA selectClause )* ( WHERE constraint ( COMMA constraint )* )?
@@ -1267,7 +1270,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
             if ( (LA8_0==ASSERTED) ) {
                 alt8=1;
             }
-            else if ( (LA8_0==EOF||(LA8_0>=OPEN_PARENTHESYS && LA8_0<=OPEN_CURLY_BRACES)||LA8_0==CLOSED_PARENTHESYS||(LA8_0>=AND && LA8_0<=NOT)||(LA8_0>=INVERSE && LA8_0<=EQUIVALENT_TO)||LA8_0==DISJOINT_WITH||(LA8_0>=FUNCTIONAL && LA8_0<=INVERSE_FUNCTIONAL)||LA8_0==COMMA||LA8_0==DBLQUOTE||(LA8_0>=IDENTIFIER && LA8_0<=ENTITY_REFERENCE)||LA8_0==CLOSED_SQUARE_BRACKET||LA8_0==ESCLAMATION_MARK||LA8_0==DOLLAR||LA8_0==THIS_CLASS||LA8_0==VARIABLE_NAME) ) {
+            else if ( ((LA8_0>=OPEN_PARENTHESYS && LA8_0<=OPEN_CURLY_BRACES)||LA8_0==NOT||LA8_0==INVERSE||(LA8_0>=FUNCTIONAL && LA8_0<=INVERSE_FUNCTIONAL)||LA8_0==DBLQUOTE||(LA8_0>=IDENTIFIER && LA8_0<=ENTITY_REFERENCE)||LA8_0==ESCLAMATION_MARK||LA8_0==DOLLAR||LA8_0==THIS_CLASS||LA8_0==VARIABLE_NAME) ) {
                 alt8=2;
             }
             else {
@@ -1432,20 +1435,20 @@ public class OPPLPatternScript_OPPLParser extends Parser {
         OPPLSyntaxTree OPEN_PARENTHESYS51_tree=null;
         OPPLSyntaxTree CLOSED_PARENTHESYS53_tree=null;
         OPPLSyntaxTree FAIL54_tree=null;
+        RewriteRuleTokenStream stream_COMMA=new RewriteRuleTokenStream(adaptor,"token COMMA");
+        RewriteRuleTokenStream stream_NOT_EQUAL=new RewriteRuleTokenStream(adaptor,"token NOT_EQUAL");
+        RewriteRuleTokenStream stream_OPEN_CURLY_BRACES=new RewriteRuleTokenStream(adaptor,"token OPEN_CURLY_BRACES");
+        RewriteRuleTokenStream stream_CLOSED_CURLY_BRACES=new RewriteRuleTokenStream(adaptor,"token CLOSED_CURLY_BRACES");
+        RewriteRuleTokenStream stream_FAIL=new RewriteRuleTokenStream(adaptor,"token FAIL");
         RewriteRuleTokenStream stream_MATCH=new RewriteRuleTokenStream(adaptor,"token MATCH");
+        RewriteRuleTokenStream stream_CLOSED_PARENTHESYS=new RewriteRuleTokenStream(adaptor,"token CLOSED_PARENTHESYS");
+        RewriteRuleTokenStream stream_OPEN_PARENTHESYS=new RewriteRuleTokenStream(adaptor,"token OPEN_PARENTHESYS");
         RewriteRuleTokenStream stream_VARIABLE_NAME=new RewriteRuleTokenStream(adaptor,"token VARIABLE_NAME");
         RewriteRuleTokenStream stream_IN=new RewriteRuleTokenStream(adaptor,"token IN");
-        RewriteRuleTokenStream stream_CLOSED_PARENTHESYS=new RewriteRuleTokenStream(adaptor,"token CLOSED_PARENTHESYS");
-        RewriteRuleTokenStream stream_COMMA=new RewriteRuleTokenStream(adaptor,"token COMMA");
-        RewriteRuleTokenStream stream_CLOSED_CURLY_BRACES=new RewriteRuleTokenStream(adaptor,"token CLOSED_CURLY_BRACES");
-        RewriteRuleTokenStream stream_NOT_EQUAL=new RewriteRuleTokenStream(adaptor,"token NOT_EQUAL");
-        RewriteRuleTokenStream stream_FAIL=new RewriteRuleTokenStream(adaptor,"token FAIL");
-        RewriteRuleTokenStream stream_OPEN_CURLY_BRACES=new RewriteRuleTokenStream(adaptor,"token OPEN_CURLY_BRACES");
-        RewriteRuleTokenStream stream_OPEN_PARENTHESYS=new RewriteRuleTokenStream(adaptor,"token OPEN_PARENTHESYS");
-        RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
-        RewriteRuleSubtreeStream stream_axiom=new RewriteRuleSubtreeStream(adaptor,"rule axiom");
         RewriteRuleSubtreeStream stream_stringOperation=new RewriteRuleSubtreeStream(adaptor,"rule stringOperation");
+        RewriteRuleSubtreeStream stream_axiom=new RewriteRuleSubtreeStream(adaptor,"rule axiom");
         RewriteRuleSubtreeStream stream_atomic=new RewriteRuleSubtreeStream(adaptor,"rule atomic");
+        RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         try {
             // OPPLParser.g:88:3: (first= VARIABLE_NAME NOT_EQUAL second= expression -> ^( INEQUALITY_CONSTRAINT IDENTIFIER[$first] ^( EXPRESSION $second) ) | VARIABLE_NAME IN OPEN_CURLY_BRACES atomic ( COMMA atomic )* CLOSED_CURLY_BRACES -> ^( IN_SET_CONSTRAINT IDENTIFIER[$VARIABLE_NAME] ( atomic )+ ) | VARIABLE_NAME MATCH OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS -> ^( REGEXP_CONSTRAINT IDENTIFIER[$VARIABLE_NAME] stringOperation ) | FAIL axiom -> ^( NAF_CONSTRAINT axiom ) )
             int alt10=4;
@@ -1780,8 +1783,8 @@ public class OPPLPatternScript_OPPLParser extends Parser {
         OPPLSyntaxTree BEGIN56_tree=null;
         OPPLSyntaxTree COMMA58_tree=null;
         OPPLSyntaxTree END60_tree=null;
-        RewriteRuleTokenStream stream_END=new RewriteRuleTokenStream(adaptor,"token END");
         RewriteRuleTokenStream stream_COMMA=new RewriteRuleTokenStream(adaptor,"token COMMA");
+        RewriteRuleTokenStream stream_END=new RewriteRuleTokenStream(adaptor,"token END");
         RewriteRuleTokenStream stream_BEGIN=new RewriteRuleTokenStream(adaptor,"token BEGIN");
         RewriteRuleSubtreeStream stream_action=new RewriteRuleSubtreeStream(adaptor,"rule action");
         try {
@@ -2083,11 +2086,11 @@ public class OPPLPatternScript_OPPLParser extends Parser {
         OPPLSyntaxTree CREATE_DISJUNCTION73_tree=null;
         OPPLSyntaxTree OPEN_PARENTHESYS74_tree=null;
         OPPLSyntaxTree CLOSED_PARENTHESYS76_tree=null;
-        RewriteRuleTokenStream stream_CREATE=new RewriteRuleTokenStream(adaptor,"token CREATE");
-        RewriteRuleTokenStream stream_CREATE_DISJUNCTION=new RewriteRuleTokenStream(adaptor,"token CREATE_DISJUNCTION");
         RewriteRuleTokenStream stream_CREATE_INTERSECTION=new RewriteRuleTokenStream(adaptor,"token CREATE_INTERSECTION");
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS=new RewriteRuleTokenStream(adaptor,"token CLOSED_PARENTHESYS");
         RewriteRuleTokenStream stream_OPEN_PARENTHESYS=new RewriteRuleTokenStream(adaptor,"token OPEN_PARENTHESYS");
+        RewriteRuleTokenStream stream_CREATE_DISJUNCTION=new RewriteRuleTokenStream(adaptor,"token CREATE_DISJUNCTION");
+        RewriteRuleTokenStream stream_CREATE=new RewriteRuleTokenStream(adaptor,"token CREATE");
         RewriteRuleSubtreeStream stream_stringOperation=new RewriteRuleSubtreeStream(adaptor,"rule stringOperation");
         RewriteRuleSubtreeStream stream_atomic=new RewriteRuleSubtreeStream(adaptor,"rule atomic");
         try {
@@ -2565,8 +2568,8 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
         OPPLSyntaxTree ESCLAMATION_MARK82_tree=null;
         OPPLSyntaxTree IDENTIFIER83_tree=null;
-        RewriteRuleTokenStream stream_ESCLAMATION_MARK=new RewriteRuleTokenStream(adaptor,"token ESCLAMATION_MARK");
         RewriteRuleTokenStream stream_IDENTIFIER=new RewriteRuleTokenStream(adaptor,"token IDENTIFIER");
+        RewriteRuleTokenStream stream_ESCLAMATION_MARK=new RewriteRuleTokenStream(adaptor,"token ESCLAMATION_MARK");
 
         try {
             // OPPLParser.g:138:3: ( ESCLAMATION_MARK IDENTIFIER -> ^( IDENTIFIER[$ESCLAMATION_MARK.getText()+ $IDENTIFIER.getText()] ) )
@@ -2656,11 +2659,11 @@ public class OPPLPatternScript_OPPLParser extends Parser {
         OPPLSyntaxTree VARIABLE_NAME86_tree=null;
         OPPLSyntaxTree DOT87_tree=null;
         OPPLSyntaxTree GROUPS88_tree=null;
+        RewriteRuleTokenStream stream_VALUES=new RewriteRuleTokenStream(adaptor,"token VALUES");
+        RewriteRuleTokenStream stream_GROUPS=new RewriteRuleTokenStream(adaptor,"token GROUPS");
+        RewriteRuleTokenStream stream_RENDERING=new RewriteRuleTokenStream(adaptor,"token RENDERING");
         RewriteRuleTokenStream stream_VARIABLE_NAME=new RewriteRuleTokenStream(adaptor,"token VARIABLE_NAME");
         RewriteRuleTokenStream stream_DOT=new RewriteRuleTokenStream(adaptor,"token DOT");
-        RewriteRuleTokenStream stream_RENDERING=new RewriteRuleTokenStream(adaptor,"token RENDERING");
-        RewriteRuleTokenStream stream_GROUPS=new RewriteRuleTokenStream(adaptor,"token GROUPS");
-        RewriteRuleTokenStream stream_VALUES=new RewriteRuleTokenStream(adaptor,"token VALUES");
         RewriteRuleSubtreeStream stream_attributeSelector=new RewriteRuleSubtreeStream(adaptor,"rule attributeSelector");
         try {
             // OPPLParser.g:143:3: ( VARIABLE_NAME DOT (a= VALUES | a= RENDERING ) -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $a.getText()] VARIABLE_NAME DOT $a) | VARIABLE_NAME DOT GROUPS attributeSelector -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $GROUPS.getText()+$attributeSelector.selectorText] VARIABLE_NAME DOT GROUPS attributeSelector ) )
@@ -2754,7 +2757,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, a, DOT
+                    // elements: DOT, VARIABLE_NAME, a
                     // token labels: a
                     // rule labels: retval
                     // token list labels: 
@@ -2806,7 +2809,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, GROUPS, attributeSelector, DOT
+                    // elements: DOT, VARIABLE_NAME, attributeSelector, GROUPS
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2983,27 +2986,27 @@ public class OPPLPatternScript_OPPLParser extends Parser {
     public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition358 = new BitSet(new long[]{0x0000000000000002L,0x0000000000200000L});
     public static final BitSet FOLLOW_variableScope_in_variableDefinition361 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_OPEN_SQUARE_BRACKET_in_variableScope401 = new BitSet(new long[]{0x000000C000100000L,0x0000020001800000L});
-    public static final BitSet FOLLOW_SUBCLASS_OF_in_variableScope408 = new BitSet(new long[]{0x0000310000081060L,0x0000000000400000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
-    public static final BitSet FOLLOW_SUBPROPERTY_OF_in_variableScope416 = new BitSet(new long[]{0x0000310000081060L,0x0000000000400000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
-    public static final BitSet FOLLOW_SUPER_CLASS_OF_in_variableScope424 = new BitSet(new long[]{0x0000310000081060L,0x0000000000400000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
-    public static final BitSet FOLLOW_SUPER_PROPERTY_OF_in_variableScope432 = new BitSet(new long[]{0x0000310000081060L,0x0000000000400000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
-    public static final BitSet FOLLOW_INSTANCE_OF_in_variableScope441 = new BitSet(new long[]{0x0000310000081060L,0x0000000000400000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
-    public static final BitSet FOLLOW_TYPES_in_variableScope449 = new BitSet(new long[]{0x0000310000081060L,0x0000000000400000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_SUBCLASS_OF_in_variableScope408 = new BitSet(new long[]{0x0000310000081060L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_SUBPROPERTY_OF_in_variableScope416 = new BitSet(new long[]{0x0000310000081060L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_SUPER_CLASS_OF_in_variableScope424 = new BitSet(new long[]{0x0000310000081060L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_SUPER_PROPERTY_OF_in_variableScope432 = new BitSet(new long[]{0x0000310000081060L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_INSTANCE_OF_in_variableScope441 = new BitSet(new long[]{0x0000310000081060L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_TYPES_in_variableScope449 = new BitSet(new long[]{0x0000310000081060L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
     public static final BitSet FOLLOW_expression_in_variableScope452 = new BitSet(new long[]{0x0000000000000000L,0x0000000000400000L});
     public static final BitSet FOLLOW_CLOSED_SQUARE_BRACKET_in_variableScope454 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_MATCH_in_regexp484 = new BitSet(new long[]{0x0000000000000020L});
     public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_regexp486 = new BitSet(new long[]{0x0000010000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
     public static final BitSet FOLLOW_stringOperation_in_regexp488 = new BitSet(new long[]{0x0000000000000100L});
     public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_regexp490 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SELECT_in_query515 = new BitSet(new long[]{0x0000310FE4781060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_SELECT_in_query515 = new BitSet(new long[]{0x0000310FE0081060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
     public static final BitSet FOLLOW_selectClause_in_query517 = new BitSet(new long[]{0x0000002000000002L,0x0000000000000080L});
-    public static final BitSet FOLLOW_COMMA_in_query520 = new BitSet(new long[]{0x0000310FE4781060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_COMMA_in_query520 = new BitSet(new long[]{0x0000310FE0081060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
     public static final BitSet FOLLOW_selectClause_in_query522 = new BitSet(new long[]{0x0000002000000002L,0x0000000000000080L});
     public static final BitSet FOLLOW_WHERE_in_query527 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000050000L});
     public static final BitSet FOLLOW_constraint_in_query529 = new BitSet(new long[]{0x0000002000000002L});
     public static final BitSet FOLLOW_COMMA_in_query532 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000050000L});
     public static final BitSet FOLLOW_constraint_in_query534 = new BitSet(new long[]{0x0000002000000002L});
-    public static final BitSet FOLLOW_ASSERTED_in_selectClause571 = new BitSet(new long[]{0x0000310FE4781060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_ASSERTED_in_selectClause571 = new BitSet(new long[]{0x0000310FE0081060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
     public static final BitSet FOLLOW_axiom_in_selectClause573 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_axiom_in_selectClause589 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_VARIABLE_NAME_in_constraint628 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000100L});
@@ -3021,16 +3024,16 @@ public class OPPLPatternScript_OPPLParser extends Parser {
     public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_constraint702 = new BitSet(new long[]{0x0000010000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
     public static final BitSet FOLLOW_stringOperation_in_constraint704 = new BitSet(new long[]{0x0000000000000100L});
     public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_constraint706 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_FAIL_in_constraint725 = new BitSet(new long[]{0x0000310FE4781060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_FAIL_in_constraint725 = new BitSet(new long[]{0x0000310FE0081060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
     public static final BitSet FOLLOW_axiom_in_constraint727 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_BEGIN_in_actions755 = new BitSet(new long[]{0x0000000000000000L,0x000000000C000000L});
     public static final BitSet FOLLOW_action_in_actions757 = new BitSet(new long[]{0x0000002000000000L,0x0000000000100000L});
     public static final BitSet FOLLOW_COMMA_in_actions760 = new BitSet(new long[]{0x0000000000000000L,0x000000000C000000L});
     public static final BitSet FOLLOW_action_in_actions762 = new BitSet(new long[]{0x0000002000000000L,0x0000000000100000L});
     public static final BitSet FOLLOW_END_in_actions766 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ADD_in_action798 = new BitSet(new long[]{0x0000310FE4781060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_ADD_in_action798 = new BitSet(new long[]{0x0000310FE0081060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
     public static final BitSet FOLLOW_axiom_in_action800 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_REMOVE_in_action816 = new BitSet(new long[]{0x0000310FE4781060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_REMOVE_in_action816 = new BitSet(new long[]{0x0000310FE0081060L,0x0000000000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000100010000L,0x0000000000010000L});
     public static final BitSet FOLLOW_axiom_in_action818 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_CREATE_in_opplFunction851 = new BitSet(new long[]{0x0000000000000020L});
     public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_opplFunction853 = new BitSet(new long[]{0x0000010000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
