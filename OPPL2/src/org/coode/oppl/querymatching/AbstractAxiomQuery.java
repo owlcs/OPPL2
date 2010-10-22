@@ -1,5 +1,9 @@
 package org.coode.oppl.querymatching;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLAnnotationPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLAnnotationPropertyRangeAxiom;
@@ -42,230 +46,232 @@ import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.SWRLRule;
 
 abstract class AbstractAxiomQuery implements AxiomQuery {
-	protected abstract void match(OWLAxiom axiom);
+	protected abstract Set<BindingNode> match(OWLAxiom axiom);
+
+	private final Set<BindingNode> leaves = new HashSet<BindingNode>();
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDeclarationAxiom)
 	 */
 	public void visit(OWLDeclarationAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLSubClassOfAxiom)
 	 */
 	public void visit(OWLSubClassOfAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom)
 	 */
 	public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom)
 	 */
 	public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom)
 	 */
 	public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDisjointClassesAxiom)
 	 */
 	public void visit(OWLDisjointClassesAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom)
 	 */
 	public void visit(OWLDataPropertyDomainAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom)
 	 */
 	public void visit(OWLObjectPropertyDomainAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom)
 	 */
 	public void visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom)
 	 */
 	public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom)
 	 */
 	public void visit(OWLDifferentIndividualsAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom)
 	 */
 	public void visit(OWLDisjointDataPropertiesAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom)
 	 */
 	public void visit(OWLDisjointObjectPropertiesAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom)
 	 */
 	public void visit(OWLObjectPropertyRangeAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom)
 	 */
 	public void visit(OWLObjectPropertyAssertionAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom)
 	 */
 	public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom)
 	 */
 	public void visit(OWLSubObjectPropertyOfAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDisjointUnionAxiom)
 	 */
 	public void visit(OWLDisjointUnionAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom)
 	 */
 	public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom)
 	 */
 	public void visit(OWLDataPropertyRangeAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom)
 	 */
 	public void visit(OWLFunctionalDataPropertyAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom)
 	 */
 	public void visit(OWLEquivalentDataPropertiesAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLClassAssertionAxiom)
 	 */
 	public void visit(OWLClassAssertionAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom)
 	 */
 	public void visit(OWLEquivalentClassesAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom)
 	 */
 	public void visit(OWLDataPropertyAssertionAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom)
 	 */
 	public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom)
 	 */
 	public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom)
 	 */
 	public void visit(OWLSubDataPropertyOfAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom)
 	 */
 	public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLSameIndividualAxiom)
 	 */
 	public void visit(OWLSameIndividualAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLSubPropertyChainOfAxiom)
 	 */
 	public void visit(OWLSubPropertyChainOfAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom)
 	 */
 	public void visit(OWLInverseObjectPropertiesAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
@@ -278,14 +284,13 @@ abstract class AbstractAxiomQuery implements AxiomQuery {
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLDatatypeDefinitionAxiom)
 	 */
 	public void visit(OWLDatatypeDefinitionAxiom axiom) {
-		this.match(axiom);
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitor#visit(org.semanticweb.owlapi.model.SWRLRule)
 	 */
 	public void visit(SWRLRule rule) {
-		this.match(rule);
 	}
 
 	/**
@@ -310,5 +315,12 @@ abstract class AbstractAxiomQuery implements AxiomQuery {
 	 * @see org.semanticweb.owlapi.model.OWLAnnotationAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLAnnotationPropertyRangeAxiom)
 	 */
 	public void visit(OWLAnnotationPropertyRangeAxiom axiom) {
+	}
+
+	/**
+	 * @return the leaves
+	 */
+	public Set<BindingNode> getLeaves() {
+		return new HashSet<BindingNode>(this.leaves);
 	}
 }

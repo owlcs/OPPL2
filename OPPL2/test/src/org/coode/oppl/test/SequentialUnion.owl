@@ -1,0 +1,715 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY mergedont "http://www.semanticweb.com/mergedont#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY temp "file:/C:/Tools/Alignement/align-4.0/temp.owl#" >
+    <!ENTITY DPWSWriter "http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#" >
+    <!ENTITY UPnPWriter "http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.com/mergedont#"
+     xml:base="http://www.semanticweb.com/mergedont"
+     xmlns:mergedont="http://www.semanticweb.com/mergedont#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:temp="file:/C:/Tools/Alignement/align-4.0/temp.owl#"
+     xmlns:UPnPWriter="http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#"
+     xmlns:DPWSWriter="http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#">
+    <owl:Ontology rdf:about="http://www.semanticweb.com/mergedont"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- file:/C:/Tools/Alignement/align-4.0/temp.owl#Sequential_Union_Mapping_First_member -->
+
+    <owl:ObjectProperty rdf:about="&temp;Sequential_Union_Mapping_First_member"/>
+    
+
+
+    <!-- file:/C:/Tools/Alignement/align-4.0/temp.owl#Sequential_Union_Mapping_Second_member -->
+
+    <owl:ObjectProperty rdf:about="&temp;Sequential_Union_Mapping_Second_member"/>
+    
+
+
+    <!-- file:/C:/Tools/Alignement/align-4.0/temp.owl#Simple_Mapping_Input -->
+
+    <owl:ObjectProperty rdf:about="&temp;Simple_Mapping_Input"/>
+    
+
+
+    <!-- file:/C:/Tools/Alignement/align-4.0/temp.owl#Simple_Mapping_Input_Output -->
+
+    <owl:ObjectProperty rdf:about="&temp;Simple_Mapping_Input_Output"/>
+    
+
+
+    <!-- file:/C:/Tools/Alignement/align-4.0/temp.owl#Simple_Mapping_Output -->
+
+    <owl:ObjectProperty rdf:about="&temp;Simple_Mapping_Output"/>
+    
+
+
+    <!-- file:/C:/Tools/Alignement/align-4.0/temp.owl#Union_Mapping -->
+
+    <owl:ObjectProperty rdf:about="&temp;Union_Mapping"/>
+    
+
+
+    <!-- file:/C:/Tools/Alignement/align-4.0/temp.owl#Union_Mapping_First_member -->
+
+    <owl:ObjectProperty rdf:about="&temp;Union_Mapping_First_member"/>
+    
+
+
+    <!-- file:/C:/Tools/Alignement/align-4.0/temp.owl#Union_Mapping_Second_member -->
+
+    <owl:ObjectProperty rdf:about="&temp;Union_Mapping_Second_member"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#has_DPWS_Action -->
+
+    <owl:ObjectProperty rdf:about="&DPWSWriter;has_DPWS_Action"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#has_DPWS_Input -->
+
+    <owl:ObjectProperty rdf:about="&DPWSWriter;has_DPWS_Input"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#has_DPWS_Output -->
+
+    <owl:ObjectProperty rdf:about="&DPWSWriter;has_DPWS_Output"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#has_DPWS_Service -->
+
+    <owl:ObjectProperty rdf:about="&DPWSWriter;has_DPWS_Service"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#has_DPWS_StateVariable -->
+
+    <owl:ObjectProperty rdf:about="&DPWSWriter;has_DPWS_StateVariable"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#UPnP_is_instance_of_type -->
+
+    <owl:ObjectProperty rdf:about="&UPnPWriter;UPnP_is_instance_of_type"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#has_UPnP_Action -->
+
+    <owl:ObjectProperty rdf:about="&UPnPWriter;has_UPnP_Action"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#has_UPnP_Input -->
+
+    <owl:ObjectProperty rdf:about="&UPnPWriter;has_UPnP_Input"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#has_UPnP_Instance_Input -->
+
+    <owl:ObjectProperty rdf:about="&UPnPWriter;has_UPnP_Instance_Input"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#has_UPnP_Instance_Output -->
+
+    <owl:ObjectProperty rdf:about="&UPnPWriter;has_UPnP_Instance_Output"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#has_UPnP_Output -->
+
+    <owl:ObjectProperty rdf:about="&UPnPWriter;has_UPnP_Output"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#has_UPnP_Service -->
+
+    <owl:ObjectProperty rdf:about="&UPnPWriter;has_UPnP_Service"/>
+    
+
+
+    <!-- http://www.semanticweb.com/mergedont#Exact_Input_Match -->
+
+    <owl:ObjectProperty rdf:about="&mergedont;Exact_Input_Match"/>
+    
+
+
+    <!-- http://www.semanticweb.com/mergedont#Exact_Input_Output_Match -->
+
+    <owl:ObjectProperty rdf:about="&mergedont;Exact_Input_Output_Match"/>
+    
+
+
+    <!-- http://www.semanticweb.com/mergedont#Exact_Output_Match -->
+
+    <owl:ObjectProperty rdf:about="&mergedont;Exact_Output_Match"/>
+    
+
+
+    <!-- http://www.semanticweb.com/mergedont#PlugIn_Input_Match -->
+
+    <owl:ObjectProperty rdf:about="&mergedont;PlugIn_Input_Match"/>
+    
+
+
+    <!-- http://www.semanticweb.com/mergedont#PlugIn_Input_Output_Match -->
+
+    <owl:ObjectProperty rdf:about="&mergedont;PlugIn_Input_Output_Match"/>
+    
+
+
+    <!-- http://www.semanticweb.com/mergedont#PlugIn_Output_Match -->
+
+    <owl:ObjectProperty rdf:about="&mergedont;PlugIn_Output_Match"/>
+    
+
+
+    <!-- http://www.semanticweb.com/mergedont#has_Next -->
+
+    <owl:ObjectProperty rdf:about="&mergedont;has_Next"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#a_has_DPWS_StateVariable_Type -->
+
+    <owl:DatatypeProperty rdf:about="&DPWSWriter;a_has_DPWS_StateVariable_Type"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#has_DPWS_Logical_Device_Name -->
+
+    <owl:DatatypeProperty rdf:about="&DPWSWriter;has_DPWS_Logical_Device_Name"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#x_has_DPWS_StateVariable_Type -->
+
+    <owl:DatatypeProperty rdf:about="&DPWSWriter;x_has_DPWS_StateVariable_Type"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#y_has_DPWS_StateVariable_Type -->
+
+    <owl:DatatypeProperty rdf:about="&DPWSWriter;y_has_DPWS_StateVariable_Type"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#has_UPnP_Device_Type -->
+
+    <owl:DatatypeProperty rdf:about="&UPnPWriter;has_UPnP_Device_Type"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#has_UPnP_Service_ID -->
+
+    <owl:DatatypeProperty rdf:about="&UPnPWriter;has_UPnP_Service_ID"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#has_UPnP_Service_Type -->
+
+    <owl:DatatypeProperty rdf:about="&UPnPWriter;has_UPnP_Service_Type"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#has_UPnP_Service_Version -->
+
+    <owl:DatatypeProperty rdf:about="&UPnPWriter;has_UPnP_Service_Version"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#x_has_UPnP_StateVariable_Type -->
+
+    <owl:DatatypeProperty rdf:about="&UPnPWriter;x_has_UPnP_StateVariable_Type"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#y_has_UPnP_StateVariable_Type -->
+
+    <owl:DatatypeProperty rdf:about="&UPnPWriter;y_has_UPnP_StateVariable_Type"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#DPWS_Action -->
+
+    <owl:Class rdf:about="&DPWSWriter;DPWS_Action">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;has_DPWS_StateVariable"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;DPWS_StateVariable"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#DPWS_Device -->
+
+    <owl:Class rdf:about="&DPWSWriter;DPWS_Device">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;has_DPWS_Service"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;DPWS_Service"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#DPWS_Service -->
+
+    <owl:Class rdf:about="&DPWSWriter;DPWS_Service">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;has_DPWS_Action"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;DPWS_Action"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#DPWS_StateVariable -->
+
+    <owl:Class rdf:about="&DPWSWriter;DPWS_StateVariable"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#DummyOperation -->
+
+    <owl:Class rdf:about="&DPWSWriter;DummyOperation">
+        <rdfs:subClassOf rdf:resource="&DPWSWriter;DPWS_Action"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;has_DPWS_Input"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;y"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#SeqClockStd -->
+
+    <owl:Class rdf:about="&DPWSWriter;SeqClockStd">
+        <owl:equivalentClass rdf:resource="&UPnPWriter;Time"/>
+        <rdfs:subClassOf rdf:resource="&DPWSWriter;DPWS_Service"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;has_DPWS_Action"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;Set1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;has_DPWS_Action"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;Set2"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;has_DPWS_Action"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;DummyOperation"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#Set1 -->
+
+    <owl:Class rdf:about="&DPWSWriter;Set1">
+        <owl:equivalentClass rdf:resource="&UPnPWriter;Set12"/>
+        <rdfs:subClassOf rdf:resource="&DPWSWriter;DPWS_Action"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&mergedont;Exact_Input_Match"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;Set12"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;has_DPWS_Input"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;x"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;has_DPWS_Output"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;a"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#Set2 -->
+
+    <owl:Class rdf:about="&DPWSWriter;Set2">
+        <owl:equivalentClass rdf:resource="&UPnPWriter;Set12"/>
+        <rdfs:subClassOf rdf:resource="&DPWSWriter;DPWS_Action"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;has_DPWS_Input"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;a"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;has_DPWS_Output"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;y"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&mergedont;Exact_Output_Match"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;Set12"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#a -->
+
+    <owl:Class rdf:about="&DPWSWriter;a">
+        <rdfs:subClassOf rdf:resource="&DPWSWriter;DPWS_StateVariable"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;a_has_DPWS_StateVariable_Type"/>
+                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#seqentialClock -->
+
+    <owl:Class rdf:about="&DPWSWriter;seqentialClock">
+        <owl:equivalentClass rdf:resource="&UPnPWriter;SequentialUnionClock"/>
+        <rdfs:subClassOf rdf:resource="&DPWSWriter;DPWS_Device"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;has_DPWS_Logical_Device_Name"/>
+                <owl:hasValue>hosted:seqentialClock</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;has_DPWS_Service"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;SeqClockStd"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#x -->
+
+    <owl:Class rdf:about="&DPWSWriter;x">
+        <owl:equivalentClass rdf:resource="&UPnPWriter;x"/>
+        <rdfs:subClassOf rdf:resource="&DPWSWriter;DPWS_StateVariable"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;x_has_DPWS_StateVariable_Type"/>
+                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#y -->
+
+    <owl:Class rdf:about="&DPWSWriter;y">
+        <owl:equivalentClass rdf:resource="&UPnPWriter;y"/>
+        <rdfs:subClassOf rdf:resource="&DPWSWriter;DPWS_StateVariable"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&DPWSWriter;y_has_DPWS_StateVariable_Type"/>
+                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#Newx -->
+
+    <owl:Class rdf:about="&UPnPWriter;Newx">
+        <rdfs:subClassOf rdf:resource="&UPnPWriter;x"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;UPnP_is_instance_of_type"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;x"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#Newy -->
+
+    <owl:Class rdf:about="&UPnPWriter;Newy">
+        <rdfs:subClassOf rdf:resource="&UPnPWriter;y"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;UPnP_is_instance_of_type"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;y"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#SequentialUnionClock -->
+
+    <owl:Class rdf:about="&UPnPWriter;SequentialUnionClock">
+        <rdfs:subClassOf rdf:resource="&UPnPWriter;UPnP_Device"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Service"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;Time"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Device_Type"/>
+                <owl:hasValue>urn:schemas-upnp-org:device:SequentialUnionClock:1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#Set12 -->
+
+    <owl:Class rdf:about="&UPnPWriter;Set12">
+        <rdfs:subClassOf rdf:resource="&UPnPWriter;UPnP_Action"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&temp;Simple_Mapping_Output"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;Set2"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&mergedont;Exact_Input_Match"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;Set1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&temp;Union_Mapping"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;Set1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&temp;Simple_Mapping_Input"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;Set1"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Instance_Input"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;Newx"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Instance_Output"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;Newy"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Output"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;y"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&mergedont;Exact_Output_Match"/>
+                <owl:someValuesFrom rdf:resource="&DPWSWriter;Set2"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Input"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;x"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#Time -->
+
+    <owl:Class rdf:about="&UPnPWriter;Time">
+        <rdfs:subClassOf rdf:resource="&UPnPWriter;UPnP_Service"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Service_Version"/>
+                <owl:hasValue>1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Service_Type"/>
+                <owl:hasValue>urn:schemas-upnp-org:service:Time:1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Service_ID"/>
+                <owl:hasValue>urn:upnp-org:serviceId:Time.1</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Action"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;Set12"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#UPnP_Action -->
+
+    <owl:Class rdf:about="&UPnPWriter;UPnP_Action">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Input"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;UPnP_StateVariable"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Output"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;UPnP_StateVariable"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#UPnP_Device -->
+
+    <owl:Class rdf:about="&UPnPWriter;UPnP_Device">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Service"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;UPnP_Service"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#UPnP_Service -->
+
+    <owl:Class rdf:about="&UPnPWriter;UPnP_Service">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;has_UPnP_Action"/>
+                <owl:someValuesFrom rdf:resource="&UPnPWriter;UPnP_Action"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#UPnP_StateVariable -->
+
+    <owl:Class rdf:about="&UPnPWriter;UPnP_StateVariable"/>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#x -->
+
+    <owl:Class rdf:about="&UPnPWriter;x">
+        <rdfs:subClassOf rdf:resource="&UPnPWriter;UPnP_StateVariable"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;x_has_UPnP_StateVariable_Type"/>
+                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#y -->
+
+    <owl:Class rdf:about="&UPnPWriter;y">
+        <rdfs:subClassOf rdf:resource="&UPnPWriter;UPnP_StateVariable"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UPnPWriter;y_has_UPnP_StateVariable_Type"/>
+                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.1.0.1602) http://owlapi.sourceforge.net -->
+

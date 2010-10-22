@@ -29,13 +29,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.coode.oppl.ConstraintSystem;
-import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.log.Logging;
 import org.coode.oppl.search.OPPLInferredOWLAxiomSearchTree;
 import org.coode.oppl.search.OPPLOWLAxiomSearchNode;
 import org.coode.oppl.search.solvability.InferredSolvabilitySearchTree;
@@ -63,34 +60,16 @@ public class InferredSolvabilityBasedTreeSearchAxiomQuery extends
 	}
 
 	@Override
-	protected void match(OWLAxiom axiom) {
+	protected Set<BindingNode> match(OWLAxiom axiom) {
 		this.clearInstantions();
-		Set<BindingNode> leaves = this.getConstraintSystem().getLeaves();
 		List<List<? extends OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<? extends OPPLOWLAxiomSearchNode>>();
-		if (leaves == null) {
-			VariableExtractor variableExtractor = new VariableExtractor(this
-					.getConstraintSystem(), false);
-			OPPLOWLAxiomSearchNode start = new OPPLOWLAxiomSearchNode(axiom,
-					new BindingNode(new HashSet<Assignment>(),
-							variableExtractor.extractVariables(axiom)));
-			solutions.addAll(this.doMatch(start));
-		} else {
-			int i = 0;
-			for (BindingNode bindingNode : leaves) {
-				i++;
-				Logging.getQueryLogger().log(Level.FINER,
-						"Matching " + i + " out of " + leaves.size());
-				PartialOWLObjectInstantiator partialObjectInstantiator = new PartialOWLObjectInstantiator(
-						bindingNode, this.getConstraintSystem());
-				OWLAxiom newStartAxiom = (OWLAxiom) axiom
-						.accept(partialObjectInstantiator);
-				OPPLOWLAxiomSearchNode newStart = new OPPLOWLAxiomSearchNode(
-						newStartAxiom, bindingNode);
-				solutions.addAll(this.doMatch(newStart));
-			}
-		}
-		this.getConstraintSystem().setLeaves(
-				new HashSet<BindingNode>(this.extractLeaves(solutions)));
+		VariableExtractor variableExtractor = new VariableExtractor(this
+				.getConstraintSystem(), false);
+		OPPLOWLAxiomSearchNode start = new OPPLOWLAxiomSearchNode(axiom,
+				new BindingNode(new HashSet<Assignment>(), variableExtractor
+						.extractVariables(axiom)));
+		solutions.addAll(this.doMatch(start));
+		return new HashSet<BindingNode>(this.extractLeaves(solutions));
 	}
 
 	private List<List<? extends OPPLOWLAxiomSearchNode>> doMatch(

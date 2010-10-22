@@ -528,6 +528,8 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 		Set<BindingNode> existingLeaves = this.getConstraintSystem()
 				.getLeaves();
 		boolean found = false;
+		VariableExtractor variableExtractor = new VariableExtractor(this
+				.getConstraintSystem(), false);
 		if (existingLeaves != null) {
 			Logging.getQueryTestLogging().log(Level.INFO,
 					"Existing leaves count: " + existingLeaves.size());
@@ -541,8 +543,6 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 						bindingNode, this.getConstraintSystem());
 				OWLAxiom newStartAxiom = (OWLAxiom) start.getAxiom().accept(
 						partialObjectInstantiator);
-				VariableExtractor variableExtractor = new VariableExtractor(
-						this.getConstraintSystem(), false);
 				BindingNode newBindingNode = new BindingNode(bindingNode
 						.getAssignments(), variableExtractor
 						.extractVariables(newStartAxiom));
@@ -566,7 +566,7 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 			BindingNode newLeaf = leafSerachNode.getBinding();
 			newLeaves.add(newLeaf);
 		}
-		this.constraintSystem.setLeaves(newLeaves);
+		// this.constraintSystem.setLeaves(newLeaves);
 		return found;
 	}
 

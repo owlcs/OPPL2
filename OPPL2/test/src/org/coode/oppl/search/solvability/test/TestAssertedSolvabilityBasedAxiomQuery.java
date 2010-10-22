@@ -29,24 +29,32 @@ public class TestAssertedSolvabilityBasedAxiomQuery extends TestCase {
 		try {
 			ontology = manager.createOntology();
 			OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
-			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
-			Variable x = constraintSystem.createVariable("?x", VariableType.CLASS);
+			ConstraintSystem constraintSystem = opplFactory
+					.createConstraintSystem();
+			Variable x = constraintSystem.createVariable("?x",
+					VariableType.CLASS);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			manager.addAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(
-					dataFactory.getOWLClass(IRI.create("A")),
-					dataFactory.getOWLClass(IRI.create("A"))));
+					dataFactory.getOWLClass(IRI.create("A")), dataFactory
+							.getOWLClass(IRI.create("A"))));
 			OWLSubClassOfAxiom axiom = dataFactory.getOWLSubClassOfAxiom(
-					dataFactory.getOWLClass(x.getIRI()),
-					dataFactory.getOWLClass(IRI.create("A")));
+					dataFactory.getOWLClass(x.getIRI()), dataFactory
+							.getOWLClass(IRI.create("A")));
 			AssertedSolvabilityBasedAxiomQuery assertedSolvabilityBasedAxiomQuery = new AssertedSolvabilityBasedAxiomQuery(
 					manager.getOntologies(), constraintSystem);
 			axiom.accept(assertedSolvabilityBasedAxiomQuery);
-			ConstraintSystem newConstraintSystem = opplFactory.createConstraintSystem();
+			constraintSystem.setLeaves(assertedSolvabilityBasedAxiomQuery
+					.getLeaves());
+			ConstraintSystem newConstraintSystem = opplFactory
+					.createConstraintSystem();
 			newConstraintSystem.importVariable(x);
 			AssertedTreeSearchSingleAxiomQuery assertedTreeSearchSingleAxiomQuery = new AssertedTreeSearchSingleAxiomQuery(
 					manager.getOntologies(), newConstraintSystem);
 			axiom.accept(assertedTreeSearchSingleAxiomQuery);
-			assertTrue(constraintSystem.getLeaves().equals(newConstraintSystem.getLeaves()));
+			newConstraintSystem.setLeaves(assertedTreeSearchSingleAxiomQuery
+					.getLeaves());
+			assertTrue(constraintSystem.getLeaves().equals(
+					newConstraintSystem.getLeaves()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -62,26 +70,35 @@ public class TestAssertedSolvabilityBasedAxiomQuery extends TestCase {
 		try {
 			ontology = manager.createOntology();
 			OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
-			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
-			Variable x = constraintSystem.createVariable("?x", VariableType.CLASS);
-			Variable y = constraintSystem.createVariable("?y", VariableType.CLASS);
+			ConstraintSystem constraintSystem = opplFactory
+					.createConstraintSystem();
+			Variable x = constraintSystem.createVariable("?x",
+					VariableType.CLASS);
+			Variable y = constraintSystem.createVariable("?y",
+					VariableType.CLASS);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			manager.addAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(
-					dataFactory.getOWLClass(IRI.create("A")),
-					dataFactory.getOWLClass(IRI.create("A"))));
+					dataFactory.getOWLClass(IRI.create("A")), dataFactory
+							.getOWLClass(IRI.create("A"))));
 			OWLSubClassOfAxiom axiom = dataFactory.getOWLSubClassOfAxiom(
-					dataFactory.getOWLClass(x.getIRI()),
-					dataFactory.getOWLClass(y.getIRI()));
-			ConstraintSystem newConstraintSystem = opplFactory.createConstraintSystem();
+					dataFactory.getOWLClass(x.getIRI()), dataFactory
+							.getOWLClass(y.getIRI()));
+			ConstraintSystem newConstraintSystem = opplFactory
+					.createConstraintSystem();
 			newConstraintSystem.importVariable(x);
 			newConstraintSystem.importVariable(y);
 			AssertedSolvabilityBasedAxiomQuery assertedSolvabilityBasedAxiomQuery = new AssertedSolvabilityBasedAxiomQuery(
 					manager.getOntologies(), constraintSystem);
 			axiom.accept(assertedSolvabilityBasedAxiomQuery);
+			constraintSystem.setLeaves(assertedSolvabilityBasedAxiomQuery
+					.getLeaves());
 			AssertedTreeSearchSingleAxiomQuery assertedTreeSearchSingleAxiomQuery = new AssertedTreeSearchSingleAxiomQuery(
 					manager.getOntologies(), newConstraintSystem);
 			axiom.accept(assertedTreeSearchSingleAxiomQuery);
-			assertTrue(constraintSystem.getLeaves().equals(newConstraintSystem.getLeaves()));
+			newConstraintSystem.setLeaves(assertedTreeSearchSingleAxiomQuery
+					.getLeaves());
+			assertTrue(constraintSystem.getLeaves().equals(
+					newConstraintSystem.getLeaves()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail(e.getMessage());

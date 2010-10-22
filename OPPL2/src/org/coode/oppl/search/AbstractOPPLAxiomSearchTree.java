@@ -477,7 +477,7 @@ public abstract class AbstractOPPLAxiomSearchTree extends
 			BindingNode newLeaf = leafSerachNode.getBinding();
 			newLeaves.add(newLeaf);
 		}
-		this.constraintSystem.setLeaves(newLeaves);
+		// this.constraintSystem.setLeaves(newLeaves);
 		return found;
 	}
 }

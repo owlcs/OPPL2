@@ -18,28 +18,28 @@ public class ExhaustingTestCase_TestQueries extends AbstractTestCase {
 		OPPLScript result = this
 				.parse("?y:CLASS, ?x:CLASS=create(\"Test\"+?y.RENDERING) SELECT ?y subClassOf Thing  BEGIN ADD ?x subClassOf ?y END;");
 		this.expectedCorrect(result);
-		this.execute(result, this.getOntology("test.owl"), 6);
+		this.execute(result, this.getOntology("test.owl"), 8);
 	}
 
 	public void testAssembleVariablesConstants() {
 		OPPLScript result = this
 				.parse("?y:CLASS, ?k:CONSTANT=create(\"mytest\"), ?x:CLASS=create(\"Test\"+?k.RENDERING) SELECT ?y subClassOf Country BEGIN ADD ?x subClassOf ?y END;");
 		this.expectedCorrect(result);
-		this.execute(result, this.getOntology("test.owl"), 1);
+		this.execute(result, this.getOntology("test.owl"), 2);
 	}
 
 	public void testAssembleConstantVariables() {
 		OPPLScript result = this
 				.parse("?y:CLASS, ?x:CLASS=create(\"'test \"+?y.RENDERING+\"'\") SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;");
 		this.expectedCorrect(result);
-		this.execute(result, this.getOntology("test.owl"), 1);
+		this.execute(result, this.getOntology("test.owl"), 2);
 	}
 
 	public void testAssembleConstantAndVariables() {
 		OPPLScript result = this
 				.parse("?y:CLASS, ?x:CLASS=create(\"test and \"+?y.RENDERING) SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;");
 		this.expectedCorrect(result);
-		this.execute(result, this.getOntology("test.owl"), 1);
+		this.execute(result, this.getOntology("test.owl"), 2);
 	}
 
 	public void testReverseRegularExpressions() {
@@ -63,7 +63,7 @@ public class ExhaustingTestCase_TestQueries extends AbstractTestCase {
 		OPPLScript result = this
 				.parse("?x:CLASS, ?y:CLASS=Match(\"[abc ]*\"+?x.RENDERING) SELECT ?y subClassOf Thing, ?x subClassOf Thing WHERE ?y Match(\"[abc ]*\"+?x.RENDERING)BEGIN ADD ?y subClassOf Thing END;");
 		this.expectedCorrect(result);
-		this.execute(result, this.getOntology("test.owl"), 0);
+		this.execute(result, this.getOntology("test.owl"), 6);
 	}
 
 	public void testRegExpConstraints() {
