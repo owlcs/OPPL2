@@ -25,7 +25,7 @@ public abstract class DefaultSingleValueGeneratedValueVisitorExAdapter<O> implem
 	 * @see org.coode.oppl.generated.SingleValueGeneratedValueVisitorEx#visitOWLObjectCollectionGeneratedValue(org.coode.oppl.generated.factory.OWLObjectCollectionGeneratedValue)
 	 */
 	public O visitOWLObjectCollectionGeneratedValue(
-			OWLObjectCollectionGeneratedValue owlObjectCollectionGeneratedValue) {
+			OWLObjectCollectionGeneratedValue<?> owlObjectCollectionGeneratedValue) {
 		return this.doDefault(owlObjectCollectionGeneratedValue);
 	}
 

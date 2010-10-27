@@ -16,7 +16,7 @@ public interface SingleValueGeneratedValueVisitor {
 	void vistVariableIndexGeneratedValue(VariableIndexGeneratedValue<?> variableIndexGeneratedValue);
 
 	void visitOWLObjectCollectionGeneratedValue(
-			OWLObjectCollectionGeneratedValue owlObjectCollectionGeneratedValue);
+			OWLObjectCollectionGeneratedValue<?> owlObjectCollectionGeneratedValue);
 
 	void visitRenderingVariableGeneratedValue(
 			RenderingVariableGeneratedValue renderingVariableGeneratedValue);

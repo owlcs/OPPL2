@@ -22,7 +22,7 @@ public abstract class SingleValueGeneratedValueVisitorAdapter implements
 	 * @see org.coode.oppl.generated.SingleValueGeneratedValueVisitor#visitOWLObjectCollectionGeneratedValue(org.coode.oppl.generated.factory.OWLObjectCollectionGeneratedValue)
 	 */
 	public void visitOWLObjectCollectionGeneratedValue(
-			OWLObjectCollectionGeneratedValue owlObjectCollectionGeneratedValue) {
+			OWLObjectCollectionGeneratedValue<?> owlObjectCollectionGeneratedValue) {
 	}
 
 	/**

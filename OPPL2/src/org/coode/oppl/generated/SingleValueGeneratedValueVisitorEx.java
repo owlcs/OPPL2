@@ -16,7 +16,7 @@ public interface SingleValueGeneratedValueVisitorEx<O> {
 			VariableExpressionGeneratedValue variableExpressionGeneratedValue);
 
 	O visitOWLObjectCollectionGeneratedValue(
-			OWLObjectCollectionGeneratedValue owlObjectCollectionGeneratedValue);
+			OWLObjectCollectionGeneratedValue<?> owlObjectCollectionGeneratedValue);
 
 	O visitRenderingVariableGeneratedValue(
 			RenderingVariableGeneratedValue renderingVariableGeneratedValue);

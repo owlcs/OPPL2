@@ -16,25 +16,20 @@ import org.coode.oppl.generated.SingleValueGeneratedValueVisitor;
 import org.coode.oppl.generated.SingleValueGeneratedValueVisitorEx;
 import org.semanticweb.owlapi.model.OWLObject;
 
-public class OWLObjectCollectionGeneratedValue extends
-		AbstractCollectionGeneratedValue<OWLObject> {
-	private final ConstraintSystem constraintSystem;
-
-	public OWLObjectCollectionGeneratedValue(Variable variable,
-			Attribute attribute, ConstraintSystem constraintSystem,
-			ConstraintSystem constraintSystem2) {
+public class OWLObjectCollectionGeneratedValue<O extends OWLObject> extends
+		AbstractCollectionGeneratedValue<O> {
+	public OWLObjectCollectionGeneratedValue(Variable variable, Attribute attribute,
+			ConstraintSystem constraintSystem) {
 		super(variable, attribute, constraintSystem);
-		this.constraintSystem = constraintSystem2;
 	}
 
-	public Collection<OWLObject> getGeneratedValue(BindingNode node) {
-		Set<OWLObject> toReturn = null;
-		Set<BindingNode> leaves = this.constraintSystem.getLeaves();
+	public Collection<O> getGeneratedValue(BindingNode node) {
+		Set<O> toReturn = null;
+		Set<BindingNode> leaves = this.getConstraintSystem().getLeaves();
 		if (leaves != null && !leaves.isEmpty()) {
-			toReturn = new HashSet<OWLObject>();
+			toReturn = new HashSet<O>();
 			for (BindingNode bindingNode : leaves) {
-				OWLObject assignmentValue = bindingNode.getAssignmentValue(this
-						.getVariable());
+				O assignmentValue = (O) bindingNode.getAssignmentValue(this.getVariable());
 				if (assignmentValue != null) {
 					toReturn.add(assignmentValue);
 				}
@@ -48,9 +43,9 @@ public class OWLObjectCollectionGeneratedValue extends
 		return toReturn;
 	}
 
-	public List<Collection<OWLObject>> computePossibleValues() {
-		List<Collection<OWLObject>> toReturn = new ArrayList<Collection<OWLObject>>();
-		Collection<OWLObject> generatedValue = this.getGeneratedValue(null);
+	public List<Collection<O>> computePossibleValues() {
+		List<Collection<O>> toReturn = new ArrayList<Collection<O>>();
+		Collection<O> generatedValue = this.getGeneratedValue(null);
 		if (generatedValue != null) {
 			toReturn.add(Collections.unmodifiableCollection(generatedValue));
 		}
@@ -61,7 +56,7 @@ public class OWLObjectCollectionGeneratedValue extends
 		visitor.visitOWLObjectCollectionGeneratedValue(this);
 	}
 
-	public <O> O accept(SingleValueGeneratedValueVisitorEx<O> visitor) {
+	public <P> P accept(SingleValueGeneratedValueVisitorEx<P> visitor) {
 		return visitor.visitOWLObjectCollectionGeneratedValue(this);
 	}
 }
