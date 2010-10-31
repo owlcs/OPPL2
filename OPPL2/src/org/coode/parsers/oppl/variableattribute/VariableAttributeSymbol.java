@@ -19,8 +19,7 @@ public abstract class VariableAttributeSymbol<O> extends Symbol implements OPPLS
 	 * @param name
 	 * @param type
 	 */
-	public VariableAttributeSymbol(String name, VariableAttributeType type,
-			AttributeFactory<O> factory, VariableAttribute<?> variableAttribute) {
+	public VariableAttributeSymbol(String name, Attribute) {
 		super(name, type);
 		if (factory == null) {
 			throw new NullPointerException("The factory cannot be null");

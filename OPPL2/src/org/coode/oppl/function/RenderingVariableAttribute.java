@@ -2,8 +2,8 @@ package org.coode.oppl.function;
 
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.generated.Attribute;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.parsers.oppl.variableattribute.AttributeNames;
 import org.semanticweb.owlapi.model.OWLObject;
 
 public class RenderingVariableAttribute extends VariableAttribute<String> {
@@ -12,7 +12,7 @@ public class RenderingVariableAttribute extends VariableAttribute<String> {
 	 * @param attribute
 	 */
 	public RenderingVariableAttribute(Variable variable) {
-		super(variable, Attribute.RENDERING);
+		super(variable, AttributeNames.RENDERING);
 	}
 
 	public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {

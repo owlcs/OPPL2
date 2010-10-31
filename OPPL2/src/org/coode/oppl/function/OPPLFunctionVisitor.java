@@ -17,4 +17,6 @@ public interface OPPLFunctionVisitor {
 			GroupVariableAttribute<O> groupVariableAttribute);
 
 	public <O extends OWLObject> void visitExpression(Expression<O> expression);
+
+	public <O, I> void visitCreate(Create<I, O> create);
 }

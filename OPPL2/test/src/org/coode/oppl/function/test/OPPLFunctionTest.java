@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
@@ -23,8 +24,8 @@ import org.coode.oppl.function.RenderingVariableAttribute;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.function.ValuesVariableAtttribute;
-import org.coode.oppl.generated.RegExpGenerated;
-import org.coode.oppl.generated.StringGeneratedValue;
+import org.coode.oppl.generated.CLASSRegexpGeneratedVariable;
+import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -154,11 +155,8 @@ public class OPPLFunctionTest extends TestCase {
 					.getOWLDeclarationAxiom(a));
 			manager.addAxiom(ontology, manager.getOWLDataFactory()
 					.getOWLDeclarationAxiom(b));
-			RegExpGenerated<OWLClass> x = (RegExpGenerated<OWLClass>) VariableType.CLASS
-					.getRegExpGenerated("?x", factory
-							.getOWLEntityRenderer(constraintSystem),
-							new StringGeneratedValue("(lu)igi"), manager
-									.getOntologies());
+			RegexpGeneratedVariable<OWLClass> x = new CLASSRegexpGeneratedVariable(
+					"?x", Pattern.compile("(lu)igi"));
 			GroupVariableAttribute<OWLClass> groupVariableAttribute = new GroupVariableAttribute<OWLClass>(
 					x, 1);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();

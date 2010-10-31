@@ -1,18 +1,18 @@
 package org.coode.oppl.function;
 
 import org.coode.oppl.Variable;
-import org.coode.oppl.generated.Attribute;
+import org.coode.parsers.oppl.variableattribute.AttributeNames;
 
-public abstract class VariableAttribute<O> extends AbstractOPPLFunction<O> implements
-		OPPLFunction<O> {
+public abstract class VariableAttribute<O> extends AbstractOPPLFunction<O>
+		implements OPPLFunction<O> {
 	private final Variable variable;
-	private final Attribute attribute;
+	private final AttributeNames attribute;
 
 	/**
 	 * @param variable
 	 * @param attribute
 	 */
-	public VariableAttribute(Variable variable, Attribute attribute) {
+	public VariableAttribute(Variable variable, AttributeNames attribute) {
 		if (variable == null) {
 			throw new NullPointerException("The variable cannot be null");
 		}
@@ -33,7 +33,7 @@ public abstract class VariableAttribute<O> extends AbstractOPPLFunction<O> imple
 	/**
 	 * @return the attribute
 	 */
-	public Attribute getAttribute() {
+	public AttributeNames getAttribute() {
 		return this.attribute;
 	}
 }

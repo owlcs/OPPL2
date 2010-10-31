@@ -7,7 +7,7 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.generated.Attribute;
+import org.coode.parsers.oppl.variableattribute.AttributeNames;
 import org.semanticweb.owlapi.model.OWLObject;
 
 public class ValuesVariableAtttribute<O extends OWLObject> extends
@@ -17,7 +17,7 @@ public class ValuesVariableAtttribute<O extends OWLObject> extends
 	 * @param attribute
 	 */
 	public ValuesVariableAtttribute(Variable variable) {
-		super(variable, Attribute.VALUES);
+		super(variable, AttributeNames.VALUES);
 	}
 
 	public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {
@@ -32,26 +32,26 @@ public class ValuesVariableAtttribute<O extends OWLObject> extends
 	public ValueComputation<Collection<O>> getValueComputation(
 			final ValueComputationParameters parameters) {
 		ValueComputation<Collection<O>> valueComputation = new ValueComputation<Collection<O>>() {
-					public Collection<O> compute(
-							OPPLFunction<? extends Collection<O>> opplFunction) {
-						ConstraintSystem constraintSystem = parameters
-								.getConstraintSystem();
-						Set<BindingNode> leaves = constraintSystem.getLeaves();
-						Set<O> toReturn = null;
-						if (leaves != null) {
-							toReturn = new HashSet<O>(leaves.size());
-							for (BindingNode bindingNode : leaves) {
-								OWLObject assignmentValue = bindingNode
-										.getAssignmentValue(ValuesVariableAtttribute.this
-												.getVariable());
-								if (assignmentValue != null) {
-									toReturn.add((O) assignmentValue);
-								}
-							}
+			public Collection<O> compute(
+					OPPLFunction<? extends Collection<O>> opplFunction) {
+				ConstraintSystem constraintSystem = parameters
+						.getConstraintSystem();
+				Set<BindingNode> leaves = constraintSystem.getLeaves();
+				Set<O> toReturn = null;
+				if (leaves != null) {
+					toReturn = new HashSet<O>(leaves.size());
+					for (BindingNode bindingNode : leaves) {
+						OWLObject assignmentValue = bindingNode
+								.getAssignmentValue(ValuesVariableAtttribute.this
+										.getVariable());
+						if (assignmentValue != null) {
+							toReturn.add((O) assignmentValue);
 						}
-						return toReturn;
 					}
-				};
+				}
+				return toReturn;
+			}
+		};
 		return valueComputation;
 	}
 }

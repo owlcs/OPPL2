@@ -1,28 +1,29 @@
 package org.coode.oppl.function;
 
-import org.coode.oppl.generated.Attribute;
-import org.coode.oppl.generated.RegExpGenerated;
-import org.coode.oppl.generated.VariableIndexGeneratedValue;
+import java.util.regex.Matcher;
+
+import org.coode.oppl.generated.RegexpGeneratedVariable;
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.parsers.oppl.variableattribute.AttributeNames;
 import org.semanticweb.owlapi.model.OWLObject;
 
 public class GroupVariableAttribute<O extends OWLObject> extends
 		VariableAttribute<String> {
 	private final int index;
-	private final VariableIndexGeneratedValue<O> variableIndexGeneratedVariable;
+	private final RegexpGeneratedVariable<O> regexpGenratedVariable;
 
 	/**
 	 * @param variable
 	 * @param attribute
 	 */
-	public GroupVariableAttribute(RegExpGenerated<O> variable, int index) {
-		super(variable, Attribute.GROUP);
+	public GroupVariableAttribute(RegexpGeneratedVariable<O> variable, int index) {
+		super(variable, AttributeNames.GROUP);
 		if (index < 0) {
 			throw new IllegalArgumentException(String.format(
 					"Invalid index %d", index));
 		}
 		this.index = index;
-		this.variableIndexGeneratedVariable = variable
-				.getVariableIndexGeneratedVariable(index);
+		this.regexpGenratedVariable = variable;
 	}
 
 	/**
@@ -45,8 +46,24 @@ public class GroupVariableAttribute<O extends OWLObject> extends
 			final ValueComputationParameters parameters) {
 		return new ValueComputation<String>() {
 			public String compute(OPPLFunction<? extends String> opplFunction) {
-				return GroupVariableAttribute.this.variableIndexGeneratedVariable
-						.getGeneratedValue(parameters.getBindingNode());
+				String toReturn = null;
+				OWLObject assignmentValue = parameters.getBindingNode()
+						.getAssignmentValue(
+								GroupVariableAttribute.this.getVariable());
+				if (assignmentValue != null) {
+					ManchesterSyntaxRenderer renderer = parameters
+							.getOPPLFactory().getManchesterSyntaxRenderer(
+									parameters.getConstraintSystem());
+					assignmentValue.accept(renderer);
+					Matcher matcher = GroupVariableAttribute.this.regexpGenratedVariable
+							.getPattern().matcher(renderer.toString());
+					if (matcher.matches()
+							&& matcher.groupCount() >= GroupVariableAttribute.this.index) {
+						toReturn = matcher
+								.group(GroupVariableAttribute.this.index);
+					}
+				}
+				return toReturn;
 			}
 		};
 	}
