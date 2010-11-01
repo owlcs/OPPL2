@@ -3,8 +3,8 @@ package org.coode.oppl.function;
 import org.coode.oppl.OWLObjectInstantiator;
 import org.semanticweb.owlapi.model.OWLObject;
 
-public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O>
-		implements OPPLFunction<O> {
+public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> implements
+		OPPLFunction<O> {
 	private final O expression;
 
 	/**
@@ -26,16 +26,12 @@ public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O>
 	}
 
 	@Override
-	public ValueComputation<O> getValueComputation(
-			final ValueComputationParameters parameters) {
+	public ValueComputation<O> getValueComputation(final ValueComputationParameters parameters) {
 		return new ValueComputation<O>() {
 			@SuppressWarnings("unchecked")
 			public O compute(OPPLFunction<? extends O> opplFunction) {
-				OWLObjectInstantiator instantiator = new OWLObjectInstantiator(
-						parameters.getBindingNode(), parameters
-								.getConstraintSystem());
-				OWLObject instantiation = Expression.this.getExpression()
-						.accept(instantiator);
+				OWLObjectInstantiator instantiator = new OWLObjectInstantiator(parameters);
+				OWLObject instantiation = Expression.this.getExpression().accept(instantiator);
 				// I am sure the instantiator will return an object of the same
 				// kind.
 				return (O) instantiation;

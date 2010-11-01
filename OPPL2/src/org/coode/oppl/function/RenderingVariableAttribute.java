@@ -24,19 +24,17 @@ public class RenderingVariableAttribute extends VariableAttribute<String> {
 	}
 
 	@Override
-	public ValueComputation<String> getValueComputation(
-			final ValueComputationParameters parameters) {
+	public ValueComputation<String> getValueComputation(final ValueComputationParameters parameters) {
 		return new ValueComputation<String>() {
 			public String compute(OPPLFunction<? extends String> opplFunction) {
 				String toReturn = null;
 				BindingNode bindingNode = parameters.getBindingNode();
-				OWLObject assignmentValue = bindingNode
-						.getAssignmentValue(RenderingVariableAttribute.this
-								.getVariable());
+				OWLObject assignmentValue = bindingNode.getAssignmentValue(
+						RenderingVariableAttribute.this.getVariable(),
+						parameters);
 				if (assignmentValue != null) {
-					ManchesterSyntaxRenderer renderer = parameters
-							.getOPPLFactory().getManchesterSyntaxRenderer(
-									parameters.getConstraintSystem());
+					ManchesterSyntaxRenderer renderer = parameters.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+							parameters.getConstraintSystem());
 					assignmentValue.accept(renderer);
 					toReturn = renderer.toString();
 				}

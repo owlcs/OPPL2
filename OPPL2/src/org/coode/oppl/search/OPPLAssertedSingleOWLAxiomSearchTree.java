@@ -5,7 +5,6 @@ package org.coode.oppl.search;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +18,8 @@ import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.OPPLException;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.utils.OWLObjectExtractor;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.oppl.variabletypes.CLASSVariable;
@@ -43,7 +43,6 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
 public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxiomSearchNode> {
 	private final ConstraintSystem constraintSystem;
 	private final OWLAxiom targetAxiom;
-	// private final Set<OWLOntology> ontologies = new HashSet<OWLOntology>();
 	private final Set<OWLClass> allClasses = new HashSet<OWLClass>();
 	private final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
 	private final Set<OWLDataProperty> allDataProperties = new HashSet<OWLDataProperty>();
@@ -78,8 +77,10 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 				BindingNode childBinding = new BindingNode(binding.getAssignments(),
 						binding.getUnassignedVariables());
 				childBinding.addAssignment(assignment);
+				ValueComputationParameters parameters = new SimpleValueComputationParameters(
+						this.getConstraintSystem(), childBinding);
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-						childBinding, this.getConstraintSystem());
+						parameters);
 				OWLAxiom instantiatedAxiom = (OWLAxiom) node.getAxiom().accept(instantiator);
 				OPPLOWLAxiomSearchNode child = new OPPLOWLAxiomSearchNode(instantiatedAxiom,
 						childBinding);
@@ -118,10 +119,6 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 
 		public Set<? extends OWLObject> visit(CLASSVariable v) {
 			return OPPLAssertedSingleOWLAxiomSearchTree.this.allClasses;
-		}
-
-		public Set<? extends OWLObject> visit(SingleValueGeneratedVariable<?> v) {
-			return Collections.emptySet();
 		}
 	};
 

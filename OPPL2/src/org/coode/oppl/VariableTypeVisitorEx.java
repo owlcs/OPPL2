@@ -22,7 +22,6 @@
  */
 package org.coode.oppl;
 
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
 import org.coode.oppl.variabletypes.CLASSVariable;
 import org.coode.oppl.variabletypes.CONSTANTVariable;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
@@ -45,13 +44,4 @@ public interface VariableTypeVisitorEx<O> {
 	O visit(DATAPROPERTYVariable v);
 
 	O visit(INDIVIDUALVariable v);
-
-	/**
-	 * dispatch method for when the type is not known (i.e. implementation of
-	 * visit method in VariableImpl); should eventually go away TODO push the
-	 * implementations down to the implementing classes
-	 */
-	// @Deprecated
-	// O visit(Variable v);
-	O visit(SingleValueGeneratedVariable<?> v);
 }

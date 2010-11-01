@@ -33,6 +33,8 @@ import java.util.logging.Level;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.OPPLException;
+import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.log.Logging;
 import org.coode.oppl.querymatching.AssertedSolvabilityBasedAxiomQuery;
 import org.coode.oppl.querymatching.AxiomQuery;
@@ -334,8 +336,10 @@ public class OPPLQueryImpl implements OPPLQuery {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		if (currentLeaves != null) {
 			for (BindingNode bindingNode : currentLeaves) {
+				ValueComputationParameters parameters = new SimpleValueComputationParameters(
+						this.getConstraintSystem(), bindingNode);
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-						bindingNode, this.constraintSystem);
+						parameters);
 				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instantiator);
 				Set<BindingNode> newLeaves = this.updateBindings(instantiatedAxiom);
 				toReturn.addAll(this.merge(bindingNode, newLeaves));
@@ -352,8 +356,10 @@ public class OPPLQueryImpl implements OPPLQuery {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		if (currentLeaves != null) {
 			for (BindingNode bindingNode : currentLeaves) {
+				ValueComputationParameters parameters = new SimpleValueComputationParameters(
+						this.getConstraintSystem(), bindingNode);
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-						bindingNode, this.constraintSystem);
+						parameters);
 				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instantiator);
 				Set<BindingNode> newLeaves = this.updateBindingsAssertedAxiom(instantiatedAxiom);
 				toReturn.addAll(this.merge(bindingNode, newLeaves));
@@ -419,8 +425,9 @@ public class OPPLQueryImpl implements OPPLQuery {
 
 	private boolean checkConstraint(BindingNode leaf, AbstractConstraint c) {
 		boolean hold = true;
-		ConstraintChecker constraintChecker = new ConstraintChecker(leaf,
-				this.getConstraintSystem());
+		ValueComputationParameters parameters = new SimpleValueComputationParameters(
+				this.getConstraintSystem(), leaf);
+		ConstraintChecker constraintChecker = new ConstraintChecker(parameters);
 		hold = c.accept(constraintChecker);
 		return hold;
 	}

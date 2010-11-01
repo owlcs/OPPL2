@@ -1,12 +1,12 @@
 package org.coode.oppl;
 
-import org.coode.oppl.generated.RegExpGenerated;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.generated.GeneratedVariable;
+import org.coode.oppl.generated.RegexpGeneratedVariable;
 
 public interface VariableVisitor<P extends Object> {
 	P visit(Variable v);
 
-	P visit(SingleValueGeneratedVariable<?> v);
+	P visit(GeneratedVariable<?> v);
 
-	P visit(RegExpGenerated<?> v);
+	P visit(RegexpGeneratedVariable<?> v);
 }

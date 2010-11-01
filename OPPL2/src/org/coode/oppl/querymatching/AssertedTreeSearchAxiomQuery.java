@@ -33,6 +33,8 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.search.OPPLAssertedOWLAxiomSearchTree;
 import org.coode.oppl.search.OPPLOWLAxiomSearchNode;
 import org.coode.oppl.utils.VariableExtractor;
@@ -51,12 +53,10 @@ public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
 	public AssertedTreeSearchAxiomQuery(Set<OWLOntology> ontologies,
 			ConstraintSystem constraintSystem) {
 		if (ontologies == null) {
-			throw new NullPointerException(
-					"The ontologies collection cannot be null");
+			throw new NullPointerException("The ontologies collection cannot be null");
 		}
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The constraint system cannot be null");
+			throw new NullPointerException("The constraint system cannot be null");
 		}
 		this.constraintSystem = constraintSystem;
 		this.ontologies.addAll(ontologies);
@@ -67,23 +67,23 @@ public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
 		this.clearInstantions();
 		OPPLAssertedOWLAxiomSearchTree searchTree = new OPPLAssertedOWLAxiomSearchTree(
 				this.getConstraintSystem());
-		VariableExtractor variableExtractor = new VariableExtractor(this
-				.getConstraintSystem(), false);
+		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
+				false);
 		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
-		searchTree.exhaustiveSearchTree(new OPPLOWLAxiomSearchNode(axiom,
-				new BindingNode(new HashSet<Assignment>(), variableExtractor
-						.extractVariables(axiom))), solutions);
+		searchTree.exhaustiveSearchTree(new OPPLOWLAxiomSearchNode(axiom, new BindingNode(
+				new HashSet<Assignment>(), variableExtractor.extractVariables(axiom))), solutions);
 		for (List<OPPLOWLAxiomSearchNode> path : solutions) {
 			OPPLOWLAxiomSearchNode searchLeaf = path.get(path.size() - 1);
 			BindingNode leaf = searchLeaf.getBinding();
+			ValueComputationParameters parameters = new SimpleValueComputationParameters(
+					this.getConstraintSystem(), leaf);
 			PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
-					leaf, this.getConstraintSystem());
+					parameters);
 			Set<OWLAxiom> leafInstantiations = this.instantiations.get(leaf);
 			if (leafInstantiations == null) {
 				leafInstantiations = new HashSet<OWLAxiom>();
 			}
-			leafInstantiations.add((OWLAxiom) axiom
-					.accept(partialOWLObjectInstantiator));
+			leafInstantiations.add((OWLAxiom) axiom.accept(partialOWLObjectInstantiator));
 			this.instantiations.put(leaf, leafInstantiations);
 		}
 		return new HashSet<BindingNode>(this.instantiations.keySet());

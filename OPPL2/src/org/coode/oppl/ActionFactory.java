@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
@@ -41,38 +42,38 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
  * 
  */
 public class ActionFactory {
-	public static List<OWLAxiomChange> createChanges(ActionType actionType,
-			OWLAxiom axiom, ConstraintSystem cs, OWLOntology ontology) {
+	public static List<OWLAxiomChange> createChanges(ActionType actionType, OWLAxiom axiom,
+			ConstraintSystem cs, OWLOntology ontology) {
 		Set<OWLAxiomChange> toReturn = new HashSet<OWLAxiomChange>();
 		Set<BindingNode> leaves = cs.getLeaves();
 		if (leaves != null) {
 			for (BindingNode bindingNode : leaves) {
+				SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
+						cs, bindingNode);
 				PartialOWLObjectInstantiator instatiator = new PartialOWLObjectInstantiator(
-						bindingNode, cs);
-				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom
-						.accept(instatiator);
+						parameters);
+				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instatiator);
 				switch (actionType) {
-					case ADD:
-						toReturn.add(new AddAxiom(ontology, instantiatedAxiom));
-						break;
-					case REMOVE:
-						toReturn.add(new RemoveAxiom(ontology,
-								instantiatedAxiom));
-						break;
-					default:
-						break;
+				case ADD:
+					toReturn.add(new AddAxiom(ontology, instantiatedAxiom));
+					break;
+				case REMOVE:
+					toReturn.add(new RemoveAxiom(ontology, instantiatedAxiom));
+					break;
+				default:
+					break;
 				}
 			}
 		} else if (cs.getAxiomVariables(axiom).isEmpty()) {
 			switch (actionType) {
-				case ADD:
-					toReturn.add(new AddAxiom(ontology, axiom));
-					break;
-				case REMOVE:
-					toReturn.add(new RemoveAxiom(ontology, axiom));
-					break;
-				default:
-					break;
+			case ADD:
+				toReturn.add(new AddAxiom(ontology, axiom));
+				break;
+			case REMOVE:
+				toReturn.add(new RemoveAxiom(ontology, axiom));
+				break;
+			default:
+				break;
 			}
 		}
 		return new ArrayList<OWLAxiomChange>(toReturn);
@@ -86,8 +87,8 @@ public class ActionFactory {
 	 * @param ontologies
 	 * @return the List of OWLAxiomChange
 	 */
-	public static List<OWLAxiomChange> createChanges(ActionType actionType,
-			OWLAxiom axiom, ConstraintSystem cs, Set<OWLOntology> ontologies) {
+	public static List<OWLAxiomChange> createChanges(ActionType actionType, OWLAxiom axiom,
+			ConstraintSystem cs, Set<OWLOntology> ontologies) {
 		List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
 		for (OWLOntology ontology : ontologies) {
 			toReturn.addAll(createChanges(actionType, axiom, cs, ontology));

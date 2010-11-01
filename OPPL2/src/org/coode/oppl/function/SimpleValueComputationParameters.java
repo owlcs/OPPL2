@@ -1,14 +1,11 @@
 package org.coode.oppl.function;
 
 import org.coode.oppl.ConstraintSystem;
-import org.coode.oppl.OPPLAbstractFactory;
 import org.coode.oppl.bindingtree.BindingNode;
 
-public class SimpleValueComputationParameters implements
-		ValueComputationParameters {
+public class SimpleValueComputationParameters implements ValueComputationParameters {
 	private final ConstraintSystem constraintSystem;
 	private final BindingNode bindingNode;
-	private final OPPLAbstractFactory factory;
 
 	/**
 	 * @param constraintSystem
@@ -16,20 +13,15 @@ public class SimpleValueComputationParameters implements
 	 * @param fact
 	 */
 	public SimpleValueComputationParameters(ConstraintSystem constraintSystem,
-			BindingNode bindingNode, OPPLAbstractFactory factory) {
+			BindingNode bindingNode) {
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The constraint system cannot be null");
+			throw new NullPointerException("The constraint system cannot be null");
 		}
 		if (bindingNode == null) {
 			throw new NullPointerException("The binding node cannot be null");
 		}
-		if (factory == null) {
-			throw new NullPointerException("The factory cannot be null");
-		}
 		this.constraintSystem = constraintSystem;
 		this.bindingNode = bindingNode;
-		this.factory = factory;
 	}
 
 	public BindingNode getBindingNode() {
@@ -38,9 +30,5 @@ public class SimpleValueComputationParameters implements
 
 	public ConstraintSystem getConstraintSystem() {
 		return this.constraintSystem;
-	}
-
-	public OPPLAbstractFactory getOPPLFactory() {
-		return this.factory;
 	}
 }

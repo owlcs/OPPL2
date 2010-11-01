@@ -18,7 +18,7 @@ import org.coode.oppl.generated.SingleValueGeneratedValue;
 import org.coode.oppl.generated.StringGeneratedValue;
 import org.coode.oppl.generated.VariableExpressionGeneratedVariable;
   import org.coode.oppl.OPPLAbstractFactory;
-  import org.coode.oppl.InCollectionRegExpConstraint;
+  import org.coode.oppl.RegExpConstraint;
   import org.semanticweb.owlapi.model.OWLAxiom;
   import org.semanticweb.owlapi.model.OWLObject;
   import org.semanticweb.owlapi.model.OWLClass;
@@ -1709,7 +1709,7 @@ public class OPPLTypes extends TreeFilter {
                     if ( state.backtracking==1 ) {
 
                       			Variable variable = symtab.getVariable(IDENTIFIER19,getConstraintSystem());
-                      			retval.constraint =   new InCollectionRegExpConstraint(variable, se, getConstraintSystem());
+                      			retval.constraint =   new RegExpConstraint(variable, se, getConstraintSystem());
                       		
                     }
 

@@ -22,7 +22,6 @@
  */
 package org.coode.oppl;
 
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
 import org.semanticweb.owlapi.model.IRI;
 
 /**

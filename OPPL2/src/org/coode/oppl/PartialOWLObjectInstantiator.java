@@ -22,7 +22,7 @@
  */
 package org.coode.oppl;
 
-import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.function.ValueComputationParameters;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObject;
 
@@ -31,17 +31,19 @@ import org.semanticweb.owlapi.model.OWLObject;
  * 
  */
 public class PartialOWLObjectInstantiator extends AbstractOWLObjectInstantiator {
-	public PartialOWLObjectInstantiator(BindingNode bindingNode, ConstraintSystem cs) {
-		super(bindingNode, cs);
+	public PartialOWLObjectInstantiator(ValueComputationParameters parameters) {
+		super(parameters);
 	}
 
 	@Override
 	public OWLObject visit(OWLLiteral node) {
 		OWLLiteral toReturn = node;
-		if (this.getConstraintSystem().isVariable(node)) {
-			Variable variable = this.getConstraintSystem().getVariable(node.getLiteral());
-			OWLLiteral assignmentValue = (OWLLiteral) this.getBindingNode().getAssignmentValue(
-					variable);
+		if (this.getParameters().getConstraintSystem().isVariable(node)) {
+			Variable variable = this.getParameters().getConstraintSystem().getVariable(
+					node.getLiteral());
+			OWLLiteral assignmentValue = (OWLLiteral) this.getParameters().getBindingNode().getAssignmentValue(
+					variable,
+					this.getParameters());
 			toReturn = assignmentValue == null ? node : assignmentValue;
 		}
 		return toReturn;

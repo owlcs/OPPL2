@@ -26,12 +26,16 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.coode.oppl.VariableScopes.Direction;
 import org.coode.oppl.entity.OWLEntityRenderer;
-import org.coode.oppl.generated.RegExpGenerated;
-import org.coode.oppl.generated.RegExpGeneratedValue;
-import org.coode.oppl.generated.SingleValueGeneratedValue;
+import org.coode.oppl.generated.CLASSRegexpGeneratedVariable;
+import org.coode.oppl.generated.CONSTANTRegexpGeneratedVariable;
+import org.coode.oppl.generated.DATAPROPERTYRegexpGeneratedVariable;
+import org.coode.oppl.generated.INDIVIDUALRegexpGeneratedVariable;
+import org.coode.oppl.generated.OBJECTPROPERTYRegexpGeneratedVariable;
+import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.utils.OWLObjectExtractor;
 import org.coode.oppl.variabletypes.CLASSVariableImpl;
 import org.coode.oppl.variabletypes.CONSTANTVariableImpl;
@@ -54,7 +58,6 @@ import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -107,17 +110,10 @@ public enum VariableType {
 		}
 
 		@Override
-		public RegExpGenerated<OWLClass> getRegExpGenerated(String name,
-				OWLEntityRenderer entityRenderer, SingleValueGeneratedValue<String> exp,
+		public RegexpGeneratedVariable<OWLClass> getRegExpGenerated(String name,
+				OWLEntityRenderer entityRenderer, Pattern exp,
 				Collection<? extends OWLOntology> ontologies) {
-			Set<OWLClass> referencedValues = new HashSet<OWLClass>();
-			for (OWLOntology owlOntology : ontologies) {
-				referencedValues.addAll(owlOntology.getClassesInSignature());
-			}
-			return RegExpGeneratedValue.getOWLClassExpGeneratedValue(
-					referencedValues,
-					exp,
-					entityRenderer).getGeneratedVariable(name);
+			return new CLASSRegexpGeneratedVariable(name, exp);
 		}
 
 		@Override
@@ -142,17 +138,10 @@ public enum VariableType {
 		}
 
 		@Override
-		public RegExpGenerated<OWLDataProperty> getRegExpGenerated(String name,
-				OWLEntityRenderer entityRenderer, SingleValueGeneratedValue<String> exp,
+		public RegexpGeneratedVariable<OWLDataProperty> getRegExpGenerated(String name,
+				OWLEntityRenderer entityRenderer, Pattern exp,
 				Collection<? extends OWLOntology> ontologies) {
-			Set<OWLDataProperty> referencedValues = new HashSet<OWLDataProperty>();
-			for (OWLOntology owlOntology : ontologies) {
-				referencedValues.addAll(owlOntology.getDataPropertiesInSignature());
-			}
-			return RegExpGeneratedValue.getOWLDataPropertyExpGeneratedValue(
-					referencedValues,
-					exp,
-					entityRenderer).getGeneratedVariable(name);
+			return new DATAPROPERTYRegexpGeneratedVariable(name, exp);
 		}
 
 		@Override
@@ -193,17 +182,10 @@ public enum VariableType {
 		}
 
 		@Override
-		public RegExpGenerated<OWLObjectProperty> getRegExpGenerated(String name,
-				OWLEntityRenderer entityRenderer, SingleValueGeneratedValue<String> exp,
+		public RegexpGeneratedVariable<OWLObjectProperty> getRegExpGenerated(String name,
+				OWLEntityRenderer entityRenderer, Pattern exp,
 				Collection<? extends OWLOntology> ontologies) {
-			Set<OWLObjectProperty> referencedValues = new HashSet<OWLObjectProperty>();
-			for (OWLOntology owlOntology : ontologies) {
-				referencedValues.addAll(owlOntology.getObjectPropertiesInSignature());
-			}
-			return RegExpGeneratedValue.getOWLObjectPropertyExpGeneratedValue(
-					referencedValues,
-					exp,
-					entityRenderer).getGeneratedVariable(name);
+			return new OBJECTPROPERTYRegexpGeneratedVariable(name, exp);
 		}
 
 		@Override
@@ -244,17 +226,10 @@ public enum VariableType {
 		}
 
 		@Override
-		public RegExpGenerated<OWLIndividual> getRegExpGenerated(String name,
-				OWLEntityRenderer entityRenderer, SingleValueGeneratedValue<String> exp,
+		public RegexpGeneratedVariable<OWLNamedIndividual> getRegExpGenerated(String name,
+				OWLEntityRenderer entityRenderer, Pattern exp,
 				Collection<? extends OWLOntology> ontologies) {
-			Set<OWLIndividual> referencedValues = new HashSet<OWLIndividual>();
-			for (OWLOntology owlOntology : ontologies) {
-				referencedValues.addAll(owlOntology.getIndividualsInSignature());
-			}
-			return RegExpGeneratedValue.getOWLIndividualExpGeneratedValue(
-					referencedValues,
-					exp,
-					entityRenderer).getGeneratedVariable(name);
+			return new INDIVIDUALRegexpGeneratedVariable(name, exp);
 		}
 
 		@Override
@@ -292,19 +267,10 @@ public enum VariableType {
 		}
 
 		@Override
-		public RegExpGenerated<OWLLiteral> getRegExpGenerated(String name,
-				OWLEntityRenderer entityRenderer, SingleValueGeneratedValue<String> exp,
+		public RegexpGeneratedVariable<OWLLiteral> getRegExpGenerated(String name,
+				OWLEntityRenderer entityRenderer, Pattern exp,
 				Collection<? extends OWLOntology> ontologies) {
-			Set<OWLLiteral> referencedValues = new HashSet<OWLLiteral>();
-			for (OWLOntology owlOntology : ontologies) {
-				for (OWLAxiom axiom : owlOntology.getAxioms()) {
-					referencedValues.addAll(OWLObjectExtractor.getAllOWLLiterals(axiom));
-				}
-			}
-			return RegExpGeneratedValue.getOWLConstantExpGeneratedValue(
-					referencedValues,
-					exp,
-					entityRenderer).getGeneratedVariable(name);
+			return new CONSTANTRegexpGeneratedVariable(name, exp);
 		}
 
 		@Override
@@ -354,8 +320,8 @@ public enum VariableType {
 	public abstract Set<? extends OWLObject> getReferencedOWLObjects(
 			Collection<? extends OWLOntology> ontologies);
 
-	public abstract RegExpGenerated<?> getRegExpGenerated(String name,
-			OWLEntityRenderer entityRenderer, SingleValueGeneratedValue<String> exp,
+	public abstract RegexpGeneratedVariable<?> getRegExpGenerated(String name,
+			OWLEntityRenderer entityRenderer, Pattern exp,
 			Collection<? extends OWLOntology> ontologies);
 
 	public abstract Class<? extends OWLEntity> getOWLEntityClass();

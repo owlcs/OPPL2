@@ -15,16 +15,18 @@ public abstract class RegexpGeneratedVariable<O> implements Variable {
 	private final Pattern pattern;
 	private final Variable delegate;
 
-	protected RegexpGeneratedVariable(String name, VariableType type,
-			Pattern pattern) {
+	public RegexpGeneratedVariable(String name, Pattern pattern) {
+		if (name == null) {
+			throw new NullPointerException("The name cannot be null");
+		}
 		if (pattern == null) {
 			throw new NullPointerException("The pattern cannot be null");
 		}
 		this.pattern = pattern;
-		this.delegate = this.initDelegate();
+		this.delegate = this.initDelegate(name);
 	}
 
-	protected abstract Variable initDelegate();
+	protected abstract Variable initDelegate(String name);
 
 	/**
 	 * @return the pattern
@@ -102,5 +104,15 @@ public abstract class RegexpGeneratedVariable<O> implements Variable {
 	public void setVariableScope(VariableScope<?> variableScope,
 			VariableScopeChecker variableScopeChecker) {
 		this.delegate.setVariableScope(variableScope, variableScopeChecker);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return this.delegate.equals(obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return this.delegate.hashCode();
 	}
 }

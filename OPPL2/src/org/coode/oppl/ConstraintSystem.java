@@ -34,13 +34,21 @@ import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.InvalidVariableNameException;
 import org.coode.oppl.exceptions.OPPLException;
+import org.coode.oppl.function.Aggregation;
+import org.coode.oppl.function.Create;
+import org.coode.oppl.function.OPPLFunction;
+import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.generated.CLASSGeneratedVariable;
+import org.coode.oppl.generated.DATAPROPERTYGeneratedVariable;
+import org.coode.oppl.generated.GeneratedVariable;
+import org.coode.oppl.generated.INDIVIDUALGeneratedVariable;
+import org.coode.oppl.generated.OBJECTPROPERTYGeneratedVariable;
 import org.coode.oppl.utils.VariableDetector;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.oppl.visitors.GeneratedVariableCollector;
 import org.coode.oppl.visitors.InputVariableCollector;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLLiteral;
@@ -49,6 +57,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 /**
@@ -92,13 +101,12 @@ public class ConstraintSystem {
 			return new HashSet<Variable>(this.map.values());
 		}
 
-		public Set<SingleValueGeneratedVariable<?>> getGeneratedVariables() {
+		public Set<GeneratedVariable<?>> getGeneratedVariables() {
 			GeneratedVariableCollector visitor = new GeneratedVariableCollector();
 			for (Variable v : this.map.values()) {
 				v.accept(visitor);
 			}
-			return new HashSet<SingleValueGeneratedVariable<?>>(visitor
-					.getCollectedVariables());
+			return new HashSet<GeneratedVariable<?>>(visitor.getCollectedVariables());
 		}
 
 		public void remove(String name) {
@@ -118,9 +126,10 @@ public class ConstraintSystem {
 			Set<Variable> allVariables = this.getAllVariables();
 			Formatter formatter = new Formatter();
 			for (Variable variable : allVariables) {
-				formatter.format("Variable name: %s generated: %s \n", variable
-						.getName(), this.getGeneratedVariables().contains(
-						variable));
+				formatter.format(
+						"Variable name: %s generated: %s \n",
+						variable.getName(),
+						this.getGeneratedVariables().contains(variable));
 			}
 			return formatter.toString();
 		}
@@ -133,14 +142,13 @@ public class ConstraintSystem {
 	private final OWLOntologyManager ontologyManager;
 	private final OPPLAbstractFactory opplFactory;
 
-	public ConstraintSystem(OWLOntology ontology,
-			OWLOntologyManager ontologyManager, OPPLAbstractFactory opplFactory) {
+	public ConstraintSystem(OWLOntology ontology, OWLOntologyManager ontologyManager,
+			OPPLAbstractFactory opplFactory) {
 		if (ontology == null) {
 			throw new NullPointerException("The ontology cannot be null");
 		}
 		if (ontologyManager == null) {
-			throw new NullPointerException(
-					"The ontology manager cannot be null");
+			throw new NullPointerException("The ontology manager cannot be null");
 		}
 		if (opplFactory == null) {
 			throw new NullPointerException("The OPPL factory cannot be null");
@@ -150,9 +158,8 @@ public class ConstraintSystem {
 		this.ontologyManager = ontologyManager;
 	}
 
-	public ConstraintSystem(OWLOntology ontology,
-			OWLOntologyManager ontologyManager, OWLReasoner reasoner,
-			OPPLAbstractFactory opplAbstractFactory) {
+	public ConstraintSystem(OWLOntology ontology, OWLOntologyManager ontologyManager,
+			OWLReasoner reasoner, OPPLAbstractFactory opplAbstractFactory) {
 		this(ontology, ontologyManager, opplAbstractFactory);
 		this.reasoner = reasoner;
 	}
@@ -161,8 +168,7 @@ public class ConstraintSystem {
 		return this.variables.get(name);
 	}
 
-	public Variable createVariable(String name, VariableType type)
-			throws OPPLException {
+	public Variable createVariable(String name, VariableType type) throws OPPLException {
 		if (name.matches("\\?([\\p{Alnum}[-_]])+")) {
 			Variable newVariable = type.instantiateVariable(name);
 			// new VariableImpl(name.trim(), type);
@@ -174,10 +180,8 @@ public class ConstraintSystem {
 	}
 
 	public Set<Variable> getAxiomVariables(OWLAxiom axiom) {
-		VariableExtractor axiomVariableExtractor = new VariableExtractor(this,
-				true);
-		Set<Variable> axiomVariables = axiomVariableExtractor
-				.extractVariables(axiom);
+		VariableExtractor axiomVariableExtractor = new VariableExtractor(this, true);
+		Set<Variable> axiomVariables = axiomVariableExtractor.extractVariables(axiom);
 		return new HashSet<Variable>(axiomVariables);
 	}
 
@@ -216,9 +220,11 @@ public class ConstraintSystem {
 	public Set<OWLObject> getVariableBindings(Variable v) {
 		Set<BindingNode> leaves = this.getLeaves();
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
+		SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(this,
+				BindingNode.getEmptyBindingNode());
 		if (leaves != null) {
 			for (BindingNode bindingNode : leaves) {
-				OWLObject assignmentValue = bindingNode.getAssignmentValue(v);
+				OWLObject assignmentValue = bindingNode.getAssignmentValue(v, parameters);
 				if (assignmentValue != null) {
 					toReturn.add(assignmentValue);
 				}
@@ -239,9 +245,8 @@ public class ConstraintSystem {
 					node.addAssignment(assignment);
 				}
 			} else {
-				this.leaves.add(new BindingNode(Collections
-						.singleton(assignment), Collections
-						.<Variable> emptySet()));
+				this.leaves.add(new BindingNode(Collections.singleton(assignment),
+						Collections.<Variable> emptySet()));
 			}
 		}
 		return toReturn;
@@ -251,8 +256,7 @@ public class ConstraintSystem {
 	 * @return the leaves
 	 */
 	public Set<BindingNode> getLeaves() {
-		return this.leaves == null ? this.leaves : new HashSet<BindingNode>(
-				this.leaves);
+		return this.leaves == null ? this.leaves : new HashSet<BindingNode>(this.leaves);
 	}
 
 	public OPPLAbstractFactory getOPPLFactory() {
@@ -293,11 +297,28 @@ public class ConstraintSystem {
 		return this.reasoner;
 	}
 
-	public SingleValueGeneratedVariable<String> createStringGeneratedVariable(
-			String name, VariableType type,
-			SingleValueGeneratedValue<String> value) {
-		AbstractGeneratedVariable<String> generatedVariable = StringGeneratedVariable
-				.buildGeneratedVariable(name, type, value, this);
+	public GeneratedVariable<?> createStringGeneratedVariable(String name, VariableType type,
+			OPPLFunction<String> value) {
+		GeneratedVariable<?> generatedVariable = null;
+		switch (type) {
+		case CLASS:
+			generatedVariable = new CLASSGeneratedVariable(name, Create.createOWLClass(value));
+			break;
+		case OBJECTPROPERTY:
+			generatedVariable = new OBJECTPROPERTYGeneratedVariable(name,
+					Create.createOWLObjectProperty(value));
+			break;
+		case DATAPROPERTY:
+			generatedVariable = new DATAPROPERTYGeneratedVariable(name,
+					Create.createOWLDataProperty(value));
+			break;
+		case INDIVIDUAL:
+			generatedVariable = new INDIVIDUALGeneratedVariable(name,
+					Create.createOWLNamedIndividual(value));
+			break;
+		default:
+			break;
+		}
 		this.variables.store(generatedVariable);
 		return generatedVariable;
 	}
@@ -309,7 +330,7 @@ public class ConstraintSystem {
 		return this.ontology;
 	}
 
-	public Set<SingleValueGeneratedVariable<?>> getGeneratedVariables() {
+	public Set<GeneratedVariable<?>> getGeneratedVariables() {
 		return this.variables.getGeneratedVariables();
 	}
 
@@ -325,35 +346,36 @@ public class ConstraintSystem {
 		this.variables.remove(variable.getName());
 	}
 
-	public SingleValueGeneratedVariable<Collection<OWLClass>> createIntersectionGeneratedVariable(
-			String name, VariableType type,
-			AbstractCollectionGeneratedValue<OWLClass> collection) {
-		SingleValueGeneratedVariable<Collection<OWLClass>> toReturn = null;
-		if (type.equals(VariableType.CLASS)) {
-			toReturn = AbstractOWLObjectCollectionGeneratedVariable
-					.getConjunction(name, type, collection, this
-							.getOntologyManager().getOWLDataFactory());
-			this.variables.store(toReturn);
-		} else {
-			throw new IllegalArgumentException("Incompatibile type "
-					+ type.name());
+	public GeneratedVariable<OWLClassExpression> createIntersectionGeneratedVariable(String name,
+			VariableType type,
+			Collection<? extends OPPLFunction<? extends OWLClassExpression>> operands) {
+		GeneratedVariable<OWLClassExpression> toReturn = null;
+		switch (type) {
+		case CLASS:
+			Aggregation<OWLClassExpression, OWLClassExpression> function = Aggregation.buildClassExpressionIntersection(
+					operands,
+					this.getOntologyManager().getOWLDataFactory());
+			toReturn = new CLASSGeneratedVariable(name, function);
+			break;
+		default:
+			break;
 		}
 		return toReturn;
 	}
 
-	public SingleValueGeneratedVariable<Collection<OWLClass>> createUnionGeneratedVariable(
-			String name, VariableType type,
-			AbstractCollectionGeneratedValue<OWLClass> collection) {
-		SingleValueGeneratedVariable<Collection<OWLClass>> toReturn = null;
-		if (type.equals(VariableType.CLASS)) {
-			toReturn = AbstractOWLObjectCollectionGeneratedVariable
-					.getDisjunction(name, type, collection, this
-							.getOntologyManager().getOWLDataFactory());
-			this.variables.store(toReturn);
-		}
-		if (toReturn == null) {
-			throw new IllegalArgumentException("Incompatibile type "
-					+ type.name());
+	public GeneratedVariable<OWLClassExpression> createUnionGeneratedVariable(String name,
+			VariableType type,
+			Collection<? extends OPPLFunction<? extends OWLClassExpression>> operands) {
+		GeneratedVariable<OWLClassExpression> toReturn = null;
+		switch (type) {
+		case CLASS:
+			Aggregation<OWLClassExpression, OWLClassExpression> function = Aggregation.buildClassExpressionUnion(
+					operands,
+					this.getOntologyManager().getOWLDataFactory());
+			toReturn = new CLASSGeneratedVariable(name, function);
+			break;
+		default:
+			break;
 		}
 		return toReturn;
 	}

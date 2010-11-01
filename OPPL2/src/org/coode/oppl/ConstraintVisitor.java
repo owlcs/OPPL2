@@ -49,7 +49,7 @@ public interface ConstraintVisitor {
 	 * @param c
 	 * 
 	 */
-	void visitInCollectionConstraint(InCollectionRegExpConstraint c);
+	void visitInCollectionConstraint(RegExpConstraint c);
 
 	/**
 	 * Visitor pattern required method
