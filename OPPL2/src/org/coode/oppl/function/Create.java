@@ -1,5 +1,6 @@
 package org.coode.oppl.function;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.entity.OWLEntityCreationException;
 import org.coode.oppl.entity.OWLEntityCreationSet;
 import org.coode.oppl.entity.OWLEntityFactory;
@@ -10,8 +11,8 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-public abstract class Create<I, O> extends AbstractOPPLFunction<O> implements
-		OPPLFunction<O> {
+public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLFunction<O>
+		implements OPPLFunction<O> {
 	public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {
 		return visitor.visitCreate(this);
 	}
@@ -20,15 +21,38 @@ public abstract class Create<I, O> extends AbstractOPPLFunction<O> implements
 		visitor.visitCreate(this);
 	}
 
+	private final I input;
+
+	/**
+	 * @param input
+	 */
+	protected Create(I input) {
+		if (input == null) {
+			throw new NullPointerException("The input cannot be null");
+		}
+		this.input = input;
+	}
+
+	/**
+	 * @return the input
+	 */
+	public I getInput() {
+		return this.input;
+	}
+
+	public String render(ConstraintSystem constraintSystem) {
+		return String.format("create(%s)", this.getInput().render(constraintSystem));
+	}
+
 	public static <T extends OPPLFunction<? extends String>> Create<T, OWLClass> createOWLClass(
 			final T t) {
 		return new CreateOWLEntity<T, OWLClass>(t) {
 			@Override
-			protected OWLClass createEntity(String entityRendering,
-					OWLEntityFactory entityFactory, OWLOntologyManager manager)
-					throws OWLEntityCreationException {
-				OWLEntityCreationSet<OWLClass> entitySet = entityFactory
-						.createOWLClass(entityRendering, null);
+			protected OWLClass createEntity(String entityRendering, OWLEntityFactory entityFactory,
+					OWLOntologyManager manager) throws OWLEntityCreationException {
+				OWLEntityCreationSet<OWLClass> entitySet = entityFactory.createOWLClass(
+						entityRendering,
+						null);
 				manager.applyChanges(entitySet.getOntologyChanges());
 				return entitySet.getOWLEntity();
 			}
@@ -48,15 +72,16 @@ public abstract class Create<I, O> extends AbstractOPPLFunction<O> implements
 			protected OWLObjectProperty createEntity(String entityRendering,
 					OWLEntityFactory entityFactory, OWLOntologyManager manager)
 					throws OWLEntityCreationException {
-				OWLEntityCreationSet<OWLObjectProperty> entitySet = entityFactory
-						.createOWLObjectProperty(entityRendering, null);
+				OWLEntityCreationSet<OWLObjectProperty> entitySet = entityFactory.createOWLObjectProperty(
+						entityRendering,
+						null);
 				manager.applyChanges(entitySet.getOntologyChanges());
 				return entitySet.getOWLEntity();
 			}
 
 			@Override
-			protected OWLObjectProperty getExistingEntity(
-					String entityRendering, OWLEntityChecker entityChecker) {
+			protected OWLObjectProperty getExistingEntity(String entityRendering,
+					OWLEntityChecker entityChecker) {
 				return entityChecker.getOWLObjectProperty(entityRendering);
 			}
 		};
@@ -69,8 +94,9 @@ public abstract class Create<I, O> extends AbstractOPPLFunction<O> implements
 			protected OWLDataProperty createEntity(String entityRendering,
 					OWLEntityFactory entityFactory, OWLOntologyManager manager)
 					throws OWLEntityCreationException {
-				OWLEntityCreationSet<OWLDataProperty> entitySet = entityFactory
-						.createOWLDataProperty(entityRendering, null);
+				OWLEntityCreationSet<OWLDataProperty> entitySet = entityFactory.createOWLDataProperty(
+						entityRendering,
+						null);
 				manager.applyChanges(entitySet.getOntologyChanges());
 				return entitySet.getOWLEntity();
 			}
@@ -90,15 +116,16 @@ public abstract class Create<I, O> extends AbstractOPPLFunction<O> implements
 			protected OWLNamedIndividual createEntity(String entityRendering,
 					OWLEntityFactory entityFactory, OWLOntologyManager manager)
 					throws OWLEntityCreationException {
-				OWLEntityCreationSet<OWLNamedIndividual> entitySet = entityFactory
-						.createOWLIndividual(entityRendering, null);
+				OWLEntityCreationSet<OWLNamedIndividual> entitySet = entityFactory.createOWLIndividual(
+						entityRendering,
+						null);
 				manager.applyChanges(entitySet.getOntologyChanges());
 				return entitySet.getOWLEntity();
 			}
 
 			@Override
-			protected OWLNamedIndividual getExistingEntity(
-					String entityRendering, OWLEntityChecker entityChecker) {
+			protected OWLNamedIndividual getExistingEntity(String entityRendering,
+					OWLEntityChecker entityChecker) {
 				return entityChecker.getOWLIndividual(entityRendering);
 			}
 		};

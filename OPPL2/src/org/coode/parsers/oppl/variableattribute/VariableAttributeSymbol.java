@@ -3,8 +3,9 @@
  */
 package org.coode.parsers.oppl.variableattribute;
 
-import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.function.VariableAttribute;
 import org.coode.parsers.Symbol;
+import org.coode.parsers.Type;
 import org.coode.parsers.oppl.OPPLSymbol;
 
 /**
@@ -12,51 +13,29 @@ import org.coode.parsers.oppl.OPPLSymbol;
  * 
  */
 public abstract class VariableAttributeSymbol<O> extends Symbol implements OPPLSymbol {
-	private final AttributeFactory<O> factory;
-	private final VariableAttribute<?> variableAttribute;
+	private final VariableAttribute<O> variableAttribute;
+
+	/**
+	 * @return the variableAttribute
+	 */
+	public VariableAttribute<O> getVariableAttribute() {
+		return this.variableAttribute;
+	}
 
 	/**
 	 * @param name
 	 * @param type
 	 */
-	public VariableAttributeSymbol(String name, Attribute) {
+	public VariableAttributeSymbol(String name, Type type, VariableAttribute<O> variableAttribute) {
 		super(name, type);
-		if (factory == null) {
-			throw new NullPointerException("The factory cannot be null");
-		}
 		if (variableAttribute == null) {
-			throw new NullPointerException("The attribute canot be null");
+			throw new NullPointerException("The variable attribute cannot be null");
 		}
-		this.factory = factory;
 		this.variableAttribute = variableAttribute;
-	}
-
-	/**
-	 * @return the factory
-	 */
-	public AttributeFactory<O> getFactory() {
-		return this.factory;
-	}
-
-	public O create(ConstraintSystem constraintSystem) {
-		return this.getFactory().create(constraintSystem);
-	}
-
-	/**
-	 * @return the variableAttribute
-	 */
-	public VariableAttribute<?> getVariableAttribute() {
-		return this.variableAttribute;
-	}
-
-	@Override
-	public String getName() {
-		return super.getName() + "." + this.getVariableAttribute();
 	}
 
 	@Override
 	public String toString() {
-		// return this.getName() + "." + this.getVariableAttribute();
-		return this.getName();
+		return String.format("%s.%s", this.getName(), this.getVariableAttribute());
 	}
 }

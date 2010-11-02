@@ -29,7 +29,6 @@ import org.coode.parsers.oppl.OPPLScriptParser;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.factory.SimpleSymbolTableFactory;
-import org.coode.parsers.test.ComprehensiveAxiomTestCase;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -58,15 +57,13 @@ public class OPPLScriptDefineParserTest extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop,
-				RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
 	private final ErrorListener listener = new SystemErrorEcho();
 	protected static OWLOntology SYNTAX_ONTOLOGY;
-	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager
-			.createOWLOntologyManager();
+	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
 	private final static SymbolTableFactory<OPPLSymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
 	private OPPLSymbolTable symtab;
@@ -83,12 +80,9 @@ public class OPPLScriptDefineParserTest extends TestCase {
 
 	static {
 		try {
-			ONTOLOGY_MANAGER
-					.loadOntology(IRI
-							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI
-					.create(ComprehensiveAxiomTestCase.class.getResource(
-							"syntaxTest.owl").toURI()));
+			ONTOLOGY_MANAGER.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI.create(OPPLScriptDefineParserTest.class.getResource(
+					"syntaxTest.owl").toURI()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -130,19 +124,13 @@ public class OPPLScriptDefineParserTest extends TestCase {
 			nodes.setTreeAdaptor(adaptor);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-					nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
-			OPPLFactory factory = new OPPLFactory(ONTOLOGY_MANAGER,
-					SYNTAX_ONTOLOGY, null);
-			// XXX quick fix for the lack of initialization of the old parser,
-			// which is still used to hold the factory reference for other uses
-			// ParserFactory.initParser(";", SYNTAX_ONTOLOGY, ONTOLOGY_MANAGER,
-			// null);
-			OPPLDefine define = new OPPLDefine(nodes, this.symtab,
-					this.listener, factory.createConstraintSystem());
+			OPPLFactory factory = new OPPLFactory(ONTOLOGY_MANAGER, SYNTAX_ONTOLOGY, null);
+			OPPLDefine define = new OPPLDefine(nodes, this.symtab, this.listener,
+					factory.createConstraintSystem());
 			define.setTreeAdaptor(adaptor);
 			define.downup(tree);
 			return (ManchesterOWLSyntaxTree) r.getTree();

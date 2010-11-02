@@ -10,13 +10,12 @@ public interface OPPLFunctionVisitorEx<T> {
 	public <O extends OWLObject> T visitValuesVariableAtttribute(
 			ValuesVariableAtttribute<O> valuesVariableAtttribute);
 
-	public T visitRenderingVariableAttribute(
-			RenderingVariableAttribute renderingVariableAttribute);
+	public T visitRenderingVariableAttribute(RenderingVariableAttribute renderingVariableAttribute);
 
 	public <O extends OWLObject> T visitGroupVariableAttribute(
 			GroupVariableAttribute<O> groupVariableAttribute);
 
 	public <O extends OWLObject> T visitExpression(Expression<O> expression);
 
-	public <O, I> T visitCreate(Create<I, O> create);
+	public <O, I extends OPPLFunction<?>> T visitCreate(Create<I, O> create);
 }

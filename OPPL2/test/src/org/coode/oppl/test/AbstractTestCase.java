@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 import junit.framework.TestCase;
-import net.sf.saxon.exslt.Math;
 
 import org.coode.oppl.ChangeExtractor;
 import org.coode.oppl.OPPLParser;
@@ -20,6 +19,8 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.common.SystemErrorEcho;
@@ -101,8 +102,10 @@ public abstract class AbstractTestCase extends TestCase {
 			if (script.getConstraintSystem().getLeaves() != null
 					&& !script.getConstraintSystem().getLeaves().isEmpty()) {
 				for (BindingNode bindingNode : script.getConstraintSystem().getLeaves()) {
+					ValueComputationParameters parameters = new SimpleValueComputationParameters(
+							script.getConstraintSystem(), bindingNode);
 					PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
-							bindingNode, script.getConstraintSystem());
+							parameters);
 					for (OWLAxiom owlAxiom : queryAxioms) {
 						OWLAxiom match = (OWLAxiom) owlAxiom.accept(partialOWLObjectInstantiator);
 						matches.add(match);

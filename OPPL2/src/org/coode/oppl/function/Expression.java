@@ -1,6 +1,8 @@
 package org.coode.oppl.function;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OWLObjectInstantiator;
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 
 public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> implements
@@ -44,5 +46,12 @@ public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> imp
 	 */
 	public O getExpression() {
 		return this.expression;
+	}
+
+	public String render(ConstraintSystem constraintSystem) {
+		ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory().getManchesterSyntaxRenderer(
+				constraintSystem);
+		this.getExpression().accept(renderer);
+		return renderer.toString();
 	}
 }

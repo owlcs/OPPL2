@@ -2,9 +2,9 @@ package org.coode.oppl.function;
 
 import java.util.regex.Matcher;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.coode.parsers.oppl.variableattribute.AttributeNames;
 import org.semanticweb.owlapi.model.OWLObject;
 
 public class GroupVariableAttribute<O extends OWLObject> extends VariableAttribute<String> {
@@ -16,7 +16,7 @@ public class GroupVariableAttribute<O extends OWLObject> extends VariableAttribu
 	 * @param attribute
 	 */
 	public GroupVariableAttribute(RegexpGeneratedVariable<O> variable, int index) {
-		super(variable, AttributeNames.GROUP);
+		super(variable, AttributeName.GROUP);
 		if (index < 0) {
 			throw new IllegalArgumentException(String.format("Invalid index %d", index));
 		}
@@ -61,5 +61,19 @@ public class GroupVariableAttribute<O extends OWLObject> extends VariableAttribu
 				return toReturn;
 			}
 		};
+	}
+
+	@Override
+	public String toString() {
+		return String.format(
+				"%s.%s(%d)",
+				this.getVariable().getName(),
+				this.getAttribute(),
+				this.getIndex());
+	}
+
+	@Override
+	public String render(ConstraintSystem constraintSystem) {
+		return this.toString();
 	}
 }

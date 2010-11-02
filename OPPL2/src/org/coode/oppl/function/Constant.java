@@ -3,12 +3,14 @@
  */
 package org.coode.oppl.function;
 
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.Variable;
+
 /**
  * @author Luigi Iannone
  * 
  */
-public class Constant<O> extends AbstractOPPLFunction<O> implements
-		OPPLFunction<O> {
+public class Constant<O> extends AbstractOPPLFunction<O> implements OPPLFunction<O> {
 	private final O value;
 	private final ValueComputation<O> valueComputation = new ValueComputation<O>() {
 		public O compute(OPPLFunction<? extends O> opplFunction) {
@@ -39,9 +41,13 @@ public class Constant<O> extends AbstractOPPLFunction<O> implements
 	}
 
 	@Override
-	public ValueComputation<O> getValueComputation(
-			ValueComputationParameters parameters) {
+	public ValueComputation<O> getValueComputation(ValueComputationParameters parameters) {
 		return this.valueComputation;
+	}
+
+	public String render(ConstraintSystem constraintSystem) {
+		return this.getValue() instanceof Variable ? ((Variable) this.getValue()).getName()
+				: this.getValue().toString();
 	}
 
 	/*
@@ -53,8 +59,7 @@ public class Constant<O> extends AbstractOPPLFunction<O> implements
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ (this.value == null ? 0 : this.value.hashCode());
+		result = prime * result + (this.value == null ? 0 : this.value.hashCode());
 		return result;
 	}
 

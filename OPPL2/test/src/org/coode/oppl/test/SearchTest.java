@@ -24,7 +24,8 @@ import org.coode.oppl.Variable;
 import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.search.OPPLAssertedOWLAxiomSearchTree;
 import org.coode.oppl.search.OPPLOWLAxiomSearchNode;
 import org.coode.oppl.search.OWLAxiomSearchTree;
@@ -107,31 +108,19 @@ public class SearchTest extends TestCase {
 	}
 
 	public void testOWLAxiomSearch() {
-		final OWLOntologyManager manager = OWLManager
-				.createOWLOntologyManager();
+		final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology ontology = manager
-					.loadOntology(IRI
-							.create(URI
-									.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
-			OWLClass namedPizzaClass = manager
-					.getOWLDataFactory()
-					.getOWLClass(
-							IRI
-									.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#NamedPizza"));
-			OWLClass pizzaClass = manager
-					.getOWLDataFactory()
-					.getOWLClass(
-							IRI
-									.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza"));
-			final OWLSubClassOfAxiom subClassAxiom = manager
-					.getOWLDataFactory().getOWLSubClassOfAxiom(namedPizzaClass,
-							pizzaClass);
+			OWLOntology ontology = manager.loadOntology(IRI.create(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
+			OWLClass namedPizzaClass = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#NamedPizza"));
+			OWLClass pizzaClass = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza"));
+			final OWLSubClassOfAxiom subClassAxiom = manager.getOWLDataFactory().getOWLSubClassOfAxiom(
+					namedPizzaClass,
+					pizzaClass);
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf ?y BEGIN ADD ?x subClassOf ?y END;";
-			final OPPLScript opplScript = this.parseScript(manager, ontology,
-					opplString);
-			OWLAxiom start = opplScript.getQuery().getAssertedAxioms()
-					.iterator().next();
+			final OPPLScript opplScript = this.parseScript(manager, ontology, opplString);
+			OWLAxiom start = opplScript.getQuery().getAssertedAxioms().iterator().next();
 			SearchTree<OWLAxiom> searchTree = new SearchTree<OWLAxiom>() {
 				@Override
 				protected boolean goalReached(OWLAxiom startAxiom) {
@@ -140,27 +129,23 @@ public class SearchTest extends TestCase {
 
 				@Override
 				protected List<OWLAxiom> getChildren(OWLAxiom node) {
-					ConstraintSystem constraintSystem = opplScript
-							.getConstraintSystem();
-					VariableExtractor variableExtractor = new VariableExtractor(
-							constraintSystem, false);
-					Set<Variable> variables = variableExtractor
-							.extractVariables(node);
+					ConstraintSystem constraintSystem = opplScript.getConstraintSystem();
+					VariableExtractor variableExtractor = new VariableExtractor(constraintSystem,
+							false);
+					Set<Variable> variables = variableExtractor.extractVariables(node);
 					List<OWLAxiom> toReturn = new ArrayList<OWLAxiom>();
 					for (Variable variable : variables) {
-						Set<Variable> unassignedVariables = new HashSet<Variable>(
-								variables);
+						Set<Variable> unassignedVariables = new HashSet<Variable>(variables);
 						unassignedVariables.remove(variable);
-						Collection<? extends OWLObject> assignedValues = this
-								.getAssignableValues(variable);
+						Collection<? extends OWLObject> assignedValues = this.getAssignableValues(variable);
 						for (OWLObject assignedValue : assignedValues) {
-							Assignment assignment = new Assignment(variable,
-									assignedValue);
+							Assignment assignment = new Assignment(variable, assignedValue);
 							BindingNode bindingNode = new BindingNode(
-									Collections.singleton(assignment),
-									variables);
+									Collections.singleton(assignment), variables);
+							ValueComputationParameters parameters = new SimpleValueComputationParameters(
+									constraintSystem, bindingNode);
 							PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-									bindingNode, constraintSystem);
+									parameters);
 							toReturn.add((OWLAxiom) node.accept(instantiator));
 						}
 					}
@@ -168,28 +153,19 @@ public class SearchTest extends TestCase {
 				}
 
 				private final VariableTypeVisitorEx<Collection<? extends OWLObject>> assignableValuesVisitor = new VariableTypeVisitorEx<Collection<? extends OWLObject>>() {
-					public Collection<? extends OWLObject> visit(
-							SingleValueGeneratedVariable<?> v) {
-						return Collections.emptySet();
-					}
-
-					public Collection<? extends OWLObject> visit(
-							INDIVIDUALVariable v) {
+					public Collection<? extends OWLObject> visit(INDIVIDUALVariable v) {
 						return getAllIndividuals();
 					}
 
-					public Collection<? extends OWLObject> visit(
-							DATAPROPERTYVariable v) {
+					public Collection<? extends OWLObject> visit(DATAPROPERTYVariable v) {
 						return getAllDataProperties();
 					}
 
-					public Collection<? extends OWLObject> visit(
-							OBJECTPROPERTYVariable v) {
+					public Collection<? extends OWLObject> visit(OBJECTPROPERTYVariable v) {
 						return getObjectProperties();
 					}
 
-					public Collection<? extends OWLObject> visit(
-							CONSTANTVariable v) {
+					public Collection<? extends OWLObject> visit(CONSTANTVariable v) {
 						return getAllConstants();
 					}
 
@@ -200,8 +176,7 @@ public class SearchTest extends TestCase {
 
 				private Set<OWLObject> getAssignableValues(Variable variable) {
 					Set<OWLObject> toReturn = new HashSet<OWLObject>();
-					toReturn.addAll(variable
-							.accept(this.assignableValuesVisitor));
+					toReturn.addAll(variable.accept(this.assignableValuesVisitor));
 					return toReturn;
 				}
 
@@ -213,8 +188,7 @@ public class SearchTest extends TestCase {
 					Set<OWLNamedIndividual> toReturn = new HashSet<OWLNamedIndividual>();
 					Set<OWLOntology> ontologies = manager.getOntologies();
 					for (OWLOntology owlOntology : ontologies) {
-						toReturn
-								.addAll(owlOntology.getIndividualsInSignature());
+						toReturn.addAll(owlOntology.getIndividualsInSignature());
 					}
 					return toReturn;
 				}
@@ -223,8 +197,7 @@ public class SearchTest extends TestCase {
 					Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
 					Set<OWLOntology> ontologies = manager.getOntologies();
 					for (OWLOntology owlOntology : ontologies) {
-						toReturn.addAll(owlOntology
-								.getObjectPropertiesInSignature());
+						toReturn.addAll(owlOntology.getObjectPropertiesInSignature());
 					}
 					return toReturn;
 				}
@@ -233,8 +206,7 @@ public class SearchTest extends TestCase {
 					Set<OWLDataProperty> toReturn = new HashSet<OWLDataProperty>();
 					Set<OWLOntology> ontologies = manager.getOntologies();
 					for (OWLOntology owlOntology : ontologies) {
-						toReturn.addAll(owlOntology
-								.getDataPropertiesInSignature());
+						toReturn.addAll(owlOntology.getDataPropertiesInSignature());
 					}
 					return toReturn;
 				}
@@ -261,27 +233,22 @@ public class SearchTest extends TestCase {
 		}
 	}
 
-	private OPPLScript parseScript(final OWLOntologyManager manager,
-			OWLOntology ontology, String opplString) {
-		OPPLParser parser = new ParserFactory(manager, ontology, null)
-				.build(this.errorListener);
+	private OPPLScript parseScript(final OWLOntologyManager manager, OWLOntology ontology,
+			String opplString) {
+		OPPLParser parser = new ParserFactory(manager, ontology, null).build(this.errorListener);
 		return parser.parse(opplString);
 	}
 
 	public void testOWLAxiomSearchTree() {
-		final OWLOntologyManager manager = OWLManager
-				.createOWLOntologyManager();
+		final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology ontology = manager
-					.loadOntology(IRI
-							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			OWLOntology ontology = manager.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf ?y BEGIN ADD ?x subClassOf ?y END;";
-			final OPPLScript opplScript = this.parseScript(manager, ontology,
-					opplString);
-			OWLAxiom start = opplScript.getQuery().getAssertedAxioms()
-					.iterator().next();
-			SearchTree<OWLAxiom> searchTree = new OWLAxiomSearchTree(manager,
-					opplScript.getConstraintSystem());
+			final OPPLScript opplScript = this.parseScript(manager, ontology, opplString);
+			OWLAxiom start = opplScript.getQuery().getAssertedAxioms().iterator().next();
+			ValueComputationParameters parameters = new SimpleValueComputationParameters(
+					opplScript.getConstraintSystem(), BindingNode.createNewEmptyBindingNode());
+			SearchTree<OWLAxiom> searchTree = new OWLAxiomSearchTree(parameters);
 			List<List<OWLAxiom>> solutions = new ArrayList<List<OWLAxiom>>();
 			boolean found = searchTree.exhaustiveSearchTree(start, solutions);
 			assertTrue("It's there but cannot find it ", found);
@@ -291,29 +258,24 @@ public class SearchTest extends TestCase {
 				results.add(path.get(path.size() - 1));
 				System.out.println(path);
 			}
-			final Set<OWLAxiom> subClassAxioms = new HashSet<OWLAxiom>(
-					solutions.size());
+			final Set<OWLAxiom> subClassAxioms = new HashSet<OWLAxiom>(solutions.size());
 			for (OWLOntology onOwlOntology : manager.getOntologies()) {
-				Set<OWLSubClassOfAxiom> axioms = onOwlOntology
-						.getAxioms(AxiomType.SUBCLASS_OF);
+				Set<OWLSubClassOfAxiom> axioms = onOwlOntology.getAxioms(AxiomType.SUBCLASS_OF);
 				for (OWLSubClassOfAxiom owlSubClassAxiom : axioms) {
 					owlSubClassAxiom.accept(new OWLAxiomVisitorAdapter() {
 						@Override
 						public void visit(OWLSubClassOfAxiom axiom) {
 							OWLClassExpression subClass = axiom.getSubClass();
-							OWLClassExpression superClass = axiom
-									.getSuperClass();
-							if (!subClass.isAnonymous()
-									&& !superClass.isAnonymous()) {
+							OWLClassExpression superClass = axiom.getSuperClass();
+							if (!subClass.isAnonymous() && !superClass.isAnonymous()) {
 								subClassAxioms.add(axiom);
 							}
 						}
 					});
 				}
 			}
-			assertTrue("Mismatched count sub class axioms count "
-					+ subClassAxioms.size() + " solutions count "
-					+ results.size(), results.size() == subClassAxioms.size());
+			assertTrue("Mismatched count sub class axioms count " + subClassAxioms.size()
+					+ " solutions count " + results.size(), results.size() == subClassAxioms.size());
 		} catch (OWLOntologyCreationException e) {
 			fail(e.getMessage());
 			e.printStackTrace();
@@ -321,21 +283,14 @@ public class SearchTest extends TestCase {
 	}
 
 	public void testOWLAxiomOPPLSearchTreeMultipleAxiomsVersusQueryNotFound() {
-		final OWLOntologyManager manager = OWLManager
-				.createOWLOntologyManager();
+		final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology ontology = manager
-					.loadOntology(IRI
-							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			OWLOntology ontology = manager.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf Pizza, ASSERTED ?x subClassOf hasTopping some MozzarellaTopping BEGIN ADD ?x subClassOf ?y END;";
-			final OPPLScript opplScript = this.parseScript(manager, ontology,
-					opplString);
-			final OPPLScript checkOPPLScript = this.parseScript(manager,
-					ontology, opplString);
-			final Set<OWLAxiom> correctResults = this
-					.getOPPLScriptCorrectResults(checkOPPLScript);
-			Iterator<OWLAxiom> iterator = opplScript.getQuery()
-					.getAssertedAxioms().iterator();
+			final OPPLScript opplScript = this.parseScript(manager, ontology, opplString);
+			final OPPLScript checkOPPLScript = this.parseScript(manager, ontology, opplString);
+			final Set<OWLAxiom> correctResults = this.getOPPLScriptCorrectResults(checkOPPLScript);
+			Iterator<OWLAxiom> iterator = opplScript.getQuery().getAssertedAxioms().iterator();
 			OWLAxiom firstAxiom = iterator.next();
 			OWLAxiom secondAxiom = iterator.next();
 			VariableExtractor variableExtractor = new VariableExtractor(
@@ -345,12 +300,14 @@ public class SearchTest extends TestCase {
 			List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
 			boolean found = searchTree.exhaustiveSearchTree(
 					new OPPLOWLAxiomSearchNode(firstAxiom, new BindingNode(
-							new HashSet<Assignment>(), variableExtractor
-									.extractVariables(firstAxiom))), solutions);
+							new HashSet<Assignment>(),
+							variableExtractor.extractVariables(firstAxiom))),
+					solutions);
 			Set<OWLAxiom> results = new HashSet<OWLAxiom>(solutions.size());
 			solutions.clear();
-			found = searchTree.exhaustiveSearchTree(new OPPLOWLAxiomSearchNode(
-					secondAxiom, new BindingNode(new HashSet<Assignment>(),
+			found = searchTree.exhaustiveSearchTree(
+					new OPPLOWLAxiomSearchNode(secondAxiom, new BindingNode(
+							new HashSet<Assignment>(),
 							variableExtractor.extractVariables(secondAxiom))),
 					solutions);
 			assertFalse("It's not there but can find it ", found);
@@ -359,10 +316,11 @@ public class SearchTest extends TestCase {
 				results.add(path.get(path.size() - 1).getAxiom());
 			}
 			System.out.println(results);
-			assertTrue("Results, size = " + results.size()
-					+ "  do not match with the expected ones size = "
-					+ correctResults.size(), correctResults.size() == results
-					.size());
+			assertTrue(
+					"Results, size = " + results.size()
+							+ "  do not match with the expected ones size = "
+							+ correctResults.size(),
+					correctResults.size() == results.size());
 		} catch (OWLOntologyCreationException e) {
 			fail(e.getMessage());
 			e.printStackTrace();
@@ -375,44 +333,36 @@ public class SearchTest extends TestCase {
 	 * @param opplScript
 	 * @return
 	 */
-	private Set<OWLAxiom> getOPPLScriptCorrectResults(
-			final OPPLScript opplScript) {
-		ChangeExtractor changeExtractor = new ChangeExtractor(opplScript
-				.getConstraintSystem(), true);
+	private Set<OWLAxiom> getOPPLScriptCorrectResults(final OPPLScript opplScript) {
+		ChangeExtractor changeExtractor = new ChangeExtractor(opplScript.getConstraintSystem(),
+				true);
 		opplScript.accept(changeExtractor);
-		Set<BindingNode> checkLeaves = opplScript.getConstraintSystem()
-				.getLeaves();
+		Set<BindingNode> checkLeaves = opplScript.getConstraintSystem().getLeaves();
 		final Set<OWLAxiom> correctResults = new HashSet<OWLAxiom>();
 		Set<OWLAxiom> queryAxioms = new HashSet<OWLAxiom>();
 		queryAxioms.addAll(opplScript.getQuery().getAssertedAxioms());
 		queryAxioms.addAll(opplScript.getQuery().getAxioms());
 		for (BindingNode bindingNode : checkLeaves) {
+			ValueComputationParameters parameters = new SimpleValueComputationParameters(
+					opplScript.getConstraintSystem(), bindingNode);
 			PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
-					bindingNode, opplScript.getConstraintSystem());
+					parameters);
 			for (OWLAxiom owlAxiom : queryAxioms) {
-				correctResults.add((OWLAxiom) owlAxiom
-						.accept(partialOWLObjectInstantiator));
+				correctResults.add((OWLAxiom) owlAxiom.accept(partialOWLObjectInstantiator));
 			}
 		}
 		return correctResults;
 	}
 
 	public void testOWLAxiomOPPLSearchTreeMultipleAxiomsVersusQueryFound() {
-		final OWLOntologyManager manager = OWLManager
-				.createOWLOntologyManager();
+		final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology ontology = manager
-					.loadOntology(IRI
-							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			OWLOntology ontology = manager.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
 			String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf NamedPizza, ASSERTED ?x subClassOf hasTopping some MozzarellaTopping BEGIN ADD ?x subClassOf ?y END;";
-			final OPPLScript opplScript = this.parseScript(manager, ontology,
-					opplString);
-			final OPPLScript checkOPPLScript = this.parseScript(manager,
-					ontology, opplString);
-			final Set<OWLAxiom> correctResults = this
-					.getOPPLScriptCorrectResults(checkOPPLScript);
-			Iterator<OWLAxiom> iterator = opplScript.getQuery()
-					.getAssertedAxioms().iterator();
+			final OPPLScript opplScript = this.parseScript(manager, ontology, opplString);
+			final OPPLScript checkOPPLScript = this.parseScript(manager, ontology, opplString);
+			final Set<OWLAxiom> correctResults = this.getOPPLScriptCorrectResults(checkOPPLScript);
+			Iterator<OWLAxiom> iterator = opplScript.getQuery().getAssertedAxioms().iterator();
 			OWLAxiom firstAxiom = iterator.next();
 			OWLAxiom secondAxiom = iterator.next();
 			VariableExtractor variableExtractor = new VariableExtractor(
@@ -422,12 +372,14 @@ public class SearchTest extends TestCase {
 			List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
 			boolean found = searchTree.exhaustiveSearchTree(
 					new OPPLOWLAxiomSearchNode(firstAxiom, new BindingNode(
-							new HashSet<Assignment>(), variableExtractor
-									.extractVariables(firstAxiom))), solutions);
+							new HashSet<Assignment>(),
+							variableExtractor.extractVariables(firstAxiom))),
+					solutions);
 			Set<OWLAxiom> results = new HashSet<OWLAxiom>(solutions.size());
 			solutions.clear();
-			found = searchTree.exhaustiveSearchTree(new OPPLOWLAxiomSearchNode(
-					secondAxiom, new BindingNode(new HashSet<Assignment>(),
+			found = searchTree.exhaustiveSearchTree(
+					new OPPLOWLAxiomSearchNode(secondAxiom, new BindingNode(
+							new HashSet<Assignment>(),
 							variableExtractor.extractVariables(secondAxiom))),
 					solutions);
 			assertTrue("It's not there but can find it ", found);
@@ -435,27 +387,28 @@ public class SearchTest extends TestCase {
 			for (List<OPPLOWLAxiomSearchNode> path : solutions) {
 				OPPLOWLAxiomSearchNode searchLeaf = path.get(path.size() - 1);
 				BindingNode leaf = searchLeaf.getBinding();
+				ValueComputationParameters parameters = new SimpleValueComputationParameters(
+						opplScript.getConstraintSystem(), leaf);
 				PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
-						leaf, opplScript.getConstraintSystem());
-				results.add((OWLAxiom) firstAxiom
-						.accept(partialOWLObjectInstantiator));
-				results.add((OWLAxiom) secondAxiom
-						.accept(partialOWLObjectInstantiator));
+						parameters);
+				results.add((OWLAxiom) firstAxiom.accept(partialOWLObjectInstantiator));
+				results.add((OWLAxiom) secondAxiom.accept(partialOWLObjectInstantiator));
 			}
 			for (OWLAxiom owlAxiom : results) {
-				assertTrue("The axiom " + owlAxiom.toString()
-						+ " is not contained in the expected results",
+				assertTrue(
+						"The axiom " + owlAxiom.toString()
+								+ " is not contained in the expected results",
 						correctResults.contains(owlAxiom));
 			}
 			for (OWLAxiom owlAxiom : correctResults) {
 				assertTrue("The correct axiom " + owlAxiom.toString()
-						+ " is not contained in the search results", results
-						.contains(owlAxiom));
+						+ " is not contained in the search results", results.contains(owlAxiom));
 			}
-			assertTrue("Results, size = " + results.size()
-					+ "  do not match with the expected ones size = "
-					+ correctResults.size(), correctResults.size() == results
-					.size());
+			assertTrue(
+					"Results, size = " + results.size()
+							+ "  do not match with the expected ones size = "
+							+ correctResults.size(),
+					correctResults.size() == results.size());
 		} catch (OWLOntologyCreationException e) {
 			fail(e.getMessage());
 			e.printStackTrace();

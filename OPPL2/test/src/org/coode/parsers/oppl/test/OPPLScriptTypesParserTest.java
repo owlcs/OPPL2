@@ -31,7 +31,6 @@ import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.OPPLTypeEnforcement;
 import org.coode.parsers.oppl.OPPLTypes;
 import org.coode.parsers.oppl.factory.SimpleSymbolTableFactory;
-import org.coode.parsers.test.ComprehensiveAxiomTestCase;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -60,14 +59,12 @@ public class OPPLScriptTypesParserTest extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop,
-				RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
 	private final ErrorListener listener = new SystemErrorEcho();
-	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager
-			.createOWLOntologyManager();
+	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
 	protected static OWLOntology SYNTAX_ONTOLOGY;
 	private final static SymbolTableFactory<OPPLSymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
@@ -85,12 +82,9 @@ public class OPPLScriptTypesParserTest extends TestCase {
 
 	static {
 		try {
-			ONTOLOGY_MANAGER
-					.loadOntology(IRI
-							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI
-					.create(ComprehensiveAxiomTestCase.class.getResource(
-							"syntaxTest.owl").toURI()));
+			ONTOLOGY_MANAGER.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI.create(OPPLScriptParserTest.class.getResource(
+					"syntaxTest.owl").toURI()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -111,8 +105,8 @@ public class OPPLScriptTypesParserTest extends TestCase {
 	public void testGeneratedVariable() {
 		OWLOntology ontology;
 		try {
-			ontology = ONTOLOGY_MANAGER.loadOntology(IRI.create(this.getClass()
-					.getResource("ondrejTest.owl").toURI()));
+			ontology = ONTOLOGY_MANAGER.loadOntology(IRI.create(this.getClass().getResource(
+					"ondrejTest.owl").toURI()));
 			String query = "?x:CLASS, ?y:OBJECTPROPERTY = MATCH(\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x subClassOf ?y some ?z BEGIN REMOVE ?x subClassOf ?y some ?z, ADD ?x subClassOf !hasFeature some (?feature and !hasValue some ?z) END;";
 			OPPLSyntaxTree parsed = this.parse(query, ontology);
 			System.out.println(parsed.toStringTree());
@@ -131,14 +125,12 @@ public class OPPLScriptTypesParserTest extends TestCase {
 	}
 
 	protected OPPLSyntaxTree parse(String input, OWLOntology ontology) {
-		OPPLFactory opplFactory = new OPPLFactory(ONTOLOGY_MANAGER, ontology,
-				null);
+		OPPLFactory opplFactory = new OPPLFactory(ONTOLOGY_MANAGER, ontology, null);
 		// XXX quick fix for the lack of initialization of the old parser, which
 		// is still used to hold the factory reference for other uses
 		// ParserFactory.initParser(";", SYNTAX_ONTOLOGY, ONTOLOGY_MANAGER,
 		// null);
-		ConstraintSystem constraintSystem = opplFactory
-				.createConstraintSystem();
+		ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
@@ -152,30 +144,27 @@ public class OPPLScriptTypesParserTest extends TestCase {
 			nodes.setTreeAdaptor(adaptor);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-					nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
-			OPPLDefine define = new OPPLDefine(nodes, this.symtab,
-					this.listener, constraintSystem);
+			OPPLDefine define = new OPPLDefine(nodes, this.symtab, this.listener, constraintSystem);
 			define.setTreeAdaptor(adaptor);
 			define.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(
-					nodes, this.symtab, this.listener);
+			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, this.symtab,
+					this.listener);
 			mOWLTypes.downup(tree);
 			nodes.reset();
-			OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(
-					nodes, this.symtab, new DefaultTypeEnforcer(this.symtab,
-							opplFactory.getOWLEntityFactory(), this.listener),
-					this.listener);
+			OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, this.symtab,
+					new DefaultTypeEnforcer(this.symtab, opplFactory.getOWLEntityFactory(),
+							this.listener), this.listener);
 			typeEnforcement.downup(tree);
 			nodes.reset();
 			mOWLTypes.downup(tree);
 			nodes.reset();
-			OPPLTypes opplTypes = new OPPLTypes(nodes, this.symtab,
-					this.listener, constraintSystem, opplFactory);
+			OPPLTypes opplTypes = new OPPLTypes(nodes, this.symtab, this.listener,
+					constraintSystem, opplFactory);
 			opplTypes.downup(tree);
 			return (OPPLSyntaxTree) r.getTree();
 		} catch (RecognitionException e) {

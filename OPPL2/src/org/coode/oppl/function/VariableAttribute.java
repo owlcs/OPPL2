@@ -1,18 +1,18 @@
 package org.coode.oppl.function;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
-import org.coode.parsers.oppl.variableattribute.AttributeNames;
 
-public abstract class VariableAttribute<O> extends AbstractOPPLFunction<O>
-		implements OPPLFunction<O> {
+public abstract class VariableAttribute<O> extends AbstractOPPLFunction<O> implements
+		OPPLFunction<O> {
 	private final Variable variable;
-	private final AttributeNames attribute;
+	private final AttributeName attribute;
 
 	/**
 	 * @param variable
 	 * @param attribute
 	 */
-	public VariableAttribute(Variable variable, AttributeNames attribute) {
+	public VariableAttribute(Variable variable, AttributeName attribute) {
 		if (variable == null) {
 			throw new NullPointerException("The variable cannot be null");
 		}
@@ -33,7 +33,16 @@ public abstract class VariableAttribute<O> extends AbstractOPPLFunction<O>
 	/**
 	 * @return the attribute
 	 */
-	public AttributeNames getAttribute() {
+	public AttributeName getAttribute() {
 		return this.attribute;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s.%s", this.getVariable().getName(), this.getAttribute());
+	}
+
+	public String render(ConstraintSystem constraintSystem) {
+		return this.toString();
 	}
 }

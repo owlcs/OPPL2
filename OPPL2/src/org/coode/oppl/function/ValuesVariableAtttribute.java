@@ -7,7 +7,6 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.parsers.oppl.variableattribute.AttributeNames;
 import org.semanticweb.owlapi.model.OWLObject;
 
 public class ValuesVariableAtttribute<O extends OWLObject> extends VariableAttribute<Collection<O>> {
@@ -16,7 +15,7 @@ public class ValuesVariableAtttribute<O extends OWLObject> extends VariableAttri
 	 * @param attribute
 	 */
 	public ValuesVariableAtttribute(Variable variable) {
-		super(variable, AttributeNames.VALUES);
+		super(variable, AttributeName.VALUES);
 	}
 
 	public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {

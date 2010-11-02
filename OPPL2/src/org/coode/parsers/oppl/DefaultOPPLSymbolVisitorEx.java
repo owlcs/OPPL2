@@ -9,8 +9,8 @@ import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
 public abstract class DefaultOPPLSymbolVisitorEx<O> implements OPPLSymbolVisitorEx<O> {
 	protected abstract O doDefault(Symbol symbol);
 
-	public O visitCollectionVariableAttributeSymbol(
-			CollectionVariableAttributeSymbol<?> collectionVariableAttributeSymbol) {
+	public <P> O visitCollectionVariableAttributeSymbol(
+			CollectionVariableAttributeSymbol<P> collectionVariableAttributeSymbol) {
 		return this.doDefault(collectionVariableAttributeSymbol);
 	}
 

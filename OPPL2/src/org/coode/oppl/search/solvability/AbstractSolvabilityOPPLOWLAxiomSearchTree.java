@@ -18,9 +18,12 @@ import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.OPPLException;
-import org.coode.oppl.generated.RegExpGenerated;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.function.ValueComputationParameters;
+import org.coode.oppl.generated.GeneratedVariable;
+import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.log.Logging;
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.search.SearchTree;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.oppl.variabletypes.CLASSVariable;
@@ -73,8 +76,7 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 		private final Set<OWLLiteral> toReturn;
 		private final OWLClassExpressionVisitor constantExtractor;
 
-		ConstantCollector(Set<OWLLiteral> toReturn,
-				OWLClassExpressionVisitor constantExtractor) {
+		ConstantCollector(Set<OWLLiteral> toReturn, OWLClassExpressionVisitor constantExtractor) {
 			this.toReturn = toReturn;
 			this.constantExtractor = constantExtractor;
 		}
@@ -136,10 +138,6 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 		public Set<? extends OWLObject> visit(CLASSVariable v) {
 			return AbstractSolvabilityOPPLOWLAxiomSearchTree.this.allClasses;
 		}
-
-		public Set<? extends OWLObject> visit(SingleValueGeneratedVariable<?> v) {
-			return Collections.emptySet();
-		}
 	};
 	private final Set<OWLClass> allClasses = new HashSet<OWLClass>();
 	private final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
@@ -147,11 +145,9 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 	private final Set<OWLIndividual> allIndividuals = new HashSet<OWLIndividual>();
 	private final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
 
-	public AbstractSolvabilityOPPLOWLAxiomSearchTree(
-			ConstraintSystem constraintSystem) {
+	public AbstractSolvabilityOPPLOWLAxiomSearchTree(ConstraintSystem constraintSystem) {
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The constraint system cannot be null");
+			throw new NullPointerException("The constraint system cannot be null");
 		}
 		this.constraintSystem = constraintSystem;
 	}
@@ -166,8 +162,7 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 	@Override
 	protected boolean goalReached(SolvabilitySearchNode node) {
 		return node.accept(new SolvabilitySearchNodeVisitorEx<Boolean>() {
-			public Boolean visitSolvedSearchNode(
-					SolvedSearchNode solvedSearchNode) {
+			public Boolean visitSolvedSearchNode(SolvedSearchNode solvedSearchNode) {
 				return true;
 			}
 
@@ -179,16 +174,14 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 				return false;
 			}
 
-			public Boolean visitSolvableSearchNode(
-					SolvableSearchNode solvableSearchNode) {
+			public Boolean visitSolvableSearchNode(SolvableSearchNode solvableSearchNode) {
 				// Next round each of them may generate a bunch of solved ones.
 				// I will return false so the children generation will be
 				// invoked again.
 				return false;
 			}
 
-			public Boolean visitUnsolvableSearchNode(
-					UnsolvableSearchNode unsolvableSearchNode) {
+			public Boolean visitUnsolvableSearchNode(UnsolvableSearchNode unsolvableSearchNode) {
 				// There is a possibility that from an unsolved node I generate
 				// a leaf which is not a solved node without passing through a
 				// solvable one. Hence I should provide for checks of variable
@@ -196,74 +189,66 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 				// depends on the particular kind of axiom I am searching for
 				// (asserted, or inferred), therefore it will be delegated to
 				// the concrete sub-class.
-				return AbstractSolvabilityOPPLOWLAxiomSearchTree.this
-						.goalReachedUnsolvabelNode(unsolvableSearchNode);
+				return AbstractSolvabilityOPPLOWLAxiomSearchTree.this.goalReachedUnsolvabelNode(unsolvableSearchNode);
 			}
 		});
 	}
 
-	protected abstract boolean goalReachedUnsolvabelNode(
-			UnsolvableSearchNode unsolvableSearchNode);
+	protected abstract boolean goalReachedUnsolvabelNode(UnsolvableSearchNode unsolvableSearchNode);
 
 	/**
 	 * @see org.coode.oppl.search.SearchTree#getChildren(java.lang.Object)
 	 */
 	@Override
 	protected List<SolvabilitySearchNode> getChildren(SolvabilitySearchNode node) {
-		return node
-				.accept(new SolvabilitySearchNodeVisitorEx<List<SolvabilitySearchNode>>() {
-					public List<SolvabilitySearchNode> visitSolvableSearchNode(
-							SolvableSearchNode solvableSearchNode) {
-						List<SolvabilitySearchNode> toReturn = new ArrayList<SolvabilitySearchNode>(
-								solvableSearchNode.getValues().size());
-						Variable variable = solvableSearchNode.getVariable();
-						BindingNode binding = solvableSearchNode.getBinding();
-						for (OWLObject value : solvableSearchNode.getValues()) {
-							Assignment assignment = new Assignment(variable,
-									value);
-							BindingNode childBinding = new BindingNode(binding
-									.getAssignments(), binding
-									.getUnassignedVariables());
-							childBinding.addAssignment(assignment);
-							PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-									childBinding,
-									AbstractSolvabilityOPPLOWLAxiomSearchTree.this
-											.getConstraintSystem());
-							OWLAxiom instantiatedAxiom = (OWLAxiom) solvableSearchNode
-									.getAxiom().accept(instantiator);
-							SolvedSearchNode child = new SolvedSearchNode(
-									instantiatedAxiom, childBinding);
-							toReturn.add(child);
-						}
-						return toReturn;
-					}
+		return node.accept(new SolvabilitySearchNodeVisitorEx<List<SolvabilitySearchNode>>() {
+			public List<SolvabilitySearchNode> visitSolvableSearchNode(
+					SolvableSearchNode solvableSearchNode) {
+				List<SolvabilitySearchNode> toReturn = new ArrayList<SolvabilitySearchNode>(
+						solvableSearchNode.getValues().size());
+				Variable variable = solvableSearchNode.getVariable();
+				BindingNode binding = solvableSearchNode.getBinding();
+				for (OWLObject value : solvableSearchNode.getValues()) {
+					Assignment assignment = new Assignment(variable, value);
+					BindingNode childBinding = new BindingNode(binding.getAssignments(),
+							binding.getUnassignedVariables());
+					childBinding.addAssignment(assignment);
+					ValueComputationParameters parameters = new SimpleValueComputationParameters(
+							AbstractSolvabilityOPPLOWLAxiomSearchTree.this.getConstraintSystem(),
+							childBinding);
+					PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
+							parameters);
+					OWLAxiom instantiatedAxiom = (OWLAxiom) solvableSearchNode.getAxiom().accept(
+							instantiator);
+					SolvedSearchNode child = new SolvedSearchNode(instantiatedAxiom, childBinding);
+					toReturn.add(child);
+				}
+				return toReturn;
+			}
 
-					public List<SolvabilitySearchNode> visitSolvedSearchNode(
-							SolvedSearchNode solvedSearchNode) {
-						return Collections.emptyList();
-					}
+			public List<SolvabilitySearchNode> visitSolvedSearchNode(
+					SolvedSearchNode solvedSearchNode) {
+				return Collections.emptyList();
+			}
 
-					public List<SolvabilitySearchNode> visitUnsolvableSearchNode(
-							UnsolvableSearchNode unsolvableSearchNode) {
-						return AbstractSolvabilityOPPLOWLAxiomSearchTree.this
-								.getUnsolvableNodeChildren(unsolvableSearchNode);
-					}
+			public List<SolvabilitySearchNode> visitUnsolvableSearchNode(
+					UnsolvableSearchNode unsolvableSearchNode) {
+				return AbstractSolvabilityOPPLOWLAxiomSearchTree.this.getUnsolvableNodeChildren(unsolvableSearchNode);
+			}
 
-					public List<SolvabilitySearchNode> visitNoSolutionSolvableSearchNode(
-							NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
-						return Collections.emptyList();
-					}
-				});
+			public List<SolvabilitySearchNode> visitNoSolutionSolvableSearchNode(
+					NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
+				return Collections.emptyList();
+			}
+		});
 	}
 
-	protected List<SolvabilitySearchNode> getUnsolvableNodeChildren(
-			UnsolvableSearchNode node) {
+	protected List<SolvabilitySearchNode> getUnsolvableNodeChildren(UnsolvableSearchNode node) {
 		Set<BindingNode> leaves = this.getConstraintSystem().getLeaves();
 		List<SolvabilitySearchNode> toReturn = new ArrayList<SolvabilitySearchNode>();
-		VariableExtractor variableExtractor = new VariableExtractor(this
-				.getConstraintSystem(), false);
-		Set<Variable> variables = variableExtractor.extractVariables(node
-				.getAxiom());
+		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
+				false);
+		Set<Variable> variables = variableExtractor.extractVariables(node.getAxiom());
 		BindingNode binding = node.getBinding();
 		for (Variable variable : variables) {
 			Collection<OWLObject> values = new HashSet<OWLObject>();
@@ -271,8 +256,10 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 				values.addAll(this.getAssignableValues(variable));
 			} else {
 				for (BindingNode bindingNode : leaves) {
+					ValueComputationParameters parameters = new SimpleValueComputationParameters(
+							this.getConstraintSystem(), bindingNode);
 					if (bindingNode.getAssignedVariables().contains(variable)) {
-						values.add(bindingNode.getAssignmentValue(variable));
+						values.add(bindingNode.getAssignmentValue(variable, parameters));
 					} else {
 						values.addAll(this.getAssignableValues(variable));
 					}
@@ -280,62 +267,59 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 			}
 			for (OWLObject value : values) {
 				Assignment assignment = new Assignment(variable, value);
-				BindingNode childBinding = new BindingNode(binding
-						.getAssignments(), binding.getUnassignedVariables());
+				BindingNode childBinding = new BindingNode(binding.getAssignments(),
+						binding.getUnassignedVariables());
 				childBinding.addAssignment(assignment);
+				ValueComputationParameters parameters = new SimpleValueComputationParameters(
+						this.getConstraintSystem(), childBinding);
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-						childBinding, this.getConstraintSystem());
-				OWLAxiom instantiatedAxiom = (OWLAxiom) node.getAxiom().accept(
-						instantiator);
-				SolvabilitySearchNode child = SolvabilitySearchNode
-						.buildSolvabilitySearchNode(instantiatedAxiom, this
-								.getAxiomSolvability(), childBinding);
+						parameters);
+				OWLAxiom instantiatedAxiom = (OWLAxiom) node.getAxiom().accept(instantiator);
+				SolvabilitySearchNode child = SolvabilitySearchNode.buildSolvabilitySearchNode(
+						instantiatedAxiom,
+						this.getAxiomSolvability(),
+						childBinding);
 				toReturn.add(child);
 			}
 		}
 		return toReturn;
 	}
 
-	private Collection<? extends OWLObject> getAssignableValues(
-			Variable variable) {
+	private Collection<? extends OWLObject> getAssignableValues(Variable variable) {
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
-		toReturn.addAll(variable
-				.accept(new VariableVisitor<Set<? extends OWLObject>>() {
-					public Set<? extends OWLObject> visit(Variable v) {
-						return v
-								.accept(AbstractSolvabilityOPPLOWLAxiomSearchTree.this.assignableValuesVisitor);
-					}
+		toReturn.addAll(variable.accept(new VariableVisitor<Set<? extends OWLObject>>() {
+			public Set<? extends OWLObject> visit(Variable v) {
+				return v.accept(AbstractSolvabilityOPPLOWLAxiomSearchTree.this.assignableValuesVisitor);
+			}
 
-					public Set<? extends OWLObject> visit(RegExpGenerated<?> v) {
-						Set<OWLObject> toReturn = new HashSet<OWLObject>();
-						Set<BindingNode> leaves = AbstractSolvabilityOPPLOWLAxiomSearchTree.this
-								.getConstraintSystem().getLeaves();
-						if (leaves == null) {
-							leaves = Collections.singleton(BindingNode
-									.getEmptyBindingNode());
-						}
-						for (BindingNode bindingNode : leaves) {
-							toReturn
-									.addAll(v
-											.getGeneratedOWLObjectCollection(bindingNode));
-						}
-						return toReturn;
+			public Set<? extends OWLObject> visit(RegexpGeneratedVariable<?> v) {
+				Set<? extends OWLObject> toReturn = v.accept(AbstractSolvabilityOPPLOWLAxiomSearchTree.this.assignableValuesVisitor);
+				Iterator<? extends OWLObject> iterator = toReturn.iterator();
+				ManchesterSyntaxRenderer renderer = AbstractSolvabilityOPPLOWLAxiomSearchTree.this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+						AbstractSolvabilityOPPLOWLAxiomSearchTree.this.getConstraintSystem());
+				while (iterator.hasNext()) {
+					OWLObject owlObject = iterator.next();
+					owlObject.accept(renderer);
+					if (!v.getPattern().matcher(renderer.toString()).matches()) {
+						iterator.remove();
 					}
+				}
+				return toReturn;
+			}
 
-					public Set<? extends OWLObject> visit(
-							SingleValueGeneratedVariable<?> v) {
-						return Collections.emptySet();
-					}
-				}));
+			public Set<? extends OWLObject> visit(GeneratedVariable<?> v) {
+				return Collections.emptySet();
+			}
+		}));
 		VariableScope<?> variableScope = variable.getVariableScope();
 		if (variableScope != null) {
 			Iterator<OWLObject> iterator = toReturn.iterator();
 			while (iterator.hasNext()) {
 				OWLObject owlObject = iterator.next();
 				try {
-					boolean inScope = variableScope.check(owlObject, this
-							.getConstraintSystem().getOPPLFactory()
-							.getVariableScopeChecker());
+					boolean inScope = variableScope.check(
+							owlObject,
+							this.getConstraintSystem().getOPPLFactory().getVariableScopeChecker());
 					if (!inScope) {
 						iterator.remove();
 					}
@@ -351,30 +335,28 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 
 	private void initAssignableValues() {
 		this.allClasses.addAll(this.getAllClasses());
-		Logging.getQueryLogger().log(Level.FINE,
-				"Possible class values " + this.allClasses.size());
+		Logging.getQueryLogger().log(Level.FINE, "Possible class values " + this.allClasses.size());
 		this.allDataProperties.addAll(this.getAllDataProperties());
 		Logging.getQueryLogger().log(
 				Level.FINE,
-				"Possible data property values "
-						+ this.allDataProperties.size());
+				"Possible data property values " + this.allDataProperties.size());
 		this.allObjectProperties.addAll(this.getObjectProperties());
 		Logging.getQueryLogger().log(
 				Level.FINE,
-				"Possible object property values "
-						+ this.allObjectProperties.size());
+				"Possible object property values " + this.allObjectProperties.size());
 		this.allIndividuals.addAll(this.getAllIndividuals());
-		Logging.getQueryLogger().log(Level.FINE,
+		Logging.getQueryLogger().log(
+				Level.FINE,
 				"Possible individual  values " + this.allIndividuals.size());
 		this.allConstants.addAll(this.getAllConstants());
-		Logging.getQueryLogger().log(Level.FINE,
+		Logging.getQueryLogger().log(
+				Level.FINE,
 				"Possible constant  values " + this.allConstants.size());
 	}
 
 	private Collection<OWLClass> getAllClasses() {
 		Set<OWLClass> toReturn = new HashSet<OWLClass>();
-		for (OWLOntology owlOntology : this.getConstraintSystem()
-				.getOntologyManager().getOntologies()) {
+		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
 			toReturn.addAll(owlOntology.getClassesInSignature());
 		}
 		return toReturn;
@@ -462,8 +444,7 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 				desc.getOperand().accept(this);
 			}
 
-			protected void visitOWLObjectCollection(
-					Collection<? extends OWLObject> collection) {
+			protected void visitOWLObjectCollection(Collection<? extends OWLObject> collection) {
 				for (OWLObject owlObject : collection) {
 					owlObject.accept(this);
 				}
@@ -479,10 +460,8 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 				this.visitOWLObjectCollection(desc.getOperands());
 			}
 		};
-		ConstantCollector visitor = new ConstantCollector(toReturn,
-				constantExtractor);
-		for (OWLOntology owlOntology : this.getConstraintSystem()
-				.getOntologyManager().getOntologies()) {
+		ConstantCollector visitor = new ConstantCollector(toReturn, constantExtractor);
+		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
 			for (OWLAxiom axiomToVisit : owlOntology.getAxioms()) {
 				axiomToVisit.accept(visitor);
 			}
@@ -492,8 +471,7 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 
 	private Collection<OWLDataProperty> getAllDataProperties() {
 		Set<OWLDataProperty> toReturn = new HashSet<OWLDataProperty>();
-		for (OWLOntology owlOntology : this.getConstraintSystem()
-				.getOntologyManager().getOntologies()) {
+		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
 			toReturn.addAll(owlOntology.getDataPropertiesInSignature());
 		}
 		return toReturn;
@@ -501,8 +479,7 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 
 	private Collection<OWLIndividual> getAllIndividuals() {
 		Set<OWLIndividual> toReturn = new HashSet<OWLIndividual>();
-		for (OWLOntology owlOntology : this.getConstraintSystem()
-				.getOntologyManager().getOntologies()) {
+		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
 			toReturn.addAll(owlOntology.getIndividualsInSignature());
 		}
 		return toReturn;
@@ -510,8 +487,7 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 
 	private Collection<OWLObjectProperty> getObjectProperties() {
 		Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
-		for (OWLOntology owlOntology : this.getConstraintSystem()
-				.getOntologyManager().getOntologies()) {
+		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
 			toReturn.addAll(owlOntology.getObjectPropertiesInSignature());
 		}
 		return toReturn;
@@ -525,33 +501,36 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 	public boolean exhaustiveSearchTree(SolvabilitySearchNode start,
 			List<List<SolvabilitySearchNode>> solutions) {
 		this.initAssignableValues();
-		Set<BindingNode> existingLeaves = this.getConstraintSystem()
-				.getLeaves();
+		Set<BindingNode> existingLeaves = this.getConstraintSystem().getLeaves();
 		boolean found = false;
-		VariableExtractor variableExtractor = new VariableExtractor(this
-				.getConstraintSystem(), false);
+		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
+				false);
 		if (existingLeaves != null) {
-			Logging.getQueryTestLogging().log(Level.INFO,
+			Logging.getQueryTestLogging().log(
+					Level.INFO,
 					"Existing leaves count: " + existingLeaves.size());
 			int leafIndex = 1;
 			for (BindingNode bindingNode : existingLeaves) {
 				Logging.getQueryTestLogging().log(
 						Level.FINER,
-						"Exhaustive search on leaf: " + leafIndex++
-								+ " out of " + existingLeaves.size());
+						"Exhaustive search on leaf: " + leafIndex++ + " out of "
+								+ existingLeaves.size());
+				ValueComputationParameters parameters = new SimpleValueComputationParameters(
+						this.getConstraintSystem(), bindingNode);
 				PartialOWLObjectInstantiator partialObjectInstantiator = new PartialOWLObjectInstantiator(
-						bindingNode, this.getConstraintSystem());
+						parameters);
 				OWLAxiom newStartAxiom = (OWLAxiom) start.getAxiom().accept(
 						partialObjectInstantiator);
-				BindingNode newBindingNode = new BindingNode(bindingNode
-						.getAssignments(), variableExtractor
-						.extractVariables(newStartAxiom));
-				SolvabilitySearchNode newStart = SolvabilitySearchNode
-						.buildSolvabilitySearchNode(newStartAxiom, this
-								.getAxiomSolvability(), newBindingNode);
+				BindingNode newBindingNode = new BindingNode(bindingNode.getAssignments(),
+						variableExtractor.extractVariables(newStartAxiom));
+				SolvabilitySearchNode newStart = SolvabilitySearchNode.buildSolvabilitySearchNode(
+						newStartAxiom,
+						this.getAxiomSolvability(),
+						newBindingNode);
 				List<List<SolvabilitySearchNode>> bindingNodeSolutions = new ArrayList<List<SolvabilitySearchNode>>();
 				boolean bindingNodeSearch = super.exhaustiveSearchTree(
-						newStart, bindingNodeSolutions);
+						newStart,
+						bindingNodeSolutions);
 				found = found || bindingNodeSearch;
 				if (bindingNodeSearch) {
 					solutions.addAll(bindingNodeSolutions);
@@ -572,9 +551,10 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 
 	protected abstract AxiomSolvability getAxiomSolvability();
 
-	public SolvabilitySearchNode buildSolvabilitySearchNode(OWLAxiom axiom,
-			BindingNode bindingNode) {
-		return SolvabilitySearchNode.buildSolvabilitySearchNode(axiom, this
-				.getAxiomSolvability(), bindingNode);
+	public SolvabilitySearchNode buildSolvabilitySearchNode(OWLAxiom axiom, BindingNode bindingNode) {
+		return SolvabilitySearchNode.buildSolvabilitySearchNode(
+				axiom,
+				this.getAxiomSolvability(),
+				bindingNode);
 	}
 }

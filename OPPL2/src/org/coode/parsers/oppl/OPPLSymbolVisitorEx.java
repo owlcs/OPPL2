@@ -7,8 +7,8 @@ import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
 public interface OPPLSymbolVisitorEx<O> extends SymbolVisitorEx<O> {
 	O visitStringVariableAttributeSymbol(StringVariableAttributeSymbol stringVariableAttributeSymbol);
 
-	O visitCollectionVariableAttributeSymbol(
-			CollectionVariableAttributeSymbol<?> collectionVariableAttributeSymbol);
+	<P> O visitCollectionVariableAttributeSymbol(
+			CollectionVariableAttributeSymbol<P> collectionVariableAttributeSymbol);
 
 	O visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier);
 }

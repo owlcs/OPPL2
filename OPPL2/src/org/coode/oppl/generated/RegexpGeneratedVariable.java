@@ -10,8 +10,9 @@ import org.coode.oppl.VariableType;
 import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLObject;
 
-public abstract class RegexpGeneratedVariable<O> implements Variable {
+public abstract class RegexpGeneratedVariable<O extends OWLObject> implements Variable {
 	private final Pattern pattern;
 	private final Variable delegate;
 
