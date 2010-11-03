@@ -91,4 +91,12 @@ public interface Variable {
 	 * @param visitor
 	 */
 	public void accept(PlainVariableVisitor visitor);
+
+	/**
+	 * Visitor pattern interface method for visitors with return type
+	 * 
+	 * @param visitor
+	 * @return an instace of T
+	 */
+	public <T> T accept(PlainVariableVisitorEx<T> visitor);
 }

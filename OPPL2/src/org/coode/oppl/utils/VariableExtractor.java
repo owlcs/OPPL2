@@ -32,6 +32,7 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PlainVariableVisitor;
 import org.coode.oppl.Variable;
+import org.coode.oppl.function.Aggregandum;
 import org.coode.oppl.function.Aggregation;
 import org.coode.oppl.function.Constant;
 import org.coode.oppl.function.Create;
@@ -133,9 +134,11 @@ public class VariableExtractor {
 		private final OPPLFunctionVisitorEx<Set<Variable>> opplFunctionVariableExtractor = new OPPLFunctionVisitorEx<Set<Variable>>() {
 			public <O, I> Set<Variable> visitAggregation(Aggregation<O, I> aggregation) {
 				Set<Variable> toReturn = new HashSet<Variable>();
-				List<OPPLFunction<? extends I>> toAggreagte = aggregation.getToAggreagte();
-				for (OPPLFunction<? extends I> opplFunction : toAggreagte) {
-					toReturn.addAll(opplFunction.accept(this));
+				List<Aggregandum<? extends I>> toAggreagte = aggregation.getToAggreagte();
+				for (Aggregandum<? extends I> aggregandum : toAggreagte) {
+					for (OPPLFunction<? extends I> opplFunction : aggregandum.getOPPLFunctions()) {
+						toReturn.addAll(opplFunction.accept(this));
+					}
 				}
 				return toReturn;
 			}

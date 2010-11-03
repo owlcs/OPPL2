@@ -1,6 +1,7 @@
 package org.coode.oppl.generated;
 
 import org.coode.oppl.PlainVariableVisitor;
+import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopeChecker;
@@ -96,7 +97,11 @@ public abstract class GeneratedVariable<O extends OWLObject> implements Variable
 	 * @see org.coode.oppl.Variable#accept(org.coode.oppl.PlainVariableVisitor)
 	 */
 	public void accept(PlainVariableVisitor visitor) {
-		this.delegate.accept(visitor);
+		visitor.visit(this);
+	}
+
+	public <T> T accept(PlainVariableVisitorEx<T> visitor) {
+		return visitor.visit(this);
 	}
 
 	/**

@@ -24,6 +24,7 @@ package org.coode.oppl.variabletypes;
 
 import org.coode.oppl.ManchesterVariableSyntax;
 import org.coode.oppl.PlainVariableVisitor;
+import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopeChecker;
@@ -48,8 +49,7 @@ public abstract class VariableImpl implements Variable {
 		ArgCheck.checkNullArgument("The type", type);
 		this.name = name;
 		this.type = type;
-		this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE
-				+ this.getName());
+		this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
 	}
 
 	public String getName() {
@@ -85,6 +85,10 @@ public abstract class VariableImpl implements Variable {
 		return visitor.visit(this);
 	}
 
+	public <T> T accept(PlainVariableVisitorEx<T> visitor) {
+		return visitor.visit(this);
+	}
+
 	public abstract <P> P accept(VariableTypeVisitorEx<P> visitor);
 
 	public void accept(PlainVariableVisitor visitor) {
@@ -100,8 +104,7 @@ public abstract class VariableImpl implements Variable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ (this.name == null ? 0 : this.name.hashCode());
+		result = prime * result + (this.name == null ? 0 : this.name.hashCode());
 		return result;
 	}
 

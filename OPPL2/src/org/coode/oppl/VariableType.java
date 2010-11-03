@@ -99,6 +99,12 @@ public enum VariableType {
 		}
 
 		@Override
+		public RegexpGeneratedVariable<OWLClass> createRegexpGeneratedVariable(String name,
+				Pattern pattern) {
+			return new CLASSRegexpGeneratedVariable(name, pattern);
+		}
+
+		@Override
 		public VariableScope<OWLClassExpression> parseVariable(VariableScopes.Direction direction,
 				ManchesterOWLSyntaxEditorParser parser) throws ParserException {
 			OWLClassExpression description = parser.parseClassExpression();
@@ -135,6 +141,12 @@ public enum VariableType {
 				referenceValues.addAll(owlOntology.getDataPropertiesInSignature());
 			}
 			return referenceValues;
+		}
+
+		@Override
+		public RegexpGeneratedVariable<OWLDataProperty> createRegexpGeneratedVariable(String name,
+				Pattern pattern) {
+			return new DATAPROPERTYRegexpGeneratedVariable(name, pattern);
 		}
 
 		@Override
@@ -182,6 +194,11 @@ public enum VariableType {
 		}
 
 		@Override
+		public RegexpGeneratedVariable<?> createRegexpGeneratedVariable(String name, Pattern pattern) {
+			return new OBJECTPROPERTYRegexpGeneratedVariable(name, pattern);
+		}
+
+		@Override
 		public RegexpGeneratedVariable<OWLObjectProperty> getRegExpGenerated(String name,
 				OWLEntityRenderer entityRenderer, Pattern exp,
 				Collection<? extends OWLOntology> ontologies) {
@@ -226,6 +243,11 @@ public enum VariableType {
 		}
 
 		@Override
+		public RegexpGeneratedVariable<?> createRegexpGeneratedVariable(String name, Pattern pattern) {
+			return new INDIVIDUALRegexpGeneratedVariable(name, pattern);
+		}
+
+		@Override
 		public RegexpGeneratedVariable<OWLNamedIndividual> getRegExpGenerated(String name,
 				OWLEntityRenderer entityRenderer, Pattern exp,
 				Collection<? extends OWLOntology> ontologies) {
@@ -264,6 +286,11 @@ public enum VariableType {
 				}
 			}
 			return referencedValues;
+		}
+
+		@Override
+		public RegexpGeneratedVariable<?> createRegexpGeneratedVariable(String name, Pattern pattern) {
+			return new CONSTANTRegexpGeneratedVariable(name, pattern);
 		}
 
 		@Override
@@ -597,4 +624,7 @@ public enum VariableType {
 			return this.variableType.equals(CONSTANT);
 		}
 	}
+
+	public abstract RegexpGeneratedVariable<?> createRegexpGeneratedVariable(String name,
+			Pattern pattern);
 }

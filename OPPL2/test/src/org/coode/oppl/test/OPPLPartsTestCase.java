@@ -17,6 +17,7 @@ import org.coode.oppl.ManchesterVariableSyntax;
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.PlainVariableVisitor;
+import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopeChecker;
@@ -297,6 +298,10 @@ public class OPPLPartsTestCase extends TestCase {
 			}
 
 			public <P> P accept(VariableVisitor<P> visitor) {
+				return null;
+			}
+
+			public <T> T accept(PlainVariableVisitorEx<T> visitor) {
 				return null;
 			}
 		};
