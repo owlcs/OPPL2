@@ -246,3 +246,27 @@ constraint returns [AbstractConstraint constraint]
 			
 		}
 ;
+
+aggregandums returns [Set<Aggregandum> aggregandums]
+@init
+{
+	$aggregandums = new HashSet<Aggregandum>();
+}
+	:
+		(a = aggregandum{
+			$aggregandums.add(a);
+		})+
+	;
+
+aggregandum return [Aggregandum aggregandum]
+	:
+	^(IDENTIFIER  VARIABLE_NAME DOT  VALUES)
+    	{
+      		$value = getSymbolTable().defineValuesAttributeReferenceSymbol($VARIABLE_NAME,getConstraintSystem());
+    	}
+    	| ^(IDENTIFIER)
+    	{
+    		
+    	}
+	;
+
