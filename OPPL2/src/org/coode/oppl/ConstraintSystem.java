@@ -43,6 +43,7 @@ import org.coode.oppl.function.Expression;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.generated.CLASSGeneratedVariable;
+import org.coode.oppl.generated.CONSTANTGeneratedVariable;
 import org.coode.oppl.generated.DATAPROPERTYGeneratedVariable;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.INDIVIDUALGeneratedVariable;
@@ -342,6 +343,8 @@ public class ConstraintSystem {
 			generatedVariable = new INDIVIDUALGeneratedVariable(name,
 					Create.createOWLNamedIndividual(value));
 			break;
+		case CONSTANT:
+			generatedVariable = new CONSTANTGeneratedVariable(name, Create.createOWLLiteral(value));
 		default:
 			break;
 		}

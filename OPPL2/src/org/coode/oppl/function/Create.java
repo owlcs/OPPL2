@@ -6,7 +6,9 @@ import org.coode.oppl.entity.OWLEntityCreationSet;
 import org.coode.oppl.entity.OWLEntityFactory;
 import org.semanticweb.owlapi.expression.OWLEntityChecker;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -127,6 +129,22 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 			protected OWLNamedIndividual getExistingEntity(String entityRendering,
 					OWLEntityChecker entityChecker) {
 				return entityChecker.getOWLIndividual(entityRendering);
+			}
+		};
+	}
+
+	public static OPPLFunction<OWLLiteral> createOWLLiteral(OPPLFunction<String> value) {
+		return new Create<OPPLFunction<String>, OWLLiteral>(value) {
+			@Override
+			public ValueComputation<OWLLiteral> getValueComputation(
+					final ValueComputationParameters parameters) {
+				return new ValueComputation<OWLLiteral>() {
+					public OWLLiteral compute(OPPLFunction<? extends OWLLiteral> opplFunction) {
+						OWLDataFactory dataFactory = parameters.getConstraintSystem().getOntologyManager().getOWLDataFactory();
+						String value = getInput().compute(parameters);
+						return dataFactory.getOWLLiteral(value);
+					}
+				};
 			}
 		};
 	}

@@ -176,6 +176,7 @@ public class OPPLScriptTypesParserTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		this.symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
+		this.symtab.setErrorListener(this.listener);
 	}
 
 	@Override

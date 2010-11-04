@@ -17,14 +17,14 @@ public class Adapter {
 		return new Constant<O>(value);
 	}
 
-	public static <O extends OWLObject> Set<OPPLFunction<O>> buildOWLObjectCollectionAdapter(
+	public static <O extends OWLObject> Set<Aggregandum<O>> buildOWLObjectCollectionAdapter(
 			Collection<? extends O> collection) {
 		if (collection == null) {
 			throw new NullPointerException("The collection cannot be null");
 		}
-		Set<OPPLFunction<O>> toReturn = new HashSet<OPPLFunction<O>>(collection.size());
+		Set<Aggregandum<O>> toReturn = new HashSet<Aggregandum<O>>(collection.size());
 		for (O o : collection) {
-			toReturn.add(buildObjectAdater(o));
+			toReturn.add(buildSingletonAggregandum(o));
 		}
 		return toReturn;
 	}

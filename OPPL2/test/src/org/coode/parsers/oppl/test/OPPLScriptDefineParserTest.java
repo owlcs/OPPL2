@@ -106,7 +106,7 @@ public class OPPLScriptDefineParserTest extends TestCase {
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
 		Set<Symbol> definedSymbols = this.symtab.getDefinedSymbols();
-		assertTrue(definedSymbols.size() > 4);
+		assertTrue(definedSymbols.size() > 2);
 		System.out.println(definedSymbols);
 	}
 

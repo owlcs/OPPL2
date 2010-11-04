@@ -9,7 +9,8 @@ import org.coode.parsers.oppl.OPPLSymbolVisitor;
 import org.coode.parsers.oppl.OPPLSymbolVisitorEx;
 import org.semanticweb.owlapi.model.OWLObject;
 
-public abstract class StringVariableAttributeSymbol extends VariableAttributeSymbol<String> {
+public abstract class StringVariableAttributeSymbol extends
+		VariableAttributeSymbol<String, VariableAttribute<String>> {
 	/**
 	 * @param name
 	 * @param type
