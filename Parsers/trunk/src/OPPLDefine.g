@@ -78,8 +78,7 @@ options {
 
 bottomup  : 
     variableDefinition
-    | groupAttributeReferences
-    | variableAttributeReferences  
+ 
   ;
 
 
@@ -92,20 +91,3 @@ variableDefinition
 		}
 	;
 
-groupAttributeReferences
-  :
-   ^(i = IDENTIFIER VARIABLE_NAME DOT GROUPS ^(ATTRIBUTE_SELECTOR INTEGER)) 
-    {
-      getSymbolTable().defineGroupAttributeReferenceSymbol($VARIABLE_NAME,$INTEGER);
-    } 
-    -> ^($i)
-  ;
-
-variableAttributeReferences
-  :
-   ^(i = IDENTIFIER  VARIABLE_NAME DOT  (a = VALUES | a = RENDERING))
-    {
-      getSymbolTable().defineAttributeReferenceSymbol($VARIABLE_NAME,a);
-    }
-   -> ^($i) 
-  ;

@@ -81,24 +81,27 @@ options {
 
 @header {
   package org.coode.parsers.oppl;
-     import org.coode.oppl.entity.OWLEntityRenderer;
+  import java.util.regex.Pattern; 
+  import java.util.Collections; 
+  import org.coode.oppl.entity.OWLEntityRenderer;
+  import org.coode.oppl.generated.RegexpGeneratedVariable;
   import org.coode.oppl.AbstractConstraint;
-import org.coode.oppl.ConstraintSystem;
+  import org.coode.oppl.ConstraintSystem;
   import org.coode.oppl.OPPLQuery;
-import org.coode.oppl.Variable;
-import org.coode.oppl.VariableScope;
-import org.coode.oppl.VariableScopes;
+  import org.coode.oppl.Variable;
+  import org.coode.oppl.VariableScope;
+  import org.coode.oppl.VariableScopes;
   import org.coode.oppl.exceptions.OPPLException;
+  import org.coode.oppl.generated.GeneratedVariable;
   import org.coode.oppl.NAFConstraint;
-import org.coode.oppl.generated.AbstractCollectionGeneratedValue;
-import org.coode.oppl.generated.ConcatGeneratedValues;
-import org.coode.oppl.generated.RegExpGenerated;
-import org.coode.oppl.generated.RegExpGeneratedValue;
-import org.coode.oppl.generated.SingleValueGeneratedValue;
-import org.coode.oppl.generated.StringGeneratedValue;
-import org.coode.oppl.generated.VariableExpressionGeneratedVariable;
+  import org.coode.oppl.RegExpConstraint;
+  import org.coode.oppl.function.Aggregation;
+  import org.coode.oppl.function.OPPLFunction;
+  import org.coode.oppl.function.Constant;
+  import org.coode.oppl.function.Aggregandum;
+  import org.coode.oppl.function.Adapter;
   import org.coode.oppl.OPPLAbstractFactory;
-  import org.coode.oppl.InCollectionRegExpConstraint;
+  import org.coode.parsers.oppl.variableattribute.CollectionVariableAttributeSymbol;  
   import org.semanticweb.owlapi.model.OWLAxiom;
   import org.semanticweb.owlapi.model.OWLObject;
   import org.semanticweb.owlapi.model.OWLClass;
@@ -106,7 +109,7 @@ import org.coode.oppl.generated.VariableExpressionGeneratedVariable;
   import org.semanticweb.owlapi.model.OWLPropertyExpression;
   import org.semanticweb.owlapi.model.OWLClassExpression;
   import org.semanticweb.owlapi.model.RemoveAxiom;
-import org.semanticweb.owlapi.model.AddAxiom;    
+  import org.semanticweb.owlapi.model.AddAxiom;    
   import org.coode.parsers.ErrorListener;
   import org.coode.parsers.Type;
   import org.coode.parsers.oppl.OPPLSymbolTable;
@@ -268,44 +271,58 @@ variableDefinition returns [Variable variable]
 	    	{
 	    		Type type = getSymbolTable().getExpressionGeneratedVariableType($start,$VARIABLE_TYPE, expr);
 	    		if(type!=null){
-		       		VariableExpressionGeneratedVariable variableExpressionGeneratedVariable = new VariableExpressionGeneratedVariable(
-        								$VARIABLE_NAME.getText(), expr.getOWLObject(), getConstraintSystem());
-								        getConstraintSystem().importVariable(variableExpressionGeneratedVariable);
-			        $variable = variableExpressionGeneratedVariable;
+		       		OWLObject expressionOWLObject = expr.getOWLObject();
+		       		if(expressionOWLObject !=null){
+					GeneratedVariable<?> v = getConstraintSystem().createExpressionGeneratedVariable($VARIABLE_NAME.getText(), expressionOWLObject);				
+					if(v==null){
+						getErrorListener().illegalToken($EXPRESSION,"Invalid expression to assign to a variable");
+					} 
+			        	$variable = v;
+			        }else{
+			        	getErrorListener().reportThrowable(new NullPointerException("The type of the generated variable is null"), $EXPRESSION.token.getLine(), $EXPRESSION.token.getCharPositionInLine(),$EXPRESSION.token.getText().length());
+			        }
 			}else{
 				getErrorListener().reportThrowable(new NullPointerException("The type of the generated variable is null"), $start.token.getLine(), $start.token.getCharPositionInLine(),$start.token.getText().length());
 			}
 	    }
 	  |  ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(MATCH se = stringOperation ))
 	     {
-	       org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
-
-          OWLEntityRenderer renderer = getOPPLFactory().getOWLEntityRenderer(getConstraintSystem());
-	  RegExpGenerated<?> v = type.getRegExpGenerated(
-							$VARIABLE_NAME.getText(),
-							renderer,
-							se,
-							this.getConstraintSystem().getOntologyManager().getOntologies());
-					this.constraintSystem.importVariable(v);
-          constraintSystem.importVariable(v);
-          $variable = v;
+	      	org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
+          	Pattern pattern = Pattern.compile(se.render(getConstraintSystem()));
+		RegexpGeneratedVariable<?> v = getConstraintSystem().createRegexpGeneratedVariable($VARIABLE_NAME.getText(),  type, pattern);
+	        $variable = v;
 	     }
 	  | ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(CREATE_OPPL_FUNCTION  value = stringOperation))
 	     {
 	       org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
 	       $variable = constraintSystem.createStringGeneratedVariable($VARIABLE_NAME.getText(),type, value);
 	     }
-    | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_INTERSECTION va = IDENTIFIER))
+    | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME CLASS ^(CREATE_INTERSECTION va = IDENTIFIER))
        {
-         org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
-         AbstractCollectionGeneratedValue<OWLClass> collection = symtab.getCollection($start,va, getConstraintSystem());
-         $variable = constraintSystem.createIntersectionGeneratedVariable(name.getText(),type,collection);         
+         
+
+	CollectionVariableAttributeSymbol<?> symbol = this.getSymbolTable().getCollectionVariableAttributeSymbol(org.coode.oppl.VariableType.CLASS,va);
+	if (symbol != null) {
+		$variable = getConstraintSystem().createIntersectionGeneratedVariable(
+								name.getText(),
+								org.coode.oppl.VariableType.CLASS,
+								Collections.singleton((OPPLFunction<? extends OWLClassExpression>) symbol.getVariableAttribute()));
+	} else {
+		this.getErrorListener().illegalToken(va, "Unknown symbol");
+	}         
        }
-      | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_DISJUNCTION va = IDENTIFIER))
+      | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME CLASS ^(CREATE_DISJUNCTION va = IDENTIFIER))
        {
-         org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
-         AbstractCollectionGeneratedValue<OWLClass> collection = symtab.getCollection($start,va, getConstraintSystem());
-         $variable = constraintSystem.createUnionGeneratedVariable(name.getText(),type,collection);         
+
+	CollectionVariableAttributeSymbol<?> symbol = this.getSymbolTable().getCollectionVariableAttributeSymbol(org.coode.oppl.VariableType.CLASS,va);
+	if (symbol != null) {
+		$variable = getConstraintSystem().createUnionGeneratedVariable(
+								name.getText(),
+								org.coode.oppl.VariableType.CLASS,
+								Collections.singleton((OPPLFunction<? extends OWLClassExpression>) symbol.getVariableAttribute()));
+	} else {
+		this.getErrorListener().illegalToken(va, "Unknown symbol");
+	}        
        }    	     	    
 	;
 
@@ -314,31 +331,40 @@ variableDefinition returns [Variable variable]
 
 
 
-stringOperation returns [SingleValueGeneratedValue<String> value]
+stringOperation returns [OPPLFunction<String> value]
 @init
   {
-    List<SingleValueGeneratedValue<String>> values = new ArrayList<SingleValueGeneratedValue<String>>();
+    List<Aggregandum<String>> values = new ArrayList<Aggregandum<String>>();
   }
   :
-    ^(STRING_OPERATION  (valuesToAggregate= stringExpression {values.add(valuesToAggregate);})+)
+    ^(STRING_OPERATION  (valuesToAggregate= stringExpression {values.add(Adapter.buildSingletonAggregandum(valuesToAggregate));})+)
     {
-      $value = new ConcatGeneratedValues(values); 
+      $value = Aggregation.buildStringConcatenation(values);
     }
   ;
   
 
-stringExpression returns [SingleValueGeneratedValue<String> value]
+stringExpression returns [OPPLFunction<String> value]
   :
       DBLQUOTE
       {
-        $value = new StringGeneratedValue($DBLQUOTE.getText());
+        $value = new Constant<String>($DBLQUOTE.getText());
       }
-    | IDENTIFIER
-      {
-        $value=symtab.getStringGeneratedValue($IDENTIFIER, getConstraintSystem());
-      }
-
+    |    ^(IDENTIFIER VARIABLE_NAME DOT GROUPS ^(ATTRIBUTE_SELECTOR INTEGER)) 
+    {
+      $value = getSymbolTable().defineGroupAttributeReferenceSymbol($VARIABLE_NAME,$INTEGER, getConstraintSystem());
+    } 
+    | ^(IDENTIFIER  VARIABLE_NAME DOT   RENDERING)
+    {
+      $value = getSymbolTable().defineRenderingAttributeReferenceSymbol($VARIABLE_NAME,getConstraintSystem());
+    }
+//    |^(IDENTIFIER  VARIABLE_NAME DOT  VALUES)
+//    {
+//      $value = getSymbolTable().defineValuesAttributeReferenceSymbol($VARIABLE_NAME,getConstraintSystem());
+//    }
   ;
+
+
   
   
   
@@ -395,7 +421,8 @@ constraint returns [AbstractConstraint constraint]
 		| ^(REGEXP_CONSTRAINT IDENTIFIER se = stringOperation)
 		{
 			Variable variable = symtab.getVariable($IDENTIFIER,getConstraintSystem());
-			$constraint =   new InCollectionRegExpConstraint(variable, se, getConstraintSystem());
+			OPPLFunction<Pattern> adapted = Adapter.buildRegexpPatternAdapter(se);
+			$constraint =   new RegExpConstraint(variable, adapted, getConstraintSystem());
 		}
 		| ^(NAF_CONSTRAINT a = .){
 			OWLObject axiom = a.getOWLObject();
@@ -405,3 +432,5 @@ constraint returns [AbstractConstraint constraint]
 			
 		}
 ;
+
+
