@@ -51,7 +51,8 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 	 */
 	public OWLAxiomSearchTree(ValueComputationParameters parameters) {
 		if (parameters == null) {
-			throw new NullPointerException("The value computation parameters cannot be null");
+			throw new NullPointerException(
+					"The value computation parameters cannot be null");
 		}
 		this.parameters = parameters;
 	}
@@ -65,10 +66,11 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 
 	@Override
 	protected List<OWLAxiom> getChildren(OWLAxiom node) {
-		Set<BindingNode> leaves = this.getParameters().getConstraintSystem().getLeaves();
+		Set<BindingNode> leaves = this.getParameters().getConstraintSystem()
+				.getLeaves();
 		List<OWLAxiom> toReturn = new ArrayList<OWLAxiom>();
-		VariableExtractor variableExtractor = new VariableExtractor(
-				this.getParameters().getConstraintSystem(), false);
+		VariableExtractor variableExtractor = new VariableExtractor(this
+				.getParameters().getConstraintSystem(), false);
 		Set<Variable> variables = variableExtractor.extractVariables(node);
 		for (Variable variable : variables) {
 			Collection<OWLObject> values = new HashSet<OWLObject>();
@@ -77,11 +79,11 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 			} else {
 				for (BindingNode bindingNode : leaves) {
 					SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
-							this.getParameters().getConstraintSystem(), bindingNode);
+							this.getParameters().getConstraintSystem(),
+							bindingNode);
 					if (bindingNode.getAssignedVariables().contains(variable)) {
-						values.add(this.getParameters().getBindingNode().getAssignmentValue(
-								variable,
-								parameters));
+						values.add(this.getParameters().getBindingNode()
+								.getAssignmentValue(variable, parameters));
 					} else {
 						values.addAll(this.getAssignableValues(variable));
 					}
@@ -89,8 +91,8 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 			}
 			for (OWLObject value : values) {
 				Assignment assignment = new Assignment(variable, value);
-				BindingNode bindingNode = new BindingNode(Collections.singleton(assignment),
-						variables);
+				BindingNode bindingNode = new BindingNode(Collections
+						.singleton(assignment), variables);
 				SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
 						this.getParameters().getConstraintSystem(), bindingNode);
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
@@ -104,7 +106,9 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 	@Override
 	protected boolean goalReached(OWLAxiom start) {
 		boolean found = false;
-		Iterator<OWLOntology> iterator = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies().iterator();
+		Iterator<OWLOntology> iterator = this.getParameters()
+				.getConstraintSystem().getOntologyManager().getOntologies()
+				.iterator();
 		while (!found && iterator.hasNext()) {
 			OWLOntology ontology = iterator.next();
 			found = ontology.containsAxiom(start);
@@ -114,7 +118,8 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 
 	private Set<OWLClass> getAllClasses() {
 		Set<OWLClass> toReturn = new HashSet<OWLClass>();
-		Set<OWLOntology> ontologies = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies();
+		Set<OWLOntology> ontologies = this.getParameters()
+				.getConstraintSystem().getOntologyManager().getOntologies();
 		for (OWLOntology owlOntology : ontologies) {
 			toReturn.addAll(owlOntology.getClassesInSignature());
 		}
@@ -123,7 +128,8 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 
 	private Set<OWLLiteral> getAllConstants() {
 		Set<OWLLiteral> toReturn = new HashSet<OWLLiteral>();
-		for (OWLOntology ontology : this.getParameters().getConstraintSystem().getOntologyManager().getOntologies()) {
+		for (OWLOntology ontology : this.getParameters().getConstraintSystem()
+				.getOntologyManager().getOntologies()) {
 			for (OWLAxiom axiom : ontology.getAxioms()) {
 				toReturn.addAll(OWLObjectExtractor.getAllOWLLiterals(axiom));
 			}
@@ -133,7 +139,8 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 
 	private Set<OWLDataProperty> getAllDataProperties() {
 		Set<OWLDataProperty> toReturn = new HashSet<OWLDataProperty>();
-		Set<OWLOntology> ontologies = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies();
+		Set<OWLOntology> ontologies = this.getParameters()
+				.getConstraintSystem().getOntologyManager().getOntologies();
 		for (OWLOntology owlOntology : ontologies) {
 			toReturn.addAll(owlOntology.getDataPropertiesInSignature());
 		}
@@ -142,7 +149,8 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 
 	private Set<OWLNamedIndividual> getAllIndividuals() {
 		Set<OWLNamedIndividual> toReturn = new HashSet<OWLNamedIndividual>();
-		Set<OWLOntology> ontologies = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies();
+		Set<OWLOntology> ontologies = this.getParameters()
+				.getConstraintSystem().getOntologyManager().getOntologies();
 		for (OWLOntology owlOntology : ontologies) {
 			toReturn.addAll(owlOntology.getIndividualsInSignature());
 		}
@@ -171,38 +179,52 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 		}
 	};
 
-	private Collection<? extends OWLObject> getAssignableValues(Variable variable) {
+	private Collection<? extends OWLObject> getAssignableValues(
+			Variable variable) {
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
-		toReturn.addAll(variable.accept(new VariableVisitor<Set<? extends OWLObject>>() {
-			public Set<? extends OWLObject> visit(Variable v) {
-				return v.accept(OWLAxiomSearchTree.this.assignableValuesVisitor);
-			}
-
-			public Set<? extends OWLObject> visit(RegexpGeneratedVariable<?> v) {
-				Set<? extends OWLObject> toReturn = v.accept(OWLAxiomSearchTree.this.assignableValuesVisitor);
-				Iterator<? extends OWLObject> iterator = toReturn.iterator();
-				while (iterator.hasNext()) {
-					OWLObject owlObject = iterator.next();
-					ManchesterSyntaxRenderer renderer = OWLAxiomSearchTree.this.getParameters().getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
-							OWLAxiomSearchTree.this.getParameters().getConstraintSystem());
-					owlObject.accept(renderer);
-					if (!v.getPattern().matcher(renderer.toString()).matches()) {
-						iterator.remove();
+		toReturn.addAll(variable
+				.accept(new VariableVisitor<Set<? extends OWLObject>>() {
+					public Set<? extends OWLObject> visit(Variable v) {
+						return v
+								.accept(OWLAxiomSearchTree.this.assignableValuesVisitor);
 					}
-				}
-				return toReturn;
-			}
 
-			public Set<? extends OWLObject> visit(GeneratedVariable<?> v) {
-				return Collections.emptySet();
-			}
-		}));
+					public Set<? extends OWLObject> visit(
+							RegexpGeneratedVariable<?> v) {
+						Set<? extends OWLObject> toReturn = v
+								.accept(OWLAxiomSearchTree.this.assignableValuesVisitor);
+						Iterator<? extends OWLObject> iterator = toReturn
+								.iterator();
+						while (iterator.hasNext()) {
+							OWLObject owlObject = iterator.next();
+							ManchesterSyntaxRenderer renderer = OWLAxiomSearchTree.this
+									.getParameters().getConstraintSystem()
+									.getOPPLFactory()
+									.getManchesterSyntaxRenderer(
+											OWLAxiomSearchTree.this
+													.getParameters()
+													.getConstraintSystem());
+							owlObject.accept(renderer);
+							if (!v.getPatternGeneratingOPPLFunction().compute(
+									OWLAxiomSearchTree.this.getParameters())
+									.matcher(renderer.toString()).matches()) {
+								iterator.remove();
+							}
+						}
+						return toReturn;
+					}
+
+					public Set<? extends OWLObject> visit(GeneratedVariable<?> v) {
+						return Collections.emptySet();
+					}
+				}));
 		return toReturn;
 	}
 
 	private Set<OWLObjectProperty> getObjectProperties() {
 		Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
-		Set<OWLOntology> ontologies = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies();
+		Set<OWLOntology> ontologies = this.getParameters()
+				.getConstraintSystem().getOntologyManager().getOntologies();
 		for (OWLOntology owlOntology : ontologies) {
 			toReturn.addAll(owlOntology.getObjectPropertiesInSignature());
 		}

@@ -50,8 +50,8 @@ public class VariableScopeChecker {
 	 * @param ontologyManager
 	 * @param reasoner
 	 */
-	public VariableScopeChecker(OWLOntologyManager ontologyManager, OWLReasoner reasoner)
-			throws OPPLException {
+	public VariableScopeChecker(OWLOntologyManager ontologyManager,
+			OWLReasoner reasoner) throws OPPLException {
 		if (reasoner == null) {
 			throw new NullReasonerException();
 		} else {
@@ -67,10 +67,10 @@ public class VariableScopeChecker {
 	 * @throws OWLRuntimeException
 	 */
 	protected boolean check(OWLClass owlCass, SubClassVariableScope scope) {
-		OWLClassExpression description = scope.getDescription();
-		OWLSubClassOfAxiom axiom = this.getOntologyManager().getOWLDataFactory().getOWLSubClassOfAxiom(
-				owlCass,
-				description);
+		OWLClassExpression description = scope.getClassExpression();
+		OWLSubClassOfAxiom axiom = this.getOntologyManager()
+				.getOWLDataFactory()
+				.getOWLSubClassOfAxiom(owlCass, description);
 		return this.getReasoner().isEntailed(axiom);
 	}
 
@@ -82,10 +82,10 @@ public class VariableScopeChecker {
 	 */
 	protected boolean check(OWLClass owlCass, SuperClassVariableScope scope)
 			throws OWLRuntimeException {
-		OWLClassExpression description = scope.getDescription();
-		OWLSubClassOfAxiom axiom = this.getOntologyManager().getOWLDataFactory().getOWLSubClassOfAxiom(
-				description,
-				owlCass);
+		OWLClassExpression description = scope.getClassExpression();
+		OWLSubClassOfAxiom axiom = this.getOntologyManager()
+				.getOWLDataFactory()
+				.getOWLSubClassOfAxiom(description, owlCass);
 		return this.getReasoner().isEntailed(axiom);
 	}
 
@@ -96,12 +96,12 @@ public class VariableScopeChecker {
 	 *         otherwise
 	 * @throws OWLRuntimeException
 	 */
-	protected boolean check(OWLIndividual individual, IndividualVariableScope scope)
-			throws OWLRuntimeException {
+	protected boolean check(OWLIndividual individual,
+			IndividualVariableScope scope) throws OWLRuntimeException {
 		OWLClassExpression description = scope.getClassExpression();
-		OWLClassAssertionAxiom axiom = this.getOntologyManager().getOWLDataFactory().getOWLClassAssertionAxiom(
-				description,
-				individual);
+		OWLClassAssertionAxiom axiom = this.getOntologyManager()
+				.getOWLDataFactory().getOWLClassAssertionAxiom(description,
+						individual);
 		return this.getReasoner().isEntailed(axiom);
 	}
 

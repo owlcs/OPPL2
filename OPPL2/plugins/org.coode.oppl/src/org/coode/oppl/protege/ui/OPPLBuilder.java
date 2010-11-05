@@ -23,16 +23,25 @@ import org.coode.oppl.AbstractConstraint;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ConstraintVisitorEx;
 import org.coode.oppl.InCollectionConstraint;
-import org.coode.oppl.InCollectionRegExpConstraint;
 import org.coode.oppl.InequalityConstraint;
 import org.coode.oppl.NAFConstraint;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLScript;
+import org.coode.oppl.RegExpConstraint;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableVisitor;
-import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.generated.RegExpGenerated;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.function.Aggregandum;
+import org.coode.oppl.function.Aggregation;
+import org.coode.oppl.function.Constant;
+import org.coode.oppl.function.Create;
+import org.coode.oppl.function.Expression;
+import org.coode.oppl.function.GroupVariableAttribute;
+import org.coode.oppl.function.OPPLFunction;
+import org.coode.oppl.function.OPPLFunctionVisitorEx;
+import org.coode.oppl.function.RenderingVariableAttribute;
+import org.coode.oppl.function.ValuesVariableAtttribute;
+import org.coode.oppl.generated.GeneratedVariable;
+import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.protege.ProtegeParserFactory;
 import org.coode.oppl.protege.ui.message.Error;
 import org.coode.oppl.protege.ui.message.MessageListCellRenderer;
@@ -350,27 +359,75 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 				return toReturn;
 			}
 
-			public Boolean visit(InCollectionRegExpConstraint c) {
+			public Boolean visit(RegExpConstraint c) {
 				boolean toReturn = c.getVariable().equals(this.v);
 				if (!toReturn) {
-					if (OPPLBuilderModel.this.constraintSystem.getLeaves() != null) {
-						for (BindingNode leave : OPPLBuilderModel.this.constraintSystem
-								.getLeaves()) {
-							Collection<? extends OWLObject> collection = c
-									.getCollection(leave);
-							Iterator<? extends OWLObject> it = collection
-									.iterator();
-							boolean detected = false;
-							while (!detected && it.hasNext()) {
-								OWLObject object = it.next();
-								detected = object.accept(this.variableDetector);
-							}
-							toReturn = detected;
-							if (toReturn) {
-								return toReturn;
-							}
-						}
-					}
+					c.getExpression().accept(
+							new OPPLFunctionVisitorEx<Boolean>() {
+								public <O, I> Boolean visitAggregation(
+										Aggregation<O, I> aggregation) {
+									Iterator<Aggregandum<I>> iterator = aggregation
+											.getToAggreagte().iterator();
+									boolean found = false;
+									while (!found && iterator.hasNext()) {
+										Aggregandum<I> aggregandum = iterator
+												.next();
+										Iterator<OPPLFunction<I>> it = aggregandum
+												.getOPPLFunctions().iterator();
+										while (!found && it.hasNext()) {
+											OPPLFunction<I> opplFunction = it
+													.next();
+											found = opplFunction.accept(this);
+										}
+									}
+									return found;
+								}
+
+								public <O> Boolean visitConstant(
+										Constant<O> constant) {
+									return constant
+											.getValue()
+											.equals(
+													SpecializedConstraintVisitor.this.v);
+								}
+
+								public <O, I extends OPPLFunction<?>> Boolean visitCreate(
+										Create<I, O> create) {
+									return create.getInput().accept(this);
+								}
+
+								public <O extends OWLObject> Boolean visitExpression(
+										Expression<O> expression) {
+									return expression
+											.getExpression()
+											.accept(
+													SpecializedConstraintVisitor.this.variableDetector);
+								}
+
+								public <O extends OWLObject> Boolean visitGroupVariableAttribute(
+										GroupVariableAttribute<O> groupVariableAttribute) {
+									return groupVariableAttribute
+											.getVariable()
+											.equals(
+													SpecializedConstraintVisitor.this.v);
+								}
+
+								public Boolean visitRenderingVariableAttribute(
+										RenderingVariableAttribute renderingVariableAttribute) {
+									return renderingVariableAttribute
+											.getVariable()
+											.equals(
+													SpecializedConstraintVisitor.this.v);
+								}
+
+								public <O extends OWLObject> Boolean visitValuesVariableAtttribute(
+										ValuesVariableAtttribute<O> valuesVariableAtttribute) {
+									return valuesVariableAtttribute
+											.getVariable()
+											.equals(
+													SpecializedConstraintVisitor.this.v);
+								}
+							});
 				}
 				return toReturn;
 			}
@@ -808,7 +865,8 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 			final ConstraintSystem cs = this.model.getConstraintSystem();
 			final AbstractVariableEditor<?> variableEditor = this.getVariable()
 					.accept(new VariableVisitor<AbstractVariableEditor<?>>() {
-						public RegExpVariableEditor visit(RegExpGenerated<?> v) {
+						public RegExpVariableEditor visit(
+								RegexpGeneratedVariable<?> v) {
 							RegExpVariableEditor regExpVariableEditor = new RegExpVariableEditor(
 									OPPLBuilder.this.owlEditorKit, cs);
 							regExpVariableEditor.setVariable(v);
@@ -816,7 +874,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 						}
 
 						public AbstractVariableEditor<?> visit(
-								SingleValueGeneratedVariable<?> v) {
+								GeneratedVariable<?> v) {
 							GeneratedVariableEditor generatedVariableEditor = new GeneratedVariableEditor(
 									OPPLBuilder.this.owlEditorKit, cs);
 							generatedVariableEditor.setVariable(v);
@@ -945,7 +1003,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 			DefaultListModel m = (DefaultListModel) OPPLVariableList.this
 					.getModel();
 			int i = -1;
-			if (listItem.getVariable() instanceof SingleValueGeneratedVariable<?>) {
+			if (listItem.getVariable() instanceof GeneratedVariable<?>) {
 				i = m.getSize();
 			} else {
 				Enumeration<?> elements = m.elements();

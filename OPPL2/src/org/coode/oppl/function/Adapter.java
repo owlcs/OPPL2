@@ -22,7 +22,8 @@ public class Adapter {
 		if (collection == null) {
 			throw new NullPointerException("The collection cannot be null");
 		}
-		Set<Aggregandum<O>> toReturn = new HashSet<Aggregandum<O>>(collection.size());
+		Set<Aggregandum<O>> toReturn = new HashSet<Aggregandum<O>>(collection
+				.size());
 		for (O o : collection) {
 			toReturn.add(buildSingletonAggregandum(o));
 		}
@@ -30,13 +31,13 @@ public class Adapter {
 	}
 
 	public static <I> Aggregandum<I> buildSingletonAggregandum(
-			final OPPLFunction<? extends I> singleton) {
+			final OPPLFunction<I> singleton) {
 		if (singleton == null) {
 			throw new NullPointerException("The OPPL function cannot be null");
 		}
 		return new Aggregandum<I>() {
-			public Set<OPPLFunction<? extends I>> getOPPLFunctions() {
-				return Collections.<OPPLFunction<? extends I>> singleton(singleton);
+			public Set<OPPLFunction<I>> getOPPLFunctions() {
+				return Collections.<OPPLFunction<I>> singleton(singleton);
 			}
 		};
 	}
@@ -47,8 +48,8 @@ public class Adapter {
 		}
 		final OPPLFunction<I> adapted = buildObjectAdater(singleton);
 		return new Aggregandum<I>() {
-			public Set<OPPLFunction<? extends I>> getOPPLFunctions() {
-				return Collections.<OPPLFunction<? extends I>> singleton(adapted);
+			public Set<OPPLFunction<I>> getOPPLFunctions() {
+				return Collections.<OPPLFunction<I>> singleton(adapted);
 			}
 		};
 	}
@@ -58,7 +59,8 @@ public class Adapter {
 		if (collection == null) {
 			throw new NullPointerException("The collection cannot be null");
 		}
-		final Set<Aggregandum<I>> adapted = new HashSet<Aggregandum<I>>(collection.size());
+		final Set<Aggregandum<I>> adapted = new HashSet<Aggregandum<I>>(
+				collection.size());
 		for (I i : collection) {
 			adapted.add(buildSingletonAggregandum(i));
 		}
@@ -66,10 +68,10 @@ public class Adapter {
 	}
 
 	public static <I extends OWLObject> Aggregandum<I> buildAggregandumCollection(
-			final Collection<? extends OPPLFunction<? extends I>> collection) {
+			final Collection<? extends OPPLFunction<I>> collection) {
 		return new Aggregandum<I>() {
-			public Set<OPPLFunction<? extends I>> getOPPLFunctions() {
-				return new HashSet<OPPLFunction<? extends I>>(collection);
+			public Set<OPPLFunction<I>> getOPPLFunctions() {
+				return new HashSet<OPPLFunction<I>>(collection);
 			}
 		};
 	}

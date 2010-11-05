@@ -68,7 +68,7 @@ public class InequalityConstraint implements AbstractConstraint {
 
 	@Override
 	public String toString() {
-		return this.render();
+		return this.render(this.getConstraintSystem());
 	}
 
 	/**
@@ -78,9 +78,10 @@ public class InequalityConstraint implements AbstractConstraint {
 		return this.constraintSystem;
 	}
 
-	public String render() {
-		ManchesterSyntaxRenderer renderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
-				this.getConstraintSystem());
+	public String render(ConstraintSystem constraintSystem) {
+		ManchesterSyntaxRenderer renderer = this.getConstraintSystem()
+				.getOPPLFactory().getManchesterSyntaxRenderer(
+						this.getConstraintSystem());
 		this.expression.accept(renderer);
 		return this.variable.getName() + " != " + renderer.toString();
 	}
@@ -94,8 +95,10 @@ public class InequalityConstraint implements AbstractConstraint {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (this.expression == null ? 0 : this.expression.hashCode());
-		result = prime * result + (this.variable == null ? 0 : this.variable.hashCode());
+		result = prime * result
+				+ (this.expression == null ? 0 : this.expression.hashCode());
+		result = prime * result
+				+ (this.variable == null ? 0 : this.variable.hashCode());
 		return result;
 	}
 

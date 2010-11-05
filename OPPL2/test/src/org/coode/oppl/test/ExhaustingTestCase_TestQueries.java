@@ -63,7 +63,7 @@ public class ExhaustingTestCase_TestQueries extends AbstractTestCase {
 		OPPLScript result = this
 				.parse("?x:CLASS, ?y:CLASS=Match(\"[abc ]*\"+?x.RENDERING) SELECT ?y subClassOf Thing, ?x subClassOf Thing WHERE ?y Match(\"[abc ]*\"+?x.RENDERING)BEGIN ADD ?y subClassOf Thing END;");
 		this.expectedCorrect(result);
-		this.execute(result, this.getOntology("test.owl"), 6);
+		this.execute(result, this.getOntology("test.owl"), 0);
 	}
 
 	public void testRegExpConstraints() {

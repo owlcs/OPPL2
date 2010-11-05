@@ -37,6 +37,7 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ManchesterVariableSyntax;
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.PlainVariableVisitor;
+import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopeChecker;
@@ -44,7 +45,7 @@ import org.coode.oppl.VariableType;
 import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.exceptions.InvalidVariableNameException;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.protege.ProtegeParserFactory;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.ui.ExpressionEditor;
@@ -61,7 +62,7 @@ import org.semanticweb.owlapi.model.OWLException;
  * 
  */
 public class GeneratedVariableEditor extends
-		AbstractVariableEditor<SingleValueGeneratedVariable<?>> {
+		AbstractVariableEditor<GeneratedVariable<?>> {
 	private class ChangeTypeActionListener implements ActionListener {
 		public ChangeTypeActionListener() {
 		}
@@ -76,18 +77,18 @@ public class GeneratedVariableEditor extends
 	private final ConstraintSystem constraintSystem;
 	private final Map<JRadioButton, VariableType> jRadioButtonTypeMap = new HashMap<JRadioButton, VariableType>();
 	private final Map<VariableType, JRadioButton> typeJRadioButonMap = new HashMap<VariableType, JRadioButton>();
-	private final ExpressionEditor<SingleValueGeneratedVariable<?>> opplFunctionEditor;
-	private final OPPLExpressionChecker<SingleValueGeneratedVariable<?>> opplFunctionExpressionChecker;
+	private final ExpressionEditor<GeneratedVariable<?>> opplFunctionEditor;
+	private final OPPLExpressionChecker<GeneratedVariable<?>> opplFunctionExpressionChecker;
 
 	public GeneratedVariableEditor(OWLEditorKit owlEditorKit,
 			ConstraintSystem constraintSystem) {
 		this.setLayout(new BorderLayout());
 		this.owlEditorKit = owlEditorKit;
 		this.constraintSystem = constraintSystem;
-		this.opplFunctionExpressionChecker = new OPPLExpressionChecker<SingleValueGeneratedVariable<?>>(
+		this.opplFunctionExpressionChecker = new OPPLExpressionChecker<GeneratedVariable<?>>(
 				this.getOWLEditorKit()) {
 			@Override
-			protected SingleValueGeneratedVariable<?> parse(String text) {
+			protected GeneratedVariable<?> parse(String text) {
 				String variableName;
 				try {
 					variableName = GeneratedVariableEditor.this.variableNameExpressionEditor
@@ -107,7 +108,7 @@ public class GeneratedVariableEditor extends
 						symbolTable
 								.importConstraintSystem(GeneratedVariableEditor.this
 										.getConstraintSystem());
-						SingleValueGeneratedVariable<?> variableDefinition = (SingleValueGeneratedVariable<?>) parser
+						GeneratedVariable<?> variableDefinition = (GeneratedVariable<?>) parser
 								.parseOPPLFunction(text, tempVariable,
 										symbolTable,
 										GeneratedVariableEditor.this
@@ -184,7 +185,7 @@ public class GeneratedVariableEditor extends
 		variableTypeAndScopePanel.setBorder(ComponentFactory
 				.createTitledBorder("Variable Type"));
 		this.add(variableTypeAndScopePanel, BorderLayout.CENTER);
-		this.opplFunctionEditor = new ExpressionEditor<SingleValueGeneratedVariable<?>>(
+		this.opplFunctionEditor = new ExpressionEditor<GeneratedVariable<?>>(
 				this.getOWLEditorKit().getOWLModelManager()
 						.getOWLOntologyManager(),
 				this.opplFunctionExpressionChecker);
@@ -230,7 +231,7 @@ public class GeneratedVariableEditor extends
 	protected boolean check() {
 		try {
 			this.variableNameExpressionEditor.createObject();
-			SingleValueGeneratedVariable<?> createObject = this.opplFunctionEditor
+			GeneratedVariable<?> createObject = this.opplFunctionEditor
 					.createObject();
 			return createObject != null;
 		} catch (OWLExpressionParserException e) {
@@ -241,11 +242,12 @@ public class GeneratedVariableEditor extends
 	}
 
 	@Override
-	public void setVariable(SingleValueGeneratedVariable<?> v) {
+	public void setVariable(GeneratedVariable<?> v) {
 		this.clear();
 		this.variableNameExpressionEditor.setText(v.getName());
 		this.typeJRadioButonMap.get(v.getType()).setSelected(true);
-		this.opplFunctionEditor.setText(v.getOPPLFunction());
+		this.opplFunctionEditor.setText(v.getOPPLFunction().render(
+				this.getConstraintSystem()));
 	}
 
 	@Override
@@ -295,6 +297,11 @@ public class GeneratedVariableEditor extends
 				// TODO Auto-generated method stub
 			}
 
+			public <T> T accept(PlainVariableVisitorEx<T> visitor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 			public <P> P accept(VariableTypeVisitorEx<P> visitor) {
 				// TODO Auto-generated method stub
 				return null;
@@ -303,6 +310,13 @@ public class GeneratedVariableEditor extends
 			public <P> P accept(VariableVisitor<P> visitor) {
 				// TODO Auto-generated method stub
 				return null;
+			}
+
+			public String render(ConstraintSystem constraintSystem) {
+				String scope = this.getVariableScope() == null ? "" : this
+						.getVariableScope().render(constraintSystem);
+				return String.format("%s:%s%s", this.getName(), this.getType(),
+						scope);
 			}
 		};
 	}

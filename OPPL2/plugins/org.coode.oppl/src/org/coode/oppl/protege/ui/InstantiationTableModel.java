@@ -17,6 +17,8 @@ import javax.swing.table.TableModel;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.function.ValueComputationParameters;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owlapi.model.OWLObject;
 
@@ -32,11 +34,16 @@ public class InstantiationTableModel implements TableModel {
 			Set<Variable> assignedVariables = aBindingNode
 					.getAssignedVariables();
 			Iterator<Variable> iterator = assignedVariables.iterator();
+			ValueComputationParameters parameters = new SimpleValueComputationParameters(
+					InstantiationTableModel.this.opplScript
+							.getConstraintSystem(), BindingNode
+							.getEmptyBindingNode());
 			while (toReturn == 0 && iterator.hasNext()) {
 				Variable variable = iterator.next();
-				OWLObject aValue = aBindingNode.getAssignmentValue(variable);
-				OWLObject anotherValue = anotherBindingNode
-						.getAssignmentValue(variable);
+				OWLObject aValue = aBindingNode.getAssignmentValue(variable,
+						parameters);
+				OWLObject anotherValue = anotherBindingNode.getAssignmentValue(
+						variable, parameters);
 				toReturn = InstantiationTableModel.this.getOWLEditorKit()
 						.getModelManager().getRendering(aValue).compareTo(
 								InstantiationTableModel.this.getOWLEditorKit()
@@ -169,8 +176,10 @@ public class InstantiationTableModel implements TableModel {
 				return variable.getName().compareTo(anotherVariable.getName());
 			}
 		});
+		ValueComputationParameters parameters = new SimpleValueComputationParameters(
+				this.opplScript.getConstraintSystem(), leaf);
 		Variable variable = sortedVariables.get(columnIndex);
-		toReturn = leaf.getAssignmentValue(variable);
+		toReturn = leaf.getAssignmentValue(variable, parameters);
 		return toReturn;
 	}
 

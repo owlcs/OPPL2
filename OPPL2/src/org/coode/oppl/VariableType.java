@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.coode.oppl.VariableScopes.Direction;
-import org.coode.oppl.entity.OWLEntityRenderer;
+import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.generated.CLASSRegexpGeneratedVariable;
 import org.coode.oppl.generated.CONSTANTRegexpGeneratedVariable;
 import org.coode.oppl.generated.DATAPROPERTYRegexpGeneratedVariable;
@@ -85,7 +85,8 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 public enum VariableType {
 	CLASS("CLASS", EnumSet.of(Direction.SUBCLASSOF, Direction.SUPERCLASSOF)) {
 		@Override
-		public Set<OWLClass> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies) {
+		public Set<OWLClass> getReferencedOWLObjects(
+				Collection<? extends OWLOntology> ontologies) {
 			Set<OWLClass> referencedValues = new HashSet<OWLClass>();
 			for (OWLOntology owlOntology : ontologies) {
 				referencedValues.addAll(owlOntology.getClassesInSignature());
@@ -99,13 +100,15 @@ public enum VariableType {
 		}
 
 		@Override
-		public RegexpGeneratedVariable<OWLClass> createRegexpGeneratedVariable(String name,
-				Pattern pattern) {
-			return new CLASSRegexpGeneratedVariable(name, pattern);
+		public RegexpGeneratedVariable<OWLClass> createRegexpGeneratedVariable(
+				String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+			return new CLASSRegexpGeneratedVariable(name,
+					patternGeneratingOPPLFunction);
 		}
 
 		@Override
-		public VariableScope<OWLClassExpression> parseVariable(VariableScopes.Direction direction,
+		public VariableScope<OWLClassExpression> parseVariable(
+				VariableScopes.Direction direction,
 				ManchesterOWLSyntaxEditorParser parser) throws ParserException {
 			OWLClassExpression description = parser.parseClassExpression();
 			if (direction.equals(Direction.SUBCLASSOF)) {
@@ -116,44 +119,34 @@ public enum VariableType {
 		}
 
 		@Override
-		public RegexpGeneratedVariable<OWLClass> getRegExpGenerated(String name,
-				OWLEntityRenderer entityRenderer, Pattern exp,
-				Collection<? extends OWLOntology> ontologies) {
-			return new CLASSRegexpGeneratedVariable(name, exp);
-		}
-
-		@Override
 		public Class<? extends OWLEntity> getOWLEntityClass() {
 			return OWLClass.class;
 		}
 
 		@Override
-		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri, String name) {
+		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri,
+				String name) {
 			return factory.getOWLClass(iri);
 		}
 	},
-	DATAPROPERTY("DATAPROPERTY", EnumSet.of(Direction.SUBPROPERTYOF, Direction.SUPERPROPERTYOF)) {
+	DATAPROPERTY("DATAPROPERTY", EnumSet.of(Direction.SUBPROPERTYOF,
+			Direction.SUPERPROPERTYOF)) {
 		@Override
 		public Set<OWLDataProperty> getReferencedOWLObjects(
 				Collection<? extends OWLOntology> ontologies) {
 			Set<OWLDataProperty> referenceValues = new HashSet<OWLDataProperty>();
 			for (OWLOntology owlOntology : ontologies) {
-				referenceValues.addAll(owlOntology.getDataPropertiesInSignature());
+				referenceValues.addAll(owlOntology
+						.getDataPropertiesInSignature());
 			}
 			return referenceValues;
 		}
 
 		@Override
-		public RegexpGeneratedVariable<OWLDataProperty> createRegexpGeneratedVariable(String name,
-				Pattern pattern) {
-			return new DATAPROPERTYRegexpGeneratedVariable(name, pattern);
-		}
-
-		@Override
-		public RegexpGeneratedVariable<OWLDataProperty> getRegExpGenerated(String name,
-				OWLEntityRenderer entityRenderer, Pattern exp,
-				Collection<? extends OWLOntology> ontologies) {
-			return new DATAPROPERTYRegexpGeneratedVariable(name, exp);
+		public RegexpGeneratedVariable<OWLDataProperty> createRegexpGeneratedVariable(
+				String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+			return new DATAPROPERTYRegexpGeneratedVariable(name,
+					patternGeneratingOPPLFunction);
 		}
 
 		@Override
@@ -162,13 +155,16 @@ public enum VariableType {
 		}
 
 		@Override
-		public PropertyVariableScope<OWLDataProperty> parseVariable(Direction direction,
-				ManchesterOWLSyntaxEditorParser parser) throws ParserException {
+		public PropertyVariableScope<OWLDataProperty> parseVariable(
+				Direction direction, ManchesterOWLSyntaxEditorParser parser)
+				throws ParserException {
 			OWLDataProperty dataProperty = parser.parseDataProperty();
 			if (direction.equals(Direction.SUPERPROPERTYOF)) {
-				return VariableScopes.buildSuperPropertyVariableScope(dataProperty);
+				return VariableScopes
+						.buildSuperPropertyVariableScope(dataProperty);
 			} else {
-				return VariableScopes.buildSubPropertyVariableScope(dataProperty);
+				return VariableScopes
+						.buildSubPropertyVariableScope(dataProperty);
 			}
 		}
 
@@ -178,31 +174,29 @@ public enum VariableType {
 		}
 
 		@Override
-		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri, String name) {
+		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri,
+				String name) {
 			return factory.getOWLDataProperty(iri);
 		}
 	},
-	OBJECTPROPERTY("OBJECTPROPERTY", EnumSet.of(Direction.SUBPROPERTYOF, Direction.SUPERPROPERTYOF)) {
+	OBJECTPROPERTY("OBJECTPROPERTY", EnumSet.of(Direction.SUBPROPERTYOF,
+			Direction.SUPERPROPERTYOF)) {
 		@Override
 		public Set<OWLObjectProperty> getReferencedOWLObjects(
 				Collection<? extends OWLOntology> ontologies) {
 			Set<OWLObjectProperty> referenceValues = new HashSet<OWLObjectProperty>();
 			for (OWLOntology owlOntology : ontologies) {
-				referenceValues.addAll(owlOntology.getObjectPropertiesInSignature());
+				referenceValues.addAll(owlOntology
+						.getObjectPropertiesInSignature());
 			}
 			return referenceValues;
 		}
 
 		@Override
-		public RegexpGeneratedVariable<?> createRegexpGeneratedVariable(String name, Pattern pattern) {
-			return new OBJECTPROPERTYRegexpGeneratedVariable(name, pattern);
-		}
-
-		@Override
-		public RegexpGeneratedVariable<OWLObjectProperty> getRegExpGenerated(String name,
-				OWLEntityRenderer entityRenderer, Pattern exp,
-				Collection<? extends OWLOntology> ontologies) {
-			return new OBJECTPROPERTYRegexpGeneratedVariable(name, exp);
+		public RegexpGeneratedVariable<?> createRegexpGeneratedVariable(
+				String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+			return new OBJECTPROPERTYRegexpGeneratedVariable(name,
+					patternGeneratingOPPLFunction);
 		}
 
 		@Override
@@ -211,13 +205,17 @@ public enum VariableType {
 		}
 
 		@Override
-		public PropertyVariableScope<OWLObjectProperty> parseVariable(Direction direction,
-				ManchesterOWLSyntaxEditorParser parser) throws ParserException {
-			OWLObjectProperty objectProperty = (OWLObjectProperty) parser.parseObjectPropertyExpression();
+		public PropertyVariableScope<OWLObjectProperty> parseVariable(
+				Direction direction, ManchesterOWLSyntaxEditorParser parser)
+				throws ParserException {
+			OWLObjectProperty objectProperty = (OWLObjectProperty) parser
+					.parseObjectPropertyExpression();
 			if (direction.equals(Direction.SUPERPROPERTYOF)) {
-				return VariableScopes.buildSuperPropertyVariableScope(objectProperty);
+				return VariableScopes
+						.buildSuperPropertyVariableScope(objectProperty);
 			} else {
-				return VariableScopes.buildSubPropertyVariableScope(objectProperty);
+				return VariableScopes
+						.buildSubPropertyVariableScope(objectProperty);
 			}
 		}
 
@@ -227,7 +225,8 @@ public enum VariableType {
 		}
 
 		@Override
-		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri, String name) {
+		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri,
+				String name) {
 			return factory.getOWLObjectProperty(iri);
 		}
 	},
@@ -243,15 +242,10 @@ public enum VariableType {
 		}
 
 		@Override
-		public RegexpGeneratedVariable<?> createRegexpGeneratedVariable(String name, Pattern pattern) {
-			return new INDIVIDUALRegexpGeneratedVariable(name, pattern);
-		}
-
-		@Override
-		public RegexpGeneratedVariable<OWLNamedIndividual> getRegExpGenerated(String name,
-				OWLEntityRenderer entityRenderer, Pattern exp,
-				Collection<? extends OWLOntology> ontologies) {
-			return new INDIVIDUALRegexpGeneratedVariable(name, exp);
+		public RegexpGeneratedVariable<?> createRegexpGeneratedVariable(
+				String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+			return new INDIVIDUALRegexpGeneratedVariable(name,
+					patternGeneratingOPPLFunction);
 		}
 
 		@Override
@@ -272,32 +266,30 @@ public enum VariableType {
 		}
 
 		@Override
-		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri, String name) {
+		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri,
+				String name) {
 			return factory.getOWLNamedIndividual(iri);
 		}
 	},
 	CONSTANT("CONSTANT", EnumSet.noneOf(Direction.class)) {
 		@Override
-		public Set<OWLLiteral> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies) {
+		public Set<OWLLiteral> getReferencedOWLObjects(
+				Collection<? extends OWLOntology> ontologies) {
 			Set<OWLLiteral> referencedValues = new HashSet<OWLLiteral>();
 			for (OWLOntology owlOntology : ontologies) {
 				for (OWLAxiom axiom : owlOntology.getAxioms()) {
-					referencedValues.addAll(OWLObjectExtractor.getAllOWLLiterals(axiom));
+					referencedValues.addAll(OWLObjectExtractor
+							.getAllOWLLiterals(axiom));
 				}
 			}
 			return referencedValues;
 		}
 
 		@Override
-		public RegexpGeneratedVariable<?> createRegexpGeneratedVariable(String name, Pattern pattern) {
-			return new CONSTANTRegexpGeneratedVariable(name, pattern);
-		}
-
-		@Override
-		public RegexpGeneratedVariable<OWLLiteral> getRegExpGenerated(String name,
-				OWLEntityRenderer entityRenderer, Pattern exp,
-				Collection<? extends OWLOntology> ontologies) {
-			return new CONSTANTRegexpGeneratedVariable(name, exp);
+		public RegexpGeneratedVariable<?> createRegexpGeneratedVariable(
+				String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+			return new CONSTANTRegexpGeneratedVariable(name,
+					patternGeneratingOPPLFunction);
 		}
 
 		@Override
@@ -314,12 +306,11 @@ public enum VariableType {
 		@Override
 		public Class<? extends OWLEntity> getOWLEntityClass() {
 			return null;
-			// throw new RuntimeException(
-			// "A CONSTANT Variable does not specify an OWLEntity class");
 		}
 
 		@Override
-		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri, String name) {
+		public OWLObject buildOWLObject(OWLDataFactory factory, IRI iri,
+				String name) {
 			return factory.getOWLLiteral(name);
 		}
 	};
@@ -335,20 +326,18 @@ public enum VariableType {
 
 	public abstract Variable instantiateVariable(String name);
 
-	public abstract VariableScope<?> parseVariable(VariableScopes.Direction direction,
+	public abstract VariableScope<?> parseVariable(
+			VariableScopes.Direction direction,
 			ManchesterOWLSyntaxEditorParser parser) throws ParserException;
 
 	/**
 	 * calls the appropriate factory method according to the type; either uri or
 	 * name are null
 	 */
-	public abstract OWLObject buildOWLObject(OWLDataFactory factory, IRI iri, String name);
+	public abstract OWLObject buildOWLObject(OWLDataFactory factory, IRI iri,
+			String name);
 
 	public abstract Set<? extends OWLObject> getReferencedOWLObjects(
-			Collection<? extends OWLOntology> ontologies);
-
-	public abstract RegexpGeneratedVariable<?> getRegExpGenerated(String name,
-			OWLEntityRenderer entityRenderer, Pattern exp,
 			Collection<? extends OWLOntology> ontologies);
 
 	public abstract Class<? extends OWLEntity> getOWLEntityClass();
@@ -381,7 +370,8 @@ public enum VariableType {
 		return c.foundValue;
 	}
 
-	private static final class OWLEntityTypeChecker extends OWLObjectVisitorAdapter {
+	private static final class OWLEntityTypeChecker extends
+			OWLObjectVisitorAdapter {
 		VariableType foundValue;
 
 		public OWLEntityTypeChecker() {
@@ -493,7 +483,8 @@ public enum VariableType {
 		}
 	}
 
-	private final class CompatibilityChecker extends OWLObjectVisitorExAdapter<Boolean> implements
+	private final class CompatibilityChecker extends
+			OWLObjectVisitorExAdapter<Boolean> implements
 			OWLObjectVisitorEx<Boolean> {
 		private final VariableType variableType;
 
@@ -625,6 +616,6 @@ public enum VariableType {
 		}
 	}
 
-	public abstract RegexpGeneratedVariable<?> createRegexpGeneratedVariable(String name,
-			Pattern pattern);
+	public abstract RegexpGeneratedVariable<?> createRegexpGeneratedVariable(
+			String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction);
 }

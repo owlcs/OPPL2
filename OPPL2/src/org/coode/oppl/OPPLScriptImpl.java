@@ -46,20 +46,23 @@ public class OPPLScriptImpl implements OPPLScript {
 	 * @param query
 	 * @param actions
 	 */
-	public OPPLScriptImpl(ConstraintSystem constraintSystem, List<Variable> variables,
-			OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory) {
+	public OPPLScriptImpl(ConstraintSystem constraintSystem,
+			List<Variable> variables, OPPLQuery query,
+			List<OWLAxiomChange> actions, OPPLAbstractFactory factory) {
 		this(constraintSystem, variables, query, actions, factory, false);
 	}
 
-	public OPPLScriptImpl(ConstraintSystem constraintSystem, List<Variable> variables,
-			OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory,
+	public OPPLScriptImpl(ConstraintSystem constraintSystem,
+			List<Variable> variables, OPPLQuery query,
+			List<OWLAxiomChange> actions, OPPLAbstractFactory factory,
 			boolean resetExecution) {
 		this.constraintSystem = constraintSystem;
 		this.variables.addAll(variables);
 		if (!resetExecution) {
 			this.query = query;
 		} else {
-			this.query = query == null ? null : new OPPLQueryImpl(query, factory);
+			this.query = query == null ? null : new OPPLQueryImpl(query,
+					factory);
 		}
 		this.actions = new ArrayList<OWLAxiomChange>(actions);
 		this.factory = factory;
@@ -76,7 +79,8 @@ public class OPPLScriptImpl implements OPPLScript {
 	 * @see org.coode.oppl.OPPLScript#getInputVariables()
 	 */
 	public List<Variable> getInputVariables() {
-		InputVariableCollector visitor = new InputVariableCollector(new ArrayList<Variable>());
+		InputVariableCollector visitor = new InputVariableCollector(
+				new ArrayList<Variable>());
 		for (Variable variable : this.getVariables()) {
 			variable.accept(visitor);
 		}
@@ -130,17 +134,7 @@ public class OPPLScriptImpl implements OPPLScript {
 			String commaString = first ? "" : ", ";
 			first = false;
 			buffer.append(commaString);
-			buffer.append(v.toString());
-			VariableScope<?> variableScope = v.getVariableScope();
-			if (variableScope != null) {
-				buffer.append('[');
-				buffer.append(variableScope.getDirection().toString());
-				buffer.append(' ');
-				ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
-				variableScope.getScopingObject().accept(renderer);
-				buffer.append(renderer.toString());
-				buffer.append(']');
-			}
+			buffer.append(v.render(this.getConstraintSystem()));
 		}
 		if (buffer.length() > 0) {
 			buffer.append(" ");
@@ -154,8 +148,10 @@ public class OPPLScriptImpl implements OPPLScript {
 			first = true;
 			for (OWLAxiomChange action : this.getActions()) {
 				String commaString = first ? "" : ", ";
-				ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
-				String actionString = action instanceof AddAxiom ? "ADD " : "REMOVE ";
+				ManchesterSyntaxRenderer renderer = this.factory
+						.getManchesterSyntaxRenderer(this.constraintSystem);
+				String actionString = action instanceof AddAxiom ? "ADD "
+						: "REMOVE ";
 				first = false;
 				buffer.append(commaString);
 				buffer.append(actionString);
@@ -180,7 +176,8 @@ public class OPPLScriptImpl implements OPPLScript {
 				buffer.append('[');
 				buffer.append(variableScope.getDirection().toString());
 				buffer.append(' ');
-				ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
+				ManchesterSyntaxRenderer renderer = this.factory
+						.getManchesterSyntaxRenderer(this.constraintSystem);
 				variableScope.getScopingObject().accept(renderer);
 				buffer.append(renderer.toString());
 				buffer.append(']');
@@ -196,8 +193,10 @@ public class OPPLScriptImpl implements OPPLScript {
 			first = true;
 			for (OWLAxiomChange action : this.getActions()) {
 				String commaString = first ? "" : ",\n ";
-				String actionString = action instanceof AddAxiom ? "\tADD " : "\tREMOVE ";
-				ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
+				String actionString = action instanceof AddAxiom ? "\tADD "
+						: "\tREMOVE ";
+				ManchesterSyntaxRenderer renderer = this.factory
+						.getManchesterSyntaxRenderer(this.constraintSystem);
 				buffer.append(commaString);
 				first = false;
 				buffer.append(actionString);
@@ -220,9 +219,12 @@ public class OPPLScriptImpl implements OPPLScript {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (this.actions == null ? 0 : this.actions.hashCode());
-		result = prime * result + (this.query == null ? 0 : this.query.hashCode());
-		result = prime * result + (this.variables == null ? 0 : this.variables.hashCode());
+		result = prime * result
+				+ (this.actions == null ? 0 : this.actions.hashCode());
+		result = prime * result
+				+ (this.query == null ? 0 : this.query.hashCode());
+		result = prime * result
+				+ (this.variables == null ? 0 : this.variables.hashCode());
 		return result;
 	}
 

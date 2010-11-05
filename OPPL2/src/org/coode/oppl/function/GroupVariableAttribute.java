@@ -7,9 +7,10 @@ import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 
-public class GroupVariableAttribute<O extends OWLObject> extends VariableAttribute<String> {
+public class GroupVariableAttribute<O extends OWLObject> extends
+		VariableAttribute<String> {
 	private final int index;
-	private final RegexpGeneratedVariable<O> regexpGenratedVariable;
+	private final RegexpGeneratedVariable<O> regexpGeneratedVariable;
 
 	/**
 	 * @param variable
@@ -18,10 +19,11 @@ public class GroupVariableAttribute<O extends OWLObject> extends VariableAttribu
 	public GroupVariableAttribute(RegexpGeneratedVariable<O> variable, int index) {
 		super(variable, AttributeName.GROUP);
 		if (index < 0) {
-			throw new IllegalArgumentException(String.format("Invalid index %d", index));
+			throw new IllegalArgumentException(String.format(
+					"Invalid index %d", index));
 		}
 		this.index = index;
-		this.regexpGenratedVariable = variable;
+		this.regexpGeneratedVariable = variable;
 	}
 
 	/**
@@ -40,22 +42,29 @@ public class GroupVariableAttribute<O extends OWLObject> extends VariableAttribu
 	}
 
 	@Override
-	public ValueComputation<String> getValueComputation(final ValueComputationParameters parameters) {
+	public ValueComputation<String> getValueComputation(
+			final ValueComputationParameters parameters) {
 		return new ValueComputation<String>() {
 			public String compute(OPPLFunction<? extends String> opplFunction) {
 				String toReturn = null;
-				OWLObject assignmentValue = parameters.getBindingNode().getAssignmentValue(
-						GroupVariableAttribute.this.getVariable(),
-						parameters);
+				OWLObject assignmentValue = parameters.getBindingNode()
+						.getAssignmentValue(
+								GroupVariableAttribute.this.getVariable(),
+								parameters);
 				if (assignmentValue != null) {
-					ManchesterSyntaxRenderer renderer = parameters.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
-							parameters.getConstraintSystem());
+					ManchesterSyntaxRenderer renderer = parameters
+							.getConstraintSystem().getOPPLFactory()
+							.getManchesterSyntaxRenderer(
+									parameters.getConstraintSystem());
 					assignmentValue.accept(renderer);
-					Matcher matcher = GroupVariableAttribute.this.regexpGenratedVariable.getPattern().matcher(
-							renderer.toString());
+					Matcher matcher = GroupVariableAttribute.this
+							.getRegexpGeneratedVariable()
+							.getPatternGeneratingOPPLFunction().compute(
+									parameters).matcher(renderer.toString());
 					if (matcher.matches()
 							&& matcher.groupCount() >= GroupVariableAttribute.this.index) {
-						toReturn = matcher.group(GroupVariableAttribute.this.index);
+						toReturn = matcher
+								.group(GroupVariableAttribute.this.index);
 					}
 				}
 				return toReturn;
@@ -65,15 +74,19 @@ public class GroupVariableAttribute<O extends OWLObject> extends VariableAttribu
 
 	@Override
 	public String toString() {
-		return String.format(
-				"%s.%s(%d)",
-				this.getVariable().getName(),
-				this.getAttribute(),
-				this.getIndex());
+		return String.format("%s.%s(%d)", this.getVariable().getName(), this
+				.getAttribute(), this.getIndex());
 	}
 
 	@Override
 	public String render(ConstraintSystem constraintSystem) {
 		return this.toString();
+	}
+
+	/**
+	 * @return the regexpGeneratedVariable
+	 */
+	public RegexpGeneratedVariable<O> getRegexpGeneratedVariable() {
+		return this.regexpGeneratedVariable;
 	}
 }

@@ -10,7 +10,8 @@ import org.coode.oppl.Variable;
  * @author Luigi Iannone
  * 
  */
-public class Constant<O> extends AbstractOPPLFunction<O> implements OPPLFunction<O> {
+public class Constant<O> extends AbstractOPPLFunction<O> implements
+		OPPLFunction<O> {
 	private final O value;
 	private final ValueComputation<O> valueComputation = new ValueComputation<O>() {
 		public O compute(OPPLFunction<? extends O> opplFunction) {
@@ -41,13 +42,16 @@ public class Constant<O> extends AbstractOPPLFunction<O> implements OPPLFunction
 	}
 
 	@Override
-	public ValueComputation<O> getValueComputation(ValueComputationParameters parameters) {
+	public ValueComputation<O> getValueComputation(
+			ValueComputationParameters parameters) {
 		return this.valueComputation;
 	}
 
 	public String render(ConstraintSystem constraintSystem) {
-		return this.getValue() instanceof Variable ? ((Variable) this.getValue()).getName()
-				: this.getValue().toString();
+		return this.getValue() instanceof Variable ? ((Variable) this
+				.getValue()).getName()
+				: this.getValue() instanceof String ? String.format("\"%s\"",
+						this.getValue()) : this.getValue().toString();
 	}
 
 	/*
@@ -59,7 +63,8 @@ public class Constant<O> extends AbstractOPPLFunction<O> implements OPPLFunction
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (this.value == null ? 0 : this.value.hashCode());
+		result = prime * result
+				+ (this.value == null ? 0 : this.value.hashCode());
 		return result;
 	}
 

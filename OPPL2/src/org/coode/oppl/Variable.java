@@ -96,7 +96,9 @@ public interface Variable {
 	 * Visitor pattern interface method for visitors with return type
 	 * 
 	 * @param visitor
-	 * @return an instace of T
+	 * @return an instance of T
 	 */
 	public <T> T accept(PlainVariableVisitorEx<T> visitor);
+
+	public String render(ConstraintSystem constraintSystem);
 }

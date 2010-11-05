@@ -37,6 +37,7 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ManchesterVariableSyntax;
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.PlainVariableVisitor;
+import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopeChecker;
@@ -44,7 +45,7 @@ import org.coode.oppl.VariableType;
 import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.exceptions.InvalidVariableNameException;
-import org.coode.oppl.generated.RegExpGenerated;
+import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.protege.ProtegeParserFactory;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.ui.ExpressionEditor;
@@ -61,7 +62,7 @@ import org.semanticweb.owlapi.model.OWLException;
  * 
  */
 public class RegExpVariableEditor extends
-		AbstractVariableEditor<RegExpGenerated<?>> {
+		AbstractVariableEditor<RegexpGeneratedVariable<?>> {
 	private class ChangeTypeActionListener implements ActionListener {
 		public ChangeTypeActionListener() {
 		}
@@ -76,18 +77,18 @@ public class RegExpVariableEditor extends
 	private final ConstraintSystem constraintSystem;
 	private final Map<JRadioButton, VariableType> jRadioButtonTypeMap = new HashMap<JRadioButton, VariableType>();
 	private final Map<VariableType, JRadioButton> typeJRadioButonMap = new HashMap<VariableType, JRadioButton>();
-	private final OPPLExpressionChecker<RegExpGenerated<?>> opplFunctionExpressionChecker;
-	private final ExpressionEditor<RegExpGenerated<?>> opplFunctionEditor;
+	private final OPPLExpressionChecker<RegexpGeneratedVariable<?>> opplFunctionExpressionChecker;
+	private final ExpressionEditor<RegexpGeneratedVariable<?>> opplFunctionEditor;
 
 	public RegExpVariableEditor(OWLEditorKit owlEditorKit,
 			ConstraintSystem constraintSystem) {
 		this.setLayout(new BorderLayout());
 		this.owlEditorKit = owlEditorKit;
 		this.constraintSystem = constraintSystem;
-		this.opplFunctionExpressionChecker = new OPPLExpressionChecker<RegExpGenerated<?>>(
+		this.opplFunctionExpressionChecker = new OPPLExpressionChecker<RegexpGeneratedVariable<?>>(
 				this.getOWLEditorKit()) {
 			@Override
-			protected RegExpGenerated<?> parse(String text) {
+			protected RegexpGeneratedVariable<?> parse(String text) {
 				String variableName;
 				try {
 					variableName = RegExpVariableEditor.this.variableNameExpressionEditor
@@ -106,7 +107,7 @@ public class RegExpVariableEditor extends
 						symbolTable
 								.importConstraintSystem(RegExpVariableEditor.this
 										.getConstraintSystem());
-						RegExpGenerated<?> variableDefinition = (RegExpGenerated<?>) parser
+						RegexpGeneratedVariable<?> variableDefinition = (RegexpGeneratedVariable<?>) parser
 								.parseRegExp(text, tempVariable, symbolTable,
 										RegExpVariableEditor.this
 												.getConstraintSystem());
@@ -182,7 +183,7 @@ public class RegExpVariableEditor extends
 		variableTypeAndScopePanel.setBorder(ComponentFactory
 				.createTitledBorder("Variable Type"));
 		this.add(variableTypeAndScopePanel, BorderLayout.CENTER);
-		this.opplFunctionEditor = new ExpressionEditor<RegExpGenerated<?>>(
+		this.opplFunctionEditor = new ExpressionEditor<RegexpGeneratedVariable<?>>(
 				this.getOWLEditorKit().getOWLModelManager()
 						.getOWLOntologyManager(),
 				this.opplFunctionExpressionChecker);
@@ -226,7 +227,7 @@ public class RegExpVariableEditor extends
 	protected boolean check() {
 		try {
 			this.variableNameExpressionEditor.createObject();
-			RegExpGenerated<?> createObject = this.opplFunctionEditor
+			RegexpGeneratedVariable<?> createObject = this.opplFunctionEditor
 					.createObject();
 			return createObject != null;
 		} catch (OWLExpressionParserException e) {
@@ -260,6 +261,11 @@ public class RegExpVariableEditor extends
 				return type;
 			}
 
+			public <T> T accept(PlainVariableVisitorEx<T> visitor) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 			public String getName() {
 				return name;
 			}
@@ -276,6 +282,13 @@ public class RegExpVariableEditor extends
 			public <P> P accept(VariableVisitor<P> visitor) {
 				// TODO Auto-generated method stub
 				return null;
+			}
+
+			public String render(ConstraintSystem constraintSystem) {
+				String scope = this.getVariableScope() == null ? "" : this
+						.getVariableScope().render(constraintSystem);
+				return String.format("%s:%s%s", this.getName(), this.getType(),
+						scope);
 			}
 		};
 	}
@@ -300,10 +313,11 @@ public class RegExpVariableEditor extends
 	}
 
 	@Override
-	public void setVariable(RegExpGenerated<?> v) {
+	public void setVariable(RegexpGeneratedVariable<?> v) {
 		this.clear();
 		this.variableNameExpressionEditor.setText(v.getName());
 		this.typeJRadioButonMap.get(v.getType()).setSelected(true);
-		this.opplFunctionEditor.setText(v.getOPPLFunction());
+		this.opplFunctionEditor.setText(v.getPatternGeneratingOPPLFunction()
+				.render(this.getConstraintSystem()));
 	}
 }

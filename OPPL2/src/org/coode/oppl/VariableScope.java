@@ -23,6 +23,7 @@
 package org.coode.oppl;
 
 import org.coode.oppl.VariableScopes.Direction;
+import org.coode.oppl.generated.GeneratedVariable;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
@@ -41,7 +42,8 @@ public interface VariableScope<O extends OWLObject> {
 	 * @return true if the input OWLObject is into the VariableScope
 	 * @throws OWLRuntimeException
 	 */
-	boolean check(OWLObject owlObject, VariableScopeChecker checker) throws OWLRuntimeException;
+	boolean check(OWLObject owlObject, VariableScopeChecker checker)
+			throws OWLRuntimeException;
 
 	/**
 	 * @return the direction of the VariableScope
@@ -53,4 +55,6 @@ public interface VariableScope<O extends OWLObject> {
 	 * @return the scope delimiter for the VariableScope
 	 */
 	O getScopingObject();
+
+	String render(ConstraintSystem constraintSystem);
 }

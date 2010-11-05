@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
@@ -18,6 +17,7 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.function.Adapter;
 import org.coode.oppl.function.Aggregation;
+import org.coode.oppl.function.Constant;
 import org.coode.oppl.function.Expression;
 import org.coode.oppl.function.GroupVariableAttribute;
 import org.coode.oppl.function.RenderingVariableAttribute;
@@ -38,7 +38,8 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 public class OPPLFunctionTest extends TestCase {
-	private final static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+	private final static OWLOntologyManager manager = OWLManager
+			.createOWLOntologyManager();
 
 	@Override
 	protected void setUp() throws Exception {
@@ -49,17 +50,21 @@ public class OPPLFunctionTest extends TestCase {
 		try {
 			OWLOntology ontology = manager.createOntology();
 			OPPLFactory factory = new OPPLFactory(manager, ontology, null);
-			ConstraintSystem constraintSystem = factory.createConstraintSystem();
-			Variable x = constraintSystem.createVariable("?x", VariableType.CLASS);
+			ConstraintSystem constraintSystem = factory
+					.createConstraintSystem();
+			Variable x = constraintSystem.createVariable("?x",
+					VariableType.CLASS);
 			RenderingVariableAttribute renderingVariableAttribute = new RenderingVariableAttribute(
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
-			OWLClass a = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#a"));
+			OWLClass a = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("blah#a"));
 			bindingNode.addAssignment(new Assignment(x, a));
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
 					constraintSystem, bindingNode);
 			String value = renderingVariableAttribute.compute(parameters);
-			ManchesterSyntaxRenderer renderer = factory.getManchesterSyntaxRenderer(constraintSystem);
+			ManchesterSyntaxRenderer renderer = factory
+					.getManchesterSyntaxRenderer(constraintSystem);
 			a.accept(renderer);
 			assertTrue(value.compareTo(renderer.toString()) == 0);
 			manager.removeOntology(ontology);
@@ -76,23 +81,29 @@ public class OPPLFunctionTest extends TestCase {
 		try {
 			OWLOntology ontology = manager.createOntology();
 			OPPLFactory factory = new OPPLFactory(manager, ontology, null);
-			ConstraintSystem constraintSystem = factory.createConstraintSystem();
-			Variable x = constraintSystem.createVariable("?x", VariableType.CLASS);
+			ConstraintSystem constraintSystem = factory
+					.createConstraintSystem();
+			Variable x = constraintSystem.createVariable("?x",
+					VariableType.CLASS);
 			ValuesVariableAtttribute<OWLClass> valuesVariableAtttribute = new ValuesVariableAtttribute<OWLClass>(
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
-			OWLClass a = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#a"));
-			OWLClass b = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#b"));
-			BindingNode aBindingNode = new BindingNode(Collections.singleton(new Assignment(x, a)),
-					Collections.<Variable> emptySet());
-			BindingNode anotherBindingNode = new BindingNode(Collections.singleton(new Assignment(
-					x, b)), Collections.<Variable> emptySet());
+			OWLClass a = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("blah#a"));
+			OWLClass b = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("blah#b"));
+			BindingNode aBindingNode = new BindingNode(Collections
+					.singleton(new Assignment(x, a)), Collections
+					.<Variable> emptySet());
+			BindingNode anotherBindingNode = new BindingNode(Collections
+					.singleton(new Assignment(x, b)), Collections
+					.<Variable> emptySet());
 			constraintSystem.setLeaves(new HashSet<BindingNode>(Arrays.asList(
-					aBindingNode,
-					anotherBindingNode)));
+					aBindingNode, anotherBindingNode)));
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
 					constraintSystem, bindingNode);
-			Collection<OWLClass> values = valuesVariableAtttribute.compute(parameters);
+			Collection<OWLClass> values = valuesVariableAtttribute
+					.compute(parameters);
 			assertTrue(values.containsAll(Arrays.asList(a, b)));
 			manager.removeOntology(ontology);
 		} catch (OWLOntologyCreationException e) {
@@ -108,14 +119,17 @@ public class OPPLFunctionTest extends TestCase {
 		try {
 			OWLOntology ontology = manager.createOntology();
 			OPPLFactory factory = new OPPLFactory(manager, ontology, null);
-			ConstraintSystem constraintSystem = factory.createConstraintSystem();
-			Variable x = constraintSystem.createVariable("?x", VariableType.CLASS);
+			ConstraintSystem constraintSystem = factory
+					.createConstraintSystem();
+			Variable x = constraintSystem.createVariable("?x",
+					VariableType.CLASS);
 			ValuesVariableAtttribute<OWLClass> valuesVariableAtttribute = new ValuesVariableAtttribute<OWLClass>(
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
 					constraintSystem, bindingNode);
-			Collection<OWLClass> values = valuesVariableAtttribute.compute(parameters);
+			Collection<OWLClass> values = valuesVariableAtttribute
+					.compute(parameters);
 			assertNull(values);
 			manager.removeOntology(ontology);
 		} catch (OWLOntologyCreationException e) {
@@ -131,13 +145,20 @@ public class OPPLFunctionTest extends TestCase {
 		try {
 			OWLOntology ontology = manager.createOntology();
 			OPPLFactory factory = new OPPLFactory(manager, ontology, null);
-			ConstraintSystem constraintSystem = factory.createConstraintSystem();
-			OWLClass a = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#monica"));
-			OWLClass b = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#luigi"));
-			manager.addAxiom(ontology, manager.getOWLDataFactory().getOWLDeclarationAxiom(a));
-			manager.addAxiom(ontology, manager.getOWLDataFactory().getOWLDeclarationAxiom(b));
-			RegexpGeneratedVariable<OWLClass> x = new CLASSRegexpGeneratedVariable("?x",
-					Pattern.compile("(lu)igi"));
+			ConstraintSystem constraintSystem = factory
+					.createConstraintSystem();
+			OWLClass a = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("blah#monica"));
+			OWLClass b = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("blah#luigi"));
+			manager.addAxiom(ontology, manager.getOWLDataFactory()
+					.getOWLDeclarationAxiom(a));
+			manager.addAxiom(ontology, manager.getOWLDataFactory()
+					.getOWLDeclarationAxiom(b));
+			RegexpGeneratedVariable<OWLClass> x = new CLASSRegexpGeneratedVariable(
+					"?x", Adapter
+							.buildRegexpPatternAdapter(new Constant<String>(
+									"(lu)igi")));
 			GroupVariableAttribute<OWLClass> groupVariableAttribute = new GroupVariableAttribute<OWLClass>(
 					x, 1);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
@@ -157,8 +178,10 @@ public class OPPLFunctionTest extends TestCase {
 		try {
 			OWLOntology ontology = manager.createOntology();
 			OPPLFactory factory = new OPPLFactory(manager, ontology, null);
-			ConstraintSystem constraintSystem = factory.createConstraintSystem();
-			Variable x = constraintSystem.createVariable("?x", VariableType.CLASS);
+			ConstraintSystem constraintSystem = factory
+					.createConstraintSystem();
+			Variable x = constraintSystem.createVariable("?x",
+					VariableType.CLASS);
 			RenderingVariableAttribute renderingVariableAttribute = new RenderingVariableAttribute(
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
@@ -180,53 +203,68 @@ public class OPPLFunctionTest extends TestCase {
 		try {
 			OWLOntology ontology = manager.createOntology();
 			OPPLFactory factory = new OPPLFactory(manager, ontology, null);
-			ConstraintSystem constraintSystem = factory.createConstraintSystem();
-			OWLClass a = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#monica"));
-			OWLClass b = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#luigi"));
-			Aggregation<OWLClassExpression, OWLClassExpression> classExpressionIntersection = Aggregation.buildClassExpressionIntersection(
-					Adapter.buildOWLObjectCollectionAdapter(Arrays.asList(a, b)),
-					manager.getOWLDataFactory());
+			ConstraintSystem constraintSystem = factory
+					.createConstraintSystem();
+			OWLClassExpression a = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("blah#monica"));
+			OWLClass b = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("blah#luigi"));
+			Aggregation<OWLClassExpression, OWLClassExpression> classExpressionIntersection = Aggregation
+					.buildClassExpressionIntersection(Adapter
+							.buildOWLObjectCollectionAdapter(Arrays
+									.asList(a, b)), manager.getOWLDataFactory());
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
 					constraintSystem, bindingNode);
-			OWLClassExpression value = classExpressionIntersection.compute(parameters);
-			assertTrue(value.equals(manager.getOWLDataFactory().getOWLObjectIntersectionOf(a, b)));
-			ManchesterSyntaxRenderer manchesterSyntaxRenderer = factory.getManchesterSyntaxRenderer(constraintSystem);
+			OWLClassExpression value = classExpressionIntersection
+					.compute(parameters);
+			assertTrue(value.equals(manager.getOWLDataFactory()
+					.getOWLObjectIntersectionOf(a, b)));
+			ManchesterSyntaxRenderer manchesterSyntaxRenderer = factory
+					.getManchesterSyntaxRenderer(constraintSystem);
 			value.accept(manchesterSyntaxRenderer);
 			System.out.println(manchesterSyntaxRenderer);
 			// Variable values
-			Variable x = constraintSystem.createVariable("?x", VariableType.CLASS);
-			BindingNode aBindingNode = new BindingNode(Collections.singleton(new Assignment(x, a)),
-					Collections.<Variable> emptySet());
-			BindingNode anotherBindingNode = new BindingNode(Collections.singleton(new Assignment(
-					x, b)), Collections.<Variable> emptySet());
+			Variable x = constraintSystem.createVariable("?x",
+					VariableType.CLASS);
+			BindingNode aBindingNode = new BindingNode(Collections
+					.singleton(new Assignment(x, a)), Collections
+					.<Variable> emptySet());
+			BindingNode anotherBindingNode = new BindingNode(Collections
+					.singleton(new Assignment(x, b)), Collections
+					.<Variable> emptySet());
 			constraintSystem.setLeaves(new HashSet<BindingNode>(Arrays.asList(
-					aBindingNode,
-					anotherBindingNode)));
-			ValuesVariableAtttribute<OWLClass> valuesVariableAtttribute = new ValuesVariableAtttribute<OWLClass>(
+					aBindingNode, anotherBindingNode)));
+			ValuesVariableAtttribute<OWLClassExpression> valuesVariableAtttribute = new ValuesVariableAtttribute<OWLClassExpression>(
 					x);
-			Collection<OWLClass> values = valuesVariableAtttribute.compute(parameters);
-			classExpressionIntersection = Aggregation.buildClassExpressionIntersection(
-					Adapter.buildOWLObjectCollectionAdapter(values),
-					manager.getOWLDataFactory());
+			Collection<OWLClassExpression> values = valuesVariableAtttribute
+					.compute(parameters);
+			classExpressionIntersection = Aggregation
+					.buildClassExpressionIntersection(Adapter
+							.buildOWLObjectCollectionAdapter(values), manager
+							.getOWLDataFactory());
 			value = classExpressionIntersection.compute(parameters);
-			assertTrue(value.equals(manager.getOWLDataFactory().getOWLObjectIntersectionOf(a, b)));
-			manchesterSyntaxRenderer = factory.getManchesterSyntaxRenderer(constraintSystem);
+			assertTrue(value.equals(manager.getOWLDataFactory()
+					.getOWLObjectIntersectionOf(a, b)));
+			manchesterSyntaxRenderer = factory
+					.getManchesterSyntaxRenderer(constraintSystem);
 			value.accept(manchesterSyntaxRenderer);
 			System.out.println(manchesterSyntaxRenderer);
 			// Mix them up
-			OWLClass stop = manager.getOWLDataFactory().getOWLClass(IRI.create("stop"));
-			Set<OWLClassExpression> operands = new HashSet<OWLClassExpression>(values);
+			OWLClass stop = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("stop"));
+			Set<OWLClassExpression> operands = new HashSet<OWLClassExpression>(
+					values);
 			operands.add(stop);
-			classExpressionIntersection = Aggregation.buildClassExpressionIntersection(
-					Adapter.buildOWLObjectCollectionAdapter(operands),
-					manager.getOWLDataFactory());
+			classExpressionIntersection = Aggregation
+					.buildClassExpressionIntersection(Adapter
+							.buildOWLObjectCollectionAdapter(operands), manager
+							.getOWLDataFactory());
 			value = classExpressionIntersection.compute(parameters);
-			assertTrue(value.equals(manager.getOWLDataFactory().getOWLObjectIntersectionOf(
-					a,
-					b,
-					stop)));
-			manchesterSyntaxRenderer = factory.getManchesterSyntaxRenderer(constraintSystem);
+			assertTrue(value.equals(manager.getOWLDataFactory()
+					.getOWLObjectIntersectionOf(a, b, stop)));
+			manchesterSyntaxRenderer = factory
+					.getManchesterSyntaxRenderer(constraintSystem);
 			value.accept(manchesterSyntaxRenderer);
 			System.out.println(manchesterSyntaxRenderer);
 			manager.removeOntology(ontology);
@@ -243,18 +281,25 @@ public class OPPLFunctionTest extends TestCase {
 		try {
 			OWLOntology ontology = manager.createOntology();
 			OPPLFactory factory = new OPPLFactory(manager, ontology, null);
-			ConstraintSystem constraintSystem = factory.createConstraintSystem();
-			OWLClass a = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#monica"));
-			OWLClass b = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#luigi"));
-			Aggregation<OWLClassExpression, OWLClassExpression> classExpressionIntersection = Aggregation.buildClassExpressionUnion(
-					Adapter.buildOWLObjectCollectionAdapter(Arrays.asList(a, b)),
-					manager.getOWLDataFactory());
+			ConstraintSystem constraintSystem = factory
+					.createConstraintSystem();
+			OWLClassExpression a = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("blah#monica"));
+			OWLClass b = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("blah#luigi"));
+			Aggregation<OWLClassExpression, OWLClassExpression> classExpressionIntersection = Aggregation
+					.buildClassExpressionUnion(Adapter
+							.buildOWLObjectCollectionAdapter(Arrays
+									.asList(a, b)), manager.getOWLDataFactory());
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
 					constraintSystem, bindingNode);
-			OWLClassExpression value = classExpressionIntersection.compute(parameters);
-			assertTrue(value.equals(manager.getOWLDataFactory().getOWLObjectUnionOf(a, b)));
-			ManchesterSyntaxRenderer manchesterSyntaxRenderer = factory.getManchesterSyntaxRenderer(constraintSystem);
+			OWLClassExpression value = classExpressionIntersection
+					.compute(parameters);
+			assertTrue(value.equals(manager.getOWLDataFactory()
+					.getOWLObjectUnionOf(a, b)));
+			ManchesterSyntaxRenderer manchesterSyntaxRenderer = factory
+					.getManchesterSyntaxRenderer(constraintSystem);
 			value.accept(manchesterSyntaxRenderer);
 			System.out.println(manchesterSyntaxRenderer);
 			manager.removeOntology(ontology);
@@ -268,17 +313,23 @@ public class OPPLFunctionTest extends TestCase {
 		try {
 			OWLOntology ontology = manager.createOntology();
 			OPPLFactory factory = new OPPLFactory(manager, ontology, null);
-			ConstraintSystem constraintSystem = factory.createConstraintSystem();
-			Variable x = constraintSystem.createVariable("?x", VariableType.CLASS);
-			Variable y = constraintSystem.createVariable("?y", VariableType.CLASS);
+			ConstraintSystem constraintSystem = factory
+					.createConstraintSystem();
+			Variable x = constraintSystem.createVariable("?x",
+					VariableType.CLASS);
+			Variable y = constraintSystem.createVariable("?y",
+					VariableType.CLASS);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
-			OWLClass a = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#a"));
-			OWLClass b = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#b"));
-			OWLObjectProperty p = manager.getOWLDataFactory().getOWLObjectProperty(
-					IRI.create("blah#p"));
-			OWLObjectSomeValuesFrom owlObjectSomeValuesFrom = manager.getOWLDataFactory().getOWLObjectSomeValuesFrom(
-					p,
-					manager.getOWLDataFactory().getOWLClass(x.getIRI()));
+			OWLClass a = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("blah#a"));
+			OWLClass b = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("blah#b"));
+			OWLObjectProperty p = manager.getOWLDataFactory()
+					.getOWLObjectProperty(IRI.create("blah#p"));
+			OWLObjectSomeValuesFrom owlObjectSomeValuesFrom = manager
+					.getOWLDataFactory()
+					.getOWLObjectSomeValuesFrom(p,
+							manager.getOWLDataFactory().getOWLClass(x.getIRI()));
 			Expression<OWLClassExpression> expression = new Expression<OWLClassExpression>(
 					owlObjectSomeValuesFrom);
 			bindingNode.addAssignment(new Assignment(x, a));
@@ -286,17 +337,25 @@ public class OPPLFunctionTest extends TestCase {
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
 					constraintSystem, bindingNode);
 			OWLClassExpression values = expression.compute(parameters);
-			assertTrue(values.equals(manager.getOWLDataFactory().getOWLObjectSomeValuesFrom(p, a)));
-			owlObjectSomeValuesFrom = manager.getOWLDataFactory().getOWLObjectSomeValuesFrom(
-					p,
-					manager.getOWLDataFactory().getOWLObjectIntersectionOf(
-							manager.getOWLDataFactory().getOWLClass(x.getIRI()),
-							manager.getOWLDataFactory().getOWLClass(y.getIRI())));
-			expression = new Expression<OWLClassExpression>(owlObjectSomeValuesFrom);
+			assertTrue(values.equals(manager.getOWLDataFactory()
+					.getOWLObjectSomeValuesFrom(p, a)));
+			owlObjectSomeValuesFrom = manager.getOWLDataFactory()
+					.getOWLObjectSomeValuesFrom(
+							p,
+							manager.getOWLDataFactory()
+									.getOWLObjectIntersectionOf(
+											manager.getOWLDataFactory()
+													.getOWLClass(x.getIRI()),
+											manager.getOWLDataFactory()
+													.getOWLClass(y.getIRI())));
+			expression = new Expression<OWLClassExpression>(
+					owlObjectSomeValuesFrom);
 			values = expression.compute(parameters);
-			assertTrue(values.equals(manager.getOWLDataFactory().getOWLObjectSomeValuesFrom(
-					p,
-					manager.getOWLDataFactory().getOWLObjectIntersectionOf(a, b))));
+			assertTrue(values.equals(manager.getOWLDataFactory()
+					.getOWLObjectSomeValuesFrom(
+							p,
+							manager.getOWLDataFactory()
+									.getOWLObjectIntersectionOf(a, b))));
 			manager.removeOntology(ontology);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();

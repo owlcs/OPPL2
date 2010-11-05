@@ -2,6 +2,7 @@ package org.coode.oppl.generated;
 
 import java.util.regex.Pattern;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PlainVariableVisitor;
 import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
@@ -10,32 +11,28 @@ import org.coode.oppl.VariableScopeChecker;
 import org.coode.oppl.VariableType;
 import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
+import org.coode.oppl.function.OPPLFunction;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
-public abstract class RegexpGeneratedVariable<O extends OWLObject> implements Variable {
-	private final Pattern pattern;
+public abstract class RegexpGeneratedVariable<O extends OWLObject> implements
+		Variable {
+	private final OPPLFunction<Pattern> patternGeneratingOPPLFunction;
 	private final Variable delegate;
 
-	public RegexpGeneratedVariable(String name, Pattern pattern) {
+	public RegexpGeneratedVariable(String name,
+			OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
 		if (name == null) {
 			throw new NullPointerException("The name cannot be null");
 		}
-		if (pattern == null) {
+		if (patternGeneratingOPPLFunction == null) {
 			throw new NullPointerException("The pattern cannot be null");
 		}
-		this.pattern = pattern;
+		this.patternGeneratingOPPLFunction = patternGeneratingOPPLFunction;
 		this.delegate = this.initDelegate(name);
 	}
 
 	protected abstract Variable initDelegate(String name);
-
-	/**
-	 * @return the pattern
-	 */
-	public Pattern getPattern() {
-		return this.pattern;
-	}
 
 	/**
 	 * @param visitor
@@ -120,5 +117,18 @@ public abstract class RegexpGeneratedVariable<O extends OWLObject> implements Va
 	@Override
 	public int hashCode() {
 		return this.delegate.hashCode();
+	}
+
+	public String render(ConstraintSystem constraintSystem) {
+		return String.format("%s:%s= MATCH (\"%s\")", this.getName(), this
+				.getType(), this.getPatternGeneratingOPPLFunction().render(
+				constraintSystem));
+	}
+
+	/**
+	 * @return the patternGeneratingOPPLFunction
+	 */
+	public OPPLFunction<Pattern> getPatternGeneratingOPPLFunction() {
+		return this.patternGeneratingOPPLFunction;
 	}
 }

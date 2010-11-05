@@ -57,7 +57,8 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
 	 */
 	public ConstraintChecker(ValueComputationParameters parameters) {
 		if (parameters == null) {
-			throw new NullPointerException("The value computation parameters cannot be null");
+			throw new NullPointerException(
+					"The value computation parameters cannot be null");
 		}
 		this.parameters = parameters;
 		this.instantiator = new OWLObjectInstantiator(this.getParameters());
@@ -77,9 +78,8 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
 		OWLObject expression = c.getExpression();
 		OWLObject instantiatedObject = expression.accept(this.instantiator);
 		Variable variable = c.getVariable();
-		OWLObject assignedValue = this.getParameters().getBindingNode().getAssignmentValue(
-				variable,
-				this.getParameters());
+		OWLObject assignedValue = this.getParameters().getBindingNode()
+				.getAssignmentValue(variable, this.getParameters());
 		return !assignedValue.equals(instantiatedObject);
 	}
 
@@ -88,10 +88,10 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
 	 */
 	public Boolean visit(InCollectionConstraint<? extends OWLObject> c) {
 		Set<? extends OWLObject> collection = c.getCollection();
-		OWLObject assignedValue = this.getParameters().getBindingNode().getAssignmentValue(
-				c.getVariable(),
-				this.getParameters());
-		Set<OWLObject> instantiatedObjects = new HashSet<OWLObject>(collection.size());
+		OWLObject assignedValue = this.getParameters().getBindingNode()
+				.getAssignmentValue(c.getVariable(), this.getParameters());
+		Set<OWLObject> instantiatedObjects = new HashSet<OWLObject>(collection
+				.size());
 		for (OWLObject owlObject : collection) {
 			instantiatedObjects.add(owlObject.accept(this.instantiator));
 		}
@@ -103,15 +103,18 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
 	}
 
 	public Boolean visit(NAFConstraint nafConstraint) {
-		OWLAxiom instantiatedAxiom = (OWLAxiom) nafConstraint.getAxiom().accept(this.instantiator);
+		OWLAxiom instantiatedAxiom = (OWLAxiom) nafConstraint.getAxiom()
+				.accept(this.instantiator);
 		boolean toReturn = false;
 		try {
 			if (this.getParameters().getConstraintSystem().getReasoner() != null) {
-				toReturn = !this.getParameters().getConstraintSystem().getReasoner().isEntailed(
-						instantiatedAxiom);
+				toReturn = !this.getParameters().getConstraintSystem()
+						.getReasoner().isEntailed(instantiatedAxiom);
 			} else {
 				boolean found = false;
-				Iterator<OWLOntology> iterator = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies().iterator();
+				Iterator<OWLOntology> iterator = this.getParameters()
+						.getConstraintSystem().getOntologyManager()
+						.getOntologies().iterator();
 				while (!found && iterator.hasNext()) {
 					OWLOntology ontology = iterator.next();
 					found = ontology.containsAxiom(instantiatedAxiom);
@@ -122,7 +125,8 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
 			Logging.getQueryLogger().log(
 					Level.WARNING,
 					" OWLReasonerException  caught whilst checking the constraint "
-							+ nafConstraint.render());
+							+ nafConstraint.render(this.getParameters()
+									.getConstraintSystem()));
 		}
 		return toReturn;
 	}

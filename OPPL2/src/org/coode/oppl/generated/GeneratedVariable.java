@@ -1,5 +1,6 @@
 package org.coode.oppl.generated;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PlainVariableVisitor;
 import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
@@ -12,7 +13,8 @@ import org.coode.oppl.function.OPPLFunction;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
-public abstract class GeneratedVariable<O extends OWLObject> implements Variable {
+public abstract class GeneratedVariable<O extends OWLObject> implements
+		Variable {
 	private final Variable delegate;
 	private final OPPLFunction<? extends O> opplFunction;
 
@@ -119,5 +121,10 @@ public abstract class GeneratedVariable<O extends OWLObject> implements Variable
 	@Override
 	public int hashCode() {
 		return this.delegate.hashCode();
+	}
+
+	public String render(ConstraintSystem constraintSystem) {
+		return String.format("%s:%s = %s", this.getName(), this.getType(), this
+				.getOPPLFunction().render(constraintSystem));
 	}
 }

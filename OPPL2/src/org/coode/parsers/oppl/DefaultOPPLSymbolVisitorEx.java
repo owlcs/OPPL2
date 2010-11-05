@@ -1,16 +1,21 @@
 package org.coode.parsers.oppl;
 
+import java.util.Collection;
+
+import org.coode.oppl.function.VariableAttribute;
 import org.coode.parsers.OWLEntitySymbol;
 import org.coode.parsers.OWLLiteralSymbol;
 import org.coode.parsers.Symbol;
 import org.coode.parsers.oppl.variableattribute.CollectionVariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
+import org.semanticweb.owlapi.model.OWLObject;
 
-public abstract class DefaultOPPLSymbolVisitorEx<O> implements OPPLSymbolVisitorEx<O> {
+public abstract class DefaultOPPLSymbolVisitorEx<O> implements
+		OPPLSymbolVisitorEx<O> {
 	protected abstract O doDefault(Symbol symbol);
 
-	public <P> O visitCollectionVariableAttributeSymbol(
-			CollectionVariableAttributeSymbol<P> collectionVariableAttributeSymbol) {
+	public <P extends OWLObject, T extends VariableAttribute<Collection<P>>> O visitCollectionVariableAttributeSymbol(
+			CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol) {
 		return this.doDefault(collectionVariableAttributeSymbol);
 	}
 
@@ -31,7 +36,8 @@ public abstract class DefaultOPPLSymbolVisitorEx<O> implements OPPLSymbolVisitor
 		return this.doDefault(symbol);
 	}
 
-	public O visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier) {
+	public O visitCreateOnDemandIdentifier(
+			CreateOnDemandIdentifier createOnDemandIdentifier) {
 		return this.doDefault(createOnDemandIdentifier);
 	}
 }

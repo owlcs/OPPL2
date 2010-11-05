@@ -47,7 +47,8 @@ public class RegExpConstraint implements AbstractConstraint {
 	 * @param collection
 	 * @param constraintSystem
 	 */
-	public RegExpConstraint(Variable variable, OPPLFunction<Pattern> exp, ConstraintSystem cs) {
+	public RegExpConstraint(Variable variable, OPPLFunction<Pattern> exp,
+			ConstraintSystem cs) {
 		this.variable = variable;
 		this.constraintSystem = cs;
 		this.expression = exp;
@@ -72,14 +73,14 @@ public class RegExpConstraint implements AbstractConstraint {
 	}
 
 	public boolean matches(ValueComputationParameters parameters) {
-		OWLObject assignmentValue = parameters.getBindingNode().getAssignmentValue(
-				this.getVariable(),
-				parameters);
+		OWLObject assignmentValue = parameters.getBindingNode()
+				.getAssignmentValue(this.getVariable(), parameters);
 		boolean found = false;
 		if (assignmentValue != null) {
 			Pattern p = this.getExpression().compute(parameters);
-			ManchesterSyntaxRenderer renderer = parameters.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
-					this.getConstraintSystem());
+			ManchesterSyntaxRenderer renderer = parameters
+					.getConstraintSystem().getOPPLFactory()
+					.getManchesterSyntaxRenderer(this.getConstraintSystem());
 			assignmentValue.accept(renderer);
 			Matcher matcher = p.matcher(renderer.toString());
 			found = matcher.matches();
@@ -89,10 +90,11 @@ public class RegExpConstraint implements AbstractConstraint {
 
 	@Override
 	public String toString() {
-		return this.variable.getName() + " Match(" + this.expression + ")";
+		return this.variable.getName() + " Match("
+				+ this.getExpression().render(this.getConstraintSystem()) + ")";
 	}
 
-	public String render() {
+	public String render(ConstraintSystem constraintSystem) {
 		return this.toString();
 	}
 
@@ -116,8 +118,10 @@ public class RegExpConstraint implements AbstractConstraint {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (this.expression == null ? 0 : this.expression.hashCode());
-		result = prime * result + (this.variable == null ? 0 : this.variable.hashCode());
+		result = prime * result
+				+ (this.expression == null ? 0 : this.expression.hashCode());
+		result = prime * result
+				+ (this.variable == null ? 0 : this.variable.hashCode());
 		return result;
 	}
 

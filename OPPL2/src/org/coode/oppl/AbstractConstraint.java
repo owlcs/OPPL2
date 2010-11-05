@@ -5,5 +5,5 @@ public interface AbstractConstraint {
 
 	void accept(ConstraintVisitor visitor);
 
-	String render();
+	String render(ConstraintSystem constraintSystem);
 }

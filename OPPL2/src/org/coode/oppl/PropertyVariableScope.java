@@ -22,6 +22,8 @@
  */
 package org.coode.oppl;
 
+import org.coode.oppl.generated.GeneratedVariable;
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLPropertyExpression;
 
 /**
@@ -32,8 +34,8 @@ import org.semanticweb.owlapi.model.OWLPropertyExpression;
  * @author Luigi Iannone
  * 
  */
-public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?>> implements
-		VariableScope<P> {
+public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?>>
+		implements VariableScope<P> {
 	private final P property;
 
 	/**
@@ -65,5 +67,12 @@ public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?
 	 */
 	public P getScopingObject() {
 		return this.getProperty();
+	}
+
+	public String render(ConstraintSystem constraintSystem) {
+		ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory()
+				.getManchesterSyntaxRenderer(constraintSystem);
+		this.getScopingObject().accept(renderer);
+		return String.format("[%s %s]", this.getDirection(), renderer);
 	}
 }

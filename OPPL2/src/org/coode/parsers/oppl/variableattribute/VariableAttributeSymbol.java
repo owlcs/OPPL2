@@ -12,8 +12,8 @@ import org.coode.parsers.oppl.OPPLSymbol;
  * @author Luigi Iannone
  * 
  */
-public abstract class VariableAttributeSymbol<P, O extends VariableAttribute<P>> extends Symbol
-		implements OPPLSymbol {
+public abstract class VariableAttributeSymbol<O extends VariableAttribute<?>>
+		extends Symbol implements OPPLSymbol {
 	private final O variableAttribute;
 
 	/**
@@ -30,13 +30,15 @@ public abstract class VariableAttributeSymbol<P, O extends VariableAttribute<P>>
 	public VariableAttributeSymbol(String name, Type type, O variableAttribute) {
 		super(name, type);
 		if (variableAttribute == null) {
-			throw new NullPointerException("The variable attribute cannot be null");
+			throw new NullPointerException(
+					"The variable attribute cannot be null");
 		}
 		this.variableAttribute = variableAttribute;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("%s.%s", this.getName(), this.getVariableAttribute());
+		return String.format("%s.%s", this.getName(), this
+				.getVariableAttribute());
 	}
 }

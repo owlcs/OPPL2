@@ -34,7 +34,7 @@ import javax.swing.ListCellRenderer;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.generated.GeneratedVariable;
 import org.protege.editor.core.ui.list.MList;
 import org.protege.editor.owl.OWLEditorKit;
 
@@ -58,7 +58,7 @@ public class VariableList extends MList {
 					value, index, isSelected, cellHasFocus);
 			if (value instanceof VariableListItem) {
 				Variable variable = ((VariableListItem) value).getVariable();
-				VariableScope variableScope = variable.getVariableScope();
+				VariableScope<?> variableScope = variable.getVariableScope();
 				String variableScopeString = null;
 				if (variableScope == null) {
 					variableScopeString = "";
@@ -70,12 +70,14 @@ public class VariableList extends MList {
 							variableScope.getDirection()).append(" ").append(
 							rendering).append("] ").toString();
 				}
-				label.setIcon(new ImageIcon(
-						this.getClass()
-								.getClassLoader()
-								.getResource(
-										variable instanceof SingleValueGeneratedVariable<?> ? "cog.png"
-												: "user-icon.gif")));
+				label
+						.setIcon(new ImageIcon(
+								this
+										.getClass()
+										.getClassLoader()
+										.getResource(
+												variable instanceof GeneratedVariable<?> ? "cog.png"
+														: "user-icon.gif")));
 				label.setText(VariableList.this.constraintSystem
 						.render(variable)
 						+ ":" + variable.getType() + variableScopeString);

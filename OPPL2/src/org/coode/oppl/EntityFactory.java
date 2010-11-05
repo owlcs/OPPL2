@@ -33,8 +33,10 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
 	private IRI buildIRI(String shortName) {
 		IRI ontologyIRI = this.factory.getOntology().getOntologyID()
 				.getOntologyIRI();
-		return ontologyIRI == null ? this.factory.getDefaultOntologyIRI() : IRI
-				.create(ontologyIRI.toString() + "#" + shortName);
+		return ontologyIRI == null ? IRI.create(String.format("%s#!%s",
+				this.factory.getDefaultOntologyIRI().toString(), shortName))
+				: IRI.create(String.format("%s#!%s", ontologyIRI.toString(),
+						shortName));
 	}
 
 	/**

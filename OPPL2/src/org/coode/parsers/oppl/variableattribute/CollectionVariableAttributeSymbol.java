@@ -14,15 +14,14 @@ import org.semanticweb.owlapi.model.OWLObject;
  * @author Luigi Iannone
  * 
  */
-public abstract class CollectionVariableAttributeSymbol<O extends OWLObject> extends
-		VariableAttributeSymbol<Collection<O>, VariableAttribute<Collection<O>>> {
+public abstract class CollectionVariableAttributeSymbol<P extends OWLObject, O extends VariableAttribute<Collection<P>>>
+		extends VariableAttributeSymbol<O> {
 	/**
 	 * @param name
 	 * @param type
 	 * @param variableAttribute
 	 */
-	public CollectionVariableAttributeSymbol(String name,
-			VariableAttribute<Collection<O>> variableAttribute) {
+	public CollectionVariableAttributeSymbol(String name, O variableAttribute) {
 		super(name, VariableAttributeType.COLLECTION, variableAttribute);
 	}
 
@@ -30,7 +29,7 @@ public abstract class CollectionVariableAttributeSymbol<O extends OWLObject> ext
 		visitor.visitCollectionVariableAttributeSymbol(this);
 	}
 
-	public <P> P accept(OPPLSymbolVisitorEx<P> visitor) {
+	public <T> T accept(OPPLSymbolVisitorEx<T> visitor) {
 		return visitor.visitCollectionVariableAttributeSymbol(this);
 	}
 }

@@ -25,6 +25,8 @@ package org.coode.oppl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.coode.oppl.generated.GeneratedVariable;
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 
 /**
@@ -34,7 +36,8 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
  * @author Luigi Iannone
  * 
  */
-public abstract class ClassVariableScope implements VariableScope<OWLClassExpression> {
+public abstract class ClassVariableScope implements
+		VariableScope<OWLClassExpression> {
 	private final OWLClassExpression description;
 	private static Map<OWLClassExpression, SuperClassVariableScope> superClassesScopes = new HashMap<OWLClassExpression, SuperClassVariableScope>();
 	private static Map<OWLClassExpression, SubClassVariableScope> subClassesScopes = new HashMap<OWLClassExpression, SubClassVariableScope>();
@@ -49,11 +52,12 @@ public abstract class ClassVariableScope implements VariableScope<OWLClassExpres
 	/**
 	 * @return the description
 	 */
-	public OWLClassExpression getDescription() {
+	public OWLClassExpression getClassExpression() {
 		return this.description;
 	}
 
-	static SubClassVariableScope buildSubClassVariableScope(OWLClassExpression description) {
+	static SubClassVariableScope buildSubClassVariableScope(
+			OWLClassExpression description) {
 		SubClassVariableScope toReturn = subClassesScopes.get(description);
 		if (toReturn == null) {
 			toReturn = new SubClassVariableScope(description);
@@ -62,7 +66,8 @@ public abstract class ClassVariableScope implements VariableScope<OWLClassExpres
 		return toReturn;
 	}
 
-	static SuperClassVariableScope buildSuperClassVariableScope(OWLClassExpression description) {
+	static SuperClassVariableScope buildSuperClassVariableScope(
+			OWLClassExpression description) {
 		SuperClassVariableScope toReturn = superClassesScopes.get(description);
 		if (toReturn == null) {
 			toReturn = new SuperClassVariableScope(description);
@@ -75,6 +80,13 @@ public abstract class ClassVariableScope implements VariableScope<OWLClassExpres
 	 * @see org.coode.oppl.VariableScope#getScopingObject()
 	 */
 	public OWLClassExpression getScopingObject() {
-		return this.getDescription();
+		return this.getClassExpression();
+	}
+
+	public String render(ConstraintSystem constraintSystem) {
+		ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory()
+				.getManchesterSyntaxRenderer(constraintSystem);
+		this.getScopingObject().accept(renderer);
+		return String.format("[%s %s]", this.getDirection(), renderer);
 	}
 }

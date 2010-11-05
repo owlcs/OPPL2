@@ -32,4 +32,9 @@ public class CreateOnDemand implements Type {
 	public static CreateOnDemand get() {
 		return instance;
 	}
+
+	@Override
+	public String toString() {
+		return "CREATE_ON_DEMAD";
+	}
 }
