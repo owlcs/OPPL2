@@ -1086,7 +1086,7 @@ public class OPPLTypes extends TreeFilter {
                     match(input, Token.UP, null); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
-                      	      	org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType(VARIABLE_TYPE10.getText()).getOPPLVariableType();
+                      	      	org.coode.oppl.variabletypes.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType(VARIABLE_TYPE10.getText()).getOPPLVariableType();
                       		RegexpGeneratedVariable<?> v = getConstraintSystem().createRegexpGeneratedVariable(VARIABLE_NAME11.getText(),  type, Adapter.buildRegexpPatternAdapter(se));
                       	        retval.variable = v;
                       	     
@@ -1116,7 +1116,7 @@ public class OPPLTypes extends TreeFilter {
                     match(input, Token.UP, null); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
-                      	       org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType(VARIABLE_TYPE12.getText()).getOPPLVariableType();
+                      	       org.coode.oppl.variabletypes.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType(VARIABLE_TYPE12.getText()).getOPPLVariableType();
                       	       retval.variable = constraintSystem.createStringGeneratedVariable(VARIABLE_NAME13.getText(),type, value);
                       	     
                     }
@@ -1147,7 +1147,7 @@ public class OPPLTypes extends TreeFilter {
 
                       	retval.variable = getConstraintSystem().createIntersectionGeneratedVariable(
                                             								name.getText(),
-                                            								org.coode.oppl.VariableType.CLASS,
+                                            								org.org.coode.oppl.variabletypes.CLASS,
                                             								(Collection<? extends Aggregandum<OWLClassExpression>>) va);
                              
                     }
@@ -1178,7 +1178,7 @@ public class OPPLTypes extends TreeFilter {
 
                       	retval.variable = getConstraintSystem().createUnionGeneratedVariable(
                                             								name.getText(),
-                                            								org.coode.oppl.VariableType.CLASS,
+                                            								org.org.coode.oppl.variabletypes.CLASS,
                                             								(Collection<? extends Aggregandum<OWLClassExpression>>) va);      
                              
                     }

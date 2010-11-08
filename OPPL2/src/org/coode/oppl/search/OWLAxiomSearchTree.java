@@ -13,7 +13,6 @@ import java.util.Set;
 
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
@@ -29,6 +28,7 @@ import org.coode.oppl.variabletypes.CONSTANTVariable;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
 import org.coode.oppl.variabletypes.INDIVIDUALVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;

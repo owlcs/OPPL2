@@ -24,6 +24,7 @@ package org.coode.oppl;
 
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.OWLPropertyExpression;
 
 /**

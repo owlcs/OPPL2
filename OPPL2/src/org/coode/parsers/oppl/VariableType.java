@@ -33,8 +33,8 @@ public enum VariableType implements Type {
 		}
 
 		@Override
-		public org.coode.oppl.VariableType getOPPLVariableType() {
-			return org.coode.oppl.VariableType.CLASS;
+		public org.coode.oppl.variabletypes.VariableType getOPPLVariableType() {
+			return org.org.coode.oppl.variabletypes.CLASS;
 		}
 	},
 	OBJECTPROPERTY {
@@ -49,8 +49,8 @@ public enum VariableType implements Type {
 		}
 
 		@Override
-		public org.coode.oppl.VariableType getOPPLVariableType() {
-			return org.coode.oppl.VariableType.OBJECTPROPERTY;
+		public org.coode.oppl.variabletypes.VariableType getOPPLVariableType() {
+			return org.org.coode.oppl.variabletypes.OBJECTPROPERTY;
 		}
 	},
 	DATAPROPERTY {
@@ -65,8 +65,8 @@ public enum VariableType implements Type {
 		}
 
 		@Override
-		public org.coode.oppl.VariableType getOPPLVariableType() {
-			return org.coode.oppl.VariableType.DATAPROPERTY;
+		public org.coode.oppl.variabletypes.VariableType getOPPLVariableType() {
+			return org.org.coode.oppl.variabletypes.DATAPROPERTY;
 		}
 	},
 	INDIVIDUAL {
@@ -82,8 +82,8 @@ public enum VariableType implements Type {
 		}
 
 		@Override
-		public org.coode.oppl.VariableType getOPPLVariableType() {
-			return org.coode.oppl.VariableType.INDIVIDUAL;
+		public org.coode.oppl.variabletypes.VariableType getOPPLVariableType() {
+			return org.org.coode.oppl.variabletypes.INDIVIDUAL;
 		}
 	},
 	CONSTANT {
@@ -98,12 +98,12 @@ public enum VariableType implements Type {
 		}
 
 		@Override
-		public org.coode.oppl.VariableType getOPPLVariableType() {
-			return org.coode.oppl.VariableType.CONSTANT;
+		public org.coode.oppl.variabletypes.VariableType getOPPLVariableType() {
+			return org.org.coode.oppl.variabletypes.CONSTANT;
 		}
 	};
 	private final static Map<String, VariableType> map = new HashMap<String, VariableType>();
-	private final static Map<org.coode.oppl.VariableType, VariableType> typeMap = new HashMap<org.coode.oppl.VariableType, VariableType>();
+	private final static Map<org.coode.oppl.variabletypes.VariableType, VariableType> typeMap = new HashMap<org.coode.oppl.variabletypes.VariableType, VariableType>();
 	private final String NAMESPACE = "http://www.coode.org/oppl/variablemansyntax#";
 
 	protected IRI createIRI(String name) {
@@ -116,11 +116,11 @@ public enum VariableType implements Type {
 		map.put("DATAPROPERTY", DATAPROPERTY);
 		map.put("INDIVIDUAL", INDIVIDUAL);
 		map.put("CONSTANT", CONSTANT);
-		typeMap.put(org.coode.oppl.VariableType.CLASS, CLASS);
-		typeMap.put(org.coode.oppl.VariableType.OBJECTPROPERTY, OBJECTPROPERTY);
-		typeMap.put(org.coode.oppl.VariableType.DATAPROPERTY, DATAPROPERTY);
-		typeMap.put(org.coode.oppl.VariableType.INDIVIDUAL, INDIVIDUAL);
-		typeMap.put(org.coode.oppl.VariableType.CONSTANT, CONSTANT);
+		typeMap.put(org.org.coode.oppl.variabletypes.CLASS, CLASS);
+		typeMap.put(org.org.coode.oppl.variabletypes.OBJECTPROPERTY, OBJECTPROPERTY);
+		typeMap.put(org.org.coode.oppl.variabletypes.DATAPROPERTY, DATAPROPERTY);
+		typeMap.put(org.org.coode.oppl.variabletypes.INDIVIDUAL, INDIVIDUAL);
+		typeMap.put(org.org.coode.oppl.variabletypes.CONSTANT, CONSTANT);
 	}
 
 	public void accept(TypeVisitor visitor) {
@@ -135,7 +135,7 @@ public enum VariableType implements Type {
 		return map.get(string);
 	}
 
-	public static VariableType getVariableType(org.coode.oppl.VariableType variableType) {
+	public static VariableType getVariableType(org.coode.oppl.variabletypes.VariableType variableType) {
 		return typeMap.get(variableType);
 	}
 
@@ -143,5 +143,5 @@ public enum VariableType implements Type {
 
 	public abstract Symbol getSymbol(OWLDataFactory dataFactory, String name);
 
-	public abstract org.coode.oppl.VariableType getOPPLVariableType();
+	public abstract org.coode.oppl.variabletypes.VariableType getOPPLVariableType();
 }

@@ -21,10 +21,10 @@ import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopeChecker;
-import org.coode.oppl.VariableType;
-import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.log.Logging;
+import org.coode.oppl.variabletypes.VariableType;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.common.SystemErrorEcho;
@@ -145,7 +145,7 @@ public class OPPLPartsTestCase extends TestCase {
 				.createImaginaryToken("?y")), this.createImaginaryTreeNode(this
 				.createImaginaryToken("CLASS")), constraintSystem);
 		Variable tempVariable = this.createTempVariable("?z",
-				VariableType.CLASS);
+				org.coode.oppl.variabletypes.CLASS);
 		Variable opplFunction = parser.parseOPPLFunction(
 				"CreateIntersection(?x.VALUES)", tempVariable, symbolTable,
 				constraintSystem);
@@ -167,7 +167,7 @@ public class OPPLPartsTestCase extends TestCase {
 				.createImaginaryToken("?y")), this.createImaginaryTreeNode(this
 				.createImaginaryToken("CLASS")), constraintSystem);
 		Variable tempVariable = this.createTempVariable("?z",
-				VariableType.CLASS);
+				org.coode.oppl.variabletypes.CLASS);
 		Variable opplFunction = parser.parseOPPLFunction(
 				"CreateIntersection(?x.VALUES, Thing)", tempVariable,
 				symbolTable, constraintSystem);

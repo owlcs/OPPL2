@@ -29,8 +29,6 @@ import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopeChecker;
-import org.coode.oppl.VariableType;
-import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.utils.ArgCheck;
 import org.semanticweb.owlapi.model.IRI;

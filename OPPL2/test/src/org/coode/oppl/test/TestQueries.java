@@ -28,8 +28,6 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableType;
-import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.bindingtree.LeafBrusher;
@@ -46,6 +44,8 @@ import org.coode.oppl.variabletypes.CONSTANTVariable;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
 import org.coode.oppl.variabletypes.INDIVIDUALVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
+import org.coode.oppl.variabletypes.VariableType;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Type;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -553,20 +553,20 @@ public class TestQueries extends TestCase {
 		Set<OWLClassExpression> toReturn = new HashSet<OWLClassExpression>();
 		for (DescriptionType descriptionType : descriptionTypes) {
 			Variable classVariable = cs.createVariable("?aClass_" + counter,
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			Variable anotherClassVariable = cs.createVariable("?anotherClass_"
-					+ counter, VariableType.CLASS);
+					+ counter, org.coode.oppl.variabletypes.CLASS);
 			Variable dataPropertyVariable = cs.createVariable("?aDataProperty_"
-					+ counter, VariableType.DATAPROPERTY);
+					+ counter, org.coode.oppl.variabletypes.DATAPROPERTY);
 			Variable objectPropertyVariable = cs
 					.createVariable("?anObjectProperty_" + counter,
-							VariableType.OBJECTPROPERTY);
+							org.coode.oppl.variabletypes.OBJECTPROPERTY);
 			Variable constantVariable = cs.createVariable("?aConstant_"
-					+ counter, VariableType.CONSTANT);
+					+ counter, org.coode.oppl.variabletypes.CONSTANT);
 			Variable anIndividualVariable = cs.createVariable("?anIndividual_"
-					+ counter, VariableType.INDIVIDUAL);
+					+ counter, org.coode.oppl.variabletypes.INDIVIDUAL);
 			Variable anotherIndividualVariable = cs.createVariable(
-					"?anotherIndividual_" + counter, VariableType.INDIVIDUAL);
+					"?anotherIndividual_" + counter, org.coode.oppl.variabletypes.INDIVIDUAL);
 			switch (descriptionType) {
 			case CLASS:
 				toReturn.add(dataFactory.getOWLClass(classVariable.getIRI()));

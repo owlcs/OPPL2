@@ -720,7 +720,7 @@ public class OPPLTypesParts extends TreeFilter {
                              if(getVariable()!=null){
                       		retval.variable = getConstraintSystem().createIntersectionGeneratedVariable(
                                             								getVariable().getName(),
-                                            								org.coode.oppl.VariableType.CLASS,
+                                            								org.org.coode.oppl.variabletypes.CLASS,
                                             								(Collection<? extends Aggregandum<OWLClassExpression>>) va);         
                               }else{
                       		getErrorListener().illegalToken(((OPPLSyntaxTree)retval.start), "No variable name to build this OPPL Function");
@@ -748,7 +748,7 @@ public class OPPLTypesParts extends TreeFilter {
                              if(getVariable()!=null){
                       		retval.variable = getConstraintSystem().createUnionGeneratedVariable(
                                             								getVariable().getName(),
-                                            								org.coode.oppl.VariableType.CLASS,
+                                            								org.org.coode.oppl.variabletypes.CLASS,
                                             								(Collection<? extends Aggregandum<OWLClassExpression>>) va);
                               }else{
                       		getErrorListener().illegalToken(((OPPLSyntaxTree)retval.start), "No variable name to build this OPPL Function");

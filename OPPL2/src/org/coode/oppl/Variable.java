@@ -22,6 +22,8 @@
  */
 package org.coode.oppl;
 
+import org.coode.oppl.variabletypes.VariableType;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.IRI;
 
 /**

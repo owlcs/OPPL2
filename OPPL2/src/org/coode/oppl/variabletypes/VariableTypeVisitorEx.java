@@ -20,28 +20,22 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package org.coode.oppl;
-
-import org.coode.oppl.variabletypes.CLASSVariable;
-import org.coode.oppl.variabletypes.CONSTANTVariable;
-import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
-import org.coode.oppl.variabletypes.INDIVIDUALVariable;
-import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
+package org.coode.oppl.variabletypes;
 
 /**
  * @author Luigi Iannone
  * 
  */
 public interface VariableTypeVisitorEx<O> {
-	// @Deprecated
-	// O visit(VariableType type);
-	O visit(CLASSVariable v);
+	O visitCLASSVariableType(CLASSVariableType classVariableType);
 
-	O visit(CONSTANTVariable v);
+	O visitOBJECTPROPERTYVariableType(
+			OBJECTPROPERTYVariableType objectpropertyVariableType);
 
-	O visit(OBJECTPROPERTYVariable v);
+	O visitDATAPROPERTYVariableType(
+			DATAPROPERTYVariableType datapropertyVariableType);
 
-	O visit(DATAPROPERTYVariable v);
+	O visitINDIVIDUALVariableType(INDIVIDUALVariableType individualVariableType);
 
-	O visit(INDIVIDUALVariable v);
+	O visitCONSTANTVariableType(CONSTANTVariableType constantVariableType);
 }

@@ -34,9 +34,9 @@ import javax.swing.JOptionPane;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
-import org.coode.oppl.VariableType;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.variabletypes.VariableType;
 import org.protege.editor.core.ui.list.MListItem;
 import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.VerifyingOptionPane;
@@ -190,7 +190,7 @@ public class VariableListItem implements MListItem, OPPLMacroStatusChange {
 	 */
 	public boolean isEditable() {
 		return this.isEditable
-				&& this.variable.getType() != VariableType.CONSTANT;
+				&& this.variable.getType() != org.coode.oppl.variabletypes.CONSTANT;
 	}
 
 	/**

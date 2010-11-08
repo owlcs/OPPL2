@@ -25,6 +25,7 @@ package org.coode.oppl;
 import java.util.Set;
 
 import org.coode.oppl.VariableScopes.Direction;
+import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLProperty;

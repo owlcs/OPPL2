@@ -8,10 +8,10 @@ import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopeChecker;
-import org.coode.oppl.VariableType;
-import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.function.OPPLFunction;
+import org.coode.oppl.variabletypes.VariableType;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
@@ -50,7 +50,7 @@ public abstract class RegexpGeneratedVariable<O extends OWLObject> implements
 	 * @param <P>
 	 * @param visitor
 	 * @return
-	 * @see org.coode.oppl.Variable#accept(org.coode.oppl.VariableTypeVisitorEx)
+	 * @see org.coode.oppl.Variable#accept(org.coode.oppl.variabletypes.VariableTypeVisitorEx)
 	 */
 	public <P> P accept(VariableTypeVisitorEx<P> visitor) {
 		return this.delegate.accept(visitor);

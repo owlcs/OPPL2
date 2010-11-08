@@ -13,8 +13,6 @@ import junit.framework.TestCase;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLFactory;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableType;
-import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.OPPLException;
@@ -40,6 +38,8 @@ import org.coode.oppl.variabletypes.CONSTANTVariable;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
 import org.coode.oppl.variabletypes.INDIVIDUALVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
+import org.coode.oppl.variabletypes.VariableType;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
@@ -73,7 +73,7 @@ public class OPPLFunctionTest extends TestCase {
 			ConstraintSystem constraintSystem = factory
 					.createConstraintSystem();
 			Variable x = constraintSystem.createVariable("?x",
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			RenderingVariableAttribute renderingVariableAttribute = new RenderingVariableAttribute(
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
@@ -104,7 +104,7 @@ public class OPPLFunctionTest extends TestCase {
 			ConstraintSystem constraintSystem = factory
 					.createConstraintSystem();
 			Variable x = constraintSystem.createVariable("?x",
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			ValuesVariableAtttribute<OWLClass> valuesVariableAtttribute = new ValuesVariableAtttribute<OWLClass>(
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
@@ -142,7 +142,7 @@ public class OPPLFunctionTest extends TestCase {
 			ConstraintSystem constraintSystem = factory
 					.createConstraintSystem();
 			Variable x = constraintSystem.createVariable("?x",
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			ValuesVariableAtttribute<OWLClass> valuesVariableAtttribute = new ValuesVariableAtttribute<OWLClass>(
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
@@ -201,7 +201,7 @@ public class OPPLFunctionTest extends TestCase {
 			ConstraintSystem constraintSystem = factory
 					.createConstraintSystem();
 			Variable x = constraintSystem.createVariable("?x",
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			RenderingVariableAttribute renderingVariableAttribute = new RenderingVariableAttribute(
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
@@ -246,7 +246,7 @@ public class OPPLFunctionTest extends TestCase {
 			System.out.println(manchesterSyntaxRenderer);
 			// Variable values
 			Variable x = constraintSystem.createVariable("?x",
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			BindingNode aBindingNode = new BindingNode(Collections
 					.singleton(new Assignment(x, a)), Collections
 					.<Variable> emptySet());
@@ -336,9 +336,9 @@ public class OPPLFunctionTest extends TestCase {
 			ConstraintSystem constraintSystem = factory
 					.createConstraintSystem();
 			Variable x = constraintSystem.createVariable("?x",
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			Variable y = constraintSystem.createVariable("?y",
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
 			OWLClass a = manager.getOWLDataFactory().getOWLClass(
 					IRI.create("blah#a"));
@@ -422,7 +422,7 @@ public class OPPLFunctionTest extends TestCase {
 			ConstraintSystem constraintSystem = factory
 					.createConstraintSystem();
 			Variable x = constraintSystem.createVariable("?x",
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			RenderingVariableAttribute renderingVariableAttribute = new RenderingVariableAttribute(
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();

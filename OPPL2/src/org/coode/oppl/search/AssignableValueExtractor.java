@@ -9,12 +9,12 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.OWLObject;
 
 public final class AssignableValueExtractor implements

@@ -23,6 +23,7 @@
 package org.coode.oppl;
 
 import org.coode.oppl.VariableScopes.Direction;
+import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLObject;

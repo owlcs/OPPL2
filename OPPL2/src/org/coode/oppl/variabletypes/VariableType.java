@@ -20,38 +20,43 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-package org.coode.oppl;
+package org.coode.oppl.variabletypes;
 
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.Set;
+import java.util.regex.Pattern;
+
+import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScopes.Direction;
-import org.coode.oppl.variabletypes.VariableType;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.coode.oppl.function.OPPLFunction;
+import org.coode.oppl.generated.RegexpGeneratedVariable;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLRuntimeException;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
- * Represents a range limitations that could be added to a
- * {@link GeneratedVariable} instance with CLASS {@link VariableType}, in
- * particular this restricts the possible values to the set of primitive classes
- * that are super-classes of a given class
- * 
  * @author Luigi Iannone
  * 
  */
-public class SuperClassVariableScope extends ClassVariableScope {
-	SuperClassVariableScope(OWLClassExpression description) {
-		super(description);
-	}
+public interface VariableType<O extends OWLObject> {
+	public abstract Variable instantiateVariable(String name);
 
-	public boolean check(OWLObject owlObject, VariableScopeChecker checker)
-			throws OWLRuntimeException {
-		return owlObject instanceof OWLClass && checker.check((OWLClass) owlObject, this);
-	}
+	public abstract O buildOWLObject(OWLDataFactory factory, IRI iri,
+			String shortName);
 
-	/**
-	 * @see org.coode.oppl.VariableScope#getDirection()
-	 */
-	public Direction getDirection() {
-		return Direction.SUPERCLASSOF;
-	}
+	public Set<O> getReferencedOWLObjects(
+			Collection<? extends OWLOntology> ontologies);
+
+	public EnumSet<Direction> getAllowedDirections();
+
+	public boolean isCompatibleWith(OWLObject o);
+
+	public abstract RegexpGeneratedVariable<? extends O> createRegexpGeneratedVariable(
+			String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction);
+
+	public void accept(VariableTypeVisitor visitor);
+
+	public <P> P accept(VariableTypeVisitorEx<P> visitor);
 }

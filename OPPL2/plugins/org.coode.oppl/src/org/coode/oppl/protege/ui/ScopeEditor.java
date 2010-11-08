@@ -42,8 +42,8 @@ import javax.swing.event.TreeSelectionEvent;
 
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopes;
-import org.coode.oppl.VariableType;
 import org.coode.oppl.VariableScopes.Direction;
+import org.coode.oppl.variabletypes.VariableType;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.VerifiedInputEditor;

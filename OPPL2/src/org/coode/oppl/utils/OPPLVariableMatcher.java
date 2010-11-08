@@ -27,12 +27,12 @@ import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.variabletypes.CLASSVariable;
 import org.coode.oppl.variabletypes.CONSTANTVariable;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
 import org.coode.oppl.variabletypes.INDIVIDUALVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 
 /**
  * Contains some utility method for matching variable names

@@ -39,9 +39,9 @@ import javax.swing.event.ListDataListener;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableType;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.protege.ui.rendering.VariableOWLCellRenderer;
+import org.coode.oppl.variabletypes.VariableType;
 import org.protege.editor.core.ui.list.MList;
 import org.protege.editor.core.ui.list.MListButton;
 import org.protege.editor.core.ui.list.MListItem;

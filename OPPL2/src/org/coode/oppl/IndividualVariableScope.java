@@ -28,6 +28,7 @@ import java.util.Map;
 import org.coode.oppl.VariableScopes.Direction;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObject;

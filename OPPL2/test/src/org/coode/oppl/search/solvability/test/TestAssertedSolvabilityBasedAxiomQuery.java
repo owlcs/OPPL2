@@ -5,12 +5,12 @@ import junit.framework.TestCase;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLFactory;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableType;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.querymatching.AssertedSolvabilityBasedAxiomQuery;
 import org.coode.oppl.querymatching.AssertedTreeSearchSingleAxiomQuery;
+import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -36,7 +36,7 @@ public class TestAssertedSolvabilityBasedAxiomQuery extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory
 					.createConstraintSystem();
 			Variable x = constraintSystem.createVariable("?x",
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			manager.addAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(
 					dataFactory.getOWLClass(IRI.create("A")), dataFactory
@@ -77,9 +77,9 @@ public class TestAssertedSolvabilityBasedAxiomQuery extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory
 					.createConstraintSystem();
 			Variable x = constraintSystem.createVariable("?x",
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			Variable y = constraintSystem.createVariable("?y",
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			manager.addAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(
 					dataFactory.getOWLClass(IRI.create("A")), dataFactory

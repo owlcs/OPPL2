@@ -51,6 +51,7 @@ import org.coode.oppl.generated.OBJECTPROPERTYGeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.utils.VariableDetector;
 import org.coode.oppl.utils.VariableExtractor;
+import org.coode.oppl.variabletypes.VariableType;
 import org.coode.oppl.visitors.GeneratedVariableCollector;
 import org.coode.oppl.visitors.InputVariableCollector;
 import org.semanticweb.owlapi.model.IRI;

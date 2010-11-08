@@ -126,7 +126,7 @@ public class OPPLSymbolTable extends SymbolTable {
 			ManchesterOWLSyntaxTree variableType,
 			ManchesterOWLSyntaxTree expression) {
 		Type toReturn = null;
-		org.coode.oppl.VariableType opplVariableVariableType = org.coode.oppl.VariableType
+		org.coode.oppl.variabletypes.VariableType opplVariableVariableType = org.coode.oppl.variabletypes.VariableType
 				.valueOf(variableType.getText());
 		if (opplVariableVariableType == null) {
 			this.reportIllegalToken(variableType, "Unknown variable type");
@@ -144,7 +144,7 @@ public class OPPLSymbolTable extends SymbolTable {
 		return toReturn;
 	}
 
-	public org.coode.oppl.VariableType getVaribaleType(
+	public org.coode.oppl.variabletypes.VariableType getVaribaleType(
 			ManchesterOWLSyntaxTree variableType) {
 		return VariableType.getVariableType(variableType.getText())
 				.getOPPLVariableType();
@@ -476,7 +476,7 @@ public class OPPLSymbolTable extends SymbolTable {
 	}
 
 	public <P extends OWLObject, O extends VariableAttribute<Collection<P>>> CollectionVariableAttributeSymbol<P, O> getCollectionVariableAttributeSymbol(
-			final org.coode.oppl.VariableType type,
+			final org.coode.oppl.variabletypes.VariableType type,
 			final OPPLSyntaxTree attributeSyntaxTree) {
 		Symbol symbol = this.retrieveSymbol(attributeSyntaxTree.getText());
 		CollectionVariableAttributeSymbol<P, O> toReturn = null;

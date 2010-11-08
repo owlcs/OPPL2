@@ -1,12 +1,10 @@
 package org.coode.oppl.variabletypes;
 
-import org.coode.oppl.VariableType;
-import org.coode.oppl.VariableTypeVisitorEx;
 
 public class CONSTANTVariableImpl extends VariableImpl implements
 		CONSTANTVariable {
 	public CONSTANTVariableImpl(String name) {
-		super(name, VariableType.CONSTANT);
+		super(name, org.coode.oppl.variabletypes.CONSTANT);
 	}
 
 	@Override

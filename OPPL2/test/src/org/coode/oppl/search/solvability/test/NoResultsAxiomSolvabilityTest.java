@@ -5,7 +5,6 @@ import junit.framework.TestCase;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLFactory;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableType;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.search.solvability.AssertedModelQuerySolver;
@@ -17,6 +16,7 @@ import org.coode.oppl.search.solvability.SolvabilitySearchNodeVisitor;
 import org.coode.oppl.search.solvability.SolvableSearchNode;
 import org.coode.oppl.search.solvability.SolvedSearchNode;
 import org.coode.oppl.search.solvability.UnsolvableSearchNode;
+import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -42,7 +42,7 @@ public class NoResultsAxiomSolvabilityTest extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory
 					.createConstraintSystem();
 			Variable x = constraintSystem.createVariable("?x",
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			OWLClass a = dataFactory.getOWLClass(IRI.create("A"));
 			OWLClass b = dataFactory.getOWLClass(IRI.create("B"));
@@ -100,7 +100,7 @@ public class NoResultsAxiomSolvabilityTest extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory
 					.createConstraintSystem();
 			Variable x = constraintSystem.createVariable("?x",
-					VariableType.CLASS);
+					org.coode.oppl.variabletypes.CLASS);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			OWLClass a = dataFactory.getOWLClass(IRI.create("A"));
 			OWLClass b = dataFactory.getOWLClass(IRI.create("B"));
