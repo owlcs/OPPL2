@@ -22,6 +22,7 @@ import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.ManchesterOWLSyntaxTypesParts;
+import org.coode.parsers.common.SilentListener;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.DefaultTypeEnforcer;
 import org.coode.parsers.oppl.OPPLDefine;
@@ -149,7 +150,8 @@ public class OPPLParser implements AbstractOPPLParser {
 				define.downup(tree);
 				nodes.reset();
 				ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(
-						nodes, symtab, this.getListener());
+						nodes, symtab, new SilentListener());
+				symtab.setErrorListener(mOWLTypes.getErrorListener());
 				mOWLTypes.downup(tree);
 				nodes.reset();
 				OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(
@@ -158,7 +160,12 @@ public class OPPLParser implements AbstractOPPLParser {
 										.getOWLEntityFactory(), this
 										.getListener()), this.getListener());
 				typeEnforcement.downup(tree);
+				symtab.setErrorListener(typeEnforcement.getErrorListener());
 				nodes.reset();
+				// I will re-create the Manchester OWL types parser with the
+				// actual error listener
+				mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab, this
+						.getListener());
 				mOWLTypes.downup(tree);
 				nodes.reset();
 				OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, this
@@ -265,18 +272,23 @@ public class OPPLParser implements AbstractOPPLParser {
 			nodes.setTreeAdaptor(ADAPTOR);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-					nodes);
-			simplify.setTreeAdaptor(ADAPTOR);
-			simplify.downup(tree);
-			nodes.reset();
-			OPPLDefine define = new OPPLDefine(nodes, symbolTable, this
-					.getListener(), constraintSystem);
-			define.setTreeAdaptor(ADAPTOR);
-			define.downup(tree);
-			nodes.reset();
 			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(
-					nodes, symbolTable, this.getListener());
+					nodes, symbolTable, new SilentListener());
+			symbolTable.setErrorListener(mOWLTypes.getErrorListener());
+			mOWLTypes.downup(tree);
+			nodes.reset();
+			OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(
+					nodes, symbolTable,
+					new DefaultTypeEnforcer(symbolTable, this
+							.getOPPLAbstractFactory().getOWLEntityFactory(),
+							this.getListener()), this.getListener());
+			typeEnforcement.downup(tree);
+			symbolTable.setErrorListener(typeEnforcement.getErrorListener());
+			nodes.reset();
+			// I will re-create the Manchester OWL types parser with the
+			// actual error listener
+			mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symbolTable, this
+					.getListener());
 			mOWLTypes.downup(tree);
 			nodes.reset();
 			mOWLTypes.downup(tree);
@@ -368,18 +380,9 @@ public class OPPLParser implements AbstractOPPLParser {
 			nodes.setTreeAdaptor(ADAPTOR);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-					nodes);
-			simplify.setTreeAdaptor(ADAPTOR);
-			simplify.downup(tree);
-			nodes.reset();
-			OPPLDefine define = new OPPLDefine(nodes, symbolTable, this
-					.getListener(), constraintSystem);
-			define.setTreeAdaptor(ADAPTOR);
-			define.downup(tree);
-			nodes.reset();
 			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(
-					nodes, symbolTable, this.getListener());
+					nodes, symbolTable, new SilentListener());
+			symbolTable.setErrorListener(mOWLTypes.getErrorListener());
 			mOWLTypes.downup(tree);
 			nodes.reset();
 			OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(
@@ -388,6 +391,13 @@ public class OPPLParser implements AbstractOPPLParser {
 							.getOPPLAbstractFactory().getOWLEntityFactory(),
 							this.getListener()), this.getListener());
 			typeEnforcement.downup(tree);
+			symbolTable.setErrorListener(typeEnforcement.getErrorListener());
+			nodes.reset();
+			// I will re-create the Manchester OWL types parser with the
+			// actual error listener
+			mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symbolTable, this
+					.getListener());
+			mOWLTypes.downup(tree);
 			nodes.reset();
 			mOWLTypes.downup(tree);
 			return (OWLAxiom) ((OPPLSyntaxTree) tree).getOWLObject();

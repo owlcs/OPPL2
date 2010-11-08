@@ -15,16 +15,17 @@ import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableTypeVisitorEx;
-import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.OPPLException;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.log.Logging;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.search.AssignableValueExtractor;
 import org.coode.oppl.search.SearchTree;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.oppl.variabletypes.CLASSVariable;
@@ -120,6 +121,7 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 	}
 
 	private final ConstraintSystem constraintSystem;
+	private final RuntimeExceptionHandler runtimeExceptionHandler;
 	private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor = new VariableTypeVisitorEx<Set<? extends OWLObject>>() {
 		public Set<? extends OWLObject> visit(INDIVIDUALVariable v) {
 			return AbstractSolvabilityOPPLOWLAxiomSearchTree.this.allIndividuals;
@@ -148,12 +150,18 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 	private final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
 
 	public AbstractSolvabilityOPPLOWLAxiomSearchTree(
-			ConstraintSystem constraintSystem) {
+			ConstraintSystem constraintSystem,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
 		if (constraintSystem == null) {
 			throw new NullPointerException(
 					"The constraint system cannot be null");
 		}
+		if (runtimeExceptionHandler == null) {
+			throw new NullPointerException(
+					"The runtime exception handler cannot be null");
+		}
 		this.constraintSystem = constraintSystem;
+		this.runtimeExceptionHandler = runtimeExceptionHandler;
 	}
 
 	/**
@@ -249,7 +257,9 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 															new SimpleValueComputationParameters(
 																	AbstractSolvabilityOPPLOWLAxiomSearchTree.this
 																			.getConstraintSystem(),
-																	binding))
+																	binding,
+																	AbstractSolvabilityOPPLOWLAxiomSearchTree.this
+																			.getRuntimeExceptionHandler()))
 													.matcher(
 															renderer.toString())
 													.matches();
@@ -265,7 +275,9 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 								ValueComputationParameters parameters = new SimpleValueComputationParameters(
 										AbstractSolvabilityOPPLOWLAxiomSearchTree.this
 												.getConstraintSystem(),
-										childBinding);
+										childBinding,
+										AbstractSolvabilityOPPLOWLAxiomSearchTree.this
+												.getRuntimeExceptionHandler());
 								PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
 										parameters);
 								OWLAxiom instantiatedAxiom = (OWLAxiom) solvableSearchNode
@@ -298,38 +310,28 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 
 	protected List<SolvabilitySearchNode> getUnsolvableNodeChildren(
 			UnsolvableSearchNode node) {
-		Set<BindingNode> leaves = this.getConstraintSystem().getLeaves();
 		List<SolvabilitySearchNode> toReturn = new ArrayList<SolvabilitySearchNode>();
 		VariableExtractor variableExtractor = new VariableExtractor(this
 				.getConstraintSystem(), false);
 		Set<Variable> variables = variableExtractor.extractVariables(node
 				.getAxiom());
 		BindingNode binding = node.getBinding();
+		ValueComputationParameters parameters = new SimpleValueComputationParameters(
+				this.getConstraintSystem(), node.getBinding(), this
+						.getRuntimeExceptionHandler());
 		for (Variable variable : variables) {
-			Collection<OWLObject> values = new HashSet<OWLObject>();
-			if (leaves == null) {
-				values.addAll(this.getAssignableValues(variable));
-			} else {
-				for (BindingNode bindingNode : leaves) {
-					ValueComputationParameters parameters = new SimpleValueComputationParameters(
-							this.getConstraintSystem(), bindingNode);
-					if (bindingNode.getAssignedVariables().contains(variable)) {
-						values.add(bindingNode.getAssignmentValue(variable,
-								parameters));
-					} else {
-						values.addAll(this.getAssignableValues(variable));
-					}
-				}
-			}
+			Set<OWLObject> values = new HashSet<OWLObject>();
+			values.addAll(this.getAssignableValues(variable, parameters));
 			for (OWLObject value : values) {
 				Assignment assignment = new Assignment(variable, value);
 				BindingNode childBinding = new BindingNode(binding
 						.getAssignments(), binding.getUnassignedVariables());
 				childBinding.addAssignment(assignment);
-				ValueComputationParameters parameters = new SimpleValueComputationParameters(
-						this.getConstraintSystem(), childBinding);
+				ValueComputationParameters newParameters = new SimpleValueComputationParameters(
+						this.getConstraintSystem(), childBinding, this
+								.getRuntimeExceptionHandler());
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-						parameters);
+						newParameters);
 				OWLAxiom instantiatedAxiom = (OWLAxiom) node.getAxiom().accept(
 						instantiator);
 				SolvabilitySearchNode child = SolvabilitySearchNode
@@ -342,47 +344,10 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 	}
 
 	private Collection<? extends OWLObject> getAssignableValues(
-			Variable variable) {
+			Variable variable, ValueComputationParameters parameters) {
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
-		toReturn.addAll(variable
-				.accept(new VariableVisitor<Set<? extends OWLObject>>() {
-					public Set<? extends OWLObject> visit(Variable v) {
-						return v
-								.accept(AbstractSolvabilityOPPLOWLAxiomSearchTree.this.assignableValuesVisitor);
-					}
-
-					public Set<? extends OWLObject> visit(
-							RegexpGeneratedVariable<?> v) {
-						Set<? extends OWLObject> toReturn = v
-								.accept(AbstractSolvabilityOPPLOWLAxiomSearchTree.this.assignableValuesVisitor);
-						Iterator<? extends OWLObject> iterator = toReturn
-								.iterator();
-						ManchesterSyntaxRenderer renderer = AbstractSolvabilityOPPLOWLAxiomSearchTree.this
-								.getConstraintSystem()
-								.getOPPLFactory()
-								.getManchesterSyntaxRenderer(
-										AbstractSolvabilityOPPLOWLAxiomSearchTree.this
-												.getConstraintSystem());
-						ValueComputationParameters parameters = new SimpleValueComputationParameters(
-								AbstractSolvabilityOPPLOWLAxiomSearchTree.this
-										.getConstraintSystem(), BindingNode
-										.getEmptyBindingNode());
-						while (iterator.hasNext()) {
-							OWLObject owlObject = iterator.next();
-							owlObject.accept(renderer);
-							if (!v.getPatternGeneratingOPPLFunction().compute(
-									parameters).matcher(renderer.toString())
-									.matches()) {
-								iterator.remove();
-							}
-						}
-						return toReturn;
-					}
-
-					public Set<? extends OWLObject> visit(GeneratedVariable<?> v) {
-						return Collections.emptySet();
-					}
-				}));
+		toReturn.addAll(variable.accept(new AssignableValueExtractor(
+				this.assignableValuesVisitor, parameters)));
 		VariableScope<?> variableScope = variable.getVariableScope();
 		if (variableScope != null) {
 			Iterator<OWLObject> iterator = toReturn.iterator();
@@ -597,5 +562,12 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 			BindingNode bindingNode) {
 		return SolvabilitySearchNode.buildSolvabilitySearchNode(axiom, this
 				.getAxiomSolvability(), bindingNode);
+	}
+
+	/**
+	 * @return the runtimeExceptionHandler
+	 */
+	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
+		return this.runtimeExceptionHandler;
 	}
 }

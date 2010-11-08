@@ -80,7 +80,8 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 				for (BindingNode bindingNode : leaves) {
 					SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
 							this.getParameters().getConstraintSystem(),
-							bindingNode);
+							bindingNode, this.getParameters()
+									.getRuntimeExceptionHandler());
 					if (bindingNode.getAssignedVariables().contains(variable)) {
 						values.add(this.getParameters().getBindingNode()
 								.getAssignmentValue(variable, parameters));
@@ -94,7 +95,9 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 				BindingNode bindingNode = new BindingNode(Collections
 						.singleton(assignment), variables);
 				SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
-						this.getParameters().getConstraintSystem(), bindingNode);
+						this.getParameters().getConstraintSystem(),
+						bindingNode, this.getParameters()
+								.getRuntimeExceptionHandler());
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
 						parameters);
 				toReturn.add((OWLAxiom) node.accept(instantiator));

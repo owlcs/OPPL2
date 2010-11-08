@@ -63,6 +63,7 @@ import org.coode.oppl.OPPLScriptVisitorEx;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.protege.ProtegeParserFactory;
 import org.coode.oppl.protege.ui.rendering.InstantiationTableCellRenderer;
@@ -85,11 +86,10 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
  * 
  */
 public final class OPPLView extends AbstractOWLViewComponent implements
-		InputVerificationStatusChangedListener
-// , OWLOntologyChangeListener, OWLModelManagerListener
-{
+		InputVerificationStatusChangedListener {
 	private static final String INSTANTIATED_AXIOMS_TITLE = "Instantiated axioms: ";
 	private static final String BINDINGS_TITLE = "Bindings:";
+	private RuntimeExceptionHandler runtimeExceptionHandler;
 
 	private final class InstantiatedAxiomListModel implements ListModel {
 		private final Set<BindingNode> bindingNodes = new HashSet<BindingNode>();
@@ -126,7 +126,8 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 					PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
 							new SimpleValueComputationParameters(
 									OPPLView.this.statementModel
-											.getConstraintSystem(), leaf));
+											.getConstraintSystem(), leaf,
+									OPPLView.this.getRuntimeExceptionHandler()));
 					List<OWLAxiom> assertedAxioms = query.getAssertedAxioms();
 					for (OWLAxiom owlAxiom : assertedAxioms) {
 						this.instantiations.add((OWLAxiom) owlAxiom
@@ -295,11 +296,11 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 			List<OWLAxiomChange> result = new ArrayList<OWLAxiomChange>();
 			try {
 				ChangeExtractor changeExtractor = new ChangeExtractor(
-						OPPLView.this.statementModel.getConstraintSystem(),
+						OPPLView.this.getRuntimeExceptionHandler(),
 						OPPLView.this.considerImportClosureCheckBox
 								.isSelected());
-				result.addAll(OPPLView.this.statementModel
-						.accept(changeExtractor));
+				result.addAll(changeExtractor
+						.visit(OPPLView.this.statementModel));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -350,6 +351,8 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 		ProtegeParserFactory.reset();
 		OPPLAbstractFactory opplFactory = ProtegeParserFactory.getInstance(
 				this.getOWLEditorKit()).getOPPLFactory();
+		this.runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(
+				this);
 		this.affectedAxioms = new ActionList(
 				this.getOWLEditorKit(),
 				new ConstraintSystem(this.getOWLEditorKit().getModelManager()
@@ -546,5 +549,21 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 					this.statementModel, this.getOWLEditorKit());
 			this.bindingTable.setModel(this.bindingTableModel);
 		}
+	}
+
+	/**
+	 * @return the runtimeExceptionHandler
+	 */
+	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
+		return this.runtimeExceptionHandler;
+	}
+
+	/**
+	 * @param runtimeExceptionHandler
+	 *            the runtimeExceptionHandler to set
+	 */
+	public void setRuntimeExceptionHandler(
+			RuntimeExceptionHandler runtimeExceptionHandler) {
+		this.runtimeExceptionHandler = runtimeExceptionHandler;
 	}
 }

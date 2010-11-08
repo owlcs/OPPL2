@@ -27,7 +27,7 @@ import java.util.List;
 import org.coode.oppl.AbstractConstraint;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLQuery;
-import org.coode.oppl.exceptions.OPPLException;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
@@ -104,14 +104,6 @@ public class ProtegeOPPLQuery implements OPPLQuery {
 		return this.opplQuery.getConstraintSystem();
 	}
 
-	public void execute() {
-		try {
-			this.opplQuery.execute();
-		} catch (OPPLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -151,5 +143,13 @@ public class ProtegeOPPLQuery implements OPPLQuery {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * @param runtimeExceptionHandler
+	 * @see org.coode.oppl.OPPLQuery#execute(org.coode.oppl.exceptions.RuntimeExceptionHandler)
+	 */
+	public void execute(RuntimeExceptionHandler runtimeExceptionHandler) {
+		this.opplQuery.execute(runtimeExceptionHandler);
 	}
 }

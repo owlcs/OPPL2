@@ -25,6 +25,7 @@ import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
@@ -104,6 +105,11 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
 			throw new NullPointerException("The selector cannot be null");
 		}
 		this.selector = selector;
+	}
+
+	@Override
+	public Set<O> visit(OWLDeclarationAxiom axiom) {
+		return this.visitPrimitive(axiom.getEntity());
 	}
 
 	@Override
@@ -619,8 +625,9 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
 		return getAll(owlObject, extractor);
 	}
 
-	public static Set<OWLIndividual> getAllOWLIndividuals(OWLObject owlObject) {
-		OWLObjectExtractor<OWLIndividual> extractor = new OWLObjectExtractor<OWLIndividual>(
+	public static Set<OWLNamedIndividual> getAllOWLIndividuals(
+			OWLObject owlObject) {
+		OWLObjectExtractor<OWLNamedIndividual> extractor = new OWLObjectExtractor<OWLNamedIndividual>(
 				OWLPrimitiveSelector.getAllOWLIndividualSelector());
 		return getAll(owlObject, extractor);
 	}

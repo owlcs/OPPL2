@@ -12,6 +12,8 @@ import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.common.QuickFailErrorListener;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -28,6 +30,8 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import uk.ac.manchester.cs.factplusplus.owlapiv3.FaCTPlusPlusReasonerFactory;
 
 public class TestUserQueries extends TestCase {
+	private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
+
 	public void testSimpleQuery() {
 		String string = "?y:CLASS, ?z:CLASS SELECT ?y subClassOf q some ?z WHERE ?y!=Nothing BEGIN ADD ?y subClassOf p some ?y END;";
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -56,9 +60,8 @@ public class TestUserQueries extends TestCase {
 			OPPLParser parser = parserFactory
 					.build(new QuickFailErrorListener());
 			OPPLScript opplScript = parser.parse(string);
-			ChangeExtractor changeExtractor = new ChangeExtractor(opplScript
-					.getConstraintSystem(), true);
-			opplScript.accept(changeExtractor);
+			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+			changeExtractor.visit(opplScript);
 			Set<BindingNode> leaves = opplScript.getConstraintSystem()
 					.getLeaves();
 			assertTrue(leaves != null);
@@ -98,9 +101,8 @@ public class TestUserQueries extends TestCase {
 			OPPLParser parser = parserFactory
 					.build(new QuickFailErrorListener());
 			OPPLScript opplScript = parser.parse(string);
-			ChangeExtractor changeExtractor = new ChangeExtractor(opplScript
-					.getConstraintSystem(), true);
-			opplScript.accept(changeExtractor);
+			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+			changeExtractor.visit(opplScript);
 			Set<BindingNode> leaves = opplScript.getConstraintSystem()
 					.getLeaves();
 			assertTrue(leaves != null);
@@ -125,9 +127,8 @@ public class TestUserQueries extends TestCase {
 			OPPLParser parser = parserFactory
 					.build(new QuickFailErrorListener());
 			OPPLScript opplScript = parser.parse(string);
-			ChangeExtractor changeExtractor = new ChangeExtractor(opplScript
-					.getConstraintSystem(), true);
-			opplScript.accept(changeExtractor);
+			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+			changeExtractor.visit(opplScript);
 			Set<BindingNode> leaves = opplScript.getConstraintSystem()
 					.getLeaves();
 			assertTrue(leaves != null);

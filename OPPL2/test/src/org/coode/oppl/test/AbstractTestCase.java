@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +18,8 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.utils.VariableExtractor;
@@ -39,6 +40,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 public abstract class AbstractTestCase extends TestCase {
 	private final Map<String, OWLOntology> loadedOntologies = new HashMap<String, OWLOntology>();
 	private static final int TOLERANCE = 3;
+	private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
 	// ontology manager
 	protected OWLOntologyManager ontologyManager = OWLManager
 			.createOWLOntologyManager();
@@ -87,12 +89,9 @@ public abstract class AbstractTestCase extends TestCase {
 
 	protected void execute(OPPLScript script, OWLOntology ontology, int expected) {
 		try {
-			ChangeExtractor changeExtractor = new ChangeExtractor(script
-					.getConstraintSystem(), true);
-			List<OWLAxiomChange> changes = script.accept(changeExtractor);
-			List<OWLAxiomChange> actions = new ArrayList<OWLAxiomChange>();
-			changeExtractor.visitActions(changes, actions);
-			for (OWLAxiomChange change : actions) {
+			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+			List<OWLAxiomChange> changes = changeExtractor.visit(script);
+			for (OWLAxiomChange change : changes) {
 				System.out.println(change);
 			}
 			Set<OWLAxiom> queryAxioms = new HashSet<OWLAxiom>();
@@ -107,7 +106,7 @@ public abstract class AbstractTestCase extends TestCase {
 				for (BindingNode bindingNode : script.getConstraintSystem()
 						.getLeaves()) {
 					ValueComputationParameters parameters = new SimpleValueComputationParameters(
-							script.getConstraintSystem(), bindingNode);
+							script.getConstraintSystem(), bindingNode, HANDLER);
 					PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
 							parameters);
 					for (OWLAxiom owlAxiom : queryAxioms) {

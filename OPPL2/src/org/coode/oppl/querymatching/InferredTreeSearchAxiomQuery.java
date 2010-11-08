@@ -33,6 +33,7 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.search.OPPLInferredOWLAxiomSearchTree;
 import org.coode.oppl.search.OPPLOWLAxiomSearchNode;
 import org.coode.oppl.utils.VariableExtractor;
@@ -46,7 +47,9 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
 	private final ConstraintSystem constraintSystem;
 	private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
 
-	public InferredTreeSearchAxiomQuery(ConstraintSystem constraintSystem) {
+	public InferredTreeSearchAxiomQuery(ConstraintSystem constraintSystem,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
+		super(runtimeExceptionHandler);
 		if (constraintSystem == null) {
 			throw new NullPointerException(
 					"The constraint system cannot be null");
@@ -70,7 +73,7 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
 	private List<List<OPPLOWLAxiomSearchNode>> doMatch(
 			OPPLOWLAxiomSearchNode start) {
 		OPPLInferredOWLAxiomSearchTree searchTree = new OPPLInferredOWLAxiomSearchTree(
-				this.getConstraintSystem());
+				this.getConstraintSystem(), this.getRuntimeExceptionHandler());
 		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
 		searchTree.exhaustiveSearchTree(start, solutions);
 		return solutions;

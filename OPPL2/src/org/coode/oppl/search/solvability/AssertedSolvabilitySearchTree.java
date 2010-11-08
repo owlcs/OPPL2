@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.utils.VariableExtractor;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -26,8 +27,9 @@ public class AssertedSolvabilitySearchTree extends
 	 * @param constraintSystem
 	 */
 	public AssertedSolvabilitySearchTree(ConstraintSystem constraintSystem,
-			OWLOntologyManager ontologyManager) {
-		super(constraintSystem);
+			OWLOntologyManager ontologyManager,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
+		super(constraintSystem, runtimeExceptionHandler);
 		if (ontologyManager == null) {
 			throw new NullPointerException(
 					"The ontology manager cannot be null");

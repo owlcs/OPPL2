@@ -6,6 +6,7 @@ package org.coode.oppl.search;
 import java.util.Iterator;
 
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
@@ -13,8 +14,13 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * 
  */
 public class OPPLAssertedOWLAxiomSearchTree extends AbstractOPPLAxiomSearchTree {
-	public OPPLAssertedOWLAxiomSearchTree(ConstraintSystem constraintSystem) {
-		super(constraintSystem);
+	/**
+	 * @param constraintSystem
+	 * @param runtimeExceptionHandler
+	 */
+	public OPPLAssertedOWLAxiomSearchTree(ConstraintSystem constraintSystem,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
+		super(constraintSystem, runtimeExceptionHandler);
 	}
 
 	/**

@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -42,17 +43,19 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
  * 
  */
 public class ActionFactory {
-	public static List<OWLAxiomChange> createChanges(ActionType actionType, OWLAxiom axiom,
-			ConstraintSystem cs, OWLOntology ontology) {
+	public static List<OWLAxiomChange> createChanges(ActionType actionType,
+			OWLAxiom axiom, ConstraintSystem cs, OWLOntology ontology,
+			RuntimeExceptionHandler runtimeExcpetionHandler) {
 		Set<OWLAxiomChange> toReturn = new HashSet<OWLAxiomChange>();
 		Set<BindingNode> leaves = cs.getLeaves();
 		if (leaves != null) {
 			for (BindingNode bindingNode : leaves) {
 				SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
-						cs, bindingNode);
+						cs, bindingNode, runtimeExcpetionHandler);
 				PartialOWLObjectInstantiator instatiator = new PartialOWLObjectInstantiator(
 						parameters);
-				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instatiator);
+				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom
+						.accept(instatiator);
 				switch (actionType) {
 				case ADD:
 					toReturn.add(new AddAxiom(ontology, instantiatedAxiom));
@@ -85,13 +88,16 @@ public class ActionFactory {
 	 * @param cs
 	 * @param owlDataFactory
 	 * @param ontologies
+	 * @param runtimeExceptionHandler
 	 * @return the List of OWLAxiomChange
 	 */
-	public static List<OWLAxiomChange> createChanges(ActionType actionType, OWLAxiom axiom,
-			ConstraintSystem cs, Set<OWLOntology> ontologies) {
+	public static List<OWLAxiomChange> createChanges(ActionType actionType,
+			OWLAxiom axiom, ConstraintSystem cs, Set<OWLOntology> ontologies,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
 		List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
 		for (OWLOntology ontology : ontologies) {
-			toReturn.addAll(createChanges(actionType, axiom, cs, ontology));
+			toReturn.addAll(createChanges(actionType, axiom, cs, ontology,
+					runtimeExceptionHandler));
 		}
 		return toReturn;
 	}

@@ -1,9 +1,11 @@
 package org.coode.oppl.function.test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -12,10 +14,14 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLFactory;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableType;
+import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.OPPLException;
+import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.Adapter;
+import org.coode.oppl.function.Aggregandum;
 import org.coode.oppl.function.Aggregation;
 import org.coode.oppl.function.Constant;
 import org.coode.oppl.function.Expression;
@@ -27,10 +33,23 @@ import org.coode.oppl.function.ValuesVariableAtttribute;
 import org.coode.oppl.generated.CLASSRegexpGeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.search.AssignableValueExtractor;
+import org.coode.oppl.utils.OWLObjectExtractor;
+import org.coode.oppl.variabletypes.CLASSVariable;
+import org.coode.oppl.variabletypes.CONSTANTVariable;
+import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
+import org.coode.oppl.variabletypes.INDIVIDUALVariable;
+import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -40,6 +59,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 public class OPPLFunctionTest extends TestCase {
 	private final static OWLOntologyManager manager = OWLManager
 			.createOWLOntologyManager();
+	private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
 
 	@Override
 	protected void setUp() throws Exception {
@@ -61,7 +81,7 @@ public class OPPLFunctionTest extends TestCase {
 					IRI.create("blah#a"));
 			bindingNode.addAssignment(new Assignment(x, a));
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
-					constraintSystem, bindingNode);
+					constraintSystem, bindingNode, HANDLER);
 			String value = renderingVariableAttribute.compute(parameters);
 			ManchesterSyntaxRenderer renderer = factory
 					.getManchesterSyntaxRenderer(constraintSystem);
@@ -101,7 +121,7 @@ public class OPPLFunctionTest extends TestCase {
 			constraintSystem.setLeaves(new HashSet<BindingNode>(Arrays.asList(
 					aBindingNode, anotherBindingNode)));
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
-					constraintSystem, bindingNode);
+					constraintSystem, bindingNode, HANDLER);
 			Collection<OWLClass> values = valuesVariableAtttribute
 					.compute(parameters);
 			assertTrue(values.containsAll(Arrays.asList(a, b)));
@@ -127,7 +147,7 @@ public class OPPLFunctionTest extends TestCase {
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
-					constraintSystem, bindingNode);
+					constraintSystem, bindingNode, HANDLER);
 			Collection<OWLClass> values = valuesVariableAtttribute
 					.compute(parameters);
 			assertNull(values);
@@ -164,7 +184,7 @@ public class OPPLFunctionTest extends TestCase {
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
 			bindingNode.addAssignment(new Assignment(x, b));
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
-					constraintSystem, bindingNode);
+					constraintSystem, bindingNode, HANDLER);
 			String value = groupVariableAttribute.compute(parameters);
 			assertTrue(value.compareTo("lu") == 0);
 			manager.removeOntology(ontology);
@@ -186,7 +206,7 @@ public class OPPLFunctionTest extends TestCase {
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
-					constraintSystem, bindingNode);
+					constraintSystem, bindingNode, HANDLER);
 			String value = renderingVariableAttribute.compute(parameters);
 			assertNull(value);
 			manager.removeOntology(ontology);
@@ -215,7 +235,7 @@ public class OPPLFunctionTest extends TestCase {
 									.asList(a, b)), manager.getOWLDataFactory());
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
-					constraintSystem, bindingNode);
+					constraintSystem, bindingNode, HANDLER);
 			OWLClassExpression value = classExpressionIntersection
 					.compute(parameters);
 			assertTrue(value.equals(manager.getOWLDataFactory()
@@ -293,7 +313,7 @@ public class OPPLFunctionTest extends TestCase {
 									.asList(a, b)), manager.getOWLDataFactory());
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
-					constraintSystem, bindingNode);
+					constraintSystem, bindingNode, HANDLER);
 			OWLClassExpression value = classExpressionIntersection
 					.compute(parameters);
 			assertTrue(value.equals(manager.getOWLDataFactory()
@@ -335,7 +355,7 @@ public class OPPLFunctionTest extends TestCase {
 			bindingNode.addAssignment(new Assignment(x, a));
 			bindingNode.addAssignment(new Assignment(y, b));
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
-					constraintSystem, bindingNode);
+					constraintSystem, bindingNode, HANDLER);
 			OWLClassExpression values = expression.compute(parameters);
 			assertTrue(values.equals(manager.getOWLDataFactory()
 					.getOWLObjectSomeValuesFrom(p, a)));
@@ -356,6 +376,156 @@ public class OPPLFunctionTest extends TestCase {
 							p,
 							manager.getOWLDataFactory()
 									.getOWLObjectIntersectionOf(a, b))));
+			manager.removeOntology(ontology);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (OPPLException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testOWLEntityAnnotationRendering() {
+		OWLOntology ontology;
+		try {
+			ontology = manager.createOntology();
+			OWLAnnotationAssertionAxiom axiom = manager
+					.getOWLDataFactory()
+					.getOWLAnnotationAssertionAxiom(
+							manager
+									.getOWLDataFactory()
+									.getOWLAnnotationProperty(
+											IRI
+													.create("blah#annotationProperty")),
+							manager.getOWLDataFactory().getOWLThing().getIRI(),
+							manager.getOWLDataFactory().getOWLLiteral(
+									"Luigi and Monica"));
+			OPPLFactory factory = new OPPLFactory(manager, ontology, null);
+			ConstraintSystem constraintSystem = factory
+					.createConstraintSystem();
+			ManchesterSyntaxRenderer renderer = constraintSystem
+					.getOPPLFactory().getManchesterSyntaxRenderer(
+							constraintSystem);
+			axiom.accept(renderer);
+			System.out.println(renderer);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testRegularExpressionDependentOnAnotherVariable() {
+		try {
+			OWLOntology ontology = manager.createOntology();
+			OPPLFactory factory = new OPPLFactory(manager, ontology, null);
+			ConstraintSystem constraintSystem = factory
+					.createConstraintSystem();
+			Variable x = constraintSystem.createVariable("?x",
+					VariableType.CLASS);
+			RenderingVariableAttribute renderingVariableAttribute = new RenderingVariableAttribute(
+					x);
+			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
+			OWLClass a = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("blah#a"));
+			OWLClass b = manager.getOWLDataFactory().getOWLClass(
+					IRI.create("blah#b"));
+			bindingNode.addAssignment(new Assignment(x, a));
+			BindingNode anotherBindingNode = BindingNode
+					.createNewEmptyBindingNode();
+			anotherBindingNode.addAssignment(new Assignment(x, b));
+			List<Aggregandum<String>> list = new ArrayList<Aggregandum<String>>();
+			list.add(Adapter.buildSingletonAggregandum("("));
+			list.add(Adapter
+					.buildSingletonAggregandum(renderingVariableAttribute));
+			list.add(Adapter.buildSingletonAggregandum(")"));
+			Aggregation<String, String> stringConcatenation = Aggregation
+					.buildStringConcatenation(list);
+			RegexpGeneratedVariable<OWLClass> regexpGeneratedVariable = new CLASSRegexpGeneratedVariable(
+					"?regexp", Adapter
+							.buildRegexpPatternAdapter(stringConcatenation));
+			manager.addAxiom(ontology, manager.getOWLDataFactory()
+					.getOWLDeclarationAxiom(a));
+			manager.addAxiom(ontology, manager.getOWLDataFactory()
+					.getOWLDeclarationAxiom(b));
+			VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValueVisitor = new VariableTypeVisitorEx<Set<? extends OWLObject>>() {
+				public Set<OWLClass> visit(CLASSVariable v) {
+					Set<OWLClass> toReturn = new HashSet<OWLClass>();
+					for (OWLOntology ontology : manager.getOntologies()) {
+						for (OWLAxiom axiom : ontology.getAxioms()) {
+							toReturn.addAll(OWLObjectExtractor
+									.getAllClasses(axiom));
+						}
+					}
+					return toReturn;
+				}
+
+				public Set<OWLLiteral> visit(CONSTANTVariable v) {
+					Set<OWLLiteral> toReturn = new HashSet<OWLLiteral>();
+					for (OWLOntology ontology : manager.getOntologies()) {
+						for (OWLAxiom axiom : ontology.getAxioms()) {
+							toReturn.addAll(OWLObjectExtractor
+									.getAllOWLLiterals(axiom));
+						}
+					}
+					return toReturn;
+				}
+
+				public Set<OWLObjectProperty> visit(OBJECTPROPERTYVariable v) {
+					Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
+					for (OWLOntology ontology : manager.getOntologies()) {
+						for (OWLAxiom axiom : ontology.getAxioms()) {
+							toReturn.addAll(OWLObjectExtractor
+									.getAllOWLObjectProperties(axiom));
+						}
+					}
+					return toReturn;
+				}
+
+				public Set<OWLDataProperty> visit(DATAPROPERTYVariable v) {
+					Set<OWLDataProperty> toReturn = new HashSet<OWLDataProperty>();
+					for (OWLOntology ontology : manager.getOntologies()) {
+						for (OWLAxiom axiom : ontology.getAxioms()) {
+							toReturn.addAll(OWLObjectExtractor
+									.getAllOWLDataProperties(axiom));
+						}
+					}
+					return toReturn;
+				}
+
+				public Set<OWLNamedIndividual> visit(INDIVIDUALVariable v) {
+					Set<OWLNamedIndividual> toReturn = new HashSet<OWLNamedIndividual>();
+					for (OWLOntology ontology : manager.getOntologies()) {
+						for (OWLAxiom axiom : ontology.getAxioms()) {
+							toReturn.addAll(OWLObjectExtractor
+									.getAllOWLIndividuals(axiom));
+						}
+					}
+					return toReturn;
+				}
+			};
+			ValueComputationParameters parameters = new SimpleValueComputationParameters(
+					constraintSystem, bindingNode, HANDLER);
+			AssignableValueExtractor assignableValueExtractor = new AssignableValueExtractor(
+					assignableValueVisitor, parameters);
+			Set<? extends OWLObject> values = regexpGeneratedVariable
+					.accept(assignableValueExtractor);
+			assertTrue(!values.isEmpty());
+			System.out.println(values);
+			list = new ArrayList<Aggregandum<String>>();
+			list.add(Adapter.buildSingletonAggregandum("Test"));
+			list.add(Adapter
+					.buildSingletonAggregandum(renderingVariableAttribute));
+			stringConcatenation = Aggregation.buildStringConcatenation(list);
+			regexpGeneratedVariable = new CLASSRegexpGeneratedVariable(
+					"?regexp", Adapter
+							.buildRegexpPatternAdapter(stringConcatenation));
+			parameters = new SimpleValueComputationParameters(constraintSystem,
+					anotherBindingNode, HANDLER);
+			assignableValueExtractor = new AssignableValueExtractor(
+					assignableValueVisitor, parameters);
+			values = regexpGeneratedVariable.accept(assignableValueExtractor);
+			assertTrue(values.isEmpty());
 			manager.removeOntology(ontology);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();

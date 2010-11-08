@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLAnnotationPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLAnnotationPropertyRangeAxiom;
@@ -46,6 +47,19 @@ import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.SWRLRule;
 
 abstract class AbstractAxiomQuery implements AxiomQuery {
+	private final RuntimeExceptionHandler runtimeExceptionHandler;
+
+	/**
+	 * @param runtimeExceptionHandler
+	 */
+	AbstractAxiomQuery(RuntimeExceptionHandler runtimeExceptionHandler) {
+		if (runtimeExceptionHandler == null) {
+			throw new NullPointerException(
+					"The runtime exception handler cannot be null");
+		}
+		this.runtimeExceptionHandler = runtimeExceptionHandler;
+	}
+
 	protected abstract Set<BindingNode> match(OWLAxiom axiom);
 
 	private final Set<BindingNode> leaves = new HashSet<BindingNode>();
@@ -322,5 +336,12 @@ abstract class AbstractAxiomQuery implements AxiomQuery {
 	 */
 	public Set<BindingNode> getLeaves() {
 		return new HashSet<BindingNode>(this.leaves);
+	}
+
+	/**
+	 * @return the runtimeExceptionHandler
+	 */
+	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
+		return this.runtimeExceptionHandler;
 	}
 }

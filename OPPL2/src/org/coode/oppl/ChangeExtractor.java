@@ -25,8 +25,7 @@ package org.coode.oppl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.coode.oppl.exceptions.OPPLException;
-import org.coode.oppl.utils.ArgCheck;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
@@ -36,63 +35,57 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
  * @author Luigi Iannone
  * 
  */
-public class ChangeExtractor implements OPPLScriptVisitorEx<List<OWLAxiomChange>> {
+public class ChangeExtractor {
 	private final boolean considerImportClosure;
-	private final ConstraintSystem constraintSystem;
+	private final RuntimeExceptionHandler runtimeExceptionHandler;
 
 	/**
 	 * @param ontologyManager
 	 */
-	public ChangeExtractor(ConstraintSystem constraintSystem, boolean considerImportClosure) {
-		ArgCheck.checkNullArgument("The constraint system", constraintSystem);
-		this.constraintSystem = constraintSystem;
+	public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
+			boolean considerImportClosure) {
+		if (runtimeExceptionHandler == null) {
+			throw new NullPointerException(
+					"The runtime exception handler cannot be null");
+		}
+		this.runtimeExceptionHandler = runtimeExceptionHandler;
 		this.considerImportClosure = considerImportClosure;
 	}
 
-	public List<OWLAxiomChange> visit(OPPLQuery q, List<OWLAxiomChange> p) {
+	public List<OWLAxiomChange> visit(OPPLScript script) {
+		if (script == null) {
+			throw new NullPointerException("The script cannot be null");
+		}
+		List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
+		OPPLQuery q = script.getQuery();
 		if (q != null) {
-			try {
-				q.execute();
-			} catch (OPPLException e) {
-				e.printStackTrace();
-			}
+			q.execute(this.getRuntimeExceptionHandler());
 		}
-		return p;
-	}
-
-	public List<OWLAxiomChange> visit(Variable v, List<OWLAxiomChange> p) {
-		return p;
-	}
-
-	public List<OWLAxiomChange> visitActions(List<OWLAxiomChange> changes, List<OWLAxiomChange> p) {
-		if (p == null) {
-			p = new ArrayList<OWLAxiomChange>();
-		}
+		List<OWLAxiomChange> changes = script.getActions();
 		for (OWLAxiomChange change : changes) {
 			boolean isAdd = change instanceof AddAxiom;
 			ActionType action = isAdd ? ActionType.ADD : ActionType.REMOVE;
 			if (this.considerImportClosure && !isAdd) {
-				p.addAll(ActionFactory.createChanges(
-						action,
-						change.getAxiom(),
-						this.constraintSystem,
-						this.getConstraintSystem().getOntologyManager().getImportsClosure(
-								this.getConstraintSystem().getOntology())));
+				toReturn.addAll(ActionFactory.createChanges(action, change
+						.getAxiom(), script.getConstraintSystem(), script
+						.getConstraintSystem().getOntologyManager()
+						.getImportsClosure(
+								script.getConstraintSystem().getOntology()),
+						this.getRuntimeExceptionHandler()));
 			} else {
-				p.addAll(ActionFactory.createChanges(
-						action,
-						change.getAxiom(),
-						this.getConstraintSystem(),
-						this.getConstraintSystem().getOntology()));
+				toReturn.addAll(ActionFactory.createChanges(action, change
+						.getAxiom(), script.getConstraintSystem(), script
+						.getConstraintSystem().getOntology(), this
+						.getRuntimeExceptionHandler()));
 			}
 		}
-		return p;
+		return toReturn;
 	}
 
 	/**
-	 * @return the constraintSystem
+	 * @return the runtimeExceptionHandler
 	 */
-	public ConstraintSystem getConstraintSystem() {
-		return this.constraintSystem;
+	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
+		return this.runtimeExceptionHandler;
 	}
 }

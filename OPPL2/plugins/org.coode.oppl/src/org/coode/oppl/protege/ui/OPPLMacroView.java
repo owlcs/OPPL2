@@ -51,6 +51,7 @@ import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.protege.ProtegeParserFactory;
 import org.coode.oppl.protege.ui.rendering.VariableOWLCellRenderer;
@@ -81,6 +82,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
 	 *
 	 */
 	private static final long serialVersionUID = -8368147957917061074L;
+	private RuntimeExceptionHandler runtimeExceptionHandler;
 	protected ActionList recordedActions;
 	private OWLObjectList entities;
 	protected VariableList variableList;
@@ -98,6 +100,8 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
 		this.constraintSystem = ProtegeParserFactory.getInstance(
 				this.getOWLEditorKit()).getOPPLFactory()
 				.createConstraintSystem();
+		this.runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(
+				this);
 		this.setLayout(new BorderLayout());
 		this.recordedActions = new ActionList(this.getOWLEditorKit(),
 				this.constraintSystem, false);
@@ -358,7 +362,8 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
 		int size = model.size();
 		OWLObjectAbstractor abstractor = new OWLObjectAbstractor(variables,
 				new SimpleValueComputationParameters(this.constraintSystem,
-						BindingNode.createNewEmptyBindingNode()));
+						BindingNode.createNewEmptyBindingNode(), this
+								.getRuntimeExceptionHandler()));
 		for (int i = 0; i < size; i++) {
 			ActionListItem anActionListItem = (ActionListItem) model.remove(i);
 			OWLAxiomChange axiomChange = anActionListItem.getAxiomChange();
@@ -375,7 +380,8 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
 
 	public void handleDeletedVariable(Variable variable) {
 		Set<OWLObject> possibleBindings = this.getConstraintSystem()
-				.getVariableBindings(variable);
+				.getVariableBindings(variable,
+						this.getRuntimeExceptionHandler());
 		ActionListModel model = (ActionListModel) this.recordedActions
 				.getModel();
 		for (int i = model.getSize() - 1; i >= 0; i--) {
@@ -391,7 +397,8 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
 							new HashSet<Variable>());
 					PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
 							new SimpleValueComputationParameters(
-									this.constraintSystem, bindingNode));
+									this.constraintSystem, bindingNode, this
+											.getRuntimeExceptionHandler()));
 					OWLAxiom instantiatedAxiom = (OWLAxiom) axiom
 							.accept(instantiator);
 					OWLAxiomChange newAxiomChange = change instanceof AddAxiom ? new AddAxiom(
@@ -416,5 +423,12 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
 	 */
 	public ConstraintSystem getConstraintSystem() {
 		return this.constraintSystem;
+	}
+
+	/**
+	 * @return the runtimeExceptionHandler
+	 */
+	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
+		return this.runtimeExceptionHandler;
 	}
 }

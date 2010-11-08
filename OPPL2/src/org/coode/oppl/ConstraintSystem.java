@@ -35,6 +35,7 @@ import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.InvalidVariableNameException;
 import org.coode.oppl.exceptions.OPPLException;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.Aggregandum;
 import org.coode.oppl.function.Aggregation;
 import org.coode.oppl.function.Create;
@@ -248,11 +249,13 @@ public class ConstraintSystem {
 		this.leaves.add(bindingNode);
 	}
 
-	public Set<OWLObject> getVariableBindings(Variable v) {
+	public Set<OWLObject> getVariableBindings(Variable v,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
 		Set<BindingNode> leaves = this.getLeaves();
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
 		SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
-				this, BindingNode.getEmptyBindingNode());
+				this, BindingNode.getEmptyBindingNode(),
+				runtimeExceptionHandler);
 		if (leaves != null) {
 			for (BindingNode bindingNode : leaves) {
 				OWLObject assignmentValue = bindingNode.getAssignmentValue(v,

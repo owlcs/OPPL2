@@ -4,14 +4,20 @@
 package org.coode.oppl.search;
 
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 
 /**
  * @author Luigi Iannone
  * 
  */
 public class OPPLInferredOWLAxiomSearchTree extends AbstractOPPLAxiomSearchTree {
-	public OPPLInferredOWLAxiomSearchTree(ConstraintSystem constraintSystem) {
-		super(constraintSystem);
+	/**
+	 * @param constraintSystem
+	 * @param runtimeExceptionHandler
+	 */
+	public OPPLInferredOWLAxiomSearchTree(ConstraintSystem constraintSystem,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
+		super(constraintSystem, runtimeExceptionHandler);
 	}
 
 	/**

@@ -17,6 +17,7 @@ import javax.swing.table.TableModel;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.protege.editor.owl.OWLEditorKit;
@@ -37,7 +38,8 @@ public class InstantiationTableModel implements TableModel {
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
 					InstantiationTableModel.this.opplScript
 							.getConstraintSystem(), BindingNode
-							.getEmptyBindingNode());
+							.getEmptyBindingNode(),
+					InstantiationTableModel.this.getRuntimeExceptionHandler());
 			while (toReturn == 0 && iterator.hasNext()) {
 				Variable variable = iterator.next();
 				OWLObject aValue = aBindingNode.getAssignmentValue(variable,
@@ -57,6 +59,7 @@ public class InstantiationTableModel implements TableModel {
 	private static final NoOPPLScriptTableModel NO_OPPL_SCRIPT_TABLE_MODEL = new NoOPPLScriptTableModel();
 	private final Set<TableModelListener> listeners = new HashSet<TableModelListener>();
 	private final List<BindingNode> leaves = new ArrayList<BindingNode>();
+	private final RuntimeExceptionHandler runtimeExceptionHandler;
 	private final OPPLScript opplScript;
 	private final OWLEditorKit owlEditorKit;
 
@@ -111,6 +114,8 @@ public class InstantiationTableModel implements TableModel {
 		}
 		this.owlEditorKit = owlEditorKit;
 		this.opplScript = opplScript;
+		this.runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(
+				this.getOWLEditorKit().getOWLWorkspace());
 		Set<BindingNode> scriptLeaves = this.getOPPLScript()
 				.getConstraintSystem().getLeaves();
 		if (scriptLeaves != null) {
@@ -177,7 +182,8 @@ public class InstantiationTableModel implements TableModel {
 			}
 		});
 		ValueComputationParameters parameters = new SimpleValueComputationParameters(
-				this.opplScript.getConstraintSystem(), leaf);
+				this.opplScript.getConstraintSystem(), leaf, this
+						.getRuntimeExceptionHandler());
 		Variable variable = sortedVariables.get(columnIndex);
 		toReturn = leaf.getAssignmentValue(variable, parameters);
 		return toReturn;
@@ -226,5 +232,12 @@ public class InstantiationTableModel implements TableModel {
 	 */
 	public OWLEditorKit getOWLEditorKit() {
 		return this.owlEditorKit;
+	}
+
+	/**
+	 * @return the runtimeExceptionHandler
+	 */
+	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
+		return this.runtimeExceptionHandler;
 	}
 }

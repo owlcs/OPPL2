@@ -32,7 +32,7 @@ import java.util.logging.Level;
 
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.exceptions.OPPLException;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.log.Logging;
@@ -295,45 +295,51 @@ public class OPPLQueryImpl implements OPPLQuery {
 		return true;
 	}
 
-	public void execute() throws OPPLException {
+	public void execute(RuntimeExceptionHandler runtimeExceptionHandler) {
 		if (this.isDirty()) {
 			try {
-				this.doExecute();
+				this.doExecute(runtimeExceptionHandler);
 				this.setDirty(false);
 			} catch (OWLRuntimeException e) {
-				throw new OPPLException("Query threw an reasoning exception", e);
+				runtimeExceptionHandler.handleOWLRuntimeException(e);
 			}
 		}
 	}
 
 	/**
+	 * @param runtimeExceptionHandler
 	 * @throws OWLRuntimeException
 	 * 
 	 */
-	private void doExecute() throws OWLRuntimeException {
+	private void doExecute(RuntimeExceptionHandler runtimeExceptionHandler)
+			throws OWLRuntimeException {
 		this.getConstraintSystem().reset();
 		Set<BindingNode> currentLeaves = this.getConstraintSystem().getLeaves();
 		for (OWLAxiom axiom : this.getAssertedAxioms()) {
-			currentLeaves = this.matchAssertedAxiom(axiom, currentLeaves);
+			currentLeaves = this.matchAssertedAxiom(axiom, currentLeaves,
+					runtimeExceptionHandler);
 		}
 		for (OWLAxiom axiom : this.getAxioms()) {
-			currentLeaves = this.matchAxiom(axiom, currentLeaves);
+			currentLeaves = this.matchAxiom(axiom, currentLeaves,
+					runtimeExceptionHandler);
 		}
 		for (AbstractConstraint c : this.getConstraints()) {
-			this.matchConstraint(c, currentLeaves);
+			this.matchConstraint(c, currentLeaves, runtimeExceptionHandler);
 		}
 		this.getConstraintSystem().setLeaves(currentLeaves);
 	}
 
 	private void matchConstraint(AbstractConstraint c,
-			Collection<? extends BindingNode> currentLeaves) {
+			Collection<? extends BindingNode> currentLeaves,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
 		assert c != null;
 		if (currentLeaves != null && !currentLeaves.isEmpty()) {
 			Iterator<? extends BindingNode> it = currentLeaves.iterator();
 			BindingNode leaf;
 			while (it.hasNext()) {
 				leaf = it.next();
-				boolean holdingLeaf = this.checkConstraint(leaf, c);
+				boolean holdingLeaf = this.checkConstraint(leaf, c,
+						runtimeExceptionHandler);
 				if (!holdingLeaf) {
 					it.remove();
 				}
@@ -342,46 +348,52 @@ public class OPPLQueryImpl implements OPPLQuery {
 	}
 
 	private Set<BindingNode> matchAxiom(OWLAxiom axiom,
-			Collection<? extends BindingNode> currentLeaves)
+			Collection<? extends BindingNode> currentLeaves,
+			RuntimeExceptionHandler runtimeExceptionHandler)
 			throws OWLRuntimeException {
 		assert axiom != null;
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		if (currentLeaves != null) {
 			for (BindingNode bindingNode : currentLeaves) {
 				ValueComputationParameters parameters = new SimpleValueComputationParameters(
-						this.getConstraintSystem(), bindingNode);
+						this.getConstraintSystem(), bindingNode,
+						runtimeExceptionHandler);
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
 						parameters);
 				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom
 						.accept(instantiator);
-				Set<BindingNode> newLeaves = this
-						.updateBindings(instantiatedAxiom);
+				Set<BindingNode> newLeaves = this.updateBindings(
+						instantiatedAxiom, runtimeExceptionHandler);
 				toReturn.addAll(this.merge(bindingNode, newLeaves));
 			}
 		} else {
-			toReturn.addAll(this.updateBindings(axiom));
+			toReturn
+					.addAll(this.updateBindings(axiom, runtimeExceptionHandler));
 		}
 		return toReturn;
 	}
 
 	private Set<BindingNode> matchAssertedAxiom(OWLAxiom axiom,
-			Collection<? extends BindingNode> currentLeaves) {
+			Collection<? extends BindingNode> currentLeaves,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
 		assert axiom != null;
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		if (currentLeaves != null) {
 			for (BindingNode bindingNode : currentLeaves) {
 				ValueComputationParameters parameters = new SimpleValueComputationParameters(
-						this.getConstraintSystem(), bindingNode);
+						this.getConstraintSystem(), bindingNode,
+						runtimeExceptionHandler);
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
 						parameters);
 				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom
 						.accept(instantiator);
-				Set<BindingNode> newLeaves = this
-						.updateBindingsAssertedAxiom(instantiatedAxiom);
+				Set<BindingNode> newLeaves = this.updateBindingsAssertedAxiom(
+						instantiatedAxiom, runtimeExceptionHandler);
 				toReturn.addAll(this.merge(bindingNode, newLeaves));
 			}
 		} else {
-			toReturn.addAll(this.updateBindingsAssertedAxiom(axiom));
+			toReturn.addAll(this.updateBindingsAssertedAxiom(axiom,
+					runtimeExceptionHandler));
 		}
 		return toReturn;
 	}
@@ -402,7 +414,8 @@ public class OPPLQueryImpl implements OPPLQuery {
 		return toReturn;
 	}
 
-	private Set<BindingNode> updateBindings(OWLAxiom axiom)
+	private Set<BindingNode> updateBindings(OWLAxiom axiom,
+			RuntimeExceptionHandler runtimeExceptionHandler)
 			throws OWLRuntimeException {
 		assert axiom != null;
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
@@ -416,9 +429,9 @@ public class OPPLQueryImpl implements OPPLQuery {
 												.getLeaves().size()));
 		AxiomQuery query = this.getConstraintSystem().getReasoner() == null ? new AssertedSolvabilityBasedAxiomQuery(
 				this.getConstraintSystem().getOntologyManager().getOntologies(),
-				this.getConstraintSystem())
+				this.getConstraintSystem(), runtimeExceptionHandler)
 				: new InferredSolvabilityBasedTreeSearchAxiomQuery(this
-						.getConstraintSystem());
+						.getConstraintSystem(), runtimeExceptionHandler);
 		Logging.getQueryTestLogging().log(Level.INFO,
 				"Used engine: " + query.getClass().getName());
 		axiom.accept(query);
@@ -426,7 +439,8 @@ public class OPPLQueryImpl implements OPPLQuery {
 		return toReturn;
 	}
 
-	private Set<BindingNode> updateBindingsAssertedAxiom(OWLAxiom axiom) {
+	private Set<BindingNode> updateBindingsAssertedAxiom(OWLAxiom axiom,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
 		assert axiom != null;
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		if (this.isVariableAxiom(axiom)) {
@@ -440,7 +454,8 @@ public class OPPLQueryImpl implements OPPLQuery {
 													.getLeaves().size()));
 			AxiomQuery query = new AssertedSolvabilityBasedAxiomQuery(
 					this.getConstraintSystem().getOntologyManager()
-							.getOntologies(), this.getConstraintSystem());
+							.getOntologies(), this.getConstraintSystem(),
+					runtimeExceptionHandler);
 			axiom.accept(query);
 			toReturn.addAll(query.getLeaves());
 		}
@@ -451,10 +466,11 @@ public class OPPLQueryImpl implements OPPLQuery {
 		return !this.getConstraintSystem().getAxiomVariables(axiom).isEmpty();
 	}
 
-	private boolean checkConstraint(BindingNode leaf, AbstractConstraint c) {
+	private boolean checkConstraint(BindingNode leaf, AbstractConstraint c,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
 		boolean hold = true;
 		ValueComputationParameters parameters = new SimpleValueComputationParameters(
-				this.getConstraintSystem(), leaf);
+				this.getConstraintSystem(), leaf, runtimeExceptionHandler);
 		ConstraintChecker constraintChecker = new ConstraintChecker(parameters);
 		hold = c.accept(constraintChecker);
 		return hold;

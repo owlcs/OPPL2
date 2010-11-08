@@ -33,6 +33,7 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.search.OPPLInferredOWLAxiomSearchTree;
 import org.coode.oppl.search.OPPLOWLAxiomSearchNode;
 import org.coode.oppl.search.solvability.InferredSolvabilitySearchTree;
@@ -51,7 +52,9 @@ public class InferredSolvabilityBasedTreeSearchAxiomQuery extends
 	private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
 
 	public InferredSolvabilityBasedTreeSearchAxiomQuery(
-			ConstraintSystem constraintSystem) {
+			ConstraintSystem constraintSystem,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
+		super(runtimeExceptionHandler);
 		if (constraintSystem == null) {
 			throw new NullPointerException(
 					"The constraint system cannot be null");
@@ -91,7 +94,7 @@ public class InferredSolvabilityBasedTreeSearchAxiomQuery extends
 			OPPLOWLAxiomSearchNode start) {
 		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
 		OPPLInferredOWLAxiomSearchTree searchTree = new OPPLInferredOWLAxiomSearchTree(
-				this.getConstraintSystem());
+				this.getConstraintSystem(), this.getRuntimeExceptionHandler());
 		searchTree.exhaustiveSearchTree(start, solutions);
 		return solutions;
 	}
@@ -99,7 +102,7 @@ public class InferredSolvabilityBasedTreeSearchAxiomQuery extends
 	private List<List<SolvabilitySearchNode>> solvabilityBasedMatching(
 			OWLAxiom axiom, BindingNode bindingNode) {
 		InferredSolvabilitySearchTree searchTree = new InferredSolvabilitySearchTree(
-				this.getConstraintSystem());
+				this.getConstraintSystem(), this.getRuntimeExceptionHandler());
 		List<List<SolvabilitySearchNode>> solutions = new ArrayList<List<SolvabilitySearchNode>>();
 		SolvabilitySearchNode start = searchTree.buildSolvabilitySearchNode(
 				axiom, bindingNode);

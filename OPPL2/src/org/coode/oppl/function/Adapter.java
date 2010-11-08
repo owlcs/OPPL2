@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.coode.oppl.ConstraintSystem;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -85,7 +86,14 @@ public class Adapter {
 
 			public Pattern compute(ValueComputationParameters params) {
 				String string = stringOPPLFunction.compute(params);
-				return Pattern.compile(string);
+				Pattern pattern = null;
+				try {
+					pattern = Pattern.compile(string);
+				} catch (PatternSyntaxException e) {
+					params.getRuntimeExceptionHandler()
+							.handlePatternSyntaxExcpetion(e);
+				}
+				return pattern;
 			}
 
 			public void accept(OPPLFunctionVisitor visitor) {

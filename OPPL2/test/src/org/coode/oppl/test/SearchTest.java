@@ -22,6 +22,8 @@ import org.coode.oppl.Variable;
 import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.search.OWLAxiomSearchTree;
@@ -52,6 +54,7 @@ import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
 public class SearchTest extends TestCase {
 	private final ErrorListener errorListener = new JUnitTestErrorListener();
+	private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
 
 	@Override
 	protected void setUp() throws Exception {
@@ -157,7 +160,7 @@ public class SearchTest extends TestCase {
 									Collections.singleton(assignment),
 									variables);
 							ValueComputationParameters parameters = new SimpleValueComputationParameters(
-									constraintSystem, bindingNode);
+									constraintSystem, bindingNode, HANDLER);
 							PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
 									parameters);
 							toReturn.add((OWLAxiom) node.accept(instantiator));
@@ -276,7 +279,7 @@ public class SearchTest extends TestCase {
 					.iterator().next();
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
 					opplScript.getConstraintSystem(), BindingNode
-							.createNewEmptyBindingNode());
+							.createNewEmptyBindingNode(), HANDLER);
 			SearchTree<OWLAxiom> searchTree = new OWLAxiomSearchTree(parameters);
 			List<List<OWLAxiom>> solutions = new ArrayList<List<OWLAxiom>>();
 			boolean found = searchTree.exhaustiveSearchTree(start, solutions);

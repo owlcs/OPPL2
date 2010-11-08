@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.utils.VariableExtractor;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
@@ -13,8 +14,9 @@ public final class InferredSolvabilitySearchTree extends
 	/**
 	 * @param constraintSystem
 	 */
-	public InferredSolvabilitySearchTree(ConstraintSystem constraintSystem) {
-		super(constraintSystem);
+	public InferredSolvabilitySearchTree(ConstraintSystem constraintSystem,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
+		super(constraintSystem, runtimeExceptionHandler);
 		OWLReasoner reasoner = constraintSystem.getReasoner();
 		if (reasoner == null) {
 			throw new IllegalArgumentException(

@@ -63,7 +63,7 @@ public abstract class RegexpGeneratedVariable<O extends OWLObject> implements
 	 * @see org.coode.oppl.Variable#accept(org.coode.oppl.VariableVisitor)
 	 */
 	public <P> P accept(VariableVisitor<P> visitor) {
-		return this.delegate.accept(visitor);
+		return visitor.visit(this);
 	}
 
 	/**
@@ -111,7 +111,8 @@ public abstract class RegexpGeneratedVariable<O extends OWLObject> implements
 
 	@Override
 	public boolean equals(Object obj) {
-		return this.delegate.equals(obj);
+		return this == obj || obj instanceof Variable
+				&& ((Variable) obj).getName().compareTo(this.getName()) == 0;
 	}
 
 	@Override

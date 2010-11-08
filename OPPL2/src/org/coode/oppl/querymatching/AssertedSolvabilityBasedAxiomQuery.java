@@ -35,6 +35,7 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.search.OPPLAssertedSingleOWLAxiomSearchTree;
 import org.coode.oppl.search.OPPLOWLAxiomSearchNode;
 import org.coode.oppl.search.SearchTree;
@@ -61,7 +62,9 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
 
 	public AssertedSolvabilityBasedAxiomQuery(
 			Collection<? extends OWLOntology> ontologies,
-			ConstraintSystem constraintSystem) {
+			ConstraintSystem constraintSystem,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
+		super(runtimeExceptionHandler);
 		if (ontologies == null) {
 			throw new NullPointerException(
 					"The ontologies collection cannot be null");
@@ -143,7 +146,8 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
 			OWLAxiom axiom, BindingNode bindingNode) {
 		AssertedSolvabilitySearchTree searchTree = new AssertedSolvabilitySearchTree(
 				this.getConstraintSystem(), this.getConstraintSystem()
-						.getOntologyManager());
+						.getOntologyManager(), this
+						.getRuntimeExceptionHandler());
 		List<List<SolvabilitySearchNode>> solutions = new ArrayList<List<SolvabilitySearchNode>>();
 		SolvabilitySearchNode start = searchTree.buildSolvabilitySearchNode(
 				axiom, bindingNode);
@@ -161,7 +165,8 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
 				.get(targetAxiom);
 		if (toReturn == null) {
 			toReturn = new OPPLAssertedSingleOWLAxiomSearchTree(targetAxiom,
-					this.getConstraintSystem());
+					this.getConstraintSystem(), this
+							.getRuntimeExceptionHandler());
 			this.searchTrees.put(targetAxiom, toReturn);
 		}
 		return toReturn;
