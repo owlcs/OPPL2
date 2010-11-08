@@ -92,9 +92,13 @@ options {
 @header {
 	package org.coode.parsers.oppl;
 	import java.util.ArrayList;
+	import java.util.Set;
+	import java.util.HashSet;
 	import java.util.Collections;
+	import java.util.Collection;
 	import java.util.List;
 	import java.util.regex.Pattern;
+	import org.coode.parsers.Symbol;	
 	import org.coode.oppl.AbstractConstraint;
 	import org.coode.oppl.ConstraintSystem;
 	import org.coode.oppl.NAFConstraint;
@@ -160,8 +164,7 @@ regexp returns [Variable variable]
   ^(MATCH se = stringOperation )
 	     {	
 		if(getVariable()!=null){	
-          		Pattern pattern = Pattern.compile(se.render(getConstraintSystem()));
-			RegexpGeneratedVariable<?> v = getConstraintSystem().createRegexpGeneratedVariable(getVariable().getName(), getVariable().getType(), pattern);
+			RegexpGeneratedVariable<?> v = getConstraintSystem().createRegexpGeneratedVariable(getVariable().getName(),  getVariable().getType(), Adapter.buildRegexpPatternAdapter(se));
 	        	$variable = v;
 	        }else{
 			getErrorListener().illegalToken($start, "No variable type to evaluate this OPPL Function");
@@ -182,34 +185,24 @@ opplFunction returns [Variable variable]
 			getErrorListener().illegalToken($start, "No variable type to evaluate this OPPL Function");
 		}
 	     }
-    |^(CREATE_INTERSECTION va = IDENTIFIER)
+    |^(CREATE_INTERSECTION va = aggregandums)
        {
        if(getVariable()!=null){
-        	CollectionVariableAttributeSymbol<?> symbol = this.getSymbolTable().getCollectionVariableAttributeSymbol(org.coode.oppl.VariableType.CLASS,va);
-		if (symbol != null) {
-			$variable = getConstraintSystem().createIntersectionGeneratedVariable(
-								getVariable().getName(),
-								org.coode.oppl.VariableType.CLASS,
-								Collections.singleton((OPPLFunction<? extends OWLClassExpression>) symbol.getVariableAttribute()));
-		} else {
-			this.getErrorListener().illegalToken(va, "Unknown symbol");
-		}         
+		$variable = getConstraintSystem().createIntersectionGeneratedVariable(
+                      								getVariable().getName(),
+                      								org.coode.oppl.VariableType.CLASS,
+                      								(Collection<? extends Aggregandum<OWLClassExpression>>) va);         
         }else{
 		getErrorListener().illegalToken($start, "No variable name to build this OPPL Function");
 	}
        }
-      | ^(CREATE_DISJUNCTION va = IDENTIFIER)
+      | ^(CREATE_DISJUNCTION va = aggregandums)
        	{
        if(getVariable()!=null){
-        	CollectionVariableAttributeSymbol<?> symbol = this.getSymbolTable().getCollectionVariableAttributeSymbol(org.coode.oppl.VariableType.CLASS,va);
-		if (symbol != null) {
-			$variable = getConstraintSystem().createUnionGeneratedVariable(
-								getVariable().getName(),
-								org.coode.oppl.VariableType.CLASS,
-								Collections.singleton((OPPLFunction<? extends OWLClassExpression>) symbol.getVariableAttribute()));
-		} else {
-			this.getErrorListener().illegalToken(va, "Unknown symbol");
-		}         
+		$variable = getConstraintSystem().createUnionGeneratedVariable(
+                      								getVariable().getName(),
+                      								org.coode.oppl.VariableType.CLASS,
+                      								(Collection<? extends Aggregandum<OWLClassExpression>>) va);
         }else{
 		getErrorListener().illegalToken($start, "No variable name to build this OPPL Function");
 	}      
@@ -247,26 +240,31 @@ constraint returns [AbstractConstraint constraint]
 		}
 ;
 
-aggregandums returns [Set<Aggregandum> aggregandums]
+aggregandums returns [List<Aggregandum> set]
 @init
 {
-	$aggregandums = new HashSet<Aggregandum>();
+	$set = new ArrayList<Aggregandum>();
 }
 	:
 		(a = aggregandum{
-			$aggregandums.add(a);
+			$set.add(a);
 		})+
 	;
 
-aggregandum return [Aggregandum aggregandum]
+aggregandum returns [Aggregandum a]
 	:
 	^(IDENTIFIER  VARIABLE_NAME DOT  VALUES)
     	{
-      		$value = getSymbolTable().defineValuesAttributeReferenceSymbol($VARIABLE_NAME,getConstraintSystem());
+      		$a = Adapter.buildSingletonAggregandum(getSymbolTable().defineValuesAttributeReferenceSymbol($VARIABLE_NAME,getConstraintSystem()));
     	}
-    	| ^(IDENTIFIER)
+    	| IDENTIFIER
     	{
-    		
+    		Symbol symbol = this.getSymbolTable().resolve($IDENTIFIER);
+    		if(symbol!=null){
+	    		$a = Adapter.buildSingletonAggregandum($IDENTIFIER.getOWLObject());
+	    	}else{
+	    		getErrorListener().unrecognisedSymbol($IDENTIFIER);
+	    	}
     	}
 	;
 

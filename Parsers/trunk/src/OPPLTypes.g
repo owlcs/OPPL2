@@ -82,7 +82,10 @@ options {
 @header {
   package org.coode.parsers.oppl;
   import java.util.regex.Pattern; 
-  import java.util.Collections; 
+  import java.util.Collections;
+  import java.util.Set;
+  import java.util.HashSet;
+  import java.util.Collection; 
   import org.coode.oppl.entity.OWLEntityRenderer;
   import org.coode.oppl.generated.RegexpGeneratedVariable;
   import org.coode.oppl.AbstractConstraint;
@@ -101,6 +104,7 @@ options {
   import org.coode.oppl.function.Aggregandum;
   import org.coode.oppl.function.Adapter;
   import org.coode.oppl.OPPLAbstractFactory;
+  import org.coode.parsers.Symbol;
   import org.coode.parsers.oppl.variableattribute.CollectionVariableAttributeSymbol;  
   import org.semanticweb.owlapi.model.OWLAxiom;
   import org.semanticweb.owlapi.model.OWLObject;
@@ -288,8 +292,7 @@ variableDefinition returns [Variable variable]
 	  |  ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(MATCH se = stringOperation ))
 	     {
 	      	org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
-          	Pattern pattern = Pattern.compile(se.render(getConstraintSystem()));
-		RegexpGeneratedVariable<?> v = getConstraintSystem().createRegexpGeneratedVariable($VARIABLE_NAME.getText(),  type, pattern);
+		RegexpGeneratedVariable<?> v = getConstraintSystem().createRegexpGeneratedVariable($VARIABLE_NAME.getText(),  type, Adapter.buildRegexpPatternAdapter(se));
 	        $variable = v;
 	     }
 	  | ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(CREATE_OPPL_FUNCTION  value = stringOperation))
@@ -297,32 +300,19 @@ variableDefinition returns [Variable variable]
 	       org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
 	       $variable = constraintSystem.createStringGeneratedVariable($VARIABLE_NAME.getText(),type, value);
 	     }
-    | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME CLASS ^(CREATE_INTERSECTION va = IDENTIFIER))
+    | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_INTERSECTION va = aggregandums))
        {
-         
-
-	CollectionVariableAttributeSymbol<?> symbol = this.getSymbolTable().getCollectionVariableAttributeSymbol(org.coode.oppl.VariableType.CLASS,va);
-	if (symbol != null) {
-		$variable = getConstraintSystem().createIntersectionGeneratedVariable(
-								name.getText(),
-								org.coode.oppl.VariableType.CLASS,
-								Collections.singleton((OPPLFunction<? extends OWLClassExpression>) symbol.getVariableAttribute()));
-	} else {
-		this.getErrorListener().illegalToken(va, "Unknown symbol");
-	}         
+	$variable = getConstraintSystem().createIntersectionGeneratedVariable(
+                      								$VARIABLE_NAME.getText(),
+                      								org.coode.oppl.VariableType.CLASS,
+                      								(Collection<? extends Aggregandum<OWLClassExpression>>) va);
        }
-      | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME CLASS ^(CREATE_DISJUNCTION va = IDENTIFIER))
+      | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_DISJUNCTION va = aggregandums))
        {
-
-	CollectionVariableAttributeSymbol<?> symbol = this.getSymbolTable().getCollectionVariableAttributeSymbol(org.coode.oppl.VariableType.CLASS,va);
-	if (symbol != null) {
-		$variable = getConstraintSystem().createUnionGeneratedVariable(
-								name.getText(),
-								org.coode.oppl.VariableType.CLASS,
-								Collections.singleton((OPPLFunction<? extends OWLClassExpression>) symbol.getVariableAttribute()));
-	} else {
-		this.getErrorListener().illegalToken(va, "Unknown symbol");
-	}        
+	$variable = getConstraintSystem().createUnionGeneratedVariable(
+                      								$VARIABLE_NAME.getText(),
+                      								org.coode.oppl.VariableType.CLASS,
+                      								(Collection<? extends Aggregandum<OWLClassExpression>>) va);      
        }    	     	    
 	;
 
@@ -358,10 +348,6 @@ stringExpression returns [OPPLFunction<String> value]
     {
       $value = getSymbolTable().defineRenderingAttributeReferenceSymbol($VARIABLE_NAME,getConstraintSystem());
     }
-//    |^(IDENTIFIER  VARIABLE_NAME DOT  VALUES)
-//    {
-//      $value = getSymbolTable().defineValuesAttributeReferenceSymbol($VARIABLE_NAME,getConstraintSystem());
-//    }
   ;
 
 
@@ -433,4 +419,31 @@ constraint returns [AbstractConstraint constraint]
 		}
 ;
 
+aggregandums returns [List<Aggregandum> set]
+@init
+{
+	$set = new ArrayList<Aggregandum>();
+}
+	:
+		(a = aggregandum{
+			$set.add(a);
+		})+
+	;
+
+aggregandum returns [Aggregandum a]
+	:
+	^(IDENTIFIER  VARIABLE_NAME DOT  VALUES)
+    	{
+      		$a = Adapter.buildSingletonAggregandum(getSymbolTable().defineValuesAttributeReferenceSymbol($VARIABLE_NAME,getConstraintSystem()));
+    	}
+    	| IDENTIFIER
+    	{
+    		Symbol symbol = this.getSymbolTable().resolve($IDENTIFIER);
+    		if(symbol!=null){
+	    		$a = Adapter.buildSingletonAggregandum($IDENTIFIER.getOWLObject());
+	    	}else{
+	    		getErrorListener().unrecognisedSymbol($IDENTIFIER);
+	    	}
+    	}
+	;
 
