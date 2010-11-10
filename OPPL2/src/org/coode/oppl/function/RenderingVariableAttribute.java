@@ -10,7 +10,7 @@ public class RenderingVariableAttribute extends VariableAttribute<String> {
 	 * @param variable
 	 * @param attribute
 	 */
-	public RenderingVariableAttribute(Variable variable) {
+	public RenderingVariableAttribute(Variable<?> variable) {
 		super(variable, AttributeName.RENDERING);
 	}
 

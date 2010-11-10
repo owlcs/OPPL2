@@ -39,7 +39,7 @@ public class PartialOWLObjectInstantiator extends AbstractOWLObjectInstantiator 
 	public OWLObject visit(OWLLiteral node) {
 		OWLLiteral toReturn = node;
 		if (this.getParameters().getConstraintSystem().isVariable(node)) {
-			Variable variable = this.getParameters().getConstraintSystem().getVariable(
+			Variable<?> variable = this.getParameters().getConstraintSystem().getVariable(
 					node.getLiteral());
 			OWLLiteral assignmentValue = (OWLLiteral) this.getParameters().getBindingNode().getAssignmentValue(
 					variable,

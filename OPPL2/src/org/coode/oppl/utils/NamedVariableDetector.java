@@ -37,12 +37,12 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
  * 
  */
 public class NamedVariableDetector extends AbstractVariableDetector {
-	private final Variable variable;
+	private final Variable<?> variable;
 
 	/**
 	 * @param constraintSystem
 	 */
-	public NamedVariableDetector(Variable variable, ConstraintSystem constraintSystem) {
+	public NamedVariableDetector(Variable<?> variable, ConstraintSystem constraintSystem) {
 		super(constraintSystem);
 		this.variable = variable;
 	}

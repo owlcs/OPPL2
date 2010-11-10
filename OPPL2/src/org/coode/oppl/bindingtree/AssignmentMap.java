@@ -15,8 +15,8 @@ import org.semanticweb.owlapi.model.OWLObject;
  * @author Luigi Iannone
  * 
  */
-public class AssignmentMap implements Map<Variable, Set<OWLObject>> {
-	private final Map<Variable, Set<OWLObject>> delegate = new HashMap<Variable, Set<OWLObject>>();
+public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
+	private final Map<Variable<?>, Set<OWLObject>> delegate = new HashMap<Variable<?>, Set<OWLObject>>();
 
 	/**
 	 * Copy constructor.
@@ -38,7 +38,7 @@ public class AssignmentMap implements Map<Variable, Set<OWLObject>> {
 		}
 		for (BindingNode bindingNode : bindingNodes) {
 			for (Assignment assignment : bindingNode.getAssignments()) {
-				Variable assignedVariable = assignment.getAssignedVariable();
+				Variable<?> assignedVariable = assignment.getAssignedVariable();
 				OWLObject assignedValue = assignment.getAssignment();
 				Set<OWLObject> previousAssignements = this.get(assignedVariable);
 				if (previousAssignements == null) {
@@ -99,7 +99,7 @@ public class AssignmentMap implements Map<Variable, Set<OWLObject>> {
 	 * @return
 	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
 	 */
-	public Set<OWLObject> put(Variable key, Set<OWLObject> value) {
+	public Set<OWLObject> put(Variable<?> key, Set<OWLObject> value) {
 		return this.delegate.put(key, value);
 	}
 
@@ -113,11 +113,11 @@ public class AssignmentMap implements Map<Variable, Set<OWLObject>> {
 	}
 
 	/**
-	 * @param m
+	 * @param arg0
 	 * @see java.util.Map#putAll(java.util.Map)
 	 */
-	public void putAll(Map<? extends Variable, ? extends Set<OWLObject>> m) {
-		this.delegate.putAll(m);
+	public void putAll(Map<? extends Variable<?>, ? extends Set<OWLObject>> arg0) {
+		this.delegate.putAll(arg0);
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class AssignmentMap implements Map<Variable, Set<OWLObject>> {
 	 * @return
 	 * @see java.util.Map#keySet()
 	 */
-	public Set<Variable> keySet() {
+	public Set<Variable<?>> keySet() {
 		return this.delegate.keySet();
 	}
 
@@ -148,7 +148,7 @@ public class AssignmentMap implements Map<Variable, Set<OWLObject>> {
 	 * @return
 	 * @see java.util.Map#entrySet()
 	 */
-	public Set<java.util.Map.Entry<Variable, Set<OWLObject>>> entrySet() {
+	public Set<java.util.Map.Entry<Variable<?>, Set<OWLObject>>> entrySet() {
 		return this.delegate.entrySet();
 	}
 
@@ -176,7 +176,7 @@ public class AssignmentMap implements Map<Variable, Set<OWLObject>> {
 	 * 
 	 * @return a Set of Variable
 	 */
-	public Set<Variable> getVariables() {
-		return new HashSet<Variable>(this.keySet());
+	public Set<Variable<?>> getVariables() {
+		return new HashSet<Variable<?>>(this.keySet());
 	}
 }

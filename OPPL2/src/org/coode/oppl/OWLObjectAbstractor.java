@@ -109,10 +109,11 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject> implements
 		OWLObjectVisitorEx<OWLObject> {
 	private final ValueComputationParameters parameters;
-	private final Set<Variable> variables = new HashSet<Variable>();
+	private final Set<Variable<?>> variables = new HashSet<Variable<?>>();
 	private final Set<BindingNode> bindingNodes = new HashSet<BindingNode>();
 
-	public OWLObjectAbstractor(Collection<Variable> variables, ValueComputationParameters parameters) {
+	public OWLObjectAbstractor(Collection<? extends Variable<?>> variables,
+			ValueComputationParameters parameters) {
 		this(
 				variables,
 				parameters,
@@ -125,7 +126,7 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject> im
 		return object;
 	}
 
-	public OWLObjectAbstractor(Collection<Variable> variables,
+	public OWLObjectAbstractor(Collection<? extends Variable<?>> variables,
 			ValueComputationParameters parameters, Collection<? extends BindingNode> bindingNodes) {
 		if (variables == null) {
 			throw new NullPointerException("The variables cannot be null");
@@ -141,11 +142,11 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject> im
 		this.bindingNodes.addAll(bindingNodes);
 	}
 
-	private Variable getAbstractingVariable(OWLObject owlObject) {
+	private Variable<?> getAbstractingVariable(OWLObject owlObject) {
 		boolean found = false;
-		Iterator<Variable> it = this.variables.iterator();
-		Variable toReturn = null;
-		Variable aVariable = null;
+		Iterator<? extends Variable<?>> it = this.variables.iterator();
+		Variable<?> toReturn = null;
+		Variable<?> aVariable = null;
 		while (!found && it.hasNext()) {
 			aVariable = it.next();
 			Iterator<BindingNode> bindingNodesIterator = this.getBindingNodes().iterator();
@@ -171,7 +172,7 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject> im
 	@Override
 	public OWLClassExpression visit(OWLClass desc) {
 		OWLClassExpression toReturn = null;
-		Variable v = this.getAbstractingVariable(desc);
+		Variable<?> v = this.getAbstractingVariable(desc);
 		if (v != null) {
 			toReturn = this.getParameters().getConstraintSystem().getOntologyManager().getOWLDataFactory().getOWLClass(
 					v.getIRI());
@@ -253,7 +254,7 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject> im
 	@Override
 	public OWLObject visit(OWLDataProperty property) {
 		OWLDataProperty toReturn = property;
-		Variable v = this.getAbstractingVariable(property);
+		Variable<?> v = this.getAbstractingVariable(property);
 		if (v != null) {
 			toReturn = this.getParameters().getConstraintSystem().getOntologyManager().getOWLDataFactory().getOWLDataProperty(
 					v.getIRI());
@@ -443,7 +444,7 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject> im
 	@Override
 	public OWLObject visit(OWLNamedIndividual individual) {
 		OWLIndividual toReturn = individual;
-		Variable v = this.getAbstractingVariable(individual);
+		Variable<?> v = this.getAbstractingVariable(individual);
 		if (v != null) {
 			toReturn = this.getParameters().getConstraintSystem().getOntologyManager().getOWLDataFactory().getOWLNamedIndividual(
 					v.getIRI());
@@ -573,7 +574,7 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject> im
 	@Override
 	public OWLObject visit(OWLObjectProperty property) {
 		OWLObjectProperty toReturn = property;
-		Variable v = this.getAbstractingVariable(property);
+		Variable<?> v = this.getAbstractingVariable(property);
 		if (v != null) {
 			toReturn = this.getParameters().getConstraintSystem().getOntologyManager().getOWLDataFactory().getOWLObjectProperty(
 					v.getIRI());
@@ -724,7 +725,7 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject> im
 	@Override
 	public OWLObject visit(OWLLiteral node) {
 		OWLLiteral toReturn = null;
-		Variable v = this.getAbstractingVariable(node);
+		Variable<?> v = this.getAbstractingVariable(node);
 		if (v != null) {
 			toReturn = this.getParameters().getConstraintSystem().getOntologyManager().getOWLDataFactory().getOWLLiteral(
 					v.getIRI().toString());

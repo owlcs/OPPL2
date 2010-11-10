@@ -33,17 +33,17 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
  * 
  */
 public interface OPPLScript {
-	public void addVariable(Variable variable);
+	public void addVariable(Variable<?> variable);
 
 	/**
 	 * @return the List of the variables declared in this OPPLScript
 	 */
-	public List<Variable> getVariables();
+	public List<Variable<?>> getVariables();
 
 	/**
 	 * @return the List of the InputVariable elements
 	 */
-	public List<Variable> getInputVariables();
+	public List<Variable<?>> getInputVariables();
 
 	/**
 	 * @return the ConstraintSystem used by this OPPLScript

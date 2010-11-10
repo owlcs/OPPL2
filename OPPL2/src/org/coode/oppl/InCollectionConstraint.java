@@ -37,9 +37,8 @@ import org.semanticweb.owlapi.model.OWLObject;
  * @author Luigi Iannone
  * 
  */
-public class InCollectionConstraint<P extends OWLObject> implements
-		AbstractConstraint {
-	private final Variable variable;
+public class InCollectionConstraint<P extends OWLObject> implements AbstractConstraint {
+	private final Variable<P> variable;
 	private final Set<P> collection = new HashSet<P>();
 	private final ConstraintSystem constraintSystem;
 
@@ -48,36 +47,31 @@ public class InCollectionConstraint<P extends OWLObject> implements
 	 * @param collection
 	 * @param constraintSystem
 	 */
-	public InCollectionConstraint(Variable variable,
-			Collection<? extends P> collection,
+	public InCollectionConstraint(Variable<P> variable, Collection<? extends P> collection,
 			ConstraintSystem constraintSystem) {
 		if (variable == null) {
 			throw new NullPointerException("The variable cannot be null");
 		}
 		if (collection == null) {
-			throw new NullPointerException(
-					"The collection of values cannot be null");
+			throw new NullPointerException("The collection of values cannot be null");
 		}
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The constraint system cannot be null");
+			throw new NullPointerException("The constraint system cannot be null");
 		}
 		if (collection.isEmpty()) {
-			throw new IllegalArgumentException(
-					"The collection of values cannot be empty");
+			throw new IllegalArgumentException("The collection of values cannot be empty");
 		}
 		for (P p : collection) {
 			if (!variable.getType().isCompatibleWith(p)) {
-				ManchesterSyntaxRenderer manchesterSyntaxRenderer = constraintSystem
-						.getOPPLFactory().getManchesterSyntaxRenderer(
-								constraintSystem);
+				ManchesterSyntaxRenderer manchesterSyntaxRenderer = constraintSystem.getOPPLFactory().getManchesterSyntaxRenderer(
+						constraintSystem);
 				p.accept(manchesterSyntaxRenderer);
 				Formatter formatter = new Formatter();
-				formatter
-						.format(
-								"The value %s is incompatible with variable %s of type %s",
-								manchesterSyntaxRenderer.toString(), variable,
-								variable.getType());
+				formatter.format(
+						"The value %s is incompatible with variable %s of type %s",
+						manchesterSyntaxRenderer.toString(),
+						variable,
+						variable.getType());
 				throw new IllegalArgumentException(formatter.out().toString());
 			}
 		}
@@ -100,7 +94,7 @@ public class InCollectionConstraint<P extends OWLObject> implements
 	/**
 	 * @return the variable
 	 */
-	public Variable getVariable() {
+	public Variable<P> getVariable() {
 		return this.variable;
 	}
 
@@ -135,9 +129,8 @@ public class InCollectionConstraint<P extends OWLObject> implements
 		boolean first = true;
 		String comma;
 		for (P p : this.collection) {
-			ManchesterSyntaxRenderer manchesterSyntaxRenderer = this
-					.getConstraintSystem().getOPPLFactory()
-					.getManchesterSyntaxRenderer(this.getConstraintSystem());
+			ManchesterSyntaxRenderer manchesterSyntaxRenderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+					this.getConstraintSystem());
 			comma = !first ? ", " : "";
 			first = false;
 			buffer.append(comma);
@@ -158,9 +151,8 @@ public class InCollectionConstraint<P extends OWLObject> implements
 			comma = !first ? ", " : "";
 			first = false;
 			buffer.append(comma);
-			ManchesterSyntaxRenderer renderer = this.getConstraintSystem()
-					.getOPPLFactory().getManchesterSyntaxRenderer(
-							this.getConstraintSystem());
+			ManchesterSyntaxRenderer renderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+					this.getConstraintSystem());
 			p.accept(renderer);
 			buffer.append(renderer.toString());
 		}
@@ -177,5 +169,11 @@ public class InCollectionConstraint<P extends OWLObject> implements
 	 */
 	public ConstraintSystem getConstraintSystem() {
 		return this.constraintSystem;
+	}
+
+	public static <T extends OWLObject> InCollectionConstraint<T> getInCollectionConstraint(
+			Variable<T> variable, Collection<? extends T> collection,
+			ConstraintSystem constraintSystem) {
+		return new InCollectionConstraint<T>(variable, collection, constraintSystem);
 	}
 }

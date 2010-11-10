@@ -2,11 +2,12 @@ package org.coode.oppl;
 
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public interface PlainVariableVisitorEx<O> {
-	O visit(Variable v);
+	<P extends OWLObject> O visit(Variable<P> v);
 
-	O visit(GeneratedVariable<?> v);
+	<P extends OWLObject> O visit(GeneratedVariable<P> v);
 
-	O visit(RegexpGeneratedVariable<?> regExpGenerated);
+	<P extends OWLObject> O visit(RegexpGeneratedVariable<P> regExpGenerated);
 }

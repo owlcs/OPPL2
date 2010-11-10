@@ -31,7 +31,7 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
  * 
  */
 public interface OPPLScriptVisitor {
-	public void visit(Variable v);
+	public void visit(Variable<?> v);
 
 	public void visit(OPPLQuery q);
 

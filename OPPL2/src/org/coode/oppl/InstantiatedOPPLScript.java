@@ -38,7 +38,7 @@ public interface InstantiatedOPPLScript extends OPPLScript {
 	 * @param v
 	 * @param o
 	 */
-	void instantiate(Variable v, OWLObject o);
+	void instantiate(Variable<?> v, OWLObject o);
 
 	public boolean isValid();
 }

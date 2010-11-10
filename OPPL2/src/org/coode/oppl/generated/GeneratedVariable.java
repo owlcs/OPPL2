@@ -1,109 +1,46 @@
 package org.coode.oppl.generated;
 
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.ManchesterVariableSyntax;
 import org.coode.oppl.PlainVariableVisitor;
 import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopeChecker;
-import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.variabletypes.VariableType;
-import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
-public abstract class GeneratedVariable<O extends OWLObject> implements
-		Variable {
-	private final Variable delegate;
+public class GeneratedVariable<O extends OWLObject> implements Variable<O> {
 	private final OPPLFunction<? extends O> opplFunction;
+	private final String name;
+	private final IRI iri;
+	private final VariableType<O> type;
 
-	public GeneratedVariable(String name, OPPLFunction<? extends O> opplFunction) {
+	public GeneratedVariable(String name, VariableType<O> type,
+			OPPLFunction<? extends O> opplFunction) {
 		if (name == null) {
 			throw new NullPointerException("The name cannot be null");
+		}
+		if (type == null) {
+			throw new NullPointerException("The variable type cannot be null");
 		}
 		if (opplFunction == null) {
 			throw new NullPointerException("The OPPL Function cannot be null");
 		}
 		this.opplFunction = opplFunction;
-		this.delegate = this.initDelegate(name);
+		this.name = name;
+		this.type = type;
+		this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
 	}
 
-	protected abstract Variable initDelegate(String name);
-
-	/**
-	 * @return
-	 * @see org.coode.oppl.Variable#getName()
-	 */
-	public String getName() {
-		return this.delegate.getName();
-	}
-
-	/**
-	 * @return
-	 * @see org.coode.oppl.Variable#getIRI()
-	 */
-	public IRI getIRI() {
-		return this.delegate.getIRI();
-	}
-
-	/**
-	 * @return
-	 * @see org.coode.oppl.Variable#getType()
-	 */
-	public VariableType getType() {
-		return this.delegate.getType();
-	}
-
-	/**
-	 * @param variableScope
-	 * @param variableScopeChecker
-	 * @see org.coode.oppl.Variable#setVariableScope(org.coode.oppl.VariableScope,
-	 *      org.coode.oppl.VariableScopeChecker)
-	 */
-	public void setVariableScope(VariableScope<?> variableScope,
-			VariableScopeChecker variableScopeChecker) {
-		this.delegate.setVariableScope(variableScope, variableScopeChecker);
-	}
-
-	/**
-	 * @return
-	 * @see org.coode.oppl.Variable#getVariableScope()
-	 */
-	public VariableScope<?> getVariableScope() {
-		return this.delegate.getVariableScope();
-	}
-
-	/**
-	 * @param <P>
-	 * @param visitor
-	 * @return
-	 * @see org.coode.oppl.Variable#accept(org.coode.oppl.VariableVisitor)
-	 */
-	public <P> P accept(VariableVisitor<P> visitor) {
-		return this.delegate.accept(visitor);
-	}
-
-	/**
-	 * @param <P>
-	 * @param visitor
-	 * @return
-	 * @see org.coode.oppl.Variable#accept(org.coode.oppl.variabletypes.VariableTypeVisitorEx)
-	 */
-	public <P> P accept(VariableTypeVisitorEx<P> visitor) {
-		return this.delegate.accept(visitor);
-	}
-
-	/**
-	 * @param visitor
-	 * @see org.coode.oppl.Variable#accept(org.coode.oppl.PlainVariableVisitor)
-	 */
-	public void accept(PlainVariableVisitor visitor) {
-		visitor.visit(this);
-	}
-
-	public <T> T accept(PlainVariableVisitorEx<T> visitor) {
-		return visitor.visit(this);
+	public String render(ConstraintSystem constraintSystem) {
+		return String.format(
+				"%s:%s = %s",
+				this.getName(),
+				this.getType(),
+				this.getOPPLFunction().render(constraintSystem));
 	}
 
 	/**
@@ -113,18 +50,79 @@ public abstract class GeneratedVariable<O extends OWLObject> implements
 		return this.opplFunction;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		return this.delegate.equals(obj);
+	public String getName() {
+		return this.name;
 	}
 
+	public IRI getIRI() {
+		return this.iri;
+	}
+
+	public VariableType<O> getType() {
+		return this.type;
+	}
+
+	public void setVariableScope(VariableScope<?> variableScope,
+			VariableScopeChecker variableScopeChecker) {
+	}
+
+	public VariableScope<?> getVariableScope() {
+		return null;
+	}
+
+	public void accept(PlainVariableVisitor visitor) {
+		visitor.visit(this);
+	}
+
+	public <T> T accept(PlainVariableVisitorEx<T> visitor) {
+		return visitor.visit(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
-		return this.delegate.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (this.name == null ? 0 : this.name.hashCode());
+		result = prime * result + (this.type == null ? 0 : this.type.hashCode());
+		return result;
 	}
 
-	public String render(ConstraintSystem constraintSystem) {
-		return String.format("%s:%s = %s", this.getName(), this.getType(), this
-				.getOPPLFunction().render(constraintSystem));
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		GeneratedVariable<?> other = (GeneratedVariable<?>) obj;
+		if (this.name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!this.name.equals(other.name)) {
+			return false;
+		}
+		if (this.type == null) {
+			if (other.type != null) {
+				return false;
+			}
+		} else if (!this.type.equals(other.type)) {
+			return false;
+		}
+		return true;
 	}
 }

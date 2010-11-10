@@ -23,8 +23,8 @@
 package org.coode.oppl;
 
 import org.coode.oppl.variabletypes.VariableType;
-import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * Any variable not generated implements this interface; generated variables
@@ -35,7 +35,7 @@ import org.semanticweb.owlapi.model.IRI;
  * @author Luigi Iannone
  * 
  */
-public interface Variable {
+public interface Variable<O extends OWLObject> {
 	/**
 	 * @return the name of the Variable
 	 */
@@ -50,7 +50,7 @@ public interface Variable {
 	 * @return the type of the Variable
 	 * @see VariableType
 	 */
-	public VariableType getType();
+	public VariableType<O> getType();
 
 	/**
 	 * Sets the scope for the Variable that will be checked by means of the
@@ -67,25 +67,6 @@ public interface Variable {
 	 *         assigned)
 	 */
 	public VariableScope<?> getVariableScope();
-
-	/**
-	 * Visitor pattern interface method for visitors with return type
-	 * 
-	 * @param <P>
-	 * @param visitor
-	 * @return
-	 */
-	public <P> P accept(VariableVisitor<P> visitor);
-
-	/**
-	 * Visitor pattern interface method for visitors with return type, based on
-	 * variable type: class, objectproperty, etc
-	 * 
-	 * @param <P>
-	 * @param visitor
-	 * @return
-	 */
-	public <P> P accept(VariableTypeVisitorEx<P> visitor);
 
 	/**
 	 * Visitor pattern interface method for visitors without return type

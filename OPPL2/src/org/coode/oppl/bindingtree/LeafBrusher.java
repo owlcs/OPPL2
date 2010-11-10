@@ -37,9 +37,9 @@ import org.semanticweb.owlapi.model.OWLObject;
  */
 public class LeafBrusher implements BindingVisitor {
 	private Set<BindingNode> leaves = null;
-	private final Map<Variable, Set<OWLObject>> bindings = new HashMap<Variable, Set<OWLObject>>();
+	private final Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
 
-	public LeafBrusher(Map<Variable, Set<OWLObject>> bindings) {
+	public LeafBrusher(Map<Variable<?>, Set<OWLObject>> bindings) {
 		if (bindings == null) {
 			throw new NullPointerException("The bindings cannot be null");
 		}
@@ -94,12 +94,12 @@ public class LeafBrusher implements BindingVisitor {
 	private Set<BindingNode> generateChildren(BindingNode node) {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		if (!node.isLeaf()) {
-			Set<Variable> unassignedVariables = node.getUnassignedVariables();
-			for (Variable variable : unassignedVariables) {
+			Set<Variable<?>> unassignedVariables = node.getUnassignedVariables();
+			for (Variable<?> variable : unassignedVariables) {
 				Set<OWLObject> values = this.getBindings().get(variable);
 				if (values != null) {
 					for (OWLObject owlObject : values) {
-						Set<Variable> childUnassignedVariables = new HashSet<Variable>(
+						Set<Variable<?>> childUnassignedVariables = new HashSet<Variable<?>>(
 								unassignedVariables);
 						childUnassignedVariables.remove(variable);
 						Set<Assignment> childAssignements = new HashSet<Assignment>(
@@ -118,7 +118,7 @@ public class LeafBrusher implements BindingVisitor {
 	/**
 	 * @return the bindings
 	 */
-	public Map<Variable, Set<OWLObject>> getBindings() {
-		return this.bindings;
+	public Map<Variable<?>, Set<OWLObject>> getBindings() {
+		return new HashMap<Variable<?>, Set<OWLObject>>(this.bindings);
 	}
 }

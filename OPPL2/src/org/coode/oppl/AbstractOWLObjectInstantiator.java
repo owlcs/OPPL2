@@ -123,7 +123,7 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
 	public OWLClassExpression visit(OWLClass desc) {
 		OWLClassExpression toReturn = null;
 		if (this.getParameters().getConstraintSystem().isVariable(desc)) {
-			Variable variable = this.getParameters().getConstraintSystem().getVariable(
+			Variable<?> variable = this.getParameters().getConstraintSystem().getVariable(
 					desc.getIRI());
 			OWLClassExpression assignmentValue = (OWLClassExpression) this.getParameters().getBindingNode().getAssignmentValue(
 					variable,
@@ -200,7 +200,7 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
 	public OWLObject visit(OWLDataProperty property) {
 		OWLDataProperty toReturn = property;
 		if (this.getParameters().getConstraintSystem().isVariable(property)) {
-			Variable variable = this.getParameters().getConstraintSystem().getVariable(
+			Variable<?> variable = this.getParameters().getConstraintSystem().getVariable(
 					property.getIRI());
 			OWLDataProperty assignmentValue = (OWLDataProperty) this.getParameters().getBindingNode().getAssignmentValue(
 					variable,
@@ -373,7 +373,7 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
 	public OWLObject visit(OWLNamedIndividual individual) {
 		OWLNamedIndividual toReturn = individual;
 		if (this.getParameters().getConstraintSystem().isVariable(individual)) {
-			Variable variable = this.getParameters().getConstraintSystem().getVariable(
+			Variable<?> variable = this.getParameters().getConstraintSystem().getVariable(
 					individual.getIRI());
 			OWLNamedIndividual assignmentValue = (OWLNamedIndividual) this.getParameters().getBindingNode().getAssignmentValue(
 					variable,
@@ -497,7 +497,7 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
 	public OWLObject visit(OWLObjectProperty property) {
 		OWLObjectProperty toReturn = property;
 		if (this.getParameters().getConstraintSystem().isVariable(property)) {
-			Variable variable = this.getParameters().getConstraintSystem().getVariable(
+			Variable<?> variable = this.getParameters().getConstraintSystem().getVariable(
 					property.getIRI());
 			OWLObjectProperty assignmentValue = (OWLObjectProperty) this.getParameters().getBindingNode().getAssignmentValue(
 					variable,

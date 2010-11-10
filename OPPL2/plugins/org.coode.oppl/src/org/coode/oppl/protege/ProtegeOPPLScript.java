@@ -79,7 +79,7 @@ public class ProtegeOPPLScript implements OPPLScript {
 	/**
 	 * @see org.coode.oppl.OPPLScript#getInputVariables()
 	 */
-	public List<Variable> getInputVariables() {
+	public List<Variable<?>> getInputVariables() {
 		return this.opplScript.getInputVariables();
 	}
 
@@ -93,7 +93,7 @@ public class ProtegeOPPLScript implements OPPLScript {
 	/**
 	 * @see org.coode.oppl.OPPLScript#getVariables()
 	 */
-	public List<Variable> getVariables() {
+	public List<Variable<?>> getVariables() {
 		return this.opplScript.getVariables();
 	}
 
@@ -106,7 +106,7 @@ public class ProtegeOPPLScript implements OPPLScript {
 		return this.opplScript.render();
 	}
 
-	public void addVariable(Variable variable) {
+	public void addVariable(Variable<?> variable) {
 		this.opplScript.addVariable(variable);
 	}
 
@@ -119,8 +119,7 @@ public class ProtegeOPPLScript implements OPPLScript {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ (this.opplScript == null ? 0 : this.opplScript.hashCode());
+		result = prime * result + (this.opplScript == null ? 0 : this.opplScript.hashCode());
 		return result;
 	}
 

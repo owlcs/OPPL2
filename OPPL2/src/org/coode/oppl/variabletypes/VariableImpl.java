@@ -30,26 +30,29 @@ import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopeChecker;
 import org.coode.oppl.VariableVisitor;
-import org.coode.oppl.utils.ArgCheck;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone
  * 
  */
-public abstract class VariableImpl implements Variable {
+class VariableImpl<O extends OWLObject> implements Variable<O> {
 	private final String name;
-	private final VariableType type;
+	private final VariableType<O> type;
 	private final IRI iri;
 	private VariableScope<?> variableScope = null;
 
-	protected VariableImpl(String name, VariableType type) {
-		ArgCheck.checkNullArgument("The name", name);
-		ArgCheck.checkNullArgument("The type", type);
+	VariableImpl(String name, VariableType<O> type) {
+		if (name == null) {
+			throw new NullPointerException("The name of the variable cannot be null");
+		}
+		if (type == null) {
+			throw new NullPointerException("The type of the variable cannot be null");
+		}
 		this.name = name;
 		this.type = type;
-		this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE
-				+ this.getName());
+		this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
 	}
 
 	public String getName() {
@@ -63,7 +66,7 @@ public abstract class VariableImpl implements Variable {
 	/**
 	 * @return the type
 	 */
-	public VariableType getType() {
+	public VariableType<O> getType() {
 		return this.type;
 	}
 
@@ -89,8 +92,6 @@ public abstract class VariableImpl implements Variable {
 		return visitor.visit(this);
 	}
 
-	public abstract <P> P accept(VariableTypeVisitorEx<P> visitor);
-
 	public void accept(PlainVariableVisitor visitor) {
 		visitor.visit(this);
 	}
@@ -104,8 +105,7 @@ public abstract class VariableImpl implements Variable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ (this.name == null ? 0 : this.name.hashCode());
+		result = prime * result + (this.name == null ? 0 : this.name.hashCode());
 		return result;
 	}
 
@@ -125,7 +125,7 @@ public abstract class VariableImpl implements Variable {
 		if (this.getClass() != obj.getClass()) {
 			return false;
 		}
-		VariableImpl other = (VariableImpl) obj;
+		VariableImpl<?> other = (VariableImpl<?>) obj;
 		if (this.name == null) {
 			if (other.name != null) {
 				return false;
@@ -137,8 +137,8 @@ public abstract class VariableImpl implements Variable {
 	}
 
 	public String render(ConstraintSystem constraintSystem) {
-		String scope = this.getVariableScope() == null ? "" : this
-				.getVariableScope().render(constraintSystem);
+		String scope = this.getVariableScope() == null ? "" : this.getVariableScope().render(
+				constraintSystem);
 		return String.format("%s:%s%s", this.getName(), this.getType(), scope);
 	}
 }

@@ -41,7 +41,7 @@ public class OWLObjectInstantiator extends AbstractOWLObjectInstantiator {
 		if (this.getParameters().getConstraintSystem().isVariable(node)) {
 			// XXX the other OwlOBjectInstantiator uses getLiteral - is this the
 			// same?
-			Variable variable = this.getParameters().getConstraintSystem().getVariable(
+			Variable<?> variable = this.getParameters().getConstraintSystem().getVariable(
 					node.toString());
 			toReturn = (OWLLiteral) this.getParameters().getBindingNode().getAssignmentValue(
 					variable,

@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScopes.Direction;
 import org.coode.oppl.function.OPPLFunction;
-import org.coode.oppl.generated.DATAPROPERTYRegexpGeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -18,13 +17,10 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
-public class DATAPROPERTYVariableType extends
-		AbstractVariableType<OWLDataProperty> implements
+public class DATAPROPERTYVariableType extends AbstractVariableType<OWLDataProperty> implements
 		VariableType<OWLDataProperty> {
-	public DATAPROPERTYVariableType(VariableTypeName name,
-			EnumSet<Direction> allowedDirections) {
-		super(name, EnumSet.of(Direction.SUBPROPERTYOF,
-				Direction.SUPERPROPERTYOF));
+	public DATAPROPERTYVariableType(VariableTypeName name) {
+		super(name, EnumSet.of(Direction.SUBPROPERTYOF, Direction.SUPERPROPERTYOF));
 	}
 
 	public void accept(VariableTypeVisitor visitor) {
@@ -35,19 +31,17 @@ public class DATAPROPERTYVariableType extends
 		return visitor.visitDATAPROPERTYVariableType(this);
 	}
 
-	public OWLDataProperty buildOWLObject(OWLDataFactory factory, IRI iri,
-			String shortName) {
+	public OWLDataProperty buildOWLObject(OWLDataFactory factory, IRI iri, String shortName) {
 		return factory.getOWLDataProperty(iri);
 	}
 
 	public RegexpGeneratedVariable<? extends OWLDataProperty> createRegexpGeneratedVariable(
 			String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
-		return new DATAPROPERTYRegexpGeneratedVariable(name,
-				patternGeneratingOPPLFunction);
+		return new RegexpGeneratedVariable<OWLDataProperty>(name,
+				VariableTypeFactory.getDATAPROPERTYVariableType(), patternGeneratingOPPLFunction);
 	}
 
-	public Set<OWLDataProperty> getReferencedOWLObjects(
-			Collection<? extends OWLOntology> ontologies) {
+	public Set<OWLDataProperty> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies) {
 		Set<OWLDataProperty> toReturn = new HashSet<OWLDataProperty>();
 		for (OWLOntology ontology : ontologies) {
 			toReturn.addAll(ontology.getDataPropertiesInSignature());
@@ -55,8 +49,8 @@ public class DATAPROPERTYVariableType extends
 		return toReturn;
 	}
 
-	public Variable instantiateVariable(String name) {
-		return new DATAPROPERTYVariableImpl(name);
+	public Variable<OWLDataProperty> instantiateVariable(String name) {
+		return VariableFactory.getDATAPROPERTYVariable(name);
 	}
 
 	public boolean isCompatibleWith(OWLObject o) {

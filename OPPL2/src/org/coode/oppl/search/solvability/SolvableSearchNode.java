@@ -18,18 +18,17 @@ import org.semanticweb.owlapi.model.OWLObject;
  */
 public class SolvableSearchNode extends SolvabilitySearchNode {
 	private final Set<OWLObject> values = new HashSet<OWLObject>();
-	private final Variable variable;
+	private final Variable<?> variable;
 
 	/**
 	 * @param axiom
 	 * @param bindingNode
 	 */
-	public SolvableSearchNode(Variable variable, OWLAxiom axiom,
-			BindingNode bindingNode, Collection<? extends OWLObject> values) {
+	public SolvableSearchNode(Variable<?> variable, OWLAxiom axiom, BindingNode bindingNode,
+			Collection<? extends OWLObject> values) {
 		super(axiom, bindingNode);
 		if (values == null) {
-			throw new NullPointerException(
-					"The values collection cannot be null");
+			throw new NullPointerException("The values collection cannot be null");
 		}
 		if (variable == null) {
 			throw new NullPointerException("The variable cannot be null");
@@ -64,7 +63,7 @@ public class SolvableSearchNode extends SolvabilitySearchNode {
 	/**
 	 * @return the variable
 	 */
-	public Variable getVariable() {
+	public Variable<?> getVariable() {
 		return this.variable;
 	}
 }

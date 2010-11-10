@@ -3,36 +3,39 @@ package org.coode.oppl.generated;
 import java.util.regex.Pattern;
 
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.ManchesterVariableSyntax;
 import org.coode.oppl.PlainVariableVisitor;
 import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopeChecker;
-import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.variabletypes.VariableType;
-import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
-public abstract class RegexpGeneratedVariable<O extends OWLObject> implements
-		Variable {
+public class RegexpGeneratedVariable<O extends OWLObject> implements Variable<O> {
 	private final OPPLFunction<Pattern> patternGeneratingOPPLFunction;
-	private final Variable delegate;
+	private final String name;
+	private final VariableType<O> type;
+	private final IRI iri;
 
-	public RegexpGeneratedVariable(String name,
+	public RegexpGeneratedVariable(String name, VariableType<O> type,
 			OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
 		if (name == null) {
 			throw new NullPointerException("The name cannot be null");
 		}
+		if (type == null) {
+			throw new NullPointerException("The type cannot be null");
+		}
 		if (patternGeneratingOPPLFunction == null) {
 			throw new NullPointerException("The pattern cannot be null");
 		}
+		this.type = type;
+		this.name = name;
 		this.patternGeneratingOPPLFunction = patternGeneratingOPPLFunction;
-		this.delegate = this.initDelegate(name);
+		this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
 	}
-
-	protected abstract Variable initDelegate(String name);
 
 	/**
 	 * @param visitor
@@ -47,31 +50,11 @@ public abstract class RegexpGeneratedVariable<O extends OWLObject> implements
 	}
 
 	/**
-	 * @param <P>
-	 * @param visitor
-	 * @return
-	 * @see org.coode.oppl.Variable#accept(org.coode.oppl.variabletypes.VariableTypeVisitorEx)
-	 */
-	public <P> P accept(VariableTypeVisitorEx<P> visitor) {
-		return this.delegate.accept(visitor);
-	}
-
-	/**
-	 * @param <P>
-	 * @param visitor
-	 * @return
-	 * @see org.coode.oppl.Variable#accept(org.coode.oppl.VariableVisitor)
-	 */
-	public <P> P accept(VariableVisitor<P> visitor) {
-		return visitor.visit(this);
-	}
-
-	/**
 	 * @return
 	 * @see org.coode.oppl.Variable#getIRI()
 	 */
 	public IRI getIRI() {
-		return this.delegate.getIRI();
+		return this.iri;
 	}
 
 	/**
@@ -79,15 +62,15 @@ public abstract class RegexpGeneratedVariable<O extends OWLObject> implements
 	 * @see org.coode.oppl.Variable#getName()
 	 */
 	public String getName() {
-		return this.delegate.getName();
+		return this.name;
 	}
 
 	/**
 	 * @return
 	 * @see org.coode.oppl.Variable#getType()
 	 */
-	public VariableType getType() {
-		return this.delegate.getType();
+	public VariableType<O> getType() {
+		return this.type;
 	}
 
 	/**
@@ -95,7 +78,7 @@ public abstract class RegexpGeneratedVariable<O extends OWLObject> implements
 	 * @see org.coode.oppl.Variable#getVariableScope()
 	 */
 	public VariableScope<?> getVariableScope() {
-		return this.delegate.getVariableScope();
+		return null;
 	}
 
 	/**
@@ -106,24 +89,14 @@ public abstract class RegexpGeneratedVariable<O extends OWLObject> implements
 	 */
 	public void setVariableScope(VariableScope<?> variableScope,
 			VariableScopeChecker variableScopeChecker) {
-		this.delegate.setVariableScope(variableScope, variableScopeChecker);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return this == obj || obj instanceof Variable
-				&& ((Variable) obj).getName().compareTo(this.getName()) == 0;
-	}
-
-	@Override
-	public int hashCode() {
-		return this.delegate.hashCode();
 	}
 
 	public String render(ConstraintSystem constraintSystem) {
-		return String.format("%s:%s= MATCH (\"%s\")", this.getName(), this
-				.getType(), this.getPatternGeneratingOPPLFunction().render(
-				constraintSystem));
+		return String.format(
+				"%s:%s= MATCH (\"%s\")",
+				this.getName(),
+				this.getType(),
+				this.getPatternGeneratingOPPLFunction().render(constraintSystem));
 	}
 
 	/**
@@ -131,5 +104,53 @@ public abstract class RegexpGeneratedVariable<O extends OWLObject> implements
 	 */
 	public OPPLFunction<Pattern> getPatternGeneratingOPPLFunction() {
 		return this.patternGeneratingOPPLFunction;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (this.name == null ? 0 : this.name.hashCode());
+		result = prime * result + (this.type == null ? 0 : this.type.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		RegexpGeneratedVariable<?> other = (RegexpGeneratedVariable<?>) obj;
+		if (this.name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!this.name.equals(other.name)) {
+			return false;
+		}
+		if (this.type == null) {
+			if (other.type != null) {
+				return false;
+			}
+		} else if (!this.type.equals(other.type)) {
+			return false;
+		}
+		return true;
 	}
 }

@@ -79,9 +79,8 @@ public interface OPPLAbstractFactory {
 	 *         input Variable instances the input OPPLQuery and the input set of
 	 *         actions
 	 */
-	OPPLScript buildOPPLScript(ConstraintSystem constraintSystem,
-			List<Variable> variables, OPPLQuery opplQuery,
-			List<OWLAxiomChange> actions);
+	OPPLScript buildOPPLScript(ConstraintSystem constraintSystem, List<Variable<?>> variables,
+			OPPLQuery opplQuery, List<OWLAxiomChange> actions);
 
 	/**
 	 * @return a new blank OPPLQuery instance
@@ -105,8 +104,7 @@ public interface OPPLAbstractFactory {
 	 * @throws NullPointerException
 	 *             when the input is {@code null}.
 	 */
-	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(
-			ConstraintSystem cs);
+	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs);
 
 	/**
 	 * @return the appropriate OWLDataFactory used by this OPPLAbstractFactory

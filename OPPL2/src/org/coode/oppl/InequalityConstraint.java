@@ -30,7 +30,7 @@ import org.semanticweb.owlapi.model.OWLObject;
  * 
  */
 public class InequalityConstraint implements AbstractConstraint {
-	private final Variable variable;
+	private final Variable<?> variable;
 	private final OWLObject expression;
 	private final ConstraintSystem constraintSystem;
 
@@ -38,7 +38,7 @@ public class InequalityConstraint implements AbstractConstraint {
 	 * @param variable
 	 * @param expression
 	 */
-	public InequalityConstraint(Variable variable, OWLObject expression,
+	public InequalityConstraint(Variable<?> variable, OWLObject expression,
 			ConstraintSystem constraintSystem) {
 		this.variable = variable;
 		this.expression = expression;
@@ -48,7 +48,7 @@ public class InequalityConstraint implements AbstractConstraint {
 	/**
 	 * @return the variable
 	 */
-	public Variable getVariable() {
+	public Variable<?> getVariable() {
 		return this.variable;
 	}
 
@@ -79,9 +79,8 @@ public class InequalityConstraint implements AbstractConstraint {
 	}
 
 	public String render(ConstraintSystem constraintSystem) {
-		ManchesterSyntaxRenderer renderer = this.getConstraintSystem()
-				.getOPPLFactory().getManchesterSyntaxRenderer(
-						this.getConstraintSystem());
+		ManchesterSyntaxRenderer renderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+				this.getConstraintSystem());
 		this.expression.accept(renderer);
 		return this.variable.getName() + " != " + renderer.toString();
 	}
@@ -95,10 +94,8 @@ public class InequalityConstraint implements AbstractConstraint {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ (this.expression == null ? 0 : this.expression.hashCode());
-		result = prime * result
-				+ (this.variable == null ? 0 : this.variable.hashCode());
+		result = prime * result + (this.expression == null ? 0 : this.expression.hashCode());
+		result = prime * result + (this.variable == null ? 0 : this.variable.hashCode());
 		return result;
 	}
 

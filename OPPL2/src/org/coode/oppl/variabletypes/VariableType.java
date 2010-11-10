@@ -41,20 +41,18 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * 
  */
 public interface VariableType<O extends OWLObject> {
-	public abstract Variable instantiateVariable(String name);
+	public abstract Variable<O> instantiateVariable(String name);
 
-	public abstract O buildOWLObject(OWLDataFactory factory, IRI iri,
-			String shortName);
+	public abstract O buildOWLObject(OWLDataFactory factory, IRI iri, String shortName);
 
-	public Set<O> getReferencedOWLObjects(
-			Collection<? extends OWLOntology> ontologies);
+	public Set<O> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies);
 
 	public EnumSet<Direction> getAllowedDirections();
 
 	public boolean isCompatibleWith(OWLObject o);
 
-	public abstract RegexpGeneratedVariable<? extends O> createRegexpGeneratedVariable(
-			String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction);
+	public abstract RegexpGeneratedVariable<? extends O> createRegexpGeneratedVariable(String name,
+			OPPLFunction<Pattern> patternGeneratingOPPLFunction);
 
 	public void accept(VariableTypeVisitor visitor);
 

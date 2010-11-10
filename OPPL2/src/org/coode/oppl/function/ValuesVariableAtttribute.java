@@ -14,7 +14,7 @@ public class ValuesVariableAtttribute<O extends OWLObject> extends VariableAttri
 	 * @param variable
 	 * @param attribute
 	 */
-	public ValuesVariableAtttribute(Variable variable) {
+	public ValuesVariableAtttribute(Variable<O> variable) {
 		super(variable, AttributeName.VALUES);
 	}
 
@@ -49,5 +49,10 @@ public class ValuesVariableAtttribute<O extends OWLObject> extends VariableAttri
 			}
 		};
 		return valueComputation;
+	}
+
+	public static <P extends OWLObject> ValuesVariableAtttribute<P> getValuesVariableAtttribute(
+			Variable<P> v) {
+		return new ValuesVariableAtttribute<P>(v);
 	}
 }

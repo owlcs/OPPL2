@@ -6,6 +6,7 @@ package org.coode.parsers.oppl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.coode.parsers.OWLEntitySymbol;
 import org.coode.parsers.OWLLiteralSymbol;
 import org.coode.parsers.OWLType;
@@ -33,8 +34,8 @@ public enum VariableType implements Type {
 		}
 
 		@Override
-		public org.coode.oppl.variabletypes.VariableType getOPPLVariableType() {
-			return org.org.coode.oppl.variabletypes.CLASS;
+		public org.coode.oppl.variabletypes.VariableType<?> getOPPLVariableType() {
+			return VariableTypeFactory.getCLASSVariableType();
 		}
 	},
 	OBJECTPROPERTY {
@@ -49,8 +50,8 @@ public enum VariableType implements Type {
 		}
 
 		@Override
-		public org.coode.oppl.variabletypes.VariableType getOPPLVariableType() {
-			return org.org.coode.oppl.variabletypes.OBJECTPROPERTY;
+		public org.coode.oppl.variabletypes.VariableType<?> getOPPLVariableType() {
+			return VariableTypeFactory.getOBJECTPROPERTYTypeVariableType();
 		}
 	},
 	DATAPROPERTY {
@@ -65,8 +66,8 @@ public enum VariableType implements Type {
 		}
 
 		@Override
-		public org.coode.oppl.variabletypes.VariableType getOPPLVariableType() {
-			return org.org.coode.oppl.variabletypes.DATAPROPERTY;
+		public org.coode.oppl.variabletypes.VariableType<?> getOPPLVariableType() {
+			return VariableTypeFactory.getDATAPROPERTYVariableType();
 		}
 	},
 	INDIVIDUAL {
@@ -82,8 +83,8 @@ public enum VariableType implements Type {
 		}
 
 		@Override
-		public org.coode.oppl.variabletypes.VariableType getOPPLVariableType() {
-			return org.org.coode.oppl.variabletypes.INDIVIDUAL;
+		public org.coode.oppl.variabletypes.VariableType<?> getOPPLVariableType() {
+			return VariableTypeFactory.getINDIVIDUALVariableType();
 		}
 	},
 	CONSTANT {
@@ -98,12 +99,12 @@ public enum VariableType implements Type {
 		}
 
 		@Override
-		public org.coode.oppl.variabletypes.VariableType getOPPLVariableType() {
-			return org.org.coode.oppl.variabletypes.CONSTANT;
+		public org.coode.oppl.variabletypes.VariableType<?> getOPPLVariableType() {
+			return VariableTypeFactory.getCONSTANTVariableType();
 		}
 	};
 	private final static Map<String, VariableType> map = new HashMap<String, VariableType>();
-	private final static Map<org.coode.oppl.variabletypes.VariableType, VariableType> typeMap = new HashMap<org.coode.oppl.variabletypes.VariableType, VariableType>();
+	private final static Map<org.coode.oppl.variabletypes.VariableType<?>, VariableType> typeMap = new HashMap<org.coode.oppl.variabletypes.VariableType<?>, VariableType>();
 	private final String NAMESPACE = "http://www.coode.org/oppl/variablemansyntax#";
 
 	protected IRI createIRI(String name) {
@@ -116,11 +117,11 @@ public enum VariableType implements Type {
 		map.put("DATAPROPERTY", DATAPROPERTY);
 		map.put("INDIVIDUAL", INDIVIDUAL);
 		map.put("CONSTANT", CONSTANT);
-		typeMap.put(org.org.coode.oppl.variabletypes.CLASS, CLASS);
-		typeMap.put(org.org.coode.oppl.variabletypes.OBJECTPROPERTY, OBJECTPROPERTY);
-		typeMap.put(org.org.coode.oppl.variabletypes.DATAPROPERTY, DATAPROPERTY);
-		typeMap.put(org.org.coode.oppl.variabletypes.INDIVIDUAL, INDIVIDUAL);
-		typeMap.put(org.org.coode.oppl.variabletypes.CONSTANT, CONSTANT);
+		typeMap.put(VariableTypeFactory.getCLASSVariableType(), CLASS);
+		typeMap.put(VariableTypeFactory.getOBJECTPROPERTYTypeVariableType(), OBJECTPROPERTY);
+		typeMap.put(VariableTypeFactory.getDATAPROPERTYVariableType(), DATAPROPERTY);
+		typeMap.put(VariableTypeFactory.getINDIVIDUALVariableType(), INDIVIDUAL);
+		typeMap.put(VariableTypeFactory.getCONSTANTVariableType(), CONSTANT);
 	}
 
 	public void accept(TypeVisitor visitor) {
@@ -135,7 +136,8 @@ public enum VariableType implements Type {
 		return map.get(string);
 	}
 
-	public static VariableType getVariableType(org.coode.oppl.variabletypes.VariableType variableType) {
+	public static VariableType getVariableType(
+			org.coode.oppl.variabletypes.VariableType<?> variableType) {
 		return typeMap.get(variableType);
 	}
 
@@ -143,5 +145,5 @@ public enum VariableType implements Type {
 
 	public abstract Symbol getSymbol(OWLDataFactory dataFactory, String name);
 
-	public abstract org.coode.oppl.variabletypes.VariableType getOPPLVariableType();
+	public abstract org.coode.oppl.variabletypes.VariableType<?> getOPPLVariableType();
 }

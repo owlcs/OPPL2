@@ -10,8 +10,12 @@ public class ValuesVariableAttributeSymbol<P extends OWLObject> extends
 	 * @param type
 	 * @param variableAttribute
 	 */
-	public ValuesVariableAttributeSymbol(String name,
-			ValuesVariableAtttribute<P> variableAttribute) {
+	public ValuesVariableAttributeSymbol(String name, ValuesVariableAtttribute<P> variableAttribute) {
 		super(name, variableAttribute);
+	}
+
+	public static <T extends OWLObject> ValuesVariableAttributeSymbol<T> getValuesVariableAttributeSymbol(
+			String name, ValuesVariableAtttribute<T> variableAttribute) {
+		return new ValuesVariableAttributeSymbol<T>(name, variableAttribute);
 	}
 }

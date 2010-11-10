@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScopes.Direction;
 import org.coode.oppl.function.OPPLFunction;
-import org.coode.oppl.generated.CONSTANTRegexpGeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.utils.OWLObjectExtractor;
 import org.semanticweb.owlapi.model.IRI;
@@ -20,8 +19,8 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
-public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral>
-		implements VariableType<OWLLiteral> {
+public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral> implements
+		VariableType<OWLLiteral> {
 	/**
 	 * @param name
 	 * @param allowedDirections
@@ -38,19 +37,17 @@ public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral>
 		return visitor.visitCONSTANTVariableType(this);
 	}
 
-	public OWLLiteral buildOWLObject(OWLDataFactory factory, IRI iri,
-			String shortName) {
+	public OWLLiteral buildOWLObject(OWLDataFactory factory, IRI iri, String shortName) {
 		return factory.getOWLLiteral(shortName);
 	}
 
-	public RegexpGeneratedVariable<? extends OWLLiteral> createRegexpGeneratedVariable(
-			String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
-		return new CONSTANTRegexpGeneratedVariable(name,
-				patternGeneratingOPPLFunction);
+	public RegexpGeneratedVariable<? extends OWLLiteral> createRegexpGeneratedVariable(String name,
+			OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+		return new RegexpGeneratedVariable<OWLLiteral>(name,
+				VariableTypeFactory.getCONSTANTVariableType(), patternGeneratingOPPLFunction);
 	}
 
-	public Set<OWLLiteral> getReferencedOWLObjects(
-			Collection<? extends OWLOntology> ontologies) {
+	public Set<OWLLiteral> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies) {
 		Set<OWLLiteral> toReturn = new HashSet<OWLLiteral>();
 		for (OWLOntology ontology : ontologies) {
 			for (OWLAxiom axiom : ontology.getAxioms()) {
@@ -60,16 +57,17 @@ public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral>
 		return toReturn;
 	}
 
-	public Variable instantiateVariable(String name) {
-		return new CONSTANTVariableImpl(name);
+	public Variable<OWLLiteral> instantiateVariable(String name) {
+		return VariableFactory.getCONSTANTVariable(name);
 	}
 
 	public boolean isCompatibleWith(OWLObject o) {
-		return o.accept(new OWLObjectVisitorExAdapter<Boolean>() {
+		OWLObjectVisitorExAdapter<Boolean> visitor = new OWLObjectVisitorExAdapter<Boolean>(false) {
 			@Override
 			public Boolean visit(OWLLiteral literal) {
 				return true;
 			}
-		});
+		};
+		return o.accept(visitor);
 	}
 }

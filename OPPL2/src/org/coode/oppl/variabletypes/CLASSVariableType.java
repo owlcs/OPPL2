@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScopes.Direction;
 import org.coode.oppl.function.OPPLFunction;
-import org.coode.oppl.generated.CLASSRegexpGeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -36,8 +35,8 @@ import org.semanticweb.owlapi.model.OWLObjectUnionOf;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
-public class CLASSVariableType extends AbstractVariableType<OWLClassExpression>
-		implements VariableType<OWLClassExpression> {
+public class CLASSVariableType extends AbstractVariableType<OWLClassExpression> implements
+		VariableType<OWLClassExpression> {
 	public CLASSVariableType(VariableTypeName name) {
 		super(name, EnumSet.of(Direction.SUBCLASSOF, Direction.SUPERCLASSOF));
 	}
@@ -50,15 +49,14 @@ public class CLASSVariableType extends AbstractVariableType<OWLClassExpression>
 		return visitor.visitCLASSVariableType(this);
 	}
 
-	public OWLClassExpression buildOWLObject(OWLDataFactory factory, IRI iri,
-			String shortName) {
+	public OWLClassExpression buildOWLObject(OWLDataFactory factory, IRI iri, String shortName) {
 		return factory.getOWLClass(iri);
 	}
 
-	public RegexpGeneratedVariable<OWLClass> createRegexpGeneratedVariable(
-			String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
-		return new CLASSRegexpGeneratedVariable(name,
-				patternGeneratingOPPLFunction);
+	public RegexpGeneratedVariable<OWLClassExpression> createRegexpGeneratedVariable(String name,
+			OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+		return new RegexpGeneratedVariable<OWLClassExpression>(name,
+				VariableTypeFactory.getCLASSVariableType(), patternGeneratingOPPLFunction);
 	}
 
 	public Set<OWLClassExpression> getReferencedOWLObjects(
@@ -70,8 +68,8 @@ public class CLASSVariableType extends AbstractVariableType<OWLClassExpression>
 		return toReturn;
 	}
 
-	public Variable instantiateVariable(String name) {
-		return new CLASSVariableImpl(name);
+	public Variable<OWLClassExpression> instantiateVariable(String name) {
+		return VariableFactory.getCLASSVariable(name);
 	}
 
 	public boolean isCompatibleWith(OWLObject o) {

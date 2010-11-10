@@ -16,8 +16,7 @@ public abstract class StringVariableAttributeSymbol extends
 	 * @param type
 	 * @param variableAttribute
 	 */
-	public StringVariableAttributeSymbol(String name,
-			VariableAttribute<String> variableAttribute) {
+	public StringVariableAttributeSymbol(String name, VariableAttribute<String> variableAttribute) {
 		super(name, VariableAttributeType.STRING, variableAttribute);
 	}
 
@@ -29,16 +28,15 @@ public abstract class StringVariableAttributeSymbol extends
 		return visitor.visitStringVariableAttributeSymbol(this);
 	}
 
-	public static StringVariableAttributeSymbol getRendering(Variable v) {
-		return new StringVariableAttributeSymbol(v.getName(),
-				new RenderingVariableAttribute(v)) {
+	public static StringVariableAttributeSymbol getRendering(Variable<?> v) {
+		return new StringVariableAttributeSymbol(v.getName(), new RenderingVariableAttribute(v)) {
 		};
 	}
 
 	public static <O extends OWLObject> StringVariableAttributeSymbol getGroup(
 			RegexpGeneratedVariable<O> v, int index) {
-		return new StringVariableAttributeSymbol(v.getName(),
-				new GroupVariableAttribute<O>(v, index)) {
+		return new StringVariableAttributeSymbol(v.getName(), new GroupVariableAttribute<O>(v,
+				index)) {
 		};
 	}
 }

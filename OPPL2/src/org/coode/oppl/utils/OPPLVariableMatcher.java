@@ -27,11 +27,11 @@ import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
-import org.coode.oppl.variabletypes.CLASSVariable;
-import org.coode.oppl.variabletypes.CONSTANTVariable;
-import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
-import org.coode.oppl.variabletypes.INDIVIDUALVariable;
-import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
+import org.coode.oppl.variabletypes.CLASSVariableType;
+import org.coode.oppl.variabletypes.CONSTANTVariableType;
+import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
+import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
+import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 
 /**
@@ -53,52 +53,39 @@ public class OPPLVariableMatcher {
 	 *         String from the input ConstraintSystem, provided their type has
 	 *         to be included.
 	 */
-	public static Set<Variable> matches(final String name, ConstraintSystem constraintSystem,
+	public static Set<Variable<?>> matches(final String name, ConstraintSystem constraintSystem,
 			final boolean matchClasses, final boolean matchObjectProperties,
 			final boolean matchDataProperties, final boolean matchIndividuals,
 			final boolean matchConstants) {
-		Set<Variable> variables = constraintSystem.getVariables();
-		Set<Variable> toReturn = new HashSet<Variable>(variables.size());
-		VariableTypeVisitorEx<Variable> visitor = new VariableTypeVisitorEx<Variable>() {
-			public Variable visit(INDIVIDUALVariable v) {
-				if (matchIndividuals && v.getName().startsWith(name)) {
-					return v;
-				}
-				return null;
+		Set<Variable<?>> variables = constraintSystem.getVariables();
+		Set<Variable<?>> toReturn = new HashSet<Variable<?>>(variables.size());
+		VariableTypeVisitorEx<Boolean> visitor = new VariableTypeVisitorEx<Boolean>() {
+			public Boolean visitCLASSVariableType(CLASSVariableType classVariableType) {
+				return matchClasses;
 			}
 
-			public Variable visit(DATAPROPERTYVariable v) {
-				if (matchDataProperties && v.getName().startsWith(name)) {
-					return v;
-				}
-				return null;
+			public Boolean visitOBJECTPROPERTYVariableType(
+					OBJECTPROPERTYVariableType objectpropertyVariableType) {
+				return matchObjectProperties;
 			}
 
-			public Variable visit(OBJECTPROPERTYVariable v) {
-				if (matchObjectProperties && v.getName().startsWith(name)) {
-					return v;
-				}
-				return null;
+			public Boolean visitDATAPROPERTYVariableType(
+					DATAPROPERTYVariableType datapropertyVariableType) {
+				return matchDataProperties;
 			}
 
-			public Variable visit(CONSTANTVariable v) {
-				if (matchConstants && v.getName().startsWith(name)) {
-					return v;
-				}
-				return null;
+			public Boolean visitINDIVIDUALVariableType(INDIVIDUALVariableType individualVariableType) {
+				return matchIndividuals;
 			}
 
-			public Variable visit(CLASSVariable v) {
-				if (matchClasses && v.getName().startsWith(name)) {
-					return v;
-				}
-				return null;
+			public Boolean visitCONSTANTVariableType(CONSTANTVariableType constantVariableType) {
+				return matchConstants;
 			}
 		};
-		for (Variable variable : variables) {
-			Variable v = variable.accept(visitor);
-			if (v != null) {
-				toReturn.add(v);
+		for (Variable<?> variable : variables) {
+			if (variable != null && variable.getName().startsWith(name)
+					&& variable.getType().accept(visitor)) {
+				toReturn.add(variable);
 			}
 		}
 		return toReturn;

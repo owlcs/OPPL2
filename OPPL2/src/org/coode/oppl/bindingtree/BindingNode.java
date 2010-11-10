@@ -30,8 +30,8 @@ import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PlainVariableVisitor;
+import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.entity.OWLEntityRenderer;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.generated.GeneratedVariable;
@@ -43,45 +43,38 @@ import org.semanticweb.owlapi.model.OWLObject;
  * @author Luigi Iannone
  * 
  */
-public class BindingNode { // implements VariableVisitor<OWLObject> {
+public class BindingNode {
 	private static final BindingNode EMPTY_BINDING_NODE = new BindingNode(
-			Collections.<Assignment> emptySet(), Collections
-					.<Variable> emptySet());
+			Collections.<Assignment> emptySet(), Collections.<Variable<?>> emptySet());
 
 	private static class VariableInspector implements PlainVariableVisitor {
-		private Set<Variable> toUpdate;
+		private Set<Variable<?>> toUpdate;
 
-		public VariableInspector(Set<Variable> toUpdate) {
+		public VariableInspector(Set<Variable<?>> toUpdate) {
 			this.toUpdate = toUpdate;
 		}
 
-		public void visit(Variable v) {
+		public <P extends OWLObject> void visit(Variable<P> v) {
 			this.toUpdate.add(v);
 		}
 
-		public void visit(GeneratedVariable<?> v) {
+		public <P extends OWLObject> void visit(GeneratedVariable<P> v) {
 		}
 
-		public void visit(RegexpGeneratedVariable<?> regExpGenerated) {
+		public <P extends OWLObject> void visit(RegexpGeneratedVariable<P> regExpGenerated) {
 		}
 	}
 
 	private final Set<Assignment> assignments = new HashSet<Assignment>();
-	private final Set<Variable> unassignedVariables = new HashSet<Variable>();
+	private final Set<Variable<?>> unassignedVariables = new HashSet<Variable<?>>();
 	private final VariableInspector unassignedVariablesUpdater = new VariableInspector(
 			this.unassignedVariables);
 
-	// TODO multiple issues to be clarified:
-	// - assignments and unassigned variables are done differently in the
-	// constructor and in the add methods
-	// - unassigned variables are either added through a visitor or directly -
-	// that might break things if the variable implementation of accept varies
 	/**
 	 * @param assignments
 	 * @param unassignedVariables
 	 */
-	public BindingNode(Set<Assignment> assignments,
-			Set<Variable> unassignedVariables) {
+	public BindingNode(Set<Assignment> assignments, Set<Variable<?>> unassignedVariables) {
 		this.assignments.addAll(assignments);
 		this.unassignedVariables.addAll(unassignedVariables);
 	}
@@ -114,27 +107,23 @@ public class BindingNode { // implements VariableVisitor<OWLObject> {
 
 	@Override
 	public String toString() {
-		return this.assignments
-				+ "\n"
-				+ (this.unassignedVariables.isEmpty() ? ""
-						: this.unassignedVariables);
+		return this.assignments + "\n"
+				+ (this.unassignedVariables.isEmpty() ? "" : this.unassignedVariables);
 	}
 
 	public String render(ConstraintSystem cs) {
 		boolean first = true;
 		StringWriter stringWriter = new StringWriter();
-		OWLEntityRenderer entityRenderer = cs.getOPPLFactory()
-				.getOWLEntityRenderer(cs);
+		OWLEntityRenderer entityRenderer = cs.getOPPLFactory().getOWLEntityRenderer(cs);
 		for (Assignment assignment : this.assignments) {
 			OWLObject value = assignment.getAssignment();
-			String assignmentRendering = value instanceof OWLEntity ? entityRenderer
-					.render((OWLEntity) value)
+			String assignmentRendering = value instanceof OWLEntity ? entityRenderer.render((OWLEntity) value)
 					: value.toString();
 			String commaString = first ? "" : ", ";
 			stringWriter.append(commaString);
 			first = false;
-			stringWriter.append(assignment.getAssignedVariable().getName()
-					+ " = " + assignmentRendering);
+			stringWriter.append(assignment.getAssignedVariable().getName() + " = "
+					+ assignmentRendering);
 		}
 		if (!this.unassignedVariables.isEmpty()) {
 			stringWriter.append(" ");
@@ -143,10 +132,10 @@ public class BindingNode { // implements VariableVisitor<OWLObject> {
 		return stringWriter.toString();
 	}
 
-	public OWLObject getAssignmentValue(Variable variable,
+	public OWLObject getAssignmentValue(Variable<?> variable,
 			final ValueComputationParameters parameters) {
-		return variable.accept(new VariableVisitor<OWLObject>() {
-			public OWLObject visit(Variable v) {
+		return variable.accept(new PlainVariableVisitorEx<OWLObject>() {
+			public <O extends OWLObject> OWLObject visit(Variable<O> v) {
 				return this.findAssignment(v);
 			}
 
@@ -154,9 +143,8 @@ public class BindingNode { // implements VariableVisitor<OWLObject> {
 			 * @param v
 			 * @return
 			 */
-			public OWLObject findAssignment(Variable v) {
-				Iterator<Assignment> iterator = BindingNode.this
-						.getAssignments().iterator();
+			public OWLObject findAssignment(Variable<?> v) {
+				Iterator<Assignment> iterator = BindingNode.this.getAssignments().iterator();
 				boolean found = false;
 				OWLObject toReturn = null;
 				while (!found && iterator.hasNext()) {
@@ -169,11 +157,11 @@ public class BindingNode { // implements VariableVisitor<OWLObject> {
 				return toReturn;
 			}
 
-			public OWLObject visit(GeneratedVariable<?> v) {
+			public <O extends OWLObject> OWLObject visit(GeneratedVariable<O> v) {
 				return v.getOPPLFunction().compute(parameters);
 			}
 
-			public OWLObject visit(RegexpGeneratedVariable<?> v) {
+			public <O extends OWLObject> OWLObject visit(RegexpGeneratedVariable<O> v) {
 				return this.findAssignment(v);
 			}
 		});
@@ -181,25 +169,23 @@ public class BindingNode { // implements VariableVisitor<OWLObject> {
 
 	public void addAssignment(final Assignment assignment) {
 		assignment.getAssignedVariable().accept(new PlainVariableVisitor() {
-			public void visit(RegexpGeneratedVariable<?> regExpGenerated) {
+			public <P extends OWLObject> void visit(RegexpGeneratedVariable<P> regExpGenerated) {
 				BindingNode.this.assignments.add(assignment);
-				BindingNode.this.unassignedVariables.remove(assignment
-						.getAssignedVariable());
+				BindingNode.this.unassignedVariables.remove(assignment.getAssignedVariable());
 			}
 
-			public void visit(GeneratedVariable<?> v) {
+			public <P extends OWLObject> void visit(GeneratedVariable<P> v) {
 			}
 
-			public void visit(Variable v) {
+			public <P extends OWLObject> void visit(Variable<P> v) {
 				BindingNode.this.assignments.add(assignment);
-				BindingNode.this.unassignedVariables.remove(assignment
-						.getAssignedVariable());
+				BindingNode.this.unassignedVariables.remove(assignment.getAssignedVariable());
 			}
 		});
 	}
 
-	public Set<Variable> getAssignedVariables() {
-		Set<Variable> toReturn = new HashSet<Variable>();
+	public Set<Variable<?>> getAssignedVariables() {
+		Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
 		for (Assignment assignment : this.assignments) {
 			toReturn.add(assignment.getAssignedVariable());
 		}
@@ -213,8 +199,8 @@ public class BindingNode { // implements VariableVisitor<OWLObject> {
 		return new HashSet<Assignment>(this.assignments);
 	}
 
-	public Set<Variable> getUnassignedVariables() {
-		return new HashSet<Variable>(this.unassignedVariables);
+	public Set<Variable<?>> getUnassignedVariables() {
+		return new HashSet<Variable<?>>(this.unassignedVariables);
 	}
 
 	/**
@@ -222,34 +208,10 @@ public class BindingNode { // implements VariableVisitor<OWLObject> {
 	 * 
 	 * @param v
 	 */
-	public void addUnassignedVariable(Variable v) {
+	public void addUnassignedVariable(Variable<?> v) {
 		v.accept(this.unassignedVariablesUpdater);
 	}
 
-	// public OWLObject visit(Variable v) {
-	// for (Assignment assignment : this.assignments) {
-	// if (assignment.getAssignedVariable().equals(v)) {
-	// return assignment.getAssignment();
-	// }
-	// }
-	// return null;
-	// }
-	//
-	// public OWLObject visit(GeneratedVariable<?> v) {
-	// OWLObject toReturn = this.visit((Variable) v);
-	// if (toReturn == null) {
-	// toReturn = v.getOPPLFunction().compute(null);
-	// }
-	// return toReturn;
-	// }
-	//
-	// public OWLObject visit(RegExpGenerated<?> v) {
-	// OWLObject toReturn = this.visit((Variable) v);
-	// if (toReturn == null) {
-	// toReturn = v.getGeneratedOWLObject(this);
-	// }
-	// return toReturn;
-	// }
 	/**
 	 * @return true if the Binding node has got no assigned variable nor to
 	 *         assign variables
@@ -263,8 +225,8 @@ public class BindingNode { // implements VariableVisitor<OWLObject> {
 	}
 
 	public static BindingNode createNewEmptyBindingNode() {
-		return new BindingNode(Collections.<Assignment> emptySet(), Collections
-				.<Variable> emptySet());
+		return new BindingNode(Collections.<Assignment> emptySet(),
+				Collections.<Variable<?>> emptySet());
 	}
 
 	/*
@@ -276,12 +238,9 @@ public class BindingNode { // implements VariableVisitor<OWLObject> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + (this.assignments == null ? 0 : this.assignments.hashCode());
 		result = prime * result
-				+ (this.assignments == null ? 0 : this.assignments.hashCode());
-		result = prime
-				* result
-				+ (this.unassignedVariables == null ? 0
-						: this.unassignedVariables.hashCode());
+				+ (this.unassignedVariables == null ? 0 : this.unassignedVariables.hashCode());
 		return result;
 	}
 

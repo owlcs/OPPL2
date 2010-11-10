@@ -7,6 +7,7 @@ import org.coode.oppl.PlainVariableVisitor;
 import org.coode.oppl.Variable;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
+import org.semanticweb.owlapi.model.OWLObject;
 
 public class GeneratedVariableCollector implements PlainVariableVisitor {
 	private final List<GeneratedVariable<?>> toReturn;
@@ -19,14 +20,14 @@ public class GeneratedVariableCollector implements PlainVariableVisitor {
 		this(new ArrayList<GeneratedVariable<?>>());
 	}
 
-	public void visit(GeneratedVariable<?> v) {
+	public <O extends OWLObject> void visit(GeneratedVariable<O> v) {
 		this.toReturn.add(v);
 	}
 
-	public void visit(RegexpGeneratedVariable<?> regExpGenerated) {
+	public <O extends OWLObject> void visit(RegexpGeneratedVariable<O> regExpGenerated) {
 	}
 
-	public void visit(Variable v) {
+	public <O extends OWLObject> void visit(Variable<O> v) {
 		// empty, does not return input variables
 	}
 

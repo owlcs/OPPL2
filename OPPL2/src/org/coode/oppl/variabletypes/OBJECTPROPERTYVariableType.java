@@ -7,10 +7,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableScopes;
 import org.coode.oppl.VariableScopes.Direction;
 import org.coode.oppl.function.OPPLFunction;
-import org.coode.oppl.generated.OBJECTPROPERTYRegexpGeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -21,17 +19,14 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
-public class OBJECTPROPERTYVariableType extends
-		AbstractVariableType<OWLObjectPropertyExpression> implements
-		VariableType<OWLObjectPropertyExpression> {
+public class OBJECTPROPERTYVariableType extends AbstractVariableType<OWLObjectPropertyExpression>
+		implements VariableType<OWLObjectPropertyExpression> {
 	/**
 	 * @param name
 	 * @param allowedDirections
 	 */
-	public OBJECTPROPERTYVariableType(VariableTypeName name,
-			EnumSet<Direction> allowedDirections) {
-		super(name, EnumSet.of(Direction.SUBPROPERTYOF,
-				Direction.SUPERPROPERTYOF));
+	public OBJECTPROPERTYVariableType(VariableTypeName name) {
+		super(name, EnumSet.of(Direction.SUBPROPERTYOF, Direction.SUPERPROPERTYOF));
 	}
 
 	public void accept(VariableTypeVisitor visitor) {
@@ -42,14 +37,15 @@ public class OBJECTPROPERTYVariableType extends
 		return visitor.visitOBJECTPROPERTYVariableType(this);
 	}
 
-	public OWLObjectPropertyExpression buildOWLObject(OWLDataFactory factory,
-			IRI iri, String shortName) {
+	public OWLObjectPropertyExpression buildOWLObject(OWLDataFactory factory, IRI iri,
+			String shortName) {
 		return factory.getOWLObjectProperty(iri);
 	}
 
 	public RegexpGeneratedVariable<? extends OWLObjectPropertyExpression> createRegexpGeneratedVariable(
 			String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
-		return new OBJECTPROPERTYRegexpGeneratedVariable(name,
+		return new RegexpGeneratedVariable<OWLObjectPropertyExpression>(name,
+				VariableTypeFactory.getOBJECTPROPERTYTypeVariableType(),
 				patternGeneratingOPPLFunction);
 	}
 
@@ -62,8 +58,8 @@ public class OBJECTPROPERTYVariableType extends
 		return toReturn;
 	}
 
-	public Variable instantiateVariable(String name) {
-		return new OBJECTPROPERTYVariableImpl(name);
+	public Variable<OWLObjectPropertyExpression> instantiateVariable(String name) {
+		return VariableFactory.getOBJECTPROPERTYVariable(name);
 	}
 
 	public boolean isCompatibleWith(OWLObject o) {
