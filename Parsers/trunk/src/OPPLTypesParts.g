@@ -100,6 +100,7 @@ options {
 	import java.util.regex.Pattern;
 	import org.coode.parsers.Symbol;	
 	import org.coode.oppl.AbstractConstraint;
+	import org.coode.oppl.variabletypes.VariableTypeFactory;	
 	import org.coode.oppl.ConstraintSystem;
 	import org.coode.oppl.NAFConstraint;
 	import org.coode.oppl.OPPLAbstractFactory;
@@ -189,9 +190,9 @@ opplFunction returns [Variable variable]
        {
        if(getVariable()!=null){
 		$variable = getConstraintSystem().createIntersectionGeneratedVariable(
-                      								getVariable().getName(),
-                      								org.coode.oppl.VariableType.CLASS,
-                      								(Collection<? extends Aggregandum<OWLClassExpression>>) va);         
+								this.getVariable().getName(),
+								VariableTypeFactory.getCLASSVariableType(),
+								(Collection<? extends Aggregandum<OWLClassExpression>>) va);         
         }else{
 		getErrorListener().illegalToken($start, "No variable name to build this OPPL Function");
 	}
@@ -200,9 +201,9 @@ opplFunction returns [Variable variable]
        	{
        if(getVariable()!=null){
 		$variable = getConstraintSystem().createUnionGeneratedVariable(
-                      								getVariable().getName(),
-                      								org.coode.oppl.VariableType.CLASS,
-                      								(Collection<? extends Aggregandum<OWLClassExpression>>) va);
+								this.getVariable().getName(),
+								VariableTypeFactory.getCLASSVariableType(),
+								(Collection<? extends Aggregandum<OWLClassExpression>>) va);         
         }else{
 		getErrorListener().illegalToken($start, "No variable name to build this OPPL Function");
 	}      

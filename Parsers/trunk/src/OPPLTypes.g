@@ -104,6 +104,7 @@ options {
   import org.coode.oppl.function.Aggregandum;
   import org.coode.oppl.function.Adapter;
   import org.coode.oppl.OPPLAbstractFactory;
+  import org.coode.oppl.variabletypes.VariableTypeFactory;
   import org.coode.parsers.Symbol;
   import org.coode.parsers.oppl.variableattribute.CollectionVariableAttributeSymbol;  
   import org.semanticweb.owlapi.model.OWLAxiom;
@@ -130,7 +131,7 @@ bottomup // match subexpressions innermost to outermost
 
 statement
 @init{
-	List<Variable> vds = new ArrayList<Variable>();
+	List<Variable<?>> vds = new ArrayList<Variable<?>>();
 }
 	:
 		^(OPPL_STATEMENT vd = variableDefinitions? q=query? actions)
@@ -152,9 +153,9 @@ statement
 		}
 	;
 
-variableDefinitions returns [List<Variable> variables]
+variableDefinitions returns [List<Variable<?>> variables]
 @init{
-	List<Variable> toReturn = new ArrayList<Variable>();
+	List<Variable<?>> toReturn = new ArrayList<Variable<?>>();
 }
 @after{
 	$variables = toReturn;
@@ -291,28 +292,28 @@ variableDefinition returns [Variable variable]
 	    }
 	  |  ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(MATCH se = stringOperation ))
 	     {
-	      	org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
+	      	org.coode.oppl.variabletypes.VariableType<?> type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
 		RegexpGeneratedVariable<?> v = getConstraintSystem().createRegexpGeneratedVariable($VARIABLE_NAME.getText(),  type, Adapter.buildRegexpPatternAdapter(se));
 	        $variable = v;
 	     }
 	  | ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(CREATE_OPPL_FUNCTION  value = stringOperation))
 	     {
-	       org.coode.oppl.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
+	       org.coode.oppl.variabletypes.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
 	       $variable = constraintSystem.createStringGeneratedVariable($VARIABLE_NAME.getText(),type, value);
 	     }
     | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_INTERSECTION va = aggregandums))
        {
 	$variable = getConstraintSystem().createIntersectionGeneratedVariable(
-                      								$VARIABLE_NAME.getText(),
-                      								org.coode.oppl.VariableType.CLASS,
-                      								(Collection<? extends Aggregandum<OWLClassExpression>>) va);
+							$VARIABLE_NAME.getText(),
+							VariableTypeFactory.getCLASSVariableType(),
+							(Collection<? extends Aggregandum<OWLClassExpression>>) va);
        }
       | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_DISJUNCTION va = aggregandums))
        {
 	$variable = getConstraintSystem().createUnionGeneratedVariable(
-                      								$VARIABLE_NAME.getText(),
-                      								org.coode.oppl.VariableType.CLASS,
-                      								(Collection<? extends Aggregandum<OWLClassExpression>>) va);      
+							$VARIABLE_NAME.getText(),
+							VariableTypeFactory.getCLASSVariableType(),
+							(Collection<? extends Aggregandum<OWLClassExpression>>) va);      
        }    	     	    
 	;
 
