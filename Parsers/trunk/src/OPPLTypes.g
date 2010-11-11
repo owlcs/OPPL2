@@ -85,7 +85,8 @@ options {
   import java.util.Collections;
   import java.util.Set;
   import java.util.HashSet;
-  import java.util.Collection; 
+  import java.util.Collection;
+  import org.coode.oppl.VariableScopeChecker;   
   import org.coode.oppl.entity.OWLEntityRenderer;
   import org.coode.oppl.generated.RegexpGeneratedVariable;
   import org.coode.oppl.AbstractConstraint;
@@ -264,10 +265,7 @@ variableDefinition returns [Variable variable]
 		  ^(INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE vs = variableScope?)
 		  {
 		  try {
-		      $variable = getConstraintSystem().createVariable($VARIABLE_NAME.getToken().getText(), symtab.getVaribaleType($VARIABLE_TYPE));
-		      if(vs !=null){
-		        $variable.setVariableScope(vs.variableScope, getOPPLFactory().getVariableScopeChecker());
-		      }
+		      $variable = getConstraintSystem().createVariable($VARIABLE_NAME.getToken().getText(), symtab.getVaribaleType($VARIABLE_TYPE), vs==null?null:vs.variableScope);
 		   } catch(OPPLException e){
 		      getErrorListener().reportThrowable(e, $INPUT_VARIABLE_DEFINITION.token.getLine(), $INPUT_VARIABLE_DEFINITION.token.getCharPositionInLine(),$INPUT_VARIABLE_DEFINITION.token.getText().length());
 		   }
@@ -364,31 +362,56 @@ variableScope returns [Type type, VariableScope variableScope]
 		$start.setEvalType($type); 
 	} // do after any alternative
 	: 
-	   ^(VARIABLE_SCOPE SUBCLASS_OF   classExpression=.)
-	   {
-		   $type = symtab.getClassVariableScopeType($start, classExpression);
-		   $variableScope = VariableScopes.buildSubClassVariableScope((OWLClassExpression)classExpression.getOWLObject());
-	   }
-   |  ^(VARIABLE_SCOPE SUPER_CLASS_OF  classExpression=.)
-     {
-       $type = symtab.getClassVariableScopeType($start, classExpression);
-       $variableScope = VariableScopes.buildSuperClassVariableScope((OWLClassExpression)classExpression.getOWLObject());
-     }	   
-	 | ^(VARIABLE_SCOPE SUPER_PROPERTY_OF  propertyExpression=.)
-	   {
-       $type = symtab.getPropertyVariableScopeType($start, propertyExpression);
-       $variableScope = VariableScopes.buildSuperPropertyVariableScope((OWLPropertyExpression<?,?>) propertyExpression.getOWLObject());
-     }
-   | ^(VARIABLE_SCOPE SUBPROPERTY_OF propertyExpression=.)
-     {
-       $type = symtab.getPropertyVariableScopeType($start, propertyExpression);
-       $variableScope = VariableScopes.buildSubPropertyVariableScope((OWLPropertyExpression<?,?>) propertyExpression.getOWLObject());
-     }     
-   | ^(VARIABLE_SCOPE (INSTANCE_OF | TYPES)  individualExpression=.)
-     {
-       $type = symtab.getIndividualVariableScopeType($start, individualExpression);
-       $variableScope = VariableScopes.buildIndividualVariableScope((OWLClassExpression) individualExpression.getOWLObject());
-     }
+	^(VARIABLE_SCOPE SUBCLASS_OF   classExpression=.)
+	{
+		try{
+			VariableScopeChecker checker = getConstraintSystem().getOPPLFactory().getVariableScopeChecker();
+			$type = symtab.getClassVariableScopeType($start, classExpression);
+			$variableScope = VariableScopes.buildSubClassVariableScope((OWLClassExpression)classExpression.getOWLObject(),checker);
+		}catch(OPPLException e){
+			getErrorListener().reportThrowable(e,$start.getLine(),$start.getCharPositionInLine(),$start.getText().length());
+		}
+	}
+	|  ^(VARIABLE_SCOPE SUPER_CLASS_OF  classExpression=.)
+	{
+		try{
+	   		VariableScopeChecker checker = getConstraintSystem().getOPPLFactory().getVariableScopeChecker();     
+			$type = symtab.getClassVariableScopeType($start, classExpression);
+			$variableScope = VariableScopes.buildSuperClassVariableScope((OWLClassExpression)classExpression.getOWLObject(),checker);
+		}catch(OPPLException e){
+			getErrorListener().reportThrowable(e,$start.getLine(),$start.getCharPositionInLine(),$start.getText().length());
+		}
+	}	   
+	| ^(VARIABLE_SCOPE SUPER_PROPERTY_OF  propertyExpression=.)
+	{
+		try{
+			VariableScopeChecker checker = getConstraintSystem().getOPPLFactory().getVariableScopeChecker();	   	
+			$type = symtab.getPropertyVariableScopeType($start, propertyExpression);
+			$variableScope = VariableScopes.buildSuperPropertyVariableScope((OWLPropertyExpression<?,?>) propertyExpression.getOWLObject(),checker);
+		}catch(OPPLException e){
+			getErrorListener().reportThrowable(e,$start.getLine(),$start.getCharPositionInLine(),$start.getText().length());
+		}
+	}
+	| ^(VARIABLE_SCOPE SUBPROPERTY_OF propertyExpression=.)
+	{
+		try{
+			VariableScopeChecker checker = getConstraintSystem().getOPPLFactory().getVariableScopeChecker();
+			$type = symtab.getPropertyVariableScopeType($start, propertyExpression);
+			$variableScope = VariableScopes.buildSubPropertyVariableScope((OWLPropertyExpression<?,?>) propertyExpression.getOWLObject(),checker);
+		}catch(OPPLException e){
+			getErrorListener().reportThrowable(e,$start.getLine(),$start.getCharPositionInLine(),$start.getText().length());
+		}
+	}     
+	| ^(VARIABLE_SCOPE (INSTANCE_OF | TYPES)  individualExpression=.)
+	{
+		try{
+			VariableScopeChecker checker = getConstraintSystem().getOPPLFactory().getVariableScopeChecker();	
+			$type = symtab.getIndividualVariableScopeType($start, individualExpression);
+			$variableScope = VariableScopes.buildIndividualVariableScope((OWLClassExpression) individualExpression.getOWLObject(),checker);
+		}catch(OPPLException e){
+			getErrorListener().reportThrowable(e,$start.getLine(),$start.getCharPositionInLine(),$start.getText().length());
+		}
+	}
 	;
 	
 	
