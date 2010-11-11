@@ -30,6 +30,7 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.OPPLScriptVisitor;
 import org.coode.oppl.OPPLScriptVisitorEx;
 import org.coode.oppl.Variable;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
@@ -79,7 +80,7 @@ public class ProtegeOPPLScript implements OPPLScript {
 	/**
 	 * @see org.coode.oppl.OPPLScript#getInputVariables()
 	 */
-	public List<Variable<?>> getInputVariables() {
+	public List<InputVariable<?>> getInputVariables() {
 		return this.opplScript.getInputVariables();
 	}
 

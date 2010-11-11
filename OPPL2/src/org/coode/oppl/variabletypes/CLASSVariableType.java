@@ -6,16 +6,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScopes.Direction;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLDataExactCardinality;
-import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataHasValue;
 import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
 import org.semanticweb.owlapi.model.OWLDataMinCardinality;
@@ -49,11 +46,7 @@ public class CLASSVariableType extends AbstractVariableType<OWLClassExpression> 
 		return visitor.visitCLASSVariableType(this);
 	}
 
-	public OWLClassExpression buildOWLObject(OWLDataFactory factory, IRI iri, String shortName) {
-		return factory.getOWLClass(iri);
-	}
-
-	public RegexpGeneratedVariable<OWLClassExpression> createRegexpGeneratedVariable(String name,
+	public RegexpGeneratedVariable<OWLClassExpression> getRegexpGeneratedVariable(String name,
 			OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
 		return new RegexpGeneratedVariable<OWLClassExpression>(name,
 				VariableTypeFactory.getCLASSVariableType(), patternGeneratingOPPLFunction);
@@ -66,10 +59,6 @@ public class CLASSVariableType extends AbstractVariableType<OWLClassExpression> 
 			toReturn.addAll(ontology.getClassesInSignature());
 		}
 		return toReturn;
-	}
-
-	public Variable<OWLClassExpression> instantiateVariable(String name) {
-		return VariableFactory.getCLASSVariable(name);
 	}
 
 	public boolean isCompatibleWith(OWLObject o) {

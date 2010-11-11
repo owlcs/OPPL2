@@ -51,14 +51,12 @@ public class ActionList extends MList {
 	private final OWLEditorKit owlEditorKit;
 	private final boolean canAdd;
 
-	public ActionList(OWLEditorKit owlEditorKit,
-			ConstraintSystem constraintSystem, boolean canAdd) {
+	public ActionList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem, boolean canAdd) {
 		this.owlEditorKit = owlEditorKit;
 		this.setModel(new ActionListModel(canAdd));
 		this.canAdd = canAdd;
-		VariableOWLCellRenderer variableAxiomRenderer = new VariableOWLCellRenderer(
-				owlEditorKit, constraintSystem, new OWLCellRenderer(
-						owlEditorKit));
+		VariableOWLCellRenderer variableAxiomRenderer = new VariableOWLCellRenderer(owlEditorKit,
+				constraintSystem, new OWLCellRenderer(owlEditorKit));
 		this.setCellRenderer(variableAxiomRenderer);
 	}
 
@@ -70,12 +68,12 @@ public class ActionList extends MList {
 	}
 
 	@Override
-	protected Border createListItemBorder(JList list, Object value, int index,
-			boolean isSelected, boolean cellHasFocus) {
-		Border border = super.createListItemBorder(list, value, index,
-				isSelected, cellHasFocus);
-		return BorderFactory.createCompoundBorder(border, new ActionBorder(
-				((ActionListItem) value).getAxiomChange()));
+	protected Border createListItemBorder(JList list, Object value, int index, boolean isSelected,
+			boolean cellHasFocus) {
+		Border border = super.createListItemBorder(list, value, index, isSelected, cellHasFocus);
+		return BorderFactory.createCompoundBorder(
+				border,
+				new ActionBorder(((ActionListItem) value).getAxiomChange()));
 	}
 
 	private static class ActionBorder implements Border {
@@ -89,7 +87,8 @@ public class ActionList extends MList {
 
 		public Insets getBorderInsets(Component c) {
 			return new Insets(0, c.getFontMetrics(c.getFont()).getStringBounds(
-					REMOVE, c.getGraphics()).getBounds().width + 8, 0, 0);
+					REMOVE,
+					c.getGraphics()).getBounds().width + 8, 0, 0);
 		}
 
 		public boolean isBorderOpaque() {
@@ -97,25 +96,21 @@ public class ActionList extends MList {
 		}
 
 		protected String getString() {
-			return this.axiomChange instanceof AddAxiom ? ActionBorder.ADD
-					: ActionBorder.REMOVE;
+			return this.axiomChange instanceof AddAxiom ? ActionBorder.ADD : ActionBorder.REMOVE;
 		}
 
-		@SuppressWarnings("unused")
-		public void paintBorder(Component c, Graphics g, int x, int y,
-				int width, int height) {
+		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 			Color oldColor = g.getColor();
 			g.setColor(Color.DARK_GRAY);
-			g.drawString(this.getString(), x + 4, y + 2
-					+ g.getFontMetrics().getAscent()
+			g.drawString(this.getString(), x + 4, y + 2 + g.getFontMetrics().getAscent()
 					+ g.getFontMetrics().getLeading());
 			g.setColor(oldColor);
 		}
 	}
 
 	public void setConstraintSystem(ConstraintSystem constraintSystem) {
-		this.setCellRenderer(new VariableOWLCellRenderer(this.owlEditorKit,
-				constraintSystem, new OWLCellRenderer(this.owlEditorKit)));
+		this.setCellRenderer(new VariableOWLCellRenderer(this.owlEditorKit, constraintSystem,
+				new OWLCellRenderer(this.owlEditorKit)));
 	}
 
 	public void clear() {

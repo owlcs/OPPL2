@@ -6,12 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScopes.Direction;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -31,11 +28,7 @@ public class DATAPROPERTYVariableType extends AbstractVariableType<OWLDataProper
 		return visitor.visitDATAPROPERTYVariableType(this);
 	}
 
-	public OWLDataProperty buildOWLObject(OWLDataFactory factory, IRI iri, String shortName) {
-		return factory.getOWLDataProperty(iri);
-	}
-
-	public RegexpGeneratedVariable<? extends OWLDataProperty> createRegexpGeneratedVariable(
+	public RegexpGeneratedVariable<? extends OWLDataProperty> getRegexpGeneratedVariable(
 			String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
 		return new RegexpGeneratedVariable<OWLDataProperty>(name,
 				VariableTypeFactory.getDATAPROPERTYVariableType(), patternGeneratingOPPLFunction);
@@ -47,10 +40,6 @@ public class DATAPROPERTYVariableType extends AbstractVariableType<OWLDataProper
 			toReturn.addAll(ontology.getDataPropertiesInSignature());
 		}
 		return toReturn;
-	}
-
-	public Variable<OWLDataProperty> instantiateVariable(String name) {
-		return VariableFactory.getDATAPROPERTYVariable(name);
 	}
 
 	public boolean isCompatibleWith(OWLObject o) {

@@ -16,11 +16,9 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ManchesterVariableSyntax;
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.ParserFactory;
-import org.coode.oppl.PlainVariableVisitor;
-import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableScope;
-import org.coode.oppl.VariableScopeChecker;
+import org.coode.oppl.VariableVisitor;
+import org.coode.oppl.VariableVisitorEx;
 import org.coode.oppl.log.Logging;
 import org.coode.oppl.variabletypes.VariableType;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
@@ -297,14 +295,6 @@ public class OPPLPartsTestCase extends TestCase {
 	private <O extends OWLObject> Variable<O> createTempVariable(final String name,
 			final VariableType<O> type) {
 		return new Variable<O>() {
-			public void setVariableScope(VariableScope<?> variableScope,
-					VariableScopeChecker variableScopeChecker) {
-			}
-
-			public VariableScope<?> getVariableScope() {
-				return null;
-			}
-
 			public IRI getIRI() {
 				return IRI.create(URI.create(ManchesterVariableSyntax.NAMESPACE + this.getName()));
 			}
@@ -317,17 +307,15 @@ public class OPPLPartsTestCase extends TestCase {
 				return name;
 			}
 
-			public void accept(PlainVariableVisitor visitor) {
+			public void accept(VariableVisitor visitor) {
 			}
 
-			public <T> T accept(PlainVariableVisitorEx<T> visitor) {
+			public <T> T accept(VariableVisitorEx<T> visitor) {
 				return null;
 			}
 
 			public String render(ConstraintSystem constraintSystem) {
-				String scope = this.getVariableScope() == null ? ""
-						: this.getVariableScope().render(constraintSystem);
-				return String.format("%s:%s%s", this.getName(), this.getType(), scope);
+				return String.format("%s:%s", this.getName(), this.getType());
 			}
 		};
 	}

@@ -36,17 +36,15 @@ import javax.swing.JRadioButton;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ManchesterVariableSyntax;
 import org.coode.oppl.OPPLParser;
-import org.coode.oppl.PlainVariableVisitor;
-import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableScope;
-import org.coode.oppl.VariableScopeChecker;
 import org.coode.oppl.VariableVisitor;
+import org.coode.oppl.VariableVisitorEx;
 import org.coode.oppl.exceptions.InvalidVariableNameException;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.protege.ProtegeParserFactory;
 import org.coode.oppl.variabletypes.VariableType;
-import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
+import org.coode.oppl.variabletypes.VariableTypeFactory;
+import org.coode.oppl.variabletypes.VariableTypeName;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.ui.ExpressionEditor;
 import org.protege.editor.core.ui.util.ComponentFactory;
@@ -56,6 +54,7 @@ import org.protege.editor.owl.model.classexpression.OWLExpressionParserException
 import org.protege.editor.owl.ui.clsdescriptioneditor.OWLExpressionChecker;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone
@@ -151,16 +150,18 @@ public class GeneratedVariableEditor extends AbstractVariableEditor<GeneratedVar
 		variableNamePanel.add(this.variableNameExpressionEditor);
 		this.add(variableNamePanel, BorderLayout.NORTH);
 		this.variableTypeButtonGroup = new ButtonGroup();
-		JPanel variableTypePanel = new JPanel(new GridLayout(0, VariableType.values().length));
-		for (VariableType<?> variableType : VariableType.values()) {
-			JRadioButton typeRadioButton = new JRadioButton(variableType.name());
+		JPanel variableTypePanel = new JPanel(new GridLayout(0, VariableTypeName.values().length));
+		for (VariableTypeName variableTypeName : VariableTypeName.values()) {
+			JRadioButton typeRadioButton = new JRadioButton(variableTypeName.name());
 			typeRadioButton.addActionListener(new ChangeTypeActionListener());
 			this.variableTypeButtonGroup.add(typeRadioButton);
 			variableTypePanel.add(typeRadioButton);
+			VariableType<?> variableType = VariableTypeFactory.getVariableType(variableTypeName);
 			this.jRadioButtonTypeMap.put(typeRadioButton, variableType);
 			this.typeJRadioButonMap.put(variableType, typeRadioButton);
 		}
-		this.typeJRadioButonMap.get(VariableType.values()[0]).setSelected(true);
+		this.typeJRadioButonMap.get(
+				VariableTypeFactory.getVariableType(VariableTypeName.values()[0])).setSelected(true);
 		JPanel scopeBorderPanel = new JPanel(new BorderLayout());
 		scopeBorderPanel.setBorder(ComponentFactory.createTitledBorder("Variable Scope"));
 		JPanel variableTypeAndScopePanel = new JPanel(new BorderLayout());
@@ -229,7 +230,6 @@ public class GeneratedVariableEditor extends AbstractVariableEditor<GeneratedVar
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -246,21 +246,14 @@ public class GeneratedVariableEditor extends AbstractVariableEditor<GeneratedVar
 		return this.constraintSystem;
 	}
 
-	private Variable createTempVariable(final String name, final VariableType type) {
-		return new Variable() {
-			public void setVariableScope(VariableScope<?> variableScope,
-					VariableScopeChecker variableScopeChecker) {
-			}
-
-			public VariableScope<?> getVariableScope() {
-				return null;
-			}
-
+	private <O extends OWLObject> Variable<O> createTempVariable(final String name,
+			final VariableType<O> type) {
+		return new Variable<O>() {
 			public IRI getIRI() {
 				return IRI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
 			}
 
-			public VariableType getType() {
+			public VariableType<O> getType() {
 				return type;
 			}
 
@@ -268,29 +261,15 @@ public class GeneratedVariableEditor extends AbstractVariableEditor<GeneratedVar
 				return name;
 			}
 
-			public void accept(PlainVariableVisitor visitor) {
-				// TODO Auto-generated method stub
+			public void accept(VariableVisitor visitor) {
 			}
 
-			public <T> T accept(PlainVariableVisitorEx<T> visitor) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			public <P> P accept(VariableTypeVisitorEx<P> visitor) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			public <P> P accept(VariableVisitor<P> visitor) {
-				// TODO Auto-generated method stub
+			public <T> T accept(VariableVisitorEx<T> visitor) {
 				return null;
 			}
 
 			public String render(ConstraintSystem constraintSystem) {
-				String scope = this.getVariableScope() == null ? ""
-						: this.getVariableScope().render(constraintSystem);
-				return String.format("%s:%s%s", this.getName(), this.getType(), scope);
+				return String.format("%s:%s", this.getName(), this.getType());
 			}
 		};
 	}

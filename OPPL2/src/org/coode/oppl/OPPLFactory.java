@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.coode.oppl.entity.OWLEntityRenderer;
 import org.coode.oppl.entity.OWLEntityRendererImpl;
+import org.coode.oppl.exceptions.NullReasonerException;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.rendering.VariableOWLEntityRenderer;
@@ -91,6 +92,8 @@ public class OPPLFactory implements OPPLAbstractFactory {
 		if (this.variableScopeChecker == null && this.reasoner != null) {
 			this.variableScopeChecker = new VariableScopeChecker(this.ontologyManager,
 					this.reasoner);
+		} else {
+			throw new NullReasonerException();
 		}
 		return this.variableScopeChecker;
 	}

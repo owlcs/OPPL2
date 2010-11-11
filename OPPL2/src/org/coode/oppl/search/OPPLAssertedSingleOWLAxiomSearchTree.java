@@ -16,16 +16,17 @@ import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
+import org.coode.oppl.utils.AbstractVariableVisitorExAdapter;
 import org.coode.oppl.utils.OWLObjectExtractor;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
 import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -135,23 +136,24 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	private Collection<? extends OWLObject> getAssignableValues(Variable<?> variable) {
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
 		toReturn.addAll(variable.getType().accept(this.assignableValuesVisitor));
-		VariableScope<?> variableScope = variable.getVariableScope();
-		if (variableScope != null) {
-			Iterator<OWLObject> iterator = toReturn.iterator();
-			while (iterator.hasNext()) {
-				OWLObject owlObject = iterator.next();
-				try {
-					boolean inScope = variableScope.check(
-							owlObject,
-							this.getConstraintSystem().getOPPLFactory().getVariableScopeChecker());
-					if (!inScope) {
-						iterator.remove();
+		Iterator<OWLObject> iterator = toReturn.iterator();
+		while (iterator.hasNext()) {
+			final OWLObject owlObject = iterator.next();
+			boolean inScope = variable.accept(new AbstractVariableVisitorExAdapter<Boolean>(true) {
+				@Override
+				public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
+					VariableScope<?> variableScope = v.getVariableScope();
+					try {
+						return variableScope == null || variableScope.check(owlObject);
+					} catch (OWLRuntimeException e) {
+						OPPLAssertedSingleOWLAxiomSearchTree.this.getRuntimeExceptionHandler().handleOWLRuntimeException(
+								e);
+						return false;
 					}
-				} catch (OWLRuntimeException e) {
-					e.printStackTrace();
-				} catch (OPPLException e) {
-					e.printStackTrace();
 				}
+			});
+			if (!inScope) {
+				iterator.remove();
 			}
 		}
 		return toReturn;

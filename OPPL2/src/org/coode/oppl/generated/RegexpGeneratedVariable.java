@@ -4,11 +4,9 @@ import java.util.regex.Pattern;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ManchesterVariableSyntax;
-import org.coode.oppl.PlainVariableVisitor;
-import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableScope;
-import org.coode.oppl.VariableScopeChecker;
+import org.coode.oppl.VariableVisitor;
+import org.coode.oppl.VariableVisitorEx;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.IRI;
@@ -39,13 +37,13 @@ public class RegexpGeneratedVariable<O extends OWLObject> implements Variable<O>
 
 	/**
 	 * @param visitor
-	 * @see org.coode.oppl.Variable#accept(org.coode.oppl.PlainVariableVisitor)
+	 * @see org.coode.oppl.Variable#accept(org.coode.oppl.VariableVisitor)
 	 */
-	public void accept(PlainVariableVisitor visitor) {
+	public void accept(VariableVisitor visitor) {
 		visitor.visit(this);
 	}
 
-	public <T> T accept(PlainVariableVisitorEx<T> visitor) {
+	public <T> T accept(VariableVisitorEx<T> visitor) {
 		return visitor.visit(this);
 	}
 
@@ -71,24 +69,6 @@ public class RegexpGeneratedVariable<O extends OWLObject> implements Variable<O>
 	 */
 	public VariableType<O> getType() {
 		return this.type;
-	}
-
-	/**
-	 * @return
-	 * @see org.coode.oppl.Variable#getVariableScope()
-	 */
-	public VariableScope<?> getVariableScope() {
-		return null;
-	}
-
-	/**
-	 * @param variableScope
-	 * @param variableScopeChecker
-	 * @see org.coode.oppl.Variable#setVariableScope(org.coode.oppl.VariableScope,
-	 *      org.coode.oppl.VariableScopeChecker)
-	 */
-	public void setVariableScope(VariableScope<?> variableScope,
-			VariableScopeChecker variableScopeChecker) {
 	}
 
 	public String render(ConstraintSystem constraintSystem) {

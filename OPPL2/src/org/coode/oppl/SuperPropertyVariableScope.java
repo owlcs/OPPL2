@@ -25,6 +25,7 @@ package org.coode.oppl;
 import java.util.Set;
 
 import org.coode.oppl.VariableScopes.Direction;
+import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -44,14 +45,15 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
  */
 public class SuperPropertyVariableScope<P extends OWLPropertyExpression<?, ?>> extends
 		PropertyVariableScope<P> {
-	SuperPropertyVariableScope(P property) {
-		super(property);
+	SuperPropertyVariableScope(P property, VariableScopeChecker checker) {
+		super(property, checker);
 	}
 
-	public boolean check(OWLObject owlObject, VariableScopeChecker checker)
-			throws OWLRuntimeException {
+	public boolean check(OWLObject owlObject) throws OWLRuntimeException {
 		return owlObject instanceof OWLProperty
-				&& this.check(this.getProperty(), checker.getOntologyManager().getOntologies());
+				&& this.check(
+						this.getProperty(),
+						this.getChecker().getOntologyManager().getOntologies());
 	}
 
 	boolean check(P property, Set<OWLOntology> ontologies) {

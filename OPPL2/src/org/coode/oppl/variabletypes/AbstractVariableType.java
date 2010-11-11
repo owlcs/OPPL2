@@ -5,7 +5,10 @@ package org.coode.oppl.variabletypes;
 
 import java.util.EnumSet;
 
+import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopes.Direction;
+import org.coode.oppl.function.OPPLFunction;
+import org.coode.oppl.generated.GeneratedVariable;
 import org.semanticweb.owlapi.model.OWLObject;
 
 /**
@@ -49,4 +52,13 @@ abstract class AbstractVariableType<O extends OWLObject> implements VariableType
 	public String toString() {
 		return this.getName().toString();
 	};
+
+	public InputVariable<O> getInputVariable(String name, VariableScope<?> variableScope) {
+		return InputVariable.getInputVariable(name, this, variableScope);
+	}
+
+	public GeneratedVariable<O> getGeneratedVariable(String name,
+			OPPLFunction<? extends O> opplFunction) {
+		return GeneratedVariable.getGeneratedVariable(name, this, opplFunction);
+	}
 }

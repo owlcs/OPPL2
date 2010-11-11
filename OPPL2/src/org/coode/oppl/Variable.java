@@ -53,27 +53,11 @@ public interface Variable<O extends OWLObject> {
 	public VariableType<O> getType();
 
 	/**
-	 * Sets the scope for the Variable that will be checked by means of the
-	 * input VariableScopeChecker
-	 * 
-	 * @param variableScope
-	 * @param variableScopeChecker
-	 */
-	public void setVariableScope(VariableScope<?> variableScope,
-			VariableScopeChecker variableScopeChecker);
-
-	/**
-	 * @return the scope for the Variable (can be null if not previously
-	 *         assigned)
-	 */
-	public VariableScope<?> getVariableScope();
-
-	/**
 	 * Visitor pattern interface method for visitors without return type
 	 * 
 	 * @param visitor
 	 */
-	public void accept(PlainVariableVisitor visitor);
+	public void accept(VariableVisitor visitor);
 
 	/**
 	 * Visitor pattern interface method for visitors with return type
@@ -81,7 +65,7 @@ public interface Variable<O extends OWLObject> {
 	 * @param visitor
 	 * @return an instance of T
 	 */
-	public <T> T accept(PlainVariableVisitorEx<T> visitor);
+	public <T> T accept(VariableVisitorEx<T> visitor);
 
 	public String render(ConstraintSystem constraintSystem);
 }

@@ -16,31 +16,28 @@ import javax.swing.ListCellRenderer;
  * @author Luigi Iannone
  * 
  */
-public class MessageListCellRenderer implements ListCellRenderer,
-		MessageVisitorEx<Icon> {
+public class MessageListCellRenderer implements ListCellRenderer, MessageVisitorEx<Icon> {
 	private final DefaultListCellRenderer defaultListCellRenderer = new DefaultListCellRenderer();
 
-	public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
-		Component toReturn = this.defaultListCellRenderer
-				.getListCellRendererComponent(list, value, index, isSelected,
-						cellHasFocus);
-		if (toReturn instanceof JLabel
-				&& Message.class.isAssignableFrom(value.getClass())) {
+	public Component getListCellRendererComponent(JList list, Object value, int index,
+			boolean isSelected, boolean cellHasFocus) {
+		Component toReturn = this.defaultListCellRenderer.getListCellRendererComponent(
+				list,
+				value,
+				index,
+				isSelected,
+				cellHasFocus);
+		if (toReturn instanceof JLabel && Message.class.isAssignableFrom(value.getClass())) {
 			((JLabel) toReturn).setIcon(((Message) value).accept(this));
 		}
 		return toReturn;
 	}
 
-	@SuppressWarnings("unused")
 	public Icon visitError(Error error) {
-		return new ImageIcon(this.getClass().getClassLoader().getResource(
-				"error.png"));
+		return new ImageIcon(this.getClass().getClassLoader().getResource("error.png"));
 	}
 
-	@SuppressWarnings("unused")
 	public Icon visitWarning(Warning warning) {
-		return new ImageIcon(this.getClass().getClassLoader().getResource(
-				"warning.png"));
+		return new ImageIcon(this.getClass().getClassLoader().getResource("warning.png"));
 	}
 }

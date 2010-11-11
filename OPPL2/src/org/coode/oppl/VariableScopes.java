@@ -73,20 +73,21 @@ public class VariableScopes {
 	/**
 	 * @param description
 	 * @return a VariableScope instance restricting values to be sub-classes of
-	 *         the input OWLClassExpression 
+	 *         the input OWLClassExpression
 	 */
-	public static SubClassVariableScope buildSubClassVariableScope(OWLClassExpression description) {
-		return ClassVariableScope.buildSubClassVariableScope(description);
+	public static SubClassVariableScope buildSubClassVariableScope(OWLClassExpression description,
+			VariableScopeChecker checker) {
+		return ClassVariableScope.buildSubClassVariableScope(description, checker);
 	}
 
 	/**
 	 * @param description
 	 * @return a VariableScope instance restricting values to be super-classes
-	 *         of the input OWLClassExpression 
+	 *         of the input OWLClassExpression
 	 */
 	public static SuperClassVariableScope buildSuperClassVariableScope(
-			OWLClassExpression description) {
-		return ClassVariableScope.buildSuperClassVariableScope(description);
+			OWLClassExpression description, VariableScopeChecker checker) {
+		return ClassVariableScope.buildSuperClassVariableScope(description, checker);
 	}
 
 	/**
@@ -95,8 +96,8 @@ public class VariableScopes {
 	 *         of the input OWLProperty
 	 */
 	public static SubPropertyVariableScope<OWLDataProperty> buildSubPropertyVariableScope(
-			OWLDataProperty property) {
-		return PropertyVariableScope.buildSubPropertyVariableScope(property);
+			OWLDataProperty property, VariableScopeChecker checker) {
+		return PropertyVariableScope.buildSubPropertyVariableScope(property, checker);
 	}
 
 	/**
@@ -105,8 +106,8 @@ public class VariableScopes {
 	 *         of the input OWLProperty
 	 */
 	public static <P extends OWLPropertyExpression<?, ?>> SubPropertyVariableScope<P> buildSubPropertyVariableScope(
-			P property) {
-		return PropertyVariableScope.buildSubPropertyVariableScope(property);
+			P property, VariableScopeChecker checker) {
+		return PropertyVariableScope.buildSubPropertyVariableScope(property, checker);
 	}
 
 	/**
@@ -115,17 +116,17 @@ public class VariableScopes {
 	 *         super-properties of the input OWLProperty
 	 */
 	public static <P extends OWLPropertyExpression<?, ?>> SuperPropertyVariableScope<P> buildSuperPropertyVariableScope(
-			P property) {
-		return PropertyVariableScope.buildSuperPropertyVariableScope(property);
+			P property, VariableScopeChecker checker) {
+		return PropertyVariableScope.buildSuperPropertyVariableScope(property, checker);
 	}
 
 	/**
 	 * @param description
 	 * @return a VariableScope instance restricting values to be instances of
-	 *         the input OWLClassExpression 
+	 *         the input OWLClassExpression
 	 */
 	public static IndividualVariableScope buildIndividualVariableScope(
-			OWLClassExpression description) {
-		return IndividualVariableScope.buildIndividualVariableScope(description);
+			OWLClassExpression description, VariableScopeChecker checker) {
+		return IndividualVariableScope.buildIndividualVariableScope(description, checker);
 	}
 }

@@ -46,17 +46,17 @@ import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.utils.VariableDetector;
 import org.coode.oppl.utils.VariableExtractor;
+import org.coode.oppl.utils.VariableRecogniser;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
 import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
 import org.coode.oppl.variabletypes.VariableFactory;
 import org.coode.oppl.variabletypes.VariableType;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
-import org.coode.oppl.visitors.GeneratedVariableCollector;
-import org.coode.oppl.visitors.InputVariableCollector;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -120,12 +120,14 @@ public class ConstraintSystem {
 			return this.irisMap.containsKey(variableURI);
 		}
 
-		public Set<Variable<?>> getInputVariables() {
-			InputVariableCollector visitor = new InputVariableCollector();
-			for (Variable<?> variable : this.map.values()) {
-				variable.accept(visitor);
+		public Set<InputVariable<?>> getInputVariables() {
+			Set<InputVariable<?>> toReturn = new HashSet<InputVariable<?>>(this.map.values().size());
+			for (Variable<?> v : this.map.values()) {
+				if (VariableRecogniser.INPUT_VARIABLE_RECOGNISER.recognise(v)) {
+					toReturn.add((InputVariable<?>) v);
+				}
 			}
-			return new HashSet<Variable<?>>(visitor.getCollectedVariables());
+			return toReturn;
 		}
 
 		public Set<Variable<?>> getAllVariables() {
@@ -133,11 +135,14 @@ public class ConstraintSystem {
 		}
 
 		public Set<GeneratedVariable<?>> getGeneratedVariables() {
-			GeneratedVariableCollector visitor = new GeneratedVariableCollector();
+			Set<GeneratedVariable<?>> toReturn = new HashSet<GeneratedVariable<?>>(
+					this.map.values().size());
 			for (Variable<?> v : this.map.values()) {
-				v.accept(visitor);
+				if (VariableRecogniser.GENERATED_VARIABLE_RECOGNISER.recognise(v)) {
+					toReturn.add((GeneratedVariable<?>) v);
+				}
 			}
-			return new HashSet<GeneratedVariable<?>>(visitor.getCollectedVariables());
+			return toReturn;
 		}
 
 		public void remove(String name) {
@@ -199,10 +204,10 @@ public class ConstraintSystem {
 		return this.variables.get(name);
 	}
 
-	public <O extends OWLObject> Variable<O> createVariable(String name, VariableType<O> type)
-			throws OPPLException {
+	public <O extends OWLObject> InputVariable<O> createVariable(String name, VariableType<O> type,
+			VariableScope<?> variableScope) throws OPPLException {
 		if (name.matches("\\?([\\p{Alnum}[-_]])+")) {
-			Variable<O> newVariable = type.instantiateVariable(name);
+			InputVariable<O> newVariable = type.getInputVariable(name, variableScope);
 			this.variables.store(newVariable);
 			return newVariable;
 		} else {
@@ -295,7 +300,7 @@ public class ConstraintSystem {
 		return this.opplFactory;
 	}
 
-	public Set<Variable<?>> getInputVariables() {
+	public Set<InputVariable<?>> getInputVariables() {
 		return this.variables.getInputVariables();
 	}
 
@@ -413,8 +418,9 @@ public class ConstraintSystem {
 				Aggregation<OWLClassExpression, OWLClassExpression> function = Aggregation.buildClassExpressionIntersection(
 						operands,
 						ConstraintSystem.this.getOntologyManager().getOWLDataFactory());
-				GeneratedVariable<OWLClassExpression> toReturn = new GeneratedVariable<OWLClassExpression>(
-						name, VariableTypeFactory.getCLASSVariableType(), function);
+				GeneratedVariable<OWLClassExpression> toReturn = VariableTypeFactory.getCLASSVariableType().getGeneratedVariable(
+						name,
+						function);
 				return toReturn;
 			}
 
@@ -450,8 +456,9 @@ public class ConstraintSystem {
 				Aggregation<OWLClassExpression, OWLClassExpression> function = Aggregation.buildClassExpressionUnion(
 						operands,
 						ConstraintSystem.this.getOntologyManager().getOWLDataFactory());
-				GeneratedVariable<OWLClassExpression> toReturn = new GeneratedVariable<OWLClassExpression>(
-						name, VariableTypeFactory.getCLASSVariableType(), function);
+				GeneratedVariable<OWLClassExpression> toReturn = VariableTypeFactory.getCLASSVariableType().getGeneratedVariable(
+						name,
+						function);
 				return toReturn;
 			}
 
@@ -480,7 +487,7 @@ public class ConstraintSystem {
 
 	public <O extends OWLObject> RegexpGeneratedVariable<? extends O> createRegexpGeneratedVariable(
 			String name, VariableType<O> type, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
-		RegexpGeneratedVariable<? extends O> toReturn = type.createRegexpGeneratedVariable(
+		RegexpGeneratedVariable<? extends O> toReturn = type.getRegexpGeneratedVariable(
 				name,
 				patternGeneratingOPPLFunction);
 		this.variables.store(toReturn);
@@ -600,8 +607,9 @@ public class ConstraintSystem {
 					OWLClassExpression desc) {
 				OPPLFunction<? extends OWLClassExpression> adapted = new Expression<OWLClassExpression>(
 						desc);
-				return (GeneratedVariable<O>) new GeneratedVariable<OWLClassExpression>(name,
-						VariableTypeFactory.getCLASSVariableType(), adapted);
+				return (GeneratedVariable<O>) VariableTypeFactory.getCLASSVariableType().getGeneratedVariable(
+						name,
+						adapted);
 			}
 
 			@SuppressWarnings("unchecked")
@@ -609,8 +617,9 @@ public class ConstraintSystem {
 					OWLObjectPropertyExpression p) {
 				OPPLFunction<? extends OWLObjectPropertyExpression> adapted = new Expression<OWLObjectPropertyExpression>(
 						p);
-				return (GeneratedVariable<O>) new GeneratedVariable<OWLObjectPropertyExpression>(
-						name, VariableTypeFactory.getOBJECTPROPERTYTypeVariableType(), adapted);
+				return (GeneratedVariable<O>) VariableTypeFactory.getOBJECTPROPERTYTypeVariableType().getGeneratedVariable(
+						name,
+						adapted);
 			}
 		});
 		this.variables.store(toReturn);

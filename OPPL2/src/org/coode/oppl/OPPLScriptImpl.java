@@ -26,7 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.coode.oppl.visitors.InputVariableCollector;
+import org.coode.oppl.utils.VariableRecogniser;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
@@ -75,12 +76,15 @@ public class OPPLScriptImpl implements OPPLScript {
 	/**
 	 * @see org.coode.oppl.OPPLScript#getInputVariables()
 	 */
-	public List<Variable<?>> getInputVariables() {
-		InputVariableCollector visitor = new InputVariableCollector(new ArrayList<Variable<?>>());
-		for (Variable<?> variable : this.getVariables()) {
-			variable.accept(visitor);
+	public List<InputVariable<?>> getInputVariables() {
+		List<InputVariable<?>> toReturn = new ArrayList<InputVariable<?>>(
+				this.getVariables().size());
+		for (Variable<?> v : this.getVariables()) {
+			if (VariableRecogniser.INPUT_VARIABLE_RECOGNISER.recognise(v)) {
+				toReturn.add((InputVariable<?>) v);
+			}
 		}
-		return visitor.getCollectedVariables();
+		return toReturn;
 	}
 
 	/**
@@ -158,45 +162,7 @@ public class OPPLScriptImpl implements OPPLScript {
 	}
 
 	public String render() {
-		StringBuffer buffer = new StringBuffer();
-		boolean first = true;
-		for (Variable<?> v : this.getVariables()) {
-			String commaString = first ? "" : ",\n ";
-			buffer.append(commaString);
-			first = false;
-			buffer.append(v.toString());
-			VariableScope<?> variableScope = v.getVariableScope();
-			if (variableScope != null) {
-				buffer.append('[');
-				buffer.append(variableScope.getDirection().toString());
-				buffer.append(' ');
-				ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
-				variableScope.getScopingObject().accept(renderer);
-				buffer.append(renderer.toString());
-				buffer.append(']');
-			}
-		}
-		OPPLQuery opplQuery = this.getQuery();
-		buffer.append('\n');
-		if (this.query != null) {
-			buffer.append(opplQuery.render());
-		}
-		if (this.getActions().size() > 0) {
-			buffer.append("BEGIN\n ");
-			first = true;
-			for (OWLAxiomChange action : this.getActions()) {
-				String commaString = first ? "" : ",\n ";
-				String actionString = action instanceof AddAxiom ? "\tADD " : "\tREMOVE ";
-				ManchesterSyntaxRenderer renderer = this.factory.getManchesterSyntaxRenderer(this.constraintSystem);
-				buffer.append(commaString);
-				first = false;
-				buffer.append(actionString);
-				action.getAxiom().accept(renderer);
-				buffer.append(renderer.toString());
-			}
-			buffer.append("\nEND;");
-		}
-		return buffer.toString();
+		return this.toString();
 	}
 
 	public void addVariable(Variable<?> variable) {

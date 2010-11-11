@@ -11,12 +11,11 @@ import java.util.logging.Level;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PartialOWLObjectInstantiator;
-import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
+import org.coode.oppl.VariableVisitorEx;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
@@ -26,11 +25,13 @@ import org.coode.oppl.log.Logging;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.search.AssignableValueExtractor;
 import org.coode.oppl.search.SearchTree;
+import org.coode.oppl.utils.AbstractVariableVisitorExAdapter;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
 import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -223,8 +224,8 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 				for (final OWLObject value : solvableSearchNode.getValues()) {
 					// Need to check it is fine to assign, as regexp
 					// variables might not like the value.
-					boolean accepatble = variable.accept(new PlainVariableVisitorEx<Boolean>() {
-						public <O extends OWLObject> Boolean visit(Variable<O> v) {
+					boolean accepatble = variable.accept(new VariableVisitorEx<Boolean>() {
+						public <O extends OWLObject> Boolean visit(InputVariable<O> v) {
 							return true;
 						}
 
@@ -319,23 +320,23 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
 		toReturn.addAll(variable.accept(new AssignableValueExtractor(this.assignableValuesVisitor,
 				parameters)));
-		VariableScope<?> variableScope = variable.getVariableScope();
-		if (variableScope != null) {
-			Iterator<OWLObject> iterator = toReturn.iterator();
-			while (iterator.hasNext()) {
-				OWLObject owlObject = iterator.next();
-				try {
-					boolean inScope = variableScope.check(
-							owlObject,
-							this.getConstraintSystem().getOPPLFactory().getVariableScopeChecker());
-					if (!inScope) {
-						iterator.remove();
+		Iterator<OWLObject> iterator = toReturn.iterator();
+		while (iterator.hasNext()) {
+			final OWLObject owlObject = iterator.next();
+			try {
+				boolean inScope = variable.accept(new AbstractVariableVisitorExAdapter<Boolean>(
+						true) {
+					@Override
+					public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
+						VariableScope<?> variableScope = v.getVariableScope();
+						return variableScope == null || variableScope.check(owlObject);
 					}
-				} catch (OWLRuntimeException e) {
-					e.printStackTrace();
-				} catch (OPPLException e) {
-					e.printStackTrace();
+				});
+				if (!inScope) {
+					iterator.remove();
 				}
+			} catch (OWLRuntimeException e) {
+				this.getRuntimeExceptionHandler().handleOWLRuntimeException(e);
 			}
 		}
 		return toReturn;

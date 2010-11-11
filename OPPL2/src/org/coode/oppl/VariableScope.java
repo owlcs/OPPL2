@@ -42,8 +42,7 @@ public interface VariableScope<O extends OWLObject> {
 	 * @return true if the input OWLObject is into the VariableScope
 	 * @throws OWLRuntimeException
 	 */
-	boolean check(OWLObject owlObject, VariableScopeChecker checker)
-			throws OWLRuntimeException;
+	boolean check(OWLObject owlObject) throws OWLRuntimeException;
 
 	/**
 	 * @return the direction of the VariableScope

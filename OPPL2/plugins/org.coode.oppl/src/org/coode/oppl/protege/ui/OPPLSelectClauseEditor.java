@@ -78,7 +78,6 @@ public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEdito
 		JPanel axiomEditorPanel = new JPanel(new BorderLayout());
 		axiomEditorPanel.add(ComponentFactory.createScrollPane(this.axiomEditor));
 		this.axiomEditor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
-			@SuppressWarnings("unused")
 			public void verifiedStatusChanged(boolean newState) {
 				OPPLSelectClauseEditor.this.handleChange();
 			}
@@ -86,7 +85,6 @@ public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEdito
 		this.add(axiomEditorPanel, BorderLayout.CENTER);
 		// Setting up the Asserted flag
 		this.assertedCheckBox.addActionListener(new ActionListener() {
-			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				OPPLSelectClauseEditor.this.handleChange();
 			}

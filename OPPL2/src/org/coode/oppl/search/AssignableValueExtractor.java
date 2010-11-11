@@ -8,17 +8,16 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.coode.oppl.PlainVariableVisitorEx;
-import org.coode.oppl.Variable;
+import org.coode.oppl.VariableVisitorEx;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.OWLObject;
 
-public final class AssignableValueExtractor implements
-		PlainVariableVisitorEx<Set<? extends OWLObject>> {
+public final class AssignableValueExtractor implements VariableVisitorEx<Set<? extends OWLObject>> {
 	private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor;
 	private final ValueComputationParameters parameters;
 
@@ -35,7 +34,7 @@ public final class AssignableValueExtractor implements
 		this.parameters = parameters;
 	}
 
-	public <O extends OWLObject> Set<? extends OWLObject> visit(Variable<O> v) {
+	public <O extends OWLObject> Set<? extends OWLObject> visit(InputVariable<O> v) {
 		return v.getType().accept(this.assignableValuesVisitor);
 	}
 

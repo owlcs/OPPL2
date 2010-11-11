@@ -2,11 +2,9 @@ package org.coode.oppl.generated;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ManchesterVariableSyntax;
-import org.coode.oppl.PlainVariableVisitor;
-import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableScope;
-import org.coode.oppl.VariableScopeChecker;
+import org.coode.oppl.VariableVisitor;
+import org.coode.oppl.VariableVisitorEx;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.IRI;
@@ -18,8 +16,7 @@ public class GeneratedVariable<O extends OWLObject> implements Variable<O> {
 	private final IRI iri;
 	private final VariableType<O> type;
 
-	public GeneratedVariable(String name, VariableType<O> type,
-			OPPLFunction<? extends O> opplFunction) {
+	GeneratedVariable(String name, VariableType<O> type, OPPLFunction<? extends O> opplFunction) {
 		if (name == null) {
 			throw new NullPointerException("The name cannot be null");
 		}
@@ -62,19 +59,11 @@ public class GeneratedVariable<O extends OWLObject> implements Variable<O> {
 		return this.type;
 	}
 
-	public void setVariableScope(VariableScope<?> variableScope,
-			VariableScopeChecker variableScopeChecker) {
-	}
-
-	public VariableScope<?> getVariableScope() {
-		return null;
-	}
-
-	public void accept(PlainVariableVisitor visitor) {
+	public void accept(VariableVisitor visitor) {
 		visitor.visit(this);
 	}
 
-	public <T> T accept(PlainVariableVisitorEx<T> visitor) {
+	public <T> T accept(VariableVisitorEx<T> visitor) {
 		return visitor.visit(this);
 	}
 
@@ -124,5 +113,10 @@ public class GeneratedVariable<O extends OWLObject> implements Variable<O> {
 			return false;
 		}
 		return true;
+	}
+
+	public static <P extends OWLObject> GeneratedVariable<P> getGeneratedVariable(String name,
+			VariableType<P> type, OPPLFunction<? extends P> opplFunction) {
+		return new GeneratedVariable<P>(name, type, opplFunction);
 	}
 }

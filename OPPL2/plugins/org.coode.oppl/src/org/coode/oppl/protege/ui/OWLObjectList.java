@@ -42,6 +42,7 @@ import org.coode.oppl.Variable;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.protege.ui.rendering.VariableOWLCellRenderer;
 import org.coode.oppl.variabletypes.VariableType;
+import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.protege.editor.core.ui.list.MList;
 import org.protege.editor.core.ui.list.MListButton;
 import org.protege.editor.core.ui.list.MListItem;
@@ -103,7 +104,7 @@ public class OWLObjectList extends MList implements ActionListener, OPPLMacroSta
 	}
 
 	private final ConstraintSystem constraintSystem;
-	private final List<Variable> variables = new ArrayList<Variable>();
+	private final List<Variable<?>> variables = new ArrayList<Variable<?>>();
 	private final List<OPPLMacroListener> listeners = new ArrayList<OPPLMacroListener>();
 	private final OWLEditorKit owlEditorKit;
 
@@ -127,8 +128,8 @@ public class OWLObjectList extends MList implements ActionListener, OPPLMacroSta
 		if (selectedValue instanceof OWLObjectListItem) {
 			OWLObject owlObject = ((OWLObjectListItem) selectedValue).getOwlObject();
 			VariableList variableList = new VariableList(this.owlEditorKit, this.constraintSystem);
-			VariableType variableType = VariableType.getVariableType(owlObject);
-			for (Variable variable : this.getVariables()) {
+			VariableType<?> variableType = VariableTypeFactory.getVariableType(owlObject);
+			for (Variable<?> variable : this.getVariables()) {
 				if (variable.getType().equals(variableType)) {
 					((DefaultListModel) variableList.getModel()).addElement(new VariableListItem(
 							variable, this.getConstraintSystem(), this.getOWLEditorKit(), false,
@@ -143,7 +144,7 @@ public class OWLObjectList extends MList implements ActionListener, OPPLMacroSta
 			jDialog.setVisible(true);
 			Object value = variableList.getSelectedValue();
 			if (value instanceof VariableListItem) {
-				Variable selectedVariable = ((VariableListItem) value).getVariable();
+				Variable<?> selectedVariable = ((VariableListItem) value).getVariable();
 				boolean added = this.constraintSystem.addLeaf(selectedVariable, owlObject);
 				if (!added) {
 					JOptionPane.showMessageDialog(
@@ -167,14 +168,15 @@ public class OWLObjectList extends MList implements ActionListener, OPPLMacroSta
 			if (object instanceof OWLObjectListItem) {
 				OWLObjectListItem owlObjectListItem = (OWLObjectListItem) object;
 				OWLObject owlObject = owlObjectListItem.getOwlObject();
-				VariableType variableType = VariableType.getVariableType(owlObject);
+				VariableType<?> variableType = VariableTypeFactory.getVariableType(owlObject);
 				try {
 					String name = JOptionPane.showInputDialog("Please input a name for the variable that will generalise this entity: ");
 					if (name != null) {
 						name = name.startsWith("?") ? name : "?" + name;
-						Variable variable = this.getConstraintSystem().createVariable(
+						Variable<?> variable = this.getConstraintSystem().createVariable(
 								name,
-								variableType);
+								variableType,
+								null);
 						boolean added = this.getConstraintSystem().addLeaf(variable, owlObject);
 						if (added) {
 							this.addVariable(variable);
@@ -194,7 +196,7 @@ public class OWLObjectList extends MList implements ActionListener, OPPLMacroSta
 		}
 	}
 
-	private void addVariable(Variable variable) {
+	private void addVariable(Variable<?> variable) {
 		this.variables.add(variable);
 		this.notifyAddedVariable(variable);
 	}
@@ -204,13 +206,13 @@ public class OWLObjectList extends MList implements ActionListener, OPPLMacroSta
 		List<MListButton> toReturn = new ArrayList<MListButton>(super.getListItemButtons(item));
 		toReturn.add(new CreateNewVariableButton(this));
 		if (!this.getVariables().isEmpty()) {
-			Iterator<Variable> it = this.getVariables().iterator();
+			Iterator<Variable<?>> it = this.getVariables().iterator();
 			boolean found = false;
 			while (!found && it.hasNext()) {
-				Variable existingVariable = it.next();
-				VariableType existingVariableType = existingVariable.getType();
+				Variable<?> existingVariable = it.next();
+				VariableType<?> existingVariableType = existingVariable.getType();
 				if (item instanceof OWLObjectListItem) {
-					VariableType itemVariableType = VariableType.getVariableType(((OWLObjectListItem) item).getOwlObject());
+					VariableType<?> itemVariableType = VariableTypeFactory.getVariableType(((OWLObjectListItem) item).getOwlObject());
 					found = existingVariableType.equals(itemVariableType);
 				}
 			}
@@ -221,13 +223,13 @@ public class OWLObjectList extends MList implements ActionListener, OPPLMacroSta
 		return toReturn;
 	}
 
-	private void notifyAddedVariable(Variable variable) {
+	private void notifyAddedVariable(Variable<?> variable) {
 		for (OPPLMacroListener listener : this.listeners) {
 			listener.handleGeneralisedOWLObject(variable);
 		}
 	}
 
-	private void notifyAdded2Variable(Variable variable, OWLObject owlObject) {
+	private void notifyAdded2Variable(Variable<?> variable, OWLObject owlObject) {
 		for (OPPLMacroListener listener : this.listeners) {
 			listener.handleGeneralisedOWLObject(variable, owlObject);
 		}
@@ -250,7 +252,7 @@ public class OWLObjectList extends MList implements ActionListener, OPPLMacroSta
 	/**
 	 * @return the variables
 	 */
-	public List<Variable> getVariables() {
+	public List<Variable<?>> getVariables() {
 		return this.variables;
 	}
 

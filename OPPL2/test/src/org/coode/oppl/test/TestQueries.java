@@ -43,6 +43,7 @@ import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
 import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
@@ -142,7 +143,7 @@ public class TestQueries extends TestCase {
 			OWLOntologyManager manager) {
 		// Clear test ontology
 		this.clearOntology(testOntology, manager);
-		List<Variable<?>> inputVariables = opplScript.getInputVariables();
+		List<InputVariable<?>> inputVariables = opplScript.getInputVariables();
 		Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
 		for (Variable<?> variable : inputVariables) {
 			bindings.put(variable, this.generateValues(variable, manager));
@@ -530,24 +531,30 @@ public class TestQueries extends TestCase {
 		for (DescriptionType descriptionType : descriptionTypes) {
 			Variable<?> classVariable = cs.createVariable(
 					"?aClass_" + counter,
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			Variable<?> anotherClassVariable = cs.createVariable(
 					"?anotherClass_" + counter,
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			Variable<?> dataPropertyVariable = cs.createVariable(
 					"?aDataProperty_" + counter,
-					VariableTypeFactory.getDATAPROPERTYVariableType());
+					VariableTypeFactory.getDATAPROPERTYVariableType(),
+					null);
 			Variable<?> objectPropertyVariable = cs.createVariable(
 					"?anObjectProperty_" + counter,
-					VariableTypeFactory.getOBJECTPROPERTYTypeVariableType());
+					VariableTypeFactory.getOBJECTPROPERTYTypeVariableType(),
+					null);
 			Variable<?> constantVariable = cs.createVariable(
 					"?aConstant_" + counter,
-					VariableTypeFactory.getCONSTANTVariableType());
+					VariableTypeFactory.getCONSTANTVariableType(),
+					null);
 			Variable<?> anIndividualVariable = cs.createVariable(
 					"?anIndividual_" + counter,
-					VariableTypeFactory.getINDIVIDUALVariableType());
+					VariableTypeFactory.getINDIVIDUALVariableType(),
+					null);
 			Variable<?> anotherIndividualVariable = cs.createVariable("?anotherIndividual_"
-					+ counter, VariableTypeFactory.getINDIVIDUALVariableType());
+					+ counter, VariableTypeFactory.getINDIVIDUALVariableType(), null);
 			switch (descriptionType) {
 			case CLASS:
 				toReturn.add(dataFactory.getOWLClass(classVariable.getIRI()));

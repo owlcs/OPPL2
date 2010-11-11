@@ -24,12 +24,10 @@ package org.coode.oppl.variabletypes;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ManchesterVariableSyntax;
-import org.coode.oppl.PlainVariableVisitor;
-import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
-import org.coode.oppl.VariableScopeChecker;
 import org.coode.oppl.VariableVisitor;
+import org.coode.oppl.VariableVisitorEx;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
@@ -37,13 +35,17 @@ import org.semanticweb.owlapi.model.OWLObject;
  * @author Luigi Iannone
  * 
  */
-class VariableImpl<O extends OWLObject> implements Variable<O> {
+public class InputVariable<O extends OWLObject> implements Variable<O> {
 	private final String name;
 	private final VariableType<O> type;
 	private final IRI iri;
-	private VariableScope<?> variableScope = null;
+	private final VariableScope<?> variableScope;
 
-	VariableImpl(String name, VariableType<O> type) {
+	InputVariable(String name, VariableType<O> type) {
+		this(name, type, null);
+	}
+
+	InputVariable(String name, VariableType<O> type, VariableScope<?> variableScope) {
 		if (name == null) {
 			throw new NullPointerException("The name of the variable cannot be null");
 		}
@@ -53,6 +55,7 @@ class VariableImpl<O extends OWLObject> implements Variable<O> {
 		this.name = name;
 		this.type = type;
 		this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
+		this.variableScope = variableScope;
 	}
 
 	public String getName() {
@@ -79,20 +82,11 @@ class VariableImpl<O extends OWLObject> implements Variable<O> {
 		return this.variableScope;
 	}
 
-	public void setVariableScope(VariableScope<?> variableScope,
-			VariableScopeChecker variableScopeChecker) {
-		this.variableScope = variableScope;
-	}
-
-	public <P> P accept(VariableVisitor<P> visitor) {
+	public <T> T accept(VariableVisitorEx<T> visitor) {
 		return visitor.visit(this);
 	}
 
-	public <T> T accept(PlainVariableVisitorEx<T> visitor) {
-		return visitor.visit(this);
-	}
-
-	public void accept(PlainVariableVisitor visitor) {
+	public void accept(VariableVisitor visitor) {
 		visitor.visit(this);
 	}
 
@@ -125,7 +119,7 @@ class VariableImpl<O extends OWLObject> implements Variable<O> {
 		if (this.getClass() != obj.getClass()) {
 			return false;
 		}
-		VariableImpl<?> other = (VariableImpl<?>) obj;
+		InputVariable<?> other = (InputVariable<?>) obj;
 		if (this.name == null) {
 			if (other.name != null) {
 				return false;
@@ -140,5 +134,10 @@ class VariableImpl<O extends OWLObject> implements Variable<O> {
 		String scope = this.getVariableScope() == null ? "" : this.getVariableScope().render(
 				constraintSystem);
 		return String.format("%s:%s%s", this.getName(), this.getType(), scope);
+	}
+
+	static <P extends OWLObject> InputVariable<P> getInputVariable(String name,
+			VariableType<P> type, VariableScope<?> variableScope) {
+		return new InputVariable<P>(name, type);
 	}
 }

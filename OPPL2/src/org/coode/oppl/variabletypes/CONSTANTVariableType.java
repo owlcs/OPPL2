@@ -6,14 +6,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScopes.Direction;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.utils.OWLObjectExtractor;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -37,11 +34,7 @@ public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral> imple
 		return visitor.visitCONSTANTVariableType(this);
 	}
 
-	public OWLLiteral buildOWLObject(OWLDataFactory factory, IRI iri, String shortName) {
-		return factory.getOWLLiteral(shortName);
-	}
-
-	public RegexpGeneratedVariable<? extends OWLLiteral> createRegexpGeneratedVariable(String name,
+	public RegexpGeneratedVariable<? extends OWLLiteral> getRegexpGeneratedVariable(String name,
 			OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
 		return new RegexpGeneratedVariable<OWLLiteral>(name,
 				VariableTypeFactory.getCONSTANTVariableType(), patternGeneratingOPPLFunction);
@@ -55,10 +48,6 @@ public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral> imple
 			}
 		}
 		return toReturn;
-	}
-
-	public Variable<OWLLiteral> instantiateVariable(String name) {
-		return VariableFactory.getCONSTANTVariable(name);
 	}
 
 	public boolean isCompatibleWith(OWLObject o) {

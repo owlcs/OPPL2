@@ -37,7 +37,8 @@ public class TestAssertedSolvabilityBasedAxiomQuery extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			manager.addAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(
 					dataFactory.getOWLClass(IRI.create("A")),
@@ -74,10 +75,12 @@ public class TestAssertedSolvabilityBasedAxiomQuery extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			Variable<OWLClassExpression> y = constraintSystem.createVariable(
 					"?y",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			manager.addAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(
 					dataFactory.getOWLClass(IRI.create("A")),

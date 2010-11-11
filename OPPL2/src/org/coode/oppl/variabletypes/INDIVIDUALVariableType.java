@@ -9,13 +9,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScopes.Direction;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
-import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -53,20 +50,11 @@ public class INDIVIDUALVariableType extends AbstractVariableType<OWLIndividual> 
 	}
 
 	/**
-	 * @see org.coode.oppl.variabletypes.VariableType#buildOWLObject(org.semanticweb
-	 *      .owlapi.model.OWLDataFactory, org.semanticweb.owlapi.model.IRI,
-	 *      java.lang.String)
-	 */
-	public OWLIndividual buildOWLObject(OWLDataFactory factory, IRI iri, String shortName) {
-		return factory.getOWLNamedIndividual(iri);
-	}
-
-	/**
-	 * @see org.coode.oppl.variabletypes.VariableType#createRegexpGeneratedVariable
+	 * @see org.coode.oppl.variabletypes.VariableType#getRegexpGeneratedVariable
 	 *      (java.lang.String, org.coode.oppl.function.OPPLFunction)
 	 */
-	public RegexpGeneratedVariable<? extends OWLIndividual> createRegexpGeneratedVariable(
-			String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+	public RegexpGeneratedVariable<? extends OWLIndividual> getRegexpGeneratedVariable(String name,
+			OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
 		return new RegexpGeneratedVariable<OWLIndividual>(name,
 				VariableTypeFactory.getINDIVIDUALVariableType(), patternGeneratingOPPLFunction);
 	}
@@ -81,14 +69,6 @@ public class INDIVIDUALVariableType extends AbstractVariableType<OWLIndividual> 
 			toReturn.addAll(ontology.getIndividualsInSignature());
 		}
 		return toReturn;
-	}
-
-	/**
-	 * @see org.coode.oppl.variabletypes.VariableType#instantiateVariable(java.lang
-	 *      .String)
-	 */
-	public Variable<OWLIndividual> instantiateVariable(String name) {
-		return VariableFactory.getINDIVIDUALVariable(name);
 	}
 
 	/**

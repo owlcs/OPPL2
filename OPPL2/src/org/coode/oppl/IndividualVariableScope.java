@@ -43,7 +43,7 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
  * @author Luigi Iannone
  * 
  */
-public class IndividualVariableScope implements
+public class IndividualVariableScope extends AbstractVariableScope<OWLClassExpression> implements
 		VariableScope<OWLClassExpression> {
 	private static Map<OWLClassExpression, IndividualVariableScope> cache = new HashMap<OWLClassExpression, IndividualVariableScope>();
 	private OWLClassExpression classExpression;
@@ -51,15 +51,16 @@ public class IndividualVariableScope implements
 	/**
 	 * @param classExpression
 	 */
-	IndividualVariableScope(OWLClassExpression classExpression) {
+	IndividualVariableScope(OWLClassExpression classExpression, VariableScopeChecker checker) {
+		super(checker);
 		this.classExpression = classExpression;
 	}
 
 	static IndividualVariableScope buildIndividualVariableScope(
-			OWLClassExpression classDescription) {
+			OWLClassExpression classDescription, VariableScopeChecker checker) {
 		IndividualVariableScope toReturn = cache.get(classDescription);
 		if (toReturn == null) {
-			toReturn = new IndividualVariableScope(classDescription);
+			toReturn = new IndividualVariableScope(classDescription, checker);
 			cache.put(classDescription, toReturn);
 		}
 		return toReturn;
@@ -80,10 +81,9 @@ public class IndividualVariableScope implements
 		this.classExpression = classExpression;
 	}
 
-	public boolean check(OWLObject owlObject, VariableScopeChecker checker)
-			throws OWLRuntimeException {
+	public boolean check(OWLObject owlObject) throws OWLRuntimeException {
 		return owlObject instanceof OWLIndividual
-				&& checker.check((OWLIndividual) owlObject, this);
+				&& this.getChecker().check((OWLIndividual) owlObject, this);
 	}
 
 	/**
@@ -101,8 +101,8 @@ public class IndividualVariableScope implements
 	}
 
 	public String render(ConstraintSystem constraintSystem) {
-		ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory()
-				.getManchesterSyntaxRenderer(constraintSystem);
+		ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory().getManchesterSyntaxRenderer(
+				constraintSystem);
 		this.getClassExpression().accept(renderer);
 		return String.format("[%s %s]", this.getDirection(), renderer);
 	}

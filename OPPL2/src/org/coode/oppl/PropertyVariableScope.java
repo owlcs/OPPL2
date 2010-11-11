@@ -35,14 +35,15 @@ import org.semanticweb.owlapi.model.OWLPropertyExpression;
  * @author Luigi Iannone
  * 
  */
-public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?>>
-		implements VariableScope<P> {
+public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?>> extends
+		AbstractVariableScope<P> implements VariableScope<P> {
 	private final P property;
 
 	/**
 	 * @param property
 	 */
-	PropertyVariableScope(P property) {
+	PropertyVariableScope(P property, VariableScopeChecker checker) {
+		super(checker);
 		this.property = property;
 	}
 
@@ -54,13 +55,13 @@ public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?
 	}
 
 	static <O extends OWLPropertyExpression<?, ?>> SubPropertyVariableScope<O> buildSubPropertyVariableScope(
-			O property) {
-		return new SubPropertyVariableScope<O>(property);
+			O property, VariableScopeChecker checker) {
+		return new SubPropertyVariableScope<O>(property, checker);
 	}
 
 	static <O extends OWLPropertyExpression<?, ?>> SuperPropertyVariableScope<O> buildSuperPropertyVariableScope(
-			O property) {
-		return new SuperPropertyVariableScope<O>(property);
+			O property, VariableScopeChecker checker) {
+		return new SuperPropertyVariableScope<O>(property, checker);
 	}
 
 	/**
@@ -71,8 +72,8 @@ public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?
 	}
 
 	public String render(ConstraintSystem constraintSystem) {
-		ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory()
-				.getManchesterSyntaxRenderer(constraintSystem);
+		ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory().getManchesterSyntaxRenderer(
+				constraintSystem);
 		this.getScopingObject().accept(renderer);
 		return String.format("[%s %s]", this.getDirection(), renderer);
 	}

@@ -29,13 +29,14 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
-import org.coode.oppl.PlainVariableVisitor;
-import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
+import org.coode.oppl.VariableVisitor;
+import org.coode.oppl.VariableVisitorEx;
 import org.coode.oppl.entity.OWLEntityRenderer;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObject;
 
@@ -47,14 +48,14 @@ public class BindingNode {
 	private static final BindingNode EMPTY_BINDING_NODE = new BindingNode(
 			Collections.<Assignment> emptySet(), Collections.<Variable<?>> emptySet());
 
-	private static class VariableInspector implements PlainVariableVisitor {
+	private static class VariableInspector implements VariableVisitor {
 		private Set<Variable<?>> toUpdate;
 
 		public VariableInspector(Set<Variable<?>> toUpdate) {
 			this.toUpdate = toUpdate;
 		}
 
-		public <P extends OWLObject> void visit(Variable<P> v) {
+		public <P extends OWLObject> void visit(InputVariable<P> v) {
 			this.toUpdate.add(v);
 		}
 
@@ -134,8 +135,8 @@ public class BindingNode {
 
 	public OWLObject getAssignmentValue(Variable<?> variable,
 			final ValueComputationParameters parameters) {
-		return variable.accept(new PlainVariableVisitorEx<OWLObject>() {
-			public <O extends OWLObject> OWLObject visit(Variable<O> v) {
+		return variable.accept(new VariableVisitorEx<OWLObject>() {
+			public <O extends OWLObject> OWLObject visit(InputVariable<O> v) {
 				return this.findAssignment(v);
 			}
 
@@ -168,7 +169,7 @@ public class BindingNode {
 	}
 
 	public void addAssignment(final Assignment assignment) {
-		assignment.getAssignedVariable().accept(new PlainVariableVisitor() {
+		assignment.getAssignedVariable().accept(new VariableVisitor() {
 			public <P extends OWLObject> void visit(RegexpGeneratedVariable<P> regExpGenerated) {
 				BindingNode.this.assignments.add(assignment);
 				BindingNode.this.unassignedVariables.remove(assignment.getAssignedVariable());
@@ -177,7 +178,7 @@ public class BindingNode {
 			public <P extends OWLObject> void visit(GeneratedVariable<P> v) {
 			}
 
-			public <P extends OWLObject> void visit(Variable<P> v) {
+			public <P extends OWLObject> void visit(InputVariable<P> v) {
 				BindingNode.this.assignments.add(assignment);
 				BindingNode.this.unassignedVariables.remove(assignment.getAssignedVariable());
 			}

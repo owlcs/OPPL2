@@ -23,6 +23,7 @@
 package org.coode.oppl.bindingtree;
 
 import org.coode.oppl.Variable;
+import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.semanticweb.owlapi.model.OWLObject;
 
 /**
@@ -30,14 +31,24 @@ import org.semanticweb.owlapi.model.OWLObject;
  * 
  */
 public class Assignment {
-	private final Variable assignedVariable;
+	private final Variable<?> assignedVariable;
 	private final OWLObject assignment;
 
 	/**
 	 * @param assignedVariable
 	 * @param assignment
 	 */
-	public Assignment(Variable assignedVariable, OWLObject assignment) {
+	public Assignment(Variable<?> assignedVariable, OWLObject assignment) {
+		if (assignedVariable == null) {
+			throw new NullPointerException("The assigned variable cannot be null");
+		}
+		if (assignment == null) {
+			throw new NullPointerException("The assigned value cannot be null");
+		}
+		if (VariableTypeFactory.getVariableType(assignment) != assignedVariable.getType()) {
+			throw new IllegalArgumentException(
+					"The assigned value is incompatible with the variabl it is assigned to");
+		}
 		this.assignedVariable = assignedVariable;
 		this.assignment = assignment;
 	}
@@ -45,7 +56,7 @@ public class Assignment {
 	/**
 	 * @return the assignedVariable
 	 */
-	public Variable getAssignedVariable() {
+	public Variable<?> getAssignedVariable() {
 		return this.assignedVariable;
 	}
 
@@ -58,8 +69,7 @@ public class Assignment {
 
 	@Override
 	public String toString() {
-		return this.assignedVariable.getName() + "="
-				+ this.assignment.toString();
+		return this.assignedVariable.getName() + "=" + this.assignment.toString();
 	}
 
 	/*
@@ -71,12 +81,9 @@ public class Assignment {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime
-				* result
-				+ (this.assignedVariable == null ? 0 : this.assignedVariable
-						.hashCode());
 		result = prime * result
-				+ (this.assignment == null ? 0 : this.assignment.hashCode());
+				+ (this.assignedVariable == null ? 0 : this.assignedVariable.hashCode());
+		result = prime * result + (this.assignment == null ? 0 : this.assignment.hashCode());
 		return result;
 	}
 

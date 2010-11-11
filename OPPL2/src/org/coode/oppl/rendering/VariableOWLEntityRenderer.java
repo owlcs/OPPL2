@@ -63,7 +63,7 @@ public class VariableOWLEntityRenderer implements OWLEntityRenderer {
 	public String render(OWLEntity entity) {
 		String toReturn = null;
 		IRI uri = entity.getIRI();
-		Variable variable = this.constraintSystem.getVariable(uri);
+		Variable<?> variable = this.constraintSystem.getVariable(uri);
 		if (variable != null) {
 			toReturn = this.constraintSystem.render(variable);
 		} else {

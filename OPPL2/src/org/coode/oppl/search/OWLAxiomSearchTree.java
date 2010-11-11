@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.PartialOWLObjectInstantiator;
-import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
+import org.coode.oppl.VariableVisitorEx;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.function.SimpleValueComputationParameters;
@@ -27,6 +27,7 @@ import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
 import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -179,8 +180,8 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 
 	private Collection<? extends OWLObject> getAssignableValues(Variable<?> variable) {
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
-		PlainVariableVisitorEx<Set<? extends OWLObject>> visitor = new PlainVariableVisitorEx<Set<? extends OWLObject>>() {
-			public <O extends OWLObject> Set<? extends OWLObject> visit(Variable<O> v) {
+		VariableVisitorEx<Set<? extends OWLObject>> visitor = new VariableVisitorEx<Set<? extends OWLObject>>() {
+			public <O extends OWLObject> Set<? extends OWLObject> visit(InputVariable<O> v) {
 				return v.getType().accept(OWLAxiomSearchTree.this.assignableValuesVisitor);
 			}
 

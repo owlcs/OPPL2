@@ -43,7 +43,8 @@ public class NoResultsAxiomSolvabilityTest extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			OWLClass a = dataFactory.getOWLClass(IRI.create("A"));
 			OWLClass b = dataFactory.getOWLClass(IRI.create("B"));
@@ -96,7 +97,8 @@ public class NoResultsAxiomSolvabilityTest extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			OWLClass a = dataFactory.getOWLClass(IRI.create("A"));
 			OWLClass b = dataFactory.getOWLClass(IRI.create("B"));

@@ -71,7 +71,8 @@ public class OPPLFunctionTest extends TestCase {
 			ConstraintSystem constraintSystem = factory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			RenderingVariableAttribute renderingVariableAttribute = new RenderingVariableAttribute(
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
@@ -100,7 +101,8 @@ public class OPPLFunctionTest extends TestCase {
 			ConstraintSystem constraintSystem = factory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			ValuesVariableAtttribute<OWLClassExpression> valuesVariableAtttribute = ValuesVariableAtttribute.getValuesVariableAtttribute(x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
 			OWLClass a = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#a"));
@@ -133,7 +135,8 @@ public class OPPLFunctionTest extends TestCase {
 			ConstraintSystem constraintSystem = factory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			ValuesVariableAtttribute<OWLClassExpression> valuesVariableAtttribute = ValuesVariableAtttribute.getValuesVariableAtttribute(x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
@@ -185,7 +188,8 @@ public class OPPLFunctionTest extends TestCase {
 			ConstraintSystem constraintSystem = factory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			RenderingVariableAttribute renderingVariableAttribute = new RenderingVariableAttribute(
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
@@ -225,7 +229,8 @@ public class OPPLFunctionTest extends TestCase {
 			// Variable values
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			BindingNode aBindingNode = new BindingNode(Collections.singleton(new Assignment(x, a)),
 					Collections.<Variable<?>> emptySet());
 			BindingNode anotherBindingNode = new BindingNode(Collections.singleton(new Assignment(
@@ -302,10 +307,12 @@ public class OPPLFunctionTest extends TestCase {
 			ConstraintSystem constraintSystem = factory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			Variable<OWLClassExpression> y = constraintSystem.createVariable(
 					"?y",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
 			OWLClass a = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#a"));
 			OWLClass b = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#b"));
@@ -370,7 +377,8 @@ public class OPPLFunctionTest extends TestCase {
 			ConstraintSystem constraintSystem = factory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			RenderingVariableAttribute renderingVariableAttribute = new RenderingVariableAttribute(
 					x);
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();

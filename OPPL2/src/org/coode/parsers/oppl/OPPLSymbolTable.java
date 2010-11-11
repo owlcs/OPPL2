@@ -9,14 +9,15 @@ import org.antlr.runtime.Token;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.InCollectionConstraint;
 import org.coode.oppl.InequalityConstraint;
-import org.coode.oppl.PlainVariableVisitorEx;
 import org.coode.oppl.Variable;
+import org.coode.oppl.VariableVisitorEx;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.function.ValuesVariableAtttribute;
 import org.coode.oppl.function.VariableAttribute;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.coode.parsers.DefaultTypeVistorEx;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
@@ -76,7 +77,8 @@ public class OPPLSymbolTable extends SymbolTable {
 			try {
 				constraintSystem.createVariable(
 						identifier.token.getText(),
-						type.getOPPLVariableType());
+						type.getOPPLVariableType(),
+						null);
 			} catch (OPPLException e) {
 				this.reportIllegalToken(identifier, "Error in creating variable: " + e.getMessage());
 			}
@@ -154,9 +156,9 @@ public class OPPLSymbolTable extends SymbolTable {
 		if (v != null) {
 			try {
 				final int index = Integer.parseInt(indexNode.getText());
-				VariableAttributeSymbol<VariableAttribute<String>> symbol = v.accept(new PlainVariableVisitorEx<VariableAttributeSymbol<VariableAttribute<String>>>() {
+				VariableAttributeSymbol<VariableAttribute<String>> symbol = v.accept(new VariableVisitorEx<VariableAttributeSymbol<VariableAttribute<String>>>() {
 					public <P extends OWLObject> VariableAttributeSymbol<VariableAttribute<String>> visit(
-							Variable<P> v) {
+							InputVariable<P> v) {
 						OPPLSymbolTable.this.reportIllegalToken(
 								variableSyntaxTree,
 								"The variable has to be a regural expression variable");

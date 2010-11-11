@@ -37,8 +37,8 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
  * @author Luigi Iannone
  * 
  */
-public abstract class ClassVariableScope implements
-		VariableScope<OWLClassExpression> {
+public abstract class ClassVariableScope extends AbstractVariableScope<OWLClassExpression>
+		implements VariableScope<OWLClassExpression> {
 	private final OWLClassExpression description;
 	private static Map<OWLClassExpression, SuperClassVariableScope> superClassesScopes = new HashMap<OWLClassExpression, SuperClassVariableScope>();
 	private static Map<OWLClassExpression, SubClassVariableScope> subClassesScopes = new HashMap<OWLClassExpression, SubClassVariableScope>();
@@ -46,7 +46,8 @@ public abstract class ClassVariableScope implements
 	/**
 	 * @param description
 	 */
-	ClassVariableScope(OWLClassExpression description) {
+	ClassVariableScope(OWLClassExpression description, VariableScopeChecker checker) {
+		super(checker);
 		this.description = description;
 	}
 
@@ -57,21 +58,21 @@ public abstract class ClassVariableScope implements
 		return this.description;
 	}
 
-	static SubClassVariableScope buildSubClassVariableScope(
-			OWLClassExpression description) {
+	static SubClassVariableScope buildSubClassVariableScope(OWLClassExpression description,
+			VariableScopeChecker checker) {
 		SubClassVariableScope toReturn = subClassesScopes.get(description);
 		if (toReturn == null) {
-			toReturn = new SubClassVariableScope(description);
+			toReturn = new SubClassVariableScope(description, checker);
 			subClassesScopes.put(description, toReturn);
 		}
 		return toReturn;
 	}
 
-	static SuperClassVariableScope buildSuperClassVariableScope(
-			OWLClassExpression description) {
+	static SuperClassVariableScope buildSuperClassVariableScope(OWLClassExpression description,
+			VariableScopeChecker checker) {
 		SuperClassVariableScope toReturn = superClassesScopes.get(description);
 		if (toReturn == null) {
-			toReturn = new SuperClassVariableScope(description);
+			toReturn = new SuperClassVariableScope(description, checker);
 			superClassesScopes.put(description, toReturn);
 		}
 		return toReturn;
@@ -85,8 +86,8 @@ public abstract class ClassVariableScope implements
 	}
 
 	public String render(ConstraintSystem constraintSystem) {
-		ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory()
-				.getManchesterSyntaxRenderer(constraintSystem);
+		ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory().getManchesterSyntaxRenderer(
+				constraintSystem);
 		this.getScopingObject().accept(renderer);
 		return String.format("[%s %s]", this.getDirection(), renderer);
 	}

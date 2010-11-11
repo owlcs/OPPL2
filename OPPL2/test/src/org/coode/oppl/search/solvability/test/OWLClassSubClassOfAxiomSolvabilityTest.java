@@ -50,7 +50,8 @@ public class OWLClassSubClassOfAxiomSolvabilityTest extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			manager.addAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(
 					dataFactory.getOWLClass(IRI.create("A")),
@@ -102,7 +103,8 @@ public class OWLClassSubClassOfAxiomSolvabilityTest extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			OWLSubClassOfAxiom axiom = dataFactory.getOWLSubClassOfAxiom(
 					dataFactory.getOWLClass(x.getIRI()),
@@ -149,7 +151,8 @@ public class OWLClassSubClassOfAxiomSolvabilityTest extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			manager.addAxioms(
 					ontology,
@@ -205,7 +208,8 @@ public class OWLClassSubClassOfAxiomSolvabilityTest extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			OWLClass a = dataFactory.getOWLClass(IRI.create("A"));
 			OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI.create("p"));
@@ -259,7 +263,8 @@ public class OWLClassSubClassOfAxiomSolvabilityTest extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			OWLClass a = dataFactory.getOWLClass(IRI.create("A"));
 			OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI.create("p"));
@@ -312,10 +317,12 @@ public class OWLClassSubClassOfAxiomSolvabilityTest extends TestCase {
 			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
 			Variable<OWLClassExpression> x = constraintSystem.createVariable(
 					"?x",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			Variable<OWLClassExpression> y = constraintSystem.createVariable(
 					"?y",
-					VariableTypeFactory.getCLASSVariableType());
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
 			manager.addAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(
 					dataFactory.getOWLClass(IRI.create("A")),

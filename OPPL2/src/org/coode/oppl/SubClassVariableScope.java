@@ -23,6 +23,7 @@
 package org.coode.oppl;
 
 import org.coode.oppl.VariableScopes.Direction;
+import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -39,13 +40,12 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
  * 
  */
 public class SubClassVariableScope extends ClassVariableScope {
-	SubClassVariableScope(OWLClassExpression description) {
-		super(description);
+	SubClassVariableScope(OWLClassExpression description, VariableScopeChecker variableScopeChecker) {
+		super(description, variableScopeChecker);
 	}
 
-	public boolean check(OWLObject owlObject, VariableScopeChecker checker)
-			throws OWLRuntimeException {
-		return owlObject instanceof OWLClass && checker.check((OWLClass) owlObject, this);
+	public boolean check(OWLObject owlObject) throws OWLRuntimeException {
+		return owlObject instanceof OWLClass && this.getChecker().check((OWLClass) owlObject, this);
 	}
 
 	/**

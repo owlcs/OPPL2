@@ -30,8 +30,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
-import org.coode.oppl.PlainVariableVisitor;
 import org.coode.oppl.Variable;
+import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.function.Aggregandum;
 import org.coode.oppl.function.Aggregation;
 import org.coode.oppl.function.Constant;
@@ -44,6 +44,7 @@ import org.coode.oppl.function.RenderingVariableAttribute;
 import org.coode.oppl.function.ValuesVariableAtttribute;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
@@ -500,7 +501,7 @@ public class VariableExtractor {
 		 */
 		private void vetoVariableIntoCollection(final Set<Variable<?>> collection,
 				Variable<?> variable) {
-			PlainVariableVisitor variableVetoer = new PlainVariableVisitor() {
+			VariableVisitor variableVetoer = new VariableVisitor() {
 				public <O extends OWLObject> void visit(GeneratedVariable<O> v) {
 					if (VariableExtractor.this.isIncludeGenerated()) {
 						collection.add(v);
@@ -510,7 +511,7 @@ public class VariableExtractor {
 					v.getOPPLFunction().accept(Visitor.this.opplFunctionVariableExtractor);
 				}
 
-				public <O extends OWLObject> void visit(Variable<O> v) {
+				public <O extends OWLObject> void visit(InputVariable<O> v) {
 					collection.add(v);
 				}
 
