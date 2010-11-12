@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g 2010-10-11 21:42:17
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/OPPLLexer.g 2010-11-12 16:53:00
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -11,6 +11,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 
 public class OPPLLexer extends Lexer {
+	public static final int HAS_KEY = 109;
 	public static final int VALUE_RESTRICTION = 63;
 	public static final int LETTER = 43;
 	public static final int REMOVE = 91;
@@ -35,7 +36,7 @@ public class OPPLLexer extends Lexer {
 	public static final int DIFFERENT_FROM_AXIOM = 53;
 	public static final int TRANSITIVE = 34;
 	public static final int ANTI_SYMMETRIC = 31;
-	public static final int GREATER_THAN_EQUAL = 509;
+	public static final int GREATER_THAN_EQUAL = 510;
 	public static final int ALL_RESTRICTION = 62;
 	public static final int CONJUNCTION = 56;
 	public static final int NEGATED_ASSERTION = 59;
@@ -49,7 +50,7 @@ public class OPPLLexer extends Lexer {
 	public static final int INVERSE = 19;
 	public static final int DBLQUOTE = 40;
 	public static final int OR = 11;
-	public static final int LESS_THAN = 506;
+	public static final int LESS_THAN = 507;
 	public static final int CONSTANT = 70;
 	public static final int ENTITY_REFERENCE = 45;
 	public static final int END = 84;
@@ -89,7 +90,7 @@ public class OPPLLexer extends Lexer {
 	public static final int SOME_RESTRICTION = 61;
 	public static final int ADD = 90;
 	public static final int INTEGER = 42;
-	public static final int GREATER_THAN = 508;
+	public static final int GREATER_THAN = 509;
 	public static final int EXACTLY = 17;
 	public static final int SUB_PROPERTY_AXIOM = 51;
 	public static final int OPEN_SQUARE_BRACKET = 85;
@@ -107,7 +108,7 @@ public class OPPLLexer extends Lexer {
 	public static final int INVERSE_FUNCTIONAL = 35;
 	public static final int RENDERING = 355;
 	public static final int IRREFLEXIVE = 33;
-	public static final int LESS_THAN_EQUAL = 507;
+	public static final int LESS_THAN_EQUAL = 508;
 	public static final int ASSERTED = 76;
 	public static final int FUNCTIONAL = 29;
 	public static final int PROPERTY_CHAIN = 57;

@@ -64,27 +64,10 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
 
 	private final class OPPLExpressionCheckerErrorListener implements
 			ErrorListener {
-		// private CommonTree lastErrorTree = null;
 		public void clear() {
-			// this.lastErrorTree = null;
+			OPPLExpressionChecker.this.lastReport = null;
 		}
 
-		// boolean isRedundant(CommonTree possibleParent, CommonTree
-		// newErrorTree) {
-		// boolean b = possibleParent != null;
-		// if (b) {
-		// b = possibleParent == newErrorTree
-		// || newErrorTree.equals(possibleParent);
-		// if (!b) {
-		// b = possibleParent.parent == newErrorTree;
-		// if (!b) {
-		// b = this.isRedundant(possibleParent.parent,
-		// newErrorTree);
-		// }
-		// }
-		// }
-		// return b;
-		// }
 		public void reportThrowable(Throwable t, int line, int charPosInLine,
 				int length) {
 			if (OPPLExpressionChecker.this.lastReport == null) {
@@ -94,12 +77,8 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
 			}
 		}
 
-		// boolean isRedundant(CommonTree newErrorTree) {
-		// return this.isRedundant(this.lastErrorTree, newErrorTree);
-		// }
 		public void unrecognisedSymbol(CommonTree t) {
 			if (OPPLExpressionChecker.this.lastReport == null) {
-				// this.lastErrorTree = t;
 				OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(
 						"Unrecognised token " + t.getText(), t.getLine(), t
 								.getCharPositionInLine(), t.getText().length());
@@ -168,7 +147,6 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
 		public void incompatibleSymbolType(CommonTree t, Type type,
 				CommonTree expression) {
 			if (OPPLExpressionChecker.this.lastReport == null) {
-				// this.lastErrorTree = t;
 				OPPLExpressionChecker.this.lastReport = new ErrorReportImpl(
 						"Incompatible type: " + type + "  for token: "
 								+ t.getText() + " for the parent expression "

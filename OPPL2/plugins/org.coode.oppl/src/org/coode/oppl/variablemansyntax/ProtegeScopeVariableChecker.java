@@ -25,6 +25,7 @@ package org.coode.oppl.variablemansyntax;
 import org.coode.oppl.VariableScopeChecker;
 import org.coode.oppl.exceptions.OPPLException;
 import org.protege.editor.owl.model.OWLModelManager;
+import org.protege.editor.owl.model.inference.NoOpReasoner;
 
 /**
  * @author Luigi Iannone
@@ -33,6 +34,8 @@ import org.protege.editor.owl.model.OWLModelManager;
 public class ProtegeScopeVariableChecker extends VariableScopeChecker {
 	public ProtegeScopeVariableChecker(OWLModelManager manager)
 			throws OPPLException {
-		super(manager.getOWLOntologyManager(), manager.getReasoner());
+		super(manager.getOWLOntologyManager(),
+				manager.getReasoner() instanceof NoOpReasoner ? null : manager
+						.getReasoner());
 	}
 }

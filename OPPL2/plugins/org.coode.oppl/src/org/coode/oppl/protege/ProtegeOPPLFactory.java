@@ -69,8 +69,8 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 		}
 
 		public String render(OWLEntity entity) {
-			return ProtegeOPPLFactory.this.getOWLEditorKit().getOWLModelManager().getRendering(
-					entity);
+			return ProtegeOPPLFactory.this.getOWLEditorKit()
+					.getOWLModelManager().getRendering(entity);
 		}
 	}
 
@@ -110,7 +110,8 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	/**
 	 * @see org.coode.oppl.OPPLAbstractFactory#getOWLEntityRenderer()
 	 */
-	public org.coode.oppl.entity.OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {
+	public org.coode.oppl.entity.OWLEntityRenderer getOWLEntityRenderer(
+			ConstraintSystem cs) {
 		ArgCheck.checkNullArgument("The constraint system", cs);
 		return new VariableOWLEntityRenderer(cs, new ProtegeOWLEntityRenderer());
 	}
@@ -123,23 +124,33 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	}
 
 	public OPPLScript buildOPPLScript(ConstraintSystem constraintSystem1,
-			List<Variable<?>> variables, OPPLQuery opplQuery, List<OWLAxiomChange> actions) {
-		ProtegeOPPLScript toReturn = new ProtegeOPPLScript(new OPPLScriptImpl(constraintSystem1,
-				variables, opplQuery, actions, this), this.getOWLEditorKit().getOWLModelManager());
+			List<Variable<?>> variables, OPPLQuery opplQuery,
+			List<OWLAxiomChange> actions) {
+		if (variables != null && variables.contains(null)) {
+			throw new IllegalArgumentException("Invalid variables");
+		}
+		if (actions != null && actions.contains(null)) {
+			throw new IllegalArgumentException("Invalid actions");
+		}
+		ProtegeOPPLScript toReturn = new ProtegeOPPLScript(new OPPLScriptImpl(
+				constraintSystem1, variables, opplQuery, actions, this), this
+				.getOWLEditorKit().getOWLModelManager());
 		return toReturn;
 	}
 
 	public OPPLQuery buildNewQuery(ConstraintSystem constraintSystem1) {
 		OPPLQuery opplQuery = new OPPLQueryImpl(constraintSystem1, this);
-		return new ProtegeOPPLQuery(opplQuery, this.getOWLEditorKit().getOWLModelManager());
+		return new ProtegeOPPLQuery(opplQuery, this.getOWLEditorKit()
+				.getOWLModelManager());
 	}
 
 	public ConstraintSystem createConstraintSystem() {
-		OWLReasoner reasoner = this.getOWLEditorKit().getOWLModelManager().getReasoner() instanceof NoOpReasoner ? null
-				: this.getOWLEditorKit().getOWLModelManager().getReasoner();
-		return new ConstraintSystem(
-				this.getOWLEditorKit().getOWLModelManager().getActiveOntology(),
-				this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager(), reasoner, this);
+		OWLReasoner reasoner = this.getOWLEditorKit().getOWLModelManager()
+				.getReasoner() instanceof NoOpReasoner ? null : this
+				.getOWLEditorKit().getOWLModelManager().getReasoner();
+		return new ConstraintSystem(this.getOWLEditorKit().getOWLModelManager()
+				.getActiveOntology(), this.getOWLEditorKit()
+				.getOWLModelManager().getOWLOntologyManager(), reasoner, this);
 	}
 
 	public OWLOntology getOntology() {
@@ -165,11 +176,13 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	/**
 	 * @see org.coode.oppl.OPPLAbstractFactory#getManchesterSyntaxRenderer()
 	 */
-	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(final ConstraintSystem cs) {
+	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(
+			final ConstraintSystem cs) {
 		ArgCheck.checkNullArgument("The constraint system", cs);
 		return new ManchesterSyntaxRenderer(new ShortFormProvider() {
 			public String getShortForm(OWLEntity entity) {
-				return ProtegeOPPLFactory.this.getOWLEntityRenderer(cs).render(entity);
+				return ProtegeOPPLFactory.this.getOWLEntityRenderer(cs).render(
+						entity);
 			}
 
 			public void dispose() {
@@ -178,17 +191,20 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 	}
 
 	public OWLOntologyManager getOntologyManager() {
-		return this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager();
+		return this.getOWLEditorKit().getOWLModelManager()
+				.getOWLOntologyManager();
 	}
 
 	public OPPLScript importOPPLScript(OPPLScript opplScript) {
 		ConstraintSystem newConstraintSystem = this.createConstraintSystem();
-		for (Variable<?> variable : opplScript.getConstraintSystem().getVariables()) {
+		for (Variable<?> variable : opplScript.getConstraintSystem()
+				.getVariables()) {
 			newConstraintSystem.importVariable(variable);
 		}
 		return new ProtegeOPPLScript(new OPPLScriptImpl(newConstraintSystem,
-				opplScript.getVariables(), opplScript.getQuery(), opplScript.getActions(), this,
-				true), this.getOWLEditorKit().getOWLModelManager());
+				opplScript.getVariables(), opplScript.getQuery(), opplScript
+						.getActions(), this, true), this.getOWLEditorKit()
+				.getOWLModelManager());
 	}
 
 	/**

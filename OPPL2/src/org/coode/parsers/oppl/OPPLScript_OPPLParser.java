@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-11-05 10:42:34
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-11-12 16:58:48
 
   package org.coode.parsers.oppl;
   import org.coode.parsers.ErrorListener;
@@ -14,6 +14,7 @@ import java.util.HashMap;
 import org.antlr.runtime.tree.*;
 
 public class OPPLScript_OPPLParser extends Parser {
+    public static final int HAS_KEY=109;
     public static final int VALUE_RESTRICTION=63;
     public static final int LETTER=43;
     public static final int REMOVE=91;
@@ -43,7 +44,7 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final int CREATE_OPPL_FUNCTION=98;
     public static final int TRANSITIVE=34;
     public static final int ANTI_SYMMETRIC=31;
-    public static final int GREATER_THAN_EQUAL=510;
+    public static final int GREATER_THAN_EQUAL=511;
     public static final int ALL_RESTRICTION=62;
     public static final int CONJUNCTION=56;
     public static final int OPPL_STATEMENT=107;
@@ -61,7 +62,7 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final int DBLQUOTE=40;
     public static final int STRING_OPERATION=394;
     public static final int OR=11;
-    public static final int LESS_THAN=507;
+    public static final int LESS_THAN=508;
     public static final int CONSTANT=70;
     public static final int QUERY=103;
     public static final int ENTITY_REFERENCE=45;
@@ -104,7 +105,7 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final int SOME_RESTRICTION=61;
     public static final int ADD=90;
     public static final int INTEGER=42;
-    public static final int GREATER_THAN=509;
+    public static final int GREATER_THAN=510;
     public static final int GENERATED_VARIABLE_DEFINITION=97;
     public static final int EXACTLY=17;
     public static final int SUB_PROPERTY_AXIOM=51;
@@ -112,7 +113,7 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final int VALUES=354;
     public static final int REGEXP_CONSTRAINT=465;
     public static final int RANGE=28;
-    public static final int DATA_RANGE=560;
+    public static final int DATA_RANGE=561;
     public static final int ONE_OF=65;
     public static final int VARIABLE_DEFINITIONS=102;
     public static final int MIN=15;
@@ -129,7 +130,7 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final int RENDERING=355;
     public static final int VARIABLE_IDENTIFIER=106;
     public static final int IRREFLEXIVE=33;
-    public static final int LESS_THAN_EQUAL=508;
+    public static final int LESS_THAN_EQUAL=509;
     public static final int VARIABLE_ATTRIBUTE=99;
     public static final int ASSERTED=76;
     public static final int FUNCTIONAL=29;
@@ -376,16 +377,16 @@ public class OPPLScript_OPPLParser extends Parser {
 
                         if ( (LA3_3==EQUAL) ) {
                             switch ( input.LA(5) ) {
-                            case MATCH:
-                                {
-                                alt3=3;
-                                }
-                                break;
                             case CREATE:
                             case CREATE_INTERSECTION:
                             case CREATE_DISJUNCTION:
                                 {
                                 alt3=1;
+                                }
+                                break;
+                            case MATCH:
+                                {
+                                alt3=3;
                                 }
                                 break;
                             case OPEN_PARENTHESYS:
@@ -659,7 +660,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_TYPE, VARIABLE_NAME, variableScope
+                    // elements: variableScope, VARIABLE_TYPE, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -866,7 +867,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: variableScopeSpecification, expression
+            // elements: expression, variableScopeSpecification
             // token labels: variableScopeSpecification
             // rule labels: retval
             // token list labels: 
@@ -1984,7 +1985,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: axiom, REMOVE
+                    // elements: REMOVE, axiom
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2631,7 +2632,7 @@ public class OPPLScript_OPPLParser extends Parser {
                 if ( (LA17_3==DOT) ) {
                     alt17=5;
                 }
-                else if ( (LA17_3==EOF||LA17_3==COMPOSITION||(LA17_3>=CLOSED_CURLY_BRACES && LA17_3<=CLOSED_PARENTHESYS)||(LA17_3>=AND && LA17_3<=OR)||(LA17_3>=SOME && LA17_3<=RANGE)||(LA17_3>=COMMA && LA17_3<=DBLQUOTE)||(LA17_3>=IDENTIFIER && LA17_3<=ENTITY_REFERENCE)||LA17_3==WHERE||LA17_3==SELECT||(LA17_3>=BEGIN && LA17_3<=END)||LA17_3==CLOSED_SQUARE_BRACKET||LA17_3==ESCLAMATION_MARK||LA17_3==VARIABLE_NAME) ) {
+                else if ( (LA17_3==EOF||LA17_3==COMPOSITION||(LA17_3>=CLOSED_CURLY_BRACES && LA17_3<=CLOSED_PARENTHESYS)||(LA17_3>=AND && LA17_3<=OR)||(LA17_3>=SOME && LA17_3<=RANGE)||(LA17_3>=COMMA && LA17_3<=DBLQUOTE)||(LA17_3>=IDENTIFIER && LA17_3<=ENTITY_REFERENCE)||LA17_3==WHERE||LA17_3==SELECT||(LA17_3>=BEGIN && LA17_3<=END)||LA17_3==CLOSED_SQUARE_BRACKET||LA17_3==HAS_KEY||LA17_3==ESCLAMATION_MARK||LA17_3==VARIABLE_NAME) ) {
                     alt17=3;
                 }
                 else {
@@ -3098,7 +3099,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: attributeSelector, DOT, VARIABLE_NAME, GROUPS
+                    // elements: attributeSelector, DOT, GROUPS, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
