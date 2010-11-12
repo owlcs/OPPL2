@@ -47,6 +47,7 @@ import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLHasKeyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
@@ -149,6 +150,11 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		@Override
 		public OWLAxiomType visit(OWLSubObjectPropertyOfAxiom axiom) {
 			return OWLAxiomType.SUB_OBJECT_PROPERTY;
+		}
+
+		@Override
+		public OWLAxiomType visit(OWLHasKeyAxiom axiom) {
+			return OWLAxiomType.HAS_KEY;
 		}
 
 		@Override
@@ -367,6 +373,18 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		assertTrue("parse type " + parseType,
 				parseType == OWLAxiomType.OBJECT_PROPERTY_ASSERTION);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.OBJECT_PROPERTY_ASSERTION);
+	}
+
+	public void testOWLKeys() {
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("Pizza HasKey hasTopping , hasBase");
+		Type parseType = parsed.getEvalType();
+		assertTrue("parse type " + parseType, parseType == OWLAxiomType.HAS_KEY);
+		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.HAS_KEY);
+		parsed = this.parse("Pizza HasKey hasTopping , INV (hasBase)");
+		parseType = parsed.getEvalType();
+		assertTrue("parse type " + parseType, parseType == OWLAxiomType.HAS_KEY);
+		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.HAS_KEY);
 	}
 
 	public void testDataPropertyAssertion() {

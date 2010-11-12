@@ -48,7 +48,7 @@ EXACTLY   : 'exactly'
   ;
 VALUE : 'value'
   ;
-INVERSE : 'INV'
+INVERSE : ('I'|'i')('N'|'n')('V'|'v')
   ;
 
 SUBCLASS_OF : ('S'|'s')'ubClassOf'
@@ -77,7 +77,10 @@ RANGE  :
     'Range' | 'range'   
   ;  
   
-
+HAS_KEY
+	:
+		('H'|'h')('A'|'a')('S'|'s')('K'|'k')('E'|'e')('Y'|'y')
+	;
   
  FUNCTIONAL : 		('F'|'f')'unctional'':'?
   ;

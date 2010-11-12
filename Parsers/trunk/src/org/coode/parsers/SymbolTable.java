@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +24,7 @@ import org.semanticweb.owlapi.model.OWLDatatypeRestriction;
 import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLFacetRestriction;
+import org.semanticweb.owlapi.model.OWLHasKeyAxiom;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
@@ -35,6 +37,7 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLPropertyChain;
 import org.semanticweb.owlapi.model.OWLPropertyChainImpl;
+import org.semanticweb.owlapi.model.OWLPropertyExpression;
 import org.semanticweb.owlapi.model.OWLQuantifiedRestriction;
 import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
@@ -2439,6 +2442,68 @@ public class SymbolTable {
 				toReturn = this.getDataFactory().getOWLDatatypeRestriction(
 						(OWLDatatype) dataType.getOWLObject(),
 						facetRestrictions);
+			}
+		}
+		return toReturn;
+	}
+
+	public Type getHasKeyType(ManchesterOWLSyntaxTree manchesterOWLSyntaxTree,
+			ManchesterOWLSyntaxTree node,
+			Set<ManchesterOWLSyntaxTree> propertyExpressions) {
+		Type toReturn = null;
+		if (node.getEvalType() == null
+				|| !node.getEvalType().accept(this.owlClassTypeDetector)) {
+			this
+					.reportIllegalToken(node,
+							"A class expression is expected here");
+		} else {
+			boolean allFine = true;
+			Iterator<ManchesterOWLSyntaxTree> iterator = propertyExpressions
+					.iterator();
+			while (allFine && iterator.hasNext()) {
+				ManchesterOWLSyntaxTree propertyNode = iterator.next();
+				allFine = propertyNode.getEvalType() != null
+						&& propertyNode.getEvalType().accept(
+								this.owlPropertyTypeDetector);
+			}
+			if (allFine) {
+				toReturn = OWLAxiomType.HAS_KEY;
+			}
+		}
+		return toReturn;
+	}
+
+	public OWLHasKeyAxiom getHasKey(
+			ManchesterOWLSyntaxTree manchesterOWLSyntaxTree,
+			ManchesterOWLSyntaxTree node,
+			Set<ManchesterOWLSyntaxTree> propertyExpressions) {
+		OWLHasKeyAxiom toReturn = null;
+		OWLClassExpression ce = null;
+		if (node.getEvalType() == null
+				|| !node.getEvalType().accept(this.owlClassTypeDetector)
+				|| node.getOWLObject() == null) {
+			this
+					.reportIllegalToken(node,
+							"A class expression is expected here");
+		} else {
+			ce = (OWLClassExpression) node.getOWLObject();
+			boolean allFine = true;
+			Iterator<ManchesterOWLSyntaxTree> iterator = propertyExpressions
+					.iterator();
+			Set<OWLPropertyExpression<?, ?>> pes = new HashSet<OWLPropertyExpression<?, ?>>();
+			while (allFine && iterator.hasNext()) {
+				ManchesterOWLSyntaxTree propertyNode = iterator.next();
+				allFine = propertyNode.getEvalType() != null
+						&& propertyNode.getEvalType().accept(
+								this.owlPropertyTypeDetector)
+						&& propertyNode.getOWLObject() != null;
+				if (allFine) {
+					pes.add((OWLPropertyExpression<?, ?>) propertyNode
+							.getOWLObject());
+				}
+			}
+			if (allFine) {
+				toReturn = this.getDataFactory().getOWLHasKeyAxiom(ce, pes);
 			}
 		}
 		return toReturn;

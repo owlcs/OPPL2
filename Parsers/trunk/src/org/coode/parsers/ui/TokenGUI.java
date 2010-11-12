@@ -54,10 +54,10 @@ public class TokenGUI extends JFrame {
 	private void initGUI() {
 		this.setLayout(new BorderLayout());
 		JPanel summaryPanel = new JPanel();
-		summaryPanel.add(new JLabel("Min used index "
+		summaryPanel.add(new JLabel("Min unused index "
 				+ ((TokenTableModel) this.table.getModel())
 						.getMinUnusedTokenIndex()));
-		summaryPanel.add(new JLabel("Max used index "
+		summaryPanel.add(new JLabel("Max unused index "
 				+ ((TokenTableModel) this.table.getModel())
 						.getMaxUsedTokenIndex()));
 		this.add(summaryPanel, BorderLayout.NORTH);

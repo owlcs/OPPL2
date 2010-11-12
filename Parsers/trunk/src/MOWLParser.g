@@ -65,6 +65,12 @@ axiom	    	options {backtrack=true;}:
 		binaryAxiom -> ^(binaryAxiom)
 		| unaryAxiom -> ^(unaryAxiom)
 		| assertionAxiom -> ^(assertionAxiom)
+		| hasKeyAxiom ->^(hasKeyAxiom)
+	;
+
+hasKeyAxiom
+	:
+		exp = expression HAS_KEY propertyExpression (COMMA propertyExpression)* -> ^(HAS_KEY ^(EXPRESSION $exp) (^(EXPRESSION propertyExpression))+)
 	;
 
 

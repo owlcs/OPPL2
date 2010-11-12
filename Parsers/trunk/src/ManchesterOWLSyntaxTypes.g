@@ -65,6 +65,9 @@ options {
   package org.coode.parsers;
   import org.semanticweb.owlapi.model.OWLObject;
   import org.semanticweb.owlapi.model.OWLAxiom;
+  import org.semanticweb.owlapi.model.OWLPropertyExpression;
+  import java.util.Set;
+  import java.util.HashSet;
 }
 
 
@@ -86,6 +89,10 @@ expressionRoot // invoke type computation rule after matching EXPRESSION
 
 
 axiom returns  [Type type, ManchesterOWLSyntaxTree node, OWLAxiom owlAxiom] 
+@init
+	{
+		Set<ManchesterOWLSyntaxTree> propertyExpressions = new HashSet<ManchesterOWLSyntaxTree>();
+	}
 @after 
 			{
 				$start.setEvalType($type); 
@@ -179,6 +186,12 @@ axiom returns  [Type type, ManchesterOWLSyntaxTree node, OWLAxiom owlAxiom]
    | ^(NEGATED_ASSERTION a =axiom){
      $type = this.getSymbolTable().getNegatedAssertionType($start, a.node);
      $owlAxiom =  this.getSymbolTable().getNegatedAssertion($start, a.node);
+   }
+   | ^(HAS_KEY ^(EXPRESSION exp= expression) (^(EXPRESSION propertyExp = propertyExpression){
+   		propertyExpressions.add(propertyExp.node);
+   	})+){
+   	$type = this.getSymbolTable().getHasKeyType($start, exp.node,propertyExpressions);
+   	$owlAxiom = this.getSymbolTable().getHasKey($start, exp.node,propertyExpressions);
    }     
 ;
 

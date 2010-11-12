@@ -48,7 +48,7 @@ public class ManchesterOWLSyntaxSimpleAutoCompletionMatcher implements
 		return Arrays.asList("sameAs", "disjointWith", "only", "subPropertyOf",
 				"max", "types", "inverseOf", "not", "and", "subClassOf",
 				"differentFrom", "equivalentTo", "some", "instanceOf",
-				"Reflexive", "Symmetric", "Asymmetric", "Transitive",
+				"HasKey", "Reflexive", "Symmetric", "Asymmetric", "Transitive",
 				"exactly", "range", "min", "value", "domain", "INV",
 				"InverseFunctional", "Irreflexive", "or", "Functional");
 	}

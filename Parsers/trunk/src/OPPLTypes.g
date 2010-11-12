@@ -137,20 +137,23 @@ statement
 	:
 		^(OPPL_STATEMENT vd = variableDefinitions? q=query? actions)
 		{
-			if(vd!=null){
-				vds.addAll($vd.variables);
-			}
-			if(!$actions.actions.isEmpty()){
-			 if(q!=null){
-			    $start.setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),
+			try{
+				if(vd!=null){
+					vds.addAll($vd.variables);
+				}
+				if(!$actions.actions.isEmpty()){
+					if(q!=null){
+						 // If the query tree is not null but the returned query contains errors (hence it is null) the script should be null.
+			    			 $start.setOPPLContent($query.query ==null?null:getOPPLFactory().buildOPPLScript(getConstraintSystem(),
 				    					vds, $query.query,
 					    				$actions.actions));
-			 }else{
-			    $start.setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),
-                    vds, null,
-                    $actions.actions));
-			 }
-		  } 
+					}else{
+						$start.setOPPLContent(getOPPLFactory().buildOPPLScript(getConstraintSystem(),vds, null,$actions.actions));
+					}
+				}
+			}catch(IllegalArgumentException e){
+				getErrorListener().reportThrowable(e,$start.getLine(),$start.getCharPositionInLine(),$start.getText().length());
+			} 
 		}
 	;
 
@@ -166,7 +169,7 @@ variableDefinitions returns [List<Variable<?>> variables]
 		^(VARIABLE_DEFINITIONS (vd = variableDefinition {toReturn.add(vd.variable);})+)		
 	;
 	
-query returns [OPPLQuery query]
+query returns [OPPLQuery query, OPPLSyntaxTree node]
 @init{
 		$query = getOPPLFactory().buildNewQuery(getConstraintSystem());
 }
@@ -176,6 +179,7 @@ query returns [OPPLQuery query]
 			$query=null;
 		}
 		$start.setOPPLContent($query);
+		$node = $start;
 }
 	:
 		^(QUERY (selectClause 
@@ -195,7 +199,7 @@ query returns [OPPLQuery query]
 					}
 				}
 		)*)
-	;
+;
 
 selectClause returns [OWLAxiom axiom, boolean asserted]
 	:
@@ -262,14 +266,18 @@ action returns [OWLAxiomChange change]
 		
 variableDefinition returns [Variable variable]
 	:
-		  ^(INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE vs = variableScope?)
-		  {
-		  try {
-		      $variable = getConstraintSystem().createVariable($VARIABLE_NAME.getToken().getText(), symtab.getVaribaleType($VARIABLE_TYPE), vs==null?null:vs.variableScope);
-		   } catch(OPPLException e){
-		      getErrorListener().reportThrowable(e, $INPUT_VARIABLE_DEFINITION.token.getLine(), $INPUT_VARIABLE_DEFINITION.token.getCharPositionInLine(),$INPUT_VARIABLE_DEFINITION.token.getText().length());
-		   }
-		  }
+		^(INPUT_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE vs = variableScope?)
+		{
+			try {
+				if((vs!=null && vs.variableScope==null)){
+					getErrorListener().illegalToken($start, "Invalid variable scope");
+				}else{
+					$variable = getConstraintSystem().createVariable($VARIABLE_NAME.getToken().getText(), symtab.getVaribaleType($VARIABLE_TYPE), vs==null?null:vs.variableScope);
+				}
+			   } catch(OPPLException e){
+			      getErrorListener().reportThrowable(e, $INPUT_VARIABLE_DEFINITION.token.getLine(), $INPUT_VARIABLE_DEFINITION.token.getCharPositionInLine(),$INPUT_VARIABLE_DEFINITION.token.getText().length());
+		   	}
+		}
 	  	| ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^( expr = EXPRESSION .*))
 	    	{
 	    		Type type = getSymbolTable().getExpressionGeneratedVariableType($start,$VARIABLE_TYPE, expr);
@@ -287,32 +295,32 @@ variableDefinition returns [Variable variable]
 			}else{
 				getErrorListener().reportThrowable(new NullPointerException("The type of the generated variable is null"), $start.token.getLine(), $start.token.getCharPositionInLine(),$start.token.getText().length());
 			}
-	    }
-	  |  ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(MATCH se = stringOperation ))
-	     {
-	      	org.coode.oppl.variabletypes.VariableType<?> type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
-		RegexpGeneratedVariable<?> v = getConstraintSystem().createRegexpGeneratedVariable($VARIABLE_NAME.getText(),  type, Adapter.buildRegexpPatternAdapter(se));
-	        $variable = v;
-	     }
-	  | ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(CREATE_OPPL_FUNCTION  value = stringOperation))
-	     {
-	       org.coode.oppl.variabletypes.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
-	       $variable = constraintSystem.createStringGeneratedVariable($VARIABLE_NAME.getText(),type, value);
-	     }
-    | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_INTERSECTION va = aggregandums))
-       {
-	$variable = getConstraintSystem().createIntersectionGeneratedVariable(
-							$VARIABLE_NAME.getText(),
-							VariableTypeFactory.getCLASSVariableType(),
-							(Collection<? extends Aggregandum<OWLClassExpression>>) va);
-       }
-      | ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_DISJUNCTION va = aggregandums))
-       {
-	$variable = getConstraintSystem().createUnionGeneratedVariable(
-							$VARIABLE_NAME.getText(),
-							VariableTypeFactory.getCLASSVariableType(),
-							(Collection<? extends Aggregandum<OWLClassExpression>>) va);      
-       }    	     	    
+		}
+		| ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(MATCH se = stringOperation ))
+		{
+			org.coode.oppl.variabletypes.VariableType<?> type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
+			RegexpGeneratedVariable<?> v = getConstraintSystem().createRegexpGeneratedVariable($VARIABLE_NAME.getText(),  type, Adapter.buildRegexpPatternAdapter(se));
+			$variable = v;
+		}
+		| ^(GENERATED_VARIABLE_DEFINITION VARIABLE_NAME VARIABLE_TYPE ^(CREATE_OPPL_FUNCTION  value = stringOperation))
+		{
+			org.coode.oppl.variabletypes.VariableType type = org.coode.parsers.oppl.VariableType.getVariableType($VARIABLE_TYPE.getText()).getOPPLVariableType();
+			$variable = constraintSystem.createStringGeneratedVariable($VARIABLE_NAME.getText(),type, value);
+		}
+		| ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_INTERSECTION va = aggregandums))
+		{
+			$variable = getConstraintSystem().createIntersectionGeneratedVariable(
+			$VARIABLE_NAME.getText(),
+			VariableTypeFactory.getCLASSVariableType(),
+			(Collection<? extends Aggregandum<OWLClassExpression>>) va);
+		}
+		| ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_DISJUNCTION va = aggregandums))
+		{
+			$variable = getConstraintSystem().createUnionGeneratedVariable(
+			$VARIABLE_NAME.getText(),
+			VariableTypeFactory.getCLASSVariableType(),
+			(Collection<? extends Aggregandum<OWLClassExpression>>) va);      
+		}    	     	    
 	;
 
 
