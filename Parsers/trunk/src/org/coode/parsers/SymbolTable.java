@@ -11,6 +11,10 @@ import java.util.Set;
 
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTree;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLCardinalityRestriction;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
@@ -98,6 +102,11 @@ public class SymbolTable {
 		public Boolean visitOWLAxiomType(OWLAxiomType owlAxiomType) {
 			return OWLAxiomType.isAssertion(owlAxiomType)
 					&& (owlAxiomType == OWLAxiomType.OBJECT_PROPERTY_ASSERTION || owlAxiomType == OWLAxiomType.DATA_PROPERTY_ASSERTION);
+		}
+	};
+	private final OWLTypeOnlyVisitor owlAnnotationSubjectTypeDetector = new OWLTypeOnlyVisitor() {
+		public Boolean visitOWLType(OWLType owlType) {
+			return owlType == OWLType.OWL_CONSTANT;
 		}
 	};
 
@@ -2505,6 +2514,63 @@ public class SymbolTable {
 			if (allFine) {
 				toReturn = this.getDataFactory().getOWLHasKeyAxiom(ce, pes);
 			}
+		}
+		return toReturn;
+	}
+
+	public Type getAnnotationAssertionType(
+			ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree iri,
+			ManchesterOWLSyntaxTree annotationPropertyNode,
+			ManchesterOWLSyntaxTree object) {
+		Type toReturn = null;
+		IRI subjectIRI = IRI.create(iri.getText());
+		if (subjectIRI == null) {
+			this.reportIllegalToken(iri, "Illegal IRI");
+		} else if (annotationPropertyNode.getEvalType() == null
+				|| annotationPropertyNode.getEvalType() != OWLType.OWL_ANNOTATION_PROPERTY) {
+			this.reportIncompatibleSymbolType(annotationPropertyNode,
+					annotationPropertyNode.getEvalType(), parentExpression);
+		} else if (object.getEvalType() == null
+				|| !object.getEvalType().accept(
+						this.owlAnnotationSubjectTypeDetector)) {
+			this.reportIncompatibleSymbols(parentExpression, object);
+		} else {
+			toReturn = OWLAxiomType.ANNOTATION_ASSERTION;
+		}
+		return toReturn;
+	}
+
+	public OWLAnnotationAssertionAxiom getAnnotationAssertion(
+			ManchesterOWLSyntaxTree parentExpression,
+			ManchesterOWLSyntaxTree iri,
+			ManchesterOWLSyntaxTree annotationPropertyNode,
+			ManchesterOWLSyntaxTree object) {
+		OWLAnnotationAssertionAxiom toReturn = null;
+		IRI subjectIRI = IRI.create(iri.getText());
+		if (subjectIRI == null) {
+			this.reportIllegalToken(iri, "Illegal IRI");
+		} else if (annotationPropertyNode.getEvalType() == null
+				|| annotationPropertyNode.getEvalType() != OWLType.OWL_ANNOTATION_PROPERTY) {
+			this.reportIncompatibleSymbolType(annotationPropertyNode,
+					annotationPropertyNode.getEvalType(), parentExpression);
+		} else if (annotationPropertyNode.getOWLObject() == null) {
+			this.reportIllegalToken(annotationPropertyNode,
+					"Invalid annotation property");
+		} else if (object.getEvalType() == null
+				|| !object.getEvalType().accept(
+						this.owlAnnotationSubjectTypeDetector)) {
+			this.reportIncompatibleSymbols(parentExpression, object);
+		} else if (object.getOWLObject() == null) {
+			this.reportIllegalToken(object, "Invalid annotation property");
+		} else {
+			OWLAnnotation annotation = this.getDataFactory()
+					.getOWLAnnotation(
+							(OWLAnnotationProperty) annotationPropertyNode
+									.getOWLObject(),
+							(OWLLiteral) object.getOWLObject());
+			toReturn = this.getDataFactory().getOWLAnnotationAssertionAxiom(
+					subjectIRI, annotation);
 		}
 		return toReturn;
 	}

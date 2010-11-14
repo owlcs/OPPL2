@@ -31,6 +31,7 @@ import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
@@ -56,6 +57,7 @@ import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
@@ -238,6 +240,11 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		}
 
 		@Override
+		public OWLAxiomType visit(OWLAnnotationAssertionAxiom axiom) {
+			return OWLAxiomType.ANNOTATION_ASSERTION;
+		}
+
+		@Override
 		public OWLAxiomType visit(SWRLRule rule) {
 			return null;
 		}
@@ -245,6 +252,7 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 
 	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager
 			.createOWLOntologyManager();
+	private static OWLOntology PIZZA_ONTOLOGY;
 	private SymbolTable symtab;
 	private static TypeAssociation ASSOCOATION = new TypeAssociation();
 	private final static SymbolTableFactory<SymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
@@ -641,5 +649,14 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		assertTrue("parse type " + parseType,
 				parseType == OWLAxiomType.SUBCLASS);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.SUBCLASS);
+	}
+
+	public void testAnnotationAssertionAxiom() {
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("<blah#Luigi> label \"boh\"");
+		Type parseType = parsed.getEvalType();
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.ANNOTATION_ASSERTION);
+		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.ANNOTATION_ASSERTION);
 	}
 }

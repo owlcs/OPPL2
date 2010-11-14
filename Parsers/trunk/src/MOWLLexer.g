@@ -166,6 +166,23 @@ DBLQUOTE :
       }
    ;
 
+IRI
+	:
+	LESS_THAN(~GREATER_THAN)+ GREATER_THAN
+	{
+		//Proper parsing of the IRI should happen elsewhere
+		String txt = getText(); 
+                // Remove delimiters
+                if (txt.startsWith("<")){
+                   txt = txt.substring(1);
+                } 
+                if (txt.endsWith(">")){                 
+                  txt = txt.substring(0,txt.length() - 1);
+                }
+                setText(txt);
+                
+	}
+	;
 
 INTEGER: DIGIT+ ;
 fragment LETTER : ('a'..'z' | 'A'..'Z');  

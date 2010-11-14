@@ -36,7 +36,8 @@ tokens {
   ROLE_ASSERTION;
   INVERSE_OBJECT_PROPERTY_EXPRESSION;
   EXPRESSION;
-  CONSTANT; 
+  CONSTANT;
+  ANNOTATION_ASSERTION; 
 }  
 //@header {
 //  package org.coode.parsers;
@@ -66,6 +67,12 @@ axiom	    	options {backtrack=true;}:
 		| unaryAxiom -> ^(unaryAxiom)
 		| assertionAxiom -> ^(assertionAxiom)
 		| hasKeyAxiom ->^(hasKeyAxiom)
+		| annotationAssertionAxiom ->^(annotationAssertionAxiom)
+	;
+
+annotationAssertionAxiom
+	:
+		IRI p= atomic o = constant -> ^(ANNOTATION_ASSERTION IRI ^(EXPRESSION $p) ^(EXPRESSION $o))
 	;
 
 hasKeyAxiom

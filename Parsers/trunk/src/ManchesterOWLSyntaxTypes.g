@@ -192,6 +192,10 @@ axiom returns  [Type type, ManchesterOWLSyntaxTree node, OWLAxiom owlAxiom]
    	})+){
    	$type = this.getSymbolTable().getHasKeyType($start, exp.node,propertyExpressions);
    	$owlAxiom = this.getSymbolTable().getHasKey($start, exp.node,propertyExpressions);
+   }
+   | ^(ANNOTATION_ASSERTION IRI ^(EXPRESSION annotationProperty = unary) ^(EXPRESSION annotationObject = expression)){
+   	$type = this.getSymbolTable().getAnnotationAssertionType($start, $IRI,annotationProperty.node,annotationObject.node);
+   	$owlAxiom = this.getSymbolTable().getAnnotationAssertion($start, $IRI,annotationProperty.node,annotationObject.node);
    }     
 ;
 
