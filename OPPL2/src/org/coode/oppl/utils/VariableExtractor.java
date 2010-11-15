@@ -38,6 +38,7 @@ import org.coode.oppl.function.Constant;
 import org.coode.oppl.function.Create;
 import org.coode.oppl.function.Expression;
 import org.coode.oppl.function.GroupVariableAttribute;
+import org.coode.oppl.function.IRIVariableAttribute;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.function.OPPLFunctionVisitorEx;
 import org.coode.oppl.function.RenderingVariableAttribute;
@@ -45,6 +46,9 @@ import org.coode.oppl.function.ValuesVariableAtttribute;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.variabletypes.InputVariable;
+import org.coode.parsers.oppl.VariableIRI;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
@@ -171,6 +175,11 @@ public class VariableExtractor {
 				return Collections.<Variable<?>> singleton(renderingVariableAttribute.getVariable());
 			}
 
+			public Set<Variable<?>> visitIRIVariableAttribute(
+					IRIVariableAttribute iriVariableAttribute) {
+				return Collections.<Variable<?>> singleton(iriVariableAttribute.getVariable());
+			}
+
 			public <O extends OWLObject> Set<Variable<?>> visitValuesVariableAtttribute(
 					ValuesVariableAtttribute<O> valuesVariableAtttribute) {
 				return Collections.<Variable<?>> singleton(valuesVariableAtttribute.getVariable());
@@ -201,6 +210,24 @@ public class VariableExtractor {
 			toReturn.addAll(object.accept(this));
 			toReturn.addAll(subject.accept(this));
 			return toReturn;
+		}
+
+		@Override
+		public Set<Variable<?>> visit(OWLAnnotationAssertionAxiom axiom) {
+			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
+			toReturn.addAll(axiom.getSubject().accept(this));
+			toReturn.addAll(axiom.getAnnotation().accept(this));
+			return toReturn;
+		}
+
+		@Override
+		public Set<Variable<?>> visit(IRI iri) {
+			return iri.accept(new IRIVisitorExAdapter<Set<Variable<?>>>(new HashSet<Variable<?>>()) {
+				@Override
+				public Set<Variable<?>> visitVariableIRI(VariableIRI iri) {
+					return iri.getAttribute().accept(Visitor.this.opplFunctionVariableExtractor);
+				}
+			});
 		}
 
 		@Override

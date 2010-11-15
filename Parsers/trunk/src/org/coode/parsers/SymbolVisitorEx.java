@@ -6,4 +6,6 @@ public interface SymbolVisitorEx<O> {
 	O visitOWLLiteral(OWLLiteralSymbol owlConstantSymbol);
 
 	O visitOWLEntity(OWLEntitySymbol owlEntitySymbol);
+
+	O visitIRI(IRISymbol iriSymbol);
 }

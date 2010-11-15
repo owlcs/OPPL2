@@ -197,6 +197,7 @@ axiom returns  [Type type, ManchesterOWLSyntaxTree node, OWLAxiom owlAxiom]
    	$type = this.getSymbolTable().getAnnotationAssertionType($start, $IRI,annotationProperty.node,annotationObject.node);
    	$owlAxiom = this.getSymbolTable().getAnnotationAssertion($start, $IRI,annotationProperty.node,annotationObject.node);
    }     
+     
 ;
 
 expression returns  [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject]
@@ -290,6 +291,13 @@ unary returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject]
 				Symbol symbol = this.getSymbolTable().resolve($ENTITY_REFERENCE);
 				$type = symbol==null ? null: symbol.getType();
 				$owlObject = this.getSymbolTable().getOWLObject($ENTITY_REFERENCE);
+			}
+		| IRI
+			{
+				Symbol symbol = this.getSymbolTable().resolveIRI($IRI);
+				$type = symbol==null ? null: symbol.getType();
+				$owlObject = this.getSymbolTable().getOWLObject($IRI);
+
 			}
 		| ^(CONSTANT  value=. constantType = IDENTIFIER?) {
 				$type = OWLType.OWL_CONSTANT;
@@ -473,6 +481,22 @@ cardinalityRestriction	returns [Type type , ManchesterOWLSyntaxTree node, OWLObj
       $owlObject = this.getSymbolTable().getExactCardinalityRestriction($start,cardinality,p.node, filler==null?null:filler.node);
     }
 		;
+		valueRestriction	returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject] 
+@after { 
+          $start.setEvalType($type); 
+          $node = $start;
+          $start.setOWLObject($owlObject);
+        }
+	:  
+		^(VALUE_RESTRICTION  p = unary  value = unary) 
+		{
+		  $type = this.getSymbolTable().getValueRestrictionType($start,p.node, value.node);
+		  if($type!=null){
+		    $owlObject = this.getSymbolTable().getValueRestriction($start,p.node, value.node);
+		   }
+		 }
+	;
+
 		
 oneOf	returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject]
 @after { 
@@ -494,21 +518,6 @@ oneOf	returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject]
 		}
 	;
 
-valueRestriction	returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject] 
-@after { 
-          $start.setEvalType($type); 
-          $node = $start;
-          $start.setOWLObject($owlObject);
-        }
-	:  
-		^(VALUE_RESTRICTION  p = unary  value = unary) 
-		{
-		  $type = this.getSymbolTable().getValueRestrictionType($start,p.node, value.node);
-		  if($type!=null){
-		    $owlObject = this.getSymbolTable().getValueRestriction($start,p.node, value.node);
-		   }
-		 }
-	;
 	
 
 	

@@ -133,6 +133,11 @@ atomic	:
 		| variableAttributeReference -> ^(variableAttributeReference)	
 	;
 
+iri
+	:
+	IRI -> IRI
+	| VARIABLE_NAME DOT IRI_ATTRIBUTE_NAME -> ^(IRI[$VARIABLE_NAME.getText()+ $DOT.getText()+ $IRI_ATTRIBUTE_NAME.getText()]VARIABLE_NAME)
+	;
 
 createIdentifier 
   :
@@ -156,3 +161,4 @@ attributeSelector returns [String selectorText]
     ->  ^(ATTRIBUTE_SELECTOR INTEGER)
     
   ;
+  

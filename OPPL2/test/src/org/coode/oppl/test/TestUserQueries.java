@@ -38,32 +38,28 @@ public class TestUserQueries extends TestCase {
 		try {
 			OWLOntology ontology = manager.createOntology();
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
-			OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI
-					.create("blah#p"));
-			OWLObjectProperty q = dataFactory.getOWLObjectProperty(IRI
-					.create("blah#q"));
+			OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI.create("blah#p"));
+			OWLObjectProperty q = dataFactory.getOWLObjectProperty(IRI.create("blah#q"));
 			OWLClass a = dataFactory.getOWLClass(IRI.create("blah#a"));
 			OWLClass b = dataFactory.getOWLClass(IRI.create("blah#b"));
 			OWLClass c = dataFactory.getOWLClass(IRI.create("blah#c"));
 			// a subClassOf p some b
 			// b subClassOf q some c
-			OWLSubClassOfAxiom axiom1 = dataFactory.getOWLSubClassOfAxiom(a,
+			OWLSubClassOfAxiom axiom1 = dataFactory.getOWLSubClassOfAxiom(
+					a,
 					dataFactory.getOWLObjectSomeValuesFrom(p, b));
-			OWLSubClassOfAxiom axiom2 = dataFactory.getOWLSubClassOfAxiom(b,
+			OWLSubClassOfAxiom axiom2 = dataFactory.getOWLSubClassOfAxiom(
+					b,
 					dataFactory.getOWLObjectSomeValuesFrom(q, c));
-			manager.addAxioms(ontology, new HashSet<OWLAxiom>(Arrays.asList(
-					axiom1, axiom2)));
+			manager.addAxioms(ontology, new HashSet<OWLAxiom>(Arrays.asList(axiom1, axiom2)));
 			FaCTPlusPlusReasonerFactory factory = new FaCTPlusPlusReasonerFactory();
 			OWLReasoner reasoner = factory.createReasoner(ontology);
-			ParserFactory parserFactory = new ParserFactory(manager, ontology,
-					reasoner);
-			OPPLParser parser = parserFactory
-					.build(new QuickFailErrorListener());
+			ParserFactory parserFactory = new ParserFactory(manager, ontology, reasoner);
+			OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
 			OPPLScript opplScript = parser.parse(string);
 			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
 			changeExtractor.visit(opplScript);
-			Set<BindingNode> leaves = opplScript.getConstraintSystem()
-					.getLeaves();
+			Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
 			assertTrue(leaves != null);
 			assertFalse(leaves.isEmpty());
 			System.out.println(leaves);
@@ -79,32 +75,54 @@ public class TestUserQueries extends TestCase {
 		try {
 			OWLOntology ontology = manager.createOntology();
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
-			OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI
-					.create("blah#p"));
-			OWLObjectProperty q = dataFactory.getOWLObjectProperty(IRI
-					.create("blah#q"));
+			OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI.create("blah#p"));
+			OWLObjectProperty q = dataFactory.getOWLObjectProperty(IRI.create("blah#q"));
 			OWLClass a = dataFactory.getOWLClass(IRI.create("blah#a"));
 			OWLClass b = dataFactory.getOWLClass(IRI.create("blah#b"));
 			OWLClass c = dataFactory.getOWLClass(IRI.create("blah#c"));
 			// a subClassOf p some b
 			// b subClassOf q some c
-			OWLSubClassOfAxiom axiom1 = dataFactory.getOWLSubClassOfAxiom(a,
+			OWLSubClassOfAxiom axiom1 = dataFactory.getOWLSubClassOfAxiom(
+					a,
 					dataFactory.getOWLObjectSomeValuesFrom(p, b));
-			OWLSubClassOfAxiom axiom2 = dataFactory.getOWLSubClassOfAxiom(b,
+			OWLSubClassOfAxiom axiom2 = dataFactory.getOWLSubClassOfAxiom(
+					b,
 					dataFactory.getOWLObjectSomeValuesFrom(q, c));
-			manager.addAxioms(ontology, new HashSet<OWLAxiom>(Arrays.asList(
-					axiom1, axiom2)));
+			manager.addAxioms(ontology, new HashSet<OWLAxiom>(Arrays.asList(axiom1, axiom2)));
 			FaCTPlusPlusReasonerFactory factory = new FaCTPlusPlusReasonerFactory();
 			OWLReasoner reasoner = factory.createReasoner(ontology);
-			ParserFactory parserFactory = new ParserFactory(manager, ontology,
-					reasoner);
-			OPPLParser parser = parserFactory
-					.build(new QuickFailErrorListener());
+			ParserFactory parserFactory = new ParserFactory(manager, ontology, reasoner);
+			OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
 			OPPLScript opplScript = parser.parse(string);
 			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
 			changeExtractor.visit(opplScript);
-			Set<BindingNode> leaves = opplScript.getConstraintSystem()
-					.getLeaves();
+			Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
+			assertTrue(leaves != null);
+			assertFalse(leaves.isEmpty());
+			System.out.println(leaves);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testAnnotationQuery() {
+		String string = "?a:CLASS SELECT ?a.IRI label \"luigi\" BEGIN ADD ?a subClassOf Thing END;";
+		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+		try {
+			OWLOntology ontology = manager.createOntology();
+			OWLDataFactory dataFactory = manager.getOWLDataFactory();
+			manager.addAxiom(ontology, dataFactory.getOWLAnnotationAssertionAxiom(
+					IRI.create("blah#Luigi"),
+					dataFactory.getOWLAnnotation(
+							dataFactory.getRDFSLabel(),
+							dataFactory.getOWLLiteral("luigi"))));
+			ParserFactory parserFactory = new ParserFactory(manager, ontology, null);
+			OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
+			OPPLScript opplScript = parser.parse(string);
+			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+			changeExtractor.visit(opplScript);
+			Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
 			assertTrue(leaves != null);
 			assertFalse(leaves.isEmpty());
 			System.out.println(leaves);
@@ -118,19 +136,16 @@ public class TestUserQueries extends TestCase {
 		String string = "?a:CLASS, ?f:CLASS, ?g:CLASS SELECT ?f subClassOf Union_Mapping some ?g, ?g subClassOf has_DPWS_Output some ?a WHERE ?f !=Nothing BEGIN ADD ?f subClassOf Union_Mapping some ?g END;";
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology ontology = manager.loadOntology(IRI.create(this
-					.getClass().getResource("SequentialUnion.owl").toURI()));
+			OWLOntology ontology = manager.loadOntology(IRI.create(this.getClass().getResource(
+					"SequentialUnion.owl").toURI()));
 			FaCTPlusPlusReasonerFactory factory = new FaCTPlusPlusReasonerFactory();
 			OWLReasoner reasoner = factory.createReasoner(ontology);
-			ParserFactory parserFactory = new ParserFactory(manager, ontology,
-					reasoner);
-			OPPLParser parser = parserFactory
-					.build(new QuickFailErrorListener());
+			ParserFactory parserFactory = new ParserFactory(manager, ontology, reasoner);
+			OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
 			OPPLScript opplScript = parser.parse(string);
 			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
 			changeExtractor.visit(opplScript);
-			Set<BindingNode> leaves = opplScript.getConstraintSystem()
-					.getLeaves();
+			Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
 			assertTrue(leaves != null);
 			assertFalse(leaves.isEmpty());
 			System.out.println(leaves);

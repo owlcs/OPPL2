@@ -20,6 +20,7 @@ import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.coode.parsers.DefaultTypeVistorEx;
+import org.coode.parsers.IRISymbol;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.OWLEntitySymbol;
 import org.coode.parsers.OWLLiteralSymbol;
@@ -32,6 +33,7 @@ import org.coode.parsers.oppl.variableattribute.CollectionVariableAttributeSymbo
 import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.ValuesVariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.VariableAttributeSymbol;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
 
@@ -423,6 +425,13 @@ public class OPPLSymbolTable extends SymbolTable {
 					return null;
 				}
 
+				public VariableAttribute<String> visitIRI(IRISymbol iriSymbol) {
+					OPPLSymbolTable.this.reportIllegalToken(
+							variableAttributeSyntaxTree,
+							"Invalid symbol or variable attribute");
+					return null;
+				}
+
 				public VariableAttribute<String> visitOWLEntity(OWLEntitySymbol owlEntitySymbol) {
 					OPPLSymbolTable.this.reportIllegalToken(
 							variableAttributeSyntaxTree,
@@ -497,6 +506,13 @@ public class OPPLSymbolTable extends SymbolTable {
 					return null;
 				}
 
+				public CollectionVariableAttributeSymbol<P, O> visitIRI(IRISymbol iriSymbol) {
+					OPPLSymbolTable.this.reportIllegalToken(
+							attributeSyntaxTree,
+							"Wrong kind of symbol ");
+					return null;
+				}
+
 				public <R extends OWLObject, S extends VariableAttribute<Collection<R>>> CollectionVariableAttributeSymbol<P, O> visitCollectionVariableAttributeSymbol(
 						CollectionVariableAttributeSymbol<R, S> collectionVariableAttributeSymbol) {
 					CollectionVariableAttributeSymbol<P, O> toReturn = null;
@@ -522,5 +538,23 @@ public class OPPLSymbolTable extends SymbolTable {
 			this.reportUnrecognisedSymbol(attributeSyntaxTree);
 		}
 		return toReturn;
+	}
+
+	public void defineVariableIRI(OPPLSyntaxTree iriTree, OPPLSyntaxTree variableNameTree,
+			ConstraintSystem constraintSystem) {
+		Symbol toReturn = this.retrieveSymbol(iriTree.getText());
+		if (toReturn == null) {
+			String name = variableNameTree.getToken().getText();
+			Variable<?> variable = constraintSystem.getVariable(name);
+			if (variable != null) {
+				IRI iri = new VariableIRI(variable);
+				if (iri != null) {
+					toReturn = new IRISymbol(name, iri);
+				}
+				this.storeSymbol(iriTree.getText(), toReturn);
+			} else {
+				this.reportUnrecognisedSymbol(variableNameTree);
+			}
+		}
 	}
 }

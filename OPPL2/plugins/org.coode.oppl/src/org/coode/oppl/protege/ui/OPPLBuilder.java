@@ -36,6 +36,7 @@ import org.coode.oppl.function.Constant;
 import org.coode.oppl.function.Create;
 import org.coode.oppl.function.Expression;
 import org.coode.oppl.function.GroupVariableAttribute;
+import org.coode.oppl.function.IRIVariableAttribute;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.function.OPPLFunctionVisitorEx;
 import org.coode.oppl.function.RenderingVariableAttribute;
@@ -361,6 +362,12 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor, OWLM
 						public <O extends OWLObject> Boolean visitGroupVariableAttribute(
 								GroupVariableAttribute<O> groupVariableAttribute) {
 							return groupVariableAttribute.getVariable().equals(
+									SpecializedConstraintVisitor.this.v);
+						}
+
+						public Boolean visitIRIVariableAttribute(
+								IRIVariableAttribute iriVariableAttribute) {
+							return iriVariableAttribute.getVariable().equals(
 									SpecializedConstraintVisitor.this.v);
 						}
 

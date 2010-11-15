@@ -24,6 +24,7 @@ import org.coode.oppl.function.Aggregation;
 import org.coode.oppl.function.Constant;
 import org.coode.oppl.function.Expression;
 import org.coode.oppl.function.GroupVariableAttribute;
+import org.coode.oppl.function.IRIVariableAttribute;
 import org.coode.oppl.function.RenderingVariableAttribute;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
@@ -84,6 +85,34 @@ public class OPPLFunctionTest extends TestCase {
 			ManchesterSyntaxRenderer renderer = factory.getManchesterSyntaxRenderer(constraintSystem);
 			a.accept(renderer);
 			assertTrue(value.compareTo(renderer.toString()) == 0);
+			manager.removeOntology(ontology);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (OPPLException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testVariableIRI() {
+		try {
+			OWLOntology ontology = manager.createOntology();
+			OPPLFactory factory = new OPPLFactory(manager, ontology, null);
+			ConstraintSystem constraintSystem = factory.createConstraintSystem();
+			Variable<OWLClassExpression> x = constraintSystem.createVariable(
+					"?x",
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
+			IRIVariableAttribute iriVariableAttribute = new IRIVariableAttribute(x);
+			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
+			OWLClass a = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#a"));
+			bindingNode.addAssignment(new Assignment(x, a));
+			ValueComputationParameters parameters = new SimpleValueComputationParameters(
+					constraintSystem, bindingNode, HANDLER);
+			IRI value = iriVariableAttribute.compute(parameters);
+			assertTrue(value.equals(a.getIRI()));
+			System.out.println(value);
 			manager.removeOntology(ontology);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();

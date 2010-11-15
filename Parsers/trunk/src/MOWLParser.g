@@ -72,7 +72,14 @@ axiom	    	options {backtrack=true;}:
 
 annotationAssertionAxiom
 	:
-		IRI p= atomic o = constant -> ^(ANNOTATION_ASSERTION IRI ^(EXPRESSION $p) ^(EXPRESSION $o))
+		iri p= atomic o = constant -> ^(ANNOTATION_ASSERTION iri ^(EXPRESSION $p) ^(EXPRESSION $o))
+		| subjectIRI = iri p= atomic objectIRI = iri -> ^(ANNOTATION_ASSERTION $subjectIRI ^(EXPRESSION $p) ^(EXPRESSION $objectIRI))
+	;
+
+
+iri
+	:
+	IRI -> IRI
 	;
 
 hasKeyAxiom

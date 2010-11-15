@@ -144,6 +144,11 @@ GROUPS
   :
     'GROUPS'
   ;
+  
+IRI_ATTRIBUTE_NAME
+	:
+		'IRI'
+	;  
  
 fragment  
 QUESTION_MARK

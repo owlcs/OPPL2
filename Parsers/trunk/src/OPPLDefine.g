@@ -78,6 +78,7 @@ options {
 
 bottomup  : 
     variableDefinition
+    | variableIRISymbolDefinition
  
   ;
 
@@ -91,3 +92,10 @@ variableDefinition
 		}
 	;
 
+variableIRISymbolDefinition
+	:
+		^(IRI VARIABLE_NAME)
+		{
+			getSymbolTable().defineVariableIRI($IRI,$VARIABLE_NAME,getConstraintSystem());
+		}->^(IRI)
+	;

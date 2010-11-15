@@ -19,4 +19,6 @@ public interface OPPLFunctionVisitor {
 	public <O extends OWLObject> void visitExpression(Expression<O> expression);
 
 	public <O, I extends OPPLFunction<?>> void visitCreate(Create<I, O> create);
+
+	public void visitIRIVariableAttribute(IRIVariableAttribute iriVariableAttribute);
 }

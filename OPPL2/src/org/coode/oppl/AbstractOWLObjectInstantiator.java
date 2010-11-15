@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.function.ValueComputationParameters;
+import org.coode.oppl.utils.IRIVisitorExAdapter;
+import org.coode.parsers.oppl.VariableIRI;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
@@ -727,8 +729,15 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAnnotationValueVisitorEx#visit(org.semanticweb.owlapi.model.IRI)
 	 */
-	public OWLObject visit(IRI arg0) {
-		return arg0;
+	public OWLObject visit(IRI iri) {
+		return iri.accept(new IRIVisitorExAdapter<IRI>(iri) {
+			@Override
+			public IRI visitVariableIRI(VariableIRI iri) {
+				IRI value = iri.getAttribute().compute(
+						AbstractOWLObjectInstantiator.this.getParameters());
+				return value == null ? iri : value;
+			}
+		});
 	}
 
 	/**

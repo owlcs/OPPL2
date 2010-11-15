@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g 2010-11-04 16:08:33
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g 2010-11-15 16:22:11
 
   package org.coode.parsers.oppl;
   import org.coode.parsers.ErrorListener;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class OPPLDefine extends TreeRewriter {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED", "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION", "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF", "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE", "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION", "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING", "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL", "NAF_CONSTRAINT"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED", "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION", "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF", "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE", "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION", "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION", "IRI_ATTRIBUTE_NAME", "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING", "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL", "NAF_CONSTRAINT"
     };
     public static final int COMMA=37;
     public static final int ASSERTED=76;
@@ -89,6 +89,7 @@ public class OPPLDefine extends TreeRewriter {
     public static final int VALUES=354;
     public static final int QUERY=103;
     public static final int SOME_RESTRICTION=61;
+    public static final int IRI=110;
     public static final int VALUE=18;
     public static final int RENDERING=355;
     public static final int INVERSE_FUNCTIONAL=35;
@@ -97,11 +98,13 @@ public class OPPLDefine extends TreeRewriter {
     public static final int OR=11;
     public static final int INTEGER=42;
     public static final int INVERSE=19;
+    public static final int HAS_KEY=109;
     public static final int DISJOINT_WITH_AXIOM=50;
     public static final int SUPER_CLASS_OF=87;
     public static final int OPPL_FUNCTION=100;
     public static final int DIGIT=41;
     public static final int COMPOSITION=4;
+    public static final int ANNOTATION_ASSERTION=111;
     public static final int OPPL_STATEMENT=107;
     public static final int FUNCTIONAL=29;
     public static final int NOT_EQUAL=72;
@@ -127,6 +130,7 @@ public class OPPLDefine extends TreeRewriter {
     public static final int ANTI_SYMMETRIC=31;
     public static final int Tokens=47;
     public static final int CLOSED_CURLY_BRACES=7;
+    public static final int IRI_ATTRIBUTE_NAME=112;
     public static final int REFLEXIVE=32;
     public static final int NOT=12;
     public static final int STRING_OPERATION=394;
@@ -211,7 +215,7 @@ public class OPPLDefine extends TreeRewriter {
     };
 
     // $ANTLR start "bottomup"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:79:1: bottomup : variableDefinition ;
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:79:1: bottomup : ( variableDefinition | variableIRISymbolDefinition );
     public final OPPLDefine.bottomup_return bottomup() throws RecognitionException {
         OPPLDefine.bottomup_return retval = new OPPLDefine.bottomup_return();
         retval.start = input.LT(1);
@@ -223,28 +227,69 @@ public class OPPLDefine extends TreeRewriter {
 
         OPPLDefine.variableDefinition_return variableDefinition1 = null;
 
+        OPPLDefine.variableIRISymbolDefinition_return variableIRISymbolDefinition2 = null;
+
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:79:11: ( variableDefinition )
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:80:5: variableDefinition
-            {
-            _last = (OPPLSyntaxTree)input.LT(1);
-            pushFollow(FOLLOW_variableDefinition_in_bottomup82);
-            variableDefinition1=variableDefinition();
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:79:11: ( variableDefinition | variableIRISymbolDefinition )
+            int alt1=2;
+            int LA1_0 = input.LA(1);
 
-            state._fsp--;
-            if (state.failed) return retval;
-            if ( state.backtracking==1 ) 
-             
-            if ( _first_0==null ) _first_0 = variableDefinition1.tree;
-
-            if ( state.backtracking==1 ) {
-            retval.tree = (OPPLSyntaxTree)_first_0;
-            if ( adaptor.getParent(retval.tree)!=null && adaptor.isNil( adaptor.getParent(retval.tree) ) )
-                retval.tree = (OPPLSyntaxTree)adaptor.getParent(retval.tree);}
+            if ( ((LA1_0>=INPUT_VARIABLE_DEFINITION && LA1_0<=GENERATED_VARIABLE_DEFINITION)) ) {
+                alt1=1;
             }
+            else if ( (LA1_0==IRI) ) {
+                alt1=2;
+            }
+            else {
+                if (state.backtracking>0) {state.failed=true; return retval;}
+                NoViableAltException nvae =
+                    new NoViableAltException("", 1, 0, input);
 
+                throw nvae;
+            }
+            switch (alt1) {
+                case 1 :
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:80:5: variableDefinition
+                    {
+                    _last = (OPPLSyntaxTree)input.LT(1);
+                    pushFollow(FOLLOW_variableDefinition_in_bottomup82);
+                    variableDefinition1=variableDefinition();
+
+                    state._fsp--;
+                    if (state.failed) return retval;
+                    if ( state.backtracking==1 ) 
+                     
+                    if ( _first_0==null ) _first_0 = variableDefinition1.tree;
+
+                    if ( state.backtracking==1 ) {
+                    retval.tree = (OPPLSyntaxTree)_first_0;
+                    if ( adaptor.getParent(retval.tree)!=null && adaptor.isNil( adaptor.getParent(retval.tree) ) )
+                        retval.tree = (OPPLSyntaxTree)adaptor.getParent(retval.tree);}
+                    }
+                    break;
+                case 2 :
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:81:7: variableIRISymbolDefinition
+                    {
+                    _last = (OPPLSyntaxTree)input.LT(1);
+                    pushFollow(FOLLOW_variableIRISymbolDefinition_in_bottomup90);
+                    variableIRISymbolDefinition2=variableIRISymbolDefinition();
+
+                    state._fsp--;
+                    if (state.failed) return retval;
+                    if ( state.backtracking==1 ) 
+                     
+                    if ( _first_0==null ) _first_0 = variableIRISymbolDefinition2.tree;
+
+                    if ( state.backtracking==1 ) {
+                    retval.tree = (OPPLSyntaxTree)_first_0;
+                    if ( adaptor.getParent(retval.tree)!=null && adaptor.isNil( adaptor.getParent(retval.tree) ) )
+                        retval.tree = (OPPLSyntaxTree)adaptor.getParent(retval.tree);}
+                    }
+                    break;
+
+            }
         }
 
           catch(RecognitionException exception){
@@ -270,7 +315,7 @@ public class OPPLDefine extends TreeRewriter {
     };
 
     // $ANTLR start "variableDefinition"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:86:1: variableDefinition : ^( ( INPUT_VARIABLE_DEFINITION | GENERATED_VARIABLE_DEFINITION ) VARIABLE_NAME VARIABLE_TYPE ( . )* ) ;
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:87:1: variableDefinition : ^( ( INPUT_VARIABLE_DEFINITION | GENERATED_VARIABLE_DEFINITION ) VARIABLE_NAME VARIABLE_TYPE ( . )* ) ;
     public final OPPLDefine.variableDefinition_return variableDefinition() throws RecognitionException {
         OPPLDefine.variableDefinition_return retval = new OPPLDefine.variableDefinition_return();
         retval.start = input.LT(1);
@@ -280,25 +325,25 @@ public class OPPLDefine extends TreeRewriter {
         OPPLSyntaxTree _first_0 = null;
         OPPLSyntaxTree _last = null;
 
-        OPPLSyntaxTree set2=null;
-        OPPLSyntaxTree VARIABLE_NAME3=null;
-        OPPLSyntaxTree VARIABLE_TYPE4=null;
-        OPPLSyntaxTree wildcard5=null;
+        OPPLSyntaxTree set3=null;
+        OPPLSyntaxTree VARIABLE_NAME4=null;
+        OPPLSyntaxTree VARIABLE_TYPE5=null;
+        OPPLSyntaxTree wildcard6=null;
 
-        OPPLSyntaxTree set2_tree=null;
-        OPPLSyntaxTree VARIABLE_NAME3_tree=null;
-        OPPLSyntaxTree VARIABLE_TYPE4_tree=null;
-        OPPLSyntaxTree wildcard5_tree=null;
+        OPPLSyntaxTree set3_tree=null;
+        OPPLSyntaxTree VARIABLE_NAME4_tree=null;
+        OPPLSyntaxTree VARIABLE_TYPE5_tree=null;
+        OPPLSyntaxTree wildcard6_tree=null;
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:87:2: ( ^( ( INPUT_VARIABLE_DEFINITION | GENERATED_VARIABLE_DEFINITION ) VARIABLE_NAME VARIABLE_TYPE ( . )* ) )
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:88:3: ^( ( INPUT_VARIABLE_DEFINITION | GENERATED_VARIABLE_DEFINITION ) VARIABLE_NAME VARIABLE_TYPE ( . )* )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:88:2: ( ^( ( INPUT_VARIABLE_DEFINITION | GENERATED_VARIABLE_DEFINITION ) VARIABLE_NAME VARIABLE_TYPE ( . )* ) )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:89:3: ^( ( INPUT_VARIABLE_DEFINITION | GENERATED_VARIABLE_DEFINITION ) VARIABLE_NAME VARIABLE_TYPE ( . )* )
             {
             _last = (OPPLSyntaxTree)input.LT(1);
             {
             OPPLSyntaxTree _save_last_1 = _last;
             OPPLSyntaxTree _first_1 = null;
-            set2=(OPPLSyntaxTree)input.LT(1);
+            set3=(OPPLSyntaxTree)input.LT(1);
             if ( (input.LA(1)>=INPUT_VARIABLE_DEFINITION && input.LA(1)<=GENERATED_VARIABLE_DEFINITION) ) {
                 input.consume();
 
@@ -313,42 +358,42 @@ public class OPPLDefine extends TreeRewriter {
 
 
             if ( state.backtracking==1 )
-            if ( _first_0==null ) _first_0 = set2;
+            if ( _first_0==null ) _first_0 = set3;
             match(input, Token.DOWN, null); if (state.failed) return retval;
             _last = (OPPLSyntaxTree)input.LT(1);
-            VARIABLE_NAME3=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition108); if (state.failed) return retval;
+            VARIABLE_NAME4=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableDefinition116); if (state.failed) return retval;
              
             if ( state.backtracking==1 )
-            if ( _first_1==null ) _first_1 = VARIABLE_NAME3;
+            if ( _first_1==null ) _first_1 = VARIABLE_NAME4;
             _last = (OPPLSyntaxTree)input.LT(1);
-            VARIABLE_TYPE4=(OPPLSyntaxTree)match(input,VARIABLE_TYPE,FOLLOW_VARIABLE_TYPE_in_variableDefinition111); if (state.failed) return retval;
+            VARIABLE_TYPE5=(OPPLSyntaxTree)match(input,VARIABLE_TYPE,FOLLOW_VARIABLE_TYPE_in_variableDefinition119); if (state.failed) return retval;
              
             if ( state.backtracking==1 )
-            if ( _first_1==null ) _first_1 = VARIABLE_TYPE4;
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:88:93: ( . )*
-            loop1:
+            if ( _first_1==null ) _first_1 = VARIABLE_TYPE5;
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:89:93: ( . )*
+            loop2:
             do {
-                int alt1=2;
-                int LA1_0 = input.LA(1);
+                int alt2=2;
+                int LA2_0 = input.LA(1);
 
-                if ( ((LA1_0>=COMPOSITION && LA1_0<=NAF_CONSTRAINT)) ) {
-                    alt1=1;
+                if ( ((LA2_0>=COMPOSITION && LA2_0<=NAF_CONSTRAINT)) ) {
+                    alt2=1;
                 }
-                else if ( (LA1_0==UP) ) {
-                    alt1=2;
+                else if ( (LA2_0==UP) ) {
+                    alt2=2;
                 }
 
 
-                switch (alt1) {
+                switch (alt2) {
             	case 1 :
-            	    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:88:93: .
+            	    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:89:93: .
             	    {
             	    _last = (OPPLSyntaxTree)input.LT(1);
-            	    wildcard5=(OPPLSyntaxTree)input.LT(1);
+            	    wildcard6=(OPPLSyntaxTree)input.LT(1);
             	    matchAny(input); if (state.failed) return retval;
             	     
             	    if ( state.backtracking==1 )
-            	    if ( _first_1==null ) _first_1 = wildcard5;
+            	    if ( _first_1==null ) _first_1 = wildcard6;
 
             	    if ( state.backtracking==1 ) {
             	    retval.tree = (OPPLSyntaxTree)_first_0;
@@ -358,7 +403,7 @@ public class OPPLDefine extends TreeRewriter {
             	    break;
 
             	default :
-            	    break loop1;
+            	    break loop2;
                 }
             } while (true);
 
@@ -368,7 +413,7 @@ public class OPPLDefine extends TreeRewriter {
 
             if ( state.backtracking==1 ) {
 
-              			getSymbolTable().defineVariable(VARIABLE_NAME3, VARIABLE_TYPE4, getConstraintSystem());
+              			getSymbolTable().defineVariable(VARIABLE_NAME4, VARIABLE_TYPE5, getConstraintSystem());
               		
             }
 
@@ -397,14 +442,122 @@ public class OPPLDefine extends TreeRewriter {
     }
     // $ANTLR end "variableDefinition"
 
+    public static class variableIRISymbolDefinition_return extends TreeRuleReturnScope {
+        OPPLSyntaxTree tree;
+        public Object getTree() { return tree; }
+    };
+
+    // $ANTLR start "variableIRISymbolDefinition"
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:95:1: variableIRISymbolDefinition : ^( IRI VARIABLE_NAME ) -> ^( IRI ) ;
+    public final OPPLDefine.variableIRISymbolDefinition_return variableIRISymbolDefinition() throws RecognitionException {
+        OPPLDefine.variableIRISymbolDefinition_return retval = new OPPLDefine.variableIRISymbolDefinition_return();
+        retval.start = input.LT(1);
+
+        OPPLSyntaxTree root_0 = null;
+
+        OPPLSyntaxTree _first_0 = null;
+        OPPLSyntaxTree _last = null;
+
+        OPPLSyntaxTree IRI7=null;
+        OPPLSyntaxTree VARIABLE_NAME8=null;
+
+        OPPLSyntaxTree IRI7_tree=null;
+        OPPLSyntaxTree VARIABLE_NAME8_tree=null;
+        RewriteRuleNodeStream stream_IRI=new RewriteRuleNodeStream(adaptor,"token IRI");
+        RewriteRuleNodeStream stream_VARIABLE_NAME=new RewriteRuleNodeStream(adaptor,"token VARIABLE_NAME");
+
+        try {
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:96:2: ( ^( IRI VARIABLE_NAME ) -> ^( IRI ) )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:97:3: ^( IRI VARIABLE_NAME )
+            {
+            _last = (OPPLSyntaxTree)input.LT(1);
+            {
+            OPPLSyntaxTree _save_last_1 = _last;
+            OPPLSyntaxTree _first_1 = null;
+            _last = (OPPLSyntaxTree)input.LT(1);
+            IRI7=(OPPLSyntaxTree)match(input,IRI,FOLLOW_IRI_in_variableIRISymbolDefinition141); if (state.failed) return retval; 
+            if ( state.backtracking==1 ) stream_IRI.add(IRI7);
+
+
+            if ( state.backtracking==1 )
+            if ( _first_0==null ) _first_0 = IRI7;
+            match(input, Token.DOWN, null); if (state.failed) return retval;
+            _last = (OPPLSyntaxTree)input.LT(1);
+            VARIABLE_NAME8=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableIRISymbolDefinition143); if (state.failed) return retval; 
+            if ( state.backtracking==1 ) stream_VARIABLE_NAME.add(VARIABLE_NAME8);
+
+
+            match(input, Token.UP, null); if (state.failed) return retval;_last = _save_last_1;
+            }
+
+            if ( state.backtracking==1 ) {
+
+              			getSymbolTable().defineVariableIRI(IRI7,VARIABLE_NAME8,getConstraintSystem());
+              		
+            }
+
+
+            // AST REWRITE
+            // elements: IRI
+            // token labels: 
+            // rule labels: retval
+            // token list labels: 
+            // rule list labels: 
+            // wildcard labels: 
+            if ( state.backtracking==1 ) {
+            retval.tree = root_0;
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
+
+            root_0 = (OPPLSyntaxTree)adaptor.nil();
+            // 100:4: -> ^( IRI )
+            {
+                // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:100:6: ^( IRI )
+                {
+                OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
+                root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_IRI.nextNode(), root_1);
+
+                adaptor.addChild(root_0, root_1);
+                }
+
+            }
+
+            retval.tree = (OPPLSyntaxTree)adaptor.rulePostProcessing(root_0);
+            input.replaceChildren(adaptor.getParent(retval.start),
+                                  adaptor.getChildIndex(retval.start),
+                                  adaptor.getChildIndex(_last),
+                                  retval.tree);}
+            }
+
+        }
+
+          catch(RecognitionException exception){
+            if(errorListener!=null){
+              errorListener.recognitionException(exception);
+            }
+          }
+          
+          catch(RewriteEmptyStreamException exception){
+            if(errorListener!=null){
+              errorListener.rewriteEmptyStreamException(exception);
+            }
+          }
+        finally {
+        }
+        return retval;
+    }
+    // $ANTLR end "variableIRISymbolDefinition"
+
     // Delegated rules
 
 
  
 
     public static final BitSet FOLLOW_variableDefinition_in_bottomup82 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_set_in_variableDefinition101 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition108 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
-    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition111 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF8L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x00000000000FFFFFL});
+    public static final BitSet FOLLOW_variableIRISymbolDefinition_in_bottomup90 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_set_in_variableDefinition109 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition116 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
+    public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition119 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF8L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x00000000000FFFFFL});
+    public static final BitSet FOLLOW_IRI_in_variableIRISymbolDefinition141 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableIRISymbolDefinition143 = new BitSet(new long[]{0x0000000000000008L});
 
 }

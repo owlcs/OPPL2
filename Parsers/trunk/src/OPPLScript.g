@@ -78,6 +78,6 @@ statement
     variableDefinitions? query actions -> ^(OPPL_STATEMENT variableDefinitions? query actions)
   ;
 
-  
+ 
 
   

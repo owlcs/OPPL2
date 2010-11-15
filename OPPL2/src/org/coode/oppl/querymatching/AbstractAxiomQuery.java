@@ -54,8 +54,7 @@ abstract class AbstractAxiomQuery implements AxiomQuery {
 	 */
 	AbstractAxiomQuery(RuntimeExceptionHandler runtimeExceptionHandler) {
 		if (runtimeExceptionHandler == null) {
-			throw new NullPointerException(
-					"The runtime exception handler cannot be null");
+			throw new NullPointerException("The runtime exception handler cannot be null");
 		}
 		this.runtimeExceptionHandler = runtimeExceptionHandler;
 	}
@@ -311,6 +310,7 @@ abstract class AbstractAxiomQuery implements AxiomQuery {
 	 * @see org.semanticweb.owlapi.model.OWLAnnotationAxiomVisitor#visit(org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom)
 	 */
 	public void visit(OWLAnnotationAssertionAxiom axiom) {
+		this.leaves.addAll(this.match(axiom));
 	}
 
 	/**
