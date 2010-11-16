@@ -77,7 +77,11 @@ public class VariableIRI extends IRI {
 	}
 
 	public void accept(OWLObjectVisitor visitor) {
-		visitor.visit(this);
+		if (visitor instanceof IRIVisitor) {
+			((IRIVisitor) visitor).visitVariableIRI(this);
+		} else {
+			visitor.visit(this);
+		}
 	}
 
 	public void accept(IRIVisitor visitor) {
@@ -85,7 +89,8 @@ public class VariableIRI extends IRI {
 	}
 
 	public <O> O accept(OWLObjectVisitorEx<O> visitor) {
-		return visitor.visit(this);
+		return visitor instanceof IRIVisitorEx<?> ? ((IRIVisitorEx<O>) visitor).visitVariableIRI(this)
+				: visitor.visit(this);
 	}
 
 	public <O> O accept(IRIVisitorEx<O> visitor) {

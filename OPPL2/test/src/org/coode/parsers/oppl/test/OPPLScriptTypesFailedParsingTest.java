@@ -43,7 +43,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  * @author Luigi Iannone
  * 
  */
-public class OPPLScriptTypesParserTest extends TestCase {
+public class OPPLScriptTypesFailedParsingTest extends TestCase {
 	private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
 		@Override
 		public Object create(Token token) {
@@ -71,17 +71,6 @@ public class OPPLScriptTypesParserTest extends TestCase {
 	private final static SymbolTableFactory<OPPLSymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
 	private OPPLSymbolTable symtab;
-
-	public void testSubClassQuery() {
-		String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
-		OPPLSyntaxTree parsed = this.parse(query, SYNTAX_ONTOLOGY);
-		System.out.println(parsed.toStringTree());
-		assertNotNull(parsed);
-		assertNotNull(parsed.getOPPLContent());
-		System.out.println("original script: \t" + query);
-		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
-	}
-
 	static {
 		try {
 			PIZZA_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
@@ -96,46 +85,29 @@ public class OPPLScriptTypesParserTest extends TestCase {
 		}
 	}
 
-	public void testRegexpQuery() {
-		String query = "?x:CLASS = MATCH (\".*ing\") SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
-		OPPLSyntaxTree parsed = this.parse(query, SYNTAX_ONTOLOGY);
+	public void testVariableScope() {
+		String query = "?x:CLASS[subClassOf Pizza] SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
+		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
-		assertNotNull(parsed.getOPPLContent());
+		assertNull(parsed.getOPPLContent());
 		System.out.println("original script: \t" + query);
 		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
 	}
 
 	public void testAggregateVaraibleValuesAndLooseObjects() {
-		String query = "?x:CLASS, ?y:CLASS = createIntersection(?x.VALUES,Thing)  SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
+		String query = "?x:CLASS,?z:OBJECTPROPERTY, ?y:CLASS = createIntersection(?x.VALUES,?z)  SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
 		OPPLSyntaxTree parsed = this.parse(query, SYNTAX_ONTOLOGY);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
-		assertNotNull(parsed.getOPPLContent());
+		assertNull(parsed.getOPPLContent());
 		System.out.println("original script: \t" + query);
 		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
 	}
 
-	public void testGeneratedVariable() {
-		OWLOntology ontology;
-		try {
-			ontology = ONTOLOGY_MANAGER.loadOntology(IRI.create(this.getClass().getResource(
-					"ondrejTest.owl").toURI()));
-			String query = "?x:CLASS, ?y:OBJECTPROPERTY = MATCH(\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x subClassOf ?y some ?z BEGIN REMOVE ?x subClassOf ?y some ?z, ADD ?x subClassOf !hasFeature some (?feature and !hasValue some ?z) END;";
-			OPPLSyntaxTree parsed = this.parse(query, ontology);
-			System.out.println(parsed.toStringTree());
-			assertNotNull(parsed);
-			assertNotNull(parsed.getOPPLContent());
-			System.out.println("original script: \t" + query);
-			System.out.println("parsed content:  \t" + parsed.getOPPLContent());
-			ONTOLOGY_MANAGER.removeOntology(ontology);
-		} catch (OWLOntologyCreationException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
+	@Override
+	protected void tearDown() throws Exception {
+		this.symtab.dispose();
 	}
 
 	protected OPPLSyntaxTree parse(String input, OWLOntology ontology) {
@@ -183,76 +155,9 @@ public class OPPLScriptTypesParserTest extends TestCase {
 		}
 	}
 
-	public void testCreateIndividual() {
-		OWLOntology ontology;
-		try {
-			ontology = ONTOLOGY_MANAGER.loadOntology(IRI.create(this.getClass().getResource(
-					"ondrejTest.owl").toURI()));
-			String query = "?x:CLASS, ?y:INDIVIDUAL = create(?x.RENDERING+\"Instance\") SELECT ASSERTED ?x subClassOf Pizza BEGIN REMOVE ?y types ?x END;";
-			OPPLSyntaxTree parsed = this.parse(query, ontology);
-			System.out.println(parsed.toStringTree());
-			assertNotNull(parsed);
-			assertNotNull(parsed.getOPPLContent());
-			System.out.println("original script: \t" + query);
-			System.out.println("parsed content:  \t" + parsed.getOPPLContent());
-			ONTOLOGY_MANAGER.removeOntology(ontology);
-		} catch (OWLOntologyCreationException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}
-
-	public void testHasKey() {
-		String query = "?x:CLASS SELECT ?x HasKey hasTopping Thing BEGIN ADD ?x subClassOf Thing END;";
-		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY);
-		System.out.println(parsed.toStringTree());
-		assertNotNull(parsed);
-		assertNotNull(parsed.getOPPLContent());
-		System.out.println("original script: \t" + query);
-		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
-	}
-
-	public void testAnnotationAssertionsInQuery() {
-		String query = "?x:CLASS SELECT <blah#Luigi> label \"aLabel\" BEGIN ADD ?x subClassOf Thing END;";
-		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY);
-		System.out.println(parsed.toStringTree());
-		assertNotNull(parsed);
-		assertNotNull(parsed.getOPPLContent());
-		System.out.println("original script: \t" + query);
-		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
-	}
-
-	public void testAnnotationAssertionsInActions() {
-		String query = "?x:CLASS SELECT ?x subClassOf Thing  BEGIN ADD <blah#Luigi> label \"aLabel\" END;";
-		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY);
-		System.out.println(parsed.toStringTree());
-		assertNotNull(parsed);
-		assertNotNull(parsed.getOPPLContent());
-		System.out.println("original script: \t" + query);
-		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
-	}
-
-	public void testVariableIRIAttribute() {
-		String query = "?x:CLASS SELECT ?x.IRI label \"aLabel\" BEGIN ADD ?x subClassOf Thing END;";
-		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY);
-		System.out.println(parsed.toStringTree());
-		assertNotNull(parsed);
-		assertNotNull(parsed.getOPPLContent());
-		System.out.println("original script: \t" + query);
-		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
-	}
-
 	@Override
 	protected void setUp() throws Exception {
 		this.symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
 		this.symtab.setErrorListener(this.listener);
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		this.symtab.dispose();
 	}
 }

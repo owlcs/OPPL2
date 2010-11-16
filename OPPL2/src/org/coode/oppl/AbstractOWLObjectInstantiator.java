@@ -13,6 +13,8 @@ import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAnnotationPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLAnnotationPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationSubject;
+import org.semanticweb.owlapi.model.OWLAnnotationValue;
 import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -21,6 +23,7 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLDataComplementOf;
 import org.semanticweb.owlapi.model.OWLDataExactCardinality;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataHasValue;
 import org.semanticweb.owlapi.model.OWLDataIntersectionOf;
 import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
@@ -701,8 +704,11 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAnnotationObjectVisitorEx#visit(org.semanticweb.owlapi.model.OWLAnnotation)
 	 */
-	public OWLObject visit(OWLAnnotation arg0) {
-		return arg0;
+	public OWLObject visit(OWLAnnotation annotation) {
+		OWLDataFactory dataFactory = this.getParameters().getConstraintSystem().getOntologyManager().getOWLDataFactory();
+		return dataFactory.getOWLAnnotation(
+				(OWLAnnotationProperty) annotation.getProperty().accept(this),
+				(OWLAnnotationValue) annotation.getValue().accept(this));
 	}
 
 	/**
@@ -771,8 +777,11 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLAxiomVisitorEx#visit(org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom)
 	 */
-	public OWLObject visit(OWLAnnotationAssertionAxiom arg0) {
-		return arg0;
+	public OWLObject visit(OWLAnnotationAssertionAxiom axiom) {
+		OWLDataFactory dataFactory = this.getParameters().getConstraintSystem().getOntologyManager().getOWLDataFactory();
+		return dataFactory.getOWLAnnotationAssertionAxiom(
+				(OWLAnnotationSubject) axiom.getSubject().accept(this),
+				(OWLAnnotation) axiom.getAnnotation().accept(this));
 	}
 
 	/**

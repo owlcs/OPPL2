@@ -20,6 +20,11 @@ public class IRIVisitorExAdapter<O> extends OWLObjectVisitorExAdapter<O> impleme
 		super(defaultReturnValue);
 	}
 
+	@Override
+	public O visit(IRI iri) {
+		return this.visitIRI(iri);
+	}
+
 	public O visitIRI(IRI iri) {
 		return this.getDefaultReturnValue(iri);
 	}

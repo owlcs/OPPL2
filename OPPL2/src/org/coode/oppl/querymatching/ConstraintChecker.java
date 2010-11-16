@@ -106,7 +106,8 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
 		OWLAxiom instantiatedAxiom = (OWLAxiom) nafConstraint.getAxiom().accept(this.instantiator);
 		boolean toReturn = false;
 		try {
-			if (this.getParameters().getConstraintSystem().getReasoner() != null) {
+			if (this.getParameters().getConstraintSystem().getReasoner() != null
+					&& nafConstraint.getAxiom().isLogicalAxiom()) {
 				toReturn = !this.getParameters().getConstraintSystem().getReasoner().isEntailed(
 						instantiatedAxiom);
 			} else {

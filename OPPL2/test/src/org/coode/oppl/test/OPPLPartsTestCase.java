@@ -151,7 +151,7 @@ public class OPPLPartsTestCase extends TestCase {
 		Logging.getParseTestLogging().log(Level.INFO, opplFunction.render(constraintSystem));
 	}
 
-	public void testParseOPPLFunctionAggregatingLoosObjectAndVariableValues() {
+	public void testParseOPPLFunctionAggregatingLooseObjectAndVariableValues() {
 		OPPLParser parser = this.getParser("test.owl");
 		ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory().createConstraintSystem();
 		OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();

@@ -129,8 +129,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
 	 * @param axiom
 	 * @return
 	 */
-	private Set<O> visitOWLPropertyAssertionAxiom(
-			OWLPropertyAssertionAxiom<?, ?> axiom) {
+	private Set<O> visitOWLPropertyAssertionAxiom(OWLPropertyAssertionAxiom<?, ?> axiom) {
 		Set<O> toReturn = new HashSet<O>();
 		toReturn.addAll(axiom.getProperty().accept(this));
 		toReturn.addAll(axiom.getSubject().accept(this));
@@ -416,8 +415,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
 	 * @param desc
 	 * @return
 	 */
-	private Set<O> visitOWLNaryBooleanExpression(
-			OWLNaryBooleanClassExpression desc) {
+	private Set<O> visitOWLNaryBooleanExpression(OWLNaryBooleanClassExpression desc) {
 		Set<O> toReturn = new HashSet<O>();
 		for (OWLObject owlObject : desc.getOperands()) {
 			toReturn.addAll(owlObject.accept(this));
@@ -446,8 +444,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
 	 * @param desc
 	 * @return
 	 */
-	private Set<O> visitOWLQuantifiedRestriction(
-			OWLQuantifiedRestriction<?, ?, ?> desc) {
+	private Set<O> visitOWLQuantifiedRestriction(OWLQuantifiedRestriction<?, ?, ?> desc) {
 		Set<O> toReturn = new HashSet<O>();
 		toReturn.addAll(desc.getProperty().accept(this));
 		toReturn.addAll(desc.getFiller().accept(this));
@@ -494,8 +491,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
 	 * @param desc
 	 * @return
 	 */
-	private Set<O> visitOWLCardinalityRestriction(
-			OWLCardinalityRestriction<?, ?, ?> desc) {
+	private Set<O> visitOWLCardinalityRestriction(OWLCardinalityRestriction<?, ?, ?> desc) {
 		Set<O> toReturn = new HashSet<O>();
 		toReturn.addAll(desc.getProperty().accept(this));
 		if (desc.getFiller() != null) {
@@ -611,22 +607,19 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
 		return getAll(owlObject, extractor);
 	}
 
-	public static Set<OWLObjectProperty> getAllOWLObjectProperties(
-			OWLObject owlObject) {
+	public static Set<OWLObjectProperty> getAllOWLObjectProperties(OWLObject owlObject) {
 		OWLObjectExtractor<OWLObjectProperty> extractor = new OWLObjectExtractor<OWLObjectProperty>(
 				OWLPrimitiveSelector.getAllOWLObjectPropertySelector());
 		return getAll(owlObject, extractor);
 	}
 
-	public static Set<OWLDataProperty> getAllOWLDataProperties(
-			OWLObject owlObject) {
+	public static Set<OWLDataProperty> getAllOWLDataProperties(OWLObject owlObject) {
 		OWLObjectExtractor<OWLDataProperty> extractor = new OWLObjectExtractor<OWLDataProperty>(
 				OWLPrimitiveSelector.getAllOWLDataPropertySelector());
 		return getAll(owlObject, extractor);
 	}
 
-	public static Set<OWLNamedIndividual> getAllOWLIndividuals(
-			OWLObject owlObject) {
+	public static Set<OWLNamedIndividual> getAllOWLIndividuals(OWLObject owlObject) {
 		OWLObjectExtractor<OWLNamedIndividual> extractor = new OWLObjectExtractor<OWLNamedIndividual>(
 				OWLPrimitiveSelector.getAllOWLIndividualSelector());
 		return getAll(owlObject, extractor);

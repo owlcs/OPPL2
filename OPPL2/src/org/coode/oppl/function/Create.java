@@ -4,6 +4,8 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.entity.OWLEntityCreationException;
 import org.coode.oppl.entity.OWLEntityCreationSet;
 import org.coode.oppl.entity.OWLEntityFactory;
+import org.coode.oppl.variabletypes.VariableType;
+import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.semanticweb.owlapi.expression.OWLEntityChecker;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -35,6 +37,8 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 		this.input = input;
 	}
 
+	public abstract boolean isCompatible(VariableType<?> variableType);
+
 	/**
 	 * @return the input
 	 */
@@ -60,6 +64,11 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 			}
 
 			@Override
+			public boolean isCompatible(VariableType<?> variableType) {
+				return variableType == VariableTypeFactory.getCLASSVariableType();
+			}
+
+			@Override
 			protected OWLClass getExistingEntity(String entityRendering,
 					OWLEntityChecker entityChecker) {
 				return entityChecker.getOWLClass(entityRendering);
@@ -79,6 +88,11 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 						null);
 				manager.applyChanges(entitySet.getOntologyChanges());
 				return entitySet.getOWLEntity();
+			}
+
+			@Override
+			public boolean isCompatible(VariableType<?> variableType) {
+				return variableType == VariableTypeFactory.getOBJECTPROPERTYTypeVariableType();
 			}
 
 			@Override
@@ -104,6 +118,11 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 			}
 
 			@Override
+			public boolean isCompatible(VariableType<?> variableType) {
+				return variableType == VariableTypeFactory.getDATAPROPERTYVariableType();
+			}
+
+			@Override
 			protected OWLDataProperty getExistingEntity(String entityRendering,
 					OWLEntityChecker entityChecker) {
 				return entityChecker.getOWLDataProperty(entityRendering);
@@ -126,6 +145,11 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 			}
 
 			@Override
+			public boolean isCompatible(VariableType<?> variableType) {
+				return variableType == VariableTypeFactory.getINDIVIDUALVariableType();
+			}
+
+			@Override
 			protected OWLNamedIndividual getExistingEntity(String entityRendering,
 					OWLEntityChecker entityChecker) {
 				return entityChecker.getOWLIndividual(entityRendering);
@@ -145,6 +169,11 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 						return dataFactory.getOWLLiteral(value);
 					}
 				};
+			}
+
+			@Override
+			public boolean isCompatible(VariableType<?> variableType) {
+				return variableType == VariableTypeFactory.getCONSTANTVariableType();
 			}
 		};
 	}

@@ -2,6 +2,7 @@ package org.coode.parsers.oppl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import org.coode.oppl.InequalityConstraint;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableVisitorEx;
 import org.coode.oppl.exceptions.OPPLException;
+import org.coode.oppl.function.Aggregandum;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.function.ValuesVariableAtttribute;
 import org.coode.oppl.function.VariableAttribute;
@@ -556,5 +558,31 @@ public class OPPLSymbolTable extends SymbolTable {
 				this.reportUnrecognisedSymbol(variableNameTree);
 			}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public <O extends OWLObject> Collection<? extends Aggregandum<O>> getAggregandumCollection(
+			org.coode.oppl.variabletypes.VariableType<O> variableType,
+			Collection<? extends Aggregandum<?>> aggregandums,
+			List<OPPLSyntaxTree> aggregandumsTrees, OPPLSyntaxTree parentExpression) {
+		List<Aggregandum<O>> toReturn = new ArrayList<Aggregandum<O>>(aggregandums.size());
+		boolean allFine = true;
+		Iterator<? extends Aggregandum<?>> iterator = aggregandums.iterator();
+		int i = 0;
+		while (allFine && iterator.hasNext()) {
+			Aggregandum<?> aggregandum = iterator.next();
+			allFine = aggregandum.isCompatible(variableType);
+			if (allFine) {
+				toReturn.add((Aggregandum<O>) aggregandum);
+			} else {
+				OPPLSyntaxTree opplSyntaxTree = aggregandumsTrees.get(i);
+				this.reportIncompatibleSymbolType(
+						opplSyntaxTree,
+						opplSyntaxTree.getEvalType(),
+						parentExpression);
+			}
+			i++;
+		}
+		return allFine ? toReturn : null;
 	}
 }

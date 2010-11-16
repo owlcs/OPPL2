@@ -401,7 +401,8 @@ public class OPPLQueryImpl implements OPPLQuery {
 				"Initial size: "
 						+ (this.getConstraintSystem().getLeaves() == null ? "empty"
 								: this.getConstraintSystem().getLeaves().size()));
-		AxiomQuery query = this.getConstraintSystem().getReasoner() == null ? new AssertedSolvabilityBasedAxiomQuery(
+		AxiomQuery query = this.getConstraintSystem().getReasoner() == null
+				|| !axiom.isLogicalAxiom() ? new AssertedSolvabilityBasedAxiomQuery(
 				this.getConstraintSystem().getOntologyManager().getOntologies(),
 				this.getConstraintSystem(), runtimeExceptionHandler)
 				: new InferredSolvabilityBasedTreeSearchAxiomQuery(this.getConstraintSystem(),

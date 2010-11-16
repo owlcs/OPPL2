@@ -112,12 +112,86 @@ public class TestUserQueries extends TestCase {
 		try {
 			OWLOntology ontology = manager.createOntology();
 			OWLDataFactory dataFactory = manager.getOWLDataFactory();
-			manager.addAxiom(ontology, dataFactory.getOWLAnnotationAssertionAxiom(
-					IRI.create("blah#Luigi"),
-					dataFactory.getOWLAnnotation(
-							dataFactory.getRDFSLabel(),
-							dataFactory.getOWLLiteral("luigi"))));
+			IRI iri = IRI.create("blah#Luigi");
+			manager.addAxiom(
+					ontology,
+					dataFactory.getOWLDeclarationAxiom(dataFactory.getOWLClass(iri)));
+			manager.addAxiom(
+					ontology,
+					dataFactory.getOWLAnnotationAssertionAxiom(
+							iri,
+							dataFactory.getOWLAnnotation(
+									dataFactory.getRDFSLabel(),
+									dataFactory.getOWLLiteral("luigi"))));
 			ParserFactory parserFactory = new ParserFactory(manager, ontology, null);
+			OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
+			OPPLScript opplScript = parser.parse(string);
+			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+			changeExtractor.visit(opplScript);
+			Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
+			assertTrue(leaves != null);
+			assertFalse(leaves.isEmpty());
+			System.out.println(leaves);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testAnnotationInConstraintQuery() {
+		String string = "?a:CLASS SELECT ?a subClassOf Thing WHERE FAIL ?a.IRI label \"pippo\" BEGIN ADD ?a subClassOf Thing END;";
+		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+		try {
+			OWLOntology ontology = manager.createOntology();
+			OWLDataFactory dataFactory = manager.getOWLDataFactory();
+			IRI iri = IRI.create("blah#Luigi");
+			OWLClass owlClass = dataFactory.getOWLClass(iri);
+			manager.addAxiom(ontology, dataFactory.getOWLDeclarationAxiom(owlClass));
+			manager.addAxiom(
+					ontology,
+					dataFactory.getOWLSubClassOfAxiom(owlClass, dataFactory.getOWLThing()));
+			manager.addAxiom(
+					ontology,
+					dataFactory.getOWLAnnotationAssertionAxiom(
+							iri,
+							dataFactory.getOWLAnnotation(
+									dataFactory.getRDFSLabel(),
+									dataFactory.getOWLLiteral("luigi"))));
+			ParserFactory parserFactory = new ParserFactory(manager, ontology, null);
+			OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
+			OPPLScript opplScript = parser.parse(string);
+			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+			changeExtractor.visit(opplScript);
+			Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
+			assertTrue(leaves != null);
+			assertFalse(leaves.isEmpty());
+			System.out.println(leaves);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testAnnotationQueryWithReasoner() {
+		String string = "?a:CLASS SELECT ?a.IRI label \"luigi\" BEGIN ADD ?a subClassOf Thing END;";
+		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+		try {
+			OWLOntology ontology = manager.createOntology();
+			OWLDataFactory dataFactory = manager.getOWLDataFactory();
+			IRI iri = IRI.create("blah#Luigi");
+			manager.addAxiom(
+					ontology,
+					dataFactory.getOWLDeclarationAxiom(dataFactory.getOWLClass(iri)));
+			manager.addAxiom(
+					ontology,
+					dataFactory.getOWLAnnotationAssertionAxiom(
+							iri,
+							dataFactory.getOWLAnnotation(
+									dataFactory.getRDFSLabel(),
+									dataFactory.getOWLLiteral("luigi"))));
+			FaCTPlusPlusReasonerFactory factory = new FaCTPlusPlusReasonerFactory();
+			ParserFactory parserFactory = new ParserFactory(manager, ontology,
+					factory.createReasoner(ontology));
 			OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
 			OPPLScript opplScript = parser.parse(string);
 			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
