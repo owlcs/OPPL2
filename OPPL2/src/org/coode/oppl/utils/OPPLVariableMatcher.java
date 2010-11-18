@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
@@ -56,7 +57,7 @@ public class OPPLVariableMatcher {
 	public static Set<Variable<?>> matches(final String name, ConstraintSystem constraintSystem,
 			final boolean matchClasses, final boolean matchObjectProperties,
 			final boolean matchDataProperties, final boolean matchIndividuals,
-			final boolean matchConstants) {
+			final boolean matchConstants, final boolean matchAnnotationProperty) {
 		Set<Variable<?>> variables = constraintSystem.getVariables();
 		Set<Variable<?>> toReturn = new HashSet<Variable<?>>(variables.size());
 		VariableTypeVisitorEx<Boolean> visitor = new VariableTypeVisitorEx<Boolean>() {
@@ -80,6 +81,11 @@ public class OPPLVariableMatcher {
 
 			public Boolean visitCONSTANTVariableType(CONSTANTVariableType constantVariableType) {
 				return matchConstants;
+			}
+
+			public Boolean visitANNOTATIONPROPERTYVariableType(
+					ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+				return matchAnnotationProperty;
 			}
 		};
 		for (Variable<?> variable : variables) {

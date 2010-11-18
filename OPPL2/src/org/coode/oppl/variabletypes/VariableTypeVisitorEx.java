@@ -29,13 +29,14 @@ package org.coode.oppl.variabletypes;
 public interface VariableTypeVisitorEx<O> {
 	O visitCLASSVariableType(CLASSVariableType classVariableType);
 
-	O visitOBJECTPROPERTYVariableType(
-			OBJECTPROPERTYVariableType objectpropertyVariableType);
+	O visitOBJECTPROPERTYVariableType(OBJECTPROPERTYVariableType objectpropertyVariableType);
 
-	O visitDATAPROPERTYVariableType(
-			DATAPROPERTYVariableType datapropertyVariableType);
+	O visitDATAPROPERTYVariableType(DATAPROPERTYVariableType datapropertyVariableType);
 
 	O visitINDIVIDUALVariableType(INDIVIDUALVariableType individualVariableType);
 
 	O visitCONSTANTVariableType(CONSTANTVariableType constantVariableType);
+
+	O visitANNOTATIONPROPERTYVariableType(
+			ANNOTATIONPROPERTYVariableType annotationpropertyVariableType);
 }

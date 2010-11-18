@@ -5,6 +5,7 @@ package org.coode.oppl.variabletypes;
 
 import java.util.EnumMap;
 
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -48,6 +49,8 @@ public class VariableTypeFactory {
 				VariableTypeName.OBJECTPROPERTY));
 		typesCache.put(VariableTypeName.DATAPROPERTY, new DATAPROPERTYVariableType(
 				VariableTypeName.DATAPROPERTY));
+		typesCache.put(VariableTypeName.ANNOTATIONPROPERTY, new ANNOTATIONPROPERTYVariableType(
+				VariableTypeName.ANNOTATIONPROPERTY));
 		typesCache.put(VariableTypeName.INDIVIDUAL, new INDIVIDUALVariableType(
 				VariableTypeName.INDIVIDUAL));
 		typesCache.put(VariableTypeName.CONSTANT, new CONSTANTVariableType(
@@ -175,6 +178,11 @@ public class VariableTypeFactory {
 			public VariableType<OWLLiteral> visit(OWLLiteral literal) {
 				return VariableTypeFactory.getCONSTANTVariableType();
 			}
+
+			@Override
+			public VariableType<?> visit(OWLAnnotationProperty property) {
+				return VariableTypeFactory.getANNOTATIONPROPERTYVariableType();
+			}
 		});
 	}
 
@@ -191,6 +199,11 @@ public class VariableTypeFactory {
 	@SuppressWarnings("unchecked")
 	public static VariableType<OWLDataProperty> getDATAPROPERTYVariableType() {
 		return (VariableType<OWLDataProperty>) getVariableType(VariableTypeName.DATAPROPERTY);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static org.coode.oppl.variabletypes.VariableType<OWLAnnotationProperty> getANNOTATIONPROPERTYVariableType() {
+		return (VariableType<OWLAnnotationProperty>) getVariableType(VariableTypeName.ANNOTATIONPROPERTY);
 	}
 
 	@SuppressWarnings("unchecked")

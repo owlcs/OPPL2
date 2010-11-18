@@ -27,6 +27,7 @@ import org.coode.oppl.search.AssignableValueExtractor;
 import org.coode.oppl.search.SearchTree;
 import org.coode.oppl.utils.AbstractVariableVisitorExAdapter;
 import org.coode.oppl.utils.VariableExtractor;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
@@ -34,6 +35,7 @@ import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
 import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
@@ -146,12 +148,18 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 				CONSTANTVariableType constantVariableType) {
 			return AbstractSolvabilityOPPLOWLAxiomSearchTree.this.allConstants;
 		}
+
+		public Set<? extends OWLObject> visitANNOTATIONPROPERTYVariableType(
+				ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+			return AbstractSolvabilityOPPLOWLAxiomSearchTree.this.allAnnotationProperties;
+		}
 	};
 	private final Set<OWLClass> allClasses = new HashSet<OWLClass>();
 	private final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
 	private final Set<OWLDataProperty> allDataProperties = new HashSet<OWLDataProperty>();
 	private final Set<OWLIndividual> allIndividuals = new HashSet<OWLIndividual>();
 	private final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
+	private final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<OWLAnnotationProperty>();
 
 	public AbstractSolvabilityOPPLOWLAxiomSearchTree(ConstraintSystem constraintSystem,
 			RuntimeExceptionHandler runtimeExceptionHandler) {
@@ -361,6 +369,10 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 		Logging.getQueryLogger().log(
 				Level.FINE,
 				"Possible constant  values " + this.allConstants.size());
+		this.allAnnotationProperties.addAll(this.getAllAnnotationProperties());
+		Logging.getQueryLogger().log(
+				Level.FINE,
+				"Possible annotation properties  values " + this.allConstants.size());
 	}
 
 	private Collection<OWLClass> getAllClasses() {
@@ -534,5 +546,13 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 	 */
 	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
 		return this.runtimeExceptionHandler;
+	}
+
+	private Set<OWLAnnotationProperty> getAllAnnotationProperties() {
+		Set<OWLAnnotationProperty> toReturn = new HashSet<OWLAnnotationProperty>();
+		for (OWLOntology ontology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
+			toReturn.addAll(ontology.getAnnotationPropertiesInSignature());
+		}
+		return toReturn;
 	}
 }

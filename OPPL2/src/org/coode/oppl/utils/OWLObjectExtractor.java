@@ -7,6 +7,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLCardinalityRestriction;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -110,6 +113,22 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
 	@Override
 	public Set<O> visit(OWLDeclarationAxiom axiom) {
 		return this.visitPrimitive(axiom.getEntity());
+	}
+
+	@Override
+	public Set<O> visit(OWLAnnotationAssertionAxiom axiom) {
+		Set<O> toReturn = new HashSet<O>();
+		toReturn.addAll(axiom.getSubject().accept(this));
+		toReturn.addAll(axiom.getAnnotation().accept(this));
+		return toReturn;
+	}
+
+	@Override
+	public Set<O> visit(OWLAnnotation annotation) {
+		Set<O> toReturn = new HashSet<O>();
+		toReturn.addAll(annotation.getProperty().accept(this));
+		toReturn.addAll(annotation.getValue().accept(this));
+		return toReturn;
 	}
 
 	@Override
@@ -393,6 +412,11 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
 		return this.visitPrimitive(desc);
 	}
 
+	@Override
+	public Set<O> visit(OWLAnnotationProperty property) {
+		return this.visitPrimitive(property);
+	}
+
 	/**
 	 * @param owlObject
 	 * @return
@@ -646,6 +670,12 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
 	public static Set<OWLObject> getAllOWLPrimitives(OWLObject owlObject) {
 		OWLObjectExtractor<OWLObject> extractor = new OWLObjectExtractor<OWLObject>(
 				OWLPrimitiveSelector.getAllPrimitiveSelector());
+		return getAll(owlObject, extractor);
+	}
+
+	public static Set<OWLAnnotationProperty> getAllAnnotationProperties(OWLObject owlObject) {
+		OWLObjectExtractor<OWLAnnotationProperty> extractor = new OWLObjectExtractor<OWLAnnotationProperty>(
+				OWLPrimitiveSelector.getAllOWLAnnotationPropertySelector());
 		return getAll(owlObject, extractor);
 	}
 

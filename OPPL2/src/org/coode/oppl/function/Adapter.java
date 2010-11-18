@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
@@ -16,6 +17,7 @@ import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
 import org.coode.oppl.variabletypes.VariableType;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLIndividual;
@@ -180,6 +182,11 @@ public class Adapter {
 						public Boolean visitCONSTANTVariableType(
 								CONSTANTVariableType constantVariableType) {
 							return value instanceof OWLLiteral;
+						}
+
+						public Boolean visitANNOTATIONPROPERTYVariableType(
+								ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+							return value instanceof OWLAnnotationProperty;
 						}
 					});
 				}

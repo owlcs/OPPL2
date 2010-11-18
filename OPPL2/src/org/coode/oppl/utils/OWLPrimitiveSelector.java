@@ -3,6 +3,7 @@
  */
 package org.coode.oppl.utils;
 
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDatatype;
@@ -102,6 +103,13 @@ public final class OWLPrimitiveSelector {
 			return true;
 		}
 	};
+	private static final OWLObjectVisitorEx<Boolean> allOWLAnnotationPropertySelector = new OWLObjectVisitorExAdapter<Boolean>(
+			false) {
+		@Override
+		public Boolean visit(OWLAnnotationProperty property) {
+			return true;
+		}
+	};
 	private static final OWLObjectVisitorEx<Boolean> allOWLIndividualSelector = new OWLObjectVisitorExAdapter<Boolean>(
 			false) {
 		@Override
@@ -159,13 +167,24 @@ public final class OWLPrimitiveSelector {
 
 	/**
 	 * Retrieves an {@link OWLObjectVisitorEx} returning {@code true} if
-	 * visiting either an {@link OWLObjectProperty}.
+	 * visiting an {@link OWLObjectProperty}.
 	 * 
 	 * @return an {@link OWLObjectVisitorEx} returning {@code true} if visiting
 	 *         an {@link OWLObjectProperty}.
 	 */
 	public static OWLObjectVisitorEx<Boolean> getAllOWLObjectPropertySelector() {
 		return allOWLObjectPropertySelector;
+	}
+
+	/**
+	 * Retrieves an {@link OWLObjectVisitorEx} returning {@code true} if
+	 * visiting an {@link OWLAnnotationproperty}.
+	 * 
+	 * @return an {@link OWLObjectVisitorEx} returning {@code true} if visiting
+	 *         an {@link OWLAnnotationproperty}.
+	 */
+	public static OWLObjectVisitorEx<Boolean> getAllOWLAnnotationPropertySelector() {
+		return allOWLAnnotationPropertySelector;
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package org.coode.oppl.entity;
 
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLEntity;
@@ -12,6 +13,9 @@ public interface OWLEntityFactory {
 			throws OWLEntityCreationException;
 
 	public abstract OWLEntityCreationSet<OWLObjectProperty> createOWLObjectProperty(
+			String shortName, IRI baseIRI) throws OWLEntityCreationException;
+
+	public abstract OWLEntityCreationSet<OWLAnnotationProperty> createOWLAnnotationProperty(
 			String shortName, IRI baseIRI) throws OWLEntityCreationException;
 
 	public abstract OWLEntityCreationSet<OWLDataProperty> createOWLDataProperty(String shortName,

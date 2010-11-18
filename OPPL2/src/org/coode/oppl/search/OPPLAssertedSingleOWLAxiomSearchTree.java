@@ -23,6 +23,7 @@ import org.coode.oppl.utils.AbstractVariableVisitorExAdapter;
 import org.coode.oppl.utils.DefaultOWLAxiomVisitorAdapter;
 import org.coode.oppl.utils.OWLObjectExtractor;
 import org.coode.oppl.utils.VariableExtractor;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
@@ -63,6 +64,7 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	private final Set<OWLDataProperty> allDataProperties = new HashSet<OWLDataProperty>();
 	private final Set<OWLIndividual> allIndividuals = new HashSet<OWLIndividual>();
 	private final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
+	private final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<OWLAnnotationProperty>();
 
 	public OPPLAssertedSingleOWLAxiomSearchTree(OWLAxiom targetAxiom,
 			ConstraintSystem constraintSystem, RuntimeExceptionHandler runtimeExceptionHandler) {
@@ -142,6 +144,11 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 		public Set<? extends OWLObject> visitCONSTANTVariableType(
 				CONSTANTVariableType constantVariableType) {
 			return OPPLAssertedSingleOWLAxiomSearchTree.this.allConstants;
+		}
+
+		public Set<? extends OWLObject> visitANNOTATIONPROPERTYVariableType(
+				ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+			return OPPLAssertedSingleOWLAxiomSearchTree.this.allAnnotationProperties;
 		}
 	};
 
@@ -233,6 +240,7 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 		this.allObjectProperties.addAll(OWLObjectExtractor.getAllOWLObjectProperties(this.getTargetAxiom()));
 		this.allIndividuals.addAll(OWLObjectExtractor.getAllOWLIndividuals(this.getTargetAxiom()));
 		this.allConstants.addAll(OWLObjectExtractor.getAllOWLLiterals(this.getTargetAxiom()));
+		this.allAnnotationProperties.addAll(OWLObjectExtractor.getAllAnnotationProperties(this.getTargetAxiom()));
 	}
 
 	/**

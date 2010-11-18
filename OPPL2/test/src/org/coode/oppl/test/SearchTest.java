@@ -28,6 +28,7 @@ import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.search.OWLAxiomSearchTree;
 import org.coode.oppl.search.SearchTree;
 import org.coode.oppl.utils.VariableExtractor;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
@@ -39,6 +40,7 @@ import org.coode.parsers.common.JUnitTestErrorListener;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -176,11 +178,24 @@ public class SearchTest extends TestCase {
 							CLASSVariableType v) {
 						return getAllClasses();
 					}
+
+					public Collection<? extends OWLObject> visitANNOTATIONPROPERTYVariableType(
+							ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+						return getAllAnnotationProperty();
+					}
 				};
 
 				private Set<OWLObject> getAssignableValues(Variable<?> variable) {
 					Set<OWLObject> toReturn = new HashSet<OWLObject>();
 					toReturn.addAll(variable.getType().accept(this.assignableValuesVisitor));
+					return toReturn;
+				}
+
+				private Set<OWLAnnotationProperty> getAllAnnotationProperty() {
+					Set<OWLAnnotationProperty> toReturn = new HashSet<OWLAnnotationProperty>();
+					for (OWLOntology ontology : manager.getOntologies()) {
+						toReturn.addAll(ontology.getAnnotationPropertiesInSignature());
+					}
 					return toReturn;
 				}
 

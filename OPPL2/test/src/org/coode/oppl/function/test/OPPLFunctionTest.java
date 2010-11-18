@@ -33,6 +33,7 @@ import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.search.AssignableValueExtractor;
 import org.coode.oppl.utils.OWLObjectExtractor;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
@@ -43,6 +44,7 @@ import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -463,6 +465,17 @@ public class OPPLFunctionTest extends TestCase {
 					for (OWLOntology ontology : manager.getOntologies()) {
 						for (OWLAxiom axiom : ontology.getAxioms()) {
 							toReturn.addAll(OWLObjectExtractor.getAllOWLDataProperties(axiom));
+						}
+					}
+					return toReturn;
+				}
+
+				public Set<OWLAnnotationProperty> visitANNOTATIONPROPERTYVariableType(
+						ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+					Set<OWLAnnotationProperty> toReturn = new HashSet<OWLAnnotationProperty>();
+					for (OWLOntology ontology : manager.getOntologies()) {
+						for (OWLAxiom axiom : ontology.getAxioms()) {
+							toReturn.addAll(OWLObjectExtractor.getAllAnnotationProperties(axiom));
 						}
 					}
 					return toReturn;

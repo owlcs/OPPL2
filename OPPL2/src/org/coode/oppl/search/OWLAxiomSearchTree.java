@@ -23,6 +23,7 @@ import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.utils.OWLObjectExtractor;
 import org.coode.oppl.utils.VariableExtractor;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
@@ -30,6 +31,7 @@ import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
 import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
@@ -143,6 +145,15 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 		return toReturn;
 	}
 
+	private Set<OWLAnnotationProperty> getAllAnnotationProperties() {
+		Set<OWLAnnotationProperty> toReturn = new HashSet<OWLAnnotationProperty>();
+		Set<OWLOntology> ontologies = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies();
+		for (OWLOntology owlOntology : ontologies) {
+			toReturn.addAll(owlOntology.getAnnotationPropertiesInSignature());
+		}
+		return toReturn;
+	}
+
 	private Set<OWLNamedIndividual> getAllIndividuals() {
 		Set<OWLNamedIndividual> toReturn = new HashSet<OWLNamedIndividual>();
 		Set<OWLOntology> ontologies = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies();
@@ -165,6 +176,11 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 		public Set<? extends OWLObject> visitDATAPROPERTYVariableType(
 				DATAPROPERTYVariableType datapropertyVariableType) {
 			return OWLAxiomSearchTree.this.getAllDataProperties();
+		}
+
+		public Set<? extends OWLObject> visitANNOTATIONPROPERTYVariableType(
+				ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+			return OWLAxiomSearchTree.this.getAllAnnotationProperties();
 		}
 
 		public Set<? extends OWLObject> visitINDIVIDUALVariableType(

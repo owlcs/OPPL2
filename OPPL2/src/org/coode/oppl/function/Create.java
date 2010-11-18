@@ -7,6 +7,7 @@ import org.coode.oppl.entity.OWLEntityFactory;
 import org.coode.oppl.variabletypes.VariableType;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.semanticweb.owlapi.expression.OWLEntityChecker;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
@@ -174,6 +175,33 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 			@Override
 			public boolean isCompatible(VariableType<?> variableType) {
 				return variableType == VariableTypeFactory.getCONSTANTVariableType();
+			}
+		};
+	}
+
+	public static <T extends OPPLFunction<? extends String>> Create<T, OWLAnnotationProperty> createOWLAnnotationProperty(
+			final T t) {
+		return new CreateOWLEntity<T, OWLAnnotationProperty>(t) {
+			@Override
+			protected OWLAnnotationProperty createEntity(String entityRendering,
+					OWLEntityFactory entityFactory, OWLOntologyManager manager)
+					throws OWLEntityCreationException {
+				OWLEntityCreationSet<OWLAnnotationProperty> entitySet = entityFactory.createOWLAnnotationProperty(
+						entityRendering,
+						null);
+				manager.applyChanges(entitySet.getOntologyChanges());
+				return entitySet.getOWLEntity();
+			}
+
+			@Override
+			public boolean isCompatible(VariableType<?> variableType) {
+				return variableType == VariableTypeFactory.getDATAPROPERTYVariableType();
+			}
+
+			@Override
+			protected OWLAnnotationProperty getExistingEntity(String entityRendering,
+					OWLEntityChecker entityChecker) {
+				return entityChecker.getOWLAnnotationProperty(entityRendering);
 			}
 		};
 	}

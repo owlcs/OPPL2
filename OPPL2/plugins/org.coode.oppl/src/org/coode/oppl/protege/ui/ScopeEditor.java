@@ -44,6 +44,7 @@ import org.coode.oppl.VariableScope;
 import org.coode.oppl.VariableScopeChecker;
 import org.coode.oppl.VariableScopes;
 import org.coode.oppl.VariableScopes.Direction;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
@@ -404,6 +405,11 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
 			}
 
 			public ScopeEditor visitCONSTANTVariableType(CONSTANTVariableType constantVariableType) {
+				return null;
+			}
+
+			public ScopeEditor visitANNOTATIONPROPERTYVariableType(
+					ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
 				return null;
 			}
 		});

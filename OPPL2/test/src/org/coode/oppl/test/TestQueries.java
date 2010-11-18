@@ -39,6 +39,7 @@ import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.log.Logging;
 import org.coode.oppl.utils.VariableDetector;
 import org.coode.oppl.utils.VariableExtractor;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
@@ -223,6 +224,11 @@ public class TestQueries extends TestCase {
 
 			public OWLObject visitCONSTANTVariableType(CONSTANTVariableType v) {
 				return dataFactory.getOWLLiteral(string);
+			}
+
+			public OWLObject visitANNOTATIONPROPERTYVariableType(
+					ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+				return dataFactory.getOWLAnnotationProperty(IRI.create(TEST_NS.toString() + string));
 			}
 
 			public OWLObject visitCLASSVariableType(CLASSVariableType v) {

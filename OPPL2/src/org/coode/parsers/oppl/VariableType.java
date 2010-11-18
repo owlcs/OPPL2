@@ -70,6 +70,23 @@ public enum VariableType implements Type {
 			return VariableTypeFactory.getDATAPROPERTYVariableType();
 		}
 	},
+	ANNOTATIONPROPERTY {
+		@Override
+		public OWLType getOWLType() {
+			return OWLType.OWL_ANNOTATION_PROPERTY;
+		}
+
+		@Override
+		public Symbol getSymbol(OWLDataFactory dataFactory, String name) {
+			return new OWLEntitySymbol(name,
+					dataFactory.getOWLAnnotationProperty(this.createIRI(name)));
+		}
+
+		@Override
+		public org.coode.oppl.variabletypes.VariableType<?> getOPPLVariableType() {
+			return VariableTypeFactory.getANNOTATIONPROPERTYVariableType();
+		}
+	},
 	INDIVIDUAL {
 		@Override
 		public OWLType getOWLType() {
@@ -117,6 +134,7 @@ public enum VariableType implements Type {
 		map.put("DATAPROPERTY", DATAPROPERTY);
 		map.put("INDIVIDUAL", INDIVIDUAL);
 		map.put("CONSTANT", CONSTANT);
+		map.put("ANNOTATIONPROPERTY", ANNOTATIONPROPERTY);
 		typeMap.put(VariableTypeFactory.getCLASSVariableType(), CLASS);
 		typeMap.put(VariableTypeFactory.getOBJECTPROPERTYTypeVariableType(), OBJECTPROPERTY);
 		typeMap.put(VariableTypeFactory.getDATAPROPERTYVariableType(), DATAPROPERTY);

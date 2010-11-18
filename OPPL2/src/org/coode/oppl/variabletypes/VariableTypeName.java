@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum VariableTypeName {
-	CLASS, CONSTANT, OBJECTPROPERTY, DATAPROPERTY, INDIVIDUAL;
+	CLASS, CONSTANT, OBJECTPROPERTY, DATAPROPERTY, ANNOTATIONPROPERTY, INDIVIDUAL;
 	private static final Map<String, VariableTypeName> cache = new HashMap<String, VariableTypeName>();
 	static {
 		cache.put("CLASS", CLASS);

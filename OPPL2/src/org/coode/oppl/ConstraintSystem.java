@@ -47,6 +47,7 @@ import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.utils.VariableDetector;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.oppl.utils.VariableRecogniser;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
 import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
@@ -58,6 +59,7 @@ import org.coode.oppl.variabletypes.VariableType;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -234,6 +236,10 @@ public class ConstraintSystem {
 		return desc.accept(variableDetector);
 	}
 
+	public boolean isVariable(OWLAnnotationProperty property) {
+		return this.isVariableIRI(property.getIRI());
+	}
+
 	public boolean isVariable(OWLObjectProperty property) {
 		return this.isVariableIRI(property.getIRI());
 	}
@@ -381,6 +387,15 @@ public class ConstraintSystem {
 						constantVariableType,
 						createOWLLiteralProperty);
 			}
+
+			public GeneratedVariable<O> visitANNOTATIONPROPERTYVariableType(
+					ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+				Create<OPPLFunction<String>, OWLAnnotationProperty> annotationProperty = Create.createOWLAnnotationProperty(value);
+				return (GeneratedVariable<O>) VariableFactory.getGeneratedVariable(
+						name,
+						annotationpropertyVariableType,
+						annotationProperty);
+			}
 		});
 		this.variables.store(generatedVariable);
 		return generatedVariable;
@@ -424,6 +439,11 @@ public class ConstraintSystem {
 				return toReturn;
 			}
 
+			public GeneratedVariable<OWLClassExpression> visitANNOTATIONPROPERTYVariableType(
+					ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+				return null;
+			}
+
 			public GeneratedVariable<OWLClassExpression> visitOBJECTPROPERTYVariableType(
 					OBJECTPROPERTYVariableType objectpropertyVariableType) {
 				return null;
@@ -460,6 +480,11 @@ public class ConstraintSystem {
 						name,
 						function);
 				return toReturn;
+			}
+
+			public GeneratedVariable<OWLClassExpression> visitANNOTATIONPROPERTYVariableType(
+					ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+				return null;
 			}
 
 			public GeneratedVariable<OWLClassExpression> visitOBJECTPROPERTYVariableType(

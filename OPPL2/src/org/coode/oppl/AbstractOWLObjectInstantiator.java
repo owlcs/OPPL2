@@ -770,8 +770,17 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
 	/**
 	 * @see org.semanticweb.owlapi.model.OWLEntityVisitorEx#visit(org.semanticweb.owlapi.model.OWLAnnotationProperty)
 	 */
-	public OWLObject visit(OWLAnnotationProperty arg0) {
-		return arg0;
+	public OWLObject visit(OWLAnnotationProperty property) {
+		OWLAnnotationProperty toReturn = property;
+		if (this.getParameters().getConstraintSystem().isVariable(property)) {
+			Variable<?> variable = this.getParameters().getConstraintSystem().getVariable(
+					property.getIRI());
+			OWLAnnotationProperty assignmentValue = (OWLAnnotationProperty) this.getParameters().getBindingNode().getAssignmentValue(
+					variable,
+					this.getParameters());
+			toReturn = assignmentValue == null ? property : assignmentValue;
+		}
+		return toReturn;
 	}
 
 	/**

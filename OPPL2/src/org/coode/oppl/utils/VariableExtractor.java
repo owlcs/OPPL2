@@ -48,7 +48,9 @@ import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.parsers.oppl.VariableIRI;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
@@ -519,6 +521,26 @@ public class VariableExtractor {
 						desc.getIRI());
 				this.vetoVariableIntoCollection(toReturn, variable);
 			}
+			return toReturn;
+		}
+
+		@Override
+		public Set<Variable<?>> visit(OWLAnnotationProperty property) {
+			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(property);
+			final Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
+			if (isVariable) {
+				Variable<?> variable = VariableExtractor.this.getConstraintSystem().getVariable(
+						property.getIRI());
+				this.vetoVariableIntoCollection(toReturn, variable);
+			}
+			return toReturn;
+		}
+
+		@Override
+		public Set<Variable<?>> visit(OWLAnnotation annotation) {
+			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
+			toReturn.addAll(annotation.getProperty().accept(this));
+			toReturn.addAll(annotation.getValue().accept(this));
 			return toReturn;
 		}
 
