@@ -16,7 +16,8 @@ public class GeneratedVariable<O extends OWLObject> implements Variable<O> {
 	private final IRI iri;
 	private final VariableType<O> type;
 
-	GeneratedVariable(String name, VariableType<O> type, OPPLFunction<? extends O> opplFunction) {
+	protected GeneratedVariable(String name, VariableType<O> type,
+			OPPLFunction<? extends O> opplFunction) {
 		if (name == null) {
 			throw new NullPointerException("The name cannot be null");
 		}

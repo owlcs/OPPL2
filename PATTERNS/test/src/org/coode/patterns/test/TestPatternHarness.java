@@ -24,6 +24,7 @@ package org.coode.patterns.test;
 
 import java.util.List;
 
+import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
 import org.coode.patterns.ClassPatternExecutor;
 import org.coode.patterns.NonClassPatternExecutor;
 import org.coode.patterns.PatternModelFactory;
@@ -43,9 +44,9 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  */
 public class TestPatternHarness {
 	private IRI iri = IRI.create("http://mytest.com/testpatternharness#test");
-	OWLOntologyManager manager;
-	OWLOntology ontology;
-	PatternModelFactory factory;
+	private OWLOntologyManager manager;
+	private OWLOntology ontology;
+	private PatternModelFactory factory;
 
 	protected TestPatternHarness(OWLOntology ontology, OWLOntologyManager manager) {
 		this.manager = manager;
@@ -54,10 +55,12 @@ public class TestPatternHarness {
 	}
 
 	public void executeNonClass(PatternOPPLScript editor) throws UnsuitableOPPLScriptException {
+		QuickFailRuntimeExceptionHandler handler = new QuickFailRuntimeExceptionHandler();
 		NonClassPatternExecutor patternExecutor = new NonClassPatternExecutor(
-				this.factory.createInstantiatedPatternModel(this.factory.createPatternModel(editor)),
-				this.ontology, this.manager, this.iri);
-		List<OWLAxiomChange> changes = editor.accept(patternExecutor);
+				this.factory.createInstantiatedPatternModel(
+						this.factory.createPatternModel(editor),
+						handler), this.ontology, this.manager, this.iri, handler);
+		List<OWLAxiomChange> changes = patternExecutor.visit(editor);
 		for (OWLAxiomChange change : changes) {
 			try {
 				this.manager.applyChange(change);
@@ -69,11 +72,12 @@ public class TestPatternHarness {
 
 	public void executeClass(OWLClass clazz, PatternOPPLScript editor)
 			throws UnsuitableOPPLScriptException {
-		ClassPatternExecutor patternExecutor = new ClassPatternExecutor(
-				clazz,
-				this.factory.createInstantiatedPatternModel(this.factory.createPatternModel(editor)),
-				this.ontology, this.manager, this.iri);
-		List<OWLAxiomChange> changes = editor.accept(patternExecutor);
+		QuickFailRuntimeExceptionHandler handler = new QuickFailRuntimeExceptionHandler();
+		ClassPatternExecutor patternExecutor = new ClassPatternExecutor(clazz,
+				this.factory.createInstantiatedPatternModel(
+						this.factory.createPatternModel(editor),
+						handler), this.ontology, this.manager, this.iri, handler);
+		List<OWLAxiomChange> changes = patternExecutor.visit(editor);
 		for (OWLAxiomChange change : changes) {
 			try {
 				this.manager.applyChange(change);

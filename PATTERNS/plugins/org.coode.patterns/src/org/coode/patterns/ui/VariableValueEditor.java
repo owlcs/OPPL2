@@ -37,15 +37,24 @@ import org.coode.oppl.OPPLParser;
 import org.coode.oppl.Variable;
 import org.coode.oppl.protege.ProtegeParserFactory;
 import org.coode.oppl.protege.ui.OPPLExpressionChecker;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
+import org.coode.oppl.variabletypes.CLASSVariableType;
+import org.coode.oppl.variabletypes.CONSTANTVariableType;
+import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
+import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
+import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.VerifiedInputEditor;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.selector.AbstractHierarchySelectorPanel;
+import org.protege.editor.owl.ui.selector.OWLAnnotationPropertySelectorPanel;
 import org.protege.editor.owl.ui.selector.OWLClassSelectorPanel;
 import org.protege.editor.owl.ui.selector.OWLDataPropertySelectorPanel;
 import org.protege.editor.owl.ui.selector.OWLIndividualSelectorPanel;
 import org.protege.editor.owl.ui.selector.OWLObjectPropertySelectorPanel;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
@@ -57,38 +66,33 @@ import org.semanticweb.owlapi.model.OWLProperty;
  * 
  *         Nov 17, 2008
  */
-public abstract class VariableValueEditor extends JPanel implements
-		VerifiedInputEditor {
+public abstract class VariableValueEditor extends JPanel implements VerifiedInputEditor {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = -7109694040960783256L;
 
-	private static class ClassVariableValueEditor extends VariableValueEditor
-			implements ChangeListener {
+	private static class ClassVariableValueEditor extends VariableValueEditor implements
+			ChangeListener {
 		/**
 		 *
 		 */
 		private static final long serialVersionUID = -592992214285597817L;
 		private OWLClassSelectorPanel classSelectorPanel;
 
-		ClassVariableValueEditor(OWLEditorKit owlEditorKit, Variable variable) {
+		ClassVariableValueEditor(OWLEditorKit owlEditorKit, Variable<?> variable) {
 			super(variable.getName(), owlEditorKit);
 			this.setLayout(new BorderLayout());
-			this.classSelectorPanel = new OWLClassSelectorPanel(this
-					.getOwlEditorKit());
+			this.classSelectorPanel = new OWLClassSelectorPanel(this.getOwlEditorKit());
 			this.classSelectorPanel.addSelectionListener(this);
 			JPanel classSelectorPanelBorder = new JPanel(new BorderLayout());
-			classSelectorPanelBorder.setBorder(ComponentFactory
-					.createTitledBorder("Values: "));
-			classSelectorPanelBorder.add(ComponentFactory
-					.createScrollPane(this.classSelectorPanel));
+			classSelectorPanelBorder.setBorder(ComponentFactory.createTitledBorder("Values: "));
+			classSelectorPanelBorder.add(ComponentFactory.createScrollPane(this.classSelectorPanel));
 			this.add(classSelectorPanelBorder);
 		}
 
 		public void stateChanged(ChangeEvent e) {
-			Set<OWLClass> selectedObjects = this.classSelectorPanel
-					.getSelectedObjects();
+			Set<OWLClass> selectedObjects = this.classSelectorPanel.getSelectedObjects();
 			if (selectedObjects != null) {
 				this.setVariableValues(selectedObjects);
 			}
@@ -101,33 +105,30 @@ public abstract class VariableValueEditor extends JPanel implements
 		}
 	}
 
-	private static class PropertyVariableValueEditor extends
-			VariableValueEditor implements ChangeListener {
+	private static class PropertyVariableValueEditor extends VariableValueEditor implements
+			ChangeListener {
 		/**
 		 *
 		 */
 		private static final long serialVersionUID = -6634647498199993368L;
 		private AbstractHierarchySelectorPanel<? extends OWLProperty<?, ?>> propertySelector;
 
-		PropertyVariableValueEditor(OWLEditorKit owlEditorKit,
-				Variable variable, boolean isDataProperty) {
+		PropertyVariableValueEditor(OWLEditorKit owlEditorKit, Variable<?> variable,
+				boolean isDataProperty) {
 			super(variable.getName(), owlEditorKit);
 			this.setLayout(new BorderLayout());
 			this.propertySelector = isDataProperty ? new OWLDataPropertySelectorPanel(
-					this.getOwlEditorKit())
-					: new OWLObjectPropertySelectorPanel(this.getOwlEditorKit());
+					this.getOwlEditorKit()) : new OWLObjectPropertySelectorPanel(
+					this.getOwlEditorKit());
 			this.propertySelector.addSelectionListener(this);
 			JPanel propertySelectorPanelBorder = new JPanel(new BorderLayout());
-			propertySelectorPanelBorder.setBorder(ComponentFactory
-					.createTitledBorder("Values: "));
-			propertySelectorPanelBorder.add(ComponentFactory
-					.createScrollPane(this.propertySelector));
+			propertySelectorPanelBorder.setBorder(ComponentFactory.createTitledBorder("Values: "));
+			propertySelectorPanelBorder.add(ComponentFactory.createScrollPane(this.propertySelector));
 			this.add(propertySelectorPanelBorder);
 		}
 
 		public void stateChanged(ChangeEvent e) {
-			Set<? extends OWLProperty<?, ?>> selectedObjects = this.propertySelector
-					.getSelectedObjects();
+			Set<? extends OWLProperty<?, ?>> selectedObjects = this.propertySelector.getSelectedObjects();
 			if (selectedObjects != null) {
 				this.setVariableValues(selectedObjects);
 			}
@@ -140,33 +141,61 @@ public abstract class VariableValueEditor extends JPanel implements
 		}
 	}
 
-	private static class IndividualVariableValueEditor extends
-			VariableValueEditor implements ChangeListener {
+	private static class AnnotationPropertyVariableValueEditor extends VariableValueEditor
+			implements ChangeListener {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5014630696942480796L;
+		private AbstractHierarchySelectorPanel<OWLAnnotationProperty> propertySelector;
+
+		AnnotationPropertyVariableValueEditor(OWLEditorKit owlEditorKit, Variable<?> variable) {
+			super(variable.getName(), owlEditorKit);
+			this.setLayout(new BorderLayout());
+			this.propertySelector = new OWLAnnotationPropertySelectorPanel(this.getOwlEditorKit(),
+					true);
+			this.propertySelector.addSelectionListener(this);
+			JPanel propertySelectorPanelBorder = new JPanel(new BorderLayout());
+			propertySelectorPanelBorder.setBorder(ComponentFactory.createTitledBorder("Values: "));
+			propertySelectorPanelBorder.add(ComponentFactory.createScrollPane(this.propertySelector));
+			this.add(propertySelectorPanelBorder);
+		}
+
+		public void stateChanged(ChangeEvent e) {
+			Set<OWLAnnotationProperty> selectedObjects = this.propertySelector.getSelectedObjects();
+			if (selectedObjects != null) {
+				this.setVariableValues(selectedObjects);
+			}
+			this.notifyListeners();
+		}
+
+		@Override
+		public void dispose() {
+			this.propertySelector.dispose();
+		}
+	}
+
+	private static class IndividualVariableValueEditor extends VariableValueEditor implements
+			ChangeListener {
 		/**
 		 *
 		 */
 		private static final long serialVersionUID = -1929930488764454474L;
 		private OWLIndividualSelectorPanel individualSelectorPanel;
 
-		IndividualVariableValueEditor(OWLEditorKit owlEditorKit,
-				Variable variable) {
+		IndividualVariableValueEditor(OWLEditorKit owlEditorKit, Variable<?> variable) {
 			super(variable.getName(), owlEditorKit);
 			this.setLayout(new BorderLayout());
-			this.individualSelectorPanel = new OWLIndividualSelectorPanel(this
-					.getOwlEditorKit());
+			this.individualSelectorPanel = new OWLIndividualSelectorPanel(this.getOwlEditorKit());
 			this.individualSelectorPanel.addSelectionListener(this);
-			JPanel individualSelectorPanelBorder = new JPanel(
-					new BorderLayout());
-			individualSelectorPanelBorder.setBorder(ComponentFactory
-					.createTitledBorder("Values: "));
-			individualSelectorPanelBorder.add(ComponentFactory
-					.createScrollPane(this.individualSelectorPanel));
+			JPanel individualSelectorPanelBorder = new JPanel(new BorderLayout());
+			individualSelectorPanelBorder.setBorder(ComponentFactory.createTitledBorder("Values: "));
+			individualSelectorPanelBorder.add(ComponentFactory.createScrollPane(this.individualSelectorPanel));
 			this.add(individualSelectorPanelBorder);
 		}
 
 		public void stateChanged(ChangeEvent e) {
-			Set<OWLNamedIndividual> selectedObjects = this.individualSelectorPanel
-					.getSelectedObjects();
+			Set<OWLNamedIndividual> selectedObjects = this.individualSelectorPanel.getSelectedObjects();
 			if (selectedObjects != null) {
 				this.setVariableValues(selectedObjects);
 			}
@@ -179,8 +208,7 @@ public abstract class VariableValueEditor extends JPanel implements
 		}
 	}
 
-	private static class ConstantVariableValueEditor extends
-			VariableValueEditor implements
+	private static class ConstantVariableValueEditor extends VariableValueEditor implements
 			org.coode.parsers.ui.InputVerificationStatusChangedListener {
 		/**
 		 *
@@ -188,14 +216,12 @@ public abstract class VariableValueEditor extends JPanel implements
 		private static final long serialVersionUID = -9168873531349410794L;
 		private org.coode.parsers.ui.ExpressionEditor<OWLLiteral> owlConstantEditor;
 
-		ConstantVariableValueEditor(OWLEditorKit owlEditorKit, Variable variable) {
+		ConstantVariableValueEditor(OWLEditorKit owlEditorKit, Variable<?> variable) {
 			super(variable.getName(), owlEditorKit);
 			this.setLayout(new BorderLayout());
 			this.owlConstantEditor = new org.coode.parsers.ui.ExpressionEditor<OWLLiteral>(
-					this.getOwlEditorKit().getOWLModelManager()
-							.getOWLOntologyManager(),
-					new OPPLExpressionChecker<OWLLiteral>(this
-							.getOwlEditorKit()) {
+					this.getOwlEditorKit().getOWLModelManager().getOWLOntologyManager(),
+					new OPPLExpressionChecker<OWLLiteral>(this.getOwlEditorKit()) {
 						@Override
 						protected OWLLiteral parse(String text) {
 							// Parse the constant with an OPPL Parser rather
@@ -206,20 +232,16 @@ public abstract class VariableValueEditor extends JPanel implements
 							} else if (!text.startsWith("\"")) {
 								text = text.replaceAll("(.*)\\^", "\"$1\"^");
 							}
-							OPPLParser opplParser = ProtegeParserFactory
-									.getInstance(this.getOWLEditorKit()).build(
-											this.getListener());
-							OWLLiteral constant = opplParser
-									.parsePlainConstant(text);
+							OPPLParser opplParser = ProtegeParserFactory.getInstance(
+									this.getOWLEditorKit()).build(this.getListener());
+							OWLLiteral constant = opplParser.parsePlainConstant(text);
 							return constant;
 						}
 					});
 			this.owlConstantEditor.addStatusChangedListener(this);
 			JPanel owlConstantEditorBorder = new JPanel(new BorderLayout());
-			owlConstantEditorBorder.setBorder(ComponentFactory
-					.createTitledBorder("Value: "));
-			owlConstantEditorBorder.add(ComponentFactory
-					.createScrollPane(this.owlConstantEditor));
+			owlConstantEditorBorder.setBorder(ComponentFactory.createTitledBorder("Value: "));
+			owlConstantEditorBorder.add(ComponentFactory.createScrollPane(this.owlConstantEditor));
 			this.add(owlConstantEditorBorder);
 		}
 
@@ -278,8 +300,7 @@ public abstract class VariableValueEditor extends JPanel implements
 	 * @param variableValues
 	 *            the variableValues to set
 	 */
-	protected final void setVariableValues(
-			Set<? extends OWLObject> variableValues) {
+	protected final void setVariableValues(Set<? extends OWLObject> variableValues) {
 		if (this.variableValues == null) {
 			this.variableValues = new HashSet<OWLObject>(variableValues.size());
 		}
@@ -288,48 +309,58 @@ public abstract class VariableValueEditor extends JPanel implements
 		this.notifyListeners();
 	}
 
-	public void addStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+	public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
 		this.listeners.add(listener);
 		this.notifyListener(listener);
 	}
 
-	public void removeStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+	public void removeStatusChangedListener(InputVerificationStatusChangedListener listener) {
 		this.listeners.remove(listener);
 	}
 
 	public void notifyListeners() {
-		for (InputVerificationStatusChangedListener listener : this
-				.getListeners()) {
+		for (InputVerificationStatusChangedListener listener : this.getListeners()) {
 			this.notifyListener(listener);
 		}
 	}
 
-	protected void notifyListener(
-			InputVerificationStatusChangedListener listener) {
+	protected void notifyListener(InputVerificationStatusChangedListener listener) {
 		listener.verifiedStatusChanged(this.getVariableValues() != null
 				&& this.getVariableValues().size() > 0);
 	}
 
-	public static VariableValueEditor getVariableValueEditor(
-			OWLEditorKit owlEditorKit, Variable variable) {
-		// XXX not easy to turn from switch to other
-		switch (variable.getType()) {
-		case CLASS:
-			return new ClassVariableValueEditor(owlEditorKit, variable);
-		case OBJECTPROPERTY:
-			return new PropertyVariableValueEditor(owlEditorKit, variable,
-					false);
-		case DATAPROPERTY:
-			return new PropertyVariableValueEditor(owlEditorKit, variable, true);
-		case INDIVIDUAL:
-			return new IndividualVariableValueEditor(owlEditorKit, variable);
-		case CONSTANT:
-			return new ConstantVariableValueEditor(owlEditorKit, variable);
-		default:
-			return null;
-		}
+	public static VariableValueEditor getVariableValueEditor(final OWLEditorKit owlEditorKit,
+			final Variable<?> variable) {
+		return variable.getType().accept(new VariableTypeVisitorEx<VariableValueEditor>() {
+			public VariableValueEditor visitCLASSVariableType(CLASSVariableType classVariableType) {
+				return new ClassVariableValueEditor(owlEditorKit, variable);
+			}
+
+			public VariableValueEditor visitOBJECTPROPERTYVariableType(
+					OBJECTPROPERTYVariableType objectpropertyVariableType) {
+				return new PropertyVariableValueEditor(owlEditorKit, variable, false);
+			}
+
+			public VariableValueEditor visitDATAPROPERTYVariableType(
+					DATAPROPERTYVariableType datapropertyVariableType) {
+				return new PropertyVariableValueEditor(owlEditorKit, variable, true);
+			}
+
+			public VariableValueEditor visitINDIVIDUALVariableType(
+					INDIVIDUALVariableType individualVariableType) {
+				return new IndividualVariableValueEditor(owlEditorKit, variable);
+			}
+
+			public VariableValueEditor visitCONSTANTVariableType(
+					CONSTANTVariableType constantVariableType) {
+				return new ConstantVariableValueEditor(owlEditorKit, variable);
+			}
+
+			public VariableValueEditor visitANNOTATIONPROPERTYVariableType(
+					ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+				return new AnnotationPropertyVariableValueEditor(owlEditorKit, variable);
+			}
+		});
 	}
 
 	public abstract void dispose();

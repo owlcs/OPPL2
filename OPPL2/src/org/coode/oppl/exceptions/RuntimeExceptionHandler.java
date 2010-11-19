@@ -14,4 +14,6 @@ public interface RuntimeExceptionHandler {
 	public void handleOWLRuntimeException(OWLRuntimeException e);
 
 	public void handlePatternSyntaxExcpetion(PatternSyntaxException e);
+
+	public void handleException(RuntimeException e);
 }

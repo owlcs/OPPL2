@@ -25,6 +25,7 @@ package org.coode.patterns.protege;
 import java.util.Set;
 
 import org.coode.oppl.Variable;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.patterns.InstantiatedPatternModel;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -37,8 +38,9 @@ import org.semanticweb.owlapi.model.OWLObject;
 public class ProtegeInstantiatedPatternModel extends InstantiatedPatternModel {
 	private final OWLModelManager modelManager;
 
-	public ProtegeInstantiatedPatternModel(ProtegePatternModel patternModel) {
-		super(patternModel);
+	public ProtegeInstantiatedPatternModel(ProtegePatternModel patternModel,
+			RuntimeExceptionHandler handler) {
+		super(patternModel, handler);
 		this.modelManager = patternModel.getModelManager();
 	}
 
@@ -52,7 +54,7 @@ public class ProtegeInstantiatedPatternModel extends InstantiatedPatternModel {
 		StringBuilder toReturn = new StringBuilder("$" + this.getInstantiatedPatternLocalName()
 				+ "(");
 		boolean first = true;
-		for (Variable variable : this.getInputVariables()) {
+		for (Variable<?> variable : this.getInputVariables()) {
 			if (!first) {
 				toReturn.append(", ");
 			} else {

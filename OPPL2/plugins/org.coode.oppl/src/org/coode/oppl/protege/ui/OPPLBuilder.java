@@ -348,6 +348,11 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor, OWLM
 							return constant.getValue().equals(SpecializedConstraintVisitor.this.v);
 						}
 
+						public <P extends OWLObject> Boolean visitGenericOPPLFunction(
+								OPPLFunction<P> opplFunction) {
+							return false;
+						}
+
 						public <O, I extends OPPLFunction<?>> Boolean visitCreate(
 								Create<I, O> create) {
 							return create.getInput().accept(this);

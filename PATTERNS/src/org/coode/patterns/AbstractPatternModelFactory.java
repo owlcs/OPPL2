@@ -29,6 +29,7 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLAbstractFactory;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.parsers.ErrorListener;
 import org.semanticweb.owlapi.model.OWLAnnotation;
@@ -55,8 +56,8 @@ public interface AbstractPatternModelFactory {
 	 * @return a PatternModel
 	 * @throws UnsuitableOPPLScriptException
 	 */
-	PatternModel createPatternModel(String name, List<Variable> variables,
-			List<OWLAxiomChange> actions, Variable returnClause, String rendering,
+	PatternModel createPatternModel(String name, List<Variable<?>> variables,
+			List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
 			ConstraintSystem constraintSystem) throws EmptyVariableListException,
 			EmptyActionListException, UnsuitableOPPLScriptException;
 
@@ -76,7 +77,8 @@ public interface AbstractPatternModelFactory {
 	 * @return a InstantiatedPatternModel instance created from the input
 	 *         patternModel
 	 */
-	InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel);
+	InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel,
+			RuntimeExceptionHandler handler);
 
 	/**
 	 * Retrieves a PatternExtractor for extracting patterns from annotations.

@@ -29,6 +29,7 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLAbstractFactory;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.parsers.ErrorListener;
 import org.coode.patterns.AbstractPatternModelFactory;
@@ -78,8 +79,8 @@ public class ProtegePatternModelFactory implements AbstractPatternModelFactory {
 	 *      java.util.List, java.util.List, org.coode.oppl.Variable,
 	 *      java.lang.String, org.coode.oppl.ConstraintSystem)
 	 */
-	public PatternModel createPatternModel(String name, List<Variable> variables,
-			List<OWLAxiomChange> actions, Variable returnClause, String rendering,
+	public PatternModel createPatternModel(String name, List<Variable<?>> variables,
+			List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
 			ConstraintSystem constraintSystem) throws EmptyVariableListException,
 			EmptyActionListException, UnsuitableOPPLScriptException {
 		return this.delegate.createPatternModel(
@@ -107,8 +108,9 @@ public class ProtegePatternModelFactory implements AbstractPatternModelFactory {
 	 * @return
 	 * @see org.coode.patterns.AbstractPatternModelFactory#createInstantiatedPatternModel(org.coode.patterns.PatternModel)
 	 */
-	public InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel) {
-		return this.delegate.createInstantiatedPatternModel(patternModel);
+	public InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel,
+			RuntimeExceptionHandler handler) {
+		return this.delegate.createInstantiatedPatternModel(patternModel, handler);
 	}
 
 	/**

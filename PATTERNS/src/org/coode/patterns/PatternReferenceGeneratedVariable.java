@@ -22,21 +22,8 @@
  */
 package org.coode.patterns;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import org.coode.oppl.Variable;
-import org.coode.oppl.VariableType;
-import org.coode.oppl.VariableTypeVisitorEx;
-import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.generated.AbstractGeneratedVariable;
-import org.coode.oppl.generated.SingleValueGeneratedValue;
-import org.coode.oppl.generated.SingleValueGeneratedValueVisitor;
-import org.coode.oppl.generated.SingleValueGeneratedValueVisitorEx;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
-import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.generated.GeneratedVariable;
+import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.OWLObject;
 
 /**
@@ -44,111 +31,14 @@ import org.semanticweb.owlapi.model.OWLObject;
  * 
  *         Dec 10, 2008
  */
-public class PatternReferenceGeneratedVariable extends AbstractGeneratedVariable<PatternReference> {
-	public PatternReferenceGeneratedVariable(VariableType type,
-			SingleValueGeneratedValue<PatternReference> value) {
-		super(value.toString(), type, value);
+public class PatternReferenceGeneratedVariable<O extends OWLObject> extends GeneratedVariable<O> {
+	public PatternReferenceGeneratedVariable(String referenceName, VariableType<O> type,
+			PatternReference<O> value) {
+		super(referenceName, type, value);
 	}
 
-	/**
-	 * @author Luigi Iannone
-	 * 
-	 *         Dec 10, 2008
-	 */
-	private static class PatternReferenceGeneratedValue implements
-			SingleValueGeneratedValue<PatternReference> {
-		private final PatternReference patternReference;
-
-		public PatternReferenceGeneratedValue(PatternReference patternReference) {
-			this.patternReference = patternReference;
-		}
-
-		/**
-		 * @see org.coode.oppl.generated.SingleValueGeneratedValue#getGeneratedValue(org.coode.oppl.bindingtree.BindingNode)
-		 */
-		public PatternReference getGeneratedValue(BindingNode node) {
-			List<List<String>> newArguments = new ArrayList<List<String>>(
-					this.patternReference.getExtractedPattern().getInputVariables().size());
-			PatternOPPLScript pattern = this.patternReference.getExtractedPattern();
-			List<Variable> inputVariables = pattern.getInputVariables();
-			PatternConstraintSystem constraintSystem = this.patternReference.getConstraintSystem();
-			for (int i = 0; i < inputVariables.size(); i++) {
-				Variable inputVariable = inputVariables.get(i);
-				OWLObject assignmentValue = node.getAssignmentValue(inputVariable);
-				if (assignmentValue != null) {
-					ManchesterSyntaxRenderer renderer = this.patternReference.getConstraintSystem().getPatternModelFactory().getRenderer(
-							constraintSystem);
-					assignmentValue.accept(renderer);
-					newArguments.add(Arrays.asList(renderer.toString()));
-				} else {
-					newArguments.add(Arrays.asList(inputVariable.getName()));
-				}
-			}
-			try {
-				return new PatternReference(this.patternReference.getPatternName(),
-						constraintSystem, this.patternReference.getOntologyManger(),
-						this.patternReference.getErrorListener(),
-						newArguments.toArray(new List[inputVariables.size()]));
-			} catch (PatternException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-		public List<PatternReference> computePossibleValues() {
-			return new ArrayList<PatternReference>(Collections.singleton(this.patternReference));
-		}
-
-		public void accept(SingleValueGeneratedValueVisitor visitor) {
-			visitor.visitSingleValueGeneratedValueVisitor(this);
-		}
-
-		public <O> O accept(SingleValueGeneratedValueVisitorEx<O> visitor) {
-			return visitor.visitSingleValueGeneratedValueVisitor(this);
-		}
-
-		@Override
-		public String toString() {
-			String patternName = "?_" + this.patternReference.getPatternName();
-			List<String>[] arguments = this.patternReference.getArguments();
-			long hash = 1;
-			for (List<String> list : arguments) {
-				for (String string : list) {
-					hash *= string.hashCode();
-				}
-			}
-			return patternName + hash;
-		}
-	}
-
-	@Override
-	protected OWLObject generateObject(PatternReference reference) {
-		try {
-			return reference.getResolution().get(0);
-		} catch (PatternException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@Override
-	protected SingleValueGeneratedVariable<PatternReference> replace(
-			SingleValueGeneratedValue<PatternReference> v) {
-		return new PatternReferenceGeneratedVariable(this.getType(), v);
-	}
-
-	public static SingleValueGeneratedValue<PatternReference> getPatternReferenceGeneratedValue(
-			PatternReference patternReference) {
-		return new PatternReferenceGeneratedValue(patternReference);
-	}
-
-	public String getOPPLFunction() {
-		return this.getValue().toString();
-	}
-
-	public <P> P accept(VariableTypeVisitorEx<P> visitor) {
-		return visitor.visit(this);
-	}
-
-	public String getArgumentString() {
-		return this.getOPPLFunction();
+	public static <T extends OWLObject> PatternReferenceGeneratedVariable<T> getPatternReferenceGeneratedVariable(
+			String referenceName, VariableType<T> type, PatternReference<T> value) {
+		return new PatternReferenceGeneratedVariable<T>(referenceName, type, value);
 	}
 }

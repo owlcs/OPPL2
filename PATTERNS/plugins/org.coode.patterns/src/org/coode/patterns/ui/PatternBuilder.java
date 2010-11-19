@@ -57,9 +57,9 @@ import javax.swing.event.ListDataListener;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableVisitor;
-import org.coode.oppl.generated.RegExpGenerated;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.VariableVisitorEx;
+import org.coode.oppl.generated.GeneratedVariable;
+import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.protege.ui.AbstractVariableEditor;
 import org.coode.oppl.protege.ui.ActionList;
 import org.coode.oppl.protege.ui.ActionListItem;
@@ -75,6 +75,7 @@ import org.coode.oppl.protege.ui.VariableList;
 import org.coode.oppl.protege.ui.VariableListItem;
 import org.coode.oppl.protege.ui.message.Error;
 import org.coode.oppl.protege.ui.message.MessageListCellRenderer;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.parsers.ui.InputVerificationStatusChangedListener;
 import org.coode.parsers.ui.VerifiedInputEditor;
 import org.coode.patterns.AbstractPatternModelFactory;
@@ -90,6 +91,7 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.editor.AbstractOWLObjectEditor;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone
@@ -100,9 +102,9 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 		VerifiedInputEditor, PatternModelChangeListener {
 	private final class PatternBuilderModel {
 		private String name = "";
-		private final List<Variable> variables = new ArrayList<Variable>();
+		private final List<Variable<?>> variables = new ArrayList<Variable<?>>();
 		private final List<OWLAxiomChange> actions = new ArrayList<OWLAxiomChange>();
-		private Variable returnVariable = null;
+		private Variable<?> returnVariable = null;
 		private String modelRendering = "";
 		private PatternConstraintSystem constraintSystem;
 
@@ -132,7 +134,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 		/**
 		 * @return the returnVariable
 		 */
-		public Variable getReturnVariable() {
+		public Variable<?> getReturnVariable() {
 			return this.returnVariable;
 		}
 
@@ -140,7 +142,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 		 * @param returnVariable
 		 *            the returnVariable to set
 		 */
-		public void setReturnVariable(Variable returnVariable) {
+		public void setReturnVariable(Variable<?> returnVariable) {
 			boolean changed = this.returnVariable == null && returnVariable != null
 					|| !this.returnVariable.equals(returnVariable);
 			if (changed) {
@@ -152,11 +154,11 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 		/**
 		 * @return the variables
 		 */
-		public List<Variable> getVariables() {
-			return new ArrayList<Variable>(this.variables);
+		public List<Variable<?>> getVariables() {
+			return new ArrayList<Variable<?>>(this.variables);
 		}
 
-		public void addVariable(Variable v) {
+		public void addVariable(Variable<?> v) {
 			boolean modified = this.variables.add(v);
 			if (modified) {
 				this.constraintSystem.importVariable(v);
@@ -164,7 +166,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 			}
 		}
 
-		public void removeVariable(Variable v) {
+		public void removeVariable(Variable<?> v) {
 			boolean modified = this.variables.remove(v);
 			if (modified) {
 				this.purgeActions(v);
@@ -227,7 +229,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 
 		private boolean existsVariable(String variableName) {
 			boolean found = false;
-			Iterator<Variable> it = this.variables.iterator();
+			Iterator<Variable<?>> it = this.variables.iterator();
 			while (!found && it.hasNext()) {
 				found = it.next().getName().equals(variableName);
 			}
@@ -246,7 +248,6 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 		 *            the rendering to set
 		 */
 		public void setRendering(String rendering) {
-			// XXX this.modelRendering == null is smelly
 			boolean changed = this.modelRendering == null && rendering != null
 					|| !this.modelRendering.equals(rendering);
 			if (changed) {
@@ -294,11 +295,11 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 		/**
 		 * @param v
 		 */
-		private void purgeActions(Variable v) {
+		private void purgeActions(Variable<?> v) {
 			Set<OWLAxiomChange> toRemove = new HashSet<OWLAxiomChange>();
 			for (OWLAxiomChange action : this.actions) {
 				OWLAxiom axiom = action.getAxiom();
-				Set<Variable> axiomVariables = PatternBuilder.this.patternBuilderModel.getConstraintSystem().getAxiomVariables(
+				Set<Variable<?>> axiomVariables = PatternBuilder.this.patternBuilderModel.getConstraintSystem().getAxiomVariables(
 						axiom);
 				if (axiomVariables.contains(v)) {
 					toRemove.add(action);
@@ -307,7 +308,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 			this.actions.removeAll(toRemove);
 		}
 
-		public void replaceVariable(Variable oldVariable, Variable newVariable) {
+		public void replaceVariable(Variable<?> oldVariable, Variable<?> newVariable) {
 			boolean modified = this.variables.remove(oldVariable);
 			if (modified) {
 				if (oldVariable.getType() != newVariable.getType()) {
@@ -496,7 +497,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 				public void componentHidden(ComponentEvent e) {
 					Object retVal = optionPane.getValue();
 					if (retVal != null && retVal.equals(JOptionPane.OK_OPTION)) {
-						Variable variable = variableEditor.getVariable();
+						Variable<?> variable = variableEditor.getVariable();
 						PatternBuilder.this.patternBuilderModel.addVariable(variable);
 					}
 					variableEditor.removeStatusChangedListener(verificationListener);
@@ -561,7 +562,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 		protected void placeListItem(PatternBuilderVariableListItem listItem) {
 			DefaultListModel model = (DefaultListModel) PatternVariableList.this.getModel();
 			int i = -1;
-			if (listItem.getVariable() instanceof SingleValueGeneratedVariable<?>) {
+			if (listItem.getVariable() instanceof GeneratedVariable<?>) {
 				i = model.getSize();
 			} else {
 				Enumeration<?> elements = model.elements();
@@ -588,7 +589,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 		 * @param variable
 		 * @param owlEditorKit
 		 */
-		public PatternBuilderVariableListItem(Variable variable,
+		public PatternBuilderVariableListItem(Variable<?> variable,
 				PatternConstraintSystem constraintSystem, OWLEditorKit owlEditorKit,
 				boolean isEditable, boolean isDeleatable) {
 			super(variable, constraintSystem, owlEditorKit, isEditable, isDeleatable);
@@ -609,22 +610,25 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 		public void handleEdit() {
 			final ConstraintSystem cs = PatternBuilder.this.patternBuilderModel.getConstraintSystem();
 			final AbstractVariableEditor<?> variableEditor = this.getVariable().accept(
-					new VariableVisitor<AbstractVariableEditor<?>>() {
-						public RegExpVariableEditor visit(RegExpGenerated<?> v) {
+					new VariableVisitorEx<AbstractVariableEditor<?>>() {
+						public <P extends OWLObject> AbstractVariableEditor<?> visit(
+								RegexpGeneratedVariable<P> regExpGenerated) {
 							RegExpVariableEditor regExpVariableEditor = new RegExpVariableEditor(
 									PatternBuilder.this.owlEditorKit, cs);
-							regExpVariableEditor.setVariable(v);
+							regExpVariableEditor.setVariable(regExpGenerated);
 							return regExpVariableEditor;
 						}
 
-						public AbstractVariableEditor<?> visit(SingleValueGeneratedVariable<?> v) {
+						public <P extends OWLObject> AbstractVariableEditor<?> visit(
+								GeneratedVariable<P> v) {
 							GeneratedVariableEditor generatedVariableEditor = new GeneratedVariableEditor(
 									PatternBuilder.this.owlEditorKit, cs);
 							generatedVariableEditor.setVariable(v);
 							return generatedVariableEditor;
 						}
 
-						public AbstractVariableEditor<?> visit(Variable v) {
+						public <P extends OWLObject> AbstractVariableEditor<?> visit(
+								InputVariable<P> v) {
 							VariableEditor variableEditor = new VariableEditor(
 									PatternBuilder.this.owlEditorKit, cs);
 							variableEditor.setVariable(v);
@@ -655,7 +659,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 						Object selectedValue = PatternBuilder.this.variableList.getSelectedValue();
 						if (selectedValue instanceof VariableListItem) {
 							VariableListItem item = (VariableListItem) selectedValue;
-							Variable oldVariable = item.getVariable();
+							Variable<?> oldVariable = item.getVariable();
 							PatternBuilder.this.patternBuilderModel.replaceVariable(
 									oldVariable,
 									variableEditor.getVariable());
@@ -767,7 +771,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 				Object selectedItem = PatternBuilder.this.returnValuesComboBox.getSelectedItem();
 				if (selectedItem instanceof VariableListItem) {
 					VariableListItem item = (VariableListItem) selectedItem;
-					Variable variable = item.getVariable();
+					Variable<?> variable = item.getVariable();
 					PatternBuilder.this.patternBuilderModel.setReturnVariable(variable);
 				}
 			}
@@ -800,9 +804,9 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 		if (!name.equals(this.nameEditor.getText())) {
 			this.nameEditor.setText(name);
 		}
-		List<Variable> variables = this.patternBuilderModel.getVariables();
+		List<Variable<?>> variables = this.patternBuilderModel.getVariables();
 		this.variableList.clear();
-		for (Variable variable : variables) {
+		for (Variable<?> variable : variables) {
 			PatternBuilderVariableListItem variableListItem = new PatternBuilderVariableListItem(
 					variable, this.patternBuilderModel.getConstraintSystem(), this.owlEditorKit,
 					true, true);
@@ -815,11 +819,11 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 					true, true);
 			((ActionListModel) this.actionList.getModel()).addElement(actionItem);
 		}
-		Variable returnVariable = this.patternBuilderModel.getReturnVariable();
+		Variable<?> returnVariable = this.patternBuilderModel.getReturnVariable();
 		this.returnValueListModel.removeAllElements();
-		HashSet<Variable> returnVariables = new HashSet<Variable>(variables);
+		HashSet<Variable<?>> returnVariables = new HashSet<Variable<?>>(variables);
 		returnVariables.add(this.patternBuilderModel.getConstraintSystem().getThisClassVariable());
-		for (Variable variable : returnVariables) {
+		for (Variable<?> variable : returnVariables) {
 			PatternBuilderVariableListItem item = new PatternBuilderVariableListItem(variable,
 					this.patternBuilderModel.getConstraintSystem(), this.owlEditorKit, false, false);
 			if (this.returnValueListModel.getIndexOf(item) == -1) {
@@ -852,7 +856,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 		this.actionList.setConstraintSystem(this.patternBuilderModel.getConstraintSystem());
 		boolean newState = this.patternBuilderModel.check();
 		if (newState) {
-			List<Variable> variables = this.patternBuilderModel.getVariables();
+			List<Variable<?>> variables = this.patternBuilderModel.getVariables();
 			List<OWLAxiomChange> actions = this.patternBuilderModel.getActions();
 			try {
 				this.patternModel = this.factory.createPatternModel(

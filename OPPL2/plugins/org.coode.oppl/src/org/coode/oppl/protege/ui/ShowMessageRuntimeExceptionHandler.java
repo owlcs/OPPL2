@@ -8,8 +8,7 @@ import javax.swing.JOptionPane;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
-public class ShowMessageRuntimeExceptionHandler implements
-		RuntimeExceptionHandler {
+public class ShowMessageRuntimeExceptionHandler implements RuntimeExceptionHandler {
 	private final Component parentComponent;
 
 	/**
@@ -17,22 +16,33 @@ public class ShowMessageRuntimeExceptionHandler implements
 	 */
 	public ShowMessageRuntimeExceptionHandler(Component parentComponent) {
 		if (parentComponent == null) {
-			throw new NullPointerException(
-					"The parent component cannot be null");
+			throw new NullPointerException("The parent component cannot be null");
 		}
 		this.parentComponent = parentComponent;
 	}
 
 	public void handleOWLRuntimeException(OWLRuntimeException e) {
-		JOptionPane
-				.showMessageDialog(this.getParentComponent(), e.getMessage(),
-						"OPPL Runtime error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(
+				this.getParentComponent(),
+				e.getMessage(),
+				"OPPL Runtime error",
+				JOptionPane.ERROR_MESSAGE);
 	}
 
 	public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
-		JOptionPane
-				.showMessageDialog(this.getParentComponent(), e.getMessage(),
-						"OPPL Runtime error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(
+				this.getParentComponent(),
+				e.getMessage(),
+				"OPPL Runtime error",
+				JOptionPane.ERROR_MESSAGE);
+	}
+
+	public void handleException(RuntimeException e) {
+		JOptionPane.showMessageDialog(
+				this.getParentComponent(),
+				e.getMessage(),
+				"OPPL Runtime error",
+				JOptionPane.ERROR_MESSAGE);
 	}
 
 	/**

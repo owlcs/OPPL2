@@ -30,23 +30,29 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.coode.oppl.ChangeExtractor;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.OPPLScriptVisitor;
 import org.coode.oppl.OPPLScriptVisitorEx;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableType;
-import org.coode.oppl.VariableTypeVisitorEx;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
-import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.VariableVisitorEx;
+import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.generated.GeneratedVariable;
+import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.utils.ArgCheck;
 import org.coode.oppl.validation.OPPLScriptValidator;
-import org.coode.oppl.variabletypes.CLASSVariable;
-import org.coode.oppl.variabletypes.CONSTANTVariable;
-import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
-import org.coode.oppl.variabletypes.INDIVIDUALVariable;
-import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
-import org.coode.oppl.visitors.InputVariableCollector;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
+import org.coode.oppl.variabletypes.CLASSVariableType;
+import org.coode.oppl.variabletypes.CONSTANTVariableType;
+import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
+import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
+import org.coode.oppl.variabletypes.InputVariable;
+import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
+import org.coode.oppl.variabletypes.VariableType;
+import org.coode.oppl.variabletypes.VariableTypeFactory;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.coode.parsers.ErrorListener;
 import org.coode.patterns.utils.Utils;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -130,7 +136,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 			return false;
 		}
 
-		public Boolean visit(Variable v) {
+		public Boolean visit(Variable<?> v) {
 			return false;
 		}
 
@@ -147,7 +153,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 			return false;
 		}
 
-		public Boolean visit(Variable v, Boolean p) {
+		public Boolean visit(Variable<?> v, Boolean p) {
 			return false;
 		}
 
@@ -174,24 +180,43 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		protected OWLPropertyExpression<?, ?> extractedProperty = null;
 		protected OWLObject owlObject;
 		protected OWLDataFactory dataFactory;
-		protected ReferenceReplacement referenceReplacement;
-		protected VariableType variableType;
+		private VariableType<?> variableType;
 
 		public OWLObject getExtractedObject() {
 			OWLObject toReturn = null;
-			// TODO needs a different way to switch from case to visitor
-			switch (this.variableType) {
-			case CLASS:
-				toReturn = this.extractedDescription;
-				break;
-			case OBJECTPROPERTY:
-			case DATAPROPERTY:
-				toReturn = this.extractedProperty;
-				break;
-			default:
-				throw new RuntimeException("Unsupported variable type: " + this.variableType
-						+ " for pattern used in functional mode");
-			}
+			toReturn = this.variableType.accept(new VariableTypeVisitorEx<OWLObject>() {
+				public OWLObject visitCLASSVariableType(CLASSVariableType classVariableType) {
+					return DefinitorialExtractor.this.extractedDescription;
+				}
+
+				public OWLObject visitOBJECTPROPERTYVariableType(
+						OBJECTPROPERTYVariableType objectpropertyVariableType) {
+					return DefinitorialExtractor.this.extractedProperty;
+				}
+
+				public OWLObject visitDATAPROPERTYVariableType(
+						DATAPROPERTYVariableType datapropertyVariableType) {
+					return DefinitorialExtractor.this.extractedProperty;
+				}
+
+				public OWLObject visitINDIVIDUALVariableType(
+						INDIVIDUALVariableType individualVariableType) {
+					throw new RuntimeException("Unsupported variable type: "
+							+ individualVariableType + " for pattern used in functional mode");
+				}
+
+				public OWLObject visitCONSTANTVariableType(CONSTANTVariableType constantVariableType) {
+					throw new RuntimeException("Unsupported variable type: " + constantVariableType
+							+ " for pattern used in functional mode");
+				}
+
+				public OWLObject visitANNOTATIONPROPERTYVariableType(
+						ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+					throw new RuntimeException("Unsupported variable type: "
+							+ annotationpropertyVariableType
+							+ " for pattern used in functional mode");
+				}
+			});
 			return toReturn;
 		}
 
@@ -200,12 +225,10 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		 * @param referenceReplacement
 		 * @param replacemnts
 		 */
-		public DefinitorialExtractor(OWLObject owlObject, VariableType variableType,
-				OWLDataFactory dataFactory, ReferenceReplacement referenceReplacement) {
-			super();
+		public DefinitorialExtractor(OWLObject owlObject, VariableType<?> variableType,
+				OWLDataFactory dataFactory) {
 			this.owlObject = owlObject;
 			this.dataFactory = dataFactory;
-			this.referenceReplacement = referenceReplacement;
 			this.variableType = variableType;
 		}
 
@@ -219,10 +242,9 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		@Override
 		public OWLClassExpression visit(OWLEquivalentClassesAxiom axiom) {
 			OWLClassExpression toReturn = null;
-			if (this.variableType.equals(VariableType.CLASS)) {
-				OWLEquivalentClassesAxiom replacedAxiom = (OWLEquivalentClassesAxiom) axiom.accept(this.referenceReplacement);
+			if (this.variableType == VariableTypeFactory.getCLASSVariableType()) {
 				Set<OWLClassExpression> descriptions = new HashSet<OWLClassExpression>(
-						replacedAxiom.getClassExpressions());
+						axiom.getClassExpressions());
 				descriptions.remove(this.owlObject);
 				toReturn = !descriptions.isEmpty() ? descriptions.iterator().next() : null;
 			}
@@ -232,10 +254,9 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		@Override
 		public OWLObjectPropertyExpression visit(OWLEquivalentObjectPropertiesAxiom axiom) {
 			OWLObjectPropertyExpression toReturn = null;
-			if (this.variableType.equals(VariableType.OBJECTPROPERTY)) {
-				OWLEquivalentObjectPropertiesAxiom replacedAxiom = (OWLEquivalentObjectPropertiesAxiom) axiom.accept(this.referenceReplacement);
+			if (this.variableType == VariableTypeFactory.getOBJECTPROPERTYTypeVariableType()) {
 				Set<OWLObjectPropertyExpression> properties = new HashSet<OWLObjectPropertyExpression>(
-						replacedAxiom.getProperties());
+						axiom.getProperties());
 				properties.remove(this.owlObject);
 				toReturn = !properties.isEmpty() ? properties.iterator().next() : null;
 				this.extractedProperty = toReturn;
@@ -246,10 +267,9 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		@Override
 		public OWLDataPropertyExpression visit(OWLEquivalentDataPropertiesAxiom axiom) {
 			OWLDataPropertyExpression toReturn = null;
-			if (this.variableType.equals(VariableType.DATAPROPERTY)) {
-				OWLEquivalentDataPropertiesAxiom replacedAxiom = (OWLEquivalentDataPropertiesAxiom) axiom.accept(this.referenceReplacement);
+			if (this.variableType == VariableTypeFactory.getDATAPROPERTYVariableType()) {
 				Set<OWLDataPropertyExpression> properties = new HashSet<OWLDataPropertyExpression>(
-						replacedAxiom.getProperties());
+						axiom.getProperties());
 				properties.remove(this.owlObject);
 				toReturn = !properties.isEmpty() ? properties.iterator().next() : null;
 				this.extractedProperty = toReturn;
@@ -274,7 +294,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 			return null;
 		}
 
-		public OWLClassExpression visit(Variable v, OWLClassExpression p) {
+		public OWLClassExpression visit(Variable<?> v, OWLClassExpression p) {
 			return null;
 		}
 
@@ -308,16 +328,15 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 	}
 
 	private List<PatternOPPLScript> dependencies = new ArrayList<PatternOPPLScript>();
-	protected String rendering = null;
+	private String rendering = null;
 	private IRI iri = null;
 	private final OPPLScript opplStatement;
 	private final OWLOntologyManager ontologyManager;
-	protected boolean valid = true;
+	private boolean valid = true;
 	private final Set<PatternModelChangeListener> listeners = new HashSet<PatternModelChangeListener>();
-	protected String unresolvedOPPLStatementString = null;
-	private Variable returnVariable = null;
+	private Variable<?> returnVariable = null;
 	public final static String NAMESPACE = "http://www.co-ode.org/patterns#";
-	protected final AbstractPatternModelFactory factory;
+	private final AbstractPatternModelFactory factory;
 
 	public AbstractPatternModelFactory getPatternModelFactory() {
 		return this.factory;
@@ -342,8 +361,8 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 
 	private final static OPPLScriptValidator SCRIPT_VALIDATOR = new PatternOPPLScriptValidator();
 
-	public List<Variable> getVariables() {
-		List<Variable> toReturn = new ArrayList<Variable>();
+	public List<Variable<?>> getVariables() {
+		List<Variable<?>> toReturn = new ArrayList<Variable<?>>();
 		if (this.opplStatement != null) {
 			toReturn = this.opplStatement.getVariables();
 		}
@@ -367,7 +386,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		if (this.getRendering() != null) {
 			buffer.append(this.getRendering());
 		}
-		Variable v = this.getReturnVariable();
+		Variable<?> v = this.getReturnVariable();
 		if (v != null) {
 			buffer.append(";\n RETURN ");
 			buffer.append(this.getConstraintSystem().render(v));
@@ -394,9 +413,9 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 			String nextToken = tokenizer.nextToken();
 			if (nextToken.startsWith("?")) {
 				boolean found = false;
-				Iterator<Variable> it = this.getVariables().iterator();
+				Iterator<Variable<?>> it = this.getVariables().iterator();
 				while (!found && it.hasNext()) {
-					Variable variable = it.next();
+					Variable<?> variable = it.next();
 					found = variable.getName().equals(nextToken.trim());
 				}
 				foundUndefinedVariable = !found;
@@ -459,127 +478,55 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 				: (PatternConstraintSystem) this.opplStatement.getConstraintSystem();
 	}
 
-	public String getDefinitorialPortionStrings(List<List<Object>> replacements)
-			throws PatternException {
-		if (this.isFunctional()) {
-			String toReturn = "";
-			List<List<Object>> replacementTuples = ReplacementExtractor.permutations(replacements);
-			List<OWLObject> replacedObjects = this.getDefinitorialPortions(replacementTuples);
-			if (!replacedObjects.isEmpty()) {
-				if (this.getReturnVariable().getType().equals(VariableType.CLASS)) {
-					ManchesterSyntaxRenderer renderer = this.factory.getRenderer(this.getConstraintSystem());
-					Set<OWLClassExpression> descriptions = new HashSet<OWLClassExpression>();
-					for (OWLObject object : replacedObjects) {
-						descriptions.add((OWLClassExpression) object);
-					}
-					this.ontologyManager.getOWLDataFactory().getOWLObjectIntersectionOf(
-							descriptions).accept(renderer);
-					toReturn = renderer.toString();
-				} else {
-					for (OWLObject object : replacedObjects) {
-						ManchesterSyntaxRenderer renderer = this.factory.getRenderer(this.getConstraintSystem());
-						object.accept(renderer);
-						toReturn += renderer.toString() + " ";
-					}
-				}
-			}
-			return toReturn.trim();
-		} else {
-			throw new NonFunctionalPatternException(this.getPatternLocalName());
-		}
-	}
-
 	/**
 	 * @param replacementTuples
 	 * @param replacedObjects
 	 * @throws PatternException
 	 */
-	public List<OWLObject> getDefinitorialPortions(List<List<Object>> replacementTuples)
-			throws PatternException {
-		List<OWLObject> toReturn = new ArrayList<OWLObject>();
-		for (List<Object> tuple : replacementTuples) {
-			ReferenceReplacement referenceReplacement = new ReferenceReplacement(
-					this.getPatternLocalName(), this.getInputVariables(), tuple,
-					this.getConstraintSystem(), this.ontologyManager.getOWLDataFactory());
-			DefinitorialExtractor extractor = this.createDefinitorialExtractor(
-					this.getReturnVariable(),
-					referenceReplacement);
-			OWLClassExpression extractedDescription = this.opplStatement.accept(extractor);
-			if (extractedDescription != null) {
-				toReturn.add(extractedDescription);
-			}
+	public OWLObject getDefinitorialPortion(BindingNode bindingNode,
+			RuntimeExceptionHandler runtimeExceptionHandler) throws PatternException {
+		DefinitorialExtractor extractor = this.createDefinitorialExtractor(this.getReturnVariable());
+		ChangeExtractor changeExtractor = new ChangeExtractor(runtimeExceptionHandler, false);
+		List<OWLAxiomChange> changes = changeExtractor.visit(this);
+		for (OWLAxiomChange owlAxiomChange : changes) {
+			owlAxiomChange.getAxiom().accept(extractor);
 		}
-		return toReturn;
+		return extractor.getExtractedObject();
 	}
 
-	private DefinitorialExtractor createDefinitorialExtractor(Variable variable,
-			ReferenceReplacement referenceReplacement) {
+	private DefinitorialExtractor createDefinitorialExtractor(final Variable<?> variable) {
 		final OWLDataFactory dataFactory = this.ontologyManager.getOWLDataFactory();
 		OWLObject owlObject = null;
 		VariableTypeVisitorEx<OWLObject> visitor = new VariableTypeVisitorEx<OWLObject>() {
-			public OWLObject visit(SingleValueGeneratedVariable<?> v) {
-				switch (v.getType()) {
-				case CLASS:
-					return dataFactory.getOWLClass(v.getIRI());
-				case DATAPROPERTY:
-					return dataFactory.getOWLDataProperty(v.getIRI());
-				case OBJECTPROPERTY:
-					return dataFactory.getOWLObjectProperty(v.getIRI());
-				case CONSTANT:
-					throw new RuntimeException("Unsupported variable type: " + v.getType()
-							+ " for pattern used in functional mode");
-				case INDIVIDUAL:
-					throw new RuntimeException("Unsupported variable type: " + v.getType()
-							+ " for pattern used in functional mode");
-				default:
-					return null;
-				}
-				// XXX what's the correct behaviour here?
-			}
-
-			public OWLObject visit(INDIVIDUALVariable v) {
-				throw new RuntimeException("Unsupported variable type: " + v.getType()
+			public OWLObject visitINDIVIDUALVariableType(INDIVIDUALVariableType t) {
+				throw new RuntimeException("Unsupported variable type: " + variable.getType()
 						+ " for pattern used in functional mode");
 			}
 
-			public OWLObject visit(DATAPROPERTYVariable v) {
-				return dataFactory.getOWLDataProperty(v.getIRI());
+			public OWLObject visitDATAPROPERTYVariableType(DATAPROPERTYVariableType t) {
+				return dataFactory.getOWLDataProperty(variable.getIRI());
 			}
 
-			public OWLObject visit(OBJECTPROPERTYVariable v) {
-				return dataFactory.getOWLObjectProperty(v.getIRI());
+			public OWLObject visitOBJECTPROPERTYVariableType(OBJECTPROPERTYVariableType t) {
+				return dataFactory.getOWLObjectProperty(variable.getIRI());
 			}
 
-			public OWLObject visit(CONSTANTVariable v) {
-				throw new RuntimeException("Unsupported variable type: " + v.getType()
+			public OWLObject visitANNOTATIONPROPERTYVariableType(
+					ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+				return dataFactory.getOWLAnnotationProperty(variable.getIRI());
+			}
+
+			public OWLObject visitCONSTANTVariableType(CONSTANTVariableType t) {
+				throw new RuntimeException("Unsupported variable type: " + variable.getType()
 						+ " for pattern used in functional mode");
 			}
 
-			public OWLObject visit(CLASSVariable v) {
-				return dataFactory.getOWLClass(v.getIRI());
+			public OWLObject visitCLASSVariableType(CLASSVariableType v) {
+				return dataFactory.getOWLClass(variable.getIRI());
 			}
 		};
-		owlObject = variable.accept(visitor);
-		// switch (v.getType()) {
-		// case CLASS:
-		// owlObject = dataFactory.getOWLClass(v.getIRI());
-		// break;
-		// case OBJECTPROPERTY:
-		// owlObject = dataFactory.getOWLObjectProperty(v.getIRI());
-		// break;
-		// case DATAPROPERTY:
-		// owlObject = dataFactory.getOWLDataProperty(v.getIRI());
-		// break;
-		// default:
-		// throw new RuntimeException("Unsupported variable type: "
-		// + v.getType() + " for pattern used in functional mode");
-		// }
-		return new DefinitorialExtractor(owlObject, variable.getType(), dataFactory,
-				referenceReplacement);
-	}
-
-	public void setUnresolvedOPPLStatement(String unresolvedString) {
-		this.unresolvedOPPLStatementString = unresolvedString;
+		owlObject = variable.getType().accept(visitor);
+		return new DefinitorialExtractor(owlObject, variable.getType(), dataFactory);
 	}
 
 	/**
@@ -691,14 +638,14 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 	 * 
 	 * @param returnVariable
 	 */
-	public void setReturnVariable(Variable returnVariable) {
+	public void setReturnVariable(Variable<?> returnVariable) {
 		this.returnVariable = returnVariable;
 	}
 
 	/**
 	 * @return the returnVariable
 	 */
-	public Variable getReturnVariable() {
+	public Variable<?> getReturnVariable() {
 		return this.returnVariable;
 	}
 
@@ -731,21 +678,30 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 		this.dependencies.add(dependency);
 	}
 
-	public List<Variable> getInputVariables() {
-		InputVariableCollector visitor = new InputVariableCollector(new ArrayList<Variable>());
-		for (Variable variable : this.getVariables()) {
-			variable.accept(visitor);
-		}
-		return visitor.getCollectedVariables();
+	public List<InputVariable<?>> getInputVariables() {
+		return this.getOpplStatement().getInputVariables();
 	}
 
 	public boolean hasScopedVariables() {
-		List<Variable> variables = this.getVariables();
-		Iterator<Variable> it = variables.iterator();
+		List<Variable<?>> variables = this.getVariables();
+		Iterator<Variable<?>> it = variables.iterator();
 		boolean found = false;
 		while (!found && it.hasNext()) {
-			Variable v = it.next();
-			found = v.getVariableScope() != null;
+			Variable<?> v = it.next();
+			found = v.accept(new VariableVisitorEx<Boolean>() {
+				public <P extends OWLObject> Boolean visit(GeneratedVariable<P> v) {
+					return false;
+				}
+
+				public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
+					return v.getVariableScope() != null;
+				}
+
+				public <P extends OWLObject> Boolean visit(
+						RegexpGeneratedVariable<P> regExpGenerated) {
+					return false;
+				}
+			});
 		}
 		return found;
 	}
@@ -767,7 +723,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 	}
 
 	@Deprecated
-	public void addVariable(Variable variable) {
+	public void addVariable(Variable<?> variable) {
 		if (this.opplStatement != null) {
 			this.opplStatement.addVariable(variable);
 		}

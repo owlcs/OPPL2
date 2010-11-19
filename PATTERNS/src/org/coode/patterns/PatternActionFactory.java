@@ -30,8 +30,10 @@ import java.util.Set;
 
 import org.coode.oppl.ActionType;
 import org.coode.oppl.PartialOWLObjectInstantiator;
-import org.coode.oppl.VariableType;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.function.ValueComputationParameters;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
@@ -53,17 +55,18 @@ public class PatternActionFactory {
 	public static Collection<? extends OWLAxiomChange> createChange(OWLClass thisClass,
 			ActionType actionType, OWLAxiom axiom,
 			InstantiatedPatternModel instantiatedPatternModel, OWLDataFactory owlDataFactory,
-			IRI annotationIRI, OWLOntology ontology) {
-		instantiatedPatternModel.getConstraintSystem().instantiateThisClass(
-				new PatternConstant<OWLClass>(PatternConstraintSystem.THIS_CLASS_VARIABLE_NAME,
-						VariableType.CLASS, PatternConstant.createConstantGeneratedValue(thisClass)));
+			IRI annotationIRI, OWLOntology ontology, RuntimeExceptionHandler handler) {
+		instantiatedPatternModel.instantiate(
+				instantiatedPatternModel.getConstraintSystem().getThisClassVariable(),
+				thisClass);
 		return createChange(
 				actionType,
 				axiom,
 				instantiatedPatternModel,
 				owlDataFactory,
 				annotationIRI,
-				ontology);
+				ontology,
+				handler);
 	}
 
 	/**
@@ -102,14 +105,17 @@ public class PatternActionFactory {
 
 	public static Collection<? extends OWLAxiomChange> createChange(ActionType actionType,
 			OWLAxiom axiom, InstantiatedPatternModel instantiatedPatternModel,
-			OWLDataFactory owlDataFactory, IRI annotationIRI, OWLOntology ontology) {
+			OWLDataFactory owlDataFactory, IRI annotationIRI, OWLOntology ontology,
+			RuntimeExceptionHandler handler) {
 		List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
 		Set<BindingNode> bindingNodes = instantiatedPatternModel.extractBindingNodes();
 		if (bindingNodes != null && !bindingNodes.isEmpty()) {
 			instantiatedPatternModel.getConstraintSystem().setLeaves(bindingNodes);
 			for (BindingNode bindingNode : bindingNodes) {
+				ValueComputationParameters parameters = new SimpleValueComputationParameters(
+						instantiatedPatternModel.getConstraintSystem(), bindingNode, handler);
 				PartialOWLObjectInstantiator instatiator = new PartialOWLObjectInstantiator(
-						bindingNode, instantiatedPatternModel.getConstraintSystem());
+						parameters);
 				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instatiator);
 				addChange(
 						instantiatedAxiom,

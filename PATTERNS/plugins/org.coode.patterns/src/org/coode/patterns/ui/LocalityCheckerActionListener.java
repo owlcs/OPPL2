@@ -13,6 +13,7 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.table.TableModel;
 
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.patterns.locality.LocalityChecker;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owlapi.model.OWLEntity;
@@ -23,9 +24,9 @@ public class LocalityCheckerActionListener extends LocalityChecker implements Ac
 	private final JButton resultButton;
 
 	public LocalityCheckerActionListener(final OWLEditorKit kit, Set<OWLEntity> signature,
-			JButton resultButton) {
+			JButton resultButton, RuntimeExceptionHandler handler) {
 		super(kit.getOWLModelManager().getOWLOntologyManager(),
-				kit.getOWLModelManager().getReasoner(), signature);
+				kit.getOWLModelManager().getReasoner(), signature, handler);
 		this.resultButton = resultButton;
 		this.resultButton.setIcon(this.generateIcon(Color.gray));
 		this.resultButton.setToolTipText("Check not executed yet");

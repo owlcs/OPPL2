@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.OPPLScript;
+import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.parsers.ErrorListener;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -59,8 +60,6 @@ public interface PatternOPPLScript extends OPPLScript {
 	 */
 	boolean dependsOn(PatternOPPLScript aPatternOPPLScript);
 
-	void setUnresolvedOPPLStatement(String s);
-
 	/**
 	 * @return the pattern URI
 	 */
@@ -81,14 +80,12 @@ public interface PatternOPPLScript extends OPPLScript {
 	String getDefinitorialPortionStrings(List<List<Object>> replacements) throws PatternException;
 
 	/**
-	 * @param replacementTuples
-	 * @return the List of OWLObject elements that correspond to the
-	 *         definitorial portions of the patter once the replacement are
-	 *         considered
+	 * @param bindingNode
+	 * @return the OWLObject that correspond to the definitorial portion of the
+	 *         pattern once the replacement are considered
 	 * @throws PatternException
 	 */
-	public List<OWLObject> getDefinitorialPortions(List<List<Object>> replacementTuples)
-			throws PatternException;
+	public OWLObject getDefinitorialPortions(BindingNode bindingNode) throws PatternException;
 
 	String getRendering();
 

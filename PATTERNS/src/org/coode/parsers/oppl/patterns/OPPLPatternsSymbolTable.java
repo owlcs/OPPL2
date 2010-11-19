@@ -40,7 +40,7 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
 			arguments.add(arg);
 		}
 		@SuppressWarnings("unchecked")
-		Variable resolvedPatternReference = this.getGlobalScope().resolvePatternReference(
+		Variable<?> resolvedPatternReference = this.getGlobalScope().resolvePatternReference(
 				reference,
 				patternName,
 				constraintSystem,
@@ -66,7 +66,7 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
 			arguments.add(arg);
 		}
 		@SuppressWarnings("unchecked")
-		Variable resolvedPatternReference = this.getGlobalScope().resolvePatternReference(
+		Variable<?> resolvedPatternReference = this.getGlobalScope().resolvePatternReference(
 				reference,
 				patternName,
 				constraintSystem,
@@ -96,7 +96,7 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
 	}
 
 	public void resolveThisClass(OPPLSyntaxTree thisClass, PatternConstraintSystem constraintSystem) {
-		Variable thisClassVariable = constraintSystem.getThisClassVariable();
+		Variable<?> thisClassVariable = constraintSystem.getThisClassVariable();
 		VariableType type = VariableType.getVariableType(thisClassVariable.getType());
 		this.define(
 				thisClass.token,

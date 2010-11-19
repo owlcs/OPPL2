@@ -20,4 +20,6 @@ public interface OPPLFunctionVisitorEx<T> {
 	public <O, I extends OPPLFunction<?>> T visitCreate(Create<I, O> create);
 
 	public T visitIRIVariableAttribute(IRIVariableAttribute iriVariableAttribute);
+
+	public <P extends OWLObject> T visitGenericOPPLFunction(OPPLFunction<P> opplFunction);
 }

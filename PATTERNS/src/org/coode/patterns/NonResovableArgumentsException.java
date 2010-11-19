@@ -25,14 +25,15 @@ package org.coode.patterns;
 import java.util.Arrays;
 import java.util.List;
 
+import org.semanticweb.owlapi.model.OWLObject;
+
 /**
  * @author Luigi Iannone
  * 
  *         Jun 27, 2008
  */
 public class NonResovableArgumentsException extends PatternException {
-	public NonResovableArgumentsException(String patternName,
-			List<String>... args) {
+	public NonResovableArgumentsException(String patternName, List<OWLObject>... args) {
 		super("One of the arguments " + Arrays.toString(args)
 				+ " is not instantiated for pattern: " + patternName + " ");
 	}

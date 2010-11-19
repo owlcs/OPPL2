@@ -11,18 +11,21 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableTypeVisitorEx;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
-import org.coode.oppl.variabletypes.CLASSVariable;
-import org.coode.oppl.variabletypes.CONSTANTVariable;
-import org.coode.oppl.variabletypes.DATAPROPERTYVariable;
-import org.coode.oppl.variabletypes.INDIVIDUALVariable;
-import org.coode.oppl.variabletypes.OBJECTPROPERTYVariable;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
+import org.coode.oppl.variabletypes.CLASSVariableType;
+import org.coode.oppl.variabletypes.CONSTANTVariableType;
+import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
+import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
+import org.coode.oppl.variabletypes.InputVariable;
+import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.coode.patterns.InstantiatedPatternModel;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -42,30 +45,37 @@ import org.semanticweb.owlapi.util.OWLEntityCollector;
 public class LocalityChecker {
 	private class SigmaBuilder implements VariableTypeVisitorEx<OWLEntity> {
 		private final OWLOntologyManager manager;
-		private final OWLClass thing;
 		private final OWLDataFactory factory;
 
 		private SigmaBuilder(OWLOntologyManager manager) {
 			this.manager = manager;
 			this.factory = manager.getOWLDataFactory();
-			this.thing = this.factory.getOWLThing();
 		}
 
 		IRI create() {
 			return IRI.create("urn:sigmaplus:a" + UUID.randomUUID().toString());
 		}
 
-		public OWLEntity visit(SingleValueGeneratedVariable<?> v) {
-			// generated variables should not be used for this
-			return null;
+		public OWLAnnotationProperty visitANNOTATIONPROPERTYVariableType(
+				ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+			OWLAnnotationProperty property = this.factory.getOWLAnnotationProperty(this.create());
+			try {
+				this.manager.addAxiom(
+						LocalityChecker.this.scratchpad,
+						this.factory.getOWLDeclarationAxiom(property));
+			} catch (OWLOntologyChangeException e) {
+				// should never happen
+				throw new RuntimeException("Unexpected condition", e);
+			}
+			return property;
 		}
 
-		public OWLEntity visit(INDIVIDUALVariable v) {
+		public OWLEntity visitINDIVIDUALVariableType(INDIVIDUALVariableType v) {
 			OWLNamedIndividual owlIndividual = this.factory.getOWLNamedIndividual(this.create());
 			try {
 				this.manager.addAxiom(
 						LocalityChecker.this.scratchpad,
-						this.factory.getOWLClassAssertionAxiom(this.thing, owlIndividual));
+						this.factory.getOWLDeclarationAxiom(owlIndividual));
 			} catch (OWLOntologyChangeException e) {
 				// should never happen
 				throw new RuntimeException("Unexpected condition", e);
@@ -73,7 +83,7 @@ public class LocalityChecker {
 			return owlIndividual;
 		}
 
-		public OWLEntity visit(DATAPROPERTYVariable v) {
+		public OWLEntity visitDATAPROPERTYVariableType(DATAPROPERTYVariableType v) {
 			OWLDataProperty owlDataProperty = this.factory.getOWLDataProperty(this.create());
 			try {
 				this.manager.addAxiom(
@@ -86,7 +96,7 @@ public class LocalityChecker {
 			return owlDataProperty;
 		}
 
-		public OWLEntity visit(OBJECTPROPERTYVariable v) {
+		public OWLEntity visitOBJECTPROPERTYVariableType(OBJECTPROPERTYVariableType v) {
 			OWLObjectProperty owlObjectProperty = this.factory.getOWLObjectProperty(this.create());
 			try {
 				this.manager.addAxiom(
@@ -99,12 +109,12 @@ public class LocalityChecker {
 			return owlObjectProperty;
 		}
 
-		public OWLEntity visit(CONSTANTVariable v) {
+		public OWLEntity visitCONSTANTVariableType(CONSTANTVariableType v) {
 			// it's not an owlentity in this case
 			return null;
 		}
 
-		public OWLEntity visit(CLASSVariable v) {
+		public OWLEntity visitCLASSVariableType(CLASSVariableType v) {
 			OWLClass owlClass = this.factory.getOWLClass(this.create());
 			try {
 				this.manager.addAxiom(
@@ -126,13 +136,15 @@ public class LocalityChecker {
 	private LocalityCheckerLeafBrusher leafBrusher;
 	private final VariableTypeVisitorEx<OWLEntity> plusBuilder;
 	private final VariableTypeVisitorEx<OWLEntity> minusBuilder;
-	private Map<Variable, SigmaPlusSigmaMinus> sigmaValues;
+	private Map<Variable<?>, SigmaPlusSigmaMinus> sigmaValues;
 	private OWLReasoner reasoner;
 	private OWLOntologyManager externalManager;
+	private final RuntimeExceptionHandler handler;
 
 	public LocalityChecker(final OWLOntologyManager manager, OWLReasoner r,
-			Collection<? extends OWLEntity> entities) {
+			Collection<? extends OWLEntity> entities, RuntimeExceptionHandler handler) {
 		this.externalManager = manager;
+		this.handler = handler;
 		this.myManager = OWLManager.createOWLOntologyManager();
 		this.myManager.addIRIMapper(new OWLOntologyIRIMapper() {
 			public IRI getDocumentIRI(IRI ontologyIRI) {
@@ -184,22 +196,19 @@ public class LocalityChecker {
 		this.leafBrusher = new LocalityCheckerLeafBrusher(this.getEvaluator(),
 				this.getInstantiatedPatternModel().getConstraintSystem(),
 				this.getInstantiatedPatternModel().getInstantiatedPattern(), this.sigmaValues,
-				this.getEntities());
+				this.getEntities(), this.getHandler());
 		rootBindingNode.accept(this.leafBrusher);
 		boolean local = this.leafBrusher.isLocal();
 		this.ensureOntologiesUnloaded(this.reasoner);
 		return local;
 	}
 
-	public Map<Variable, Collection<OWLObject>> extractAllPossibleBindingNodes(OWLOntology o,
+	public Map<Variable<?>, Collection<OWLObject>> extractAllPossibleBindingNodes(OWLOntology o,
 			Set<OWLEntity> signature) {
-		Map<Variable, Collection<OWLObject>> toReturn = new HashMap<Variable, Collection<OWLObject>>();
-		List<Variable> inputVariables = this.instantiatedPatternModel.getInputVariables();
-		for (Variable v : inputVariables) {
-			HashSet<OWLObject> values = new HashSet<OWLObject>();
-			// values.add(instantiatedPatternModel.getPatternModel()
-			// .getConstraintSystem().getOntologyManager()
-			// .getOWLDataFactory().getOWLNothing());
+		Map<Variable<?>, Collection<OWLObject>> toReturn = new HashMap<Variable<?>, Collection<OWLObject>>();
+		List<InputVariable<?>> inputVariables = this.instantiatedPatternModel.getInputVariables();
+		for (InputVariable<?> v : inputVariables) {
+			Set<OWLObject> values = new HashSet<OWLObject>();
 			toReturn.put(v, values);
 			if (this.instantiatedPatternModel.getInstantiations(v).size() == 0) {
 				// no instantiations
@@ -216,13 +225,13 @@ public class LocalityChecker {
 		return toReturn;
 	}
 
-	public Map<Variable, SigmaPlusSigmaMinus> buildMinimalBindingNodes() {
-		Map<Variable, SigmaPlusSigmaMinus> toReturn = new HashMap<Variable, SigmaPlusSigmaMinus>();
-		List<Variable> inputVariables = this.instantiatedPatternModel.getInputVariables();
-		for (Variable v : inputVariables) {
+	public Map<Variable<?>, SigmaPlusSigmaMinus> buildMinimalBindingNodes() {
+		Map<Variable<?>, SigmaPlusSigmaMinus> toReturn = new HashMap<Variable<?>, SigmaPlusSigmaMinus>();
+		List<InputVariable<?>> inputVariables = this.instantiatedPatternModel.getInputVariables();
+		for (Variable<?> v : inputVariables) {
 			if (this.instantiatedPatternModel.getInstantiations(v).size() == 0) {
-				SigmaPlusSigmaMinus values = new SigmaPlusSigmaMinus(v.accept(this.plusBuilder),
-						v.accept(this.minusBuilder));
+				SigmaPlusSigmaMinus values = new SigmaPlusSigmaMinus(v.getType().accept(
+						this.plusBuilder), v.getType().accept(this.minusBuilder));
 				if (values.getPlus() != null && values.getMinus() != null) {
 					toReturn.put(v, values);
 				}
@@ -280,7 +289,7 @@ public class LocalityChecker {
 		return new HashSet<OWLEntity>(this.entities);
 	}
 
-	public Map<Variable, SigmaPlusSigmaMinus> getSigmaValues() {
+	public Map<Variable<?>, SigmaPlusSigmaMinus> getSigmaValues() {
 		return Collections.unmodifiableMap(this.sigmaValues);
 	}
 
@@ -298,5 +307,12 @@ public class LocalityChecker {
 			externalSigmaValues.add(s.getPlus());
 		}
 		return externalSigmaValues;
+	}
+
+	/**
+	 * @return the handler
+	 */
+	public RuntimeExceptionHandler getHandler() {
+		return this.handler;
 	}
 }

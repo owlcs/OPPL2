@@ -150,6 +150,11 @@ public class VariableExtractor {
 				return toReturn;
 			}
 
+			public <P extends OWLObject> Set<Variable<?>> visitGenericOPPLFunction(
+					OPPLFunction<P> opplFunction) {
+				return Collections.emptySet();
+			}
+
 			public <O> Set<Variable<?>> visitConstant(Constant<O> constant) {
 				Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
 				O value = constant.getValue();

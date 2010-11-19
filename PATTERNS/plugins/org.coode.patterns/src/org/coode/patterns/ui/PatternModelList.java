@@ -16,6 +16,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.protege.ui.ShowMessageRuntimeExceptionHandler;
 import org.coode.patterns.InstantiatedPatternModel;
 import org.coode.patterns.NonClassPatternExecutor;
 import org.coode.patterns.PatternModel;
@@ -39,8 +41,7 @@ import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
 
-public class PatternModelList extends
-		AbstractAnnotationsList<PatternAnnotationContainer> {
+public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationContainer> {
 	private final class InstantiateActionListener implements ActionListener {
 		private final PatternModel patternModel;
 
@@ -52,8 +53,7 @@ public class PatternModelList extends
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			PatternModelList.this
-					.showInstantiationEditorDialog(this.patternModel);
+			PatternModelList.this.showInstantiationEditorDialog(this.patternModel);
 		}
 	}
 
@@ -70,8 +70,7 @@ public class PatternModelList extends
 		public PatternListItem(OWLAnnotation annot, PatternModel patternModel) {
 			super(annot);
 			if (patternModel == null) {
-				throw new NullPointerException(
-						"The pattern model cannot be null");
+				throw new NullPointerException("The pattern model cannot be null");
 			}
 			this.patternModel = patternModel;
 		}
@@ -87,33 +86,28 @@ public class PatternModelList extends
 		public void handleEdit() {
 			// don't need to check the section as only the direct imports can be
 			// added
-			PatternModelList.this.getEditor()
-					.setEditedObject(this.patternModel);
+			PatternModelList.this.getEditor().setEditedObject(this.patternModel);
 			int ret = JOptionPaneEx.showValidatingConfirmDialog(
 					PatternModelList.this.getOWLEditorKit().getWorkspace(),
-					"Pattern Editor", PatternModelList.this.getEditor()
-							.getEditorComponent(), PatternModelList.this
-							.getEditor(), JOptionPane.PLAIN_MESSAGE,
-					JOptionPane.OK_CANCEL_OPTION, PatternModelList.this
-							.getComponentPopupMenu());
+					"Pattern Editor",
+					PatternModelList.this.getEditor().getEditorComponent(),
+					PatternModelList.this.getEditor(),
+					JOptionPane.PLAIN_MESSAGE,
+					JOptionPane.OK_CANCEL_OPTION,
+					PatternModelList.this.getComponentPopupMenu());
 			if (ret == JOptionPane.OK_OPTION) {
-				PatternModel patternModel = PatternModelList.this.getEditor()
-						.getEditedObject();
-				OWLDataFactory dataFactory = PatternModelList.this
-						.getOWLEditorKit().getOWLModelManager()
-						.getOWLOntologyManager().getOWLDataFactory();
-				OWLLiteral literal = dataFactory.getOWLLiteral(patternModel
-						.toString());
+				PatternModel patternModel = PatternModelList.this.getEditor().getEditedObject();
+				OWLDataFactory dataFactory = PatternModelList.this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager().getOWLDataFactory();
+				OWLLiteral literal = dataFactory.getOWLLiteral(patternModel.toString());
 				IRI annotationIRI = patternModel.getIRI();
 				OWLAnnotation newAnnotation = dataFactory.getOWLAnnotation(
 						dataFactory.getOWLAnnotationProperty(annotationIRI),
 						literal);
 				if (!newAnnotation.equals(this.getAnnotation())) {
-					List<OWLOntologyChange> changes = PatternModelList.this
-							.getReplaceChanges(this.getAnnotation(),
-									newAnnotation);
-					PatternModelList.this.getOWLEditorKit().getModelManager()
-							.applyChanges(changes);
+					List<OWLOntologyChange> changes = PatternModelList.this.getReplaceChanges(
+							this.getAnnotation(),
+							newAnnotation);
+					PatternModelList.this.getOWLEditorKit().getModelManager().applyChanges(changes);
 				}
 			}
 		}
@@ -136,6 +130,7 @@ public class PatternModelList extends
 	private final Map<PatternModel, List<MListButton>> buttons = new HashMap<PatternModel, List<MListButton>>();
 	private final OWLEditorKit owlEditorKit;
 	private final PatternEditor patternEditor;
+	private final RuntimeExceptionHandler runtimeExceptionHandler;
 
 	/**
 	 * @param eKit
@@ -145,56 +140,49 @@ public class PatternModelList extends
 		// Have to do this as the super class does not expose the OWLEdtorKit
 		this.owlEditorKit = eKit;
 		this.patternEditor = new PatternEditor(this.getOWLEditorKit(),
-				ProtegeParserFactory.getInstance(this.getOWLEditorKit())
-						.getPatternFactory());
+				ProtegeParserFactory.getInstance(this.getOWLEditorKit()).getPatternFactory());
+		this.runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(
+				this.getOWLEditorKit().getOWLWorkspace());
 	}
 
 	@Override
 	protected List<OWLOntologyChange> getAddChanges(OWLAnnotation annot) {
 		List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
-		changes.add(new AddOntologyAnnotation(this.getRoot().getOntology(),
-				annot));
+		changes.add(new AddOntologyAnnotation(this.getRoot().getOntology(), annot));
 		return changes;
 	}
 
 	@Override
-	protected List<OWLOntologyChange> getReplaceChanges(
-			OWLAnnotation oldAnnotation, OWLAnnotation newAnnotation) {
+	protected List<OWLOntologyChange> getReplaceChanges(OWLAnnotation oldAnnotation,
+			OWLAnnotation newAnnotation) {
 		List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
-		changes.add(new RemoveOntologyAnnotation(this.getRoot().getOntology(),
-				oldAnnotation));
-		changes.add(new AddOntologyAnnotation(this.getRoot().getOntology(),
-				newAnnotation));
+		changes.add(new RemoveOntologyAnnotation(this.getRoot().getOntology(), oldAnnotation));
+		changes.add(new AddOntologyAnnotation(this.getRoot().getOntology(), newAnnotation));
 		return changes;
 	}
 
 	@Override
 	protected List<OWLOntologyChange> getDeleteChanges(OWLAnnotation annot) {
 		List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
-		changes.add(new RemoveOntologyAnnotation(this.getRoot().getOntology(),
-				annot));
+		changes.add(new RemoveOntologyAnnotation(this.getRoot().getOntology(), annot));
 		return changes;
 	}
 
 	@Override
-	protected Border createListItemBorder(JList l, Object value, int index,
-			boolean isSelected, boolean cellHasFocus) {
-		Border border = super.createListItemBorder(l, value, index, isSelected,
-				cellHasFocus);
+	protected Border createListItemBorder(JList l, Object value, int index, boolean isSelected,
+			boolean cellHasFocus) {
+		Border border = super.createListItemBorder(l, value, index, isSelected, cellHasFocus);
 		Border toReturn = border;
 		if (value instanceof PatternModelList.PatternListItem) {
-			PatternModel patternModel = ((PatternListItem) value)
-					.getPatternModel();
+			PatternModel patternModel = ((PatternListItem) value).getPatternModel();
 			PatternBorder patternBorder = new PatternBorder(patternModel);
-			toReturn = BorderFactory
-					.createCompoundBorder(border, patternBorder);
+			toReturn = BorderFactory.createCompoundBorder(border, patternBorder);
 		}
 		return toReturn;
 	}
 
 	@Override
-	protected void handleOntologyChanges(
-			List<? extends OWLOntologyChange> changes) {
+	protected void handleOntologyChanges(List<? extends OWLOntologyChange> changes) {
 		for (OWLOntologyChange change : changes) {
 			if (change instanceof AddOntologyAnnotation
 					|| change instanceof RemoveOntologyAnnotation) {
@@ -215,23 +203,21 @@ public class PatternModelList extends
 		this.getEditor().setEditedObject(null);
 		int ret = JOptionPaneEx.showValidatingConfirmDialog(
 				PatternModelList.this.getOWLEditorKit().getWorkspace(),
-				"Pattern Editor", PatternModelList.this.getEditor()
-						.getEditorComponent(), PatternModelList.this
-						.getEditor(), JOptionPane.PLAIN_MESSAGE,
-				JOptionPane.OK_CANCEL_OPTION, PatternModelList.this
-						.getComponentPopupMenu());
+				"Pattern Editor",
+				PatternModelList.this.getEditor().getEditorComponent(),
+				PatternModelList.this.getEditor(),
+				JOptionPane.PLAIN_MESSAGE,
+				JOptionPane.OK_CANCEL_OPTION,
+				PatternModelList.this.getComponentPopupMenu());
 		if (ret == JOptionPane.OK_OPTION) {
 			PatternModel patternModel = this.getEditor().getEditedObject();
-			OWLDataFactory dataFactory = this.getOWLEditorKit()
-					.getOWLModelManager().getOWLOntologyManager()
-					.getOWLDataFactory();
-			OWLLiteral literal = dataFactory.getOWLLiteral(patternModel
-					.toString());
+			OWLDataFactory dataFactory = this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager().getOWLDataFactory();
+			OWLLiteral literal = dataFactory.getOWLLiteral(patternModel.toString());
 			IRI annotationIRI = patternModel.getIRI();
-			OWLAnnotation annotation = dataFactory.getOWLAnnotation(dataFactory
-					.getOWLAnnotationProperty(annotationIRI), literal);
-			this.getOWLEditorKit().getModelManager().applyChanges(
-					this.getAddChanges(annotation));
+			OWLAnnotation annotation = dataFactory.getOWLAnnotation(
+					dataFactory.getOWLAnnotationProperty(annotationIRI),
+					literal);
+			this.getOWLEditorKit().getModelManager().applyChanges(this.getAddChanges(annotation));
 		}
 	}
 
@@ -243,9 +229,7 @@ public class PatternModelList extends
 		if (root != null) {
 			// @@TODO ordering
 			for (OWLAnnotation annot : root.getAnnotations()) {
-				data
-						.add(new PatternListItem(annot, root
-								.getPatternModel(annot)));
+				data.add(new PatternListItem(annot, root.getPatternModel(annot)));
 			}
 		}
 		this.setListData(data.toArray());
@@ -256,13 +240,11 @@ public class PatternModelList extends
 	protected List<MListButton> getListItemButtons(MListItem item) {
 		List<MListButton> listItemButtons = super.getListItemButtons(item);
 		if (item instanceof PatternListItem) {
-			final PatternModel patternModel = ((PatternListItem) item)
-					.getPatternModel();
+			final PatternModel patternModel = ((PatternListItem) item).getPatternModel();
 			List<MListButton> list = this.buttons.get(patternModel);
 			if (list == null) {
 				if (!patternModel.isClassPattern()) {
-					ActionListener actionListener = new InstantiateActionListener(
-							patternModel);
+					ActionListener actionListener = new InstantiateActionListener(patternModel);
 					InstantiatePatternButton instantiateButton = new InstantiatePatternButton(
 							actionListener);
 					if (!listItemButtons.contains(instantiateButton)) {
@@ -288,20 +270,18 @@ public class PatternModelList extends
 		final PatternInstantiationEditor editor = new PatternInstantiationEditor(
 				this.getOWLEditorKit(), patternModel.getPatternModelFactory());
 		final JComponent editorComponent = editor.getEditorComponent();
-		final VerifyingOptionPane optionPane = new VerifyingOptionPane(editor
-				.getEditorComponent());
+		final VerifyingOptionPane optionPane = new VerifyingOptionPane(editor.getEditorComponent());
 		final InputVerificationStatusChangedListener verificationListener = new InputVerificationStatusChangedListener() {
 			public void verifiedStatusChanged(boolean verified) {
 				optionPane.setOKEnabled(verified);
 			}
 		};
-		InstantiatedPatternModel instantiatedPatternModel = patternModel
-				.getPatternModelFactory().createInstantiatedPatternModel(
-						patternModel);
+		InstantiatedPatternModel instantiatedPatternModel = patternModel.getPatternModelFactory().createInstantiatedPatternModel(
+				patternModel,
+				this.getRuntimeExceptionHandler());
 		editor.setInstantiatedPatternModel(instantiatedPatternModel);
 		editor.addStatusChangedListener(verificationListener);
-		final JDialog dlg = optionPane.createDialog(this.getOWLEditorKit()
-				.getWorkspace(), null);
+		final JDialog dlg = optionPane.createDialog(this.getOWLEditorKit().getWorkspace(), null);
 		dlg.setModal(true);
 		dlg.setTitle(patternModel.getName());
 		dlg.setResizable(true);
@@ -313,8 +293,7 @@ public class PatternModelList extends
 				Object retVal = optionPane.getValue();
 				editorComponent.setPreferredSize(editorComponent.getSize());
 				if (retVal != null && retVal.equals(JOptionPane.OK_OPTION)) {
-					PatternModelList.this.handleInstantiation(editor,
-							patternModel);
+					PatternModelList.this.handleInstantiation(editor, patternModel);
 				}
 				editor.removeStatusChangedListener(verificationListener);
 				editor.dispose();
@@ -323,21 +302,26 @@ public class PatternModelList extends
 		dlg.setVisible(true);
 	}
 
-	protected void handleInstantiation(PatternInstantiationEditor editor,
-			PatternModel patternModel) {
+	protected void handleInstantiation(PatternInstantiationEditor editor, PatternModel patternModel) {
 		NonClassPatternExecutor patternExecutor = new NonClassPatternExecutor(
-				editor.getEditedObject(), this.getOWLEditorKit()
-						.getModelManager().getActiveOntology(), this
-						.getOWLEditorKit().getModelManager()
-						.getOWLOntologyManager(), patternModel.getIRI());
-		List<OWLAxiomChange> changes = patternModel.accept(patternExecutor);
+				editor.getEditedObject(),
+				this.getOWLEditorKit().getModelManager().getActiveOntology(),
+				this.getOWLEditorKit().getModelManager().getOWLOntologyManager(),
+				patternModel.getIRI(), this.getRuntimeExceptionHandler());
+		List<OWLAxiomChange> changes = patternExecutor.visit(patternModel);
 		for (OWLAxiomChange change : changes) {
 			try {
-				this.getOWLEditorKit().getModelManager()
-						.getOWLOntologyManager().applyChange(change);
+				this.getOWLEditorKit().getModelManager().getOWLOntologyManager().applyChange(change);
 			} catch (OWLOntologyChangeException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	/**
+	 * @return the runtimeExceptionHandler
+	 */
+	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
+		return this.runtimeExceptionHandler;
 	}
 }

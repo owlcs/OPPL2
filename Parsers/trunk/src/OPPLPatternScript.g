@@ -121,6 +121,8 @@ atomic
     | variableAttributeReference -> ^(variableAttributeReference)	    
     | patternReference -> ^(patternReference)    
   ;
+  
+
 
 
 patternReference

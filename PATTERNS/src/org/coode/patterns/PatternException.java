@@ -27,7 +27,7 @@ package org.coode.patterns;
  * 
  *         Jun 25, 2008
  */
-public class PatternException extends Exception {
+public class PatternException extends RuntimeException {
 	/**
 	 * 
 	 */

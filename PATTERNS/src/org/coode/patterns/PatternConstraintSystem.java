@@ -29,19 +29,28 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.PatternSyntaxException;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableType;
+import org.coode.oppl.VariableScope;
+import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.exceptions.OPPLException;
-import org.coode.oppl.generated.AbstractCollectionGeneratedValue;
-import org.coode.oppl.generated.SingleValueGeneratedValue;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.function.Aggregandum;
+import org.coode.oppl.function.OPPLFunction;
+import org.coode.oppl.generated.GeneratedVariable;
+import org.coode.oppl.generated.RegexpGeneratedVariable;
+import org.coode.oppl.variabletypes.InputVariable;
+import org.coode.oppl.variabletypes.VariableFactory;
+import org.coode.oppl.variabletypes.VariableType;
 import org.coode.parsers.ErrorListener;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 /**
@@ -52,7 +61,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 public class PatternConstraintSystem extends ConstraintSystem {
 	public static final String THIS_CLASS_VARIABLE_NAME = "?_thisClass";
 	public static final String THIS_CLASS_VARIABLE_CONSTANT_SYMBOL = "$thisClass";
-	private Map<String, SingleValueGeneratedVariable<?>> specialVariables = new HashMap<String, SingleValueGeneratedVariable<?>>();
+	private Map<String, GeneratedVariable<?>> specialVariables = new HashMap<String, GeneratedVariable<?>>();
 	private final ConstraintSystem constraintSystem;
 	private Map<String, String> specialVariableRenderings = new HashMap<String, String>();
 	private final AbstractPatternModelFactory factory;
@@ -63,13 +72,8 @@ public class PatternConstraintSystem extends ConstraintSystem {
 		this.setReasoner(cs.getReasoner());
 		this.constraintSystem = cs;
 		this.factory = f;
-		this.init();
 	}
 
-	// public PatternConstraintSystem(OWLOntology ontology,
-	// OWLOntologyManager ontologyManager) {
-	// this(new ConstraintSystem(ontology, ontologyManager), ontologyManager);
-	// }
 	/**
 	 * @param ontologyManager
 	 * @param reasoner
@@ -81,31 +85,22 @@ public class PatternConstraintSystem extends ConstraintSystem {
 	}
 
 	@Override
-	public Variable createVariable(String name, VariableType type) throws OPPLException {
-		return this.constraintSystem.createVariable(name, type);
+	public <O extends OWLObject> InputVariable<O> createVariable(String name, VariableType<O> type,
+			VariableScope<?> variableScope) throws OPPLException {
+		return this.constraintSystem.createVariable(name, type, variableScope);
 	}
 
-	private void init() {
-		PatternConstant<OWLClass> patternConstant = new PatternConstant<OWLClass>(
-				THIS_CLASS_VARIABLE_NAME, VariableType.CLASS,
-				this.constraintSystem.getOntologyManager().getOWLDataFactory());
-		this.createSpecialVariable(
-				patternConstant.getName(),
-				THIS_CLASS_VARIABLE_CONSTANT_SYMBOL,
-				patternConstant);
-	}
-
-	public Variable getThisClassVariable() {
-		return this.specialVariables.get(PatternConstraintSystem.THIS_CLASS_VARIABLE_NAME);
+	public Variable<?> getThisClassVariable() {
+		return VariableFactory.getCLASSVariable(THIS_CLASS_VARIABLE_NAME, null);
 	}
 
 	@Override
-	public Variable getVariable(String name) {
-		Variable variable = this.constraintSystem.getVariable(name);
+	public Variable<?> getVariable(String name) {
+		Variable<?> variable = this.constraintSystem.getVariable(name);
 		if (variable == null) {
 			Iterator<String> it = this.specialVariables.keySet().iterator();
 			boolean found = false;
-			SingleValueGeneratedVariable<?> specialVariable = null;
+			GeneratedVariable<?> specialVariable = null;
 			while (!found && it.hasNext()) {
 				String referenceName = it.next();
 				specialVariable = this.specialVariables.get(referenceName);
@@ -122,18 +117,18 @@ public class PatternConstraintSystem extends ConstraintSystem {
 	}
 
 	@Override
-	public Variable getVariable(IRI iri) {
-		Variable variable = this.constraintSystem.getVariable(iri);
+	public Variable<?> getVariable(IRI iri) {
+		Variable<?> variable = this.constraintSystem.getVariable(iri);
 		if (variable == null) {
 			variable = this.getSpecialVariable(iri);
 		}
 		return variable;
 	}
 
-	private Variable getSpecialVariable(IRI iri) {
+	private Variable<?> getSpecialVariable(IRI iri) {
 		boolean found = false;
-		Iterator<? extends Variable> it = this.specialVariables.values().iterator();
-		Variable variable = null;
+		Iterator<? extends Variable<?>> it = this.specialVariables.values().iterator();
+		Variable<?> variable = null;
 		while (!found && it.hasNext()) {
 			variable = it.next();
 			found = iri.equals(variable.getIRI());
@@ -145,9 +140,9 @@ public class PatternConstraintSystem extends ConstraintSystem {
 	public boolean isVariableIRI(IRI uri) {
 		boolean found = this.constraintSystem.isVariableIRI(uri);
 		if (!found) {
-			Iterator<? extends Variable> it = this.specialVariables.values().iterator();
+			Iterator<? extends Variable<?>> it = this.specialVariables.values().iterator();
 			while (!found && it.hasNext()) {
-				Variable variable = it.next();
+				Variable<?> variable = it.next();
 				found = uri.equals(variable.getIRI());
 			}
 		}
@@ -157,7 +152,7 @@ public class PatternConstraintSystem extends ConstraintSystem {
 	public String resolvePatternConstants(String s) {
 		String toReturn = s;
 		for (String specialVariableName : this.specialVariables.keySet()) {
-			SingleValueGeneratedVariable<?> variable = this.specialVariables.get(specialVariableName);
+			GeneratedVariable<?> variable = this.specialVariables.get(specialVariableName);
 			if (variable != null) {
 				toReturn = toReturn.replaceAll("\\" + specialVariableName, variable.getName());
 			}
@@ -165,13 +160,13 @@ public class PatternConstraintSystem extends ConstraintSystem {
 		return toReturn;
 	}
 
-	public boolean isThisClassVariable(Variable variable) {
+	public boolean isThisClassVariable(Variable<?> variable) {
 		return variable.equals(this.specialVariables.get(PatternConstraintSystem.THIS_CLASS_VARIABLE_NAME));
 	}
 
 	@Override
-	public Set<Variable> getVariables() {
-		Set<Variable> toReturn = this.constraintSystem.getVariables();
+	public Set<Variable<?>> getVariables() {
+		Set<Variable<?>> toReturn = this.constraintSystem.getVariables();
 		toReturn.addAll(this.specialVariables.values());
 		return toReturn;
 	}
@@ -180,75 +175,85 @@ public class PatternConstraintSystem extends ConstraintSystem {
 			Set<String> visitedPatterns, List<PatternOPPLScript> dependencies,
 			ErrorListener errorListener, List<String>... args) throws PatternException {
 		Set<String> visited = new HashSet<String>(visitedPatterns);
-		PatternReference patternReference = new PatternReference(patternName, this,
-				ontologyManager, visited, errorListener, args);
+		PatternReference patternReference = new PatternReference(patternName, this, visited,
+				errorListener, args);
 		dependencies.add(patternReference.getExtractedPattern());
-		VariableType variableType = VariableType.getVariableType(patternReference.getResolution().get(
-				0));
-		PatternReferenceGeneratedVariable patternReferenceGeneratedVariable = new PatternReferenceGeneratedVariable(
+		VariableType<?> variableType = patternReference.getExtractedPattern().getReturnVariable().getType();
+		PatternReferenceGeneratedVariable<?> patternReferenceGeneratedVariable = PatternReferenceGeneratedVariable.getPatternReferenceGeneratedVariable(
+				patternName,
 				variableType,
-				PatternReferenceGeneratedVariable.getPatternReferenceGeneratedValue(patternReference));
-		this.createSpecialVariable(
-				patternReferenceGeneratedVariable.getName(),
-				patternReference.toString(),
-				patternReferenceGeneratedVariable);
-		List<Variable> referenceVariables = patternReference.getExtractedPattern().getVariables();
-		for (Variable variable : referenceVariables) {
-			if (variable instanceof SingleValueGeneratedVariable<?>) {
-				this.importVariable(variable);
-			}
+				patternReference);
+		List<Variable<?>> referenceVariables = patternReference.getExtractedPattern().getVariables();
+		for (Variable<?> variable : referenceVariables) {
+			variable.accept(new VariableVisitor() {
+				public <P extends OWLObject> void visit(RegexpGeneratedVariable<P> regExpGenerated) {
+				}
+
+				public <P extends OWLObject> void visit(GeneratedVariable<P> v) {
+					PatternConstraintSystem.this.importVariable(v);
+				}
+
+				public <P extends OWLObject> void visit(InputVariable<P> v) {
+				}
+			});
 		}
 		return patternReferenceGeneratedVariable.getName();
 	}
 
 	public InstantiatedPatternModel resolvePatternInstantiation(String patternName,
 			OWLOntologyManager ontologyManager, Set<String> visitedPatterns,
-			List<PatternOPPLScript> dependencies, ErrorListener errorListener, List<String>... args)
-			throws PatternException {
-		PatternReference patternReference = new PatternReference(patternName, this,
-				ontologyManager, visitedPatterns, errorListener, args);
-		dependencies.add(patternReference.getExtractedPattern());
-		return patternReference.getInstantiation();
-	}
+			List<PatternOPPLScript> dependencies, final ErrorListener errorListener,
+			List<String>... args) throws PatternException {
+		RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
+			public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
+				errorListener.reportThrowable(e, 0, 0, 0);
+			}
 
-	public void instantiateThisClass(PatternConstant<OWLClass> patternConstant) {
-		this.createSpecialVariable(
-				patternConstant.getName(),
-				THIS_CLASS_VARIABLE_CONSTANT_SYMBOL,
-				patternConstant);
+			public void handleOWLRuntimeException(OWLRuntimeException e) {
+				errorListener.reportThrowable(e, 0, 0, 0);
+			}
+
+			public void handleException(RuntimeException e) {
+				errorListener.reportThrowable(e, 0, 0, 0);
+			}
+		};
+		PatternReference patternReference = new PatternReference(patternName, this,
+				visitedPatterns, errorListener, args);
+		dependencies.add(patternReference.getExtractedPattern());
+		return patternReference.getInstantiation(handler);
 	}
 
 	@Override
-	public SingleValueGeneratedVariable<String> createStringGeneratedVariable(String name,
-			VariableType type, SingleValueGeneratedValue<String> value) {
+	public <O extends OWLObject> GeneratedVariable<O> createStringGeneratedVariable(String name,
+			VariableType<O> type, OPPLFunction<String> value) {
 		return this.constraintSystem.createStringGeneratedVariable(name, type, value);
 	}
 
 	@Override
-	public void removeVariable(Variable variable) {
+	public void removeVariable(Variable<?> variable) {
 		this.constraintSystem.removeVariable(variable);
 	}
 
 	@Override
-	public SingleValueGeneratedVariable<Collection<OWLClass>> createIntersectionGeneratedVariable(
-			String name, VariableType type, AbstractCollectionGeneratedValue<OWLClass> collection) {
-		return this.constraintSystem.createIntersectionGeneratedVariable(name, type, collection);
+	public GeneratedVariable<OWLClassExpression> createIntersectionGeneratedVariable(String name,
+			VariableType<?> type, Collection<? extends Aggregandum<OWLClassExpression>> operands) {
+		return this.constraintSystem.createIntersectionGeneratedVariable(name, type, operands);
 	}
 
 	@Override
-	public SingleValueGeneratedVariable<Collection<OWLClass>> createUnionGeneratedVariable(
-			String name, VariableType type, AbstractCollectionGeneratedValue<OWLClass> collection) {
-		return this.constraintSystem.createUnionGeneratedVariable(name, type, collection);
+	public GeneratedVariable<OWLClassExpression> createUnionGeneratedVariable(String name,
+			VariableType<?> type, Collection<? extends Aggregandum<OWLClassExpression>> operands) {
+		return this.constraintSystem.createUnionGeneratedVariable(name, type, operands);
 	}
 
 	@Override
-	public Set<Variable> getInputVariables() {
+	public Set<InputVariable<?>> getInputVariables() {
 		return this.constraintSystem.getInputVariables();
 	}
 
 	@Override
-	public String render(Variable variable) {
-		SingleValueGeneratedVariable<?> specialVariable = this.specialVariables.get(variable.getName());
+	public String render(Variable<?> variable) {
+		GeneratedVariable<?> specialVariable = this.specialVariables.get(variable.getName());
 		boolean specialRenderingPresent = specialVariable != null
 				&& this.specialVariableRenderings.get(specialVariable.getName()) != null;
 		String rendering = specialRenderingPresent ? this.specialVariableRenderings.get(specialVariable.getName())
@@ -257,20 +262,19 @@ public class PatternConstraintSystem extends ConstraintSystem {
 	}
 
 	private void createSpecialVariable(String name, String renderedName,
-			SingleValueGeneratedVariable<?> variable) {
+			GeneratedVariable<?> variable) {
 		this.specialVariables.put(name, variable);
 		this.specialVariableRenderings.put(name, renderedName);
 	}
 
 	@Override
-	public void importVariable(Variable v) {
+	public void importVariable(Variable<?> v) {
 		this.constraintSystem.importVariable(v);
 	}
 
 	@Override
 	public void clearVariables() {
 		this.constraintSystem.clearVariables();
-		this.init();
 	}
 
 	public AbstractPatternModelFactory getPatternModelFactory() {

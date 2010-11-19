@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.Variable;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
@@ -96,7 +98,7 @@ public class Adapter {
 		return adapted;
 	}
 
-	public static <I extends OWLObject> Aggregandum<I> buildAggregandumCollection(
+	public static <I> Aggregandum<I> buildAggregandumCollection(
 			final Collection<? extends OPPLFunction<I>> collection) {
 		return new Aggregandum<I>() {
 			public Set<OPPLFunction<I>> getOPPLFunctions() {
@@ -138,6 +140,11 @@ public class Adapter {
 			public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {
 				return stringOPPLFunction.accept(visitor);
 			}
+
+			public OPPLFunction<Pattern> replace(Variable<?> v, OWLObject owlObject,
+					ConstraintSystem constraintSystem, RuntimeExceptionHandler handler) {
+				return this;
+			}
 		};
 	}
 
@@ -155,6 +162,11 @@ public class Adapter {
 						isCompatible = Adapter.isCompatible(aggregandum, type);
 					}
 					return isCompatible;
+				}
+
+				public <P extends OWLObject> Boolean visitGenericOPPLFunction(
+						OPPLFunction<P> opplFunction) {
+					return false;
 				}
 
 				public <O> Boolean visitConstant(Constant<O> constant) {

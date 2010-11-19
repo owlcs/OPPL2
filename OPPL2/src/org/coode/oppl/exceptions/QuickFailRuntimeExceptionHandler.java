@@ -14,8 +14,7 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
  * @author Luigi Iannone
  * 
  */
-public class QuickFailRuntimeExceptionHandler implements
-		RuntimeExceptionHandler {
+public class QuickFailRuntimeExceptionHandler implements RuntimeExceptionHandler {
 	private void handleRuntimeException(RuntimeException e) {
 		throw e;
 	}
@@ -34,5 +33,9 @@ public class QuickFailRuntimeExceptionHandler implements
 	 */
 	public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
 		this.handleRuntimeException(e);
+	}
+
+	public void handleException(RuntimeException e) {
+		this.handleException(e);
 	}
 }

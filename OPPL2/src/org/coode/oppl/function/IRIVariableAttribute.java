@@ -3,8 +3,10 @@
  */
 package org.coode.oppl.function;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -92,5 +94,10 @@ public class IRIVariableAttribute extends VariableAttribute<IRI> {
 				return toReturn;
 			}
 		};
+	}
+
+	public OPPLFunction<IRI> replace(Variable<?> v, OWLObject owlObject,
+			ConstraintSystem constraintSystem, RuntimeExceptionHandler handler) {
+		return this;
 	}
 }

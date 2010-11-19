@@ -32,6 +32,7 @@ import org.coode.oppl.ParserFactory;
 import org.coode.oppl.Variable;
 import org.coode.oppl.entity.OWLEntityRenderer;
 import org.coode.oppl.entity.OWLEntityRendererImpl;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.rendering.VariableOWLEntityRenderer;
 import org.coode.parsers.ErrorListener;
@@ -77,8 +78,9 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 		}
 	}
 
-	public InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel) {
-		return new InstantiatedPatternModel(patternModel);
+	public InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel,
+			RuntimeExceptionHandler handler) {
+		return new InstantiatedPatternModel(patternModel, handler);
 	}
 
 	public PatternExtractor getPatternExtractor(ErrorListener errorListener) {
@@ -101,8 +103,8 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 	 *      java.util.List, java.util.List, org.coode.oppl.Variable,
 	 *      java.lang.String, org.coode.oppl.ConstraintSystem)
 	 */
-	public PatternModel createPatternModel(String name, List<Variable> variables,
-			List<OWLAxiomChange> actions, Variable returnClause, String rendering,
+	public PatternModel createPatternModel(String name, List<Variable<?>> variables,
+			List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
 			ConstraintSystem constraintSystem) throws EmptyVariableListException,
 			EmptyActionListException {
 		if (variables.isEmpty()) {

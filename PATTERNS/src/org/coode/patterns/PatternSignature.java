@@ -25,7 +25,7 @@ package org.coode.patterns;
 import java.util.Set;
 
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableType;
+import org.coode.oppl.variabletypes.VariableType;
 import org.coode.patterns.utils.Utils;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
@@ -36,9 +36,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  */
 public class PatternSignature {
 	private String name;
-	private OWLOntologyManager ontologyManager;
 	private final PatternModel pattern;
-	private final AbstractPatternModelFactory factory;
 
 	/**
 	 * @param name
@@ -46,8 +44,6 @@ public class PatternSignature {
 	public PatternSignature(String name, OWLOntologyManager ontologyManger,
 			AbstractPatternModelFactory factory) throws PatternException {
 		this.name = name;
-		this.factory = factory;
-		this.ontologyManager = ontologyManger;
 		Set<String> existingPatternNames = Utils.getExistingPatternNames(ontologyManger);
 		if (existingPatternNames.contains(name)) {
 			this.pattern = Utils.find(name, ontologyManger, factory);
@@ -56,7 +52,7 @@ public class PatternSignature {
 		}
 	}
 
-	public VariableType getIthVariableType(int i) throws PatternException {
+	public VariableType<?> getIthVariableType(int i) throws PatternException {
 		try {
 			return this.pattern.getInputVariables().get(i).getType();
 		} catch (IndexOutOfBoundsException e) {
@@ -64,7 +60,7 @@ public class PatternSignature {
 		}
 	}
 
-	public Variable getIthVariable(int i) throws PatternException {
+	public Variable<?> getIthVariable(int i) throws PatternException {
 		try {
 			return this.pattern.getInputVariables().get(i);
 		} catch (IndexOutOfBoundsException e) {
@@ -72,125 +68,10 @@ public class PatternSignature {
 		}
 	}
 
-	// public List<OWLObject> getPossibleValues(int i) throws PatternException,
-	// OPPLException,
-	// OWLReasonerException {
-	// List<OWLObject> listToReturn = new ArrayList<OWLObject>();
-	// Variable variable = this.pattern.getInputVariables().get(i);
-	// // VariableType variableType = this.getIthVariableType(i);
-	// final VariableScopeChecker variableScopeChecker =
-	// this.factory.getOPPLFactory().getVariableScopeChecker();
-	// final Set<OWLOntology> ontologies = this.ontologyManager.getOntologies();
-	// VariableTypeVisitorEx<Set<OWLObject>> visitor = new
-	// VariableTypeVisitorEx<Set<OWLObject>>() {
-	// public Set<OWLObject> visit(SingleValueGeneratedVariable<?> v) {
-	// return v.getValue().getGeneratedValue(null)
-	// BindingNode.getEmptyBindingNode();
-	// }
-	//
-	// public Set<OWLObject> visit(INDIVIDUALVariable v) {
-	// Set<OWLObject> toReturn = new HashSet<OWLObject>();
-	// for (OWLOntology ontology : ontologies) {
-	// Set<OWLIndividual> referencedIndividuals =
-	// ontology.getReferencedIndividuals();
-	// for (OWLIndividual individual : referencedIndividuals) {
-	// try {
-	// if (v.getVariableScope() == null
-	// || v.getVariableScope().check(individual, variableScopeChecker)) {
-	// toReturn.add(individual);
-	// }
-	// } catch (OWLReasonerException e) {
-	// throw new RuntimeException(e.getMessage(), e);
-	// }
-	// }
-	// }
-	// return toReturn;
-	// }
-	//
-	// public Set<OWLObject> visit(DATAPROPERTYVariable v) {
-	// Set<OWLObject> toReturn = new HashSet<OWLObject>();
-	// for (OWLOntology ontology : ontologies) {
-	// Set<OWLDataProperty> referencedDataProperties =
-	// ontology.getReferencedDataProperties();
-	// for (OWLDataProperty dataProperty : referencedDataProperties) {
-	// try {
-	// if (v.getVariableScope() == null
-	// || v.getVariableScope().check(
-	// dataProperty,
-	// variableScopeChecker)) {
-	// toReturn.add(dataProperty);
-	// }
-	// } catch (OWLReasonerException e) {
-	// throw new RuntimeException(e.getMessage(), e);
-	// }
-	// }
-	// }
-	// return toReturn;
-	// }
-	//
-	// public Set<OWLObject> visit(OBJECTPROPERTYVariable v) {
-	// Set<OWLObject> toReturn = new HashSet<OWLObject>();
-	// for (OWLOntology ontology : ontologies) {
-	// Set<OWLObjectProperty> referencedObjectProperties =
-	// ontology.getReferencedObjectProperties();
-	// for (OWLObjectProperty objectProperty : referencedObjectProperties) {
-	// try {
-	// if (v.getVariableScope() == null
-	// || v.getVariableScope().check(
-	// objectProperty,
-	// variableScopeChecker)) {
-	// toReturn.add(objectProperty);
-	// }
-	// } catch (OWLReasonerException e) {
-	// throw new RuntimeException(e.getMessage(), e);
-	// }
-	// }
-	// }
-	// return toReturn;
-	// }
-	//
-	// public Set<OWLObject> visit(CONSTANTVariable v) {
-	// return Collections.emptySet();
-	// }
-	//
-	// public Set<OWLObject> visit(CLASSVariable v) {
-	// Set<OWLObject> toReturn = new HashSet<OWLObject>();
-	// for (OWLOntology ontology : ontologies) {
-	// Set<OWLClass> referencedClasses = ontology.getReferencedClasses();
-	// for (OWLClass owlClass : referencedClasses) {
-	// try {
-	// if (v.getVariableScope() == null
-	// || v.getVariableScope().check(owlClass, variableScopeChecker)) {
-	// toReturn.add(owlClass);
-	// }
-	// } catch (OWLReasonerException e) {
-	// throw new RuntimeException(e.getMessage(), e);
-	// }
-	// }
-	// }
-	// return toReturn;
-	// }
-	// };
-	// listToReturn.addAll(variable.accept(visitor));
-	//
-	// return listToReturn;
-	// }
 	public int size() {
 		return this.pattern.getInputVariables().size();
 	}
 
-	// public List<OWLObject> getPossibleValues(int i, String prefix) throws
-	// PatternException,
-	// OWLReasonerException, OPPLException {
-	// List<OWLObject> toReturn = this.getPossibleValues(i);
-	// Iterator<OWLObject> it = toReturn.iterator();
-	// while (it.hasNext()) {
-	// if (!it.next().toString().startsWith(prefix)) {
-	// it.remove();
-	// }
-	// }
-	// return toReturn;
-	// }
 	/**
 	 * @return the pattern
 	 */

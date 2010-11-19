@@ -1,7 +1,6 @@
 package org.coode.patterns.ui;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +10,9 @@ import javax.swing.table.TableModel;
 
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.function.ValueComputationParameters;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.patterns.locality.LocalityChecker;
 import org.semanticweb.owlapi.model.OWLEntity;
 
@@ -44,7 +46,7 @@ public class LocalityCheckResultTableModel implements TableModel {
 	}
 
 	public LocalityCheckResultTableModel(LocalityChecker checker) {
-		List<Variable> toAssign = new ArrayList<Variable>(
+		List<InputVariable<?>> toAssign = new ArrayList<InputVariable<?>>(
 				checker.getInstantiatedPatternModel().getInputVariables());
 		List<Boolean> bindingsLocality = checker.getExploredNodesLocality();
 		List<BindingNode> bindings = checker.getExploredNodes();
@@ -53,14 +55,18 @@ public class LocalityCheckResultTableModel implements TableModel {
 		for (int i = 0; i < toAssign.size(); i++) {
 			this.dataArray[0][i + 1] = toAssign.get(i).getName();
 		}
-		Set<OWLEntity> sigmaMinus=checker.getEntities();sigmaMinus.addAll(checker.getSigmaPlus());
+		Set<OWLEntity> sigmaMinus = checker.getEntities();
+		sigmaMinus.addAll(checker.getSigmaPlus());
 		if (bindings.size() == bindingsLocality.size()) {
 			for (int i = 0; i < bindings.size(); i++) {
 				this.setValueAt(bindingsLocality.get(i), i, 0);
 				BindingNode node = bindings.get(i);
+				ValueComputationParameters parameters = new SimpleValueComputationParameters(
+						checker.getInstantiatedPatternModel().getConstraintSystem(), node,
+						checker.getHandler());
 				for (int j = 0; j < toAssign.size(); j++) {
-					Variable v = toAssign.get(j);
-					if (sigmaMinus.contains(node.getAssignmentValue(v))) {
+					Variable<?> v = toAssign.get(j);
+					if (sigmaMinus.contains(node.getAssignmentValue(v, parameters))) {
 						this.setValueAt(values.PRESENT.val, i, j + 1);
 					} else {
 						this.setValueAt(values.ABSENT.val, i, j + 1);

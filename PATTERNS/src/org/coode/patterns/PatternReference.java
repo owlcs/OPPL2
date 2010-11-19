@@ -30,49 +30,87 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.function.OPPLFunction;
+import org.coode.oppl.function.OPPLFunctionVisitor;
+import org.coode.oppl.function.OPPLFunctionVisitorEx;
+import org.coode.oppl.function.ValueComputationParameters;
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.parsers.ErrorListener;
-import org.semanticweb.owlapi.expression.OWLEntityChecker;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.NamespaceUtil;
+import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /**
  * @author Luigi Iannone
  * 
  *         Jun 25, 2008
  */
-public class PatternReference {
-	private OWLOntologyManager ontologyManger;
+public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 	private String patternName;
 	private final PatternConstraintSystem patternConstraintSystem;
 	private boolean resolvable;
 	private final Set<String> visited = new HashSet<String>();
-	private List<String>[] arguments;
-	private PatternOPPLScript extractedPattern;
+	private List<OWLObject>[] arguments;
+	private PatternModel extractedPattern;
 	private final ErrorListener errorListener;
+	private final OWLObjectVisitorExAdapter<Variable<?>> variableExtractor = new OWLObjectVisitorExAdapter<Variable<?>>() {
+		@Override
+		public Variable<?> visit(OWLClass desc) {
+			return PatternReference.this.getConstraintSystem().getVariable(desc.getIRI());
+		}
+
+		@Override
+		public Variable<?> visit(OWLAnnotationProperty property) {
+			return PatternReference.this.getConstraintSystem().getVariable(property.getIRI());
+		}
+
+		@Override
+		public Variable<?> visit(OWLDataProperty property) {
+			return PatternReference.this.getConstraintSystem().getVariable(property.getIRI());
+		}
+
+		@Override
+		public Variable<?> visit(OWLObjectProperty property) {
+			return PatternReference.this.getConstraintSystem().getVariable(property.getIRI());
+		}
+
+		@Override
+		public Variable<?> visit(OWLNamedIndividual individual) {
+			return PatternReference.this.getConstraintSystem().getVariable(individual.getIRI());
+		}
+
+		@Override
+		public Variable<?> visit(OWLLiteral literal) {
+			return PatternReference.this.getConstraintSystem().getVariable(literal.getLiteral());
+		}
+	};
 
 	public PatternReference(String patternName, PatternConstraintSystem constraintSystem,
-			OWLOntologyManager ontologyManager, ErrorListener errorListener, List<String>... args)
-			throws PatternException {
-		this(patternName, constraintSystem, ontologyManager, Collections.<String> emptySet(),
-				errorListener, args);
+			ErrorListener errorListener, List<OWLObject>... args) throws PatternException {
+		this(patternName, constraintSystem, Collections.<String> emptySet(), errorListener, args);
 	}
 
 	public PatternReference(String patternName, PatternConstraintSystem constraintSystem,
-			OWLOntologyManager ontologyManager, Collection<? extends String> visitedPatterns,
-			ErrorListener errorListener, List<String>... args) throws PatternException {
+			Collection<? extends String> visitedPatterns, ErrorListener errorListener,
+			List<OWLObject>... args) throws PatternException {
 		if (patternName == null) {
 			throw new NullPointerException("The pattern name cannot be null");
 		}
 		if (constraintSystem == null) {
 			throw new NullPointerException("The constraint system cannot be null");
-		}
-		if (ontologyManager == null) {
-			throw new NullPointerException("The ontology manager cannot be null");
 		}
 		if (visitedPatterns == null) {
 			throw new NullPointerException("The colleciton of visited patterns cannot be null");
@@ -82,14 +120,13 @@ public class PatternReference {
 		}
 		this.patternName = patternName;
 		this.patternConstraintSystem = constraintSystem;
-		this.ontologyManger = ontologyManager;
 		this.visited.addAll(visitedPatterns);
 		this.errorListener = errorListener;
 		this.init(args);
 	}
 
-	protected void init(List<String>... args) throws PatternException {
-		Set<OWLOntology> ontologies = this.ontologyManger.getOntologies();
+	protected void init(List<OWLObject>... args) throws PatternException {
+		Set<OWLOntology> ontologies = this.getConstraintSystem().getOntologyManager().getOntologies();
 		Iterator<OWLOntology> ontologyIterator = ontologies.iterator();
 		boolean found = false;
 		OWLOntology anOntology;
@@ -110,7 +147,7 @@ public class PatternReference {
 						PatternExtractor patternExtractor = this.patternConstraintSystem.getPatternModelFactory().getPatternExtractor(
 								this.getVisitedAnnotations(),
 								this.getErrorListener());
-						this.extractedPattern = annotation.accept(patternExtractor);
+						this.extractedPattern = (PatternModel) annotation.accept(patternExtractor);
 						found = this.extractedPattern != null;
 					}
 				}
@@ -130,16 +167,16 @@ public class PatternReference {
 	 * @param args
 	 * @return
 	 */
-	protected List<List<Object>> computeReplacements(List<String>... args) {
+	protected List<List<Object>> computeReplacements(List<OWLObject>... args) {
 		List<List<Object>> replacements = new ArrayList<List<Object>>();
-		for (List<String> iThAssignments : args) {
+		for (List<OWLObject> iThAssignments : args) {
 			List<Object> iThReplacement = new ArrayList<Object>();
-			for (String iThAssignment : iThAssignments) {
-				Variable v = this.patternConstraintSystem.getVariable(iThAssignment);
+			for (OWLObject iThAssignment : iThAssignments) {
+				Variable<?> v = iThAssignment.accept(this.variableExtractor);
 				if (v != null) {
 					iThReplacement.add(v);
 				} else {
-					iThReplacement.add(this.parse(iThAssignment));
+					iThReplacement.add(iThAssignment);
 				}
 			}
 			replacements.add(iThReplacement);
@@ -147,36 +184,18 @@ public class PatternReference {
 		return replacements;
 	}
 
-	private OWLObject parse(String string) {
-		OWLEntityChecker entityChecker = this.getPatternConstraintSystem().getPatternModelFactory().getOPPLFactory().getOWLEntityChecker();
-		OWLObject toReturn = entityChecker.getOWLClass(string);
-		if (toReturn == null) {
-			toReturn = entityChecker.getOWLDataProperty(string);
-		}
-		if (toReturn == null) {
-			toReturn = entityChecker.getOWLDatatype(string);
-		}
-		if (toReturn == null) {
-			toReturn = entityChecker.getOWLIndividual(string);
-		}
-		if (toReturn == null) {
-			toReturn = entityChecker.getOWLObjectProperty(string);
-		}
-		return toReturn;
-	}
-
 	/**
 	 * @param args
 	 */
-	protected boolean isResolvable(List<String>... args) {
+	protected boolean isResolvable(List<OWLObject>... args) {
 		boolean isResolvable = true;
 		for (int i = 0; i < args.length && isResolvable; i++) {
-			List<String> iThArgumentAssignments = args[i];
-			Iterator<String> it = iThArgumentAssignments.iterator();
-			String anIthAssignment;
+			List<OWLObject> iThArgumentAssignments = args[i];
+			Iterator<OWLObject> it = iThArgumentAssignments.iterator();
+			OWLObject anIthAssignment;
 			while (it.hasNext() && isResolvable) {
 				anIthAssignment = it.next();
-				Variable variable = this.patternConstraintSystem.getVariable(anIthAssignment);
+				Variable<?> variable = anIthAssignment.accept(this.variableExtractor);
 				if (variable != null) {
 					isResolvable = false;
 				}
@@ -192,33 +211,20 @@ public class PatternReference {
 	 * @throws IncompatibleArgumentException
 	 * @throws InvalidNumebrOfArgumentException
 	 */
-	protected void checkCompatibility(List<String>... args) throws PatternException,
+	protected void checkCompatibility(List<OWLObject>... args) throws PatternException,
 			IncompatibleArgumentException, InvalidNumebrOfArgumentException {
 		boolean compatible = true;
-		List<Variable> variables = this.extractedPattern.getInputVariables();
+		List<InputVariable<?>> variables = this.extractedPattern.getInputVariables();
 		if (variables.size() == args.length) {
 			for (int i = 0; i < args.length; i++) {
-				List<String> iThArgAssignements = args[i];
-				for (String anIthAssignment : iThArgAssignements) {
-					Variable variable = variables.get(i);
-					if (this.patternConstraintSystem.getVariable(anIthAssignment) != null) {
-						Variable argVariable = this.patternConstraintSystem.getVariable(anIthAssignment);
+				List<OWLObject> iThArgAssignements = args[i];
+				for (OWLObject anIthAssignment : iThArgAssignements) {
+					Variable<?> variable = variables.get(i);
+					Variable<?> argVariable = anIthAssignment.accept(this.variableExtractor);
+					if (argVariable != null) {
 						compatible = argVariable.getType().equals(variable.getType());
 					} else {
-						OWLObject arg = this.parse(anIthAssignment);
-						if (arg != null) {
-							compatible = variable.getType().isCompatibleWith(arg);
-							// if (arg instanceof OWLEntity) {
-							// compatible = variable.getType()
-							// .isCompatibleWith(arg);
-							// } else {
-							// compatible = variable.getType()
-							// .isCompatibleWith(arg);
-							// }
-						} else {
-							compatible = false;
-							throw new PatternException("Illegal argument " + iThArgAssignements);
-						}
+						compatible = variable.getType().isCompatibleWith(anIthAssignment);
 					}
 					if (!compatible) {
 						throw new IncompatibleArgumentException(anIthAssignment, variable);
@@ -242,15 +248,6 @@ public class PatternReference {
 	 * @return the resolution
 	 * @throws PatternException
 	 */
-	public String getResolutionString() throws PatternException {
-		List<List<Object>> replacements = this.computeReplacements(this.arguments);
-		return this.extractedPattern.getDefinitorialPortionStrings(replacements);
-	}
-
-	/**
-	 * @return the resolution
-	 * @throws PatternException
-	 */
 	public List<OWLObject> getResolution() throws PatternException {
 		List<List<Object>> replacements = this.computeReplacements(this.arguments);
 		return this.extractedPattern.getDefinitorialPortions(replacements);
@@ -258,9 +255,6 @@ public class PatternReference {
 
 	protected boolean hasBeenVisited(IRI annotationIRI) {
 		boolean found = false;
-		// TODO performance wise: have visited contain the complete uris or
-		// check that the uri starts with the namespace before creating the
-		// namespaceutil object
 		NamespaceUtil nsUtil = new NamespaceUtil();
 		String[] split = nsUtil.split(annotationIRI.toString(), null);
 		if (split != null && split.length == 2 && split[0].equals(PatternModel.NAMESPACE)) {
@@ -272,7 +266,7 @@ public class PatternReference {
 	protected Set<OWLAnnotation> getVisitedAnnotations() {
 		Set<OWLAnnotation> toReturn = new HashSet<OWLAnnotation>();
 		for (String visitedPatternName : this.visited) {
-			Iterator<OWLOntology> it = this.ontologyManger.getOntologies().iterator();
+			Iterator<OWLOntology> it = this.getConstraintSystem().getOntologyManager().getOntologies().iterator();
 			boolean found = false;
 			OWLOntology ontology;
 			while (!found && it.hasNext()) {
@@ -292,18 +286,16 @@ public class PatternReference {
 		return toReturn;
 	}
 
-	public InstantiatedPatternModel getInstantiation() throws PatternException {
+	public InstantiatedPatternModel getInstantiation(RuntimeExceptionHandler handler)
+			throws PatternException {
 		if (this.isResolvable()) {
 			InstantiatedPatternModel toReturn = null;
-			if (this.extractedPattern instanceof InstantiatedPatternModel) {
-				toReturn = (InstantiatedPatternModel) this.extractedPattern;
-			} else {
-				PatternModel p = (PatternModel) this.extractedPattern;
-				toReturn = p.getPatternModelFactory().createInstantiatedPatternModel(p);
-			}
+			toReturn = this.getExtractedPattern().getPatternModelFactory().createInstantiatedPatternModel(
+					this.getExtractedPattern(),
+					handler);
 			List<List<Object>> replacements = this.computeReplacements(this.arguments);
 			int i = 0;
-			for (Variable variable : toReturn.getInputVariables()) {
+			for (Variable<?> variable : toReturn.getInputVariables()) {
 				List<Object> variableReplacements = replacements.get(i);
 				for (Object object : variableReplacements) {
 					if (object instanceof OWLObject) {
@@ -321,36 +313,13 @@ public class PatternReference {
 	/**
 	 * @return the extractedPattern
 	 */
-	public PatternOPPLScript getExtractedPattern() {
+	public PatternModel getExtractedPattern() {
 		return this.extractedPattern;
 	}
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer("$");
-		buffer.append(this.patternName);
-		buffer.append('(');
-		boolean firstArgument = true;
-		for (List<String> ithArgList : this.arguments) {
-			String comma = firstArgument ? "" : ", ";
-			buffer.append(comma);
-			firstArgument = false;
-			if (ithArgList.size() > 1) {
-				buffer.append('{');
-				boolean firstSubArg = true;
-				for (String string : ithArgList) {
-					comma = firstSubArg ? "" : ", ";
-					firstSubArg = false;
-					buffer.append(comma);
-					buffer.append(string);
-				}
-				buffer.append('}');
-			} else if (ithArgList.size() == 1) {
-				buffer.append(ithArgList.get(0));
-			}
-		}
-		buffer.append(')');
-		return buffer.toString().trim();
+		return this.render(this.getConstraintSystem());
 	}
 
 	public String getPatternName() {
@@ -360,7 +329,7 @@ public class PatternReference {
 	/**
 	 * @return the arguments
 	 */
-	public List<String>[] getArguments() {
+	public List<OWLObject>[] getArguments() {
 		return this.arguments;
 	}
 
@@ -369,13 +338,6 @@ public class PatternReference {
 	 */
 	public PatternConstraintSystem getConstraintSystem() {
 		return this.patternConstraintSystem;
-	}
-
-	/**
-	 * @return the ontologyManger
-	 */
-	public OWLOntologyManager getOntologyManger() {
-		return this.ontologyManger;
 	}
 
 	/**
@@ -390,5 +352,47 @@ public class PatternReference {
 	 */
 	public ErrorListener getErrorListener() {
 		return this.errorListener;
+	}
+
+	public String render(ConstraintSystem constraintSystem) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(String.format("$%s(", this.getPatternName()));
+		for (List<OWLObject> args : this.getArguments()) {
+			String openingBrace = args.size() > 1 ? "{" : "";
+			String closingBrace = args.size() > 1 ? "}" : "";
+			builder.append(openingBrace);
+			Iterator<OWLObject> iterator = args.iterator();
+			while (iterator.hasNext()) {
+				OWLObject owlObject = iterator.next();
+				ManchesterSyntaxRenderer renderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+						this.getConstraintSystem());
+				owlObject.accept(renderer);
+				builder.append(renderer.toString());
+				if (iterator.hasNext()) {
+					builder.append(", ");
+				}
+			}
+			builder.append(closingBrace);
+		}
+		builder.append(")");
+		return builder.toString();
+	}
+
+	public O compute(ValueComputationParameters params) {
+		try {
+			return (O) this.extractedPattern.getDefinitorialPortions(
+					this.computeReplacements(this.getArguments())).get(0);
+		} catch (PatternException e) {
+			params.getRuntimeExceptionHandler().handleException(e);
+		}
+		return null;
+	}
+
+	public void accept(OPPLFunctionVisitor visitor) {
+		visitor.visitGenericOPPLFunction(this);
+	}
+
+	public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {
+		return visitor.visitGenericOPPLFunction(this);
 	}
 }

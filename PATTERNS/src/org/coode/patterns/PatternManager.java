@@ -30,6 +30,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.coode.oppl.OPPLScript;
+import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.common.SystemErrorEcho;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -59,6 +61,8 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
  *         Jul 3, 2008
  */
 public class PatternManager implements OWLOntologyChangeListener {
+	public static final RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
+
 	static class AdditionManager extends OWLAxiomVisitorAdapter implements OWLAxiomVisitor {
 		private OWLOntologyManager ontologyManager;
 		private OWLOntology ontology;
@@ -87,8 +91,8 @@ public class PatternManager implements OWLOntologyChangeListener {
 								(InstantiatedPatternModel) patternModel,
 								AdditionManager.this.ontology,
 								AdditionManager.this.ontologyManager,
-								annotation.getProperty().getIRI());
-						List<OWLAxiomChange> changes = opplStatement.accept(patternExecutor);
+								annotation.getProperty().getIRI(), HANDLER);
+						List<OWLAxiomChange> changes = patternExecutor.visit(opplStatement);
 						try {
 							AdditionManager.this.ontologyManager.applyChanges(changes);
 						} catch (OWLOntologyChangeException e) {

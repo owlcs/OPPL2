@@ -36,6 +36,10 @@ public class CollectRuntimeExceptionHandler implements RuntimeExceptionHandler {
 		this.handleRuntimeException(e);
 	}
 
+	public void handleException(RuntimeException e) {
+		this.handleRuntimeException(e);
+	}
+
 	/**
 	 * @return the exceptions
 	 */

@@ -30,6 +30,8 @@ import java.util.Set;
 
 import org.coode.oppl.ActionType;
 import org.coode.oppl.ChangeExtractor;
+import org.coode.oppl.OPPLScript;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -49,8 +51,9 @@ public class NonClassPatternExecutor extends ChangeExtractor {
 	private OWLOntologyManager ontologyManager;
 
 	public NonClassPatternExecutor(InstantiatedPatternModel instantiatedPatternModel,
-			OWLOntology ontology, OWLOntologyManager ontologyManager, IRI annotationIRI) {
-		super(instantiatedPatternModel.getConstraintSystem(), true);
+			OWLOntology ontology, OWLOntologyManager ontologyManager, IRI annotationIRI,
+			RuntimeExceptionHandler handler) {
+		super(handler, true);
 		this.instantiatedPatternModel = instantiatedPatternModel;
 		this.annotationIRI = annotationIRI;
 		this.ontology = ontology;
@@ -58,7 +61,8 @@ public class NonClassPatternExecutor extends ChangeExtractor {
 	}
 
 	@Override
-	public List<OWLAxiomChange> visitActions(List<OWLAxiomChange> changes, List<OWLAxiomChange> p1) {
+	public List<OWLAxiomChange> visit(OPPLScript script) {
+		List<OWLAxiomChange> changes = script.getActions();
 		Set<OWLAxiomChange> p = new HashSet<OWLAxiomChange>(changes.size());
 		for (OWLAxiomChange axiomChange : changes) {
 			ActionType actionType = axiomChange instanceof AddAxiom ? ActionType.ADD
@@ -70,7 +74,8 @@ public class NonClassPatternExecutor extends ChangeExtractor {
 					this.instantiatedPatternModel,
 					this.ontologyManager.getOWLDataFactory(),
 					this.annotationIRI,
-					this.ontology);
+					this.ontology,
+					this.getRuntimeExceptionHandler());
 			p.addAll(createdChanges);
 		}
 		return new ArrayList<OWLAxiomChange>(p);

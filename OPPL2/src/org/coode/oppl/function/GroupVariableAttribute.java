@@ -3,6 +3,8 @@ package org.coode.oppl.function;
 import java.util.regex.Matcher;
 
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.Variable;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -87,5 +89,10 @@ public class GroupVariableAttribute<O extends OWLObject> extends VariableAttribu
 	public static <P extends OWLObject> GroupVariableAttribute<P> getGroupVariableAttribute(
 			RegexpGeneratedVariable<P> variable, int index) {
 		return new GroupVariableAttribute<P>(variable, index);
+	}
+
+	public OPPLFunction<String> replace(Variable<?> v, OWLObject owlObject,
+			ConstraintSystem constraintSystem, RuntimeExceptionHandler handler) {
+		return this;
 	}
 }
