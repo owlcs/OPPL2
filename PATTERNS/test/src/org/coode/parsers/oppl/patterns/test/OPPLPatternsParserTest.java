@@ -80,6 +80,150 @@ public class OPPLPatternsParserTest extends TestCase {
 		assertNotNull(parsed);
 	}
 
+	public void testParseThisClassAtomic() {
+		String input = "$thisClass";
+		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
+		OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
+		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
+		OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens);
+		parser.setTreeAdaptor(adaptor);
+		try {
+			RuleReturnScope r = parser.atomic();
+			assertNotNull(r);
+			CommonTree tree = (CommonTree) r.getTree();
+			System.out.println(tree.toStringTree());
+		} catch (RecognitionException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testParseAtomic() {
+		String input = "Thing";
+		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
+		OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
+		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
+		OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens);
+		parser.setTreeAdaptor(adaptor);
+		try {
+			RuleReturnScope r = parser.atomic();
+			assertNotNull(r);
+			CommonTree tree = (CommonTree) r.getTree();
+			System.out.println(tree.toStringTree());
+		} catch (RecognitionException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testParseThisClassExpression() {
+		String input = "$thisClass";
+		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
+		OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
+		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
+		OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens);
+		parser.setTreeAdaptor(adaptor);
+		try {
+			RuleReturnScope r = parser.expression();
+			assertNotNull(r);
+			CommonTree tree = (CommonTree) r.getTree();
+			System.out.println(tree.toStringTree());
+		} catch (RecognitionException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testParseUnaryVariable() {
+		String input = "?x";
+		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
+		OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
+		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
+		OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens);
+		parser.setTreeAdaptor(adaptor);
+		try {
+			RuleReturnScope r = parser.unary();
+			assertNotNull(r);
+			CommonTree tree = (CommonTree) r.getTree();
+			System.out.println(tree.toStringTree());
+		} catch (RecognitionException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testParseUnaryThisClass() {
+		String input = "$thisClass";
+		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
+		OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
+		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
+		OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens);
+		parser.setTreeAdaptor(adaptor);
+		try {
+			RuleReturnScope r = parser.unary();
+			assertNotNull(r);
+			CommonTree tree = (CommonTree) r.getTree();
+			System.out.println(tree.toStringTree());
+		} catch (RecognitionException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testParseThisClassAtomicSubClassAxiom() {
+		String input = "$thisClass subClassOf Thing";
+		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
+		OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
+		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
+		OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens);
+		parser.setTreeAdaptor(adaptor);
+		try {
+			RuleReturnScope r = parser.axiom();
+			assertNotNull(r);
+			CommonTree tree = (CommonTree) r.getTree();
+			System.out.println(tree.toStringTree());
+		} catch (RecognitionException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testParseExpression() {
+		String input = "Thing";
+		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
+		OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
+		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
+		OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens);
+		parser.setTreeAdaptor(adaptor);
+		try {
+			RuleReturnScope r = parser.expression();
+			assertNotNull(r);
+			CommonTree tree = (CommonTree) r.getTree();
+			System.out.println(tree.toStringTree());
+		} catch (RecognitionException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testParsePatternReferenceAtomic() {
+		String input = "$p(Thing,Nothing)";
+		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
+		OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
+		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
+		OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens);
+		parser.setTreeAdaptor(adaptor);
+		try {
+			RuleReturnScope r = parser.atomic();
+			assertNotNull(r);
+			CommonTree tree = (CommonTree) r.getTree();
+			System.out.println(tree.toStringTree());
+		} catch (RecognitionException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
 	protected OPPLSyntaxTree parse(String input) {
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
@@ -100,6 +244,7 @@ public class OPPLPatternsParserTest extends TestCase {
 			return (OPPLSyntaxTree) r.getTree();
 		} catch (RecognitionException e) {
 			e.printStackTrace();
+			fail(e.getMessage());
 			return null;
 		}
 	}

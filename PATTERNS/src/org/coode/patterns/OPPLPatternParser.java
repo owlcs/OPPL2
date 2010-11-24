@@ -20,6 +20,7 @@ import org.coode.oppl.AbstractOPPLParser;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
+import org.coode.parsers.common.SilentListener;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.DefaultTypeEnforcer;
 import org.coode.parsers.oppl.OPPLDefine;
@@ -29,6 +30,7 @@ import org.coode.parsers.oppl.OPPLTypes;
 import org.coode.parsers.oppl.patterns.OPPLPatternLexer;
 import org.coode.parsers.oppl.patterns.OPPLPatternScriptParser;
 import org.coode.parsers.oppl.patterns.OPPLPatternsDefine;
+import org.coode.parsers.oppl.patterns.OPPLPatternsReferenceDefine;
 import org.coode.parsers.oppl.patterns.OPPLPatternsSymbolTable;
 import org.coode.parsers.oppl.patterns.OPPLPatternsTypes;
 
@@ -85,7 +87,7 @@ public class OPPLPatternParser implements AbstractOPPLParser {
 	public interface PatternReferenceResolver {
 		public void resolvePattern(OPPLSyntaxTree reference, String patternName,
 				PatternConstraintSystem constraintSystem, OPPLPatternsSymbolTable symbolTable,
-				String... args);
+				Object... args);
 	}
 
 	private static final TreeAdaptor ADAPTOR = new CommonTreeAdaptor() {
@@ -121,7 +123,7 @@ public class OPPLPatternParser implements AbstractOPPLParser {
 		return new PatternReferenceResolver() {
 			public void resolvePattern(OPPLSyntaxTree reference, String patternName,
 					PatternConstraintSystem constraintSystem, OPPLPatternsSymbolTable symbolTable,
-					String... args) {
+					Object... args) {
 				symbolTable.resolvePattern(reference, patternName, constraintSystem, args);
 			}
 		};
@@ -192,8 +194,10 @@ public class OPPLPatternParser implements AbstractOPPLParser {
 				patternsDefine.setTreeAdaptor(ADAPTOR);
 				patternsDefine.downup(tree);
 				nodes.reset();
+				SilentListener silentListener = new SilentListener();
+				symtab.setErrorListener(silentListener);
 				ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab,
-						this.getListener());
+						silentListener);
 				mOWLTypes.downup(tree);
 				nodes.reset();
 				OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(
@@ -207,8 +211,22 @@ public class OPPLPatternParser implements AbstractOPPLParser {
 				nodes.reset();
 				mOWLTypes.downup(tree);
 				nodes.reset();
-				OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, this.getListener(),
+				OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, silentListener,
 						constraintSystem, this.getOPPLPatternFactory().getOPPLFactory());
+				opplTypes.downup(tree);
+				nodes.reset();
+				OPPLPatternsReferenceDefine patternReferenceDefine = new OPPLPatternsReferenceDefine(
+						nodes, symtab, this.getListener(), this.getPatternReferenceResolver(),
+						constraintSystem);
+				patternReferenceDefine.setTreeAdaptor(ADAPTOR);
+				patternReferenceDefine.downup(tree);
+				nodes.reset();
+				symtab.setErrorListener(this.getListener());
+				mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab, this.getListener());
+				mOWLTypes.downup(tree);
+				nodes.reset();
+				opplTypes = new OPPLTypes(nodes, symtab, this.getListener(), constraintSystem,
+						this.getOPPLPatternFactory().getOPPLFactory());
 				opplTypes.downup(tree);
 				nodes.reset();
 				OPPLPatternsTypes opplPatternsTypes = new OPPLPatternsTypes(nodes, symtab,

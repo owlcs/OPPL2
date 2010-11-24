@@ -3,9 +3,12 @@ package org.coode.oppl.test;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.regex.PatternSyntaxException;
 
 import junit.framework.TestCase;
 
@@ -19,7 +22,16 @@ import org.coode.oppl.ParserFactory;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableVisitor;
 import org.coode.oppl.VariableVisitorEx;
+import org.coode.oppl.bindingtree.Assignment;
+import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.function.ValueComputationParameters;
+import org.coode.oppl.generated.GeneratedVariable;
+import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.log.Logging;
+import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.VariableType;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.coode.parsers.ErrorListener;
@@ -34,12 +46,26 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyDocumentAlreadyExistsException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 
 public class OPPLPartsTestCase extends TestCase {
 	// ontology manager
 	private final OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 	private final ErrorListener errorListener = new SystemErrorEcho();
 	private final Map<String, OWLOntology> loadedOntologies = new HashMap<String, OWLOntology>();
+	private final RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
+		public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
+			OPPLPartsTestCase.this.errorListener.reportThrowable(e, 0, 0, 0);
+		}
+
+		public void handleOWLRuntimeException(OWLRuntimeException e) {
+			OPPLPartsTestCase.this.errorListener.reportThrowable(e, 0, 0, 0);
+		}
+
+		public void handleException(RuntimeException e) {
+			OPPLPartsTestCase.this.errorListener.reportThrowable(e, 0, 0, 0);
+		}
+	};
 
 	@Override
 	protected void setUp() throws Exception {
@@ -172,7 +198,38 @@ public class OPPLPartsTestCase extends TestCase {
 				symbolTable,
 				constraintSystem);
 		assertNotNull("The oppl function cannot be null", opplFunction);
+		BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
+		bindingNode.addAssignment(new Assignment(constraintSystem.getVariable("?x"),
+				constraintSystem.getOntologyManager().getOWLDataFactory().getOWLClass(
+						IRI.create("blah#Luigi"))));
+		BindingNode anotherBindingNode = BindingNode.createNewEmptyBindingNode();
+		anotherBindingNode.addAssignment(new Assignment(constraintSystem.getVariable("?x"),
+				constraintSystem.getOntologyManager().getOWLDataFactory().getOWLClass(
+						IRI.create("blah#Monica"))));
+		constraintSystem.setLeaves(new HashSet<BindingNode>(Arrays.asList(
+				bindingNode,
+				anotherBindingNode)));
+		final ValueComputationParameters parameters = new SimpleValueComputationParameters(
+				constraintSystem, BindingNode.createNewEmptyBindingNode(), this.handler);
 		Logging.getParseTestLogging().log(Level.INFO, opplFunction.render(constraintSystem));
+		opplFunction.accept(new VariableVisitor() {
+			public <P extends OWLObject> void visit(RegexpGeneratedVariable<P> regExpGenerated) {
+				fail("Wrong kind of variable expected generated variable found regexp ");
+			}
+
+			public <P extends OWLObject> void visit(GeneratedVariable<P> v) {
+				P value = v.getOPPLFunction().compute(parameters);
+				assertNotNull(value);
+				ManchesterSyntaxRenderer renderer = parameters.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+						parameters.getConstraintSystem());
+				value.accept(renderer);
+				System.out.println(renderer.toString());
+			}
+
+			public <P extends OWLObject> void visit(InputVariable<P> v) {
+				fail("Wrong kind of variable expected generated variable found input ");
+			}
+		});
 	}
 
 	public void testParseAxiom() {

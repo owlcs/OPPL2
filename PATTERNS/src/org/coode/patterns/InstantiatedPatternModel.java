@@ -23,6 +23,7 @@
 package org.coode.patterns;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -115,7 +116,10 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript, Pattern
 	 * @param value
 	 */
 	public void instantiate(Variable<?> variable, OWLObject value) {
-		if (this.patternModel.getVariables().contains(variable)) {
+		if (this.getPatternModel().getVariables().contains(variable)
+				|| this.getPatternModel().getConstraintSystem().getThisClassVariable().equals(
+						variable)
+				&& this.getPatternModel().getConstraintSystem().getVariable(variable.getName()) != null) {
 			Set<OWLObject> instantiation = this.getInstantiations(variable);
 			if (instantiation == null) {
 				instantiation = new HashSet<OWLObject>();
@@ -234,7 +238,13 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript, Pattern
 		}
 		Set<Variable<?>> toAssign = new HashSet<Variable<?>>(inputVariables);
 		if (this.isClassPattern()) {
-			toAssign.add(this.getConstraintSystem().getThisClassVariable());
+			Variable<?> thisClassVariable = this.getConstraintSystem().getThisClassVariable();
+			toAssign.add(thisClassVariable);
+			if (this.instantiations.containsKey(thisClassVariable)) {
+				bindings.put(
+						thisClassVariable,
+						new HashSet<OWLObject>(this.instantiations.get(thisClassVariable)));
+			}
 		}
 		BindingNode rootBindingNode = new BindingNode(assignments, toAssign);
 		LeafBrusher leafBrusher = new LeafBrusher(bindings);
@@ -381,11 +391,6 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript, Pattern
 		return this.patternModel.isClassPattern();
 	}
 
-	public String getDefinitorialPortionStrings(List<List<Object>> replacements)
-			throws PatternException {
-		return this.patternModel.getDefinitorialPortionStrings(replacements);
-	}
-
 	public List<InputVariable<?>> getInputVariables() {
 		return this.patternModel.getOpplStatement().getInputVariables();
 	}
@@ -427,8 +432,9 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript, Pattern
 		return null;
 	}
 
-	public OWLObject getDefinitorialPortions(BindingNode bindingNode) throws PatternException {
-		return this.getPatternModel().getDefinitorialPortions(bindingNode);
+	public OWLObject getDefinitorialPortion(Collection<? extends BindingNode> bindingNodes,
+			RuntimeExceptionHandler runtimeExceptionHandler) throws PatternException {
+		return this.getPatternModel().getDefinitorialPortion(bindingNodes, runtimeExceptionHandler);
 	}
 
 	/**

@@ -561,11 +561,12 @@ public class OPPLSymbolTable extends SymbolTable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <O extends OWLObject> Collection<? extends Aggregandum<O>> getAggregandumCollection(
+	public <O extends OWLObject> Collection<? extends Aggregandum<Collection<? extends O>>> getAggregandumCollection(
 			org.coode.oppl.variabletypes.VariableType<O> variableType,
 			Collection<? extends Aggregandum<?>> aggregandums,
 			List<OPPLSyntaxTree> aggregandumsTrees, OPPLSyntaxTree parentExpression) {
-		List<Aggregandum<O>> toReturn = new ArrayList<Aggregandum<O>>(aggregandums.size());
+		List<Aggregandum<Collection<? extends O>>> toReturn = new ArrayList<Aggregandum<Collection<? extends O>>>(
+				aggregandums.size());
 		boolean allFine = true;
 		Iterator<? extends Aggregandum<?>> iterator = aggregandums.iterator();
 		int i = 0;
@@ -573,7 +574,7 @@ public class OPPLSymbolTable extends SymbolTable {
 			Aggregandum<?> aggregandum = iterator.next();
 			allFine = aggregandum.isCompatible(variableType);
 			if (allFine) {
-				toReturn.add((Aggregandum<O>) aggregandum);
+				toReturn.add((Aggregandum<Collection<? extends O>>) aggregandum);
 			} else {
 				OPPLSyntaxTree opplSyntaxTree = aggregandumsTrees.get(i);
 				this.reportIncompatibleSymbolType(

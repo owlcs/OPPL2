@@ -25,33 +25,41 @@ package org.coode.patterns;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.regex.PatternSyntaxException;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
+import org.coode.oppl.bindingtree.Assignment;
+import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.bindingtree.LeafBrusher;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.function.OPPLFunctionVisitor;
 import org.coode.oppl.function.OPPLFunctionVisitorEx;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
+import org.coode.oppl.variabletypes.CLASSVariableType;
+import org.coode.oppl.variabletypes.CONSTANTVariableType;
+import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
+import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
 import org.coode.oppl.variabletypes.InputVariable;
+import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.coode.parsers.ErrorListener;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLLiteral;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.util.NamespaceUtil;
-import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /**
  * @author Luigi Iannone
@@ -63,49 +71,31 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 	private final PatternConstraintSystem patternConstraintSystem;
 	private boolean resolvable;
 	private final Set<String> visited = new HashSet<String>();
-	private List<OWLObject>[] arguments;
+	private List<Object>[] arguments;
 	private PatternModel extractedPattern;
 	private final ErrorListener errorListener;
-	private final OWLObjectVisitorExAdapter<Variable<?>> variableExtractor = new OWLObjectVisitorExAdapter<Variable<?>>() {
-		@Override
-		public Variable<?> visit(OWLClass desc) {
-			return PatternReference.this.getConstraintSystem().getVariable(desc.getIRI());
+	private final RuntimeExceptionHandler runtimeExceptionHandler = new RuntimeExceptionHandler() {
+		public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
+			PatternReference.this.errorListener.reportThrowable(e, 0, 0, 0);
 		}
 
-		@Override
-		public Variable<?> visit(OWLAnnotationProperty property) {
-			return PatternReference.this.getConstraintSystem().getVariable(property.getIRI());
+		public void handleOWLRuntimeException(OWLRuntimeException e) {
+			PatternReference.this.errorListener.reportThrowable(e, 0, 0, 0);
 		}
 
-		@Override
-		public Variable<?> visit(OWLDataProperty property) {
-			return PatternReference.this.getConstraintSystem().getVariable(property.getIRI());
-		}
-
-		@Override
-		public Variable<?> visit(OWLObjectProperty property) {
-			return PatternReference.this.getConstraintSystem().getVariable(property.getIRI());
-		}
-
-		@Override
-		public Variable<?> visit(OWLNamedIndividual individual) {
-			return PatternReference.this.getConstraintSystem().getVariable(individual.getIRI());
-		}
-
-		@Override
-		public Variable<?> visit(OWLLiteral literal) {
-			return PatternReference.this.getConstraintSystem().getVariable(literal.getLiteral());
+		public void handleException(RuntimeException e) {
+			PatternReference.this.errorListener.reportThrowable(e, 0, 0, 0);
 		}
 	};
 
 	public PatternReference(String patternName, PatternConstraintSystem constraintSystem,
-			ErrorListener errorListener, List<OWLObject>... args) throws PatternException {
+			ErrorListener errorListener, List<Object>... args) throws PatternException {
 		this(patternName, constraintSystem, Collections.<String> emptySet(), errorListener, args);
 	}
 
 	public PatternReference(String patternName, PatternConstraintSystem constraintSystem,
 			Collection<? extends String> visitedPatterns, ErrorListener errorListener,
-			List<OWLObject>... args) throws PatternException {
+			List<Object>... args) throws PatternException {
 		if (patternName == null) {
 			throw new NullPointerException("The pattern name cannot be null");
 		}
@@ -125,7 +115,7 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 		this.init(args);
 	}
 
-	protected void init(List<OWLObject>... args) throws PatternException {
+	protected void init(List<Object>... args) throws PatternException {
 		Set<OWLOntology> ontologies = this.getConstraintSystem().getOntologyManager().getOntologies();
 		Iterator<OWLOntology> ontologyIterator = ontologies.iterator();
 		boolean found = false;
@@ -167,17 +157,12 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 	 * @param args
 	 * @return
 	 */
-	protected List<List<Object>> computeReplacements(List<OWLObject>... args) {
+	protected List<List<Object>> computeReplacements(List<Object>... args) {
 		List<List<Object>> replacements = new ArrayList<List<Object>>();
-		for (List<OWLObject> iThAssignments : args) {
+		for (List<Object> iThAssignments : args) {
 			List<Object> iThReplacement = new ArrayList<Object>();
-			for (OWLObject iThAssignment : iThAssignments) {
-				Variable<?> v = iThAssignment.accept(this.variableExtractor);
-				if (v != null) {
-					iThReplacement.add(v);
-				} else {
-					iThReplacement.add(iThAssignment);
-				}
+			for (Object iThAssignment : iThAssignments) {
+				iThReplacement.add(iThAssignment);
 			}
 			replacements.add(iThReplacement);
 		}
@@ -187,18 +172,15 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 	/**
 	 * @param args
 	 */
-	protected boolean isResolvable(List<OWLObject>... args) {
+	protected boolean isResolvable(List<Object>... args) {
 		boolean isResolvable = true;
 		for (int i = 0; i < args.length && isResolvable; i++) {
-			List<OWLObject> iThArgumentAssignments = args[i];
-			Iterator<OWLObject> it = iThArgumentAssignments.iterator();
-			OWLObject anIthAssignment;
+			List<Object> iThArgumentAssignments = args[i];
+			Iterator<Object> it = iThArgumentAssignments.iterator();
+			Object anIthAssignment;
 			while (it.hasNext() && isResolvable) {
 				anIthAssignment = it.next();
-				Variable<?> variable = anIthAssignment.accept(this.variableExtractor);
-				if (variable != null) {
-					isResolvable = false;
-				}
+				isResolvable = anIthAssignment instanceof OWLObject;
 			}
 		}
 		return isResolvable;
@@ -211,20 +193,22 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 	 * @throws IncompatibleArgumentException
 	 * @throws InvalidNumebrOfArgumentException
 	 */
-	protected void checkCompatibility(List<OWLObject>... args) throws PatternException,
+	protected void checkCompatibility(List<Object>... args) throws PatternException,
 			IncompatibleArgumentException, InvalidNumebrOfArgumentException {
 		boolean compatible = true;
 		List<InputVariable<?>> variables = this.extractedPattern.getInputVariables();
 		if (variables.size() == args.length) {
 			for (int i = 0; i < args.length; i++) {
-				List<OWLObject> iThArgAssignements = args[i];
-				for (OWLObject anIthAssignment : iThArgAssignements) {
-					Variable<?> variable = variables.get(i);
-					Variable<?> argVariable = anIthAssignment.accept(this.variableExtractor);
-					if (argVariable != null) {
-						compatible = argVariable.getType().equals(variable.getType());
+				List<Object> iThArgAssignements = args[i];
+				for (Object anIthAssignment : iThArgAssignements) {
+					InputVariable<?> variable = this.getExtractedPattern().getInputVariables().get(
+							i);
+					if (anIthAssignment instanceof Variable<?>) {
+						compatible = ((Variable<?>) anIthAssignment).getType().equals(
+								variable.getType());
 					} else {
-						compatible = variable.getType().isCompatibleWith(anIthAssignment);
+						compatible = anIthAssignment instanceof OWLObject
+								&& variable.getType().isCompatibleWith((OWLObject) anIthAssignment);
 					}
 					if (!compatible) {
 						throw new IncompatibleArgumentException(anIthAssignment, variable);
@@ -249,8 +233,75 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 	 * @throws PatternException
 	 */
 	public List<OWLObject> getResolution() throws PatternException {
-		List<List<Object>> replacements = this.computeReplacements(this.arguments);
-		return this.extractedPattern.getDefinitorialPortions(replacements);
+		Map<Variable<?>, Set<OWLObject>> bindings = this.getBindingsMap();
+		// Will use the leaf brusher to compute the binding nodes and when the
+		// replacement is a variable will create an OWLObject corresponding to
+		// it.
+		LeafBrusher leafBrusher = new LeafBrusher(bindings);
+		BindingNode root = new BindingNode(Collections.<Assignment> emptySet(), bindings.keySet());
+		root.accept(leafBrusher);
+		final Set<BindingNode> leaves = leafBrusher.getLeaves();
+		List<OWLObject> toReturn = new ArrayList<OWLObject>(leaves.size());
+		for (BindingNode bindingNode : leaves) {
+			toReturn.add(this.getExtractedPattern().getDefinitorialPortion(
+					Collections.singleton(bindingNode),
+					this.runtimeExceptionHandler));
+		}
+		return toReturn;
+	}
+
+	/**
+	 * @param replacements
+	 * @param bindings
+	 */
+	private Map<Variable<?>, Set<OWLObject>> getBindingsMap() {
+		Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
+		List<List<Object>> replacements = this.computeReplacements(this.getArguments());
+		for (int i = 0; i < replacements.size(); i++) {
+			List<Object> values = replacements.get(i);
+			InputVariable<?> variable = this.getExtractedPattern().getInputVariables().get(i);
+			Set<OWLObject> set = new HashSet<OWLObject>(values.size());
+			bindings.put(variable, set);
+			for (Object object : values) {
+				if (object instanceof OWLObject) {
+					set.add((OWLObject) object);
+				} else if (object instanceof Variable<?>) {
+					final OWLDataFactory dataFactory = this.getConstraintSystem().getOntologyManager().getOWLDataFactory();
+					final Variable<?> v = (Variable<?>) object;
+					set.add(v.getType().accept(new VariableTypeVisitorEx<OWLObject>() {
+						public OWLObject visitCLASSVariableType(CLASSVariableType classVariableType) {
+							return dataFactory.getOWLClass(v.getIRI());
+						}
+
+						public OWLObject visitOBJECTPROPERTYVariableType(
+								OBJECTPROPERTYVariableType objectpropertyVariableType) {
+							return dataFactory.getOWLObjectProperty(v.getIRI());
+						}
+
+						public OWLObject visitDATAPROPERTYVariableType(
+								DATAPROPERTYVariableType datapropertyVariableType) {
+							return dataFactory.getOWLDataProperty(v.getIRI());
+						}
+
+						public OWLObject visitINDIVIDUALVariableType(
+								INDIVIDUALVariableType individualVariableType) {
+							return dataFactory.getOWLNamedIndividual(v.getIRI());
+						}
+
+						public OWLObject visitCONSTANTVariableType(
+								CONSTANTVariableType constantVariableType) {
+							return dataFactory.getOWLLiteral(v.getIRI().toString());
+						}
+
+						public OWLObject visitANNOTATIONPROPERTYVariableType(
+								ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+							return dataFactory.getOWLAnnotationProperty(v.getIRI());
+						}
+					}));
+				}
+			}
+		}
+		return bindings;
 	}
 
 	protected boolean hasBeenVisited(IRI annotationIRI) {
@@ -329,7 +380,7 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 	/**
 	 * @return the arguments
 	 */
-	public List<OWLObject>[] getArguments() {
+	public List<Object>[] getArguments() {
 		return this.arguments;
 	}
 
@@ -357,17 +408,22 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 	public String render(ConstraintSystem constraintSystem) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(String.format("$%s(", this.getPatternName()));
-		for (List<OWLObject> args : this.getArguments()) {
+		for (List<Object> args : this.getArguments()) {
 			String openingBrace = args.size() > 1 ? "{" : "";
 			String closingBrace = args.size() > 1 ? "}" : "";
 			builder.append(openingBrace);
-			Iterator<OWLObject> iterator = args.iterator();
+			Iterator<Object> iterator = args.iterator();
 			while (iterator.hasNext()) {
-				OWLObject owlObject = iterator.next();
-				ManchesterSyntaxRenderer renderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
-						this.getConstraintSystem());
-				owlObject.accept(renderer);
-				builder.append(renderer.toString());
+				Object object = iterator.next();
+				if (object instanceof OWLObject) {
+					OWLObject owlObject = (OWLObject) object;
+					ManchesterSyntaxRenderer renderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+							this.getConstraintSystem());
+					owlObject.accept(renderer);
+					builder.append(renderer.toString());
+				} else {
+					builder.append(((Variable<?>) object).getName());
+				}
 				if (iterator.hasNext()) {
 					builder.append(", ");
 				}
@@ -380,8 +436,15 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 
 	public O compute(ValueComputationParameters params) {
 		try {
-			return (O) this.extractedPattern.getDefinitorialPortions(
-					this.computeReplacements(this.getArguments())).get(0);
+			Map<Variable<?>, Set<OWLObject>> bindingsMap = this.getBindingsMap();
+			LeafBrusher leafBrusher = new LeafBrusher(bindingsMap);
+			BindingNode root = new BindingNode(params.getBindingNode().getAssignments(),
+					bindingsMap.keySet());
+			root.accept(leafBrusher);
+			Set<BindingNode> leaves = leafBrusher.getLeaves();
+			return (O) this.getExtractedPattern().getDefinitorialPortion(
+					leaves,
+					this.runtimeExceptionHandler);
 		} catch (PatternException e) {
 			params.getRuntimeExceptionHandler().handleException(e);
 		}

@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g 2010-11-16 17:25:05
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g 2010-11-24 15:34:53
 
   package org.coode.parsers.oppl;
   import java.util.regex.Pattern; 
@@ -1159,7 +1159,7 @@ public class OPPLTypes extends TreeFilter {
                     match(input, Token.UP, null); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
-                      			Collection<? extends Aggregandum<OWLClassExpression>> aggregandumCollection = this.getSymbolTable().getAggregandumCollection(
+                      			Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection = this.getSymbolTable().getAggregandumCollection(
                       							VariableTypeFactory.getCLASSVariableType(),
                       							va.list,va.tokenList,CREATE_INTERSECTION14);
                       			if(aggregandumCollection!=null){
@@ -1195,7 +1195,7 @@ public class OPPLTypes extends TreeFilter {
                     match(input, Token.UP, null); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
-                      			Collection<? extends Aggregandum<OWLClassExpression>> aggregandumCollection = this.getSymbolTable().getAggregandumCollection(
+                      			Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection = this.getSymbolTable().getAggregandumCollection(
                       							VariableTypeFactory.getCLASSVariableType(),
                       							va.list,va.tokenList,CREATE_DISJUNCTION15);
                       			if(aggregandumCollection!=null){
@@ -2059,7 +2059,7 @@ public class OPPLTypes extends TreeFilter {
 
                           		Symbol symbol = this.getSymbolTable().resolve(IDENTIFIER23);
                           		if(symbol!=null){
-                      	    		retval.a = Adapter.buildSingletonAggregandum(IDENTIFIER23.getOWLObject());
+                      	    		retval.a = Adapter.buildAggregandumOfCollection(IDENTIFIER23.getOWLObject());
                       	    	}else{
                       	    		getErrorListener().unrecognisedSymbol(IDENTIFIER23);
                       	    	}

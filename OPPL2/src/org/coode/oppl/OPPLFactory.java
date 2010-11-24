@@ -52,16 +52,15 @@ public class OPPLFactory implements OPPLAbstractFactory {
 	private final OWLReasoner reasoner;
 	private final OWLOntology ontology;
 	private OWLEntityChecker entityChecker = null;
-	public static final IRI DEFAULT_ONTOLOGY_IRI = IRI
-			.create("http://www.coode.org/oppl");
+	public static final IRI DEFAULT_ONTOLOGY_IRI = IRI.create("http://www.coode.org/oppl");
 
 	/**
 	 * @param ontologyManager
 	 * @param constraintSystem
 	 * @param dataFactory
 	 */
-	public OPPLFactory(OWLOntologyManager ontologyManager,
-			OWLOntology ontology, OWLReasoner reasoner) {
+	public OPPLFactory(OWLOntologyManager ontologyManager, OWLOntology ontology,
+			OWLReasoner reasoner) {
 		this.ontologyManager = ontologyManager;
 		this.ontology = ontology;
 		this.reasoner = reasoner;
@@ -70,8 +69,7 @@ public class OPPLFactory implements OPPLAbstractFactory {
 
 	private OWLEntityChecker defaultEntityChecker() {
 		BidirectionalShortFormProviderAdapter bshp = new BidirectionalShortFormProviderAdapter(
-				this.ontologyManager.getOntologies(),
-				new SimpleShortFormProvider());
+				this.ontologyManager.getOntologies(), new SimpleShortFormProvider());
 		// XXX fix for missing Thing
 		bshp.add(this.ontologyManager.getOWLDataFactory().getOWLThing());
 		bshp.add(this.ontologyManager.getOWLDataFactory().getOWLNothing());
@@ -91,9 +89,9 @@ public class OPPLFactory implements OPPLAbstractFactory {
 	 * @throws OPPLException
 	 */
 	public VariableScopeChecker getVariableScopeChecker() throws OPPLException {
-		if (this.variableScopeChecker == null && this.reasoner != null) {
-			this.variableScopeChecker = new VariableScopeChecker(
-					this.ontologyManager, this.reasoner);
+		if (this.reasoner != null) {
+			this.variableScopeChecker = this.variableScopeChecker != null ? this.variableScopeChecker
+					: new VariableScopeChecker(this.ontologyManager, this.reasoner);
 		} else {
 			throw new NullReasonerException();
 		}
@@ -111,16 +109,14 @@ public class OPPLFactory implements OPPLAbstractFactory {
 	}
 
 	public OPPLScript buildOPPLScript(ConstraintSystem constraintSystem1,
-			List<Variable<?>> variables, OPPLQuery opplQuery,
-			List<OWLAxiomChange> actions) {
+			List<Variable<?>> variables, OPPLQuery opplQuery, List<OWLAxiomChange> actions) {
 		if (variables != null && variables.contains(null)) {
 			throw new IllegalArgumentException("Invalid variables");
 		}
 		if (actions != null && actions.contains(null)) {
 			throw new IllegalArgumentException("Invalid actions");
 		}
-		return new OPPLScriptImpl(constraintSystem1, variables, opplQuery,
-				actions, this);
+		return new OPPLScriptImpl(constraintSystem1, variables, opplQuery, actions, this);
 	}
 
 	public OPPLQuery buildNewQuery(ConstraintSystem constraintSystem1) {
@@ -128,9 +124,9 @@ public class OPPLFactory implements OPPLAbstractFactory {
 	}
 
 	public ConstraintSystem createConstraintSystem() {
-		return this.reasoner == null ? new ConstraintSystem(this.ontology,
-				this.ontologyManager, this) : new ConstraintSystem(
-				this.ontology, this.ontologyManager, this.reasoner, this);
+		return this.reasoner == null ? new ConstraintSystem(this.ontology, this.ontologyManager,
+				this) : new ConstraintSystem(this.ontology, this.ontologyManager, this.reasoner,
+				this);
 	}
 
 	/**
@@ -142,8 +138,7 @@ public class OPPLFactory implements OPPLAbstractFactory {
 		return this.ontologyManager.getOWLDataFactory();
 	}
 
-	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(
-			ConstraintSystem cs) {
+	public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs) {
 		ArgCheck.checkNullArgument("The constraint system", cs);
 		return new ManchesterSyntaxRenderer(new SimpleShortFormProvider());
 	}
@@ -154,13 +149,11 @@ public class OPPLFactory implements OPPLAbstractFactory {
 
 	public OPPLScript importOPPLScript(OPPLScript opplScript) {
 		ConstraintSystem newConstraintSystem = this.createConstraintSystem();
-		for (Variable<?> variable : opplScript.getConstraintSystem()
-				.getVariables()) {
+		for (Variable<?> variable : opplScript.getConstraintSystem().getVariables()) {
 			newConstraintSystem.importVariable(variable);
 		}
-		return new OPPLScriptImpl(newConstraintSystem, opplScript
-				.getVariables(), opplScript.getQuery(),
-				opplScript.getActions(), this, true);
+		return new OPPLScriptImpl(newConstraintSystem, opplScript.getVariables(),
+				opplScript.getQuery(), opplScript.getActions(), this, true);
 	}
 
 	/**

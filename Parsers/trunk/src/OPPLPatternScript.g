@@ -12,7 +12,7 @@ import OPPLPatternLexer, OPPLParser;
 tokens{
   OPPL_PATTERN;
   OPPL_STATEMENT;
-  RENDERING;
+  RENDERING; 
   PATTERN_REFERENCE;
   ARGUMENTS;
 }
@@ -109,6 +109,7 @@ renderingPart
     | HYPHEN -> ^(HYPHEN)
 		
 	;
+
 
 
 atomic 

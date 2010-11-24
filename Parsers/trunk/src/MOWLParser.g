@@ -7,7 +7,6 @@ options {
   output = AST;              // build trees
   ASTLabelType = ManchesterOWLSyntaxTree; // use custom tree nodes
   language = Java;
-  tokenVocab = MOWLParser;
  }
 
 
@@ -71,7 +70,7 @@ axiom	    	options {backtrack=true;}:
 	;
 
 annotationAssertionAxiom
-	:
+	    	options {backtrack=true;}:   
 		iri p= atomic o = constant -> ^(ANNOTATION_ASSERTION iri ^(EXPRESSION $p) ^(EXPRESSION $o))
 		| subjectIRI = iri p= atomic objectIRI = iri -> ^(ANNOTATION_ASSERTION $subjectIRI ^(EXPRESSION $p) ^(EXPRESSION $objectIRI))
 	;

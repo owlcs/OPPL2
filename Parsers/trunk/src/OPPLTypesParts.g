@@ -192,7 +192,7 @@ opplFunction returns [Variable variable]
 		$variable = getConstraintSystem().createIntersectionGeneratedVariable(
 								this.getVariable().getName(),
 								VariableTypeFactory.getCLASSVariableType(),
-								(Collection<? extends Aggregandum<OWLClassExpression>>) va);         
+								 (Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>>) va);         
         }else{
 		getErrorListener().illegalToken($start, "No variable name to build this OPPL Function");
 	}
@@ -203,7 +203,7 @@ opplFunction returns [Variable variable]
 		$variable = getConstraintSystem().createUnionGeneratedVariable(
 								this.getVariable().getName(),
 								VariableTypeFactory.getCLASSVariableType(),
-								(Collection<? extends Aggregandum<OWLClassExpression>>) va);         
+								 (Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>>) va);         
         }else{
 		getErrorListener().illegalToken($start, "No variable name to build this OPPL Function");
 	}      
@@ -262,7 +262,7 @@ aggregandum returns [Aggregandum a]
     	{
     		Symbol symbol = this.getSymbolTable().resolve($IDENTIFIER);
     		if(symbol!=null){
-	    		$a = Adapter.buildSingletonAggregandum($IDENTIFIER.getOWLObject());
+	    		$a = Adapter.buildAggregandumOfCollection($IDENTIFIER.getOWLObject());
 	    	}else{
 	    		getErrorListener().unrecognisedSymbol($IDENTIFIER);
 	    	}

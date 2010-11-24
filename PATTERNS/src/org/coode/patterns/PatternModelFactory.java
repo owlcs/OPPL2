@@ -94,8 +94,10 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
 	}
 
 	public PatternConstraintSystem createConstraintSystem() {
-		return new PatternConstraintSystem(new ConstraintSystem(this.ontology,
-				this.ontologyManager, this.getOPPLFactory()), this.ontologyManager, this);
+		final ConstraintSystem delegate = new ConstraintSystem(this.ontology, this.ontologyManager,
+				this.getOPPLFactory());
+		delegate.setReasoner(this.getReasoner());
+		return new PatternConstraintSystem(delegate, this.ontologyManager, this);
 	}
 
 	/**

@@ -107,8 +107,8 @@ public class OPPLPatternScope implements Scope {
 		return this.delegate;
 	}
 
-	public Variable resolvePatternReference(OPPLSyntaxTree reference, String patternName,
-			PatternConstraintSystem constraintSystem, ErrorListener listener, List<String>... args) {
+	public Variable<?> resolvePatternReference(OPPLSyntaxTree reference, String patternName,
+			PatternConstraintSystem constraintSystem, ErrorListener listener, List<Object>... args) {
 		return this.resolvePatternReference(
 				reference,
 				patternName,
@@ -118,10 +118,10 @@ public class OPPLPatternScope implements Scope {
 				args);
 	}
 
-	public Variable resolvePatternReference(OPPLSyntaxTree reference, String patternName,
+	public Variable<?> resolvePatternReference(OPPLSyntaxTree reference, String patternName,
 			PatternConstraintSystem constraintSystem, Collection<? extends String> visited,
-			ErrorListener listener, List<String>... args) {
-		Variable toReturn = null;
+			ErrorListener listener, List<Object>... args) {
+		Variable<?> toReturn = null;
 		try {
 			String resolvedPattern = constraintSystem.resolvePattern(
 					patternName,

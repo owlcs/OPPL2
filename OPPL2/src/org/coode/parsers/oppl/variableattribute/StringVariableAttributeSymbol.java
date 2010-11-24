@@ -1,6 +1,7 @@
 package org.coode.parsers.oppl.variableattribute;
 
 import org.coode.oppl.Variable;
+import org.coode.oppl.function.AttributeName;
 import org.coode.oppl.function.GroupVariableAttribute;
 import org.coode.oppl.function.RenderingVariableAttribute;
 import org.coode.oppl.function.VariableAttribute;
@@ -29,14 +30,24 @@ public abstract class StringVariableAttributeSymbol extends
 	}
 
 	public static StringVariableAttributeSymbol getRendering(Variable<?> v) {
-		return new StringVariableAttributeSymbol(v.getName(), new RenderingVariableAttribute(v)) {
+		return new StringVariableAttributeSymbol(String.format(
+				"%s.%s",
+				v.getName(),
+				AttributeName.RENDERING), new RenderingVariableAttribute(v)) {
 		};
 	}
 
 	public static <O extends OWLObject> StringVariableAttributeSymbol getGroup(
-			RegexpGeneratedVariable<O> v, int index) {
-		return new StringVariableAttributeSymbol(v.getName(), new GroupVariableAttribute<O>(v,
-				index)) {
+			RegexpGeneratedVariable<O> v, final int index) {
+		return new StringVariableAttributeSymbol(String.format(
+				"%s.%s(%d)",
+				v.getName(),
+				AttributeName.GROUP,
+				index), new GroupVariableAttribute<O>(v, index)) {
+			@Override
+			public String toString() {
+				return String.format("%s.GROUP(%d)", this.getName(), index);
+			}
 		};
 	}
 }

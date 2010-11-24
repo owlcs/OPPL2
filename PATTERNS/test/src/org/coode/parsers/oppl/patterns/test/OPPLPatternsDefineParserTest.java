@@ -91,7 +91,7 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 		Set<Symbol> definedSymbols = this.symtab.getDefinedSymbols();
 		assertTrue(
 				"Exected 5 actual " + definedSymbols.size() + " " + definedSymbols,
-				definedSymbols.size() == 5);
+				definedSymbols.size() == 4);
 	}
 
 	public void testMenu() {
@@ -104,7 +104,7 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 			Set<Symbol> definedSymbols = this.symtab.getDefinedSymbols();
 			assertTrue(
 					"Exected 3 actual " + definedSymbols.size() + " " + definedSymbols,
-					definedSymbols.size() == 3);
+					definedSymbols.size() == 2);
 			ONTOLOGY_MANAGER.removeOntology(referencedPatternOntology);
 		} catch (OWLOntologyCreationException e) {
 			fail();
@@ -120,7 +120,7 @@ public class OPPLPatternsDefineParserTest extends TestCase {
 		Set<Symbol> definedSymbols = this.symtab.getDefinedSymbols();
 		assertTrue(
 				"Exected 5 actual " + definedSymbols.size() + " " + definedSymbols,
-				definedSymbols.size() == 5);
+				definedSymbols.size() == 4);
 	}
 
 	public void testDOLCEInformationRealization() {

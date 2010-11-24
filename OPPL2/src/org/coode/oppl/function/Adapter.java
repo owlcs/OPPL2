@@ -35,14 +35,14 @@ public class Adapter {
 		return new Constant<O>(value);
 	}
 
-	public static <O extends OWLObject> Set<Aggregandum<O>> buildOWLObjectCollectionAdapter(
+	public static <O extends OWLObject> Set<Aggregandum<Collection<? extends O>>> buildOWLObjectCollectionAdapter(
 			Collection<? extends O> collection) {
 		if (collection == null) {
 			throw new NullPointerException("The collection cannot be null");
 		}
-		Set<Aggregandum<O>> toReturn = new HashSet<Aggregandum<O>>(collection.size());
+		Set<Aggregandum<Collection<? extends O>>> toReturn = new HashSet<Aggregandum<Collection<? extends O>>>();
 		for (O o : collection) {
-			toReturn.add(buildSingletonAggregandum(o));
+			toReturn.add(buildAggregandumOfCollection(o));
 		}
 		return toReturn;
 	}
@@ -66,14 +66,32 @@ public class Adapter {
 		};
 	}
 
-	public static <I> Aggregandum<I> buildSingletonAggregandum(I singleton) {
+	public static <I> Aggregandum<Collection<? extends I>> buildAggregandumOfCollection(I singleton) {
 		if (singleton == null) {
 			throw new NullPointerException("The OPPL function cannot be null");
 		}
 		final OPPLFunction<I> adapted = buildObjectAdater(singleton);
-		return new Aggregandum<I>() {
-			public Set<OPPLFunction<I>> getOPPLFunctions() {
-				return Collections.<OPPLFunction<I>> singleton(adapted);
+		return new Aggregandum<Collection<? extends I>>() {
+			public Set<OPPLFunction<Collection<? extends I>>> getOPPLFunctions() {
+				OPPLFunction<Collection<? extends I>> singleton = new OPPLFunction<Collection<? extends I>>() {
+					public Collection<? extends I> compute(ValueComputationParameters params) {
+						I value = adapted.compute(params);
+						return Collections.singleton(value);
+					}
+
+					public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {
+						return adapted.accept(visitor);
+					}
+
+					public void accept(OPPLFunctionVisitor visitor) {
+						adapted.accept(visitor);
+					}
+
+					public String render(ConstraintSystem constraintSystem) {
+						return adapted.render(constraintSystem);
+					}
+				};
+				return Collections.singleton(singleton);
 			}
 
 			public boolean isCompatible(VariableType<?> variableType) {
@@ -81,21 +99,9 @@ public class Adapter {
 			}
 
 			public String render(ConstraintSystem constraintSystem) {
-				return Adapter.renderAggregandum(this, constraintSystem);
+				return renderAggregandum(this, constraintSystem);
 			}
 		};
-	}
-
-	public static <I extends OWLObject> Set<Aggregandum<I>> buildAggregandumOWLObjectCollection(
-			Collection<? extends I> collection) {
-		if (collection == null) {
-			throw new NullPointerException("The collection cannot be null");
-		}
-		final Set<Aggregandum<I>> adapted = new HashSet<Aggregandum<I>>(collection.size());
-		for (I i : collection) {
-			adapted.add(buildSingletonAggregandum(i));
-		}
-		return adapted;
 	}
 
 	public static <I> Aggregandum<I> buildAggregandumCollection(

@@ -246,7 +246,7 @@ public class OPPLFunctionTest extends TestCase {
 			OWLClassExpression a = manager.getOWLDataFactory().getOWLClass(
 					IRI.create("blah#monica"));
 			OWLClass b = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#luigi"));
-			Aggregation<OWLClassExpression, OWLClassExpression> classExpressionIntersection = Aggregation.buildClassExpressionIntersection(
+			Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> classExpressionIntersection = Aggregation.buildClassExpressionIntersection(
 					Adapter.buildOWLObjectCollectionAdapter(Arrays.asList(a, b)),
 					manager.getOWLDataFactory());
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
@@ -313,7 +313,7 @@ public class OPPLFunctionTest extends TestCase {
 			OWLClassExpression a = manager.getOWLDataFactory().getOWLClass(
 					IRI.create("blah#monica"));
 			OWLClass b = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#luigi"));
-			Aggregation<OWLClassExpression, OWLClassExpression> classExpressionIntersection = Aggregation.buildClassExpressionUnion(
+			Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> classExpressionIntersection = Aggregation.buildClassExpressionUnion(
 					Adapter.buildOWLObjectCollectionAdapter(Arrays.asList(a, b)),
 					manager.getOWLDataFactory());
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
@@ -419,9 +419,9 @@ public class OPPLFunctionTest extends TestCase {
 			BindingNode anotherBindingNode = BindingNode.createNewEmptyBindingNode();
 			anotherBindingNode.addAssignment(new Assignment(x, b));
 			List<Aggregandum<String>> list = new ArrayList<Aggregandum<String>>();
-			list.add(Adapter.buildSingletonAggregandum("("));
+			list.add(Adapter.buildSingletonAggregandum(new Constant<String>("(")));
 			list.add(Adapter.buildSingletonAggregandum(renderingVariableAttribute));
-			list.add(Adapter.buildSingletonAggregandum(")"));
+			list.add(Adapter.buildSingletonAggregandum(new Constant<String>(")")));
 			Aggregation<String, String> stringConcatenation = Aggregation.buildStringConcatenation(list);
 			RegexpGeneratedVariable<OWLClassExpression> regexpGeneratedVariable = new RegexpGeneratedVariable<OWLClassExpression>(
 					"?regexp", VariableTypeFactory.getCLASSVariableType(),
@@ -499,7 +499,7 @@ public class OPPLFunctionTest extends TestCase {
 			assertTrue(!values.isEmpty());
 			System.out.println(values);
 			list = new ArrayList<Aggregandum<String>>();
-			list.add(Adapter.buildSingletonAggregandum("Test"));
+			list.add(Adapter.buildSingletonAggregandum(new Constant<String>("Test")));
 			list.add(Adapter.buildSingletonAggregandum(renderingVariableAttribute));
 			stringConcatenation = Aggregation.buildStringConcatenation(list);
 			regexpGeneratedVariable = new RegexpGeneratedVariable<OWLClassExpression>("?regexp",

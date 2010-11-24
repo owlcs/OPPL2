@@ -22,11 +22,12 @@
  */
 package org.coode.patterns;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.ErrorListener;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -77,15 +78,8 @@ public interface PatternOPPLScript extends OPPLScript {
 	 */
 	boolean isClassPattern();
 
-	String getDefinitorialPortionStrings(List<List<Object>> replacements) throws PatternException;
-
-	/**
-	 * @param bindingNode
-	 * @return the OWLObject that correspond to the definitorial portion of the
-	 *         pattern once the replacement are considered
-	 * @throws PatternException
-	 */
-	public OWLObject getDefinitorialPortions(BindingNode bindingNode) throws PatternException;
+	public OWLObject getDefinitorialPortion(Collection<? extends BindingNode> bindingNodes,
+			RuntimeExceptionHandler runtimeExceptionHandler) throws PatternException;
 
 	String getRendering();
 

@@ -41,6 +41,11 @@ public class GeneratedVariable<O extends OWLObject> implements Variable<O> {
 				this.getOPPLFunction().render(constraintSystem));
 	}
 
+	@Override
+	public String toString() {
+		return String.format("%s:%s", this.getName(), this.getType());
+	}
+
 	/**
 	 * @return the opplFunction
 	 */

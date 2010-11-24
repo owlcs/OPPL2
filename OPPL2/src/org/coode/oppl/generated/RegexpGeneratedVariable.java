@@ -100,6 +100,11 @@ public class RegexpGeneratedVariable<O extends OWLObject> implements Variable<O>
 		return result;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("%s:%s", this.getName(), this.getType());
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -68,8 +68,8 @@ public class ExhaustingPatternTest extends AbstractPatternTestCase {
 	}
 
 	public void testMultilineError() {
-		String formula = "?x:CLASS[subClassOf Food]\n" + "BEGIN\n"
-				+ "ADD $thisClass sub_ClassOf Menu\n" + "END;\n" + "A ?x  free Menu";
+		String formula = "?x:CLASS\n" + "BEGIN\n" + "ADD $thisClass sub_ClassOf Menu\n" + "END;\n"
+				+ "A ?x  free Menu";
 		this.parseWrong(
 				formula,
 				this.getOntology("patternedPizza.owl"),

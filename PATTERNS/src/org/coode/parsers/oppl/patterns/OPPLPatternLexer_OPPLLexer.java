@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.patterns;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLLexer.g 2010-11-18 15:27:44
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLLexer.g 2010-11-22 10:25:30
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;

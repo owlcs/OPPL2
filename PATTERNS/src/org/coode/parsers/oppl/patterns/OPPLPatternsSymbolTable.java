@@ -13,6 +13,7 @@ import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.VariableType;
 import org.coode.patterns.PatternConstraintSystem;
+import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
@@ -32,10 +33,10 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
 	}
 
 	public void resolvePattern(OPPLSyntaxTree reference, String patternName,
-			PatternConstraintSystem constraintSystem, String... args) {
-		List<List<String>> arguments = new ArrayList<List<String>>(args.length);
-		for (String string : args) {
-			List<String> arg = new ArrayList<String>(1);
+			PatternConstraintSystem constraintSystem, Object... args) {
+		List<List<Object>> arguments = new ArrayList<List<Object>>(args.length);
+		for (Object string : args) {
+			List<Object> arg = new ArrayList<Object>(1);
 			arg.add(string);
 			arguments.add(arg);
 		}
@@ -58,10 +59,10 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
 
 	public void resolvePattern(OPPLSyntaxTree reference, String patternName,
 			PatternConstraintSystem constraintSystem, Collection<? extends String> visited,
-			String... args) {
-		List<List<String>> arguments = new ArrayList<List<String>>(args.length);
-		for (String string : args) {
-			List<String> arg = new ArrayList<String>(1);
+			OWLObject... args) {
+		List<List<OWLObject>> arguments = new ArrayList<List<OWLObject>>(args.length);
+		for (OWLObject string : args) {
+			List<OWLObject> arg = new ArrayList<OWLObject>(1);
 			arg.add(string);
 			arguments.add(arg);
 		}

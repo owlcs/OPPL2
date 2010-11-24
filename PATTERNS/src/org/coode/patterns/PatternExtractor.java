@@ -165,7 +165,7 @@ public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScrip
 		return new PatternReferenceResolver() {
 			public void resolvePattern(OPPLSyntaxTree reference, String patternName,
 					PatternConstraintSystem constraintSystem, OPPLPatternsSymbolTable symbolTable,
-					String... args) {
+					Object... args) {
 				symbolTable.resolvePattern(
 						reference,
 						patternName,

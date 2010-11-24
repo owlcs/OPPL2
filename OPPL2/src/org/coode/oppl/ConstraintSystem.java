@@ -425,12 +425,13 @@ public class ConstraintSystem {
 	}
 
 	public GeneratedVariable<OWLClassExpression> createIntersectionGeneratedVariable(
-			final String name, VariableType<?> type,
-			final Collection<? extends Aggregandum<OWLClassExpression>> operands) {
+			final String name,
+			VariableType<?> type,
+			final Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> operands) {
 		GeneratedVariable<OWLClassExpression> toReturn = type.accept(new VariableTypeVisitorEx<GeneratedVariable<OWLClassExpression>>() {
 			public GeneratedVariable<OWLClassExpression> visitCLASSVariableType(
 					CLASSVariableType classVariableType) {
-				Aggregation<OWLClassExpression, OWLClassExpression> function = Aggregation.buildClassExpressionIntersection(
+				Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> function = Aggregation.buildClassExpressionIntersection(
 						operands,
 						ConstraintSystem.this.getOntologyManager().getOWLDataFactory());
 				GeneratedVariable<OWLClassExpression> toReturn = VariableTypeFactory.getCLASSVariableType().getGeneratedVariable(
@@ -464,16 +465,18 @@ public class ConstraintSystem {
 				return null;
 			}
 		});
+		this.variables.store(toReturn);
 		return toReturn;
 	}
 
-	public GeneratedVariable<OWLClassExpression> createUnionGeneratedVariable(final String name,
+	public GeneratedVariable<OWLClassExpression> createUnionGeneratedVariable(
+			final String name,
 			VariableType<?> type,
-			final Collection<? extends Aggregandum<OWLClassExpression>> operands) {
+			final Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> operands) {
 		GeneratedVariable<OWLClassExpression> toReturn = type.accept(new VariableTypeVisitorEx<GeneratedVariable<OWLClassExpression>>() {
 			public GeneratedVariable<OWLClassExpression> visitCLASSVariableType(
 					CLASSVariableType classVariableType) {
-				Aggregation<OWLClassExpression, OWLClassExpression> function = Aggregation.buildClassExpressionUnion(
+				Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>> function = Aggregation.buildClassExpressionUnion(
 						operands,
 						ConstraintSystem.this.getOntologyManager().getOWLDataFactory());
 				GeneratedVariable<OWLClassExpression> toReturn = VariableTypeFactory.getCLASSVariableType().getGeneratedVariable(
@@ -507,6 +510,7 @@ public class ConstraintSystem {
 				return null;
 			}
 		});
+		this.variables.store(toReturn);
 		return toReturn;
 	}
 

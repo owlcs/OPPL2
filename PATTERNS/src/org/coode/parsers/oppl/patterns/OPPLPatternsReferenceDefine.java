@@ -1,10 +1,12 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g 2010-11-22 16:48:54
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g 2010-11-22 17:16:58
 
   package org.coode.parsers.oppl.patterns;
   import org.coode.parsers.oppl.OPPLSyntaxTree;
   import org.coode.parsers.ErrorListener;
   import org.coode.parsers.ManchesterOWLSyntaxTree;
   import org.coode.patterns.PatternConstraintSystem;
+  import org.semanticweb.owlapi.model.OWLObject;
+  import org.coode.oppl.Variable;    
   import org.coode.patterns.OPPLPatternParser.PatternReferenceResolver;
 
 
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
-public class OPPLPatternsDefine extends TreeRewriter {
+public class OPPLPatternsReferenceDefine extends TreeRewriter {
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED", "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION", "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF", "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE", "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION", "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION", "IRI_ATTRIBUTE_NAME", "ESCLAMATION_MARK", "CREATE_IDENTIFIER", "PLAIN_IDENTIFIER", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING", "GROUPS", "STRING_OPERATION", "DOLLAR", "RETURN", "THIS_CLASS", "ARGUMENTS", "OPPL_PATTERN", "PATTERN_REFERENCE", "SEMICOLON", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL", "NAF_CONSTRAINT"
     };
@@ -154,10 +156,10 @@ public class OPPLPatternsDefine extends TreeRewriter {
     // delegators
 
 
-        public OPPLPatternsDefine(TreeNodeStream input) {
+        public OPPLPatternsReferenceDefine(TreeNodeStream input) {
             this(input, new RecognizerSharedState());
         }
-        public OPPLPatternsDefine(TreeNodeStream input, RecognizerSharedState state) {
+        public OPPLPatternsReferenceDefine(TreeNodeStream input, RecognizerSharedState state) {
             super(input, state);
              
         }
@@ -171,15 +173,15 @@ public class OPPLPatternsDefine extends TreeRewriter {
         return adaptor;
     }
 
-    public String[] getTokenNames() { return OPPLPatternsDefine.tokenNames; }
-    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g"; }
+    public String[] getTokenNames() { return OPPLPatternsReferenceDefine.tokenNames; }
+    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g"; }
 
 
       private  OPPLPatternsSymbolTable symtab;
       private  ErrorListener errorListener;
       private PatternConstraintSystem constraintSystem;
       private PatternReferenceResolver patternReferenceResolver;
-      public OPPLPatternsDefine(TreeNodeStream input, OPPLPatternsSymbolTable symtab, ErrorListener errorListener,PatternReferenceResolver patternReferenceResolver, PatternConstraintSystem constraintSystem) {
+      public OPPLPatternsReferenceDefine(TreeNodeStream input, OPPLPatternsSymbolTable symtab, ErrorListener errorListener,PatternReferenceResolver patternReferenceResolver, PatternConstraintSystem constraintSystem) {
         this(input);
         if(symtab==null){
         	throw new NullPointerException("The symbol table cannot be null");
@@ -236,9 +238,9 @@ public class OPPLPatternsDefine extends TreeRewriter {
     };
 
     // $ANTLR start "bottomup"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g:90:1: bottomup : thisClass ;
-    public final OPPLPatternsDefine.bottomup_return bottomup() throws RecognitionException {
-        OPPLPatternsDefine.bottomup_return retval = new OPPLPatternsDefine.bottomup_return();
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:93:1: bottomup : patternReference ;
+    public final OPPLPatternsReferenceDefine.bottomup_return bottomup() throws RecognitionException {
+        OPPLPatternsReferenceDefine.bottomup_return retval = new OPPLPatternsReferenceDefine.bottomup_return();
         retval.start = input.LT(1);
 
         OPPLSyntaxTree root_0 = null;
@@ -246,23 +248,23 @@ public class OPPLPatternsDefine extends TreeRewriter {
         OPPLSyntaxTree _first_0 = null;
         OPPLSyntaxTree _last = null;
 
-        OPPLPatternsDefine.thisClass_return thisClass1 = null;
+        OPPLPatternsReferenceDefine.patternReference_return patternReference1 = null;
 
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g:90:11: ( thisClass )
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g:91:3: thisClass
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:93:11: ( patternReference )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:94:2: patternReference
             {
             _last = (OPPLSyntaxTree)input.LT(1);
-            pushFollow(FOLLOW_thisClass_in_bottomup80);
-            thisClass1=thisClass();
+            pushFollow(FOLLOW_patternReference_in_bottomup80);
+            patternReference1=patternReference();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==1 ) 
              
-            if ( _first_0==null ) _first_0 = thisClass1.tree;
+            if ( _first_0==null ) _first_0 = patternReference1.tree;
 
             if ( state.backtracking==1 ) {
             retval.tree = (OPPLSyntaxTree)_first_0;
@@ -289,15 +291,15 @@ public class OPPLPatternsDefine extends TreeRewriter {
     }
     // $ANTLR end "bottomup"
 
-    public static class thisClass_return extends TreeRuleReturnScope {
+    public static class patternReference_return extends TreeRuleReturnScope {
         OPPLSyntaxTree tree;
         public Object getTree() { return tree; }
     };
 
-    // $ANTLR start "thisClass"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g:96:1: thisClass : ^(i= IDENTIFIER THIS_CLASS ) -> ^( $i) ;
-    public final OPPLPatternsDefine.thisClass_return thisClass() throws RecognitionException {
-        OPPLPatternsDefine.thisClass_return retval = new OPPLPatternsDefine.thisClass_return();
+    // $ANTLR start "patternReference"
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:98:1: patternReference : ^(pr= IDENTIFIER PATTERN_REFERENCE (args= arguments )? ) -> ^( $pr) ;
+    public final OPPLPatternsReferenceDefine.patternReference_return patternReference() throws RecognitionException {
+        OPPLPatternsReferenceDefine.patternReference_return retval = new OPPLPatternsReferenceDefine.patternReference_return();
         retval.start = input.LT(1);
 
         OPPLSyntaxTree root_0 = null;
@@ -305,33 +307,63 @@ public class OPPLPatternsDefine extends TreeRewriter {
         OPPLSyntaxTree _first_0 = null;
         OPPLSyntaxTree _last = null;
 
-        OPPLSyntaxTree i=null;
-        OPPLSyntaxTree THIS_CLASS2=null;
+        OPPLSyntaxTree pr=null;
+        OPPLSyntaxTree PATTERN_REFERENCE2=null;
+        OPPLPatternsReferenceDefine.arguments_return args = null;
 
-        OPPLSyntaxTree i_tree=null;
-        OPPLSyntaxTree THIS_CLASS2_tree=null;
+
+        OPPLSyntaxTree pr_tree=null;
+        OPPLSyntaxTree PATTERN_REFERENCE2_tree=null;
         RewriteRuleNodeStream stream_IDENTIFIER=new RewriteRuleNodeStream(adaptor,"token IDENTIFIER");
-        RewriteRuleNodeStream stream_THIS_CLASS=new RewriteRuleNodeStream(adaptor,"token THIS_CLASS");
-
+        RewriteRuleNodeStream stream_PATTERN_REFERENCE=new RewriteRuleNodeStream(adaptor,"token PATTERN_REFERENCE");
+        RewriteRuleSubtreeStream stream_arguments=new RewriteRuleSubtreeStream(adaptor,"rule arguments");
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g:97:3: ( ^(i= IDENTIFIER THIS_CLASS ) -> ^( $i) )
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g:99:5: ^(i= IDENTIFIER THIS_CLASS )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:99:2: ( ^(pr= IDENTIFIER PATTERN_REFERENCE (args= arguments )? ) -> ^( $pr) )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:100:3: ^(pr= IDENTIFIER PATTERN_REFERENCE (args= arguments )? )
             {
             _last = (OPPLSyntaxTree)input.LT(1);
             {
             OPPLSyntaxTree _save_last_1 = _last;
             OPPLSyntaxTree _first_1 = null;
             _last = (OPPLSyntaxTree)input.LT(1);
-            i=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_thisClass104); if (state.failed) return retval; 
-            if ( state.backtracking==1 ) stream_IDENTIFIER.add(i);
+            pr=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_patternReference99); if (state.failed) return retval; 
+            if ( state.backtracking==1 ) stream_IDENTIFIER.add(pr);
 
 
             if ( state.backtracking==1 )
-            if ( _first_0==null ) _first_0 = i;
+            if ( _first_0==null ) _first_0 = pr;
             match(input, Token.DOWN, null); if (state.failed) return retval;
             _last = (OPPLSyntaxTree)input.LT(1);
-            THIS_CLASS2=(OPPLSyntaxTree)match(input,THIS_CLASS,FOLLOW_THIS_CLASS_in_thisClass106); if (state.failed) return retval; 
-            if ( state.backtracking==1 ) stream_THIS_CLASS.add(THIS_CLASS2);
+            PATTERN_REFERENCE2=(OPPLSyntaxTree)match(input,PATTERN_REFERENCE,FOLLOW_PATTERN_REFERENCE_in_patternReference101); if (state.failed) return retval; 
+            if ( state.backtracking==1 ) stream_PATTERN_REFERENCE.add(PATTERN_REFERENCE2);
+
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:100:42: (args= arguments )?
+            int alt1=2;
+            int LA1_0 = input.LA(1);
+
+            if ( (LA1_0==ARGUMENTS) ) {
+                alt1=1;
+            }
+            switch (alt1) {
+                case 1 :
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:100:42: args= arguments
+                    {
+                    _last = (OPPLSyntaxTree)input.LT(1);
+                    pushFollow(FOLLOW_arguments_in_patternReference106);
+                    args=arguments();
+
+                    state._fsp--;
+                    if (state.failed) return retval;
+                    if ( state.backtracking==1 ) stream_arguments.add(args.getTree());
+
+                    if ( state.backtracking==1 ) {
+                    retval.tree = (OPPLSyntaxTree)_first_0;
+                    if ( adaptor.getParent(retval.tree)!=null && adaptor.isNil( adaptor.getParent(retval.tree) ) )
+                        retval.tree = (OPPLSyntaxTree)adaptor.getParent(retval.tree);}
+                    }
+                    break;
+
+            }
 
 
             match(input, Token.UP, null); if (state.failed) return retval;_last = _save_last_1;
@@ -339,30 +371,34 @@ public class OPPLPatternsDefine extends TreeRewriter {
 
             if ( state.backtracking==1 ) {
 
-                    symtab.resolveThisClass(THIS_CLASS2,getConstraintSystem());
-                  
+              	   if(args==null){
+              	     getPatternReferenceResolver().resolvePattern(pr, PATTERN_REFERENCE2.getText(),getConstraintSystem(),getSymbolTable());
+              	   }else{
+              	     getPatternReferenceResolver().resolvePattern(pr, PATTERN_REFERENCE2.getText(),getConstraintSystem(),getSymbolTable(), args.argObjects.toArray(new Object[args.argObjects.size()]));
+              	   } 
+              	 
             }
 
 
             // AST REWRITE
-            // elements: i
-            // token labels: i
+            // elements: pr
+            // token labels: pr
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
             // wildcard labels: 
             if ( state.backtracking==1 ) {
             retval.tree = root_0;
-            RewriteRuleNodeStream stream_i=new RewriteRuleNodeStream(adaptor,"token i",i);
+            RewriteRuleNodeStream stream_pr=new RewriteRuleNodeStream(adaptor,"token pr",pr);
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (OPPLSyntaxTree)adaptor.nil();
-            // 103:5: -> ^( $i)
+            // 108:3: -> ^( $pr)
             {
-                // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g:104:5: ^( $i)
+                // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:109:3: ^( $pr)
                 {
                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
-                root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_i.nextNode(), root_1);
+                root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_pr.nextNode(), root_1);
 
                 adaptor.addChild(root_0, root_1);
                 }
@@ -393,15 +429,143 @@ public class OPPLPatternsDefine extends TreeRewriter {
         }
         return retval;
     }
-    // $ANTLR end "thisClass"
+    // $ANTLR end "patternReference"
+
+    public static class arguments_return extends TreeRuleReturnScope {
+        public List<Object> argObjects;
+        OPPLSyntaxTree tree;
+        public Object getTree() { return tree; }
+    };
+
+    // $ANTLR start "arguments"
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:112:1: arguments returns [List<Object> argObjects] : ^( ARGUMENTS (argument= . )+ ) ;
+    public final OPPLPatternsReferenceDefine.arguments_return arguments() throws RecognitionException {
+        OPPLPatternsReferenceDefine.arguments_return retval = new OPPLPatternsReferenceDefine.arguments_return();
+        retval.start = input.LT(1);
+
+        OPPLSyntaxTree root_0 = null;
+
+        OPPLSyntaxTree _first_0 = null;
+        OPPLSyntaxTree _last = null;
+
+        OPPLSyntaxTree ARGUMENTS3=null;
+        OPPLSyntaxTree argument=null;
+
+        OPPLSyntaxTree ARGUMENTS3_tree=null;
+        OPPLSyntaxTree argument_tree=null;
+
+
+          retval.argObjects = new ArrayList<Object>();
+
+        try {
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:116:3: ( ^( ARGUMENTS (argument= . )+ ) )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:117:5: ^( ARGUMENTS (argument= . )+ )
+            {
+            _last = (OPPLSyntaxTree)input.LT(1);
+            {
+            OPPLSyntaxTree _save_last_1 = _last;
+            OPPLSyntaxTree _first_1 = null;
+            _last = (OPPLSyntaxTree)input.LT(1);
+            ARGUMENTS3=(OPPLSyntaxTree)match(input,ARGUMENTS,FOLLOW_ARGUMENTS_in_arguments150); if (state.failed) return retval;
+
+
+            if ( state.backtracking==1 )
+            if ( _first_0==null ) _first_0 = ARGUMENTS3;
+            match(input, Token.DOWN, null); if (state.failed) return retval;
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:117:17: (argument= . )+
+            int cnt2=0;
+            loop2:
+            do {
+                int alt2=2;
+                int LA2_0 = input.LA(1);
+
+                if ( ((LA2_0>=COMPOSITION && LA2_0<=NAF_CONSTRAINT)) ) {
+                    alt2=1;
+                }
+
+
+                switch (alt2) {
+            	case 1 :
+            	    // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:117:18: argument= .
+            	    {
+            	    _last = (OPPLSyntaxTree)input.LT(1);
+            	    argument=(OPPLSyntaxTree)input.LT(1);
+            	    matchAny(input); if (state.failed) return retval;
+            	     
+            	    if ( state.backtracking==1 )
+            	    if ( _first_1==null ) _first_1 = argument;
+            	    if ( state.backtracking==1 ) {
+
+            	          	OWLObject owlObject = argument.getOWLObject();
+            	          	if(owlObject!=null){
+            	          		retval.argObjects.add(owlObject);
+            	          	}else{
+            	          		Variable<?> v = getConstraintSystem().getVariable(argument.getText());
+            	          		if(v!=null){
+            	          			retval.argObjects.add(v);
+            	          		}else{
+            	          			getErrorListener().illegalToken(argument,"Invalid argument");
+            	          		}
+            	          	}
+            	          
+            	    }
+
+            	    if ( state.backtracking==1 ) {
+            	    retval.tree = (OPPLSyntaxTree)_first_0;
+            	    if ( adaptor.getParent(retval.tree)!=null && adaptor.isNil( adaptor.getParent(retval.tree) ) )
+            	        retval.tree = (OPPLSyntaxTree)adaptor.getParent(retval.tree);}
+            	    }
+            	    break;
+
+            	default :
+            	    if ( cnt2 >= 1 ) break loop2;
+            	    if (state.backtracking>0) {state.failed=true; return retval;}
+                        EarlyExitException eee =
+                            new EarlyExitException(2, input);
+                        throw eee;
+                }
+                cnt2++;
+            } while (true);
+
+
+            match(input, Token.UP, null); if (state.failed) return retval;_last = _save_last_1;
+            }
+
+
+            if ( state.backtracking==1 ) {
+            retval.tree = (OPPLSyntaxTree)_first_0;
+            if ( adaptor.getParent(retval.tree)!=null && adaptor.isNil( adaptor.getParent(retval.tree) ) )
+                retval.tree = (OPPLSyntaxTree)adaptor.getParent(retval.tree);}
+            }
+
+        }
+
+          catch(RecognitionException exception){
+            if(errorListener!=null){
+              errorListener.recognitionException(exception);
+            }
+          }
+          
+          catch(RewriteEmptyStreamException exception){
+            if(errorListener!=null){
+              errorListener.rewriteEmptyStreamException(exception);
+            }
+          }
+        finally {
+        }
+        return retval;
+    }
+    // $ANTLR end "arguments"
 
     // Delegated rules
 
 
  
 
-    public static final BitSet FOLLOW_thisClass_in_bottomup80 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_thisClass104 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_THIS_CLASS_in_thisClass106 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_patternReference_in_bottomup80 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_patternReference99 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_PATTERN_REFERENCE_in_patternReference101 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000200000000L});
+    public static final BitSet FOLLOW_arguments_in_patternReference106 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_ARGUMENTS_in_arguments150 = new BitSet(new long[]{0x0000000000000004L});
 
 }

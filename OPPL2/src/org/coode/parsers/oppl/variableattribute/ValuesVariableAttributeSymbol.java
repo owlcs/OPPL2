@@ -1,5 +1,6 @@
 package org.coode.parsers.oppl.variableattribute;
 
+import org.coode.oppl.function.AttributeName;
 import org.coode.oppl.function.ValuesVariableAtttribute;
 import org.semanticweb.owlapi.model.OWLObject;
 
@@ -11,7 +12,7 @@ public class ValuesVariableAttributeSymbol<P extends OWLObject> extends
 	 * @param variableAttribute
 	 */
 	public ValuesVariableAttributeSymbol(String name, ValuesVariableAtttribute<P> variableAttribute) {
-		super(name, variableAttribute);
+		super(String.format("%s.%s", name, AttributeName.VALUES), variableAttribute);
 	}
 
 	public static <T extends OWLObject> ValuesVariableAttributeSymbol<T> getValuesVariableAttributeSymbol(

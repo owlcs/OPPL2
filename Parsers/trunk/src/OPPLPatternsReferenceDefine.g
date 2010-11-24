@@ -1,4 +1,5 @@
-tree grammar OPPLPatternsDefine;
+tree grammar OPPLPatternsReferenceDefine;
+
 options {
   language = Java;
   tokenVocab = OPPLPatternScript; 
@@ -13,7 +14,7 @@ options {
   private  ErrorListener errorListener;
   private PatternConstraintSystem constraintSystem;
   private PatternReferenceResolver patternReferenceResolver;
-  public OPPLPatternsDefine(TreeNodeStream input, OPPLPatternsSymbolTable symtab, ErrorListener errorListener,PatternReferenceResolver patternReferenceResolver, PatternConstraintSystem constraintSystem) {
+  public OPPLPatternsReferenceDefine(TreeNodeStream input, OPPLPatternsSymbolTable symtab, ErrorListener errorListener,PatternReferenceResolver patternReferenceResolver, PatternConstraintSystem constraintSystem) {
     this(input);
     if(symtab==null){
     	throw new NullPointerException("The symbol table cannot be null");
@@ -84,22 +85,46 @@ options {
   import org.coode.parsers.ErrorListener;
   import org.coode.parsers.ManchesterOWLSyntaxTree;
   import org.coode.patterns.PatternConstraintSystem;
+  import org.semanticweb.owlapi.model.OWLObject;
+  import org.coode.oppl.Variable;    
   import org.coode.patterns.OPPLPatternParser.PatternReferenceResolver;
 }
 
 bottomup  : 
-	 thisClass
+	patternReference
   ;
 
 
-
-thisClass
-  : 
-
-    ^(i=IDENTIFIER THIS_CLASS)
-    {
-      symtab.resolveThisClass($THIS_CLASS,getConstraintSystem());
-    }
-    ->
-    ^($i)
+patternReference
+	:
+	 ^(pr =IDENTIFIER PATTERN_REFERENCE args= arguments? )
+	 {
+	   if(args==null){
+	     getPatternReferenceResolver().resolvePattern(pr, $PATTERN_REFERENCE.getText(),getConstraintSystem(),getSymbolTable());
+	   }else{
+	     getPatternReferenceResolver().resolvePattern(pr, $PATTERN_REFERENCE.getText(),getConstraintSystem(),getSymbolTable(), args.argObjects.toArray(new Object[args.argObjects.size()]));
+	   } 
+	 }
+	 ->
+	 ^($pr)
+	;
+	
+arguments returns [List<Object> argObjects]
+@init{
+  $argObjects = new ArrayList<Object>();
+}
+  :
+    ^(ARGUMENTS (argument=.{
+    	OWLObject owlObject = argument.getOWLObject();
+    	if(owlObject!=null){
+    		$argObjects.add(owlObject);
+    	}else{
+    		Variable<?> v = getConstraintSystem().getVariable(argument.getText());
+    		if(v!=null){
+    			$argObjects.add(v);
+    		}else{
+    			getErrorListener().illegalToken(argument,"Invalid argument");
+    		}
+    	}
+    })+) 
   ;

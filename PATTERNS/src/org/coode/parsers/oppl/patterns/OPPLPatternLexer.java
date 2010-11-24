@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.patterns;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternLexer.g 2010-11-18 15:27:44
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternLexer.g 2010-11-22 10:25:29
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -282,12 +282,6 @@ public class OPPLPatternLexer extends Lexer {
 		}
 			break;
 		case 6:
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternLexer.g:1:52:
-			// MOWLLexer. Tokens
-		{
-			this.gMOWLLexer.mTokens();
-		}
-			break;
 		case 7:
 			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternLexer.g:1:69:
 			// OPPLLexer. Tokens

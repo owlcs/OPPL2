@@ -309,7 +309,7 @@ variableDefinition returns [Variable variable]
 		}
 		| ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_INTERSECTION va = aggregandums))
 		{
-			Collection<? extends Aggregandum<OWLClassExpression>> aggregandumCollection = this.getSymbolTable().getAggregandumCollection(
+			Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection = this.getSymbolTable().getAggregandumCollection(
 							VariableTypeFactory.getCLASSVariableType(),
 							va.list,va.tokenList,$CREATE_INTERSECTION);
 			if(aggregandumCollection!=null){
@@ -321,7 +321,7 @@ variableDefinition returns [Variable variable]
 		}
 		| ^(GENERATED_VARIABLE_DEFINITION name = VARIABLE_NAME VARIABLE_TYPE ^(CREATE_DISJUNCTION va = aggregandums))
 		{
-			Collection<? extends Aggregandum<OWLClassExpression>> aggregandumCollection = this.getSymbolTable().getAggregandumCollection(
+			Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection = this.getSymbolTable().getAggregandumCollection(
 							VariableTypeFactory.getCLASSVariableType(),
 							va.list,va.tokenList,$CREATE_DISJUNCTION);
 			if(aggregandumCollection!=null){
@@ -488,7 +488,7 @@ aggregandum returns [Aggregandum<?> a, OPPLSyntaxTree node]
     	{
     		Symbol symbol = this.getSymbolTable().resolve($IDENTIFIER);
     		if(symbol!=null){
-	    		$a = Adapter.buildSingletonAggregandum($IDENTIFIER.getOWLObject());
+	    		$a = Adapter.buildAggregandumOfCollection($IDENTIFIER.getOWLObject());
 	    	}else{
 	    		getErrorListener().unrecognisedSymbol($IDENTIFIER);
 	    	}
