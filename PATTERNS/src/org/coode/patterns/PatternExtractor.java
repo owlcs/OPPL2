@@ -25,6 +25,7 @@ package org.coode.patterns;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.coode.parsers.ErrorListener;
@@ -165,7 +166,7 @@ public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScrip
 		return new PatternReferenceResolver() {
 			public void resolvePattern(OPPLSyntaxTree reference, String patternName,
 					PatternConstraintSystem constraintSystem, OPPLPatternsSymbolTable symbolTable,
-					Object... args) {
+					List<Object>... args) {
 				symbolTable.resolvePattern(
 						reference,
 						patternName,

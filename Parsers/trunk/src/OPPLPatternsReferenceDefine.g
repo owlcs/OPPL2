@@ -82,7 +82,10 @@ options {
 @header {
   package org.coode.parsers.oppl.patterns;
   import org.coode.parsers.oppl.OPPLSyntaxTree;
+  import org.coode.oppl.function.Adapter;
+  import org.coode.oppl.function.Aggregandum;
   import org.coode.parsers.ErrorListener;
+  import org.coode.parsers.Symbol;
   import org.coode.parsers.ManchesterOWLSyntaxTree;
   import org.coode.patterns.PatternConstraintSystem;
   import org.semanticweb.owlapi.model.OWLObject;
@@ -102,29 +105,45 @@ patternReference
 	   if(args==null){
 	     getPatternReferenceResolver().resolvePattern(pr, $PATTERN_REFERENCE.getText(),getConstraintSystem(),getSymbolTable());
 	   }else{
-	     getPatternReferenceResolver().resolvePattern(pr, $PATTERN_REFERENCE.getText(),getConstraintSystem(),getSymbolTable(), args.argObjects.toArray(new Object[args.argObjects.size()]));
+	     getPatternReferenceResolver().resolvePattern(pr, $PATTERN_REFERENCE.getText(),getConstraintSystem(),getSymbolTable(), args.args.toArray(new List[args.args.size()]));
 	   } 
 	 }
 	 ->
 	 ^($pr)
 	;
+
+
+arguments returns [List<List<Object>> args]
+@init{
+	 $args = new ArrayList<List<Object>>();
+}
+	:
+		^(ARGUMENTS (arg=argument{
+			$args.add(arg.argObjects);
+		})+)
+	;
 	
-arguments returns [List<Object> argObjects]
+argument returns [List<Object> argObjects]
 @init{
   $argObjects = new ArrayList<Object>();
 }
-  :
-    ^(ARGUMENTS (argument=.{
-    	OWLObject owlObject = argument.getOWLObject();
-    	if(owlObject!=null){
-    		$argObjects.add(owlObject);
-    	}else{
-    		Variable<?> v = getConstraintSystem().getVariable(argument.getText());
-    		if(v!=null){
-    			$argObjects.add(v);
-    		}else{
-    			getErrorListener().illegalToken(argument,"Invalid argument");
+  : 
+	^(ARGUMENT  ^(EXPRESSION   ^(IDENTIFIER VARIABLE_NAME DOT  VALUES))){
+		Aggregandum<?> aggregandum = Adapter.buildSingletonAggregandum(getSymbolTable().defineValuesAttributeReferenceSymbol($VARIABLE_NAME,getConstraintSystem()));
+		$argObjects.add(aggregandum);
+  	}
+	| ^(ARGUMENT (a=.{
+    		OWLObject owlObject = a.getOWLObject();
+	    	if(owlObject!=null){
+    			$argObjects.add(owlObject);
+	    	}else{
+    			Variable<?> v = getConstraintSystem().getVariable(a.getText());
+    			if(v!=null){
+    				$argObjects.add(v);
+	    		}else{
+    				
+    				getErrorListener().illegalToken(a,"Invalid argument");
+    			}
     		}
-    	}
     })+) 
   ;

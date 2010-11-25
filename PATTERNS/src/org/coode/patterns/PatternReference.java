@@ -39,10 +39,20 @@ import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.bindingtree.LeafBrusher;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.function.Aggregandum;
+import org.coode.oppl.function.Aggregation;
+import org.coode.oppl.function.Constant;
+import org.coode.oppl.function.Create;
+import org.coode.oppl.function.Expression;
+import org.coode.oppl.function.GroupVariableAttribute;
+import org.coode.oppl.function.IRIVariableAttribute;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.function.OPPLFunctionVisitor;
 import org.coode.oppl.function.OPPLFunctionVisitorEx;
+import org.coode.oppl.function.RenderingVariableAttribute;
+import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
+import org.coode.oppl.function.ValuesVariableAtttribute;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
@@ -208,7 +218,9 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 								variable.getType());
 					} else {
 						compatible = anIthAssignment instanceof OWLObject
-								&& variable.getType().isCompatibleWith((OWLObject) anIthAssignment);
+								&& variable.getType().isCompatibleWith((OWLObject) anIthAssignment)
+								|| anIthAssignment instanceof Aggregandum<?>
+								&& ((Aggregandum<?>) anIthAssignment).isCompatible(variable.getType());
 					}
 					if (!compatible) {
 						throw new IncompatibleArgumentException(anIthAssignment, variable);
@@ -259,8 +271,8 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 		List<List<Object>> replacements = this.computeReplacements(this.getArguments());
 		for (int i = 0; i < replacements.size(); i++) {
 			List<Object> values = replacements.get(i);
-			InputVariable<?> variable = this.getExtractedPattern().getInputVariables().get(i);
-			Set<OWLObject> set = new HashSet<OWLObject>(values.size());
+			final InputVariable<?> variable = this.getExtractedPattern().getInputVariables().get(i);
+			final Set<OWLObject> set = new HashSet<OWLObject>(values.size());
 			bindings.put(variable, set);
 			for (Object object : values) {
 				if (object instanceof OWLObject) {
@@ -298,6 +310,80 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 							return dataFactory.getOWLAnnotationProperty(v.getIRI());
 						}
 					}));
+				} else if (object instanceof Aggregandum<?>) {
+					Set<?> opplFunctions = ((Aggregandum<?>) object).getOPPLFunctions();
+					final ValueComputationParameters parameters = new SimpleValueComputationParameters(
+							this.getConstraintSystem(), BindingNode.createNewEmptyBindingNode(),
+							this.runtimeExceptionHandler);
+					for (Object o : opplFunctions) {
+						((OPPLFunction<?>) o).accept(new OPPLFunctionVisitor() {
+							public <P extends OWLObject> void visitValuesVariableAtttribute(
+									ValuesVariableAtttribute<P> valuesVariableAtttribute) {
+								if (variable.getType() == valuesVariableAtttribute.getVariable().getType()) {
+									Collection<P> computedValues = valuesVariableAtttribute.compute(parameters);
+									set.addAll(computedValues);
+								} else {
+									PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
+											valuesVariableAtttribute.render(PatternReference.this.getConstraintSystem()),
+											variable));
+								}
+							}
+
+							public void visitRenderingVariableAttribute(
+									RenderingVariableAttribute renderingVariableAttribute) {
+								PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
+										renderingVariableAttribute.render(PatternReference.this.getConstraintSystem()),
+										variable));
+							}
+
+							public void visitIRIVariableAttribute(
+									IRIVariableAttribute iriVariableAttribute) {
+								PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
+										iriVariableAttribute.render(PatternReference.this.getConstraintSystem()),
+										variable));
+							}
+
+							public <P extends OWLObject> void visitGroupVariableAttribute(
+									GroupVariableAttribute<P> groupVariableAttribute) {
+								PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
+										groupVariableAttribute.render(PatternReference.this.getConstraintSystem()),
+										variable));
+							}
+
+							public <P extends OWLObject> void visitGenericOPPLFunction(
+									OPPLFunction<P> opplFunction) {
+								PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
+										opplFunction.render(PatternReference.this.getConstraintSystem()),
+										variable));
+							}
+
+							public <P extends OWLObject> void visitExpression(
+									Expression<P> expression) {
+								PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
+										expression.render(PatternReference.this.getConstraintSystem()),
+										variable));
+							}
+
+							public <P, I extends OPPLFunction<?>> void visitCreate(
+									Create<I, P> create) {
+								PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
+										create.render(PatternReference.this.getConstraintSystem()),
+										variable));
+							}
+
+							public <P> void visitConstant(Constant<P> constant) {
+								PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
+										constant.render(PatternReference.this.getConstraintSystem()),
+										variable));
+							}
+
+							public <P, I> void visitAggregation(Aggregation<P, I> aggregation) {
+								PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
+										aggregation.render(PatternReference.this.getConstraintSystem()),
+										variable));
+							}
+						});
+					}
 				}
 			}
 		}
@@ -421,8 +507,10 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 							this.getConstraintSystem());
 					owlObject.accept(renderer);
 					builder.append(renderer.toString());
-				} else {
+				} else if (object instanceof Variable<?>) {
 					builder.append(((Variable<?>) object).getName());
+				} else {
+					builder.append(((Aggregandum<?>) object).render(constraintSystem));
 				}
 				if (iterator.hasNext()) {
 					builder.append(", ");

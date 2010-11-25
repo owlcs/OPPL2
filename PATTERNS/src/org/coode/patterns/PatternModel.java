@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.OPPLScriptVisitor;
@@ -45,7 +46,6 @@ import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.utils.ArgCheck;
-import org.coode.oppl.utils.VariableDetector;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.oppl.validation.OPPLScriptValidator;
 import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
@@ -497,17 +497,23 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 			RuntimeExceptionHandler runtimeExceptionHandler) throws PatternException {
 		DefinitorialExtractor extractor = this.createDefinitorialExtractor(this.getReturnVariable());
 		this.getConstraintSystem().setLeaves(new HashSet<BindingNode>(bindingNodes));
-		VariableDetector variableExtractor = new VariableExtractor(this.getConstraintSystem(),
-				false);
 		for (BindingNode bindingNode : bindingNodes) {
 			SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
 					this.getConstraintSystem(), bindingNode, runtimeExceptionHandler);
 			PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(parameters);
+			ConstraintSystem newConstraintSystem = this.getConstraintSystem().getOPPLFactory().createConstraintSystem();
+			for (Variable<?> v : bindingNode.getAssignedVariables()) {
+				newConstraintSystem.importVariable(v);
+			}
+			VariableExtractor variableExtractor = new VariableExtractor(newConstraintSystem, false);
 			for (OWLAxiomChange owlAxiomChange : this.getActions()) {
 				OWLObject instantiatedAxiom = owlAxiomChange.getAxiom().accept(instantiator);
 				Set<Variable<?>> remainingVariables = variableExtractor.extractVariables(instantiatedAxiom);
 				boolean instantiate = !remainingVariables.isEmpty()
 						&& this.hasValuesFor(remainingVariables, bindingNode, parameters);
+				instantiator = new PartialOWLObjectInstantiator(
+						new SimpleValueComputationParameters(newConstraintSystem, bindingNode,
+								runtimeExceptionHandler));
 				while (instantiate) {
 					instantiatedAxiom = instantiatedAxiom.accept(instantiator);
 					remainingVariables = variableExtractor.extractVariables(instantiatedAxiom);

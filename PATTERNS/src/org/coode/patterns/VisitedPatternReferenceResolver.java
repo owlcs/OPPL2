@@ -2,6 +2,7 @@ package org.coode.patterns;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -18,7 +19,7 @@ public final class VisitedPatternReferenceResolver implements PatternReferenceRe
 
 	public void resolvePattern(OPPLSyntaxTree reference, String patternName,
 			PatternConstraintSystem constraintSystem, OPPLPatternsSymbolTable symbolTable,
-			Object... args) {
+			List<Object>... args) {
 		symbolTable.resolvePattern(
 				reference,
 				patternName,

@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2010-11-24 13:02:18
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2010-11-25 15:42:46
 
   package org.coode.parsers.oppl.patterns;
   import org.coode.parsers.oppl.OPPLSyntaxTree;  
@@ -131,6 +131,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
     public static final int POW=36;
     public static final int MATCH=176;
     public static final int BEGIN=83;
+    public static final int ARGUMENT=113;
     public static final int OPPL_PATTERN=419;
     public static final int WHITESPACE=9;
     public static final int IN=74;
@@ -534,7 +535,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: iri, o, p
+                    // elements: p, o, iri
                     // token labels: 
                     // rule labels: o, p, retval
                     // token list labels: 
@@ -606,7 +607,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: objectIRI, p, subjectIRI
+                    // elements: p, subjectIRI, objectIRI
                     // token labels: 
                     // rule labels: subjectIRI, objectIRI, p, retval
                     // token list labels: 
@@ -762,7 +763,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: HAS_KEY, exp, propertyExpression
+            // elements: HAS_KEY, propertyExpression, exp
             // token labels: 
             // rule labels: exp, retval
             // token list labels: 
@@ -939,7 +940,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, i
+                    // elements: i, expression
                     // token labels: 
                     // rule labels: i, retval
                     // token list labels: 
@@ -1009,7 +1010,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: value, propertyExpression, subject
+                    // elements: subject, value, propertyExpression
                     // token labels: 
                     // rule labels: retval, subject
                     // token list labels: 
@@ -1221,7 +1222,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: superClass, lhs
+                    // elements: lhs, superClass
                     // token labels: 
                     // rule labels: lhs, retval, superClass
                     // token list labels: 
@@ -1289,7 +1290,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhs, rhs
+                    // elements: rhs, lhs
                     // token labels: 
                     // rule labels: lhs, retval, rhs
                     // token list labels: 
@@ -1425,7 +1426,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhs, superProperty
+                    // elements: superProperty, lhs
                     // token labels: 
                     // rule labels: lhs, superProperty, retval
                     // token list labels: 
@@ -1493,7 +1494,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, INVERSE_OF, rhsAtomic
+                    // elements: rhsAtomic, lhsID, INVERSE_OF
                     // token labels: 
                     // rule labels: lhsID, rhsAtomic, retval
                     // token list labels: 
@@ -1561,7 +1562,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: rhsID, lhsID
+                    // elements: lhsID, rhsID
                     // token labels: 
                     // rule labels: rhsID, lhsID, retval
                     // token list labels: 
@@ -1629,7 +1630,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, rhsID
+                    // elements: rhsID, lhsID
                     // token labels: 
                     // rule labels: rhsID, lhsID, retval
                     // token list labels: 
@@ -1697,7 +1698,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: DOMAIN, expression, lhsID
+                    // elements: DOMAIN, lhsID, expression
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -1764,7 +1765,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, lhsID, RANGE
+                    // elements: RANGE, lhsID, expression
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -2688,11 +2689,11 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
                 if ( (LA11_1==OPEN_PARENTHESYS) ) {
                     int LA11_2 = input.LA(3);
 
-                    if ( (LA11_2==INVERSE) ) {
-                        alt11=1;
-                    }
-                    else if ( ((LA11_2>=IDENTIFIER && LA11_2<=ENTITY_REFERENCE)||LA11_2==ESCLAMATION_MARK||LA11_2==DOLLAR||LA11_2==THIS_CLASS||LA11_2==VARIABLE_NAME) ) {
+                    if ( ((LA11_2>=IDENTIFIER && LA11_2<=ENTITY_REFERENCE)||LA11_2==ESCLAMATION_MARK||LA11_2==DOLLAR||LA11_2==THIS_CLASS||LA11_2==VARIABLE_NAME) ) {
                         alt11=2;
+                    }
+                    else if ( (LA11_2==INVERSE) ) {
+                        alt11=1;
                     }
                     else {
                         if (state.backtracking>0) {state.failed=true; return retval;}
@@ -2946,7 +2947,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: head, rest
+                    // elements: rest, head
                     // token labels: 
                     // rule labels: head, retval
                     // token list labels: 
@@ -3442,7 +3443,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: LESS_THAN_EQUAL, constant
+                    // elements: constant, LESS_THAN_EQUAL
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3485,7 +3486,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: GREATER_THAN, constant
+                    // elements: constant, GREATER_THAN
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3528,7 +3529,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: constant, GREATER_THAN_EQUAL
+                    // elements: GREATER_THAN_EQUAL, constant
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3698,7 +3699,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: propertyExpression, expression
+                    // elements: expression, propertyExpression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -4079,7 +4080,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: INTEGER, restrictionKind, propertyExpression, unary
+            // elements: propertyExpression, INTEGER, unary, restrictionKind
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4742,7 +4743,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: type, constantValue
+            // elements: constantValue, type
             // token labels: type, constantValue
             // rule labels: retval
             // token list labels: 

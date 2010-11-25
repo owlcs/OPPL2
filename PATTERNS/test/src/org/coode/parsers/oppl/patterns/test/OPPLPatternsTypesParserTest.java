@@ -1,6 +1,7 @@
 package org.coode.parsers.oppl.patterns.test;
 
 import java.net.URISyntaxException;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -95,7 +96,7 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 		return new PatternReferenceResolver() {
 			public void resolvePattern(OPPLSyntaxTree reference, String patternName,
 					PatternConstraintSystem constraintSystem, OPPLPatternsSymbolTable symbolTable,
-					Object... args) {
+					List<Object>... args) {
 				symbolTable.resolvePattern(reference, patternName, constraintSystem, args);
 			}
 		};

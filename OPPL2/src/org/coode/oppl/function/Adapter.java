@@ -247,7 +247,7 @@ public class Adapter {
 		while (iterator.hasNext()) {
 			OPPLFunction<I> opplFunction = iterator.next();
 			builder.append(String.format(
-					"%s %s",
+					"%s%s",
 					opplFunction.render(constraintSystem),
 					iterator.hasNext() ? ", " : ""));
 		}

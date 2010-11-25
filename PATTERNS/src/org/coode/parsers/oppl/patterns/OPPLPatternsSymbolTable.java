@@ -3,7 +3,7 @@
  */
 package org.coode.parsers.oppl.patterns;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,7 +13,6 @@ import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.VariableType;
 import org.coode.patterns.PatternConstraintSystem;
-import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
@@ -33,13 +32,8 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
 	}
 
 	public void resolvePattern(OPPLSyntaxTree reference, String patternName,
-			PatternConstraintSystem constraintSystem, Object... args) {
-		List<List<Object>> arguments = new ArrayList<List<Object>>(args.length);
-		for (Object string : args) {
-			List<Object> arg = new ArrayList<Object>(1);
-			arg.add(string);
-			arguments.add(arg);
-		}
+			PatternConstraintSystem constraintSystem, List<Object>... args) {
+		List<List<Object>> arguments = Arrays.asList(args);
 		@SuppressWarnings("unchecked")
 		Variable<?> resolvedPatternReference = this.getGlobalScope().resolvePatternReference(
 				reference,
@@ -59,13 +53,8 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
 
 	public void resolvePattern(OPPLSyntaxTree reference, String patternName,
 			PatternConstraintSystem constraintSystem, Collection<? extends String> visited,
-			OWLObject... args) {
-		List<List<OWLObject>> arguments = new ArrayList<List<OWLObject>>(args.length);
-		for (OWLObject string : args) {
-			List<OWLObject> arg = new ArrayList<OWLObject>(1);
-			arg.add(string);
-			arguments.add(arg);
-		}
+			List<Object>... args) {
+		List<List<Object>> arguments = Arrays.asList(args);
 		@SuppressWarnings("unchecked")
 		Variable<?> resolvedPatternReference = this.getGlobalScope().resolvePatternReference(
 				reference,

@@ -15,6 +15,7 @@ tokens{
   RENDERING; 
   PATTERN_REFERENCE;
   ARGUMENTS;
+  ARGUMENT;
 }
  
 @header {
@@ -75,7 +76,7 @@ pattern
 
 statement
   :
-    variableDefinitions  actions -> ^(OPPL_STATEMENT variableDefinitions actions)
+    variableDefinitions?  actions -> ^(OPPL_STATEMENT variableDefinitions? actions)
   ;
   
 returnClause
@@ -129,32 +130,57 @@ atomic
 patternReference
 	:
 		DOLLAR name = IDENTIFIER   arguments   
-		-> ^(IDENTIFIER[$DOLLAR.getText() + name.getText() + $arguments.argsString] PATTERN_REFERENCE[name.getText()] arguments)
+		-> ^(IDENTIFIER[$DOLLAR.getText() + name.getText() + $arguments.string] PATTERN_REFERENCE[name.getText()] arguments)
 	;
 
-arguments returns [String argsString]
-@init
-{
-	StringBuilder builder = new StringBuilder();
+arguments returns [String string]
+@init{
+	StringBuilder out = new StringBuilder();
 }
+@after{
+	$string = out.toString();
+}
+
   :
-     OPEN_PARENTHESYS
+     OPEN_PARENTHESYS{
+     	out.append($OPEN_PARENTHESYS.getText());
+     }
+     (a = argument
      {
-     	builder.append($OPEN_PARENTHESYS.getText());
-     } 
-     (a = atomic
+     	out.append($a.string);
+     }
+     (COMMA  a = argument
      {
-     	builder.append($a.text);
-     } 
-     (COMMA a = atomic
-     {
-     	builder.append($a.text);
+     	out.append($COMMA.getText());
+     	out.append($a.string);
      }
      )*)? 
-     CLOSED_PARENTHESYS
-     {
-      builder.append($CLOSED_PARENTHESYS.getText());
-     	$argsString = builder.toString();
+     CLOSED_PARENTHESYS{
+     	out.append($CLOSED_PARENTHESYS.getText());
      }
-      -> ^(ARGUMENTS atomic*) 
+      -> ^(ARGUMENTS argument*) 
   ;
+
+
+argument returns [String string]
+@init{
+	StringBuilder out = new StringBuilder();
+}
+
+	:
+		a = atomic {
+				$string = $a.text.trim();
+			} -> ^(ARGUMENT ^(EXPRESSION[$a.text.trim()] atomic))
+		| OPEN_CURLY_BRACES {
+			out.append($OPEN_CURLY_BRACES.getText());
+		} a =atomic {
+			out.append($a.text.trim());
+		} (COMMA a = atomic{
+			out.append($COMMA.getText());
+			out.append(" ");			
+		     	out.append($a.text.trim());
+		})* CLOSED_CURLY_BRACES {
+			out.append($CLOSED_CURLY_BRACES.getText());
+			$string = out.toString();
+		} -> ^(ARGUMENT ^(EXPRESSION[$atomic.text.trim()] atomic)+)
+	;

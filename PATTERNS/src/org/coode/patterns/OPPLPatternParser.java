@@ -4,6 +4,7 @@
 package org.coode.patterns;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.RecognitionException;
@@ -87,7 +88,7 @@ public class OPPLPatternParser implements AbstractOPPLParser {
 	public interface PatternReferenceResolver {
 		public void resolvePattern(OPPLSyntaxTree reference, String patternName,
 				PatternConstraintSystem constraintSystem, OPPLPatternsSymbolTable symbolTable,
-				Object... args);
+				List<Object>... args);
 	}
 
 	private static final TreeAdaptor ADAPTOR = new CommonTreeAdaptor() {
@@ -123,7 +124,7 @@ public class OPPLPatternParser implements AbstractOPPLParser {
 		return new PatternReferenceResolver() {
 			public void resolvePattern(OPPLSyntaxTree reference, String patternName,
 					PatternConstraintSystem constraintSystem, OPPLPatternsSymbolTable symbolTable,
-					Object... args) {
+					List<Object>... args) {
 				symbolTable.resolvePattern(reference, patternName, constraintSystem, args);
 			}
 		};
