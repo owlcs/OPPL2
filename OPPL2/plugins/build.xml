@@ -63,7 +63,7 @@
 	
  	<target name="parsers">
  		<mkdir dir="${basedir}/build/parsers/classes"/>
- 		<javac debug="on" failonerror="true"  destdir="${basedir}/build/parsers/classes">
+ 		<javac target="1.5" debug="on" failonerror="true"  destdir="${basedir}/build/parsers/classes">
  					<classpath refid="parsers.classpath" />
  			<src path="${parsers.source.dir}"/>
  			<src path="${parsers.antlr.dir}"/>
