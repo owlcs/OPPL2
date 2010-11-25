@@ -5,6 +5,7 @@ import org.coode.oppl.lint.OPPLLintScript;
 import org.coode.oppl.lint.filtering.Filter;
 import org.coode.oppl.lint.protege.OPPLLintPlugin;
 import org.coode.oppl.lint.protege.ProtegeParserFactory;
+import org.coode.oppl.protege.ui.ShowMessageRuntimeExceptionHandler;
 import org.eclipse.core.runtime.IExtension;
 import org.protege.editor.core.plugin.ExtensionInstantiator;
 import org.protege.editor.core.plugin.JPFUtil;
@@ -23,8 +24,7 @@ public final class FilteringOPPLLintPlugin implements
 	 * @param extension
 	 * @param owlEditorKit
 	 */
-	public FilteringOPPLLintPlugin(IExtension extension,
-			OWLEditorKit owlEditorKit) {
+	public FilteringOPPLLintPlugin(IExtension extension, OWLEditorKit owlEditorKit) {
 		if (extension == null) {
 			throw new NullPointerException("The extension cannot be null");
 		}
@@ -50,20 +50,20 @@ public final class FilteringOPPLLintPlugin implements
 	}
 
 	public FilteringOPPLLintProtegePluginInstanceAdapter newInstance()
-			throws ClassNotFoundException, IllegalAccessException,
-			InstantiationException {
+			throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 		ExtensionInstantiator<OPPLLintScript> instantiator = new ExtensionInstantiator<OPPLLintScript>(
 				this.extension) {
 			@Override
-			public OPPLLintScript instantiate() throws ClassCastException,
-					InstantiationException, IllegalAccessException,
-					ClassNotFoundException {
+			public OPPLLintScript instantiate() throws ClassCastException, InstantiationException,
+					IllegalAccessException, ClassNotFoundException {
 				String script = PluginUtilities.getAttribute(
-						FilteringOPPLLintPlugin.this.extension, "script");
+						FilteringOPPLLintPlugin.this.extension,
+						"script");
 				OPPLLintParser parser = ProtegeParserFactory.getInstance(
 						FilteringOPPLLintPlugin.this.owlEditorKit).build(
 						OPPLLintPlugin.ERROR_LISTENER);
-				OPPLLintScript lint = parser.parse(script);
+				OPPLLintScript lint = parser.parse(script, new ShowMessageRuntimeExceptionHandler(
+						FilteringOPPLLintPlugin.this.owlEditorKit.getOWLWorkspace()));
 				return lint;
 			}
 		};
@@ -72,10 +72,10 @@ public final class FilteringOPPLLintPlugin implements
 			@SuppressWarnings("unchecked")
 			@Override
 			public Filter<OWLObject> instantiate() throws ClassCastException,
-					InstantiationException, IllegalAccessException,
-					ClassNotFoundException {
+					InstantiationException, IllegalAccessException, ClassNotFoundException {
 				Object o = PluginUtilities.getInstance().getExtensionObject(
-						FilteringOPPLLintPlugin.this.extension, "filter");
+						FilteringOPPLLintPlugin.this.extension,
+						"filter");
 				return (Filter<OWLObject>) o;
 			}
 		};
@@ -83,12 +83,12 @@ public final class FilteringOPPLLintPlugin implements
 		FilteringOPPLLintProtegePluginInstanceAdapter toReturn = null;
 		Filter<OWLObject> filter = filterInstantiator.instantiate();
 		if (filter != null) {
-			ProtegeFilter<OWLObject> protegeFilter = ProtegeFilter
-					.buildProtegeFilter(this.owlEditorKit, filter,
-							this.extension);
+			ProtegeFilter<OWLObject> protegeFilter = ProtegeFilter.buildProtegeFilter(
+					this.owlEditorKit,
+					filter,
+					this.extension);
 			toReturn = instantiated != null ? new FilteringOPPLLintProtegePluginInstanceAdapter(
-					instantiated, protegeFilter, this.extension)
-					: null;
+					instantiated, protegeFilter, this.extension) : null;
 		}
 		return toReturn;
 	}

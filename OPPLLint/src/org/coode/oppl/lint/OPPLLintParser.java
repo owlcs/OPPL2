@@ -15,9 +15,11 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
+import org.coode.parsers.common.SilentListener;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.DefaultTypeEnforcer;
 import org.coode.parsers.oppl.OPPLDefine;
@@ -79,14 +81,12 @@ public class OPPLLintParser implements AbstractOPPLLintParser {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop,
-				RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
 
-	public OPPLLintParser(OPPLLintAbstractFactory factory,
-			ErrorListener listener,
+	public OPPLLintParser(OPPLLintAbstractFactory factory, ErrorListener listener,
 			SymbolTableFactory<OPPLSymbolTable> symbolTableFactory) {
 		if (factory == null) {
 			throw new NullPointerException("The OPPL factory cannot be null");
@@ -95,8 +95,7 @@ public class OPPLLintParser implements AbstractOPPLLintParser {
 			throw new NullPointerException("The error listener cannot be null");
 		}
 		if (symbolTableFactory == null) {
-			throw new NullPointerException(
-					"The symbol table factory cannot be null");
+			throw new NullPointerException("The symbol table factory cannot be null");
 		}
 		this.opplLintFactory = factory;
 		this.listener = listener;
@@ -106,17 +105,20 @@ public class OPPLLintParser implements AbstractOPPLLintParser {
 	/**
 	 * @see org.coode.oppl.lint.AbstractOPPLLintParser#parse(java.lang.String)
 	 */
-	public OPPLLintScript parse(String input) {
-		OPPLSymbolTable symtab = this.getSymbolTableFactory()
-				.createSymbolTable();
+	public OPPLLintScript parse(String input, RuntimeExceptionHandler handler) {
+		if (input == null) {
+			throw new NullPointerException("The input string cannot be null");
+		}
+		if (handler == null) {
+			throw new NullPointerException("The run-time exception handler cannot be null");
+		}
+		OPPLSymbolTable symtab = this.getSymbolTableFactory().createSymbolTable();
 		symtab.setErrorListener(this.getListener());
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLintLexer lexer = new OPPLLintLexer(antlrStringStream);
-		ConstraintSystem constraintSystem = this.getOPPLLintFactory()
-				.getOPPLFactory().createConstraintSystem();
+		ConstraintSystem constraintSystem = this.getOPPLLintFactory().getOPPLFactory().createConstraintSystem();
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-		OPPLLintCombinedParser parser = new OPPLLintCombinedParser(tokens, this
-				.getListener());
+		OPPLLintCombinedParser parser = new OPPLLintCombinedParser(tokens, this.getListener());
 		parser.setTreeAdaptor(ADAPTOR);
 		try {
 			RuleReturnScope r = parser.lint();
@@ -127,41 +129,40 @@ public class OPPLLintParser implements AbstractOPPLLintParser {
 				nodes.setTreeAdaptor(ADAPTOR);
 				nodes.reset();
 				// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-				ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-						nodes);
+				ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 				simplify.setTreeAdaptor(ADAPTOR);
 				simplify.downup(tree);
 				nodes.reset();
-				OPPLDefine define = new OPPLDefine(nodes, symtab, this
-						.getListener(), constraintSystem);
+				OPPLDefine define = new OPPLDefine(nodes, symtab, this.getListener(),
+						constraintSystem);
 				define.setTreeAdaptor(ADAPTOR);
 				define.downup(tree);
 				nodes.reset();
-				ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(
-						nodes, symtab, this.getListener());
+				ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab,
+						new SilentListener());
+				symtab.setErrorListener(mOWLTypes.getErrorListener());
 				mOWLTypes.downup(tree);
 				nodes.reset();
-				OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(
-						nodes, symtab, new DefaultTypeEnforcer(symtab, this
-								.getOPPLLintFactory().getOPPLFactory()
-								.getOWLEntityFactory(), this.getListener()),
-						this.getListener());
+				OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, symtab,
+						new DefaultTypeEnforcer(symtab,
+								this.getOPPLLintFactory().getOPPLFactory().getOWLEntityFactory(),
+								this.getListener()), this.getListener());
 				typeEnforcement.downup(tree);
+				symtab.setErrorListener(typeEnforcement.getErrorListener());
 				nodes.reset();
+				// I will re-create the Manchester OWL types parser with the
+				// actual error listener
+				mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab, this.getListener());
 				mOWLTypes.downup(tree);
 				nodes.reset();
-				OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, this
-						.getListener(), constraintSystem, this
-						.getOPPLLintFactory().getOPPLFactory());
+				OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, this.getListener(),
+						constraintSystem, this.getOPPLLintFactory().getOPPLFactory());
 				opplTypes.downup(tree);
-				nodes.reset();
-				OPPLLintTypes opplLintTypes = new OPPLLintTypes(nodes, symtab,
-						this.getListener(), constraintSystem, this
-								.getOPPLLintFactory());
+				OPPLLintTypes opplLintTypes = new OPPLLintTypes(nodes, symtab, this.getListener(),
+						constraintSystem, this.getOPPLLintFactory(), handler);
 				opplLintTypes.downup(tree);
 			}
-			return tree != null ? (OPPLLintScript) ((OPPLSyntaxTree) tree)
-					.getOPPLContent() : null;
+			return tree != null ? (OPPLLintScript) ((OPPLSyntaxTree) tree).getOPPLContent() : null;
 		} catch (RecognitionException e) {
 			this.listener.recognitionException(e);
 			return null;
@@ -171,15 +172,14 @@ public class OPPLLintParser implements AbstractOPPLLintParser {
 	/**
 	 * @see org.coode.oppl.lint.AbstractOPPLLintParser#parse(java.lang.String)
 	 */
-	public String parseDescription(String input, OPPLSymbolTable symtab) {
+	public String parseDescription(String input, OPPLSymbolTable symtab,
+			RuntimeExceptionHandler handler) {
 		symtab.setErrorListener(this.getListener());
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLintLexer lexer = new OPPLLintLexer(antlrStringStream);
-		ConstraintSystem constraintSystem = this.getOPPLLintFactory()
-				.getOPPLFactory().createConstraintSystem();
+		ConstraintSystem constraintSystem = this.getOPPLLintFactory().getOPPLFactory().createConstraintSystem();
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-		OPPLLintCombinedParser parser = new OPPLLintCombinedParser(tokens, this
-				.getListener());
+		OPPLLintCombinedParser parser = new OPPLLintCombinedParser(tokens, this.getListener());
 		parser.setTreeAdaptor(ADAPTOR);
 		try {
 			RuleReturnScope r = parser.text();
@@ -189,13 +189,11 @@ public class OPPLLintParser implements AbstractOPPLLintParser {
 				nodes.setTokenStream(tokens); // where to find tokens
 				nodes.setTreeAdaptor(ADAPTOR);
 				nodes.reset();
-				OPPLLintTypes opplLintTypes = new OPPLLintTypes(nodes, symtab,
-						this.getListener(), constraintSystem, this
-								.getOPPLLintFactory());
+				OPPLLintTypes opplLintTypes = new OPPLLintTypes(nodes, symtab, this.getListener(),
+						constraintSystem, this.getOPPLLintFactory(), handler);
 				opplLintTypes.downup(tree);
 			}
-			return tree != null ? (String) ((OPPLSyntaxTree) tree)
-					.getOPPLContent() : null;
+			return tree != null ? (String) ((OPPLSyntaxTree) tree).getOPPLContent() : null;
 		} catch (RecognitionException e) {
 			this.listener.recognitionException(e);
 			return null;

@@ -7,6 +7,7 @@ import org.coode.oppl.OPPLAbstractFactory;
 import org.coode.oppl.OPPLFactory;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
@@ -23,11 +24,10 @@ public class OPPLLintFactory implements OPPLLintAbstractFactory {
 	/**
 	 * @param ontologyManager
 	 */
-	public OPPLLintFactory(OWLOntology ontology,
-			OWLOntologyManager ontologyManager, OWLReasoner reasoner) {
+	public OPPLLintFactory(OWLOntology ontology, OWLOntologyManager ontologyManager,
+			OWLReasoner reasoner) {
 		if (ontologyManager == null) {
-			throw new NullPointerException(
-					"The ontology manager cannot be null");
+			throw new NullPointerException("The ontology manager cannot be null");
 		}
 		if (ontology == null) {
 			throw new NullPointerException("The ontology  cannot be null");
@@ -37,15 +37,13 @@ public class OPPLLintFactory implements OPPLLintAbstractFactory {
 		this.reasoner = reasoner;
 	}
 
-	public OPPLLintScript buildOPPLLintScript(String name,
-			OPPLScript opplScript, Variable v, String explanationTemplate,
-			String description, boolean inferenceRequired) {
-		return opplScript.getActions().isEmpty() ? new OPPLLintScript(name,
-				opplScript, v, explanationTemplate, description,
-				this.ontologyManager, inferenceRequired)
-				: new ActingOPPLLintScript(name, opplScript, v,
-						explanationTemplate, description, this
-								.getOntologyManager(), inferenceRequired);
+	public OPPLLintScript buildOPPLLintScript(String name, OPPLScript opplScript, Variable<?> v,
+			String explanationTemplate, String description, boolean inferenceRequired,
+			RuntimeExceptionHandler handler) {
+		return opplScript.getActions().isEmpty() ? new OPPLLintScript(name, opplScript, v,
+				explanationTemplate, description, this.ontologyManager, inferenceRequired, handler)
+				: new ActingOPPLLintScript(name, opplScript, v, explanationTemplate, description,
+						this.getOntologyManager(), inferenceRequired, handler);
 	}
 
 	/**
@@ -56,8 +54,7 @@ public class OPPLLintFactory implements OPPLLintAbstractFactory {
 	}
 
 	public OPPLAbstractFactory getOPPLFactory() {
-		return new OPPLFactory(this.getOntologyManager(), this.getOntology(),
-				this.getReasoner());
+		return new OPPLFactory(this.getOntologyManager(), this.getOntology(), this.getReasoner());
 	}
 
 	/**

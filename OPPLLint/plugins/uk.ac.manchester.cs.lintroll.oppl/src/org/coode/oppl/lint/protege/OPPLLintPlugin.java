@@ -13,6 +13,7 @@ import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.coode.lint.protege.LintProtegePluginInstanceAdapter;
 import org.coode.oppl.lint.OPPLLintParser;
 import org.coode.oppl.lint.OPPLLintScript;
+import org.coode.oppl.protege.ui.ShowMessageRuntimeExceptionHandler;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Type;
 import org.eclipse.core.runtime.IExtension;
@@ -140,7 +141,8 @@ public final class OPPLLintPlugin implements
 						"script");
 				OPPLLintParser parser = ProtegeParserFactory.getInstance(
 						OPPLLintPlugin.this.owlEditorKit).build(OPPLLintPlugin.ERROR_LISTENER);
-				OPPLLintScript lint = parser.parse(script);
+				OPPLLintScript lint = parser.parse(script, new ShowMessageRuntimeExceptionHandler(
+						OPPLLintPlugin.this.owlEditorKit.getOWLWorkspace()));
 				return lint;
 			}
 		};

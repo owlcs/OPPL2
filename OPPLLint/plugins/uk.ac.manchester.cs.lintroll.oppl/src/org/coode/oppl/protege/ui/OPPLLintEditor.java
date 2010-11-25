@@ -31,15 +31,16 @@ import javax.swing.event.DocumentListener;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.PlainVariableVisitor;
 import org.coode.oppl.Variable;
-import org.coode.oppl.VariableScope;
-import org.coode.oppl.generated.RegExpGenerated;
-import org.coode.oppl.generated.SingleValueGeneratedVariable;
+import org.coode.oppl.VariableVisitor;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.generated.GeneratedVariable;
+import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.lint.LintOPPLScriptValidator;
 import org.coode.oppl.lint.OPPLLintParser;
 import org.coode.oppl.lint.OPPLLintScript;
 import org.coode.oppl.lint.protege.ProtegeParserFactory;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.ui.ExpressionChecker;
 import org.protege.editor.core.ui.util.ComponentFactory;
@@ -50,36 +51,35 @@ import org.protege.editor.owl.model.classexpression.OWLExpressionParserException
 import org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor;
 import org.protege.editor.owl.ui.clsdescriptioneditor.OWLExpressionChecker;
 import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * @author Luigi Iannone
  * 
  */
-public class OPPLLintEditor extends JPanel implements
-		InputVerificationStatusChangedListener, VerifiedInputEditor {
+public class OPPLLintEditor extends JPanel implements InputVerificationStatusChangedListener,
+		VerifiedInputEditor {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8825193349540176956L;
 
-	public class ExplanationExpressionChecker extends
-			OPPLExpressionChecker<String> implements ExpressionChecker<String> {
+	public class ExplanationExpressionChecker extends OPPLExpressionChecker<String> implements
+			ExpressionChecker<String> {
 		public ExplanationExpressionChecker() {
 			super(OPPLLintEditor.this.getOWLEditorKit());
 		}
 
 		@Override
 		protected String parse(String text) {
-			OPPLLintParser parser = ProtegeParserFactory.getInstance(
-					this.getOWLEditorKit()).build(this.getListener());
-			OPPLSymbolTable symbolTable = parser.getSymbolTableFactory()
-					.createSymbolTable();
+			OPPLLintParser parser = ProtegeParserFactory.getInstance(this.getOWLEditorKit()).build(
+					this.getListener());
+			OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
 			OPPLScript opplScript = OPPLLintEditor.this.editor.getOPPLScript();
 			if (opplScript != null) {
-				symbolTable.importConstraintSystem(opplScript
-						.getConstraintSystem());
+				symbolTable.importConstraintSystem(opplScript.getConstraintSystem());
 			}
-			return parser.parseDescription(text, symbolTable);
+			return parser.parseDescription(text, symbolTable, OPPLLintEditor.this.handler);
 		}
 	}
 
@@ -90,68 +90,57 @@ public class OPPLLintEditor extends JPanel implements
 		private static final long serialVersionUID = -6717057306871665492L;
 
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(JList list, Object value, int index,
+				boolean isSelected, boolean cellHasFocus) {
 			final JLabel label = (JLabel) super.getListCellRendererComponent(
-					list, value, index, isSelected, cellHasFocus);
+					list,
+					value,
+					index,
+					isSelected,
+					cellHasFocus);
 			if (value instanceof VariableListItem) {
 				OPPLScript script = OPPLLintEditor.this.editor.getOPPLScript();
 				if (script != null) {
-					Variable variable = ((VariableListItem) value)
-							.getVariable();
-					VariableScope<?> variableScope = variable
-							.getVariableScope();
-					String variableScopeString = variableScope == null ? ""
-							: "["
-									+ new StringBuilder()
-											.append(
-													variableScope
-															.getDirection())
-											.append(" ")
-											.append(
-													OPPLLintEditor.this.owlEditorKit
-															.getModelManager()
-															.getRendering(
-																	variableScope
-																			.getScopingObject()))
-											.append("] ").toString();
-					PlainVariableVisitor iconDecision = new PlainVariableVisitor() {
-						public void visit(SingleValueGeneratedVariable<?> v) {
-							label.setIcon(new ImageIcon(this.getClass()
-									.getClassLoader().getResource("cog.png")));
+					Variable<?> variable = ((VariableListItem) value).getVariable();
+					VariableVisitor iconDecision = new VariableVisitor() {
+						public <P extends OWLObject> void visit(GeneratedVariable<P> v) {
+							label.setIcon(new ImageIcon(
+									this.getClass().getClassLoader().getResource("cog.png")));
 						}
 
-						public void visit(RegExpGenerated<?> regExpGenerated) {
-							label.setIcon(new ImageIcon(this.getClass()
-									.getClassLoader().getResource("cog.png")));
+						public <P extends OWLObject> void visit(
+								RegexpGeneratedVariable<P> regExpGenerated) {
+							label.setIcon(new ImageIcon(
+									this.getClass().getClassLoader().getResource("cog.png")));
 						}
 
-						public void visit(Variable v) {
-							label.setIcon(new ImageIcon(this.getClass()
-									.getClassLoader().getResource(
-											"user-icon.gif")));
+						public <P extends OWLObject> void visit(InputVariable<P> v) {
+							label.setIcon(new ImageIcon(
+									this.getClass().getClassLoader().getResource("user-icon.gif")));
 						}
 					};
 					variable.accept(iconDecision);
-					ConstraintSystem constraintSystem = script
-							.getConstraintSystem();
-					label.setText(constraintSystem.render(variable) + ":"
-							+ variable.getType() + variableScopeString);
+					ConstraintSystem constraintSystem = script.getConstraintSystem();
+					label.setText(variable.render(constraintSystem));
 				} else {
-					return super.getListCellRendererComponent(list, value,
-							index, isSelected, cellHasFocus);
+					return super.getListCellRendererComponent(
+							list,
+							value,
+							index,
+							isSelected,
+							cellHasFocus);
 				}
 			}
 			return label;
 		}
 	}
 
+	private final RuntimeExceptionHandler handler;
 	private OPPLEditor editor;
 	private JPanel mainPane;
 	private final OWLEditorKit owlEditorKit;
 	private ExpressionEditor<String> lintNameEditor;
-	private final JCheckBox inferenceRequiredCheckBox = new JCheckBox(
-			"Inference required");
+	private final JCheckBox inferenceRequiredCheckBox = new JCheckBox("Inference required");
 	private OPPLLintScript editedObject = null;
 	private Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
 	private JComboBox returnValuesComboBox = new JComboBox();
@@ -159,69 +148,64 @@ public class OPPLLintEditor extends JPanel implements
 	private final org.coode.parsers.ui.ExpressionEditor<String> explanationTemplateEditor;
 
 	public OPPLLintEditor(OWLEditorKit editorKit) {
+		if (editorKit == null) {
+			throw new NullPointerException("The owl editor kit cannot be null");
+		}
 		this.owlEditorKit = editorKit;
+		this.handler = new ShowMessageRuntimeExceptionHandler(this.getEditorComponent());
 		this.mainPane = new JPanel(new BorderLayout());
 		this.lintNameEditor = new ExpressionEditor<String>(editorKit,
 				new OWLExpressionChecker<String>() {
 					private String lastCreatedObject = null;
 
-					public void check(String text)
-							throws OWLExpressionParserException {
+					public void check(String text) throws OWLExpressionParserException {
 						if (text.matches("\\S+")) {
 							this.lastCreatedObject = text;
 						} else {
 							this.lastCreatedObject = null;
 							Set<String> empty = Collections.emptySet();
-							throw new OWLExpressionParserException(
-									"name "
-											+ text
-											+ " does not match the grammar \\S+",
-									0, text.length() + 1, false, false, false,
-									false, false, false, empty);
+							throw new OWLExpressionParserException("name " + text
+									+ " does not match the grammar \\S+", 0, text.length() + 1,
+									false, false, false, false, false, false, empty);
 						}
 					}
 
-					public String createObject(String text)
-							throws OWLExpressionParserException {
+					public String createObject(String text) throws OWLExpressionParserException {
 						return this.lastCreatedObject;
 					}
 				});
-		this.lintNameEditor
-				.addStatusChangedListener(new InputVerificationStatusChangedListener() {
-					public void verifiedStatusChanged(boolean newState) {
-						OPPLLintEditor.this.handleChange();
-					}
-				});
+		this.lintNameEditor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+			public void verifiedStatusChanged(boolean newState) {
+				OPPLLintEditor.this.handleChange();
+			}
+		});
 		this.editor = new OPPLEditor(editorKit, new LintOPPLScriptValidator());
 		this.explanationTemplateEditor = new org.coode.parsers.ui.ExpressionEditor<String>(
-				this.getOWLEditorKit().getOWLModelManager()
-						.getOWLOntologyManager(),
+				this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager(),
 				new ExplanationExpressionChecker());
-		this.explanationTemplateEditor
-				.addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
-					public void verifiedStatusChanged(boolean newState) {
-						OPPLLintEditor.this.handleChange();
-					}
-				});
+		this.explanationTemplateEditor.addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
+			public void verifiedStatusChanged(boolean newState) {
+				OPPLLintEditor.this.handleChange();
+			}
+		});
 		this.editor.setPreferredSize(new Dimension(50, 200));
 		this.returnValuesComboBox.setRenderer(new VariableListCellRenderer());
 		this.removeKeyListeners();
 		this.editor.addStatusChangedListener(this);
 		this.returnValuesComboBox.setEnabled(false);
-		this.descriptionTextArea.getDocument().addDocumentListener(
-				new DocumentListener() {
-					public void changedUpdate(DocumentEvent e) {
-						OPPLLintEditor.this.handleChange();
-					}
+		this.descriptionTextArea.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				OPPLLintEditor.this.handleChange();
+			}
 
-					public void insertUpdate(DocumentEvent e) {
-						OPPLLintEditor.this.handleChange();
-					}
+			public void insertUpdate(DocumentEvent e) {
+				OPPLLintEditor.this.handleChange();
+			}
 
-					public void removeUpdate(DocumentEvent e) {
-						OPPLLintEditor.this.handleChange();
-					}
-				});
+			public void removeUpdate(DocumentEvent e) {
+				OPPLLintEditor.this.handleChange();
+			}
+		});
 		JScrollPane editorPane = ComponentFactory.createScrollPane(this.editor);
 		JPanel editorPanel = new JPanel(new BorderLayout());
 		this.inferenceRequiredCheckBox.addActionListener(new ActionListener() {
@@ -230,31 +214,23 @@ public class OPPLLintEditor extends JPanel implements
 			}
 		});
 		editorPanel.add(this.inferenceRequiredCheckBox);
-		editorPanel.setBorder(ComponentFactory
-				.createTitledBorder("OPPL Lint body: "));
+		editorPanel.setBorder(ComponentFactory.createTitledBorder("OPPL Lint body: "));
 		editorPanel.add(editorPane, BorderLayout.CENTER);
 		JPanel namePanel = new JPanel(new BorderLayout());
 		namePanel.setBorder(ComponentFactory.createTitledBorder("Name:"));
 		namePanel.add(ComponentFactory.createScrollPane(this.lintNameEditor));
 		this.descriptionTextArea.setPreferredSize(new Dimension(200, 200));
 		JPanel descriptionPanel = new JPanel(new BorderLayout());
-		descriptionPanel.add(ComponentFactory
-				.createScrollPane(this.descriptionTextArea));
-		descriptionPanel.setBorder(ComponentFactory
-				.createTitledBorder("Description"));
+		descriptionPanel.add(ComponentFactory.createScrollPane(this.descriptionTextArea));
+		descriptionPanel.setBorder(ComponentFactory.createTitledBorder("Description"));
 		JPanel returnVariablePanel = new JPanel(new BorderLayout());
-		returnVariablePanel.setBorder(ComponentFactory
-				.createTitledBorder("Return Variable"));
-		returnVariablePanel.add(ComponentFactory
-				.createScrollPane(this.returnValuesComboBox));
+		returnVariablePanel.setBorder(ComponentFactory.createTitledBorder("Return Variable"));
+		returnVariablePanel.add(ComponentFactory.createScrollPane(this.returnValuesComboBox));
 		this.mainPane.add(namePanel, BorderLayout.NORTH);
 		this.mainPane.add(editorPanel, BorderLayout.CENTER);
-		JScrollPane explanationPane = ComponentFactory
-				.createScrollPane(this.explanationTemplateEditor);
-		explanationPane.setBorder(ComponentFactory
-				.createTitledBorder("Explanation Template"));
-		JSplitPane descriptionAndExplanation = new JSplitPane(
-				JSplitPane.HORIZONTAL_SPLIT);
+		JScrollPane explanationPane = ComponentFactory.createScrollPane(this.explanationTemplateEditor);
+		explanationPane.setBorder(ComponentFactory.createTitledBorder("Explanation Template"));
+		JSplitPane descriptionAndExplanation = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		descriptionAndExplanation.setLeftComponent(descriptionPanel);
 		descriptionAndExplanation.setRightComponent(explanationPane);
 		descriptionAndExplanation.setDividerLocation(.5);
@@ -307,12 +283,10 @@ public class OPPLLintEditor extends JPanel implements
 			// Change the return variable list
 			OPPLScript script = this.editor.getOPPLScript();
 			assert script != null;
-			List<Variable> variables = script.getVariables();
-			for (Variable variable : variables) {
-				model
-						.addElement(new VariableListItem(variable, script
-								.getConstraintSystem(), this.owlEditorKit,
-								false, false));
+			List<Variable<?>> variables = script.getVariables();
+			for (Variable<?> variable : variables) {
+				model.addElement(new VariableListItem(variable, script.getConstraintSystem(),
+						this.owlEditorKit, false, false));
 			}
 		}
 		this.returnValuesComboBox.setModel(model);
@@ -324,16 +298,14 @@ public class OPPLLintEditor extends JPanel implements
 		boolean newState = this.check();
 		if (newState) {
 			try {
-				this.editedObject = ProtegeParserFactory.getInstance(
-						this.getOWLEditorKit()).getOPPLLintAbstractFactory()
-						.buildOPPLLintScript(
-								this.lintNameEditor.createObject(),
-								this.editor.getOPPLScript(),
-								((VariableListItem) this.returnValuesComboBox
-										.getSelectedItem()).getVariable(),
-								this.explanationTemplateEditor.createObject(),
-								this.descriptionTextArea.getText(),
-								this.inferenceRequiredCheckBox.isSelected());
+				this.editedObject = ProtegeParserFactory.getInstance(this.getOWLEditorKit()).getOPPLLintAbstractFactory().buildOPPLLintScript(
+						this.lintNameEditor.createObject(),
+						this.editor.getOPPLScript(),
+						((VariableListItem) this.returnValuesComboBox.getSelectedItem()).getVariable(),
+						this.explanationTemplateEditor.createObject(),
+						this.descriptionTextArea.getText(),
+						this.inferenceRequiredCheckBox.isSelected(),
+						this.handler);
 			} catch (OWLException e) {
 				throw new RuntimeException(e.getMessage());
 			}
@@ -359,13 +331,11 @@ public class OPPLLintEditor extends JPanel implements
 		}
 	}
 
-	public void addStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+	public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
 		this.listeners.add(listener);
 	}
 
-	public void removeStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
+	public void removeStatusChangedListener(InputVerificationStatusChangedListener listener) {
 		this.listeners.remove(listener);
 	}
 

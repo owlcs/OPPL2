@@ -7,15 +7,16 @@ import java.util.List;
 import org.coode.oppl.ChangeExtractor;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.semanticweb.owlapi.lint.ActingLint;
+import org.semanticweb.owlapi.lint.LintActionException;
+import org.semanticweb.owlapi.lint.LintVisitor;
+import org.semanticweb.owlapi.lint.LintVisitorEx;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.lint.ActingLint;
-import org.semanticweb.owlapi.lint.LintActionException;
-import org.semanticweb.owlapi.lint.LintVisitor;
-import org.semanticweb.owlapi.lint.LintVisitorEx;
 
 public class ActingOPPLLintScript extends OPPLLintScript implements ActingLint<OWLObject> {
 	/**
@@ -26,11 +27,11 @@ public class ActingOPPLLintScript extends OPPLLintScript implements ActingLint<O
 	 * @param explanationTemplate
 	 * @param ontologyManager
 	 */
-	public ActingOPPLLintScript(String name, OPPLScript opplScript, Variable returnVariable,
+	public ActingOPPLLintScript(String name, OPPLScript opplScript, Variable<?> returnVariable,
 			String description, String explanationTemplate, OWLOntologyManager ontologyManager,
-			boolean inferenceRequired) {
+			boolean inferenceRequired, RuntimeExceptionHandler handler) {
 		super(name, opplScript, returnVariable, description, explanationTemplate, ontologyManager,
-				inferenceRequired);
+				inferenceRequired, handler);
 		if (opplScript.getActions().isEmpty()) {
 			throw new IllegalArgumentException(
 					"The OPPL Script has no action, therefore it should not be wrapped into an ActingLint implementation");
@@ -38,9 +39,8 @@ public class ActingOPPLLintScript extends OPPLLintScript implements ActingLint<O
 	}
 
 	public List<OWLAxiomChange> getChanges(OWLOntology ontology, OWLOntologyManager ontologyManager) {
-		ChangeExtractor changeExtractor = new ChangeExtractor(
-				this.getOPPLScript().getConstraintSystem(), true);
-		List<OWLAxiomChange> changes = this.getOPPLScript().accept(changeExtractor);
+		ChangeExtractor changeExtractor = new ChangeExtractor(this.getHandler(), true);
+		List<OWLAxiomChange> changes = changeExtractor.visit(this.getOPPLScript());
 		return changes;
 	}
 

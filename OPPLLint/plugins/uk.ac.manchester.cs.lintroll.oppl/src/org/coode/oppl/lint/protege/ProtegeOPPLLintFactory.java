@@ -6,6 +6,7 @@ package org.coode.oppl.lint.protege;
 import org.coode.oppl.OPPLAbstractFactory;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.lint.ActingOPPLLintScript;
 import org.coode.oppl.lint.OPPLLintAbstractFactory;
 import org.coode.oppl.lint.OPPLLintScript;
@@ -31,15 +32,16 @@ public class ProtegeOPPLLintFactory implements OPPLLintAbstractFactory {
 	 *      org.coode.oppl.OPPLScript, org.coode.oppl.Variable,
 	 *      java.lang.String)
 	 */
-	public OPPLLintScript buildOPPLLintScript(String name, OPPLScript opplScript, Variable v,
-			String explanationTemplate, String description, boolean inferenceRequired) {
+	public OPPLLintScript buildOPPLLintScript(String name, OPPLScript opplScript, Variable<?> v,
+			String explanationTemplate, String description, boolean inferenceRequired,
+			RuntimeExceptionHandler handler) {
 		return opplScript.getActions().isEmpty() ? new OPPLLintScript(name, opplScript, v,
 				explanationTemplate, description,
 				this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager(),
-				inferenceRequired) : new ActingOPPLLintScript(name, opplScript, v,
+				inferenceRequired, handler) : new ActingOPPLLintScript(name, opplScript, v,
 				explanationTemplate, description,
 				this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager(),
-				inferenceRequired);
+				inferenceRequired, handler);
 	}
 
 	public OPPLAbstractFactory getOPPLFactory() {

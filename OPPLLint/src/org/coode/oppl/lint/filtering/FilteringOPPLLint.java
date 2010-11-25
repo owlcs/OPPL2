@@ -11,15 +11,15 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.lint.OPPLLintScript;
-import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.lint.Lint;
 import org.semanticweb.owlapi.lint.LintException;
 import org.semanticweb.owlapi.lint.LintReport;
 import org.semanticweb.owlapi.lint.LintVisitor;
 import org.semanticweb.owlapi.lint.LintVisitorEx;
 import org.semanticweb.owlapi.lint.configuration.LintConfiguration;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import uk.ac.manchester.cs.owl.lint.LintManagerFactory;
 
@@ -62,14 +62,6 @@ public class FilteringOPPLLint implements Lint<OWLObject> {
 	 */
 	public <P> P accept(LintVisitorEx<P> visitor) {
 		return this.getDelegate().accept(visitor);
-	}
-
-	/**
-	 * @param variable
-	 * @see org.coode.oppl.lint.OPPLLintScript#addVariable(org.coode.oppl.Variable)
-	 */
-	public void addVariable(Variable variable) {
-		this.getDelegate().addVariable(variable);
 	}
 
 	/**
@@ -144,7 +136,7 @@ public class FilteringOPPLLint implements Lint<OWLObject> {
 	 * @return
 	 * @see org.coode.oppl.lint.OPPLLintScript#getReturnVariable()
 	 */
-	public Variable getReturnVariable() {
+	public Variable<?> getReturnVariable() {
 		return this.getDelegate().getReturnVariable();
 	}
 
