@@ -3,6 +3,7 @@
  */
 package org.coode.oppl.template.commons.oppltestcase;
 
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.template.ParsingStrategy;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
@@ -19,9 +20,11 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 public class SimpleOPPLTestCaseParsingStrategy implements ParsingStrategy<String, OPPLTestCase> {
 	private final ErrorListener errorListener;
 	private final ParserFactory parserFactory;
+	private final RuntimeExceptionHandler handler;
 
 	public SimpleOPPLTestCaseParsingStrategy(OWLOntologyManager ontologyManager,
-			OWLOntology ontology, OWLReasoner reasoner, ErrorListener errorListener) {
+			OWLOntology ontology, OWLReasoner reasoner, ErrorListener errorListener,
+			RuntimeExceptionHandler handler) {
 		if (ontologyManager == null) {
 			throw new NullPointerException("The ontology manager cannot be null");
 		}
@@ -31,8 +34,12 @@ public class SimpleOPPLTestCaseParsingStrategy implements ParsingStrategy<String
 		if (errorListener == null) {
 			throw new NullPointerException("The error listener cannot be null");
 		}
+		if (handler == null) {
+			throw new NullPointerException("The run-time exception handler cannot be null");
+		}
 		this.parserFactory = new ParserFactory(ontology, ontologyManager, reasoner);
 		this.errorListener = errorListener;
+		this.handler = handler;
 	}
 
 	protected OPPLTestCaseParser build() {
@@ -41,7 +48,7 @@ public class SimpleOPPLTestCaseParsingStrategy implements ParsingStrategy<String
 
 	public OPPLTestCase parse(String input) {
 		OPPLTestCaseParser parser = this.build();
-		return parser.parse(input);
+		return parser.parse(input, this.getHandler());
 	}
 
 	/**
@@ -56,5 +63,12 @@ public class SimpleOPPLTestCaseParsingStrategy implements ParsingStrategy<String
 	 */
 	public ParserFactory getParserFactory() {
 		return this.parserFactory;
+	}
+
+	/**
+	 * @return the handler
+	 */
+	public RuntimeExceptionHandler getHandler() {
+		return this.handler;
 	}
 }

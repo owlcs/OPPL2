@@ -5,6 +5,7 @@ package org.coode.oppl.template.commons.oppltestcase;
 
 import java.util.List;
 
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.testcase.AnnotationBasedSymbolTableFactory;
@@ -25,8 +26,8 @@ public class AnnotationBasedSimpleOPPLTestCaseParserCreationStrategy extends
 
 	public AnnotationBasedSimpleOPPLTestCaseParserCreationStrategy(List<IRI> iris,
 			OWLOntologyManager ontologyManager, OWLOntology ontology, OWLReasoner reasoner,
-			ErrorListener errorListener) {
-		super(ontologyManager, ontology, reasoner, errorListener);
+			ErrorListener errorListener, RuntimeExceptionHandler handler) {
+		super(ontologyManager, ontology, reasoner, errorListener, handler);
 		if (iris == null) {
 			throw new NullPointerException(
 					"The collection of annotation property IRIs cannot be null");
