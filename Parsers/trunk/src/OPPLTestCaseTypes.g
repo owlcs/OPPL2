@@ -12,8 +12,9 @@ options {
   private ErrorListener errorListener;
   private ConstraintSystem constraintSystem;
   private AbstractOPPLTestCaseFactory testCaseFactory;
+  private RuntimeExceptionHandler handler;
   
-  public OPPLTestCaseTypes(TreeNodeStream input, OPPLTestCaseSymbolTable symtab, ErrorListener errorListener, ConstraintSystem constraintSystem, AbstractOPPLTestCaseFactory testCaseFactory) {
+  public OPPLTestCaseTypes(TreeNodeStream input, OPPLTestCaseSymbolTable symtab, ErrorListener errorListener, ConstraintSystem constraintSystem, AbstractOPPLTestCaseFactory testCaseFactory, RuntimeExceptionHandler handler) {
     this(input);
     if(symtab==null){
     	throw new NullPointerException("The symbol table cannot be null");
@@ -27,15 +28,22 @@ options {
     if(testCaseFactory == null){
       throw new NullPointerException("The OPPL Lint Factory cannot be null");
     }
+    if(handler == null){
+      throw new NullPointerException("The run-time exception handler cannot be null");
+    }
     this.symtab = symtab;
     this.errorListener = errorListener;
     this.testCaseFactory = testCaseFactory;
     this.constraintSystem = constraintSystem;
-    
+    this.handler = handler;
   }
   
   public ErrorListener getErrorListener(){
   	return this.errorListener;
+  }
+  
+  public RuntimeExceptionHandler getHandler(){
+    return this.handler;
   }
   
   public ConstraintSystem getConstraintSystem(){
@@ -84,6 +92,7 @@ options {
   import org.coode.parsers.ErrorListener;
   import org.coode.parsers.oppl.OPPLSyntaxTree;
   import org.coode.oppl.OPPLScript;
+  import org.coode.oppl.exceptions.RuntimeExceptionHandler;  
   import org.coode.oppl.bindingtree.Assignment;  
   import org.coode.oppl.Variable;
   import org.coode.oppl.bindingtree.BindingNode;
@@ -138,7 +147,7 @@ tests returns  [List<Test> tests]
 
 statement returns [OPPLSyntaxTree statementTree]
 @init{
-	List<Variable> vds = new ArrayList<Variable>();
+	List<Variable<?>> vds = new ArrayList<Variable<?>>();
 	
 }
 @after{
@@ -148,7 +157,7 @@ statement returns [OPPLSyntaxTree statementTree]
 		^(OPPL_STATEMENT  (^(vd = VARIABLE_DEFINITIONS .*))? ^(query =QUERY .*))
 		{
 				if(vd!=null){
-				vds.addAll((List<Variable>)$vd.getOPPLContent());
+				vds.addAll((List<Variable<?>>)$vd.getOPPLContent());
 			}
 			
 			 if($query.getOPPLContent()!=null){
@@ -196,7 +205,7 @@ assertion returns [Assertion a]
 			 $a = getSymbolTable().getAssertGreaterThanEqualTo(left.ae,left.node,right.ae, right.node,$start);
 		}
 		| ^(CONTAINS VARIABLE_NAME (expr= assertionExpression {containedAssertionExpressions.add(expr.node); })+){
-			$a = getSymbolTable().getAssertContains($VARIABLE_NAME,containedAssertionExpressions, getConstraintSystem(), getTestCaseFactory(), $start);
+			$a = getSymbolTable().getAssertContains($VARIABLE_NAME,containedAssertionExpressions, getConstraintSystem(), getTestCaseFactory(), $start, getHandler());
 		}
 		| ^(NOT anAssertion= assertion){
 			$a = getSymbolTable().getAssertionComplement(anAssertion.a);
@@ -214,7 +223,7 @@ assertionExpression returns  [AssertionExpression ae, OPPLSyntaxTree node]
 }	
 	:
 		^(COUNT VARIABLE_NAME){
-			$ae = getSymbolTable().getCountAssertionExpression($VARIABLE_NAME, getConstraintSystem());
+			$ae = getSymbolTable().getCountAssertionExpression($VARIABLE_NAME, getConstraintSystem(), getHandler());
 		}
 		| ^(COUNT STAR){
 			$ae = getSymbolTable().getCountStarAssertionExpression();
@@ -234,7 +243,7 @@ assertionExpression returns  [AssertionExpression ae, OPPLSyntaxTree node]
 			$ae = getSymbolTable().getIntegerAssertionExpression($INTEGER);
 		}
 		| ^(EXPRESSION .*){
-			$ae = getSymbolTable().getOWLExpressionAssertionExpression($EXPRESSION,getConstraintSystem(), getTestCaseFactory());			
+			$ae = getSymbolTable().getOWLExpressionAssertionExpression($EXPRESSION,getConstraintSystem(), getTestCaseFactory(), getHandler());			
 		}	
 	;
 
