@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntax.g 2010-11-15 14:56:09
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntax.g 2010-12-02 15:52:46
 
   package org.coode.parsers;
 
@@ -279,29 +279,29 @@ public class ManchesterOWLSyntaxParser extends Parser {
     // $ANTLR end "main"
 
     // Delegated rules
-    public ManchesterOWLSyntax_MOWLParser.hasKeyAxiom_return hasKeyAxiom() throws RecognitionException { return gMOWLParser.hasKeyAxiom(); }
-    public ManchesterOWLSyntax_MOWLParser.complexPropertyExpression_return complexPropertyExpression() throws RecognitionException { return gMOWLParser.complexPropertyExpression(); }
-    public ManchesterOWLSyntax_MOWLParser.restrictionKind_return restrictionKind() throws RecognitionException { return gMOWLParser.restrictionKind(); }
-    public ManchesterOWLSyntax_MOWLParser.conjunction_return conjunction() throws RecognitionException { return gMOWLParser.conjunction(); }
-    public ManchesterOWLSyntax_MOWLParser.dataRange_return dataRange() throws RecognitionException { return gMOWLParser.dataRange(); }
-    public ManchesterOWLSyntax_MOWLParser.valueRestriction_return valueRestriction() throws RecognitionException { return gMOWLParser.valueRestriction(); }
-    public ManchesterOWLSyntax_MOWLParser.annotationAssertionAxiom_return annotationAssertionAxiom() throws RecognitionException { return gMOWLParser.annotationAssertionAxiom(); }
-    public ManchesterOWLSyntax_MOWLParser.propertyExpression_return propertyExpression() throws RecognitionException { return gMOWLParser.propertyExpression(); }
-    public ManchesterOWLSyntax_MOWLParser.unaryAxiom_return unaryAxiom() throws RecognitionException { return gMOWLParser.unaryAxiom(); }
-    public ManchesterOWLSyntax_MOWLParser.unaryCharacteristic_return unaryCharacteristic() throws RecognitionException { return gMOWLParser.unaryCharacteristic(); }
-    public ManchesterOWLSyntax_MOWLParser.cardinalityRestriction_return cardinalityRestriction() throws RecognitionException { return gMOWLParser.cardinalityRestriction(); }
-    public ManchesterOWLSyntax_MOWLParser.axiom_return axiom() throws RecognitionException { return gMOWLParser.axiom(); }
     public ManchesterOWLSyntax_MOWLParser.assertionAxiom_return assertionAxiom() throws RecognitionException { return gMOWLParser.assertionAxiom(); }
-    public ManchesterOWLSyntax_MOWLParser.value_return value() throws RecognitionException { return gMOWLParser.value(); }
-    public ManchesterOWLSyntax_MOWLParser.oneOf_return oneOf() throws RecognitionException { return gMOWLParser.oneOf(); }
     public ManchesterOWLSyntax_MOWLParser.constant_return constant() throws RecognitionException { return gMOWLParser.constant(); }
-    public ManchesterOWLSyntax_MOWLParser.unary_return unary() throws RecognitionException { return gMOWLParser.unary(); }
-    public ManchesterOWLSyntax_MOWLParser.expression_return expression() throws RecognitionException { return gMOWLParser.expression(); }
-    public ManchesterOWLSyntax_MOWLParser.dataRangeFacet_return dataRangeFacet() throws RecognitionException { return gMOWLParser.dataRangeFacet(); }
-    public ManchesterOWLSyntax_MOWLParser.binaryAxiom_return binaryAxiom() throws RecognitionException { return gMOWLParser.binaryAxiom(); }
-    public ManchesterOWLSyntax_MOWLParser.iri_return iri() throws RecognitionException { return gMOWLParser.iri(); }
+    public ManchesterOWLSyntax_MOWLParser.oneOf_return oneOf() throws RecognitionException { return gMOWLParser.oneOf(); }
+    public ManchesterOWLSyntax_MOWLParser.unaryAxiom_return unaryAxiom() throws RecognitionException { return gMOWLParser.unaryAxiom(); }
     public ManchesterOWLSyntax_MOWLParser.qualifiedRestriction_return qualifiedRestriction() throws RecognitionException { return gMOWLParser.qualifiedRestriction(); }
+    public ManchesterOWLSyntax_MOWLParser.expression_return expression() throws RecognitionException { return gMOWLParser.expression(); }
+    public ManchesterOWLSyntax_MOWLParser.cardinalityRestriction_return cardinalityRestriction() throws RecognitionException { return gMOWLParser.cardinalityRestriction(); }
+    public ManchesterOWLSyntax_MOWLParser.dataRange_return dataRange() throws RecognitionException { return gMOWLParser.dataRange(); }
+    public ManchesterOWLSyntax_MOWLParser.propertyExpression_return propertyExpression() throws RecognitionException { return gMOWLParser.propertyExpression(); }
+    public ManchesterOWLSyntax_MOWLParser.dataRangeFacet_return dataRangeFacet() throws RecognitionException { return gMOWLParser.dataRangeFacet(); }
+    public ManchesterOWLSyntax_MOWLParser.valueRestriction_return valueRestriction() throws RecognitionException { return gMOWLParser.valueRestriction(); }
+    public ManchesterOWLSyntax_MOWLParser.restrictionKind_return restrictionKind() throws RecognitionException { return gMOWLParser.restrictionKind(); }
+    public ManchesterOWLSyntax_MOWLParser.axiom_return axiom() throws RecognitionException { return gMOWLParser.axiom(); }
+    public ManchesterOWLSyntax_MOWLParser.conjunction_return conjunction() throws RecognitionException { return gMOWLParser.conjunction(); }
+    public ManchesterOWLSyntax_MOWLParser.complexPropertyExpression_return complexPropertyExpression() throws RecognitionException { return gMOWLParser.complexPropertyExpression(); }
+    public ManchesterOWLSyntax_MOWLParser.hasKeyAxiom_return hasKeyAxiom() throws RecognitionException { return gMOWLParser.hasKeyAxiom(); }
+    public ManchesterOWLSyntax_MOWLParser.iri_return iri() throws RecognitionException { return gMOWLParser.iri(); }
+    public ManchesterOWLSyntax_MOWLParser.unaryCharacteristic_return unaryCharacteristic() throws RecognitionException { return gMOWLParser.unaryCharacteristic(); }
+    public ManchesterOWLSyntax_MOWLParser.annotationAssertionAxiom_return annotationAssertionAxiom() throws RecognitionException { return gMOWLParser.annotationAssertionAxiom(); }
     public ManchesterOWLSyntax_MOWLParser.atomic_return atomic() throws RecognitionException { return gMOWLParser.atomic(); }
+    public ManchesterOWLSyntax_MOWLParser.unary_return unary() throws RecognitionException { return gMOWLParser.unary(); }
+    public ManchesterOWLSyntax_MOWLParser.value_return value() throws RecognitionException { return gMOWLParser.value(); }
+    public ManchesterOWLSyntax_MOWLParser.binaryAxiom_return binaryAxiom() throws RecognitionException { return gMOWLParser.binaryAxiom(); }
 
 
  

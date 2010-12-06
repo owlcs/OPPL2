@@ -320,7 +320,7 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 							public <P extends OWLObject> void visitValuesVariableAtttribute(
 									ValuesVariableAtttribute<P> valuesVariableAtttribute) {
 								if (variable.getType() == valuesVariableAtttribute.getVariable().getType()) {
-									Collection<P> computedValues = valuesVariableAtttribute.compute(parameters);
+									Collection<? extends P> computedValues = valuesVariableAtttribute.compute(parameters);
 									set.addAll(computedValues);
 								} else {
 									PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(

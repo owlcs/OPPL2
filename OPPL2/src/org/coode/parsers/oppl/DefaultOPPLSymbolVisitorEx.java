@@ -10,11 +10,10 @@ import org.coode.parsers.oppl.variableattribute.CollectionVariableAttributeSymbo
 import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
 import org.semanticweb.owlapi.model.OWLObject;
 
-public abstract class DefaultOPPLSymbolVisitorEx<O> implements
-		OPPLSymbolVisitorEx<O> {
+public abstract class DefaultOPPLSymbolVisitorEx<O> implements OPPLSymbolVisitorEx<O> {
 	protected abstract O doDefault(Symbol symbol);
 
-	public <P extends OWLObject, T extends VariableAttribute<Collection<P>>> O visitCollectionVariableAttributeSymbol(
+	public <P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>> O visitCollectionVariableAttributeSymbol(
 			CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol) {
 		return this.doDefault(collectionVariableAttributeSymbol);
 	}
@@ -36,8 +35,7 @@ public abstract class DefaultOPPLSymbolVisitorEx<O> implements
 		return this.doDefault(symbol);
 	}
 
-	public O visitCreateOnDemandIdentifier(
-			CreateOnDemandIdentifier createOnDemandIdentifier) {
+	public O visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier) {
 		return this.doDefault(createOnDemandIdentifier);
 	}
 }

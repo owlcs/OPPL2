@@ -446,7 +446,7 @@ public class OPPLSymbolTable extends SymbolTable {
 					return stringVariableAttributeSymbol.getVariableAttribute();
 				}
 
-				public <P extends OWLObject, T extends VariableAttribute<Collection<P>>> VariableAttribute<String> visitCollectionVariableAttributeSymbol(
+				public <P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>> VariableAttribute<String> visitCollectionVariableAttributeSymbol(
 						CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol) {
 					OPPLSymbolTable.this.reportIllegalToken(
 							variableAttributeSyntaxTree,
@@ -470,7 +470,7 @@ public class OPPLSymbolTable extends SymbolTable {
 		return toReturn;
 	}
 
-	public <P extends OWLObject, O extends VariableAttribute<Collection<P>>> CollectionVariableAttributeSymbol<P, O> getCollectionVariableAttributeSymbol(
+	public <P extends OWLObject, O extends VariableAttribute<Collection<? extends P>>> CollectionVariableAttributeSymbol<P, O> getCollectionVariableAttributeSymbol(
 			final org.coode.oppl.variabletypes.VariableType<?> type,
 			final OPPLSyntaxTree attributeSyntaxTree) {
 		Symbol symbol = this.retrieveSymbol(attributeSyntaxTree.getText());
@@ -515,7 +515,7 @@ public class OPPLSymbolTable extends SymbolTable {
 					return null;
 				}
 
-				public <R extends OWLObject, S extends VariableAttribute<Collection<R>>> CollectionVariableAttributeSymbol<P, O> visitCollectionVariableAttributeSymbol(
+				public <R extends OWLObject, S extends VariableAttribute<Collection<? extends R>>> CollectionVariableAttributeSymbol<P, O> visitCollectionVariableAttributeSymbol(
 						CollectionVariableAttributeSymbol<R, S> collectionVariableAttributeSymbol) {
 					CollectionVariableAttributeSymbol<P, O> toReturn = null;
 					if (collectionVariableAttributeSymbol.getVariableAttribute().getVariable().getType() == type) {

@@ -245,6 +245,16 @@ public class OPPLScriptTypesParserTest extends TestCase {
 		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
 	}
 
+	public void testVariableAnnotationObject() {
+		String query = "?x:CLASS, ?y:CONSTANT SELECT ?x.IRI label ?y BEGIN ADD ?x subClassOf  Thing END;";
+		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY);
+		System.out.println(parsed.toStringTree());
+		assertNotNull(parsed);
+		assertNotNull(parsed.getOPPLContent());
+		System.out.println("original script: \t" + query);
+		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+	}
+
 	@Override
 	protected void setUp() throws Exception {
 		this.symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();

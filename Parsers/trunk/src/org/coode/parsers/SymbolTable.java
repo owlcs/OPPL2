@@ -2160,11 +2160,43 @@ public class SymbolTable {
 		return toReturn;
 	}
 
-	public Type getAnnotationAssertionType(ManchesterOWLSyntaxTree parentExpression,
-			ManchesterOWLSyntaxTree iri, ManchesterOWLSyntaxTree annotationPropertyNode,
+	public Type getAnnotationAssertionType(final ManchesterOWLSyntaxTree parentExpression,
+			final ManchesterOWLSyntaxTree iri, ManchesterOWLSyntaxTree annotationPropertyNode,
 			ManchesterOWLSyntaxTree object) {
 		Type toReturn = null;
-		IRI subjectIRI = IRI.create(iri.getText());
+		Symbol subjectIRISymbol = this.retrieveSymbol(iri.getText());
+		IRI subjectIRI = subjectIRISymbol != null ? subjectIRISymbol.accept(new SymbolVisitorEx<IRI>() {
+			public IRI visitSymbol(Symbol symbol) {
+				SymbolTable.this.reportIncompatibleSymbolType(
+						iri,
+						symbol.getType(),
+						parentExpression);
+				return null;
+			}
+
+			public IRI visitOWLLiteral(OWLLiteralSymbol owlConstantSymbol) {
+				SymbolTable.this.reportIncompatibleSymbolType(
+						iri,
+						owlConstantSymbol.getType(),
+						parentExpression);
+				return null;
+			}
+
+			public IRI visitOWLEntity(OWLEntitySymbol owlEntitySymbol) {
+				SymbolTable.this.reportIncompatibleSymbolType(
+						iri,
+						owlEntitySymbol.getType(),
+						parentExpression);
+				return null;
+			}
+
+			public IRI visitIRI(IRISymbol iriSymbol) {
+				return iriSymbol.getIRI();
+			}
+		}) : IRI.create(iri.getText());
+		if (subjectIRI != null) {
+			this.storeSymbol(iri.getToken(), new IRISymbol(iri.getText(), subjectIRI));
+		}
 		if (subjectIRI == null) {
 			this.reportIllegalToken(iri, "Illegal IRI");
 		} else if (annotationPropertyNode.getEvalType() == null
@@ -2254,7 +2286,7 @@ public class SymbolTable {
 	}
 
 	public Symbol resolveIRI(ManchesterOWLSyntaxTree node) {
-		Symbol toReturn = this.resolve(node);
+		Symbol toReturn = this.retrieveSymbol(node.getText());
 		if (toReturn == null) {
 			String name = node.getToken().getText();
 			IRI iri = IRI.create(node.getText());

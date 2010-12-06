@@ -12,9 +12,8 @@ public interface OPPLSymbolVisitor extends SymbolVisitor {
 	void visitStringVariableAttributeSymbol(
 			StringVariableAttributeSymbol stringVariableAttributeSymbol);
 
-	<P extends OWLObject, T extends VariableAttribute<Collection<P>>> void visitCollectionVariableAttributeSymbol(
+	<P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>> void visitCollectionVariableAttributeSymbol(
 			CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol);
 
-	void visitCreateOnDemandIdentifier(
-			CreateOnDemandIdentifier createOnDemandIdentifier);
+	void visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier);
 }

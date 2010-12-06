@@ -14,7 +14,7 @@ import org.semanticweb.owlapi.model.OWLObject;
  * @author Luigi Iannone
  * 
  */
-public abstract class CollectionVariableAttributeSymbol<P extends OWLObject, O extends VariableAttribute<Collection<P>>>
+public abstract class CollectionVariableAttributeSymbol<P extends OWLObject, O extends VariableAttribute<Collection<? extends P>>>
 		extends VariableAttributeSymbol<O> {
 	/**
 	 * @param name

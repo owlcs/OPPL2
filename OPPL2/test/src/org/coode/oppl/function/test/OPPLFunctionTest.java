@@ -147,7 +147,7 @@ public class OPPLFunctionTest extends TestCase {
 					anotherBindingNode)));
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
 					constraintSystem, bindingNode, HANDLER);
-			Collection<OWLClassExpression> values = valuesVariableAtttribute.compute(parameters);
+			Collection<? extends OWLClassExpression> values = valuesVariableAtttribute.compute(parameters);
 			assertTrue(values.containsAll(Arrays.asList(a, b)));
 			manager.removeOntology(ontology);
 		} catch (OWLOntologyCreationException e) {
@@ -172,7 +172,7 @@ public class OPPLFunctionTest extends TestCase {
 			BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
 			ValueComputationParameters parameters = new SimpleValueComputationParameters(
 					constraintSystem, bindingNode, HANDLER);
-			Collection<OWLClassExpression> values = valuesVariableAtttribute.compute(parameters);
+			Collection<? extends OWLClassExpression> values = valuesVariableAtttribute.compute(parameters);
 			assertNull(values);
 			manager.removeOntology(ontology);
 		} catch (OWLOntologyCreationException e) {
@@ -271,7 +271,7 @@ public class OPPLFunctionTest extends TestCase {
 					anotherBindingNode)));
 			ValuesVariableAtttribute<OWLClassExpression> valuesVariableAtttribute = new ValuesVariableAtttribute<OWLClassExpression>(
 					x);
-			Collection<OWLClassExpression> values = valuesVariableAtttribute.compute(parameters);
+			Collection<? extends OWLClassExpression> values = valuesVariableAtttribute.compute(parameters);
 			classExpressionIntersection = Aggregation.buildClassExpressionIntersection(
 					Adapter.buildOWLObjectCollectionAdapter(values),
 					manager.getOWLDataFactory());

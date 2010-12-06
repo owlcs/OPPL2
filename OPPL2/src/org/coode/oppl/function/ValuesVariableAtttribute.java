@@ -9,7 +9,8 @@ import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLObject;
 
-public class ValuesVariableAtttribute<O extends OWLObject> extends VariableAttribute<Collection<O>> {
+public class ValuesVariableAtttribute<O extends OWLObject> extends
+		VariableAttribute<Collection<? extends O>> {
 	/**
 	 * @param variable
 	 * @param attribute
@@ -27,10 +28,11 @@ public class ValuesVariableAtttribute<O extends OWLObject> extends VariableAttri
 	}
 
 	@Override
-	public ValueComputation<Collection<O>> getValueComputation(
+	public ValueComputation<Collection<? extends O>> getValueComputation(
 			final ValueComputationParameters parameters) {
-		ValueComputation<Collection<O>> valueComputation = new ValueComputation<Collection<O>>() {
-			public Collection<O> compute(OPPLFunction<? extends Collection<O>> opplFunction) {
+		ValueComputation<Collection<? extends O>> valueComputation = new ValueComputation<Collection<? extends O>>() {
+			public Collection<? extends O> compute(
+					OPPLFunction<? extends Collection<? extends O>> opplFunction) {
 				ConstraintSystem constraintSystem = parameters.getConstraintSystem();
 				Set<BindingNode> leaves = constraintSystem.getLeaves();
 				Set<O> toReturn = null;
