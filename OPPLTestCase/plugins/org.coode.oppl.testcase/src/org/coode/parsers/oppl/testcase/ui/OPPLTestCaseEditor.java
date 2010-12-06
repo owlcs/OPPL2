@@ -13,6 +13,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.coode.oppl.protege.ui.OPPLExpressionChecker;
+import org.coode.oppl.protege.ui.ShowMessageRuntimeExceptionHandler;
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 import org.coode.parsers.oppl.testcase.OPPLTestCaseParser;
 import org.coode.parsers.oppl.testcase.protege.DuplicateOPPLTestCaseNameException;
@@ -58,7 +59,10 @@ public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> im
 								this.getOWLEditorKit());
 						OPPLTestCaseParser parser = parserFactory.build(this.getListener());
 						OPPLTestCase toReturn = null;
-						OPPLTestCase parsed = parser.parse(text);
+						OPPLTestCase parsed = parser.parse(
+								text,
+								new ShowMessageRuntimeExceptionHandler(
+										OPPLTestCaseEditor.this.getEditorComponent()));
 						// Need to check that he test name is unique.
 						if (parsed != null && !this.isNameUnique(parsed)) {
 							this.getListener().reportThrowable(

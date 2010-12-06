@@ -15,9 +15,11 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
+import org.coode.parsers.common.SilentListener;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.DefaultTypeEnforcer;
 import org.coode.parsers.oppl.OPPLDefine;
@@ -117,7 +119,7 @@ public class OPPLTestCaseParser {
 		return this.listener;
 	}
 
-	public OPPLTestCase parse(String input) {
+	public OPPLTestCase parse(String input, RuntimeExceptionHandler handler) {
 		OPPLTestCaseSymbolTable symtab = this.getSymbolTableFactory().createSymbolTable();
 		symtab.setErrorListener(this.getListener());
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
@@ -146,7 +148,8 @@ public class OPPLTestCaseParser {
 				define.downup(tree);
 				nodes.reset();
 				ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab,
-						this.getListener());
+						new SilentListener());
+				symtab.setErrorListener(mOWLTypes.getErrorListener());
 				mOWLTypes.downup(tree);
 				nodes.reset();
 				OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(
@@ -157,7 +160,11 @@ public class OPPLTestCaseParser {
 								this.getOPPLTestCaseFactory().getOPPLFactory().getOWLEntityFactory(),
 								this.getListener()), this.getListener());
 				typeEnforcement.downup(tree);
+				symtab.setErrorListener(typeEnforcement.getErrorListener());
 				nodes.reset();
+				// I will re-create the Manchester OWL types parser with the
+				// actual error listener
+				mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab, this.getListener());
 				mOWLTypes.downup(tree);
 				nodes.reset();
 				OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, this.getListener(),
@@ -165,7 +172,7 @@ public class OPPLTestCaseParser {
 				opplTypes.downup(tree);
 				nodes.reset();
 				OPPLTestCaseTypes opplTestCaseTypes = new OPPLTestCaseTypes(nodes, symtab,
-						this.listener, constraintSystem, this.opplTestCaseFactory);
+						this.listener, constraintSystem, this.opplTestCaseFactory, handler);
 				opplTestCaseTypes.downup(tree);
 			}
 			return tree != null ? (OPPLTestCase) ((OPPLSyntaxTree) tree).getOPPLContent() : null;

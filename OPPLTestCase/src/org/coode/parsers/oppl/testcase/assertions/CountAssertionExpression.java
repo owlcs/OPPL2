@@ -7,25 +7,33 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.function.ValueComputationParameters;
 import org.semanticweb.owlapi.model.OWLObject;
 
 public class CountAssertionExpression implements AssertionExpression<Integer> {
-	private final Variable variable;
+	private final Variable<?> variable;
+	private final RuntimeExceptionHandler handler;
 
 	/**
 	 * @param variable
 	 */
-	public CountAssertionExpression(Variable variable) {
+	public CountAssertionExpression(Variable<?> variable, RuntimeExceptionHandler handler) {
 		if (variable == null) {
 			throw new NullPointerException("The variable cannot be null");
 		}
+		if (handler == null) {
+			throw new NullPointerException("The run-time exception cannot be null");
+		}
 		this.variable = variable;
+		this.handler = handler;
 	}
 
 	/**
 	 * @return the variable
 	 */
-	public Variable getVariable() {
+	public Variable<?> getVariable() {
 		return this.variable;
 	}
 
@@ -33,8 +41,7 @@ public class CountAssertionExpression implements AssertionExpression<Integer> {
 		assertionExpressionVisitor.visitCountAssertionExpression(this);
 	}
 
-	public <O> O accept(
-			AssertionExpressionVisitorEx<O> assertionExpressionVisitor) {
+	public <O> O accept(AssertionExpressionVisitorEx<O> assertionExpressionVisitor) {
 		return assertionExpressionVisitor.visitCountAssertionExpression(this);
 	}
 
@@ -45,12 +52,12 @@ public class CountAssertionExpression implements AssertionExpression<Integer> {
 		return formatter.toString();
 	}
 
-	public Integer resolve(Set<? extends BindingNode> bindings,
-			ConstraintSystem constraintSystem) {
+	public Integer resolve(Set<? extends BindingNode> bindings, ConstraintSystem constraintSystem) {
 		Set<OWLObject> values = new HashSet<OWLObject>(bindings.size());
 		for (BindingNode bindingNode : bindings) {
-			OWLObject value = bindingNode
-					.getAssignmentValue(this.getVariable());
+			ValueComputationParameters parameters = new SimpleValueComputationParameters(
+					constraintSystem, bindingNode, this.getHandler());
+			OWLObject value = bindingNode.getAssignmentValue(this.getVariable(), parameters);
 			if (value != null) {
 				values.add(value);
 			}
@@ -67,8 +74,7 @@ public class CountAssertionExpression implements AssertionExpression<Integer> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ (this.variable == null ? 0 : this.variable.hashCode());
+		result = prime * result + (this.variable == null ? 0 : this.variable.hashCode());
 		return result;
 	}
 
@@ -97,5 +103,12 @@ public class CountAssertionExpression implements AssertionExpression<Integer> {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * @return the handler
+	 */
+	public RuntimeExceptionHandler getHandler() {
+		return this.handler;
 	}
 }

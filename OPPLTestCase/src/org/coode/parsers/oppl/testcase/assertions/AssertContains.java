@@ -11,6 +11,9 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.parsers.oppl.testcase.AbstractOPPLTestCaseFactory;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -22,17 +25,19 @@ import org.semanticweb.owlapi.model.OWLObject;
  * 
  */
 public class AssertContains implements Assertion {
-	private final Variable variable;
+	private final Variable<?> variable;
 	private final ConstraintSystem constraintSystem;
 	private final Set<OWLObject> values = new HashSet<OWLObject>();
 	private final AbstractOPPLTestCaseFactory testCaseFactory;
+	private final RuntimeExceptionHandler handler;
 
 	/**
 	 * @param variable
 	 * @param value
 	 */
-	public AssertContains(Variable variable, Collection<? extends OWLObject> values,
-			ConstraintSystem constraintSystem, AbstractOPPLTestCaseFactory testCaseFactory) {
+	public AssertContains(Variable<?> variable, Collection<? extends OWLObject> values,
+			ConstraintSystem constraintSystem, AbstractOPPLTestCaseFactory testCaseFactory,
+			RuntimeExceptionHandler handler) {
 		if (variable == null) {
 			throw new NullPointerException("The variable cannot be null");
 		}
@@ -48,16 +53,20 @@ public class AssertContains implements Assertion {
 		if (testCaseFactory == null) {
 			throw new NullPointerException("The test case factory cannot be null");
 		}
+		if (handler == null) {
+			throw new NullPointerException("The run-time exception cannot be null");
+		}
 		this.variable = variable;
 		this.values.addAll(values);
 		this.constraintSystem = constraintSystem;
 		this.testCaseFactory = testCaseFactory;
+		this.handler = handler;
 	}
 
 	/**
 	 * @return the variable
 	 */
-	public Variable getVariable() {
+	public Variable<?> getVariable() {
 		return this.variable;
 	}
 
@@ -102,7 +111,9 @@ public class AssertContains implements Assertion {
 	public boolean holds(Set<? extends BindingNode> bindings, ConstraintSystem constraintSystem) {
 		Set<OWLObject> containerValues = new HashSet<OWLObject>(bindings.size());
 		for (BindingNode bindingNode : bindings) {
-			OWLObject value = bindingNode.getAssignmentValue(this.variable);
+			ValueComputationParameters parameters = new SimpleValueComputationParameters(
+					this.getConstraintSystem(), bindingNode, this.getHandler());
+			OWLObject value = bindingNode.getAssignmentValue(this.getVariable(), parameters);
 			if (value != null) {
 				containerValues.add(value);
 			}
@@ -163,5 +174,12 @@ public class AssertContains implements Assertion {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * @return the handler
+	 */
+	public RuntimeExceptionHandler getHandler() {
+		return this.handler;
 	}
 }

@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-11-25 16:32:04
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-12-02 17:33:28
 
   package org.coode.parsers.oppl.lint;
   import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -397,11 +397,6 @@ public class OPPLLintCombined_OPPLParser extends Parser {
                                 alt3=1;
                                 }
                                 break;
-                            case MATCH:
-                                {
-                                alt3=3;
-                                }
-                                break;
                             case OPEN_PARENTHESYS:
                             case OPEN_CURLY_BRACES:
                             case NOT:
@@ -413,6 +408,11 @@ public class OPPLLintCombined_OPPLParser extends Parser {
                             case VARIABLE_NAME:
                                 {
                                 alt3=2;
+                                }
+                                break;
+                            case MATCH:
+                                {
+                                alt3=3;
                                 }
                                 break;
                             default:
@@ -483,7 +483,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_TYPE, opplFunction, VARIABLE_NAME
+                    // elements: opplFunction, VARIABLE_NAME, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -543,7 +543,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, expression, VARIABLE_TYPE
+                    // elements: VARIABLE_TYPE, VARIABLE_NAME, expression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -605,7 +605,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_TYPE, regexp, VARIABLE_NAME
+                    // elements: regexp, VARIABLE_TYPE, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -673,7 +673,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: variableScope, VARIABLE_TYPE, VARIABLE_NAME
+                    // elements: VARIABLE_TYPE, VARIABLE_NAME, variableScope
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1998,7 +1998,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: axiom, REMOVE
+                    // elements: REMOVE, axiom
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2230,7 +2230,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: CREATE_INTERSECTION, atomic
+                    // elements: atomic, CREATE_INTERSECTION
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3201,7 +3201,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, a, DOT
+                    // elements: VARIABLE_NAME, DOT, a
                     // token labels: a
                     // rule labels: retval
                     // token list labels: 
@@ -3253,7 +3253,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: attributeSelector, GROUPS, DOT, VARIABLE_NAME
+                    // elements: attributeSelector, GROUPS, VARIABLE_NAME, DOT
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 

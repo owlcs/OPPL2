@@ -1,7 +1,10 @@
 package org.coode.parsers.oppl.testcase.junittest;
 
+import java.util.regex.PatternSyntaxException;
+
 import junit.framework.TestCase;
 
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.common.JUnitTestErrorListener;
 import org.coode.parsers.oppl.testcase.JUnitTestCaseRunner;
@@ -15,13 +18,13 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import uk.ac.manchester.cs.factplusplus.owlapiv3.FaCTPlusPlusReasonerFactory;
 
 public class OPPLTestCaseRunnerTest extends TestCase {
-	private final class JunitConfigShouldFailTestCaseRunner extends
-			TestCaseRunner {
+	private final class JunitConfigShouldFailTestCaseRunner extends TestCaseRunner {
 		/**
 		 * @param opplTestCase
 		 */
@@ -34,8 +37,7 @@ public class OPPLTestCaseRunnerTest extends TestCase {
 		 */
 		@Override
 		protected void fail(Test test) {
-			TestCase
-					.fail("The configuration should fail and the tests should not be carried out, but they have been instead ");
+			TestCase.fail("The configuration should fail and the tests should not be carried out, but they have been instead ");
 		}
 
 		@Override
@@ -47,9 +49,8 @@ public class OPPLTestCaseRunnerTest extends TestCase {
 		 */
 		@Override
 		protected void fail(Throwable e) {
-			TestCase
-					.fail("The configuration should fail and the query  should not be carried out, but it has and an exception was raised in the process "
-							+ e.getMessage());
+			TestCase.fail("The configuration should fail and the query  should not be carried out, but it has and an exception was raised in the process "
+					+ e.getMessage());
 		}
 
 		/**
@@ -57,8 +58,7 @@ public class OPPLTestCaseRunnerTest extends TestCase {
 		 */
 		@Override
 		protected void success(Test test) {
-			TestCase
-					.fail("The configuration should fail and the tests should not be carried out, but they have been instead ");
+			TestCase.fail("The configuration should fail and the tests should not be carried out, but they have been instead ");
 		}
 	}
 
@@ -79,9 +79,8 @@ public class OPPLTestCaseRunnerTest extends TestCase {
 
 		@Override
 		protected void configurationFailed(String message) {
-			TestCase
-					.fail("The configuration should be fine, it fails instead with the following message: "
-							+ message);
+			TestCase.fail("The configuration should be fine, it fails instead with the following message: "
+					+ message);
 		}
 
 		/**
@@ -101,19 +100,28 @@ public class OPPLTestCaseRunnerTest extends TestCase {
 	}
 
 	private static final ErrorListener ERROR_LISTENER = new JUnitTestErrorListener();
+	private static final RuntimeExceptionHandler HANDLER = new RuntimeExceptionHandler() {
+		public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
+			ERROR_LISTENER.reportThrowable(e, 0, 0, 0);
+		}
+
+		public void handleOWLRuntimeException(OWLRuntimeException e) {
+			ERROR_LISTENER.reportThrowable(e, 0, 0, 0);
+		}
+
+		public void handleException(RuntimeException e) {
+			ERROR_LISTENER.reportThrowable(e, 0, 0, 0);
+		}
+	};
 
 	public void testCount() {
 		String testCase = "testOneAssertion; ?x:CLASS SELECT ?x subClassOf Pizza ASSERT count(?x) = 1; ?x count is not 1;";
-		OWLOntologyManager ontologyManager = OWLManager
-				.createOWLOntologyManager();
+		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology pizzaOntology = ontologyManager
-					.loadOntology(IRI
-							.create("http://www.co-ode.org/ontologies/pizza/pizza.owl"));
-			ParserFactory parserFactory = new ParserFactory(pizzaOntology,
-					ontologyManager);
+			OWLOntology pizzaOntology = ontologyManager.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl"));
+			ParserFactory parserFactory = new ParserFactory(pizzaOntology, ontologyManager);
 			OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
-			OPPLTestCase opplTestCase = parser.parse(testCase);
+			OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
 			this.runTestCase(opplTestCase);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -123,19 +131,15 @@ public class OPPLTestCaseRunnerTest extends TestCase {
 
 	public void testCountInference() {
 		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf InterestingPizza WHERE ?x!=InterestingPizza, FAIL ?x equivalentTo Nothing  ASSERT count(?x) = 20; ?x count is not 20;";
-		OWLOntologyManager ontologyManager = OWLManager
-				.createOWLOntologyManager();
+		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology pizzaOntology = ontologyManager
-					.loadOntology(IRI
-							.create("http://www.co-ode.org/ontologies/pizza/pizza.owl"));
+			OWLOntology pizzaOntology = ontologyManager.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl"));
 			FaCTPlusPlusReasonerFactory reasonerFactory = new FaCTPlusPlusReasonerFactory();
-			OWLReasoner reasoner = reasonerFactory
-					.createReasoner(pizzaOntology);
-			ParserFactory parserFactory = new ParserFactory(pizzaOntology,
-					ontologyManager, reasoner);
+			OWLReasoner reasoner = reasonerFactory.createReasoner(pizzaOntology);
+			ParserFactory parserFactory = new ParserFactory(pizzaOntology, ontologyManager,
+					reasoner);
 			OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
-			OPPLTestCase opplTestCase = parser.parse(testCase);
+			OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
 			this.runTestCase(opplTestCase);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -145,16 +149,12 @@ public class OPPLTestCaseRunnerTest extends TestCase {
 
 	public void testCountShouldFail() {
 		String testCase = "testOneAssertion; ?x:CLASS SELECT ?x subClassOf Pizza ASSERT count(?x) != 1; ?x count is 1;";
-		OWLOntologyManager ontologyManager = OWLManager
-				.createOWLOntologyManager();
+		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology pizzaOntology = ontologyManager
-					.loadOntology(IRI
-							.create("http://www.co-ode.org/ontologies/pizza/pizza.owl"));
-			ParserFactory parserFactory = new ParserFactory(pizzaOntology,
-					ontologyManager);
+			OWLOntology pizzaOntology = ontologyManager.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl"));
+			ParserFactory parserFactory = new ParserFactory(pizzaOntology, ontologyManager);
 			OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
-			OPPLTestCase opplTestCase = parser.parse(testCase);
+			OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
 			this.runTestCase(opplTestCase, false);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -164,18 +164,13 @@ public class OPPLTestCaseRunnerTest extends TestCase {
 
 	public void testConfigurationNotOK() {
 		String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Pizza ASSERT count(?x) != 1; ?x count is 1;";
-		OWLOntologyManager ontologyManager = OWLManager
-				.createOWLOntologyManager();
+		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 		try {
-			OWLOntology pizzaOntology = ontologyManager
-					.loadOntology(IRI
-							.create("http://www.co-ode.org/ontologies/pizza/pizza.owl"));
-			ParserFactory parserFactory = new ParserFactory(pizzaOntology,
-					ontologyManager);
+			OWLOntology pizzaOntology = ontologyManager.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl"));
+			ParserFactory parserFactory = new ParserFactory(pizzaOntology, ontologyManager);
 			OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
-			OPPLTestCase opplTestCase = parser.parse(testCase);
-			TestCaseRunner runner = new JunitConfigShouldFailTestCaseRunner(
-					opplTestCase);
+			OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
+			TestCaseRunner runner = new JunitConfigShouldFailTestCaseRunner(opplTestCase);
 			runner.run();
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
@@ -191,8 +186,8 @@ public class OPPLTestCaseRunnerTest extends TestCase {
 	 * @param opplTestCase
 	 */
 	private void runTestCase(OPPLTestCase opplTestCase, boolean shouldSucceed) {
-		TestCaseRunner runner = shouldSucceed ? new JUnitTestCaseRunner(
-				opplTestCase) : new JunitShouldFailTestCaseRunner(opplTestCase);
+		TestCaseRunner runner = shouldSucceed ? new JUnitTestCaseRunner(opplTestCase)
+				: new JunitShouldFailTestCaseRunner(opplTestCase);
 		runner.run();
 	}
 }

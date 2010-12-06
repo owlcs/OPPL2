@@ -5,10 +5,12 @@ package org.coode.parsers.oppl.testcase;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.PatternSyntaxException;
 
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.exceptions.OPPLException;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 /**
@@ -21,6 +23,19 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 public abstract class TestCaseRunner {
 	private final OPPLTestCase opplTestCase;
 	private final boolean ignoreConfigurationFailure;
+	private final RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
+		public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
+			TestCaseRunner.this.fail(e);
+		}
+
+		public void handleOWLRuntimeException(OWLRuntimeException e) {
+			TestCaseRunner.this.fail(e);
+		}
+
+		public void handleException(RuntimeException e) {
+			TestCaseRunner.this.fail(e);
+		}
+	};
 
 	public TestCaseRunner(OPPLTestCase opplTestCase) {
 		this(opplTestCase, false);
@@ -29,8 +44,7 @@ public abstract class TestCaseRunner {
 	/**
 	 * @param opplTestCase
 	 */
-	public TestCaseRunner(OPPLTestCase opplTestCase,
-			boolean ignoreConfigurationFailure) {
+	public TestCaseRunner(OPPLTestCase opplTestCase, boolean ignoreConfigurationFailure) {
 		if (opplTestCase == null) {
 			throw new NullPointerException("The OPPL Test case cannot be null");
 		}
@@ -54,13 +68,10 @@ public abstract class TestCaseRunner {
 	}
 
 	protected boolean checkConfiguration() {
-		OWLReasoner scriptReasoner = this.getOPPLTestCase().getOPPLScript()
-				.getConstraintSystem().getReasoner();
-		boolean check = !this.getOPPLTestCase().requiresInference()
-				|| scriptReasoner != null;
+		OWLReasoner scriptReasoner = this.getOPPLTestCase().getOPPLScript().getConstraintSystem().getReasoner();
+		boolean check = !this.getOPPLTestCase().requiresInference() || scriptReasoner != null;
 		if (!check) {
-			this
-					.configurationFailed("The Test case requires inference, but no reasoner is available to run query");
+			this.configurationFailed("The Test case requires inference, but no reasoner is available to run query");
 		}
 		return check;
 	}
@@ -74,7 +85,8 @@ public abstract class TestCaseRunner {
 	}
 
 	protected void runTest(Test test, Set<? extends BindingNode> bindings) {
-		boolean success = test.getAssertion().holds(bindings,
+		boolean success = test.getAssertion().holds(
+				bindings,
 				this.getOPPLTestCase().getOPPLScript().getConstraintSystem());
 		if (success) {
 			this.success(test);
@@ -89,16 +101,11 @@ public abstract class TestCaseRunner {
 
 	protected Set<BindingNode> executeQuery() {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
-		try {
-			OPPLScript opplScript = this.getOPPLTestCase().getOPPLScript();
-			opplScript.getQuery().execute();
-			Set<BindingNode> leaves = opplScript.getConstraintSystem()
-					.getLeaves();
-			if (leaves != null) {
-				toReturn = new HashSet<BindingNode>(leaves);
-			}
-		} catch (OPPLException e) {
-			this.fail(e);
+		OPPLScript opplScript = this.getOPPLTestCase().getOPPLScript();
+		opplScript.getQuery().execute(this.getHandler());
+		Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
+		if (leaves != null) {
+			toReturn = new HashSet<BindingNode>(leaves);
 		}
 		return toReturn;
 	}
@@ -110,5 +117,12 @@ public abstract class TestCaseRunner {
 	 */
 	public boolean ignoresConfigurationFailure() {
 		return this.ignoreConfigurationFailure;
+	}
+
+	/**
+	 * @return the handler
+	 */
+	public RuntimeExceptionHandler getHandler() {
+		return this.handler;
 	}
 }

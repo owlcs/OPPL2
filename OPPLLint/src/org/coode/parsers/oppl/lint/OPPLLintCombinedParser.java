@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLLintCombined.g 2010-11-25 16:32:04
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLLintCombined.g 2010-12-02 17:33:28
 package org.coode.parsers.oppl.lint;
 
 import org.antlr.runtime.BitSet;
@@ -394,8 +394,8 @@ public class OPPLLintCombinedParser extends Parser {
 					stream_description.add(description7.getTree());
 				}
 				// AST REWRITE
-				// elements: exp, description, returnClause, statement,
-				// INFERENCE
+				// elements: exp, description, returnClause, INFERENCE,
+				// statement
 				// token labels:
 				// rule labels: exp, retval
 				// token list labels:
@@ -1840,7 +1840,7 @@ public class OPPLLintCombinedParser extends Parser {
 					break;
 				}
 				// AST REWRITE
-				// elements: query, actions, variableDefinitions
+				// elements: actions, query, variableDefinitions
 				// token labels:
 				// rule labels: retval
 				// token list labels:
@@ -2192,22 +2192,22 @@ public class OPPLLintCombinedParser extends Parser {
 
 	// $ANTLR end "description"
 	// Delegated rules
-	public OPPLLintCombined_OPPLParser.stringExpression_return stringExpression()
+	public OPPLLintCombined_OPPLParser.actions_return actions() throws RecognitionException {
+		return this.gOPPLParser.actions();
+	}
+
+	public OPPLLintCombined_OPPLParser.iri_return iri() throws RecognitionException {
+		return this.gOPPLParser.iri();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.binaryAxiom_return binaryAxiom()
 			throws RecognitionException {
-		return this.gOPPLParser.stringExpression();
+		return this.gMOWLParser.binaryAxiom();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.value_return value() throws RecognitionException {
-		return this.gMOWLParser.value();
-	}
-
-	public OPPLLintCombined_OPPLParser.variableDefinitions_return variableDefinitions()
+	public OPPLLintCombined_OPPLParser_MOWLParser.dataRange_return dataRange()
 			throws RecognitionException {
-		return this.gOPPLParser.variableDefinitions();
-	}
-
-	public OPPLLintCombined_OPPLParser.constraint_return constraint() throws RecognitionException {
-		return this.gOPPLParser.constraint();
+		return this.gMOWLParser.dataRange();
 	}
 
 	public OPPLLintCombined_OPPLParser_MOWLParser.qualifiedRestriction_return qualifiedRestriction()
@@ -2215,18 +2215,73 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gMOWLParser.qualifiedRestriction();
 	}
 
+	public OPPLLintCombined_OPPLParser_MOWLParser.hasKeyAxiom_return hasKeyAxiom()
+			throws RecognitionException {
+		return this.gMOWLParser.hasKeyAxiom();
+	}
+
+	public OPPLLintCombined_OPPLParser.atomic_return atomic() throws RecognitionException {
+		return this.gOPPLParser.atomic();
+	}
+
+	public OPPLLintCombined_OPPLParser.opplFunction_return opplFunction()
+			throws RecognitionException {
+		return this.gOPPLParser.opplFunction();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.propertyExpression_return propertyExpression()
+			throws RecognitionException {
+		return this.gMOWLParser.propertyExpression();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.valueRestriction_return valueRestriction()
+			throws RecognitionException {
+		return this.gMOWLParser.valueRestriction();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.complexPropertyExpression_return complexPropertyExpression()
+			throws RecognitionException {
+		return this.gMOWLParser.complexPropertyExpression();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.constant_return constant()
+			throws RecognitionException {
+		return this.gMOWLParser.constant();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.unaryAxiom_return unaryAxiom()
+			throws RecognitionException {
+		return this.gMOWLParser.unaryAxiom();
+	}
+
 	public OPPLLintCombined_OPPLParser.createIdentifier_return createIdentifier()
 			throws RecognitionException {
 		return this.gOPPLParser.createIdentifier();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.oneOf_return oneOf() throws RecognitionException {
-		return this.gMOWLParser.oneOf();
+	public OPPLLintCombined_OPPLParser_MOWLParser.cardinalityRestriction_return cardinalityRestriction()
+			throws RecognitionException {
+		return this.gMOWLParser.cardinalityRestriction();
 	}
 
-	public OPPLLintCombined_OPPLParser.attributeSelector_return attributeSelector()
+	public OPPLLintCombined_OPPLParser.stringExpression_return stringExpression()
 			throws RecognitionException {
-		return this.gOPPLParser.attributeSelector();
+		return this.gOPPLParser.stringExpression();
+	}
+
+	public OPPLLintCombined_OPPLParser.variableAttributeReference_return variableAttributeReference()
+			throws RecognitionException {
+		return this.gOPPLParser.variableAttributeReference();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.annotationAssertionAxiom_return annotationAssertionAxiom()
+			throws RecognitionException {
+		return this.gMOWLParser.annotationAssertionAxiom();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.unaryCharacteristic_return unaryCharacteristic()
+			throws RecognitionException {
+		return this.gMOWLParser.unaryCharacteristic();
 	}
 
 	public OPPLLintCombined_OPPLParser.regexp_return regexp() throws RecognitionException {
@@ -2238,71 +2293,8 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gOPPLParser.variableScope();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.restrictionKind_return restrictionKind()
-			throws RecognitionException {
-		return this.gMOWLParser.restrictionKind();
-	}
-
-	public OPPLLintCombined_OPPLParser.query_return query() throws RecognitionException {
-		return this.gOPPLParser.query();
-	}
-
-	public OPPLLintCombined_OPPLParser.selectClause_return selectClause()
-			throws RecognitionException {
-		return this.gOPPLParser.selectClause();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.conjunction_return conjunction()
-			throws RecognitionException {
-		return this.gMOWLParser.conjunction();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.axiom_return axiom() throws RecognitionException {
-		return this.gMOWLParser.axiom();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.hasKeyAxiom_return hasKeyAxiom()
-			throws RecognitionException {
-		return this.gMOWLParser.hasKeyAxiom();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.cardinalityRestriction_return cardinalityRestriction()
-			throws RecognitionException {
-		return this.gMOWLParser.cardinalityRestriction();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.annotationAssertionAxiom_return annotationAssertionAxiom()
-			throws RecognitionException {
-		return this.gMOWLParser.annotationAssertionAxiom();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.complexPropertyExpression_return complexPropertyExpression()
-			throws RecognitionException {
-		return this.gMOWLParser.complexPropertyExpression();
-	}
-
-	public OPPLLintCombined_OPPLParser.variableDefinition_return variableDefinition()
-			throws RecognitionException {
-		return this.gOPPLParser.variableDefinition();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.dataRangeFacet_return dataRangeFacet()
-			throws RecognitionException {
-		return this.gMOWLParser.dataRangeFacet();
-	}
-
-	public OPPLLintCombined_OPPLParser.iri_return iri() throws RecognitionException {
-		return this.gOPPLParser.iri();
-	}
-
-	public OPPLLintCombined_OPPLParser.stringOperation_return stringOperation()
-			throws RecognitionException {
-		return this.gOPPLParser.stringOperation();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.constant_return constant()
-			throws RecognitionException {
-		return this.gMOWLParser.constant();
+	public OPPLLintCombined_OPPLParser.action_return action() throws RecognitionException {
+		return this.gOPPLParser.action();
 	}
 
 	public OPPLLintCombined_OPPLParser_MOWLParser.assertionAxiom_return assertionAxiom()
@@ -2310,56 +2302,38 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gMOWLParser.assertionAxiom();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.propertyExpression_return propertyExpression()
+	public OPPLLintCombined_OPPLParser.attributeSelector_return attributeSelector()
 			throws RecognitionException {
-		return this.gMOWLParser.propertyExpression();
+		return this.gOPPLParser.attributeSelector();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.unary_return unary() throws RecognitionException {
-		return this.gMOWLParser.unary();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.binaryAxiom_return binaryAxiom()
+	public OPPLLintCombined_OPPLParser_MOWLParser.restrictionKind_return restrictionKind()
 			throws RecognitionException {
-		return this.gMOWLParser.binaryAxiom();
+		return this.gMOWLParser.restrictionKind();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.valueRestriction_return valueRestriction()
+	public OPPLLintCombined_OPPLParser_MOWLParser.dataRangeFacet_return dataRangeFacet()
 			throws RecognitionException {
-		return this.gMOWLParser.valueRestriction();
+		return this.gMOWLParser.dataRangeFacet();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.unaryAxiom_return unaryAxiom()
+	public OPPLLintCombined_OPPLParser_MOWLParser.value_return value() throws RecognitionException {
+		return this.gMOWLParser.value();
+	}
+
+	public OPPLLintCombined_OPPLParser.stringOperation_return stringOperation()
 			throws RecognitionException {
-		return this.gMOWLParser.unaryAxiom();
+		return this.gOPPLParser.stringOperation();
 	}
 
-	public OPPLLintCombined_OPPLParser.variableAttributeReference_return variableAttributeReference()
+	public OPPLLintCombined_OPPLParser.variableDefinition_return variableDefinition()
 			throws RecognitionException {
-		return this.gOPPLParser.variableAttributeReference();
+		return this.gOPPLParser.variableDefinition();
 	}
 
-	public OPPLLintCombined_OPPLParser.action_return action() throws RecognitionException {
-		return this.gOPPLParser.action();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.unaryCharacteristic_return unaryCharacteristic()
+	public OPPLLintCombined_OPPLParser_MOWLParser.conjunction_return conjunction()
 			throws RecognitionException {
-		return this.gMOWLParser.unaryCharacteristic();
-	}
-
-	public OPPLLintCombined_OPPLParser.opplFunction_return opplFunction()
-			throws RecognitionException {
-		return this.gOPPLParser.opplFunction();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.dataRange_return dataRange()
-			throws RecognitionException {
-		return this.gMOWLParser.dataRange();
-	}
-
-	public OPPLLintCombined_OPPLParser.atomic_return atomic() throws RecognitionException {
-		return this.gOPPLParser.atomic();
+		return this.gMOWLParser.conjunction();
 	}
 
 	public OPPLLintCombined_OPPLParser_MOWLParser.expression_return expression()
@@ -2367,8 +2341,34 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gMOWLParser.expression();
 	}
 
-	public OPPLLintCombined_OPPLParser.actions_return actions() throws RecognitionException {
-		return this.gOPPLParser.actions();
+	public OPPLLintCombined_OPPLParser.constraint_return constraint() throws RecognitionException {
+		return this.gOPPLParser.constraint();
+	}
+
+	public OPPLLintCombined_OPPLParser.variableDefinitions_return variableDefinitions()
+			throws RecognitionException {
+		return this.gOPPLParser.variableDefinitions();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.axiom_return axiom() throws RecognitionException {
+		return this.gMOWLParser.axiom();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.unary_return unary() throws RecognitionException {
+		return this.gMOWLParser.unary();
+	}
+
+	public OPPLLintCombined_OPPLParser.selectClause_return selectClause()
+			throws RecognitionException {
+		return this.gOPPLParser.selectClause();
+	}
+
+	public OPPLLintCombined_OPPLParser.query_return query() throws RecognitionException {
+		return this.gOPPLParser.query();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.oneOf_return oneOf() throws RecognitionException {
+		return this.gMOWLParser.oneOf();
 	}
 
 	public static final BitSet FOLLOW_text_in_lint119 = new BitSet(new long[] {
