@@ -284,10 +284,21 @@ public class OPPLQueryImpl implements OPPLQuery {
 		return true;
 	}
 
+	public void execute(Collection<? extends BindingNode> leaves,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
+		try {
+			this.constraintSystem.setLeaves(new HashSet<BindingNode>(leaves));
+			this.doExecute(runtimeExceptionHandler, false);
+			this.setDirty(false);
+		} catch (OWLRuntimeException e) {
+			runtimeExceptionHandler.handleOWLRuntimeException(e);
+		}
+	}
+
 	public void execute(RuntimeExceptionHandler runtimeExceptionHandler) {
 		if (this.isDirty()) {
 			try {
-				this.doExecute(runtimeExceptionHandler);
+				this.doExecute(runtimeExceptionHandler, true);
 				this.setDirty(false);
 			} catch (OWLRuntimeException e) {
 				runtimeExceptionHandler.handleOWLRuntimeException(e);
@@ -300,9 +311,11 @@ public class OPPLQueryImpl implements OPPLQuery {
 	 * @throws OWLRuntimeException
 	 * 
 	 */
-	private void doExecute(RuntimeExceptionHandler runtimeExceptionHandler)
-			throws OWLRuntimeException {
-		this.getConstraintSystem().reset();
+	private void doExecute(RuntimeExceptionHandler runtimeExceptionHandler,
+			boolean resetConstraintSystem) throws OWLRuntimeException {
+		if (resetConstraintSystem) {
+			this.getConstraintSystem().reset();
+		}
 		Set<BindingNode> currentLeaves = this.getConstraintSystem().getLeaves();
 		for (OWLAxiom axiom : this.getAssertedAxioms()) {
 			currentLeaves = this.matchAssertedAxiom(axiom, currentLeaves, runtimeExceptionHandler);

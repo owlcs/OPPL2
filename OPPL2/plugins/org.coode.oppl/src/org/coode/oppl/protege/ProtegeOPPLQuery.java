@@ -22,11 +22,13 @@
  */
 package org.coode.oppl.protege;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.coode.oppl.AbstractConstraint;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLQuery;
+import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -113,8 +115,7 @@ public class ProtegeOPPLQuery implements OPPLQuery {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ (this.opplQuery == null ? 0 : this.opplQuery.hashCode());
+		result = prime * result + (this.opplQuery == null ? 0 : this.opplQuery.hashCode());
 		return result;
 	}
 
@@ -151,5 +152,10 @@ public class ProtegeOPPLQuery implements OPPLQuery {
 	 */
 	public void execute(RuntimeExceptionHandler runtimeExceptionHandler) {
 		this.opplQuery.execute(runtimeExceptionHandler);
+	}
+
+	public void execute(Collection<? extends BindingNode> leaves,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
+		this.opplQuery.execute(leaves, runtimeExceptionHandler);
 	}
 }

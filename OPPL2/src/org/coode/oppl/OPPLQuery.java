@@ -22,8 +22,10 @@
  */
 package org.coode.oppl;
 
+import java.util.Collection;
 import java.util.List;
 
+import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
@@ -51,4 +53,7 @@ public interface OPPLQuery {
 	ConstraintSystem getConstraintSystem();
 
 	public void execute(RuntimeExceptionHandler runtimeExceptionHandler);
+
+	public void execute(Collection<? extends BindingNode> leaves,
+			RuntimeExceptionHandler runtimeExceptionHandler);
 }

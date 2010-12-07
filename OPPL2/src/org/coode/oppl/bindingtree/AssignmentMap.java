@@ -17,6 +17,7 @@ import org.semanticweb.owlapi.model.OWLObject;
  */
 public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	private final Map<Variable<?>, Set<OWLObject>> delegate = new HashMap<Variable<?>, Set<OWLObject>>();
+	private final Set<BindingNode> bindingNodes = new HashSet<BindingNode>();
 
 	/**
 	 * Copy constructor.
@@ -28,6 +29,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 		if (assignmentMap == null) {
 			throw new NullPointerException("The input assignment map cannot be null");
 		}
+		this.bindingNodes.addAll(assignmentMap.bindingNodes);
 		this.delegate.clear();
 		this.delegate.putAll(assignmentMap.delegate);
 	}
@@ -36,6 +38,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 		if (bindingNodes == null) {
 			throw new NullPointerException("The binding nodes collection cannot be null");
 		}
+		this.bindingNodes.addAll(bindingNodes);
 		for (BindingNode bindingNode : bindingNodes) {
 			for (Assignment assignment : bindingNode.getAssignments()) {
 				Variable<?> assignedVariable = assignment.getAssignedVariable();
@@ -178,5 +181,12 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 */
 	public Set<Variable<?>> getVariables() {
 		return new HashSet<Variable<?>>(this.keySet());
+	}
+
+	/**
+	 * @return the bindingNodes
+	 */
+	public Set<BindingNode> getBindingNodes() {
+		return new HashSet<BindingNode>(this.bindingNodes);
 	}
 }

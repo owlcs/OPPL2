@@ -562,7 +562,8 @@ public class VariableExtractor {
 					}
 					// Add the variables this generated variable refers to (they
 					// might not be mentioned elsewhere in the axiom)
-					v.getOPPLFunction().accept(Visitor.this.opplFunctionVariableExtractor);
+					collection.addAll(v.getOPPLFunction().accept(
+							Visitor.this.opplFunctionVariableExtractor));
 				}
 
 				public <O extends OWLObject> void visit(InputVariable<O> v) {
