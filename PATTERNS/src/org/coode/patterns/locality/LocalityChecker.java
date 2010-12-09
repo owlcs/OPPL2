@@ -253,11 +253,15 @@ public class LocalityChecker {
 	}
 
 	public static Set<OWLEntity> collectEntities(Set<OWLOntology> ontologies) {
-		OWLEntityCollector collector = new OWLEntityCollector();
+		// OWLEntityCollector is invoked differently in the most recent (past 3.1) OWL API
+		// the new implementation here is compatible with both versions
+		//OWLEntityCollector collector = new OWLEntityCollector();
+		Set<OWLEntity> toReturn=new HashSet<OWLEntity>();
 		for (OWLOntology o : ontologies) {
-			o.accept(collector);
+			//o.accept(collector);
+			toReturn.addAll(o.getSignature());
 		}
-		return collector.getObjects();
+		return toReturn;//collector.getObjects();
 	}
 
 	/**
