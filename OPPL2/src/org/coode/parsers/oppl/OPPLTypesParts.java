@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g 2010-11-24 15:33:05
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g 2010-12-10 10:20:02
 
 	package org.coode.parsers.oppl;
 	import java.util.ArrayList;
@@ -39,126 +39,126 @@ public class OPPLTypesParts extends TreeFilter {
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED", "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION", "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF", "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE", "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION", "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION", "IRI_ATTRIBUTE_NAME", "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING", "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL", "NAF_CONSTRAINT"
     };
-    public static final int COMMA=37;
-    public static final int ASSERTED=76;
-    public static final int VARIABLE_DEFINITIONS=102;
-    public static final int REGEXP_CONSTRAINT=465;
-    public static final int END=84;
-    public static final int DIFFERENT_FROM=24;
-    public static final int TYPE_ASSERTION=66;
-    public static final int SAME_AS_AXIOM=52;
-    public static final int TYPES=39;
-    public static final int ROLE_ASSERTION=67;
-    public static final int CREATE_OPPL_FUNCTION=98;
-    public static final int ESCLAMATION_MARK=149;
-    public static final int VARIABLE_IDENTIFIER=106;
-    public static final int ASSERTED_CLAUSE=92;
-    public static final int DOT=78;
-    public static final int ALL_RESTRICTION=62;
-    public static final int QUESTION_MARK=46;
-    public static final int AND=10;
-    public static final int EXPRESSION=69;
-    public static final int CONSTANT=70;
-    public static final int VALUE_RESTRICTION=63;
-    public static final int ONE_OF=65;
-    public static final int SUBPROPERTY_OF=105;
-    public static final int SELECT=75;
-    public static final int CARDINALITY_RESTRICTION=64;
-    public static final int SAME_AS=23;
-    public static final int EXACTLY=17;
-    public static final int PLUS=79;
-    public static final int TRANSITIVE=34;
-    public static final int IN_SET_CONSTRAINT=95;
-    public static final int SUBCLASS_OF=20;
-    public static final int ENTITY_REFERENCE=45;
-    public static final int CONJUNCTION=56;
-    public static final int INVERSE_OF=25;
-    public static final int RANGE=28;
-    public static final int CLOSED_PARENTHESYS=8;
-    public static final int PROPERTY_CHAIN=57;
-    public static final int CREATE_INTERSECTION=81;
-    public static final int EQUIVALENT_TO_AXIOM=49;
-    public static final int OPEN_SQUARE_BRACKET=85;
-    public static final int NAF_CONSTRAINT=467;
-    public static final int SYMMETRIC=30;
-    public static final int DISJOINT_WITH=26;
-    public static final int VARIABLE_TYPE=89;
-    public static final int DISJUNCTION=55;
-    public static final int GROUPS=356;
-    public static final int NEGATED_EXPRESSION=58;
-    public static final int EQUAL=73;
-    public static final int DIFFERENT_FROM_AXIOM=53;
-    public static final int ACTIONS=101;
-    public static final int EQUIVALENT_TO=22;
-    public static final int DOMAIN=27;
-    public static final int SUB_PROPERTY_OF=21;
-    public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION=68;
-    public static final int INVERSE_PROPERTY=60;
-    public static final int COLON=77;
-    public static final int GENERATED_VARIABLE_DEFINITION=97;
-    public static final int VARIABLE_ATTRIBUTE=99;
-    public static final int SUB_CLASS_AXIOM=48;
-    public static final int SUB_PROPERTY_AXIOM=51;
-    public static final int IDENTIFIER=44;
-    public static final int UNARY_AXIOM=54;
-    public static final int ADD=90;
-    public static final int WHERE=71;
-    public static final int CREATE=80;
-    public static final int VARIABLE_SCOPE=104;
-    public static final int OPEN_CURLY_BRACES=6;
-    public static final int CLOSED_SQUARE_BRACKET=86;
-    public static final int INSTANCE_OF=38;
-    public static final int VALUES=354;
-    public static final int QUERY=103;
-    public static final int SOME_RESTRICTION=61;
-    public static final int IRI=110;
-    public static final int VALUE=18;
-    public static final int RENDERING=355;
-    public static final int INVERSE_FUNCTIONAL=35;
-    public static final int ATTRIBUTE_SELECTOR=283;
-    public static final int PLAIN_CLAUSE=93;
-    public static final int OR=11;
-    public static final int INTEGER=42;
-    public static final int INVERSE=19;
     public static final int HAS_KEY=109;
-    public static final int DISJOINT_WITH_AXIOM=50;
-    public static final int SUPER_CLASS_OF=87;
-    public static final int OPPL_FUNCTION=100;
-    public static final int DIGIT=41;
+    public static final int VALUE_RESTRICTION=63;
+    public static final int LETTER=43;
+    public static final int REMOVE=91;
+    public static final int TYPES=39;
+    public static final int SAME_AS_AXIOM=52;
+    public static final int INVERSE_OF=25;
+    public static final int NOT=12;
+    public static final int SUBCLASS_OF=20;
+    public static final int EOF=-1;
+    public static final int ESCLAMATION_MARK=149;
+    public static final int ACTIONS=101;
+    public static final int CREATE=80;
+    public static final int POW=36;
+    public static final int INPUT_VARIABLE_DEFINITION=96;
+    public static final int NOT_EQUAL=72;
+    public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION=68;
+    public static final int INSTANCE_OF=38;
+    public static final int BEGIN=83;
+    public static final int VARIABLE_SCOPE=104;
+    public static final int INEQUALITY_CONSTRAINT=94;
+    public static final int QUESTION_MARK=46;
+    public static final int SYMMETRIC=30;
+    public static final int CARDINALITY_RESTRICTION=64;
+    public static final int SELECT=75;
+    public static final int ROLE_ASSERTION=67;
+    public static final int DIFFERENT_FROM_AXIOM=53;
+    public static final int CREATE_OPPL_FUNCTION=98;
+    public static final int TRANSITIVE=34;
+    public static final int ANTI_SYMMETRIC=31;
+    public static final int ALL_RESTRICTION=62;
+    public static final int CONJUNCTION=56;
+    public static final int OPPL_STATEMENT=107;
+    public static final int NEGATED_ASSERTION=59;
+    public static final int WHITESPACE=9;
+    public static final int MATCH=176;
+    public static final int IN_SET_CONSTRAINT=95;
+    public static final int VALUE=18;
+    public static final int FAIL=466;
+    public static final int GROUPS=356;
+    public static final int OPEN_CURLY_BRACES=6;
+    public static final int DISJUNCTION=55;
+    public static final int INVERSE=19;
+    public static final int NAF_CONSTRAINT=467;
+    public static final int DBLQUOTE=40;
+    public static final int STRING_OPERATION=394;
+    public static final int OR=11;
+    public static final int CONSTANT=70;
+    public static final int QUERY=103;
+    public static final int ENTITY_REFERENCE=45;
+    public static final int END=84;
     public static final int COMPOSITION=4;
     public static final int ANNOTATION_ASSERTION=111;
-    public static final int OPPL_STATEMENT=107;
-    public static final int FUNCTIONAL=29;
-    public static final int NOT_EQUAL=72;
-    public static final int LETTER=43;
-    public static final int MAX=16;
-    public static final int FAIL=466;
-    public static final int NEGATED_ASSERTION=59;
-    public static final int INPUT_VARIABLE_DEFINITION=96;
-    public static final int ONLY=14;
-    public static final int CREATE_DISJUNCTION=82;
-    public static final int REMOVE=91;
-    public static final int DBLQUOTE=40;
-    public static final int MIN=15;
-    public static final int POW=36;
-    public static final int MATCH=176;
-    public static final int BEGIN=83;
-    public static final int WHITESPACE=9;
-    public static final int IN=74;
+    public static final int CLOSED_SQUARE_BRACKET=86;
+    public static final int SAME_AS=23;
+    public static final int WHERE=71;
+    public static final int DISJOINT_WITH=26;
     public static final int SUPER_PROPERTY_OF=88;
-    public static final int INEQUALITY_CONSTRAINT=94;
-    public static final int SOME=13;
-    public static final int EOF=-1;
-    public static final int ANTI_SYMMETRIC=31;
-    public static final int Tokens=47;
-    public static final int CLOSED_CURLY_BRACES=7;
-    public static final int IRI_ATTRIBUTE_NAME=112;
-    public static final int REFLEXIVE=32;
-    public static final int NOT=12;
-    public static final int STRING_OPERATION=394;
-    public static final int OPEN_PARENTHESYS=5;
+    public static final int VARIABLE_TYPE=89;
+    public static final int ATTRIBUTE_SELECTOR=283;
+    public static final int CLOSED_PARENTHESYS=8;
+    public static final int ONLY=14;
+    public static final int EQUIVALENT_TO_AXIOM=49;
+    public static final int SUB_PROPERTY_OF=21;
+    public static final int NEGATED_EXPRESSION=58;
+    public static final int MAX=16;
+    public static final int CREATE_DISJUNCTION=82;
+    public static final int AND=10;
+    public static final int ASSERTED_CLAUSE=92;
+    public static final int INVERSE_PROPERTY=60;
     public static final int VARIABLE_NAME=464;
+    public static final int DIFFERENT_FROM=24;
+    public static final int IN=74;
+    public static final int EQUIVALENT_TO=22;
+    public static final int UNARY_AXIOM=54;
+    public static final int COMMA=37;
+    public static final int CLOSED_CURLY_BRACES=7;
+    public static final int IDENTIFIER=44;
+    public static final int IRI=110;
+    public static final int SOME=13;
+    public static final int EQUAL=73;
+    public static final int OPEN_PARENTHESYS=5;
+    public static final int REFLEXIVE=32;
+    public static final int PLUS=79;
+    public static final int DIGIT=41;
+    public static final int DOT=78;
+    public static final int SUPER_CLASS_OF=87;
+    public static final int EXPRESSION=69;
+    public static final int SOME_RESTRICTION=61;
+    public static final int ADD=90;
+    public static final int INTEGER=42;
+    public static final int GENERATED_VARIABLE_DEFINITION=97;
+    public static final int EXACTLY=17;
+    public static final int SUB_PROPERTY_AXIOM=51;
+    public static final int OPEN_SQUARE_BRACKET=85;
+    public static final int VALUES=354;
+    public static final int REGEXP_CONSTRAINT=465;
+    public static final int RANGE=28;
+    public static final int ONE_OF=65;
+    public static final int VARIABLE_DEFINITIONS=102;
+    public static final int MIN=15;
+    public static final int SUB_CLASS_AXIOM=48;
+    public static final int PLAIN_CLAUSE=93;
+    public static final int Tokens=47;
+    public static final int DOMAIN=27;
+    public static final int SUBPROPERTY_OF=105;
+    public static final int OPPL_FUNCTION=100;
+    public static final int COLON=77;
+    public static final int DISJOINT_WITH_AXIOM=50;
+    public static final int CREATE_INTERSECTION=81;
+    public static final int INVERSE_FUNCTIONAL=35;
+    public static final int RENDERING=355;
+    public static final int VARIABLE_IDENTIFIER=106;
+    public static final int IRI_ATTRIBUTE_NAME=112;
     public static final int IRREFLEXIVE=33;
+    public static final int VARIABLE_ATTRIBUTE=99;
+    public static final int ASSERTED=76;
+    public static final int FUNCTIONAL=29;
+    public static final int PROPERTY_CHAIN=57;
+    public static final int TYPE_ASSERTION=66;
 
     // delegates
     // delegators
@@ -174,7 +174,7 @@ public class OPPLTypesParts extends TreeFilter {
         
 
     public String[] getTokenNames() { return OPPLTypesParts.tokenNames; }
-    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g"; }
+    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g"; }
 
 
       private  OPPLSymbolTable symtab;
@@ -246,10 +246,10 @@ public class OPPLTypesParts extends TreeFilter {
 
 
     // $ANTLR start "bottomup"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:123:1: bottomup : ( constraint | opplFunction | regexp );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:123:1: bottomup : ( constraint | opplFunction | regexp );
     public final void bottomup() throws RecognitionException {
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:124:5: ( constraint | opplFunction | regexp )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:124:5: ( constraint | opplFunction | regexp )
             int alt1=3;
             switch ( input.LA(1) ) {
             case INEQUALITY_CONSTRAINT:
@@ -282,7 +282,7 @@ public class OPPLTypesParts extends TreeFilter {
 
             switch (alt1) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:125:6: constraint
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:125:6: constraint
                     {
                     pushFollow(FOLLOW_constraint_in_bottomup81);
                     constraint();
@@ -293,7 +293,7 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:126:8: opplFunction
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:126:8: opplFunction
                     {
                     pushFollow(FOLLOW_opplFunction_in_bottomup90);
                     opplFunction();
@@ -304,7 +304,7 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:127:8: regexp
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:127:8: regexp
                     {
                     pushFollow(FOLLOW_regexp_in_bottomup99);
                     regexp();
@@ -337,7 +337,7 @@ public class OPPLTypesParts extends TreeFilter {
 
 
     // $ANTLR start "stringOperation"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:130:1: stringOperation returns [OPPLFunction<String> value] : ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ ) ;
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:130:1: stringOperation returns [OPPLFunction<String> value] : ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ ) ;
     public final OPPLFunction<String> stringOperation() throws RecognitionException {
         OPPLFunction<String> value = null;
 
@@ -348,13 +348,13 @@ public class OPPLTypesParts extends TreeFilter {
             List<Aggregandum<String>> values = new ArrayList<Aggregandum<String>>();
           
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:135:3: ( ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ ) )
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:136:5: ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:135:3: ( ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:136:5: ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ )
             {
             match(input,STRING_OPERATION,FOLLOW_STRING_OPERATION_in_stringOperation130); if (state.failed) return value;
 
             match(input, Token.DOWN, null); if (state.failed) return value;
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:136:25: (valuesToAggregate= stringExpression )+
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:136:25: (valuesToAggregate= stringExpression )+
             int cnt2=0;
             loop2:
             do {
@@ -368,7 +368,7 @@ public class OPPLTypesParts extends TreeFilter {
 
                 switch (alt2) {
             	case 1 :
-            	    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:136:26: valuesToAggregate= stringExpression
+            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:136:26: valuesToAggregate= stringExpression
             	    {
             	    pushFollow(FOLLOW_stringExpression_in_stringOperation137);
             	    valuesToAggregate=stringExpression();
@@ -423,7 +423,7 @@ public class OPPLTypesParts extends TreeFilter {
 
 
     // $ANTLR start "stringExpression"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:143:1: stringExpression returns [OPPLFunction<String> value] : ( DBLQUOTE | ^( IDENTIFIER VARIABLE_NAME DOT GROUPS ^( ATTRIBUTE_SELECTOR INTEGER ) ) | ^( IDENTIFIER VARIABLE_NAME DOT RENDERING ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:143:1: stringExpression returns [OPPLFunction<String> value] : ( DBLQUOTE | ^( IDENTIFIER VARIABLE_NAME DOT GROUPS ^( ATTRIBUTE_SELECTOR INTEGER ) ) | ^( IDENTIFIER VARIABLE_NAME DOT RENDERING ) );
     public final OPPLFunction<String> stringExpression() throws RecognitionException {
         OPPLFunction<String> value = null;
 
@@ -433,7 +433,7 @@ public class OPPLTypesParts extends TreeFilter {
         OPPLSyntaxTree VARIABLE_NAME4=null;
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:144:3: ( DBLQUOTE | ^( IDENTIFIER VARIABLE_NAME DOT GROUPS ^( ATTRIBUTE_SELECTOR INTEGER ) ) | ^( IDENTIFIER VARIABLE_NAME DOT RENDERING ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:144:3: ( DBLQUOTE | ^( IDENTIFIER VARIABLE_NAME DOT GROUPS ^( ATTRIBUTE_SELECTOR INTEGER ) ) | ^( IDENTIFIER VARIABLE_NAME DOT RENDERING ) )
             int alt3=3;
             int LA3_0 = input.LA(1);
 
@@ -499,7 +499,7 @@ public class OPPLTypesParts extends TreeFilter {
             }
             switch (alt3) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:145:7: DBLQUOTE
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:145:7: DBLQUOTE
                     {
                     DBLQUOTE1=(OPPLSyntaxTree)match(input,DBLQUOTE,FOLLOW_DBLQUOTE_in_stringExpression174); if (state.failed) return value;
                     if ( state.backtracking==1 ) {
@@ -511,7 +511,7 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:149:10: ^( IDENTIFIER VARIABLE_NAME DOT GROUPS ^( ATTRIBUTE_SELECTOR INTEGER ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:149:10: ^( IDENTIFIER VARIABLE_NAME DOT GROUPS ^( ATTRIBUTE_SELECTOR INTEGER ) )
                     {
                     match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_stringExpression194); if (state.failed) return value;
 
@@ -536,7 +536,7 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:153:7: ^( IDENTIFIER VARIABLE_NAME DOT RENDERING )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:153:7: ^( IDENTIFIER VARIABLE_NAME DOT RENDERING )
                     {
                     match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_stringExpression224); if (state.failed) return value;
 
@@ -580,7 +580,7 @@ public class OPPLTypesParts extends TreeFilter {
     };
 
     // $ANTLR start "regexp"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:159:1: regexp returns [Variable variable] : ^( MATCH se= stringOperation ) ;
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:159:1: regexp returns [Variable variable] : ^( MATCH se= stringOperation ) ;
     public final OPPLTypesParts.regexp_return regexp() throws RecognitionException {
         OPPLTypesParts.regexp_return retval = new OPPLTypesParts.regexp_return();
         retval.start = input.LT(1);
@@ -589,8 +589,8 @@ public class OPPLTypesParts extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:164:2: ( ^( MATCH se= stringOperation ) )
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:165:3: ^( MATCH se= stringOperation )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:164:2: ( ^( MATCH se= stringOperation ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:165:3: ^( MATCH se= stringOperation )
             {
             match(input,MATCH,FOLLOW_MATCH_in_regexp270); if (state.failed) return retval;
 
@@ -644,18 +644,20 @@ public class OPPLTypesParts extends TreeFilter {
     };
 
     // $ANTLR start "opplFunction"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:175:1: opplFunction returns [Variable variable] : ( ^( CREATE_OPPL_FUNCTION value= stringOperation ) | ^( CREATE_INTERSECTION va= aggregandums ) | ^( CREATE_DISJUNCTION va= aggregandums ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:175:1: opplFunction returns [Variable variable] : ( ^( CREATE_OPPL_FUNCTION value= stringOperation ) | ^( CREATE_INTERSECTION va= aggregandums ) | ^( CREATE_DISJUNCTION va= aggregandums ) );
     public final OPPLTypesParts.opplFunction_return opplFunction() throws RecognitionException {
         OPPLTypesParts.opplFunction_return retval = new OPPLTypesParts.opplFunction_return();
         retval.start = input.LT(1);
 
+        OPPLSyntaxTree CREATE_INTERSECTION5=null;
+        OPPLSyntaxTree CREATE_DISJUNCTION6=null;
         OPPLFunction<String> value = null;
 
-        List<Aggregandum> va = null;
+        OPPLTypesParts.aggregandums_return va = null;
 
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:180:2: ( ^( CREATE_OPPL_FUNCTION value= stringOperation ) | ^( CREATE_INTERSECTION va= aggregandums ) | ^( CREATE_DISJUNCTION va= aggregandums ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:180:2: ( ^( CREATE_OPPL_FUNCTION value= stringOperation ) | ^( CREATE_INTERSECTION va= aggregandums ) | ^( CREATE_DISJUNCTION va= aggregandums ) )
             int alt4=3;
             switch ( input.LA(1) ) {
             case CREATE_OPPL_FUNCTION:
@@ -683,7 +685,7 @@ public class OPPLTypesParts extends TreeFilter {
 
             switch (alt4) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:181:3: ^( CREATE_OPPL_FUNCTION value= stringOperation )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:181:3: ^( CREATE_OPPL_FUNCTION value= stringOperation )
                     {
                     match(input,CREATE_OPPL_FUNCTION,FOLLOW_CREATE_OPPL_FUNCTION_in_opplFunction310); if (state.failed) return retval;
 
@@ -708,9 +710,9 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:189:6: ^( CREATE_INTERSECTION va= aggregandums )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:189:6: ^( CREATE_INTERSECTION va= aggregandums )
                     {
-                    match(input,CREATE_INTERSECTION,FOLLOW_CREATE_INTERSECTION_in_opplFunction334); if (state.failed) return retval;
+                    CREATE_INTERSECTION5=(OPPLSyntaxTree)match(input,CREATE_INTERSECTION,FOLLOW_CREATE_INTERSECTION_in_opplFunction334); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     pushFollow(FOLLOW_aggregandums_in_opplFunction340);
@@ -723,10 +725,13 @@ public class OPPLTypesParts extends TreeFilter {
                     if ( state.backtracking==1 ) {
 
                              if(getVariable()!=null){
+                             		Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection = this.getSymbolTable().getAggregandumCollection(
+                      							VariableTypeFactory.getCLASSVariableType(),
+                      							va.list,va.tokenList,CREATE_INTERSECTION5);       
                       		retval.variable = getConstraintSystem().createIntersectionGeneratedVariable(
                       								this.getVariable().getName(),
                       								VariableTypeFactory.getCLASSVariableType(),
-                      								 (Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>>) va);         
+                      								aggregandumCollection);         
                               }else{
                       		getErrorListener().illegalToken(((OPPLSyntaxTree)retval.start), "No variable name to build this OPPL Function");
                       	}
@@ -736,9 +741,9 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:200:9: ^( CREATE_DISJUNCTION va= aggregandums )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:203:9: ^( CREATE_DISJUNCTION va= aggregandums )
                     {
-                    match(input,CREATE_DISJUNCTION,FOLLOW_CREATE_DISJUNCTION_in_opplFunction361); if (state.failed) return retval;
+                    CREATE_DISJUNCTION6=(OPPLSyntaxTree)match(input,CREATE_DISJUNCTION,FOLLOW_CREATE_DISJUNCTION_in_opplFunction361); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     pushFollow(FOLLOW_aggregandums_in_opplFunction367);
@@ -751,10 +756,13 @@ public class OPPLTypesParts extends TreeFilter {
                     if ( state.backtracking==1 ) {
 
                              if(getVariable()!=null){
+                             		Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection = this.getSymbolTable().getAggregandumCollection(
+                      							VariableTypeFactory.getCLASSVariableType(),
+                      							va.list,va.tokenList,CREATE_DISJUNCTION6);
                       		retval.variable = getConstraintSystem().createUnionGeneratedVariable(
                       								this.getVariable().getName(),
                       								VariableTypeFactory.getCLASSVariableType(),
-                      								 (Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>>) va);         
+                      								 aggregandumCollection);         
                               }else{
                       		getErrorListener().illegalToken(((OPPLSyntaxTree)retval.start), "No variable name to build this OPPL Function");
                       	}      
@@ -794,15 +802,15 @@ public class OPPLTypesParts extends TreeFilter {
     };
 
     // $ANTLR start "constraint"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:213:1: constraint returns [AbstractConstraint constraint] : ( ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) ) | ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a= . ) );
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:219:1: constraint returns [AbstractConstraint constraint] : ( ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) ) | ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a= . ) );
     public final OPPLTypesParts.constraint_return constraint() throws RecognitionException {
         OPPLTypesParts.constraint_return retval = new OPPLTypesParts.constraint_return();
         retval.start = input.LT(1);
 
         OPPLSyntaxTree v=null;
         OPPLSyntaxTree i=null;
-        OPPLSyntaxTree IDENTIFIER5=null;
-        OPPLSyntaxTree IDENTIFIER6=null;
+        OPPLSyntaxTree IDENTIFIER7=null;
+        OPPLSyntaxTree IDENTIFIER8=null;
         OPPLSyntaxTree expression=null;
         OPPLSyntaxTree a=null;
         OPPLFunction<String> se = null;
@@ -812,7 +820,7 @@ public class OPPLTypesParts extends TreeFilter {
             List<OPPLSyntaxTree> identifiers = new ArrayList<OPPLSyntaxTree>();
           
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:222:1: ( ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) ) | ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a= . ) )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:228:1: ( ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) ) | ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a= . ) )
             int alt6=4;
             switch ( input.LA(1) ) {
             case INEQUALITY_CONSTRAINT:
@@ -845,12 +853,12 @@ public class OPPLTypesParts extends TreeFilter {
 
             switch (alt6) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:223:3: ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:229:3: ^( INEQUALITY_CONSTRAINT IDENTIFIER ^( EXPRESSION expression= . ) )
                     {
                     match(input,INEQUALITY_CONSTRAINT,FOLLOW_INEQUALITY_CONSTRAINT_in_constraint410); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    IDENTIFIER5=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint412); if (state.failed) return retval;
+                    IDENTIFIER7=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint412); if (state.failed) return retval;
                     match(input,EXPRESSION,FOLLOW_EXPRESSION_in_constraint415); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
@@ -862,20 +870,20 @@ public class OPPLTypesParts extends TreeFilter {
                     match(input, Token.UP, null); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
-                      			retval.constraint = symtab.getInequalityConstraint(((OPPLSyntaxTree)retval.start), IDENTIFIER5,expression, getConstraintSystem());
+                      			retval.constraint = symtab.getInequalityConstraint(((OPPLSyntaxTree)retval.start), IDENTIFIER7,expression, getConstraintSystem());
                       		
                     }
 
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:226:5: ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:232:5: ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ )
                     {
                     match(input,IN_SET_CONSTRAINT,FOLLOW_IN_SET_CONSTRAINT_in_constraint429); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     v=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint435); if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:226:41: (i= IDENTIFIER )+
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:232:41: (i= IDENTIFIER )+
                     int cnt5=0;
                     loop5:
                     do {
@@ -889,7 +897,7 @@ public class OPPLTypesParts extends TreeFilter {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:226:42: i= IDENTIFIER
+                    	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:232:42: i= IDENTIFIER
                     	    {
                     	    i=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint443); if (state.failed) return retval;
                     	    if ( state.backtracking==1 ) {
@@ -920,12 +928,12 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:229:5: ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:235:5: ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation )
                     {
                     match(input,REGEXP_CONSTRAINT,FOLLOW_REGEXP_CONSTRAINT_in_constraint456); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    IDENTIFIER6=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint458); if (state.failed) return retval;
+                    IDENTIFIER8=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constraint458); if (state.failed) return retval;
                     pushFollow(FOLLOW_stringOperation_in_constraint464);
                     se=stringOperation();
 
@@ -935,7 +943,7 @@ public class OPPLTypesParts extends TreeFilter {
                     match(input, Token.UP, null); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
-                      			Variable variable = symtab.getVariable(IDENTIFIER6,getConstraintSystem());
+                      			Variable variable = symtab.getVariable(IDENTIFIER8,getConstraintSystem());
                       			OPPLFunction<Pattern> adapted = Adapter.buildRegexpPatternAdapter(se);
                       			retval.constraint =   new RegExpConstraint(variable, adapted, getConstraintSystem());
                       		
@@ -944,7 +952,7 @@ public class OPPLTypesParts extends TreeFilter {
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:235:5: ^( NAF_CONSTRAINT a= . )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:241:5: ^( NAF_CONSTRAINT a= . )
                     {
                     match(input,NAF_CONSTRAINT,FOLLOW_NAF_CONSTRAINT_in_constraint476); if (state.failed) return retval;
 
@@ -991,23 +999,29 @@ public class OPPLTypesParts extends TreeFilter {
     }
     // $ANTLR end "constraint"
 
+    public static class aggregandums_return extends TreeRuleReturnScope {
+        public List<Aggregandum<?>> list;
+        public List<OPPLSyntaxTree> tokenList;
+    };
 
     // $ANTLR start "aggregandums"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:244:1: aggregandums returns [List<Aggregandum> set] : (a= aggregandum )+ ;
-    public final List<Aggregandum> aggregandums() throws RecognitionException {
-        List<Aggregandum> set = null;
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:249:1: aggregandums returns [List<Aggregandum<?>> list, List<OPPLSyntaxTree> tokenList] : (a= aggregandum )+ ;
+    public final OPPLTypesParts.aggregandums_return aggregandums() throws RecognitionException {
+        OPPLTypesParts.aggregandums_return retval = new OPPLTypesParts.aggregandums_return();
+        retval.start = input.LT(1);
 
-        Aggregandum a = null;
+        OPPLTypesParts.aggregandum_return a = null;
 
 
 
-        	set = new ArrayList<Aggregandum>();
+        	retval.list = new ArrayList<Aggregandum<?>>();
+        	retval.tokenList = new ArrayList<OPPLSyntaxTree>();
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:249:2: ( (a= aggregandum )+ )
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:250:3: (a= aggregandum )+
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:255:2: ( (a= aggregandum )+ )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:256:3: (a= aggregandum )+
             {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:250:3: (a= aggregandum )+
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:256:3: (a= aggregandum )+
             int cnt7=0;
             loop7:
             do {
@@ -1021,16 +1035,17 @@ public class OPPLTypesParts extends TreeFilter {
 
                 switch (alt7) {
             	case 1 :
-            	    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:250:4: a= aggregandum
+            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:256:4: a= aggregandum
             	    {
-            	    pushFollow(FOLLOW_aggregandum_in_aggregandums510);
+            	    pushFollow(FOLLOW_aggregandum_in_aggregandums509);
             	    a=aggregandum();
 
             	    state._fsp--;
-            	    if (state.failed) return set;
+            	    if (state.failed) return retval;
             	    if ( state.backtracking==1 ) {
 
-            	      			set.add(a);
+            	      			retval.tokenList.add(a.node);
+            	      			retval.list.add(a.a);
             	      		
             	    }
 
@@ -1039,7 +1054,7 @@ public class OPPLTypesParts extends TreeFilter {
 
             	default :
             	    if ( cnt7 >= 1 ) break loop7;
-            	    if (state.backtracking>0) {state.failed=true; return set;}
+            	    if (state.backtracking>0) {state.failed=true; return retval;}
                         EarlyExitException eee =
                             new EarlyExitException(7, input);
                         throw eee;
@@ -1065,21 +1080,26 @@ public class OPPLTypesParts extends TreeFilter {
           }
         finally {
         }
-        return set;
+        return retval;
     }
     // $ANTLR end "aggregandums"
 
+    public static class aggregandum_return extends TreeRuleReturnScope {
+        public Aggregandum<?> a;
+        public OPPLSyntaxTree node;
+    };
 
     // $ANTLR start "aggregandum"
-    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:255:1: aggregandum returns [Aggregandum a] : ( ^( IDENTIFIER VARIABLE_NAME DOT VALUES ) | IDENTIFIER );
-    public final Aggregandum aggregandum() throws RecognitionException {
-        Aggregandum a = null;
+    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:262:1: aggregandum returns [Aggregandum<?> a, OPPLSyntaxTree node] : ( ^( IDENTIFIER VARIABLE_NAME DOT VALUES ) | IDENTIFIER );
+    public final OPPLTypesParts.aggregandum_return aggregandum() throws RecognitionException {
+        OPPLTypesParts.aggregandum_return retval = new OPPLTypesParts.aggregandum_return();
+        retval.start = input.LT(1);
 
-        OPPLSyntaxTree VARIABLE_NAME7=null;
-        OPPLSyntaxTree IDENTIFIER8=null;
+        OPPLSyntaxTree VARIABLE_NAME9=null;
+        OPPLSyntaxTree IDENTIFIER10=null;
 
         try {
-            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:256:2: ( ^( IDENTIFIER VARIABLE_NAME DOT VALUES ) | IDENTIFIER )
+            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:267:2: ( ^( IDENTIFIER VARIABLE_NAME DOT VALUES ) | IDENTIFIER )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -1093,7 +1113,7 @@ public class OPPLTypesParts extends TreeFilter {
                     alt8=2;
                 }
                 else {
-                    if (state.backtracking>0) {state.failed=true; return a;}
+                    if (state.backtracking>0) {state.failed=true; return retval;}
                     NoViableAltException nvae =
                         new NoViableAltException("", 8, 1, input);
 
@@ -1101,7 +1121,7 @@ public class OPPLTypesParts extends TreeFilter {
                 }
             }
             else {
-                if (state.backtracking>0) {state.failed=true; return a;}
+                if (state.backtracking>0) {state.failed=true; return retval;}
                 NoViableAltException nvae =
                     new NoViableAltException("", 8, 0, input);
 
@@ -1109,41 +1129,46 @@ public class OPPLTypesParts extends TreeFilter {
             }
             switch (alt8) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:257:2: ^( IDENTIFIER VARIABLE_NAME DOT VALUES )
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:268:2: ^( IDENTIFIER VARIABLE_NAME DOT VALUES )
                     {
-                    match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_aggregandum530); if (state.failed) return a;
+                    match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_aggregandum534); if (state.failed) return retval;
 
-                    match(input, Token.DOWN, null); if (state.failed) return a;
-                    VARIABLE_NAME7=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_aggregandum533); if (state.failed) return a;
-                    match(input,DOT,FOLLOW_DOT_in_aggregandum535); if (state.failed) return a;
-                    match(input,VALUES,FOLLOW_VALUES_in_aggregandum538); if (state.failed) return a;
+                    match(input, Token.DOWN, null); if (state.failed) return retval;
+                    VARIABLE_NAME9=(OPPLSyntaxTree)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_aggregandum537); if (state.failed) return retval;
+                    match(input,DOT,FOLLOW_DOT_in_aggregandum539); if (state.failed) return retval;
+                    match(input,VALUES,FOLLOW_VALUES_in_aggregandum542); if (state.failed) return retval;
 
-                    match(input, Token.UP, null); if (state.failed) return a;
+                    match(input, Token.UP, null); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
-                            		a = Adapter.buildSingletonAggregandum(getSymbolTable().defineValuesAttributeReferenceSymbol(VARIABLE_NAME7,getConstraintSystem()));
+                            		retval.a = Adapter.buildSingletonAggregandum(getSymbolTable().defineValuesAttributeReferenceSymbol(VARIABLE_NAME9,getConstraintSystem()));
                           	
                     }
 
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:261:8: IDENTIFIER
+                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypesParts.g:272:8: IDENTIFIER
                     {
-                    IDENTIFIER8=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_aggregandum555); if (state.failed) return a;
+                    IDENTIFIER10=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_aggregandum559); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
 
-                          		Symbol symbol = this.getSymbolTable().resolve(IDENTIFIER8);
+                          		Symbol symbol = this.getSymbolTable().resolve(IDENTIFIER10);
                           		if(symbol!=null){
-                      	    		a = Adapter.buildAggregandumOfCollection(IDENTIFIER8.getOWLObject());
+                      	    		retval.a = Adapter.buildAggregandumOfCollection(IDENTIFIER10.getOWLObject());
                       	    	}else{
-                      	    		getErrorListener().unrecognisedSymbol(IDENTIFIER8);
+                      	    		getErrorListener().unrecognisedSymbol(IDENTIFIER10);
                       	    	}
                           	
                     }
 
                     }
                     break;
+
+            }
+            if ( state.backtracking==1 ) {
+
+              	retval.node = ((OPPLSyntaxTree)retval.start);
 
             }
         }
@@ -1161,7 +1186,7 @@ public class OPPLTypesParts extends TreeFilter {
           }
         finally {
         }
-        return a;
+        return retval;
     }
     // $ANTLR end "aggregandum"
 
@@ -1204,11 +1229,11 @@ public class OPPLTypesParts extends TreeFilter {
     public static final BitSet FOLLOW_IDENTIFIER_in_constraint458 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000400L});
     public static final BitSet FOLLOW_stringOperation_in_constraint464 = new BitSet(new long[]{0x0000000000000008L});
     public static final BitSet FOLLOW_NAF_CONSTRAINT_in_constraint476 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_aggregandum_in_aggregandums510 = new BitSet(new long[]{0x0000100000000002L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_aggregandum530 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_aggregandum533 = new BitSet(new long[]{0x0000000000000000L,0x0000000000004000L});
-    public static final BitSet FOLLOW_DOT_in_aggregandum535 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000400000000L});
-    public static final BitSet FOLLOW_VALUES_in_aggregandum538 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_aggregandum555 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_aggregandum_in_aggregandums509 = new BitSet(new long[]{0x0000100000000002L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_aggregandum534 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_aggregandum537 = new BitSet(new long[]{0x0000000000000000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_DOT_in_aggregandum539 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000400000000L});
+    public static final BitSet FOLLOW_VALUES_in_aggregandum542 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_aggregandum559 = new BitSet(new long[]{0x0000000000000002L});
 
 }
