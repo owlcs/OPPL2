@@ -189,10 +189,13 @@ opplFunction returns [Variable variable]
     |^(CREATE_INTERSECTION va = aggregandums)
        {
        if(getVariable()!=null){
+       		Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection = this.getSymbolTable().getAggregandumCollection(
+							VariableTypeFactory.getCLASSVariableType(),
+							va.list,va.tokenList,$CREATE_INTERSECTION);       
 		$variable = getConstraintSystem().createIntersectionGeneratedVariable(
 								this.getVariable().getName(),
 								VariableTypeFactory.getCLASSVariableType(),
-								 (Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>>) va);         
+								aggregandumCollection);         
         }else{
 		getErrorListener().illegalToken($start, "No variable name to build this OPPL Function");
 	}
@@ -200,10 +203,13 @@ opplFunction returns [Variable variable]
       | ^(CREATE_DISJUNCTION va = aggregandums)
        	{
        if(getVariable()!=null){
+       		Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection = this.getSymbolTable().getAggregandumCollection(
+							VariableTypeFactory.getCLASSVariableType(),
+							va.list,va.tokenList,$CREATE_DISJUNCTION);
 		$variable = getConstraintSystem().createUnionGeneratedVariable(
 								this.getVariable().getName(),
 								VariableTypeFactory.getCLASSVariableType(),
-								 (Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>>) va);         
+								 aggregandumCollection);         
         }else{
 		getErrorListener().illegalToken($start, "No variable name to build this OPPL Function");
 	}      
@@ -240,19 +246,24 @@ constraint returns [AbstractConstraint constraint]
 			
 		}
 ;
-
-aggregandums returns [List<Aggregandum> set]
+aggregandums returns [List<Aggregandum<?>> list, List<OPPLSyntaxTree> tokenList]
 @init
 {
-	$set = new ArrayList<Aggregandum>();
+	$list = new ArrayList<Aggregandum<?>>();
+	$tokenList = new ArrayList<OPPLSyntaxTree>();
 }
 	:
 		(a = aggregandum{
-			$set.add(a);
+			$tokenList.add(a.node);
+			$list.add(a.a);
 		})+
 	;
 
-aggregandum returns [Aggregandum a]
+aggregandum returns [Aggregandum<?> a, OPPLSyntaxTree node]
+@after
+{
+	$node = $start;
+}
 	:
 	^(IDENTIFIER  VARIABLE_NAME DOT  VALUES)
     	{
