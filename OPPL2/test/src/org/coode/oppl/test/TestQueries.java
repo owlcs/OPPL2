@@ -137,7 +137,6 @@ public class TestQueries extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		VariableExtractor.clear();
 	}
 
 	private void buildOntologyForQuery(OPPLScript opplScript, OWLOntology testOntology,

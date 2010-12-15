@@ -23,10 +23,8 @@
 package org.coode.oppl.utils;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
@@ -124,7 +122,6 @@ public class VariableExtractor {
 	private final ConstraintSystem constraintSystem;
 	private final boolean includeGenerated;
 	private final Visitor visitor = new Visitor();
-	private static final Map<OWLObject, Set<Variable<?>>> cache = new HashMap<OWLObject, Set<Variable<?>>>();
 
 	/**
 	 * @param constraintSystem
@@ -840,23 +837,8 @@ public class VariableExtractor {
 		return this.includeGenerated;
 	}
 
-	/**
-	 * Clears the cache
-	 */
-	public static void clear() {
-		cache.clear();
-	}
-
 	public Set<Variable<?>> extractVariables(OWLObject owlObject) {
-		Set<Variable<?>> toReturn = cache.get(owlObject);
-		if (toReturn == null) {
-			toReturn = owlObject.accept(this.visitor);
-			cache.put(owlObject, new HashSet<Variable<?>>(toReturn));
-		} else {
-			// Have to make a defensive copy here to protect the content of the
-			// cache
-			toReturn = new HashSet<Variable<?>>(toReturn);
-		}
+		Set<Variable<?>> toReturn = owlObject.accept(this.visitor);
 		return toReturn;
 	}
 }
