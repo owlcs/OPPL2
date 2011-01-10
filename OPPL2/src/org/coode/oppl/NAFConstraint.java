@@ -24,8 +24,7 @@ public class NAFConstraint implements AbstractConstraint {
 			throw new NullPointerException("The OWLAxiom xannot be null");
 		}
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The Constraint system cannot be null");
+			throw new NullPointerException("The Constraint system cannot be null");
 		}
 		this.axiom = axiom;
 		this.constraintSystem = constraintSystem;
@@ -52,9 +51,8 @@ public class NAFConstraint implements AbstractConstraint {
 	 */
 	public String render(ConstraintSystem constraintSystem) {
 		Formatter formatter = new Formatter();
-		ManchesterSyntaxRenderer manchesterSyntaxRenderer = this
-				.getConstraintSystem().getOPPLFactory()
-				.getManchesterSyntaxRenderer(this.getConstraintSystem());
+		ManchesterSyntaxRenderer manchesterSyntaxRenderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+				this.getConstraintSystem());
 		this.getAxiom().accept(manchesterSyntaxRenderer);
 		formatter.format("FAIL %s", manchesterSyntaxRenderer.toString());
 		return formatter.out().toString();
@@ -62,9 +60,7 @@ public class NAFConstraint implements AbstractConstraint {
 
 	@Override
 	public String toString() {
-		Formatter formatter = new Formatter();
-		formatter.format("FAIL %s", this.axiom.toString());
-		return formatter.out().toString();
+		return this.render(this.getConstraintSystem());
 	}
 
 	/**
@@ -90,8 +86,7 @@ public class NAFConstraint implements AbstractConstraint {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ (this.axiom == null ? 0 : this.axiom.hashCode());
+		result = prime * result + (this.axiom == null ? 0 : this.axiom.hashCode());
 		return result;
 	}
 

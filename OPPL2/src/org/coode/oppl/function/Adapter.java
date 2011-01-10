@@ -9,8 +9,6 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.coode.oppl.ConstraintSystem;
-import org.coode.oppl.Variable;
-import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
@@ -145,11 +143,6 @@ public class Adapter {
 
 			public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {
 				return stringOPPLFunction.accept(visitor);
-			}
-
-			public OPPLFunction<Pattern> replace(Variable<?> v, OWLObject owlObject,
-					ConstraintSystem constraintSystem, RuntimeExceptionHandler handler) {
-				return this;
 			}
 		};
 	}

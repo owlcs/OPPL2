@@ -73,7 +73,7 @@ public class RegexpGeneratedVariable<O extends OWLObject> implements Variable<O>
 
 	public String render(ConstraintSystem constraintSystem) {
 		return String.format(
-				"%s:%s= MATCH (\"%s\")",
+				"%s:%s= MATCH (%s)",
 				this.getName(),
 				this.getType(),
 				this.getPatternGeneratingOPPLFunction().render(constraintSystem));
