@@ -27,6 +27,11 @@ CLOSED_PARENTHESYS  :
   ')'
 ;
 
+AT
+	:
+		'@'
+	;
+
 WHITESPACE  : (' '| '\t'| '\n' | '\r') {$channel= HIDDEN;}
   ;
 

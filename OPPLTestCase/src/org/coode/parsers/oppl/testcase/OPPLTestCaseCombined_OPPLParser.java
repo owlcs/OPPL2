@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-12-02 17:35:11
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2011-01-10 16:14:50
 
 	package org.coode.parsers.oppl.testcase;
 	import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -57,8 +57,9 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
     public static final int ENTITY_REFERENCE=45;
     public static final int CONJUNCTION=56;
     public static final int INVERSE_OF=25;
+    public static final int AT=114;
     public static final int RANGE=28;
-    public static final int DATA_RANGE=593;
+    public static final int DATA_RANGE=594;
     public static final int CLOSED_PARENTHESYS=8;
     public static final int PROPERTY_CHAIN=57;
     public static final int CREATE_INTERSECTION=81;
@@ -493,7 +494,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_TYPE, opplFunction, VARIABLE_NAME
+                    // elements: VARIABLE_NAME, VARIABLE_TYPE, opplFunction
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -553,7 +554,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, expression, VARIABLE_TYPE
+                    // elements: VARIABLE_NAME, VARIABLE_TYPE, expression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -615,7 +616,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: regexp, VARIABLE_TYPE, VARIABLE_NAME
+                    // elements: VARIABLE_NAME, regexp, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2008,7 +2009,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: REMOVE, axiom
+                    // elements: axiom, REMOVE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2296,7 +2297,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: atomic, CREATE_DISJUNCTION
+                    // elements: CREATE_DISJUNCTION, atomic
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 

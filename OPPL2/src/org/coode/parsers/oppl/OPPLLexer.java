@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g 2010-11-18 09:55:15
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g 2011-01-10 15:25:43
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -12,11 +12,11 @@ import org.antlr.runtime.RecognizerSharedState;
 
 public class OPPLLexer extends Lexer {
 	public static final int COMMA = 37;
-	public static final int GREATER_THAN = 509;
+	public static final int GREATER_THAN = 510;
 	public static final int ASSERTED = 76;
 	public static final int END = 84;
 	public static final int DIFFERENT_FROM = 24;
-	public static final int LESS_THAN = 507;
+	public static final int LESS_THAN = 508;
 	public static final int TYPE_ASSERTION = 66;
 	public static final int SAME_AS_AXIOM = 52;
 	public static final int TYPES = 39;
@@ -41,6 +41,7 @@ public class OPPLLexer extends Lexer {
 	public static final int ENTITY_REFERENCE = 45;
 	public static final int CONJUNCTION = 56;
 	public static final int INVERSE_OF = 25;
+	public static final int AT = 114;
 	public static final int RANGE = 28;
 	public static final int CLOSED_PARENTHESYS = 8;
 	public static final int PROPERTY_CHAIN = 57;
@@ -55,7 +56,7 @@ public class OPPLLexer extends Lexer {
 	public static final int NEGATED_EXPRESSION = 58;
 	public static final int EQUAL = 73;
 	public static final int DIFFERENT_FROM_AXIOM = 53;
-	public static final int GREATER_THAN_EQUAL = 510;
+	public static final int GREATER_THAN_EQUAL = 511;
 	public static final int EQUIVALENT_TO = 22;
 	public static final int DOMAIN = 27;
 	public static final int SUB_PROPERTY_OF = 21;
@@ -75,7 +76,7 @@ public class OPPLLexer extends Lexer {
 	public static final int VALUES = 354;
 	public static final int SOME_RESTRICTION = 61;
 	public static final int IRI = 110;
-	public static final int LESS_THAN_EQUAL = 508;
+	public static final int LESS_THAN_EQUAL = 509;
 	public static final int VALUE = 18;
 	public static final int RENDERING = 355;
 	public static final int INVERSE_FUNCTIONAL = 35;
@@ -1120,9 +1121,9 @@ public class OPPLLexer extends Lexer {
 	static final String[] DFA7_transitionS = {
 			"\2\27\2\uffff\1\27\22\uffff\1\27\1\10\1\27\4\uffff\3\27\1\uffff"
 					+ "\1\14\1\27\1\uffff\1\13\1\uffff\12\27\1\12\1\uffff\3\27\1\26"
-					+ "\1\uffff\1\4\1\16\1\1\1\3\1\17\1\22\1\25\1\27\1\5\3\27\1\21"
-					+ "\1\27\1\2\2\27\1\6\1\11\2\27\1\24\1\7\4\27\1\uffff\2\27\2\uffff"
-					+ "\2\27\1\15\2\27\1\23\14\27\1\20\10\27\1\uffff\1\27",
+					+ "\1\27\1\4\1\16\1\1\1\3\1\17\1\22\1\25\1\27\1\5\3\27\1\21\1\27"
+					+ "\1\2\2\27\1\6\1\11\2\27\1\24\1\7\4\27\1\uffff\2\27\2\uffff\2"
+					+ "\27\1\15\2\27\1\23\14\27\1\20\10\27\1\uffff\1\27",
 			"\1\30\2\uffff\1\31\42\uffff\1\32",
 			"\1\33",
 			"\1\34",

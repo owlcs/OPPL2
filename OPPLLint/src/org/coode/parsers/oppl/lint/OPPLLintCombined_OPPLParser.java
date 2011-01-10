@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-12-02 17:33:28
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2011-01-10 16:10:40
 
   package org.coode.parsers.oppl.lint;
   import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -16,13 +16,13 @@ import org.antlr.runtime.tree.*;
 
 public class OPPLLintCombined_OPPLParser extends Parser {
     public static final int COMMA=37;
-    public static final int GREATER_THAN=514;
+    public static final int GREATER_THAN=515;
     public static final int ASSERTED=76;
     public static final int VARIABLE_DEFINITIONS=102;
-    public static final int REGEXP_CONSTRAINT=586;
+    public static final int REGEXP_CONSTRAINT=587;
     public static final int END=84;
     public static final int DIFFERENT_FROM=24;
-    public static final int LESS_THAN=512;
+    public static final int LESS_THAN=513;
     public static final int TYPE_ASSERTION=66;
     public static final int SAME_AS_AXIOM=52;
     public static final int TYPES=39;
@@ -39,7 +39,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
     public static final int CONSTANT=70;
     public static final int VALUE_RESTRICTION=63;
     public static final int ONE_OF=65;
-    public static final int SUBPROPERTY_OF=598;
+    public static final int SUBPROPERTY_OF=599;
     public static final int SELECT=75;
     public static final int CARDINALITY_RESTRICTION=64;
     public static final int SAME_AS=23;
@@ -52,12 +52,13 @@ public class OPPLLintCombined_OPPLParser extends Parser {
     public static final int ENTITY_REFERENCE=45;
     public static final int CONJUNCTION=56;
     public static final int INVERSE_OF=25;
+    public static final int AT=114;
     public static final int RANGE=28;
-    public static final int DATA_RANGE=572;
+    public static final int DATA_RANGE=573;
     public static final int CLOSED_PARENTHESYS=8;
     public static final int PROPERTY_CHAIN=57;
     public static final int CREATE_INTERSECTION=81;
-    public static final int WS=554;
+    public static final int WS=555;
     public static final int EQUIVALENT_TO_AXIOM=49;
     public static final int OPEN_SQUARE_BRACKET=85;
     public static final int NAF_CONSTRAINT=467;
@@ -71,7 +72,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
     public static final int EQUAL=73;
     public static final int SEMICOLON=422;
     public static final int DIFFERENT_FROM_AXIOM=53;
-    public static final int GREATER_THAN_EQUAL=515;
+    public static final int GREATER_THAN_EQUAL=516;
     public static final int ACTIONS=101;
     public static final int EQUIVALENT_TO=22;
     public static final int DOMAIN=27;
@@ -98,11 +99,11 @@ public class OPPLLintCombined_OPPLParser extends Parser {
     public static final int QUERY=103;
     public static final int SOME_RESTRICTION=61;
     public static final int IRI=110;
-    public static final int LESS_THAN_EQUAL=513;
+    public static final int LESS_THAN_EQUAL=514;
     public static final int VALUE=18;
     public static final int RENDERING=355;
     public static final int INVERSE_FUNCTIONAL=35;
-    public static final int ATTRIBUTE_SELECTOR=596;
+    public static final int ATTRIBUTE_SELECTOR=597;
     public static final int PLAIN_CLAUSE=93;
     public static final int OR=11;
     public static final int INTEGER=42;
@@ -142,10 +143,10 @@ public class OPPLLintCombined_OPPLParser extends Parser {
     public static final int Tokens=47;
     public static final int EXPLANATION=469;
     public static final int CLOSED_CURLY_BRACES=7;
-    public static final int IRI_ATTRIBUTE_NAME=546;
+    public static final int IRI_ATTRIBUTE_NAME=547;
     public static final int REFLEXIVE=32;
     public static final int NOT=12;
-    public static final int STRING_OPERATION=597;
+    public static final int STRING_OPERATION=598;
     public static final int OPEN_PARENTHESYS=5;
     public static final int VARIABLE_NAME=464;
     public static final int IRREFLEXIVE=33;
@@ -397,6 +398,11 @@ public class OPPLLintCombined_OPPLParser extends Parser {
                                 alt3=1;
                                 }
                                 break;
+                            case MATCH:
+                                {
+                                alt3=3;
+                                }
+                                break;
                             case OPEN_PARENTHESYS:
                             case OPEN_CURLY_BRACES:
                             case NOT:
@@ -408,11 +414,6 @@ public class OPPLLintCombined_OPPLParser extends Parser {
                             case VARIABLE_NAME:
                                 {
                                 alt3=2;
-                                }
-                                break;
-                            case MATCH:
-                                {
-                                alt3=3;
                                 }
                                 break;
                             default:
@@ -483,7 +484,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: opplFunction, VARIABLE_NAME, VARIABLE_TYPE
+                    // elements: VARIABLE_TYPE, opplFunction, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -543,7 +544,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_TYPE, VARIABLE_NAME, expression
+                    // elements: VARIABLE_NAME, expression, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -605,7 +606,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: regexp, VARIABLE_TYPE, VARIABLE_NAME
+                    // elements: VARIABLE_TYPE, regexp, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -673,7 +674,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_TYPE, VARIABLE_NAME, variableScope
+                    // elements: VARIABLE_TYPE, variableScope, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -987,7 +988,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: stringOperation, MATCH
+            // elements: MATCH, stringOperation
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1998,7 +1999,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: REMOVE, axiom
+                    // elements: axiom, REMOVE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2286,7 +2287,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: atomic, CREATE_DISJUNCTION
+                    // elements: CREATE_DISJUNCTION, atomic
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3201,7 +3202,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, DOT, a
+                    // elements: DOT, VARIABLE_NAME, a
                     // token labels: a
                     // rule labels: retval
                     // token list labels: 
@@ -3253,7 +3254,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: attributeSelector, GROUPS, VARIABLE_NAME, DOT
+                    // elements: DOT, VARIABLE_NAME, attributeSelector, GROUPS
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3429,7 +3430,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
     public static final BitSet FOLLOW_COLON_in_variableDefinition356 = new BitSet(new long[]{0x0000000000000000L,0x0000000002000000L});
     public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition358 = new BitSet(new long[]{0x0000000000000002L,0x0000000000200000L});
     public static final BitSet FOLLOW_variableScope_in_variableDefinition361 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_OPEN_SQUARE_BRACKET_in_variableScope401 = new BitSet(new long[]{0x000000C000100000L,0x0000000001800000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000400000L});
+    public static final BitSet FOLLOW_OPEN_SQUARE_BRACKET_in_variableScope401 = new BitSet(new long[]{0x000000C000100000L,0x0000000001800000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000800000L});
     public static final BitSet FOLLOW_SUBCLASS_OF_in_variableScope408 = new BitSet(new long[]{0x0000310000081060L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
     public static final BitSet FOLLOW_SUBPROPERTY_OF_in_variableScope416 = new BitSet(new long[]{0x0000310000081060L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
     public static final BitSet FOLLOW_SUPER_CLASS_OF_in_variableScope424 = new BitSet(new long[]{0x0000310000081060L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
@@ -3505,7 +3506,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
     public static final BitSet FOLLOW_variableAttributeReference_in_atomic1054 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_IRI_in_iri1073 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_VARIABLE_NAME_in_iri1082 = new BitSet(new long[]{0x0000000000000000L,0x0000000000004000L});
-    public static final BitSet FOLLOW_DOT_in_iri1084 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000400000000L});
+    public static final BitSet FOLLOW_DOT_in_iri1084 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000800000000L});
     public static final BitSet FOLLOW_IRI_ATTRIBUTE_NAME_in_iri1086 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ESCLAMATION_MARK_in_createIdentifier1110 = new BitSet(new long[]{0x0000100000000000L});
     public static final BitSet FOLLOW_IDENTIFIER_in_createIdentifier1112 = new BitSet(new long[]{0x0000000000000002L});

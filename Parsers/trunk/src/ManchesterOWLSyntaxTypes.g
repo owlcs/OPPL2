@@ -299,9 +299,9 @@ unary returns [Type type, ManchesterOWLSyntaxTree node, OWLObject owlObject]
 				$owlObject = this.getSymbolTable().getOWLObject($IRI);
 
 			}
-		| ^(CONSTANT  value=. constantType = IDENTIFIER?) {
+		| ^(CONSTANT  value=. ( ^(AT language = IDENTIFIER))? constantType = IDENTIFIER?) {
 				$type = OWLType.OWL_CONSTANT;
-				$owlObject = constantType ==null ? this.getSymbolTable().getOWLUntypedConstant($start,value) : this.getSymbolTable().getOWLTypedConstant($start,value, constantType);				
+				$owlObject = constantType ==null ? this.getSymbolTable().getOWLUntypedConstant($start,value, language) : this.getSymbolTable().getOWLTypedConstant($start,value, constantType);				
 			}
 		| dataRange {
 				$type = $dataRange.type;

@@ -184,6 +184,21 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 		}
 	}
 
+	public void testNoVariablePattern() {
+		try {
+			OWLOntology pizzaOntology = ONTOLOGY_MANAGER.loadOntology(IRI.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
+			String patternString = " BEGIN ADD Menu subClassOf Menu END; A variable free pattern";
+			OPPLSyntaxTree parsed = this.parse(patternString);
+			System.out.println(parsed.toStringTree());
+			assertNotNull(parsed);
+			assertNotNull(parsed.getOPPLContent());
+			ONTOLOGY_MANAGER.removeOntology(pizzaOntology);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
+
 	public void testDOLCEInformationRealization() {
 		try {
 			OWLOntology dolceOntology = ONTOLOGY_MANAGER.loadOntology(IRI.create("http://www.loa-cnr.it/ontologies/DUL.owl"));

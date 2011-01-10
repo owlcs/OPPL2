@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.testcase;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLLexer.g 2010-11-25 17:25:22
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLLexer.g 2011-01-10 16:13:13
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -42,6 +42,7 @@ public class OPPLTestCaseLexer_OPPLLexer extends Lexer {
 	public static final int ENTITY_REFERENCE = 45;
 	public static final int CONJUNCTION = 56;
 	public static final int INVERSE_OF = 25;
+	public static final int AT = 114;
 	public static final int RANGE = 28;
 	public static final int CLOSED_PARENTHESYS = 8;
 	public static final int PROPERTY_CHAIN = 57;
@@ -1043,9 +1044,9 @@ public class OPPLTestCaseLexer_OPPLLexer extends Lexer {
 	static final String[] DFA7_transitionS = {
 			"\2\27\2\uffff\1\27\22\uffff\1\27\1\10\1\27\4\uffff\3\27\1\uffff"
 					+ "\1\14\1\27\1\uffff\1\13\1\uffff\12\27\1\12\1\uffff\3\27\1\26"
-					+ "\1\uffff\1\4\1\16\1\1\1\3\1\17\1\22\1\25\1\27\1\5\3\27\1\21"
-					+ "\1\27\1\2\2\27\1\6\1\11\2\27\1\24\1\7\4\27\1\uffff\2\27\2\uffff"
-					+ "\2\27\1\15\2\27\1\23\14\27\1\20\10\27\1\uffff\1\27",
+					+ "\1\27\1\4\1\16\1\1\1\3\1\17\1\22\1\25\1\27\1\5\3\27\1\21\1\27"
+					+ "\1\2\2\27\1\6\1\11\2\27\1\24\1\7\4\27\1\uffff\2\27\2\uffff\2"
+					+ "\27\1\15\2\27\1\23\14\27\1\20\10\27\1\uffff\1\27",
 			"\1\30\2\uffff\1\31\42\uffff\1\32",
 			"\1\33",
 			"\1\34",

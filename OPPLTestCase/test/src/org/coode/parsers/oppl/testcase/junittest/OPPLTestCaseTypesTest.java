@@ -276,7 +276,7 @@ public class OPPLTestCaseTypesTest extends TestCase {
 	}
 
 	public void testLessThanEqualToAssertionWithMessage() {
-		String testCase = "testOneAssertion;  ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*)<= 1; The total count of bindings is greater 1;";
+		String testCase = "testOneAssertion;  ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*)<= 1; The total count of bindings is greater than 1;";
 		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 		OWLOntology ontology;
 		try {

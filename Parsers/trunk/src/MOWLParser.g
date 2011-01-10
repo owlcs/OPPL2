@@ -219,6 +219,6 @@ value:
     | constant -> ^(constant)
   ;
   
-constant  :  constantValue = DBLQUOTE ( POW type = IDENTIFIER)? ->^(CONSTANT $constantValue $type?) 
+constant  :  constantValue = DBLQUOTE (AT language = IDENTIFIER)? ( POW type = IDENTIFIER)? ->^(CONSTANT $constantValue (^(AT $language))? $type?) 
   ;
 

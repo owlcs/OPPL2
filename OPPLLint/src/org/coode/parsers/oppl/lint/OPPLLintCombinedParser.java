@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLLintCombined.g 2010-12-02 17:33:28
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLLintCombined.g 2011-01-10 16:10:40
 package org.coode.parsers.oppl.lint;
 
 import org.antlr.runtime.BitSet;
@@ -43,20 +43,20 @@ public class OPPLLintCombinedParser extends Parser {
 			"INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION",
 			"VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY",
 			"VARIABLE_SCOPE", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "HAS_KEY", "IRI",
-			"ANNOTATION_ASSERTION", "OPPL_LINT", "ESCLAMATION_MARK", "MATCH", "VALUES",
+			"ANNOTATION_ASSERTION", "AT", "OPPL_LINT", "ESCLAMATION_MARK", "MATCH", "VALUES",
 			"RENDERING", "GROUPS", "DOLLAR", "RETURN", "SEMICOLON", "VARIABLE_NAME", "FAIL",
 			"NAF_CONSTRAINT", "DESCRIPTION", "EXPLANATION", "TEXT", "INFERENCE", "LESS_THAN",
 			"LESS_THAN_EQUAL", "GREATER_THAN", "GREATER_THAN_EQUAL", "IRI_ATTRIBUTE_NAME", "WS",
 			"DATA_RANGE", "REGEXP_CONSTRAINT", "ATTRIBUTE_SELECTOR", "STRING_OPERATION",
 			"SUBPROPERTY_OF" };
 	public static final int COMMA = 37;
-	public static final int GREATER_THAN = 514;
+	public static final int GREATER_THAN = 515;
 	public static final int ASSERTED = 76;
 	public static final int VARIABLE_DEFINITIONS = 102;
-	public static final int REGEXP_CONSTRAINT = 586;
+	public static final int REGEXP_CONSTRAINT = 587;
 	public static final int END = 84;
 	public static final int DIFFERENT_FROM = 24;
-	public static final int LESS_THAN = 512;
+	public static final int LESS_THAN = 513;
 	public static final int TYPE_ASSERTION = 66;
 	public static final int SAME_AS_AXIOM = 52;
 	public static final int TYPES = 39;
@@ -73,7 +73,7 @@ public class OPPLLintCombinedParser extends Parser {
 	public static final int CONSTANT = 70;
 	public static final int VALUE_RESTRICTION = 63;
 	public static final int ONE_OF = 65;
-	public static final int SUBPROPERTY_OF = 598;
+	public static final int SUBPROPERTY_OF = 599;
 	public static final int SELECT = 75;
 	public static final int CARDINALITY_RESTRICTION = 64;
 	public static final int SAME_AS = 23;
@@ -86,12 +86,13 @@ public class OPPLLintCombinedParser extends Parser {
 	public static final int ENTITY_REFERENCE = 45;
 	public static final int CONJUNCTION = 56;
 	public static final int INVERSE_OF = 25;
+	public static final int AT = 114;
 	public static final int RANGE = 28;
-	public static final int DATA_RANGE = 572;
+	public static final int DATA_RANGE = 573;
 	public static final int CLOSED_PARENTHESYS = 8;
 	public static final int PROPERTY_CHAIN = 57;
 	public static final int CREATE_INTERSECTION = 81;
-	public static final int WS = 554;
+	public static final int WS = 555;
 	public static final int EQUIVALENT_TO_AXIOM = 49;
 	public static final int OPEN_SQUARE_BRACKET = 85;
 	public static final int NAF_CONSTRAINT = 467;
@@ -105,7 +106,7 @@ public class OPPLLintCombinedParser extends Parser {
 	public static final int EQUAL = 73;
 	public static final int SEMICOLON = 422;
 	public static final int DIFFERENT_FROM_AXIOM = 53;
-	public static final int GREATER_THAN_EQUAL = 515;
+	public static final int GREATER_THAN_EQUAL = 516;
 	public static final int ACTIONS = 101;
 	public static final int EQUIVALENT_TO = 22;
 	public static final int DOMAIN = 27;
@@ -132,11 +133,11 @@ public class OPPLLintCombinedParser extends Parser {
 	public static final int QUERY = 103;
 	public static final int SOME_RESTRICTION = 61;
 	public static final int IRI = 110;
-	public static final int LESS_THAN_EQUAL = 513;
+	public static final int LESS_THAN_EQUAL = 514;
 	public static final int VALUE = 18;
 	public static final int RENDERING = 355;
 	public static final int INVERSE_FUNCTIONAL = 35;
-	public static final int ATTRIBUTE_SELECTOR = 596;
+	public static final int ATTRIBUTE_SELECTOR = 597;
 	public static final int PLAIN_CLAUSE = 93;
 	public static final int OR = 11;
 	public static final int INTEGER = 42;
@@ -176,10 +177,10 @@ public class OPPLLintCombinedParser extends Parser {
 	public static final int Tokens = 47;
 	public static final int EXPLANATION = 469;
 	public static final int CLOSED_CURLY_BRACES = 7;
-	public static final int IRI_ATTRIBUTE_NAME = 546;
+	public static final int IRI_ATTRIBUTE_NAME = 547;
 	public static final int REFLEXIVE = 32;
 	public static final int NOT = 12;
-	public static final int STRING_OPERATION = 597;
+	public static final int STRING_OPERATION = 598;
 	public static final int OPEN_PARENTHESYS = 5;
 	public static final int VARIABLE_NAME = 464;
 	public static final int IRREFLEXIVE = 33;
@@ -394,8 +395,8 @@ public class OPPLLintCombinedParser extends Parser {
 					stream_description.add(description7.getTree());
 				}
 				// AST REWRITE
-				// elements: exp, description, returnClause, INFERENCE,
-				// statement
+				// elements: returnClause, description, exp, statement,
+				// INFERENCE
 				// token labels:
 				// rule labels: exp, retval
 				// token list labels:
@@ -1840,7 +1841,7 @@ public class OPPLLintCombinedParser extends Parser {
 					break;
 				}
 				// AST REWRITE
-				// elements: actions, query, variableDefinitions
+				// elements: variableDefinitions, actions, query
 				// token labels:
 				// rule labels: retval
 				// token list labels:
@@ -2192,17 +2193,9 @@ public class OPPLLintCombinedParser extends Parser {
 
 	// $ANTLR end "description"
 	// Delegated rules
-	public OPPLLintCombined_OPPLParser.actions_return actions() throws RecognitionException {
-		return this.gOPPLParser.actions();
-	}
-
-	public OPPLLintCombined_OPPLParser.iri_return iri() throws RecognitionException {
-		return this.gOPPLParser.iri();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.binaryAxiom_return binaryAxiom()
+	public OPPLLintCombined_OPPLParser_MOWLParser.annotationAssertionAxiom_return annotationAssertionAxiom()
 			throws RecognitionException {
-		return this.gMOWLParser.binaryAxiom();
+		return this.gMOWLParser.annotationAssertionAxiom();
 	}
 
 	public OPPLLintCombined_OPPLParser_MOWLParser.dataRange_return dataRange()
@@ -2210,82 +2203,17 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gMOWLParser.dataRange();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.qualifiedRestriction_return qualifiedRestriction()
-			throws RecognitionException {
-		return this.gMOWLParser.qualifiedRestriction();
+	public OPPLLintCombined_OPPLParser_MOWLParser.axiom_return axiom() throws RecognitionException {
+		return this.gMOWLParser.axiom();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.hasKeyAxiom_return hasKeyAxiom()
+	public OPPLLintCombined_OPPLParser_MOWLParser.binaryAxiom_return binaryAxiom()
 			throws RecognitionException {
-		return this.gMOWLParser.hasKeyAxiom();
+		return this.gMOWLParser.binaryAxiom();
 	}
 
 	public OPPLLintCombined_OPPLParser.atomic_return atomic() throws RecognitionException {
 		return this.gOPPLParser.atomic();
-	}
-
-	public OPPLLintCombined_OPPLParser.opplFunction_return opplFunction()
-			throws RecognitionException {
-		return this.gOPPLParser.opplFunction();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.propertyExpression_return propertyExpression()
-			throws RecognitionException {
-		return this.gMOWLParser.propertyExpression();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.valueRestriction_return valueRestriction()
-			throws RecognitionException {
-		return this.gMOWLParser.valueRestriction();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.complexPropertyExpression_return complexPropertyExpression()
-			throws RecognitionException {
-		return this.gMOWLParser.complexPropertyExpression();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.constant_return constant()
-			throws RecognitionException {
-		return this.gMOWLParser.constant();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.unaryAxiom_return unaryAxiom()
-			throws RecognitionException {
-		return this.gMOWLParser.unaryAxiom();
-	}
-
-	public OPPLLintCombined_OPPLParser.createIdentifier_return createIdentifier()
-			throws RecognitionException {
-		return this.gOPPLParser.createIdentifier();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.cardinalityRestriction_return cardinalityRestriction()
-			throws RecognitionException {
-		return this.gMOWLParser.cardinalityRestriction();
-	}
-
-	public OPPLLintCombined_OPPLParser.stringExpression_return stringExpression()
-			throws RecognitionException {
-		return this.gOPPLParser.stringExpression();
-	}
-
-	public OPPLLintCombined_OPPLParser.variableAttributeReference_return variableAttributeReference()
-			throws RecognitionException {
-		return this.gOPPLParser.variableAttributeReference();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.annotationAssertionAxiom_return annotationAssertionAxiom()
-			throws RecognitionException {
-		return this.gMOWLParser.annotationAssertionAxiom();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.unaryCharacteristic_return unaryCharacteristic()
-			throws RecognitionException {
-		return this.gMOWLParser.unaryCharacteristic();
-	}
-
-	public OPPLLintCombined_OPPLParser.regexp_return regexp() throws RecognitionException {
-		return this.gOPPLParser.regexp();
 	}
 
 	public OPPLLintCombined_OPPLParser.variableScope_return variableScope()
@@ -2293,8 +2221,28 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gOPPLParser.variableScope();
 	}
 
-	public OPPLLintCombined_OPPLParser.action_return action() throws RecognitionException {
-		return this.gOPPLParser.action();
+	public OPPLLintCombined_OPPLParser_MOWLParser.expression_return expression()
+			throws RecognitionException {
+		return this.gMOWLParser.expression();
+	}
+
+	public OPPLLintCombined_OPPLParser.attributeSelector_return attributeSelector()
+			throws RecognitionException {
+		return this.gOPPLParser.attributeSelector();
+	}
+
+	public OPPLLintCombined_OPPLParser.opplFunction_return opplFunction()
+			throws RecognitionException {
+		return this.gOPPLParser.opplFunction();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.hasKeyAxiom_return hasKeyAxiom()
+			throws RecognitionException {
+		return this.gMOWLParser.hasKeyAxiom();
+	}
+
+	public OPPLLintCombined_OPPLParser.query_return query() throws RecognitionException {
+		return this.gOPPLParser.query();
 	}
 
 	public OPPLLintCombined_OPPLParser_MOWLParser.assertionAxiom_return assertionAxiom()
@@ -2302,9 +2250,36 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gMOWLParser.assertionAxiom();
 	}
 
-	public OPPLLintCombined_OPPLParser.attributeSelector_return attributeSelector()
+	public OPPLLintCombined_OPPLParser_MOWLParser.cardinalityRestriction_return cardinalityRestriction()
 			throws RecognitionException {
-		return this.gOPPLParser.attributeSelector();
+		return this.gMOWLParser.cardinalityRestriction();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.complexPropertyExpression_return complexPropertyExpression()
+			throws RecognitionException {
+		return this.gMOWLParser.complexPropertyExpression();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.oneOf_return oneOf() throws RecognitionException {
+		return this.gMOWLParser.oneOf();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.qualifiedRestriction_return qualifiedRestriction()
+			throws RecognitionException {
+		return this.gMOWLParser.qualifiedRestriction();
+	}
+
+	public OPPLLintCombined_OPPLParser.createIdentifier_return createIdentifier()
+			throws RecognitionException {
+		return this.gOPPLParser.createIdentifier();
+	}
+
+	public OPPLLintCombined_OPPLParser.iri_return iri() throws RecognitionException {
+		return this.gOPPLParser.iri();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.value_return value() throws RecognitionException {
+		return this.gMOWLParser.value();
 	}
 
 	public OPPLLintCombined_OPPLParser_MOWLParser.restrictionKind_return restrictionKind()
@@ -2317,13 +2292,8 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gMOWLParser.dataRangeFacet();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.value_return value() throws RecognitionException {
-		return this.gMOWLParser.value();
-	}
-
-	public OPPLLintCombined_OPPLParser.stringOperation_return stringOperation()
-			throws RecognitionException {
-		return this.gOPPLParser.stringOperation();
+	public OPPLLintCombined_OPPLParser_MOWLParser.unary_return unary() throws RecognitionException {
+		return this.gMOWLParser.unary();
 	}
 
 	public OPPLLintCombined_OPPLParser.variableDefinition_return variableDefinition()
@@ -2331,18 +2301,36 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gOPPLParser.variableDefinition();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.conjunction_return conjunction()
-			throws RecognitionException {
-		return this.gMOWLParser.conjunction();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.expression_return expression()
-			throws RecognitionException {
-		return this.gMOWLParser.expression();
-	}
-
 	public OPPLLintCombined_OPPLParser.constraint_return constraint() throws RecognitionException {
 		return this.gOPPLParser.constraint();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.constant_return constant()
+			throws RecognitionException {
+		return this.gMOWLParser.constant();
+	}
+
+	public OPPLLintCombined_OPPLParser.variableAttributeReference_return variableAttributeReference()
+			throws RecognitionException {
+		return this.gOPPLParser.variableAttributeReference();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.unaryCharacteristic_return unaryCharacteristic()
+			throws RecognitionException {
+		return this.gMOWLParser.unaryCharacteristic();
+	}
+
+	public OPPLLintCombined_OPPLParser.stringExpression_return stringExpression()
+			throws RecognitionException {
+		return this.gOPPLParser.stringExpression();
+	}
+
+	public OPPLLintCombined_OPPLParser.regexp_return regexp() throws RecognitionException {
+		return this.gOPPLParser.regexp();
+	}
+
+	public OPPLLintCombined_OPPLParser.actions_return actions() throws RecognitionException {
+		return this.gOPPLParser.actions();
 	}
 
 	public OPPLLintCombined_OPPLParser.variableDefinitions_return variableDefinitions()
@@ -2350,12 +2338,28 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gOPPLParser.variableDefinitions();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.axiom_return axiom() throws RecognitionException {
-		return this.gMOWLParser.axiom();
+	public OPPLLintCombined_OPPLParser.stringOperation_return stringOperation()
+			throws RecognitionException {
+		return this.gOPPLParser.stringOperation();
 	}
 
-	public OPPLLintCombined_OPPLParser_MOWLParser.unary_return unary() throws RecognitionException {
-		return this.gMOWLParser.unary();
+	public OPPLLintCombined_OPPLParser_MOWLParser.unaryAxiom_return unaryAxiom()
+			throws RecognitionException {
+		return this.gMOWLParser.unaryAxiom();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.propertyExpression_return propertyExpression()
+			throws RecognitionException {
+		return this.gMOWLParser.propertyExpression();
+	}
+
+	public OPPLLintCombined_OPPLParser_MOWLParser.conjunction_return conjunction()
+			throws RecognitionException {
+		return this.gMOWLParser.conjunction();
+	}
+
+	public OPPLLintCombined_OPPLParser.action_return action() throws RecognitionException {
+		return this.gOPPLParser.action();
 	}
 
 	public OPPLLintCombined_OPPLParser.selectClause_return selectClause()
@@ -2363,12 +2367,9 @@ public class OPPLLintCombinedParser extends Parser {
 		return this.gOPPLParser.selectClause();
 	}
 
-	public OPPLLintCombined_OPPLParser.query_return query() throws RecognitionException {
-		return this.gOPPLParser.query();
-	}
-
-	public OPPLLintCombined_OPPLParser_MOWLParser.oneOf_return oneOf() throws RecognitionException {
-		return this.gMOWLParser.oneOf();
+	public OPPLLintCombined_OPPLParser_MOWLParser.valueRestriction_return valueRestriction()
+			throws RecognitionException {
+		return this.gMOWLParser.valueRestriction();
 	}
 
 	public static final BitSet FOLLOW_text_in_lint119 = new BitSet(new long[] {
@@ -2395,7 +2396,7 @@ public class OPPLLintCombinedParser extends Parser {
 	public static final BitSet FOLLOW_SEMICOLON_in_lint139 = new BitSet(new long[] {
 			0xFFFFFFFFFFFFFFF0L, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
 			0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
-			0xFFFFFFFFFFFFFFFFL, 0x00000000007FFFFFL });
+			0xFFFFFFFFFFFFFFFFL, 0x0000000000FFFFFFL });
 	public static final BitSet FOLLOW_description_in_lint141 = new BitSet(
 			new long[] { 0x0000000000000002L });
 	public static final BitSet FOLLOW_textBit_in_text191 = new BitSet(new long[] {

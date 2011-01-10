@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2010-12-02 15:52:46
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2011-01-10 14:58:32
 
   package org.coode.parsers;
 
@@ -49,6 +49,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static final int SUBCLASS_OF=20;
     public static final int ENTITY_REFERENCE=45;
     public static final int INVERSE_OF=25;
+    public static final int AT=114;
     public static final int RANGE=28;
     public static final int DATA_RANGE=108;
     public static final int PROPERTY_CHAIN=57;
@@ -548,7 +549,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: iri, o, p
+                    // elements: o, iri, p
                     // token labels: 
                     // rule labels: o, p, retval
                     // token list labels: 
@@ -620,7 +621,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: a, iri, p
+                    // elements: p, a, iri
                     // token labels: 
                     // rule labels: a, p, retval
                     // token list labels: 
@@ -692,7 +693,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: objectIRI, subjectIRI, p
+                    // elements: p, subjectIRI, objectIRI
                     // token labels: 
                     // rule labels: subjectIRI, objectIRI, p, retval
                     // token list labels: 
@@ -918,7 +919,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: exp, propertyExpression, HAS_KEY
+            // elements: exp, HAS_KEY, propertyExpression
             // token labels: 
             // rule labels: exp, retval
             // token list labels: 
@@ -1146,7 +1147,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: i, expression
+                    // elements: expression, i
                     // token labels: 
                     // rule labels: i, retval
                     // token list labels: 
@@ -1216,7 +1217,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: value, propertyExpression, subject
+                    // elements: subject, value, propertyExpression
                     // token labels: 
                     // rule labels: retval, subject
                     // token list labels: 
@@ -1428,7 +1429,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: superClass, lhs
+                    // elements: lhs, superClass
                     // token labels: 
                     // rule labels: lhs, retval, superClass
                     // token list labels: 
@@ -1496,7 +1497,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: rhs, lhs
+                    // elements: lhs, rhs
                     // token labels: 
                     // rule labels: lhs, retval, rhs
                     // token list labels: 
@@ -1632,7 +1633,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhs, superProperty
+                    // elements: superProperty, lhs
                     // token labels: 
                     // rule labels: lhs, superProperty, retval
                     // token list labels: 
@@ -1700,7 +1701,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, rhsAtomic, INVERSE_OF
+                    // elements: INVERSE_OF, lhsID, rhsAtomic
                     // token labels: 
                     // rule labels: lhsID, rhsAtomic, retval
                     // token list labels: 
@@ -1836,7 +1837,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: rhsID, lhsID
+                    // elements: lhsID, rhsID
                     // token labels: 
                     // rule labels: rhsID, lhsID, retval
                     // token list labels: 
@@ -1904,7 +1905,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, lhsID, DOMAIN
+                    // elements: expression, DOMAIN, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -1971,7 +1972,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, lhsID, RANGE
+                    // elements: lhsID, expression, RANGE
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -3506,7 +3507,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: IDENTIFIER, dataRangeFacet
+            // elements: dataRangeFacet, IDENTIFIER
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3776,7 +3777,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: constant, GREATER_THAN_EQUAL
+                    // elements: GREATER_THAN_EQUAL, constant
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -4145,7 +4146,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: propertyExpression, expression
+                    // elements: expression, propertyExpression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -4526,7 +4527,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: unary, restrictionKind, propertyExpression, INTEGER
+            // elements: propertyExpression, restrictionKind, INTEGER, unary
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4942,7 +4943,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: propertyExpression, value
+            // elements: value, propertyExpression
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -5138,7 +5139,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     };
 
     // $ANTLR start "constant"
-    // MOWLParser.g:222:1: constant : constantValue= DBLQUOTE ( POW type= IDENTIFIER )? -> ^( CONSTANT $constantValue ( $type)? ) ;
+    // MOWLParser.g:222:1: constant : constantValue= DBLQUOTE ( AT language= IDENTIFIER )? ( POW type= IDENTIFIER )? -> ^( CONSTANT $constantValue ( ^( AT $language) )? ( $type)? ) ;
     public final ManchesterOWLSyntax_MOWLParser.constant_return constant() throws RecognitionException {
         ManchesterOWLSyntax_MOWLParser.constant_return retval = new ManchesterOWLSyntax_MOWLParser.constant_return();
         retval.start = input.LT(1);
@@ -5146,38 +5147,66 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
         ManchesterOWLSyntaxTree root_0 = null;
 
         Token constantValue=null;
+        Token language=null;
         Token type=null;
-        Token POW113=null;
+        Token AT113=null;
+        Token POW114=null;
 
         ManchesterOWLSyntaxTree constantValue_tree=null;
+        ManchesterOWLSyntaxTree language_tree=null;
         ManchesterOWLSyntaxTree type_tree=null;
-        ManchesterOWLSyntaxTree POW113_tree=null;
+        ManchesterOWLSyntaxTree AT113_tree=null;
+        ManchesterOWLSyntaxTree POW114_tree=null;
         RewriteRuleTokenStream stream_DBLQUOTE=new RewriteRuleTokenStream(adaptor,"token DBLQUOTE");
         RewriteRuleTokenStream stream_POW=new RewriteRuleTokenStream(adaptor,"token POW");
         RewriteRuleTokenStream stream_IDENTIFIER=new RewriteRuleTokenStream(adaptor,"token IDENTIFIER");
+        RewriteRuleTokenStream stream_AT=new RewriteRuleTokenStream(adaptor,"token AT");
 
         try {
-            // MOWLParser.g:222:11: (constantValue= DBLQUOTE ( POW type= IDENTIFIER )? -> ^( CONSTANT $constantValue ( $type)? ) )
-            // MOWLParser.g:222:14: constantValue= DBLQUOTE ( POW type= IDENTIFIER )?
+            // MOWLParser.g:222:11: (constantValue= DBLQUOTE ( AT language= IDENTIFIER )? ( POW type= IDENTIFIER )? -> ^( CONSTANT $constantValue ( ^( AT $language) )? ( $type)? ) )
+            // MOWLParser.g:222:14: constantValue= DBLQUOTE ( AT language= IDENTIFIER )? ( POW type= IDENTIFIER )?
             {
             constantValue=(Token)match(input,DBLQUOTE,FOLLOW_DBLQUOTE_in_constant2060); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_DBLQUOTE.add(constantValue);
 
-            // MOWLParser.g:222:39: ( POW type= IDENTIFIER )?
+            // MOWLParser.g:222:39: ( AT language= IDENTIFIER )?
             int alt23=2;
             int LA23_0 = input.LA(1);
 
-            if ( (LA23_0==POW) ) {
+            if ( (LA23_0==AT) ) {
                 alt23=1;
             }
             switch (alt23) {
                 case 1 :
-                    // MOWLParser.g:222:41: POW type= IDENTIFIER
+                    // MOWLParser.g:222:40: AT language= IDENTIFIER
                     {
-                    POW113=(Token)match(input,POW,FOLLOW_POW_in_constant2064); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_POW.add(POW113);
+                    AT113=(Token)match(input,AT,FOLLOW_AT_in_constant2063); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_AT.add(AT113);
 
-                    type=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constant2070); if (state.failed) return retval; 
+                    language=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constant2069); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_IDENTIFIER.add(language);
+
+
+                    }
+                    break;
+
+            }
+
+            // MOWLParser.g:222:67: ( POW type= IDENTIFIER )?
+            int alt24=2;
+            int LA24_0 = input.LA(1);
+
+            if ( (LA24_0==POW) ) {
+                alt24=1;
+            }
+            switch (alt24) {
+                case 1 :
+                    // MOWLParser.g:222:69: POW type= IDENTIFIER
+                    {
+                    POW114=(Token)match(input,POW,FOLLOW_POW_in_constant2075); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_POW.add(POW114);
+
+                    type=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constant2081); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_IDENTIFIER.add(type);
 
 
@@ -5189,8 +5218,8 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: type, constantValue
-            // token labels: type, constantValue
+            // elements: AT, constantValue, language, type
+            // token labels: type, constantValue, language
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
@@ -5199,18 +5228,34 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
             retval.tree = root_0;
             RewriteRuleTokenStream stream_type=new RewriteRuleTokenStream(adaptor,"token type",type);
             RewriteRuleTokenStream stream_constantValue=new RewriteRuleTokenStream(adaptor,"token constantValue",constantValue);
+            RewriteRuleTokenStream stream_language=new RewriteRuleTokenStream(adaptor,"token language",language);
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (ManchesterOWLSyntaxTree)adaptor.nil();
-            // 222:65: -> ^( CONSTANT $constantValue ( $type)? )
+            // 222:93: -> ^( CONSTANT $constantValue ( ^( AT $language) )? ( $type)? )
             {
-                // MOWLParser.g:222:67: ^( CONSTANT $constantValue ( $type)? )
+                // MOWLParser.g:222:95: ^( CONSTANT $constantValue ( ^( AT $language) )? ( $type)? )
                 {
                 ManchesterOWLSyntaxTree root_1 = (ManchesterOWLSyntaxTree)adaptor.nil();
                 root_1 = (ManchesterOWLSyntaxTree)adaptor.becomeRoot((ManchesterOWLSyntaxTree)adaptor.create(CONSTANT, "CONSTANT"), root_1);
 
                 adaptor.addChild(root_1, stream_constantValue.nextNode());
-                // MOWLParser.g:222:93: ( $type)?
+                // MOWLParser.g:222:121: ( ^( AT $language) )?
+                if ( stream_AT.hasNext()||stream_language.hasNext() ) {
+                    // MOWLParser.g:222:122: ^( AT $language)
+                    {
+                    ManchesterOWLSyntaxTree root_2 = (ManchesterOWLSyntaxTree)adaptor.nil();
+                    root_2 = (ManchesterOWLSyntaxTree)adaptor.becomeRoot(stream_AT.nextNode(), root_2);
+
+                    adaptor.addChild(root_2, stream_language.nextNode());
+
+                    adaptor.addChild(root_1, root_2);
+                    }
+
+                }
+                stream_AT.reset();
+                stream_language.reset();
+                // MOWLParser.g:222:140: ( $type)?
                 if ( stream_type.hasNext() ) {
                     adaptor.addChild(root_1, stream_type.nextNode());
 
@@ -5509,17 +5554,17 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
         state._fsp--;
         if (state.failed) return ;
         // MOWLParser.g:133:17: ( OR conjunction )*
-        loop24:
+        loop25:
         do {
-            int alt24=2;
-            int LA24_0 = input.LA(1);
+            int alt25=2;
+            int LA25_0 = input.LA(1);
 
-            if ( (LA24_0==OR) ) {
-                alt24=1;
+            if ( (LA25_0==OR) ) {
+                alt25=1;
             }
 
 
-            switch (alt24) {
+            switch (alt25) {
         	case 1 :
         	    // MOWLParser.g:133:18: OR conjunction
         	    {
@@ -5534,7 +5579,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
         	    break;
 
         	default :
-        	    break loop24;
+        	    break loop25;
             }
         } while (true);
 
@@ -5573,18 +5618,18 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
         state._fsp--;
         if (state.failed) return ;
         // MOWLParser.g:154:30: ( COMPOSITION rest+= propertyExpression )+
-        int cnt25=0;
-        loop25:
+        int cnt26=0;
+        loop26:
         do {
-            int alt25=2;
-            int LA25_0 = input.LA(1);
+            int alt26=2;
+            int LA26_0 = input.LA(1);
 
-            if ( (LA25_0==COMPOSITION) ) {
-                alt25=1;
+            if ( (LA26_0==COMPOSITION) ) {
+                alt26=1;
             }
 
 
-            switch (alt25) {
+            switch (alt26) {
         	case 1 :
         	    // MOWLParser.g:154:31: COMPOSITION rest+= propertyExpression
         	    {
@@ -5602,13 +5647,13 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
         	    break;
 
         	default :
-        	    if ( cnt25 >= 1 ) break loop25;
+        	    if ( cnt26 >= 1 ) break loop26;
         	    if (state.backtracking>0) {state.failed=true; return ;}
                     EarlyExitException eee =
-                        new EarlyExitException(25, input);
+                        new EarlyExitException(26, input);
                     throw eee;
             }
-            cnt25++;
+            cnt26++;
         } while (true);
 
 
@@ -6737,9 +6782,11 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static final BitSet FOLLOW_value_in_valueRestriction1995 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_atomic_in_value2020 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_constant_in_value2035 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_DBLQUOTE_in_constant2060 = new BitSet(new long[]{0x0000001000000002L});
-    public static final BitSet FOLLOW_POW_in_constant2064 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_constant2070 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_DBLQUOTE_in_constant2060 = new BitSet(new long[]{0x0000001000000002L,0x0004000000000000L});
+    public static final BitSet FOLLOW_AT_in_constant2063 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_constant2069 = new BitSet(new long[]{0x0000001000000002L});
+    public static final BitSet FOLLOW_POW_in_constant2075 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_constant2081 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_binaryAxiom_in_synpred1_MOWLParser232 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_assertionAxiom_in_synpred3_MOWLParser256 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_hasKeyAxiom_in_synpred4_MOWLParser268 = new BitSet(new long[]{0x0000000000000002L});

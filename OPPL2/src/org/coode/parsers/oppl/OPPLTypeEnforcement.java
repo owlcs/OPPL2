@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g 2010-11-05 10:12:42
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g 2011-01-10 16:21:25
 
   package org.coode.parsers.oppl;
   import org.semanticweb.owlapi.model.OWLObject;
@@ -21,124 +21,129 @@ import java.util.Map;
 import java.util.HashMap;
 public class OPPLTypeEnforcement extends TreeFilter {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED", "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION", "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF", "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE", "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION", "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING", "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL", "NAF_CONSTRAINT"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED", "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION", "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF", "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE", "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION", "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION", "IRI_ATTRIBUTE_NAME", "AT", "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING", "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL", "NAF_CONSTRAINT"
     };
-    public static final int VALUE_RESTRICTION=63;
-    public static final int LETTER=43;
-    public static final int REMOVE=91;
-    public static final int TYPES=39;
-    public static final int SAME_AS_AXIOM=52;
-    public static final int INVERSE_OF=25;
-    public static final int NOT=12;
-    public static final int SUBCLASS_OF=20;
-    public static final int EOF=-1;
-    public static final int ESCLAMATION_MARK=149;
-    public static final int ACTIONS=101;
-    public static final int CREATE=80;
-    public static final int POW=36;
-    public static final int INPUT_VARIABLE_DEFINITION=96;
-    public static final int NOT_EQUAL=72;
-    public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION=68;
-    public static final int INSTANCE_OF=38;
-    public static final int BEGIN=83;
-    public static final int VARIABLE_SCOPE=104;
-    public static final int INEQUALITY_CONSTRAINT=94;
-    public static final int QUESTION_MARK=46;
-    public static final int SYMMETRIC=30;
-    public static final int CARDINALITY_RESTRICTION=64;
-    public static final int SELECT=75;
-    public static final int ROLE_ASSERTION=67;
-    public static final int DIFFERENT_FROM_AXIOM=53;
-    public static final int CREATE_OPPL_FUNCTION=98;
-    public static final int TRANSITIVE=34;
-    public static final int ANTI_SYMMETRIC=31;
-    public static final int ALL_RESTRICTION=62;
-    public static final int CONJUNCTION=56;
-    public static final int OPPL_STATEMENT=107;
-    public static final int NEGATED_ASSERTION=59;
-    public static final int WHITESPACE=9;
-    public static final int MATCH=176;
-    public static final int IN_SET_CONSTRAINT=95;
-    public static final int VALUE=18;
-    public static final int FAIL=466;
-    public static final int GROUPS=356;
-    public static final int OPEN_CURLY_BRACES=6;
-    public static final int DISJUNCTION=55;
-    public static final int INVERSE=19;
-    public static final int NAF_CONSTRAINT=467;
-    public static final int DBLQUOTE=40;
-    public static final int STRING_OPERATION=394;
-    public static final int OR=11;
-    public static final int CONSTANT=70;
-    public static final int QUERY=103;
-    public static final int ENTITY_REFERENCE=45;
-    public static final int END=84;
-    public static final int COMPOSITION=4;
-    public static final int CLOSED_SQUARE_BRACKET=86;
-    public static final int SAME_AS=23;
-    public static final int WHERE=71;
-    public static final int DISJOINT_WITH=26;
-    public static final int SUPER_PROPERTY_OF=88;
-    public static final int VARIABLE_TYPE=89;
-    public static final int ATTRIBUTE_SELECTOR=283;
-    public static final int CLOSED_PARENTHESYS=8;
-    public static final int ONLY=14;
-    public static final int EQUIVALENT_TO_AXIOM=49;
-    public static final int SUB_PROPERTY_OF=21;
-    public static final int NEGATED_EXPRESSION=58;
-    public static final int MAX=16;
-    public static final int CREATE_DISJUNCTION=82;
-    public static final int AND=10;
-    public static final int ASSERTED_CLAUSE=92;
-    public static final int INVERSE_PROPERTY=60;
-    public static final int VARIABLE_NAME=464;
-    public static final int DIFFERENT_FROM=24;
-    public static final int IN=74;
-    public static final int EQUIVALENT_TO=22;
-    public static final int UNARY_AXIOM=54;
     public static final int COMMA=37;
-    public static final int CLOSED_CURLY_BRACES=7;
-    public static final int IDENTIFIER=44;
-    public static final int SOME=13;
-    public static final int EQUAL=73;
-    public static final int OPEN_PARENTHESYS=5;
-    public static final int REFLEXIVE=32;
-    public static final int PLUS=79;
-    public static final int DIGIT=41;
-    public static final int DOT=78;
-    public static final int SUPER_CLASS_OF=87;
-    public static final int EXPRESSION=69;
-    public static final int SOME_RESTRICTION=61;
-    public static final int ADD=90;
-    public static final int INTEGER=42;
-    public static final int GENERATED_VARIABLE_DEFINITION=97;
-    public static final int EXACTLY=17;
-    public static final int SUB_PROPERTY_AXIOM=51;
-    public static final int OPEN_SQUARE_BRACKET=85;
-    public static final int VALUES=354;
-    public static final int REGEXP_CONSTRAINT=465;
-    public static final int RANGE=28;
-    public static final int ONE_OF=65;
-    public static final int VARIABLE_DEFINITIONS=102;
-    public static final int MIN=15;
-    public static final int SUB_CLASS_AXIOM=48;
-    public static final int PLAIN_CLAUSE=93;
-    public static final int Tokens=47;
-    public static final int DOMAIN=27;
-    public static final int SUBPROPERTY_OF=105;
-    public static final int OPPL_FUNCTION=100;
-    public static final int COLON=77;
-    public static final int DISJOINT_WITH_AXIOM=50;
-    public static final int CREATE_INTERSECTION=81;
-    public static final int INVERSE_FUNCTIONAL=35;
-    public static final int RENDERING=355;
-    public static final int VARIABLE_IDENTIFIER=106;
-    public static final int IRREFLEXIVE=33;
-    public static final int VARIABLE_ATTRIBUTE=99;
     public static final int ASSERTED=76;
-    public static final int FUNCTIONAL=29;
-    public static final int PROPERTY_CHAIN=57;
+    public static final int VARIABLE_DEFINITIONS=102;
+    public static final int REGEXP_CONSTRAINT=465;
+    public static final int END=84;
+    public static final int DIFFERENT_FROM=24;
     public static final int TYPE_ASSERTION=66;
+    public static final int SAME_AS_AXIOM=52;
+    public static final int TYPES=39;
+    public static final int ROLE_ASSERTION=67;
+    public static final int CREATE_OPPL_FUNCTION=98;
+    public static final int ESCLAMATION_MARK=149;
+    public static final int VARIABLE_IDENTIFIER=106;
+    public static final int ASSERTED_CLAUSE=92;
+    public static final int DOT=78;
+    public static final int ALL_RESTRICTION=62;
+    public static final int QUESTION_MARK=46;
+    public static final int AND=10;
+    public static final int EXPRESSION=69;
+    public static final int CONSTANT=70;
+    public static final int VALUE_RESTRICTION=63;
+    public static final int ONE_OF=65;
+    public static final int SUBPROPERTY_OF=105;
+    public static final int SELECT=75;
+    public static final int CARDINALITY_RESTRICTION=64;
+    public static final int SAME_AS=23;
+    public static final int EXACTLY=17;
+    public static final int PLUS=79;
+    public static final int TRANSITIVE=34;
+    public static final int IN_SET_CONSTRAINT=95;
+    public static final int SUBCLASS_OF=20;
+    public static final int ENTITY_REFERENCE=45;
+    public static final int CONJUNCTION=56;
+    public static final int INVERSE_OF=25;
+    public static final int AT=114;
+    public static final int RANGE=28;
+    public static final int CLOSED_PARENTHESYS=8;
+    public static final int PROPERTY_CHAIN=57;
+    public static final int CREATE_INTERSECTION=81;
+    public static final int EQUIVALENT_TO_AXIOM=49;
+    public static final int OPEN_SQUARE_BRACKET=85;
+    public static final int NAF_CONSTRAINT=467;
+    public static final int SYMMETRIC=30;
+    public static final int DISJOINT_WITH=26;
+    public static final int VARIABLE_TYPE=89;
+    public static final int DISJUNCTION=55;
+    public static final int GROUPS=356;
+    public static final int NEGATED_EXPRESSION=58;
+    public static final int EQUAL=73;
+    public static final int DIFFERENT_FROM_AXIOM=53;
+    public static final int ACTIONS=101;
+    public static final int EQUIVALENT_TO=22;
+    public static final int DOMAIN=27;
+    public static final int SUB_PROPERTY_OF=21;
+    public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION=68;
+    public static final int INVERSE_PROPERTY=60;
+    public static final int COLON=77;
+    public static final int GENERATED_VARIABLE_DEFINITION=97;
+    public static final int VARIABLE_ATTRIBUTE=99;
+    public static final int SUB_CLASS_AXIOM=48;
+    public static final int SUB_PROPERTY_AXIOM=51;
+    public static final int IDENTIFIER=44;
+    public static final int UNARY_AXIOM=54;
+    public static final int ADD=90;
+    public static final int WHERE=71;
+    public static final int CREATE=80;
+    public static final int VARIABLE_SCOPE=104;
+    public static final int OPEN_CURLY_BRACES=6;
+    public static final int CLOSED_SQUARE_BRACKET=86;
+    public static final int INSTANCE_OF=38;
+    public static final int VALUES=354;
+    public static final int QUERY=103;
+    public static final int SOME_RESTRICTION=61;
+    public static final int IRI=110;
+    public static final int VALUE=18;
+    public static final int RENDERING=355;
+    public static final int INVERSE_FUNCTIONAL=35;
+    public static final int ATTRIBUTE_SELECTOR=283;
+    public static final int PLAIN_CLAUSE=93;
+    public static final int OR=11;
+    public static final int INTEGER=42;
+    public static final int INVERSE=19;
+    public static final int HAS_KEY=109;
+    public static final int DISJOINT_WITH_AXIOM=50;
+    public static final int SUPER_CLASS_OF=87;
+    public static final int OPPL_FUNCTION=100;
+    public static final int DIGIT=41;
+    public static final int COMPOSITION=4;
+    public static final int ANNOTATION_ASSERTION=111;
+    public static final int OPPL_STATEMENT=107;
+    public static final int FUNCTIONAL=29;
+    public static final int NOT_EQUAL=72;
+    public static final int LETTER=43;
+    public static final int MAX=16;
+    public static final int FAIL=466;
+    public static final int NEGATED_ASSERTION=59;
+    public static final int INPUT_VARIABLE_DEFINITION=96;
+    public static final int ONLY=14;
+    public static final int CREATE_DISJUNCTION=82;
+    public static final int REMOVE=91;
+    public static final int DBLQUOTE=40;
+    public static final int MIN=15;
+    public static final int POW=36;
+    public static final int MATCH=176;
+    public static final int BEGIN=83;
+    public static final int WHITESPACE=9;
+    public static final int IN=74;
+    public static final int SUPER_PROPERTY_OF=88;
+    public static final int INEQUALITY_CONSTRAINT=94;
+    public static final int SOME=13;
+    public static final int EOF=-1;
+    public static final int ANTI_SYMMETRIC=31;
+    public static final int Tokens=47;
+    public static final int CLOSED_CURLY_BRACES=7;
+    public static final int IRI_ATTRIBUTE_NAME=112;
+    public static final int REFLEXIVE=32;
+    public static final int NOT=12;
+    public static final int STRING_OPERATION=394;
+    public static final int OPEN_PARENTHESYS=5;
+    public static final int VARIABLE_NAME=464;
+    public static final int IRREFLEXIVE=33;
 
     // delegates
     // delegators
@@ -154,7 +159,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
         
 
     public String[] getTokenNames() { return OPPLTypeEnforcement.tokenNames; }
-    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g"; }
+    public String getGrammarFileName() { return "/Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g"; }
 
 
       private  SymbolTable symtab;
@@ -206,10 +211,10 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
 
     // $ANTLR start "bottomup"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:91:1: bottomup : ( expressionRoot | axiom );
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:91:1: bottomup : ( expressionRoot | axiom );
     public final void bottomup() throws RecognitionException {
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:92:5: ( expressionRoot | axiom )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:92:5: ( expressionRoot | axiom )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -228,7 +233,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
             }
             switch (alt1) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:92:9: expressionRoot
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:92:9: expressionRoot
                     {
                     pushFollow(FOLLOW_expressionRoot_in_bottomup81);
                     expressionRoot();
@@ -239,7 +244,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:93:8: axiom
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:93:8: axiom
                     {
                     pushFollow(FOLLOW_axiom_in_bottomup91);
                     axiom();
@@ -272,15 +277,15 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
 
     // $ANTLR start "expressionRoot"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:96:1: expressionRoot : ^( EXPRESSION expression ) ;
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:96:1: expressionRoot : ^( EXPRESSION expression ) ;
     public final void expressionRoot() throws RecognitionException {
         OPPLSyntaxTree EXPRESSION1=null;
         OPPLTypeEnforcement.expression_return expression2 = null;
 
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:97:5: ( ^( EXPRESSION expression ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:97:9: ^( EXPRESSION expression )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:97:5: ( ^( EXPRESSION expression ) )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:97:9: ^( EXPRESSION expression )
             {
             EXPRESSION1=(OPPLSyntaxTree)match(input,EXPRESSION,FOLLOW_EXPRESSION_in_expressionRoot118); if (state.failed) return ;
 
@@ -323,7 +328,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     };
 
     // $ANTLR start "axiom"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:102:1: axiom returns [Type type, ManchesterOWLSyntaxTree node] : ( ^( SUB_CLASS_AXIOM ^( EXPRESSION subClass= expression ) ^( EXPRESSION superClass= expression ) ) | ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( INVERSE_OF ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION anotherProperty= IDENTIFIER ) ) | ^( DISJOINT_WITH_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( SUB_PROPERTY_AXIOM ^( EXPRESSION subProperty= expression ) ^( EXPRESSION superProperty= unary ) ) | ^( ROLE_ASSERTION ^( EXPRESSION subject= IDENTIFIER ) ^( EXPRESSION predicate= propertyExpression ) ^( EXPRESSION object= unary ) ) | ^( TYPE_ASSERTION ^( EXPRESSION description= expression ) ^( EXPRESSION subject= IDENTIFIER ) ) | ^( DOMAIN ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION domain= expression ) ) | ^( RANGE ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION range= expression ) ) | ^( SAME_AS_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( UNARY_AXIOM FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM INVERSE_FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM IRREFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM REFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM SYMMETRIC ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM TRANSITIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( NEGATED_ASSERTION a= axiom ) );
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:102:1: axiom returns [Type type, ManchesterOWLSyntaxTree node] : ( ^( SUB_CLASS_AXIOM ^( EXPRESSION subClass= expression ) ^( EXPRESSION superClass= expression ) ) | ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( INVERSE_OF ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION anotherProperty= IDENTIFIER ) ) | ^( DISJOINT_WITH_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( SUB_PROPERTY_AXIOM ^( EXPRESSION subProperty= expression ) ^( EXPRESSION superProperty= unary ) ) | ^( ROLE_ASSERTION ^( EXPRESSION subject= IDENTIFIER ) ^( EXPRESSION predicate= propertyExpression ) ^( EXPRESSION object= unary ) ) | ^( TYPE_ASSERTION ^( EXPRESSION description= expression ) ^( EXPRESSION subject= IDENTIFIER ) ) | ^( DOMAIN ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION domain= expression ) ) | ^( RANGE ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION range= expression ) ) | ^( SAME_AS_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( UNARY_AXIOM FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM INVERSE_FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM IRREFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM REFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM SYMMETRIC ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM TRANSITIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( NEGATED_ASSERTION a= axiom ) );
     public final OPPLTypeEnforcement.axiom_return axiom() throws RecognitionException {
         OPPLTypeEnforcement.axiom_return retval = new OPPLTypeEnforcement.axiom_return();
         retval.start = input.LT(1);
@@ -359,12 +364,12 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:108:1: ( ^( SUB_CLASS_AXIOM ^( EXPRESSION subClass= expression ) ^( EXPRESSION superClass= expression ) ) | ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( INVERSE_OF ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION anotherProperty= IDENTIFIER ) ) | ^( DISJOINT_WITH_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( SUB_PROPERTY_AXIOM ^( EXPRESSION subProperty= expression ) ^( EXPRESSION superProperty= unary ) ) | ^( ROLE_ASSERTION ^( EXPRESSION subject= IDENTIFIER ) ^( EXPRESSION predicate= propertyExpression ) ^( EXPRESSION object= unary ) ) | ^( TYPE_ASSERTION ^( EXPRESSION description= expression ) ^( EXPRESSION subject= IDENTIFIER ) ) | ^( DOMAIN ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION domain= expression ) ) | ^( RANGE ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION range= expression ) ) | ^( SAME_AS_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( UNARY_AXIOM FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM INVERSE_FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM IRREFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM REFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM SYMMETRIC ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM TRANSITIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( NEGATED_ASSERTION a= axiom ) )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:108:1: ( ^( SUB_CLASS_AXIOM ^( EXPRESSION subClass= expression ) ^( EXPRESSION superClass= expression ) ) | ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( INVERSE_OF ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION anotherProperty= IDENTIFIER ) ) | ^( DISJOINT_WITH_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) ) | ^( SUB_PROPERTY_AXIOM ^( EXPRESSION subProperty= expression ) ^( EXPRESSION superProperty= unary ) ) | ^( ROLE_ASSERTION ^( EXPRESSION subject= IDENTIFIER ) ^( EXPRESSION predicate= propertyExpression ) ^( EXPRESSION object= unary ) ) | ^( TYPE_ASSERTION ^( EXPRESSION description= expression ) ^( EXPRESSION subject= IDENTIFIER ) ) | ^( DOMAIN ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION domain= expression ) ) | ^( RANGE ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION range= expression ) ) | ^( SAME_AS_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) ) | ^( UNARY_AXIOM FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM INVERSE_FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM IRREFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM REFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM SYMMETRIC ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM TRANSITIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( NEGATED_ASSERTION a= axiom ) )
             int alt2=18;
             alt2 = dfa2.predict(input);
             switch (alt2) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:109:3: ^( SUB_CLASS_AXIOM ^( EXPRESSION subClass= expression ) ^( EXPRESSION superClass= expression ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:109:3: ^( SUB_CLASS_AXIOM ^( EXPRESSION subClass= expression ) ^( EXPRESSION superClass= expression ) )
                     {
                     match(input,SUB_CLASS_AXIOM,FOLLOW_SUB_CLASS_AXIOM_in_axiom158); if (state.failed) return retval;
 
@@ -401,7 +406,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:114:5: ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:114:5: ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) )
                     {
                     match(input,EQUIVALENT_TO_AXIOM,FOLLOW_EQUIVALENT_TO_AXIOM_in_axiom194); if (state.failed) return retval;
 
@@ -438,7 +443,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:119:4: ^( INVERSE_OF ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION anotherProperty= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:119:4: ^( INVERSE_OF ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION anotherProperty= IDENTIFIER ) )
                     {
                     match(input,INVERSE_OF,FOLLOW_INVERSE_OF_in_axiom229); if (state.failed) return retval;
 
@@ -467,7 +472,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:124:5: ^( DISJOINT_WITH_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:124:5: ^( DISJOINT_WITH_AXIOM ^( EXPRESSION lhs= expression ) ^( EXPRESSION rhs= expression ) )
                     {
                     match(input,DISJOINT_WITH_AXIOM,FOLLOW_DISJOINT_WITH_AXIOM_in_axiom260); if (state.failed) return retval;
 
@@ -504,7 +509,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 5 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:128:4: ^( SUB_PROPERTY_AXIOM ^( EXPRESSION subProperty= expression ) ^( EXPRESSION superProperty= unary ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:128:4: ^( SUB_PROPERTY_AXIOM ^( EXPRESSION subProperty= expression ) ^( EXPRESSION superProperty= unary ) )
                     {
                     match(input,SUB_PROPERTY_AXIOM,FOLLOW_SUB_PROPERTY_AXIOM_in_axiom292); if (state.failed) return retval;
 
@@ -541,7 +546,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 6 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:133:4: ^( ROLE_ASSERTION ^( EXPRESSION subject= IDENTIFIER ) ^( EXPRESSION predicate= propertyExpression ) ^( EXPRESSION object= unary ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:133:4: ^( ROLE_ASSERTION ^( EXPRESSION subject= IDENTIFIER ) ^( EXPRESSION predicate= propertyExpression ) ^( EXPRESSION object= unary ) )
                     {
                     match(input,ROLE_ASSERTION,FOLLOW_ROLE_ASSERTION_in_axiom326); if (state.failed) return retval;
 
@@ -584,7 +589,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 7 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:137:5: ^( TYPE_ASSERTION ^( EXPRESSION description= expression ) ^( EXPRESSION subject= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:137:5: ^( TYPE_ASSERTION ^( EXPRESSION description= expression ) ^( EXPRESSION subject= IDENTIFIER ) )
                     {
                     match(input,TYPE_ASSERTION,FOLLOW_TYPE_ASSERTION_in_axiom367); if (state.failed) return retval;
 
@@ -617,7 +622,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 8 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:142:4: ^( DOMAIN ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION domain= expression ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:142:4: ^( DOMAIN ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION domain= expression ) )
                     {
                     match(input,DOMAIN,FOLLOW_DOMAIN_in_axiom399); if (state.failed) return retval;
 
@@ -650,7 +655,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 9 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:147:5: ^( RANGE ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION range= expression ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:147:5: ^( RANGE ^( EXPRESSION p= IDENTIFIER ) ^( EXPRESSION range= expression ) )
                     {
                     match(input,RANGE,FOLLOW_RANGE_in_axiom431); if (state.failed) return retval;
 
@@ -683,7 +688,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 10 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:152:6: ^( SAME_AS_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:152:6: ^( SAME_AS_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) )
                     {
                     match(input,SAME_AS_AXIOM,FOLLOW_SAME_AS_AXIOM_in_axiom465); if (state.failed) return retval;
 
@@ -712,7 +717,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 11 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:157:7: ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:157:7: ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION anIndividual= IDENTIFIER ) ^( EXPRESSION anotherIndividual= IDENTIFIER ) )
                     {
                     match(input,DIFFERENT_FROM_AXIOM,FOLLOW_DIFFERENT_FROM_AXIOM_in_axiom499); if (state.failed) return retval;
 
@@ -741,7 +746,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 12 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:162:5: ^( UNARY_AXIOM FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:162:5: ^( UNARY_AXIOM FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) )
                     {
                     match(input,UNARY_AXIOM,FOLLOW_UNARY_AXIOM_in_axiom531); if (state.failed) return retval;
 
@@ -765,7 +770,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 13 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:167:5: ^( UNARY_AXIOM INVERSE_FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:167:5: ^( UNARY_AXIOM INVERSE_FUNCTIONAL ^( EXPRESSION p= IDENTIFIER ) )
                     {
                     match(input,UNARY_AXIOM,FOLLOW_UNARY_AXIOM_in_axiom555); if (state.failed) return retval;
 
@@ -789,7 +794,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 14 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:172:7: ^( UNARY_AXIOM IRREFLEXIVE ^( EXPRESSION p= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:172:7: ^( UNARY_AXIOM IRREFLEXIVE ^( EXPRESSION p= IDENTIFIER ) )
                     {
                     match(input,UNARY_AXIOM,FOLLOW_UNARY_AXIOM_in_axiom582); if (state.failed) return retval;
 
@@ -813,7 +818,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 15 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:177:6: ^( UNARY_AXIOM REFLEXIVE ^( EXPRESSION p= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:177:6: ^( UNARY_AXIOM REFLEXIVE ^( EXPRESSION p= IDENTIFIER ) )
                     {
                     match(input,UNARY_AXIOM,FOLLOW_UNARY_AXIOM_in_axiom608); if (state.failed) return retval;
 
@@ -837,7 +842,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 16 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:182:6: ^( UNARY_AXIOM SYMMETRIC ^( EXPRESSION p= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:182:6: ^( UNARY_AXIOM SYMMETRIC ^( EXPRESSION p= IDENTIFIER ) )
                     {
                     match(input,UNARY_AXIOM,FOLLOW_UNARY_AXIOM_in_axiom634); if (state.failed) return retval;
 
@@ -861,7 +866,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 17 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:187:7: ^( UNARY_AXIOM TRANSITIVE ^( EXPRESSION p= IDENTIFIER ) )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:187:7: ^( UNARY_AXIOM TRANSITIVE ^( EXPRESSION p= IDENTIFIER ) )
                     {
                     match(input,UNARY_AXIOM,FOLLOW_UNARY_AXIOM_in_axiom662); if (state.failed) return retval;
 
@@ -885,7 +890,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 18 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:192:6: ^( NEGATED_ASSERTION a= axiom )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:192:6: ^( NEGATED_ASSERTION a= axiom )
                     {
                     match(input,NEGATED_ASSERTION,FOLLOW_NEGATED_ASSERTION_in_axiom688); if (state.failed) return retval;
 
@@ -939,7 +944,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     };
 
     // $ANTLR start "expression"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:198:1: expression returns [Type type, ManchesterOWLSyntaxTree node] : ( ^( DISJUNCTION (disjuncts+= conjunction )+ ) | ^( PROPERTY_CHAIN (chainItems+= expression )+ ) | conjunction | complexPropertyExpression );
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:198:1: expression returns [Type type, ManchesterOWLSyntaxTree node] : ( ^( DISJUNCTION (disjuncts+= conjunction )+ ) | ^( PROPERTY_CHAIN (chainItems+= expression )+ ) | conjunction | complexPropertyExpression );
     public final OPPLTypeEnforcement.expression_return expression() throws RecognitionException {
         OPPLTypeEnforcement.expression_return retval = new OPPLTypeEnforcement.expression_return();
         retval.start = input.LT(1);
@@ -953,7 +958,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
         RuleReturnScope disjuncts = null;
         RuleReturnScope chainItems = null;
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:205:2: ( ^( DISJUNCTION (disjuncts+= conjunction )+ ) | ^( PROPERTY_CHAIN (chainItems+= expression )+ ) | conjunction | complexPropertyExpression )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:205:2: ( ^( DISJUNCTION (disjuncts+= conjunction )+ ) | ^( PROPERTY_CHAIN (chainItems+= expression )+ ) | conjunction | complexPropertyExpression )
             int alt5=4;
             switch ( input.LA(1) ) {
             case DISJUNCTION:
@@ -995,12 +1000,12 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
             switch (alt5) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:206:4: ^( DISJUNCTION (disjuncts+= conjunction )+ )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:206:4: ^( DISJUNCTION (disjuncts+= conjunction )+ )
                     {
                     match(input,DISJUNCTION,FOLLOW_DISJUNCTION_in_expression729); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:206:29: (disjuncts+= conjunction )+
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:206:29: (disjuncts+= conjunction )+
                     int cnt3=0;
                     loop3:
                     do {
@@ -1014,7 +1019,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
                         switch (alt3) {
                     	case 1 :
-                    	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:206:29: disjuncts+= conjunction
+                    	    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:206:29: disjuncts+= conjunction
                     	    {
                     	    pushFollow(FOLLOW_conjunction_in_expression735);
                     	    disjuncts=conjunction();
@@ -1054,12 +1059,12 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:215:6: ^( PROPERTY_CHAIN (chainItems+= expression )+ )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:215:6: ^( PROPERTY_CHAIN (chainItems+= expression )+ )
                     {
                     match(input,PROPERTY_CHAIN,FOLLOW_PROPERTY_CHAIN_in_expression751); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:215:34: (chainItems+= expression )+
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:215:34: (chainItems+= expression )+
                     int cnt4=0;
                     loop4:
                     do {
@@ -1073,7 +1078,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:215:34: chainItems+= expression
+                    	    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:215:34: chainItems+= expression
                     	    {
                     	    pushFollow(FOLLOW_expression_in_expression756);
                     	    chainItems=expression();
@@ -1113,7 +1118,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:224:5: conjunction
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:224:5: conjunction
                     {
                     pushFollow(FOLLOW_conjunction_in_expression770);
                     conjunction3=conjunction();
@@ -1130,7 +1135,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:229:5: complexPropertyExpression
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:229:5: complexPropertyExpression
                     {
                     pushFollow(FOLLOW_complexPropertyExpression_in_expression782);
                     complexPropertyExpression4=complexPropertyExpression();
@@ -1180,7 +1185,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     };
 
     // $ANTLR start "conjunction"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:237:1: conjunction returns [Type type, ManchesterOWLSyntaxTree node] : ( ^( CONJUNCTION (conjuncts+= unary )+ ) | unary );
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:237:1: conjunction returns [Type type, ManchesterOWLSyntaxTree node] : ( ^( CONJUNCTION (conjuncts+= unary )+ ) | unary );
     public final OPPLTypeEnforcement.conjunction_return conjunction() throws RecognitionException {
         OPPLTypeEnforcement.conjunction_return retval = new OPPLTypeEnforcement.conjunction_return();
         retval.start = input.LT(1);
@@ -1190,7 +1195,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
         RuleReturnScope conjuncts = null;
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:243:2: ( ^( CONJUNCTION (conjuncts+= unary )+ ) | unary )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:243:2: ( ^( CONJUNCTION (conjuncts+= unary )+ ) | unary )
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -1209,12 +1214,12 @@ public class OPPLTypeEnforcement extends TreeFilter {
             }
             switch (alt7) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:244:2: ^( CONJUNCTION (conjuncts+= unary )+ )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:244:2: ^( CONJUNCTION (conjuncts+= unary )+ )
                     {
                     match(input,CONJUNCTION,FOLLOW_CONJUNCTION_in_conjunction819); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:244:26: (conjuncts+= unary )+
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:244:26: (conjuncts+= unary )+
                     int cnt6=0;
                     loop6:
                     do {
@@ -1228,7 +1233,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
                         switch (alt6) {
                     	case 1 :
-                    	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:244:26: conjuncts+= unary
+                    	    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:244:26: conjuncts+= unary
                     	    {
                     	    pushFollow(FOLLOW_unary_in_conjunction824);
                     	    conjuncts=unary();
@@ -1268,7 +1273,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:253:4: unary
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:253:4: unary
                     {
                     pushFollow(FOLLOW_unary_in_conjunction835);
                     unary5=unary();
@@ -1317,7 +1322,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     };
 
     // $ANTLR start "unary"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:259:1: unary returns [Type type, ManchesterOWLSyntaxTree node] : ( IDENTIFIER | ^( NEGATED_EXPRESSION e= expression ) | qualifiedRestriction | ENTITY_REFERENCE | ^( CONSTANT value= . (constantType= IDENTIFIER )? ) );
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:259:1: unary returns [Type type, ManchesterOWLSyntaxTree node] : ( IDENTIFIER | ^( NEGATED_EXPRESSION e= expression ) | qualifiedRestriction | ENTITY_REFERENCE | ^( CONSTANT value= . (constantType= IDENTIFIER )? ) );
     public final OPPLTypeEnforcement.unary_return unary() throws RecognitionException {
         OPPLTypeEnforcement.unary_return retval = new OPPLTypeEnforcement.unary_return();
         retval.start = input.LT(1);
@@ -1332,7 +1337,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:266:1: ( IDENTIFIER | ^( NEGATED_EXPRESSION e= expression ) | qualifiedRestriction | ENTITY_REFERENCE | ^( CONSTANT value= . (constantType= IDENTIFIER )? ) )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:266:1: ( IDENTIFIER | ^( NEGATED_EXPRESSION e= expression ) | qualifiedRestriction | ENTITY_REFERENCE | ^( CONSTANT value= . (constantType= IDENTIFIER )? ) )
             int alt9=5;
             switch ( input.LA(1) ) {
             case IDENTIFIER:
@@ -1374,7 +1379,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
             switch (alt9) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:267:3: IDENTIFIER
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:267:3: IDENTIFIER
                     {
                     IDENTIFIER6=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_unary862); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
@@ -1388,7 +1393,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:273:5: ^( NEGATED_EXPRESSION e= expression )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:273:5: ^( NEGATED_EXPRESSION e= expression )
                     {
                     match(input,NEGATED_EXPRESSION,FOLLOW_NEGATED_EXPRESSION_in_unary875); if (state.failed) return retval;
 
@@ -1410,7 +1415,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:278:5: qualifiedRestriction
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:278:5: qualifiedRestriction
                     {
                     pushFollow(FOLLOW_qualifiedRestriction_in_unary895);
                     qualifiedRestriction7=qualifiedRestriction();
@@ -1427,7 +1432,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:283:5: ENTITY_REFERENCE
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:283:5: ENTITY_REFERENCE
                     {
                     ENTITY_REFERENCE8=(OPPLSyntaxTree)match(input,ENTITY_REFERENCE,FOLLOW_ENTITY_REFERENCE_in_unary909); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
@@ -1441,14 +1446,14 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 5 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:289:5: ^( CONSTANT value= . (constantType= IDENTIFIER )? )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:289:5: ^( CONSTANT value= . (constantType= IDENTIFIER )? )
                     {
                     match(input,CONSTANT,FOLLOW_CONSTANT_in_unary922); if (state.failed) return retval;
 
                     match(input, Token.DOWN, null); if (state.failed) return retval;
                     value=(OPPLSyntaxTree)input.LT(1);
                     matchAny(input); if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:289:38: (constantType= IDENTIFIER )?
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:289:38: (constantType= IDENTIFIER )?
                     int alt8=2;
                     int LA8_0 = input.LA(1);
 
@@ -1457,7 +1462,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     switch (alt8) {
                         case 1 :
-                            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:289:38: constantType= IDENTIFIER
+                            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:289:38: constantType= IDENTIFIER
                             {
                             constantType=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_unary933); if (state.failed) return retval;
 
@@ -1511,7 +1516,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     };
 
     // $ANTLR start "propertyExpression"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:296:1: propertyExpression returns [Type type, ManchesterOWLSyntaxTree node] : ( IDENTIFIER | complexPropertyExpression );
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:296:1: propertyExpression returns [Type type, ManchesterOWLSyntaxTree node] : ( IDENTIFIER | complexPropertyExpression );
     public final OPPLTypeEnforcement.propertyExpression_return propertyExpression() throws RecognitionException {
         OPPLTypeEnforcement.propertyExpression_return retval = new OPPLTypeEnforcement.propertyExpression_return();
         retval.start = input.LT(1);
@@ -1521,7 +1526,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:303:1: ( IDENTIFIER | complexPropertyExpression )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:303:1: ( IDENTIFIER | complexPropertyExpression )
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -1540,7 +1545,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
             }
             switch (alt10) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:304:7: IDENTIFIER
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:304:7: IDENTIFIER
                     {
                     IDENTIFIER9=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_propertyExpression970); if (state.failed) return retval;
                     if ( state.backtracking==1 ) {
@@ -1554,7 +1559,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:310:7: complexPropertyExpression
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:310:7: complexPropertyExpression
                     {
                     pushFollow(FOLLOW_complexPropertyExpression_in_propertyExpression986);
                     complexPropertyExpression10=complexPropertyExpression();
@@ -1603,7 +1608,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     };
 
     // $ANTLR start "complexPropertyExpression"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:317:1: complexPropertyExpression returns [Type type, ManchesterOWLSyntaxTree node] : ( ^( INVERSE_OBJECT_PROPERTY_EXPRESSION p= complexPropertyExpression ) | ^( INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER ) );
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:317:1: complexPropertyExpression returns [Type type, ManchesterOWLSyntaxTree node] : ( ^( INVERSE_OBJECT_PROPERTY_EXPRESSION p= complexPropertyExpression ) | ^( INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER ) );
     public final OPPLTypeEnforcement.complexPropertyExpression_return complexPropertyExpression() throws RecognitionException {
         OPPLTypeEnforcement.complexPropertyExpression_return retval = new OPPLTypeEnforcement.complexPropertyExpression_return();
         retval.start = input.LT(1);
@@ -1613,7 +1618,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:323:1: ( ^( INVERSE_OBJECT_PROPERTY_EXPRESSION p= complexPropertyExpression ) | ^( INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER ) )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:323:1: ( ^( INVERSE_OBJECT_PROPERTY_EXPRESSION p= complexPropertyExpression ) | ^( INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER ) )
             int alt11=2;
             int LA11_0 = input.LA(1);
 
@@ -1654,7 +1659,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
             }
             switch (alt11) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:324:2: ^( INVERSE_OBJECT_PROPERTY_EXPRESSION p= complexPropertyExpression )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:324:2: ^( INVERSE_OBJECT_PROPERTY_EXPRESSION p= complexPropertyExpression )
                     {
                     match(input,INVERSE_OBJECT_PROPERTY_EXPRESSION,FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1019); if (state.failed) return retval;
 
@@ -1676,7 +1681,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:329:4: ^( INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:329:4: ^( INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER )
                     {
                     match(input,INVERSE_OBJECT_PROPERTY_EXPRESSION,FOLLOW_INVERSE_OBJECT_PROPERTY_EXPRESSION_in_complexPropertyExpression1035); if (state.failed) return retval;
 
@@ -1727,7 +1732,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     };
 
     // $ANTLR start "qualifiedRestriction"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:337:1: qualifiedRestriction returns [Type type , ManchesterOWLSyntaxTree node] : ( ^( SOME_RESTRICTION p= propertyExpression f= expression ) | ^( ALL_RESTRICTION p= propertyExpression f= expression ) | cardinalityRestriction | oneOf | valueRestriction );
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:337:1: qualifiedRestriction returns [Type type , ManchesterOWLSyntaxTree node] : ( ^( SOME_RESTRICTION p= propertyExpression f= expression ) | ^( ALL_RESTRICTION p= propertyExpression f= expression ) | cardinalityRestriction | oneOf | valueRestriction );
     public final OPPLTypeEnforcement.qualifiedRestriction_return qualifiedRestriction() throws RecognitionException {
         OPPLTypeEnforcement.qualifiedRestriction_return retval = new OPPLTypeEnforcement.qualifiedRestriction_return();
         retval.start = input.LT(1);
@@ -1744,7 +1749,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:342:2: ( ^( SOME_RESTRICTION p= propertyExpression f= expression ) | ^( ALL_RESTRICTION p= propertyExpression f= expression ) | cardinalityRestriction | oneOf | valueRestriction )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:342:2: ( ^( SOME_RESTRICTION p= propertyExpression f= expression ) | ^( ALL_RESTRICTION p= propertyExpression f= expression ) | cardinalityRestriction | oneOf | valueRestriction )
             int alt12=5;
             switch ( input.LA(1) ) {
             case SOME_RESTRICTION:
@@ -1782,7 +1787,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
             switch (alt12) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:343:6: ^( SOME_RESTRICTION p= propertyExpression f= expression )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:343:6: ^( SOME_RESTRICTION p= propertyExpression f= expression )
                     {
                     match(input,SOME_RESTRICTION,FOLLOW_SOME_RESTRICTION_in_qualifiedRestriction1068); if (state.failed) return retval;
 
@@ -1809,7 +1814,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:348:7: ^( ALL_RESTRICTION p= propertyExpression f= expression )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:348:7: ^( ALL_RESTRICTION p= propertyExpression f= expression )
                     {
                     match(input,ALL_RESTRICTION,FOLLOW_ALL_RESTRICTION_in_qualifiedRestriction1101); if (state.failed) return retval;
 
@@ -1836,7 +1841,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:353:7: cardinalityRestriction
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:353:7: cardinalityRestriction
                     {
                     pushFollow(FOLLOW_cardinalityRestriction_in_qualifiedRestriction1129);
                     cardinalityRestriction12=cardinalityRestriction();
@@ -1852,7 +1857,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 4 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:357:7: oneOf
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:357:7: oneOf
                     {
                     pushFollow(FOLLOW_oneOf_in_qualifiedRestriction1145);
                     oneOf13=oneOf();
@@ -1868,7 +1873,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 5 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:361:7: valueRestriction
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:361:7: valueRestriction
                     {
                     pushFollow(FOLLOW_valueRestriction_in_qualifiedRestriction1161);
                     valueRestriction14=valueRestriction();
@@ -1916,7 +1921,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     };
 
     // $ANTLR start "cardinalityRestriction"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:369:1: cardinalityRestriction returns [Type type , ManchesterOWLSyntaxTree node] : ( ^( CARDINALITY_RESTRICTION MIN i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION MAX i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER p= unary (filler= expression )? ) );
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:369:1: cardinalityRestriction returns [Type type , ManchesterOWLSyntaxTree node] : ( ^( CARDINALITY_RESTRICTION MIN i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION MAX i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER p= unary (filler= expression )? ) );
     public final OPPLTypeEnforcement.cardinalityRestriction_return cardinalityRestriction() throws RecognitionException {
         OPPLTypeEnforcement.cardinalityRestriction_return retval = new OPPLTypeEnforcement.cardinalityRestriction_return();
         retval.start = input.LT(1);
@@ -1928,7 +1933,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:374:1: ( ^( CARDINALITY_RESTRICTION MIN i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION MAX i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER p= unary (filler= expression )? ) )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:374:1: ( ^( CARDINALITY_RESTRICTION MIN i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION MAX i= INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER p= unary (filler= expression )? ) )
             int alt16=3;
             int LA16_0 = input.LA(1);
 
@@ -1978,7 +1983,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
             }
             switch (alt16) {
                 case 1 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:375:5: ^( CARDINALITY_RESTRICTION MIN i= INTEGER p= unary (filler= expression )? )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:375:5: ^( CARDINALITY_RESTRICTION MIN i= INTEGER p= unary (filler= expression )? )
                     {
                     match(input,CARDINALITY_RESTRICTION,FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1198); if (state.failed) return retval;
 
@@ -1990,7 +1995,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:375:65: (filler= expression )?
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:375:65: (filler= expression )?
                     int alt13=2;
                     int LA13_0 = input.LA(1);
 
@@ -1999,7 +2004,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     switch (alt13) {
                         case 1 :
-                            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:375:65: filler= expression
+                            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:375:65: filler= expression
                             {
                             pushFollow(FOLLOW_expression_in_cardinalityRestriction1219);
                             filler=expression();
@@ -2026,7 +2031,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 2 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:382:6: ^( CARDINALITY_RESTRICTION MAX i= INTEGER p= unary (filler= expression )? )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:382:6: ^( CARDINALITY_RESTRICTION MAX i= INTEGER p= unary (filler= expression )? )
                     {
                     match(input,CARDINALITY_RESTRICTION,FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1234); if (state.failed) return retval;
 
@@ -2038,7 +2043,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:382:65: (filler= expression )?
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:382:65: (filler= expression )?
                     int alt14=2;
                     int LA14_0 = input.LA(1);
 
@@ -2047,7 +2052,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     switch (alt14) {
                         case 1 :
-                            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:382:65: filler= expression
+                            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:382:65: filler= expression
                             {
                             pushFollow(FOLLOW_expression_in_cardinalityRestriction1254);
                             filler=expression();
@@ -2073,7 +2078,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     break;
                 case 3 :
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:388:8: ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER p= unary (filler= expression )? )
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:388:8: ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER p= unary (filler= expression )? )
                     {
                     match(input,CARDINALITY_RESTRICTION,FOLLOW_CARDINALITY_RESTRICTION_in_cardinalityRestriction1273); if (state.failed) return retval;
 
@@ -2085,7 +2090,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:388:73: (filler= expression )?
+                    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:388:73: (filler= expression )?
                     int alt15=2;
                     int LA15_0 = input.LA(1);
 
@@ -2094,7 +2099,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     }
                     switch (alt15) {
                         case 1 :
-                            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:388:73: filler= expression
+                            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:388:73: filler= expression
                             {
                             pushFollow(FOLLOW_expression_in_cardinalityRestriction1295);
                             filler=expression();
@@ -2152,7 +2157,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     };
 
     // $ANTLR start "oneOf"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:396:1: oneOf returns [Type type , ManchesterOWLSyntaxTree node] : ^( ONE_OF (individuals+= IDENTIFIER )+ ) ;
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:396:1: oneOf returns [Type type , ManchesterOWLSyntaxTree node] : ^( ONE_OF (individuals+= IDENTIFIER )+ ) ;
     public final OPPLTypeEnforcement.oneOf_return oneOf() throws RecognitionException {
         OPPLTypeEnforcement.oneOf_return retval = new OPPLTypeEnforcement.oneOf_return();
         retval.start = input.LT(1);
@@ -2161,13 +2166,13 @@ public class OPPLTypeEnforcement extends TreeFilter {
         List list_individuals=null;
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:401:2: ( ^( ONE_OF (individuals+= IDENTIFIER )+ ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:402:3: ^( ONE_OF (individuals+= IDENTIFIER )+ )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:401:2: ( ^( ONE_OF (individuals+= IDENTIFIER )+ ) )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:402:3: ^( ONE_OF (individuals+= IDENTIFIER )+ )
             {
             match(input,ONE_OF,FOLLOW_ONE_OF_in_oneOf1330); if (state.failed) return retval;
 
             match(input, Token.DOWN, null); if (state.failed) return retval;
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:402:23: (individuals+= IDENTIFIER )+
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:402:23: (individuals+= IDENTIFIER )+
             int cnt17=0;
             loop17:
             do {
@@ -2181,7 +2186,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
                 switch (alt17) {
             	case 1 :
-            	    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:402:23: individuals+= IDENTIFIER
+            	    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:402:23: individuals+= IDENTIFIER
             	    {
             	    individuals=(OPPLSyntaxTree)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_oneOf1334); if (state.failed) return retval;
             	    if (list_individuals==null) list_individuals=new ArrayList();
@@ -2247,7 +2252,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     };
 
     // $ANTLR start "valueRestriction"
-    // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:413:1: valueRestriction returns [Type type , ManchesterOWLSyntaxTree node] : ^( VALUE_RESTRICTION p= unary value= unary ) ;
+    // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:413:1: valueRestriction returns [Type type , ManchesterOWLSyntaxTree node] : ^( VALUE_RESTRICTION p= unary value= unary ) ;
     public final OPPLTypeEnforcement.valueRestriction_return valueRestriction() throws RecognitionException {
         OPPLTypeEnforcement.valueRestriction_return retval = new OPPLTypeEnforcement.valueRestriction_return();
         retval.start = input.LT(1);
@@ -2258,8 +2263,8 @@ public class OPPLTypeEnforcement extends TreeFilter {
 
 
         try {
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:418:2: ( ^( VALUE_RESTRICTION p= unary value= unary ) )
-            // /Users/luigi/Documents/workspace/PARSERS/src/OPPLTypeEnforcement.g:419:3: ^( VALUE_RESTRICTION p= unary value= unary )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:418:2: ( ^( VALUE_RESTRICTION p= unary value= unary ) )
+            // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:419:3: ^( VALUE_RESTRICTION p= unary value= unary )
             {
             match(input,VALUE_RESTRICTION,FOLLOW_VALUE_RESTRICTION_in_valueRestriction1367); if (state.failed) return retval;
 

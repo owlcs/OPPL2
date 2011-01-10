@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2010-12-02 17:26:34
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2011-01-10 16:05:54
 
   package org.coode.parsers.oppl.patterns;
   import org.coode.parsers.oppl.OPPLSyntaxTree;  
@@ -16,14 +16,14 @@ import org.antlr.runtime.tree.*;
 
 public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
     public static final int COMMA=37;
-    public static final int GREATER_THAN=510;
+    public static final int GREATER_THAN=511;
     public static final int ASSERTED=76;
     public static final int VARIABLE_DEFINITIONS=102;
     public static final int REGEXP_CONSTRAINT=465;
     public static final int END=84;
     public static final int HYPHEN=465;
     public static final int DIFFERENT_FROM=24;
-    public static final int LESS_THAN=508;
+    public static final int LESS_THAN=509;
     public static final int TYPE_ASSERTION=66;
     public static final int SAME_AS_AXIOM=52;
     public static final int TYPES=39;
@@ -54,9 +54,10 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
     public static final int ENTITY_REFERENCE=45;
     public static final int CONJUNCTION=56;
     public static final int INVERSE_OF=25;
+    public static final int AT=114;
     public static final int RANGE=28;
     public static final int ARGUMENTS=417;
-    public static final int DATA_RANGE=568;
+    public static final int DATA_RANGE=569;
     public static final int CLOSED_PARENTHESYS=8;
     public static final int PROPERTY_CHAIN=57;
     public static final int CREATE_INTERSECTION=81;
@@ -74,7 +75,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
     public static final int SEMICOLON=422;
     public static final int PATTERN_REFERENCE=421;
     public static final int DIFFERENT_FROM_AXIOM=53;
-    public static final int GREATER_THAN_EQUAL=511;
+    public static final int GREATER_THAN_EQUAL=512;
     public static final int ACTIONS=101;
     public static final int EQUIVALENT_TO=22;
     public static final int DOMAIN=27;
@@ -99,7 +100,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
     public static final int QUERY=103;
     public static final int SOME_RESTRICTION=61;
     public static final int IRI=110;
-    public static final int LESS_THAN_EQUAL=509;
+    public static final int LESS_THAN_EQUAL=510;
     public static final int VALUE=18;
     public static final int RENDERING=355;
     public static final int INVERSE_FUNCTIONAL=35;
@@ -617,7 +618,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: p, a, iri
+                    // elements: a, iri, p
                     // token labels: 
                     // rule labels: a, p, retval
                     // token list labels: 
@@ -689,7 +690,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: objectIRI, p, subjectIRI
+                    // elements: subjectIRI, p, objectIRI
                     // token labels: 
                     // rule labels: subjectIRI, objectIRI, p, retval
                     // token list labels: 
@@ -845,7 +846,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: propertyExpression, exp, HAS_KEY
+            // elements: HAS_KEY, exp, propertyExpression
             // token labels: 
             // rule labels: exp, retval
             // token list labels: 
@@ -1092,7 +1093,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: subject, value, propertyExpression
+                    // elements: propertyExpression, subject, value
                     // token labels: 
                     // rule labels: retval, subject
                     // token list labels: 
@@ -1440,7 +1441,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: disjoint, lhs
+                    // elements: lhs, disjoint
                     // token labels: 
                     // rule labels: lhs, disjoint, retval
                     // token list labels: 
@@ -1508,7 +1509,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhs, superProperty
+                    // elements: superProperty, lhs
                     // token labels: 
                     // rule labels: lhs, superProperty, retval
                     // token list labels: 
@@ -1712,7 +1713,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: rhsID, lhsID
+                    // elements: lhsID, rhsID
                     // token labels: 
                     // rule labels: rhsID, lhsID, retval
                     // token list labels: 
@@ -1780,7 +1781,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, DOMAIN, lhsID
+                    // elements: DOMAIN, expression, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -1847,7 +1848,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, expression, RANGE
+                    // elements: expression, RANGE, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -3568,7 +3569,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: constant, GREATER_THAN
+                    // elements: GREATER_THAN, constant
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3611,7 +3612,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: constant, GREATER_THAN_EQUAL
+                    // elements: GREATER_THAN_EQUAL, constant
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3731,7 +3732,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: propertyExpression, expression
+                    // elements: expression, propertyExpression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -4162,7 +4163,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: unary, propertyExpression, INTEGER, restrictionKind
+            // elements: unary, restrictionKind, INTEGER, propertyExpression
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4774,7 +4775,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
     };
 
     // $ANTLR start "constant"
-    // MOWLParser.g:222:1: constant : constantValue= DBLQUOTE ( POW type= IDENTIFIER )? -> ^( CONSTANT $constantValue ( $type)? ) ;
+    // MOWLParser.g:222:1: constant : constantValue= DBLQUOTE ( AT language= IDENTIFIER )? ( POW type= IDENTIFIER )? -> ^( CONSTANT $constantValue ( ^( AT $language) )? ( $type)? ) ;
     public final OPPLPatternScript_OPPLParser_MOWLParser.constant_return constant() throws RecognitionException {
         OPPLPatternScript_OPPLParser_MOWLParser.constant_return retval = new OPPLPatternScript_OPPLParser_MOWLParser.constant_return();
         retval.start = input.LT(1);
@@ -4782,38 +4783,66 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         OPPLSyntaxTree root_0 = null;
 
         Token constantValue=null;
+        Token language=null;
         Token type=null;
-        Token POW110=null;
+        Token AT110=null;
+        Token POW111=null;
 
         OPPLSyntaxTree constantValue_tree=null;
+        OPPLSyntaxTree language_tree=null;
         OPPLSyntaxTree type_tree=null;
-        OPPLSyntaxTree POW110_tree=null;
+        OPPLSyntaxTree AT110_tree=null;
+        OPPLSyntaxTree POW111_tree=null;
         RewriteRuleTokenStream stream_DBLQUOTE=new RewriteRuleTokenStream(adaptor,"token DBLQUOTE");
         RewriteRuleTokenStream stream_POW=new RewriteRuleTokenStream(adaptor,"token POW");
         RewriteRuleTokenStream stream_IDENTIFIER=new RewriteRuleTokenStream(adaptor,"token IDENTIFIER");
+        RewriteRuleTokenStream stream_AT=new RewriteRuleTokenStream(adaptor,"token AT");
 
         try {
-            // MOWLParser.g:222:11: (constantValue= DBLQUOTE ( POW type= IDENTIFIER )? -> ^( CONSTANT $constantValue ( $type)? ) )
-            // MOWLParser.g:222:14: constantValue= DBLQUOTE ( POW type= IDENTIFIER )?
+            // MOWLParser.g:222:11: (constantValue= DBLQUOTE ( AT language= IDENTIFIER )? ( POW type= IDENTIFIER )? -> ^( CONSTANT $constantValue ( ^( AT $language) )? ( $type)? ) )
+            // MOWLParser.g:222:14: constantValue= DBLQUOTE ( AT language= IDENTIFIER )? ( POW type= IDENTIFIER )?
             {
             constantValue=(Token)match(input,DBLQUOTE,FOLLOW_DBLQUOTE_in_constant2060); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_DBLQUOTE.add(constantValue);
 
-            // MOWLParser.g:222:39: ( POW type= IDENTIFIER )?
+            // MOWLParser.g:222:39: ( AT language= IDENTIFIER )?
             int alt23=2;
             int LA23_0 = input.LA(1);
 
-            if ( (LA23_0==POW) ) {
+            if ( (LA23_0==AT) ) {
                 alt23=1;
             }
             switch (alt23) {
                 case 1 :
-                    // MOWLParser.g:222:41: POW type= IDENTIFIER
+                    // MOWLParser.g:222:40: AT language= IDENTIFIER
                     {
-                    POW110=(Token)match(input,POW,FOLLOW_POW_in_constant2064); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_POW.add(POW110);
+                    AT110=(Token)match(input,AT,FOLLOW_AT_in_constant2063); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_AT.add(AT110);
 
-                    type=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constant2070); if (state.failed) return retval; 
+                    language=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constant2069); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_IDENTIFIER.add(language);
+
+
+                    }
+                    break;
+
+            }
+
+            // MOWLParser.g:222:67: ( POW type= IDENTIFIER )?
+            int alt24=2;
+            int LA24_0 = input.LA(1);
+
+            if ( (LA24_0==POW) ) {
+                alt24=1;
+            }
+            switch (alt24) {
+                case 1 :
+                    // MOWLParser.g:222:69: POW type= IDENTIFIER
+                    {
+                    POW111=(Token)match(input,POW,FOLLOW_POW_in_constant2075); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_POW.add(POW111);
+
+                    type=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_constant2081); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_IDENTIFIER.add(type);
 
 
@@ -4825,8 +4854,8 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: type, constantValue
-            // token labels: type, constantValue
+            // elements: AT, language, constantValue, type
+            // token labels: type, constantValue, language
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
@@ -4835,18 +4864,34 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
             retval.tree = root_0;
             RewriteRuleTokenStream stream_type=new RewriteRuleTokenStream(adaptor,"token type",type);
             RewriteRuleTokenStream stream_constantValue=new RewriteRuleTokenStream(adaptor,"token constantValue",constantValue);
+            RewriteRuleTokenStream stream_language=new RewriteRuleTokenStream(adaptor,"token language",language);
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (OPPLSyntaxTree)adaptor.nil();
-            // 222:65: -> ^( CONSTANT $constantValue ( $type)? )
+            // 222:93: -> ^( CONSTANT $constantValue ( ^( AT $language) )? ( $type)? )
             {
-                // MOWLParser.g:222:67: ^( CONSTANT $constantValue ( $type)? )
+                // MOWLParser.g:222:95: ^( CONSTANT $constantValue ( ^( AT $language) )? ( $type)? )
                 {
                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
                 root_1 = (OPPLSyntaxTree)adaptor.becomeRoot((OPPLSyntaxTree)adaptor.create(CONSTANT, "CONSTANT"), root_1);
 
                 adaptor.addChild(root_1, stream_constantValue.nextNode());
-                // MOWLParser.g:222:93: ( $type)?
+                // MOWLParser.g:222:121: ( ^( AT $language) )?
+                if ( stream_AT.hasNext()||stream_language.hasNext() ) {
+                    // MOWLParser.g:222:122: ^( AT $language)
+                    {
+                    OPPLSyntaxTree root_2 = (OPPLSyntaxTree)adaptor.nil();
+                    root_2 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_AT.nextNode(), root_2);
+
+                    adaptor.addChild(root_2, stream_language.nextNode());
+
+                    adaptor.addChild(root_1, root_2);
+                    }
+
+                }
+                stream_AT.reset();
+                stream_language.reset();
+                // MOWLParser.g:222:140: ( $type)?
                 if ( stream_type.hasNext() ) {
                     adaptor.addChild(root_1, stream_type.nextNode());
 
@@ -5266,17 +5311,17 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         state._fsp--;
         if (state.failed) return ;
         // MOWLParser.g:133:17: ( OR conjunction )*
-        loop24:
+        loop25:
         do {
-            int alt24=2;
-            int LA24_0 = input.LA(1);
+            int alt25=2;
+            int LA25_0 = input.LA(1);
 
-            if ( (LA24_0==OR) ) {
-                alt24=1;
+            if ( (LA25_0==OR) ) {
+                alt25=1;
             }
 
 
-            switch (alt24) {
+            switch (alt25) {
         	case 1 :
         	    // MOWLParser.g:133:18: OR conjunction
         	    {
@@ -5291,7 +5336,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         	    break;
 
         	default :
-        	    break loop24;
+        	    break loop25;
             }
         } while (true);
 
@@ -5330,18 +5375,18 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         state._fsp--;
         if (state.failed) return ;
         // MOWLParser.g:154:30: ( COMPOSITION rest+= propertyExpression )+
-        int cnt25=0;
-        loop25:
+        int cnt26=0;
+        loop26:
         do {
-            int alt25=2;
-            int LA25_0 = input.LA(1);
+            int alt26=2;
+            int LA26_0 = input.LA(1);
 
-            if ( (LA25_0==COMPOSITION) ) {
-                alt25=1;
+            if ( (LA26_0==COMPOSITION) ) {
+                alt26=1;
             }
 
 
-            switch (alt25) {
+            switch (alt26) {
         	case 1 :
         	    // MOWLParser.g:154:31: COMPOSITION rest+= propertyExpression
         	    {
@@ -5359,13 +5404,13 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         	    break;
 
         	default :
-        	    if ( cnt25 >= 1 ) break loop25;
+        	    if ( cnt26 >= 1 ) break loop26;
         	    if (state.backtracking>0) {state.failed=true; return ;}
                     EarlyExitException eee =
-                        new EarlyExitException(25, input);
+                        new EarlyExitException(26, input);
                     throw eee;
             }
-            cnt25++;
+            cnt26++;
         } while (true);
 
 
@@ -7232,9 +7277,9 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
     public static final BitSet FOLLOW_constant_in_unary1501 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_atomic_in_unary1507 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_IDENTIFIER_in_dataRange1524 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_OPEN_SQUARE_BRACKET_in_dataRange1526 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0xF000000000000000L});
+    public static final BitSet FOLLOW_OPEN_SQUARE_BRACKET_in_dataRange1526 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0xE000000000000000L,0x0000000000000001L});
     public static final BitSet FOLLOW_dataRangeFacet_in_dataRange1528 = new BitSet(new long[]{0x0000002000000000L,0x0000000000400000L});
-    public static final BitSet FOLLOW_COMMA_in_dataRange1531 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0xF000000000000000L});
+    public static final BitSet FOLLOW_COMMA_in_dataRange1531 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0xE000000000000000L,0x0000000000000001L});
     public static final BitSet FOLLOW_dataRangeFacet_in_dataRange1533 = new BitSet(new long[]{0x0000002000000000L,0x0000000000400000L});
     public static final BitSet FOLLOW_CLOSED_SQUARE_BRACKET_in_dataRange1537 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_LESS_THAN_in_dataRangeFacet1563 = new BitSet(new long[]{0x0000010000000000L});
@@ -7273,9 +7318,11 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
     public static final BitSet FOLLOW_value_in_valueRestriction1995 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_atomic_in_value2020 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_constant_in_value2035 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_DBLQUOTE_in_constant2060 = new BitSet(new long[]{0x0000001000000002L});
-    public static final BitSet FOLLOW_POW_in_constant2064 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_constant2070 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_DBLQUOTE_in_constant2060 = new BitSet(new long[]{0x0000001000000002L,0x0004000000000000L});
+    public static final BitSet FOLLOW_AT_in_constant2063 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_constant2069 = new BitSet(new long[]{0x0000001000000002L});
+    public static final BitSet FOLLOW_POW_in_constant2075 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_constant2081 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_binaryAxiom_in_synpred1_MOWLParser232 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_assertionAxiom_in_synpred3_MOWLParser256 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_hasKeyAxiom_in_synpred4_MOWLParser268 = new BitSet(new long[]{0x0000000000000002L});

@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 ManchesterOWLSyntaxAutoCompleteBase.g 2010-09-22 17:36:39
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 ManchesterOWLSyntaxAutoCompleteBase.g 2011-01-10 16:18:12
 
   package org.coode.parsers;
 
@@ -14,7 +14,9 @@ import org.antlr.runtime.tree.*;
 
 public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase extends Parser {
     public static final int COMMA=37;
+    public static final int GREATER_THAN=667;
     public static final int DIFFERENT_FROM=24;
+    public static final int LESS_THAN=665;
     public static final int TYPE_ASSERTION=66;
     public static final int INCOMPLETE_CONJUNCTION=615;
     public static final int SAME_AS_AXIOM=52;
@@ -36,9 +38,12 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static final int ENTITY_REFERENCE=45;
     public static final int CONJUNCTION=56;
     public static final int INVERSE_OF=25;
+    public static final int AT=629;
     public static final int RANGE=28;
+    public static final int DATA_RANGE=692;
     public static final int CLOSED_PARENTHESYS=8;
     public static final int PROPERTY_CHAIN=57;
+    public static final int OPEN_SQUARE_BRACKET=662;
     public static final int EQUIVALENT_TO_AXIOM=49;
     public static final int INCOMPLETE_ALL_RESTRICTION=619;
     public static final int SYMMETRIC=30;
@@ -47,7 +52,9 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static final int DISJUNCTION=55;
     public static final int INCOMPLETE_CARDINALITY_RESTRICTION=620;
     public static final int NEGATED_EXPRESSION=58;
+    public static final int EQUAL=664;
     public static final int DIFFERENT_FROM_AXIOM=53;
+    public static final int GREATER_THAN_EQUAL=668;
     public static final int EQUIVALENT_TO=22;
     public static final int DOMAIN=27;
     public static final int SUB_PROPERTY_OF=21;
@@ -62,12 +69,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static final int INCOMPLETE_PROPERTY_CHAIN=613;
     public static final int OPEN_CURLY_BRACES=6;
     public static final int STANDALONE_EXPRESSION=600;
+    public static final int CLOSED_SQUARE_BRACKET=663;
     public static final int INSTANCE_OF=38;
     public static final int INCOMPLETE_DISJUNCTION=614;
     public static final int SOME_RESTRICTION=61;
     public static final int INCOMPLETE_SUB_PROPERTY_AXIOM=607;
     public static final int INCOMPLETE_INVERSE_OF=612;
+    public static final int IRI=110;
     public static final int INCOMPLETE_DOMAIN=610;
+    public static final int LESS_THAN_EQUAL=666;
     public static final int VALUE=18;
     public static final int INCOMPLETE_UNARY_AXIOM=603;
     public static final int INVERSE_FUNCTIONAL=35;
@@ -75,10 +85,12 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static final int INCOMPLETE_EXPRESSION=623;
     public static final int INTEGER=42;
     public static final int INVERSE=19;
+    public static final int HAS_KEY=109;
     public static final int DISJOINT_WITH_AXIOM=50;
     public static final int INCOMPLETE_DISJOINT_WITH_AXIOM=606;
     public static final int DIGIT=41;
     public static final int COMPOSITION=4;
+    public static final int ANNOTATION_ASSERTION=111;
     public static final int INCOMPLETE_RANGE=611;
     public static final int FUNCTIONAL=29;
     public static final int LETTER=43;
@@ -255,7 +267,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 {
                 int LA1_1 = input.LA(2);
 
-                if ( (LA1_1==COMPOSITION||(LA1_1>=AND && LA1_1<=OR)||(LA1_1>=SOME && LA1_1<=VALUE)||(LA1_1>=SUBCLASS_OF && LA1_1<=RANGE)) ) {
+                if ( (LA1_1==COMPOSITION||(LA1_1>=AND && LA1_1<=OR)||(LA1_1>=SOME && LA1_1<=VALUE)||(LA1_1>=SUBCLASS_OF && LA1_1<=RANGE)||LA1_1==OPEN_SQUARE_BRACKET) ) {
                     alt1=1;
                 }
                 else if ( ((LA1_1>=INSTANCE_OF && LA1_1<=TYPES)) ) {
@@ -720,7 +732,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
             if ( (LA5_0==IDENTIFIER) ) {
                 int LA5_1 = input.LA(2);
 
-                if ( (LA5_1==COMPOSITION||(LA5_1>=AND && LA5_1<=OR)||(LA5_1>=SOME && LA5_1<=VALUE)||(LA5_1>=SUBCLASS_OF && LA5_1<=EQUIVALENT_TO)||LA5_1==DISJOINT_WITH) ) {
+                if ( (LA5_1==COMPOSITION||(LA5_1>=AND && LA5_1<=OR)||(LA5_1>=SOME && LA5_1<=VALUE)||(LA5_1>=SUBCLASS_OF && LA5_1<=EQUIVALENT_TO)||LA5_1==DISJOINT_WITH||LA5_1==OPEN_SQUARE_BRACKET) ) {
                     alt5=1;
                 }
                 else if ( ((LA5_1>=SAME_AS && LA5_1<=INVERSE_OF)||(LA5_1>=DOMAIN && LA5_1<=RANGE)) ) {
@@ -819,7 +831,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
 
 
                             // AST REWRITE
-                            // elements: superClass, lhs
+                            // elements: lhs, superClass
                             // token labels: 
                             // rule labels: lhs, retval, superClass
                             // token list labels: 
@@ -927,7 +939,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
 
 
                             // AST REWRITE
-                            // elements: rhs, lhs
+                            // elements: lhs, rhs
                             // token labels: 
                             // rule labels: lhs, retval, rhs
                             // token list labels: 
@@ -1297,7 +1309,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
 
 
                             // AST REWRITE
-                            // elements: lhsID, incompleteDomain
+                            // elements: incompleteDomain, lhsID
                             // token labels: lhsID
                             // rule labels: incompleteDomain, retval
                             // token list labels: 
@@ -1644,7 +1656,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
 
 
                     // AST REWRITE
-                    // elements: head, rest
+                    // elements: rest, head
                     // token labels: 
                     // rule labels: head, retval
                     // token list labels: 
@@ -1875,7 +1887,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
 
 
                     // AST REWRITE
-                    // elements: IDENTIFIER, expression
+                    // elements: expression, IDENTIFIER
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2032,7 +2044,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
 
 
                     }
-                    else if ( ((LA9_1>=COMPOSITION && LA9_1<=OPEN_PARENTHESYS)||(LA9_1>=CLOSED_CURLY_BRACES && LA9_1<=OR)||(LA9_1>=SOME && LA9_1<=VALUE)||(LA9_1>=SUBCLASS_OF && LA9_1<=LETTER)||(LA9_1>=QUESTION_MARK && LA9_1<=712)) ) {
+                    else if ( ((LA9_1>=COMPOSITION && LA9_1<=OPEN_PARENTHESYS)||(LA9_1>=CLOSED_CURLY_BRACES && LA9_1<=OR)||(LA9_1>=SOME && LA9_1<=VALUE)||(LA9_1>=SUBCLASS_OF && LA9_1<=LETTER)||(LA9_1>=QUESTION_MARK && LA9_1<=724)) ) {
                         alt9=1;
                     }
 
@@ -3383,20 +3395,20 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     static final String DFA4_eotS =
         "\12\uffff";
     static final String DFA4_eofS =
-        "\3\uffff\1\6\1\10\5\uffff";
+        "\3\uffff\1\7\1\10\5\uffff";
     static final String DFA4_minS =
         "\1\27\2\uffff\2\5\5\uffff";
     static final String DFA4_maxS =
         "\1\34\2\uffff\2\55\5\uffff";
     static final String DFA4_acceptS =
-        "\1\uffff\1\1\1\2\2\uffff\1\7\1\3\1\4\1\5\1\6";
+        "\1\uffff\1\1\1\2\2\uffff\1\7\1\4\1\3\1\5\1\6";
     static final String DFA4_specialS =
         "\12\uffff}>";
     static final String[] DFA4_transitionS = {
             "\1\1\1\2\1\5\1\uffff\1\3\1\4",
             "",
             "",
-            "\2\7\5\uffff\1\7\6\uffff\1\7\24\uffff\1\7\3\uffff\2\7",
+            "\2\6\5\uffff\1\6\6\uffff\1\6\24\uffff\1\6\3\uffff\2\6",
             "\2\11\5\uffff\1\11\6\uffff\1\11\24\uffff\1\11\3\uffff\2\11",
             "",
             "",
@@ -3635,20 +3647,20 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     static final String DFA7_minS =
         "\1\13\3\4\2\5\1\13\1\12\2\uffff";
     static final String DFA7_maxS =
-        "\1\13\1\u02c8\2\22\1\13\1\55\1\54\1\44\2\uffff";
+        "\1\13\1\u02d4\1\u0296\1\22\1\13\1\55\1\54\1\u0275\2\uffff";
     static final String DFA7_acceptS =
         "\10\uffff\1\1\1\2";
     static final String DFA7_specialS =
         "\12\uffff}>";
     static final String[] DFA7_transitionS = {
             "\1\1",
-            "\2\10\1\6\5\10\1\5\6\10\1\4\24\10\1\7\3\10\1\2\1\3\u029b\10",
-            "\1\11\5\uffff\1\11\1\10\1\uffff\6\11",
+            "\2\10\1\6\5\10\1\5\6\10\1\4\24\10\1\7\3\10\1\2\1\3\u02a7\10",
+            "\1\11\5\uffff\1\11\1\10\1\uffff\6\11\u0283\uffff\1\11",
             "\1\11\5\uffff\1\11\1\10\1\uffff\6\11",
             "\1\11\5\uffff\1\10",
             "\1\11\5\uffff\1\10\40\uffff\2\11",
             "\1\10\40\uffff\1\11",
-            "\1\11\1\10\30\uffff\1\11",
+            "\1\11\1\10\30\uffff\1\11\u0250\uffff\1\11",
             "",
             ""
     };
@@ -3693,20 +3705,20 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     static final String DFA15_minS =
         "\1\13\3\4\2\5\1\13\1\12\2\uffff";
     static final String DFA15_maxS =
-        "\1\13\1\u02c8\2\22\1\13\1\55\1\54\1\44\2\uffff";
+        "\1\13\1\u02d4\1\u0296\1\22\1\13\1\55\1\54\1\u0275\2\uffff";
     static final String DFA15_acceptS =
         "\10\uffff\1\1\1\2";
     static final String DFA15_specialS =
         "\12\uffff}>";
     static final String[] DFA15_transitionS = {
             "\1\1",
-            "\2\10\1\6\5\10\1\5\6\10\1\4\24\10\1\7\3\10\1\2\1\3\u029b\10",
-            "\1\11\5\uffff\1\11\1\10\1\uffff\6\11",
+            "\2\10\1\6\5\10\1\5\6\10\1\4\24\10\1\7\3\10\1\2\1\3\u02a7\10",
+            "\1\11\5\uffff\1\11\1\10\1\uffff\6\11\u0283\uffff\1\11",
             "\1\11\5\uffff\1\11\1\10\1\uffff\6\11",
             "\1\11\5\uffff\1\10",
             "\1\11\5\uffff\1\10\40\uffff\2\11",
             "\1\10\40\uffff\1\11",
-            "\1\11\1\10\30\uffff\1\11",
+            "\1\11\1\10\30\uffff\1\11\u0250\uffff\1\11",
             "",
             ""
     };
@@ -3780,7 +3792,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static final BitSet FOLLOW_propertyExpression_in_incompleteExpression1128 = new BitSet(new long[]{0x0000000000000010L});
     public static final BitSet FOLLOW_COMPOSITION_in_incompleteExpression1133 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_conjunction_in_incompleteExpression1162 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_OR_in_incompleteExpression1165 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x00000000000001FFL});
+    public static final BitSet FOLLOW_OR_in_incompleteExpression1165 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x00000000001FFFFFL});
     public static final BitSet FOLLOW_OR_in_incompleteExpression1172 = new BitSet(new long[]{0x0000310000081040L});
     public static final BitSet FOLLOW_incompleteConjunction_in_incompleteExpression1175 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_incompleteConjunction_in_incompleteExpression1199 = new BitSet(new long[]{0x0000000000000002L});
@@ -3788,7 +3800,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static final BitSet FOLLOW_expression_in_incompleteExpression1241 = new BitSet(new long[]{0x0000100000000000L});
     public static final BitSet FOLLOW_IDENTIFIER_in_incompleteExpression1243 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_unary_in_incompleteConjunction1293 = new BitSet(new long[]{0x0000000000000400L});
-    public static final BitSet FOLLOW_AND_in_incompleteConjunction1296 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x00000000000001FFL});
+    public static final BitSet FOLLOW_AND_in_incompleteConjunction1296 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x00000000001FFFFFL});
     public static final BitSet FOLLOW_AND_in_incompleteConjunction1305 = new BitSet(new long[]{0x0000300000081042L});
     public static final BitSet FOLLOW_incompleteUnary_in_incompleteConjunction1307 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_INVERSE_in_incompleteComplexPropertyExpression1342 = new BitSet(new long[]{0x0000000000000020L});
@@ -3818,7 +3830,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static final BitSet FOLLOW_propertyExpression_in_synpred1_ManchesterOWLSyntaxAutoCompleteBase1128 = new BitSet(new long[]{0x0000000000000010L});
     public static final BitSet FOLLOW_COMPOSITION_in_synpred1_ManchesterOWLSyntaxAutoCompleteBase1133 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_conjunction_in_synpred2_ManchesterOWLSyntaxAutoCompleteBase1162 = new BitSet(new long[]{0x0000000000000800L});
-    public static final BitSet FOLLOW_OR_in_synpred2_ManchesterOWLSyntaxAutoCompleteBase1165 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x00000000000001FFL});
+    public static final BitSet FOLLOW_OR_in_synpred2_ManchesterOWLSyntaxAutoCompleteBase1165 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0xFFFFFFFFFFFFFFFFL,0x00000000001FFFFFL});
     public static final BitSet FOLLOW_OR_in_synpred2_ManchesterOWLSyntaxAutoCompleteBase1172 = new BitSet(new long[]{0x0000310000081040L});
     public static final BitSet FOLLOW_incompleteConjunction_in_synpred2_ManchesterOWLSyntaxAutoCompleteBase1175 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_incompleteConjunction_in_synpred3_ManchesterOWLSyntaxAutoCompleteBase1199 = new BitSet(new long[]{0x0000000000000002L});

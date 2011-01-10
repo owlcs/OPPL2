@@ -34,7 +34,7 @@ tokens{
     	throw new NullPointerException("The error listener cannot be null");
     }
     this.errorListener = errorListener;
-  }
+  } 
   
   public ErrorListener getErrorListener(){
   	return this.errorListener;

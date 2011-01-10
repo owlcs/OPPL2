@@ -591,4 +591,11 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		assertTrue("parse type " + parseType, parseType == OWLAxiomType.ANNOTATION_ASSERTION);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.ANNOTATION_ASSERTION);
 	}
+
+	public void testAnnotationAssertionWithLanguageTagAxiom() {
+		ManchesterOWLSyntaxTree parsed = this.parse("<blah#Luigi> label \"bello\"@it");
+		Type parseType = parsed.getEvalType();
+		assertTrue("parse type " + parseType, parseType == OWLAxiomType.ANNOTATION_ASSERTION);
+		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.ANNOTATION_ASSERTION);
+	}
 }

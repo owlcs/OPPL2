@@ -1309,8 +1309,12 @@ public class SymbolTable {
 		return toReturn;
 	}
 
-	public OWLLiteral getOWLUntypedConstant(CommonTree expression, ManchesterOWLSyntaxTree value) {
-		return value == null ? null : this.getDataFactory().getOWLLiteral(value.getText());
+	public OWLLiteral getOWLUntypedConstant(CommonTree expression, ManchesterOWLSyntaxTree value,
+			ManchesterOWLSyntaxTree lang) {
+		return value == null ? null : lang == null ? this.getDataFactory().getOWLLiteral(
+				value.getText()) : this.getDataFactory().getOWLLiteral(
+				value.getText(),
+				lang.getText());
 	}
 
 	public OWLObject getConjunction(CommonTree expression, ManchesterOWLSyntaxTree[] conjuncts) {

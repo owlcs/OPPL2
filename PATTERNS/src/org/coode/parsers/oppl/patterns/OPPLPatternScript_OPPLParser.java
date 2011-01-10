@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2010-12-02 17:26:34
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2011-01-10 16:05:54
 
   package org.coode.parsers.oppl.patterns;
   import org.coode.parsers.oppl.OPPLSyntaxTree;  
@@ -16,14 +16,14 @@ import org.antlr.runtime.tree.*;
 
 public class OPPLPatternScript_OPPLParser extends Parser {
     public static final int COMMA=37;
-    public static final int GREATER_THAN=510;
+    public static final int GREATER_THAN=511;
     public static final int ASSERTED=76;
     public static final int VARIABLE_DEFINITIONS=102;
     public static final int REGEXP_CONSTRAINT=465;
     public static final int END=84;
     public static final int HYPHEN=465;
     public static final int DIFFERENT_FROM=24;
-    public static final int LESS_THAN=508;
+    public static final int LESS_THAN=509;
     public static final int TYPE_ASSERTION=66;
     public static final int SAME_AS_AXIOM=52;
     public static final int TYPES=39;
@@ -54,9 +54,10 @@ public class OPPLPatternScript_OPPLParser extends Parser {
     public static final int ENTITY_REFERENCE=45;
     public static final int CONJUNCTION=56;
     public static final int INVERSE_OF=25;
+    public static final int AT=114;
     public static final int RANGE=28;
     public static final int ARGUMENTS=417;
-    public static final int DATA_RANGE=568;
+    public static final int DATA_RANGE=569;
     public static final int CLOSED_PARENTHESYS=8;
     public static final int PROPERTY_CHAIN=57;
     public static final int CREATE_INTERSECTION=81;
@@ -74,7 +75,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
     public static final int SEMICOLON=422;
     public static final int PATTERN_REFERENCE=421;
     public static final int DIFFERENT_FROM_AXIOM=53;
-    public static final int GREATER_THAN_EQUAL=511;
+    public static final int GREATER_THAN_EQUAL=512;
     public static final int ACTIONS=101;
     public static final int EQUIVALENT_TO=22;
     public static final int DOMAIN=27;
@@ -99,7 +100,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
     public static final int QUERY=103;
     public static final int SOME_RESTRICTION=61;
     public static final int IRI=110;
-    public static final int LESS_THAN_EQUAL=509;
+    public static final int LESS_THAN_EQUAL=510;
     public static final int VALUE=18;
     public static final int RENDERING=355;
     public static final int INVERSE_FUNCTIONAL=35;
@@ -397,13 +398,6 @@ public class OPPLPatternScript_OPPLParser extends Parser {
                                 alt3=3;
                                 }
                                 break;
-                            case CREATE:
-                            case CREATE_INTERSECTION:
-                            case CREATE_DISJUNCTION:
-                                {
-                                alt3=1;
-                                }
-                                break;
                             case OPEN_PARENTHESYS:
                             case OPEN_CURLY_BRACES:
                             case NOT:
@@ -417,6 +411,13 @@ public class OPPLPatternScript_OPPLParser extends Parser {
                             case VARIABLE_NAME:
                                 {
                                 alt3=2;
+                                }
+                                break;
+                            case CREATE:
+                            case CREATE_INTERSECTION:
+                            case CREATE_DISJUNCTION:
+                                {
+                                alt3=1;
                                 }
                                 break;
                             default:
@@ -547,7 +548,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, VARIABLE_NAME, VARIABLE_TYPE
+                    // elements: VARIABLE_NAME, VARIABLE_TYPE, expression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -609,7 +610,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: regexp, VARIABLE_NAME, VARIABLE_TYPE
+                    // elements: regexp, VARIABLE_TYPE, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -677,7 +678,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: variableScope, VARIABLE_NAME, VARIABLE_TYPE
+                    // elements: VARIABLE_NAME, variableScope, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -884,7 +885,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: variableScopeSpecification, expression
+            // elements: expression, variableScopeSpecification
             // token labels: variableScopeSpecification
             // rule labels: retval
             // token list labels: 
@@ -1183,7 +1184,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: selectClause, constraint
+            // elements: constraint, selectClause
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2002,7 +2003,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: axiom, REMOVE
+                    // elements: REMOVE, axiom
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2948,7 +2949,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: DOT, a, VARIABLE_NAME
+                    // elements: a, VARIABLE_NAME, DOT
                     // token labels: a
                     // rule labels: retval
                     // token list labels: 
@@ -3000,7 +3001,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, GROUPS, attributeSelector, DOT
+                    // elements: VARIABLE_NAME, attributeSelector, GROUPS, DOT
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
