@@ -40,6 +40,7 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationContainer> {
 	private final class InstantiateActionListener implements ActionListener {
@@ -98,7 +99,7 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
 			if (ret == JOptionPane.OK_OPTION) {
 				PatternModel patternModel = PatternModelList.this.getEditor().getEditedObject();
 				OWLDataFactory dataFactory = PatternModelList.this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager().getOWLDataFactory();
-				OWLLiteral literal = dataFactory.getOWLLiteral(patternModel.toString());
+				OWLLiteral literal = dataFactory.getOWLLiteral(patternModel.render(new SimpleShortFormProvider()));
 				IRI annotationIRI = patternModel.getIRI();
 				OWLAnnotation newAnnotation = dataFactory.getOWLAnnotation(
 						dataFactory.getOWLAnnotationProperty(annotationIRI),
@@ -212,7 +213,7 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
 		if (ret == JOptionPane.OK_OPTION) {
 			PatternModel patternModel = this.getEditor().getEditedObject();
 			OWLDataFactory dataFactory = this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager().getOWLDataFactory();
-			OWLLiteral literal = dataFactory.getOWLLiteral(patternModel.toString());
+			OWLLiteral literal = dataFactory.getOWLLiteral(patternModel.render(new SimpleShortFormProvider()));
 			IRI annotationIRI = patternModel.getIRI();
 			OWLAnnotation annotation = dataFactory.getOWLAnnotation(
 					dataFactory.getOWLAnnotationProperty(annotationIRI),

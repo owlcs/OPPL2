@@ -83,6 +83,7 @@ import org.semanticweb.owlapi.model.OWLPropertyExpression;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.NamespaceUtil;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -391,6 +392,11 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 			buffer.append(this.getConstraintSystem().render(v));
 		}
 		return buffer.toString();
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
+		String rendering = this.rendering == null ? "" : this.rendering;
+		return String.format("%s %s", this.opplStatement.render(shortFormProvider), rendering).trim();
 	}
 
 	/**

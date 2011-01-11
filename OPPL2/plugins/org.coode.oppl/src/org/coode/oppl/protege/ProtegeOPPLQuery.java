@@ -32,6 +32,7 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -96,6 +97,10 @@ public class ProtegeOPPLQuery implements OPPLQuery {
 	@Override
 	public String toString() {
 		return this.opplQuery.toString();
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
+		return this.opplQuery.render(shortFormProvider);
 	}
 
 	public String render() {

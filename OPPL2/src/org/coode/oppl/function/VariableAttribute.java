@@ -2,6 +2,7 @@ package org.coode.oppl.function;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 public abstract class VariableAttribute<O> extends AbstractOPPLFunction<O> implements
 		OPPLFunction<O> {
@@ -43,6 +44,10 @@ public abstract class VariableAttribute<O> extends AbstractOPPLFunction<O> imple
 	}
 
 	public String render(ConstraintSystem constraintSystem) {
+		return this.toString();
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
 		return this.toString();
 	}
 }

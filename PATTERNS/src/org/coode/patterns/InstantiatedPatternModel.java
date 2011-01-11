@@ -56,6 +56,7 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -202,6 +203,44 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript, Pattern
 								: firstInstantiationValue;
 						renderer = this.patternModel.getPatternModelFactory().getRenderer(
 								this.getConstraintSystem());
+					}
+					toReturn += "}";
+				}
+			} else {
+				toReturn += variable.getName();
+			}
+		}
+		toReturn += ")";
+		return toReturn;
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
+		String toReturn = "$" + this.patternModel.getPatternLocalName();
+		boolean first = true;
+		toReturn += "(";
+		for (Variable<?> variable : this.getInputVariables()) {
+			if (!first) {
+				toReturn += ", ";
+			} else {
+				first = false;
+			}
+			ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(shortFormProvider);
+			Set<OWLObject> instantiation = this.instantiations.get(variable);
+			if (instantiation != null) {
+				if (instantiation.size() == 1) {
+					OWLObject singleInstantiation = instantiation.iterator().next();
+					singleInstantiation.accept(renderer);
+					toReturn += renderer.toString();
+				} else {
+					toReturn += "{";
+					boolean firstInstantiationValue = true;
+					for (OWLObject object : instantiation) {
+						object.accept(renderer);
+						toReturn += firstInstantiationValue ? renderer.toString() : ", "
+								+ renderer.toString();
+						firstInstantiationValue = firstInstantiationValue ? false
+								: firstInstantiationValue;
+						renderer = new ManchesterSyntaxRenderer(shortFormProvider);
 					}
 					toReturn += "}";
 				}

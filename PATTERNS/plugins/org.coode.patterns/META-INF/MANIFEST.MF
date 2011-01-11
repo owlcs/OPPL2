@@ -35,7 +35,7 @@ Import-Package: org.osgi.framework,
  org.xml.sax.ext,
  org.xml.sax.helpers,
  javax.xml.parsers
-Bundle-Version: 1.4
+Bundle-Version: 1.5
 Bundle-Activator: org.protege.editor.core.plugin.DefaultPluginActivator 
 Require-Bundle: org.eclipse.equinox.registry,
  org.eclipse.equinox.common,

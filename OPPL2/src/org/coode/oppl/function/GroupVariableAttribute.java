@@ -8,6 +8,7 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 public class GroupVariableAttribute<O extends OWLObject> extends VariableAttribute<String> {
 	private final int index;
@@ -76,6 +77,10 @@ public class GroupVariableAttribute<O extends OWLObject> extends VariableAttribu
 
 	@Override
 	public String render(ConstraintSystem constraintSystem) {
+		return this.toString();
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
 		return this.toString();
 	}
 

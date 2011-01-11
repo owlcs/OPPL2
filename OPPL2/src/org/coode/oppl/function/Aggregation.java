@@ -10,6 +10,7 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implements OPPLFunction<O> {
 	private final List<Aggregandum<I>> toAggreagte = new ArrayList<Aggregandum<I>>();
@@ -69,6 +70,10 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
 			public String render(ConstraintSystem constraintSystem) {
 				return this.renderAggregation(constraintSystem, "", "", "+", "");
 			}
+
+			public String render(ShortFormProvider shortFormProvider) {
+				return this.renderAggregation(shortFormProvider, "", "", "+", "");
+			}
 		};
 	}
 
@@ -91,6 +96,15 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
 			public String render(ConstraintSystem constraintSystem) {
 				return this.renderAggregation(
 						constraintSystem,
+						"createIntersection",
+						"(",
+						", ",
+						")");
+			}
+
+			public String render(ShortFormProvider shortFormProvider) {
+				return this.renderAggregation(
+						shortFormProvider,
 						"createIntersection",
 						"(",
 						", ",
@@ -119,6 +133,10 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
 			public String render(ConstraintSystem constraintSystem) {
 				return this.renderAggregation(constraintSystem, "createUnion", "(", ", ", ")");
 			}
+
+			public String render(ShortFormProvider shortFormProvider) {
+				return this.renderAggregation(shortFormProvider, "createUnion", "(", ", ", ")");
+			}
 		};
 	}
 
@@ -141,6 +159,29 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
 			while (iterator.hasNext()) {
 				OPPLFunction<?> opplFunction = iterator.next();
 				sb.append(opplFunction.render(constraintSystem));
+				if (iterator.hasNext()) {
+					sb.append(separator);
+				}
+			}
+			if (i.hasNext()) {
+				sb.append(separator);
+			}
+		}
+		sb.append(closedDelimiter);
+		return sb.toString();
+	}
+
+	protected String renderAggregation(ShortFormProvider shortFormProvider, String prefix,
+			String openDelimiter, String separator, String closedDelimiter) {
+		Iterator<Aggregandum<I>> i = this.getToAggreagte().iterator();
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.format("%s%s", prefix, openDelimiter));
+		while (i.hasNext()) {
+			Aggregandum<? extends I> aggregation = i.next();
+			Iterator<? extends OPPLFunction<?>> iterator = aggregation.getOPPLFunctions().iterator();
+			while (iterator.hasNext()) {
+				OPPLFunction<?> opplFunction = iterator.next();
+				sb.append(opplFunction.render(shortFormProvider));
 				if (iterator.hasNext()) {
 					sb.append(separator);
 				}

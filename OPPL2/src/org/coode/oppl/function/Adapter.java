@@ -24,6 +24,7 @@ import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 public class Adapter {
 	public static <O> OPPLFunction<O> buildObjectAdater(O value) {
@@ -61,6 +62,10 @@ public class Adapter {
 			public String render(ConstraintSystem constraintSystem) {
 				return Adapter.renderAggregandum(this, constraintSystem);
 			}
+
+			public String render(ShortFormProvider shortFormProvider) {
+				return Adapter.renderAggregandum(this, shortFormProvider);
+			}
 		};
 	}
 
@@ -88,6 +93,10 @@ public class Adapter {
 					public String render(ConstraintSystem constraintSystem) {
 						return adapted.render(constraintSystem);
 					}
+
+					public String render(ShortFormProvider shortFormProvider) {
+						return adapted.render(shortFormProvider);
+					}
 				};
 				return Collections.singleton(singleton);
 			}
@@ -98,6 +107,10 @@ public class Adapter {
 
 			public String render(ConstraintSystem constraintSystem) {
 				return renderAggregandum(this, constraintSystem);
+			}
+
+			public String render(ShortFormProvider shortFormProvider) {
+				return renderAggregandum(this, shortFormProvider);
 			}
 		};
 	}
@@ -116,6 +129,10 @@ public class Adapter {
 			public String render(ConstraintSystem constraintSystem) {
 				return Adapter.renderAggregandum(this, constraintSystem);
 			}
+
+			public String render(ShortFormProvider shortFormProvider) {
+				return renderAggregandum(this, shortFormProvider);
+			}
 		};
 	}
 
@@ -124,6 +141,10 @@ public class Adapter {
 		return new OPPLFunction<Pattern>() {
 			public String render(ConstraintSystem constraintSystem) {
 				return stringOPPLFunction.render(constraintSystem);
+			}
+
+			public String render(ShortFormProvider shortFormProvider) {
+				return stringOPPLFunction.render(shortFormProvider);
 			}
 
 			public Pattern compute(ValueComputationParameters params) {
@@ -242,6 +263,20 @@ public class Adapter {
 			builder.append(String.format(
 					"%s%s",
 					opplFunction.render(constraintSystem),
+					iterator.hasNext() ? ", " : ""));
+		}
+		return builder.toString();
+	}
+
+	private static <I> String renderAggregandum(Aggregandum<I> aggregandum,
+			ShortFormProvider shortFormProvider) {
+		StringBuilder builder = new StringBuilder();
+		Iterator<OPPLFunction<I>> iterator = aggregandum.getOPPLFunctions().iterator();
+		while (iterator.hasNext()) {
+			OPPLFunction<I> opplFunction = iterator.next();
+			builder.append(String.format(
+					"%s%s",
+					opplFunction.render(shortFormProvider),
 					iterator.hasNext() ? ", " : ""));
 		}
 		return builder.toString();

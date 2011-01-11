@@ -4,6 +4,7 @@
 package org.coode.oppl.function;
 
 import org.coode.oppl.ConstraintSystem;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * A function
@@ -20,4 +21,6 @@ public interface OPPLFunction<O> {
 	public void accept(OPPLFunctionVisitor visitor);
 
 	public String render(ConstraintSystem constraintSystem);
+
+	public String render(ShortFormProvider shortFormProvider);
 }

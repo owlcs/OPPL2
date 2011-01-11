@@ -29,6 +29,7 @@ import java.util.Set;
 
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * Constraint that verifies whether a variable values are contained in a
@@ -136,6 +137,24 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
 			buffer.append(comma);
 			p.accept(manchesterSyntaxRenderer);
 			buffer.append(manchesterSyntaxRenderer.toString());
+		}
+		buffer.append('}');
+		return buffer.toString();
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(this.variable.getName());
+		buffer.append(" IN {");
+		boolean first = true;
+		String comma;
+		for (P p : this.collection) {
+			comma = !first ? ", " : "";
+			first = false;
+			buffer.append(comma);
+			ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(shortFormProvider);
+			p.accept(renderer);
+			buffer.append(renderer.toString());
 		}
 		buffer.append('}');
 		return buffer.toString();

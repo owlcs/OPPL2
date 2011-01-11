@@ -28,6 +28,7 @@ import java.util.List;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -56,4 +57,6 @@ public interface OPPLQuery {
 
 	public void execute(Collection<? extends BindingNode> leaves,
 			RuntimeExceptionHandler runtimeExceptionHandler);
+
+	String render(ShortFormProvider shortFormProvider);
 }

@@ -33,6 +33,7 @@ import org.coode.oppl.Variable;
 import org.coode.oppl.variabletypes.InputVariable;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -101,6 +102,10 @@ public class ProtegeOPPLScript implements OPPLScript {
 	@Override
 	public String toString() {
 		return this.opplScript.toString();
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
+		return this.opplScript.render(shortFormProvider);
 	}
 
 	public String render() {

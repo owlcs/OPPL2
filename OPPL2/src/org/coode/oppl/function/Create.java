@@ -15,6 +15,7 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLFunction<O>
 		implements OPPLFunction<O> {
@@ -49,6 +50,10 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 
 	public String render(ConstraintSystem constraintSystem) {
 		return String.format("create(%s)", this.getInput().render(constraintSystem));
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
+		return String.format("create(%s)", this.getInput().render(shortFormProvider));
 	}
 
 	public static <T extends OPPLFunction<? extends String>> Create<T, OWLClass> createOWLClass(

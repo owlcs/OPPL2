@@ -1,9 +1,13 @@
 package org.coode.oppl;
 
+import org.semanticweb.owlapi.util.ShortFormProvider;
+
 public interface AbstractConstraint {
-	abstract <O> O accept(ConstraintVisitorEx<O> visitor);
+	<O> O accept(ConstraintVisitorEx<O> visitor);
 
 	void accept(ConstraintVisitor visitor);
 
 	String render(ConstraintSystem constraintSystem);
+
+	String render(ShortFormProvider shortFormProvider);
 }

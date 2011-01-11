@@ -5,6 +5,7 @@ package org.coode.oppl.function;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -46,6 +47,12 @@ public class Constant<O> extends AbstractOPPLFunction<O> implements OPPLFunction
 	}
 
 	public String render(ConstraintSystem constraintSystem) {
+		return this.getValue() instanceof Variable ? ((Variable<?>) this.getValue()).getName()
+				: this.getValue() instanceof String ? String.format("\"%s\"", this.getValue())
+						: this.getValue().toString();
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
 		return this.getValue() instanceof Variable ? ((Variable<?>) this.getValue()).getName()
 				: this.getValue() instanceof String ? String.format("\"%s\"", this.getValue())
 						: this.getValue().toString();

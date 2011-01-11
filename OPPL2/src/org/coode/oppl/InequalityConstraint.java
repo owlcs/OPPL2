@@ -24,6 +24,7 @@ package org.coode.oppl;
 
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -76,6 +77,12 @@ public class InequalityConstraint implements AbstractConstraint {
 	 */
 	public ConstraintSystem getConstraintSystem() {
 		return this.constraintSystem;
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
+		ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(shortFormProvider);
+		this.expression.accept(renderer);
+		return this.variable.getName() + " != " + renderer.toString();
 	}
 
 	public String render(ConstraintSystem constraintSystem) {

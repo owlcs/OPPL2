@@ -31,17 +31,19 @@ public class PatternAnnotationContainer implements AnnotationContainer {
 			throw new NullPointerException("The OWL editor Kit cannot be null");
 		}
 		this.owlEditorKit = owlEditorKit;
-		this.patternExtractor = ProtegeParserFactory.getInstance(
-				this.getOWLEditorKit()).getPatternFactory()
-				.getPatternExtractor(PatternManager.getDefaultErrorListener());
+		// this.patternExtractor = ProtegeParserFactory.getInstance(
+		// this.getOWLEditorKit()).getPatternFactory()
+		// .getPatternExtractor(PatternManager.getDefaultErrorListener());
+		this.patternExtractor = new PatternExtractor(this.getOntology(),
+				this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager(),
+				PatternManager.getDefaultErrorListener());
 	}
 
 	/**
 	 * @see org.protege.editor.owl.model.AnnotationContainer#getAnnotations()
 	 */
 	public Set<OWLAnnotation> getAnnotations() {
-		OWLOntology activeOntology = this.getOWLEditorKit()
-				.getOWLModelManager().getActiveOntology();
+		OWLOntology activeOntology = this.getOWLEditorKit().getOWLModelManager().getActiveOntology();
 		Set<OWLAnnotation> toReturn = activeOntology.getAnnotations();
 		Iterator<OWLAnnotation> iterator = toReturn.iterator();
 		while (iterator.hasNext()) {

@@ -29,6 +29,7 @@ import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * Constraint that verifies whether a variable values are contained in a
@@ -85,6 +86,11 @@ public class RegExpConstraint implements AbstractConstraint {
 			found = matcher.matches();
 		}
 		return found;
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
+		return this.variable.getName() + " Match(" + this.getExpression().render(shortFormProvider)
+				+ ")";
 	}
 
 	@Override

@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.coode.oppl.variabletypes.InputVariable;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * Generic interface representing an OPPL Script
@@ -63,4 +64,6 @@ public interface OPPLScript {
 	void accept(OPPLScriptVisitor visitor);
 
 	<P> P accept(OPPLScriptVisitorEx<P> visitor);
+
+	public String render(ShortFormProvider shortFormProvider);
 }

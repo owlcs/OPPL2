@@ -7,6 +7,7 @@ import java.util.Formatter;
 
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -44,6 +45,15 @@ public class NAFConstraint implements AbstractConstraint {
 	 */
 	public void accept(ConstraintVisitor visitor) {
 		visitor.visit(this);
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
+		Formatter formatter = new Formatter();
+		ManchesterSyntaxRenderer manchesterSyntaxRenderer = new ManchesterSyntaxRenderer(
+				shortFormProvider);
+		this.getAxiom().accept(manchesterSyntaxRenderer);
+		formatter.format("FAIL %s", manchesterSyntaxRenderer.toString());
+		return formatter.out().toString();
 	}
 
 	/**

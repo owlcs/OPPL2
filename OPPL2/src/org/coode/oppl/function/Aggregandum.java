@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.variabletypes.VariableType;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 public interface Aggregandum<I> {
 	public Set<OPPLFunction<I>> getOPPLFunctions();
@@ -11,4 +12,6 @@ public interface Aggregandum<I> {
 	public boolean isCompatible(VariableType<?> variableType);
 
 	public String render(ConstraintSystem constraintSystem);
+
+	public String render(ShortFormProvider shortFormProvider);
 }

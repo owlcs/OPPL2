@@ -46,6 +46,7 @@ import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -170,6 +171,46 @@ public class OPPLQueryImpl implements OPPLQuery {
 			i = 0;
 			for (AbstractConstraint c : this.getConstraints()) {
 				buffer.append(c.render(this.getConstraintSystem()));
+				if (i < this.getConstraints().size() - 1) {
+					buffer.append(",");
+				}
+				buffer.append('\n');
+				i++;
+			}
+		}
+		return buffer.toString();
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
+		StringBuffer buffer = new StringBuffer("SELECT ");
+		int i = 0;
+		for (OWLAxiom axiom : this.getAssertedAxioms()) {
+			ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(shortFormProvider);
+			buffer.append("ASSERTED ");
+			axiom.accept(renderer);
+			buffer.append(renderer.toString());
+			if (i < this.getAssertedAxioms().size() - 1) {
+				buffer.append(",");
+			}
+			buffer.append('\n');
+			i++;
+		}
+		i = 0;
+		for (OWLAxiom axiom : this.getAxioms()) {
+			ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(shortFormProvider);
+			axiom.accept(renderer);
+			buffer.append(renderer.toString());
+			if (i < this.getAxioms().size() - 1) {
+				buffer.append(",");
+			}
+			buffer.append('\n');
+			i++;
+		}
+		if (this.getConstraints().size() > 0) {
+			buffer.append(" WHERE ");
+			i = 0;
+			for (AbstractConstraint c : this.getConstraints()) {
+				buffer.append(c.render(shortFormProvider));
 				if (i < this.getConstraints().size() - 1) {
 					buffer.append(",");
 				}

@@ -4,6 +4,7 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OWLObjectInstantiator;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> implements
 		OPPLFunction<O> {
@@ -46,6 +47,12 @@ public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> imp
 	 */
 	public O getExpression() {
 		return this.expression;
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
+		ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(shortFormProvider);
+		this.getExpression().accept(renderer);
+		return renderer.toString();
 	}
 
 	public String render(ConstraintSystem constraintSystem) {

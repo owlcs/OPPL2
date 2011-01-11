@@ -70,6 +70,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.util.NamespaceUtil;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -511,6 +512,37 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 					builder.append(((Variable<?>) object).getName());
 				} else {
 					builder.append(((Aggregandum<?>) object).render(constraintSystem));
+				}
+				if (iterator.hasNext()) {
+					builder.append(", ");
+				}
+			}
+			builder.append(closingBrace);
+		}
+		builder.append(")");
+		return builder.toString();
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(String.format("$%s(", this.getPatternName()));
+		for (List<Object> args : this.getArguments()) {
+			String openingBrace = args.size() > 1 ? "{" : "";
+			String closingBrace = args.size() > 1 ? "}" : "";
+			builder.append(openingBrace);
+			Iterator<Object> iterator = args.iterator();
+			while (iterator.hasNext()) {
+				Object object = iterator.next();
+				if (object instanceof OWLObject) {
+					OWLObject owlObject = (OWLObject) object;
+					ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(
+							shortFormProvider);
+					owlObject.accept(renderer);
+					builder.append(renderer.toString());
+				} else if (object instanceof Variable<?>) {
+					builder.append(((Variable<?>) object).getName());
+				} else {
+					builder.append(((Aggregandum<?>) object).render(shortFormProvider));
 				}
 				if (iterator.hasNext()) {
 					builder.append(", ");

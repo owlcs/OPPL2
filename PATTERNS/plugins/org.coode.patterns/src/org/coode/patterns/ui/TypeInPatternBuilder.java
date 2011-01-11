@@ -51,9 +51,11 @@ import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
 import org.protege.editor.owl.ui.clsdescriptioneditor.OWLExpressionChecker;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -243,7 +245,16 @@ public class TypeInPatternBuilder implements VerifiedInputEditor,
 	 *            the patternModel to set
 	 */
 	public void setPatternModel(PatternModel patternModel) {
-		this.patternModelEditor.setText(patternModel == null ? "" : patternModel.render());
+		this.patternModelEditor.setText(patternModel == null ? ""
+				: patternModel.render(new ShortFormProvider() {
+					public String getShortForm(OWLEntity entity) {
+						return TypeInPatternBuilder.this.getOWLEditorKit().getOWLModelManager().getRendering(
+								entity);
+					}
+
+					public void dispose() {
+					}
+				}));
 		this.patternNameTextField.setText(patternModel == null ? ""
 				: patternModel.getPatternLocalName());
 	}

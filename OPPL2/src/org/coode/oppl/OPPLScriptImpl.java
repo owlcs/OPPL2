@@ -30,6 +30,7 @@ import org.coode.oppl.utils.VariableRecogniser;
 import org.coode.oppl.variabletypes.InputVariable;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /**
  * @author Luigi Iannone
@@ -163,6 +164,40 @@ public class OPPLScriptImpl implements OPPLScript {
 
 	public String render() {
 		return this.toString();
+	}
+
+	public String render(ShortFormProvider shortFormProvider) {
+		StringBuffer buffer = new StringBuffer();
+		boolean first = true;
+		for (Variable<?> v : this.getVariables()) {
+			String commaString = first ? "" : ", ";
+			first = false;
+			buffer.append(commaString);
+			buffer.append(v.render(this.getConstraintSystem()));
+		}
+		if (buffer.length() > 0) {
+			buffer.append(" ");
+		}
+		OPPLQuery opplQuery = this.getQuery();
+		if (this.query != null) {
+			buffer.append(opplQuery.render(shortFormProvider));
+		}
+		if (this.getActions().size() > 0) {
+			buffer.append(" BEGIN ");
+			first = true;
+			for (OWLAxiomChange action : this.getActions()) {
+				String commaString = first ? "" : ", ";
+				ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(shortFormProvider);
+				String actionString = action instanceof AddAxiom ? "ADD " : "REMOVE ";
+				first = false;
+				buffer.append(commaString);
+				buffer.append(actionString);
+				action.getAxiom().accept(renderer);
+				buffer.append(renderer.toString());
+			}
+			buffer.append(" END;");
+		}
+		return buffer.toString();
 	}
 
 	public void addVariable(Variable<?> variable) {
