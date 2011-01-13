@@ -41,7 +41,9 @@ public class ValuesVariableAtttribute<O extends OWLObject> extends
 					for (BindingNode bindingNode : leaves) {
 						OWLObject assignmentValue = bindingNode.getAssignmentValue(
 								ValuesVariableAtttribute.this.getVariable(),
-								parameters);
+								new SimpleValueComputationParameters(
+										parameters.getConstraintSystem(), bindingNode,
+										parameters.getRuntimeExceptionHandler()));
 						if (assignmentValue != null) {
 							toReturn.add((O) assignmentValue);
 						}

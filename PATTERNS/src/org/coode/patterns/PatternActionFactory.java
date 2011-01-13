@@ -109,22 +109,37 @@ public class PatternActionFactory {
 			RuntimeExceptionHandler handler) {
 		List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
 		Set<BindingNode> bindingNodes = instantiatedPatternModel.extractBindingNodes();
-		if (bindingNodes != null && !bindingNodes.isEmpty()) {
-			instantiatedPatternModel.getConstraintSystem().setLeaves(bindingNodes);
-			for (BindingNode bindingNode : bindingNodes) {
-				ValueComputationParameters parameters = new SimpleValueComputationParameters(
-						instantiatedPatternModel.getConstraintSystem(), bindingNode, handler);
-				PartialOWLObjectInstantiator instatiator = new PartialOWLObjectInstantiator(
-						parameters);
-				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instatiator);
+		if (instantiatedPatternModel.getPatternModel().getInputVariables().isEmpty()
+				&& !instantiatedPatternModel.getPatternModel().isClassPattern()
+				|| bindingNodes != null && !bindingNodes.isEmpty()) {
+			if (instantiatedPatternModel.getPatternModel().getInputVariables().isEmpty()
+					&& !instantiatedPatternModel.getPatternModel().isClassPattern()) {
+				// empty variables
 				addChange(
-						instantiatedAxiom,
+						axiom,
 						actionType,
 						toReturn,
 						instantiatedPatternModel,
 						owlDataFactory,
 						ontology,
 						annotationIRI);
+			} else {
+				instantiatedPatternModel.getConstraintSystem().setLeaves(bindingNodes);
+				for (BindingNode bindingNode : bindingNodes) {
+					ValueComputationParameters parameters = new SimpleValueComputationParameters(
+							instantiatedPatternModel.getConstraintSystem(), bindingNode, handler);
+					PartialOWLObjectInstantiator instatiator = new PartialOWLObjectInstantiator(
+							parameters);
+					OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instatiator);
+					addChange(
+							instantiatedAxiom,
+							actionType,
+							toReturn,
+							instantiatedPatternModel,
+							owlDataFactory,
+							ontology,
+							annotationIRI);
+				}
 			}
 		}
 		return toReturn;
