@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.function.inline.InlineSet;
 import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
@@ -46,7 +47,8 @@ public class Adapter {
 		return toReturn;
 	}
 
-	public static <I> Aggregandum<I> buildSingletonAggregandum(final OPPLFunction<I> singleton) {
+	public static <I> Aggregandum<I> buildSingletonAggregandum(
+			final OPPLFunction<I> singleton) {
 		if (singleton == null) {
 			throw new NullPointerException("The OPPL function cannot be null");
 		}
@@ -69,7 +71,8 @@ public class Adapter {
 		};
 	}
 
-	public static <I> Aggregandum<Collection<? extends I>> buildAggregandumOfCollection(I singleton) {
+	public static <I> Aggregandum<Collection<? extends I>> buildAggregandumOfCollection(
+			I singleton) {
 		if (singleton == null) {
 			throw new NullPointerException("The OPPL function cannot be null");
 		}
@@ -77,7 +80,8 @@ public class Adapter {
 		return new Aggregandum<Collection<? extends I>>() {
 			public Set<OPPLFunction<Collection<? extends I>>> getOPPLFunctions() {
 				OPPLFunction<Collection<? extends I>> singleton = new OPPLFunction<Collection<? extends I>>() {
-					public Collection<? extends I> compute(ValueComputationParameters params) {
+					public Collection<? extends I> compute(
+							ValueComputationParameters params) {
 						I value = adapted.compute(params);
 						return Collections.singleton(value);
 					}
@@ -153,7 +157,8 @@ public class Adapter {
 				try {
 					pattern = Pattern.compile(string);
 				} catch (PatternSyntaxException e) {
-					params.getRuntimeExceptionHandler().handlePatternSyntaxExcpetion(e);
+					params.getRuntimeExceptionHandler()
+							.handlePatternSyntaxExcpetion(e);
 				}
 				return pattern;
 			}
@@ -168,88 +173,115 @@ public class Adapter {
 		};
 	}
 
-	private static <I> boolean isCompatible(Aggregandum<I> aggregandum, final VariableType<?> type) {
+	private static <I> boolean isCompatible(Aggregandum<I> aggregandum,
+			final VariableType<?> type) {
 		boolean isCompatible = true;
-		Iterator<OPPLFunction<I>> iterator = aggregandum.getOPPLFunctions().iterator();
+		Iterator<OPPLFunction<I>> iterator = aggregandum.getOPPLFunctions()
+				.iterator();
 		while (isCompatible && iterator.hasNext()) {
 			OPPLFunction<I> opplFunction = iterator.next();
-			isCompatible = opplFunction.accept(new OPPLFunctionVisitorEx<Boolean>() {
-				public <O, T> Boolean visitAggregation(Aggregation<O, T> aggregation) {
-					boolean isCompatible = true;
-					Iterator<Aggregandum<T>> it = aggregation.getToAggreagte().iterator();
-					while (it.hasNext()) {
-						Aggregandum<T> aggregandum = it.next();
-						isCompatible = Adapter.isCompatible(aggregandum, type);
-					}
-					return isCompatible;
-				}
-
-				public <P extends OWLObject> Boolean visitGenericOPPLFunction(
-						OPPLFunction<P> opplFunction) {
-					return false;
-				}
-
-				public <O> Boolean visitConstant(Constant<O> constant) {
-					final O value = constant.getValue();
-					return type.accept(new VariableTypeVisitorEx<Boolean>() {
-						public Boolean visitCLASSVariableType(CLASSVariableType classVariableType) {
-							return value instanceof OWLClassExpression;
+			isCompatible = opplFunction
+					.accept(new OPPLFunctionVisitorEx<Boolean>() {
+						public <O, T> Boolean visitAggregation(
+								Aggregation<O, T> aggregation) {
+							boolean isCompatible = true;
+							Iterator<Aggregandum<T>> it = aggregation
+									.getToAggreagte().iterator();
+							while (it.hasNext()) {
+								Aggregandum<T> aggregandum = it.next();
+								isCompatible = Adapter.isCompatible(
+										aggregandum, type);
+							}
+							return isCompatible;
 						}
 
-						public Boolean visitOBJECTPROPERTYVariableType(
-								OBJECTPROPERTYVariableType objectpropertyVariableType) {
-							return value instanceof OWLObjectPropertyExpression;
+						public <O extends OWLObject> Boolean visitInlineSet(
+								InlineSet<O> inlineSet) {
+							boolean isCompatible = true;
+							Iterator<Aggregandum<Collection<? extends O>>> it = inlineSet
+									.getAggregandums().iterator();
+							while (it.hasNext()) {
+								Aggregandum<Collection<? extends O>> aggregandum = it
+										.next();
+								isCompatible = Adapter.isCompatible(
+										aggregandum, type);
+							}
+							return isCompatible;
 						}
 
-						public Boolean visitDATAPROPERTYVariableType(
-								DATAPROPERTYVariableType datapropertyVariableType) {
-							return value instanceof OWLDataPropertyExpression;
+						public <P extends OWLObject> Boolean visitGenericOPPLFunction(
+								OPPLFunction<P> opplFunction) {
+							return false;
 						}
 
-						public Boolean visitINDIVIDUALVariableType(
-								INDIVIDUALVariableType individualVariableType) {
-							return value instanceof OWLIndividual;
+						public <O> Boolean visitConstant(Constant<O> constant) {
+							final O value = constant.getValue();
+							return type
+									.accept(new VariableTypeVisitorEx<Boolean>() {
+										public Boolean visitCLASSVariableType(
+												CLASSVariableType classVariableType) {
+											return value instanceof OWLClassExpression;
+										}
+
+										public Boolean visitOBJECTPROPERTYVariableType(
+												OBJECTPROPERTYVariableType objectpropertyVariableType) {
+											return value instanceof OWLObjectPropertyExpression;
+										}
+
+										public Boolean visitDATAPROPERTYVariableType(
+												DATAPROPERTYVariableType datapropertyVariableType) {
+											return value instanceof OWLDataPropertyExpression;
+										}
+
+										public Boolean visitINDIVIDUALVariableType(
+												INDIVIDUALVariableType individualVariableType) {
+											return value instanceof OWLIndividual;
+										}
+
+										public Boolean visitCONSTANTVariableType(
+												CONSTANTVariableType constantVariableType) {
+											return value instanceof OWLLiteral;
+										}
+
+										public Boolean visitANNOTATIONPROPERTYVariableType(
+												ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+											return value instanceof OWLAnnotationProperty;
+										}
+									});
 						}
 
-						public Boolean visitCONSTANTVariableType(
-								CONSTANTVariableType constantVariableType) {
-							return value instanceof OWLLiteral;
+						public <O extends OWLObject> Boolean visitValuesVariableAtttribute(
+								ValuesVariableAtttribute<O> valuesVariableAtttribute) {
+							return valuesVariableAtttribute.getVariable()
+									.getType() == type;
 						}
 
-						public Boolean visitANNOTATIONPROPERTYVariableType(
-								ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
-							return value instanceof OWLAnnotationProperty;
+						public Boolean visitRenderingVariableAttribute(
+								RenderingVariableAttribute renderingVariableAttribute) {
+							return false;
+						}
+
+						public <O extends OWLObject> Boolean visitGroupVariableAttribute(
+								GroupVariableAttribute<O> groupVariableAttribute) {
+							return false;
+						}
+
+						public <O extends OWLObject> Boolean visitExpression(
+								Expression<O> expression) {
+							return type.isCompatibleWith(expression
+									.getExpression());
+						}
+
+						public <O, T extends OPPLFunction<?>> Boolean visitCreate(
+								Create<T, O> create) {
+							return create.isCompatible(type);
+						}
+
+						public Boolean visitIRIVariableAttribute(
+								IRIVariableAttribute iriVariableAttribute) {
+							return false;
 						}
 					});
-				}
-
-				public <O extends OWLObject> Boolean visitValuesVariableAtttribute(
-						ValuesVariableAtttribute<O> valuesVariableAtttribute) {
-					return valuesVariableAtttribute.getVariable().getType() == type;
-				}
-
-				public Boolean visitRenderingVariableAttribute(
-						RenderingVariableAttribute renderingVariableAttribute) {
-					return false;
-				}
-
-				public <O extends OWLObject> Boolean visitGroupVariableAttribute(
-						GroupVariableAttribute<O> groupVariableAttribute) {
-					return false;
-				}
-
-				public <O extends OWLObject> Boolean visitExpression(Expression<O> expression) {
-					return type.isCompatibleWith(expression.getExpression());
-				}
-
-				public <O, T extends OPPLFunction<?>> Boolean visitCreate(Create<T, O> create) {
-					return create.isCompatible(type);
-				}
-
-				public Boolean visitIRIVariableAttribute(IRIVariableAttribute iriVariableAttribute) {
-					return false;
-				}
-			});
 		}
 		return isCompatible;
 	}
@@ -257,13 +289,12 @@ public class Adapter {
 	private static <I> String renderAggregandum(Aggregandum<I> aggregandum,
 			ConstraintSystem constraintSystem) {
 		StringBuilder builder = new StringBuilder();
-		Iterator<OPPLFunction<I>> iterator = aggregandum.getOPPLFunctions().iterator();
+		Iterator<OPPLFunction<I>> iterator = aggregandum.getOPPLFunctions()
+				.iterator();
 		while (iterator.hasNext()) {
 			OPPLFunction<I> opplFunction = iterator.next();
-			builder.append(String.format(
-					"%s%s",
-					opplFunction.render(constraintSystem),
-					iterator.hasNext() ? ", " : ""));
+			builder.append(String.format("%s%s", opplFunction
+					.render(constraintSystem), iterator.hasNext() ? ", " : ""));
 		}
 		return builder.toString();
 	}
@@ -271,13 +302,12 @@ public class Adapter {
 	private static <I> String renderAggregandum(Aggregandum<I> aggregandum,
 			ShortFormProvider shortFormProvider) {
 		StringBuilder builder = new StringBuilder();
-		Iterator<OPPLFunction<I>> iterator = aggregandum.getOPPLFunctions().iterator();
+		Iterator<OPPLFunction<I>> iterator = aggregandum.getOPPLFunctions()
+				.iterator();
 		while (iterator.hasNext()) {
 			OPPLFunction<I> opplFunction = iterator.next();
-			builder.append(String.format(
-					"%s%s",
-					opplFunction.render(shortFormProvider),
-					iterator.hasNext() ? ", " : ""));
+			builder.append(String.format("%s%s", opplFunction
+					.render(shortFormProvider), iterator.hasNext() ? ", " : ""));
 		}
 		return builder.toString();
 	}

@@ -1,5 +1,6 @@
 package org.coode.oppl.function;
 
+import org.coode.oppl.function.inline.InlineSet;
 import org.semanticweb.owlapi.model.OWLObject;
 
 public interface OPPLFunctionVisitorEx<T> {
@@ -10,7 +11,8 @@ public interface OPPLFunctionVisitorEx<T> {
 	public <O extends OWLObject> T visitValuesVariableAtttribute(
 			ValuesVariableAtttribute<O> valuesVariableAtttribute);
 
-	public T visitRenderingVariableAttribute(RenderingVariableAttribute renderingVariableAttribute);
+	public T visitRenderingVariableAttribute(
+			RenderingVariableAttribute renderingVariableAttribute);
 
 	public <O extends OWLObject> T visitGroupVariableAttribute(
 			GroupVariableAttribute<O> groupVariableAttribute);
@@ -21,5 +23,8 @@ public interface OPPLFunctionVisitorEx<T> {
 
 	public T visitIRIVariableAttribute(IRIVariableAttribute iriVariableAttribute);
 
-	public <P extends OWLObject> T visitGenericOPPLFunction(OPPLFunction<P> opplFunction);
+	public <P extends OWLObject> T visitGenericOPPLFunction(
+			OPPLFunction<P> opplFunction);
+
+	public <O extends OWLObject> T visitInlineSet(InlineSet<O> inlineSet);
 }

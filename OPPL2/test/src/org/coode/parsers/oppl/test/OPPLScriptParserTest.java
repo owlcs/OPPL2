@@ -54,6 +54,20 @@ public class OPPLScriptParserTest extends TestCase {
 		assertNotNull(parsed);
 	}
 
+	public void testSubClassQueryNAryAxiom() {
+		String query = "?x:CLASS SELECT disjointWith set(Thing, Nothing) BEGIN ADD ?x subClassOf Thing END;";
+		ManchesterOWLSyntaxTree parsed = this.parse(query);
+		System.out.println(parsed.toStringTree());
+		assertNotNull(parsed);
+	}
+
+	public void testSubClassQueryNAryAxiomVariableValues() {
+		String query = "?x:CLASS SELECT disjointWith set(?x.VALUES) BEGIN ADD ?x subClassOf Thing END;";
+		ManchesterOWLSyntaxTree parsed = this.parse(query);
+		System.out.println(parsed.toStringTree());
+		assertNotNull(parsed);
+	}
+
 	public void testRegexpQuery() {
 		String query = "?x:CLASS = MATCH (\".*ing\") SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
 		ManchesterOWLSyntaxTree parsed = this.parse(query);

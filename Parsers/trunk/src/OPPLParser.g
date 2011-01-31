@@ -81,7 +81,24 @@ regexp
       ASSERTED axiom -> ^(ASSERTED_CLAUSE axiom)
     | axiom -> ^(PLAIN_CLAUSE axiom)
   ;
-  
+
+axiom	    	options {backtrack=true;}:
+		binaryAxiom -> ^(binaryAxiom)
+		| nAryAxiom -> ^(nAryAxiom)
+		| unaryAxiom -> ^(unaryAxiom)
+		| assertionAxiom -> ^(assertionAxiom)
+		| hasKeyAxiom ->^(hasKeyAxiom)
+		| annotationAssertionAxiom ->^(annotationAssertionAxiom)
+	;		
+
+
+
+nAryAxiom
+	:
+		DISJOINT_WITH opplFunction -> ^(DISJOINT_WITH opplFunction)
+		| DIFFERENT_FROM opplFunction -> ^(DIFFERENT_FROM opplFunction)
+		| SAME_AS opplFunction -> ^(SAME_AS opplFunction)
+	;
  
  
  constraint
@@ -111,6 +128,7 @@ opplFunction
       CREATE OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS -> ^(CREATE_OPPL_FUNCTION stringOperation)
     | CREATE_INTERSECTION  OPEN_PARENTHESYS atomic (COMMA atomic)*  CLOSED_PARENTHESYS -> ^(CREATE_INTERSECTION atomic+)
     | CREATE_DISJUNCTION OPEN_PARENTHESYS atomic CLOSED_PARENTHESYS -> ^(CREATE_DISJUNCTION atomic)
+    | SET OPEN_PARENTHESYS atomic (COMMA atomic)* CLOSED_PARENTHESYS -> ^(EXPRESSION ^(SET atomic*))
   ;
 
 stringOperation

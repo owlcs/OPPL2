@@ -12,15 +12,24 @@ import org.coode.oppl.InCollectionConstraint;
 import org.coode.oppl.InequalityConstraint;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableVisitorEx;
+import org.coode.oppl.datafactory.OPPLOWLDataFactory;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.function.Aggregandum;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.function.ValuesVariableAtttribute;
 import org.coode.oppl.function.VariableAttribute;
+import org.coode.oppl.function.inline.InlineSet;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
+import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
+import org.coode.oppl.variabletypes.CLASSVariableType;
+import org.coode.oppl.variabletypes.CONSTANTVariableType;
+import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
+import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
 import org.coode.oppl.variabletypes.InputVariable;
+import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
+import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.coode.parsers.DefaultTypeVistorEx;
 import org.coode.parsers.IRISymbol;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
@@ -36,8 +45,13 @@ import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.ValuesVariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.VariableAttributeSymbol;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 
 public class OPPLSymbolTable extends SymbolTable {
 	/**
@@ -46,6 +60,11 @@ public class OPPLSymbolTable extends SymbolTable {
 	 */
 	public OPPLSymbolTable(Scope globalScope, OWLDataFactory dataFactory) {
 		super(globalScope, dataFactory);
+	}
+
+	@Override
+	public OPPLOWLDataFactory getDataFactory() {
+		return new OPPLOWLDataFactory(super.getDataFactory());
 	}
 
 	/**
@@ -76,8 +95,10 @@ public class OPPLSymbolTable extends SymbolTable {
 			this.reportIllegalToken(variableType,
 					"The variable type is not amongst those recognised");
 		} else {
-			this.define(identifier.token, type.getSymbol(this.getDataFactory(),
-					identifier.token.getText()));
+			this.define(
+					identifier.token,
+					type.getSymbol(this.getDataFactory(),
+							identifier.token.getText()));
 			try {
 				constraintSystem.createVariable(identifier.token.getText(),
 						type.getOPPLVariableType(), null);
@@ -93,8 +114,8 @@ public class OPPLSymbolTable extends SymbolTable {
 			ManchesterOWLSyntaxTree classExpression) {
 		Type toReturn = null;
 		if (!OWLType.isClassExpression(classExpression.getEvalType())) {
-			this.reportIncompatibleSymbolType(classExpression, classExpression
-					.getEvalType(), parentExpression);
+			this.reportIncompatibleSymbolType(classExpression,
+					classExpression.getEvalType(), parentExpression);
 		} else {
 			toReturn = classExpression.getEvalType();
 		}
@@ -137,9 +158,7 @@ public class OPPLSymbolTable extends SymbolTable {
 		if (opplVariableVariableType == null) {
 			this.reportIllegalToken(variableType, "Unknown variable type");
 		} else if (expression.getOWLObject() == null) {
-			this
-					.reportIllegalToken(expression,
-							"Null OWL Object in expression");
+			this.reportIllegalToken(expression, "Null OWL Object in expression");
 		} else if (!opplVariableVariableType.isCompatibleWith(expression
 				.getOWLObject())) {
 			this.reportIncompatibleSymbols(parentExpression, variableType,
@@ -264,8 +283,8 @@ public class OPPLSymbolTable extends SymbolTable {
 					this.reportIllegalToken(variableIdentifier,
 							"Unknown variable");
 				} else if (expression.getOWLObject() != null) {
-					toReturn = new InequalityConstraint(variable, expression
-							.getOWLObject(), constraintSystem);
+					toReturn = new InequalityConstraint(variable,
+							expression.getOWLObject(), constraintSystem);
 				} else {
 					this.reportIllegalToken(expression, "No OWL object");
 				}
@@ -422,8 +441,8 @@ public class OPPLSymbolTable extends SymbolTable {
 	private void importVariable(Variable<?> variable) {
 		VariableType type = VariableType.getVariableType(variable.getType()
 				.toString());
-		Symbol symbol = type.getSymbol(this.getDataFactory(), variable
-				.getName());
+		Symbol symbol = type.getSymbol(this.getDataFactory(),
+				variable.getName());
 		this.storeSymbol(variable.getName(), symbol);
 	}
 
@@ -596,6 +615,95 @@ public class OPPLSymbolTable extends SymbolTable {
 		}
 	}
 
+	public OWLAxiom getDisjointAxiom(final OPPLSyntaxTree expression,
+			final Collection<? extends Aggregandum<?>> aggregandums,
+			final List<OPPLSyntaxTree> aggregdandumTrees,
+			final ConstraintSystem constraintSystem) {
+		org.coode.oppl.variabletypes.VariableType<?> aggregandumCollectionType = this
+				.getAggregandumCollectionType(aggregandums, aggregdandumTrees,
+						expression);
+		OWLAxiom toReturn = null;
+		if (aggregandumCollectionType != null) {
+			toReturn = aggregandumCollectionType
+					.accept(new VariableTypeVisitorEx<OWLAxiom>() {
+						public OWLAxiom visitANNOTATIONPROPERTYVariableType(
+								ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+							OPPLSymbolTable.this
+									.reportIncompatibleSymbolType(expression,
+											VariableType.ANNOTATIONPROPERTY,
+											expression);
+							return null;
+						}
+
+						public OWLAxiom visitCONSTANTVariableType(
+								CONSTANTVariableType constantVariableType) {
+							OPPLSymbolTable.this.reportIncompatibleSymbolType(
+									expression, VariableType.CONSTANT,
+									expression);
+							return null;
+						}
+
+						public OWLAxiom visitINDIVIDUALVariableType(
+								INDIVIDUALVariableType individualVariableType) {
+							OPPLSymbolTable.this.reportIncompatibleSymbolType(
+									expression, VariableType.INDIVIDUAL,
+									expression);
+							return null;
+						}
+
+						public OWLAxiom visitCLASSVariableType(
+								CLASSVariableType classVariableType) {
+							Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection = OPPLSymbolTable.this
+									.getAggregandumCollection(
+											classVariableType, aggregandums,
+											aggregdandumTrees, expression);
+							InlineSet<OWLClassExpression> inlineSet = new InlineSet<OWLClassExpression>(
+									classVariableType, aggregandumCollection,
+									OPPLSymbolTable.this.getDataFactory(),
+									constraintSystem);
+							return OPPLSymbolTable.this.getDataFactory()
+									.getOWLDisjointClassesAxiom(inlineSet);
+						}
+
+						public OWLAxiom visitDATAPROPERTYVariableType(
+								DATAPROPERTYVariableType datapropertyVariableType) {
+							Collection<? extends Aggregandum<Collection<? extends OWLDataProperty>>> aggregandumCollection = OPPLSymbolTable.this
+									.getAggregandumCollection(
+											datapropertyVariableType,
+											aggregandums, aggregdandumTrees,
+											expression);
+							InlineSet<OWLDataProperty> inlineSet = new InlineSet<OWLDataProperty>(
+									datapropertyVariableType,
+									aggregandumCollection, OPPLSymbolTable.this
+											.getDataFactory(), constraintSystem);
+							return OPPLSymbolTable.this.getDataFactory()
+									.getOWLDisjointDataPropertiesAxiom(
+											inlineSet);
+						}
+
+						public OWLAxiom visitOBJECTPROPERTYVariableType(
+								OBJECTPROPERTYVariableType objectpropertyVariableType) {
+							Collection<? extends Aggregandum<Collection<? extends OWLObjectPropertyExpression>>> aggregandumCollection = OPPLSymbolTable.this
+									.getAggregandumCollection(
+											objectpropertyVariableType,
+											aggregandums, aggregdandumTrees,
+											expression);
+							InlineSet<OWLObjectPropertyExpression> inlineSet = new InlineSet<OWLObjectPropertyExpression>(
+									objectpropertyVariableType,
+									aggregandumCollection, OPPLSymbolTable.this
+											.getDataFactory(), constraintSystem);
+							return OPPLSymbolTable.this.getDataFactory()
+									.getOWLDisjointObjectPropertiesAxiom(
+											inlineSet);
+						}
+					});
+		} else {
+			this.reportIncompatibleSymbols(expression, aggregdandumTrees
+					.toArray(new OPPLSyntaxTree[aggregdandumTrees.size()]));
+		}
+		return toReturn;
+	}
+
 	@SuppressWarnings("unchecked")
 	public <O extends OWLObject> Collection<? extends Aggregandum<Collection<? extends O>>> getAggregandumCollection(
 			org.coode.oppl.variabletypes.VariableType<O> variableType,
@@ -611,8 +719,7 @@ public class OPPLSymbolTable extends SymbolTable {
 			Aggregandum<?> aggregandum = iterator.next();
 			allFine = aggregandum.isCompatible(variableType);
 			if (allFine) {
-				toReturn
-						.add((Aggregandum<Collection<? extends O>>) aggregandum);
+				toReturn.add((Aggregandum<Collection<? extends O>>) aggregandum);
 			} else {
 				OPPLSyntaxTree opplSyntaxTree = aggregandumsTrees.get(i);
 				this.reportIncompatibleSymbolType(opplSyntaxTree,
@@ -621,5 +728,102 @@ public class OPPLSymbolTable extends SymbolTable {
 			i++;
 		}
 		return allFine ? toReturn : null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public org.coode.oppl.variabletypes.VariableType<?> getAggregandumCollectionType(
+			Collection<? extends Aggregandum<?>> aggregandums,
+			List<OPPLSyntaxTree> aggregandumsTrees,
+			OPPLSyntaxTree parentExpression) {
+		org.coode.oppl.variabletypes.VariableType<?> toReturn = null;
+		boolean allFine = true;
+		Iterator<? extends Aggregandum<?>> iterator = aggregandums.iterator();
+		int i = 0;
+		while (allFine && iterator.hasNext()) {
+			Aggregandum<?> aggregandum = iterator.next();
+			org.coode.oppl.variabletypes.VariableType<?> aggregandumVariableType = this
+					.getAggregandumVariableType(aggregandum,
+							aggregandumsTrees.get(i));
+			allFine = toReturn == null
+					|| toReturn.equals(aggregandumVariableType);
+			if (allFine) {
+				toReturn = aggregandumVariableType;
+			} else {
+				OPPLSyntaxTree opplSyntaxTree = aggregandumsTrees.get(i);
+				this.reportIncompatibleSymbolType(opplSyntaxTree,
+						opplSyntaxTree.getEvalType(), parentExpression);
+			}
+			i++;
+		}
+		return allFine ? toReturn : null;
+	}
+
+	private org.coode.oppl.variabletypes.VariableType<?> getAggregandumVariableType(
+			Aggregandum<?> aggregandum, OPPLSyntaxTree opplSyntaxTree) {
+		org.coode.oppl.variabletypes.VariableType<?> toReturn = null;
+		Iterator<org.coode.oppl.variabletypes.VariableType<?>> iterator = VariableTypeFactory
+				.getAllVariableTypes().iterator();
+		boolean found = false;
+		while (!found && iterator.hasNext()) {
+			org.coode.oppl.variabletypes.VariableType<?> variableType = (org.coode.oppl.variabletypes.VariableType<?>) iterator
+					.next();
+			found = aggregandum.isCompatible(variableType);
+			if (found) {
+				toReturn = variableType;
+			}
+		}
+		return toReturn;
+	}
+
+	public OWLAxiom getDifferentIndividualsAxiom(OPPLSyntaxTree opplSyntaxTree,
+			List<Aggregandum<?>> list, List<OPPLSyntaxTree> tokenList,
+			ConstraintSystem constraintSystem) {
+		OWLAxiom toReturn = null;
+		org.coode.oppl.variabletypes.VariableType<?> aggregandumCollectionType = this
+				.getAggregandumCollectionType(list, tokenList, opplSyntaxTree);
+		if (aggregandumCollectionType == VariableTypeFactory
+				.getINDIVIDUALVariableType()) {
+			Collection<? extends Aggregandum<Collection<? extends OWLIndividual>>> aggregandumCollection = this
+					.getAggregandumCollection(
+							VariableTypeFactory.getINDIVIDUALVariableType(),
+							list, tokenList, opplSyntaxTree);
+			InlineSet<OWLIndividual> individuals = new InlineSet<OWLIndividual>(
+					VariableTypeFactory.getINDIVIDUALVariableType(),
+					aggregandumCollection, this.getDataFactory(),
+					constraintSystem);
+			toReturn = this.getDataFactory().getOWLDifferentIndividualsAxiom(
+					individuals);
+		} else {
+			this.reportIncompatibleSymbolType(opplSyntaxTree,
+					VariableType.getVariableType(aggregandumCollectionType),
+					opplSyntaxTree);
+		}
+		return toReturn;
+	}
+
+	public OWLAxiom getSameIndividualAxiom(OPPLSyntaxTree opplSyntaxTree,
+			List<Aggregandum<?>> list, List<OPPLSyntaxTree> tokenList,
+			ConstraintSystem constraintSystem) {
+		OWLAxiom toReturn = null;
+		org.coode.oppl.variabletypes.VariableType<?> aggregandumCollectionType = this
+				.getAggregandumCollectionType(list, tokenList, opplSyntaxTree);
+		if (aggregandumCollectionType == VariableTypeFactory
+				.getINDIVIDUALVariableType()) {
+			Collection<? extends Aggregandum<Collection<? extends OWLIndividual>>> aggregandumCollection = this
+					.getAggregandumCollection(
+							VariableTypeFactory.getINDIVIDUALVariableType(),
+							list, tokenList, opplSyntaxTree);
+			InlineSet<OWLIndividual> individuals = new InlineSet<OWLIndividual>(
+					VariableTypeFactory.getINDIVIDUALVariableType(),
+					aggregandumCollection, this.getDataFactory(),
+					constraintSystem);
+			toReturn = this.getDataFactory().getOWLSameIndividualAxiom(
+					individuals);
+		} else {
+			this.reportIncompatibleSymbolType(opplSyntaxTree,
+					VariableType.getVariableType(aggregandumCollectionType),
+					opplSyntaxTree);
+		}
+		return toReturn;
 	}
 }

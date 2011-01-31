@@ -126,7 +126,8 @@ options {
 // START: root
 bottomup // match subexpressions innermost to outermost
     :  
-    	statement
+    	opplAxioms
+    	| statement
     ;
 
 
@@ -461,6 +462,8 @@ constraint returns [AbstractConstraint constraint]
 		}
 ;
 
+
+
 aggregandums returns [List<Aggregandum<?>> list, List<OPPLSyntaxTree> tokenList]
 @init
 {
@@ -473,6 +476,29 @@ aggregandums returns [List<Aggregandum<?>> list, List<OPPLSyntaxTree> tokenList]
 			$list.add(a.a);
 		})+
 	;
+	
+	
+// OPPL can add axiom syntax to the Manchester OWL Syntax
+opplAxioms
+@init{
+	OWLAxiom axiom=null;
+}
+@after
+{
+	$start.setOWLObject(axiom);
+}
+	:
+		^(DISJOINT_WITH ^(EXPRESSION ^(SET va = aggregandums))){
+			axiom = getSymbolTable().getDisjointAxiom($start,va.list,va.tokenList, getConstraintSystem());
+		}
+		| ^(DIFFERENT_FROM ^(EXPRESSION ^(SET va = aggregandums))){
+			axiom = getSymbolTable().getDifferentIndividualsAxiom($start,va.list,va.tokenList, getConstraintSystem());		
+		}
+		| ^(SAME_AS ^(EXPRESSION ^(SET va = aggregandums))){
+			axiom = getSymbolTable().getSameIndividualAxiom($start,va.list,va.tokenList, getConstraintSystem());		
+		}
+		
+	;	
 
 aggregandum returns [Aggregandum<?> a, OPPLSyntaxTree node]
 @after

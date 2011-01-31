@@ -129,6 +129,11 @@ FAIL
 		| 'Fail'
 	;
 
+SET
+	:
+		('S' |'s')('E'|'e')('T'|'t')
+	;
+
 VALUES
   :
     'VALUES'
