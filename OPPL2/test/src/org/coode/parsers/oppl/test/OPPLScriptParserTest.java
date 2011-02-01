@@ -41,8 +41,7 @@ public class OPPLScriptParserTest extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop,
-				RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
@@ -55,14 +54,14 @@ public class OPPLScriptParserTest extends TestCase {
 	}
 
 	public void testSubClassQueryNAryAxiom() {
-		String query = "?x:CLASS SELECT disjointWith set(Thing, Nothing) BEGIN ADD ?x subClassOf Thing END;";
+		String query = "?x:CLASS SELECT DisjointClasses set(Thing, Nothing) BEGIN ADD ?x subClassOf Thing END;";
 		ManchesterOWLSyntaxTree parsed = this.parse(query);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
 	}
 
 	public void testSubClassQueryNAryAxiomVariableValues() {
-		String query = "?x:CLASS SELECT disjointWith set(?x.VALUES) BEGIN ADD ?x subClassOf Thing END;";
+		String query = "?x:CLASS SELECT DisjointClasses: set(?x.VALUES) BEGIN ADD ?x subClassOf Thing END;";
 		ManchesterOWLSyntaxTree parsed = this.parse(query);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);
@@ -96,8 +95,7 @@ public class OPPLScriptParserTest extends TestCase {
 			nodes.setTreeAdaptor(adaptor);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-					nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			return (ManchesterOWLSyntaxTree) r.getTree();

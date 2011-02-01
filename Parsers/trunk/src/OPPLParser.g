@@ -95,9 +95,10 @@ axiom	    	options {backtrack=true;}:
 
 nAryAxiom
 	:
-		DISJOINT_WITH opplFunction -> ^(DISJOINT_WITH opplFunction)
-		| DIFFERENT_FROM opplFunction -> ^(DIFFERENT_FROM opplFunction)
-		| SAME_AS opplFunction -> ^(SAME_AS opplFunction)
+		DISJOINT_CLASSES opplFunction -> ^(DISJOINT_CLASSES opplFunction)
+		| DISJOINT_PROPERTIES opplFunction -> ^(DISJOINT_PROPERTIES opplFunction)
+		| SAME_INDIVIDUAL opplFunction -> ^(SAME_INDIVIDUAL opplFunction)
+		| DIFFERENT_INDIVIDUALS opplFunction -> ^(DIFFERENT_INDIVIDUALS opplFunction)
 	;
  
  

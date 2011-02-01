@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLLexer.g 2011-01-31 09:22:26
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLLexer.g 2011-02-01 11:29:20
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -13,112 +13,116 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 
 public class OPPLLexer_MOWLLexer extends Lexer {
-	public static final int HAS_KEY = 109;
-	public static final int VALUE_RESTRICTION = 63;
-	public static final int LETTER = 43;
-	public static final int REMOVE = 91;
-	public static final int TYPES = 39;
-	public static final int SAME_AS_AXIOM = 52;
-	public static final int INVERSE_OF = 25;
-	public static final int NOT = 12;
-	public static final int SUBCLASS_OF = 20;
-	public static final int EOF = -1;
-	public static final int ESCLAMATION_MARK = 149;
-	public static final int CREATE = 80;
-	public static final int POW = 36;
-	public static final int NOT_EQUAL = 72;
-	public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION = 68;
-	public static final int INSTANCE_OF = 38;
-	public static final int BEGIN = 83;
-	public static final int QUESTION_MARK = 46;
-	public static final int SYMMETRIC = 30;
-	public static final int CARDINALITY_RESTRICTION = 64;
-	public static final int SELECT = 75;
-	public static final int ROLE_ASSERTION = 67;
-	public static final int DIFFERENT_FROM_AXIOM = 53;
-	public static final int TRANSITIVE = 34;
-	public static final int ANTI_SYMMETRIC = 31;
-	public static final int GREATER_THAN_EQUAL = 511;
-	public static final int ALL_RESTRICTION = 62;
-	public static final int CONJUNCTION = 56;
-	public static final int NEGATED_ASSERTION = 59;
-	public static final int WHITESPACE = 9;
-	public static final int MATCH = 176;
-	public static final int VALUE = 18;
-	public static final int FAIL = 466;
-	public static final int GROUPS = 356;
-	public static final int OPEN_CURLY_BRACES = 6;
-	public static final int DISJUNCTION = 55;
-	public static final int INVERSE = 19;
-	public static final int DBLQUOTE = 40;
-	public static final int OR = 11;
-	public static final int LESS_THAN = 508;
-	public static final int CONSTANT = 70;
-	public static final int ENTITY_REFERENCE = 45;
-	public static final int END = 84;
-	public static final int COMPOSITION = 4;
-	public static final int CLOSED_SQUARE_BRACKET = 86;
-	public static final int SAME_AS = 23;
-	public static final int WHERE = 71;
-	public static final int DISJOINT_WITH = 26;
-	public static final int SUPER_PROPERTY_OF = 88;
-	public static final int VARIABLE_TYPE = 89;
-	public static final int CLOSED_PARENTHESYS = 8;
-	public static final int ONLY = 14;
-	public static final int EQUIVALENT_TO_AXIOM = 49;
-	public static final int SUB_PROPERTY_OF = 21;
-	public static final int NEGATED_EXPRESSION = 58;
-	public static final int MAX = 16;
-	public static final int CREATE_DISJUNCTION = 82;
-	public static final int AND = 10;
-	public static final int INVERSE_PROPERTY = 60;
-	public static final int AT = 114;
-	public static final int VARIABLE_NAME = 464;
-	public static final int DIFFERENT_FROM = 24;
-	public static final int IN = 74;
-	public static final int EQUIVALENT_TO = 22;
-	public static final int UNARY_AXIOM = 54;
 	public static final int COMMA = 37;
-	public static final int CLOSED_CURLY_BRACES = 7;
-	public static final int IDENTIFIER = 44;
-	public static final int IRI = 110;
-	public static final int SOME = 13;
-	public static final int EQUAL = 73;
-	public static final int OPEN_PARENTHESYS = 5;
-	public static final int REFLEXIVE = 32;
-	public static final int PLUS = 79;
-	public static final int DIGIT = 41;
-	public static final int DOT = 78;
-	public static final int SUPER_CLASS_OF = 87;
-	public static final int EXPRESSION = 69;
-	public static final int SOME_RESTRICTION = 61;
-	public static final int ADD = 90;
-	public static final int INTEGER = 42;
 	public static final int GREATER_THAN = 510;
-	public static final int EXACTLY = 17;
-	public static final int SUB_PROPERTY_AXIOM = 51;
-	public static final int OPEN_SQUARE_BRACKET = 85;
-	public static final int VALUES = 354;
-	public static final int RANGE = 28;
-	public static final int SET = 115;
-	public static final int ONE_OF = 65;
-	public static final int MIN = 15;
-	public static final int SUB_CLASS_AXIOM = 48;
-	public static final int Tokens = 47;
-	public static final int DOMAIN = 27;
-	public static final int SUBPROPERTY_OF = 105;
-	public static final int COLON = 77;
-	public static final int DISJOINT_WITH_AXIOM = 50;
-	public static final int CREATE_INTERSECTION = 81;
-	public static final int INVERSE_FUNCTIONAL = 35;
-	public static final int RENDERING = 355;
-	public static final int IRI_ATTRIBUTE_NAME = 112;
-	public static final int IRREFLEXIVE = 33;
-	public static final int LESS_THAN_EQUAL = 509;
 	public static final int ASSERTED = 76;
-	public static final int FUNCTIONAL = 29;
-	public static final int PROPERTY_CHAIN = 57;
+	public static final int END = 84;
+	public static final int DIFFERENT_FROM = 24;
+	public static final int LESS_THAN = 508;
 	public static final int TYPE_ASSERTION = 66;
+	public static final int SAME_AS_AXIOM = 52;
+	public static final int TYPES = 39;
+	public static final int ROLE_ASSERTION = 67;
+	public static final int ESCLAMATION_MARK = 149;
+	public static final int DOT = 78;
+	public static final int ALL_RESTRICTION = 62;
+	public static final int QUESTION_MARK = 46;
+	public static final int AND = 10;
+	public static final int EXPRESSION = 69;
+	public static final int CONSTANT = 70;
+	public static final int VALUE_RESTRICTION = 63;
+	public static final int ONE_OF = 65;
+	public static final int SUBPROPERTY_OF = 105;
+	public static final int SELECT = 75;
+	public static final int CARDINALITY_RESTRICTION = 64;
+	public static final int SAME_AS = 23;
+	public static final int EXACTLY = 17;
+	public static final int PLUS = 79;
+	public static final int TRANSITIVE = 34;
+	public static final int SUBCLASS_OF = 20;
+	public static final int ENTITY_REFERENCE = 45;
+	public static final int CONJUNCTION = 56;
+	public static final int INVERSE_OF = 25;
+	public static final int AT = 114;
+	public static final int RANGE = 28;
+	public static final int CLOSED_PARENTHESYS = 8;
+	public static final int PROPERTY_CHAIN = 57;
+	public static final int CREATE_INTERSECTION = 81;
+	public static final int EQUIVALENT_TO_AXIOM = 49;
+	public static final int OPEN_SQUARE_BRACKET = 85;
+	public static final int SYMMETRIC = 30;
+	public static final int DISJOINT_WITH = 26;
+	public static final int VARIABLE_TYPE = 89;
+	public static final int DISJUNCTION = 55;
+	public static final int GROUPS = 356;
+	public static final int NEGATED_EXPRESSION = 58;
+	public static final int DISJOINT_CLASSES = 116;
+	public static final int EQUAL = 73;
+	public static final int DIFFERENT_FROM_AXIOM = 53;
+	public static final int GREATER_THAN_EQUAL = 511;
+	public static final int EQUIVALENT_TO = 22;
+	public static final int DOMAIN = 27;
+	public static final int SUB_PROPERTY_OF = 21;
+	public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION = 68;
+	public static final int INVERSE_PROPERTY = 60;
+	public static final int COLON = 77;
+	public static final int SUB_CLASS_AXIOM = 48;
+	public static final int SUB_PROPERTY_AXIOM = 51;
+	public static final int SET = 115;
+	public static final int IDENTIFIER = 44;
+	public static final int UNARY_AXIOM = 54;
+	public static final int DISJOINT_PROPERTIES = 117;
+	public static final int ADD = 90;
+	public static final int WHERE = 71;
+	public static final int CREATE = 80;
+	public static final int OPEN_CURLY_BRACES = 6;
+	public static final int DIFFERENT_INDIVIDUALS = 119;
+	public static final int CLOSED_SQUARE_BRACKET = 86;
+	public static final int INSTANCE_OF = 38;
+	public static final int VALUES = 354;
+	public static final int SOME_RESTRICTION = 61;
+	public static final int IRI = 110;
+	public static final int LESS_THAN_EQUAL = 509;
+	public static final int VALUE = 18;
+	public static final int RENDERING = 355;
+	public static final int INVERSE_FUNCTIONAL = 35;
+	public static final int OR = 11;
+	public static final int INTEGER = 42;
+	public static final int INVERSE = 19;
+	public static final int HAS_KEY = 109;
+	public static final int DISJOINT_WITH_AXIOM = 50;
+	public static final int SUPER_CLASS_OF = 87;
+	public static final int DIGIT = 41;
+	public static final int COMPOSITION = 4;
+	public static final int FUNCTIONAL = 29;
+	public static final int NOT_EQUAL = 72;
+	public static final int SAME_INDIVIDUAL = 118;
+	public static final int LETTER = 43;
+	public static final int MAX = 16;
+	public static final int FAIL = 466;
+	public static final int NEGATED_ASSERTION = 59;
+	public static final int ONLY = 14;
+	public static final int CREATE_DISJUNCTION = 82;
+	public static final int REMOVE = 91;
+	public static final int DBLQUOTE = 40;
+	public static final int MIN = 15;
+	public static final int POW = 36;
+	public static final int MATCH = 176;
+	public static final int BEGIN = 83;
+	public static final int WHITESPACE = 9;
+	public static final int IN = 74;
+	public static final int SUPER_PROPERTY_OF = 88;
+	public static final int SOME = 13;
+	public static final int EOF = -1;
+	public static final int ANTI_SYMMETRIC = 31;
+	public static final int Tokens = 47;
+	public static final int CLOSED_CURLY_BRACES = 7;
+	public static final int IRI_ATTRIBUTE_NAME = 112;
+	public static final int REFLEXIVE = 32;
+	public static final int NOT = 12;
+	public static final int OPEN_PARENTHESYS = 5;
+	public static final int VARIABLE_NAME = 464;
+	public static final int IRREFLEXIVE = 33;
 	// delegates
 	// delegators
 	public OPPLLexer gOPPLLexer;
@@ -132,8 +136,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 		this(input, new RecognizerSharedState(), gOPPLLexer);
 	}
 
-	public OPPLLexer_MOWLLexer(CharStream input, RecognizerSharedState state,
-			OPPLLexer gOPPLLexer) {
+	public OPPLLexer_MOWLLexer(CharStream input, RecognizerSharedState state, OPPLLexer gOPPLLexer) {
 		super(input, state);
 		this.gOPPLLexer = gOPPLLexer;
 		this.gParent = gOPPLLexer;
@@ -258,8 +261,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 						|| this.input.LA(1) == '\r' || this.input.LA(1) == ' ') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -323,13 +325,11 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				} else if (LA1_2 == 'o') {
 					alt1 = 3;
 				} else {
-					NoViableAltException nvae = new NoViableAltException("", 1,
-							2, this.input);
+					NoViableAltException nvae = new NoViableAltException("", 1, 2, this.input);
 					throw nvae;
 				}
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 1, 0,
-						this.input);
+				NoViableAltException nvae = new NoViableAltException("", 1, 0, this.input);
 				throw nvae;
 			}
 			switch (alt1) {
@@ -472,24 +472,21 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'I' || this.input.LA(1) == 'i') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				if (this.input.LA(1) == 'N' || this.input.LA(1) == 'n') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				if (this.input.LA(1) == 'V' || this.input.LA(1) == 'v') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -512,8 +509,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'S' || this.input.LA(1) == 's') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -573,8 +569,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			} else if (LA2_0 == 'S') {
 				alt2 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 2, 0,
-						this.input);
+				NoViableAltException nvae = new NoViableAltException("", 2, 0, this.input);
 				throw nvae;
 			}
 			switch (alt2) {
@@ -611,8 +606,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			} else if (LA3_0 == 'D') {
 				alt3 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 3, 0,
-						this.input);
+				NoViableAltException nvae = new NoViableAltException("", 3, 0, this.input);
 				throw nvae;
 			}
 			switch (alt3) {
@@ -649,8 +643,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			} else if (LA4_0 == 'i') {
 				alt4 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 4, 0,
-						this.input);
+				NoViableAltException nvae = new NoViableAltException("", 4, 0, this.input);
 				throw nvae;
 			}
 			switch (alt4) {
@@ -687,8 +680,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			} else if (LA5_0 == 'd') {
 				alt5 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 5, 0,
-						this.input);
+				NoViableAltException nvae = new NoViableAltException("", 5, 0, this.input);
 				throw nvae;
 			}
 			switch (alt5) {
@@ -725,8 +717,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			} else if (LA6_0 == 'd') {
 				alt6 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 6, 0,
-						this.input);
+				NoViableAltException nvae = new NoViableAltException("", 6, 0, this.input);
 				throw nvae;
 			}
 			switch (alt6) {
@@ -763,8 +754,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			} else if (LA7_0 == 'r') {
 				alt7 = 2;
 			} else {
-				NoViableAltException nvae = new NoViableAltException("", 7, 0,
-						this.input);
+				NoViableAltException nvae = new NoViableAltException("", 7, 0, this.input);
 				throw nvae;
 			}
 			switch (alt7) {
@@ -801,48 +791,42 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'H' || this.input.LA(1) == 'h') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				if (this.input.LA(1) == 'A' || this.input.LA(1) == 'a') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				if (this.input.LA(1) == 'S' || this.input.LA(1) == 's') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				if (this.input.LA(1) == 'K' || this.input.LA(1) == 'k') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				if (this.input.LA(1) == 'E' || this.input.LA(1) == 'e') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
 				if (this.input.LA(1) == 'Y' || this.input.LA(1) == 'y') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -865,8 +849,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'F' || this.input.LA(1) == 'f') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -904,8 +887,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'S' || this.input.LA(1) == 's') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -945,8 +927,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'A' || this.input.LA(1) == 'a') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -954,8 +935,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'S' || this.input.LA(1) == 's') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -993,8 +973,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'R' || this.input.LA(1) == 'r') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1032,8 +1011,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'I' || this.input.LA(1) == 'i') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1071,8 +1049,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'T' || this.input.LA(1) == 't') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1112,8 +1089,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'I' || this.input.LA(1) == 'i') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1121,8 +1097,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'F' || this.input.LA(1) == 'f') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1194,8 +1169,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'I' || this.input.LA(1) == 'i') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1203,8 +1177,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'O' || this.input.LA(1) == 'o') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1228,8 +1201,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				if (this.input.LA(1) == 'T' || this.input.LA(1) == 't') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1381,22 +1353,20 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 						if (LA15_1 == '\"') {
 							alt15 = 2;
 						}
-					} else if (LA15_0 >= '\u0000' && LA15_0 <= '!'
-							|| LA15_0 >= '#' && LA15_0 <= '\uFFFF') {
+					} else if (LA15_0 >= '\u0000' && LA15_0 <= '!' || LA15_0 >= '#'
+							&& LA15_0 <= '\uFFFF') {
 						alt15 = 1;
 					}
 					switch (alt15) {
 					case 1:
 						// MOWLLexer.g:157:8: ~ '\"'
 					{
-						if (this.input.LA(1) >= '\u0000'
-								&& this.input.LA(1) <= '!'
-								|| this.input.LA(1) >= '#'
-								&& this.input.LA(1) <= '\uFFFF') {
+						if (this.input.LA(1) >= '\u0000' && this.input.LA(1) <= '!'
+								|| this.input.LA(1) >= '#' && this.input.LA(1) <= '\uFFFF') {
 							this.input.consume();
 						} else {
-							MismatchedSetException mse = new MismatchedSetException(
-									null, this.input);
+							MismatchedSetException mse = new MismatchedSetException(null,
+									this.input);
 							this.recover(mse);
 							throw mse;
 						}
@@ -1444,22 +1414,19 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				loop16: do {
 					int alt16 = 2;
 					int LA16_0 = this.input.LA(1);
-					if (LA16_0 >= '\u0000' && LA16_0 <= '=' || LA16_0 >= '?'
-							&& LA16_0 <= '\uFFFF') {
+					if (LA16_0 >= '\u0000' && LA16_0 <= '=' || LA16_0 >= '?' && LA16_0 <= '\uFFFF') {
 						alt16 = 1;
 					}
 					switch (alt16) {
 					case 1:
 						// MOWLLexer.g:176:12: ~ GREATER_THAN
 					{
-						if (this.input.LA(1) >= '\u0000'
-								&& this.input.LA(1) <= '\u01FD'
-								|| this.input.LA(1) >= '\u01FF'
-								&& this.input.LA(1) <= '\uFFFF') {
+						if (this.input.LA(1) >= '\u0000' && this.input.LA(1) <= '\u01FD'
+								|| this.input.LA(1) >= '\u01FF' && this.input.LA(1) <= '\uFFFF') {
 							this.input.consume();
 						} else {
-							MismatchedSetException mse = new MismatchedSetException(
-									null, this.input);
+							MismatchedSetException mse = new MismatchedSetException(null,
+									this.input);
 							this.recover(mse);
 							throw mse;
 						}
@@ -1469,8 +1436,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 						if (cnt16 >= 1) {
 							break loop16;
 						}
-						EarlyExitException eee = new EarlyExitException(16,
-								this.input);
+						EarlyExitException eee = new EarlyExitException(16, this.input);
 						throw eee;
 					}
 					cnt16++;
@@ -1521,8 +1487,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 						if (cnt17 >= 1) {
 							break loop17;
 						}
-						EarlyExitException eee = new EarlyExitException(17,
-								this.input);
+						EarlyExitException eee = new EarlyExitException(17, this.input);
 						throw eee;
 					}
 					cnt17++;
@@ -1541,12 +1506,11 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			// MOWLLexer.g:193:17: ( ( 'a' .. 'z' | 'A' .. 'Z' ) )
 			// MOWLLexer.g:193:19: ( 'a' .. 'z' | 'A' .. 'Z' )
 			{
-				if (this.input.LA(1) >= 'A' && this.input.LA(1) <= 'Z'
-						|| this.input.LA(1) >= 'a' && this.input.LA(1) <= 'z') {
+				if (this.input.LA(1) >= 'A' && this.input.LA(1) <= 'Z' || this.input.LA(1) >= 'a'
+						&& this.input.LA(1) <= 'z') {
 					this.input.consume();
 				} else {
-					MismatchedSetException mse = new MismatchedSetException(
-							null, this.input);
+					MismatchedSetException mse = new MismatchedSetException(null, this.input);
 					this.recover(mse);
 					throw mse;
 				}
@@ -1583,9 +1547,8 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 				loop18: do {
 					int alt18 = 2;
 					int LA18_0 = this.input.LA(1);
-					if (LA18_0 == '-' || LA18_0 >= '0' && LA18_0 <= ':'
-							|| LA18_0 >= 'A' && LA18_0 <= 'Z' || LA18_0 == '_'
-							|| LA18_0 >= 'a' && LA18_0 <= 'z') {
+					if (LA18_0 == '-' || LA18_0 >= '0' && LA18_0 <= ':' || LA18_0 >= 'A'
+							&& LA18_0 <= 'Z' || LA18_0 == '_' || LA18_0 >= 'a' && LA18_0 <= 'z') {
 						alt18 = 1;
 					}
 					switch (alt18) {
@@ -1593,16 +1556,13 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 						// MOWLLexer.g:
 					{
 						if (this.input.LA(1) == '-' || this.input.LA(1) >= '0'
-								&& this.input.LA(1) <= ':'
-								|| this.input.LA(1) >= 'A'
-								&& this.input.LA(1) <= 'Z'
-								|| this.input.LA(1) == '_'
-								|| this.input.LA(1) >= 'a'
-								&& this.input.LA(1) <= 'z') {
+								&& this.input.LA(1) <= ':' || this.input.LA(1) >= 'A'
+								&& this.input.LA(1) <= 'Z' || this.input.LA(1) == '_'
+								|| this.input.LA(1) >= 'a' && this.input.LA(1) <= 'z') {
 							this.input.consume();
 						} else {
-							MismatchedSetException mse = new MismatchedSetException(
-									null, this.input);
+							MismatchedSetException mse = new MismatchedSetException(null,
+									this.input);
 							this.recover(mse);
 							throw mse;
 						}
@@ -1638,22 +1598,20 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 						if (LA19_1 == '\'') {
 							alt19 = 2;
 						}
-					} else if (LA19_0 >= '\u0000' && LA19_0 <= '&'
-							|| LA19_0 >= '(' && LA19_0 <= '\uFFFF') {
+					} else if (LA19_0 >= '\u0000' && LA19_0 <= '&' || LA19_0 >= '('
+							&& LA19_0 <= '\uFFFF') {
 						alt19 = 1;
 					}
 					switch (alt19) {
 					case 1:
 						// MOWLLexer.g:198:11: ~ '\\''
 					{
-						if (this.input.LA(1) >= '\u0000'
-								&& this.input.LA(1) <= '&'
-								|| this.input.LA(1) >= '('
-								&& this.input.LA(1) <= '\uFFFF') {
+						if (this.input.LA(1) >= '\u0000' && this.input.LA(1) <= '&'
+								|| this.input.LA(1) >= '(' && this.input.LA(1) <= '\uFFFF') {
 							this.input.consume();
 						} else {
-							MismatchedSetException mse = new MismatchedSetException(
-									null, this.input);
+							MismatchedSetException mse = new MismatchedSetException(null,
+									this.input);
 							this.recover(mse);
 							throw mse;
 						}
@@ -2015,12 +1973,12 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			+ "\1\u00c6\3\43\1\u00ca\3\43\1\uffff\3\43\1\u00ca\2\43\1\u00d3\2\43"
 			+ "\1\u00d3\1\43\1\uffff\1\43\1\u00d8\2\43\1\uffff\3\43\1\uffff\1\43"
 			+ "\1\u00df\6\43\1\uffff\4\43\1\uffff\6\43\1\uffff\20\43\1\u0102\1"
-			+ "\43\1\u0104\7\43\1\u0104\1\u010d\3\43\1\u0111\1\43\1\u0102\1\uffff"
-			+ "\1\43\1\uffff\1\43\1\u0115\5\43\1\u010d\1\uffff\1\u011c\1\u011e"
-			+ "\1\43\1\uffff\3\43\1\uffff\1\u0124\4\43\1\u011c\1\uffff\1\u011e"
-			+ "\1\uffff\2\43\1\u012b\1\43\1\u0124\1\uffff\1\43\1\u012e\1\43\1\u012e"
-			+ "\1\u0131\1\u0132\1\uffff\1\43\1\u0134\1\uffff\1\u0134\1\u0131\2"
-			+ "\uffff\1\43\1\uffff\2\43\2\u0139\1\uffff";
+			+ "\43\1\u0104\7\43\1\u0104\1\u010c\3\43\1\u0111\1\43\1\u0102\1\uffff"
+			+ "\1\43\1\uffff\1\43\1\u0115\5\43\1\uffff\1\u010c\1\u011c\1\u011d"
+			+ "\1\43\1\uffff\3\43\1\uffff\1\u0123\4\43\1\u011c\2\uffff\1\u011d"
+			+ "\2\43\1\u012b\1\43\1\uffff\1\u0123\1\43\1\u012e\1\43\1\u012e\1\u0130"
+			+ "\1\u0132\1\uffff\1\43\1\u0134\1\uffff\1\u0134\1\uffff\1\u0130\1"
+			+ "\uffff\1\43\1\uffff\2\43\1\u0138\1\uffff\1\u0138";
 	static final String DFA20_eofS = "\u013a\uffff";
 	static final String DFA20_minS = "\1\11\1\55\6\uffff\1\156\1\157\1\117\2\141\1\161\1\141\1\116\1\141"
 			+ "\2\151\1\116\2\141\1\101\1\165\1\156\1\162\5\uffff\1\0\1\75\4\uffff"
@@ -2044,11 +2002,11 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			+ "\164\1\127\1\146\1\145\1\141\1\166\1\164\1\146\1\164\1\55\1\164"
 			+ "\1\55\1\156\1\146\1\166\1\106\1\151\1\106\1\151\2\55\1\154\1\145"
 			+ "\1\162\1\55\1\171\1\55\1\uffff\1\124\1\uffff\1\143\1\55\1\145\1"
-			+ "\162\1\164\1\162\1\164\1\55\1\uffff\2\55\1\151\1\uffff\1\117\1\157"
-			+ "\1\164\1\uffff\1\55\1\157\1\150\1\157\1\150\1\55\1\uffff\1\55\1"
-			+ "\uffff\1\143\1\146\1\55\1\151\1\55\1\uffff\1\155\1\55\1\155\3\55"
-			+ "\1\uffff\1\157\1\55\1\uffff\2\55\2\uffff\1\156\1\uffff\1\141\1\154"
-			+ "\2\55\1\uffff";
+			+ "\162\1\164\1\162\1\164\1\uffff\3\55\1\151\1\uffff\1\117\1\157\1"
+			+ "\164\1\uffff\1\55\1\157\1\150\1\157\1\150\1\55\2\uffff\1\55\1\143"
+			+ "\1\146\1\55\1\151\1\uffff\1\55\1\155\1\55\1\155\3\55\1\uffff\1\157"
+			+ "\1\55\1\uffff\1\55\1\uffff\1\55\1\uffff\1\156\1\uffff\1\141\1\154"
+			+ "\1\55\1\uffff\1\55";
 	static final String DFA20_maxS = "\1\175\1\172\6\uffff\1\156\2\157\1\171\1\151\1\170\1\141\1\162\1"
 			+ "\171\2\157\1\162\2\145\1\141\1\165\1\156\1\171\5\uffff\1\uffff\1"
 			+ "\75\4\uffff\1\172\1\154\1\uffff\2\164\1\124\1\164\1\155\1\142\2"
@@ -2071,20 +2029,20 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			+ "\1\127\1\164\1\127\1\146\1\145\1\141\1\166\1\164\1\146\1\164\1\172"
 			+ "\1\164\1\172\1\156\1\146\1\166\1\106\1\151\1\106\1\151\2\172\1\154"
 			+ "\1\145\1\162\1\172\1\171\1\172\1\uffff\1\124\1\uffff\1\143\1\172"
-			+ "\1\145\1\162\1\164\1\162\1\164\1\172\1\uffff\2\172\1\151\1\uffff"
-			+ "\1\117\1\157\1\164\1\uffff\1\172\1\157\1\150\1\157\1\150\1\172\1"
-			+ "\uffff\1\172\1\uffff\1\143\1\146\1\172\1\151\1\172\1\uffff\1\155"
-			+ "\1\172\1\155\3\172\1\uffff\1\157\1\172\1\uffff\2\172\2\uffff\1\156"
-			+ "\1\uffff\1\141\1\154\2\172\1\uffff";
+			+ "\1\145\1\162\1\164\1\162\1\164\1\uffff\3\172\1\151\1\uffff\1\117"
+			+ "\1\157\1\164\1\uffff\1\172\1\157\1\150\1\157\1\150\1\172\2\uffff"
+			+ "\1\172\1\143\1\146\1\172\1\151\1\uffff\1\172\1\155\1\172\1\155\3"
+			+ "\172\1\uffff\1\157\1\172\1\uffff\1\172\1\uffff\1\172\1\uffff\1\156"
+			+ "\1\uffff\1\141\1\154\1\172\1\uffff\1\172";
 	static final String DFA20_acceptS = "\2\uffff\1\2\1\3\1\4\1\5\1\6\1\7\22\uffff\1\43\1\44\1\47\1\50\1"
 			+ "\51\2\uffff\1\56\1\60\1\61\1\62\2\uffff\1\1\37\uffff\1\52\1\uffff"
 			+ "\1\57\1\54\1\55\1\11\43\uffff\1\53\1\uffff\1\10\1\uffff\1\12\5\uffff"
 			+ "\1\15\1\16\4\uffff\1\21\21\uffff\1\14\1\uffff\1\13\40\uffff\1\20"
 			+ "\13\uffff\1\32\4\uffff\1\46\3\uffff\1\25\10\uffff\1\31\4\uffff\1"
-			+ "\33\6\uffff\1\17\42\uffff\1\35\1\uffff\1\27\10\uffff\1\37\3\uffff"
-			+ "\1\22\3\uffff\1\45\6\uffff\1\34\1\uffff\1\41\5\uffff\1\40\6\uffff"
-			+ "\1\24\2\uffff\1\30\2\uffff\1\36\1\23\1\uffff\1\26\4\uffff\1\42";
-	static final String DFA20_specialS = "\37\uffff\1\0\50\uffff\1\1\u00f1\uffff}>";
+			+ "\33\6\uffff\1\17\42\uffff\1\35\1\uffff\1\27\7\uffff\1\37\4\uffff"
+			+ "\1\22\3\uffff\1\45\6\uffff\1\34\1\41\5\uffff\1\40\7\uffff\1\24\2"
+			+ "\uffff\1\30\1\uffff\1\36\1\uffff\1\23\1\uffff\1\26\3\uffff\1\42" + "\1\uffff";
+	static final String DFA20_specialS = "\37\uffff\1\1\50\uffff\1\0\u00f1\uffff}>";
 	static final String[] DFA20_transitionS = {
 			"\2\7\2\uffff\1\7\22\uffff\1\7\1\uffff\1\41\4\uffff\1\44\1\2"
 					+ "\1\5\2\uffff\1\33\3\uffff\12\42\2\uffff\1\37\1\36\1\40\1\uffff"
@@ -2093,336 +2051,100 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 					+ "\1\21\1\15\1\27\1\43\1\26\1\23\3\43\1\14\1\11\1\1\2\43\1\25"
 					+ "\1\13\1\31\1\43\1\16\4\43\1\3\1\uffff\1\4",
 			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\15\43"
-					+ "\1\46\3\43\1\45\10\43",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"\1\50",
-			"\1\51",
-			"\1\52\37\uffff\1\53",
-			"\1\56\15\uffff\1\54\5\uffff\1\55\3\uffff\1\57",
-			"\1\61\7\uffff\1\60",
-			"\1\63\6\uffff\1\62",
-			"\1\64",
-			"\1\66\37\uffff\1\65\3\uffff\1\67",
-			"\1\71\23\uffff\1\70\3\uffff\1\57",
-			"\1\72\5\uffff\1\73",
-			"\1\74\5\uffff\1\75",
-			"\1\66\37\uffff\1\76\3\uffff\1\67",
-			"\1\77\3\uffff\1\100",
-			"\1\101\3\uffff\1\100",
-			"\1\102\37\uffff\1\102",
-			"\1\103",
-			"\1\104",
-			"\1\105\6\uffff\1\106",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"\75\111\1\110\1\uffff\uffc1\111",
-			"\1\113",
-			"",
-			"",
-			"",
-			"",
+					+ "\1\46\3\43\1\45\10\43", "", "", "", "", "", "", "\1\50", "\1\51",
+			"\1\52\37\uffff\1\53", "\1\56\15\uffff\1\54\5\uffff\1\55\3\uffff\1\57",
+			"\1\61\7\uffff\1\60", "\1\63\6\uffff\1\62", "\1\64",
+			"\1\66\37\uffff\1\65\3\uffff\1\67", "\1\71\23\uffff\1\70\3\uffff\1\57",
+			"\1\72\5\uffff\1\73", "\1\74\5\uffff\1\75", "\1\66\37\uffff\1\76\3\uffff\1\67",
+			"\1\77\3\uffff\1\100", "\1\101\3\uffff\1\100", "\1\102\37\uffff\1\102", "\1\103",
+			"\1\104", "\1\105\6\uffff\1\106", "", "", "", "", "",
+			"\75\111\1\110\1\uffff\uffc1\111", "\1\113", "", "", "", "",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\115", "",
+			"\1\116\17\uffff\1\117", "\1\120", "\1\121", "\1\122", "\1\123", "\1\124", "\1\125",
+			"\1\126", "\1\127", "\1\130", "\1\131", "\1\132", "\1\133",
+			"\1\135\34\uffff\1\136\2\uffff\1\134", "\1\135\37\uffff\1\135", "\1\137", "\1\140",
+			"\1\141", "\1\142\14\uffff\1\143", "\1\144", "\1\145\14\uffff\1\146", "\1\147",
+			"\1\135\34\uffff\1\136\2\uffff\1\150", "\1\151", "\1\152", "\1\153",
+			"\1\154\37\uffff\1\154", "\1\155", "\1\117", "\1\156", "\1\157", "", "\0\111", "", "",
+			"", "", "\1\161", "\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+			"\1\163", "\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
 			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\115",
-			"",
-			"\1\116\17\uffff\1\117",
-			"\1\120",
-			"\1\121",
-			"\1\122",
-			"\1\123",
-			"\1\124",
-			"\1\125",
-			"\1\126",
-			"\1\127",
-			"\1\130",
-			"\1\131",
-			"\1\132",
-			"\1\133",
-			"\1\135\34\uffff\1\136\2\uffff\1\134",
-			"\1\135\37\uffff\1\135",
-			"\1\137",
-			"\1\140",
-			"\1\141",
-			"\1\142\14\uffff\1\143",
-			"\1\144",
-			"\1\145\14\uffff\1\146",
-			"\1\147",
-			"\1\135\34\uffff\1\136\2\uffff\1\150",
-			"\1\151",
-			"\1\152",
-			"\1\153",
-			"\1\154\37\uffff\1\154",
-			"\1\155",
-			"\1\117",
-			"\1\156",
-			"\1\157",
-			"",
-			"\0\111",
-			"",
-			"",
-			"",
-			"",
-			"\1\161",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\165",
+			"\1\166\14\uffff\1\167", "\1\170", "\1\171",
 			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\163",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\165",
-			"\1\166\14\uffff\1\167",
-			"\1\170",
-			"\1\171",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\174",
-			"\1\175",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\174", "\1\175",
 			"\1\176",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\4\43"
-					+ "\1\177\25\43",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u0081",
-			"\1\u0082",
-			"\1\166",
-			"\1\u0083",
-			"\1\u0084",
-			"\1\u0085",
-			"\1\u0086",
-			"\1\u0087",
-			"\1\u0088",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\4\43" + "\1\177\25\43",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u0081", "\1\u0082",
+			"\1\166", "\1\u0083", "\1\u0084", "\1\u0085", "\1\u0086", "\1\u0087", "\1\u0088",
 			"\1\u0089",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\4\43"
-					+ "\1\u008a\25\43",
-			"\1\u008b",
-			"\1\u008c",
-			"\1\u008d",
-			"\1\u008e\37\uffff\1\u008e",
-			"\1\u008f",
-			"\1\u0090",
-			"\1\u0091",
-			"",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\4\43" + "\1\u008a\25\43",
+			"\1\u008b", "\1\u008c", "\1\u008d", "\1\u008e\37\uffff\1\u008e", "\1\u008f",
+			"\1\u0090", "\1\u0091", "",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "",
+			"\1\u0093\37\uffff\1\u0093", "",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u0095", "\1\u0096",
+			"\1\u0097", "\1\u0098", "", "", "\1\u0099", "\1\u009a", "\1\u009b", "\1\u009c", "",
+			"\1\u009d", "\1\u009e", "\1\u009f", "\1\u00a0", "\1\u00a1", "\1\u00a2", "\1\u00a3",
+			"\1\u00a4", "\1\u00a5", "\1\u00a6", "\1\u00a7", "\1\u00a8", "\1\u00a9",
+			"\1\u00aa\37\uffff\1\u00aa", "\1\u00ab", "\1\u00ac", "\1\u00ad", "", "\1\u00ae", "",
+			"\1\u00af", "\1\u00b0", "\1\u00b1", "\1\u00b2", "\1\u00b3", "\1\u00b4",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u00b6", "\1\u00b7",
+			"\1\u00b8", "\1\u00b9", "\1\u00ba", "\1\u00bb", "\1\u00bc", "\1\u00bd", "\1\u00be",
+			"\1\u00bf", "\1\u00c0", "\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+			"\1\u00c2", "\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+			"\1\u00c3\37\uffff\1\u00c3", "\1\u00c4", "\1\u00c5",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u00c7", "\1\u00c8",
+			"\1\u00c9", "\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u00cb",
+			"\1\u00cc", "\1\u00cd", "", "\1\u00ce", "\1\u00cf", "\1\u00d0",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u00d1", "\1\u00d2",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u00d4", "\1\u00d5",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u00d6", "",
+			"\1\u00d7", "\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u00d9",
+			"\1\u00da", "", "\1\u00db", "\1\u00dc", "\1\u00dd", "", "\1\u00de",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u00e0",
+			"\1\u00e2\10\uffff\1\u00e1\26\uffff\1\u00e2", "\1\u00e3", "\1\u00e4", "\1\u00e5",
+			"\1\u00e6", "", "\1\u00e7", "\1\u00e8", "\1\u00e2\10\uffff\1\u00e9\26\uffff\1\u00e2",
+			"\1\u00ea", "", "\1\u00eb", "\1\u00ec", "\1\u00ed", "\1\u00ee", "\1\u00ef", "\1\u00f0",
+			"", "\1\u00f1", "\1\u00f2", "\1\u00f3", "\1\u00f4\37\uffff\1\u00f4", "\1\u00f5",
+			"\1\u00f6", "\1\u00f7", "\1\u00f8", "\1\u00f9", "\1\u00fa", "\1\u00fb", "\1\u00fc",
+			"\1\u00fd", "\1\u00fe", "\1\u00ff", "\1\u0100",
+			"\1\43\2\uffff\12\43\1\u0101\6\uffff\32\43\4\uffff\1\43\1\uffff" + "\32\43",
+			"\1\u0103", "\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u0105",
+			"\1\u0106", "\1\u0107", "\1\u0108", "\1\u0109", "\1\u010a", "\1\u010b",
 			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"",
-			"\1\u0093\37\uffff\1\u0093",
-			"",
+			"\1\43\2\uffff\12\43\1\u010d\6\uffff\32\43\4\uffff\1\43\1\uffff" + "\32\43",
+			"\1\u010e", "\1\u010f", "\1\u0110",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u0112",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "", "\1\u0113", "",
+			"\1\u0114", "\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u0116",
+			"\1\u0117", "\1\u0118", "\1\u0119", "\1\u011a", "",
 			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u0095",
-			"\1\u0096",
-			"\1\u0097",
-			"\1\u0098",
-			"",
-			"",
-			"\1\u0099",
-			"\1\u009a",
-			"\1\u009b",
-			"\1\u009c",
-			"",
-			"\1\u009d",
-			"\1\u009e",
-			"\1\u009f",
-			"\1\u00a0",
-			"\1\u00a1",
-			"\1\u00a2",
-			"\1\u00a3",
-			"\1\u00a4",
-			"\1\u00a5",
-			"\1\u00a6",
-			"\1\u00a7",
-			"\1\u00a8",
-			"\1\u00a9",
-			"\1\u00aa\37\uffff\1\u00aa",
-			"\1\u00ab",
-			"\1\u00ac",
-			"\1\u00ad",
-			"",
-			"\1\u00ae",
-			"",
-			"\1\u00af",
-			"\1\u00b0",
-			"\1\u00b1",
-			"\1\u00b2",
-			"\1\u00b3",
-			"\1\u00b4",
+			"\1\43\2\uffff\12\43\1\u011b\6\uffff\32\43\4\uffff\1\43\1\uffff" + "\32\43",
+			"\1\43\2\uffff\12\43\1\u011e\6\uffff\32\43\4\uffff\1\43\1\uffff" + "\32\43",
+			"\1\u011f", "", "\1\u0120", "\1\u0121", "\1\u0122", "",
+			"\1\43\2\uffff\12\43\1\u0124\6\uffff\32\43\4\uffff\1\43\1\uffff" + "\32\43",
+			"\1\u0125", "\1\u0126", "\1\u0127", "\1\u0128",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "", "",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u0129", "\1\u012a",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u012c", "",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u012d",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "\1\u012f",
 			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u00b6",
-			"\1\u00b7",
-			"\1\u00b8",
-			"\1\u00b9",
-			"\1\u00ba",
-			"\1\u00bb",
-			"\1\u00bc",
-			"\1\u00bd",
-			"\1\u00be",
-			"\1\u00bf",
-			"\1\u00c0",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u00c2",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u00c3\37\uffff\1\u00c3",
-			"\1\u00c4",
-			"\1\u00c5",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u00c7",
-			"\1\u00c8",
-			"\1\u00c9",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u00cb",
-			"\1\u00cc",
-			"\1\u00cd",
-			"",
-			"\1\u00ce",
-			"\1\u00cf",
-			"\1\u00d0",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u00d1",
-			"\1\u00d2",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u00d4",
-			"\1\u00d5",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u00d6",
-			"",
-			"\1\u00d7",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u00d9",
-			"\1\u00da",
-			"",
-			"\1\u00db",
-			"\1\u00dc",
-			"\1\u00dd",
-			"",
-			"\1\u00de",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u00e0",
-			"\1\u00e2\10\uffff\1\u00e1\26\uffff\1\u00e2",
-			"\1\u00e3",
-			"\1\u00e4",
-			"\1\u00e5",
-			"\1\u00e6",
-			"",
-			"\1\u00e7",
-			"\1\u00e8",
-			"\1\u00e2\10\uffff\1\u00e9\26\uffff\1\u00e2",
-			"\1\u00ea",
-			"",
-			"\1\u00eb",
-			"\1\u00ec",
-			"\1\u00ed",
-			"\1\u00ee",
-			"\1\u00ef",
-			"\1\u00f0",
-			"",
-			"\1\u00f1",
-			"\1\u00f2",
-			"\1\u00f3",
-			"\1\u00f4\37\uffff\1\u00f4",
-			"\1\u00f5",
-			"\1\u00f6",
-			"\1\u00f7",
-			"\1\u00f8",
-			"\1\u00f9",
-			"\1\u00fa",
-			"\1\u00fb",
-			"\1\u00fc",
-			"\1\u00fd",
-			"\1\u00fe",
-			"\1\u00ff",
-			"\1\u0100",
-			"\1\43\2\uffff\12\43\1\u0101\6\uffff\32\43\4\uffff\1\43\1\uffff"
-					+ "\32\43",
-			"\1\u0103",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u0105",
-			"\1\u0106",
-			"\1\u0107",
-			"\1\u0108",
-			"\1\u0109",
-			"\1\u010a",
-			"\1\u010b",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\43\2\uffff\12\43\1\u010c\6\uffff\32\43\4\uffff\1\43\1\uffff"
-					+ "\32\43",
-			"\1\u010e",
-			"\1\u010f",
-			"\1\u0110",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u0112",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"",
-			"\1\u0113",
-			"",
-			"\1\u0114",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u0116",
-			"\1\u0117",
-			"\1\u0118",
-			"\1\u0119",
-			"\1\u011a",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"",
-			"\1\43\2\uffff\12\43\1\u011b\6\uffff\32\43\4\uffff\1\43\1\uffff"
-					+ "\32\43",
-			"\1\43\2\uffff\12\43\1\u011d\6\uffff\32\43\4\uffff\1\43\1\uffff"
-					+ "\32\43",
-			"\1\u011f",
-			"",
-			"\1\u0120",
-			"\1\u0121",
-			"\1\u0122",
-			"",
-			"\1\43\2\uffff\12\43\1\u0123\6\uffff\32\43\4\uffff\1\43\1\uffff"
-					+ "\32\43",
-			"\1\u0125",
-			"\1\u0126",
-			"\1\u0127",
-			"\1\u0128",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"",
-			"\1\u0129",
-			"\1\u012a",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u012c",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"",
-			"\1\u012d",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\u012f",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\43\2\uffff\12\43\1\u0130\6\uffff\32\43\4\uffff\1\43\1\uffff"
-					+ "\32\43",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"",
-			"\1\u0133",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
-			"",
-			"",
-			"\1\u0135",
-			"",
-			"\1\u0136",
-			"\1\u0137",
-			"\1\43\2\uffff\12\43\1\u0138\6\uffff\32\43\4\uffff\1\43\1\uffff"
-					+ "\32\43",
-			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "" };
+			"\1\43\2\uffff\12\43\1\u0131\6\uffff\32\43\4\uffff\1\43\1\uffff" + "\32\43",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "", "\1\u0133",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43", "", "\1\u0135", "",
+			"\1\u0136", "\1\u0137",
+			"\1\43\2\uffff\12\43\1\u0139\6\uffff\32\43\4\uffff\1\43\1\uffff" + "\32\43", "",
+			"\1\43\2\uffff\13\43\6\uffff\32\43\4\uffff\1\43\1\uffff\32\43" };
 	static final short[] DFA20_eot = DFA.unpackEncodedString(DFA20_eotS);
 	static final short[] DFA20_eof = DFA.unpackEncodedString(DFA20_eofS);
-	static final char[] DFA20_min = DFA
-			.unpackEncodedStringToUnsignedChars(DFA20_minS);
-	static final char[] DFA20_max = DFA
-			.unpackEncodedStringToUnsignedChars(DFA20_maxS);
+	static final char[] DFA20_min = DFA.unpackEncodedStringToUnsignedChars(DFA20_minS);
+	static final char[] DFA20_max = DFA.unpackEncodedStringToUnsignedChars(DFA20_maxS);
 	static final short[] DFA20_accept = DFA.unpackEncodedString(DFA20_acceptS);
-	static final short[] DFA20_special = DFA
-			.unpackEncodedString(DFA20_specialS);
+	static final short[] DFA20_special = DFA.unpackEncodedString(DFA20_specialS);
 	static final short[][] DFA20_transition;
 	static {
 		int numStates = DFA20_transitionS.length;
@@ -2451,27 +2173,11 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 		}
 
 		@Override
-		public int specialStateTransition(int s, IntStream _input)
-				throws NoViableAltException {
+		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
 			IntStream input = _input;
 			int _s = s;
 			switch (s) {
 			case 0:
-				int LA20_31 = input.LA(1);
-				s = -1;
-				if (LA20_31 == '=') {
-					s = 72;
-				} else if (LA20_31 >= '\u0000' && LA20_31 <= '<'
-						|| LA20_31 >= '?' && LA20_31 <= '\uFFFF') {
-					s = 73;
-				} else {
-					s = 71;
-				}
-				if (s >= 0) {
-					return s;
-				}
-				break;
-			case 1:
 				int LA20_72 = input.LA(1);
 				s = -1;
 				if (LA20_72 >= '\u0000' && LA20_72 <= '\uFFFF') {
@@ -2483,9 +2189,24 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 					return s;
 				}
 				break;
+			case 1:
+				int LA20_31 = input.LA(1);
+				s = -1;
+				if (LA20_31 == '=') {
+					s = 72;
+				} else if (LA20_31 >= '\u0000' && LA20_31 <= '<' || LA20_31 >= '?'
+						&& LA20_31 <= '\uFFFF') {
+					s = 73;
+				} else {
+					s = 71;
+				}
+				if (s >= 0) {
+					return s;
+				}
+				break;
 			}
-			NoViableAltException nvae = new NoViableAltException(
-					this.getDescription(), 20, _s, input);
+			NoViableAltException nvae = new NoViableAltException(this.getDescription(), 20, _s,
+					input);
 			this.error(nvae);
 			throw nvae;
 		}

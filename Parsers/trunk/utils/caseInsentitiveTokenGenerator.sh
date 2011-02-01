@@ -1,3 +1,4 @@
+#!/usr/bin/awk -f
 {
   printf("%s : ", toupper($0));
   for (i = 1; i <= length($0); i++) {

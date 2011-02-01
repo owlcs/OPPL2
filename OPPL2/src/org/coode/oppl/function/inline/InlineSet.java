@@ -33,134 +33,72 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
  * @author Luigi Iannone
  * 
  */
-public final class InlineSet<O extends OWLObject> implements Set<O>,
-		OPPLFunction<Set<O>> {
+public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunction<Set<O>> {
 	private final Set<O> delegate = new HashSet<O>();
 	private final Set<Aggregandum<Collection<? extends O>>> aggregandums = new HashSet<Aggregandum<Collection<? extends O>>>();
 
 	/**
 	 * @param delegate
 	 */
-	public InlineSet(
-			VariableType<O> variableType,
+	public InlineSet(VariableType<? extends O> variableType,
 			Collection<? extends Aggregandum<Collection<? extends O>>> aggregandums,
-			final OWLDataFactory dataFactory,
-			final ConstraintSystem constraintSystem) {
+			final OWLDataFactory dataFactory, final ConstraintSystem constraintSystem) {
 		if (aggregandums == null) {
-			throw new NullPointerException(
-					"The aggregandum collection cannot be null");
+			throw new NullPointerException("The aggregandum collection cannot be null");
 		}
 		this.aggregandums.addAll(aggregandums);
 		this.delegate.add(variableType.accept(new VariableTypeVisitorEx<O>() {
 			@SuppressWarnings("unchecked")
 			public O visitCLASSVariableType(CLASSVariableType classVariableType) {
 				return (O) dataFactory.getOWLClass(IRI.create(String.format(
-						"%s#%s", ManchesterVariableSyntax.NAMESPACE,
+						"%s#%s",
+						ManchesterVariableSyntax.NAMESPACE,
 						InlineSet.this.render(constraintSystem))));
 			}
 
 			@SuppressWarnings("unchecked")
 			public O visitOBJECTPROPERTYVariableType(
 					OBJECTPROPERTYVariableType objectpropertyVariableType) {
-				return (O) dataFactory.getOWLObjectProperty(IRI.create(String
-						.format("%s#%s", ManchesterVariableSyntax.NAMESPACE,
-								InlineSet.this.render(constraintSystem))));
+				return (O) dataFactory.getOWLObjectProperty(IRI.create(String.format(
+						"%s#%s",
+						ManchesterVariableSyntax.NAMESPACE,
+						InlineSet.this.render(constraintSystem))));
 			}
 
 			@SuppressWarnings("unchecked")
-			public O visitDATAPROPERTYVariableType(
-					DATAPROPERTYVariableType datapropertyVariableType) {
-				return (O) dataFactory.getOWLDataProperty(IRI.create(String
-						.format("%s#%s", ManchesterVariableSyntax.NAMESPACE,
-								InlineSet.this.render(constraintSystem))));
+			public O visitDATAPROPERTYVariableType(DATAPROPERTYVariableType datapropertyVariableType) {
+				return (O) dataFactory.getOWLDataProperty(IRI.create(String.format(
+						"%s#%s",
+						ManchesterVariableSyntax.NAMESPACE,
+						InlineSet.this.render(constraintSystem))));
 			}
 
 			@SuppressWarnings("unchecked")
-			public O visitINDIVIDUALVariableType(
-					INDIVIDUALVariableType individualVariableType) {
-				return (O) dataFactory.getOWLNamedIndividual(IRI.create(String
-						.format("%s#%s", ManchesterVariableSyntax.NAMESPACE,
-								InlineSet.this.render(constraintSystem))));
+			public O visitINDIVIDUALVariableType(INDIVIDUALVariableType individualVariableType) {
+				return (O) dataFactory.getOWLNamedIndividual(IRI.create(String.format(
+						"%s#%s",
+						ManchesterVariableSyntax.NAMESPACE,
+						InlineSet.this.render(constraintSystem))));
 			}
 
 			@SuppressWarnings("unchecked")
-			public O visitCONSTANTVariableType(
-					CONSTANTVariableType constantVariableType) {
-				return (O) dataFactory.getOWLLiteral(InlineSet.this
-						.render(constraintSystem));
+			public O visitCONSTANTVariableType(CONSTANTVariableType constantVariableType) {
+				return (O) dataFactory.getOWLLiteral(InlineSet.this.render(constraintSystem));
 			}
 
 			@SuppressWarnings("unchecked")
 			public O visitANNOTATIONPROPERTYVariableType(
 					ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
-				return (O) dataFactory.getOWLAnnotationProperty(IRI
-						.create(String.format("%s#%s",
-								ManchesterVariableSyntax.NAMESPACE,
-								InlineSet.this.render(constraintSystem))));
+				return (O) dataFactory.getOWLAnnotationProperty(IRI.create(String.format(
+						"%s#%s",
+						ManchesterVariableSyntax.NAMESPACE,
+						InlineSet.this.render(constraintSystem))));
 			}
 		}));
 	}
 
-	// @SuppressWarnings("unchecked")
-	// public static <T extends OWLObject> Set<T> buildSet(
-	// VariableType<T> variableType,
-	// Collection<? extends Aggregandum<?>> aggregandums,
-	// ConstraintSystem constraintSystem, final OWLDataFactory dataFactory) {
-	// Set<T> toReturn = new HashSet<T>(aggregandums.size());
-	// for (final Aggregandum<?> aggregandum : aggregandums) {
-	// final String fragment = aggregandum.render(constraintSystem);
-	// toReturn.add(variableType.accept(new VariableTypeVisitorEx<T>() {
-	// public T visitANNOTATIONPROPERTYVariableType(
-	// ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
-	// return (T) dataFactory.getOWLAnnotationProperty(IRI
-	// .create(String.format("%s#%s",
-	// ManchesterVariableSyntax.NAMESPACE,
-	// fragment)));
-	// }
-	//
-	// public T visitINDIVIDUALVariableType(
-	// INDIVIDUALVariableType individualVariableType) {
-	// return (T) dataFactory.getOWLNamedIndividual(IRI
-	// .create(String.format("%s#%s",
-	// ManchesterVariableSyntax.NAMESPACE,
-	// fragment)));
-	// }
-	//
-	// public T visitOBJECTPROPERTYVariableType(
-	// OBJECTPROPERTYVariableType objectpropertyVariableType) {
-	// return (T) dataFactory.getOWLObjectProperty(IRI
-	// .create(String.format("%s#%s",
-	// ManchesterVariableSyntax.NAMESPACE,
-	// fragment)));
-	// }
-	//
-	// public T visitDATAPROPERTYVariableType(
-	// DATAPROPERTYVariableType datapropertyVariableType) {
-	// return (T) dataFactory.getOWLDataProperty(IRI.create(String
-	// .format("%s#%s",
-	// ManchesterVariableSyntax.NAMESPACE,
-	// fragment)));
-	// }
-	//
-	// public T visitCONSTANTVariableType(
-	// CONSTANTVariableType constantVariableType) {
-	// return (T) dataFactory.getOWLLiteral(fragment);
-	// }
-	//
-	// public T visitCLASSVariableType(
-	// CLASSVariableType classVariableType) {
-	// return (T) dataFactory.getOWLClass(IRI.create(String
-	// .format("%s#%s",
-	// ManchesterVariableSyntax.NAMESPACE,
-	// fragment)));
-	// }
-	// }));
-	// }
-	// return toReturn;
-	// }
 	public Set<Aggregandum<Collection<? extends O>>> getAggregandums() {
-		return new HashSet<Aggregandum<Collection<? extends O>>>(
-				this.aggregandums);
+		return new HashSet<Aggregandum<Collection<? extends O>>>(this.aggregandums);
 	}
 
 	public void accept(OPPLFunctionVisitor visitor) {
@@ -174,8 +112,7 @@ public final class InlineSet<O extends OWLObject> implements Set<O>,
 	public Set<O> compute(ValueComputationParameters params) {
 		Set<O> toReturn = new HashSet<O>();
 		for (Aggregandum<Collection<? extends O>> aggregandum : this.aggregandums) {
-			Set<OPPLFunction<Collection<? extends O>>> opplFunctions = aggregandum
-					.getOPPLFunctions();
+			Set<OPPLFunction<Collection<? extends O>>> opplFunctions = aggregandum.getOPPLFunctions();
 			for (OPPLFunction<Collection<? extends O>> opplFunction : opplFunctions) {
 				Collection<? extends O> value = opplFunction.compute(params);
 				toReturn.addAll(value);
@@ -187,11 +124,9 @@ public final class InlineSet<O extends OWLObject> implements Set<O>,
 	public String render(ConstraintSystem constraintSystem) {
 		Formatter out = new Formatter();
 		out.format("set(");
-		Iterator<Aggregandum<Collection<? extends O>>> aggregandumIterator = this.aggregandums
-				.iterator();
+		Iterator<Aggregandum<Collection<? extends O>>> aggregandumIterator = this.aggregandums.iterator();
 		while (aggregandumIterator.hasNext()) {
-			Aggregandum<Collection<? extends O>> aggregandum = aggregandumIterator
-					.next();
+			Aggregandum<Collection<? extends O>> aggregandum = aggregandumIterator.next();
 			String comma = aggregandumIterator.hasNext() ? ", " : "";
 			out.format("%s%s", aggregandum.render(constraintSystem), comma);
 		}
@@ -202,16 +137,20 @@ public final class InlineSet<O extends OWLObject> implements Set<O>,
 	public String render(ShortFormProvider shortFormProvider) {
 		Formatter out = new Formatter();
 		out.format("set(");
-		Iterator<Aggregandum<Collection<? extends O>>> aggregandumIterator = this.aggregandums
-				.iterator();
+		Iterator<Aggregandum<Collection<? extends O>>> aggregandumIterator = this.aggregandums.iterator();
 		while (aggregandumIterator.hasNext()) {
-			Aggregandum<Collection<? extends O>> aggregandum = aggregandumIterator
-					.next();
+			Aggregandum<Collection<? extends O>> aggregandum = aggregandumIterator.next();
 			String comma = aggregandumIterator.hasNext() ? ", " : "";
 			out.format("%s%s", aggregandum.render(shortFormProvider), comma);
 		}
 		out.format(")");
 		return out.toString();
+	}
+
+	public static <P extends OWLObject> InlineSet<P> buildInlineSet(
+			Collection<? extends InlineSet<P>> components, P... objects) {
+		Set<InlineSet<P>> set = new HashSet<InlineSet<P>>(components.size() + objects.length);
+		return 
 	}
 
 	// Delegate methods

@@ -488,13 +488,16 @@ opplAxioms
 	$start.setOWLObject(axiom);
 }
 	:
-		^(DISJOINT_WITH ^(EXPRESSION ^(SET va = aggregandums))){
+		^(DISJOINT_CLASSES ^(EXPRESSION ^(SET va = aggregandums))){
 			axiom = getSymbolTable().getDisjointAxiom($start,va.list,va.tokenList, getConstraintSystem());
 		}
-		| ^(DIFFERENT_FROM ^(EXPRESSION ^(SET va = aggregandums))){
+		|^(DISJOINT_PROPERTIES ^(EXPRESSION ^(SET va = aggregandums))){
+			axiom = getSymbolTable().getDisjointAxiom($start,va.list,va.tokenList, getConstraintSystem());
+		}
+		| ^(DIFFERENT_INDIVIDUALS ^(EXPRESSION ^(SET va = aggregandums))){
 			axiom = getSymbolTable().getDifferentIndividualsAxiom($start,va.list,va.tokenList, getConstraintSystem());		
 		}
-		| ^(SAME_AS ^(EXPRESSION ^(SET va = aggregandums))){
+		| ^(SAME_INDIVIDUAL ^(EXPRESSION ^(SET va = aggregandums))){
 			axiom = getSymbolTable().getSameIndividualAxiom($start,va.list,va.tokenList, getConstraintSystem());		
 		}
 		
