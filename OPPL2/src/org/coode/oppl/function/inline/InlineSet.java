@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ManchesterVariableSyntax;
+import org.coode.oppl.function.Adapter;
 import org.coode.oppl.function.Aggregandum;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.function.OPPLFunctionVisitor;
@@ -147,10 +148,18 @@ public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunctio
 		return out.toString();
 	}
 
-	public static <P extends OWLObject> InlineSet<P> buildInlineSet(
+	public static <P extends OWLObject> InlineSet<P> buildInlineSet(OWLDataFactory dataFactory,
+			ConstraintSystem constraintSystem, VariableType<P> variableType,
 			Collection<? extends InlineSet<P>> components, P... objects) {
-		Set<InlineSet<P>> set = new HashSet<InlineSet<P>>(components.size() + objects.length);
-		return 
+		Set<Aggregandum<Collection<? extends P>>> set = new HashSet<Aggregandum<Collection<? extends P>>>();
+		for (InlineSet<P> inlineSet : components) {
+			Set<Aggregandum<Collection<? extends P>>> aggregandums = inlineSet.getAggregandums();
+			set.addAll(aggregandums);
+		}
+		for (P p : objects) {
+			set.add(Adapter.buildAggregandumOfCollection(p));
+		}
+		return new InlineSet<P>(variableType, set, dataFactory, constraintSystem);
 	}
 
 	// Delegate methods

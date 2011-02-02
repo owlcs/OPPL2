@@ -24,18 +24,15 @@ import org.semanticweb.owlapi.model.OWLObjectVisitor;
 import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
-public class OPPLOWLDifferentIndividualsAxiom extends
-		AbstractInlineSetAxiom<OWLIndividual> implements
-		OWLDifferentIndividualsAxiom {
+public class OPPLOWLDifferentIndividualsAxiom extends AbstractInlineSetAxiom<OWLIndividual>
+		implements OWLDifferentIndividualsAxiom {
 	private final OWLDifferentIndividualsAxiom delegate;
 
 	/**
 	 * @param inlineSet
 	 */
-	public OPPLOWLDifferentIndividualsAxiom(
-			OPPLOWLDataFactory dataFactory,
-			InlineSet<OWLIndividual> individuals,
-			Set<? extends OWLAnnotation> annotations) {
+	public OPPLOWLDifferentIndividualsAxiom(OPPLOWLDataFactory dataFactory,
+			InlineSet<OWLIndividual> individuals, Set<? extends OWLAnnotation> annotations) {
 		super(individuals);
 		if (dataFactory == null) {
 			throw new NullPointerException("The data factory cannot be null");
@@ -46,8 +43,9 @@ public class OPPLOWLDifferentIndividualsAxiom extends
 		if (annotations == null) {
 			throw new NullPointerException("The annotations cannot be null");
 		}
-		this.delegate = dataFactory.getOWLDifferentIndividualsAxiom(
-				individuals, annotations);
+		this.delegate = dataFactory.getDelegate().getOWLDifferentIndividualsAxiom(
+				individuals,
+				annotations);
 	}
 
 	// Delegate methods
@@ -213,8 +211,7 @@ public class OPPLOWLDifferentIndividualsAxiom extends
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLAxiom#getAnnotations(org.semanticweb.owlapi.model.OWLAnnotationProperty)
 	 */
-	public Set<OWLAnnotation> getAnnotations(
-			OWLAnnotationProperty annotationProperty) {
+	public Set<OWLAnnotation> getAnnotations(OWLAnnotationProperty annotationProperty) {
 		return this.delegate.getAnnotations(annotationProperty);
 	}
 
