@@ -48,7 +48,7 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
@@ -667,12 +667,12 @@ public class OPPLSymbolTable extends SymbolTable {
 
 						public OWLAxiom visitDATAPROPERTYVariableType(
 								DATAPROPERTYVariableType datapropertyVariableType) {
-							Collection<? extends Aggregandum<Collection<? extends OWLDataProperty>>> aggregandumCollection = OPPLSymbolTable.this
+							Collection<? extends Aggregandum<Collection<? extends OWLDataPropertyExpression>>> aggregandumCollection = OPPLSymbolTable.this
 									.getAggregandumCollection(
 											datapropertyVariableType,
 											aggregandums, aggregdandumTrees,
 											expression);
-							InlineSet<OWLDataProperty> inlineSet = new InlineSet<OWLDataProperty>(
+							InlineSet<OWLDataPropertyExpression> inlineSet = new InlineSet<OWLDataPropertyExpression>(
 									datapropertyVariableType,
 									aggregandumCollection, OPPLSymbolTable.this
 											.getDataFactory(), constraintSystem);

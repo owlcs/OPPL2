@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2011-02-03 09:15:21
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2011-02-03 18:47:42
 
   package org.coode.parsers.oppl;
   import org.coode.parsers.ErrorListener;
@@ -386,11 +386,6 @@ public class OPPLScript_OPPLParser extends Parser {
 
                         if ( (LA3_3==EQUAL) ) {
                             switch ( input.LA(5) ) {
-                            case MATCH:
-                                {
-                                alt3=3;
-                                }
-                                break;
                             case CREATE:
                             case CREATE_INTERSECTION:
                             case CREATE_DISJUNCTION:
@@ -410,6 +405,11 @@ public class OPPLScript_OPPLParser extends Parser {
                             case VARIABLE_NAME:
                                 {
                                 alt3=2;
+                                }
+                                break;
+                            case MATCH:
+                                {
+                                alt3=3;
                                 }
                                 break;
                             default:
@@ -480,7 +480,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_TYPE, opplFunction, VARIABLE_NAME
+                    // elements: opplFunction, VARIABLE_NAME, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -540,7 +540,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, VARIABLE_TYPE, VARIABLE_NAME
+                    // elements: VARIABLE_NAME, expression, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -984,7 +984,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: MATCH, stringOperation
+            // elements: stringOperation, MATCH
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1756,7 +1756,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: opplFunction, DISJOINT_CLASSES
+                    // elements: DISJOINT_CLASSES, opplFunction
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1799,7 +1799,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: DISJOINT_PROPERTIES, opplFunction
+                    // elements: opplFunction, DISJOINT_PROPERTIES
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1842,7 +1842,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: SAME_INDIVIDUAL, opplFunction
+                    // elements: opplFunction, SAME_INDIVIDUAL
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2796,7 +2796,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: CREATE_INTERSECTION, atomic
+                    // elements: atomic, CREATE_INTERSECTION
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3914,7 +3914,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: attributeSelector, VARIABLE_NAME, DOT, GROUPS
+                    // elements: VARIABLE_NAME, attributeSelector, DOT, GROUPS
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -4156,22 +4156,21 @@ public class OPPLScript_OPPLParser extends Parser {
 
     protected DFA9 dfa9 = new DFA9(this);
     static final String DFA9_eotS =
-        "\31\uffff";
+        "\30\uffff";
     static final String DFA9_eofS =
-        "\31\uffff";
+        "\30\uffff";
     static final String DFA9_minS =
-        "\1\5\11\0\17\uffff";
+        "\1\5\10\0\17\uffff";
     static final String DFA9_maxS =
-        "\1\u01d0\11\0\17\uffff";
+        "\1\u01d0\10\0\17\uffff";
     static final String DFA9_acceptS =
-        "\12\uffff\1\2\3\uffff\1\3\6\uffff\1\6\1\1\1\4\1\5";
+        "\11\uffff\1\1\1\2\3\uffff\1\3\6\uffff\1\6\1\4\1\5";
     static final String DFA9_specialS =
-        "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\17\uffff}>";
+        "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\17\uffff}>";
     static final String[] DFA9_transitionS = {
             "\1\11\1\7\5\uffff\1\6\6\uffff\1\5\11\uffff\7\16\4\uffff\1\10"+
             "\3\uffff\1\1\1\2\100\uffff\1\25\5\uffff\4\12\35\uffff\1\4\u013a"+
             "\uffff\1\3",
-            "\1\uffff",
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
@@ -4240,11 +4239,11 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_1 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 22;}
+                        if ( (synpred1_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred4_OPPLParser()) ) {s = 23;}
+                        else if ( (synpred4_OPPLParser()) ) {s = 22;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 24;}
+                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_1);
@@ -4257,11 +4256,11 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_2 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 22;}
+                        if ( (synpred1_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred4_OPPLParser()) ) {s = 23;}
+                        else if ( (synpred4_OPPLParser()) ) {s = 22;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 24;}
+                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_2);
@@ -4274,11 +4273,11 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_3 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 22;}
+                        if ( (synpred1_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred4_OPPLParser()) ) {s = 23;}
+                        else if ( (synpred4_OPPLParser()) ) {s = 22;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 24;}
+                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
 
                         else if ( (true) ) {s = 21;}
 
@@ -4293,11 +4292,11 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_4 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 22;}
+                        if ( (synpred1_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred4_OPPLParser()) ) {s = 23;}
+                        else if ( (synpred4_OPPLParser()) ) {s = 22;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 24;}
+                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_4);
@@ -4310,9 +4309,9 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_5 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 22;}
+                        if ( (synpred1_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 24;}
+                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_5);
@@ -4325,11 +4324,11 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_6 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 22;}
+                        if ( (synpred1_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred4_OPPLParser()) ) {s = 23;}
+                        else if ( (synpred4_OPPLParser()) ) {s = 22;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 24;}
+                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_6);
@@ -4342,9 +4341,9 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_7 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 22;}
+                        if ( (synpred1_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 24;}
+                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_7);
@@ -4357,27 +4356,12 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_8 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 22;}
+                        if ( (synpred1_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 24;}
+                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_8);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 8 : 
-                        int LA9_9 = input.LA(1);
-
-                         
-                        int index9_9 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 22;}
-
-                        else if ( (synpred5_OPPLParser()) ) {s = 24;}
-
-                         
-                        input.seek(index9_9);
                         if ( s>=0 ) return s;
                         break;
             }

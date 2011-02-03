@@ -27,13 +27,15 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 public class OPPLOWLSameIndividualAxiom extends
 		AbstractInlineSetAxiom<OWLIndividual> implements OWLSameIndividualAxiom {
 	private final OWLSameIndividualAxiom delegate;
+	private final boolean shouldExpandAsPairWise;
 
 	/**
 	 * @param inlineSet
 	 */
 	public OPPLOWLSameIndividualAxiom(OPPLOWLDataFactory dataFactory,
 			InlineSet<OWLIndividual> individuals,
-			Set<? extends OWLAnnotation> annotations) {
+			Set<? extends OWLAnnotation> annotations,
+			boolean shouldExpandAsPairWise) {
 		super(individuals);
 		if (dataFactory == null) {
 			throw new NullPointerException("The data factory cannot be null");
@@ -43,6 +45,14 @@ public class OPPLOWLSameIndividualAxiom extends
 		}
 		this.delegate = dataFactory.getDelegate().getOWLSameIndividualAxiom(
 				individuals, annotations);
+		this.shouldExpandAsPairWise = shouldExpandAsPairWise;
+	}
+
+	/**
+	 * @return the shouldExpandAsPairwise
+	 */
+	public boolean shouldExpandAsPairWise() {
+		return this.shouldExpandAsPairWise;
 	}
 
 	/**

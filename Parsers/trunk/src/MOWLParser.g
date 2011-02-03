@@ -83,8 +83,8 @@ iri
 	;
 
 hasKeyAxiom
-	:
-		exp = expression HAS_KEY propertyExpression (COMMA propertyExpression)* -> ^(HAS_KEY ^(EXPRESSION $exp) (^(EXPRESSION propertyExpression))+)
+	:		
+	exp = disjunction HAS_KEY propertyExpression (COMMA propertyExpression)* -> ^(HAS_KEY ^(EXPRESSION $exp) (^(EXPRESSION propertyExpression))+)	
 	;
 
 
@@ -99,8 +99,7 @@ assertionAxiom options {backtrack=true;}:
 
 
 binaryAxiom     	
-
-options {backtrack=true;}: 
+options {backtrack=true;}:
 	lhs =  expression SUBCLASS_OF  superClass = expression -> ^(SUB_CLASS_AXIOM  ^(EXPRESSION $lhs) ^(EXPRESSION $superClass))
         | lhs =  expression EQUIVALENT_TO rhs = expression -> ^(EQUIVALENT_TO_AXIOM ^(EXPRESSION $lhs) ^(EXPRESSION $rhs))
         | lhs =  expression DISJOINT_WITH disjoint = expression -> ^(DISJOINT_WITH_AXIOM ^(EXPRESSION $lhs) ^(EXPRESSION $disjoint))
@@ -130,7 +129,7 @@ unaryCharacteristic :
 expression:
     (		
     	options {backtrack=true;}: 
-			 conjunction (OR conjunction)* -> ^(DISJUNCTION  conjunction+)
+			 disjunction -> ^(disjunction)
 			| complexPropertyExpression -> ^(complexPropertyExpression)
 			| OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^(expression)
 
@@ -139,14 +138,18 @@ expression:
 	; 
 	
 
+disjunction
+	:
+		conjunction (OR conjunction)* -> ^(DISJUNCTION  conjunction+)
+	;
 	
 conjunction	:
 			 unary (AND unary)* -> ^(CONJUNCTION unary+)
 	;
 
 complexPropertyExpression:
-	INVERSE OPEN_PARENTHESYS complexPropertyExpression CLOSED_PARENTHESYS -> ^(INVERSE_OBJECT_PROPERTY_EXPRESSION complexPropertyExpression)
-	|	INVERSE OPEN_PARENTHESYS atomic CLOSED_PARENTHESYS-> ^(INVERSE_OBJECT_PROPERTY_EXPRESSION atomic)
+	INVERSE OPEN_PARENTHESYS propertyExpression CLOSED_PARENTHESYS -> ^(INVERSE_OBJECT_PROPERTY_EXPRESSION propertyExpression)
+	
 	;
 	
 unary	 options{backtrack = true;}:
@@ -208,7 +211,7 @@ restrictionKind :
 
 
 oneOf	:
-		OPEN_CURLY_BRACES IDENTIFIER (COMMA IDENTIFIER)* CLOSED_CURLY_BRACES -> ^(ONE_OF IDENTIFIER+)
+		OPEN_CURLY_BRACES atomic (COMMA atomic)* CLOSED_CURLY_BRACES -> ^(ONE_OF atomic+)
 	;
 	
 valueRestriction	: propertyExpression VALUE value -> ^(VALUE_RESTRICTION propertyExpression value)

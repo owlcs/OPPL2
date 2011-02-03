@@ -306,6 +306,24 @@ public class OPPLScriptTypesParserTest extends TestCase {
 		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
 	}
 
+	public void testNominalClassVariableValues() {
+		String query = "?x:INDIVIDUAL,?sibling:CLASS = {?x }, ?siblingUnion:CLASS = createUnion(?sibling.VALUES) SELECT Robert hasSibling ?x BEGIN ADD Robert types  ?siblingUnion END;";
+		try {
+			OWLOntology ontology = ONTOLOGY_MANAGER
+					.loadOntologyFromOntologyDocument(this.getClass()
+							.getResourceAsStream("siblings.owl"));
+			OPPLSyntaxTree parsed = this.parse(query, ontology);
+			System.out.println(parsed.toStringTree());
+			assertNotNull(parsed);
+			assertNotNull(parsed.getOPPLContent());
+			System.out.println("original script: \t" + query);
+			System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
 	@Override
 	protected void setUp() throws Exception {
 		this.symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();

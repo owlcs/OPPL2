@@ -17,6 +17,7 @@ import org.semanticweb.owlapi.model.OWLDataHasValue;
 import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
 import org.semanticweb.owlapi.model.OWLDataMinCardinality;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLLiteral;
@@ -174,7 +175,7 @@ public class VariableTypeFactory {
 					}
 
 					@Override
-					public VariableType<OWLDataProperty> visit(
+					public VariableType<OWLDataPropertyExpression> visit(
 							OWLDataProperty property) {
 						return VariableTypeFactory
 								.getDATAPROPERTYVariableType();
@@ -230,8 +231,8 @@ public class VariableTypeFactory {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static VariableType<OWLDataProperty> getDATAPROPERTYVariableType() {
-		return (VariableType<OWLDataProperty>) getVariableType(VariableTypeName.DATAPROPERTY);
+	public static VariableType<OWLDataPropertyExpression> getDATAPROPERTYVariableType() {
+		return (VariableType<OWLDataPropertyExpression>) getVariableType(VariableTypeName.DATAPROPERTY);
 	}
 
 	@SuppressWarnings("unchecked")

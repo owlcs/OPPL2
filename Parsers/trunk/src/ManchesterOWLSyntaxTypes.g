@@ -509,7 +509,7 @@ oneOf	returns [Type type , ManchesterOWLSyntaxTree node, OWLObject owlObject]
 		{
 		    List<ManchesterOWLSyntaxTree> nodes = new ArrayList<ManchesterOWLSyntaxTree>(list_individuals.size());
         for(Object node :list_individuals){
-          nodes.add((ManchesterOWLSyntaxTree)node);
+          nodes.add(((unary_return)node).node);
         }
 		    $type = this.getSymbolTable().getOneOfType($start, nodes.toArray(new ManchesterOWLSyntaxTree[nodes.size()]));
 		    if($type!=null){

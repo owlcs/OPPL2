@@ -34,10 +34,12 @@ public class OPPLOWLDisjointClassesAxiom extends
 		AbstractInlineSetAxiom<OWLClassExpression> implements
 		OWLDisjointClassesAxiom {
 	private final OWLDisjointClassesAxiom delegate;
+	private final boolean shouldExpandAsPairWise;
 
 	public OPPLOWLDisjointClassesAxiom(OPPLOWLDataFactory dataFactory,
 			InlineSet<OWLClassExpression> classExpressions,
-			Set<? extends OWLAnnotation> annotations) {
+			Set<? extends OWLAnnotation> annotations,
+			boolean shouldExpandAsPairWise) {
 		super(classExpressions);
 		if (dataFactory == null) {
 			throw new NullPointerException("The data factory cannot be null");
@@ -48,8 +50,16 @@ public class OPPLOWLDisjointClassesAxiom extends
 		if (annotations == null) {
 			throw new NullPointerException("The annotations cannot be null");
 		}
+		this.shouldExpandAsPairWise = shouldExpandAsPairWise;
 		this.delegate = dataFactory.getDelegate().getOWLDisjointClassesAxiom(
 				classExpressions, annotations);
+	}
+
+	/**
+	 * @return the shouldExpandAsPairwise
+	 */
+	public boolean shouldExpandAsPairWise() {
+		return this.shouldExpandAsPairWise;
 	}
 
 	// Delegate methods

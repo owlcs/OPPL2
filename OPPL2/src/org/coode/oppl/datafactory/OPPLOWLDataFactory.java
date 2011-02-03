@@ -31,63 +31,75 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	}
 
 	public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
-			InlineSet<OWLClassExpression> set) {
+			InlineSet<OWLClassExpression> set, boolean shouldExpabdAsPairWise) {
 		return new OPPLOWLDisjointClassesAxiom(this, set,
-				Collections.<OWLAnnotation> emptySet());
+				Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
 	}
 
 	public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
 			InlineSet<OWLClassExpression> set,
-			Set<? extends OWLAnnotation> annotations) {
-		return new OPPLOWLDisjointClassesAxiom(this, set, annotations);
-	}
-
-	public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
-			InlineSet<OWLObjectPropertyExpression> set) {
-		return new OPPLOWLDisjointObjectProperties(this, set,
-				Collections.<OWLAnnotation> emptySet());
+			Set<? extends OWLAnnotation> annotations,
+			boolean shouldExpabdAsPairWise) {
+		return new OPPLOWLDisjointClassesAxiom(this, set, annotations,
+				shouldExpabdAsPairWise);
 	}
 
 	public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
 			InlineSet<OWLObjectPropertyExpression> set,
-			Set<? extends OWLAnnotation> annotations) {
-		return new OPPLOWLDisjointObjectProperties(this, set, annotations);
+			boolean shouldExpabdAsPairWise) {
+		return new OPPLOWLDisjointObjectProperties(this, set,
+				Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
 	}
 
-	public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
-			InlineSet<OWLDataPropertyExpression> set) {
-		return new OPPLOWLDisjointDataProperties(this, set,
-				Collections.<OWLAnnotation> emptySet());
+	public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
+			InlineSet<OWLObjectPropertyExpression> set,
+			Set<? extends OWLAnnotation> annotations,
+			boolean shouldExpabdAsPairWise) {
+		return new OPPLOWLDisjointObjectProperties(this, set, annotations,
+				shouldExpabdAsPairWise);
 	}
 
 	public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
 			InlineSet<OWLDataPropertyExpression> set,
-			Set<? extends OWLAnnotation> annotations) {
-		return new OPPLOWLDisjointDataProperties(this, set, annotations);
+			boolean shouldExpabdAsPairWise) {
+		return new OPPLOWLDisjointDataProperties(this, set,
+				Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
+	}
+
+	public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
+			InlineSet<OWLDataPropertyExpression> set,
+			Set<? extends OWLAnnotation> annotations,
+			boolean shouldExpabdAsPairWise) {
+		return new OPPLOWLDisjointDataProperties(this, set, annotations,
+				shouldExpabdAsPairWise);
 	}
 
 	public OWLDifferentIndividualsAxiom getOWLDifferentIndividualsAxiom(
-			InlineSet<OWLIndividual> set) {
+			InlineSet<OWLIndividual> set, boolean shouldExpabdAsPairWise) {
 		return new OPPLOWLDifferentIndividualsAxiom(this, set,
-				Collections.<OWLAnnotation> emptySet());
+				Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
 	}
 
 	public OWLDifferentIndividualsAxiom getOWLDifferentIndividualsAxiom(
 			InlineSet<OWLIndividual> set,
-			Set<? extends OWLAnnotation> annotations) {
-		return new OPPLOWLDifferentIndividualsAxiom(this, set, annotations);
+			Set<? extends OWLAnnotation> annotations,
+			boolean shouldExpabdAsPairWise) {
+		return new OPPLOWLDifferentIndividualsAxiom(this, set, annotations,
+				shouldExpabdAsPairWise);
 	}
 
 	public OWLSameIndividualAxiom getOWLSameIndividualAxiom(
-			InlineSet<OWLIndividual> set) {
+			InlineSet<OWLIndividual> set, boolean shouldExpabdAsPairWise) {
 		return new OPPLOWLSameIndividualAxiom(this, set,
-				Collections.<OWLAnnotation> emptySet());
+				Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
 	}
 
 	public OWLSameIndividualAxiom getOWLSameIndividualAxiom(
 			InlineSet<OWLIndividual> set,
-			Set<? extends OWLAnnotation> annotations) {
-		return new OPPLOWLSameIndividualAxiom(this, set, annotations);
+			Set<? extends OWLAnnotation> annotations,
+			boolean shouldExpabdAsPairWise) {
+		return new OPPLOWLSameIndividualAxiom(this, set, annotations,
+				shouldExpabdAsPairWise);
 	}
 
 	public OWLDataFactory getDelegate() {

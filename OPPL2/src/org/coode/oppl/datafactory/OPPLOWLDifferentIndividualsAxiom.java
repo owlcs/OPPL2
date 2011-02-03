@@ -28,13 +28,15 @@ public class OPPLOWLDifferentIndividualsAxiom extends
 		AbstractInlineSetAxiom<OWLIndividual> implements
 		OWLDifferentIndividualsAxiom {
 	private final OWLDifferentIndividualsAxiom delegate;
+	private final boolean shouldExpandAsPairWise;
 
 	/**
 	 * @param inlineSet
 	 */
 	public OPPLOWLDifferentIndividualsAxiom(OPPLOWLDataFactory dataFactory,
 			InlineSet<OWLIndividual> individuals,
-			Set<? extends OWLAnnotation> annotations) {
+			Set<? extends OWLAnnotation> annotations,
+			boolean shouldExpandAsPairWise) {
 		super(individuals);
 		if (dataFactory == null) {
 			throw new NullPointerException("The data factory cannot be null");
@@ -45,8 +47,16 @@ public class OPPLOWLDifferentIndividualsAxiom extends
 		if (annotations == null) {
 			throw new NullPointerException("The annotations cannot be null");
 		}
+		this.shouldExpandAsPairWise = shouldExpandAsPairWise;
 		this.delegate = dataFactory.getDelegate()
 				.getOWLDifferentIndividualsAxiom(individuals, annotations);
+	}
+
+	/**
+	 * @return the shouldExpandAsPairwise
+	 */
+	public boolean shouldExpandAsPairWise() {
+		return this.shouldExpandAsPairWise;
 	}
 
 	// Delegate methods
