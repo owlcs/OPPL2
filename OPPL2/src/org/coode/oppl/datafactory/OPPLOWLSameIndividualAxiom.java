@@ -24,15 +24,16 @@ import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
-public class OPPLOWLSameIndividualAxiom extends AbstractInlineSetAxiom<OWLIndividual> implements
-		OWLSameIndividualAxiom {
+public class OPPLOWLSameIndividualAxiom extends
+		AbstractInlineSetAxiom<OWLIndividual> implements OWLSameIndividualAxiom {
 	private final OWLSameIndividualAxiom delegate;
 
 	/**
 	 * @param inlineSet
 	 */
 	public OPPLOWLSameIndividualAxiom(OPPLOWLDataFactory dataFactory,
-			InlineSet<OWLIndividual> individuals, Set<? extends OWLAnnotation> annotations) {
+			InlineSet<OWLIndividual> individuals,
+			Set<? extends OWLAnnotation> annotations) {
 		super(individuals);
 		if (dataFactory == null) {
 			throw new NullPointerException("The data factory cannot be null");
@@ -41,8 +42,7 @@ public class OPPLOWLSameIndividualAxiom extends AbstractInlineSetAxiom<OWLIndivi
 			throw new NullPointerException("The annotations cannot be null");
 		}
 		this.delegate = dataFactory.getDelegate().getOWLSameIndividualAxiom(
-				individuals,
-				annotations);
+				individuals, annotations);
 	}
 
 	/**
@@ -207,7 +207,8 @@ public class OPPLOWLSameIndividualAxiom extends AbstractInlineSetAxiom<OWLIndivi
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLAxiom#getAnnotations(org.semanticweb.owlapi.model.OWLAnnotationProperty)
 	 */
-	public Set<OWLAnnotation> getAnnotations(OWLAnnotationProperty annotationProperty) {
+	public Set<OWLAnnotation> getAnnotations(
+			OWLAnnotationProperty annotationProperty) {
 		return this.delegate.getAnnotations(annotationProperty);
 	}
 
@@ -295,5 +296,15 @@ public class OPPLOWLSameIndividualAxiom extends AbstractInlineSetAxiom<OWLIndivi
 	 */
 	public OWLAxiom getNNF() {
 		return this.delegate.getNNF();
+	}
+
+	@Override
+	public int hashCode() {
+		return this.delegate.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return this.delegate.equals(obj);
 	}
 }

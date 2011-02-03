@@ -283,4 +283,14 @@ public class OPPLOWLDisjointDataProperties extends
 	public OWLAxiom getNNF() {
 		return this.delegate.getNNF();
 	}
+
+	@Override
+	public int hashCode() {
+		return this.delegate.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return this.delegate.equals(obj);
+	}
 }

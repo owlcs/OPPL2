@@ -59,12 +59,14 @@ public class OPPLScriptTypesParserTest extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop,
+				RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
 	private final ErrorListener listener = new SystemErrorEcho();
-	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
+	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager
+			.createOWLOntologyManager();
 	protected static OWLOntology PIZZA_ONTOLOGY;
 	protected static OWLOntology SYNTAX_ONTOLOGY;
 	protected static OWLOntology TEST_ONTOLOGY;
@@ -84,11 +86,15 @@ public class OPPLScriptTypesParserTest extends TestCase {
 
 	static {
 		try {
-			PIZZA_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI.create(OPPLScriptParserTest.class.getResource(
-					"syntaxTest.owl").toURI()));
-			TEST_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI.create(OPPLScriptParserTest.class.getResource(
-					"test.owl").toURI()));
+			PIZZA_ONTOLOGY = ONTOLOGY_MANAGER
+					.loadOntology(IRI
+							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+			SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI
+					.create(OPPLScriptParserTest.class.getResource(
+							"syntaxTest.owl").toURI()));
+			TEST_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI
+					.create(OPPLScriptParserTest.class.getResource("test.owl")
+							.toURI()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -119,8 +125,8 @@ public class OPPLScriptTypesParserTest extends TestCase {
 	public void testGeneratedVariable() {
 		OWLOntology ontology;
 		try {
-			ontology = ONTOLOGY_MANAGER.loadOntology(IRI.create(this.getClass().getResource(
-					"ondrejTest.owl").toURI()));
+			ontology = ONTOLOGY_MANAGER.loadOntology(IRI.create(this.getClass()
+					.getResource("ondrejTest.owl").toURI()));
 			String query = "?x:CLASS, ?y:OBJECTPROPERTY = MATCH(\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x subClassOf ?y some ?z BEGIN REMOVE ?x subClassOf ?y some ?z, ADD ?x subClassOf !hasFeature some (?feature and !hasValue some ?z) END;";
 			OPPLSyntaxTree parsed = this.parse(query, ontology);
 			System.out.println(parsed.toStringTree());
@@ -139,8 +145,10 @@ public class OPPLScriptTypesParserTest extends TestCase {
 	}
 
 	protected OPPLSyntaxTree parse(String input, OWLOntology ontology) {
-		OPPLFactory opplFactory = new OPPLFactory(ONTOLOGY_MANAGER, ontology, null);
-		ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
+		OPPLFactory opplFactory = new OPPLFactory(ONTOLOGY_MANAGER, ontology,
+				null);
+		ConstraintSystem constraintSystem = opplFactory
+				.createConstraintSystem();
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
@@ -154,27 +162,30 @@ public class OPPLScriptTypesParserTest extends TestCase {
 			nodes.setTreeAdaptor(adaptor);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
-			OPPLDefine define = new OPPLDefine(nodes, this.symtab, this.listener, constraintSystem);
+			OPPLDefine define = new OPPLDefine(nodes, this.symtab,
+					this.listener, constraintSystem);
 			define.setTreeAdaptor(adaptor);
 			define.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, this.symtab,
-					this.listener);
+			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(
+					nodes, this.symtab, this.listener);
 			mOWLTypes.downup(tree);
 			nodes.reset();
-			OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, this.symtab,
-					new DefaultTypeEnforcer(this.symtab, opplFactory.getOWLEntityFactory(),
-							this.listener), this.listener);
+			OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(
+					nodes, this.symtab, new DefaultTypeEnforcer(this.symtab,
+							opplFactory.getOWLEntityFactory(), this.listener),
+					this.listener);
 			typeEnforcement.downup(tree);
 			nodes.reset();
 			mOWLTypes.downup(tree);
 			nodes.reset();
-			OPPLTypes opplTypes = new OPPLTypes(nodes, this.symtab, this.listener,
-					constraintSystem, opplFactory);
+			OPPLTypes opplTypes = new OPPLTypes(nodes, this.symtab,
+					this.listener, constraintSystem, opplFactory);
 			opplTypes.downup(tree);
 			return (OPPLSyntaxTree) r.getTree();
 		} catch (RecognitionException e) {
@@ -186,8 +197,8 @@ public class OPPLScriptTypesParserTest extends TestCase {
 	public void testCreateIndividual() {
 		OWLOntology ontology;
 		try {
-			ontology = ONTOLOGY_MANAGER.loadOntology(IRI.create(this.getClass().getResource(
-					"ondrejTest.owl").toURI()));
+			ontology = ONTOLOGY_MANAGER.loadOntology(IRI.create(this.getClass()
+					.getResource("ondrejTest.owl").toURI()));
 			String query = "?x:CLASS, ?y:INDIVIDUAL = create(?x.RENDERING+\"Instance\") SELECT ASSERTED ?x subClassOf Pizza BEGIN REMOVE ?y types ?x END;";
 			OPPLSyntaxTree parsed = this.parse(query, ontology);
 			System.out.println(parsed.toStringTree());
@@ -257,6 +268,26 @@ public class OPPLScriptTypesParserTest extends TestCase {
 
 	public void testVariableIRIAttribute() {
 		String query = "?x:CLASS SELECT ?x.IRI label \"aLabel\" BEGIN ADD ?x subClassOf Thing END;";
+		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY);
+		System.out.println(parsed.toStringTree());
+		assertNotNull(parsed);
+		assertNotNull(parsed.getOPPLContent());
+		System.out.println("original script: \t" + query);
+		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+	}
+
+	public void testNoQuery() {
+		String query = "?x:CLASS BEGIN ADD ?x subClassOf Thing END;";
+		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY);
+		System.out.println(parsed.toStringTree());
+		assertNotNull(parsed);
+		assertNotNull(parsed.getOPPLContent());
+		System.out.println("original script: \t" + query);
+		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+	}
+
+	public void testNoVariablesQuery() {
+		String query = "BEGIN ADD Nothing subClassOf Thing, REMOVE Thing subClassOf Nothing END;";
 		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY);
 		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed);

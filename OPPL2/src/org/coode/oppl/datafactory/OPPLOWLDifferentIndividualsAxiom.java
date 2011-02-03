@@ -24,15 +24,17 @@ import org.semanticweb.owlapi.model.OWLObjectVisitor;
 import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
-public class OPPLOWLDifferentIndividualsAxiom extends AbstractInlineSetAxiom<OWLIndividual>
-		implements OWLDifferentIndividualsAxiom {
+public class OPPLOWLDifferentIndividualsAxiom extends
+		AbstractInlineSetAxiom<OWLIndividual> implements
+		OWLDifferentIndividualsAxiom {
 	private final OWLDifferentIndividualsAxiom delegate;
 
 	/**
 	 * @param inlineSet
 	 */
 	public OPPLOWLDifferentIndividualsAxiom(OPPLOWLDataFactory dataFactory,
-			InlineSet<OWLIndividual> individuals, Set<? extends OWLAnnotation> annotations) {
+			InlineSet<OWLIndividual> individuals,
+			Set<? extends OWLAnnotation> annotations) {
 		super(individuals);
 		if (dataFactory == null) {
 			throw new NullPointerException("The data factory cannot be null");
@@ -43,9 +45,8 @@ public class OPPLOWLDifferentIndividualsAxiom extends AbstractInlineSetAxiom<OWL
 		if (annotations == null) {
 			throw new NullPointerException("The annotations cannot be null");
 		}
-		this.delegate = dataFactory.getDelegate().getOWLDifferentIndividualsAxiom(
-				individuals,
-				annotations);
+		this.delegate = dataFactory.getDelegate()
+				.getOWLDifferentIndividualsAxiom(individuals, annotations);
 	}
 
 	// Delegate methods
@@ -211,7 +212,8 @@ public class OPPLOWLDifferentIndividualsAxiom extends AbstractInlineSetAxiom<OWL
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLAxiom#getAnnotations(org.semanticweb.owlapi.model.OWLAnnotationProperty)
 	 */
-	public Set<OWLAnnotation> getAnnotations(OWLAnnotationProperty annotationProperty) {
+	public Set<OWLAnnotation> getAnnotations(
+			OWLAnnotationProperty annotationProperty) {
 		return this.delegate.getAnnotations(annotationProperty);
 	}
 
@@ -299,5 +301,15 @@ public class OPPLOWLDifferentIndividualsAxiom extends AbstractInlineSetAxiom<OWL
 	 */
 	public OWLAxiom getNNF() {
 		return this.delegate.getNNF();
+	}
+
+	@Override
+	public int hashCode() {
+		return this.delegate.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return this.delegate.equals(obj);
 	}
 }

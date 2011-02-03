@@ -709,10 +709,12 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 			for (Variable<?> variable : variablesToImport) {
 				this.constraintSystem.importVariable(variable);
 			}
-			this.plainQueryAxioms.addAll(opplScript.getQuery().getAxioms());
-			this.assertedQueryAxioms.addAll(opplScript.getQuery()
-					.getAssertedAxioms());
-			this.constraints.addAll(opplScript.getQuery().getConstraints());
+			OPPLQuery query = opplScript.getQuery();
+			if (query != null) {
+				this.plainQueryAxioms.addAll(query.getAxioms());
+				this.assertedQueryAxioms.addAll(query.getAssertedAxioms());
+				this.constraints.addAll(query.getConstraints());
+			}
 			this.actions.addAll(opplScript.getActions());
 			this.notifyBuilder();
 		}
