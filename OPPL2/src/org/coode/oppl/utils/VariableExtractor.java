@@ -25,6 +25,7 @@ package org.coode.oppl.utils;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -230,9 +231,14 @@ public class VariableExtractor {
 		public Set<Variable<?>> visit(OWLSubClassOfAxiom axiom) {
 			OWLClassExpression subClass = axiom.getSubClass();
 			OWLClassExpression superClass = axiom.getSuperClass();
-			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			toReturn.addAll(superClass.accept(this));
-			toReturn.addAll(subClass.accept(this));
+			Set<Variable<?>> toReturn = new LinkedHashSet<Variable<?>>();
+			if (subClass.isAnonymous()) {
+				toReturn.addAll(subClass.accept(this));
+				toReturn.addAll(superClass.accept(this));
+			} else {
+				toReturn.addAll(superClass.accept(this));
+				toReturn.addAll(subClass.accept(this));
+			}
 			return toReturn;
 		}
 
@@ -380,13 +386,13 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable<?>> visit(OWLObjectPropertyAssertionAxiom axiom) {
-			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
+			Set<Variable<?>> toReturn = new LinkedHashSet<Variable<?>>();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			OWLIndividual subject = axiom.getSubject();
 			OWLIndividual object = axiom.getObject();
 			toReturn.addAll(subject.accept(this));
-			toReturn.addAll(object.accept(this));
 			toReturn.addAll(property.accept(this));
+			toReturn.addAll(object.accept(this));
 			return toReturn;
 		}
 

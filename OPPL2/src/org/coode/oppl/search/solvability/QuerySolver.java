@@ -4,6 +4,8 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 
 public interface QuerySolver {
 	/**
@@ -49,4 +51,15 @@ public interface QuerySolver {
 	 *         super-class except for owl:Thing.
 	 */
 	boolean hasNoSuperClass(OWLClassExpression subClass);
+
+	/**
+	 * Retrieves all the named individuals that can be inferred to be fillers
+	 * for the input subject and object property expression
+	 * 
+	 * @param subject
+	 * @param objectProperty
+	 * @return a Set of OWLNamedIndividual instances
+	 */
+	Set<OWLNamedIndividual> getNamedFillers(OWLNamedIndividual subject,
+			OWLObjectPropertyExpression objectProperty);
 }

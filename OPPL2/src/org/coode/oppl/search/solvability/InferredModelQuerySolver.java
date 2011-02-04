@@ -7,6 +7,9 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 /**
@@ -74,5 +77,12 @@ public final class InferredModelQuerySolver implements QuerySolver {
 		superClasses.remove(subClass);
 		superClasses.removeAll(this.reasoner.getTopClassNode().getEntities());
 		return superClasses.isEmpty();
+	}
+
+	public Set<OWLNamedIndividual> getNamedFillers(OWLNamedIndividual subject,
+			OWLObjectPropertyExpression objectProperty) {
+		NodeSet<OWLNamedIndividual> fillers = this.reasoner
+				.getObjectPropertyValues(subject, objectProperty);
+		return fillers.getFlattened();
 	}
 }

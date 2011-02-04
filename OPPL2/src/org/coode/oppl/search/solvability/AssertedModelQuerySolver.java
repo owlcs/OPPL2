@@ -10,6 +10,9 @@ import java.util.Set;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
@@ -54,6 +57,22 @@ public final class AssertedModelQuerySolver implements QuerySolver {
 				if (owlAxiom.getSubClass().equals(subClass)
 						&& !owlAxiom.getSuperClass().isAnonymous()) {
 					toReturn.add(owlAxiom.getSuperClass().asOWLClass());
+				}
+			}
+		}
+		return toReturn;
+	}
+
+	public Set<OWLNamedIndividual> getNamedFillers(OWLNamedIndividual subject,
+			OWLObjectPropertyExpression objectProperty) {
+		Set<OWLNamedIndividual> toReturn = new HashSet<OWLNamedIndividual>();
+		for (OWLOntology ontology : this.ontologyManager.getOntologies()) {
+			for (OWLObjectPropertyAssertionAxiom owlAxiom : ontology
+					.getAxioms(AxiomType.OBJECT_PROPERTY_ASSERTION)) {
+				if (owlAxiom.getSubject().equals(subject)
+						&& owlAxiom.getProperty().equals(objectProperty)
+						&& !owlAxiom.getObject().isAnonymous()) {
+					toReturn.add(owlAxiom.getObject().asOWLNamedIndividual());
 				}
 			}
 		}

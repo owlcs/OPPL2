@@ -318,6 +318,7 @@ public class OPPLScriptTypesParserTest extends TestCase {
 			assertNotNull(parsed.getOPPLContent());
 			System.out.println("original script: \t" + query);
 			System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+			ONTOLOGY_MANAGER.removeOntology(ontology);
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 			fail(e.getMessage());

@@ -66,11 +66,11 @@ public class InferredSolvabilityBasedTreeSearchAxiomQuery extends
 	protected Set<BindingNode> match(OWLAxiom axiom) {
 		this.clearInstantions();
 		List<List<? extends OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<? extends OPPLOWLAxiomSearchNode>>();
-		VariableExtractor variableExtractor = new VariableExtractor(this
-				.getConstraintSystem(), false);
+		VariableExtractor variableExtractor = new VariableExtractor(
+				this.getConstraintSystem(), false);
 		OPPLOWLAxiomSearchNode start = new OPPLOWLAxiomSearchNode(axiom,
-				new BindingNode(new HashSet<Assignment>(), variableExtractor
-						.extractVariables(axiom)));
+				new BindingNode(new HashSet<Assignment>(),
+						variableExtractor.extractVariables(axiom)));
 		solutions.addAll(this.doMatch(start));
 		return new HashSet<BindingNode>(this.extractLeaves(solutions));
 	}
@@ -81,7 +81,8 @@ public class InferredSolvabilityBasedTreeSearchAxiomQuery extends
 		OWLAxiom axiom = start.getAxiom();
 		// Solvability based search is not worth applying if the axiom is not of
 		// a specific kind.
-		if (axiom.getAxiomType() == AxiomType.SUBCLASS_OF) {
+		if (axiom.getAxiomType() == AxiomType.SUBCLASS_OF
+				|| axiom.getAxiomType() == AxiomType.OBJECT_PROPERTY_ASSERTION) {
 			solutions.addAll(this.solvabilityBasedMatching(start.getAxiom(),
 					start.getBinding()));
 		} else {

@@ -33,17 +33,24 @@ public class ValuesVariableAtttribute<O extends OWLObject> extends
 		ValueComputation<Collection<? extends O>> valueComputation = new ValueComputation<Collection<? extends O>>() {
 			public Collection<? extends O> compute(
 					OPPLFunction<? extends Collection<? extends O>> opplFunction) {
-				ConstraintSystem constraintSystem = parameters.getConstraintSystem();
+				ConstraintSystem constraintSystem = parameters
+						.getConstraintSystem();
 				Set<BindingNode> leaves = constraintSystem.getLeaves();
 				Set<O> toReturn = null;
 				if (leaves != null) {
 					toReturn = new HashSet<O>(leaves.size());
+					BindingNode mainBindingNode = parameters.getBindingNode();
 					for (BindingNode bindingNode : leaves) {
-						OWLObject assignmentValue = bindingNode.getAssignmentValue(
-								ValuesVariableAtttribute.this.getVariable(),
-								new SimpleValueComputationParameters(
-										parameters.getConstraintSystem(), bindingNode,
-										parameters.getRuntimeExceptionHandler()));
+						OWLObject assignmentValue = bindingNode
+								.getAssignmentValue(
+										ValuesVariableAtttribute.this
+												.getVariable(),
+										new SimpleValueComputationParameters(
+												parameters
+														.getConstraintSystem(),
+												bindingNode,
+												parameters
+														.getRuntimeExceptionHandler()));
 						if (assignmentValue != null) {
 							toReturn.add((O) assignmentValue);
 						}
