@@ -45,16 +45,20 @@ public class InputVariable<O extends OWLObject> implements Variable<O> {
 		this(name, type, null);
 	}
 
-	InputVariable(String name, VariableType<O> type, VariableScope<?> variableScope) {
+	InputVariable(String name, VariableType<O> type,
+			VariableScope<?> variableScope) {
 		if (name == null) {
-			throw new NullPointerException("The name of the variable cannot be null");
+			throw new NullPointerException(
+					"The name of the variable cannot be null");
 		}
 		if (type == null) {
-			throw new NullPointerException("The type of the variable cannot be null");
+			throw new NullPointerException(
+					"The type of the variable cannot be null");
 		}
 		this.name = name;
 		this.type = type;
-		this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
+		this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE
+				+ this.getName());
 		this.variableScope = variableScope;
 	}
 
@@ -97,9 +101,10 @@ public class InputVariable<O extends OWLObject> implements Variable<O> {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		final int prime = 907;
 		int result = 1;
-		result = prime * result + (this.name == null ? 0 : this.name.hashCode());
+		result = prime * result
+				+ (this.name == null ? 0 : this.name.hashCode());
 		return result;
 	}
 
@@ -131,8 +136,8 @@ public class InputVariable<O extends OWLObject> implements Variable<O> {
 	}
 
 	public String render(ConstraintSystem constraintSystem) {
-		String scope = this.getVariableScope() == null ? "" : this.getVariableScope().render(
-				constraintSystem);
+		String scope = this.getVariableScope() == null ? "" : this
+				.getVariableScope().render(constraintSystem);
 		return String.format("%s:%s%s", this.getName(), this.getType(), scope);
 	}
 
