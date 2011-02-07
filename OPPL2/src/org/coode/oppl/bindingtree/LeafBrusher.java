@@ -36,7 +36,7 @@ import org.semanticweb.owlapi.model.OWLObject;
  * 
  */
 public class LeafBrusher implements BindingVisitor {
-	private Set<BindingNode> leaves = null;
+	private Set<BindingNode> leaves = new HashSet<BindingNode>();
 	private final Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
 
 	public LeafBrusher(Map<Variable<?>, Set<OWLObject>> bindings) {
@@ -55,16 +55,18 @@ public class LeafBrusher implements BindingVisitor {
 			nodes.add(bindingNode);
 			boolean allLeaves = bindingNode.isLeaf();
 			while (!allLeaves) {
-				for (BindingNode generatedChild : new HashSet<BindingNode>(nodes)) {
+				for (BindingNode generatedChild : new HashSet<BindingNode>(
+						nodes)) {
 					if (!generatedChild.isLeaf()) {
 						nodes.remove(generatedChild);
-						Set<BindingNode> generatedChildren = this.generateChildren(generatedChild);
+						Set<BindingNode> generatedChildren = this
+								.generateChildren(generatedChild);
 						nodes.addAll(generatedChildren);
 					}
 					allLeaves = this.allLeaves(nodes);
 				}
 			}
-			this.leaves = nodes;
+			this.leaves.addAll(nodes);
 		}
 	}
 
@@ -88,13 +90,14 @@ public class LeafBrusher implements BindingVisitor {
 	 * @return the leaves
 	 */
 	public Set<BindingNode> getLeaves() {
-		return this.leaves;
+		return new HashSet<BindingNode>(this.leaves);
 	}
 
 	private Set<BindingNode> generateChildren(BindingNode node) {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		if (!node.isLeaf()) {
-			Set<Variable<?>> unassignedVariables = node.getUnassignedVariables();
+			Set<Variable<?>> unassignedVariables = node
+					.getUnassignedVariables();
 			for (Variable<?> variable : unassignedVariables) {
 				Set<OWLObject> values = this.getBindings().get(variable);
 				if (values != null) {
@@ -104,8 +107,10 @@ public class LeafBrusher implements BindingVisitor {
 						childUnassignedVariables.remove(variable);
 						Set<Assignment> childAssignements = new HashSet<Assignment>(
 								node.getAssignments());
-						childAssignements.add(new Assignment(variable, owlObject));
-						toReturn.add(new BindingNode(childAssignements, childUnassignedVariables));
+						childAssignements.add(new Assignment(variable,
+								owlObject));
+						toReturn.add(new BindingNode(childAssignements,
+								childUnassignedVariables));
 					}
 				}
 			}

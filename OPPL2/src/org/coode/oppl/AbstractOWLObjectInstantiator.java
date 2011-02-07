@@ -4,7 +4,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.coode.oppl.datafactory.OPPLOWLDifferentIndividualsAxiom;
 import org.coode.oppl.datafactory.OPPLOWLDisjointClassesAxiom;
+import org.coode.oppl.datafactory.OPPLOWLDisjointDataPropertiesAxiom;
+import org.coode.oppl.datafactory.OPPLOWLDisjointObjectPropertiesAxiom;
+import org.coode.oppl.datafactory.OPPLOWLSameIndividualAxiom;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.function.inline.InlineSet;
 import org.coode.oppl.utils.IRIVisitorExAdapter;
@@ -351,9 +355,17 @@ abstract class AbstractOWLObjectInstantiator implements
 	public OWLObject visit(OWLDifferentIndividualsAxiom axiom) {
 		Set<OWLIndividual> individuals = axiom.getIndividuals();
 		Set<OWLIndividual> instantiatedIndividuals = new HashSet<OWLIndividual>();
-		for (OWLIndividual individual : individuals) {
-			instantiatedIndividuals
-					.add((OWLIndividual) individual.accept(this));
+		if (OPPLOWLDifferentIndividualsAxiom.class.isAssignableFrom(axiom
+				.getClass())) {
+			InlineSet<OWLIndividual> inlineSet = ((OPPLOWLDifferentIndividualsAxiom) axiom)
+					.getInlineSet();
+			instantiatedIndividuals.addAll(inlineSet.compute(this
+					.getParameters()));
+		} else {
+			for (OWLIndividual individual : individuals) {
+				instantiatedIndividuals.add((OWLIndividual) individual
+						.accept(this));
+			}
 		}
 		return this.getParameters().getConstraintSystem().getOntologyManager()
 				.getOWLDataFactory()
@@ -383,10 +395,18 @@ abstract class AbstractOWLObjectInstantiator implements
 	public OWLObject visit(OWLDisjointDataPropertiesAxiom axiom) {
 		Set<OWLDataPropertyExpression> properties = axiom.getProperties();
 		Set<OWLDataPropertyExpression> instantiatedProperties = new HashSet<OWLDataPropertyExpression>();
-		for (OWLDataPropertyExpression objectPropertyExpression : properties) {
-			instantiatedProperties
-					.add((OWLDataPropertyExpression) objectPropertyExpression
-							.accept(this));
+		if (OPPLOWLDisjointDataPropertiesAxiom.class.isAssignableFrom(axiom
+				.getClass())) {
+			InlineSet<OWLDataPropertyExpression> inlineSet = ((OPPLOWLDisjointDataPropertiesAxiom) axiom)
+					.getInlineSet();
+			instantiatedProperties.addAll(inlineSet.compute(this
+					.getParameters()));
+		} else {
+			for (OWLDataPropertyExpression objectPropertyExpression : properties) {
+				instantiatedProperties
+						.add((OWLDataPropertyExpression) objectPropertyExpression
+								.accept(this));
+			}
 		}
 		return this.getParameters().getConstraintSystem().getOntologyManager()
 				.getOWLDataFactory()
@@ -396,10 +416,18 @@ abstract class AbstractOWLObjectInstantiator implements
 	public OWLObject visit(OWLDisjointObjectPropertiesAxiom axiom) {
 		Set<OWLObjectPropertyExpression> properties = axiom.getProperties();
 		Set<OWLObjectPropertyExpression> instantiatedProperties = new HashSet<OWLObjectPropertyExpression>();
-		for (OWLObjectPropertyExpression objectPropertyExpression : properties) {
-			instantiatedProperties
-					.add((OWLObjectPropertyExpression) objectPropertyExpression
-							.accept(this));
+		if (OPPLOWLDisjointObjectPropertiesAxiom.class.isAssignableFrom(axiom
+				.getClass())) {
+			InlineSet<OWLObjectPropertyExpression> inlineSet = ((OPPLOWLDisjointObjectPropertiesAxiom) axiom)
+					.getInlineSet();
+			instantiatedProperties.addAll(inlineSet.compute(this
+					.getParameters()));
+		} else {
+			for (OWLObjectPropertyExpression objectPropertyExpression : properties) {
+				instantiatedProperties
+						.add((OWLObjectPropertyExpression) objectPropertyExpression
+								.accept(this));
+			}
 		}
 		return this.getParameters().getConstraintSystem().getOntologyManager()
 				.getOWLDataFactory()
@@ -829,9 +857,16 @@ abstract class AbstractOWLObjectInstantiator implements
 		Set<OWLIndividual> individuals = axiom.getIndividuals();
 		Set<OWLIndividual> instantiatedIndividuals = new HashSet<OWLIndividual>(
 				axiom.getIndividuals().size());
-		for (OWLIndividual individual : individuals) {
-			instantiatedIndividuals
-					.add((OWLIndividual) individual.accept(this));
+		if (OPPLOWLSameIndividualAxiom.class.isAssignableFrom(axiom.getClass())) {
+			InlineSet<OWLIndividual> inlineSet = ((OPPLOWLSameIndividualAxiom) axiom)
+					.getInlineSet();
+			instantiatedIndividuals.addAll(inlineSet.compute(this
+					.getParameters()));
+		} else {
+			for (OWLIndividual individual : individuals) {
+				instantiatedIndividuals.add((OWLIndividual) individual
+						.accept(this));
+			}
 		}
 		return this.getParameters().getConstraintSystem().getOntologyManager()
 				.getOWLDataFactory()

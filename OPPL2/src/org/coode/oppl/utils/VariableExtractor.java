@@ -32,6 +32,11 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableVisitor;
+import org.coode.oppl.datafactory.OPPLOWLDifferentIndividualsAxiom;
+import org.coode.oppl.datafactory.OPPLOWLDisjointClassesAxiom;
+import org.coode.oppl.datafactory.OPPLOWLDisjointDataPropertiesAxiom;
+import org.coode.oppl.datafactory.OPPLOWLDisjointObjectPropertiesAxiom;
+import org.coode.oppl.datafactory.OPPLOWLSameIndividualAxiom;
 import org.coode.oppl.function.Aggregandum;
 import org.coode.oppl.function.Aggregation;
 import org.coode.oppl.function.Constant;
@@ -294,9 +299,17 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLDisjointClassesAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			Set<OWLClassExpression> descriptions = axiom.getClassExpressions();
-			for (OWLClassExpression description : descriptions) {
-				toReturn.addAll(description.accept(this));
+			if (OPPLOWLDisjointClassesAxiom.class.isAssignableFrom(axiom
+					.getClass())) {
+				toReturn.addAll(((OPPLOWLDisjointClassesAxiom) axiom)
+						.getInlineSet().accept(
+								this.opplFunctionVariableExtractor));
+			} else {
+				Set<OWLClassExpression> descriptions = axiom
+						.getClassExpressions();
+				for (OWLClassExpression description : descriptions) {
+					toReturn.addAll(description.accept(this));
+				}
 			}
 			return toReturn;
 		}
@@ -347,9 +360,16 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLDifferentIndividualsAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			Set<OWLIndividual> individuals = axiom.getIndividuals();
-			for (OWLIndividual individual : individuals) {
-				toReturn.addAll(individual.accept(this));
+			if (OPPLOWLDifferentIndividualsAxiom.class.isAssignableFrom(axiom
+					.getClass())) {
+				toReturn.addAll(((OPPLOWLDifferentIndividualsAxiom) axiom)
+						.getInlineSet().accept(
+								this.opplFunctionVariableExtractor));
+			} else {
+				Set<OWLIndividual> individuals = axiom.getIndividuals();
+				for (OWLIndividual individual : individuals) {
+					toReturn.addAll(individual.accept(this));
+				}
 			}
 			return toReturn;
 		}
@@ -357,9 +377,17 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLDisjointDataPropertiesAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			Set<OWLDataPropertyExpression> properties = axiom.getProperties();
-			for (OWLDataPropertyExpression dataPropertyExpression : properties) {
-				toReturn.addAll(dataPropertyExpression.accept(this));
+			if (OPPLOWLDisjointDataPropertiesAxiom.class.isAssignableFrom(axiom
+					.getClass())) {
+				toReturn.addAll(((OPPLOWLDisjointDataPropertiesAxiom) axiom)
+						.getInlineSet().accept(
+								this.opplFunctionVariableExtractor));
+			} else {
+				Set<OWLDataPropertyExpression> properties = axiom
+						.getProperties();
+				for (OWLDataPropertyExpression dataPropertyExpression : properties) {
+					toReturn.addAll(dataPropertyExpression.accept(this));
+				}
 			}
 			return toReturn;
 		}
@@ -367,9 +395,17 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLDisjointObjectPropertiesAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			Set<OWLObjectPropertyExpression> properties = axiom.getProperties();
-			for (OWLObjectPropertyExpression objectPropertyExpression : properties) {
-				toReturn.addAll(objectPropertyExpression.accept(this));
+			if (OPPLOWLDisjointObjectPropertiesAxiom.class
+					.isAssignableFrom(axiom.getClass())) {
+				toReturn.addAll(((OPPLOWLDisjointObjectPropertiesAxiom) axiom)
+						.getInlineSet().accept(
+								this.opplFunctionVariableExtractor));
+			} else {
+				Set<OWLObjectPropertyExpression> properties = axiom
+						.getProperties();
+				for (OWLObjectPropertyExpression objectPropertyExpression : properties) {
+					toReturn.addAll(objectPropertyExpression.accept(this));
+				}
 			}
 			return toReturn;
 		}
@@ -531,9 +567,16 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLSameIndividualAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			Set<OWLIndividual> individuals = axiom.getIndividuals();
-			for (OWLIndividual individual : individuals) {
-				toReturn.addAll(individual.accept(this));
+			if (OPPLOWLSameIndividualAxiom.class.isAssignableFrom(axiom
+					.getClass())) {
+				toReturn.addAll(((OPPLOWLSameIndividualAxiom) axiom)
+						.getInlineSet().accept(
+								this.opplFunctionVariableExtractor));
+			} else {
+				Set<OWLIndividual> individuals = axiom.getIndividuals();
+				for (OWLIndividual individual : individuals) {
+					toReturn.addAll(individual.accept(this));
+				}
 			}
 			return toReturn;
 		}

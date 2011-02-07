@@ -47,7 +47,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
 			InlineSet<OWLObjectPropertyExpression> set,
 			boolean shouldExpabdAsPairWise) {
-		return new OPPLOWLDisjointObjectProperties(this, set,
+		return new OPPLOWLDisjointObjectPropertiesAxiom(this, set,
 				Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
 	}
 
@@ -55,14 +55,14 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 			InlineSet<OWLObjectPropertyExpression> set,
 			Set<? extends OWLAnnotation> annotations,
 			boolean shouldExpabdAsPairWise) {
-		return new OPPLOWLDisjointObjectProperties(this, set, annotations,
+		return new OPPLOWLDisjointObjectPropertiesAxiom(this, set, annotations,
 				shouldExpabdAsPairWise);
 	}
 
 	public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
 			InlineSet<OWLDataPropertyExpression> set,
 			boolean shouldExpabdAsPairWise) {
-		return new OPPLOWLDisjointDataProperties(this, set,
+		return new OPPLOWLDisjointDataPropertiesAxiom(this, set,
 				Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
 	}
 
@@ -70,7 +70,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 			InlineSet<OWLDataPropertyExpression> set,
 			Set<? extends OWLAnnotation> annotations,
 			boolean shouldExpabdAsPairWise) {
-		return new OPPLOWLDisjointDataProperties(this, set, annotations,
+		return new OPPLOWLDisjointDataPropertiesAxiom(this, set, annotations,
 				shouldExpabdAsPairWise);
 	}
 

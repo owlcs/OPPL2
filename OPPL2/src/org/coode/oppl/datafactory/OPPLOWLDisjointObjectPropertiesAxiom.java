@@ -15,13 +15,13 @@ import org.semanticweb.owlapi.model.OWLAxiomVisitorEx;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
+import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectVisitor;
 import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 
@@ -29,14 +29,14 @@ import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
  * @author Luigi Iannone
  * 
  */
-public class OPPLOWLDisjointDataProperties extends
-		AbstractInlineSetAxiom<OWLDataPropertyExpression> implements
-		OWLDisjointDataPropertiesAxiom {
-	private final OWLDisjointDataPropertiesAxiom delegate;
+public class OPPLOWLDisjointObjectPropertiesAxiom extends
+		AbstractInlineSetAxiom<OWLObjectPropertyExpression> implements
+		OWLDisjointObjectPropertiesAxiom {
+	private final OWLDisjointObjectPropertiesAxiom delegate;
 	private final boolean shouldExpandAsPairWise;
 
-	public OPPLOWLDisjointDataProperties(OPPLOWLDataFactory dataFactory,
-			InlineSet<OWLDataPropertyExpression> propertyExpressions,
+	public OPPLOWLDisjointObjectPropertiesAxiom(OPPLOWLDataFactory dataFactory,
+			InlineSet<OWLObjectPropertyExpression> propertyExpressions,
 			Set<? extends OWLAnnotation> annotations,
 			boolean shouldExpandAsPairWise) {
 		super(propertyExpressions);
@@ -51,7 +51,7 @@ public class OPPLOWLDisjointDataProperties extends
 		}
 		this.shouldExpandAsPairWise = shouldExpandAsPairWise;
 		this.delegate = dataFactory.getDelegate()
-				.getOWLDisjointDataPropertiesAxiom(propertyExpressions,
+				.getOWLDisjointObjectPropertiesAxiom(propertyExpressions,
 						annotations);
 	}
 
@@ -75,7 +75,7 @@ public class OPPLOWLDisjointDataProperties extends
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLNaryPropertyAxiom#getProperties()
 	 */
-	public Set<OWLDataPropertyExpression> getProperties() {
+	public Set<OWLObjectPropertyExpression> getProperties() {
 		return this.delegate.getProperties();
 	}
 
@@ -84,8 +84,8 @@ public class OPPLOWLDisjointDataProperties extends
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLNaryPropertyAxiom#getPropertiesMinus(org.semanticweb.owlapi.model.OWLPropertyExpression)
 	 */
-	public Set<OWLDataPropertyExpression> getPropertiesMinus(
-			OWLDataPropertyExpression property) {
+	public Set<OWLObjectPropertyExpression> getPropertiesMinus(
+			OWLObjectPropertyExpression property) {
 		return this.delegate.getPropertiesMinus(property);
 	}
 
@@ -99,9 +99,9 @@ public class OPPLOWLDisjointDataProperties extends
 
 	/**
 	 * @return
-	 * @see org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom#getAxiomWithoutAnnotations()
+	 * @see org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom#getAxiomWithoutAnnotations()
 	 */
-	public OWLDisjointDataPropertiesAxiom getAxiomWithoutAnnotations() {
+	public OWLDisjointObjectPropertiesAxiom getAxiomWithoutAnnotations() {
 		return this.delegate.getAxiomWithoutAnnotations();
 	}
 
@@ -302,5 +302,10 @@ public class OPPLOWLDisjointDataProperties extends
 	@Override
 	public boolean equals(Object obj) {
 		return this.delegate.equals(obj);
+	}
+
+	@Override
+	public String toString() {
+		return this.delegate.toString();
 	}
 }

@@ -317,4 +317,9 @@ public class OPPLOWLSameIndividualAxiom extends
 	public boolean equals(Object obj) {
 		return this.delegate.equals(obj);
 	}
+
+	@Override
+	public String toString() {
+		return this.delegate.toString();
+	}
 }
