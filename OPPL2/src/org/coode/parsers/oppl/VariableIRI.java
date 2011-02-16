@@ -186,4 +186,44 @@ public class VariableIRI extends IRI {
 				this.getAttribute().getVariable().getName(),
 				this.getAttribute().getAttribute());
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (this.attribute == null ? 0 : this.attribute.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		VariableIRI other = (VariableIRI) obj;
+		if (this.attribute == null) {
+			if (other.attribute != null) {
+				return false;
+			}
+		} else if (!this.attribute.equals(other.attribute)) {
+			return false;
+		}
+		return true;
+	}
 }
