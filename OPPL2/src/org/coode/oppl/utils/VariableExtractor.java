@@ -134,40 +134,32 @@ public class VariableExtractor {
 	/**
 	 * @param constraintSystem
 	 */
-	public VariableExtractor(ConstraintSystem constraintSystem,
-			boolean includeGenerated) {
+	public VariableExtractor(ConstraintSystem constraintSystem, boolean includeGenerated) {
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The constraint system cannot be null");
+			throw new NullPointerException("The constraint system cannot be null");
 		}
 		this.constraintSystem = constraintSystem;
 		this.includeGenerated = includeGenerated;
 	}
 
-	private final class Visitor extends
-			OWLObjectVisitorExAdapter<Set<Variable<?>>> {
+	private final class Visitor extends OWLObjectVisitorExAdapter<Set<Variable<?>>> {
 		private final OPPLFunctionVisitorEx<Set<Variable<?>>> opplFunctionVariableExtractor = new OPPLFunctionVisitorEx<Set<Variable<?>>>() {
-			public <O, I> Set<Variable<?>> visitAggregation(
-					Aggregation<O, I> aggregation) {
+			public <O, I> Set<Variable<?>> visitAggregation(Aggregation<O, I> aggregation) {
 				Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
 				List<Aggregandum<I>> toAggreagte = aggregation.getToAggreagte();
 				for (Aggregandum<I> aggregandum : toAggreagte) {
-					for (OPPLFunction<? extends I> opplFunction : aggregandum
-							.getOPPLFunctions()) {
+					for (OPPLFunction<? extends I> opplFunction : aggregandum.getOPPLFunctions()) {
 						toReturn.addAll(opplFunction.accept(this));
 					}
 				}
 				return toReturn;
 			}
 
-			public <O extends OWLObject> Set<Variable<?>> visitInlineSet(
-					InlineSet<O> inlineSet) {
+			public <O extends OWLObject> Set<Variable<?>> visitInlineSet(InlineSet<O> inlineSet) {
 				Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-				Set<Aggregandum<Collection<? extends O>>> aggregandums = inlineSet
-						.getAggregandums();
+				Set<Aggregandum<Collection<? extends O>>> aggregandums = inlineSet.getAggregandums();
 				for (Aggregandum<Collection<? extends O>> aggregandum : aggregandums) {
-					Set<OPPLFunction<Collection<? extends O>>> opplFunctions = aggregandum
-							.getOPPLFunctions();
+					Set<OPPLFunction<Collection<? extends O>>> opplFunctions = aggregandum.getOPPLFunctions();
 					for (OPPLFunction<Collection<? extends O>> opplFunction : opplFunctions) {
 						toReturn.addAll(opplFunction.accept(this));
 					}
@@ -184,47 +176,53 @@ public class VariableExtractor {
 				Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
 				O value = constant.getValue();
 				if (value instanceof Variable) {
-					Visitor.this.vetoVariableIntoCollection(toReturn,
-							(Variable<?>) value);
+					Visitor.this.vetoVariableIntoCollection(toReturn, (Variable<?>) value);
 				}
 				return toReturn;
 			}
 
-			public <O, I extends OPPLFunction<?>> Set<Variable<?>> visitCreate(
-					Create<I, O> create) {
+			public <O, I extends OPPLFunction<?>> Set<Variable<?>> visitCreate(Create<I, O> create) {
 				return create.getInput().accept(this);
 			}
 
-			public <O extends OWLObject> Set<Variable<?>> visitExpression(
-					Expression<O> expression) {
+			public <O extends OWLObject> Set<Variable<?>> visitExpression(Expression<O> expression) {
 				return expression.getExpression().accept(Visitor.this);
 			}
 
 			public <O extends OWLObject> Set<Variable<?>> visitGroupVariableAttribute(
 					GroupVariableAttribute<O> groupVariableAttribute) {
-				return Collections
-						.<Variable<?>> singleton(groupVariableAttribute
-								.getVariable());
+				Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
+				Visitor.this.vetoVariableIntoCollection(
+						toReturn,
+						groupVariableAttribute.getVariable());
+				return toReturn;
 			}
 
 			public Set<Variable<?>> visitRenderingVariableAttribute(
 					RenderingVariableAttribute renderingVariableAttribute) {
-				return Collections
-						.<Variable<?>> singleton(renderingVariableAttribute
-								.getVariable());
+				Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
+				Visitor.this.vetoVariableIntoCollection(
+						toReturn,
+						renderingVariableAttribute.getVariable());
+				return toReturn;
 			}
 
 			public Set<Variable<?>> visitIRIVariableAttribute(
 					IRIVariableAttribute iriVariableAttribute) {
-				return Collections.<Variable<?>> singleton(iriVariableAttribute
-						.getVariable());
+				Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
+				Visitor.this.vetoVariableIntoCollection(
+						toReturn,
+						iriVariableAttribute.getVariable());
+				return toReturn;
 			}
 
 			public <O extends OWLObject> Set<Variable<?>> visitValuesVariableAtttribute(
 					ValuesVariableAtttribute<O> valuesVariableAtttribute) {
-				return Collections
-						.<Variable<?>> singleton(valuesVariableAtttribute
-								.getVariable());
+				Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
+				Visitor.this.vetoVariableIntoCollection(
+						toReturn,
+						valuesVariableAtttribute.getVariable());
+				return toReturn;
 			}
 		};
 
@@ -248,8 +246,7 @@ public class VariableExtractor {
 		}
 
 		@Override
-		public Set<Variable<?>> visit(
-				OWLNegativeObjectPropertyAssertionAxiom axiom) {
+		public Set<Variable<?>> visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
 			OWLIndividual object = axiom.getObject();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			OWLIndividual subject = axiom.getSubject();
@@ -270,12 +267,10 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable<?>> visit(IRI iri) {
-			return iri.accept(new IRIVisitorExAdapter<Set<Variable<?>>>(
-					new HashSet<Variable<?>>()) {
+			return iri.accept(new IRIVisitorExAdapter<Set<Variable<?>>>(new HashSet<Variable<?>>()) {
 				@Override
 				public Set<Variable<?>> visitVariableIRI(VariableIRI iri) {
-					return iri.getAttribute().accept(
-							Visitor.this.opplFunctionVariableExtractor);
+					return iri.getAttribute().accept(Visitor.this.opplFunctionVariableExtractor);
 				}
 			});
 		}
@@ -299,14 +294,11 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLDisjointClassesAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			if (OPPLOWLDisjointClassesAxiom.class.isAssignableFrom(axiom
-					.getClass())) {
-				toReturn.addAll(((OPPLOWLDisjointClassesAxiom) axiom)
-						.getInlineSet().accept(
-								this.opplFunctionVariableExtractor));
+			if (OPPLOWLDisjointClassesAxiom.class.isAssignableFrom(axiom.getClass())) {
+				toReturn.addAll(((OPPLOWLDisjointClassesAxiom) axiom).getInlineSet().accept(
+						this.opplFunctionVariableExtractor));
 			} else {
-				Set<OWLClassExpression> descriptions = axiom
-						.getClassExpressions();
+				Set<OWLClassExpression> descriptions = axiom.getClassExpressions();
 				for (OWLClassExpression description : descriptions) {
 					toReturn.addAll(description.accept(this));
 				}
@@ -345,8 +337,7 @@ public class VariableExtractor {
 		}
 
 		@Override
-		public Set<Variable<?>> visit(
-				OWLNegativeDataPropertyAssertionAxiom axiom) {
+		public Set<Variable<?>> visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
 			OWLLiteral object = axiom.getObject();
 			OWLDataPropertyExpression property = axiom.getProperty();
@@ -360,11 +351,9 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLDifferentIndividualsAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			if (OPPLOWLDifferentIndividualsAxiom.class.isAssignableFrom(axiom
-					.getClass())) {
-				toReturn.addAll(((OPPLOWLDifferentIndividualsAxiom) axiom)
-						.getInlineSet().accept(
-								this.opplFunctionVariableExtractor));
+			if (OPPLOWLDifferentIndividualsAxiom.class.isAssignableFrom(axiom.getClass())) {
+				toReturn.addAll(((OPPLOWLDifferentIndividualsAxiom) axiom).getInlineSet().accept(
+						this.opplFunctionVariableExtractor));
 			} else {
 				Set<OWLIndividual> individuals = axiom.getIndividuals();
 				for (OWLIndividual individual : individuals) {
@@ -377,14 +366,11 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLDisjointDataPropertiesAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			if (OPPLOWLDisjointDataPropertiesAxiom.class.isAssignableFrom(axiom
-					.getClass())) {
-				toReturn.addAll(((OPPLOWLDisjointDataPropertiesAxiom) axiom)
-						.getInlineSet().accept(
-								this.opplFunctionVariableExtractor));
+			if (OPPLOWLDisjointDataPropertiesAxiom.class.isAssignableFrom(axiom.getClass())) {
+				toReturn.addAll(((OPPLOWLDisjointDataPropertiesAxiom) axiom).getInlineSet().accept(
+						this.opplFunctionVariableExtractor));
 			} else {
-				Set<OWLDataPropertyExpression> properties = axiom
-						.getProperties();
+				Set<OWLDataPropertyExpression> properties = axiom.getProperties();
 				for (OWLDataPropertyExpression dataPropertyExpression : properties) {
 					toReturn.addAll(dataPropertyExpression.accept(this));
 				}
@@ -395,14 +381,11 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLDisjointObjectPropertiesAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			if (OPPLOWLDisjointObjectPropertiesAxiom.class
-					.isAssignableFrom(axiom.getClass())) {
-				toReturn.addAll(((OPPLOWLDisjointObjectPropertiesAxiom) axiom)
-						.getInlineSet().accept(
-								this.opplFunctionVariableExtractor));
+			if (OPPLOWLDisjointObjectPropertiesAxiom.class.isAssignableFrom(axiom.getClass())) {
+				toReturn.addAll(((OPPLOWLDisjointObjectPropertiesAxiom) axiom).getInlineSet().accept(
+						this.opplFunctionVariableExtractor));
 			} else {
-				Set<OWLObjectPropertyExpression> properties = axiom
-						.getProperties();
+				Set<OWLObjectPropertyExpression> properties = axiom.getProperties();
 				for (OWLObjectPropertyExpression objectPropertyExpression : properties) {
 					toReturn.addAll(objectPropertyExpression.accept(this));
 				}
@@ -444,8 +427,7 @@ public class VariableExtractor {
 		public Set<Variable<?>> visit(OWLSubObjectPropertyOfAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
 			OWLObjectPropertyExpression subProperty = axiom.getSubProperty();
-			OWLObjectPropertyExpression superProperty = axiom
-					.getSuperProperty();
+			OWLObjectPropertyExpression superProperty = axiom.getSuperProperty();
 			toReturn.addAll(subProperty.accept(this));
 			toReturn.addAll(superProperty.accept(this));
 			return toReturn;
@@ -556,8 +538,7 @@ public class VariableExtractor {
 		}
 
 		@Override
-		public Set<Variable<?>> visit(
-				OWLInverseFunctionalObjectPropertyAxiom axiom) {
+		public Set<Variable<?>> visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
 			OWLObjectPropertyExpression property = axiom.getProperty();
 			toReturn.addAll(property.accept(this));
@@ -567,11 +548,9 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLSameIndividualAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			if (OPPLOWLSameIndividualAxiom.class.isAssignableFrom(axiom
-					.getClass())) {
-				toReturn.addAll(((OPPLOWLSameIndividualAxiom) axiom)
-						.getInlineSet().accept(
-								this.opplFunctionVariableExtractor));
+			if (OPPLOWLSameIndividualAxiom.class.isAssignableFrom(axiom.getClass())) {
+				toReturn.addAll(((OPPLOWLSameIndividualAxiom) axiom).getInlineSet().accept(
+						this.opplFunctionVariableExtractor));
 			} else {
 				Set<OWLIndividual> individuals = axiom.getIndividuals();
 				for (OWLIndividual individual : individuals) {
@@ -584,8 +563,7 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLSubPropertyChainOfAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			List<OWLObjectPropertyExpression> propertyChain = axiom
-					.getPropertyChain();
+			List<OWLObjectPropertyExpression> propertyChain = axiom.getPropertyChain();
 			for (OWLObjectPropertyExpression objectPropertyExpression : propertyChain) {
 				toReturn.addAll(objectPropertyExpression.accept(this));
 			}
@@ -595,10 +573,8 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLInverseObjectPropertiesAxiom axiom) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			OWLObjectPropertyExpression firstProperty = axiom
-					.getFirstProperty();
-			OWLObjectPropertyExpression secondProperty = axiom
-					.getSecondProperty();
+			OWLObjectPropertyExpression firstProperty = axiom.getFirstProperty();
+			OWLObjectPropertyExpression secondProperty = axiom.getSecondProperty();
 			toReturn.addAll(firstProperty.accept(this));
 			toReturn.addAll(secondProperty.accept(this));
 			return toReturn;
@@ -606,12 +582,11 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable<?>> visit(OWLClass desc) {
-			boolean isVariable = VariableExtractor.this.getConstraintSystem()
-					.isVariable(desc);
+			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(desc);
 			final Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
 			if (isVariable) {
-				Variable<?> variable = VariableExtractor.this
-						.getConstraintSystem().getVariable(desc.getIRI());
+				Variable<?> variable = VariableExtractor.this.getConstraintSystem().getVariable(
+						desc.getIRI());
 				this.vetoVariableIntoCollection(toReturn, variable);
 			}
 			return toReturn;
@@ -619,12 +594,11 @@ public class VariableExtractor {
 
 		@Override
 		public Set<Variable<?>> visit(OWLAnnotationProperty property) {
-			boolean isVariable = VariableExtractor.this.getConstraintSystem()
-					.isVariable(property);
+			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(property);
 			final Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
 			if (isVariable) {
-				Variable<?> variable = VariableExtractor.this
-						.getConstraintSystem().getVariable(property.getIRI());
+				Variable<?> variable = VariableExtractor.this.getConstraintSystem().getVariable(
+						property.getIRI());
 				this.vetoVariableIntoCollection(toReturn, variable);
 			}
 			return toReturn;
@@ -642,8 +616,8 @@ public class VariableExtractor {
 		 * @param collection
 		 * @param variable
 		 */
-		private void vetoVariableIntoCollection(
-				final Set<Variable<?>> collection, Variable<?> variable) {
+		private void vetoVariableIntoCollection(final Set<Variable<?>> collection,
+				Variable<?> variable) {
 			VariableVisitor variableVetoer = new VariableVisitor() {
 				public <O extends OWLObject> void visit(GeneratedVariable<O> v) {
 					if (VariableExtractor.this.isIncludeGenerated()) {
@@ -659,8 +633,7 @@ public class VariableExtractor {
 					collection.add(v);
 				}
 
-				public <O extends OWLObject> void visit(
-						RegexpGeneratedVariable<O> regExpGenerated) {
+				public <O extends OWLObject> void visit(RegexpGeneratedVariable<O> regExpGenerated) {
 					collection.add(regExpGenerated);
 				}
 			};
@@ -862,11 +835,10 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLLiteral node) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			boolean isVariable = VariableExtractor.this.getConstraintSystem()
-					.isVariable(node);
+			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(node);
 			if (isVariable) {
-				Variable<?> variable = VariableExtractor.this
-						.getConstraintSystem().getVariable(node.getLiteral());
+				Variable<?> variable = VariableExtractor.this.getConstraintSystem().getVariable(
+						node.getLiteral());
 				this.vetoVariableIntoCollection(toReturn, variable);
 			}
 			return toReturn;
@@ -875,11 +847,10 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLObjectProperty property) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			boolean isVariable = VariableExtractor.this.getConstraintSystem()
-					.isVariable(property);
+			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(property);
 			if (isVariable) {
-				Variable<?> variable = VariableExtractor.this
-						.getConstraintSystem().getVariable(property.getIRI());
+				Variable<?> variable = VariableExtractor.this.getConstraintSystem().getVariable(
+						property.getIRI());
 				this.vetoVariableIntoCollection(toReturn, variable);
 			}
 			return toReturn;
@@ -896,11 +867,10 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLDataProperty property) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			boolean isVariable = VariableExtractor.this.getConstraintSystem()
-					.isVariable(property);
+			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(property);
 			if (isVariable) {
-				Variable<?> variable = VariableExtractor.this
-						.getConstraintSystem().getVariable(property.getIRI());
+				Variable<?> variable = VariableExtractor.this.getConstraintSystem().getVariable(
+						property.getIRI());
 				this.vetoVariableIntoCollection(toReturn, variable);
 			}
 			return toReturn;
@@ -909,11 +879,10 @@ public class VariableExtractor {
 		@Override
 		public Set<Variable<?>> visit(OWLNamedIndividual individual) {
 			Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-			boolean isVariable = VariableExtractor.this.getConstraintSystem()
-					.isVariable(individual);
+			boolean isVariable = VariableExtractor.this.getConstraintSystem().isVariable(individual);
 			if (isVariable) {
-				Variable<?> variable = VariableExtractor.this
-						.getConstraintSystem().getVariable(individual.getIRI());
+				Variable<?> variable = VariableExtractor.this.getConstraintSystem().getVariable(
+						individual.getIRI());
 				this.vetoVariableIntoCollection(toReturn, variable);
 			}
 			return toReturn;
