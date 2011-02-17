@@ -87,10 +87,13 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
 				Set<OWLClassExpression> operands = new HashSet<OWLClassExpression>();
 				for (Aggregandum<Collection<? extends OWLClassExpression>> aggregandum : this.getToAggreagte()) {
 					for (OPPLFunction<Collection<? extends OWLClassExpression>> opplFunction : aggregandum.getOPPLFunctions()) {
-						operands.addAll(opplFunction.compute(parameters));
+						Collection<? extends OWLClassExpression> compute = opplFunction.compute(parameters);
+						if (compute != null) {
+							operands.addAll(compute);
+						}
 					}
 				}
-				return dataFactory.getOWLObjectIntersectionOf(operands);
+				return operands.isEmpty() ? null : dataFactory.getOWLObjectIntersectionOf(operands);
 			}
 
 			public String render(ConstraintSystem constraintSystem) {
@@ -124,10 +127,12 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
 				for (Aggregandum<? extends Collection<? extends OWLClassExpression>> aggregandum : this.getToAggreagte()) {
 					for (OPPLFunction<? extends Collection<? extends OWLClassExpression>> opplFunction : aggregandum.getOPPLFunctions()) {
 						Collection<? extends OWLClassExpression> compute = opplFunction.compute(parameters);
-						operands.addAll(compute);
+						if (compute != null) {
+							operands.addAll(compute);
+						}
 					}
 				}
-				return dataFactory.getOWLObjectUnionOf(operands);
+				return operands.isEmpty() ? null : dataFactory.getOWLObjectUnionOf(operands);
 			}
 
 			public String render(ConstraintSystem constraintSystem) {
