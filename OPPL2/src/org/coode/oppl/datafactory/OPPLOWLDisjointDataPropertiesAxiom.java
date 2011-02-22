@@ -30,15 +30,13 @@ import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
  * 
  */
 public class OPPLOWLDisjointDataPropertiesAxiom extends
-		AbstractInlineSetAxiom<OWLDataPropertyExpression> implements
-		OWLDisjointDataPropertiesAxiom {
+		AbstractInlineSetAxiom<OWLDataPropertyExpression> implements OWLDisjointDataPropertiesAxiom {
 	private final OWLDisjointDataPropertiesAxiom delegate;
 	private final boolean shouldExpandAsPairWise;
 
 	public OPPLOWLDisjointDataPropertiesAxiom(OPPLOWLDataFactory dataFactory,
 			InlineSet<OWLDataPropertyExpression> propertyExpressions,
-			Set<? extends OWLAnnotation> annotations,
-			boolean shouldExpandAsPairWise) {
+			Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {
 		super(propertyExpressions);
 		if (dataFactory == null) {
 			throw new NullPointerException("The data factory cannot be null");
@@ -50,9 +48,9 @@ public class OPPLOWLDisjointDataPropertiesAxiom extends
 			throw new NullPointerException("The annotations cannot be null");
 		}
 		this.shouldExpandAsPairWise = shouldExpandAsPairWise;
-		this.delegate = dataFactory.getDelegate()
-				.getOWLDisjointDataPropertiesAxiom(propertyExpressions,
-						annotations);
+		this.delegate = dataFactory.getDelegate().getOWLDisjointDataPropertiesAxiom(
+				propertyExpressions,
+				annotations);
 	}
 
 	/**
@@ -84,8 +82,7 @@ public class OPPLOWLDisjointDataPropertiesAxiom extends
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLNaryPropertyAxiom#getPropertiesMinus(org.semanticweb.owlapi.model.OWLPropertyExpression)
 	 */
-	public Set<OWLDataPropertyExpression> getPropertiesMinus(
-			OWLDataPropertyExpression property) {
+	public Set<OWLDataPropertyExpression> getPropertiesMinus(OWLDataPropertyExpression property) {
 		return this.delegate.getPropertiesMinus(property);
 	}
 
@@ -144,8 +141,7 @@ public class OPPLOWLDisjointDataPropertiesAxiom extends
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLAxiom#getAnnotations(org.semanticweb.owlapi.model.OWLAnnotationProperty)
 	 */
-	public Set<OWLAnnotation> getAnnotations(
-			OWLAnnotationProperty annotationProperty) {
+	public Set<OWLAnnotation> getAnnotations(OWLAnnotationProperty annotationProperty) {
 		return this.delegate.getAnnotations(annotationProperty);
 	}
 
@@ -307,5 +303,13 @@ public class OPPLOWLDisjointDataPropertiesAxiom extends
 	@Override
 	public String toString() {
 		return this.delegate.toString();
+	}
+
+	/**
+	 * @return
+	 * @see org.semanticweb.owlapi.model.OWLAxiom#isAnnotationAxiom()
+	 */
+	public boolean isAnnotationAxiom() {
+		return this.delegate.isAnnotationAxiom();
 	}
 }

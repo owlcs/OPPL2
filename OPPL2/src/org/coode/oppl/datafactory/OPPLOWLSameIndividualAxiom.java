@@ -24,8 +24,8 @@ import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
-public class OPPLOWLSameIndividualAxiom extends
-		AbstractInlineSetAxiom<OWLIndividual> implements OWLSameIndividualAxiom {
+public class OPPLOWLSameIndividualAxiom extends AbstractInlineSetAxiom<OWLIndividual> implements
+		OWLSameIndividualAxiom {
 	private final OWLSameIndividualAxiom delegate;
 	private final boolean shouldExpandAsPairWise;
 
@@ -33,8 +33,7 @@ public class OPPLOWLSameIndividualAxiom extends
 	 * @param inlineSet
 	 */
 	public OPPLOWLSameIndividualAxiom(OPPLOWLDataFactory dataFactory,
-			InlineSet<OWLIndividual> individuals,
-			Set<? extends OWLAnnotation> annotations,
+			InlineSet<OWLIndividual> individuals, Set<? extends OWLAnnotation> annotations,
 			boolean shouldExpandAsPairWise) {
 		super(individuals);
 		if (dataFactory == null) {
@@ -44,7 +43,8 @@ public class OPPLOWLSameIndividualAxiom extends
 			throw new NullPointerException("The annotations cannot be null");
 		}
 		this.delegate = dataFactory.getDelegate().getOWLSameIndividualAxiom(
-				individuals, annotations);
+				individuals,
+				annotations);
 		this.shouldExpandAsPairWise = shouldExpandAsPairWise;
 	}
 
@@ -217,8 +217,7 @@ public class OPPLOWLSameIndividualAxiom extends
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLAxiom#getAnnotations(org.semanticweb.owlapi.model.OWLAnnotationProperty)
 	 */
-	public Set<OWLAnnotation> getAnnotations(
-			OWLAnnotationProperty annotationProperty) {
+	public Set<OWLAnnotation> getAnnotations(OWLAnnotationProperty annotationProperty) {
 		return this.delegate.getAnnotations(annotationProperty);
 	}
 
@@ -321,5 +320,13 @@ public class OPPLOWLSameIndividualAxiom extends
 	@Override
 	public String toString() {
 		return this.delegate.toString();
+	}
+
+	/**
+	 * @return
+	 * @see org.semanticweb.owlapi.model.OWLAxiom#isAnnotationAxiom()
+	 */
+	public boolean isAnnotationAxiom() {
+		return this.delegate.isAnnotationAxiom();
 	}
 }

@@ -30,16 +30,14 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
  * @author Luigi Iannone
  * 
  */
-public class OPPLOWLDisjointClassesAxiom extends
-		AbstractInlineSetAxiom<OWLClassExpression> implements
-		OWLDisjointClassesAxiom {
+public class OPPLOWLDisjointClassesAxiom extends AbstractInlineSetAxiom<OWLClassExpression>
+		implements OWLDisjointClassesAxiom {
 	private final OWLDisjointClassesAxiom delegate;
 	private final boolean shouldExpandAsPairWise;
 
 	public OPPLOWLDisjointClassesAxiom(OPPLOWLDataFactory dataFactory,
 			InlineSet<OWLClassExpression> classExpressions,
-			Set<? extends OWLAnnotation> annotations,
-			boolean shouldExpandAsPairWise) {
+			Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {
 		super(classExpressions);
 		if (dataFactory == null) {
 			throw new NullPointerException("The data factory cannot be null");
@@ -52,7 +50,8 @@ public class OPPLOWLDisjointClassesAxiom extends
 		}
 		this.shouldExpandAsPairWise = shouldExpandAsPairWise;
 		this.delegate = dataFactory.getDelegate().getOWLDisjointClassesAxiom(
-				classExpressions, annotations);
+				classExpressions,
+				annotations);
 	}
 
 	/**
@@ -142,8 +141,7 @@ public class OPPLOWLDisjointClassesAxiom extends
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLNaryClassAxiom#getClassExpressionsMinus(org.semanticweb.owlapi.model.OWLClassExpression[])
 	 */
-	public Set<OWLClassExpression> getClassExpressionsMinus(
-			OWLClassExpression... desc) {
+	public Set<OWLClassExpression> getClassExpressionsMinus(OWLClassExpression... desc) {
 		return this.delegate.getClassExpressionsMinus(desc);
 	}
 
@@ -227,8 +225,7 @@ public class OPPLOWLDisjointClassesAxiom extends
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLAxiom#getAnnotations(org.semanticweb.owlapi.model.OWLAnnotationProperty)
 	 */
-	public Set<OWLAnnotation> getAnnotations(
-			OWLAnnotationProperty annotationProperty) {
+	public Set<OWLAnnotation> getAnnotations(OWLAnnotationProperty annotationProperty) {
 		return this.delegate.getAnnotations(annotationProperty);
 	}
 
@@ -340,5 +337,13 @@ public class OPPLOWLDisjointClassesAxiom extends
 	@Override
 	public String toString() {
 		return this.delegate.toString();
+	}
+
+	/**
+	 * @return
+	 * @see org.semanticweb.owlapi.model.OWLAxiom#isAnnotationAxiom()
+	 */
+	public boolean isAnnotationAxiom() {
+		return this.delegate.isAnnotationAxiom();
 	}
 }

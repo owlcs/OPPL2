@@ -37,8 +37,7 @@ public class OPPLOWLDisjointObjectPropertiesAxiom extends
 
 	public OPPLOWLDisjointObjectPropertiesAxiom(OPPLOWLDataFactory dataFactory,
 			InlineSet<OWLObjectPropertyExpression> propertyExpressions,
-			Set<? extends OWLAnnotation> annotations,
-			boolean shouldExpandAsPairWise) {
+			Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {
 		super(propertyExpressions);
 		if (dataFactory == null) {
 			throw new NullPointerException("The data factory cannot be null");
@@ -50,9 +49,9 @@ public class OPPLOWLDisjointObjectPropertiesAxiom extends
 			throw new NullPointerException("The annotations cannot be null");
 		}
 		this.shouldExpandAsPairWise = shouldExpandAsPairWise;
-		this.delegate = dataFactory.getDelegate()
-				.getOWLDisjointObjectPropertiesAxiom(propertyExpressions,
-						annotations);
+		this.delegate = dataFactory.getDelegate().getOWLDisjointObjectPropertiesAxiom(
+				propertyExpressions,
+				annotations);
 	}
 
 	/**
@@ -84,8 +83,7 @@ public class OPPLOWLDisjointObjectPropertiesAxiom extends
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLNaryPropertyAxiom#getPropertiesMinus(org.semanticweb.owlapi.model.OWLPropertyExpression)
 	 */
-	public Set<OWLObjectPropertyExpression> getPropertiesMinus(
-			OWLObjectPropertyExpression property) {
+	public Set<OWLObjectPropertyExpression> getPropertiesMinus(OWLObjectPropertyExpression property) {
 		return this.delegate.getPropertiesMinus(property);
 	}
 
@@ -144,8 +142,7 @@ public class OPPLOWLDisjointObjectPropertiesAxiom extends
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLAxiom#getAnnotations(org.semanticweb.owlapi.model.OWLAnnotationProperty)
 	 */
-	public Set<OWLAnnotation> getAnnotations(
-			OWLAnnotationProperty annotationProperty) {
+	public Set<OWLAnnotation> getAnnotations(OWLAnnotationProperty annotationProperty) {
 		return this.delegate.getAnnotations(annotationProperty);
 	}
 
@@ -307,5 +304,13 @@ public class OPPLOWLDisjointObjectPropertiesAxiom extends
 	@Override
 	public String toString() {
 		return this.delegate.toString();
+	}
+
+	/**
+	 * @return
+	 * @see org.semanticweb.owlapi.model.OWLAxiom#isAnnotationAxiom()
+	 */
+	public boolean isAnnotationAxiom() {
+		return this.delegate.isAnnotationAxiom();
 	}
 }

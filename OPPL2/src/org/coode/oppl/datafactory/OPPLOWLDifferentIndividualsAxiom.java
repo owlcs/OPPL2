@@ -24,9 +24,8 @@ import org.semanticweb.owlapi.model.OWLObjectVisitor;
 import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
-public class OPPLOWLDifferentIndividualsAxiom extends
-		AbstractInlineSetAxiom<OWLIndividual> implements
-		OWLDifferentIndividualsAxiom {
+public class OPPLOWLDifferentIndividualsAxiom extends AbstractInlineSetAxiom<OWLIndividual>
+		implements OWLDifferentIndividualsAxiom {
 	private final OWLDifferentIndividualsAxiom delegate;
 	private final boolean shouldExpandAsPairWise;
 
@@ -34,8 +33,7 @@ public class OPPLOWLDifferentIndividualsAxiom extends
 	 * @param inlineSet
 	 */
 	public OPPLOWLDifferentIndividualsAxiom(OPPLOWLDataFactory dataFactory,
-			InlineSet<OWLIndividual> individuals,
-			Set<? extends OWLAnnotation> annotations,
+			InlineSet<OWLIndividual> individuals, Set<? extends OWLAnnotation> annotations,
 			boolean shouldExpandAsPairWise) {
 		super(individuals);
 		if (dataFactory == null) {
@@ -48,8 +46,9 @@ public class OPPLOWLDifferentIndividualsAxiom extends
 			throw new NullPointerException("The annotations cannot be null");
 		}
 		this.shouldExpandAsPairWise = shouldExpandAsPairWise;
-		this.delegate = dataFactory.getDelegate()
-				.getOWLDifferentIndividualsAxiom(individuals, annotations);
+		this.delegate = dataFactory.getDelegate().getOWLDifferentIndividualsAxiom(
+				individuals,
+				annotations);
 	}
 
 	/**
@@ -66,6 +65,13 @@ public class OPPLOWLDifferentIndividualsAxiom extends
 	 */
 	public Set<OWLEntity> getSignature() {
 		return this.delegate.getSignature();
+	}
+
+	/**
+	 * @see org.semanticweb.owlapi.model.OWLAxiom#isAnnotationAxiom()
+	 */
+	public boolean isAnnotationAxiom() {
+		return this.delegate.isAnnotationAxiom();
 	}
 
 	/**
@@ -222,8 +228,7 @@ public class OPPLOWLDifferentIndividualsAxiom extends
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLAxiom#getAnnotations(org.semanticweb.owlapi.model.OWLAnnotationProperty)
 	 */
-	public Set<OWLAnnotation> getAnnotations(
-			OWLAnnotationProperty annotationProperty) {
+	public Set<OWLAnnotation> getAnnotations(OWLAnnotationProperty annotationProperty) {
 		return this.delegate.getAnnotations(annotationProperty);
 	}
 
