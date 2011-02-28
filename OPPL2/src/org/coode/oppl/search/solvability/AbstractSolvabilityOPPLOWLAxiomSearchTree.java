@@ -235,7 +235,14 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 					// variables might not like the value.
 					boolean accepatble = variable.accept(new VariableVisitorEx<Boolean>() {
 						public <O extends OWLObject> Boolean visit(InputVariable<O> v) {
-							return true;
+							try {
+								return v.getVariableScope() == null
+										|| v.getVariableScope().check(value);
+							} catch (OWLRuntimeException e) {
+								AbstractSolvabilityOPPLOWLAxiomSearchTree.this.getRuntimeExceptionHandler().handleOWLRuntimeException(
+										e);
+								return false;
+							}
 						}
 
 						public <O extends OWLObject> Boolean visit(GeneratedVariable<O> v) {
