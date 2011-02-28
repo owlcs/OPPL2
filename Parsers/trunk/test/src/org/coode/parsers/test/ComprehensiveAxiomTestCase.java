@@ -337,6 +337,7 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		assertTrue("parse type " + parseType, parseType == OWLAxiomType.SUBCLASS);
 		parseType = this.parse(
 				"Pizza subClassOf hasTopping some (Thing and hasTopping only PizzaTopping)").getEvalType();
+		// Change keyword case
 	}
 
 	public void testClassAssertion() {
@@ -345,6 +346,8 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		assertTrue("parse type " + parseType, parseType == OWLAxiomType.CLASS_ASSERTION);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.CLASS_ASSERTION);
 		parseType = this.parse("America InstanceOf NamedPizza or not (hasTopping some Pizza)").getEvalType();
+		assertTrue("parse type " + parseType, parseType == OWLAxiomType.CLASS_ASSERTION);
+		parseType = this.parse("America Type NamedPizza or not (hasTopping some Pizza)").getEvalType();
 		assertTrue("parse type " + parseType, parseType == OWLAxiomType.CLASS_ASSERTION);
 	}
 
@@ -383,6 +386,11 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		assertTrue("parse type " + parseType, parseType == OWLAxiomType.EQUIVALENT_CLASSES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_CLASSES);
 		parsed = this.parse("NamedPizza  equivalentTo Pizza");
+		parseType = parsed.getEvalType();
+		assertTrue("parse type " + parseType, parseType == OWLAxiomType.EQUIVALENT_CLASSES);
+		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_CLASSES);
+		// Change the keyword case
+		parsed = this.parse("Pizza or not (hasTopping some Thing) EquivalentTo Pizza and  NamedPizza");
 		parseType = parsed.getEvalType();
 		assertTrue("parse type " + parseType, parseType == OWLAxiomType.EQUIVALENT_CLASSES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_CLASSES);
