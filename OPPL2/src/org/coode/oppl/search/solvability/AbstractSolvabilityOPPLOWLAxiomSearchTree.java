@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PartialOWLObjectInstantiator;
@@ -246,12 +247,14 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 							ManchesterSyntaxRenderer renderer = AbstractSolvabilityOPPLOWLAxiomSearchTree.this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
 									AbstractSolvabilityOPPLOWLAxiomSearchTree.this.getConstraintSystem());
 							value.accept(renderer);
-							return regExpGenerated.getPatternGeneratingOPPLFunction().compute(
+							Matcher matcher = regExpGenerated.getPatternGeneratingOPPLFunction().compute(
 									new SimpleValueComputationParameters(
 											AbstractSolvabilityOPPLOWLAxiomSearchTree.this.getConstraintSystem(),
 											binding,
 											AbstractSolvabilityOPPLOWLAxiomSearchTree.this.getRuntimeExceptionHandler())).matcher(
-									renderer.toString()).matches();
+									renderer.toString());
+							boolean matches = matcher.matches();
+							return matches;
 						}
 					});
 					if (accepatble) {

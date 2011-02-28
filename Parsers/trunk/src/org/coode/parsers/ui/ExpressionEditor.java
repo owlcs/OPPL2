@@ -7,14 +7,18 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Stroke;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
 import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 import javax.swing.border.Border;
@@ -99,6 +103,18 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
 				ExpressionEditor.this.handleTimer();
 			}
 		});
+		this.getInputMap().put(
+				KeyStroke.getKeyStroke(
+						KeyEvent.VK_Z,
+						Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()),
+				new AbstractAction() {
+					private static final long serialVersionUID = -2787929704277759568L;
+
+					public void actionPerformed(ActionEvent e) {
+						// Do nothing just swallow the undo event when the text
+						// pane is on focus
+					}
+				});
 		this.refreshComponent();
 		this.createStyles();
 	}
