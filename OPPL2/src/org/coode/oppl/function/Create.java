@@ -65,7 +65,7 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 				OWLEntityCreationSet<OWLClass> entitySet = entityFactory.createOWLClass(
 						entityRendering,
 						null);
-				manager.applyChanges(entitySet.getOntologyChanges());
+				// manager.applyChanges(entitySet.getOntologyChanges());
 				return entitySet.getOWLEntity();
 			}
 
@@ -92,7 +92,7 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 				OWLEntityCreationSet<OWLObjectProperty> entitySet = entityFactory.createOWLObjectProperty(
 						entityRendering,
 						null);
-				manager.applyChanges(entitySet.getOntologyChanges());
+				// manager.applyChanges(entitySet.getOntologyChanges());
 				return entitySet.getOWLEntity();
 			}
 
@@ -119,7 +119,7 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 				OWLEntityCreationSet<OWLDataProperty> entitySet = entityFactory.createOWLDataProperty(
 						entityRendering,
 						null);
-				manager.applyChanges(entitySet.getOntologyChanges());
+				// manager.applyChanges(entitySet.getOntologyChanges());
 				return entitySet.getOWLEntity();
 			}
 
@@ -146,7 +146,7 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 				OWLEntityCreationSet<OWLNamedIndividual> entitySet = entityFactory.createOWLIndividual(
 						entityRendering,
 						null);
-				manager.applyChanges(entitySet.getOntologyChanges());
+				// manager.applyChanges(entitySet.getOntologyChanges());
 				return entitySet.getOWLEntity();
 			}
 
@@ -194,7 +194,7 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLF
 				OWLEntityCreationSet<OWLAnnotationProperty> entitySet = entityFactory.createOWLAnnotationProperty(
 						entityRendering,
 						null);
-				manager.applyChanges(entitySet.getOntologyChanges());
+				// manager.applyChanges(entitySet.getOntologyChanges());
 				return entitySet.getOWLEntity();
 			}
 
