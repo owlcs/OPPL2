@@ -907,4 +907,9 @@ public class VariableExtractor {
 		Set<Variable<?>> toReturn = owlObject.accept(this.visitor);
 		return toReturn;
 	}
+
+	public Set<Variable<?>> extractVariables(OPPLFunction<?> opplFunction) {
+		Set<Variable<?>> toReturn = opplFunction.accept(this.visitor.opplFunctionVariableExtractor);
+		return toReturn;
+	}
 }
