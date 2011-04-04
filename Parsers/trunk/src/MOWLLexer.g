@@ -92,22 +92,7 @@ EQUAL
     '='
   ;
 
-LESS_THAN	
-	:
-		'<'
-	;
-LESS_THAN_EQUAL
-	:
-		LESS_THAN EQUAL
-	;
-GREATER_THAN
-	:
-		'>'
-	;
-GREATER_THAN_EQUAL
-	:
-		GREATER_THAN EQUAL
-	;    
+
 
 
 DBLQUOTE :  
@@ -131,7 +116,7 @@ DBLQUOTE :
 
 IRI
 	:
-	LESS_THAN(~GREATER_THAN)+ GREATER_THAN
+	LESS_THAN(LETTER | DIGIT |'-'|'_' | ':' |'/'|'#' |'\\'|'\?' |'.' )+ GREATER_THAN
 	{
 		//Proper parsing of the IRI should happen elsewhere
 		String txt = getText(); 
@@ -146,6 +131,24 @@ IRI
                 
 	}
 	;
+	
+LESS_THAN_EQUAL
+	:
+		LESS_THAN EQUAL
+	;
+LESS_THAN	
+	:
+		'<'
+	;	
+
+GREATER_THAN_EQUAL
+	:
+		GREATER_THAN EQUAL
+	;    
+GREATER_THAN
+	:
+		'>'
+	;	
 
 INTEGER: DIGIT+ ;
 fragment LETTER : ('a'..'z' | 'A'..'Z');  

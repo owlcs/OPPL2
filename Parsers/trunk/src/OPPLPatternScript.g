@@ -5,6 +5,7 @@ options {
   output = AST;
   ASTLabelType = OPPLSyntaxTree; // use custom tree nodes
   tokenVocab = OPPLPatternScript;
+  backtrack = true;
 }
 
 import OPPLPatternLexer, OPPLParser;
@@ -182,5 +183,5 @@ argument returns [String string]
 		})* CLOSED_CURLY_BRACES {
 			out.append($CLOSED_CURLY_BRACES.getText());
 			$string = out.toString();
-		} -> ^(ARGUMENT ^(EXPRESSION[$atomic.text.trim()] atomic)+)
+		} -> ^(ARGUMENT ^(EXPRESSION[$a.text.trim()] atomic)+)
 	;

@@ -5,6 +5,7 @@ options {
   output = AST;
   ASTLabelType = OPPLSyntaxTree; // use custom tree nodes
   tokenVocab = OPPLLintCombined;
+  backtrack = true;
 }
 
 import OPPLLintLexer, OPPLParser;

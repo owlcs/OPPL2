@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2011-02-03 18:47:42
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2011-04-04 15:21:27
 
   package org.coode.parsers.oppl;
   import org.coode.parsers.ErrorListener;
@@ -45,7 +45,7 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final int CREATE_OPPL_FUNCTION=98;
     public static final int TRANSITIVE=34;
     public static final int ANTI_SYMMETRIC=31;
-    public static final int GREATER_THAN_EQUAL=512;
+    public static final int GREATER_THAN_EQUAL=486;
     public static final int ALL_RESTRICTION=62;
     public static final int CONJUNCTION=56;
     public static final int OPPL_STATEMENT=107;
@@ -63,7 +63,7 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final int DBLQUOTE=40;
     public static final int STRING_OPERATION=394;
     public static final int OR=11;
-    public static final int LESS_THAN=509;
+    public static final int LESS_THAN=483;
     public static final int CONSTANT=70;
     public static final int QUERY=103;
     public static final int ENTITY_REFERENCE=45;
@@ -111,7 +111,7 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final int SOME_RESTRICTION=61;
     public static final int ADD=90;
     public static final int INTEGER=42;
-    public static final int GREATER_THAN=511;
+    public static final int GREATER_THAN=485;
     public static final int GENERATED_VARIABLE_DEFINITION=97;
     public static final int EXACTLY=17;
     public static final int SUB_PROPERTY_AXIOM=51;
@@ -119,7 +119,7 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final int VALUES=354;
     public static final int REGEXP_CONSTRAINT=465;
     public static final int RANGE=28;
-    public static final int DATA_RANGE=569;
+    public static final int DATA_RANGE=588;
     public static final int SET=115;
     public static final int ONE_OF=65;
     public static final int VARIABLE_DEFINITIONS=102;
@@ -138,7 +138,7 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final int VARIABLE_IDENTIFIER=106;
     public static final int IRI_ATTRIBUTE_NAME=112;
     public static final int IRREFLEXIVE=33;
-    public static final int LESS_THAN_EQUAL=510;
+    public static final int LESS_THAN_EQUAL=484;
     public static final int VARIABLE_ATTRIBUTE=99;
     public static final int ASSERTED=76;
     public static final int FUNCTIONAL=29;
@@ -421,7 +421,7 @@ public class OPPLScript_OPPLParser extends Parser {
                             }
 
                         }
-                        else if ( (LA3_3==COMMA||LA3_3==SELECT||LA3_3==BEGIN||LA3_3==OPEN_SQUARE_BRACKET) ) {
+                        else if ( (LA3_3==EOF||LA3_3==COMMA||LA3_3==SELECT||LA3_3==BEGIN||LA3_3==OPEN_SQUARE_BRACKET) ) {
                             alt3=4;
                         }
                         else {
@@ -540,7 +540,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, expression, VARIABLE_TYPE
+                    // elements: VARIABLE_TYPE, expression, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -602,7 +602,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, regexp, VARIABLE_TYPE
+                    // elements: regexp, VARIABLE_TYPE, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -670,7 +670,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, VARIABLE_TYPE, variableScope
+                    // elements: variableScope, VARIABLE_TYPE, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -984,7 +984,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: stringOperation, MATCH
+            // elements: MATCH, stringOperation
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1756,7 +1756,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: DISJOINT_CLASSES, opplFunction
+                    // elements: opplFunction, DISJOINT_CLASSES
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1799,7 +1799,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: opplFunction, DISJOINT_PROPERTIES
+                    // elements: DISJOINT_PROPERTIES, opplFunction
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1842,7 +1842,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: opplFunction, SAME_INDIVIDUAL
+                    // elements: SAME_INDIVIDUAL, opplFunction
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1885,7 +1885,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: opplFunction, DIFFERENT_INDIVIDUALS
+                    // elements: DIFFERENT_INDIVIDUALS, opplFunction
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2796,7 +2796,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: atomic, CREATE_INTERSECTION
+                    // elements: CREATE_INTERSECTION, atomic
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3862,7 +3862,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: DOT, VARIABLE_NAME, a
+                    // elements: DOT, a, VARIABLE_NAME
                     // token labels: a
                     // rule labels: retval
                     // token list labels: 
@@ -3914,7 +3914,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_NAME, attributeSelector, DOT, GROUPS
+                    // elements: DOT, attributeSelector, VARIABLE_NAME, GROUPS
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -4063,12 +4063,12 @@ public class OPPLScript_OPPLParser extends Parser {
     }
     // $ANTLR end "attributeSelector"
 
-    // $ANTLR start synpred1_OPPLParser
-    public final void synpred1_OPPLParser_fragment() throws RecognitionException {   
+    // $ANTLR start synpred15_OPPLParser
+    public final void synpred15_OPPLParser_fragment() throws RecognitionException {   
         // OPPLParser.g:86:3: ( binaryAxiom )
         // OPPLParser.g:86:3: binaryAxiom
         {
-        pushFollow(FOLLOW_binaryAxiom_in_synpred1_OPPLParser621);
+        pushFollow(FOLLOW_binaryAxiom_in_synpred15_OPPLParser621);
         gOPPLScript.binaryAxiom();
 
         state._fsp--;
@@ -4076,14 +4076,14 @@ public class OPPLScript_OPPLParser extends Parser {
 
         }
     }
-    // $ANTLR end synpred1_OPPLParser
+    // $ANTLR end synpred15_OPPLParser
 
-    // $ANTLR start synpred4_OPPLParser
-    public final void synpred4_OPPLParser_fragment() throws RecognitionException {   
+    // $ANTLR start synpred18_OPPLParser
+    public final void synpred18_OPPLParser_fragment() throws RecognitionException {   
         // OPPLParser.g:89:5: ( assertionAxiom )
         // OPPLParser.g:89:5: assertionAxiom
         {
-        pushFollow(FOLLOW_assertionAxiom_in_synpred4_OPPLParser657);
+        pushFollow(FOLLOW_assertionAxiom_in_synpred18_OPPLParser657);
         gOPPLScript.assertionAxiom();
 
         state._fsp--;
@@ -4091,14 +4091,14 @@ public class OPPLScript_OPPLParser extends Parser {
 
         }
     }
-    // $ANTLR end synpred4_OPPLParser
+    // $ANTLR end synpred18_OPPLParser
 
-    // $ANTLR start synpred5_OPPLParser
-    public final void synpred5_OPPLParser_fragment() throws RecognitionException {   
+    // $ANTLR start synpred19_OPPLParser
+    public final void synpred19_OPPLParser_fragment() throws RecognitionException {   
         // OPPLParser.g:90:5: ( hasKeyAxiom )
         // OPPLParser.g:90:5: hasKeyAxiom
         {
-        pushFollow(FOLLOW_hasKeyAxiom_in_synpred5_OPPLParser669);
+        pushFollow(FOLLOW_hasKeyAxiom_in_synpred19_OPPLParser669);
         gOPPLScript.hasKeyAxiom();
 
         state._fsp--;
@@ -4106,15 +4106,15 @@ public class OPPLScript_OPPLParser extends Parser {
 
         }
     }
-    // $ANTLR end synpred5_OPPLParser
+    // $ANTLR end synpred19_OPPLParser
 
     // Delegated rules
 
-    public final boolean synpred1_OPPLParser() {
+    public final boolean synpred18_OPPLParser() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred1_OPPLParser_fragment(); // can never throw exception
+            synpred18_OPPLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -4124,11 +4124,11 @@ public class OPPLScript_OPPLParser extends Parser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred5_OPPLParser() {
+    public final boolean synpred15_OPPLParser() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred5_OPPLParser_fragment(); // can never throw exception
+            synpred15_OPPLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -4138,11 +4138,11 @@ public class OPPLScript_OPPLParser extends Parser {
         state.failed=false;
         return success;
     }
-    public final boolean synpred4_OPPLParser() {
+    public final boolean synpred19_OPPLParser() {
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred4_OPPLParser_fragment(); // can never throw exception
+            synpred19_OPPLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
             System.err.println("impossible: "+re);
         }
@@ -4239,11 +4239,11 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_1 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 9;}
+                        if ( (synpred15_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred4_OPPLParser()) ) {s = 22;}
+                        else if ( (synpred18_OPPLParser()) ) {s = 22;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
+                        else if ( (synpred19_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_1);
@@ -4256,11 +4256,11 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_2 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 9;}
+                        if ( (synpred15_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred4_OPPLParser()) ) {s = 22;}
+                        else if ( (synpred18_OPPLParser()) ) {s = 22;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
+                        else if ( (synpred19_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_2);
@@ -4273,11 +4273,11 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_3 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 9;}
+                        if ( (synpred15_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred4_OPPLParser()) ) {s = 22;}
+                        else if ( (synpred18_OPPLParser()) ) {s = 22;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
+                        else if ( (synpred19_OPPLParser()) ) {s = 23;}
 
                         else if ( (true) ) {s = 21;}
 
@@ -4292,11 +4292,11 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_4 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 9;}
+                        if ( (synpred15_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred4_OPPLParser()) ) {s = 22;}
+                        else if ( (synpred18_OPPLParser()) ) {s = 22;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
+                        else if ( (synpred19_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_4);
@@ -4309,9 +4309,9 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_5 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 9;}
+                        if ( (synpred15_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
+                        else if ( (synpred19_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_5);
@@ -4324,11 +4324,11 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_6 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 9;}
+                        if ( (synpred15_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred4_OPPLParser()) ) {s = 22;}
+                        else if ( (synpred18_OPPLParser()) ) {s = 22;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
+                        else if ( (synpred19_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_6);
@@ -4341,9 +4341,9 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_7 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 9;}
+                        if ( (synpred15_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
+                        else if ( (synpred19_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_7);
@@ -4356,9 +4356,9 @@ public class OPPLScript_OPPLParser extends Parser {
                         int index9_8 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred1_OPPLParser()) ) {s = 9;}
+                        if ( (synpred15_OPPLParser()) ) {s = 9;}
 
-                        else if ( (synpred5_OPPLParser()) ) {s = 23;}
+                        else if ( (synpred19_OPPLParser()) ) {s = 23;}
 
                          
                         input.seek(index9_8);
@@ -4507,8 +4507,8 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_attributeSelector1428 = new BitSet(new long[]{0x0000040000000000L});
     public static final BitSet FOLLOW_INTEGER_in_attributeSelector1434 = new BitSet(new long[]{0x0000000000000100L});
     public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_attributeSelector1436 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_binaryAxiom_in_synpred1_OPPLParser621 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_assertionAxiom_in_synpred4_OPPLParser657 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_hasKeyAxiom_in_synpred5_OPPLParser669 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_binaryAxiom_in_synpred15_OPPLParser621 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_assertionAxiom_in_synpred18_OPPLParser657 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_hasKeyAxiom_in_synpred19_OPPLParser669 = new BitSet(new long[]{0x0000000000000002L});
 
 }

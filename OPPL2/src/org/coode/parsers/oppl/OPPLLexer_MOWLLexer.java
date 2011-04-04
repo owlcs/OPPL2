@@ -1,128 +1,126 @@
 package org.coode.parsers.oppl;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLLexer.g 2011-02-28 11:12:52
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLLexer.g 2011-04-04 14:43:51
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
 import org.antlr.runtime.EarlyExitException;
-import org.antlr.runtime.IntStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.MismatchedSetException;
-import org.antlr.runtime.NoViableAltException;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 
 public class OPPLLexer_MOWLLexer extends Lexer {
-	public static final int COMMA = 37;
-	public static final int GREATER_THAN = 510;
-	public static final int ASSERTED = 76;
-	public static final int END = 84;
-	public static final int DIFFERENT_FROM = 24;
-	public static final int LESS_THAN = 508;
-	public static final int TYPE_ASSERTION = 66;
-	public static final int SAME_AS_AXIOM = 52;
-	public static final int TYPES = 39;
-	public static final int ROLE_ASSERTION = 67;
-	public static final int ESCLAMATION_MARK = 149;
-	public static final int DOT = 78;
-	public static final int ALL_RESTRICTION = 62;
-	public static final int QUESTION_MARK = 46;
-	public static final int AND = 10;
-	public static final int EXPRESSION = 69;
-	public static final int CONSTANT = 70;
-	public static final int VALUE_RESTRICTION = 63;
-	public static final int ONE_OF = 65;
-	public static final int SUBPROPERTY_OF = 105;
-	public static final int SELECT = 75;
-	public static final int CARDINALITY_RESTRICTION = 64;
-	public static final int SAME_AS = 23;
-	public static final int EXACTLY = 17;
-	public static final int PLUS = 79;
-	public static final int TRANSITIVE = 34;
-	public static final int SUBCLASS_OF = 20;
-	public static final int ENTITY_REFERENCE = 45;
-	public static final int CONJUNCTION = 56;
-	public static final int INVERSE_OF = 25;
-	public static final int AT = 114;
-	public static final int RANGE = 28;
-	public static final int CLOSED_PARENTHESYS = 8;
-	public static final int PROPERTY_CHAIN = 57;
-	public static final int CREATE_INTERSECTION = 81;
-	public static final int EQUIVALENT_TO_AXIOM = 49;
-	public static final int OPEN_SQUARE_BRACKET = 85;
-	public static final int SYMMETRIC = 30;
-	public static final int DISJOINT_WITH = 26;
-	public static final int VARIABLE_TYPE = 89;
-	public static final int DISJUNCTION = 55;
-	public static final int GROUPS = 356;
-	public static final int NEGATED_EXPRESSION = 58;
-	public static final int DISJOINT_CLASSES = 116;
-	public static final int EQUAL = 73;
-	public static final int DIFFERENT_FROM_AXIOM = 53;
-	public static final int GREATER_THAN_EQUAL = 511;
-	public static final int EQUIVALENT_TO = 22;
-	public static final int DOMAIN = 27;
-	public static final int SUB_PROPERTY_OF = 21;
-	public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION = 68;
-	public static final int INVERSE_PROPERTY = 60;
-	public static final int COLON = 77;
-	public static final int SUB_CLASS_AXIOM = 48;
-	public static final int SUB_PROPERTY_AXIOM = 51;
-	public static final int SET = 115;
-	public static final int IDENTIFIER = 44;
-	public static final int UNARY_AXIOM = 54;
-	public static final int DISJOINT_PROPERTIES = 117;
-	public static final int ADD = 90;
-	public static final int WHERE = 71;
-	public static final int CREATE = 80;
-	public static final int OPEN_CURLY_BRACES = 6;
-	public static final int DIFFERENT_INDIVIDUALS = 119;
-	public static final int CLOSED_SQUARE_BRACKET = 86;
-	public static final int INSTANCE_OF = 38;
-	public static final int VALUES = 354;
-	public static final int SOME_RESTRICTION = 61;
-	public static final int IRI = 110;
-	public static final int LESS_THAN_EQUAL = 509;
-	public static final int VALUE = 18;
-	public static final int RENDERING = 355;
-	public static final int INVERSE_FUNCTIONAL = 35;
-	public static final int OR = 11;
-	public static final int INTEGER = 42;
-	public static final int INVERSE = 19;
 	public static final int HAS_KEY = 109;
-	public static final int DISJOINT_WITH_AXIOM = 50;
-	public static final int SUPER_CLASS_OF = 87;
-	public static final int DIGIT = 41;
-	public static final int COMPOSITION = 4;
-	public static final int FUNCTIONAL = 29;
-	public static final int NOT_EQUAL = 72;
-	public static final int SAME_INDIVIDUAL = 118;
+	public static final int VALUE_RESTRICTION = 63;
 	public static final int LETTER = 43;
-	public static final int MAX = 16;
-	public static final int FAIL = 466;
-	public static final int NEGATED_ASSERTION = 59;
-	public static final int ONLY = 14;
-	public static final int CREATE_DISJUNCTION = 82;
 	public static final int REMOVE = 91;
-	public static final int DBLQUOTE = 40;
-	public static final int MIN = 15;
-	public static final int POW = 36;
-	public static final int MATCH = 176;
-	public static final int BEGIN = 83;
-	public static final int WHITESPACE = 9;
-	public static final int IN = 74;
-	public static final int SUPER_PROPERTY_OF = 88;
-	public static final int SOME = 13;
-	public static final int EOF = -1;
-	public static final int ANTI_SYMMETRIC = 31;
-	public static final int Tokens = 47;
-	public static final int CLOSED_CURLY_BRACES = 7;
-	public static final int IRI_ATTRIBUTE_NAME = 112;
-	public static final int REFLEXIVE = 32;
+	public static final int TYPES = 39;
+	public static final int SAME_AS_AXIOM = 52;
+	public static final int INVERSE_OF = 25;
 	public static final int NOT = 12;
-	public static final int OPEN_PARENTHESYS = 5;
+	public static final int SUBCLASS_OF = 20;
+	public static final int EOF = -1;
+	public static final int ESCLAMATION_MARK = 149;
+	public static final int CREATE = 80;
+	public static final int POW = 36;
+	public static final int NOT_EQUAL = 72;
+	public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION = 68;
+	public static final int INSTANCE_OF = 38;
+	public static final int BEGIN = 83;
+	public static final int QUESTION_MARK = 46;
+	public static final int DISJOINT_PROPERTIES = 117;
+	public static final int SYMMETRIC = 30;
+	public static final int CARDINALITY_RESTRICTION = 64;
+	public static final int SELECT = 75;
+	public static final int ROLE_ASSERTION = 67;
+	public static final int DIFFERENT_FROM_AXIOM = 53;
+	public static final int TRANSITIVE = 34;
+	public static final int ANTI_SYMMETRIC = 31;
+	public static final int GREATER_THAN_EQUAL = 486;
+	public static final int ALL_RESTRICTION = 62;
+	public static final int CONJUNCTION = 56;
+	public static final int NEGATED_ASSERTION = 59;
+	public static final int WHITESPACE = 9;
+	public static final int MATCH = 176;
+	public static final int VALUE = 18;
+	public static final int FAIL = 466;
+	public static final int GROUPS = 356;
+	public static final int OPEN_CURLY_BRACES = 6;
+	public static final int DISJUNCTION = 55;
+	public static final int INVERSE = 19;
+	public static final int DBLQUOTE = 40;
+	public static final int OR = 11;
+	public static final int LESS_THAN = 483;
+	public static final int CONSTANT = 70;
+	public static final int ENTITY_REFERENCE = 45;
+	public static final int END = 84;
+	public static final int COMPOSITION = 4;
+	public static final int CLOSED_SQUARE_BRACKET = 86;
+	public static final int SAME_AS = 23;
+	public static final int WHERE = 71;
+	public static final int DIFFERENT_INDIVIDUALS = 119;
+	public static final int DISJOINT_WITH = 26;
+	public static final int SUPER_PROPERTY_OF = 88;
+	public static final int VARIABLE_TYPE = 89;
+	public static final int CLOSED_PARENTHESYS = 8;
+	public static final int ONLY = 14;
+	public static final int EQUIVALENT_TO_AXIOM = 49;
+	public static final int SUB_PROPERTY_OF = 21;
+	public static final int NEGATED_EXPRESSION = 58;
+	public static final int MAX = 16;
+	public static final int CREATE_DISJUNCTION = 82;
+	public static final int AND = 10;
+	public static final int INVERSE_PROPERTY = 60;
+	public static final int AT = 114;
 	public static final int VARIABLE_NAME = 464;
+	public static final int DIFFERENT_FROM = 24;
+	public static final int IN = 74;
+	public static final int EQUIVALENT_TO = 22;
+	public static final int UNARY_AXIOM = 54;
+	public static final int COMMA = 37;
+	public static final int CLOSED_CURLY_BRACES = 7;
+	public static final int IDENTIFIER = 44;
+	public static final int IRI = 110;
+	public static final int SOME = 13;
+	public static final int EQUAL = 73;
+	public static final int OPEN_PARENTHESYS = 5;
+	public static final int SAME_INDIVIDUAL = 118;
+	public static final int REFLEXIVE = 32;
+	public static final int PLUS = 79;
+	public static final int DIGIT = 41;
+	public static final int DOT = 78;
+	public static final int SUPER_CLASS_OF = 87;
+	public static final int EXPRESSION = 69;
+	public static final int SOME_RESTRICTION = 61;
+	public static final int ADD = 90;
+	public static final int INTEGER = 42;
+	public static final int GREATER_THAN = 485;
+	public static final int EXACTLY = 17;
+	public static final int SUB_PROPERTY_AXIOM = 51;
+	public static final int OPEN_SQUARE_BRACKET = 85;
+	public static final int VALUES = 354;
+	public static final int RANGE = 28;
+	public static final int SET = 115;
+	public static final int ONE_OF = 65;
+	public static final int MIN = 15;
+	public static final int SUB_CLASS_AXIOM = 48;
+	public static final int Tokens = 47;
+	public static final int DOMAIN = 27;
+	public static final int SUBPROPERTY_OF = 105;
+	public static final int COLON = 77;
+	public static final int DISJOINT_WITH_AXIOM = 50;
+	public static final int CREATE_INTERSECTION = 81;
+	public static final int INVERSE_FUNCTIONAL = 35;
+	public static final int RENDERING = 355;
+	public static final int IRI_ATTRIBUTE_NAME = 112;
 	public static final int IRREFLEXIVE = 33;
+	public static final int LESS_THAN_EQUAL = 484;
+	public static final int ASSERTED = 76;
+	public static final int FUNCTIONAL = 29;
+	public static final int PROPERTY_CHAIN = 57;
+	public static final int TYPE_ASSERTION = 66;
+	public static final int DISJOINT_CLASSES = 116;
 	// delegates
 	// delegators
 	public OPPLLexer gOPPLLexer;
@@ -2513,86 +2511,16 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 	}
 
 	// $ANTLR end "EQUAL"
-	// $ANTLR start "LESS_THAN"
-	public final void mLESS_THAN() throws RecognitionException {
-		try {
-			int _type = LESS_THAN;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// MOWLLexer.g:96:2: ( '<' )
-			// MOWLLexer.g:97:3: '<'
-			{
-				this.match('<');
-			}
-			this.state.type = _type;
-			this.state.channel = _channel;
-		} finally {
-		}
-	}
-
-	// $ANTLR end "LESS_THAN"
-	// $ANTLR start "LESS_THAN_EQUAL"
-	public final void mLESS_THAN_EQUAL() throws RecognitionException {
-		try {
-			int _type = LESS_THAN_EQUAL;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// MOWLLexer.g:100:2: ( LESS_THAN EQUAL )
-			// MOWLLexer.g:101:3: LESS_THAN EQUAL
-			{
-				this.mLESS_THAN();
-				this.mEQUAL();
-			}
-			this.state.type = _type;
-			this.state.channel = _channel;
-		} finally {
-		}
-	}
-
-	// $ANTLR end "LESS_THAN_EQUAL"
-	// $ANTLR start "GREATER_THAN"
-	public final void mGREATER_THAN() throws RecognitionException {
-		try {
-			int _type = GREATER_THAN;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// MOWLLexer.g:104:2: ( '>' )
-			// MOWLLexer.g:105:3: '>'
-			{
-				this.match('>');
-			}
-			this.state.type = _type;
-			this.state.channel = _channel;
-		} finally {
-		}
-	}
-
-	// $ANTLR end "GREATER_THAN"
-	// $ANTLR start "GREATER_THAN_EQUAL"
-	public final void mGREATER_THAN_EQUAL() throws RecognitionException {
-		try {
-			int _type = GREATER_THAN_EQUAL;
-			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// MOWLLexer.g:108:2: ( GREATER_THAN EQUAL )
-			// MOWLLexer.g:109:3: GREATER_THAN EQUAL
-			{
-				this.mGREATER_THAN();
-				this.mEQUAL();
-			}
-			this.state.type = _type;
-			this.state.channel = _channel;
-		} finally {
-		}
-	}
-
-	// $ANTLR end "GREATER_THAN_EQUAL"
 	// $ANTLR start "DBLQUOTE"
 	public final void mDBLQUOTE() throws RecognitionException {
 		try {
 			int _type = DBLQUOTE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// MOWLLexer.g:113:10: ( '\"' (~ '\"' | '\"\"' )* '\"' )
-			// MOWLLexer.g:114:7: '\"' (~ '\"' | '\"\"' )* '\"'
+			// MOWLLexer.g:98:10: ( '\"' (~ '\"' | '\"\"' )* '\"' )
+			// MOWLLexer.g:99:7: '\"' (~ '\"' | '\"\"' )* '\"'
 			{
 				this.match('\"');
-				// MOWLLexer.g:115:7: (~ '\"' | '\"\"' )*
+				// MOWLLexer.g:100:7: (~ '\"' | '\"\"' )*
 				loop10: do {
 					int alt10 = 3;
 					int LA10_0 = this.input.LA(1);
@@ -2607,7 +2535,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 					}
 					switch (alt10) {
 					case 1:
-						// MOWLLexer.g:115:8: ~ '\"'
+						// MOWLLexer.g:100:8: ~ '\"'
 					{
 						if (this.input.LA(1) >= '\u0000' && this.input.LA(1) <= '!'
 								|| this.input.LA(1) >= '#' && this.input.LA(1) <= '\uFFFF') {
@@ -2621,7 +2549,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 					}
 						break;
 					case 2:
-						// MOWLLexer.g:115:15: '\"\"'
+						// MOWLLexer.g:100:15: '\"\"'
 					{
 						this.match("\"\"");
 					}
@@ -2653,24 +2581,32 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 		try {
 			int _type = IRI;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// MOWLLexer.g:133:2: ( LESS_THAN (~ GREATER_THAN )+ GREATER_THAN )
-			// MOWLLexer.g:134:2: LESS_THAN (~ GREATER_THAN )+ GREATER_THAN
+			// MOWLLexer.g:118:2: ( LESS_THAN ( LETTER | DIGIT | '-' | '_' | ':'
+			// | '/' | '#' | '\\\\' | '\\?' | '.' )+ GREATER_THAN )
+			// MOWLLexer.g:119:2: LESS_THAN ( LETTER | DIGIT | '-' | '_' | ':' |
+			// '/' | '#' | '\\\\' | '\\?' | '.' )+ GREATER_THAN
 			{
 				this.mLESS_THAN();
-				// MOWLLexer.g:134:11: (~ GREATER_THAN )+
+				// MOWLLexer.g:119:11: ( LETTER | DIGIT | '-' | '_' | ':' | '/'
+				// | '#' | '\\\\' | '\\?' | '.' )+
 				int cnt11 = 0;
 				loop11: do {
 					int alt11 = 2;
 					int LA11_0 = this.input.LA(1);
-					if (LA11_0 >= '\u0000' && LA11_0 <= '=' || LA11_0 >= '?' && LA11_0 <= '\uFFFF') {
+					if (LA11_0 == '#' || LA11_0 >= '-' && LA11_0 <= ':' || LA11_0 == '?'
+							|| LA11_0 >= 'A' && LA11_0 <= 'Z' || LA11_0 == '\\' || LA11_0 == '_'
+							|| LA11_0 >= 'a' && LA11_0 <= 'z') {
 						alt11 = 1;
 					}
 					switch (alt11) {
 					case 1:
-						// MOWLLexer.g:134:12: ~ GREATER_THAN
+						// MOWLLexer.g:
 					{
-						if (this.input.LA(1) >= '\u0000' && this.input.LA(1) <= '\u01FD'
-								|| this.input.LA(1) >= '\u01FF' && this.input.LA(1) <= '\uFFFF') {
+						if (this.input.LA(1) == '#' || this.input.LA(1) >= '-'
+								&& this.input.LA(1) <= ':' || this.input.LA(1) == '?'
+								|| this.input.LA(1) >= 'A' && this.input.LA(1) <= 'Z'
+								|| this.input.LA(1) == '\\' || this.input.LA(1) == '_'
+								|| this.input.LA(1) >= 'a' && this.input.LA(1) <= 'z') {
 							this.input.consume();
 						} else {
 							MismatchedSetException mse = new MismatchedSetException(null,
@@ -2708,15 +2644,85 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 	}
 
 	// $ANTLR end "IRI"
+	// $ANTLR start "LESS_THAN_EQUAL"
+	public final void mLESS_THAN_EQUAL() throws RecognitionException {
+		try {
+			int _type = LESS_THAN_EQUAL;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// MOWLLexer.g:136:2: ( LESS_THAN EQUAL )
+			// MOWLLexer.g:137:3: LESS_THAN EQUAL
+			{
+				this.mLESS_THAN();
+				this.mEQUAL();
+			}
+			this.state.type = _type;
+			this.state.channel = _channel;
+		} finally {
+		}
+	}
+
+	// $ANTLR end "LESS_THAN_EQUAL"
+	// $ANTLR start "LESS_THAN"
+	public final void mLESS_THAN() throws RecognitionException {
+		try {
+			int _type = LESS_THAN;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// MOWLLexer.g:140:2: ( '<' )
+			// MOWLLexer.g:141:3: '<'
+			{
+				this.match('<');
+			}
+			this.state.type = _type;
+			this.state.channel = _channel;
+		} finally {
+		}
+	}
+
+	// $ANTLR end "LESS_THAN"
+	// $ANTLR start "GREATER_THAN_EQUAL"
+	public final void mGREATER_THAN_EQUAL() throws RecognitionException {
+		try {
+			int _type = GREATER_THAN_EQUAL;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// MOWLLexer.g:145:2: ( GREATER_THAN EQUAL )
+			// MOWLLexer.g:146:3: GREATER_THAN EQUAL
+			{
+				this.mGREATER_THAN();
+				this.mEQUAL();
+			}
+			this.state.type = _type;
+			this.state.channel = _channel;
+		} finally {
+		}
+	}
+
+	// $ANTLR end "GREATER_THAN_EQUAL"
+	// $ANTLR start "GREATER_THAN"
+	public final void mGREATER_THAN() throws RecognitionException {
+		try {
+			int _type = GREATER_THAN;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// MOWLLexer.g:149:2: ( '>' )
+			// MOWLLexer.g:150:3: '>'
+			{
+				this.match('>');
+			}
+			this.state.type = _type;
+			this.state.channel = _channel;
+		} finally {
+		}
+	}
+
+	// $ANTLR end "GREATER_THAN"
 	// $ANTLR start "INTEGER"
 	public final void mINTEGER() throws RecognitionException {
 		try {
 			int _type = INTEGER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// MOWLLexer.g:150:8: ( ( DIGIT )+ )
-			// MOWLLexer.g:150:10: ( DIGIT )+
+			// MOWLLexer.g:153:8: ( ( DIGIT )+ )
+			// MOWLLexer.g:153:10: ( DIGIT )+
 			{
-				// MOWLLexer.g:150:10: ( DIGIT )+
+				// MOWLLexer.g:153:10: ( DIGIT )+
 				int cnt12 = 0;
 				loop12: do {
 					int alt12 = 2;
@@ -2726,7 +2732,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 					}
 					switch (alt12) {
 					case 1:
-						// MOWLLexer.g:150:10: DIGIT
+						// MOWLLexer.g:153:10: DIGIT
 					{
 						this.mDIGIT();
 					}
@@ -2751,8 +2757,8 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 	// $ANTLR start "LETTER"
 	public final void mLETTER() throws RecognitionException {
 		try {
-			// MOWLLexer.g:151:17: ( ( 'a' .. 'z' | 'A' .. 'Z' ) )
-			// MOWLLexer.g:151:19: ( 'a' .. 'z' | 'A' .. 'Z' )
+			// MOWLLexer.g:154:17: ( ( 'a' .. 'z' | 'A' .. 'Z' ) )
+			// MOWLLexer.g:154:19: ( 'a' .. 'z' | 'A' .. 'Z' )
 			{
 				if (this.input.LA(1) >= 'A' && this.input.LA(1) <= 'Z' || this.input.LA(1) >= 'a'
 						&& this.input.LA(1) <= 'z') {
@@ -2771,8 +2777,8 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 	// $ANTLR start "DIGIT"
 	public final void mDIGIT() throws RecognitionException {
 		try {
-			// MOWLLexer.g:152:15: ( '0' .. '9' )
-			// MOWLLexer.g:152:17: '0' .. '9'
+			// MOWLLexer.g:155:15: ( '0' .. '9' )
+			// MOWLLexer.g:155:17: '0' .. '9'
 			{
 				this.matchRange('0', '9');
 			}
@@ -2786,12 +2792,12 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 		try {
 			int _type = IDENTIFIER;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// MOWLLexer.g:154:12: ( LETTER ( LETTER | DIGIT | '-' | '_' | ':'
+			// MOWLLexer.g:157:12: ( LETTER ( LETTER | DIGIT | '-' | '_' | ':'
 			// )* )
-			// MOWLLexer.g:154:14: LETTER ( LETTER | DIGIT | '-' | '_' | ':' )*
+			// MOWLLexer.g:157:14: LETTER ( LETTER | DIGIT | '-' | '_' | ':' )*
 			{
 				this.mLETTER();
-				// MOWLLexer.g:154:21: ( LETTER | DIGIT | '-' | '_' | ':' )*
+				// MOWLLexer.g:157:21: ( LETTER | DIGIT | '-' | '_' | ':' )*
 				loop13: do {
 					int alt13 = 2;
 					int LA13_0 = this.input.LA(1);
@@ -2833,11 +2839,11 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 		try {
 			int _type = ENTITY_REFERENCE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// MOWLLexer.g:155:18: ( '\\'' (~ '\\'' | '\\'\\'' )* '\\'' )
-			// MOWLLexer.g:156:5: '\\'' (~ '\\'' | '\\'\\'' )* '\\''
+			// MOWLLexer.g:158:18: ( '\\'' (~ '\\'' | '\\'\\'' )* '\\'' )
+			// MOWLLexer.g:159:5: '\\'' (~ '\\'' | '\\'\\'' )* '\\''
 			{
 				this.match('\'');
-				// MOWLLexer.g:156:10: (~ '\\'' | '\\'\\'' )*
+				// MOWLLexer.g:159:10: (~ '\\'' | '\\'\\'' )*
 				loop14: do {
 					int alt14 = 3;
 					int LA14_0 = this.input.LA(1);
@@ -2852,7 +2858,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 					}
 					switch (alt14) {
 					case 1:
-						// MOWLLexer.g:156:11: ~ '\\''
+						// MOWLLexer.g:159:11: ~ '\\''
 					{
 						if (this.input.LA(1) >= '\u0000' && this.input.LA(1) <= '&'
 								|| this.input.LA(1) >= '(' && this.input.LA(1) <= '\uFFFF') {
@@ -2866,7 +2872,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 					}
 						break;
 					case 2:
-						// MOWLLexer.g:156:19: '\\'\\''
+						// MOWLLexer.g:159:19: '\\'\\''
 					{
 						this.match("''");
 					}
@@ -2903,8 +2909,8 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 		// HAS_KEY | FUNCTIONAL | SYMMETRIC | ANTI_SYMMETRIC | TYPES | REFLEXIVE
 		// | IRREFLEXIVE | TRANSITIVE | INVERSE_FUNCTIONAL | INSTANCE_OF | POW |
 		// COMMA | OPEN_SQUARE_BRACKET | CLOSED_SQUARE_BRACKET | EQUAL |
-		// LESS_THAN | LESS_THAN_EQUAL | GREATER_THAN | GREATER_THAN_EQUAL |
-		// DBLQUOTE | IRI | INTEGER | IDENTIFIER | ENTITY_REFERENCE )
+		// DBLQUOTE | IRI | LESS_THAN_EQUAL | LESS_THAN | GREATER_THAN_EQUAL |
+		// GREATER_THAN | INTEGER | IDENTIFIER | ENTITY_REFERENCE )
 		int alt15 = 50;
 		alt15 = this.dfa15.predict(this.input);
 		switch (alt15) {
@@ -3155,39 +3161,39 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 		}
 			break;
 		case 42:
-			// MOWLLexer.g:1:436: LESS_THAN
+			// MOWLLexer.g:1:436: DBLQUOTE
 		{
-			this.mLESS_THAN();
+			this.mDBLQUOTE();
 		}
 			break;
 		case 43:
-			// MOWLLexer.g:1:446: LESS_THAN_EQUAL
+			// MOWLLexer.g:1:445: IRI
+		{
+			this.mIRI();
+		}
+			break;
+		case 44:
+			// MOWLLexer.g:1:449: LESS_THAN_EQUAL
 		{
 			this.mLESS_THAN_EQUAL();
 		}
 			break;
-		case 44:
-			// MOWLLexer.g:1:462: GREATER_THAN
+		case 45:
+			// MOWLLexer.g:1:465: LESS_THAN
 		{
-			this.mGREATER_THAN();
+			this.mLESS_THAN();
 		}
 			break;
-		case 45:
+		case 46:
 			// MOWLLexer.g:1:475: GREATER_THAN_EQUAL
 		{
 			this.mGREATER_THAN_EQUAL();
 		}
 			break;
-		case 46:
-			// MOWLLexer.g:1:494: DBLQUOTE
-		{
-			this.mDBLQUOTE();
-		}
-			break;
 		case 47:
-			// MOWLLexer.g:1:503: IRI
+			// MOWLLexer.g:1:494: GREATER_THAN
 		{
-			this.mIRI();
+			this.mGREATER_THAN();
 		}
 			break;
 		case 48:
@@ -3212,75 +3218,74 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 	}
 
 	protected DFA15 dfa15 = new DFA15(this);
-	static final String DFA15_eotS = "\1\uffff\1\42\6\uffff\15\36\5\uffff\1\72\1\75\4\uffff\1\77\1\36"
-			+ "\1\uffff\27\36\1\uffff\1\132\4\uffff\1\36\1\134\2\36\1\137\4\36"
-			+ "\1\145\1\146\3\36\1\153\13\36\1\uffff\1\167\1\uffff\2\36\1\uffff"
-			+ "\1\171\4\36\2\uffff\4\36\1\uffff\11\36\1\u008c\1\36\1\uffff\1\36"
-			+ "\1\uffff\6\36\1\u0095\6\36\1\u009c\3\36\1\u008c\1\uffff\4\36\1\u00a4"
-			+ "\3\36\1\uffff\5\36\1\u00ad\1\uffff\1\36\1\u00af\5\36\1\uffff\1\36"
-			+ "\1\u00b6\6\36\1\uffff\1\36\1\uffff\6\36\1\uffff\15\36\1\u00d3\1"
-			+ "\36\1\u00d5\5\36\1\u00dc\2\36\1\u00e0\1\u00e1\1\36\1\u00d3\1\uffff"
-			+ "\1\36\1\uffff\1\36\1\u00e5\3\36\1\u00dc\1\uffff\1\u00ea\1\u00ec"
-			+ "\1\u00e0\2\uffff\3\36\1\uffff\1\u00f1\2\36\1\u00ea\1\uffff\1\u00ec"
-			+ "\1\uffff\1\36\1\u00f5\1\36\1\u00f1\1\uffff\1\36\1\u00f8\1\u00f9"
-			+ "\1\uffff\1\36\1\u00fb\2\uffff\1\36\1\uffff\2\36\2\u0100\1\uffff";
-	static final String DFA15_eofS = "\u0101\uffff";
+	static final String DFA15_eotS = "\1\uffff\1\42\6\uffff\15\36\6\uffff\1\72\1\75\3\uffff\1\77\1\36"
+			+ "\1\uffff\27\36\6\uffff\1\36\1\133\2\36\1\136\4\36\1\144\1\145\3"
+			+ "\36\1\152\13\36\1\166\1\uffff\2\36\1\uffff\1\170\4\36\2\uffff\4"
+			+ "\36\1\uffff\11\36\1\u008a\1\36\1\uffff\1\36\1\uffff\6\36\1\u0094"
+			+ "\6\36\1\u009b\3\36\1\uffff\1\u008a\4\36\1\u00a3\3\36\1\uffff\5\36"
+			+ "\1\u00ac\1\uffff\1\36\1\u00ae\5\36\1\uffff\1\36\1\u00b5\6\36\1\uffff"
+			+ "\1\36\1\uffff\6\36\1\uffff\15\36\1\u00d2\1\36\1\u00d4\5\36\1\u00da"
+			+ "\2\36\1\u00de\1\u00e0\1\36\1\u00d2\1\uffff\1\36\1\uffff\1\36\1\u00e4"
+			+ "\3\36\1\uffff\1\u00da\1\u00e8\1\u00ea\1\uffff\1\u00de\1\uffff\3"
+			+ "\36\1\uffff\1\u00f0\2\36\1\uffff\1\u00e8\1\uffff\1\u00ea\1\36\1"
+			+ "\u00f4\1\36\1\u00f0\1\uffff\1\36\1\u00f7\1\u00f8\1\uffff\1\36\1"
+			+ "\u00fa\2\uffff\1\36\1\uffff\2\36\2\u00ff\1\uffff";
+	static final String DFA15_eofS = "\u0100\uffff";
 	static final String DFA15_minS = "\1\11\1\55\6\uffff\2\116\1\117\2\101\1\121\1\101\1\116\1\111\2\101"
-			+ "\1\125\1\122\5\uffff\1\0\1\75\4\uffff\1\55\1\114\1\uffff\2\104\1"
-			+ "\171\1\124\1\115\1\102\2\115\1\116\1\130\1\101\1\125\1\114\1\123"
-			+ "\1\122\1\106\1\115\1\116\1\106\1\123\1\116\1\120\1\101\1\uffff\1"
-			+ "\0\4\uffff\1\131\1\55\1\151\1\155\1\55\1\105\1\103\1\105\1\115\2"
-			+ "\55\1\103\1\111\1\125\1\55\1\124\1\105\1\106\1\112\1\101\1\107\1"
-			+ "\114\1\113\1\103\1\105\1\116\1\uffff\1\55\1\uffff\1\123\1\155\1"
-			+ "\uffff\1\55\1\114\1\122\1\101\1\105\2\uffff\1\124\1\126\1\105\1"
-			+ "\122\1\uffff\1\101\1\106\1\105\1\117\1\111\3\105\1\124\1\55\1\123"
-			+ "\1\uffff\1\145\1\uffff\1\101\1\117\1\123\1\124\1\114\1\101\1\55"
-			+ "\1\123\1\116\1\114\1\122\1\111\1\116\1\55\1\130\1\131\1\111\1\55"
-			+ "\1\uffff\1\111\1\164\1\123\1\120\1\55\1\122\1\131\1\114\1\uffff"
-			+ "\1\105\1\103\2\105\1\116\1\55\1\uffff\1\111\1\55\1\117\1\124\1\162"
-			+ "\1\123\1\105\1\uffff\1\111\1\55\1\105\1\106\1\105\1\130\1\116\1"
-			+ "\124\1\uffff\1\126\1\uffff\1\116\1\111\1\151\1\117\1\122\1\103\1"
-			+ "\uffff\1\116\1\106\1\125\1\117\1\111\1\124\1\127\1\105\1\101\1\126"
-			+ "\1\143\1\106\1\124\1\55\1\124\1\55\1\116\1\106\1\126\1\106\1\111"
-			+ "\1\55\1\114\1\105\2\55\1\131\1\55\1\uffff\1\124\1\uffff\1\103\1"
-			+ "\55\1\105\1\122\1\124\1\55\1\uffff\3\55\2\uffff\2\117\1\124\1\uffff"
-			+ "\1\55\1\117\1\110\1\55\1\uffff\1\55\1\uffff\1\106\1\55\1\111\1\55"
-			+ "\1\uffff\1\115\2\55\1\uffff\1\117\1\55\2\uffff\1\116\1\uffff\1\101"
-			+ "\1\114\2\55\1\uffff";
+			+ "\1\125\1\122\6\uffff\1\43\1\75\3\uffff\1\55\1\114\1\uffff\2\104"
+			+ "\1\171\1\124\1\115\1\102\2\115\1\116\1\130\1\101\1\125\1\114\1\123"
+			+ "\1\122\1\106\1\115\1\116\1\106\1\123\1\116\1\120\1\101\6\uffff\1"
+			+ "\131\1\55\1\151\1\155\1\55\1\105\1\103\1\105\1\115\2\55\1\103\1"
+			+ "\111\1\125\1\55\1\124\1\105\1\106\1\112\1\101\1\107\1\114\1\113"
+			+ "\1\103\1\105\1\116\1\55\1\uffff\1\123\1\155\1\uffff\1\55\1\114\1"
+			+ "\122\1\101\1\105\2\uffff\1\124\1\126\1\105\1\122\1\uffff\1\101\1"
+			+ "\106\1\105\1\117\1\111\3\105\1\124\1\55\1\123\1\uffff\1\145\1\uffff"
+			+ "\1\101\1\117\1\123\1\124\1\114\1\101\1\55\1\123\1\116\1\114\1\122"
+			+ "\1\111\1\116\1\55\1\130\1\131\1\111\1\uffff\1\55\1\111\1\164\1\123"
+			+ "\1\120\1\55\1\122\1\131\1\114\1\uffff\1\105\1\103\2\105\1\116\1"
+			+ "\55\1\uffff\1\111\1\55\1\117\1\124\1\162\1\123\1\105\1\uffff\1\111"
+			+ "\1\55\1\105\1\106\1\105\1\130\1\116\1\124\1\uffff\1\126\1\uffff"
+			+ "\1\116\1\111\1\151\1\117\1\122\1\103\1\uffff\1\116\1\106\1\125\1"
+			+ "\117\1\111\1\124\1\127\1\105\1\101\1\126\1\143\1\106\1\124\1\55"
+			+ "\1\124\1\55\1\116\1\106\1\126\1\106\1\111\1\55\1\114\1\105\2\55"
+			+ "\1\131\1\55\1\uffff\1\124\1\uffff\1\103\1\55\1\105\1\122\1\124\1"
+			+ "\uffff\3\55\1\uffff\1\55\1\uffff\2\117\1\124\1\uffff\1\55\1\117"
+			+ "\1\110\1\uffff\1\55\1\uffff\1\55\1\106\1\55\1\111\1\55\1\uffff\1"
+			+ "\115\2\55\1\uffff\1\117\1\55\2\uffff\1\116\1\uffff\1\101\1\114\2" + "\55\1\uffff";
 	static final String DFA15_maxS = "\1\175\1\172\6\uffff\1\163\1\162\1\157\1\171\1\151\1\170\1\141\1"
-			+ "\162\1\157\1\145\1\141\1\165\1\171\5\uffff\1\uffff\1\75\4\uffff"
-			+ "\1\172\1\154\1\uffff\1\164\1\144\1\171\1\164\1\155\1\142\2\155\1"
-			+ "\156\1\170\1\141\1\165\1\154\1\166\1\162\1\163\1\155\1\156\1\146"
-			+ "\1\163\1\156\1\160\1\141\1\uffff\1\uffff\4\uffff\1\171\1\172\1\151"
-			+ "\1\155\1\172\1\145\1\160\1\145\1\155\2\172\1\143\1\151\1\165\1\172"
-			+ "\1\164\1\145\1\146\1\152\1\141\1\147\1\154\1\153\1\143\1\145\1\156"
-			+ "\1\uffff\1\172\1\uffff\1\163\1\155\1\uffff\1\172\1\154\1\162\1\141"
-			+ "\1\145\2\uffff\1\164\1\166\1\145\1\162\1\uffff\1\141\1\146\1\145"
-			+ "\1\157\1\151\3\145\1\164\1\172\1\163\1\uffff\1\145\1\uffff\1\141"
-			+ "\1\157\1\163\1\164\1\154\1\141\1\172\1\163\1\156\1\154\1\162\1\151"
-			+ "\1\156\1\172\1\170\1\171\1\151\1\172\1\uffff\1\151\1\164\1\163\1"
-			+ "\160\1\172\1\162\1\171\1\154\1\uffff\1\145\1\143\2\145\1\156\1\172"
-			+ "\1\uffff\1\151\1\172\1\157\1\164\1\162\1\163\1\145\1\uffff\1\151"
-			+ "\1\172\1\145\1\157\1\145\1\170\1\156\1\164\1\uffff\1\166\1\uffff"
-			+ "\1\156\2\151\1\157\1\162\1\143\1\uffff\1\156\1\146\1\165\1\157\1"
-			+ "\151\1\164\1\167\1\145\1\141\1\166\1\143\1\146\1\164\1\172\1\164"
-			+ "\1\172\1\156\1\146\1\166\1\146\1\151\1\172\1\154\1\145\2\172\1\171"
-			+ "\1\172\1\uffff\1\164\1\uffff\1\143\1\172\1\145\1\162\1\164\1\172"
-			+ "\1\uffff\3\172\2\uffff\2\157\1\164\1\uffff\1\172\1\157\1\150\1\172"
-			+ "\1\uffff\1\172\1\uffff\1\146\1\172\1\151\1\172\1\uffff\1\155\2\172"
-			+ "\1\uffff\1\157\1\172\2\uffff\1\156\1\uffff\1\141\1\154\2\172\1\uffff";
+			+ "\162\1\157\1\145\1\141\1\165\1\171\6\uffff\1\172\1\75\3\uffff\1"
+			+ "\172\1\154\1\uffff\1\164\1\144\1\171\1\164\1\155\1\142\2\155\1\156"
+			+ "\1\170\1\141\1\165\1\154\1\166\1\162\1\163\1\155\1\156\1\146\1\163"
+			+ "\1\156\1\160\1\141\6\uffff\1\171\1\172\1\151\1\155\1\172\1\145\1"
+			+ "\160\1\145\1\155\2\172\1\143\1\151\1\165\1\172\1\164\1\145\1\146"
+			+ "\1\152\1\141\1\147\1\154\1\153\1\143\1\145\1\156\1\172\1\uffff\1"
+			+ "\163\1\155\1\uffff\1\172\1\154\1\162\1\141\1\145\2\uffff\1\164\1"
+			+ "\166\1\145\1\162\1\uffff\1\141\1\146\1\145\1\157\1\151\3\145\1\164"
+			+ "\1\172\1\163\1\uffff\1\145\1\uffff\1\141\1\157\1\163\1\164\1\154"
+			+ "\1\141\1\172\1\163\1\156\1\154\1\162\1\151\1\156\1\172\1\170\1\171"
+			+ "\1\151\1\uffff\1\172\1\151\1\164\1\163\1\160\1\172\1\162\1\171\1"
+			+ "\154\1\uffff\1\145\1\143\2\145\1\156\1\172\1\uffff\1\151\1\172\1"
+			+ "\157\1\164\1\162\1\163\1\145\1\uffff\1\151\1\172\1\145\1\157\1\145"
+			+ "\1\170\1\156\1\164\1\uffff\1\166\1\uffff\1\156\2\151\1\157\1\162"
+			+ "\1\143\1\uffff\1\156\1\146\1\165\1\157\1\151\1\164\1\167\1\145\1"
+			+ "\141\1\166\1\143\1\146\1\164\1\172\1\164\1\172\1\156\1\146\1\166"
+			+ "\1\146\1\151\1\172\1\154\1\145\2\172\1\171\1\172\1\uffff\1\164\1"
+			+ "\uffff\1\143\1\172\1\145\1\162\1\164\1\uffff\3\172\1\uffff\1\172"
+			+ "\1\uffff\2\157\1\164\1\uffff\1\172\1\157\1\150\1\uffff\1\172\1\uffff"
+			+ "\1\172\1\146\1\172\1\151\1\172\1\uffff\1\155\2\172\1\uffff\1\157"
+			+ "\1\172\2\uffff\1\156\1\uffff\1\141\1\154\2\172\1\uffff";
 	static final String DFA15_acceptS = "\2\uffff\1\2\1\3\1\4\1\5\1\6\1\7\15\uffff\1\45\1\46\1\47\1\50\1"
-			+ "\51\2\uffff\1\56\1\60\1\61\1\62\2\uffff\1\1\27\uffff\1\52\1\uffff"
-			+ "\1\57\1\54\1\55\1\11\32\uffff\1\53\1\uffff\1\10\2\uffff\1\12\5\uffff"
-			+ "\1\15\1\16\4\uffff\1\21\13\uffff\1\14\1\uffff\1\13\22\uffff\1\37"
-			+ "\10\uffff\1\20\6\uffff\1\32\7\uffff\1\25\10\uffff\1\31\1\uffff\1"
-			+ "\33\6\uffff\1\17\34\uffff\1\35\1\uffff\1\27\6\uffff\1\40\3\uffff"
-			+ "\1\36\1\22\3\uffff\1\44\4\uffff\1\34\1\uffff\1\42\4\uffff\1\41\3"
-			+ "\uffff\1\24\2\uffff\1\30\1\23\1\uffff\1\26\4\uffff\1\43";
-	static final String DFA15_specialS = "\32\uffff\1\1\40\uffff\1\0\u00c5\uffff}>";
+			+ "\51\1\52\2\uffff\1\60\1\61\1\62\2\uffff\1\1\27\uffff\1\55\1\53\1"
+			+ "\54\1\57\1\56\1\11\33\uffff\1\10\2\uffff\1\12\5\uffff\1\15\1\16"
+			+ "\4\uffff\1\21\13\uffff\1\14\1\uffff\1\13\21\uffff\1\37\11\uffff"
+			+ "\1\20\6\uffff\1\32\7\uffff\1\25\10\uffff\1\31\1\uffff\1\33\6\uffff"
+			+ "\1\17\34\uffff\1\35\1\uffff\1\27\5\uffff\1\40\3\uffff\1\36\1\uffff"
+			+ "\1\22\3\uffff\1\44\3\uffff\1\34\1\uffff\1\42\5\uffff\1\41\3\uffff"
+			+ "\1\24\2\uffff\1\30\1\23\1\uffff\1\26\4\uffff\1\43";
+	static final String DFA15_specialS = "\u0100\uffff}>";
 	static final String[] DFA15_transitionS = {
-			"\2\7\2\uffff\1\7\22\uffff\1\7\1\uffff\1\34\4\uffff\1\37\1\2"
-					+ "\1\5\2\uffff\1\26\3\uffff\12\35\2\uffff\1\32\1\31\1\33\1\uffff"
+			"\2\7\2\uffff\1\7\22\uffff\1\7\1\uffff\1\32\4\uffff\1\37\1\2"
+					+ "\1\5\2\uffff\1\26\3\uffff\12\35\2\uffff\1\33\1\31\1\34\1\uffff"
 					+ "\1\6\1\10\2\36\1\20\1\15\1\23\1\36\1\22\1\17\3\36\1\14\1\12"
 					+ "\1\11\2\36\1\21\1\13\1\24\1\36\1\16\4\36\1\27\1\uffff\1\30\1"
 					+ "\25\2\uffff\1\10\2\36\1\20\1\15\1\23\1\36\1\22\1\17\3\36\1\14"
@@ -3312,9 +3317,10 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			"",
 			"",
 			"",
-			"\75\74\1\73\1\uffff\uffc1\74",
-			"\1\76",
 			"",
+			"\1\73\11\uffff\16\73\2\uffff\1\74\1\uffff\1\73\1\uffff\32\73"
+					+ "\1\uffff\1\73\2\uffff\1\73\1\uffff\32\73",
+			"\1\76",
 			"",
 			"",
 			"",
@@ -3345,27 +3351,28 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			"\1\130\37\uffff\1\130",
 			"\1\131\37\uffff\1\131",
 			"",
-			"\0\74",
 			"",
 			"",
 			"",
 			"",
-			"\1\133\37\uffff\1\133",
+			"",
+			"\1\132\37\uffff\1\132",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+			"\1\134",
 			"\1\135",
-			"\1\136",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
-			"\1\140\37\uffff\1\140",
-			"\1\141\14\uffff\1\142\22\uffff\1\141\14\uffff\1\142",
+			"\1\137\37\uffff\1\137",
+			"\1\140\14\uffff\1\141\22\uffff\1\140\14\uffff\1\141",
+			"\1\142\37\uffff\1\142",
 			"\1\143\37\uffff\1\143",
-			"\1\144\37\uffff\1\144",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+			"\1\146\37\uffff\1\146",
 			"\1\147\37\uffff\1\147",
 			"\1\150\37\uffff\1\150",
-			"\1\151\37\uffff\1\151",
-			"\1\36\2\uffff\13\36\6\uffff\4\36\1\152\25\36\4\uffff\1\36\1"
-					+ "\uffff\4\36\1\152\25\36",
+			"\1\36\2\uffff\13\36\6\uffff\4\36\1\151\25\36\4\uffff\1\36\1"
+					+ "\uffff\4\36\1\151\25\36",
+			"\1\153\37\uffff\1\153",
 			"\1\154\37\uffff\1\154",
 			"\1\155\37\uffff\1\155",
 			"\1\156\37\uffff\1\156",
@@ -3376,25 +3383,24 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			"\1\163\37\uffff\1\163",
 			"\1\164\37\uffff\1\164",
 			"\1\165\37\uffff\1\165",
-			"\1\166\37\uffff\1\166",
-			"",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
 			"",
 			"\1\45\37\uffff\1\45",
-			"\1\170",
+			"\1\167",
 			"",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+			"\1\171\37\uffff\1\171",
 			"\1\172\37\uffff\1\172",
 			"\1\173\37\uffff\1\173",
 			"\1\174\37\uffff\1\174",
+			"",
+			"",
 			"\1\175\37\uffff\1\175",
-			"",
-			"",
 			"\1\176\37\uffff\1\176",
 			"\1\177\37\uffff\1\177",
 			"\1\u0080\37\uffff\1\u0080",
-			"\1\u0081\37\uffff\1\u0081",
 			"",
+			"\1\u0081\37\uffff\1\u0081",
 			"\1\u0082\37\uffff\1\u0082",
 			"\1\u0083\37\uffff\1\u0083",
 			"\1\u0084\37\uffff\1\u0084",
@@ -3403,77 +3409,76 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 			"\1\u0087\37\uffff\1\u0087",
 			"\1\u0088\37\uffff\1\u0088",
 			"\1\u0089\37\uffff\1\u0089",
-			"\1\u008a\37\uffff\1\u008a",
 			"\1\36\2\uffff\13\36\6\uffff\22\36\1\u008b\7\36\4\uffff\1\36"
-					+ "\1\uffff\22\36\1\u008b\7\36", "\1\u008d\37\uffff\1\u008d", "", "\1\u008e",
-			"", "\1\u008f\37\uffff\1\u008f", "\1\u0090\37\uffff\1\u0090",
-			"\1\u0091\37\uffff\1\u0091", "\1\u0092\37\uffff\1\u0092", "\1\u0093\37\uffff\1\u0093",
-			"\1\u0094\37\uffff\1\u0094",
+					+ "\1\uffff\22\36\1\u008b\7\36", "\1\u008c\37\uffff\1\u008c", "", "\1\u008d",
+			"", "\1\u008e\37\uffff\1\u008e", "\1\u008f\37\uffff\1\u008f",
+			"\1\u0090\37\uffff\1\u0090", "\1\u0091\37\uffff\1\u0091", "\1\u0092\37\uffff\1\u0092",
+			"\1\u0093\37\uffff\1\u0093",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
-			"\1\u0096\37\uffff\1\u0096", "\1\u0097\37\uffff\1\u0097", "\1\u0098\37\uffff\1\u0098",
-			"\1\u0099\37\uffff\1\u0099", "\1\u009a\37\uffff\1\u009a", "\1\u009b\37\uffff\1\u009b",
+			"\1\u0095\37\uffff\1\u0095", "\1\u0096\37\uffff\1\u0096", "\1\u0097\37\uffff\1\u0097",
+			"\1\u0098\37\uffff\1\u0098", "\1\u0099\37\uffff\1\u0099", "\1\u009a\37\uffff\1\u009a",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
-			"\1\u009d\37\uffff\1\u009d", "\1\u009e\37\uffff\1\u009e", "\1\u009f\37\uffff\1\u009f",
+			"\1\u009c\37\uffff\1\u009c", "\1\u009d\37\uffff\1\u009d", "\1\u009e\37\uffff\1\u009e",
+			"", "\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+			"\1\u009f\37\uffff\1\u009f", "\1\u00a0", "\1\u00a1\37\uffff\1\u00a1",
+			"\1\u00a2\37\uffff\1\u00a2",
+			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+			"\1\u00a4\37\uffff\1\u00a4", "\1\u00a5\37\uffff\1\u00a5", "\1\u00a6\37\uffff\1\u00a6",
+			"", "\1\u00a7\37\uffff\1\u00a7", "\1\u00a8\37\uffff\1\u00a8",
+			"\1\u00a9\37\uffff\1\u00a9", "\1\u00aa\37\uffff\1\u00aa", "\1\u00ab\37\uffff\1\u00ab",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
-			"\1\u00a0\37\uffff\1\u00a0", "\1\u00a1", "\1\u00a2\37\uffff\1\u00a2",
-			"\1\u00a3\37\uffff\1\u00a3",
+			"\1\u00ad\37\uffff\1\u00ad",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
-			"\1\u00a5\37\uffff\1\u00a5", "\1\u00a6\37\uffff\1\u00a6", "\1\u00a7\37\uffff\1\u00a7",
-			"", "\1\u00a8\37\uffff\1\u00a8", "\1\u00a9\37\uffff\1\u00a9",
-			"\1\u00aa\37\uffff\1\u00aa", "\1\u00ab\37\uffff\1\u00ab", "\1\u00ac\37\uffff\1\u00ac",
-			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
-			"\1\u00ae\37\uffff\1\u00ae",
+			"\1\u00af\37\uffff\1\u00af", "\1\u00b0\37\uffff\1\u00b0", "\1\u00b1",
+			"\1\u00b2\37\uffff\1\u00b2", "\1\u00b3\37\uffff\1\u00b3", "",
+			"\1\u00b4\37\uffff\1\u00b4",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
-			"\1\u00b0\37\uffff\1\u00b0", "\1\u00b1\37\uffff\1\u00b1", "\1\u00b2",
-			"\1\u00b3\37\uffff\1\u00b3", "\1\u00b4\37\uffff\1\u00b4", "",
-			"\1\u00b5\37\uffff\1\u00b5",
+			"\1\u00b6\37\uffff\1\u00b6",
+			"\1\u00b8\10\uffff\1\u00b7\26\uffff\1\u00b8\10\uffff\1\u00b7",
+			"\1\u00b9\37\uffff\1\u00b9", "\1\u00ba\37\uffff\1\u00ba", "\1\u00bb\37\uffff\1\u00bb",
+			"\1\u00bc\37\uffff\1\u00bc", "", "\1\u00bd\37\uffff\1\u00bd", "",
+			"\1\u00be\37\uffff\1\u00be", "\1\u00bf\37\uffff\1\u00bf", "\1\u00c0",
+			"\1\u00c1\37\uffff\1\u00c1", "\1\u00c2\37\uffff\1\u00c2", "\1\u00c3\37\uffff\1\u00c3",
+			"", "\1\u00c4\37\uffff\1\u00c4", "\1\u00c5\37\uffff\1\u00c5",
+			"\1\u00c6\37\uffff\1\u00c6", "\1\u00c7\37\uffff\1\u00c7", "\1\u00c8\37\uffff\1\u00c8",
+			"\1\u00c9\37\uffff\1\u00c9", "\1\u00ca\37\uffff\1\u00ca", "\1\u00cb\37\uffff\1\u00cb",
+			"\1\u00cc\37\uffff\1\u00cc", "\1\u00cd\37\uffff\1\u00cd", "\1\u00ce",
+			"\1\u00cf\37\uffff\1\u00cf", "\1\u00d0\37\uffff\1\u00d0",
+			"\1\36\2\uffff\12\36\1\u00d1\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
+			"\1\u00d3\37\uffff\1\u00d3",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
-			"\1\u00b7\37\uffff\1\u00b7",
-			"\1\u00b9\10\uffff\1\u00b8\26\uffff\1\u00b9\10\uffff\1\u00b8",
-			"\1\u00ba\37\uffff\1\u00ba", "\1\u00bb\37\uffff\1\u00bb", "\1\u00bc\37\uffff\1\u00bc",
-			"\1\u00bd\37\uffff\1\u00bd", "", "\1\u00be\37\uffff\1\u00be", "",
-			"\1\u00bf\37\uffff\1\u00bf", "\1\u00c0\37\uffff\1\u00c0", "\1\u00c1",
-			"\1\u00c2\37\uffff\1\u00c2", "\1\u00c3\37\uffff\1\u00c3", "\1\u00c4\37\uffff\1\u00c4",
-			"", "\1\u00c5\37\uffff\1\u00c5", "\1\u00c6\37\uffff\1\u00c6",
-			"\1\u00c7\37\uffff\1\u00c7", "\1\u00c8\37\uffff\1\u00c8", "\1\u00c9\37\uffff\1\u00c9",
-			"\1\u00ca\37\uffff\1\u00ca", "\1\u00cb\37\uffff\1\u00cb", "\1\u00cc\37\uffff\1\u00cc",
-			"\1\u00cd\37\uffff\1\u00cd", "\1\u00ce\37\uffff\1\u00ce", "\1\u00cf",
-			"\1\u00d0\37\uffff\1\u00d0", "\1\u00d1\37\uffff\1\u00d1",
-			"\1\36\2\uffff\12\36\1\u00d2\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
-			"\1\u00d4\37\uffff\1\u00d4",
-			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
-			"\1\u00d6\37\uffff\1\u00d6", "\1\u00d7\37\uffff\1\u00d7", "\1\u00d8\37\uffff\1\u00d8",
-			"\1\u00d9\37\uffff\1\u00d9", "\1\u00da\37\uffff\1\u00da",
+			"\1\u00d5\37\uffff\1\u00d5", "\1\u00d6\37\uffff\1\u00d6", "\1\u00d7\37\uffff\1\u00d7",
+			"\1\u00d8\37\uffff\1\u00d8", "\1\u00d9\37\uffff\1\u00d9",
 			"\1\36\2\uffff\12\36\1\u00db\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
-			"\1\u00dd\37\uffff\1\u00dd", "\1\u00de\37\uffff\1\u00de",
+			"\1\u00dc\37\uffff\1\u00dc", "\1\u00dd\37\uffff\1\u00dd",
 			"\1\36\2\uffff\12\36\1\u00df\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
-			"\1\u00e2\37\uffff\1\u00e2",
+			"\1\u00e1\37\uffff\1\u00e1",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
-			"\1\u00e3\37\uffff\1\u00e3", "", "\1\u00e4\37\uffff\1\u00e4",
+			"\1\u00e2\37\uffff\1\u00e2", "", "\1\u00e3\37\uffff\1\u00e3",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
-			"\1\u00e6\37\uffff\1\u00e6", "\1\u00e7\37\uffff\1\u00e7", "\1\u00e8\37\uffff\1\u00e8",
-			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
+			"\1\u00e5\37\uffff\1\u00e5", "\1\u00e6\37\uffff\1\u00e6", "\1\u00e7\37\uffff\1\u00e7",
+			"", "\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
 			"\1\36\2\uffff\12\36\1\u00e9\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
-			"\1\36\2\uffff\12\36\1\u00eb\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
-			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "", "",
-			"\1\u00ed\37\uffff\1\u00ed", "\1\u00ee\37\uffff\1\u00ee", "\1\u00ef\37\uffff\1\u00ef",
-			"", "\1\36\2\uffff\12\36\1\u00f0\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
-			"\1\u00f2\37\uffff\1\u00f2", "\1\u00f3\37\uffff\1\u00f3",
+			"\1\36\2\uffff\12\36\1\u00eb\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36", "",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
+			"\1\u00ec\37\uffff\1\u00ec", "\1\u00ed\37\uffff\1\u00ed", "\1\u00ee\37\uffff\1\u00ee",
+			"", "\1\36\2\uffff\12\36\1\u00ef\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
+			"\1\u00f1\37\uffff\1\u00f1", "\1\u00f2\37\uffff\1\u00f2", "",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
-			"\1\u00f4\37\uffff\1\u00f4",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+			"\1\u00f3\37\uffff\1\u00f3",
+			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+			"\1\u00f5\37\uffff\1\u00f5",
+			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
 			"\1\u00f6\37\uffff\1\u00f6",
-			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
-			"\1\u00f7\37\uffff\1\u00f7",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
-			"\1\u00fa\37\uffff\1\u00fa",
+			"\1\u00f9\37\uffff\1\u00f9",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "", "",
-			"\1\u00fc\37\uffff\1\u00fc", "", "\1\u00fd\37\uffff\1\u00fd",
-			"\1\u00fe\37\uffff\1\u00fe",
-			"\1\36\2\uffff\12\36\1\u00ff\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
+			"\1\u00fb\37\uffff\1\u00fb", "", "\1\u00fc\37\uffff\1\u00fc",
+			"\1\u00fd\37\uffff\1\u00fd",
+			"\1\36\2\uffff\12\36\1\u00fe\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "" };
 	static final short[] DFA15_eot = DFA.unpackEncodedString(DFA15_eotS);
 	static final short[] DFA15_eof = DFA.unpackEncodedString(DFA15_eofS);
@@ -3505,46 +3510,7 @@ public class OPPLLexer_MOWLLexer extends Lexer {
 
 		@Override
 		public String getDescription() {
-			return "1:1: Tokens : ( COMPOSITION | OPEN_PARENTHESYS | OPEN_CURLY_BRACES | CLOSED_CURLY_BRACES | CLOSED_PARENTHESYS | AT | WHITESPACE | AND | OR | NOT | SOME | ONLY | MIN | MAX | EXACTLY | VALUE | INVERSE | SUBCLASS_OF | SUB_PROPERTY_OF | EQUIVALENT_TO | SAME_AS | DIFFERENT_FROM | INVERSE_OF | DISJOINT_WITH | DOMAIN | RANGE | HAS_KEY | FUNCTIONAL | SYMMETRIC | ANTI_SYMMETRIC | TYPES | REFLEXIVE | IRREFLEXIVE | TRANSITIVE | INVERSE_FUNCTIONAL | INSTANCE_OF | POW | COMMA | OPEN_SQUARE_BRACKET | CLOSED_SQUARE_BRACKET | EQUAL | LESS_THAN | LESS_THAN_EQUAL | GREATER_THAN | GREATER_THAN_EQUAL | DBLQUOTE | IRI | INTEGER | IDENTIFIER | ENTITY_REFERENCE );";
-		}
-
-		@Override
-		public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
-			IntStream input = _input;
-			int _s = s;
-			switch (s) {
-			case 0:
-				int LA15_59 = input.LA(1);
-				s = -1;
-				if (LA15_59 >= '\u0000' && LA15_59 <= '\uFFFF') {
-					s = 60;
-				} else {
-					s = 90;
-				}
-				if (s >= 0) {
-					return s;
-				}
-				break;
-			case 1:
-				int LA15_26 = input.LA(1);
-				s = -1;
-				if (LA15_26 == '=') {
-					s = 59;
-				} else if (LA15_26 >= '\u0000' && LA15_26 <= '<' || LA15_26 >= '?'
-						&& LA15_26 <= '\uFFFF') {
-					s = 60;
-				} else {
-					s = 58;
-				}
-				if (s >= 0) {
-					return s;
-				}
-				break;
-			}
-			NoViableAltException nvae = new NoViableAltException(this.getDescription(), 15, _s,
-					input);
-			this.error(nvae);
-			throw nvae;
+			return "1:1: Tokens : ( COMPOSITION | OPEN_PARENTHESYS | OPEN_CURLY_BRACES | CLOSED_CURLY_BRACES | CLOSED_PARENTHESYS | AT | WHITESPACE | AND | OR | NOT | SOME | ONLY | MIN | MAX | EXACTLY | VALUE | INVERSE | SUBCLASS_OF | SUB_PROPERTY_OF | EQUIVALENT_TO | SAME_AS | DIFFERENT_FROM | INVERSE_OF | DISJOINT_WITH | DOMAIN | RANGE | HAS_KEY | FUNCTIONAL | SYMMETRIC | ANTI_SYMMETRIC | TYPES | REFLEXIVE | IRREFLEXIVE | TRANSITIVE | INVERSE_FUNCTIONAL | INSTANCE_OF | POW | COMMA | OPEN_SQUARE_BRACKET | CLOSED_SQUARE_BRACKET | EQUAL | DBLQUOTE | IRI | LESS_THAN_EQUAL | LESS_THAN | GREATER_THAN_EQUAL | GREATER_THAN | INTEGER | IDENTIFIER | ENTITY_REFERENCE );";
 		}
 	}
 }

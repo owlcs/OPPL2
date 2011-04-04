@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g 2011-02-28 11:12:51
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLLexer.g 2011-04-04 14:43:51
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -11,116 +11,116 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 
 public class OPPLLexer extends Lexer {
-	public static final int COMMA = 37;
-	public static final int GREATER_THAN = 510;
-	public static final int ASSERTED = 76;
-	public static final int END = 84;
-	public static final int DIFFERENT_FROM = 24;
-	public static final int LESS_THAN = 508;
-	public static final int TYPE_ASSERTION = 66;
-	public static final int SAME_AS_AXIOM = 52;
-	public static final int TYPES = 39;
-	public static final int ROLE_ASSERTION = 67;
-	public static final int ESCLAMATION_MARK = 149;
-	public static final int DOT = 78;
-	public static final int ALL_RESTRICTION = 62;
-	public static final int QUESTION_MARK = 46;
-	public static final int AND = 10;
-	public static final int EXPRESSION = 69;
-	public static final int CONSTANT = 70;
-	public static final int VALUE_RESTRICTION = 63;
-	public static final int ONE_OF = 65;
-	public static final int SUBPROPERTY_OF = 105;
-	public static final int SELECT = 75;
-	public static final int CARDINALITY_RESTRICTION = 64;
-	public static final int SAME_AS = 23;
-	public static final int EXACTLY = 17;
-	public static final int PLUS = 79;
-	public static final int TRANSITIVE = 34;
-	public static final int SUBCLASS_OF = 20;
-	public static final int ENTITY_REFERENCE = 45;
-	public static final int CONJUNCTION = 56;
-	public static final int INVERSE_OF = 25;
-	public static final int AT = 114;
-	public static final int RANGE = 28;
-	public static final int CLOSED_PARENTHESYS = 8;
-	public static final int PROPERTY_CHAIN = 57;
-	public static final int CREATE_INTERSECTION = 81;
-	public static final int EQUIVALENT_TO_AXIOM = 49;
-	public static final int OPEN_SQUARE_BRACKET = 85;
-	public static final int SYMMETRIC = 30;
-	public static final int DISJOINT_WITH = 26;
-	public static final int VARIABLE_TYPE = 89;
-	public static final int DISJUNCTION = 55;
-	public static final int GROUPS = 356;
-	public static final int NEGATED_EXPRESSION = 58;
-	public static final int DISJOINT_CLASSES = 116;
-	public static final int EQUAL = 73;
-	public static final int DIFFERENT_FROM_AXIOM = 53;
-	public static final int GREATER_THAN_EQUAL = 511;
-	public static final int EQUIVALENT_TO = 22;
-	public static final int DOMAIN = 27;
-	public static final int SUB_PROPERTY_OF = 21;
-	public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION = 68;
-	public static final int INVERSE_PROPERTY = 60;
-	public static final int COLON = 77;
-	public static final int SUB_CLASS_AXIOM = 48;
-	public static final int SUB_PROPERTY_AXIOM = 51;
-	public static final int SET = 115;
-	public static final int IDENTIFIER = 44;
-	public static final int UNARY_AXIOM = 54;
-	public static final int DISJOINT_PROPERTIES = 117;
-	public static final int ADD = 90;
-	public static final int WHERE = 71;
-	public static final int CREATE = 80;
-	public static final int OPEN_CURLY_BRACES = 6;
-	public static final int DIFFERENT_INDIVIDUALS = 119;
-	public static final int CLOSED_SQUARE_BRACKET = 86;
-	public static final int INSTANCE_OF = 38;
-	public static final int VALUES = 354;
-	public static final int SOME_RESTRICTION = 61;
-	public static final int IRI = 110;
-	public static final int LESS_THAN_EQUAL = 509;
-	public static final int VALUE = 18;
-	public static final int RENDERING = 355;
-	public static final int INVERSE_FUNCTIONAL = 35;
-	public static final int OR = 11;
-	public static final int INTEGER = 42;
-	public static final int INVERSE = 19;
 	public static final int HAS_KEY = 109;
-	public static final int DISJOINT_WITH_AXIOM = 50;
-	public static final int SUPER_CLASS_OF = 87;
-	public static final int DIGIT = 41;
-	public static final int COMPOSITION = 4;
-	public static final int FUNCTIONAL = 29;
-	public static final int NOT_EQUAL = 72;
-	public static final int SAME_INDIVIDUAL = 118;
+	public static final int VALUE_RESTRICTION = 63;
 	public static final int LETTER = 43;
-	public static final int MAX = 16;
-	public static final int FAIL = 466;
-	public static final int NEGATED_ASSERTION = 59;
-	public static final int ONLY = 14;
-	public static final int CREATE_DISJUNCTION = 82;
 	public static final int REMOVE = 91;
-	public static final int DBLQUOTE = 40;
-	public static final int MIN = 15;
-	public static final int POW = 36;
-	public static final int MATCH = 176;
-	public static final int BEGIN = 83;
-	public static final int WHITESPACE = 9;
-	public static final int IN = 74;
-	public static final int SUPER_PROPERTY_OF = 88;
-	public static final int SOME = 13;
-	public static final int EOF = -1;
-	public static final int ANTI_SYMMETRIC = 31;
-	public static final int Tokens = 47;
-	public static final int CLOSED_CURLY_BRACES = 7;
-	public static final int IRI_ATTRIBUTE_NAME = 112;
-	public static final int REFLEXIVE = 32;
+	public static final int TYPES = 39;
+	public static final int SAME_AS_AXIOM = 52;
+	public static final int INVERSE_OF = 25;
 	public static final int NOT = 12;
-	public static final int OPEN_PARENTHESYS = 5;
+	public static final int SUBCLASS_OF = 20;
+	public static final int EOF = -1;
+	public static final int ESCLAMATION_MARK = 149;
+	public static final int CREATE = 80;
+	public static final int POW = 36;
+	public static final int NOT_EQUAL = 72;
+	public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION = 68;
+	public static final int INSTANCE_OF = 38;
+	public static final int BEGIN = 83;
+	public static final int QUESTION_MARK = 46;
+	public static final int DISJOINT_PROPERTIES = 117;
+	public static final int SYMMETRIC = 30;
+	public static final int CARDINALITY_RESTRICTION = 64;
+	public static final int SELECT = 75;
+	public static final int ROLE_ASSERTION = 67;
+	public static final int DIFFERENT_FROM_AXIOM = 53;
+	public static final int TRANSITIVE = 34;
+	public static final int ANTI_SYMMETRIC = 31;
+	public static final int GREATER_THAN_EQUAL = 486;
+	public static final int ALL_RESTRICTION = 62;
+	public static final int CONJUNCTION = 56;
+	public static final int NEGATED_ASSERTION = 59;
+	public static final int WHITESPACE = 9;
+	public static final int MATCH = 176;
+	public static final int VALUE = 18;
+	public static final int FAIL = 466;
+	public static final int GROUPS = 356;
+	public static final int OPEN_CURLY_BRACES = 6;
+	public static final int DISJUNCTION = 55;
+	public static final int INVERSE = 19;
+	public static final int DBLQUOTE = 40;
+	public static final int OR = 11;
+	public static final int LESS_THAN = 483;
+	public static final int CONSTANT = 70;
+	public static final int ENTITY_REFERENCE = 45;
+	public static final int END = 84;
+	public static final int COMPOSITION = 4;
+	public static final int CLOSED_SQUARE_BRACKET = 86;
+	public static final int SAME_AS = 23;
+	public static final int WHERE = 71;
+	public static final int DIFFERENT_INDIVIDUALS = 119;
+	public static final int DISJOINT_WITH = 26;
+	public static final int SUPER_PROPERTY_OF = 88;
+	public static final int VARIABLE_TYPE = 89;
+	public static final int CLOSED_PARENTHESYS = 8;
+	public static final int ONLY = 14;
+	public static final int EQUIVALENT_TO_AXIOM = 49;
+	public static final int SUB_PROPERTY_OF = 21;
+	public static final int NEGATED_EXPRESSION = 58;
+	public static final int MAX = 16;
+	public static final int CREATE_DISJUNCTION = 82;
+	public static final int AND = 10;
+	public static final int INVERSE_PROPERTY = 60;
+	public static final int AT = 114;
 	public static final int VARIABLE_NAME = 464;
+	public static final int DIFFERENT_FROM = 24;
+	public static final int IN = 74;
+	public static final int EQUIVALENT_TO = 22;
+	public static final int UNARY_AXIOM = 54;
+	public static final int COMMA = 37;
+	public static final int CLOSED_CURLY_BRACES = 7;
+	public static final int IDENTIFIER = 44;
+	public static final int IRI = 110;
+	public static final int SOME = 13;
+	public static final int EQUAL = 73;
+	public static final int OPEN_PARENTHESYS = 5;
+	public static final int SAME_INDIVIDUAL = 118;
+	public static final int REFLEXIVE = 32;
+	public static final int PLUS = 79;
+	public static final int DIGIT = 41;
+	public static final int DOT = 78;
+	public static final int SUPER_CLASS_OF = 87;
+	public static final int EXPRESSION = 69;
+	public static final int SOME_RESTRICTION = 61;
+	public static final int ADD = 90;
+	public static final int INTEGER = 42;
+	public static final int GREATER_THAN = 485;
+	public static final int EXACTLY = 17;
+	public static final int SUB_PROPERTY_AXIOM = 51;
+	public static final int OPEN_SQUARE_BRACKET = 85;
+	public static final int VALUES = 354;
+	public static final int RANGE = 28;
+	public static final int SET = 115;
+	public static final int ONE_OF = 65;
+	public static final int MIN = 15;
+	public static final int SUB_CLASS_AXIOM = 48;
+	public static final int Tokens = 47;
+	public static final int DOMAIN = 27;
+	public static final int SUBPROPERTY_OF = 105;
+	public static final int COLON = 77;
+	public static final int DISJOINT_WITH_AXIOM = 50;
+	public static final int CREATE_INTERSECTION = 81;
+	public static final int INVERSE_FUNCTIONAL = 35;
+	public static final int RENDERING = 355;
+	public static final int IRI_ATTRIBUTE_NAME = 112;
 	public static final int IRREFLEXIVE = 33;
+	public static final int LESS_THAN_EQUAL = 484;
+	public static final int ASSERTED = 76;
+	public static final int FUNCTIONAL = 29;
+	public static final int PROPERTY_CHAIN = 57;
+	public static final int TYPE_ASSERTION = 66;
+	public static final int DISJOINT_CLASSES = 116;
 	// delegates
 	public OPPLLexer_MOWLLexer gMOWLLexer;
 
@@ -1781,10 +1781,10 @@ public class OPPLLexer extends Lexer {
 			+ "\1\u00b1\1\u00b2\12\30\1\uffff\1\30\1\uffff\3\30\1\uffff\2\30\2"
 			+ "\uffff\1\u0088\7\30\1\u00cb\17\30\1\uffff\1\30\1\u00dc\15\30\1\u0088"
 			+ "\1\uffff\6\30\1\u00f0\10\30\1\u00f0\3\30\1\uffff\1\30\1\u0088\6"
-			+ "\30\1\u0103\11\30\1\uffff\2\30\1\u0088\4\30\1\u0114\3\30\1\u0119"
-			+ "\3\30\1\u0114\1\uffff\1\30\1\u011e\1\30\1\u0119\1\uffff\4\30\1\uffff"
-			+ "\5\30\1\u0129\1\u012b\1\30\1\u0088\1\u0129\1\uffff\1\u012b\1\uffff"
-			+ "\1\30\2\u012f\1\uffff";
+			+ "\30\1\u0103\11\30\1\uffff\2\30\1\u0088\4\30\1\u0113\3\30\1\u0118"
+			+ "\3\30\1\uffff\1\u0113\1\30\1\u011e\1\30\1\uffff\1\u0118\4\30\1\uffff"
+			+ "\5\30\1\u0129\1\u012a\1\30\1\u0088\1\u0129\2\uffff\1\u012a\1\30"
+			+ "\2\u012f\1\uffff";
 	static final String DFA11_eofS = "\u0130\uffff";
 	static final String DFA11_minS = "\1\11\1\114\1\102\1\101\1\104\1\116\1\105\1\110\1\75\1\101\3\uffff"
 			+ "\1\162\1\105\1\116\1\111\3\101\1\141\1\101\1\122\2\uffff\1\101\1"
@@ -1810,9 +1810,9 @@ public class OPPLLexer extends Lexer {
 			+ "\1\124\1\55\1\123\1\105\1\111\1\117\1\101\1\145\1\55\1\171\1\143"
 			+ "\1\131\1\105\1\122\1\126\1\120\1\114\1\143\1\uffff\1\117\1\164\1"
 			+ "\55\1\123\1\124\1\111\1\105\1\55\1\164\1\146\1\151\1\55\1\111\1"
-			+ "\104\1\122\1\55\1\uffff\1\151\1\55\1\157\1\55\1\uffff\1\105\1\125"
+			+ "\104\1\122\1\uffff\1\55\1\151\1\55\1\157\1\uffff\1\55\1\105\1\125"
 			+ "\1\124\1\157\1\uffff\1\156\1\123\1\101\1\131\1\156\2\55\1\114\2"
-			+ "\55\1\uffff\1\55\1\uffff\1\123\2\55\1\uffff";
+			+ "\55\2\uffff\1\55\1\123\2\55\1\uffff";
 	static final String DFA11_maxS = "\1\175\1\162\1\102\1\151\1\123\1\122\1\105\1\110\1\75\1\145\3\uffff"
 			+ "\1\162\1\105\1\116\1\151\1\165\3\141\1\101\1\122\2\uffff\1\101\1"
 			+ "\116\1\145\1\112\1\124\1\163\1\116\1\104\1\123\1\172\1\111\1\116"
@@ -1837,15 +1837,15 @@ public class OPPLLexer extends Lexer {
 			+ "\1\164\1\145\1\uffff\1\124\1\172\1\163\1\145\1\151\1\117\1\141\1"
 			+ "\145\1\172\1\171\1\143\1\131\1\145\1\162\1\166\1\120\1\154\1\143"
 			+ "\1\uffff\1\117\1\164\1\172\1\163\1\164\1\151\1\105\1\172\1\164\1"
-			+ "\146\1\151\1\172\1\151\1\144\1\122\1\172\1\uffff\1\151\1\172\1\157"
-			+ "\1\172\1\uffff\1\145\1\165\1\124\1\157\1\uffff\1\156\1\163\1\141"
-			+ "\1\131\1\156\2\172\1\154\2\172\1\uffff\1\172\1\uffff\1\163\2\172" + "\1\uffff";
+			+ "\146\1\151\1\172\1\151\1\144\1\122\1\uffff\1\172\1\151\1\172\1\157"
+			+ "\1\uffff\1\172\1\145\1\165\1\124\1\157\1\uffff\1\156\1\163\1\141"
+			+ "\1\131\1\156\2\172\1\154\2\172\2\uffff\1\172\1\163\2\172\1\uffff";
 	static final String DFA11_acceptS = "\12\uffff\1\11\1\12\1\13\12\uffff\1\37\1\40\15\uffff\1\5\1\36\31"
 			+ "\uffff\1\6\32\uffff\1\2\2\uffff\1\35\4\uffff\1\31\3\uffff\1\20\34"
 			+ "\uffff\1\30\2\uffff\1\1\13\uffff\1\4\3\uffff\1\17\2\uffff\1\27\14"
 			+ "\uffff\1\3\1\uffff\1\7\3\uffff\1\14\2\uffff\1\32\1\34\30\uffff\1"
-			+ "\10\20\uffff\1\33\23\uffff\1\16\22\uffff\1\25\20\uffff\1\23\4\uffff"
-			+ "\1\21\4\uffff\1\26\12\uffff\1\15\1\uffff\1\22\3\uffff\1\24";
+			+ "\10\20\uffff\1\33\23\uffff\1\16\22\uffff\1\25\17\uffff\1\23\4\uffff"
+			+ "\1\21\5\uffff\1\26\12\uffff\1\15\1\22\4\uffff\1\24";
 	static final String DFA11_specialS = "\u0130\uffff}>";
 	static final String[] DFA11_transitionS = {
 			"\2\30\2\uffff\1\30\22\uffff\1\30\1\10\1\30\4\uffff\3\30\1\uffff"
@@ -2038,21 +2038,21 @@ public class OPPLLexer extends Lexer {
 			"\1\u010d", "\1\u010e", "\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
 			"\1\u010f\37\uffff\1\u010f", "\1\u0110\37\uffff\1\u0110", "\1\u0111\37\uffff\1\u0111",
 			"\1\u0112",
-			"\1\30\2\uffff\12\30\1\u0113\6\uffff\32\30\4\uffff\1\30\1\uffff" + "\32\30",
+			"\1\30\2\uffff\12\30\1\u0114\6\uffff\32\30\4\uffff\1\30\1\uffff" + "\32\30",
 			"\1\u0115", "\1\u0116", "\1\u0117",
-			"\1\30\2\uffff\12\30\1\u0118\6\uffff\32\30\4\uffff\1\30\1\uffff" + "\32\30",
-			"\1\u011a\37\uffff\1\u011a", "\1\u011b\37\uffff\1\u011b", "\1\u011c",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "", "\1\u011d",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "\1\u011f",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "",
+			"\1\30\2\uffff\12\30\1\u0119\6\uffff\32\30\4\uffff\1\30\1\uffff" + "\32\30",
+			"\1\u011a\37\uffff\1\u011a", "\1\u011b\37\uffff\1\u011b", "\1\u011c", "",
+			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "\1\u011d",
+			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "\1\u011f", "",
+			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
 			"\1\u0120\37\uffff\1\u0120", "\1\u0121\37\uffff\1\u0121", "\1\u0122", "\1\u0123", "",
 			"\1\u0124", "\1\u0125\37\uffff\1\u0125", "\1\u0126\37\uffff\1\u0126", "\1\u0127",
 			"\1\u0128", "\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
-			"\1\30\2\uffff\12\30\1\u012a\6\uffff\32\30\4\uffff\1\30\1\uffff" + "\32\30",
+			"\1\30\2\uffff\12\30\1\u012b\6\uffff\32\30\4\uffff\1\30\1\uffff" + "\32\30",
 			"\1\u012c\37\uffff\1\u012c",
 			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "",
-			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "",
+			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "", "",
+			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30",
 			"\1\u012d\37\uffff\1\u012d",
 			"\1\30\2\uffff\12\30\1\u012e\6\uffff\32\30\4\uffff\1\30\1\uffff" + "\32\30",
 			"\1\30\2\uffff\13\30\6\uffff\32\30\4\uffff\1\30\1\uffff\32\30", "" };

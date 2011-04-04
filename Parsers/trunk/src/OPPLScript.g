@@ -13,6 +13,7 @@ options {
   output = AST;
   ASTLabelType = OPPLSyntaxTree; // use custom tree nodes
   tokenVocab = OPPLScript;
+  backtrack= true;
 }
 
 import OPPLLexer, OPPLParser;

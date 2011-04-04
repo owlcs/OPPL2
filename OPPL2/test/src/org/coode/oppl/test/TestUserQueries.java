@@ -32,6 +32,38 @@ import uk.ac.manchester.cs.factplusplus.owlapiv3.FaCTPlusPlusReasonerFactory;
 public class TestUserQueries extends TestCase {
 	private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
 
+	public void testLongIRIInQuery() {
+		String string = "SELECT <http://www.cs.manchester.ac.uk/owl/bla#foo> label \"luigi\" BEGIN ADD Thing subClassOf Thing END;";
+		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+		try {
+			OWLOntology ontology = manager.createOntology();
+			OWLDataFactory dataFactory = manager.getOWLDataFactory();
+			IRI iri = IRI.create("http://www.cs.manchester.ac.uk/owl/bla#foo");
+			manager.addAxiom(
+					ontology,
+					dataFactory.getOWLDeclarationAxiom(dataFactory.getOWLClass(iri)));
+			manager.addAxiom(
+					ontology,
+					dataFactory.getOWLAnnotationAssertionAxiom(
+							iri,
+							dataFactory.getOWLAnnotation(
+									dataFactory.getRDFSLabel(),
+									dataFactory.getOWLLiteral("luigi"))));
+			ParserFactory parserFactory = new ParserFactory(manager, ontology, null);
+			OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
+			OPPLScript opplScript = parser.parse(string);
+			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+			changeExtractor.visit(opplScript);
+			Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
+			assertTrue(leaves != null);
+			assertFalse(leaves.isEmpty());
+			System.out.println(leaves);
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
 	public void testSimpleQuery() {
 		String string = "?y:CLASS, ?z:CLASS SELECT ?y subClassOf q some ?z WHERE ?y!=Nothing BEGIN ADD ?y subClassOf p some ?y END;";
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();

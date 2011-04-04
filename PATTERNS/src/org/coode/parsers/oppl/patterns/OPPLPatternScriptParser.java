@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g 2011-01-10 16:05:54
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g 2011-04-04 16:15:52
 package org.coode.parsers.oppl.patterns;
 
 import org.antlr.runtime.BitSet;
@@ -43,151 +43,157 @@ public class OPPLPatternScriptParser extends Parser {
 			"INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION",
 			"VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY",
 			"VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "HAS_KEY",
-			"IRI", "ANNOTATION_ASSERTION", "IRI_ATTRIBUTE_NAME", "ARGUMENT", "AT",
+			"IRI", "ANNOTATION_ASSERTION", "IRI_ATTRIBUTE_NAME", "ARGUMENT", "AT", "SET",
+			"DISJOINT_CLASSES", "DISJOINT_PROPERTIES", "SAME_INDIVIDUAL", "DIFFERENT_INDIVIDUALS",
 			"ESCLAMATION_MARK", "CREATE_IDENTIFIER", "PLAIN_IDENTIFIER", "MATCH",
 			"ATTRIBUTE_SELECTOR", "VALUES", "RENDERING", "GROUPS", "STRING_OPERATION", "DOLLAR",
 			"RETURN", "THIS_CLASS", "ARGUMENTS", "OPPL_PATTERN", "PATTERN_REFERENCE", "SEMICOLON",
 			"VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL", "NAF_CONSTRAINT", "LESS_THAN",
-			"LESS_THAN_EQUAL", "GREATER_THAN", "GREATER_THAN_EQUAL", "DATA_RANGE", "570", "571",
-			"572", "573", "574", "575", "576", "577", "578", "579", "580", "581", "582", "583",
-			"584", "585", "586", "587", "588", "589", "590", "591", "592", "593", "594", "595" };
-	public static final int COMMA = 37;
-	public static final int GREATER_THAN = 511;
-	public static final int ASSERTED = 76;
-	public static final int VARIABLE_DEFINITIONS = 102;
-	public static final int REGEXP_CONSTRAINT = 465;
-	public static final int END = 84;
-	public static final int HYPHEN = 465;
-	public static final int DIFFERENT_FROM = 24;
-	public static final int LESS_THAN = 509;
-	public static final int TYPE_ASSERTION = 66;
-	public static final int SAME_AS_AXIOM = 52;
-	public static final int TYPES = 39;
-	public static final int ROLE_ASSERTION = 67;
-	public static final int CREATE_OPPL_FUNCTION = 98;
-	public static final int ESCLAMATION_MARK = 149;
-	public static final int VARIABLE_IDENTIFIER = 106;
-	public static final int ASSERTED_CLAUSE = 92;
-	public static final int DOT = 78;
-	public static final int ALL_RESTRICTION = 62;
-	public static final int QUESTION_MARK = 46;
-	public static final int PLAIN_IDENTIFIER = 152;
-	public static final int AND = 10;
-	public static final int EXPRESSION = 69;
-	public static final int CONSTANT = 70;
-	public static final int VALUE_RESTRICTION = 63;
-	public static final int ONE_OF = 65;
-	public static final int SUBPROPERTY_OF = 105;
-	public static final int THIS_CLASS = 416;
-	public static final int SELECT = 75;
-	public static final int CARDINALITY_RESTRICTION = 64;
-	public static final int SAME_AS = 23;
-	public static final int EXACTLY = 17;
-	public static final int PLUS = 79;
-	public static final int TRANSITIVE = 34;
-	public static final int IN_SET_CONSTRAINT = 95;
-	public static final int SUBCLASS_OF = 20;
-	public static final int ENTITY_REFERENCE = 45;
-	public static final int CONJUNCTION = 56;
-	public static final int INVERSE_OF = 25;
-	public static final int AT = 114;
-	public static final int RANGE = 28;
-	public static final int ARGUMENTS = 417;
-	public static final int DATA_RANGE = 569;
-	public static final int CLOSED_PARENTHESYS = 8;
-	public static final int PROPERTY_CHAIN = 57;
-	public static final int CREATE_INTERSECTION = 81;
-	public static final int EQUIVALENT_TO_AXIOM = 49;
-	public static final int OPEN_SQUARE_BRACKET = 85;
-	public static final int NAF_CONSTRAINT = 467;
-	public static final int SYMMETRIC = 30;
-	public static final int DOLLAR = 400;
-	public static final int DISJOINT_WITH = 26;
-	public static final int VARIABLE_TYPE = 89;
-	public static final int DISJUNCTION = 55;
-	public static final int GROUPS = 356;
-	public static final int NEGATED_EXPRESSION = 58;
-	public static final int EQUAL = 73;
-	public static final int SEMICOLON = 422;
-	public static final int PATTERN_REFERENCE = 421;
-	public static final int DIFFERENT_FROM_AXIOM = 53;
-	public static final int GREATER_THAN_EQUAL = 512;
-	public static final int ACTIONS = 101;
-	public static final int EQUIVALENT_TO = 22;
-	public static final int DOMAIN = 27;
-	public static final int SUB_PROPERTY_OF = 21;
-	public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION = 68;
-	public static final int INVERSE_PROPERTY = 60;
-	public static final int COLON = 77;
-	public static final int GENERATED_VARIABLE_DEFINITION = 97;
-	public static final int VARIABLE_ATTRIBUTE = 99;
-	public static final int SUB_CLASS_AXIOM = 48;
-	public static final int SUB_PROPERTY_AXIOM = 51;
-	public static final int IDENTIFIER = 44;
-	public static final int UNARY_AXIOM = 54;
-	public static final int ADD = 90;
-	public static final int WHERE = 71;
-	public static final int CREATE = 80;
-	public static final int VARIABLE_SCOPE = 104;
-	public static final int OPEN_CURLY_BRACES = 6;
-	public static final int CLOSED_SQUARE_BRACKET = 86;
-	public static final int INSTANCE_OF = 38;
-	public static final int VALUES = 354;
-	public static final int QUERY = 103;
-	public static final int SOME_RESTRICTION = 61;
-	public static final int IRI = 110;
-	public static final int LESS_THAN_EQUAL = 510;
-	public static final int VALUE = 18;
-	public static final int RENDERING = 355;
-	public static final int INVERSE_FUNCTIONAL = 35;
-	public static final int ATTRIBUTE_SELECTOR = 283;
-	public static final int PLAIN_CLAUSE = 93;
-	public static final int OR = 11;
-	public static final int INTEGER = 42;
-	public static final int INVERSE = 19;
+			"LESS_THAN_EQUAL", "GREATER_THAN", "GREATER_THAN_EQUAL", "DATA_RANGE", "594", "595",
+			"596", "597", "598", "599", "600", "601", "602", "603", "604", "605", "606", "607",
+			"608", "609", "610", "611", "612", "613", "614", "615", "616", "617", "618", "619" };
 	public static final int HAS_KEY = 109;
-	public static final int DISJOINT_WITH_AXIOM = 50;
-	public static final int SUPER_CLASS_OF = 87;
-	public static final int OPPL_FUNCTION = 100;
-	public static final int DIGIT = 41;
+	public static final int VALUE_RESTRICTION = 63;
+	public static final int LETTER = 43;
+	public static final int REMOVE = 91;
+	public static final int TYPES = 39;
+	public static final int SAME_AS_AXIOM = 52;
+	public static final int INVERSE_OF = 25;
+	public static final int NOT = 12;
+	public static final int SUBCLASS_OF = 20;
+	public static final int EOF = -1;
+	public static final int ESCLAMATION_MARK = 149;
+	public static final int ACTIONS = 101;
+	public static final int CREATE_IDENTIFIER = 151;
+	public static final int CREATE = 80;
+	public static final int POW = 36;
+	public static final int INPUT_VARIABLE_DEFINITION = 96;
+	public static final int NOT_EQUAL = 72;
+	public static final int INVERSE_OBJECT_PROPERTY_EXPRESSION = 68;
+	public static final int INSTANCE_OF = 38;
+	public static final int BEGIN = 83;
+	public static final int RETURN = 415;
+	public static final int VARIABLE_SCOPE = 104;
+	public static final int INEQUALITY_CONSTRAINT = 94;
+	public static final int QUESTION_MARK = 46;
+	public static final int DISJOINT_PROPERTIES = 117;
+	public static final int SYMMETRIC = 30;
+	public static final int CARDINALITY_RESTRICTION = 64;
+	public static final int SELECT = 75;
+	public static final int ROLE_ASSERTION = 67;
+	public static final int DIFFERENT_FROM_AXIOM = 53;
+	public static final int CREATE_OPPL_FUNCTION = 98;
+	public static final int TRANSITIVE = 34;
+	public static final int ANTI_SYMMETRIC = 31;
+	public static final int GREATER_THAN_EQUAL = 486;
+	public static final int ARGUMENTS = 417;
+	public static final int ALL_RESTRICTION = 62;
+	public static final int CONJUNCTION = 56;
+	public static final int OPPL_STATEMENT = 107;
+	public static final int NEGATED_ASSERTION = 59;
+	public static final int WHITESPACE = 9;
+	public static final int MATCH = 176;
+	public static final int IN_SET_CONSTRAINT = 95;
+	public static final int SEMICOLON = 422;
+	public static final int VALUE = 18;
+	public static final int FAIL = 466;
+	public static final int GROUPS = 356;
+	public static final int OPEN_CURLY_BRACES = 6;
+	public static final int DISJUNCTION = 55;
+	public static final int INVERSE = 19;
+	public static final int NAF_CONSTRAINT = 467;
+	public static final int DBLQUOTE = 40;
+	public static final int STRING_OPERATION = 394;
+	public static final int OR = 11;
+	public static final int LESS_THAN = 483;
+	public static final int CONSTANT = 70;
+	public static final int QUERY = 103;
+	public static final int ENTITY_REFERENCE = 45;
+	public static final int END = 84;
 	public static final int COMPOSITION = 4;
 	public static final int ANNOTATION_ASSERTION = 111;
-	public static final int OPPL_STATEMENT = 107;
-	public static final int FUNCTIONAL = 29;
-	public static final int NOT_EQUAL = 72;
-	public static final int LETTER = 43;
-	public static final int MAX = 16;
-	public static final int FAIL = 466;
-	public static final int NEGATED_ASSERTION = 59;
-	public static final int INPUT_VARIABLE_DEFINITION = 96;
-	public static final int ONLY = 14;
-	public static final int CREATE_DISJUNCTION = 82;
-	public static final int REMOVE = 91;
-	public static final int DBLQUOTE = 40;
-	public static final int MIN = 15;
-	public static final int POW = 36;
-	public static final int MATCH = 176;
-	public static final int BEGIN = 83;
-	public static final int ARGUMENT = 113;
-	public static final int OPPL_PATTERN = 419;
-	public static final int WHITESPACE = 9;
-	public static final int IN = 74;
+	public static final int CLOSED_SQUARE_BRACKET = 86;
+	public static final int DOLLAR = 400;
+	public static final int SAME_AS = 23;
+	public static final int WHERE = 71;
+	public static final int DIFFERENT_INDIVIDUALS = 119;
+	public static final int DISJOINT_WITH = 26;
 	public static final int SUPER_PROPERTY_OF = 88;
-	public static final int INEQUALITY_CONSTRAINT = 94;
-	public static final int SOME = 13;
-	public static final int RETURN = 415;
-	public static final int EOF = -1;
-	public static final int CREATE_IDENTIFIER = 151;
-	public static final int ANTI_SYMMETRIC = 31;
-	public static final int Tokens = 47;
-	public static final int CLOSED_CURLY_BRACES = 7;
-	public static final int IRI_ATTRIBUTE_NAME = 112;
-	public static final int REFLEXIVE = 32;
-	public static final int NOT = 12;
-	public static final int STRING_OPERATION = 394;
-	public static final int OPEN_PARENTHESYS = 5;
+	public static final int VARIABLE_TYPE = 89;
+	public static final int ATTRIBUTE_SELECTOR = 283;
+	public static final int CLOSED_PARENTHESYS = 8;
+	public static final int ONLY = 14;
+	public static final int EQUIVALENT_TO_AXIOM = 49;
+	public static final int SUB_PROPERTY_OF = 21;
+	public static final int NEGATED_EXPRESSION = 58;
+	public static final int MAX = 16;
+	public static final int CREATE_DISJUNCTION = 82;
+	public static final int AND = 10;
+	public static final int ASSERTED_CLAUSE = 92;
+	public static final int INVERSE_PROPERTY = 60;
+	public static final int AT = 114;
+	public static final int OPPL_PATTERN = 419;
 	public static final int VARIABLE_NAME = 464;
+	public static final int THIS_CLASS = 416;
+	public static final int DIFFERENT_FROM = 24;
+	public static final int IN = 74;
+	public static final int EQUIVALENT_TO = 22;
+	public static final int UNARY_AXIOM = 54;
+	public static final int COMMA = 37;
+	public static final int CLOSED_CURLY_BRACES = 7;
+	public static final int IDENTIFIER = 44;
+	public static final int IRI = 110;
+	public static final int SOME = 13;
+	public static final int EQUAL = 73;
+	public static final int ARGUMENT = 113;
+	public static final int OPEN_PARENTHESYS = 5;
+	public static final int SAME_INDIVIDUAL = 118;
+	public static final int REFLEXIVE = 32;
+	public static final int PLUS = 79;
+	public static final int DIGIT = 41;
+	public static final int DOT = 78;
+	public static final int SUPER_CLASS_OF = 87;
+	public static final int EXPRESSION = 69;
+	public static final int SOME_RESTRICTION = 61;
+	public static final int ADD = 90;
+	public static final int INTEGER = 42;
+	public static final int GREATER_THAN = 485;
+	public static final int GENERATED_VARIABLE_DEFINITION = 97;
+	public static final int EXACTLY = 17;
+	public static final int SUB_PROPERTY_AXIOM = 51;
+	public static final int OPEN_SQUARE_BRACKET = 85;
+	public static final int VALUES = 354;
+	public static final int REGEXP_CONSTRAINT = 465;
+	public static final int RANGE = 28;
+	public static final int DATA_RANGE = 593;
+	public static final int SET = 115;
+	public static final int ONE_OF = 65;
+	public static final int VARIABLE_DEFINITIONS = 102;
+	public static final int MIN = 15;
+	public static final int SUB_CLASS_AXIOM = 48;
+	public static final int PLAIN_CLAUSE = 93;
+	public static final int Tokens = 47;
+	public static final int DOMAIN = 27;
+	public static final int SUBPROPERTY_OF = 105;
+	public static final int OPPL_FUNCTION = 100;
+	public static final int COLON = 77;
+	public static final int DISJOINT_WITH_AXIOM = 50;
+	public static final int CREATE_INTERSECTION = 81;
+	public static final int HYPHEN = 465;
+	public static final int INVERSE_FUNCTIONAL = 35;
+	public static final int RENDERING = 355;
+	public static final int VARIABLE_IDENTIFIER = 106;
+	public static final int IRI_ATTRIBUTE_NAME = 112;
 	public static final int IRREFLEXIVE = 33;
+	public static final int LESS_THAN_EQUAL = 484;
+	public static final int PLAIN_IDENTIFIER = 152;
+	public static final int VARIABLE_ATTRIBUTE = 99;
+	public static final int ASSERTED = 76;
+	public static final int FUNCTIONAL = 29;
+	public static final int PROPERTY_CHAIN = 57;
+	public static final int PATTERN_REFERENCE = 421;
+	public static final int TYPE_ASSERTION = 66;
+	public static final int DISJOINT_CLASSES = 116;
 	// delegates
 	public OPPLPatternScript_OPPLParser_MOWLParser gMOWLParser;
 	public OPPLPatternScript_OPPLParser gOPPLParser;
@@ -263,7 +269,7 @@ public class OPPLPatternScriptParser extends Parser {
 	};
 
 	// $ANTLR start "pattern"
-	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:72:1:
+	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:73:1:
 	// pattern : statement ( rendering )? ( SEMICOLON returnClause )? -> ^(
 	// OPPL_PATTERN statement ( rendering )? ( returnClause )? ) ;
 	public final OPPLPatternScriptParser.pattern_return pattern() throws RecognitionException {
@@ -279,18 +285,18 @@ public class OPPLPatternScriptParser extends Parser {
 				"token SEMICOLON");
 		RewriteRuleSubtreeStream stream_statement = new RewriteRuleSubtreeStream(this.adaptor,
 				"rule statement");
-		RewriteRuleSubtreeStream stream_rendering = new RewriteRuleSubtreeStream(this.adaptor,
-				"rule rendering");
 		RewriteRuleSubtreeStream stream_returnClause = new RewriteRuleSubtreeStream(this.adaptor,
 				"rule returnClause");
+		RewriteRuleSubtreeStream stream_rendering = new RewriteRuleSubtreeStream(this.adaptor,
+				"rule rendering");
 		try {
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:73:3:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:74:3:
 			// ( statement ( rendering )? ( SEMICOLON returnClause )? -> ^(
 			// OPPL_PATTERN statement ( rendering )? ( returnClause )? ) )
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:74:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:75:5:
 			// statement ( rendering )? ( SEMICOLON returnClause )?
 			{
-				this.pushFollow(FOLLOW_statement_in_pattern125);
+				this.pushFollow(FOLLOW_statement_in_pattern134);
 				statement1 = this.statement();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -299,7 +305,7 @@ public class OPPLPatternScriptParser extends Parser {
 				if (this.state.backtracking == 0) {
 					stream_statement.add(statement1.getTree());
 				}
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:74:16:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:75:16:
 				// ( rendering )?
 				int alt1 = 2;
 				int LA1_0 = this.input.LA(1);
@@ -309,10 +315,10 @@ public class OPPLPatternScriptParser extends Parser {
 				}
 				switch (alt1) {
 				case 1:
-					// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:74:16:
+					// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:0:0:
 					// rendering
 				{
-					this.pushFollow(FOLLOW_rendering_in_pattern128);
+					this.pushFollow(FOLLOW_rendering_in_pattern137);
 					rendering2 = this.rendering();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -324,7 +330,7 @@ public class OPPLPatternScriptParser extends Parser {
 				}
 					break;
 				}
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:74:29:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:75:29:
 				// ( SEMICOLON returnClause )?
 				int alt2 = 2;
 				int LA2_0 = this.input.LA(1);
@@ -333,20 +339,20 @@ public class OPPLPatternScriptParser extends Parser {
 				}
 				switch (alt2) {
 				case 1:
-					// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:74:30:
+					// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:75:30:
 					// SEMICOLON returnClause
 				{
 					SEMICOLON3 = (Token) this.match(
 							this.input,
 							SEMICOLON,
-							FOLLOW_SEMICOLON_in_pattern134);
+							FOLLOW_SEMICOLON_in_pattern143);
 					if (this.state.failed) {
 						return retval;
 					}
 					if (this.state.backtracking == 0) {
 						stream_SEMICOLON.add(SEMICOLON3);
 					}
-					this.pushFollow(FOLLOW_returnClause_in_pattern136);
+					this.pushFollow(FOLLOW_returnClause_in_pattern145);
 					returnClause4 = this.returnClause();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -359,7 +365,7 @@ public class OPPLPatternScriptParser extends Parser {
 					break;
 				}
 				// AST REWRITE
-				// elements: returnClause, rendering, statement
+				// elements: rendering, returnClause, statement
 				// token labels:
 				// rule labels: retval
 				// token list labels:
@@ -370,10 +376,10 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 74:56: -> ^( OPPL_PATTERN statement ( rendering )? (
+					// 75:56: -> ^( OPPL_PATTERN statement ( rendering )? (
 					// returnClause )? )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:74:59:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:75:59:
 						// ^( OPPL_PATTERN statement ( rendering )? (
 						// returnClause )? )
 						{
@@ -382,13 +388,13 @@ public class OPPLPatternScriptParser extends Parser {
 									this.adaptor.create(OPPL_PATTERN, "OPPL_PATTERN"),
 									root_1);
 							this.adaptor.addChild(root_1, stream_statement.nextTree());
-							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:74:84:
+							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:75:84:
 							// ( rendering )?
 							if (stream_rendering.hasNext()) {
 								this.adaptor.addChild(root_1, stream_rendering.nextTree());
 							}
 							stream_rendering.reset();
-							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:74:95:
+							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:75:95:
 							// ( returnClause )?
 							if (stream_returnClause.hasNext()) {
 								this.adaptor.addChild(root_1, stream_returnClause.nextTree());
@@ -429,7 +435,7 @@ public class OPPLPatternScriptParser extends Parser {
 	};
 
 	// $ANTLR start "statement"
-	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:77:1:
+	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:78:1:
 	// statement : ( variableDefinitions )? actions -> ^( OPPL_STATEMENT (
 	// variableDefinitions )? actions ) ;
 	public final OPPLPatternScriptParser.statement_return statement() throws RecognitionException {
@@ -438,18 +444,18 @@ public class OPPLPatternScriptParser extends Parser {
 		OPPLSyntaxTree root_0 = null;
 		OPPLPatternScript_OPPLParser.variableDefinitions_return variableDefinitions5 = null;
 		OPPLPatternScript_OPPLParser.actions_return actions6 = null;
-		RewriteRuleSubtreeStream stream_actions = new RewriteRuleSubtreeStream(this.adaptor,
-				"rule actions");
 		RewriteRuleSubtreeStream stream_variableDefinitions = new RewriteRuleSubtreeStream(
 				this.adaptor, "rule variableDefinitions");
+		RewriteRuleSubtreeStream stream_actions = new RewriteRuleSubtreeStream(this.adaptor,
+				"rule actions");
 		try {
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:78:3:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:79:3:
 			// ( ( variableDefinitions )? actions -> ^( OPPL_STATEMENT (
 			// variableDefinitions )? actions ) )
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:79:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:80:5:
 			// ( variableDefinitions )? actions
 			{
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:79:5:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:80:5:
 				// ( variableDefinitions )?
 				int alt3 = 2;
 				int LA3_0 = this.input.LA(1);
@@ -458,10 +464,10 @@ public class OPPLPatternScriptParser extends Parser {
 				}
 				switch (alt3) {
 				case 1:
-					// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:79:5:
+					// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:0:0:
 					// variableDefinitions
 				{
-					this.pushFollow(FOLLOW_variableDefinitions_in_statement171);
+					this.pushFollow(FOLLOW_variableDefinitions_in_statement180);
 					variableDefinitions5 = this.variableDefinitions();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -473,7 +479,7 @@ public class OPPLPatternScriptParser extends Parser {
 				}
 					break;
 				}
-				this.pushFollow(FOLLOW_actions_in_statement175);
+				this.pushFollow(FOLLOW_actions_in_statement184);
 				actions6 = this.actions();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -483,7 +489,7 @@ public class OPPLPatternScriptParser extends Parser {
 					stream_actions.add(actions6.getTree());
 				}
 				// AST REWRITE
-				// elements: actions, variableDefinitions
+				// elements: variableDefinitions, actions
 				// token labels:
 				// rule labels: retval
 				// token list labels:
@@ -494,17 +500,17 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 79:35: -> ^( OPPL_STATEMENT ( variableDefinitions )?
+					// 80:35: -> ^( OPPL_STATEMENT ( variableDefinitions )?
 					// actions )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:79:38:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:80:38:
 						// ^( OPPL_STATEMENT ( variableDefinitions )? actions )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
 							root_1 = (OPPLSyntaxTree) this.adaptor.becomeRoot(
 									this.adaptor.create(OPPL_STATEMENT, "OPPL_STATEMENT"),
 									root_1);
-							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:79:55:
+							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:80:55:
 							// ( variableDefinitions )?
 							if (stream_variableDefinitions.hasNext()) {
 								this.adaptor.addChild(root_1, stream_variableDefinitions.nextTree());
@@ -546,7 +552,7 @@ public class OPPLPatternScriptParser extends Parser {
 	};
 
 	// $ANTLR start "returnClause"
-	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:82:1:
+	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:83:1:
 	// returnClause : ( RETURN VARIABLE_NAME -> ^( RETURN ^(
 	// IDENTIFIER[$VARIABLE_NAME] ) ) | RETURN THIS_CLASS -> ^( RETURN ^(
 	// THIS_CLASS ) ) );
@@ -563,14 +569,14 @@ public class OPPLPatternScriptParser extends Parser {
 		OPPLSyntaxTree VARIABLE_NAME8_tree = null;
 		OPPLSyntaxTree RETURN9_tree = null;
 		OPPLSyntaxTree THIS_CLASS10_tree = null;
-		RewriteRuleTokenStream stream_RETURN = new RewriteRuleTokenStream(this.adaptor,
-				"token RETURN");
 		RewriteRuleTokenStream stream_THIS_CLASS = new RewriteRuleTokenStream(this.adaptor,
 				"token THIS_CLASS");
 		RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(this.adaptor,
 				"token VARIABLE_NAME");
+		RewriteRuleTokenStream stream_RETURN = new RewriteRuleTokenStream(this.adaptor,
+				"token RETURN");
 		try {
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:83:3:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:84:3:
 			// ( RETURN VARIABLE_NAME -> ^( RETURN ^( IDENTIFIER[$VARIABLE_NAME]
 			// ) ) | RETURN THIS_CLASS -> ^( RETURN ^( THIS_CLASS ) ) )
 			int alt4 = 2;
@@ -599,10 +605,10 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 			switch (alt4) {
 			case 1:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:84:6:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:85:6:
 				// RETURN VARIABLE_NAME
 			{
-				RETURN7 = (Token) this.match(this.input, RETURN, FOLLOW_RETURN_in_returnClause206);
+				RETURN7 = (Token) this.match(this.input, RETURN, FOLLOW_RETURN_in_returnClause215);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -612,7 +618,7 @@ public class OPPLPatternScriptParser extends Parser {
 				VARIABLE_NAME8 = (Token) this.match(
 						this.input,
 						VARIABLE_NAME,
-						FOLLOW_VARIABLE_NAME_in_returnClause208);
+						FOLLOW_VARIABLE_NAME_in_returnClause217);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -631,16 +637,16 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 84:28: -> ^( RETURN ^( IDENTIFIER[$VARIABLE_NAME] ) )
+					// 85:28: -> ^( RETURN ^( IDENTIFIER[$VARIABLE_NAME] ) )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:84:30:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:85:30:
 						// ^( RETURN ^( IDENTIFIER[$VARIABLE_NAME] ) )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
 							root_1 = (OPPLSyntaxTree) this.adaptor.becomeRoot(
 									stream_RETURN.nextNode(),
 									root_1);
-							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:84:39:
+							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:85:39:
 							// ^( IDENTIFIER[$VARIABLE_NAME] )
 							{
 								OPPLSyntaxTree root_2 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -657,10 +663,10 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:85:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:86:7:
 				// RETURN THIS_CLASS
 			{
-				RETURN9 = (Token) this.match(this.input, RETURN, FOLLOW_RETURN_in_returnClause227);
+				RETURN9 = (Token) this.match(this.input, RETURN, FOLLOW_RETURN_in_returnClause236);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -670,7 +676,7 @@ public class OPPLPatternScriptParser extends Parser {
 				THIS_CLASS10 = (Token) this.match(
 						this.input,
 						THIS_CLASS,
-						FOLLOW_THIS_CLASS_in_returnClause229);
+						FOLLOW_THIS_CLASS_in_returnClause238);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -689,16 +695,16 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 85:26: -> ^( RETURN ^( THIS_CLASS ) )
+					// 86:26: -> ^( RETURN ^( THIS_CLASS ) )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:85:28:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:86:28:
 						// ^( RETURN ^( THIS_CLASS ) )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
 							root_1 = (OPPLSyntaxTree) this.adaptor.becomeRoot(
 									stream_RETURN.nextNode(),
 									root_1);
-							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:85:37:
+							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:86:37:
 							// ^( THIS_CLASS )
 							{
 								OPPLSyntaxTree root_2 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -744,7 +750,7 @@ public class OPPLPatternScriptParser extends Parser {
 	};
 
 	// $ANTLR start "rendering"
-	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:90:1:
+	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:91:1:
 	// rendering : ( renderingPart )+ -> ^( RENDERING[builder.toString()] (
 	// renderingPart )+ ) ;
 	public final OPPLPatternScriptParser.rendering_return rendering() throws RecognitionException {
@@ -756,13 +762,13 @@ public class OPPLPatternScriptParser extends Parser {
 				"rule renderingPart");
 		StringBuilder builder = new StringBuilder();
 		try {
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:95:3:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:96:3:
 			// ( ( renderingPart )+ -> ^( RENDERING[builder.toString()] (
 			// renderingPart )+ ) )
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:96:5:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:97:5:
 			// ( renderingPart )+
 			{
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:96:5:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:97:5:
 				// ( renderingPart )+
 				int cnt5 = 0;
 				loop5: do {
@@ -774,10 +780,10 @@ public class OPPLPatternScriptParser extends Parser {
 					}
 					switch (alt5) {
 					case 1:
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:96:6:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:97:6:
 						// renderingPart
 					{
-						this.pushFollow(FOLLOW_renderingPart_in_rendering267);
+						this.pushFollow(FOLLOW_renderingPart_in_rendering276);
 						renderingPart11 = this.renderingPart();
 						this.state._fsp--;
 						if (this.state.failed) {
@@ -819,10 +825,10 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 100:7: -> ^( RENDERING[builder.toString()] (
+					// 101:7: -> ^( RENDERING[builder.toString()] (
 					// renderingPart )+ )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:100:9:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:101:9:
 						// ^( RENDERING[builder.toString()] ( renderingPart )+ )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -871,7 +877,7 @@ public class OPPLPatternScriptParser extends Parser {
 	};
 
 	// $ANTLR start "renderingPart"
-	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:103:1:
+	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:104:1:
 	// renderingPart : ( THIS_CLASS -> ^( IDENTIFIER[$THIS_CLASS] THIS_CLASS ) |
 	// IDENTIFIER -> ^( IDENTIFIER ) | ENTITY_REFERENCE -> ^( ENTITY_REFERENCE )
 	// | VARIABLE_NAME -> ^( IDENTIFIER[$VARIABLE_NAME] ) | HYPHEN -> ^( HYPHEN
@@ -893,16 +899,16 @@ public class OPPLPatternScriptParser extends Parser {
 		OPPLSyntaxTree HYPHEN16_tree = null;
 		RewriteRuleTokenStream stream_REGEXP_CONSTRAINT = new RewriteRuleTokenStream(this.adaptor,
 				"token REGEXP_CONSTRAINT");
-		RewriteRuleTokenStream stream_IDENTIFIER = new RewriteRuleTokenStream(this.adaptor,
-				"token IDENTIFIER");
-		RewriteRuleTokenStream stream_ENTITY_REFERENCE = new RewriteRuleTokenStream(this.adaptor,
-				"token ENTITY_REFERENCE");
 		RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(this.adaptor,
 				"token VARIABLE_NAME");
 		RewriteRuleTokenStream stream_THIS_CLASS = new RewriteRuleTokenStream(this.adaptor,
 				"token THIS_CLASS");
+		RewriteRuleTokenStream stream_ENTITY_REFERENCE = new RewriteRuleTokenStream(this.adaptor,
+				"token ENTITY_REFERENCE");
+		RewriteRuleTokenStream stream_IDENTIFIER = new RewriteRuleTokenStream(this.adaptor,
+				"token IDENTIFIER");
 		try {
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:105:2:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:106:2:
 			// ( THIS_CLASS -> ^( IDENTIFIER[$THIS_CLASS] THIS_CLASS ) |
 			// IDENTIFIER -> ^( IDENTIFIER ) | ENTITY_REFERENCE -> ^(
 			// ENTITY_REFERENCE ) | VARIABLE_NAME -> ^(
@@ -939,13 +945,13 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 			switch (alt6) {
 			case 1:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:106:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:107:7:
 				// THIS_CLASS
 			{
 				THIS_CLASS12 = (Token) this.match(
 						this.input,
 						THIS_CLASS,
-						FOLLOW_THIS_CLASS_in_renderingPart308);
+						FOLLOW_THIS_CLASS_in_renderingPart317);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -964,9 +970,9 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 106:18: -> ^( IDENTIFIER[$THIS_CLASS] THIS_CLASS )
+					// 107:18: -> ^( IDENTIFIER[$THIS_CLASS] THIS_CLASS )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:106:21:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:107:21:
 						// ^( IDENTIFIER[$THIS_CLASS] THIS_CLASS )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -982,13 +988,13 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:107:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:108:7:
 				// IDENTIFIER
 			{
 				IDENTIFIER13 = (Token) this.match(
 						this.input,
 						IDENTIFIER,
-						FOLLOW_IDENTIFIER_in_renderingPart325);
+						FOLLOW_IDENTIFIER_in_renderingPart334);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -1007,9 +1013,9 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 107:18: -> ^( IDENTIFIER )
+					// 108:18: -> ^( IDENTIFIER )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:107:21:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:108:21:
 						// ^( IDENTIFIER )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -1024,13 +1030,13 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 				break;
 			case 3:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:108:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:109:7:
 				// ENTITY_REFERENCE
 			{
 				ENTITY_REFERENCE14 = (Token) this.match(
 						this.input,
 						ENTITY_REFERENCE,
-						FOLLOW_ENTITY_REFERENCE_in_renderingPart340);
+						FOLLOW_ENTITY_REFERENCE_in_renderingPart349);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -1049,9 +1055,9 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 108:24: -> ^( ENTITY_REFERENCE )
+					// 109:24: -> ^( ENTITY_REFERENCE )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:108:27:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:109:27:
 						// ^( ENTITY_REFERENCE )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -1066,13 +1072,13 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 				break;
 			case 4:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:109:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:110:7:
 				// VARIABLE_NAME
 			{
 				VARIABLE_NAME15 = (Token) this.match(
 						this.input,
 						VARIABLE_NAME,
-						FOLLOW_VARIABLE_NAME_in_renderingPart354);
+						FOLLOW_VARIABLE_NAME_in_renderingPart363);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -1091,9 +1097,9 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 109:21: -> ^( IDENTIFIER[$VARIABLE_NAME] )
+					// 110:21: -> ^( IDENTIFIER[$VARIABLE_NAME] )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:109:24:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:110:24:
 						// ^( IDENTIFIER[$VARIABLE_NAME] )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -1108,13 +1114,13 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 				break;
 			case 5:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:110:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:111:7:
 				// HYPHEN
 			{
 				HYPHEN16 = (Token) this.match(
 						this.input,
 						REGEXP_CONSTRAINT,
-						FOLLOW_REGEXP_CONSTRAINT_in_renderingPart374);
+						FOLLOW_REGEXP_CONSTRAINT_in_renderingPart383);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -1133,9 +1139,9 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 110:14: -> ^( HYPHEN )
+					// 111:14: -> ^( HYPHEN )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:110:17:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:111:17:
 						// ^( HYPHEN )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -1179,7 +1185,7 @@ public class OPPLPatternScriptParser extends Parser {
 	};
 
 	// $ANTLR start "atomic"
-	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:116:1:
+	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:117:1:
 	// atomic : ( THIS_CLASS -> ^( IDENTIFIER[$THIS_CLASS] THIS_CLASS ) |
 	// IDENTIFIER -> ^( IDENTIFIER ) | ENTITY_REFERENCE -> ^( ENTITY_REFERENCE )
 	// | VARIABLE_NAME -> ^( IDENTIFIER[$VARIABLE_NAME] ) | createIdentifier ->
@@ -1201,14 +1207,14 @@ public class OPPLPatternScriptParser extends Parser {
 		OPPLSyntaxTree IDENTIFIER18_tree = null;
 		OPPLSyntaxTree ENTITY_REFERENCE19_tree = null;
 		OPPLSyntaxTree VARIABLE_NAME20_tree = null;
-		RewriteRuleTokenStream stream_IDENTIFIER = new RewriteRuleTokenStream(this.adaptor,
-				"token IDENTIFIER");
-		RewriteRuleTokenStream stream_ENTITY_REFERENCE = new RewriteRuleTokenStream(this.adaptor,
-				"token ENTITY_REFERENCE");
 		RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(this.adaptor,
 				"token VARIABLE_NAME");
 		RewriteRuleTokenStream stream_THIS_CLASS = new RewriteRuleTokenStream(this.adaptor,
 				"token THIS_CLASS");
+		RewriteRuleTokenStream stream_ENTITY_REFERENCE = new RewriteRuleTokenStream(this.adaptor,
+				"token ENTITY_REFERENCE");
+		RewriteRuleTokenStream stream_IDENTIFIER = new RewriteRuleTokenStream(this.adaptor,
+				"token IDENTIFIER");
 		RewriteRuleSubtreeStream stream_patternReference = new RewriteRuleSubtreeStream(
 				this.adaptor, "rule patternReference");
 		RewriteRuleSubtreeStream stream_variableAttributeReference = new RewriteRuleSubtreeStream(
@@ -1216,7 +1222,7 @@ public class OPPLPatternScriptParser extends Parser {
 		RewriteRuleSubtreeStream stream_createIdentifier = new RewriteRuleSubtreeStream(
 				this.adaptor, "rule createIdentifier");
 		try {
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:117:3:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:118:3:
 			// ( THIS_CLASS -> ^( IDENTIFIER[$THIS_CLASS] THIS_CLASS ) |
 			// IDENTIFIER -> ^( IDENTIFIER ) | ENTITY_REFERENCE -> ^(
 			// ENTITY_REFERENCE ) | VARIABLE_NAME -> ^(
@@ -1278,13 +1284,13 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 			switch (alt7) {
 			case 1:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:118:5:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:119:5:
 				// THIS_CLASS
 			{
 				THIS_CLASS17 = (Token) this.match(
 						this.input,
 						THIS_CLASS,
-						FOLLOW_THIS_CLASS_in_atomic402);
+						FOLLOW_THIS_CLASS_in_atomic411);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -1303,9 +1309,9 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 118:16: -> ^( IDENTIFIER[$THIS_CLASS] THIS_CLASS )
+					// 119:16: -> ^( IDENTIFIER[$THIS_CLASS] THIS_CLASS )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:118:19:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:119:19:
 						// ^( IDENTIFIER[$THIS_CLASS] THIS_CLASS )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -1321,13 +1327,13 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:119:4:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:120:4:
 				// IDENTIFIER
 			{
 				IDENTIFIER18 = (Token) this.match(
 						this.input,
 						IDENTIFIER,
-						FOLLOW_IDENTIFIER_in_atomic416);
+						FOLLOW_IDENTIFIER_in_atomic425);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -1346,9 +1352,9 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 119:15: -> ^( IDENTIFIER )
+					// 120:15: -> ^( IDENTIFIER )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:119:18:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:120:18:
 						// ^( IDENTIFIER )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -1363,13 +1369,13 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 				break;
 			case 3:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:120:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:121:7:
 				// ENTITY_REFERENCE
 			{
 				ENTITY_REFERENCE19 = (Token) this.match(
 						this.input,
 						ENTITY_REFERENCE,
-						FOLLOW_ENTITY_REFERENCE_in_atomic431);
+						FOLLOW_ENTITY_REFERENCE_in_atomic440);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -1388,9 +1394,9 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 120:24: -> ^( ENTITY_REFERENCE )
+					// 121:24: -> ^( ENTITY_REFERENCE )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:120:27:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:121:27:
 						// ^( ENTITY_REFERENCE )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -1405,13 +1411,13 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 				break;
 			case 4:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:121:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:122:7:
 				// VARIABLE_NAME
 			{
 				VARIABLE_NAME20 = (Token) this.match(
 						this.input,
 						VARIABLE_NAME,
-						FOLLOW_VARIABLE_NAME_in_atomic445);
+						FOLLOW_VARIABLE_NAME_in_atomic454);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -1430,9 +1436,9 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 121:21: -> ^( IDENTIFIER[$VARIABLE_NAME] )
+					// 122:21: -> ^( IDENTIFIER[$VARIABLE_NAME] )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:121:24:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:122:24:
 						// ^( IDENTIFIER[$VARIABLE_NAME] )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -1447,10 +1453,10 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 				break;
 			case 5:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:122:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:123:7:
 				// createIdentifier
 			{
-				this.pushFollow(FOLLOW_createIdentifier_in_atomic465);
+				this.pushFollow(FOLLOW_createIdentifier_in_atomic474);
 				createIdentifier21 = this.createIdentifier();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -1471,9 +1477,9 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 122:24: -> ^( createIdentifier )
+					// 123:24: -> ^( createIdentifier )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:122:27:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:123:27:
 						// ^( createIdentifier )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -1488,10 +1494,10 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 				break;
 			case 6:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:123:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:124:7:
 				// variableAttributeReference
 			{
-				this.pushFollow(FOLLOW_variableAttributeReference_in_atomic479);
+				this.pushFollow(FOLLOW_variableAttributeReference_in_atomic488);
 				variableAttributeReference22 = this.variableAttributeReference();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -1512,9 +1518,9 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 123:34: -> ^( variableAttributeReference )
+					// 124:34: -> ^( variableAttributeReference )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:123:37:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:124:37:
 						// ^( variableAttributeReference )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -1529,10 +1535,10 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 				break;
 			case 7:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:124:7:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:125:7:
 				// patternReference
 			{
-				this.pushFollow(FOLLOW_patternReference_in_atomic498);
+				this.pushFollow(FOLLOW_patternReference_in_atomic507);
 				patternReference23 = this.patternReference();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -1553,9 +1559,9 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 124:24: -> ^( patternReference )
+					// 125:24: -> ^( patternReference )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:124:27:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:125:27:
 						// ^( patternReference )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -1599,7 +1605,7 @@ public class OPPLPatternScriptParser extends Parser {
 	};
 
 	// $ANTLR start "patternReference"
-	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:130:1:
+	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:131:1:
 	// patternReference : DOLLAR name= IDENTIFIER arguments -> ^(
 	// IDENTIFIER[$DOLLAR.getText() + name.getText() + $arguments.string]
 	// PATTERN_REFERENCE[name.getText()] arguments ) ;
@@ -1620,18 +1626,18 @@ public class OPPLPatternScriptParser extends Parser {
 		RewriteRuleSubtreeStream stream_arguments = new RewriteRuleSubtreeStream(this.adaptor,
 				"rule arguments");
 		try {
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:131:2:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:132:2:
 			// ( DOLLAR name= IDENTIFIER arguments -> ^(
 			// IDENTIFIER[$DOLLAR.getText() + name.getText() +
 			// $arguments.string] PATTERN_REFERENCE[name.getText()] arguments )
 			// )
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:132:3:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:133:3:
 			// DOLLAR name= IDENTIFIER arguments
 			{
 				DOLLAR24 = (Token) this.match(
 						this.input,
 						DOLLAR,
-						FOLLOW_DOLLAR_in_patternReference527);
+						FOLLOW_DOLLAR_in_patternReference536);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -1641,14 +1647,14 @@ public class OPPLPatternScriptParser extends Parser {
 				name = (Token) this.match(
 						this.input,
 						IDENTIFIER,
-						FOLLOW_IDENTIFIER_in_patternReference533);
+						FOLLOW_IDENTIFIER_in_patternReference542);
 				if (this.state.failed) {
 					return retval;
 				}
 				if (this.state.backtracking == 0) {
 					stream_IDENTIFIER.add(name);
 				}
-				this.pushFollow(FOLLOW_arguments_in_patternReference537);
+				this.pushFollow(FOLLOW_arguments_in_patternReference546);
 				arguments25 = this.arguments();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -1669,11 +1675,11 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 133:3: -> ^( IDENTIFIER[$DOLLAR.getText() +
+					// 134:3: -> ^( IDENTIFIER[$DOLLAR.getText() +
 					// name.getText() + $arguments.string]
 					// PATTERN_REFERENCE[name.getText()] arguments )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:133:6:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:134:6:
 						// ^( IDENTIFIER[$DOLLAR.getText() + name.getText() +
 						// $arguments.string] PATTERN_REFERENCE[name.getText()]
 						// arguments )
@@ -1727,7 +1733,7 @@ public class OPPLPatternScriptParser extends Parser {
 	};
 
 	// $ANTLR start "arguments"
-	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:136:1:
+	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:137:1:
 	// arguments returns [String string] : OPEN_PARENTHESYS (a= argument ( COMMA
 	// a= argument )* )? CLOSED_PARENTHESYS -> ^( ARGUMENTS ( argument )* ) ;
 	public final OPPLPatternScriptParser.arguments_return arguments() throws RecognitionException {
@@ -1751,17 +1757,17 @@ public class OPPLPatternScriptParser extends Parser {
 				"rule argument");
 		StringBuilder out = new StringBuilder();
 		try {
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:144:3:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:145:3:
 			// ( OPEN_PARENTHESYS (a= argument ( COMMA a= argument )* )?
 			// CLOSED_PARENTHESYS -> ^( ARGUMENTS ( argument )* ) )
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:145:6:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:146:6:
 			// OPEN_PARENTHESYS (a= argument ( COMMA a= argument )* )?
 			// CLOSED_PARENTHESYS
 			{
 				OPEN_PARENTHESYS26 = (Token) this.match(
 						this.input,
 						OPEN_PARENTHESYS,
-						FOLLOW_OPEN_PARENTHESYS_in_arguments584);
+						FOLLOW_OPEN_PARENTHESYS_in_arguments593);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -1771,7 +1777,7 @@ public class OPPLPatternScriptParser extends Parser {
 				if (this.state.backtracking == 0) {
 					out.append(OPEN_PARENTHESYS26.getText());
 				}
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:148:6:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:149:6:
 				// (a= argument ( COMMA a= argument )* )?
 				int alt9 = 2;
 				int LA9_0 = this.input.LA(1);
@@ -1782,10 +1788,10 @@ public class OPPLPatternScriptParser extends Parser {
 				}
 				switch (alt9) {
 				case 1:
-					// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:148:7:
+					// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:149:7:
 					// a= argument ( COMMA a= argument )*
 				{
-					this.pushFollow(FOLLOW_argument_in_arguments597);
+					this.pushFollow(FOLLOW_argument_in_arguments606);
 					a = this.argument();
 					this.state._fsp--;
 					if (this.state.failed) {
@@ -1797,7 +1803,7 @@ public class OPPLPatternScriptParser extends Parser {
 					if (this.state.backtracking == 0) {
 						out.append((a != null ? a.string : null));
 					}
-					// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:152:6:
+					// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:153:6:
 					// ( COMMA a= argument )*
 					loop8: do {
 						int alt8 = 2;
@@ -1807,20 +1813,20 @@ public class OPPLPatternScriptParser extends Parser {
 						}
 						switch (alt8) {
 						case 1:
-							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:152:7:
+							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:153:7:
 							// COMMA a= argument
 						{
 							COMMA27 = (Token) this.match(
 									this.input,
 									COMMA,
-									FOLLOW_COMMA_in_arguments612);
+									FOLLOW_COMMA_in_arguments621);
 							if (this.state.failed) {
 								return retval;
 							}
 							if (this.state.backtracking == 0) {
 								stream_COMMA.add(COMMA27);
 							}
-							this.pushFollow(FOLLOW_argument_in_arguments619);
+							this.pushFollow(FOLLOW_argument_in_arguments628);
 							a = this.argument();
 							this.state._fsp--;
 							if (this.state.failed) {
@@ -1845,7 +1851,7 @@ public class OPPLPatternScriptParser extends Parser {
 				CLOSED_PARENTHESYS28 = (Token) this.match(
 						this.input,
 						CLOSED_PARENTHESYS,
-						FOLLOW_CLOSED_PARENTHESYS_in_arguments644);
+						FOLLOW_CLOSED_PARENTHESYS_in_arguments653);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -1867,16 +1873,16 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 161:7: -> ^( ARGUMENTS ( argument )* )
+					// 162:7: -> ^( ARGUMENTS ( argument )* )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:161:10:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:162:10:
 						// ^( ARGUMENTS ( argument )* )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
 							root_1 = (OPPLSyntaxTree) this.adaptor.becomeRoot(
 									this.adaptor.create(ARGUMENTS, "ARGUMENTS"),
 									root_1);
-							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:161:22:
+							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:162:22:
 							// ( argument )*
 							while (stream_argument.hasNext()) {
 								this.adaptor.addChild(root_1, stream_argument.nextTree());
@@ -1921,11 +1927,11 @@ public class OPPLPatternScriptParser extends Parser {
 	};
 
 	// $ANTLR start "argument"
-	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:165:1:
+	// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:166:1:
 	// argument returns [String string] : (a= atomic -> ^( ARGUMENT ^(
 	// EXPRESSION[$a.text.trim()] atomic ) ) | OPEN_CURLY_BRACES a= atomic (
 	// COMMA a= atomic )* CLOSED_CURLY_BRACES -> ^( ARGUMENT ( ^(
-	// EXPRESSION[$atomic.text.trim()] atomic ) )+ ) );
+	// EXPRESSION[$a.text.trim()] atomic ) )+ ) );
 	public final OPPLPatternScriptParser.argument_return argument() throws RecognitionException {
 		OPPLPatternScriptParser.argument_return retval = new OPPLPatternScriptParser.argument_return();
 		retval.start = this.input.LT(1);
@@ -1939,19 +1945,19 @@ public class OPPLPatternScriptParser extends Parser {
 		OPPLSyntaxTree CLOSED_CURLY_BRACES31_tree = null;
 		RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(this.adaptor,
 				"token COMMA");
-		RewriteRuleTokenStream stream_OPEN_CURLY_BRACES = new RewriteRuleTokenStream(this.adaptor,
-				"token OPEN_CURLY_BRACES");
 		RewriteRuleTokenStream stream_CLOSED_CURLY_BRACES = new RewriteRuleTokenStream(
 				this.adaptor, "token CLOSED_CURLY_BRACES");
+		RewriteRuleTokenStream stream_OPEN_CURLY_BRACES = new RewriteRuleTokenStream(this.adaptor,
+				"token OPEN_CURLY_BRACES");
 		RewriteRuleSubtreeStream stream_atomic = new RewriteRuleSubtreeStream(this.adaptor,
 				"rule atomic");
 		StringBuilder out = new StringBuilder();
 		try {
-			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:170:2:
+			// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:171:2:
 			// (a= atomic -> ^( ARGUMENT ^( EXPRESSION[$a.text.trim()] atomic )
 			// ) | OPEN_CURLY_BRACES a= atomic ( COMMA a= atomic )*
 			// CLOSED_CURLY_BRACES -> ^( ARGUMENT ( ^(
-			// EXPRESSION[$atomic.text.trim()] atomic ) )+ ) )
+			// EXPRESSION[$a.text.trim()] atomic ) )+ ) )
 			int alt11 = 2;
 			int LA11_0 = this.input.LA(1);
 			if (LA11_0 >= IDENTIFIER && LA11_0 <= ENTITY_REFERENCE || LA11_0 == ESCLAMATION_MARK
@@ -1969,10 +1975,10 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 			switch (alt11) {
 			case 1:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:171:3:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:172:3:
 				// a= atomic
 			{
-				this.pushFollow(FOLLOW_atomic_in_argument689);
+				this.pushFollow(FOLLOW_atomic_in_argument698);
 				a = this.atomic();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -1996,17 +2002,17 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 173:6: -> ^( ARGUMENT ^( EXPRESSION[$a.text.trim()]
+					// 174:6: -> ^( ARGUMENT ^( EXPRESSION[$a.text.trim()]
 					// atomic ) )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:173:9:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:174:9:
 						// ^( ARGUMENT ^( EXPRESSION[$a.text.trim()] atomic ) )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
 							root_1 = (OPPLSyntaxTree) this.adaptor.becomeRoot(
 									this.adaptor.create(ARGUMENT, "ARGUMENT"),
 									root_1);
-							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:173:20:
+							// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:174:20:
 							// ^( EXPRESSION[$a.text.trim()] atomic )
 							{
 								OPPLSyntaxTree root_2 = (OPPLSyntaxTree) this.adaptor.nil();
@@ -2027,14 +2033,14 @@ public class OPPLPatternScriptParser extends Parser {
 			}
 				break;
 			case 2:
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:174:5:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:175:5:
 				// OPEN_CURLY_BRACES a= atomic ( COMMA a= atomic )*
 				// CLOSED_CURLY_BRACES
 			{
 				OPEN_CURLY_BRACES29 = (Token) this.match(
 						this.input,
 						OPEN_CURLY_BRACES,
-						FOLLOW_OPEN_CURLY_BRACES_in_argument710);
+						FOLLOW_OPEN_CURLY_BRACES_in_argument719);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -2044,7 +2050,7 @@ public class OPPLPatternScriptParser extends Parser {
 				if (this.state.backtracking == 0) {
 					out.append(OPEN_CURLY_BRACES29.getText());
 				}
-				this.pushFollow(FOLLOW_atomic_in_argument717);
+				this.pushFollow(FOLLOW_atomic_in_argument726);
 				a = this.atomic();
 				this.state._fsp--;
 				if (this.state.failed) {
@@ -2056,7 +2062,7 @@ public class OPPLPatternScriptParser extends Parser {
 				if (this.state.backtracking == 0) {
 					out.append((a != null ? this.input.toString(a.start, a.stop) : null).trim());
 				}
-				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:178:5:
+				// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:179:5:
 				// ( COMMA a= atomic )*
 				loop10: do {
 					int alt10 = 2;
@@ -2066,17 +2072,17 @@ public class OPPLPatternScriptParser extends Parser {
 					}
 					switch (alt10) {
 					case 1:
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:178:6:
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:179:6:
 						// COMMA a= atomic
 					{
-						COMMA30 = (Token) this.match(this.input, COMMA, FOLLOW_COMMA_in_argument722);
+						COMMA30 = (Token) this.match(this.input, COMMA, FOLLOW_COMMA_in_argument731);
 						if (this.state.failed) {
 							return retval;
 						}
 						if (this.state.backtracking == 0) {
 							stream_COMMA.add(COMMA30);
 						}
-						this.pushFollow(FOLLOW_atomic_in_argument728);
+						this.pushFollow(FOLLOW_atomic_in_argument737);
 						a = this.atomic();
 						this.state._fsp--;
 						if (this.state.failed) {
@@ -2099,7 +2105,7 @@ public class OPPLPatternScriptParser extends Parser {
 				CLOSED_CURLY_BRACES31 = (Token) this.match(
 						this.input,
 						CLOSED_CURLY_BRACES,
-						FOLLOW_CLOSED_CURLY_BRACES_in_argument733);
+						FOLLOW_CLOSED_CURLY_BRACES_in_argument742);
 				if (this.state.failed) {
 					return retval;
 				}
@@ -2122,12 +2128,12 @@ public class OPPLPatternScriptParser extends Parser {
 					RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
 							this.adaptor, "rule retval", retval != null ? retval.tree : null);
 					root_0 = (OPPLSyntaxTree) this.adaptor.nil();
-					// 185:5: -> ^( ARGUMENT ( ^(
-					// EXPRESSION[$atomic.text.trim()] atomic ) )+ )
+					// 186:5: -> ^( ARGUMENT ( ^( EXPRESSION[$a.text.trim()]
+					// atomic ) )+ )
 					{
-						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:185:8:
-						// ^( ARGUMENT ( ^( EXPRESSION[$atomic.text.trim()]
-						// atomic ) )+ )
+						// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:186:8:
+						// ^( ARGUMENT ( ^( EXPRESSION[$a.text.trim()] atomic )
+						// )+ )
 						{
 							OPPLSyntaxTree root_1 = (OPPLSyntaxTree) this.adaptor.nil();
 							root_1 = (OPPLSyntaxTree) this.adaptor.becomeRoot(
@@ -2137,8 +2143,8 @@ public class OPPLPatternScriptParser extends Parser {
 								throw new RewriteEarlyExitException();
 							}
 							while (stream_atomic.hasNext()) {
-								// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:185:19:
-								// ^( EXPRESSION[$atomic.text.trim()] atomic )
+								// /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:186:19:
+								// ^( EXPRESSION[$a.text.trim()] atomic )
 								{
 									OPPLSyntaxTree root_2 = (OPPLSyntaxTree) this.adaptor.nil();
 									root_2 = (OPPLSyntaxTree) this.adaptor.becomeRoot(
@@ -2181,74 +2187,9 @@ public class OPPLPatternScriptParser extends Parser {
 
 	// $ANTLR end "argument"
 	// Delegated rules
-	public OPPLPatternScript_OPPLParser_MOWLParser.unaryAxiom_return unaryAxiom()
+	public OPPLPatternScript_OPPLParser.opplFunction_return opplFunction()
 			throws RecognitionException {
-		return this.gMOWLParser.unaryAxiom();
-	}
-
-	public OPPLPatternScript_OPPLParser.constraint_return constraint() throws RecognitionException {
-		return this.gOPPLParser.constraint();
-	}
-
-	public OPPLPatternScript_OPPLParser.stringOperation_return stringOperation()
-			throws RecognitionException {
-		return this.gOPPLParser.stringOperation();
-	}
-
-	public OPPLPatternScript_OPPLParser.regexp_return regexp() throws RecognitionException {
-		return this.gOPPLParser.regexp();
-	}
-
-	public OPPLPatternScript_OPPLParser_MOWLParser.oneOf_return oneOf() throws RecognitionException {
-		return this.gMOWLParser.oneOf();
-	}
-
-	public OPPLPatternScript_OPPLParser.variableDefinition_return variableDefinition()
-			throws RecognitionException {
-		return this.gOPPLParser.variableDefinition();
-	}
-
-	public OPPLPatternScript_OPPLParser.attributeSelector_return attributeSelector()
-			throws RecognitionException {
-		return this.gOPPLParser.attributeSelector();
-	}
-
-	public OPPLPatternScript_OPPLParser_MOWLParser.hasKeyAxiom_return hasKeyAxiom()
-			throws RecognitionException {
-		return this.gMOWLParser.hasKeyAxiom();
-	}
-
-	public OPPLPatternScript_OPPLParser_MOWLParser.complexPropertyExpression_return complexPropertyExpression()
-			throws RecognitionException {
-		return this.gMOWLParser.complexPropertyExpression();
-	}
-
-	public OPPLPatternScript_OPPLParser_MOWLParser.constant_return constant()
-			throws RecognitionException {
-		return this.gMOWLParser.constant();
-	}
-
-	public OPPLPatternScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression()
-			throws RecognitionException {
-		return this.gMOWLParser.propertyExpression();
-	}
-
-	public OPPLPatternScript_OPPLParser.actions_return actions() throws RecognitionException {
-		return this.gOPPLParser.actions();
-	}
-
-	public OPPLPatternScript_OPPLParser_MOWLParser.qualifiedRestriction_return qualifiedRestriction()
-			throws RecognitionException {
-		return this.gMOWLParser.qualifiedRestriction();
-	}
-
-	public OPPLPatternScript_OPPLParser_MOWLParser.expression_return expression()
-			throws RecognitionException {
-		return this.gMOWLParser.expression();
-	}
-
-	public OPPLPatternScript_OPPLParser_MOWLParser.unary_return unary() throws RecognitionException {
-		return this.gMOWLParser.unary();
+		return this.gOPPLParser.opplFunction();
 	}
 
 	public OPPLPatternScript_OPPLParser.variableDefinitions_return variableDefinitions()
@@ -2256,53 +2197,36 @@ public class OPPLPatternScriptParser extends Parser {
 		return this.gOPPLParser.variableDefinitions();
 	}
 
-	public OPPLPatternScript_OPPLParser.variableScope_return variableScope()
-			throws RecognitionException {
-		return this.gOPPLParser.variableScope();
+	public OPPLPatternScript_OPPLParser.constraint_return constraint() throws RecognitionException {
+		return this.gOPPLParser.constraint();
 	}
 
-	public OPPLPatternScript_OPPLParser_MOWLParser.value_return value() throws RecognitionException {
-		return this.gMOWLParser.value();
+	public OPPLPatternScript_OPPLParser_MOWLParser.dataRangeFacet_return dataRangeFacet()
+			throws RecognitionException {
+		return this.gMOWLParser.dataRangeFacet();
 	}
 
-	public OPPLPatternScript_OPPLParser_MOWLParser.assertionAxiom_return assertionAxiom()
+	public OPPLPatternScript_OPPLParser_MOWLParser.expression_return expression()
 			throws RecognitionException {
-		return this.gMOWLParser.assertionAxiom();
+		return this.gMOWLParser.expression();
 	}
 
-	public OPPLPatternScript_OPPLParser_MOWLParser.valueRestriction_return valueRestriction()
-			throws RecognitionException {
-		return this.gMOWLParser.valueRestriction();
+	public OPPLPatternScript_OPPLParser.query_return query() throws RecognitionException {
+		return this.gOPPLParser.query();
 	}
 
-	public OPPLPatternScript_OPPLParser_MOWLParser.annotationAssertionAxiom_return annotationAssertionAxiom()
-			throws RecognitionException {
-		return this.gMOWLParser.annotationAssertionAxiom();
+	public OPPLPatternScript_OPPLParser.action_return action() throws RecognitionException {
+		return this.gOPPLParser.action();
 	}
 
-	public OPPLPatternScript_OPPLParser_MOWLParser.conjunction_return conjunction()
+	public OPPLPatternScript_OPPLParser.attributeSelector_return attributeSelector()
 			throws RecognitionException {
-		return this.gMOWLParser.conjunction();
+		return this.gOPPLParser.attributeSelector();
 	}
 
-	public OPPLPatternScript_OPPLParser.selectClause_return selectClause()
+	public OPPLPatternScript_OPPLParser.variableDefinition_return variableDefinition()
 			throws RecognitionException {
-		return this.gOPPLParser.selectClause();
-	}
-
-	public OPPLPatternScript_OPPLParser.stringExpression_return stringExpression()
-			throws RecognitionException {
-		return this.gOPPLParser.stringExpression();
-	}
-
-	public OPPLPatternScript_OPPLParser_MOWLParser.unaryCharacteristic_return unaryCharacteristic()
-			throws RecognitionException {
-		return this.gMOWLParser.unaryCharacteristic();
-	}
-
-	public OPPLPatternScript_OPPLParser_MOWLParser.restrictionKind_return restrictionKind()
-			throws RecognitionException {
-		return this.gMOWLParser.restrictionKind();
+		return this.gOPPLParser.variableDefinition();
 	}
 
 	public OPPLPatternScript_OPPLParser_MOWLParser.cardinalityRestriction_return cardinalityRestriction()
@@ -2310,26 +2234,23 @@ public class OPPLPatternScriptParser extends Parser {
 		return this.gMOWLParser.cardinalityRestriction();
 	}
 
-	public OPPLPatternScript_OPPLParser.action_return action() throws RecognitionException {
-		return this.gOPPLParser.action();
-	}
-
-	public OPPLPatternScript_OPPLParser.iri_return iri() throws RecognitionException {
-		return this.gOPPLParser.iri();
-	}
-
-	public OPPLPatternScript_OPPLParser.createIdentifier_return createIdentifier()
+	public OPPLPatternScript_OPPLParser_MOWLParser.constant_return constant()
 			throws RecognitionException {
-		return this.gOPPLParser.createIdentifier();
+		return this.gMOWLParser.constant();
 	}
 
-	public OPPLPatternScript_OPPLParser_MOWLParser.dataRange_return dataRange()
+	public OPPLPatternScript_OPPLParser_MOWLParser.annotationAssertionAxiom_return annotationAssertionAxiom()
 			throws RecognitionException {
-		return this.gMOWLParser.dataRange();
+		return this.gMOWLParser.annotationAssertionAxiom();
 	}
 
-	public OPPLPatternScript_OPPLParser_MOWLParser.axiom_return axiom() throws RecognitionException {
-		return this.gMOWLParser.axiom();
+	public OPPLPatternScript_OPPLParser_MOWLParser.unary_return unary() throws RecognitionException {
+		return this.gMOWLParser.unary();
+	}
+
+	public OPPLPatternScript_OPPLParser.stringExpression_return stringExpression()
+			throws RecognitionException {
+		return this.gOPPLParser.stringExpression();
 	}
 
 	public OPPLPatternScript_OPPLParser.variableAttributeReference_return variableAttributeReference()
@@ -2342,102 +2263,192 @@ public class OPPLPatternScriptParser extends Parser {
 		return this.gMOWLParser.binaryAxiom();
 	}
 
-	public OPPLPatternScript_OPPLParser_MOWLParser.dataRangeFacet_return dataRangeFacet()
+	public OPPLPatternScript_OPPLParser_MOWLParser.qualifiedRestriction_return qualifiedRestriction()
 			throws RecognitionException {
-		return this.gMOWLParser.dataRangeFacet();
+		return this.gMOWLParser.qualifiedRestriction();
 	}
 
-	public OPPLPatternScript_OPPLParser.query_return query() throws RecognitionException {
-		return this.gOPPLParser.query();
+	public OPPLPatternScript_OPPLParser_MOWLParser.oneOf_return oneOf() throws RecognitionException {
+		return this.gMOWLParser.oneOf();
 	}
 
-	public OPPLPatternScript_OPPLParser.opplFunction_return opplFunction()
+	public OPPLPatternScript_OPPLParser_MOWLParser.assertionAxiom_return assertionAxiom()
 			throws RecognitionException {
-		return this.gOPPLParser.opplFunction();
+		return this.gMOWLParser.assertionAxiom();
 	}
 
-	public static final BitSet FOLLOW_statement_in_pattern125 = new BitSet(new long[] {
+	public OPPLPatternScript_OPPLParser_MOWLParser.unaryAxiom_return unaryAxiom()
+			throws RecognitionException {
+		return this.gMOWLParser.unaryAxiom();
+	}
+
+	public OPPLPatternScript_OPPLParser.axiom_return axiom() throws RecognitionException {
+		return this.gOPPLParser.axiom();
+	}
+
+	public OPPLPatternScript_OPPLParser_MOWLParser.restrictionKind_return restrictionKind()
+			throws RecognitionException {
+		return this.gMOWLParser.restrictionKind();
+	}
+
+	public OPPLPatternScript_OPPLParser_MOWLParser.value_return value() throws RecognitionException {
+		return this.gMOWLParser.value();
+	}
+
+	public OPPLPatternScript_OPPLParser.variableScope_return variableScope()
+			throws RecognitionException {
+		return this.gOPPLParser.variableScope();
+	}
+
+	public OPPLPatternScript_OPPLParser_MOWLParser.disjunction_return disjunction()
+			throws RecognitionException {
+		return this.gMOWLParser.disjunction();
+	}
+
+	public OPPLPatternScript_OPPLParser.nAryAxiom_return nAryAxiom() throws RecognitionException {
+		return this.gOPPLParser.nAryAxiom();
+	}
+
+	public OPPLPatternScript_OPPLParser.regexp_return regexp() throws RecognitionException {
+		return this.gOPPLParser.regexp();
+	}
+
+	public OPPLPatternScript_OPPLParser_MOWLParser.conjunction_return conjunction()
+			throws RecognitionException {
+		return this.gMOWLParser.conjunction();
+	}
+
+	public OPPLPatternScript_OPPLParser_MOWLParser.complexPropertyExpression_return complexPropertyExpression()
+			throws RecognitionException {
+		return this.gMOWLParser.complexPropertyExpression();
+	}
+
+	public OPPLPatternScript_OPPLParser.createIdentifier_return createIdentifier()
+			throws RecognitionException {
+		return this.gOPPLParser.createIdentifier();
+	}
+
+	public OPPLPatternScript_OPPLParser_MOWLParser.unaryCharacteristic_return unaryCharacteristic()
+			throws RecognitionException {
+		return this.gMOWLParser.unaryCharacteristic();
+	}
+
+	public OPPLPatternScript_OPPLParser.actions_return actions() throws RecognitionException {
+		return this.gOPPLParser.actions();
+	}
+
+	public OPPLPatternScript_OPPLParser_MOWLParser.hasKeyAxiom_return hasKeyAxiom()
+			throws RecognitionException {
+		return this.gMOWLParser.hasKeyAxiom();
+	}
+
+	public OPPLPatternScript_OPPLParser_MOWLParser.valueRestriction_return valueRestriction()
+			throws RecognitionException {
+		return this.gMOWLParser.valueRestriction();
+	}
+
+	public OPPLPatternScript_OPPLParser.stringOperation_return stringOperation()
+			throws RecognitionException {
+		return this.gOPPLParser.stringOperation();
+	}
+
+	public OPPLPatternScript_OPPLParser.selectClause_return selectClause()
+			throws RecognitionException {
+		return this.gOPPLParser.selectClause();
+	}
+
+	public OPPLPatternScript_OPPLParser_MOWLParser.dataRange_return dataRange()
+			throws RecognitionException {
+		return this.gMOWLParser.dataRange();
+	}
+
+	public OPPLPatternScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression()
+			throws RecognitionException {
+		return this.gMOWLParser.propertyExpression();
+	}
+
+	public static final BitSet FOLLOW_statement_in_pattern134 = new BitSet(new long[] {
 			0x0000300000000002L, 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
 			0x0000000000000000L, 0x0000000000000000L, 0x0000004100000000L, 0x0000000000030000L });
-	public static final BitSet FOLLOW_rendering_in_pattern128 = new BitSet(new long[] {
+	public static final BitSet FOLLOW_rendering_in_pattern137 = new BitSet(new long[] {
 			0x0000000000000002L, 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
 			0x0000000000000000L, 0x0000000000000000L, 0x0000004000000000L });
-	public static final BitSet FOLLOW_SEMICOLON_in_pattern134 = new BitSet(new long[] {
+	public static final BitSet FOLLOW_SEMICOLON_in_pattern143 = new BitSet(new long[] {
 			0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
 			0x0000000000000000L, 0x0000000000000000L, 0x0000000080000000L });
-	public static final BitSet FOLLOW_returnClause_in_pattern136 = new BitSet(
+	public static final BitSet FOLLOW_returnClause_in_pattern145 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_variableDefinitions_in_statement171 = new BitSet(new long[] {
+	public static final BitSet FOLLOW_variableDefinitions_in_statement180 = new BitSet(new long[] {
 			0x0000000000000000L, 0x0000000000080000L });
-	public static final BitSet FOLLOW_actions_in_statement175 = new BitSet(
+	public static final BitSet FOLLOW_actions_in_statement184 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_RETURN_in_returnClause206 = new BitSet(new long[] {
+	public static final BitSet FOLLOW_RETURN_in_returnClause215 = new BitSet(new long[] {
 			0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
 			0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L, 0x0000000000010000L });
-	public static final BitSet FOLLOW_VARIABLE_NAME_in_returnClause208 = new BitSet(
+	public static final BitSet FOLLOW_VARIABLE_NAME_in_returnClause217 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_RETURN_in_returnClause227 = new BitSet(new long[] {
+	public static final BitSet FOLLOW_RETURN_in_returnClause236 = new BitSet(new long[] {
 			0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
 			0x0000000000000000L, 0x0000000000000000L, 0x0000000100000000L });
-	public static final BitSet FOLLOW_THIS_CLASS_in_returnClause229 = new BitSet(
+	public static final BitSet FOLLOW_THIS_CLASS_in_returnClause238 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_renderingPart_in_rendering267 = new BitSet(new long[] {
+	public static final BitSet FOLLOW_renderingPart_in_rendering276 = new BitSet(new long[] {
 			0x0000300000000002L, 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
 			0x0000000000000000L, 0x0000000000000000L, 0x0000000100000000L, 0x0000000000030000L });
-	public static final BitSet FOLLOW_THIS_CLASS_in_renderingPart308 = new BitSet(
+	public static final BitSet FOLLOW_THIS_CLASS_in_renderingPart317 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_IDENTIFIER_in_renderingPart325 = new BitSet(
+	public static final BitSet FOLLOW_IDENTIFIER_in_renderingPart334 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_ENTITY_REFERENCE_in_renderingPart340 = new BitSet(
+	public static final BitSet FOLLOW_ENTITY_REFERENCE_in_renderingPart349 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_VARIABLE_NAME_in_renderingPart354 = new BitSet(
+	public static final BitSet FOLLOW_VARIABLE_NAME_in_renderingPart363 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_REGEXP_CONSTRAINT_in_renderingPart374 = new BitSet(
+	public static final BitSet FOLLOW_REGEXP_CONSTRAINT_in_renderingPart383 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_THIS_CLASS_in_atomic402 = new BitSet(
+	public static final BitSet FOLLOW_THIS_CLASS_in_atomic411 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_IDENTIFIER_in_atomic416 = new BitSet(
+	public static final BitSet FOLLOW_IDENTIFIER_in_atomic425 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_ENTITY_REFERENCE_in_atomic431 = new BitSet(
+	public static final BitSet FOLLOW_ENTITY_REFERENCE_in_atomic440 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_VARIABLE_NAME_in_atomic445 = new BitSet(
+	public static final BitSet FOLLOW_VARIABLE_NAME_in_atomic454 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_createIdentifier_in_atomic465 = new BitSet(
+	public static final BitSet FOLLOW_createIdentifier_in_atomic474 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_variableAttributeReference_in_atomic479 = new BitSet(
+	public static final BitSet FOLLOW_variableAttributeReference_in_atomic488 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_patternReference_in_atomic498 = new BitSet(
+	public static final BitSet FOLLOW_patternReference_in_atomic507 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_DOLLAR_in_patternReference527 = new BitSet(
+	public static final BitSet FOLLOW_DOLLAR_in_patternReference536 = new BitSet(
 			new long[] { 0x0000100000000000L });
-	public static final BitSet FOLLOW_IDENTIFIER_in_patternReference533 = new BitSet(
+	public static final BitSet FOLLOW_IDENTIFIER_in_patternReference542 = new BitSet(
 			new long[] { 0x0000000000000020L });
-	public static final BitSet FOLLOW_arguments_in_patternReference537 = new BitSet(
+	public static final BitSet FOLLOW_arguments_in_patternReference546 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_arguments584 = new BitSet(new long[] {
+	public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_arguments593 = new BitSet(new long[] {
 			0x0000300000000140L, 0x0000000000000000L, 0x0000000000200000L, 0x0000000000000000L,
 			0x0000000000000000L, 0x0000000000000000L, 0x0000000100010000L, 0x0000000000010000L });
-	public static final BitSet FOLLOW_argument_in_arguments597 = new BitSet(
+	public static final BitSet FOLLOW_argument_in_arguments606 = new BitSet(
 			new long[] { 0x0000002000000100L });
-	public static final BitSet FOLLOW_COMMA_in_arguments612 = new BitSet(new long[] {
+	public static final BitSet FOLLOW_COMMA_in_arguments621 = new BitSet(new long[] {
 			0x0000300000000040L, 0x0000000000000000L, 0x0000000000200000L, 0x0000000000000000L,
 			0x0000000000000000L, 0x0000000000000000L, 0x0000000100010000L, 0x0000000000010000L });
-	public static final BitSet FOLLOW_argument_in_arguments619 = new BitSet(
+	public static final BitSet FOLLOW_argument_in_arguments628 = new BitSet(
 			new long[] { 0x0000002000000100L });
-	public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_arguments644 = new BitSet(
+	public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_arguments653 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_atomic_in_argument689 = new BitSet(
+	public static final BitSet FOLLOW_atomic_in_argument698 = new BitSet(
 			new long[] { 0x0000000000000002L });
-	public static final BitSet FOLLOW_OPEN_CURLY_BRACES_in_argument710 = new BitSet(new long[] {
+	public static final BitSet FOLLOW_OPEN_CURLY_BRACES_in_argument719 = new BitSet(new long[] {
 			0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L, 0x0000000000000000L,
 			0x0000000000000000L, 0x0000000000000000L, 0x0000000100010000L, 0x0000000000010000L });
-	public static final BitSet FOLLOW_atomic_in_argument717 = new BitSet(
+	public static final BitSet FOLLOW_atomic_in_argument726 = new BitSet(
 			new long[] { 0x0000002000000080L });
-	public static final BitSet FOLLOW_COMMA_in_argument722 = new BitSet(new long[] {
+	public static final BitSet FOLLOW_COMMA_in_argument731 = new BitSet(new long[] {
 			0x0000300000000000L, 0x0000000000000000L, 0x0000000000200000L, 0x0000000000000000L,
 			0x0000000000000000L, 0x0000000000000000L, 0x0000000100010000L, 0x0000000000010000L });
-	public static final BitSet FOLLOW_atomic_in_argument728 = new BitSet(
+	public static final BitSet FOLLOW_atomic_in_argument737 = new BitSet(
 			new long[] { 0x0000002000000080L });
-	public static final BitSet FOLLOW_CLOSED_CURLY_BRACES_in_argument733 = new BitSet(
+	public static final BitSet FOLLOW_CLOSED_CURLY_BRACES_in_argument742 = new BitSet(
 			new long[] { 0x0000000000000002L });
 }
