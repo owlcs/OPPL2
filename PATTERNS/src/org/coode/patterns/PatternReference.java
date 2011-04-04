@@ -53,6 +53,7 @@ import org.coode.oppl.function.RenderingVariableAttribute;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.function.ValuesVariableAtttribute;
+import org.coode.oppl.function.inline.InlineSet;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
@@ -381,6 +382,12 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 							public <P, I> void visitAggregation(Aggregation<P, I> aggregation) {
 								PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
 										aggregation.render(PatternReference.this.getConstraintSystem()),
+										variable));
+							}
+
+							public <K extends OWLObject> void visitInlineSet(InlineSet<K> inlineSet) {
+								PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
+										inlineSet.render(PatternReference.this.getConstraintSystem()),
 										variable));
 							}
 						});
