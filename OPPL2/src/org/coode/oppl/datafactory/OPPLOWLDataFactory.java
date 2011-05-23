@@ -24,51 +24,43 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 */
 	public OPPLOWLDataFactory(OWLDataFactory delegate) {
 		if (delegate == null) {
-			throw new NullPointerException(
-					"The OWL data factory cannot be null");
+			throw new NullPointerException("The OWL data factory cannot be null");
 		}
 		this.delegate = delegate;
 	}
 
-	public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
-			InlineSet<OWLClassExpression> set, boolean shouldExpabdAsPairWise) {
-		return new OPPLOWLDisjointClassesAxiom(this, set,
-				Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
-	}
-
-	public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
-			InlineSet<OWLClassExpression> set,
-			Set<? extends OWLAnnotation> annotations,
+	public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(InlineSet<OWLClassExpression> set,
 			boolean shouldExpabdAsPairWise) {
-		return new OPPLOWLDisjointClassesAxiom(this, set, annotations,
+		return new OPPLOWLDisjointClassesAxiom(this, set, Collections.<OWLAnnotation> emptySet(),
 				shouldExpabdAsPairWise);
 	}
 
+	public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(InlineSet<OWLClassExpression> set,
+			Set<? extends OWLAnnotation> annotations, boolean shouldExpabdAsPairWise) {
+		return new OPPLOWLDisjointClassesAxiom(this, set, annotations, shouldExpabdAsPairWise);
+	}
+
 	public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
-			InlineSet<OWLObjectPropertyExpression> set,
-			boolean shouldExpabdAsPairWise) {
+			InlineSet<OWLObjectPropertyExpression> set, boolean shouldExpabdAsPairWise) {
 		return new OPPLOWLDisjointObjectPropertiesAxiom(this, set,
 				Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
 	}
 
 	public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
-			InlineSet<OWLObjectPropertyExpression> set,
-			Set<? extends OWLAnnotation> annotations,
+			InlineSet<OWLObjectPropertyExpression> set, Set<? extends OWLAnnotation> annotations,
 			boolean shouldExpabdAsPairWise) {
 		return new OPPLOWLDisjointObjectPropertiesAxiom(this, set, annotations,
 				shouldExpabdAsPairWise);
 	}
 
 	public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
-			InlineSet<OWLDataPropertyExpression> set,
-			boolean shouldExpabdAsPairWise) {
+			InlineSet<OWLDataPropertyExpression> set, boolean shouldExpabdAsPairWise) {
 		return new OPPLOWLDisjointDataPropertiesAxiom(this, set,
 				Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
 	}
 
 	public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
-			InlineSet<OWLDataPropertyExpression> set,
-			Set<? extends OWLAnnotation> annotations,
+			InlineSet<OWLDataPropertyExpression> set, Set<? extends OWLAnnotation> annotations,
 			boolean shouldExpabdAsPairWise) {
 		return new OPPLOWLDisjointDataPropertiesAxiom(this, set, annotations,
 				shouldExpabdAsPairWise);
@@ -81,25 +73,20 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	}
 
 	public OWLDifferentIndividualsAxiom getOWLDifferentIndividualsAxiom(
-			InlineSet<OWLIndividual> set,
-			Set<? extends OWLAnnotation> annotations,
+			InlineSet<OWLIndividual> set, Set<? extends OWLAnnotation> annotations,
 			boolean shouldExpabdAsPairWise) {
-		return new OPPLOWLDifferentIndividualsAxiom(this, set, annotations,
+		return new OPPLOWLDifferentIndividualsAxiom(this, set, annotations, shouldExpabdAsPairWise);
+	}
+
+	public OWLSameIndividualAxiom getOWLSameIndividualAxiom(InlineSet<OWLIndividual> set,
+			boolean shouldExpabdAsPairWise) {
+		return new OPPLOWLSameIndividualAxiom(this, set, Collections.<OWLAnnotation> emptySet(),
 				shouldExpabdAsPairWise);
 	}
 
-	public OWLSameIndividualAxiom getOWLSameIndividualAxiom(
-			InlineSet<OWLIndividual> set, boolean shouldExpabdAsPairWise) {
-		return new OPPLOWLSameIndividualAxiom(this, set,
-				Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
-	}
-
-	public OWLSameIndividualAxiom getOWLSameIndividualAxiom(
-			InlineSet<OWLIndividual> set,
-			Set<? extends OWLAnnotation> annotations,
-			boolean shouldExpabdAsPairWise) {
-		return new OPPLOWLSameIndividualAxiom(this, set, annotations,
-				shouldExpabdAsPairWise);
+	public OWLSameIndividualAxiom getOWLSameIndividualAxiom(InlineSet<OWLIndividual> set,
+			Set<? extends OWLAnnotation> annotations, boolean shouldExpabdAsPairWise) {
+		return new OPPLOWLSameIndividualAxiom(this, set, annotations, shouldExpabdAsPairWise);
 	}
 
 	public OWLDataFactory getDelegate() {
@@ -117,8 +104,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set, java.util.Set)
 	 */
 	@Deprecated
-	public SWRLRule getSWRLRule(IRI iri, Set<? extends SWRLAtom> body,
-			Set<? extends SWRLAtom> head) {
+	public SWRLRule getSWRLRule(IRI iri, Set<? extends SWRLAtom> body, Set<? extends SWRLAtom> head) {
 		return this.delegate.getSWRLRule(iri, body, head);
 	}
 
@@ -152,8 +138,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.SWRLDataFactory#getSWRLRule(java.util.Set,
 	 *      java.util.Set)
 	 */
-	public SWRLRule getSWRLRule(Set<? extends SWRLAtom> body,
-			Set<? extends SWRLAtom> head) {
+	public SWRLRule getSWRLRule(Set<? extends SWRLAtom> body, Set<? extends SWRLAtom> head) {
 		return this.delegate.getSWRLRule(body, head);
 	}
 
@@ -165,8 +150,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.SWRLDataFactory#getSWRLRule(java.util.Set,
 	 *      java.util.Set, java.util.Set)
 	 */
-	public SWRLRule getSWRLRule(Set<? extends SWRLAtom> body,
-			Set<? extends SWRLAtom> head, Set<OWLAnnotation> annotations) {
+	public SWRLRule getSWRLRule(Set<? extends SWRLAtom> body, Set<? extends SWRLAtom> head,
+			Set<OWLAnnotation> annotations) {
 		return this.delegate.getSWRLRule(body, head, annotations);
 	}
 
@@ -209,8 +194,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.SWRLDataFactory#getSWRLClassAtom(org.semanticweb.owlapi.model.OWLClassExpression,
 	 *      org.semanticweb.owlapi.model.SWRLIArgument)
 	 */
-	public SWRLClassAtom getSWRLClassAtom(OWLClassExpression predicate,
-			SWRLIArgument arg) {
+	public SWRLClassAtom getSWRLClassAtom(OWLClassExpression predicate, SWRLIArgument arg) {
 		return this.delegate.getSWRLClassAtom(predicate, arg);
 	}
 
@@ -238,8 +222,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLEntity(org.semanticweb.owlapi.model.EntityType,
 	 *      org.semanticweb.owlapi.model.IRI)
 	 */
-	public <E extends OWLEntity> E getOWLEntity(EntityType<E> entityType,
-			IRI iri) {
+	public <E extends OWLEntity> E getOWLEntity(EntityType<E> entityType, IRI iri) {
 		return this.delegate.getOWLEntity(entityType, iri);
 	}
 
@@ -250,8 +233,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.SWRLDataFactory#getSWRLDataRangeAtom(org.semanticweb.owlapi.model.OWLDataRange,
 	 *      org.semanticweb.owlapi.model.SWRLDArgument)
 	 */
-	public SWRLDataRangeAtom getSWRLDataRangeAtom(OWLDataRange predicate,
-			SWRLDArgument arg) {
+	public SWRLDataRangeAtom getSWRLDataRangeAtom(OWLDataRange predicate, SWRLDArgument arg) {
 		return this.delegate.getSWRLDataRangeAtom(predicate, arg);
 	}
 
@@ -273,9 +255,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.SWRLIArgument,
 	 *      org.semanticweb.owlapi.model.SWRLIArgument)
 	 */
-	public SWRLObjectPropertyAtom getSWRLObjectPropertyAtom(
-			OWLObjectPropertyExpression property, SWRLIArgument arg0,
-			SWRLIArgument arg1) {
+	public SWRLObjectPropertyAtom getSWRLObjectPropertyAtom(OWLObjectPropertyExpression property,
+			SWRLIArgument arg0, SWRLIArgument arg1) {
 		return this.delegate.getSWRLObjectPropertyAtom(property, arg0, arg1);
 	}
 
@@ -286,8 +267,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLClass(java.lang.String,
 	 *      org.semanticweb.owlapi.model.PrefixManager)
 	 */
-	public OWLClass getOWLClass(String abbreviatedIRI,
-			PrefixManager prefixManager) {
+	public OWLClass getOWLClass(String abbreviatedIRI, PrefixManager prefixManager) {
 		return this.delegate.getOWLClass(abbreviatedIRI, prefixManager);
 	}
 
@@ -300,9 +280,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.SWRLIArgument,
 	 *      org.semanticweb.owlapi.model.SWRLDArgument)
 	 */
-	public SWRLDataPropertyAtom getSWRLDataPropertyAtom(
-			OWLDataPropertyExpression property, SWRLIArgument arg0,
-			SWRLDArgument arg1) {
+	public SWRLDataPropertyAtom getSWRLDataPropertyAtom(OWLDataPropertyExpression property,
+			SWRLIArgument arg0, SWRLDArgument arg1) {
 		return this.delegate.getSWRLDataPropertyAtom(property, arg0, arg1);
 	}
 
@@ -313,8 +292,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.SWRLDataFactory#getSWRLBuiltInAtom(org.semanticweb.owlapi.model.IRI,
 	 *      java.util.List)
 	 */
-	public SWRLBuiltInAtom getSWRLBuiltInAtom(IRI builtInIRI,
-			List<SWRLDArgument> args) {
+	public SWRLBuiltInAtom getSWRLBuiltInAtom(IRI builtInIRI, List<SWRLDArgument> args) {
 		return this.delegate.getSWRLBuiltInAtom(builtInIRI, args);
 	}
 
@@ -334,10 +312,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectProperty(java.lang.String,
 	 *      org.semanticweb.owlapi.model.PrefixManager)
 	 */
-	public OWLObjectProperty getOWLObjectProperty(String abbreviatedIRI,
-			PrefixManager prefixManager) {
-		return this.delegate
-				.getOWLObjectProperty(abbreviatedIRI, prefixManager);
+	public OWLObjectProperty getOWLObjectProperty(String abbreviatedIRI, PrefixManager prefixManager) {
+		return this.delegate.getOWLObjectProperty(abbreviatedIRI, prefixManager);
 	}
 
 	/**
@@ -354,8 +330,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.SWRLDataFactory#getSWRLIndividualArgument(org.semanticweb.owlapi.model.OWLIndividual)
 	 */
-	public SWRLIndividualArgument getSWRLIndividualArgument(
-			OWLIndividual individual) {
+	public SWRLIndividualArgument getSWRLIndividualArgument(OWLIndividual individual) {
 		return this.delegate.getSWRLIndividualArgument(individual);
 	}
 
@@ -375,8 +350,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.SWRLDataFactory#getSWRLSameIndividualAtom(org.semanticweb.owlapi.model.SWRLIArgument,
 	 *      org.semanticweb.owlapi.model.SWRLIArgument)
 	 */
-	public SWRLSameIndividualAtom getSWRLSameIndividualAtom(SWRLIArgument arg0,
-			SWRLIArgument arg1) {
+	public SWRLSameIndividualAtom getSWRLSameIndividualAtom(SWRLIArgument arg0, SWRLIArgument arg1) {
 		return this.delegate.getSWRLSameIndividualAtom(arg0, arg1);
 	}
 
@@ -387,8 +361,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.SWRLDataFactory#getSWRLDifferentIndividualsAtom(org.semanticweb.owlapi.model.SWRLIArgument,
 	 *      org.semanticweb.owlapi.model.SWRLIArgument)
 	 */
-	public SWRLDifferentIndividualsAtom getSWRLDifferentIndividualsAtom(
-			SWRLIArgument arg0, SWRLIArgument arg1) {
+	public SWRLDifferentIndividualsAtom getSWRLDifferentIndividualsAtom(SWRLIArgument arg0,
+			SWRLIArgument arg1) {
 		return this.delegate.getSWRLDifferentIndividualsAtom(arg0, arg1);
 	}
 
@@ -397,8 +371,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectInverseOf(org.semanticweb.owlapi.model.OWLObjectPropertyExpression)
 	 */
-	public OWLObjectInverseOf getOWLObjectInverseOf(
-			OWLObjectPropertyExpression property) {
+	public OWLObjectInverseOf getOWLObjectInverseOf(OWLObjectPropertyExpression property) {
 		return this.delegate.getOWLObjectInverseOf(property);
 	}
 
@@ -418,8 +391,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDataProperty(java.lang.String,
 	 *      org.semanticweb.owlapi.model.PrefixManager)
 	 */
-	public OWLDataProperty getOWLDataProperty(String abbreviatedIRI,
-			PrefixManager prefixManager) {
+	public OWLDataProperty getOWLDataProperty(String abbreviatedIRI, PrefixManager prefixManager) {
 		return this.delegate.getOWLDataProperty(abbreviatedIRI, prefixManager);
 	}
 
@@ -441,8 +413,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 */
 	public OWLNamedIndividual getOWLNamedIndividual(String abbreviatedIRI,
 			PrefixManager prefixManager) {
-		return this.delegate.getOWLNamedIndividual(abbreviatedIRI,
-				prefixManager);
+		return this.delegate.getOWLNamedIndividual(abbreviatedIRI, prefixManager);
 	}
 
 	/**
@@ -478,10 +449,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLAnnotationProperty(java.lang.String,
 	 *      org.semanticweb.owlapi.model.PrefixManager)
 	 */
-	public OWLAnnotationProperty getOWLAnnotationProperty(
-			String abbreviatedIRI, PrefixManager prefixManager) {
-		return this.delegate.getOWLAnnotationProperty(abbreviatedIRI,
-				prefixManager);
+	public OWLAnnotationProperty getOWLAnnotationProperty(String abbreviatedIRI,
+			PrefixManager prefixManager) {
+		return this.delegate.getOWLAnnotationProperty(abbreviatedIRI, prefixManager);
 	}
 
 	/**
@@ -572,8 +542,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatype(java.lang.String,
 	 *      org.semanticweb.owlapi.model.PrefixManager)
 	 */
-	public OWLDatatype getOWLDatatype(String abbreviatedIRI,
-			PrefixManager prefixManager) {
+	public OWLDatatype getOWLDatatype(String abbreviatedIRI, PrefixManager prefixManager) {
 		return this.delegate.getOWLDatatype(abbreviatedIRI, prefixManager);
 	}
 
@@ -826,10 +795,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeRestriction(org.semanticweb.owlapi.model.OWLDatatype,
 	 *      java.util.Set)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeRestriction(
-			OWLDatatype dataRange, Set<OWLFacetRestriction> facetRestrictions) {
-		return this.delegate.getOWLDatatypeRestriction(dataRange,
-				facetRestrictions);
+	public OWLDatatypeRestriction getOWLDatatypeRestriction(OWLDatatype dataRange,
+			Set<OWLFacetRestriction> facetRestrictions) {
+		return this.delegate.getOWLDatatypeRestriction(dataRange, facetRestrictions);
 	}
 
 	/**
@@ -841,10 +809,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.vocab.OWLFacet,
 	 *      org.semanticweb.owlapi.model.OWLLiteral)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeRestriction(
-			OWLDatatype dataRange, OWLFacet facet, OWLLiteral typedLiteral) {
-		return this.delegate.getOWLDatatypeRestriction(dataRange, facet,
-				typedLiteral);
+	public OWLDatatypeRestriction getOWLDatatypeRestriction(OWLDatatype dataRange, OWLFacet facet,
+			OWLLiteral typedLiteral) {
+		return this.delegate.getOWLDatatypeRestriction(dataRange, facet, typedLiteral);
 	}
 
 	/**
@@ -854,10 +821,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeRestriction(org.semanticweb.owlapi.model.OWLDatatype,
 	 *      org.semanticweb.owlapi.model.OWLFacetRestriction[])
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeRestriction(
-			OWLDatatype dataRange, OWLFacetRestriction... facetRestrictions) {
-		return this.delegate.getOWLDatatypeRestriction(dataRange,
-				facetRestrictions);
+	public OWLDatatypeRestriction getOWLDatatypeRestriction(OWLDatatype dataRange,
+			OWLFacetRestriction... facetRestrictions) {
+		return this.delegate.getOWLDatatypeRestriction(dataRange, facetRestrictions);
 	}
 
 	/**
@@ -865,10 +831,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeMinInclusiveRestriction(int)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeMinInclusiveRestriction(
-			int minInclusive) {
-		return this.delegate
-				.getOWLDatatypeMinInclusiveRestriction(minInclusive);
+	public OWLDatatypeRestriction getOWLDatatypeMinInclusiveRestriction(int minInclusive) {
+		return this.delegate.getOWLDatatypeMinInclusiveRestriction(minInclusive);
 	}
 
 	/**
@@ -876,10 +840,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeMaxInclusiveRestriction(int)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeMaxInclusiveRestriction(
-			int maxInclusive) {
-		return this.delegate
-				.getOWLDatatypeMaxInclusiveRestriction(maxInclusive);
+	public OWLDatatypeRestriction getOWLDatatypeMaxInclusiveRestriction(int maxInclusive) {
+		return this.delegate.getOWLDatatypeMaxInclusiveRestriction(maxInclusive);
 	}
 
 	/**
@@ -889,10 +851,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeMinMaxInclusiveRestriction(int,
 	 *      int)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeMinMaxInclusiveRestriction(
-			int minInclusive, int maxInclusive) {
-		return this.delegate.getOWLDatatypeMinMaxInclusiveRestriction(
-				minInclusive, maxInclusive);
+	public OWLDatatypeRestriction getOWLDatatypeMinMaxInclusiveRestriction(int minInclusive,
+			int maxInclusive) {
+		return this.delegate.getOWLDatatypeMinMaxInclusiveRestriction(minInclusive, maxInclusive);
 	}
 
 	/**
@@ -900,10 +861,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeMinExclusiveRestriction(int)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeMinExclusiveRestriction(
-			int minExclusive) {
-		return this.delegate
-				.getOWLDatatypeMinExclusiveRestriction(minExclusive);
+	public OWLDatatypeRestriction getOWLDatatypeMinExclusiveRestriction(int minExclusive) {
+		return this.delegate.getOWLDatatypeMinExclusiveRestriction(minExclusive);
 	}
 
 	/**
@@ -911,10 +870,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeMaxExclusiveRestriction(int)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeMaxExclusiveRestriction(
-			int maxExclusive) {
-		return this.delegate
-				.getOWLDatatypeMaxExclusiveRestriction(maxExclusive);
+	public OWLDatatypeRestriction getOWLDatatypeMaxExclusiveRestriction(int maxExclusive) {
+		return this.delegate.getOWLDatatypeMaxExclusiveRestriction(maxExclusive);
 	}
 
 	/**
@@ -924,10 +881,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeMinMaxExclusiveRestriction(int,
 	 *      int)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeMinMaxExclusiveRestriction(
-			int minExclusive, int maxExclusive) {
-		return this.delegate.getOWLDatatypeMinMaxExclusiveRestriction(
-				minExclusive, maxExclusive);
+	public OWLDatatypeRestriction getOWLDatatypeMinMaxExclusiveRestriction(int minExclusive,
+			int maxExclusive) {
+		return this.delegate.getOWLDatatypeMinMaxExclusiveRestriction(minExclusive, maxExclusive);
 	}
 
 	/**
@@ -935,10 +891,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeMinInclusiveRestriction(double)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeMinInclusiveRestriction(
-			double minInclusive) {
-		return this.delegate
-				.getOWLDatatypeMinInclusiveRestriction(minInclusive);
+	public OWLDatatypeRestriction getOWLDatatypeMinInclusiveRestriction(double minInclusive) {
+		return this.delegate.getOWLDatatypeMinInclusiveRestriction(minInclusive);
 	}
 
 	/**
@@ -946,10 +900,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeMaxInclusiveRestriction(double)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeMaxInclusiveRestriction(
-			double maxInclusive) {
-		return this.delegate
-				.getOWLDatatypeMaxInclusiveRestriction(maxInclusive);
+	public OWLDatatypeRestriction getOWLDatatypeMaxInclusiveRestriction(double maxInclusive) {
+		return this.delegate.getOWLDatatypeMaxInclusiveRestriction(maxInclusive);
 	}
 
 	/**
@@ -959,10 +911,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeMinMaxInclusiveRestriction(double,
 	 *      double)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeMinMaxInclusiveRestriction(
-			double minInclusive, double maxInclusive) {
-		return this.delegate.getOWLDatatypeMinMaxInclusiveRestriction(
-				minInclusive, maxInclusive);
+	public OWLDatatypeRestriction getOWLDatatypeMinMaxInclusiveRestriction(double minInclusive,
+			double maxInclusive) {
+		return this.delegate.getOWLDatatypeMinMaxInclusiveRestriction(minInclusive, maxInclusive);
 	}
 
 	/**
@@ -970,10 +921,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeMinExclusiveRestriction(double)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeMinExclusiveRestriction(
-			double minExclusive) {
-		return this.delegate
-				.getOWLDatatypeMinExclusiveRestriction(minExclusive);
+	public OWLDatatypeRestriction getOWLDatatypeMinExclusiveRestriction(double minExclusive) {
+		return this.delegate.getOWLDatatypeMinExclusiveRestriction(minExclusive);
 	}
 
 	/**
@@ -981,10 +930,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeMaxExclusiveRestriction(double)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeMaxExclusiveRestriction(
-			double maxExclusive) {
-		return this.delegate
-				.getOWLDatatypeMaxExclusiveRestriction(maxExclusive);
+	public OWLDatatypeRestriction getOWLDatatypeMaxExclusiveRestriction(double maxExclusive) {
+		return this.delegate.getOWLDatatypeMaxExclusiveRestriction(maxExclusive);
 	}
 
 	/**
@@ -994,10 +941,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeMinMaxExclusiveRestriction(double,
 	 *      double)
 	 */
-	public OWLDatatypeRestriction getOWLDatatypeMinMaxExclusiveRestriction(
-			double minExclusive, double maxExclusive) {
-		return this.delegate.getOWLDatatypeMinMaxExclusiveRestriction(
-				minExclusive, maxExclusive);
+	public OWLDatatypeRestriction getOWLDatatypeMinMaxExclusiveRestriction(double minExclusive,
+			double maxExclusive) {
+		return this.delegate.getOWLDatatypeMinMaxExclusiveRestriction(minExclusive, maxExclusive);
 	}
 
 	/**
@@ -1007,8 +953,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLFacetRestriction(org.semanticweb.owlapi.vocab.OWLFacet,
 	 *      org.semanticweb.owlapi.model.OWLLiteral)
 	 */
-	public OWLFacetRestriction getOWLFacetRestriction(OWLFacet facet,
-			OWLLiteral facetValue) {
+	public OWLFacetRestriction getOWLFacetRestriction(OWLFacet facet, OWLLiteral facetValue) {
 		return this.delegate.getOWLFacetRestriction(facet, facetValue);
 	}
 
@@ -1019,8 +964,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLFacetRestriction(org.semanticweb.owlapi.vocab.OWLFacet,
 	 *      int)
 	 */
-	public OWLFacetRestriction getOWLFacetRestriction(OWLFacet facet,
-			int facetValue) {
+	public OWLFacetRestriction getOWLFacetRestriction(OWLFacet facet, int facetValue) {
 		return this.delegate.getOWLFacetRestriction(facet, facetValue);
 	}
 
@@ -1031,8 +975,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLFacetRestriction(org.semanticweb.owlapi.vocab.OWLFacet,
 	 *      double)
 	 */
-	public OWLFacetRestriction getOWLFacetRestriction(OWLFacet facet,
-			double facetValue) {
+	public OWLFacetRestriction getOWLFacetRestriction(OWLFacet facet, double facetValue) {
 		return this.delegate.getOWLFacetRestriction(facet, facetValue);
 	}
 
@@ -1043,8 +986,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLFacetRestriction(org.semanticweb.owlapi.vocab.OWLFacet,
 	 *      float)
 	 */
-	public OWLFacetRestriction getOWLFacetRestriction(OWLFacet facet,
-			float facetValue) {
+	public OWLFacetRestriction getOWLFacetRestriction(OWLFacet facet, float facetValue) {
 		return this.delegate.getOWLFacetRestriction(facet, facetValue);
 	}
 
@@ -1053,8 +995,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDataUnionOf(java.util.Set)
 	 */
-	public OWLDataUnionOf getOWLDataUnionOf(
-			Set<? extends OWLDataRange> dataRanges) {
+	public OWLDataUnionOf getOWLDataUnionOf(Set<? extends OWLDataRange> dataRanges) {
 		return this.delegate.getOWLDataUnionOf(dataRanges);
 	}
 
@@ -1072,8 +1013,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDataIntersectionOf(java.util.Set)
 	 */
-	public OWLDataIntersectionOf getOWLDataIntersectionOf(
-			Set<? extends OWLDataRange> dataRanges) {
+	public OWLDataIntersectionOf getOWLDataIntersectionOf(Set<? extends OWLDataRange> dataRanges) {
 		return this.delegate.getOWLDataIntersectionOf(dataRanges);
 	}
 
@@ -1082,8 +1022,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDataIntersectionOf(org.semanticweb.owlapi.model.OWLDataRange[])
 	 */
-	public OWLDataIntersectionOf getOWLDataIntersectionOf(
-			OWLDataRange... dataRanges) {
+	public OWLDataIntersectionOf getOWLDataIntersectionOf(OWLDataRange... dataRanges) {
 		return this.delegate.getOWLDataIntersectionOf(dataRanges);
 	}
 
@@ -1102,8 +1041,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectIntersectionOf(org.semanticweb.owlapi.model.OWLClassExpression[])
 	 */
-	public OWLObjectIntersectionOf getOWLObjectIntersectionOf(
-			OWLClassExpression... operands) {
+	public OWLObjectIntersectionOf getOWLObjectIntersectionOf(OWLClassExpression... operands) {
 		return this.delegate.getOWLObjectIntersectionOf(operands);
 	}
 
@@ -1114,8 +1052,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDataSomeValuesFrom(org.semanticweb.owlapi.model.OWLDataPropertyExpression,
 	 *      org.semanticweb.owlapi.model.OWLDataRange)
 	 */
-	public OWLDataSomeValuesFrom getOWLDataSomeValuesFrom(
-			OWLDataPropertyExpression property, OWLDataRange dataRange) {
+	public OWLDataSomeValuesFrom getOWLDataSomeValuesFrom(OWLDataPropertyExpression property,
+			OWLDataRange dataRange) {
 		return this.delegate.getOWLDataSomeValuesFrom(property, dataRange);
 	}
 
@@ -1126,8 +1064,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDataAllValuesFrom(org.semanticweb.owlapi.model.OWLDataPropertyExpression,
 	 *      org.semanticweb.owlapi.model.OWLDataRange)
 	 */
-	public OWLDataAllValuesFrom getOWLDataAllValuesFrom(
-			OWLDataPropertyExpression property, OWLDataRange dataRange) {
+	public OWLDataAllValuesFrom getOWLDataAllValuesFrom(OWLDataPropertyExpression property,
+			OWLDataRange dataRange) {
 		return this.delegate.getOWLDataAllValuesFrom(property, dataRange);
 	}
 
@@ -1154,8 +1092,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 */
 	public OWLDataExactCardinality getOWLDataExactCardinality(int cardinality,
 			OWLDataPropertyExpression property, OWLDataRange dataRange) {
-		return this.delegate.getOWLDataExactCardinality(cardinality, property,
-				dataRange);
+		return this.delegate.getOWLDataExactCardinality(cardinality, property, dataRange);
 	}
 
 	/**
@@ -1181,8 +1118,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 */
 	public OWLDataMaxCardinality getOWLDataMaxCardinality(int cardinality,
 			OWLDataPropertyExpression property, OWLDataRange dataRange) {
-		return this.delegate.getOWLDataMaxCardinality(cardinality, property,
-				dataRange);
+		return this.delegate.getOWLDataMaxCardinality(cardinality, property, dataRange);
 	}
 
 	/**
@@ -1208,8 +1144,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 */
 	public OWLDataMinCardinality getOWLDataMinCardinality(int cardinality,
 			OWLDataPropertyExpression property, OWLDataRange dataRange) {
-		return this.delegate.getOWLDataMinCardinality(cardinality, property,
-				dataRange);
+		return this.delegate.getOWLDataMinCardinality(cardinality, property, dataRange);
 	}
 
 	/**
@@ -1219,8 +1154,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDataHasValue(org.semanticweb.owlapi.model.OWLDataPropertyExpression,
 	 *      org.semanticweb.owlapi.model.OWLLiteral)
 	 */
-	public OWLDataHasValue getOWLDataHasValue(
-			OWLDataPropertyExpression property, OWLLiteral value) {
+	public OWLDataHasValue getOWLDataHasValue(OWLDataPropertyExpression property, OWLLiteral value) {
 		return this.delegate.getOWLDataHasValue(property, value);
 	}
 
@@ -1229,8 +1163,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectComplementOf(org.semanticweb.owlapi.model.OWLClassExpression)
 	 */
-	public OWLObjectComplementOf getOWLObjectComplementOf(
-			OWLClassExpression operand) {
+	public OWLObjectComplementOf getOWLObjectComplementOf(OWLClassExpression operand) {
 		return this.delegate.getOWLObjectComplementOf(operand);
 	}
 
@@ -1259,11 +1192,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectAllValuesFrom(org.semanticweb.owlapi.model.OWLObjectPropertyExpression,
 	 *      org.semanticweb.owlapi.model.OWLClassExpression)
 	 */
-	public OWLObjectAllValuesFrom getOWLObjectAllValuesFrom(
-			OWLObjectPropertyExpression property,
+	public OWLObjectAllValuesFrom getOWLObjectAllValuesFrom(OWLObjectPropertyExpression property,
 			OWLClassExpression classExpression) {
-		return this.delegate.getOWLObjectAllValuesFrom(property,
-				classExpression);
+		return this.delegate.getOWLObjectAllValuesFrom(property, classExpression);
 	}
 
 	/**
@@ -1273,11 +1204,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectSomeValuesFrom(org.semanticweb.owlapi.model.OWLObjectPropertyExpression,
 	 *      org.semanticweb.owlapi.model.OWLClassExpression)
 	 */
-	public OWLObjectSomeValuesFrom getOWLObjectSomeValuesFrom(
-			OWLObjectPropertyExpression property,
+	public OWLObjectSomeValuesFrom getOWLObjectSomeValuesFrom(OWLObjectPropertyExpression property,
 			OWLClassExpression classExpression) {
-		return this.delegate.getOWLObjectSomeValuesFrom(property,
-				classExpression);
+		return this.delegate.getOWLObjectSomeValuesFrom(property, classExpression);
 	}
 
 	/**
@@ -1287,10 +1216,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectExactCardinality(int,
 	 *      org.semanticweb.owlapi.model.OWLObjectPropertyExpression)
 	 */
-	public OWLObjectExactCardinality getOWLObjectExactCardinality(
-			int cardinality, OWLObjectPropertyExpression property) {
-		return this.delegate
-				.getOWLObjectExactCardinality(cardinality, property);
+	public OWLObjectExactCardinality getOWLObjectExactCardinality(int cardinality,
+			OWLObjectPropertyExpression property) {
+		return this.delegate.getOWLObjectExactCardinality(cardinality, property);
 	}
 
 	/**
@@ -1302,11 +1230,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLObjectPropertyExpression,
 	 *      org.semanticweb.owlapi.model.OWLClassExpression)
 	 */
-	public OWLObjectExactCardinality getOWLObjectExactCardinality(
-			int cardinality, OWLObjectPropertyExpression property,
-			OWLClassExpression classExpression) {
-		return this.delegate.getOWLObjectExactCardinality(cardinality,
-				property, classExpression);
+	public OWLObjectExactCardinality getOWLObjectExactCardinality(int cardinality,
+			OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
+		return this.delegate.getOWLObjectExactCardinality(cardinality, property, classExpression);
 	}
 
 	/**
@@ -1331,10 +1257,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLClassExpression)
 	 */
 	public OWLObjectMinCardinality getOWLObjectMinCardinality(int cardinality,
-			OWLObjectPropertyExpression property,
-			OWLClassExpression classExpression) {
-		return this.delegate.getOWLObjectMinCardinality(cardinality, property,
-				classExpression);
+			OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
+		return this.delegate.getOWLObjectMinCardinality(cardinality, property, classExpression);
 	}
 
 	/**
@@ -1359,10 +1283,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLClassExpression)
 	 */
 	public OWLObjectMaxCardinality getOWLObjectMaxCardinality(int cardinality,
-			OWLObjectPropertyExpression property,
-			OWLClassExpression classExpression) {
-		return this.delegate.getOWLObjectMaxCardinality(cardinality, property,
-				classExpression);
+			OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
+		return this.delegate.getOWLObjectMaxCardinality(cardinality, property, classExpression);
 	}
 
 	/**
@@ -1370,8 +1292,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectHasSelf(org.semanticweb.owlapi.model.OWLObjectPropertyExpression)
 	 */
-	public OWLObjectHasSelf getOWLObjectHasSelf(
-			OWLObjectPropertyExpression property) {
+	public OWLObjectHasSelf getOWLObjectHasSelf(OWLObjectPropertyExpression property) {
 		return this.delegate.getOWLObjectHasSelf(property);
 	}
 
@@ -1382,8 +1303,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectHasValue(org.semanticweb.owlapi.model.OWLObjectPropertyExpression,
 	 *      org.semanticweb.owlapi.model.OWLIndividual)
 	 */
-	public OWLObjectHasValue getOWLObjectHasValue(
-			OWLObjectPropertyExpression property, OWLIndividual individual) {
+	public OWLObjectHasValue getOWLObjectHasValue(OWLObjectPropertyExpression property,
+			OWLIndividual individual) {
 		return this.delegate.getOWLObjectHasValue(property, individual);
 	}
 
@@ -1392,8 +1313,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectUnionOf(java.util.Set)
 	 */
-	public OWLObjectUnionOf getOWLObjectUnionOf(
-			Set<? extends OWLClassExpression> operands) {
+	public OWLObjectUnionOf getOWLObjectUnionOf(Set<? extends OWLClassExpression> operands) {
 		return this.delegate.getOWLObjectUnionOf(operands);
 	}
 
@@ -1434,8 +1354,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLSubClassOfAxiom(org.semanticweb.owlapi.model.OWLClassExpression,
 	 *      org.semanticweb.owlapi.model.OWLClassExpression)
 	 */
-	public OWLSubClassOfAxiom getOWLSubClassOfAxiom(
-			OWLClassExpression subClass, OWLClassExpression superClass) {
+	public OWLSubClassOfAxiom getOWLSubClassOfAxiom(OWLClassExpression subClass,
+			OWLClassExpression superClass) {
 		return this.delegate.getOWLSubClassOfAxiom(subClass, superClass);
 	}
 
@@ -1447,11 +1367,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLSubClassOfAxiom(org.semanticweb.owlapi.model.OWLClassExpression,
 	 *      org.semanticweb.owlapi.model.OWLClassExpression, java.util.Set)
 	 */
-	public OWLSubClassOfAxiom getOWLSubClassOfAxiom(
-			OWLClassExpression subClass, OWLClassExpression superClass,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLSubClassOfAxiom(subClass, superClass,
-				annotations);
+	public OWLSubClassOfAxiom getOWLSubClassOfAxiom(OWLClassExpression subClass,
+			OWLClassExpression superClass, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLSubClassOfAxiom(subClass, superClass, annotations);
 	}
 
 	/**
@@ -1474,8 +1392,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	public OWLEquivalentClassesAxiom getOWLEquivalentClassesAxiom(
 			Set<? extends OWLClassExpression> classExpressions,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLEquivalentClassesAxiom(classExpressions,
-				annotations);
+		return this.delegate.getOWLEquivalentClassesAxiom(classExpressions, annotations);
 	}
 
 	/**
@@ -1495,8 +1412,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLEquivalentClassesAxiom(org.semanticweb.owlapi.model.OWLClassExpression,
 	 *      org.semanticweb.owlapi.model.OWLClassExpression)
 	 */
-	public OWLEquivalentClassesAxiom getOWLEquivalentClassesAxiom(
-			OWLClassExpression clsA, OWLClassExpression clsB) {
+	public OWLEquivalentClassesAxiom getOWLEquivalentClassesAxiom(OWLClassExpression clsA,
+			OWLClassExpression clsB) {
 		return this.delegate.getOWLEquivalentClassesAxiom(clsA, clsB);
 	}
 
@@ -1508,11 +1425,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLEquivalentClassesAxiom(org.semanticweb.owlapi.model.OWLClassExpression,
 	 *      org.semanticweb.owlapi.model.OWLClassExpression, java.util.Set)
 	 */
-	public OWLEquivalentClassesAxiom getOWLEquivalentClassesAxiom(
-			OWLClassExpression clsA, OWLClassExpression clsB,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLEquivalentClassesAxiom(clsA, clsB,
-				annotations);
+	public OWLEquivalentClassesAxiom getOWLEquivalentClassesAxiom(OWLClassExpression clsA,
+			OWLClassExpression clsB, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLEquivalentClassesAxiom(clsA, clsB, annotations);
 	}
 
 	/**
@@ -1545,8 +1460,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
 			Set<? extends OWLClassExpression> classExpressions,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLDisjointClassesAxiom(classExpressions,
-				annotations);
+		return this.delegate.getOWLDisjointClassesAxiom(classExpressions, annotations);
 	}
 
 	/**
@@ -1558,8 +1472,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 */
 	public OWLDisjointUnionAxiom getOWLDisjointUnionAxiom(OWLClass owlClass,
 			Set<? extends OWLClassExpression> classExpressions) {
-		return this.delegate.getOWLDisjointUnionAxiom(owlClass,
-				classExpressions);
+		return this.delegate.getOWLDisjointUnionAxiom(owlClass, classExpressions);
 	}
 
 	/**
@@ -1573,8 +1486,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	public OWLDisjointUnionAxiom getOWLDisjointUnionAxiom(OWLClass owlClass,
 			Set<? extends OWLClassExpression> classExpressions,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLDisjointUnionAxiom(owlClass,
-				classExpressions, annotations);
+		return this.delegate.getOWLDisjointUnionAxiom(owlClass, classExpressions, annotations);
 	}
 
 	/**
@@ -1585,10 +1497,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLObjectPropertyExpression)
 	 */
 	public OWLSubObjectPropertyOfAxiom getOWLSubObjectPropertyOfAxiom(
-			OWLObjectPropertyExpression subProperty,
-			OWLObjectPropertyExpression superProperty) {
-		return this.delegate.getOWLSubObjectPropertyOfAxiom(subProperty,
-				superProperty);
+			OWLObjectPropertyExpression subProperty, OWLObjectPropertyExpression superProperty) {
+		return this.delegate.getOWLSubObjectPropertyOfAxiom(subProperty, superProperty);
 	}
 
 	/**
@@ -1601,11 +1511,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLSubObjectPropertyOfAxiom getOWLSubObjectPropertyOfAxiom(
-			OWLObjectPropertyExpression subProperty,
-			OWLObjectPropertyExpression superProperty,
+			OWLObjectPropertyExpression subProperty, OWLObjectPropertyExpression superProperty,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLSubObjectPropertyOfAxiom(subProperty,
-				superProperty, annotations);
+		return this.delegate.getOWLSubObjectPropertyOfAxiom(subProperty, superProperty, annotations);
 	}
 
 	/**
@@ -1618,8 +1526,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	public OWLSubPropertyChainOfAxiom getOWLSubPropertyChainOfAxiom(
 			List<? extends OWLObjectPropertyExpression> chain,
 			OWLObjectPropertyExpression superProperty) {
-		return this.delegate
-				.getOWLSubPropertyChainOfAxiom(chain, superProperty);
+		return this.delegate.getOWLSubPropertyChainOfAxiom(chain, superProperty);
 	}
 
 	/**
@@ -1633,10 +1540,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 */
 	public OWLSubPropertyChainOfAxiom getOWLSubPropertyChainOfAxiom(
 			List<? extends OWLObjectPropertyExpression> chain,
-			OWLObjectPropertyExpression superProperty,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLSubPropertyChainOfAxiom(chain,
-				superProperty, annotations);
+			OWLObjectPropertyExpression superProperty, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLSubPropertyChainOfAxiom(chain, superProperty, annotations);
 	}
 
 	/**
@@ -1659,8 +1564,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	public OWLEquivalentObjectPropertiesAxiom getOWLEquivalentObjectPropertiesAxiom(
 			Set<? extends OWLObjectPropertyExpression> properties,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLEquivalentObjectPropertiesAxiom(properties,
-				annotations);
+		return this.delegate.getOWLEquivalentObjectPropertiesAxiom(properties, annotations);
 	}
 
 	/**
@@ -1681,10 +1585,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLObjectPropertyExpression)
 	 */
 	public OWLEquivalentObjectPropertiesAxiom getOWLEquivalentObjectPropertiesAxiom(
-			OWLObjectPropertyExpression propertyA,
-			OWLObjectPropertyExpression propertyB) {
-		return this.delegate.getOWLEquivalentObjectPropertiesAxiom(propertyA,
-				propertyB);
+			OWLObjectPropertyExpression propertyA, OWLObjectPropertyExpression propertyB) {
+		return this.delegate.getOWLEquivalentObjectPropertiesAxiom(propertyA, propertyB);
 	}
 
 	/**
@@ -1697,11 +1599,12 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLEquivalentObjectPropertiesAxiom getOWLEquivalentObjectPropertiesAxiom(
-			OWLObjectPropertyExpression propertyA,
-			OWLObjectPropertyExpression propertyB,
+			OWLObjectPropertyExpression propertyA, OWLObjectPropertyExpression propertyB,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLEquivalentObjectPropertiesAxiom(propertyA,
-				propertyB, annotations);
+		return this.delegate.getOWLEquivalentObjectPropertiesAxiom(
+				propertyA,
+				propertyB,
+				annotations);
 	}
 
 	/**
@@ -1734,8 +1637,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
 			Set<? extends OWLObjectPropertyExpression> properties,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLDisjointObjectPropertiesAxiom(properties,
-				annotations);
+		return this.delegate.getOWLDisjointObjectPropertiesAxiom(properties, annotations);
 	}
 
 	/**
@@ -1746,10 +1648,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLObjectPropertyExpression)
 	 */
 	public OWLInverseObjectPropertiesAxiom getOWLInverseObjectPropertiesAxiom(
-			OWLObjectPropertyExpression forwardProperty,
-			OWLObjectPropertyExpression inverseProperty) {
-		return this.delegate.getOWLInverseObjectPropertiesAxiom(
-				forwardProperty, inverseProperty);
+			OWLObjectPropertyExpression forwardProperty, OWLObjectPropertyExpression inverseProperty) {
+		return this.delegate.getOWLInverseObjectPropertiesAxiom(forwardProperty, inverseProperty);
 	}
 
 	/**
@@ -1763,10 +1663,11 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 */
 	public OWLInverseObjectPropertiesAxiom getOWLInverseObjectPropertiesAxiom(
 			OWLObjectPropertyExpression forwardProperty,
-			OWLObjectPropertyExpression inverseProperty,
-			Set<? extends OWLAnnotation> annotations) {
+			OWLObjectPropertyExpression inverseProperty, Set<? extends OWLAnnotation> annotations) {
 		return this.delegate.getOWLInverseObjectPropertiesAxiom(
-				forwardProperty, inverseProperty, annotations);
+				forwardProperty,
+				inverseProperty,
+				annotations);
 	}
 
 	/**
@@ -1777,10 +1678,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLClassExpression)
 	 */
 	public OWLObjectPropertyDomainAxiom getOWLObjectPropertyDomainAxiom(
-			OWLObjectPropertyExpression property,
-			OWLClassExpression classExpression) {
-		return this.delegate.getOWLObjectPropertyDomainAxiom(property,
-				classExpression);
+			OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
+		return this.delegate.getOWLObjectPropertyDomainAxiom(property, classExpression);
 	}
 
 	/**
@@ -1792,11 +1691,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLClassExpression, java.util.Set)
 	 */
 	public OWLObjectPropertyDomainAxiom getOWLObjectPropertyDomainAxiom(
-			OWLObjectPropertyExpression property,
-			OWLClassExpression classExpression,
+			OWLObjectPropertyExpression property, OWLClassExpression classExpression,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLObjectPropertyDomainAxiom(property,
-				classExpression, annotations);
+		return this.delegate.getOWLObjectPropertyDomainAxiom(property, classExpression, annotations);
 	}
 
 	/**
@@ -1822,8 +1719,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	public OWLObjectPropertyRangeAxiom getOWLObjectPropertyRangeAxiom(
 			OWLObjectPropertyExpression property, OWLClassExpression range,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLObjectPropertyRangeAxiom(property, range,
-				annotations);
+		return this.delegate.getOWLObjectPropertyRangeAxiom(property, range, annotations);
 	}
 
 	/**
@@ -1844,10 +1740,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLFunctionalObjectPropertyAxiom getOWLFunctionalObjectPropertyAxiom(
-			OWLObjectPropertyExpression property,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLFunctionalObjectPropertyAxiom(property,
-				annotations);
+			OWLObjectPropertyExpression property, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLFunctionalObjectPropertyAxiom(property, annotations);
 	}
 
 	/**
@@ -1857,8 +1751,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 */
 	public OWLInverseFunctionalObjectPropertyAxiom getOWLInverseFunctionalObjectPropertyAxiom(
 			OWLObjectPropertyExpression property) {
-		return this.delegate
-				.getOWLInverseFunctionalObjectPropertyAxiom(property);
+		return this.delegate.getOWLInverseFunctionalObjectPropertyAxiom(property);
 	}
 
 	/**
@@ -1869,10 +1762,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLInverseFunctionalObjectPropertyAxiom getOWLInverseFunctionalObjectPropertyAxiom(
-			OWLObjectPropertyExpression property,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLInverseFunctionalObjectPropertyAxiom(
-				property, annotations);
+			OWLObjectPropertyExpression property, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLInverseFunctionalObjectPropertyAxiom(property, annotations);
 	}
 
 	/**
@@ -1893,10 +1784,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLReflexiveObjectPropertyAxiom getOWLReflexiveObjectPropertyAxiom(
-			OWLObjectPropertyExpression property,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLReflexiveObjectPropertyAxiom(property,
-				annotations);
+			OWLObjectPropertyExpression property, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLReflexiveObjectPropertyAxiom(property, annotations);
 	}
 
 	/**
@@ -1917,10 +1806,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLIrreflexiveObjectPropertyAxiom getOWLIrreflexiveObjectPropertyAxiom(
-			OWLObjectPropertyExpression property,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLIrreflexiveObjectPropertyAxiom(property,
-				annotations);
+			OWLObjectPropertyExpression property, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLIrreflexiveObjectPropertyAxiom(property, annotations);
 	}
 
 	/**
@@ -1941,10 +1828,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLSymmetricObjectPropertyAxiom getOWLSymmetricObjectPropertyAxiom(
-			OWLObjectPropertyExpression property,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLSymmetricObjectPropertyAxiom(property,
-				annotations);
+			OWLObjectPropertyExpression property, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLSymmetricObjectPropertyAxiom(property, annotations);
 	}
 
 	/**
@@ -1954,8 +1839,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 */
 	public OWLAsymmetricObjectPropertyAxiom getOWLAsymmetricObjectPropertyAxiom(
 			OWLObjectPropertyExpression propertyExpression) {
-		return this.delegate
-				.getOWLAsymmetricObjectPropertyAxiom(propertyExpression);
+		return this.delegate.getOWLAsymmetricObjectPropertyAxiom(propertyExpression);
 	}
 
 	/**
@@ -1966,10 +1850,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLAsymmetricObjectPropertyAxiom getOWLAsymmetricObjectPropertyAxiom(
-			OWLObjectPropertyExpression propertyExpression,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLAsymmetricObjectPropertyAxiom(
-				propertyExpression, annotations);
+			OWLObjectPropertyExpression propertyExpression, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLAsymmetricObjectPropertyAxiom(propertyExpression, annotations);
 	}
 
 	/**
@@ -1990,10 +1872,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLTransitiveObjectPropertyAxiom getOWLTransitiveObjectPropertyAxiom(
-			OWLObjectPropertyExpression property,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLTransitiveObjectPropertyAxiom(property,
-				annotations);
+			OWLObjectPropertyExpression property, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLTransitiveObjectPropertyAxiom(property, annotations);
 	}
 
 	/**
@@ -2004,10 +1884,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLDataPropertyExpression)
 	 */
 	public OWLSubDataPropertyOfAxiom getOWLSubDataPropertyOfAxiom(
-			OWLDataPropertyExpression subProperty,
-			OWLDataPropertyExpression superProperty) {
-		return this.delegate.getOWLSubDataPropertyOfAxiom(subProperty,
-				superProperty);
+			OWLDataPropertyExpression subProperty, OWLDataPropertyExpression superProperty) {
+		return this.delegate.getOWLSubDataPropertyOfAxiom(subProperty, superProperty);
 	}
 
 	/**
@@ -2020,11 +1898,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLSubDataPropertyOfAxiom getOWLSubDataPropertyOfAxiom(
-			OWLDataPropertyExpression subProperty,
-			OWLDataPropertyExpression superProperty,
+			OWLDataPropertyExpression subProperty, OWLDataPropertyExpression superProperty,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLSubDataPropertyOfAxiom(subProperty,
-				superProperty, annotations);
+		return this.delegate.getOWLSubDataPropertyOfAxiom(subProperty, superProperty, annotations);
 	}
 
 	/**
@@ -2047,8 +1923,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	public OWLEquivalentDataPropertiesAxiom getOWLEquivalentDataPropertiesAxiom(
 			Set<? extends OWLDataPropertyExpression> properties,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLEquivalentDataPropertiesAxiom(properties,
-				annotations);
+		return this.delegate.getOWLEquivalentDataPropertiesAxiom(properties, annotations);
 	}
 
 	/**
@@ -2069,10 +1944,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLDataPropertyExpression)
 	 */
 	public OWLEquivalentDataPropertiesAxiom getOWLEquivalentDataPropertiesAxiom(
-			OWLDataPropertyExpression propertyA,
-			OWLDataPropertyExpression propertyB) {
-		return this.delegate.getOWLEquivalentDataPropertiesAxiom(propertyA,
-				propertyB);
+			OWLDataPropertyExpression propertyA, OWLDataPropertyExpression propertyB) {
+		return this.delegate.getOWLEquivalentDataPropertiesAxiom(propertyA, propertyB);
 	}
 
 	/**
@@ -2085,11 +1958,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLEquivalentDataPropertiesAxiom getOWLEquivalentDataPropertiesAxiom(
-			OWLDataPropertyExpression propertyA,
-			OWLDataPropertyExpression propertyB,
+			OWLDataPropertyExpression propertyA, OWLDataPropertyExpression propertyB,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLEquivalentDataPropertiesAxiom(propertyA,
-				propertyB, annotations);
+		return this.delegate.getOWLEquivalentDataPropertiesAxiom(propertyA, propertyB, annotations);
 	}
 
 	/**
@@ -2122,8 +1993,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
 			Set<? extends OWLDataPropertyExpression> properties,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLDisjointDataPropertiesAxiom(properties,
-				annotations);
+		return this.delegate.getOWLDisjointDataPropertiesAxiom(properties, annotations);
 	}
 
 	/**
@@ -2149,8 +2019,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	public OWLDataPropertyDomainAxiom getOWLDataPropertyDomainAxiom(
 			OWLDataPropertyExpression property, OWLClassExpression domain,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLDataPropertyDomainAxiom(property, domain,
-				annotations);
+		return this.delegate.getOWLDataPropertyDomainAxiom(property, domain, annotations);
 	}
 
 	/**
@@ -2162,8 +2031,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 */
 	public OWLDataPropertyRangeAxiom getOWLDataPropertyRangeAxiom(
 			OWLDataPropertyExpression property, OWLDataRange owlDataRange) {
-		return this.delegate.getOWLDataPropertyRangeAxiom(property,
-				owlDataRange);
+		return this.delegate.getOWLDataPropertyRangeAxiom(property, owlDataRange);
 	}
 
 	/**
@@ -2177,8 +2045,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	public OWLDataPropertyRangeAxiom getOWLDataPropertyRangeAxiom(
 			OWLDataPropertyExpression property, OWLDataRange owlDataRange,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLDataPropertyRangeAxiom(property,
-				owlDataRange, annotations);
+		return this.delegate.getOWLDataPropertyRangeAxiom(property, owlDataRange, annotations);
 	}
 
 	/**
@@ -2199,10 +2066,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLFunctionalDataPropertyAxiom getOWLFunctionalDataPropertyAxiom(
-			OWLDataPropertyExpression property,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLFunctionalDataPropertyAxiom(property,
-				annotations);
+			OWLDataPropertyExpression property, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLFunctionalDataPropertyAxiom(property, annotations);
 	}
 
 	/**
@@ -2213,7 +2078,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLHasKeyAxiom getOWLHasKeyAxiom(OWLClassExpression ce,
-			Set<? extends OWLPropertyExpression> properties) {
+			Set<? extends OWLPropertyExpression<?, ?>> properties) {
 		return this.delegate.getOWLHasKeyAxiom(ce, properties);
 	}
 
@@ -2225,7 +2090,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLPropertyExpression[])
 	 */
 	public OWLHasKeyAxiom getOWLHasKeyAxiom(OWLClassExpression ce,
-			OWLPropertyExpression... properties) {
+			OWLPropertyExpression<?, ?>... properties) {
 		return this.delegate.getOWLHasKeyAxiom(ce, properties);
 	}
 
@@ -2238,10 +2103,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set, java.util.Set)
 	 */
 	public OWLHasKeyAxiom getOWLHasKeyAxiom(OWLClassExpression ce,
-			Set<? extends OWLPropertyExpression> objectProperties,
+			Set<? extends OWLPropertyExpression<?, ?>> objectProperties,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLHasKeyAxiom(ce, objectProperties,
-				annotations);
+		return this.delegate.getOWLHasKeyAxiom(ce, objectProperties, annotations);
 	}
 
 	/**
@@ -2251,8 +2115,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeDefinitionAxiom(org.semanticweb.owlapi.model.OWLDatatype,
 	 *      org.semanticweb.owlapi.model.OWLDataRange)
 	 */
-	public OWLDatatypeDefinitionAxiom getOWLDatatypeDefinitionAxiom(
-			OWLDatatype datatype, OWLDataRange dataRange) {
+	public OWLDatatypeDefinitionAxiom getOWLDatatypeDefinitionAxiom(OWLDatatype datatype,
+			OWLDataRange dataRange) {
 		return this.delegate.getOWLDatatypeDefinitionAxiom(datatype, dataRange);
 	}
 
@@ -2264,11 +2128,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLDatatypeDefinitionAxiom(org.semanticweb.owlapi.model.OWLDatatype,
 	 *      org.semanticweb.owlapi.model.OWLDataRange, java.util.Set)
 	 */
-	public OWLDatatypeDefinitionAxiom getOWLDatatypeDefinitionAxiom(
-			OWLDatatype datatype, OWLDataRange dataRange,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLDatatypeDefinitionAxiom(datatype, dataRange,
-				annotations);
+	public OWLDatatypeDefinitionAxiom getOWLDatatypeDefinitionAxiom(OWLDatatype datatype,
+			OWLDataRange dataRange, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLDatatypeDefinitionAxiom(datatype, dataRange, annotations);
 	}
 
 	/**
@@ -2276,8 +2138,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLSameIndividualAxiom(java.util.Set)
 	 */
-	public OWLSameIndividualAxiom getOWLSameIndividualAxiom(
-			Set<? extends OWLIndividual> individuals) {
+	public OWLSameIndividualAxiom getOWLSameIndividualAxiom(Set<? extends OWLIndividual> individuals) {
 		return this.delegate.getOWLSameIndividualAxiom(individuals);
 	}
 
@@ -2286,8 +2147,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLSameIndividualAxiom(org.semanticweb.owlapi.model.OWLIndividual[])
 	 */
-	public OWLSameIndividualAxiom getOWLSameIndividualAxiom(
-			OWLIndividual... individual) {
+	public OWLSameIndividualAxiom getOWLSameIndividualAxiom(OWLIndividual... individual) {
 		return this.delegate.getOWLSameIndividualAxiom(individual);
 	}
 
@@ -2299,10 +2159,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLSameIndividualAxiom getOWLSameIndividualAxiom(
-			Set<? extends OWLIndividual> individuals,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate
-				.getOWLSameIndividualAxiom(individuals, annotations);
+			Set<? extends OWLIndividual> individuals, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLSameIndividualAxiom(individuals, annotations);
 	}
 
 	/**
@@ -2333,104 +2191,101 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      java.util.Set)
 	 */
 	public OWLDifferentIndividualsAxiom getOWLDifferentIndividualsAxiom(
-			Set<? extends OWLIndividual> individuals,
+			Set<? extends OWLIndividual> individuals, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLDifferentIndividualsAxiom(individuals, annotations);
+	}
+
+	/**
+	 * @param classExpression
+	 * @param individual
+	 * @return
+	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLClassAssertionAxiom(org.semanticweb.owlapi.model.OWLClassExpression,
+	 *      org.semanticweb.owlapi.model.OWLIndividual)
+	 */
+	public OWLClassAssertionAxiom getOWLClassAssertionAxiom(OWLClassExpression classExpression,
+			OWLIndividual individual) {
+		return this.delegate.getOWLClassAssertionAxiom(classExpression, individual);
+	}
+
+	/**
+	 * @param classExpression
+	 * @param individual
+	 * @param annotations
+	 * @return
+	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLClassAssertionAxiom(org.semanticweb.owlapi.model.OWLClassExpression,
+	 *      org.semanticweb.owlapi.model.OWLIndividual, java.util.Set)
+	 */
+	public OWLClassAssertionAxiom getOWLClassAssertionAxiom(OWLClassExpression classExpression,
+			OWLIndividual individual, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLClassAssertionAxiom(classExpression, individual, annotations);
+	}
+
+	/**
+	 * @param property
+	 * @param individual
+	 * @param object
+	 * @return
+	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectPropertyAssertionAxiom(org.semanticweb.owlapi.model.OWLObjectPropertyExpression,
+	 *      org.semanticweb.owlapi.model.OWLIndividual,
+	 *      org.semanticweb.owlapi.model.OWLIndividual)
+	 */
+	public OWLObjectPropertyAssertionAxiom getOWLObjectPropertyAssertionAxiom(
+			OWLObjectPropertyExpression property, OWLIndividual individual, OWLIndividual object) {
+		return this.delegate.getOWLObjectPropertyAssertionAxiom(property, individual, object);
+	}
+
+	/**
+	 * @param property
+	 * @param individual
+	 * @param object
+	 * @param annotations
+	 * @return
+	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectPropertyAssertionAxiom(org.semanticweb.owlapi.model.OWLObjectPropertyExpression,
+	 *      org.semanticweb.owlapi.model.OWLIndividual,
+	 *      org.semanticweb.owlapi.model.OWLIndividual, java.util.Set)
+	 */
+	public OWLObjectPropertyAssertionAxiom getOWLObjectPropertyAssertionAxiom(
+			OWLObjectPropertyExpression property, OWLIndividual individual, OWLIndividual object,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLDifferentIndividualsAxiom(individuals,
+		return this.delegate.getOWLObjectPropertyAssertionAxiom(
+				property,
+				individual,
+				object,
 				annotations);
 	}
 
 	/**
-	 * @param classExpression
-	 * @param individual
+	 * @param property
+	 * @param subject
+	 * @param object
 	 * @return
-	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLClassAssertionAxiom(org.semanticweb.owlapi.model.OWLClassExpression,
+	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLNegativeObjectPropertyAssertionAxiom(org.semanticweb.owlapi.model.OWLObjectPropertyExpression,
+	 *      org.semanticweb.owlapi.model.OWLIndividual,
 	 *      org.semanticweb.owlapi.model.OWLIndividual)
 	 */
-	public OWLClassAssertionAxiom getOWLClassAssertionAxiom(
-			OWLClassExpression classExpression, OWLIndividual individual) {
-		return this.delegate.getOWLClassAssertionAxiom(classExpression,
-				individual);
+	public OWLNegativeObjectPropertyAssertionAxiom getOWLNegativeObjectPropertyAssertionAxiom(
+			OWLObjectPropertyExpression property, OWLIndividual subject, OWLIndividual object) {
+		return this.delegate.getOWLNegativeObjectPropertyAssertionAxiom(property, subject, object);
 	}
 
 	/**
-	 * @param classExpression
-	 * @param individual
+	 * @param property
+	 * @param subject
+	 * @param object
 	 * @param annotations
 	 * @return
-	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLClassAssertionAxiom(org.semanticweb.owlapi.model.OWLClassExpression,
+	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLNegativeObjectPropertyAssertionAxiom(org.semanticweb.owlapi.model.OWLObjectPropertyExpression,
+	 *      org.semanticweb.owlapi.model.OWLIndividual,
 	 *      org.semanticweb.owlapi.model.OWLIndividual, java.util.Set)
 	 */
-	public OWLClassAssertionAxiom getOWLClassAssertionAxiom(
-			OWLClassExpression classExpression, OWLIndividual individual,
+	public OWLNegativeObjectPropertyAssertionAxiom getOWLNegativeObjectPropertyAssertionAxiom(
+			OWLObjectPropertyExpression property, OWLIndividual subject, OWLIndividual object,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLClassAssertionAxiom(classExpression,
-				individual, annotations);
-	}
-
-	/**
-	 * @param property
-	 * @param individual
-	 * @param object
-	 * @return
-	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectPropertyAssertionAxiom(org.semanticweb.owlapi.model.OWLObjectPropertyExpression,
-	 *      org.semanticweb.owlapi.model.OWLIndividual,
-	 *      org.semanticweb.owlapi.model.OWLIndividual)
-	 */
-	public OWLObjectPropertyAssertionAxiom getOWLObjectPropertyAssertionAxiom(
-			OWLObjectPropertyExpression property, OWLIndividual individual,
-			OWLIndividual object) {
-		return this.delegate.getOWLObjectPropertyAssertionAxiom(property,
-				individual, object);
-	}
-
-	/**
-	 * @param property
-	 * @param individual
-	 * @param object
-	 * @param annotations
-	 * @return
-	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLObjectPropertyAssertionAxiom(org.semanticweb.owlapi.model.OWLObjectPropertyExpression,
-	 *      org.semanticweb.owlapi.model.OWLIndividual,
-	 *      org.semanticweb.owlapi.model.OWLIndividual, java.util.Set)
-	 */
-	public OWLObjectPropertyAssertionAxiom getOWLObjectPropertyAssertionAxiom(
-			OWLObjectPropertyExpression property, OWLIndividual individual,
-			OWLIndividual object, Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLObjectPropertyAssertionAxiom(property,
-				individual, object, annotations);
-	}
-
-	/**
-	 * @param property
-	 * @param subject
-	 * @param object
-	 * @return
-	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLNegativeObjectPropertyAssertionAxiom(org.semanticweb.owlapi.model.OWLObjectPropertyExpression,
-	 *      org.semanticweb.owlapi.model.OWLIndividual,
-	 *      org.semanticweb.owlapi.model.OWLIndividual)
-	 */
-	public OWLNegativeObjectPropertyAssertionAxiom getOWLNegativeObjectPropertyAssertionAxiom(
-			OWLObjectPropertyExpression property, OWLIndividual subject,
-			OWLIndividual object) {
 		return this.delegate.getOWLNegativeObjectPropertyAssertionAxiom(
-				property, subject, object);
-	}
-
-	/**
-	 * @param property
-	 * @param subject
-	 * @param object
-	 * @param annotations
-	 * @return
-	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLNegativeObjectPropertyAssertionAxiom(org.semanticweb.owlapi.model.OWLObjectPropertyExpression,
-	 *      org.semanticweb.owlapi.model.OWLIndividual,
-	 *      org.semanticweb.owlapi.model.OWLIndividual, java.util.Set)
-	 */
-	public OWLNegativeObjectPropertyAssertionAxiom getOWLNegativeObjectPropertyAssertionAxiom(
-			OWLObjectPropertyExpression property, OWLIndividual subject,
-			OWLIndividual object, Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLNegativeObjectPropertyAssertionAxiom(
-				property, subject, object, annotations);
+				property,
+				subject,
+				object,
+				annotations);
 	}
 
 	/**
@@ -2443,10 +2298,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLLiteral)
 	 */
 	public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
-			OWLDataPropertyExpression property, OWLIndividual subject,
-			OWLLiteral object) {
-		return this.delegate.getOWLDataPropertyAssertionAxiom(property,
-				subject, object);
+			OWLDataPropertyExpression property, OWLIndividual subject, OWLLiteral object) {
+		return this.delegate.getOWLDataPropertyAssertionAxiom(property, subject, object);
 	}
 
 	/**
@@ -2460,10 +2313,13 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLLiteral, java.util.Set)
 	 */
 	public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
-			OWLDataPropertyExpression property, OWLIndividual subject,
-			OWLLiteral object, Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLDataPropertyAssertionAxiom(property,
-				subject, object, annotations);
+			OWLDataPropertyExpression property, OWLIndividual subject, OWLLiteral object,
+			Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLDataPropertyAssertionAxiom(
+				property,
+				subject,
+				object,
+				annotations);
 	}
 
 	/**
@@ -2476,8 +2332,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 */
 	public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
 			OWLDataPropertyExpression property, OWLIndividual subject, int value) {
-		return this.delegate.getOWLDataPropertyAssertionAxiom(property,
-				subject, value);
+		return this.delegate.getOWLDataPropertyAssertionAxiom(property, subject, value);
 	}
 
 	/**
@@ -2489,10 +2344,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLIndividual, double)
 	 */
 	public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
-			OWLDataPropertyExpression property, OWLIndividual subject,
-			double value) {
-		return this.delegate.getOWLDataPropertyAssertionAxiom(property,
-				subject, value);
+			OWLDataPropertyExpression property, OWLIndividual subject, double value) {
+		return this.delegate.getOWLDataPropertyAssertionAxiom(property, subject, value);
 	}
 
 	/**
@@ -2504,10 +2357,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLIndividual, float)
 	 */
 	public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
-			OWLDataPropertyExpression property, OWLIndividual subject,
-			float value) {
-		return this.delegate.getOWLDataPropertyAssertionAxiom(property,
-				subject, value);
+			OWLDataPropertyExpression property, OWLIndividual subject, float value) {
+		return this.delegate.getOWLDataPropertyAssertionAxiom(property, subject, value);
 	}
 
 	/**
@@ -2519,10 +2370,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLIndividual, boolean)
 	 */
 	public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
-			OWLDataPropertyExpression property, OWLIndividual subject,
-			boolean value) {
-		return this.delegate.getOWLDataPropertyAssertionAxiom(property,
-				subject, value);
+			OWLDataPropertyExpression property, OWLIndividual subject, boolean value) {
+		return this.delegate.getOWLDataPropertyAssertionAxiom(property, subject, value);
 	}
 
 	/**
@@ -2534,10 +2383,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLIndividual, java.lang.String)
 	 */
 	public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
-			OWLDataPropertyExpression property, OWLIndividual subject,
-			String value) {
-		return this.delegate.getOWLDataPropertyAssertionAxiom(property,
-				subject, value);
+			OWLDataPropertyExpression property, OWLIndividual subject, String value) {
+		return this.delegate.getOWLDataPropertyAssertionAxiom(property, subject, value);
 	}
 
 	/**
@@ -2550,10 +2397,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLLiteral)
 	 */
 	public OWLNegativeDataPropertyAssertionAxiom getOWLNegativeDataPropertyAssertionAxiom(
-			OWLDataPropertyExpression property, OWLIndividual subject,
-			OWLLiteral object) {
-		return this.delegate.getOWLNegativeDataPropertyAssertionAxiom(property,
-				subject, object);
+			OWLDataPropertyExpression property, OWLIndividual subject, OWLLiteral object) {
+		return this.delegate.getOWLNegativeDataPropertyAssertionAxiom(property, subject, object);
 	}
 
 	/**
@@ -2567,10 +2412,13 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLLiteral, java.util.Set)
 	 */
 	public OWLNegativeDataPropertyAssertionAxiom getOWLNegativeDataPropertyAssertionAxiom(
-			OWLDataPropertyExpression property, OWLIndividual subject,
-			OWLLiteral object, Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLNegativeDataPropertyAssertionAxiom(property,
-				subject, object, annotations);
+			OWLDataPropertyExpression property, OWLIndividual subject, OWLLiteral object,
+			Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLNegativeDataPropertyAssertionAxiom(
+				property,
+				subject,
+				object,
+				annotations);
 	}
 
 	/**
@@ -2580,8 +2428,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLAnnotation(org.semanticweb.owlapi.model.OWLAnnotationProperty,
 	 *      org.semanticweb.owlapi.model.OWLAnnotationValue)
 	 */
-	public OWLAnnotation getOWLAnnotation(OWLAnnotationProperty property,
-			OWLAnnotationValue value) {
+	public OWLAnnotation getOWLAnnotation(OWLAnnotationProperty property, OWLAnnotationValue value) {
 		return this.delegate.getOWLAnnotation(property, value);
 	}
 
@@ -2593,8 +2440,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLAnnotation(org.semanticweb.owlapi.model.OWLAnnotationProperty,
 	 *      org.semanticweb.owlapi.model.OWLAnnotationValue, java.util.Set)
 	 */
-	public OWLAnnotation getOWLAnnotation(OWLAnnotationProperty property,
-			OWLAnnotationValue value, Set<? extends OWLAnnotation> annotations) {
+	public OWLAnnotation getOWLAnnotation(OWLAnnotationProperty property, OWLAnnotationValue value,
+			Set<? extends OWLAnnotation> annotations) {
 		return this.delegate.getOWLAnnotation(property, value, annotations);
 	}
 
@@ -2608,10 +2455,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLAnnotationValue)
 	 */
 	public OWLAnnotationAssertionAxiom getOWLAnnotationAssertionAxiom(
-			OWLAnnotationProperty property, OWLAnnotationSubject subject,
-			OWLAnnotationValue value) {
-		return this.delegate.getOWLAnnotationAssertionAxiom(property, subject,
-				value);
+			OWLAnnotationProperty property, OWLAnnotationSubject subject, OWLAnnotationValue value) {
+		return this.delegate.getOWLAnnotationAssertionAxiom(property, subject, value);
 	}
 
 	/**
@@ -2621,10 +2466,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLAnnotationAssertionAxiom(org.semanticweb.owlapi.model.OWLAnnotationSubject,
 	 *      org.semanticweb.owlapi.model.OWLAnnotation)
 	 */
-	public OWLAnnotationAssertionAxiom getOWLAnnotationAssertionAxiom(
-			OWLAnnotationSubject subject, OWLAnnotation annotation) {
-		return this.delegate
-				.getOWLAnnotationAssertionAxiom(subject, annotation);
+	public OWLAnnotationAssertionAxiom getOWLAnnotationAssertionAxiom(OWLAnnotationSubject subject,
+			OWLAnnotation annotation) {
+		return this.delegate.getOWLAnnotationAssertionAxiom(subject, annotation);
 	}
 
 	/**
@@ -2638,10 +2482,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.OWLAnnotationValue, java.util.Set)
 	 */
 	public OWLAnnotationAssertionAxiom getOWLAnnotationAssertionAxiom(
-			OWLAnnotationProperty property, OWLAnnotationSubject subject,
-			OWLAnnotationValue value, Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLAnnotationAssertionAxiom(property, subject,
-				value, annotations);
+			OWLAnnotationProperty property, OWLAnnotationSubject subject, OWLAnnotationValue value,
+			Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLAnnotationAssertionAxiom(property, subject, value, annotations);
 	}
 
 	/**
@@ -2652,11 +2495,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLAnnotationAssertionAxiom(org.semanticweb.owlapi.model.OWLAnnotationSubject,
 	 *      org.semanticweb.owlapi.model.OWLAnnotation, java.util.Set)
 	 */
-	public OWLAnnotationAssertionAxiom getOWLAnnotationAssertionAxiom(
-			OWLAnnotationSubject subject, OWLAnnotation annotation,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLAnnotationAssertionAxiom(subject,
-				annotation, annotations);
+	public OWLAnnotationAssertionAxiom getOWLAnnotationAssertionAxiom(OWLAnnotationSubject subject,
+			OWLAnnotation annotation, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLAnnotationAssertionAxiom(subject, annotation, annotations);
 	}
 
 	/**
@@ -2664,8 +2505,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getDeprecatedOWLAnnotationAssertionAxiom(org.semanticweb.owlapi.model.IRI)
 	 */
-	public OWLAnnotationAssertionAxiom getDeprecatedOWLAnnotationAssertionAxiom(
-			IRI subject) {
+	public OWLAnnotationAssertionAxiom getDeprecatedOWLAnnotationAssertionAxiom(IRI subject) {
 		return this.delegate.getDeprecatedOWLAnnotationAssertionAxiom(subject);
 	}
 
@@ -2674,8 +2514,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 * @return
 	 * @see org.semanticweb.owlapi.model.OWLDataFactory#getOWLImportsDeclaration(org.semanticweb.owlapi.model.IRI)
 	 */
-	public OWLImportsDeclaration getOWLImportsDeclaration(
-			IRI importedOntologyIRI) {
+	public OWLImportsDeclaration getOWLImportsDeclaration(IRI importedOntologyIRI) {
 		return this.delegate.getOWLImportsDeclaration(importedOntologyIRI);
 	}
 
@@ -2700,10 +2539,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.IRI, java.util.Set)
 	 */
 	public OWLAnnotationPropertyDomainAxiom getOWLAnnotationPropertyDomainAxiom(
-			OWLAnnotationProperty prop, IRI domain,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLAnnotationPropertyDomainAxiom(prop, domain,
-				annotations);
+			OWLAnnotationProperty prop, IRI domain, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLAnnotationPropertyDomainAxiom(prop, domain, annotations);
 	}
 
 	/**
@@ -2727,10 +2564,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	 *      org.semanticweb.owlapi.model.IRI, java.util.Set)
 	 */
 	public OWLAnnotationPropertyRangeAxiom getOWLAnnotationPropertyRangeAxiom(
-			OWLAnnotationProperty prop, IRI range,
-			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLAnnotationPropertyRangeAxiom(prop, range,
-				annotations);
+			OWLAnnotationProperty prop, IRI range, Set<? extends OWLAnnotation> annotations) {
+		return this.delegate.getOWLAnnotationPropertyRangeAxiom(prop, range, annotations);
 	}
 
 	/**
@@ -2756,8 +2591,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 	public OWLSubAnnotationPropertyOfAxiom getOWLSubAnnotationPropertyOfAxiom(
 			OWLAnnotationProperty sub, OWLAnnotationProperty sup,
 			Set<? extends OWLAnnotation> annotations) {
-		return this.delegate.getOWLSubAnnotationPropertyOfAxiom(sub, sup,
-				annotations);
+		return this.delegate.getOWLSubAnnotationPropertyOfAxiom(sub, sup, annotations);
 	}
 
 	/**
