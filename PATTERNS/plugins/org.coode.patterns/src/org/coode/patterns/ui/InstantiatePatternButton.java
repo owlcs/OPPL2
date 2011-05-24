@@ -43,12 +43,10 @@ public class InstantiatePatternButton extends MListButton {
 	 */
 	@Override
 	public void paintButtonContent(Graphics2D g) {
-		int stringWidth = g.getFontMetrics().getStringBounds("?", g)
-				.getBounds().width;
+		int stringWidth = g.getFontMetrics().getStringBounds("?", g).getBounds().width;
 		int w = this.getBounds().width;
 		int h = this.getBounds().height;
-		g.drawString("i", this.getBounds().x + w / 2 - stringWidth / 2, this
-				.getBounds().y
+		g.drawString("i", this.getBounds().x + w / 2 - stringWidth / 2, this.getBounds().y
 				+ g.getFontMetrics().getAscent() / 2 + h / 2);
 	}
 
@@ -61,7 +59,7 @@ public class InstantiatePatternButton extends MListButton {
 	public boolean equals(Object obj) {
 		boolean toReturn = obj == this;
 		if (!toReturn && obj instanceof InstantiatePatternButton) {
-			((InstantiatePatternButton) obj).getActionListener().equals(
+			toReturn = ((InstantiatePatternButton) obj).getActionListener().equals(
 					this.getActionListener());
 		}
 		return toReturn;

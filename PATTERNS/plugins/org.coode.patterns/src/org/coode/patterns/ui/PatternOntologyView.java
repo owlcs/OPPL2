@@ -26,10 +26,10 @@ import java.awt.BorderLayout;
 
 import javax.swing.JScrollPane;
 
+import org.coode.oppl.protege.ProtegeParserFactory;
 import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.PatternManager;
 import org.coode.patterns.protege.PatternAnnotationContainer;
-import org.coode.patterns.protege.ProtegeParserFactory;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.ui.view.AbstractActiveOntologyViewComponent;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -57,9 +57,10 @@ public class PatternOntologyView extends AbstractActiveOntologyViewComponent {
 			this.list.dispose();
 		}
 		if (this.patternManager != null) {
-			this.getOWLEditorKit().getModelManager()
-					.removeOntologyChangeListener(this.patternManager);
+			this.getOWLEditorKit().getModelManager().removeOntologyChangeListener(
+					this.patternManager);
 		}
+		ProtegeParserFactory.getInstance(this.getOWLEditorKit()).dispose();
 	}
 
 	/**
@@ -69,17 +70,15 @@ public class PatternOntologyView extends AbstractActiveOntologyViewComponent {
 	protected void initialiseOntologyView() throws Exception {
 		this.setLayout(new BorderLayout());
 		this.list = new PatternModelList(this.getOWLEditorKit());
-		AbstractPatternModelFactory patternFactory = ProtegeParserFactory
-				.getInstance(this.getOWLEditorKit()).getPatternFactory();
-		this.list.setRootObject(new PatternAnnotationContainer(this
-				.getOWLEditorKit()));
-		this.list.setCellRenderer(new PatternCellRenderer(this
-				.getOWLEditorKit(), patternFactory));
+		AbstractPatternModelFactory patternFactory = org.coode.patterns.protege.ProtegeParserFactory.getInstance(
+				this.getOWLEditorKit()).getPatternFactory();
+		this.list.setRootObject(new PatternAnnotationContainer(this.getOWLEditorKit()));
+		this.list.setCellRenderer(new PatternCellRenderer(this.getOWLEditorKit(), patternFactory));
 		JScrollPane listPane = ComponentFactory.createScrollPane(this.list);
-		this.patternManager = PatternManager.getInstance(this.getOWLEditorKit()
-				.getModelManager().getOWLOntologyManager(), patternFactory);
-		this.getOWLEditorKit().getModelManager().addOntologyChangeListener(
-				this.patternManager);
+		this.patternManager = PatternManager.getInstance(
+				this.getOWLEditorKit().getModelManager().getOWLOntologyManager(),
+				patternFactory);
+		this.getOWLEditorKit().getModelManager().addOntologyChangeListener(this.patternManager);
 		this.add(listPane);
 	}
 
@@ -88,7 +87,6 @@ public class PatternOntologyView extends AbstractActiveOntologyViewComponent {
 	 */
 	@Override
 	protected void updateView(OWLOntology activeOntology) throws Exception {
-		this.list.setRootObject(new PatternAnnotationContainer(this
-				.getOWLEditorKit()));
+		this.list.setRootObject(new PatternAnnotationContainer(this.getOWLEditorKit()));
 	}
 }

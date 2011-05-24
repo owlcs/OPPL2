@@ -775,4 +775,44 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 	public static final OPPLScriptValidator getScriptValidator() {
 		return SCRIPT_VALIDATOR;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (this.opplStatement == null ? 0 : this.opplStatement.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		PatternModel other = (PatternModel) obj;
+		if (this.opplStatement == null) {
+			if (other.opplStatement != null) {
+				return false;
+			}
+		} else if (!this.opplStatement.equals(other.opplStatement)) {
+			return false;
+		}
+		return true;
+	}
 }

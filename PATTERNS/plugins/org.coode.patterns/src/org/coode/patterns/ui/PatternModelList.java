@@ -5,9 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -55,6 +53,55 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
 
 		public void actionPerformed(ActionEvent e) {
 			PatternModelList.this.showInstantiationEditorDialog(this.patternModel);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.lang.Object#hashCode()
+		 */
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + this.getOuterType().hashCode();
+			result = prime * result
+					+ (this.patternModel == null ? 0 : this.patternModel.hashCode());
+			return result;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (this.getClass() != obj.getClass()) {
+				return false;
+			}
+			InstantiateActionListener other = (InstantiateActionListener) obj;
+			if (!this.getOuterType().equals(other.getOuterType())) {
+				return false;
+			}
+			if (this.patternModel == null) {
+				if (other.patternModel != null) {
+					return false;
+				}
+			} else if (!this.patternModel.equals(other.patternModel)) {
+				return false;
+			}
+			return true;
+		}
+
+		private PatternModelList getOuterType() {
+			return PatternModelList.this;
 		}
 	}
 
@@ -128,9 +175,8 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
 			return true;
 		}
 	};
-	private final Map<PatternModel, List<MListButton>> buttons = new HashMap<PatternModel, List<MListButton>>();
 	private final OWLEditorKit owlEditorKit;
-	private final PatternEditor patternEditor;
+	private PatternEditor patternEditor;
 	private final RuntimeExceptionHandler runtimeExceptionHandler;
 
 	/**
@@ -140,10 +186,17 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
 		super(eKit);
 		// Have to do this as the super class does not expose the OWLEdtorKit
 		this.owlEditorKit = eKit;
-		this.patternEditor = new PatternEditor(this.getOWLEditorKit(),
-				ProtegeParserFactory.getInstance(this.getOWLEditorKit()).getPatternFactory());
+		this.patternEditor = this.createPatternEditor();
 		this.runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(
 				this.getOWLEditorKit().getOWLWorkspace());
+	}
+
+	/**
+	 * @return
+	 */
+	private PatternEditor createPatternEditor() {
+		return new PatternEditor(this.getOWLEditorKit(), ProtegeParserFactory.getInstance(
+				this.getOWLEditorKit()).getPatternFactory());
 	}
 
 	@Override
@@ -196,7 +249,7 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
 	}
 
 	protected PatternEditor getEditor() {
-		return this.patternEditor;
+		return this.patternEditor == null ? this.createPatternEditor() : this.patternEditor;
 	}
 
 	@Override
@@ -242,19 +295,13 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
 		List<MListButton> listItemButtons = super.getListItemButtons(item);
 		if (item instanceof PatternListItem) {
 			final PatternModel patternModel = ((PatternListItem) item).getPatternModel();
-			List<MListButton> list = this.buttons.get(patternModel);
-			if (list == null) {
-				if (!patternModel.isClassPattern()) {
-					ActionListener actionListener = new InstantiateActionListener(patternModel);
-					InstantiatePatternButton instantiateButton = new InstantiatePatternButton(
-							actionListener);
-					if (!listItemButtons.contains(instantiateButton)) {
-						listItemButtons.add(instantiateButton);
-					}
+			if (!patternModel.isClassPattern()) {
+				ActionListener actionListener = new InstantiateActionListener(patternModel);
+				InstantiatePatternButton instantiateButton = new InstantiatePatternButton(
+						actionListener);
+				if (!listItemButtons.contains(instantiateButton)) {
+					listItemButtons.add(instantiateButton);
 				}
-				this.buttons.put(patternModel, listItemButtons);
-			} else {
-				listItemButtons = list;
 			}
 		}
 		return listItemButtons;
@@ -324,5 +371,16 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
 	 */
 	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
 		return this.runtimeExceptionHandler;
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		// The editor is not accessible from sub-classes, I need to override
+		// this and dispose of the editor manually
+		if (this.patternEditor != null) {
+			this.patternEditor.dispose();
+			this.patternEditor = null;
+		}
 	}
 }
