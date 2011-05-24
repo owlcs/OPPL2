@@ -47,7 +47,7 @@
 	<target name="release" depends="bundle" description="Prepares the bundle for the web release">
 		<copy tofile="${releasejardest}" file="${jardest}" />
 		<copy todir="${releasedownloads}" file="${updateProperty}" />
-
+		<copy todir="${releasedownloads}" file="${basedir}/lib/parsers.jar" />
 	</target>
 
 
