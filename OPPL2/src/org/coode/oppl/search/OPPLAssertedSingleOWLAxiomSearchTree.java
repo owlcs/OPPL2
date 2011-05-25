@@ -90,18 +90,21 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 				false);
 		Set<Variable<?>> variables = variableExtractor.extractVariables(node.getAxiom());
 		BindingNode binding = node.getBinding();
+		ValueComputationParameters parameters = new SimpleValueComputationParameters(
+				this.getConstraintSystem(), binding, this.getRuntimeExceptionHandler());
 		for (Variable<?> variable : variables) {
-			Collection<OWLObject> values = new HashSet<OWLObject>(
-					this.getAssignableValues(variable));
+			Collection<OWLObject> values = new HashSet<OWLObject>(this.getAssignableValues(
+					variable,
+					parameters));
 			for (OWLObject value : values) {
 				Assignment assignment = new Assignment(variable, value);
 				BindingNode childBinding = new BindingNode(binding.getAssignments(),
 						binding.getUnassignedVariables());
 				childBinding.addAssignment(assignment);
-				ValueComputationParameters parameters = new SimpleValueComputationParameters(
+				ValueComputationParameters childParameters = new SimpleValueComputationParameters(
 						this.getConstraintSystem(), childBinding, this.getRuntimeExceptionHandler());
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-						parameters);
+						childParameters);
 				OWLAxiom instantiatedAxiom = (OWLAxiom) node.getAxiom().accept(instantiator);
 				OPPLOWLAxiomSearchNode child = new OPPLOWLAxiomSearchNode(instantiatedAxiom,
 						childBinding);
@@ -152,9 +155,11 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 		}
 	};
 
-	private Collection<? extends OWLObject> getAssignableValues(Variable<?> variable) {
+	private Collection<? extends OWLObject> getAssignableValues(Variable<?> variable,
+			ValueComputationParameters parameters) {
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
-		toReturn.addAll(variable.getType().accept(this.assignableValuesVisitor));
+		toReturn.addAll(variable.accept(new AssignableValueExtractor(this.assignableValuesVisitor,
+				parameters)));
 		Iterator<OWLObject> iterator = toReturn.iterator();
 		while (iterator.hasNext()) {
 			final OWLObject owlObject = iterator.next();
