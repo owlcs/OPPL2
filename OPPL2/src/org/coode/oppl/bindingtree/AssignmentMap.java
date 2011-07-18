@@ -3,6 +3,7 @@ package org.coode.oppl.bindingtree;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -188,5 +189,44 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 */
 	public Set<BindingNode> getBindingNodes() {
 		return new HashSet<BindingNode>(this.bindingNodes);
+	}
+
+	public boolean isDisjointWith(AssignmentMap anotherAssignmentMap) {
+		if (anotherAssignmentMap == null) {
+			throw new NullPointerException("The input assignment map cannot be null");
+		}
+		boolean found = false;
+		Iterator<Variable<?>> iterator = this.getVariables().iterator();
+		while (!found && iterator.hasNext()) {
+			Variable<?> variable = iterator.next();
+			if (anotherAssignmentMap.getVariables().contains(variable)) {
+				Set<OWLObject> set = new HashSet<OWLObject>(this.get(variable));
+				set.retainAll(anotherAssignmentMap.get(variable));
+				found = !set.isEmpty();
+			}
+		}
+		return !found;
+	}
+
+	public static boolean areDisjoint(Collection<? extends AssignmentMap> assignmentMaps) {
+		if (assignmentMaps == null) {
+			throw new NullPointerException("The colleciton of AssignmentMap cannot be null");
+		}
+		if (assignmentMaps.isEmpty()) {
+			throw new IllegalArgumentException("The collection of AssignmentMap cannot be empty");
+		}
+		boolean found = false;
+		Iterator<? extends AssignmentMap> iterator = assignmentMaps.iterator();
+		while (!found && iterator.hasNext()) {
+			AssignmentMap assignmentMap = iterator.next();
+			Iterator<? extends AssignmentMap> anotherIterator = assignmentMaps.iterator();
+			while (!found && anotherIterator.hasNext()) {
+				AssignmentMap anotherAssignmentMap = anotherIterator.next();
+				if (assignmentMap != anotherAssignmentMap) {
+					found = !assignmentMap.isDisjointWith(anotherAssignmentMap);
+				}
+			}
+		}
+		return !found;
 	}
 }
