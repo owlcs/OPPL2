@@ -47,6 +47,8 @@ import org.coode.oppl.function.IRIVariableAttribute;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.function.OPPLFunctionVisitorEx;
 import org.coode.oppl.function.RenderingVariableAttribute;
+import org.coode.oppl.function.ToLowerCaseStringManipulationOPPLFunction;
+import org.coode.oppl.function.ToUpperCaseStringManipulationOPPLFunction;
 import org.coode.oppl.function.ValuesVariableAtttribute;
 import org.coode.oppl.function.inline.InlineSet;
 import org.coode.oppl.generated.GeneratedVariable;
@@ -187,6 +189,16 @@ public class VariableExtractor {
 
 			public <O extends OWLObject> Set<Variable<?>> visitExpression(Expression<O> expression) {
 				return expression.getExpression().accept(Visitor.this);
+			}
+
+			public Set<Variable<?>> visitToLowerCaseStringManipulationOPPLFunction(
+					ToLowerCaseStringManipulationOPPLFunction toLowerCaseStringManipulationOPPLFunction) {
+				return toLowerCaseStringManipulationOPPLFunction.accept(this);
+			}
+
+			public Set<Variable<?>> visitToUpperCaseStringManipulationOPPLFunction(
+					ToUpperCaseStringManipulationOPPLFunction upperCaseStringManipulationOPPLFunction) {
+				return upperCaseStringManipulationOPPLFunction.accept(this);
 			}
 
 			public <O extends OWLObject> Set<Variable<?>> visitGroupVariableAttribute(

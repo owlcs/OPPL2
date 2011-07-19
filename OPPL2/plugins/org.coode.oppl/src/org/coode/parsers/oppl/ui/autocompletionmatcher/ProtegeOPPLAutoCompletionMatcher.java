@@ -4,7 +4,11 @@
 package org.coode.parsers.oppl.ui.autocompletionmatcher;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.coode.parsers.OWLEntityRenderer;
 import org.coode.parsers.ui.autocompletionmatcher.AutoCompletionMatcher;
@@ -30,6 +34,17 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
 	};
 	private final OWLEditorKit owlEditorKit;
 	private AutoCompletionMatcher delegate;
+	private final List<String> fragments = Arrays.asList(
+			":CLASS",
+			":OBJECTPROPERTY",
+			":DATAPROPERTY",
+			":INDIVIDUAL",
+			":CONSTANT",
+			".toLowerCase",
+			".toUpperCase",
+			".VALUES",
+			".RENDERING",
+			".GROUPS");
 
 	public ProtegeOPPLAutoCompletionMatcher(OWLEditorKit owlEditorKit) {
 		if (owlEditorKit == null) {
@@ -45,7 +60,27 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
 	 *      (java.lang.String)
 	 */
 	public List<String> getMatches(String string2Complete) {
-		return this.delegate.getMatches(string2Complete);
+		List<String> matches = this.delegate.getMatches(string2Complete);
+		matches.addAll(this.matchFragments(string2Complete));
+		return matches;
+	}
+
+	private Set<String> matchFragments(String string2Complete) {
+		Set<String> toReturn = new HashSet<String>();
+		for (int i = string2Complete.length() - 1; i >= 0; i--) {
+			String fragmentStart = string2Complete.substring(i);
+			for (String string : this.fragments) {
+				Pattern pattern = Pattern.compile(
+						String.format("(%s).*", fragmentStart.replaceAll("\\?", "\\\\?")),
+						Pattern.CASE_INSENSITIVE);
+				Matcher matcher = pattern.matcher(string);
+				if (matcher.matches()) {
+					String rest = string.replace(matcher.group(1), "");
+					toReturn.add(String.format("%s%s", string2Complete, rest));
+				}
+			}
+		}
+		return toReturn;
 	}
 
 	public void dispose() {
@@ -98,5 +133,11 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
 				"RENDERING",
 				"GROUPS",
 				"FAIL");
+	}
+
+	public static void main(String[] args) {
+		String bla = "?bla";
+		bla = bla.replaceAll("\\?", "\\\\?");
+		System.out.println(bla);
 	}
 }

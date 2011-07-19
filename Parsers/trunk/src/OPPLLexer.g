@@ -188,3 +188,13 @@ VARIABLE_NAME
     QUESTION_MARK LETTER (LETTER  | DIGIT |'-'|'_')*
   ;
 
+TO_LOWER_CASE
+   :
+   	('T'|'t')('O'|'o')('L'|'l')('O'|'o')('W'|'w')('E'|'e')('R'|'r')('C'|'c')('A'|'a')('S'|'s')('E'|'e') 
+   ;		
+TO_UPPER_CASE 
+	:	 
+	('T'|'t')('O'|'o')('U'|'u')('P'|'p')('P'|'p')('E'|'e')('R'|'r')('C'|'c')('A'|'a')('S'|'s')('E'|'e') 
+	;
+   	
+

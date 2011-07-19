@@ -134,15 +134,24 @@ opplFunction
 
 stringOperation
   :
-    stringExpression (PLUS stringExpression)* -> ^(STRING_OPERATION stringExpression+)
+    stringExpression (PLUS stringExpression)* -> ^(STRING_OPERATION  stringExpression+)
+
   ;
   
 stringExpression
 	:
-		DBLQUOTE -> ^(DBLQUOTE)
-	    |	variableAttributeReference -> ^(variableAttributeReference)
+		simpleStringExpression DOT TO_LOWER_CASE ->  ^(TO_LOWER_CASE simpleStringExpression)
+		|  simpleStringExpression DOT TO_UPPER_CASE  ->^(TO_UPPER_CASE simpleStringExpression)
+		| simpleStringExpression
+
 	;
 
+
+simpleStringExpression
+	:
+		DBLQUOTE -> ^(DBLQUOTE)
+	    	| variableAttributeReference -> ^(variableAttributeReference)
+	;
 
 atomic	:
 		IDENTIFIER 

@@ -103,6 +103,8 @@ options {
   import org.coode.oppl.function.OPPLFunction;
   import org.coode.oppl.function.Constant;
   import org.coode.oppl.function.Aggregandum;
+  import org.coode.oppl.function.ToUpperCaseStringManipulationOPPLFunction;
+  import org.coode.oppl.function.ToLowerCaseStringManipulationOPPLFunction;
   import org.coode.oppl.function.Adapter;
   import org.coode.oppl.OPPLAbstractFactory;
   import org.coode.oppl.variabletypes.VariableTypeFactory;
@@ -345,12 +347,15 @@ stringOperation returns [OPPLFunction<String> value]
     List<Aggregandum<String>> values = new ArrayList<Aggregandum<String>>();
   }
   :
-    ^(STRING_OPERATION  (valuesToAggregate= stringExpression {values.add(Adapter.buildSingletonAggregandum(valuesToAggregate));})+)
+    ^(STRING_OPERATION   (valuesToAggregate= stringExpression {values.add(Adapter.buildSingletonAggregandum(valuesToAggregate));})+)
     {
       $value = Aggregation.buildStringConcatenation(values);
     }
   ;
   
+
+
+
 
 stringExpression returns [OPPLFunction<String> value]
   :
@@ -365,6 +370,12 @@ stringExpression returns [OPPLFunction<String> value]
     | ^(IDENTIFIER  VARIABLE_NAME DOT   RENDERING)
     {
       $value = getSymbolTable().defineRenderingAttributeReferenceSymbol($VARIABLE_NAME,getConstraintSystem());
+    }
+    |^(TO_LOWER_CASE expression = stringExpression){
+	$value = new ToLowerCaseStringManipulationOPPLFunction(expression);
+	}
+    | ^(TO_UPPER_CASE expression = stringExpression){
+	$value = new ToUpperCaseStringManipulationOPPLFunction(expression);
     }
   ;
 
