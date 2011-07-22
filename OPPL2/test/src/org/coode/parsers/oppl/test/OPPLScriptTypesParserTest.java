@@ -322,6 +322,7 @@ public class OPPLScriptTypesParserTest extends TestCase {
 		assertNotNull(parsed);
 		System.out.println("original script: \t" + query);
 		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed.getOPPLContent());
 	}
 
@@ -349,6 +350,16 @@ public class OPPLScriptTypesParserTest extends TestCase {
 		assertNotNull(parsed);
 		System.out.println("original script: \t" + query);
 		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+		assertNotNull(parsed.getOPPLContent());
+	}
+
+	public void testLowerCaseParenthesys() {
+		String query = "?x:CLASS=create((\"Bla\"+ \"Bla\").toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
+		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY);
+		assertNotNull(parsed);
+		System.out.println("original script: \t" + query);
+		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+		System.out.println(parsed.toStringTree());
 		assertNotNull(parsed.getOPPLContent());
 	}
 

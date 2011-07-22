@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2011-07-19 10:11:10
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2011-07-22 11:03:23
 
   package org.coode.parsers.oppl;
   import org.coode.parsers.ErrorListener;
@@ -388,6 +388,11 @@ public class OPPLScript_OPPLParser extends Parser {
 
                         if ( (LA3_3==EQUAL) ) {
                             switch ( input.LA(5) ) {
+                            case MATCH:
+                                {
+                                alt3=3;
+                                }
+                                break;
                             case CREATE:
                             case CREATE_INTERSECTION:
                             case CREATE_DISJUNCTION:
@@ -407,11 +412,6 @@ public class OPPLScript_OPPLParser extends Parser {
                             case VARIABLE_NAME:
                                 {
                                 alt3=2;
-                                }
-                                break;
-                            case MATCH:
-                                {
-                                alt3=3;
                                 }
                                 break;
                             default:
@@ -482,7 +482,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: opplFunction, VARIABLE_NAME, VARIABLE_TYPE
+                    // elements: VARIABLE_NAME, opplFunction, VARIABLE_TYPE
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -542,7 +542,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: VARIABLE_TYPE, VARIABLE_NAME, expression
+                    // elements: VARIABLE_TYPE, expression, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -604,7 +604,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: regexp, VARIABLE_NAME, VARIABLE_TYPE
+                    // elements: VARIABLE_TYPE, regexp, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -672,7 +672,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: variableScope, VARIABLE_NAME, VARIABLE_TYPE
+                    // elements: VARIABLE_TYPE, VARIABLE_NAME, variableScope
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -879,7 +879,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: expression, variableScopeSpecification
+            // elements: variableScopeSpecification, expression
             // token labels: variableScopeSpecification
             // rule labels: retval
             // token list labels: 
@@ -1758,7 +1758,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: DISJOINT_CLASSES, opplFunction
+                    // elements: opplFunction, DISJOINT_CLASSES
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1801,7 +1801,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: opplFunction, DISJOINT_PROPERTIES
+                    // elements: DISJOINT_PROPERTIES, opplFunction
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1887,7 +1887,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: opplFunction, DIFFERENT_INDIVIDUALS
+                    // elements: DIFFERENT_INDIVIDUALS, opplFunction
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2505,7 +2505,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: axiom, ADD
+                    // elements: ADD, axiom
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2548,7 +2548,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: axiom, REMOVE
+                    // elements: REMOVE, axiom
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2798,7 +2798,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: CREATE_INTERSECTION, atomic
+                    // elements: atomic, CREATE_INTERSECTION
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2854,7 +2854,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: atomic, CREATE_DISJUNCTION
+                    // elements: CREATE_DISJUNCTION, atomic
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2936,7 +2936,7 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: atomic, SET
+                    // elements: SET, atomic
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3130,140 +3130,139 @@ public class OPPLScript_OPPLParser extends Parser {
     };
 
     // $ANTLR start "stringExpression"
-    // OPPLParser.g:141:1: stringExpression : ( simpleStringExpression DOT TO_LOWER_CASE -> ^( TO_LOWER_CASE simpleStringExpression ) | simpleStringExpression DOT TO_UPPER_CASE -> ^( TO_UPPER_CASE simpleStringExpression ) | simpleStringExpression );
+    // OPPLParser.g:141:1: stringExpression : ( simpleStringExpression ( lowerUpperCase )* | OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS ( lowerUpperCase )+ );
     public final OPPLScript_OPPLParser.stringExpression_return stringExpression() throws RecognitionException {
         OPPLScript_OPPLParser.stringExpression_return retval = new OPPLScript_OPPLParser.stringExpression_return();
         retval.start = input.LT(1);
 
         OPPLSyntaxTree root_0 = null;
 
-        Token DOT103=null;
-        Token TO_LOWER_CASE104=null;
-        Token DOT106=null;
-        Token TO_UPPER_CASE107=null;
+        Token OPEN_PARENTHESYS104=null;
+        Token CLOSED_PARENTHESYS106=null;
         OPPLScript_OPPLParser.simpleStringExpression_return simpleStringExpression102 = null;
 
-        OPPLScript_OPPLParser.simpleStringExpression_return simpleStringExpression105 = null;
+        OPPLScript_OPPLParser.lowerUpperCase_return lowerUpperCase103 = null;
 
-        OPPLScript_OPPLParser.simpleStringExpression_return simpleStringExpression108 = null;
+        OPPLScript_OPPLParser.stringOperation_return stringOperation105 = null;
+
+        OPPLScript_OPPLParser.lowerUpperCase_return lowerUpperCase107 = null;
 
 
-        OPPLSyntaxTree DOT103_tree=null;
-        OPPLSyntaxTree TO_LOWER_CASE104_tree=null;
-        OPPLSyntaxTree DOT106_tree=null;
-        OPPLSyntaxTree TO_UPPER_CASE107_tree=null;
-        RewriteRuleTokenStream stream_TO_UPPER_CASE=new RewriteRuleTokenStream(adaptor,"token TO_UPPER_CASE");
-        RewriteRuleTokenStream stream_TO_LOWER_CASE=new RewriteRuleTokenStream(adaptor,"token TO_LOWER_CASE");
-        RewriteRuleTokenStream stream_DOT=new RewriteRuleTokenStream(adaptor,"token DOT");
-        RewriteRuleSubtreeStream stream_simpleStringExpression=new RewriteRuleSubtreeStream(adaptor,"rule simpleStringExpression");
+        OPPLSyntaxTree OPEN_PARENTHESYS104_tree=null;
+        OPPLSyntaxTree CLOSED_PARENTHESYS106_tree=null;
+
         try {
-            // OPPLParser.g:142:2: ( simpleStringExpression DOT TO_LOWER_CASE -> ^( TO_LOWER_CASE simpleStringExpression ) | simpleStringExpression DOT TO_UPPER_CASE -> ^( TO_UPPER_CASE simpleStringExpression ) | simpleStringExpression )
-            int alt19=3;
-            alt19 = dfa19.predict(input);
-            switch (alt19) {
+            // OPPLParser.g:142:2: ( simpleStringExpression ( lowerUpperCase )* | OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS ( lowerUpperCase )+ )
+            int alt21=2;
+            int LA21_0 = input.LA(1);
+
+            if ( (LA21_0==DBLQUOTE||LA21_0==VARIABLE_NAME) ) {
+                alt21=1;
+            }
+            else if ( (LA21_0==OPEN_PARENTHESYS) ) {
+                alt21=2;
+            }
+            else {
+                if (state.backtracking>0) {state.failed=true; return retval;}
+                NoViableAltException nvae =
+                    new NoViableAltException("", 21, 0, input);
+
+                throw nvae;
+            }
+            switch (alt21) {
                 case 1 :
-                    // OPPLParser.g:143:3: simpleStringExpression DOT TO_LOWER_CASE
+                    // OPPLParser.g:144:3: simpleStringExpression ( lowerUpperCase )*
                     {
-                    pushFollow(FOLLOW_simpleStringExpression_in_stringExpression1163);
+                    root_0 = (OPPLSyntaxTree)adaptor.nil();
+
+                    pushFollow(FOLLOW_simpleStringExpression_in_stringExpression1166);
                     simpleStringExpression102=simpleStringExpression();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_simpleStringExpression.add(simpleStringExpression102.getTree());
-                    DOT103=(Token)match(input,DOT,FOLLOW_DOT_in_stringExpression1165); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_DOT.add(DOT103);
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, simpleStringExpression102.getTree());
+                    // OPPLParser.g:144:26: ( lowerUpperCase )*
+                    loop19:
+                    do {
+                        int alt19=2;
+                        int LA19_0 = input.LA(1);
 
-                    TO_LOWER_CASE104=(Token)match(input,TO_LOWER_CASE,FOLLOW_TO_LOWER_CASE_in_stringExpression1167); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_TO_LOWER_CASE.add(TO_LOWER_CASE104);
-
-
-
-                    // AST REWRITE
-                    // elements: TO_LOWER_CASE, simpleStringExpression
-                    // token labels: 
-                    // rule labels: retval
-                    // token list labels: 
-                    // rule list labels: 
-                    // wildcard labels: 
-                    if ( state.backtracking==0 ) {
-                    retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
-
-                    root_0 = (OPPLSyntaxTree)adaptor.nil();
-                    // 143:44: -> ^( TO_LOWER_CASE simpleStringExpression )
-                    {
-                        // OPPLParser.g:143:48: ^( TO_LOWER_CASE simpleStringExpression )
-                        {
-                        OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
-                        root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_TO_LOWER_CASE.nextNode(), root_1);
-
-                        adaptor.addChild(root_1, stream_simpleStringExpression.nextTree());
-
-                        adaptor.addChild(root_0, root_1);
+                        if ( (LA19_0==DOT) ) {
+                            alt19=1;
                         }
 
-                    }
 
-                    retval.tree = root_0;}
+                        switch (alt19) {
+                    	case 1 :
+                    	    // OPPLParser.g:144:27: lowerUpperCase
+                    	    {
+                    	    pushFollow(FOLLOW_lowerUpperCase_in_stringExpression1169);
+                    	    lowerUpperCase103=lowerUpperCase();
+
+                    	    state._fsp--;
+                    	    if (state.failed) return retval;
+                    	    if ( state.backtracking==0 ) root_0 = (OPPLSyntaxTree)adaptor.becomeRoot(lowerUpperCase103.getTree(), root_0);
+
+                    	    }
+                    	    break;
+
+                    	default :
+                    	    break loop19;
+                        }
+                    } while (true);
+
+
                     }
                     break;
                 case 2 :
-                    // OPPLParser.g:144:6: simpleStringExpression DOT TO_UPPER_CASE
+                    // OPPLParser.g:145:5: OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS ( lowerUpperCase )+
                     {
-                    pushFollow(FOLLOW_simpleStringExpression_in_stringExpression1183);
-                    simpleStringExpression105=simpleStringExpression();
+                    root_0 = (OPPLSyntaxTree)adaptor.nil();
+
+                    OPEN_PARENTHESYS104=(Token)match(input,OPEN_PARENTHESYS,FOLLOW_OPEN_PARENTHESYS_in_stringExpression1178); if (state.failed) return retval;
+                    pushFollow(FOLLOW_stringOperation_in_stringExpression1181);
+                    stringOperation105=stringOperation();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_simpleStringExpression.add(simpleStringExpression105.getTree());
-                    DOT106=(Token)match(input,DOT,FOLLOW_DOT_in_stringExpression1185); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_DOT.add(DOT106);
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, stringOperation105.getTree());
+                    CLOSED_PARENTHESYS106=(Token)match(input,CLOSED_PARENTHESYS,FOLLOW_CLOSED_PARENTHESYS_in_stringExpression1183); if (state.failed) return retval;
+                    // OPPLParser.g:145:59: ( lowerUpperCase )+
+                    int cnt20=0;
+                    loop20:
+                    do {
+                        int alt20=2;
+                        int LA20_0 = input.LA(1);
 
-                    TO_UPPER_CASE107=(Token)match(input,TO_UPPER_CASE,FOLLOW_TO_UPPER_CASE_in_stringExpression1187); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_TO_UPPER_CASE.add(TO_UPPER_CASE107);
-
-
-
-                    // AST REWRITE
-                    // elements: simpleStringExpression, TO_UPPER_CASE
-                    // token labels: 
-                    // rule labels: retval
-                    // token list labels: 
-                    // rule list labels: 
-                    // wildcard labels: 
-                    if ( state.backtracking==0 ) {
-                    retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
-
-                    root_0 = (OPPLSyntaxTree)adaptor.nil();
-                    // 144:48: -> ^( TO_UPPER_CASE simpleStringExpression )
-                    {
-                        // OPPLParser.g:144:50: ^( TO_UPPER_CASE simpleStringExpression )
-                        {
-                        OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
-                        root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_TO_UPPER_CASE.nextNode(), root_1);
-
-                        adaptor.addChild(root_1, stream_simpleStringExpression.nextTree());
-
-                        adaptor.addChild(root_0, root_1);
+                        if ( (LA20_0==DOT) ) {
+                            alt20=1;
                         }
 
-                    }
 
-                    retval.tree = root_0;}
-                    }
-                    break;
-                case 3 :
-                    // OPPLParser.g:145:5: simpleStringExpression
-                    {
-                    root_0 = (OPPLSyntaxTree)adaptor.nil();
+                        switch (alt20) {
+                    	case 1 :
+                    	    // OPPLParser.g:145:60: lowerUpperCase
+                    	    {
+                    	    pushFollow(FOLLOW_lowerUpperCase_in_stringExpression1187);
+                    	    lowerUpperCase107=lowerUpperCase();
 
-                    pushFollow(FOLLOW_simpleStringExpression_in_stringExpression1201);
-                    simpleStringExpression108=simpleStringExpression();
+                    	    state._fsp--;
+                    	    if (state.failed) return retval;
+                    	    if ( state.backtracking==0 ) root_0 = (OPPLSyntaxTree)adaptor.becomeRoot(lowerUpperCase107.getTree(), root_0);
 
-                    state._fsp--;
-                    if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, simpleStringExpression108.getTree());
+                    	    }
+                    	    break;
+
+                    	default :
+                    	    if ( cnt20 >= 1 ) break loop20;
+                    	    if (state.backtracking>0) {state.failed=true; return retval;}
+                                EarlyExitException eee =
+                                    new EarlyExitException(20, input);
+                                throw eee;
+                        }
+                        cnt20++;
+                    } while (true);
+
 
                     }
                     break;
@@ -3290,50 +3289,205 @@ public class OPPLScript_OPPLParser extends Parser {
     }
     // $ANTLR end "stringExpression"
 
+    public static class lowerUpperCase_return extends ParserRuleReturnScope {
+        OPPLSyntaxTree tree;
+        public Object getTree() { return tree; }
+    };
+
+    // $ANTLR start "lowerUpperCase"
+    // OPPLParser.g:154:1: lowerUpperCase : ( DOT TO_LOWER_CASE -> ^( TO_LOWER_CASE ) | DOT TO_UPPER_CASE -> ^( TO_UPPER_CASE ) );
+    public final OPPLScript_OPPLParser.lowerUpperCase_return lowerUpperCase() throws RecognitionException {
+        OPPLScript_OPPLParser.lowerUpperCase_return retval = new OPPLScript_OPPLParser.lowerUpperCase_return();
+        retval.start = input.LT(1);
+
+        OPPLSyntaxTree root_0 = null;
+
+        Token DOT108=null;
+        Token TO_LOWER_CASE109=null;
+        Token DOT110=null;
+        Token TO_UPPER_CASE111=null;
+
+        OPPLSyntaxTree DOT108_tree=null;
+        OPPLSyntaxTree TO_LOWER_CASE109_tree=null;
+        OPPLSyntaxTree DOT110_tree=null;
+        OPPLSyntaxTree TO_UPPER_CASE111_tree=null;
+        RewriteRuleTokenStream stream_TO_UPPER_CASE=new RewriteRuleTokenStream(adaptor,"token TO_UPPER_CASE");
+        RewriteRuleTokenStream stream_TO_LOWER_CASE=new RewriteRuleTokenStream(adaptor,"token TO_LOWER_CASE");
+        RewriteRuleTokenStream stream_DOT=new RewriteRuleTokenStream(adaptor,"token DOT");
+
+        try {
+            // OPPLParser.g:155:2: ( DOT TO_LOWER_CASE -> ^( TO_LOWER_CASE ) | DOT TO_UPPER_CASE -> ^( TO_UPPER_CASE ) )
+            int alt22=2;
+            int LA22_0 = input.LA(1);
+
+            if ( (LA22_0==DOT) ) {
+                int LA22_1 = input.LA(2);
+
+                if ( (LA22_1==TO_LOWER_CASE) ) {
+                    alt22=1;
+                }
+                else if ( (LA22_1==TO_UPPER_CASE) ) {
+                    alt22=2;
+                }
+                else {
+                    if (state.backtracking>0) {state.failed=true; return retval;}
+                    NoViableAltException nvae =
+                        new NoViableAltException("", 22, 1, input);
+
+                    throw nvae;
+                }
+            }
+            else {
+                if (state.backtracking>0) {state.failed=true; return retval;}
+                NoViableAltException nvae =
+                    new NoViableAltException("", 22, 0, input);
+
+                throw nvae;
+            }
+            switch (alt22) {
+                case 1 :
+                    // OPPLParser.g:156:3: DOT TO_LOWER_CASE
+                    {
+                    DOT108=(Token)match(input,DOT,FOLLOW_DOT_in_lowerUpperCase1210); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_DOT.add(DOT108);
+
+                    TO_LOWER_CASE109=(Token)match(input,TO_LOWER_CASE,FOLLOW_TO_LOWER_CASE_in_lowerUpperCase1212); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_TO_LOWER_CASE.add(TO_LOWER_CASE109);
+
+
+
+                    // AST REWRITE
+                    // elements: TO_LOWER_CASE
+                    // token labels: 
+                    // rule labels: retval
+                    // token list labels: 
+                    // rule list labels: 
+                    // wildcard labels: 
+                    if ( state.backtracking==0 ) {
+                    retval.tree = root_0;
+                    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
+
+                    root_0 = (OPPLSyntaxTree)adaptor.nil();
+                    // 156:21: -> ^( TO_LOWER_CASE )
+                    {
+                        // OPPLParser.g:156:23: ^( TO_LOWER_CASE )
+                        {
+                        OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
+                        root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_TO_LOWER_CASE.nextNode(), root_1);
+
+                        adaptor.addChild(root_0, root_1);
+                        }
+
+                    }
+
+                    retval.tree = root_0;}
+                    }
+                    break;
+                case 2 :
+                    // OPPLParser.g:157:5: DOT TO_UPPER_CASE
+                    {
+                    DOT110=(Token)match(input,DOT,FOLLOW_DOT_in_lowerUpperCase1223); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_DOT.add(DOT110);
+
+                    TO_UPPER_CASE111=(Token)match(input,TO_UPPER_CASE,FOLLOW_TO_UPPER_CASE_in_lowerUpperCase1226); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_TO_UPPER_CASE.add(TO_UPPER_CASE111);
+
+
+
+                    // AST REWRITE
+                    // elements: TO_UPPER_CASE
+                    // token labels: 
+                    // rule labels: retval
+                    // token list labels: 
+                    // rule list labels: 
+                    // wildcard labels: 
+                    if ( state.backtracking==0 ) {
+                    retval.tree = root_0;
+                    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
+
+                    root_0 = (OPPLSyntaxTree)adaptor.nil();
+                    // 157:24: -> ^( TO_UPPER_CASE )
+                    {
+                        // OPPLParser.g:157:26: ^( TO_UPPER_CASE )
+                        {
+                        OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
+                        root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_TO_UPPER_CASE.nextNode(), root_1);
+
+                        adaptor.addChild(root_0, root_1);
+                        }
+
+                    }
+
+                    retval.tree = root_0;}
+                    }
+                    break;
+
+            }
+            retval.stop = input.LT(-1);
+
+            if ( state.backtracking==0 ) {
+
+            retval.tree = (OPPLSyntaxTree)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+            }
+        }
+
+         	catch(RecognitionException e){
+         		throw e;
+         	}
+         	catch(RewriteEmptyStreamException e){
+           		throw e;
+        	}
+             finally {
+        }
+        return retval;
+    }
+    // $ANTLR end "lowerUpperCase"
+
     public static class simpleStringExpression_return extends ParserRuleReturnScope {
         OPPLSyntaxTree tree;
         public Object getTree() { return tree; }
     };
 
     // $ANTLR start "simpleStringExpression"
-    // OPPLParser.g:150:1: simpleStringExpression : ( DBLQUOTE -> ^( DBLQUOTE ) | variableAttributeReference -> ^( variableAttributeReference ) );
+    // OPPLParser.g:160:1: simpleStringExpression : ( DBLQUOTE -> ^( DBLQUOTE ) | variableAttributeReference -> ^( variableAttributeReference ) );
     public final OPPLScript_OPPLParser.simpleStringExpression_return simpleStringExpression() throws RecognitionException {
         OPPLScript_OPPLParser.simpleStringExpression_return retval = new OPPLScript_OPPLParser.simpleStringExpression_return();
         retval.start = input.LT(1);
 
         OPPLSyntaxTree root_0 = null;
 
-        Token DBLQUOTE109=null;
-        OPPLScript_OPPLParser.variableAttributeReference_return variableAttributeReference110 = null;
+        Token DBLQUOTE112=null;
+        OPPLScript_OPPLParser.variableAttributeReference_return variableAttributeReference113 = null;
 
 
-        OPPLSyntaxTree DBLQUOTE109_tree=null;
+        OPPLSyntaxTree DBLQUOTE112_tree=null;
         RewriteRuleTokenStream stream_DBLQUOTE=new RewriteRuleTokenStream(adaptor,"token DBLQUOTE");
         RewriteRuleSubtreeStream stream_variableAttributeReference=new RewriteRuleSubtreeStream(adaptor,"rule variableAttributeReference");
         try {
-            // OPPLParser.g:151:2: ( DBLQUOTE -> ^( DBLQUOTE ) | variableAttributeReference -> ^( variableAttributeReference ) )
-            int alt20=2;
-            int LA20_0 = input.LA(1);
+            // OPPLParser.g:161:2: ( DBLQUOTE -> ^( DBLQUOTE ) | variableAttributeReference -> ^( variableAttributeReference ) )
+            int alt23=2;
+            int LA23_0 = input.LA(1);
 
-            if ( (LA20_0==DBLQUOTE) ) {
-                alt20=1;
+            if ( (LA23_0==DBLQUOTE) ) {
+                alt23=1;
             }
-            else if ( (LA20_0==VARIABLE_NAME) ) {
-                alt20=2;
+            else if ( (LA23_0==VARIABLE_NAME) ) {
+                alt23=2;
             }
             else {
                 if (state.backtracking>0) {state.failed=true; return retval;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 20, 0, input);
+                    new NoViableAltException("", 23, 0, input);
 
                 throw nvae;
             }
-            switch (alt20) {
+            switch (alt23) {
                 case 1 :
-                    // OPPLParser.g:152:3: DBLQUOTE
+                    // OPPLParser.g:162:3: DBLQUOTE
                     {
-                    DBLQUOTE109=(Token)match(input,DBLQUOTE,FOLLOW_DBLQUOTE_in_simpleStringExpression1216); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_DBLQUOTE.add(DBLQUOTE109);
+                    DBLQUOTE112=(Token)match(input,DBLQUOTE,FOLLOW_DBLQUOTE_in_simpleStringExpression1245); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_DBLQUOTE.add(DBLQUOTE112);
 
 
 
@@ -3349,9 +3503,9 @@ public class OPPLScript_OPPLParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (OPPLSyntaxTree)adaptor.nil();
-                    // 152:12: -> ^( DBLQUOTE )
+                    // 162:12: -> ^( DBLQUOTE )
                     {
-                        // OPPLParser.g:152:15: ^( DBLQUOTE )
+                        // OPPLParser.g:162:15: ^( DBLQUOTE )
                         {
                         OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
                         root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_DBLQUOTE.nextNode(), root_1);
@@ -3365,14 +3519,14 @@ public class OPPLScript_OPPLParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // OPPLParser.g:153:9: variableAttributeReference
+                    // OPPLParser.g:163:9: variableAttributeReference
                     {
-                    pushFollow(FOLLOW_variableAttributeReference_in_simpleStringExpression1232);
-                    variableAttributeReference110=variableAttributeReference();
+                    pushFollow(FOLLOW_variableAttributeReference_in_simpleStringExpression1261);
+                    variableAttributeReference113=variableAttributeReference();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_variableAttributeReference.add(variableAttributeReference110.getTree());
+                    if ( state.backtracking==0 ) stream_variableAttributeReference.add(variableAttributeReference113.getTree());
 
 
                     // AST REWRITE
@@ -3387,9 +3541,9 @@ public class OPPLScript_OPPLParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (OPPLSyntaxTree)adaptor.nil();
-                    // 153:36: -> ^( variableAttributeReference )
+                    // 163:36: -> ^( variableAttributeReference )
                     {
-                        // OPPLParser.g:153:39: ^( variableAttributeReference )
+                        // OPPLParser.g:163:39: ^( variableAttributeReference )
                         {
                         OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
                         root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_variableAttributeReference.nextNode(), root_1);
@@ -3431,56 +3585,56 @@ public class OPPLScript_OPPLParser extends Parser {
     };
 
     // $ANTLR start "atomic"
-    // OPPLParser.g:156:1: atomic : ( IDENTIFIER | ENTITY_REFERENCE -> ^( ENTITY_REFERENCE ) | VARIABLE_NAME -> ^( IDENTIFIER[$VARIABLE_NAME] ) | createIdentifier -> ^( createIdentifier ) | variableAttributeReference -> ^( variableAttributeReference ) );
+    // OPPLParser.g:166:1: atomic : ( IDENTIFIER | ENTITY_REFERENCE -> ^( ENTITY_REFERENCE ) | VARIABLE_NAME -> ^( IDENTIFIER[$VARIABLE_NAME] ) | createIdentifier -> ^( createIdentifier ) | variableAttributeReference -> ^( variableAttributeReference ) );
     public final OPPLScript_OPPLParser.atomic_return atomic() throws RecognitionException {
         OPPLScript_OPPLParser.atomic_return retval = new OPPLScript_OPPLParser.atomic_return();
         retval.start = input.LT(1);
 
         OPPLSyntaxTree root_0 = null;
 
-        Token IDENTIFIER111=null;
-        Token ENTITY_REFERENCE112=null;
-        Token VARIABLE_NAME113=null;
-        OPPLScript_OPPLParser.createIdentifier_return createIdentifier114 = null;
+        Token IDENTIFIER114=null;
+        Token ENTITY_REFERENCE115=null;
+        Token VARIABLE_NAME116=null;
+        OPPLScript_OPPLParser.createIdentifier_return createIdentifier117 = null;
 
-        OPPLScript_OPPLParser.variableAttributeReference_return variableAttributeReference115 = null;
+        OPPLScript_OPPLParser.variableAttributeReference_return variableAttributeReference118 = null;
 
 
-        OPPLSyntaxTree IDENTIFIER111_tree=null;
-        OPPLSyntaxTree ENTITY_REFERENCE112_tree=null;
-        OPPLSyntaxTree VARIABLE_NAME113_tree=null;
+        OPPLSyntaxTree IDENTIFIER114_tree=null;
+        OPPLSyntaxTree ENTITY_REFERENCE115_tree=null;
+        OPPLSyntaxTree VARIABLE_NAME116_tree=null;
         RewriteRuleTokenStream stream_VARIABLE_NAME=new RewriteRuleTokenStream(adaptor,"token VARIABLE_NAME");
         RewriteRuleTokenStream stream_ENTITY_REFERENCE=new RewriteRuleTokenStream(adaptor,"token ENTITY_REFERENCE");
         RewriteRuleSubtreeStream stream_variableAttributeReference=new RewriteRuleSubtreeStream(adaptor,"rule variableAttributeReference");
         RewriteRuleSubtreeStream stream_createIdentifier=new RewriteRuleSubtreeStream(adaptor,"rule createIdentifier");
         try {
-            // OPPLParser.g:156:8: ( IDENTIFIER | ENTITY_REFERENCE -> ^( ENTITY_REFERENCE ) | VARIABLE_NAME -> ^( IDENTIFIER[$VARIABLE_NAME] ) | createIdentifier -> ^( createIdentifier ) | variableAttributeReference -> ^( variableAttributeReference ) )
-            int alt21=5;
+            // OPPLParser.g:166:8: ( IDENTIFIER | ENTITY_REFERENCE -> ^( ENTITY_REFERENCE ) | VARIABLE_NAME -> ^( IDENTIFIER[$VARIABLE_NAME] ) | createIdentifier -> ^( createIdentifier ) | variableAttributeReference -> ^( variableAttributeReference ) )
+            int alt24=5;
             switch ( input.LA(1) ) {
             case IDENTIFIER:
                 {
-                alt21=1;
+                alt24=1;
                 }
                 break;
             case ENTITY_REFERENCE:
                 {
-                alt21=2;
+                alt24=2;
                 }
                 break;
             case VARIABLE_NAME:
                 {
-                int LA21_3 = input.LA(2);
+                int LA24_3 = input.LA(2);
 
-                if ( (LA21_3==DOT) ) {
-                    alt21=5;
+                if ( (LA24_3==DOT) ) {
+                    alt24=5;
                 }
-                else if ( (LA21_3==EOF||LA21_3==COMPOSITION||(LA21_3>=CLOSED_CURLY_BRACES && LA21_3<=CLOSED_PARENTHESYS)||(LA21_3>=AND && LA21_3<=OR)||(LA21_3>=SOME && LA21_3<=RANGE)||(LA21_3>=COMMA && LA21_3<=DBLQUOTE)||(LA21_3>=IDENTIFIER && LA21_3<=ENTITY_REFERENCE)||LA21_3==WHERE||LA21_3==SELECT||(LA21_3>=BEGIN && LA21_3<=END)||LA21_3==CLOSED_SQUARE_BRACKET||(LA21_3>=HAS_KEY && LA21_3<=IRI)||LA21_3==ESCLAMATION_MARK||LA21_3==VARIABLE_NAME) ) {
-                    alt21=3;
+                else if ( (LA24_3==EOF||LA24_3==COMPOSITION||(LA24_3>=CLOSED_CURLY_BRACES && LA24_3<=CLOSED_PARENTHESYS)||(LA24_3>=AND && LA24_3<=OR)||(LA24_3>=SOME && LA24_3<=RANGE)||(LA24_3>=COMMA && LA24_3<=DBLQUOTE)||(LA24_3>=IDENTIFIER && LA24_3<=ENTITY_REFERENCE)||LA24_3==WHERE||LA24_3==SELECT||(LA24_3>=BEGIN && LA24_3<=END)||LA24_3==CLOSED_SQUARE_BRACKET||(LA24_3>=HAS_KEY && LA24_3<=IRI)||LA24_3==ESCLAMATION_MARK||LA24_3==VARIABLE_NAME) ) {
+                    alt24=3;
                 }
                 else {
                     if (state.backtracking>0) {state.failed=true; return retval;}
                     NoViableAltException nvae =
-                        new NoViableAltException("", 21, 3, input);
+                        new NoViableAltException("", 24, 3, input);
 
                     throw nvae;
                 }
@@ -3488,36 +3642,36 @@ public class OPPLScript_OPPLParser extends Parser {
                 break;
             case ESCLAMATION_MARK:
                 {
-                alt21=4;
+                alt24=4;
                 }
                 break;
             default:
                 if (state.backtracking>0) {state.failed=true; return retval;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 21, 0, input);
+                    new NoViableAltException("", 24, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt21) {
+            switch (alt24) {
                 case 1 :
-                    // OPPLParser.g:157:3: IDENTIFIER
+                    // OPPLParser.g:167:3: IDENTIFIER
                     {
                     root_0 = (OPPLSyntaxTree)adaptor.nil();
 
-                    IDENTIFIER111=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_atomic1250); if (state.failed) return retval;
+                    IDENTIFIER114=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_atomic1279); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
-                    IDENTIFIER111_tree = (OPPLSyntaxTree)adaptor.create(IDENTIFIER111);
-                    adaptor.addChild(root_0, IDENTIFIER111_tree);
+                    IDENTIFIER114_tree = (OPPLSyntaxTree)adaptor.create(IDENTIFIER114);
+                    adaptor.addChild(root_0, IDENTIFIER114_tree);
                     }
 
                     }
                     break;
                 case 2 :
-                    // OPPLParser.g:158:5: ENTITY_REFERENCE
+                    // OPPLParser.g:168:5: ENTITY_REFERENCE
                     {
-                    ENTITY_REFERENCE112=(Token)match(input,ENTITY_REFERENCE,FOLLOW_ENTITY_REFERENCE_in_atomic1257); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_ENTITY_REFERENCE.add(ENTITY_REFERENCE112);
+                    ENTITY_REFERENCE115=(Token)match(input,ENTITY_REFERENCE,FOLLOW_ENTITY_REFERENCE_in_atomic1286); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_ENTITY_REFERENCE.add(ENTITY_REFERENCE115);
 
 
 
@@ -3533,9 +3687,9 @@ public class OPPLScript_OPPLParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (OPPLSyntaxTree)adaptor.nil();
-                    // 158:22: -> ^( ENTITY_REFERENCE )
+                    // 168:22: -> ^( ENTITY_REFERENCE )
                     {
-                        // OPPLParser.g:158:25: ^( ENTITY_REFERENCE )
+                        // OPPLParser.g:168:25: ^( ENTITY_REFERENCE )
                         {
                         OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
                         root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_ENTITY_REFERENCE.nextNode(), root_1);
@@ -3549,10 +3703,10 @@ public class OPPLScript_OPPLParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // OPPLParser.g:159:5: VARIABLE_NAME
+                    // OPPLParser.g:169:5: VARIABLE_NAME
                     {
-                    VARIABLE_NAME113=(Token)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_atomic1269); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_VARIABLE_NAME.add(VARIABLE_NAME113);
+                    VARIABLE_NAME116=(Token)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_atomic1298); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_VARIABLE_NAME.add(VARIABLE_NAME116);
 
 
 
@@ -3568,12 +3722,12 @@ public class OPPLScript_OPPLParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (OPPLSyntaxTree)adaptor.nil();
-                    // 159:19: -> ^( IDENTIFIER[$VARIABLE_NAME] )
+                    // 169:19: -> ^( IDENTIFIER[$VARIABLE_NAME] )
                     {
-                        // OPPLParser.g:159:22: ^( IDENTIFIER[$VARIABLE_NAME] )
+                        // OPPLParser.g:169:22: ^( IDENTIFIER[$VARIABLE_NAME] )
                         {
                         OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
-                        root_1 = (OPPLSyntaxTree)adaptor.becomeRoot((OPPLSyntaxTree)adaptor.create(IDENTIFIER, VARIABLE_NAME113), root_1);
+                        root_1 = (OPPLSyntaxTree)adaptor.becomeRoot((OPPLSyntaxTree)adaptor.create(IDENTIFIER, VARIABLE_NAME116), root_1);
 
                         adaptor.addChild(root_0, root_1);
                         }
@@ -3584,14 +3738,14 @@ public class OPPLScript_OPPLParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // OPPLParser.g:160:8: createIdentifier
+                    // OPPLParser.g:170:8: createIdentifier
                     {
-                    pushFollow(FOLLOW_createIdentifier_in_atomic1290);
-                    createIdentifier114=createIdentifier();
+                    pushFollow(FOLLOW_createIdentifier_in_atomic1319);
+                    createIdentifier117=createIdentifier();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_createIdentifier.add(createIdentifier114.getTree());
+                    if ( state.backtracking==0 ) stream_createIdentifier.add(createIdentifier117.getTree());
 
 
                     // AST REWRITE
@@ -3606,9 +3760,9 @@ public class OPPLScript_OPPLParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (OPPLSyntaxTree)adaptor.nil();
-                    // 160:25: -> ^( createIdentifier )
+                    // 170:25: -> ^( createIdentifier )
                     {
-                        // OPPLParser.g:160:28: ^( createIdentifier )
+                        // OPPLParser.g:170:28: ^( createIdentifier )
                         {
                         OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
                         root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_createIdentifier.nextNode(), root_1);
@@ -3622,14 +3776,14 @@ public class OPPLScript_OPPLParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // OPPLParser.g:161:5: variableAttributeReference
+                    // OPPLParser.g:171:5: variableAttributeReference
                     {
-                    pushFollow(FOLLOW_variableAttributeReference_in_atomic1302);
-                    variableAttributeReference115=variableAttributeReference();
+                    pushFollow(FOLLOW_variableAttributeReference_in_atomic1331);
+                    variableAttributeReference118=variableAttributeReference();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_variableAttributeReference.add(variableAttributeReference115.getTree());
+                    if ( state.backtracking==0 ) stream_variableAttributeReference.add(variableAttributeReference118.getTree());
 
 
                     // AST REWRITE
@@ -3644,9 +3798,9 @@ public class OPPLScript_OPPLParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (OPPLSyntaxTree)adaptor.nil();
-                    // 161:32: -> ^( variableAttributeReference )
+                    // 171:32: -> ^( variableAttributeReference )
                     {
-                        // OPPLParser.g:161:35: ^( variableAttributeReference )
+                        // OPPLParser.g:171:35: ^( variableAttributeReference )
                         {
                         OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
                         root_1 = (OPPLSyntaxTree)adaptor.becomeRoot(stream_variableAttributeReference.nextNode(), root_1);
@@ -3688,51 +3842,51 @@ public class OPPLScript_OPPLParser extends Parser {
     };
 
     // $ANTLR start "iri"
-    // OPPLParser.g:164:1: iri : ( IRI -> IRI | VARIABLE_NAME DOT IRI_ATTRIBUTE_NAME -> ^( IRI[$VARIABLE_NAME.getText()+ $DOT.getText()+ $IRI_ATTRIBUTE_NAME.getText()] VARIABLE_NAME ) );
+    // OPPLParser.g:174:1: iri : ( IRI -> IRI | VARIABLE_NAME DOT IRI_ATTRIBUTE_NAME -> ^( IRI[$VARIABLE_NAME.getText()+ $DOT.getText()+ $IRI_ATTRIBUTE_NAME.getText()] VARIABLE_NAME ) );
     public final OPPLScript_OPPLParser.iri_return iri() throws RecognitionException {
         OPPLScript_OPPLParser.iri_return retval = new OPPLScript_OPPLParser.iri_return();
         retval.start = input.LT(1);
 
         OPPLSyntaxTree root_0 = null;
 
-        Token IRI116=null;
-        Token VARIABLE_NAME117=null;
-        Token DOT118=null;
-        Token IRI_ATTRIBUTE_NAME119=null;
+        Token IRI119=null;
+        Token VARIABLE_NAME120=null;
+        Token DOT121=null;
+        Token IRI_ATTRIBUTE_NAME122=null;
 
-        OPPLSyntaxTree IRI116_tree=null;
-        OPPLSyntaxTree VARIABLE_NAME117_tree=null;
-        OPPLSyntaxTree DOT118_tree=null;
-        OPPLSyntaxTree IRI_ATTRIBUTE_NAME119_tree=null;
+        OPPLSyntaxTree IRI119_tree=null;
+        OPPLSyntaxTree VARIABLE_NAME120_tree=null;
+        OPPLSyntaxTree DOT121_tree=null;
+        OPPLSyntaxTree IRI_ATTRIBUTE_NAME122_tree=null;
         RewriteRuleTokenStream stream_VARIABLE_NAME=new RewriteRuleTokenStream(adaptor,"token VARIABLE_NAME");
         RewriteRuleTokenStream stream_DOT=new RewriteRuleTokenStream(adaptor,"token DOT");
         RewriteRuleTokenStream stream_IRI_ATTRIBUTE_NAME=new RewriteRuleTokenStream(adaptor,"token IRI_ATTRIBUTE_NAME");
         RewriteRuleTokenStream stream_IRI=new RewriteRuleTokenStream(adaptor,"token IRI");
 
         try {
-            // OPPLParser.g:165:2: ( IRI -> IRI | VARIABLE_NAME DOT IRI_ATTRIBUTE_NAME -> ^( IRI[$VARIABLE_NAME.getText()+ $DOT.getText()+ $IRI_ATTRIBUTE_NAME.getText()] VARIABLE_NAME ) )
-            int alt22=2;
-            int LA22_0 = input.LA(1);
+            // OPPLParser.g:175:2: ( IRI -> IRI | VARIABLE_NAME DOT IRI_ATTRIBUTE_NAME -> ^( IRI[$VARIABLE_NAME.getText()+ $DOT.getText()+ $IRI_ATTRIBUTE_NAME.getText()] VARIABLE_NAME ) )
+            int alt25=2;
+            int LA25_0 = input.LA(1);
 
-            if ( (LA22_0==IRI) ) {
-                alt22=1;
+            if ( (LA25_0==IRI) ) {
+                alt25=1;
             }
-            else if ( (LA22_0==VARIABLE_NAME) ) {
-                alt22=2;
+            else if ( (LA25_0==VARIABLE_NAME) ) {
+                alt25=2;
             }
             else {
                 if (state.backtracking>0) {state.failed=true; return retval;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 22, 0, input);
+                    new NoViableAltException("", 25, 0, input);
 
                 throw nvae;
             }
-            switch (alt22) {
+            switch (alt25) {
                 case 1 :
-                    // OPPLParser.g:166:2: IRI
+                    // OPPLParser.g:176:2: IRI
                     {
-                    IRI116=(Token)match(input,IRI,FOLLOW_IRI_in_iri1321); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_IRI.add(IRI116);
+                    IRI119=(Token)match(input,IRI,FOLLOW_IRI_in_iri1350); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_IRI.add(IRI119);
 
 
 
@@ -3748,7 +3902,7 @@ public class OPPLScript_OPPLParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (OPPLSyntaxTree)adaptor.nil();
-                    // 166:6: -> IRI
+                    // 176:6: -> IRI
                     {
                         adaptor.addChild(root_0, stream_IRI.nextNode());
 
@@ -3758,16 +3912,16 @@ public class OPPLScript_OPPLParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // OPPLParser.g:167:4: VARIABLE_NAME DOT IRI_ATTRIBUTE_NAME
+                    // OPPLParser.g:177:4: VARIABLE_NAME DOT IRI_ATTRIBUTE_NAME
                     {
-                    VARIABLE_NAME117=(Token)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_iri1330); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_VARIABLE_NAME.add(VARIABLE_NAME117);
+                    VARIABLE_NAME120=(Token)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_iri1359); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_VARIABLE_NAME.add(VARIABLE_NAME120);
 
-                    DOT118=(Token)match(input,DOT,FOLLOW_DOT_in_iri1332); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_DOT.add(DOT118);
+                    DOT121=(Token)match(input,DOT,FOLLOW_DOT_in_iri1361); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_DOT.add(DOT121);
 
-                    IRI_ATTRIBUTE_NAME119=(Token)match(input,IRI_ATTRIBUTE_NAME,FOLLOW_IRI_ATTRIBUTE_NAME_in_iri1334); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_IRI_ATTRIBUTE_NAME.add(IRI_ATTRIBUTE_NAME119);
+                    IRI_ATTRIBUTE_NAME122=(Token)match(input,IRI_ATTRIBUTE_NAME,FOLLOW_IRI_ATTRIBUTE_NAME_in_iri1363); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_IRI_ATTRIBUTE_NAME.add(IRI_ATTRIBUTE_NAME122);
 
 
 
@@ -3783,12 +3937,12 @@ public class OPPLScript_OPPLParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (OPPLSyntaxTree)adaptor.nil();
-                    // 167:41: -> ^( IRI[$VARIABLE_NAME.getText()+ $DOT.getText()+ $IRI_ATTRIBUTE_NAME.getText()] VARIABLE_NAME )
+                    // 177:41: -> ^( IRI[$VARIABLE_NAME.getText()+ $DOT.getText()+ $IRI_ATTRIBUTE_NAME.getText()] VARIABLE_NAME )
                     {
-                        // OPPLParser.g:167:44: ^( IRI[$VARIABLE_NAME.getText()+ $DOT.getText()+ $IRI_ATTRIBUTE_NAME.getText()] VARIABLE_NAME )
+                        // OPPLParser.g:177:44: ^( IRI[$VARIABLE_NAME.getText()+ $DOT.getText()+ $IRI_ATTRIBUTE_NAME.getText()] VARIABLE_NAME )
                         {
                         OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
-                        root_1 = (OPPLSyntaxTree)adaptor.becomeRoot((OPPLSyntaxTree)adaptor.create(IRI, VARIABLE_NAME117.getText()+ DOT118.getText()+ IRI_ATTRIBUTE_NAME119.getText()), root_1);
+                        root_1 = (OPPLSyntaxTree)adaptor.becomeRoot((OPPLSyntaxTree)adaptor.create(IRI, VARIABLE_NAME120.getText()+ DOT121.getText()+ IRI_ATTRIBUTE_NAME122.getText()), root_1);
 
                         adaptor.addChild(root_1, stream_VARIABLE_NAME.nextNode());
 
@@ -3829,30 +3983,30 @@ public class OPPLScript_OPPLParser extends Parser {
     };
 
     // $ANTLR start "createIdentifier"
-    // OPPLParser.g:170:1: createIdentifier : ESCLAMATION_MARK IDENTIFIER -> ^( IDENTIFIER[$ESCLAMATION_MARK.getText()+ $IDENTIFIER.getText()] ) ;
+    // OPPLParser.g:180:1: createIdentifier : ESCLAMATION_MARK IDENTIFIER -> ^( IDENTIFIER[$ESCLAMATION_MARK.getText()+ $IDENTIFIER.getText()] ) ;
     public final OPPLScript_OPPLParser.createIdentifier_return createIdentifier() throws RecognitionException {
         OPPLScript_OPPLParser.createIdentifier_return retval = new OPPLScript_OPPLParser.createIdentifier_return();
         retval.start = input.LT(1);
 
         OPPLSyntaxTree root_0 = null;
 
-        Token ESCLAMATION_MARK120=null;
-        Token IDENTIFIER121=null;
+        Token ESCLAMATION_MARK123=null;
+        Token IDENTIFIER124=null;
 
-        OPPLSyntaxTree ESCLAMATION_MARK120_tree=null;
-        OPPLSyntaxTree IDENTIFIER121_tree=null;
+        OPPLSyntaxTree ESCLAMATION_MARK123_tree=null;
+        OPPLSyntaxTree IDENTIFIER124_tree=null;
         RewriteRuleTokenStream stream_ESCLAMATION_MARK=new RewriteRuleTokenStream(adaptor,"token ESCLAMATION_MARK");
         RewriteRuleTokenStream stream_IDENTIFIER=new RewriteRuleTokenStream(adaptor,"token IDENTIFIER");
 
         try {
-            // OPPLParser.g:171:3: ( ESCLAMATION_MARK IDENTIFIER -> ^( IDENTIFIER[$ESCLAMATION_MARK.getText()+ $IDENTIFIER.getText()] ) )
-            // OPPLParser.g:172:4: ESCLAMATION_MARK IDENTIFIER
+            // OPPLParser.g:181:3: ( ESCLAMATION_MARK IDENTIFIER -> ^( IDENTIFIER[$ESCLAMATION_MARK.getText()+ $IDENTIFIER.getText()] ) )
+            // OPPLParser.g:182:4: ESCLAMATION_MARK IDENTIFIER
             {
-            ESCLAMATION_MARK120=(Token)match(input,ESCLAMATION_MARK,FOLLOW_ESCLAMATION_MARK_in_createIdentifier1358); if (state.failed) return retval; 
-            if ( state.backtracking==0 ) stream_ESCLAMATION_MARK.add(ESCLAMATION_MARK120);
+            ESCLAMATION_MARK123=(Token)match(input,ESCLAMATION_MARK,FOLLOW_ESCLAMATION_MARK_in_createIdentifier1387); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_ESCLAMATION_MARK.add(ESCLAMATION_MARK123);
 
-            IDENTIFIER121=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_createIdentifier1360); if (state.failed) return retval; 
-            if ( state.backtracking==0 ) stream_IDENTIFIER.add(IDENTIFIER121);
+            IDENTIFIER124=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_createIdentifier1389); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_IDENTIFIER.add(IDENTIFIER124);
 
 
 
@@ -3868,12 +4022,12 @@ public class OPPLScript_OPPLParser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (OPPLSyntaxTree)adaptor.nil();
-            // 172:33: -> ^( IDENTIFIER[$ESCLAMATION_MARK.getText()+ $IDENTIFIER.getText()] )
+            // 182:33: -> ^( IDENTIFIER[$ESCLAMATION_MARK.getText()+ $IDENTIFIER.getText()] )
             {
-                // OPPLParser.g:172:36: ^( IDENTIFIER[$ESCLAMATION_MARK.getText()+ $IDENTIFIER.getText()] )
+                // OPPLParser.g:182:36: ^( IDENTIFIER[$ESCLAMATION_MARK.getText()+ $IDENTIFIER.getText()] )
                 {
                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
-                root_1 = (OPPLSyntaxTree)adaptor.becomeRoot((OPPLSyntaxTree)adaptor.create(IDENTIFIER, ESCLAMATION_MARK120.getText()+ IDENTIFIER121.getText()), root_1);
+                root_1 = (OPPLSyntaxTree)adaptor.becomeRoot((OPPLSyntaxTree)adaptor.create(IDENTIFIER, ESCLAMATION_MARK123.getText()+ IDENTIFIER124.getText()), root_1);
 
                 adaptor.addChild(root_0, root_1);
                 }
@@ -3910,7 +4064,7 @@ public class OPPLScript_OPPLParser extends Parser {
     };
 
     // $ANTLR start "variableAttributeReference"
-    // OPPLParser.g:175:1: variableAttributeReference : ( VARIABLE_NAME DOT (a= VALUES | a= RENDERING ) -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $a.getText()] VARIABLE_NAME DOT $a) | VARIABLE_NAME DOT GROUPS attributeSelector -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $GROUPS.getText()+$attributeSelector.selectorText] VARIABLE_NAME DOT GROUPS attributeSelector ) );
+    // OPPLParser.g:185:1: variableAttributeReference : ( VARIABLE_NAME DOT (a= VALUES | a= RENDERING ) -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $a.getText()] VARIABLE_NAME DOT $a) | VARIABLE_NAME DOT GROUPS attributeSelector -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $GROUPS.getText()+$attributeSelector.selectorText] VARIABLE_NAME DOT GROUPS attributeSelector ) );
     public final OPPLScript_OPPLParser.variableAttributeReference_return variableAttributeReference() throws RecognitionException {
         OPPLScript_OPPLParser.variableAttributeReference_return retval = new OPPLScript_OPPLParser.variableAttributeReference_return();
         retval.start = input.LT(1);
@@ -3918,20 +4072,20 @@ public class OPPLScript_OPPLParser extends Parser {
         OPPLSyntaxTree root_0 = null;
 
         Token a=null;
-        Token VARIABLE_NAME122=null;
-        Token DOT123=null;
-        Token VARIABLE_NAME124=null;
-        Token DOT125=null;
-        Token GROUPS126=null;
-        OPPLScript_OPPLParser.attributeSelector_return attributeSelector127 = null;
+        Token VARIABLE_NAME125=null;
+        Token DOT126=null;
+        Token VARIABLE_NAME127=null;
+        Token DOT128=null;
+        Token GROUPS129=null;
+        OPPLScript_OPPLParser.attributeSelector_return attributeSelector130 = null;
 
 
         OPPLSyntaxTree a_tree=null;
-        OPPLSyntaxTree VARIABLE_NAME122_tree=null;
-        OPPLSyntaxTree DOT123_tree=null;
-        OPPLSyntaxTree VARIABLE_NAME124_tree=null;
-        OPPLSyntaxTree DOT125_tree=null;
-        OPPLSyntaxTree GROUPS126_tree=null;
+        OPPLSyntaxTree VARIABLE_NAME125_tree=null;
+        OPPLSyntaxTree DOT126_tree=null;
+        OPPLSyntaxTree VARIABLE_NAME127_tree=null;
+        OPPLSyntaxTree DOT128_tree=null;
+        OPPLSyntaxTree GROUPS129_tree=null;
         RewriteRuleTokenStream stream_VARIABLE_NAME=new RewriteRuleTokenStream(adaptor,"token VARIABLE_NAME");
         RewriteRuleTokenStream stream_DOT=new RewriteRuleTokenStream(adaptor,"token DOT");
         RewriteRuleTokenStream stream_RENDERING=new RewriteRuleTokenStream(adaptor,"token RENDERING");
@@ -3939,26 +4093,26 @@ public class OPPLScript_OPPLParser extends Parser {
         RewriteRuleTokenStream stream_VALUES=new RewriteRuleTokenStream(adaptor,"token VALUES");
         RewriteRuleSubtreeStream stream_attributeSelector=new RewriteRuleSubtreeStream(adaptor,"rule attributeSelector");
         try {
-            // OPPLParser.g:176:3: ( VARIABLE_NAME DOT (a= VALUES | a= RENDERING ) -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $a.getText()] VARIABLE_NAME DOT $a) | VARIABLE_NAME DOT GROUPS attributeSelector -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $GROUPS.getText()+$attributeSelector.selectorText] VARIABLE_NAME DOT GROUPS attributeSelector ) )
-            int alt24=2;
-            int LA24_0 = input.LA(1);
+            // OPPLParser.g:186:3: ( VARIABLE_NAME DOT (a= VALUES | a= RENDERING ) -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $a.getText()] VARIABLE_NAME DOT $a) | VARIABLE_NAME DOT GROUPS attributeSelector -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $GROUPS.getText()+$attributeSelector.selectorText] VARIABLE_NAME DOT GROUPS attributeSelector ) )
+            int alt27=2;
+            int LA27_0 = input.LA(1);
 
-            if ( (LA24_0==VARIABLE_NAME) ) {
-                int LA24_1 = input.LA(2);
+            if ( (LA27_0==VARIABLE_NAME) ) {
+                int LA27_1 = input.LA(2);
 
-                if ( (LA24_1==DOT) ) {
-                    int LA24_2 = input.LA(3);
+                if ( (LA27_1==DOT) ) {
+                    int LA27_2 = input.LA(3);
 
-                    if ( (LA24_2==GROUPS) ) {
-                        alt24=2;
+                    if ( (LA27_2==GROUPS) ) {
+                        alt27=2;
                     }
-                    else if ( ((LA24_2>=VALUES && LA24_2<=RENDERING)) ) {
-                        alt24=1;
+                    else if ( ((LA27_2>=VALUES && LA27_2<=RENDERING)) ) {
+                        alt27=1;
                     }
                     else {
                         if (state.backtracking>0) {state.failed=true; return retval;}
                         NoViableAltException nvae =
-                            new NoViableAltException("", 24, 2, input);
+                            new NoViableAltException("", 27, 2, input);
 
                         throw nvae;
                     }
@@ -3966,7 +4120,7 @@ public class OPPLScript_OPPLParser extends Parser {
                 else {
                     if (state.backtracking>0) {state.failed=true; return retval;}
                     NoViableAltException nvae =
-                        new NoViableAltException("", 24, 1, input);
+                        new NoViableAltException("", 27, 1, input);
 
                     throw nvae;
                 }
@@ -3974,51 +4128,51 @@ public class OPPLScript_OPPLParser extends Parser {
             else {
                 if (state.backtracking>0) {state.failed=true; return retval;}
                 NoViableAltException nvae =
-                    new NoViableAltException("", 24, 0, input);
+                    new NoViableAltException("", 27, 0, input);
 
                 throw nvae;
             }
-            switch (alt24) {
+            switch (alt27) {
                 case 1 :
-                    // OPPLParser.g:177:5: VARIABLE_NAME DOT (a= VALUES | a= RENDERING )
+                    // OPPLParser.g:187:5: VARIABLE_NAME DOT (a= VALUES | a= RENDERING )
                     {
-                    VARIABLE_NAME122=(Token)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableAttributeReference1387); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_VARIABLE_NAME.add(VARIABLE_NAME122);
+                    VARIABLE_NAME125=(Token)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableAttributeReference1416); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_VARIABLE_NAME.add(VARIABLE_NAME125);
 
-                    DOT123=(Token)match(input,DOT,FOLLOW_DOT_in_variableAttributeReference1389); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_DOT.add(DOT123);
+                    DOT126=(Token)match(input,DOT,FOLLOW_DOT_in_variableAttributeReference1418); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_DOT.add(DOT126);
 
-                    // OPPLParser.g:177:23: (a= VALUES | a= RENDERING )
-                    int alt23=2;
-                    int LA23_0 = input.LA(1);
+                    // OPPLParser.g:187:23: (a= VALUES | a= RENDERING )
+                    int alt26=2;
+                    int LA26_0 = input.LA(1);
 
-                    if ( (LA23_0==VALUES) ) {
-                        alt23=1;
+                    if ( (LA26_0==VALUES) ) {
+                        alt26=1;
                     }
-                    else if ( (LA23_0==RENDERING) ) {
-                        alt23=2;
+                    else if ( (LA26_0==RENDERING) ) {
+                        alt26=2;
                     }
                     else {
                         if (state.backtracking>0) {state.failed=true; return retval;}
                         NoViableAltException nvae =
-                            new NoViableAltException("", 23, 0, input);
+                            new NoViableAltException("", 26, 0, input);
 
                         throw nvae;
                     }
-                    switch (alt23) {
+                    switch (alt26) {
                         case 1 :
-                            // OPPLParser.g:177:24: a= VALUES
+                            // OPPLParser.g:187:24: a= VALUES
                             {
-                            a=(Token)match(input,VALUES,FOLLOW_VALUES_in_variableAttributeReference1396); if (state.failed) return retval; 
+                            a=(Token)match(input,VALUES,FOLLOW_VALUES_in_variableAttributeReference1425); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_VALUES.add(a);
 
 
                             }
                             break;
                         case 2 :
-                            // OPPLParser.g:177:37: a= RENDERING
+                            // OPPLParser.g:187:37: a= RENDERING
                             {
-                            a=(Token)match(input,RENDERING,FOLLOW_RENDERING_in_variableAttributeReference1404); if (state.failed) return retval; 
+                            a=(Token)match(input,RENDERING,FOLLOW_RENDERING_in_variableAttributeReference1433); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_RENDERING.add(a);
 
 
@@ -4042,12 +4196,12 @@ public class OPPLScript_OPPLParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (OPPLSyntaxTree)adaptor.nil();
-                    // 177:54: -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $a.getText()] VARIABLE_NAME DOT $a)
+                    // 187:54: -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $a.getText()] VARIABLE_NAME DOT $a)
                     {
-                        // OPPLParser.g:177:56: ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $a.getText()] VARIABLE_NAME DOT $a)
+                        // OPPLParser.g:187:56: ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $a.getText()] VARIABLE_NAME DOT $a)
                         {
                         OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
-                        root_1 = (OPPLSyntaxTree)adaptor.becomeRoot((OPPLSyntaxTree)adaptor.create(IDENTIFIER, VARIABLE_NAME122.getText()+DOT123.getText() + a.getText()), root_1);
+                        root_1 = (OPPLSyntaxTree)adaptor.becomeRoot((OPPLSyntaxTree)adaptor.create(IDENTIFIER, VARIABLE_NAME125.getText()+DOT126.getText() + a.getText()), root_1);
 
                         adaptor.addChild(root_1, stream_VARIABLE_NAME.nextNode());
                         adaptor.addChild(root_1, stream_DOT.nextNode());
@@ -4062,27 +4216,27 @@ public class OPPLScript_OPPLParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // OPPLParser.g:178:7: VARIABLE_NAME DOT GROUPS attributeSelector
+                    // OPPLParser.g:188:7: VARIABLE_NAME DOT GROUPS attributeSelector
                     {
-                    VARIABLE_NAME124=(Token)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableAttributeReference1428); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_VARIABLE_NAME.add(VARIABLE_NAME124);
+                    VARIABLE_NAME127=(Token)match(input,VARIABLE_NAME,FOLLOW_VARIABLE_NAME_in_variableAttributeReference1457); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_VARIABLE_NAME.add(VARIABLE_NAME127);
 
-                    DOT125=(Token)match(input,DOT,FOLLOW_DOT_in_variableAttributeReference1430); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_DOT.add(DOT125);
+                    DOT128=(Token)match(input,DOT,FOLLOW_DOT_in_variableAttributeReference1459); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_DOT.add(DOT128);
 
-                    GROUPS126=(Token)match(input,GROUPS,FOLLOW_GROUPS_in_variableAttributeReference1432); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_GROUPS.add(GROUPS126);
+                    GROUPS129=(Token)match(input,GROUPS,FOLLOW_GROUPS_in_variableAttributeReference1461); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_GROUPS.add(GROUPS129);
 
-                    pushFollow(FOLLOW_attributeSelector_in_variableAttributeReference1434);
-                    attributeSelector127=attributeSelector();
+                    pushFollow(FOLLOW_attributeSelector_in_variableAttributeReference1463);
+                    attributeSelector130=attributeSelector();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_attributeSelector.add(attributeSelector127.getTree());
+                    if ( state.backtracking==0 ) stream_attributeSelector.add(attributeSelector130.getTree());
 
 
                     // AST REWRITE
-                    // elements: DOT, attributeSelector, VARIABLE_NAME, GROUPS
+                    // elements: DOT, attributeSelector, GROUPS, VARIABLE_NAME
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -4093,12 +4247,12 @@ public class OPPLScript_OPPLParser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (OPPLSyntaxTree)adaptor.nil();
-                    // 178:51: -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $GROUPS.getText()+$attributeSelector.selectorText] VARIABLE_NAME DOT GROUPS attributeSelector )
+                    // 188:51: -> ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $GROUPS.getText()+$attributeSelector.selectorText] VARIABLE_NAME DOT GROUPS attributeSelector )
                     {
-                        // OPPLParser.g:178:53: ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $GROUPS.getText()+$attributeSelector.selectorText] VARIABLE_NAME DOT GROUPS attributeSelector )
+                        // OPPLParser.g:188:53: ^( IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() + $GROUPS.getText()+$attributeSelector.selectorText] VARIABLE_NAME DOT GROUPS attributeSelector )
                         {
                         OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
-                        root_1 = (OPPLSyntaxTree)adaptor.becomeRoot((OPPLSyntaxTree)adaptor.create(IDENTIFIER, VARIABLE_NAME124.getText()+DOT125.getText() + GROUPS126.getText()+(attributeSelector127!=null?attributeSelector127.selectorText:null)), root_1);
+                        root_1 = (OPPLSyntaxTree)adaptor.becomeRoot((OPPLSyntaxTree)adaptor.create(IDENTIFIER, VARIABLE_NAME127.getText()+DOT128.getText() + GROUPS129.getText()+(attributeSelector130!=null?attributeSelector130.selectorText:null)), root_1);
 
                         adaptor.addChild(root_1, stream_VARIABLE_NAME.nextNode());
                         adaptor.addChild(root_1, stream_DOT.nextNode());
@@ -4143,7 +4297,7 @@ public class OPPLScript_OPPLParser extends Parser {
     };
 
     // $ANTLR start "attributeSelector"
-    // OPPLParser.g:183:1: attributeSelector returns [String selectorText] : OPEN_PARENTHESYS i= INTEGER CLOSED_PARENTHESYS -> ^( ATTRIBUTE_SELECTOR INTEGER ) ;
+    // OPPLParser.g:193:1: attributeSelector returns [String selectorText] : OPEN_PARENTHESYS i= INTEGER CLOSED_PARENTHESYS -> ^( ATTRIBUTE_SELECTOR INTEGER ) ;
     public final OPPLScript_OPPLParser.attributeSelector_return attributeSelector() throws RecognitionException {
         OPPLScript_OPPLParser.attributeSelector_return retval = new OPPLScript_OPPLParser.attributeSelector_return();
         retval.start = input.LT(1);
@@ -4151,32 +4305,32 @@ public class OPPLScript_OPPLParser extends Parser {
         OPPLSyntaxTree root_0 = null;
 
         Token i=null;
-        Token OPEN_PARENTHESYS128=null;
-        Token CLOSED_PARENTHESYS129=null;
+        Token OPEN_PARENTHESYS131=null;
+        Token CLOSED_PARENTHESYS132=null;
 
         OPPLSyntaxTree i_tree=null;
-        OPPLSyntaxTree OPEN_PARENTHESYS128_tree=null;
-        OPPLSyntaxTree CLOSED_PARENTHESYS129_tree=null;
+        OPPLSyntaxTree OPEN_PARENTHESYS131_tree=null;
+        OPPLSyntaxTree CLOSED_PARENTHESYS132_tree=null;
         RewriteRuleTokenStream stream_INTEGER=new RewriteRuleTokenStream(adaptor,"token INTEGER");
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS=new RewriteRuleTokenStream(adaptor,"token CLOSED_PARENTHESYS");
         RewriteRuleTokenStream stream_OPEN_PARENTHESYS=new RewriteRuleTokenStream(adaptor,"token OPEN_PARENTHESYS");
 
         try {
-            // OPPLParser.g:184:3: ( OPEN_PARENTHESYS i= INTEGER CLOSED_PARENTHESYS -> ^( ATTRIBUTE_SELECTOR INTEGER ) )
-            // OPPLParser.g:185:5: OPEN_PARENTHESYS i= INTEGER CLOSED_PARENTHESYS
+            // OPPLParser.g:194:3: ( OPEN_PARENTHESYS i= INTEGER CLOSED_PARENTHESYS -> ^( ATTRIBUTE_SELECTOR INTEGER ) )
+            // OPPLParser.g:195:5: OPEN_PARENTHESYS i= INTEGER CLOSED_PARENTHESYS
             {
-            OPEN_PARENTHESYS128=(Token)match(input,OPEN_PARENTHESYS,FOLLOW_OPEN_PARENTHESYS_in_attributeSelector1483); if (state.failed) return retval; 
-            if ( state.backtracking==0 ) stream_OPEN_PARENTHESYS.add(OPEN_PARENTHESYS128);
+            OPEN_PARENTHESYS131=(Token)match(input,OPEN_PARENTHESYS,FOLLOW_OPEN_PARENTHESYS_in_attributeSelector1512); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_OPEN_PARENTHESYS.add(OPEN_PARENTHESYS131);
 
-            i=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_attributeSelector1489); if (state.failed) return retval; 
+            i=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_attributeSelector1518); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_INTEGER.add(i);
 
-            CLOSED_PARENTHESYS129=(Token)match(input,CLOSED_PARENTHESYS,FOLLOW_CLOSED_PARENTHESYS_in_attributeSelector1491); if (state.failed) return retval; 
-            if ( state.backtracking==0 ) stream_CLOSED_PARENTHESYS.add(CLOSED_PARENTHESYS129);
+            CLOSED_PARENTHESYS132=(Token)match(input,CLOSED_PARENTHESYS,FOLLOW_CLOSED_PARENTHESYS_in_attributeSelector1520); if (state.failed) return retval; 
+            if ( state.backtracking==0 ) stream_CLOSED_PARENTHESYS.add(CLOSED_PARENTHESYS132);
 
             if ( state.backtracking==0 ) {
 
-                    retval.selectorText = OPEN_PARENTHESYS128.getText() + i.getText() + CLOSED_PARENTHESYS129.getText();
+                    retval.selectorText = OPEN_PARENTHESYS131.getText() + i.getText() + CLOSED_PARENTHESYS132.getText();
                   
             }
 
@@ -4193,9 +4347,9 @@ public class OPPLScript_OPPLParser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (OPPLSyntaxTree)adaptor.nil();
-            // 189:5: -> ^( ATTRIBUTE_SELECTOR INTEGER )
+            // 199:5: -> ^( ATTRIBUTE_SELECTOR INTEGER )
             {
-                // OPPLParser.g:189:9: ^( ATTRIBUTE_SELECTOR INTEGER )
+                // OPPLParser.g:199:9: ^( ATTRIBUTE_SELECTOR INTEGER )
                 {
                 OPPLSyntaxTree root_1 = (OPPLSyntaxTree)adaptor.nil();
                 root_1 = (OPPLSyntaxTree)adaptor.becomeRoot((OPPLSyntaxTree)adaptor.create(ATTRIBUTE_SELECTOR, "ATTRIBUTE_SELECTOR"), root_1);
@@ -4323,7 +4477,6 @@ public class OPPLScript_OPPLParser extends Parser {
 
 
     protected DFA9 dfa9 = new DFA9(this);
-    protected DFA19 dfa19 = new DFA19(this);
     static final String DFA9_eotS =
         "\30\uffff";
     static final String DFA9_eofS =
@@ -4541,69 +4694,6 @@ public class OPPLScript_OPPLParser extends Parser {
             throw nvae;
         }
     }
-    static final String DFA19_eotS =
-        "\16\uffff";
-    static final String DFA19_eofS =
-        "\1\uffff\1\4\7\uffff\2\4\2\uffff\1\4";
-    static final String DFA19_minS =
-        "\1\50\1\10\1\116\1\170\1\uffff\1\u0162\2\uffff\1\5\2\10\1\52\2\10";
-    static final String DFA19_maxS =
-        "\1\u01d0\1\117\1\116\1\171\1\uffff\1\u0164\2\uffff\1\5\2\117\1\52"+
-        "\1\10\1\117";
-    static final String DFA19_acceptS =
-        "\4\uffff\1\3\1\uffff\1\2\1\1\6\uffff";
-    static final String DFA19_specialS =
-        "\16\uffff}>";
-    static final String[] DFA19_transitionS = {
-            "\1\1\u01a7\uffff\1\2",
-            "\1\4\105\uffff\1\3\1\4",
-            "\1\5",
-            "\1\7\1\6",
-            "",
-            "\1\11\1\12\1\10",
-            "",
-            "",
-            "\1\13",
-            "\1\4\105\uffff\1\3\1\4",
-            "\1\4\105\uffff\1\3\1\4",
-            "\1\14",
-            "\1\15",
-            "\1\4\105\uffff\1\3\1\4"
-    };
-
-    static final short[] DFA19_eot = DFA.unpackEncodedString(DFA19_eotS);
-    static final short[] DFA19_eof = DFA.unpackEncodedString(DFA19_eofS);
-    static final char[] DFA19_min = DFA.unpackEncodedStringToUnsignedChars(DFA19_minS);
-    static final char[] DFA19_max = DFA.unpackEncodedStringToUnsignedChars(DFA19_maxS);
-    static final short[] DFA19_accept = DFA.unpackEncodedString(DFA19_acceptS);
-    static final short[] DFA19_special = DFA.unpackEncodedString(DFA19_specialS);
-    static final short[][] DFA19_transition;
-
-    static {
-        int numStates = DFA19_transitionS.length;
-        DFA19_transition = new short[numStates][];
-        for (int i=0; i<numStates; i++) {
-            DFA19_transition[i] = DFA.unpackEncodedString(DFA19_transitionS[i]);
-        }
-    }
-
-    class DFA19 extends DFA {
-
-        public DFA19(BaseRecognizer recognizer) {
-            this.recognizer = recognizer;
-            this.decisionNumber = 19;
-            this.eot = DFA19_eot;
-            this.eof = DFA19_eof;
-            this.min = DFA19_min;
-            this.max = DFA19_max;
-            this.accept = DFA19_accept;
-            this.special = DFA19_special;
-            this.transition = DFA19_transition;
-        }
-        public String getDescription() {
-            return "141:1: stringExpression : ( simpleStringExpression DOT TO_LOWER_CASE -> ^( TO_LOWER_CASE simpleStringExpression ) | simpleStringExpression DOT TO_UPPER_CASE -> ^( TO_UPPER_CASE simpleStringExpression ) | simpleStringExpression );";
-        }
-    }
  
 
     public static final BitSet FOLLOW_variableDefinition_in_variableDefinitions216 = new BitSet(new long[]{0x0000002000000002L});
@@ -4638,7 +4728,7 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final BitSet FOLLOW_expression_in_variableScope452 = new BitSet(new long[]{0x0000000000000000L,0x0000000000400000L});
     public static final BitSet FOLLOW_CLOSED_SQUARE_BRACKET_in_variableScope454 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_MATCH_in_regexp484 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_regexp486 = new BitSet(new long[]{0x0000310000000000L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_regexp486 = new BitSet(new long[]{0x0000310000000020L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
     public static final BitSet FOLLOW_stringOperation_in_regexp488 = new BitSet(new long[]{0x0000000000000100L});
     public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_regexp490 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_SELECT_in_query515 = new BitSet(new long[]{0x0000310FE0081060L,0x00F0400000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
@@ -4678,7 +4768,7 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final BitSet FOLLOW_CLOSED_CURLY_BRACES_in_constraint835 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_VARIABLE_NAME_in_constraint857 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0001000000000000L});
     public static final BitSet FOLLOW_MATCH_in_constraint859 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_constraint861 = new BitSet(new long[]{0x0000310000000000L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_constraint861 = new BitSet(new long[]{0x0000310000000020L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
     public static final BitSet FOLLOW_stringOperation_in_constraint863 = new BitSet(new long[]{0x0000000000000100L});
     public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_constraint865 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_FAIL_in_constraint884 = new BitSet(new long[]{0x0000310FE0081060L,0x00F0400000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
@@ -4693,7 +4783,7 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final BitSet FOLLOW_REMOVE_in_action975 = new BitSet(new long[]{0x0000310FE0081060L,0x00F0400000001000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
     public static final BitSet FOLLOW_axiom_in_action977 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_CREATE_in_opplFunction1010 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_opplFunction1012 = new BitSet(new long[]{0x0000310000000000L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_opplFunction1012 = new BitSet(new long[]{0x0000310000000020L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
     public static final BitSet FOLLOW_stringOperation_in_opplFunction1014 = new BitSet(new long[]{0x0000000000000100L});
     public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_opplFunction1016 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_CREATE_INTERSECTION_in_opplFunction1032 = new BitSet(new long[]{0x0000000000000020L});
@@ -4713,39 +4803,42 @@ public class OPPLScript_OPPLParser extends Parser {
     public static final BitSet FOLLOW_atomic_in_opplFunction1095 = new BitSet(new long[]{0x0000002000000100L});
     public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_opplFunction1099 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_stringExpression_in_stringOperation1129 = new BitSet(new long[]{0x0000000000000002L,0x0000000000008000L});
-    public static final BitSet FOLLOW_PLUS_in_stringOperation1132 = new BitSet(new long[]{0x0000310000000000L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_PLUS_in_stringOperation1132 = new BitSet(new long[]{0x0000310000000020L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
     public static final BitSet FOLLOW_stringExpression_in_stringOperation1134 = new BitSet(new long[]{0x0000000000000002L,0x0000000000008000L});
-    public static final BitSet FOLLOW_simpleStringExpression_in_stringExpression1163 = new BitSet(new long[]{0x0000000000000000L,0x0000000000004000L});
-    public static final BitSet FOLLOW_DOT_in_stringExpression1165 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
-    public static final BitSet FOLLOW_TO_LOWER_CASE_in_stringExpression1167 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_simpleStringExpression_in_stringExpression1183 = new BitSet(new long[]{0x0000000000000000L,0x0000000000004000L});
-    public static final BitSet FOLLOW_DOT_in_stringExpression1185 = new BitSet(new long[]{0x0000000000000000L,0x0200000000000000L});
-    public static final BitSet FOLLOW_TO_UPPER_CASE_in_stringExpression1187 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_simpleStringExpression_in_stringExpression1201 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_DBLQUOTE_in_simpleStringExpression1216 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_variableAttributeReference_in_simpleStringExpression1232 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_atomic1250 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ENTITY_REFERENCE_in_atomic1257 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_atomic1269 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_createIdentifier_in_atomic1290 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_variableAttributeReference_in_atomic1302 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IRI_in_iri1321 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_iri1330 = new BitSet(new long[]{0x0000000000000000L,0x0000000000004000L});
-    public static final BitSet FOLLOW_DOT_in_iri1332 = new BitSet(new long[]{0x0000000000000000L,0x0001000000000000L});
-    public static final BitSet FOLLOW_IRI_ATTRIBUTE_NAME_in_iri1334 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ESCLAMATION_MARK_in_createIdentifier1358 = new BitSet(new long[]{0x0000100000000000L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_createIdentifier1360 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableAttributeReference1387 = new BitSet(new long[]{0x0000000000000000L,0x0000000000004000L});
-    public static final BitSet FOLLOW_DOT_in_variableAttributeReference1389 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000C00000000L});
-    public static final BitSet FOLLOW_VALUES_in_variableAttributeReference1396 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RENDERING_in_variableAttributeReference1404 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableAttributeReference1428 = new BitSet(new long[]{0x0000000000000000L,0x0000000000004000L});
-    public static final BitSet FOLLOW_DOT_in_variableAttributeReference1430 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000001000000000L});
-    public static final BitSet FOLLOW_GROUPS_in_variableAttributeReference1432 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_attributeSelector_in_variableAttributeReference1434 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_attributeSelector1483 = new BitSet(new long[]{0x0000040000000000L});
-    public static final BitSet FOLLOW_INTEGER_in_attributeSelector1489 = new BitSet(new long[]{0x0000000000000100L});
-    public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_attributeSelector1491 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_simpleStringExpression_in_stringExpression1166 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
+    public static final BitSet FOLLOW_lowerUpperCase_in_stringExpression1169 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
+    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_stringExpression1178 = new BitSet(new long[]{0x0000310000000020L,0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000010000L});
+    public static final BitSet FOLLOW_stringOperation_in_stringExpression1181 = new BitSet(new long[]{0x0000000000000100L});
+    public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_stringExpression1183 = new BitSet(new long[]{0x0000000000000000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_lowerUpperCase_in_stringExpression1187 = new BitSet(new long[]{0x0000000000000002L,0x0000000000004000L});
+    public static final BitSet FOLLOW_DOT_in_lowerUpperCase1210 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
+    public static final BitSet FOLLOW_TO_LOWER_CASE_in_lowerUpperCase1212 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_DOT_in_lowerUpperCase1223 = new BitSet(new long[]{0x0000000000000000L,0x0200000000000000L});
+    public static final BitSet FOLLOW_TO_UPPER_CASE_in_lowerUpperCase1226 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_DBLQUOTE_in_simpleStringExpression1245 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_variableAttributeReference_in_simpleStringExpression1261 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_atomic1279 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ENTITY_REFERENCE_in_atomic1286 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_atomic1298 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_createIdentifier_in_atomic1319 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_variableAttributeReference_in_atomic1331 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IRI_in_iri1350 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_iri1359 = new BitSet(new long[]{0x0000000000000000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_DOT_in_iri1361 = new BitSet(new long[]{0x0000000000000000L,0x0001000000000000L});
+    public static final BitSet FOLLOW_IRI_ATTRIBUTE_NAME_in_iri1363 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ESCLAMATION_MARK_in_createIdentifier1387 = new BitSet(new long[]{0x0000100000000000L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_createIdentifier1389 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableAttributeReference1416 = new BitSet(new long[]{0x0000000000000000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_DOT_in_variableAttributeReference1418 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000C00000000L});
+    public static final BitSet FOLLOW_VALUES_in_variableAttributeReference1425 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RENDERING_in_variableAttributeReference1433 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_variableAttributeReference1457 = new BitSet(new long[]{0x0000000000000000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_DOT_in_variableAttributeReference1459 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000000000000000L,0x0000001000000000L});
+    public static final BitSet FOLLOW_GROUPS_in_variableAttributeReference1461 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_attributeSelector_in_variableAttributeReference1463 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_OPEN_PARENTHESYS_in_attributeSelector1512 = new BitSet(new long[]{0x0000040000000000L});
+    public static final BitSet FOLLOW_INTEGER_in_attributeSelector1518 = new BitSet(new long[]{0x0000000000000100L});
+    public static final BitSet FOLLOW_CLOSED_PARENTHESYS_in_attributeSelector1520 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_binaryAxiom_in_synpred15_OPPLParser621 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_assertionAxiom_in_synpred18_OPPLParser657 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_hasKeyAxiom_in_synpred19_OPPLParser669 = new BitSet(new long[]{0x0000000000000002L});

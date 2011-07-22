@@ -387,10 +387,10 @@ public class OPPLQueryImpl implements OPPLQuery {
 		}
 		for (QueryPlannerItem queryPlannerItem : queryPlannerItems) {
 			currentLeaves = queryPlannerItem.match(currentLeaves, runtimeExceptionHandler);
-		}
-		// Now I check the constraints
-		for (ConstraintQueryPlannerItem c : constraintsItems) {
-			currentLeaves = c.match(currentLeaves, runtimeExceptionHandler);
+			// Now I check the constraints
+			for (ConstraintQueryPlannerItem c : constraintsItems) {
+				currentLeaves = c.match(currentLeaves, runtimeExceptionHandler);
+			}
 		}
 		this.getConstraintSystem().setLeaves(currentLeaves);
 	}

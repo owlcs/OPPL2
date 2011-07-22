@@ -103,6 +103,13 @@ public class OPPLScriptParserTest extends TestCase {
 		System.out.println(parsed.toStringTree());
 	}
 
+	public void testLowerCaseParenthesys() {
+		String query = "?x:CLASS=create((\"Bla\"+ \"Bla\").toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
+		ManchesterOWLSyntaxTree parsed = this.parse(query);
+		assertNotNull(parsed);
+		System.out.println(parsed.toStringTree());
+	}
+
 	public void testUpperCaseInConcat() {
 		String query = "?x:CLASS, ?y:CLASS=create(?x.RENDERING +\"_\"+\"BLA\".toUpperCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
 		ManchesterOWLSyntaxTree parsed = this.parse(query);
