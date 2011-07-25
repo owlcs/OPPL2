@@ -27,19 +27,25 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.function.OPPLFunction;
+import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.queryplanner.AssertedAxiomPlannerItem;
 import org.coode.oppl.queryplanner.ConstraintQueryPlannerItem;
 import org.coode.oppl.queryplanner.InferredAxiomQueryPlannerItem;
 import org.coode.oppl.queryplanner.QueryItemVariableExtractor;
 import org.coode.oppl.queryplanner.QueryPlannerItem;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
+import org.coode.oppl.utils.VariableExtractor;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
@@ -388,11 +394,70 @@ public class OPPLQueryImpl implements OPPLQuery {
 		for (QueryPlannerItem queryPlannerItem : queryPlannerItems) {
 			currentLeaves = queryPlannerItem.match(currentLeaves, runtimeExceptionHandler);
 			// Now I check the constraints
-			for (ConstraintQueryPlannerItem c : constraintsItems) {
-				currentLeaves = c.match(currentLeaves, runtimeExceptionHandler);
+			for (ConstraintQueryPlannerItem c : new HashSet<ConstraintQueryPlannerItem>(
+					constraintsItems)) {
+				if (this.canMatch(c, currentLeaves, runtimeExceptionHandler)) {
+					currentLeaves = c.match(currentLeaves, runtimeExceptionHandler);
+					constraintsItems.remove(c);
+				}
 			}
 		}
 		this.getConstraintSystem().setLeaves(currentLeaves);
+	}
+
+	private boolean canMatch(ConstraintQueryPlannerItem c, Set<BindingNode> currentLeaves,
+			RuntimeExceptionHandler runtimeExceptionHandler) {
+		boolean found = false;
+		AbstractConstraint constraint = c.getConstraint();
+		Iterator<BindingNode> iterator = currentLeaves.iterator();
+		while (!found && iterator.hasNext()) {
+			final BindingNode bindingNode = iterator.next();
+			final SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
+					this.getConstraintSystem(), bindingNode, runtimeExceptionHandler);
+			final OWLObjectInstantiator instantiator = new OWLObjectInstantiator(parameters);
+			final VariableExtractor variableExtractor = new VariableExtractor(
+					OPPLQueryImpl.this.getConstraintSystem(), false);
+			found = constraint.accept(new ConstraintVisitorEx<Boolean>() {
+				public Boolean visit(InequalityConstraint c) {
+					OWLObject instantiatedExpression = c.getExpression().accept(instantiator);
+					return bindingNode.getAssignmentValue(c.getVariable(), parameters) == null
+							|| !variableExtractor.extractVariables(instantiatedExpression).isEmpty();
+				}
+
+				public Boolean visit(InCollectionConstraint<? extends OWLObject> c) {
+					boolean found = false;
+					Iterator<? extends OWLObject> iterator = c.getCollection().iterator();
+					while (!found && iterator.hasNext()) {
+						OWLObject owlObject = iterator.next();
+						OWLObject instantiated = owlObject.accept(instantiator);
+						found = !variableExtractor.extractVariables(instantiated).isEmpty();
+					}
+					return bindingNode.getAssignmentValue(c.getVariable(), parameters) == null
+							|| found;
+				}
+
+				public Boolean visit(RegExpConstraint c) {
+					OPPLFunction<Pattern> expression = c.getExpression();
+					Set<Variable<?>> extractedVariables = variableExtractor.extractVariables(expression);
+					boolean found = false;
+					Iterator<Variable<?>> iterator = extractedVariables.iterator();
+					while (!found && iterator.hasNext()) {
+						Variable<?> variable = iterator.next();
+						found = bindingNode.getAssignmentValue(variable, parameters) == null;
+					}
+					return bindingNode.getAssignmentValue(c.getVariable(), parameters) == null
+							|| found;
+				}
+
+				public Boolean visit(NAFConstraint nafConstraint) {
+					OWLAxiom instantiatedAxiom = (OWLAxiom) nafConstraint.getAxiom().accept(
+							instantiator);
+					Set<Variable<?>> extractedVariables = variableExtractor.extractVariables(instantiatedAxiom);
+					return !extractedVariables.isEmpty();
+				}
+			});
+		}
+		return !found;
 	}
 
 	/**
