@@ -371,11 +371,17 @@ stringExpression returns [OPPLFunction<String> value]
     {
       $value = getSymbolTable().defineRenderingAttributeReferenceSymbol($VARIABLE_NAME,getConstraintSystem());
     }
-    |^(TO_LOWER_CASE expression = stringExpression){
+    |^(TO_LOWER_CASE expression = stringOperation){
 	$value = new ToLowerCaseStringManipulationOPPLFunction(expression);
 	}
-    | ^(TO_UPPER_CASE expression = stringExpression){
+    | ^(TO_UPPER_CASE expression = stringOperation){
 	$value = new ToUpperCaseStringManipulationOPPLFunction(expression);
+    }
+    |^(TO_LOWER_CASE simpleExpression = stringExpression){
+	$value = new ToLowerCaseStringManipulationOPPLFunction(simpleExpression);
+	}
+    | ^(TO_UPPER_CASE simpleExpression = stringExpression){
+	$value = new ToUpperCaseStringManipulationOPPLFunction(simpleExpression);
     }
   ;
 

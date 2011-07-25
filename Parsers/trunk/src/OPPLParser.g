@@ -140,12 +140,22 @@ stringOperation
   
 stringExpression
 	:
-		simpleStringExpression DOT TO_LOWER_CASE ->  ^(TO_LOWER_CASE simpleStringExpression)
-		|  simpleStringExpression DOT TO_UPPER_CASE  ->^(TO_UPPER_CASE simpleStringExpression)
-		| simpleStringExpression
+		
+		simpleStringExpression (lowerUpperCase^)*
+		| OPEN_PARENTHESYS! stringOperation CLOSED_PARENTHESYS! (lowerUpperCase^)+
 
 	;
 
+
+
+
+
+	
+lowerUpperCase
+	:
+		DOT TO_LOWER_CASE ->^(TO_LOWER_CASE)
+		| DOT  TO_UPPER_CASE ->^(TO_UPPER_CASE)
+	;	
 
 simpleStringExpression
 	:
