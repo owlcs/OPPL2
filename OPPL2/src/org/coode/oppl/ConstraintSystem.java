@@ -209,9 +209,39 @@ public class ConstraintSystem {
 	public <O extends OWLObject> InputVariable<O> createVariable(String name, VariableType<O> type,
 			VariableScope<?> variableScope) throws OPPLException {
 		if (name.matches("\\?([\\p{Alnum}[-_]])+")) {
-			InputVariable<O> newVariable = type.getInputVariable(name, variableScope);
-			this.variables.store(newVariable);
-			return newVariable;
+			Variable<?> newVariable = this.variables.get(name);
+			if (newVariable == null) {
+				newVariable = type.getInputVariable(name, variableScope);
+				this.variables.store(newVariable);
+			} else {
+				boolean rightKind = newVariable.accept(new VariableVisitorEx<Boolean>() {
+					public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
+						return true;
+					}
+
+					public <P extends OWLObject> Boolean visit(GeneratedVariable<P> v) {
+						return false;
+					}
+
+					public <P extends OWLObject> Boolean visit(
+							RegexpGeneratedVariable<P> regExpGenerated) {
+						return false;
+					}
+				});
+				if (!rightKind) {
+					throw new OPPLException(String.format(
+							"A generated or regexp variable named %s already exists",
+							name));
+				} else if (type != newVariable.getType()) {
+					throw new OPPLException(
+							String.format(
+									"An input variable named %s already exists but is of a different type %s from the input one %s",
+									name,
+									newVariable,
+									type));
+				}
+			}
+			return (InputVariable<O>) newVariable;
 		} else {
 			throw new InvalidVariableNameException("Invalid name: " + name);
 		}
