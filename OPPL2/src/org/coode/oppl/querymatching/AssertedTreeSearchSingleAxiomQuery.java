@@ -30,6 +30,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
@@ -41,6 +43,7 @@ import org.coode.oppl.search.OPPLOWLAxiomSearchNode;
 import org.coode.oppl.search.SearchTree;
 import org.coode.oppl.similarity.OWLObjectStructuralPrimeHashingBasedSimilarityMeasure;
 import org.coode.oppl.utils.OWLObjectExtractor;
+import org.coode.oppl.utils.PositionBasedVariableComparator;
 import org.coode.oppl.utils.VariableExtractor;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -76,8 +79,13 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
 		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
 		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
 				false);
+		Set<Variable<?>> extractedVariables = variableExtractor.extractVariables(axiom);
+		SortedSet<Variable<?>> sortedVariables = new TreeSet<Variable<?>>(
+				new PositionBasedVariableComparator(axiom,
+						this.getConstraintSystem().getOntologyManager().getOWLDataFactory()));
+		sortedVariables.addAll(extractedVariables);
 		OPPLOWLAxiomSearchNode start = new OPPLOWLAxiomSearchNode(axiom, new BindingNode(
-				new HashSet<Assignment>(), variableExtractor.extractVariables(axiom)));
+				new HashSet<Assignment>(), sortedVariables));
 		solutions.addAll(this.doMatch(start));
 		return new HashSet<BindingNode>(this.extractLeaves(solutions));
 	}

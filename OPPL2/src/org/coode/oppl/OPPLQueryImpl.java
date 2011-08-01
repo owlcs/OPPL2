@@ -366,6 +366,9 @@ public class OPPLQueryImpl implements OPPLQuery {
 			queryPlannerItems.add(new AssertedAxiomPlannerItem(this.getConstraintSystem(), axiom));
 		}
 		for (OWLAxiom axiom : this.getAxioms()) {
+			// TODO: can be optimised using de-composition in simpler axioms see
+			// http://www.webont.org/owled/2011/papers/owled2011_submission_4.pdf
+			// Table 1
 			queryPlannerItems.add(new InferredAxiomQueryPlannerItem(this.getConstraintSystem(),
 					axiom));
 		}

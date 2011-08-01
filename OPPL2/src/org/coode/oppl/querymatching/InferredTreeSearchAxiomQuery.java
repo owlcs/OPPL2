@@ -29,13 +29,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.search.OPPLInferredOWLAxiomSearchTree;
 import org.coode.oppl.search.OPPLOWLAxiomSearchNode;
+import org.coode.oppl.utils.PositionBasedVariableComparator;
 import org.coode.oppl.utils.VariableExtractor;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
@@ -51,8 +55,7 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
 			RuntimeExceptionHandler runtimeExceptionHandler) {
 		super(runtimeExceptionHandler);
 		if (constraintSystem == null) {
-			throw new NullPointerException(
-					"The constraint system cannot be null");
+			throw new NullPointerException("The constraint system cannot be null");
 		}
 		this.constraintSystem = constraintSystem;
 	}
@@ -61,17 +64,20 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
 	protected Set<BindingNode> match(OWLAxiom axiom) {
 		this.clearInstantions();
 		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
-		VariableExtractor variableExtractor = new VariableExtractor(this
-				.getConstraintSystem(), false);
-		OPPLOWLAxiomSearchNode start = new OPPLOWLAxiomSearchNode(axiom,
-				new BindingNode(new HashSet<Assignment>(), variableExtractor
-						.extractVariables(axiom)));
+		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
+				false);
+		Set<Variable<?>> extractedVariables = variableExtractor.extractVariables(axiom);
+		SortedSet<Variable<?>> sortedVariables = new TreeSet<Variable<?>>(
+				new PositionBasedVariableComparator(axiom,
+						this.getConstraintSystem().getOntologyManager().getOWLDataFactory()));
+		sortedVariables.addAll(extractedVariables);
+		OPPLOWLAxiomSearchNode start = new OPPLOWLAxiomSearchNode(axiom, new BindingNode(
+				new HashSet<Assignment>(), sortedVariables));
 		solutions.addAll(this.doMatch(start));
 		return new HashSet<BindingNode>(this.extractLeaves(solutions));
 	}
 
-	private List<List<OPPLOWLAxiomSearchNode>> doMatch(
-			OPPLOWLAxiomSearchNode start) {
+	private List<List<OPPLOWLAxiomSearchNode>> doMatch(OPPLOWLAxiomSearchNode start) {
 		OPPLInferredOWLAxiomSearchTree searchTree = new OPPLInferredOWLAxiomSearchTree(
 				this.getConstraintSystem(), this.getRuntimeExceptionHandler());
 		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
