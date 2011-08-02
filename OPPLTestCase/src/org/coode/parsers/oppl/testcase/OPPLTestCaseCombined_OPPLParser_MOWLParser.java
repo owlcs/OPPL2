@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2011-04-04 13:28:03
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2011-08-02 17:20:09
 
 	package org.coode.parsers.oppl.testcase;
 	import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -48,6 +48,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
     public static final int SELECT=75;
     public static final int ROLE_ASSERTION=67;
     public static final int DIFFERENT_FROM_AXIOM=53;
+    public static final int TO_LOWER_CASE=120;
     public static final int CREATE_OPPL_FUNCTION=98;
     public static final int TRANSITIVE=34;
     public static final int ANTI_SYMMETRIC=31;
@@ -100,6 +101,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
     public static final int NEGATED_EXPRESSION=58;
     public static final int ASSERT_GREATER_THAN_EQUAL=490;
     public static final int MAX=16;
+    public static final int TO_UPPER_CASE=121;
     public static final int CREATE_DISJUNCTION=82;
     public static final int AND=10;
     public static final int ASSERTED_CLAUSE=92;
@@ -137,7 +139,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
     public static final int REGEXP_CONSTRAINT=465;
     public static final int ASSERT_LESS_THAN_EQUAL=488;
     public static final int RANGE=28;
-    public static final int DATA_RANGE=599;
+    public static final int DATA_RANGE=601;
     public static final int SET=115;
     public static final int ONE_OF=65;
     public static final int VARIABLE_DEFINITIONS=102;
@@ -335,17 +337,17 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: a, iri, p
+                    // elements: p, a, iri
                     // token labels: 
-                    // rule labels: retval, p, a
+                    // rule labels: retval, a, p
                     // token list labels: 
                     // rule list labels: 
                     // wildcard labels: 
                     if ( state.backtracking==0 ) {
                     retval.tree = root_0;
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
-                    RewriteRuleSubtreeStream stream_p=new RewriteRuleSubtreeStream(adaptor,"rule p",p!=null?p.tree:null);
                     RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.tree:null);
+                    RewriteRuleSubtreeStream stream_p=new RewriteRuleSubtreeStream(adaptor,"rule p",p!=null?p.tree:null);
 
                     root_0 = (OPPLSyntaxTree)adaptor.nil();
                     // 75:30: -> ^( ANNOTATION_ASSERTION iri ^( EXPRESSION $p) ^( EXPRESSION $a) )
@@ -407,7 +409,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: p, objectIRI, subjectIRI
+                    // elements: subjectIRI, objectIRI, p
                     // token labels: 
                     // rule labels: objectIRI, retval, subjectIRI, p
                     // token list labels: 
@@ -569,7 +571,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: propertyExpression, exp, HAS_KEY
+            // elements: HAS_KEY, exp, propertyExpression
             // token labels: 
             // rule labels: exp, retval
             // token list labels: 
@@ -816,7 +818,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: value, propertyExpression, subject
+                    // elements: propertyExpression, subject, value
                     // token labels: 
                     // rule labels: retval, subject
                     // token list labels: 
@@ -1028,7 +1030,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: superClass, lhs
+                    // elements: lhs, superClass
                     // token labels: 
                     // rule labels: retval, superClass, lhs
                     // token list labels: 
@@ -1164,7 +1166,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: disjoint, lhs
+                    // elements: lhs, disjoint
                     // token labels: 
                     // rule labels: retval, disjoint, lhs
                     // token list labels: 
@@ -1232,7 +1234,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhs, superProperty
+                    // elements: superProperty, lhs
                     // token labels: 
                     // rule labels: retval, superProperty, lhs
                     // token list labels: 
@@ -1300,7 +1302,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: INVERSE_OF, lhsID, rhsAtomic
+                    // elements: lhsID, INVERSE_OF, rhsAtomic
                     // token labels: 
                     // rule labels: lhsID, retval, rhsAtomic
                     // token list labels: 
@@ -1368,7 +1370,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, rhsID
+                    // elements: rhsID, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval, rhsID
                     // token list labels: 
@@ -1680,7 +1682,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: unaryCharacteristic, unary
+            // elements: unary, unaryCharacteristic
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2743,7 +2745,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: head, rest
+                    // elements: rest, head
                     // token labels: 
                     // rule labels: retval, head
                     // token list labels: 
@@ -3055,7 +3057,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: dataRangeFacet, IDENTIFIER
+            // elements: IDENTIFIER, dataRangeFacet
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3196,7 +3198,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: constant, LESS_THAN
+                    // elements: LESS_THAN, constant
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3445,7 +3447,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: propertyExpression, expression
+                    // elements: expression, propertyExpression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3876,7 +3878,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: propertyExpression, restrictionKind, INTEGER, unary
+            // elements: propertyExpression, INTEGER, restrictionKind, unary
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4572,7 +4574,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: language, constantValue, AT, type
+            // elements: type, AT, constantValue, language
             // token labels: constantValue, language, type
             // rule labels: retval
             // token list labels: 
@@ -4595,7 +4597,7 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
 
                 adaptor.addChild(root_1, stream_constantValue.nextNode());
                 // MOWLParser.g:225:121: ( ^( AT $language) )?
-                if ( stream_language.hasNext()||stream_AT.hasNext() ) {
+                if ( stream_AT.hasNext()||stream_language.hasNext() ) {
                     // MOWLParser.g:225:122: ^( AT $language)
                     {
                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree)adaptor.nil();
@@ -4607,8 +4609,8 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
                     }
 
                 }
-                stream_language.reset();
                 stream_AT.reset();
+                stream_language.reset();
                 // MOWLParser.g:225:140: ( $type)?
                 if ( stream_type.hasNext() ) {
                     adaptor.addChild(root_1, stream_type.nextNode());
@@ -5503,48 +5505,48 @@ public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
     static final String DFA2_eotS =
         "\26\uffff";
     static final String DFA2_eofS =
-        "\12\uffff\1\13\13\uffff";
+        "\11\uffff\1\12\14\uffff";
     static final String DFA2_minS =
-        "\1\156\1\54\1\116\3\50\1\54\1\160\2\uffff\1\45\1\uffff\1\u0162\1"+
+        "\1\156\1\54\1\116\3\50\1\54\1\160\1\uffff\1\45\2\uffff\1\u0162\1"+
         "\50\1\54\1\160\1\5\2\50\1\52\1\10\1\50";
     static final String DFA2_maxS =
-        "\2\u01d0\1\116\3\u01d0\1\54\1\160\2\uffff\1\u01e1\1\uffff\1\u0164"+
+        "\2\u01d0\1\116\3\u01d0\1\54\1\160\1\uffff\1\u01e1\2\uffff\1\u0164"+
         "\2\u01d0\1\u0164\1\5\2\u01d0\1\52\1\10\1\u01d0";
     static final String DFA2_acceptS =
-        "\10\uffff\1\1\1\3\1\uffff\1\2\12\uffff";
+        "\10\uffff\1\3\1\uffff\1\2\1\1\12\uffff";
     static final String DFA2_specialS =
         "\26\uffff}>";
     static final String[] DFA2_transitionS = {
             "\1\1\u0161\uffff\1\2",
             "\1\3\1\4\147\uffff\1\6\u013a\uffff\1\5",
             "\1\7",
-            "\1\10\3\uffff\2\13\100\uffff\1\11\46\uffff\1\13\u013a\uffff"+
-            "\1\12",
-            "\1\10\3\uffff\2\13\100\uffff\1\11\46\uffff\1\13\u013a\uffff"+
-            "\1\12",
-            "\1\10\3\uffff\2\13\40\uffff\1\14\37\uffff\1\11\46\uffff\1\13"+
-            "\u013a\uffff\1\12",
+            "\1\13\3\uffff\2\12\100\uffff\1\10\46\uffff\1\12\u013a\uffff"+
+            "\1\11",
+            "\1\13\3\uffff\2\12\100\uffff\1\10\46\uffff\1\12\u013a\uffff"+
+            "\1\11",
+            "\1\13\3\uffff\2\12\40\uffff\1\14\37\uffff\1\10\46\uffff\1\12"+
+            "\u013a\uffff\1\11",
             "\1\15",
             "\1\16",
             "",
+            "\1\12\41\uffff\1\12\6\uffff\1\17\5\uffff\1\12\u018c\uffff\1"+
+            "\12",
             "",
-            "\1\13\41\uffff\1\13\6\uffff\1\17\5\uffff\1\13\u018c\uffff\1"+
-            "\13",
             "",
             "\1\21\1\22\1\20",
-            "\1\10\3\uffff\2\13\100\uffff\1\11\46\uffff\1\13\u013a\uffff"+
-            "\1\12",
+            "\1\13\3\uffff\2\12\100\uffff\1\10\46\uffff\1\12\u013a\uffff"+
+            "\1\11",
             "\1\3\1\4\147\uffff\1\6\u013a\uffff\1\5",
-            "\1\11\u00f1\uffff\3\13",
+            "\1\10\u00f1\uffff\3\12",
             "\1\23",
-            "\1\10\3\uffff\2\13\100\uffff\1\11\46\uffff\1\13\u013a\uffff"+
-            "\1\12",
-            "\1\10\3\uffff\2\13\100\uffff\1\11\46\uffff\1\13\u013a\uffff"+
-            "\1\12",
+            "\1\13\3\uffff\2\12\100\uffff\1\10\46\uffff\1\12\u013a\uffff"+
+            "\1\11",
+            "\1\13\3\uffff\2\12\100\uffff\1\10\46\uffff\1\12\u013a\uffff"+
+            "\1\11",
             "\1\24",
             "\1\25",
-            "\1\10\3\uffff\2\13\100\uffff\1\11\46\uffff\1\13\u013a\uffff"+
-            "\1\12"
+            "\1\13\3\uffff\2\12\100\uffff\1\10\46\uffff\1\12\u013a\uffff"+
+            "\1\11"
     };
 
     static final short[] DFA2_eot = DFA.unpackEncodedString(DFA2_eotS);
