@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.patterns;
 
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLLexer.g 2011-04-04 16:02:48
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLLexer.g 2011-08-02 16:00:07
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.DFA;
@@ -36,6 +36,7 @@ public class OPPLPatternLexer_OPPLLexer_MOWLLexer extends Lexer {
 	public static final int SELECT = 75;
 	public static final int ROLE_ASSERTION = 67;
 	public static final int DIFFERENT_FROM_AXIOM = 53;
+	public static final int TO_LOWER_CASE = 120;
 	public static final int TRANSITIVE = 34;
 	public static final int ANTI_SYMMETRIC = 31;
 	public static final int GREATER_THAN_EQUAL = 514;
@@ -72,6 +73,7 @@ public class OPPLPatternLexer_OPPLLexer_MOWLLexer extends Lexer {
 	public static final int SUB_PROPERTY_OF = 21;
 	public static final int NEGATED_EXPRESSION = 58;
 	public static final int MAX = 16;
+	public static final int TO_UPPER_CASE = 121;
 	public static final int CREATE_DISJUNCTION = 82;
 	public static final int AND = 10;
 	public static final int INVERSE_PROPERTY = 60;
@@ -3230,40 +3232,41 @@ public class OPPLPatternLexer_OPPLLexer_MOWLLexer extends Lexer {
 	static final String DFA15_eotS = "\1\uffff\1\42\6\uffff\15\36\6\uffff\1\72\1\75\3\uffff\1\77\1\36"
 			+ "\1\uffff\27\36\6\uffff\1\36\1\133\2\36\1\136\4\36\1\144\1\145\3"
 			+ "\36\1\152\13\36\1\166\1\uffff\2\36\1\uffff\1\170\4\36\2\uffff\4"
-			+ "\36\1\uffff\11\36\1\u008b\1\36\1\uffff\1\36\1\uffff\6\36\1\u0094"
-			+ "\6\36\1\u009b\3\36\1\u008b\1\uffff\4\36\1\u00a3\3\36\1\uffff\5\36"
+			+ "\36\1\uffff\11\36\1\u008a\1\36\1\uffff\1\36\1\uffff\6\36\1\u0094"
+			+ "\6\36\1\u009b\3\36\1\uffff\1\u008a\4\36\1\u00a3\3\36\1\uffff\5\36"
 			+ "\1\u00ac\1\uffff\1\36\1\u00ae\5\36\1\uffff\1\36\1\u00b5\6\36\1\uffff"
-			+ "\1\36\1\uffff\6\36\1\uffff\15\36\1\u00d2\1\36\1\u00d4\5\36\1\u00db"
-			+ "\2\36\1\u00df\1\u00e0\1\36\1\u00d2\1\uffff\1\36\1\uffff\1\36\1\u00e4"
-			+ "\3\36\1\u00db\1\uffff\1\u00e9\1\u00eb\1\u00df\2\uffff\3\36\1\uffff"
-			+ "\1\u00f0\2\36\1\u00e9\1\uffff\1\u00eb\1\uffff\1\36\1\u00f4\1\36"
-			+ "\1\u00f0\1\uffff\1\36\1\u00f7\1\u00f8\1\uffff\1\36\1\u00fa\2\uffff"
-			+ "\1\36\1\uffff\2\36\1\u00fe\1\uffff\1\u00fe";
+			+ "\1\36\1\uffff\6\36\1\uffff\15\36\1\u00d1\1\36\1\u00d4\5\36\1\u00da"
+			+ "\2\36\1\u00de\1\u00e0\1\36\1\uffff\1\u00d1\1\36\1\uffff\1\36\1\u00e4"
+			+ "\3\36\1\uffff\1\u00da\1\u00e8\1\u00ea\1\uffff\1\u00de\1\uffff\3"
+			+ "\36\1\uffff\1\u00ef\2\36\1\uffff\1\u00e8\1\uffff\1\u00ea\1\36\1"
+			+ "\u00f4\1\36\1\uffff\1\u00ef\1\36\1\u00f7\1\u00f8\1\uffff\1\36\1"
+			+ "\u00fa\2\uffff\1\36\1\uffff\2\36\1\u00fe\1\uffff\1\u00fe";
 	static final String DFA15_eofS = "\u0100\uffff";
 	static final String DFA15_minS = "\1\11\1\55\6\uffff\2\116\1\117\2\101\1\121\1\101\1\116\1\111\2\101"
-			+ "\1\125\1\122\6\uffff\1\43\1\75\3\uffff\1\55\1\114\1\uffff\2\104"
-			+ "\1\171\1\124\1\115\1\102\2\115\1\116\1\130\1\101\1\125\1\114\1\123"
-			+ "\1\122\1\106\1\115\1\116\1\106\1\123\1\116\1\120\1\101\6\uffff\1"
-			+ "\131\1\55\1\151\1\155\1\55\1\105\1\103\1\105\1\115\2\55\1\103\1"
-			+ "\111\1\125\1\55\1\124\1\105\1\106\1\112\1\101\1\107\1\114\1\113"
+			+ "\1\125\1\122\6\uffff\1\43\1\75\3\uffff\1\55\1\114\1\uffff\1\104"
+			+ "\1\171\1\104\1\124\1\115\1\102\2\115\1\116\1\130\1\101\1\125\1\114"
+			+ "\1\123\1\122\1\106\1\115\1\116\1\106\1\123\1\116\1\120\1\101\6\uffff"
+			+ "\1\131\1\55\1\151\1\155\1\55\1\105\1\103\1\105\1\115\2\55\1\103"
+			+ "\1\111\1\125\1\55\1\124\1\105\1\106\1\112\1\101\1\107\1\114\1\113"
 			+ "\1\103\1\105\1\116\1\55\1\uffff\1\123\1\155\1\uffff\1\55\1\114\1"
 			+ "\122\1\101\1\105\2\uffff\1\124\1\126\1\105\1\122\1\uffff\1\101\1"
 			+ "\106\1\105\1\117\1\111\3\105\1\124\1\55\1\123\1\uffff\1\145\1\uffff"
 			+ "\1\101\1\117\1\123\1\124\1\114\1\101\1\55\1\123\1\116\1\114\1\122"
-			+ "\1\111\1\116\1\55\1\130\1\131\1\111\1\55\1\uffff\1\111\1\164\1\123"
+			+ "\1\111\1\116\1\55\1\130\1\131\1\111\1\uffff\1\55\1\111\1\164\1\123"
 			+ "\1\120\1\55\1\122\1\131\1\114\1\uffff\1\105\1\103\2\105\1\116\1"
 			+ "\55\1\uffff\1\111\1\55\1\117\1\124\1\162\1\123\1\105\1\uffff\1\111"
 			+ "\1\55\1\105\1\106\1\105\1\130\1\116\1\124\1\uffff\1\126\1\uffff"
 			+ "\1\116\1\111\1\151\1\117\1\122\1\103\1\uffff\1\116\1\106\1\125\1"
 			+ "\117\1\111\1\124\1\127\1\105\1\101\1\126\1\143\1\106\1\124\1\55"
 			+ "\1\124\1\55\1\116\1\106\1\126\1\106\1\111\1\55\1\114\1\105\2\55"
-			+ "\1\131\1\55\1\uffff\1\124\1\uffff\1\103\1\55\1\105\1\122\1\124\1"
-			+ "\55\1\uffff\3\55\2\uffff\2\117\1\124\1\uffff\1\55\1\117\1\110\1"
-			+ "\55\1\uffff\1\55\1\uffff\1\106\1\55\1\111\1\55\1\uffff\1\115\2\55"
-			+ "\1\uffff\1\117\1\55\2\uffff\1\116\1\uffff\1\101\1\114\1\55\1\uffff" + "\1\55";
+			+ "\1\131\1\uffff\1\55\1\124\1\uffff\1\103\1\55\1\105\1\122\1\124\1"
+			+ "\uffff\3\55\1\uffff\1\55\1\uffff\2\117\1\124\1\uffff\1\55\1\117"
+			+ "\1\110\1\uffff\1\55\1\uffff\1\55\1\106\1\55\1\111\1\uffff\1\55\1"
+			+ "\115\2\55\1\uffff\1\117\1\55\2\uffff\1\116\1\uffff\1\101\1\114\1"
+			+ "\55\1\uffff\1\55";
 	static final String DFA15_maxS = "\1\175\1\172\6\uffff\1\163\1\162\1\157\1\171\1\151\1\170\1\141\1"
 			+ "\162\1\157\1\145\1\141\1\165\1\171\6\uffff\1\172\1\75\3\uffff\1"
-			+ "\172\1\154\1\uffff\1\164\1\144\1\171\1\164\1\155\1\142\2\155\1\156"
+			+ "\172\1\154\1\uffff\1\164\1\171\1\144\1\164\1\155\1\142\2\155\1\156"
 			+ "\1\170\1\141\1\165\1\154\1\166\1\162\1\163\1\155\1\156\1\146\1\163"
 			+ "\1\156\1\160\1\141\6\uffff\1\171\1\172\1\151\1\155\1\172\1\145\1"
 			+ "\160\1\145\1\155\2\172\1\143\1\151\1\165\1\172\1\164\1\145\1\146"
@@ -3272,25 +3275,25 @@ public class OPPLPatternLexer_OPPLLexer_MOWLLexer extends Lexer {
 			+ "\166\1\145\1\162\1\uffff\1\141\1\146\1\145\1\157\1\151\3\145\1\164"
 			+ "\1\172\1\163\1\uffff\1\145\1\uffff\1\141\1\157\1\163\1\164\1\154"
 			+ "\1\141\1\172\1\163\1\156\1\154\1\162\1\151\1\156\1\172\1\170\1\171"
-			+ "\1\151\1\172\1\uffff\1\151\1\164\1\163\1\160\1\172\1\162\1\171\1"
+			+ "\1\151\1\uffff\1\172\1\151\1\164\1\163\1\160\1\172\1\162\1\171\1"
 			+ "\154\1\uffff\1\145\1\143\2\145\1\156\1\172\1\uffff\1\151\1\172\1"
 			+ "\157\1\164\1\162\1\163\1\145\1\uffff\1\151\1\172\1\145\1\157\1\145"
 			+ "\1\170\1\156\1\164\1\uffff\1\166\1\uffff\1\156\2\151\1\157\1\162"
 			+ "\1\143\1\uffff\1\156\1\146\1\165\1\157\1\151\1\164\1\167\1\145\1"
 			+ "\141\1\166\1\143\1\146\1\164\1\172\1\164\1\172\1\156\1\146\1\166"
-			+ "\1\146\1\151\1\172\1\154\1\145\2\172\1\171\1\172\1\uffff\1\164\1"
-			+ "\uffff\1\143\1\172\1\145\1\162\1\164\1\172\1\uffff\3\172\2\uffff"
-			+ "\2\157\1\164\1\uffff\1\172\1\157\1\150\1\172\1\uffff\1\172\1\uffff"
-			+ "\1\146\1\172\1\151\1\172\1\uffff\1\155\2\172\1\uffff\1\157\1\172"
-			+ "\2\uffff\1\156\1\uffff\1\141\1\154\1\172\1\uffff\1\172";
+			+ "\1\146\1\151\1\172\1\154\1\145\2\172\1\171\1\uffff\1\172\1\164\1"
+			+ "\uffff\1\143\1\172\1\145\1\162\1\164\1\uffff\3\172\1\uffff\1\172"
+			+ "\1\uffff\2\157\1\164\1\uffff\1\172\1\157\1\150\1\uffff\1\172\1\uffff"
+			+ "\1\172\1\146\1\172\1\151\1\uffff\1\172\1\155\2\172\1\uffff\1\157"
+			+ "\1\172\2\uffff\1\156\1\uffff\1\141\1\154\1\172\1\uffff\1\172";
 	static final String DFA15_acceptS = "\2\uffff\1\2\1\3\1\4\1\5\1\6\1\7\15\uffff\1\45\1\46\1\47\1\50\1"
-			+ "\51\1\52\2\uffff\1\60\1\61\1\62\2\uffff\1\1\27\uffff\1\55\1\53\1"
-			+ "\54\1\57\1\56\1\11\33\uffff\1\10\2\uffff\1\12\5\uffff\1\15\1\16"
-			+ "\4\uffff\1\21\13\uffff\1\14\1\uffff\1\13\22\uffff\1\37\10\uffff"
+			+ "\51\1\52\2\uffff\1\60\1\61\1\62\2\uffff\1\1\27\uffff\1\55\1\54\1"
+			+ "\53\1\57\1\56\1\11\33\uffff\1\10\2\uffff\1\12\5\uffff\1\15\1\16"
+			+ "\4\uffff\1\21\13\uffff\1\14\1\uffff\1\13\21\uffff\1\37\11\uffff"
 			+ "\1\20\6\uffff\1\32\7\uffff\1\25\10\uffff\1\31\1\uffff\1\33\6\uffff"
-			+ "\1\17\34\uffff\1\35\1\uffff\1\27\6\uffff\1\40\3\uffff\1\36\1\22"
-			+ "\3\uffff\1\44\4\uffff\1\34\1\uffff\1\42\4\uffff\1\41\3\uffff\1\24"
-			+ "\2\uffff\1\30\1\23\1\uffff\1\26\3\uffff\1\43\1\uffff";
+			+ "\1\17\33\uffff\1\35\2\uffff\1\27\5\uffff\1\40\3\uffff\1\36\1\uffff"
+			+ "\1\22\3\uffff\1\44\3\uffff\1\34\1\uffff\1\42\4\uffff\1\41\4\uffff"
+			+ "\1\24\2\uffff\1\30\1\23\1\uffff\1\26\3\uffff\1\43\1\uffff";
 	static final String DFA15_specialS = "\u0100\uffff}>";
 	static final String[] DFA15_transitionS = {
 			"\2\7\2\uffff\1\7\22\uffff\1\7\1\uffff\1\32\4\uffff\1\37\1\2"
@@ -3307,7 +3310,7 @@ public class OPPLPatternLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"",
 			"",
 			"",
-			"\1\44\4\uffff\1\45\32\uffff\1\43\4\uffff\1\45",
+			"\1\45\4\uffff\1\44\32\uffff\1\43\4\uffff\1\44",
 			"\1\41\3\uffff\1\40\33\uffff\1\41\3\uffff\1\40",
 			"\1\46\37\uffff\1\46",
 			"\1\51\15\uffff\1\47\5\uffff\1\50\3\uffff\1\52\7\uffff\1\51"
@@ -3327,8 +3330,8 @@ public class OPPLPatternLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"",
 			"",
 			"",
-			"\1\73\11\uffff\16\73\2\uffff\1\74\1\uffff\1\73\1\uffff\32\73"
-					+ "\1\uffff\1\73\2\uffff\1\73\1\uffff\32\73",
+			"\1\74\11\uffff\16\74\2\uffff\1\73\1\uffff\1\74\1\uffff\32\74"
+					+ "\1\uffff\1\74\2\uffff\1\74\1\uffff\32\74",
 			"\1\76",
 			"",
 			"",
@@ -3337,8 +3340,8 @@ public class OPPLPatternLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\100\37\uffff\1\100",
 			"",
 			"\1\101\37\uffff\1\101\17\uffff\1\102",
-			"\1\101\37\uffff\1\101",
 			"\1\103",
+			"\1\101\37\uffff\1\101",
 			"\1\104\37\uffff\1\104",
 			"\1\105\37\uffff\1\105",
 			"\1\106\37\uffff\1\106",
@@ -3394,7 +3397,7 @@ public class OPPLPatternLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\165\37\uffff\1\165",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
 			"",
-			"\1\45\37\uffff\1\45",
+			"\1\44\37\uffff\1\44",
 			"\1\167",
 			"",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
@@ -3418,8 +3421,8 @@ public class OPPLPatternLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\u0087\37\uffff\1\u0087",
 			"\1\u0088\37\uffff\1\u0088",
 			"\1\u0089\37\uffff\1\u0089",
-			"\1\36\2\uffff\13\36\6\uffff\22\36\1\u008a\7\36\4\uffff\1\36"
-					+ "\1\uffff\22\36\1\u008a\7\36", "\1\u008c\37\uffff\1\u008c", "", "\1\u008d",
+			"\1\36\2\uffff\13\36\6\uffff\22\36\1\u008b\7\36\4\uffff\1\36"
+					+ "\1\uffff\22\36\1\u008b\7\36", "\1\u008c\37\uffff\1\u008c", "", "\1\u008d",
 			"", "\1\u008e\37\uffff\1\u008e", "\1\u008f\37\uffff\1\u008f",
 			"\1\u0090\37\uffff\1\u0090", "\1\u0091\37\uffff\1\u0091", "\1\u0092\37\uffff\1\u0092",
 			"\1\u0093\37\uffff\1\u0093",
@@ -3428,7 +3431,7 @@ public class OPPLPatternLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\u0098\37\uffff\1\u0098", "\1\u0099\37\uffff\1\u0099", "\1\u009a\37\uffff\1\u009a",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
 			"\1\u009c\37\uffff\1\u009c", "\1\u009d\37\uffff\1\u009d", "\1\u009e\37\uffff\1\u009e",
-			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
+			"", "\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
 			"\1\u009f\37\uffff\1\u009f", "\1\u00a0", "\1\u00a1\37\uffff\1\u00a1",
 			"\1\u00a2\37\uffff\1\u00a2",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
@@ -3453,33 +3456,33 @@ public class OPPLPatternLexer_OPPLLexer_MOWLLexer extends Lexer {
 			"\1\u00c9\37\uffff\1\u00c9", "\1\u00ca\37\uffff\1\u00ca", "\1\u00cb\37\uffff\1\u00cb",
 			"\1\u00cc\37\uffff\1\u00cc", "\1\u00cd\37\uffff\1\u00cd", "\1\u00ce",
 			"\1\u00cf\37\uffff\1\u00cf", "\1\u00d0\37\uffff\1\u00d0",
-			"\1\36\2\uffff\12\36\1\u00d1\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
+			"\1\36\2\uffff\12\36\1\u00d2\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
 			"\1\u00d3\37\uffff\1\u00d3",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
 			"\1\u00d5\37\uffff\1\u00d5", "\1\u00d6\37\uffff\1\u00d6", "\1\u00d7\37\uffff\1\u00d7",
 			"\1\u00d8\37\uffff\1\u00d8", "\1\u00d9\37\uffff\1\u00d9",
-			"\1\36\2\uffff\12\36\1\u00da\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
+			"\1\36\2\uffff\12\36\1\u00db\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
 			"\1\u00dc\37\uffff\1\u00dc", "\1\u00dd\37\uffff\1\u00dd",
-			"\1\36\2\uffff\12\36\1\u00de\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
+			"\1\36\2\uffff\12\36\1\u00df\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
-			"\1\u00e1\37\uffff\1\u00e1",
-			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
+			"\1\u00e1\37\uffff\1\u00e1", "",
+			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
 			"\1\u00e2\37\uffff\1\u00e2", "", "\1\u00e3\37\uffff\1\u00e3",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
 			"\1\u00e5\37\uffff\1\u00e5", "\1\u00e6\37\uffff\1\u00e6", "\1\u00e7\37\uffff\1\u00e7",
+			"", "\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+			"\1\36\2\uffff\12\36\1\u00e9\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
+			"\1\36\2\uffff\12\36\1\u00eb\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36", "",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
-			"\1\36\2\uffff\12\36\1\u00e8\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
-			"\1\36\2\uffff\12\36\1\u00ea\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
-			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "", "",
 			"\1\u00ec\37\uffff\1\u00ec", "\1\u00ed\37\uffff\1\u00ed", "\1\u00ee\37\uffff\1\u00ee",
-			"", "\1\36\2\uffff\12\36\1\u00ef\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
-			"\1\u00f1\37\uffff\1\u00f1", "\1\u00f2\37\uffff\1\u00f2",
+			"", "\1\36\2\uffff\12\36\1\u00f0\6\uffff\32\36\4\uffff\1\36\1\uffff" + "\32\36",
+			"\1\u00f1\37\uffff\1\u00f1", "\1\u00f2\37\uffff\1\u00f2", "",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
-			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
+			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
 			"\1\u00f3\37\uffff\1\u00f3",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
-			"\1\u00f5\37\uffff\1\u00f5",
-			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",
+			"\1\u00f5\37\uffff\1\u00f5", "",
+			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
 			"\1\u00f6\37\uffff\1\u00f6",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
 			"\1\36\2\uffff\13\36\6\uffff\32\36\4\uffff\1\36\1\uffff\32\36", "",

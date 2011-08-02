@@ -51,6 +51,8 @@ import org.coode.oppl.function.OPPLFunctionVisitor;
 import org.coode.oppl.function.OPPLFunctionVisitorEx;
 import org.coode.oppl.function.RenderingVariableAttribute;
 import org.coode.oppl.function.SimpleValueComputationParameters;
+import org.coode.oppl.function.ToLowerCaseStringManipulationOPPLFunction;
+import org.coode.oppl.function.ToUpperCaseStringManipulationOPPLFunction;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.function.ValuesVariableAtttribute;
 import org.coode.oppl.function.inline.InlineSet;
@@ -370,6 +372,20 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
 									Create<I, P> create) {
 								PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
 										create.render(PatternReference.this.getConstraintSystem()),
+										variable));
+							}
+
+							public void visitToLowerCaseStringManipulationOPPLFunction(
+									ToLowerCaseStringManipulationOPPLFunction toLowerCaseStringManipulationOPPLFunction) {
+								PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
+										toLowerCaseStringManipulationOPPLFunction.render(PatternReference.this.getConstraintSystem()),
+										variable));
+							}
+
+							public void visitToUpperCaseStringManipulationOPPLFunction(
+									ToUpperCaseStringManipulationOPPLFunction upperCaseStringManipulationOPPLFunction) {
+								PatternReference.this.runtimeExceptionHandler.handleException(new IncompatibleArgumentException(
+										upperCaseStringManipulationOPPLFunction.render(PatternReference.this.getConstraintSystem()),
 										variable));
 							}
 

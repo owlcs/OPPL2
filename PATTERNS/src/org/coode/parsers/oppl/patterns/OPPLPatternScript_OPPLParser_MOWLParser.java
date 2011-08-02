@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2011-04-04 16:15:53
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2011-08-02 16:03:35
 
   package org.coode.parsers.oppl.patterns;
   import org.coode.parsers.oppl.OPPLSyntaxTree;  
@@ -45,6 +45,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
     public static final int SELECT=75;
     public static final int ROLE_ASSERTION=67;
     public static final int DIFFERENT_FROM_AXIOM=53;
+    public static final int TO_LOWER_CASE=120;
     public static final int CREATE_OPPL_FUNCTION=98;
     public static final int TRANSITIVE=34;
     public static final int ANTI_SYMMETRIC=31;
@@ -90,6 +91,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
     public static final int SUB_PROPERTY_OF=21;
     public static final int NEGATED_EXPRESSION=58;
     public static final int MAX=16;
+    public static final int TO_UPPER_CASE=121;
     public static final int CREATE_DISJUNCTION=82;
     public static final int AND=10;
     public static final int ASSERTED_CLAUSE=92;
@@ -128,7 +130,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
     public static final int VALUES=354;
     public static final int REGEXP_CONSTRAINT=465;
     public static final int RANGE=28;
-    public static final int DATA_RANGE=593;
+    public static final int DATA_RANGE=595;
     public static final int SET=115;
     public static final int ONE_OF=65;
     public static final int VARIABLE_DEFINITIONS=102;
@@ -375,7 +377,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: a, p, iri
+                    // elements: a, iri, p
                     // token labels: 
                     // rule labels: retval, p, a
                     // token list labels: 
@@ -447,7 +449,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: p, subjectIRI, objectIRI
+                    // elements: p, objectIRI, subjectIRI
                     // token labels: 
                     // rule labels: objectIRI, retval, subjectIRI, p
                     // token list labels: 
@@ -856,7 +858,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: subject, value, propertyExpression
+                    // elements: propertyExpression, subject, value
                     // token labels: 
                     // rule labels: retval, subject
                     // token list labels: 
@@ -1136,7 +1138,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhs, rhs
+                    // elements: rhs, lhs
                     // token labels: 
                     // rule labels: retval, rhs, lhs
                     // token list labels: 
@@ -1204,7 +1206,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhs, disjoint
+                    // elements: disjoint, lhs
                     // token labels: 
                     // rule labels: retval, disjoint, lhs
                     // token list labels: 
@@ -1272,7 +1274,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: superProperty, lhs
+                    // elements: lhs, superProperty
                     // token labels: 
                     // rule labels: retval, superProperty, lhs
                     // token list labels: 
@@ -1340,7 +1342,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: rhsAtomic, lhsID, INVERSE_OF
+                    // elements: INVERSE_OF, lhsID, rhsAtomic
                     // token labels: 
                     // rule labels: lhsID, retval, rhsAtomic
                     // token list labels: 
@@ -1408,7 +1410,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, rhsID
+                    // elements: rhsID, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval, rhsID
                     // token list labels: 
@@ -1544,7 +1546,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, expression, DOMAIN
+                    // elements: expression, DOMAIN, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -1611,7 +1613,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, RANGE, lhsID
+                    // elements: lhsID, expression, RANGE
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -1720,7 +1722,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: unary, unaryCharacteristic
+            // elements: unaryCharacteristic, unary
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3095,7 +3097,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: dataRangeFacet, IDENTIFIER
+            // elements: IDENTIFIER, dataRangeFacet
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3322,7 +3324,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: constant, GREATER_THAN
+                    // elements: GREATER_THAN, constant
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3365,7 +3367,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: GREATER_THAN_EQUAL, constant
+                    // elements: constant, GREATER_THAN_EQUAL
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3485,7 +3487,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, propertyExpression
+                    // elements: propertyExpression, expression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3916,7 +3918,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: unary, propertyExpression, INTEGER, restrictionKind
+            // elements: propertyExpression, INTEGER, restrictionKind, unary
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4612,7 +4614,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: AT, language, type, constantValue
+            // elements: language, constantValue, type, AT
             // token labels: constantValue, language, type
             // rule labels: retval
             // token list labels: 
@@ -4635,7 +4637,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
 
                 adaptor.addChild(root_1, stream_constantValue.nextNode());
                 // MOWLParser.g:225:121: ( ^( AT $language) )?
-                if ( stream_AT.hasNext()||stream_language.hasNext() ) {
+                if ( stream_language.hasNext()||stream_AT.hasNext() ) {
                     // MOWLParser.g:225:122: ^( AT $language)
                     {
                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree)adaptor.nil();
@@ -4647,8 +4649,8 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
                     }
 
                 }
-                stream_AT.reset();
                 stream_language.reset();
+                stream_AT.reset();
                 // MOWLParser.g:225:140: ( $type)?
                 if ( stream_type.hasNext() ) {
                     adaptor.addChild(root_1, stream_type.nextNode());

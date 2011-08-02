@@ -52,6 +52,13 @@ public class OPPLPatternsParserTest extends TestCase {
 		assertNotNull(parsed);
 	}
 
+	public void testFoodLowerCase() {
+		String patternString = "?x:CLASS, ?y:CLASS, ?z:CLASS= create(\"LOWERCASED_\" +?x.RENDERING.toLowerCase), ?forbiddenContent:CLASS = createUnion(?z.VALUES) BEGIN ADD $thisClass equivalentTo contains only (not ?forbiddenContent) END; A ?x free stuff; RETURN $thisClass";
+		OPPLSyntaxTree parsed = this.parse(patternString);
+		System.out.println(parsed.toStringTree());
+		assertNotNull(parsed);
+	}
+
 	public void testMenu() {
 		String patternString = "?x:CLASS[subClassOf Food] BEGIN ADD $thisClass subClassOf Menu, ADD $thisClass subClassOf contains only (Course and contains only ($FreeFromPattern(?x))) END; A ?x free Menu";
 		OPPLSyntaxTree parsed = this.parse(patternString);
