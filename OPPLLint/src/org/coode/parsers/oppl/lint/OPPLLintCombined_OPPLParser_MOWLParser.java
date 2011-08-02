@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2011-04-04 15:42:23
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2011-08-02 17:13:32
 
   package org.coode.parsers.oppl.lint;
   import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -45,6 +45,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
     public static final int SELECT=75;
     public static final int ROLE_ASSERTION=67;
     public static final int DIFFERENT_FROM_AXIOM=53;
+    public static final int TO_LOWER_CASE=120;
     public static final int CREATE_OPPL_FUNCTION=98;
     public static final int TRANSITIVE=34;
     public static final int ANTI_SYMMETRIC=31;
@@ -64,11 +65,11 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
     public static final int OPEN_CURLY_BRACES=6;
     public static final int DISJUNCTION=55;
     public static final int INVERSE=19;
-    public static final int WS=575;
+    public static final int WS=577;
     public static final int NAF_CONSTRAINT=467;
     public static final int OPPL_LINT=119;
     public static final int DBLQUOTE=40;
-    public static final int STRING_OPERATION=618;
+    public static final int STRING_OPERATION=620;
     public static final int OR=11;
     public static final int LESS_THAN=483;
     public static final int CONSTANT=70;
@@ -85,13 +86,14 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
     public static final int DISJOINT_WITH=26;
     public static final int SUPER_PROPERTY_OF=88;
     public static final int VARIABLE_TYPE=89;
-    public static final int ATTRIBUTE_SELECTOR=617;
+    public static final int ATTRIBUTE_SELECTOR=619;
     public static final int CLOSED_PARENTHESYS=8;
     public static final int ONLY=14;
     public static final int EQUIVALENT_TO_AXIOM=49;
     public static final int SUB_PROPERTY_OF=21;
     public static final int NEGATED_EXPRESSION=58;
     public static final int MAX=16;
+    public static final int TO_UPPER_CASE=121;
     public static final int CREATE_DISJUNCTION=82;
     public static final int AND=10;
     public static final int ASSERTED_CLAUSE=92;
@@ -126,9 +128,9 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
     public static final int SUB_PROPERTY_AXIOM=51;
     public static final int OPEN_SQUARE_BRACKET=85;
     public static final int VALUES=354;
-    public static final int REGEXP_CONSTRAINT=607;
+    public static final int REGEXP_CONSTRAINT=609;
     public static final int RANGE=28;
-    public static final int DATA_RANGE=593;
+    public static final int DATA_RANGE=595;
     public static final int SET=115;
     public static final int ONE_OF=65;
     public static final int VARIABLE_DEFINITIONS=102;
@@ -138,7 +140,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
     public static final int PLAIN_CLAUSE=93;
     public static final int Tokens=47;
     public static final int DOMAIN=27;
-    public static final int SUBPROPERTY_OF=619;
+    public static final int SUBPROPERTY_OF=621;
     public static final int OPPL_FUNCTION=100;
     public static final int COLON=77;
     public static final int DISJOINT_WITH_AXIOM=50;
@@ -253,7 +255,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: p, iri, o
+                    // elements: o, p, iri
                     // token labels: 
                     // rule labels: retval, p, o
                     // token list labels: 
@@ -325,7 +327,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: iri, a, p
+                    // elements: a, iri, p
                     // token labels: 
                     // rule labels: retval, p, a
                     // token list labels: 
@@ -397,7 +399,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: subjectIRI, p, objectIRI
+                    // elements: subjectIRI, objectIRI, p
                     // token labels: 
                     // rule labels: objectIRI, retval, subjectIRI, p
                     // token list labels: 
@@ -559,7 +561,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: HAS_KEY, exp, propertyExpression
+            // elements: propertyExpression, HAS_KEY, exp
             // token labels: 
             // rule labels: exp, retval
             // token list labels: 
@@ -736,7 +738,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: i, expression
+                    // elements: expression, i
                     // token labels: 
                     // rule labels: retval, i
                     // token list labels: 
@@ -806,7 +808,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: value, subject, propertyExpression
+                    // elements: value, propertyExpression, subject
                     // token labels: 
                     // rule labels: retval, subject
                     // token list labels: 
@@ -1086,7 +1088,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: rhs, lhs
+                    // elements: lhs, rhs
                     // token labels: 
                     // rule labels: retval, rhs, lhs
                     // token list labels: 
@@ -1358,7 +1360,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, rhsID
+                    // elements: rhsID, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval, rhsID
                     // token list labels: 
@@ -1426,7 +1428,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: lhsID, rhsID
+                    // elements: rhsID, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval, rhsID
                     // token list labels: 
@@ -1494,7 +1496,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, DOMAIN, lhsID
+                    // elements: expression, lhsID, DOMAIN
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -1561,7 +1563,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expression, lhsID, RANGE
+                    // elements: expression, RANGE, lhsID
                     // token labels: 
                     // rule labels: lhsID, retval
                     // token list labels: 
@@ -1670,7 +1672,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: unaryCharacteristic, unary
+            // elements: unary, unaryCharacteristic
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2733,7 +2735,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: head, rest
+                    // elements: rest, head
                     // token labels: 
                     // rule labels: retval, head
                     // token list labels: 
@@ -3186,7 +3188,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: constant, LESS_THAN
+                    // elements: LESS_THAN, constant
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3229,7 +3231,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: constant, LESS_THAN_EQUAL
+                    // elements: LESS_THAN_EQUAL, constant
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3315,7 +3317,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: constant, GREATER_THAN_EQUAL
+                    // elements: GREATER_THAN_EQUAL, constant
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3866,7 +3868,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: unary, propertyExpression, INTEGER, restrictionKind
+            // elements: INTEGER, unary, propertyExpression, restrictionKind
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4287,7 +4289,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: propertyExpression, value
+            // elements: value, propertyExpression
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4562,7 +4564,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
 
             // AST REWRITE
-            // elements: type, AT, language, constantValue
+            // elements: type, language, AT, constantValue
             // token labels: constantValue, language, type
             // rule labels: retval
             // token list labels: 
@@ -4585,7 +4587,7 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
 
                 adaptor.addChild(root_1, stream_constantValue.nextNode());
                 // MOWLParser.g:225:121: ( ^( AT $language) )?
-                if ( stream_AT.hasNext()||stream_language.hasNext() ) {
+                if ( stream_language.hasNext()||stream_AT.hasNext() ) {
                     // MOWLParser.g:225:122: ^( AT $language)
                     {
                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree)adaptor.nil();
@@ -4597,8 +4599,8 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
                     }
 
                 }
-                stream_AT.reset();
                 stream_language.reset();
+                stream_AT.reset();
                 // MOWLParser.g:225:140: ( $type)?
                 if ( stream_type.hasNext() ) {
                     adaptor.addChild(root_1, stream_type.nextNode());
@@ -5493,48 +5495,48 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
     static final String DFA2_eotS =
         "\26\uffff";
     static final String DFA2_eofS =
-        "\12\uffff\1\13\13\uffff";
+        "\11\uffff\1\13\14\uffff";
     static final String DFA2_minS =
-        "\1\156\1\54\1\116\3\50\1\54\1\u0237\2\uffff\1\45\1\uffff\1\u0162"+
+        "\1\156\1\54\1\116\3\50\1\54\1\u0237\1\uffff\1\45\2\uffff\1\u0162"+
         "\1\50\1\54\1\u0162\1\5\2\50\1\52\1\10\1\50";
     static final String DFA2_maxS =
-        "\2\u01d0\1\116\3\u01d0\1\54\1\u0237\2\uffff\1\u019f\1\uffff\1\u0164"+
+        "\2\u01d0\1\116\3\u01d0\1\54\1\u0237\1\uffff\1\u019f\2\uffff\1\u0164"+
         "\2\u01d0\1\u0237\1\5\2\u01d0\1\52\1\10\1\u01d0";
     static final String DFA2_acceptS =
-        "\10\uffff\1\1\1\3\1\uffff\1\2\12\uffff";
+        "\10\uffff\1\3\1\uffff\1\1\1\2\12\uffff";
     static final String DFA2_specialS =
         "\26\uffff}>";
     static final String[] DFA2_transitionS = {
             "\1\1\u0161\uffff\1\2",
             "\1\3\1\4\147\uffff\1\6\u013a\uffff\1\5",
             "\1\7",
-            "\1\10\3\uffff\2\13\100\uffff\1\11\46\uffff\1\13\u013a\uffff"+
-            "\1\12",
-            "\1\10\3\uffff\2\13\100\uffff\1\11\46\uffff\1\13\u013a\uffff"+
-            "\1\12",
-            "\1\10\3\uffff\2\13\40\uffff\1\14\37\uffff\1\11\46\uffff\1\13"+
-            "\u013a\uffff\1\12",
+            "\1\12\3\uffff\2\13\100\uffff\1\10\46\uffff\1\13\u013a\uffff"+
+            "\1\11",
+            "\1\12\3\uffff\2\13\100\uffff\1\10\46\uffff\1\13\u013a\uffff"+
+            "\1\11",
+            "\1\12\3\uffff\2\13\40\uffff\1\14\37\uffff\1\10\46\uffff\1\13"+
+            "\u013a\uffff\1\11",
             "\1\15",
             "\1\16",
-            "",
             "",
             "\1\13\41\uffff\1\13\6\uffff\1\17\4\uffff\2\13\u014a\uffff\1"+
             "\13",
             "",
+            "",
             "\1\21\1\22\1\20",
-            "\1\10\3\uffff\2\13\100\uffff\1\11\46\uffff\1\13\u013a\uffff"+
-            "\1\12",
+            "\1\12\3\uffff\2\13\100\uffff\1\10\46\uffff\1\13\u013a\uffff"+
+            "\1\11",
             "\1\3\1\4\147\uffff\1\6\u013a\uffff\1\5",
-            "\3\13\u00d2\uffff\1\11",
+            "\3\13\u00d2\uffff\1\10",
             "\1\23",
-            "\1\10\3\uffff\2\13\100\uffff\1\11\46\uffff\1\13\u013a\uffff"+
-            "\1\12",
-            "\1\10\3\uffff\2\13\100\uffff\1\11\46\uffff\1\13\u013a\uffff"+
-            "\1\12",
+            "\1\12\3\uffff\2\13\100\uffff\1\10\46\uffff\1\13\u013a\uffff"+
+            "\1\11",
+            "\1\12\3\uffff\2\13\100\uffff\1\10\46\uffff\1\13\u013a\uffff"+
+            "\1\11",
             "\1\24",
             "\1\25",
-            "\1\10\3\uffff\2\13\100\uffff\1\11\46\uffff\1\13\u013a\uffff"+
-            "\1\12"
+            "\1\12\3\uffff\2\13\100\uffff\1\10\46\uffff\1\13\u013a\uffff"+
+            "\1\11"
     };
 
     static final short[] DFA2_eot = DFA.unpackEncodedString(DFA2_eotS);
@@ -5579,27 +5581,27 @@ public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
     static final String DFA5_maxS =
         "\4\u01d0\1\54\3\uffff\1\u0164\1\u01d0\1\5\2\u01d0\1\52\1\10\1\u01d0";
     static final String DFA5_acceptS =
-        "\5\uffff\1\3\1\2\1\1\10\uffff";
+        "\5\uffff\1\3\1\1\1\2\10\uffff";
     static final String DFA5_specialS =
         "\20\uffff}>";
     static final String[] DFA5_transitionS = {
             "\1\5\37\uffff\1\1\1\2\147\uffff\1\4\u013a\uffff\1\3",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\40\uffff\1\10\106\uffff\1\6\u013a"+
-            "\uffff\1\6",
+            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
+            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
+            "\1\7\22\uffff\2\6\4\uffff\2\7\40\uffff\1\10\106\uffff\1\7\u013a"+
+            "\uffff\1\7",
             "\1\11",
             "",
             "",
             "",
             "\1\13\1\14\1\12",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
+            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
             "\1\15",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6",
+            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
+            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7",
             "\1\16",
             "\1\17",
-            "\1\6\22\uffff\2\7\4\uffff\2\6\147\uffff\1\6\u013a\uffff\1\6"
+            "\1\7\22\uffff\2\6\4\uffff\2\7\147\uffff\1\7\u013a\uffff\1\7"
     };
 
     static final short[] DFA5_eot = DFA.unpackEncodedString(DFA5_eotS);
