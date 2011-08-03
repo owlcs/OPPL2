@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+  <plugin>
+  	<extension id="ClassPatternView"
+			point="org.protege.editor.core.application.ViewComponent">
+  		<label value="Patterns"/>
+  		<class value="org.coode.patterns.ui.ClassPatternView"/>
+		<headerColor value="@org.protege.classcolor"/>
+        <category value="@org.protege.classcategory"/>
+  	</extension>
+   	<extension id="OntologyPatternView"
+			point="org.protege.editor.core.application.ViewComponent">
+  		<label value="Patterns"/>
+  		<class value="org.coode.patterns.ui.PatternOntologyView"/>
+		<headerColor value="@org.protege.ontologycolor"/>
+        <category value="@org.protege.ontologycategory"/>
+  	</extension> 	
+  </plugin>
