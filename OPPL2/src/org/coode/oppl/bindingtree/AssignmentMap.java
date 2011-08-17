@@ -229,4 +229,9 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 		}
 		return !found;
 	}
+
+	@Override
+	public String toString() {
+		return this.delegate.toString();
+	}
 }

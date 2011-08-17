@@ -136,7 +136,7 @@ public class OPPLParser implements AbstractOPPLParser {
 				// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
 				ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 				simplify.setTreeAdaptor(ADAPTOR);
-				simplify.downup(tree);
+				tree = (CommonTree) simplify.downup(tree);
 				nodes.reset();
 				OPPLDefine define = new OPPLDefine(nodes, symtab, this.getListener(),
 						constraintSystem);
@@ -216,7 +216,7 @@ public class OPPLParser implements AbstractOPPLParser {
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
 			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 			simplify.setTreeAdaptor(ADAPTOR);
-			simplify.downup(tree);
+			tree = (CommonTree) simplify.downup(tree);
 			nodes.reset();
 			OPPLDefine define = new OPPLDefine(nodes, symbolTable, this.getListener(),
 					constraintSystem);
@@ -315,7 +315,7 @@ public class OPPLParser implements AbstractOPPLParser {
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
 			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 			simplify.setTreeAdaptor(ADAPTOR);
-			simplify.downup(tree);
+			tree = (CommonTree) simplify.downup(tree);
 			nodes.reset();
 			OPPLDefine define = new OPPLDefine(nodes, symbolTable, this.getListener(),
 					constraintSystem);
@@ -364,6 +364,9 @@ public class OPPLParser implements AbstractOPPLParser {
 			nodes.setTreeAdaptor(ADAPTOR);
 			nodes.reset();
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+			simplify.setTreeAdaptor(ADAPTOR);
+			tree = (CommonTree) simplify.downup(tree);
 			ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symbolTable,
 					new SilentListener());
 			symbolTable.setErrorListener(mOWLTypes.getErrorListener());
@@ -415,7 +418,7 @@ public class OPPLParser implements AbstractOPPLParser {
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
 			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 			simplify.setTreeAdaptor(ADAPTOR);
-			simplify.downup(tree);
+			tree = (CommonTree) simplify.downup(tree);
 			nodes.reset();
 			ManchesterOWLSyntaxTypesParts mOWLTypes = new ManchesterOWLSyntaxTypesParts(nodes,
 					symbolTable, this.getListener());
