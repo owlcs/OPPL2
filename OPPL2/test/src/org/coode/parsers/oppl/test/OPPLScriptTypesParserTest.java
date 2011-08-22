@@ -17,6 +17,8 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLFactory;
+import org.coode.oppl.OPPLScript;
+import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
@@ -36,6 +38,9 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+
+import uk.ac.manchester.cs.factplusplus.owlapiv3.FaCTPlusPlusReasonerFactory;
 
 /**
  * Test for the AST generation for OPPL
@@ -139,7 +144,11 @@ public class OPPLScriptTypesParserTest extends TestCase {
 	}
 
 	protected OPPLSyntaxTree parse(String input, OWLOntology ontology) {
-		OPPLFactory opplFactory = new OPPLFactory(ONTOLOGY_MANAGER, ontology, null);
+		return this.parse(input, ontology, null);
+	}
+
+	protected OPPLSyntaxTree parse(String input, OWLOntology ontology, OWLReasoner reasoner) {
+		OPPLFactory opplFactory = new OPPLFactory(ONTOLOGY_MANAGER, ontology, reasoner);
 		ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
@@ -266,6 +275,32 @@ public class OPPLScriptTypesParserTest extends TestCase {
 		assertNotNull(parsed.getOPPLContent());
 		System.out.println("original script: \t" + query);
 		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+	}
+
+	public void testVariableScope() {
+		FaCTPlusPlusReasonerFactory reasonerFactory = new FaCTPlusPlusReasonerFactory();
+		OWLReasoner reasoner = reasonerFactory.createReasoner(PIZZA_ONTOLOGY);
+		String query = "?M:CLASS[subClassOf NamedPizza], ?I:CLASS, ?S:CLASS SELECT ?M SubClassOf hasTopping some ?I, ?M SubClassOf hasBase some ?S WHERE ?M != Nothing BEGIN ADD ?M SubClassOf Thing END;";
+		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY, reasoner);
+		System.out.println(parsed.toStringTree());
+		assertNotNull(parsed);
+		assertNotNull(parsed.getOPPLContent());
+		System.out.println("original script: \t" + query);
+		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+		assertTrue(((InputVariable<?>) ((OPPLScript) parsed.getOPPLContent()).getVariables().get(0)).getVariableScope() != null);
+	}
+
+	public void testVariableScopeInverseProperty() {
+		FaCTPlusPlusReasonerFactory reasonerFactory = new FaCTPlusPlusReasonerFactory();
+		OWLReasoner reasoner = reasonerFactory.createReasoner(PIZZA_ONTOLOGY);
+		String query = "?M:CLASS[subClassOf NamedPizza], ?I:CLASS[subClassOf INV(hasTopping) some Thing], ?S:CLASS SELECT ?M SubClassOf hasTopping some ?I, ?M SubClassOf hasBase some ?S WHERE ?M != Nothing BEGIN ADD ?M SubClassOf Thing END;";
+		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY, reasoner);
+		System.out.println(parsed.toStringTree());
+		assertNotNull(parsed);
+		assertNotNull(parsed.getOPPLContent());
+		System.out.println("original script: \t" + query);
+		System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+		assertTrue(((InputVariable<?>) ((OPPLScript) parsed.getOPPLContent()).getVariables().get(0)).getVariableScope() != null);
 	}
 
 	public void testNoQuery() {

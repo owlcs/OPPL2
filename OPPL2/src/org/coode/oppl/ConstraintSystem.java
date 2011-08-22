@@ -206,8 +206,8 @@ public class ConstraintSystem {
 		return this.variables.get(name);
 	}
 
-	public <O extends OWLObject> InputVariable<O> createVariable(String name, VariableType<O> type,
-			VariableScope<?> variableScope) throws OPPLException {
+	public <O extends OWLObject> InputVariable<O> createVariable(final String name,
+			final VariableType<O> type, final VariableScope<?> variableScope) throws OPPLException {
 		if (name.matches("\\?([\\p{Alnum}[-_]])+")) {
 			Variable<?> newVariable = this.variables.get(name);
 			if (newVariable == null) {
@@ -239,6 +239,26 @@ public class ConstraintSystem {
 									name,
 									newVariable,
 									type));
+				} else {
+					newVariable = newVariable.accept(new VariableVisitorEx<Variable<?>>() {
+						public <P extends OWLObject> Variable<?> visit(InputVariable<P> v) {
+							Variable<?> toReturn = v;
+							if (v.getVariableScope() != variableScope) {
+								toReturn = type.getInputVariable(name, variableScope);
+								ConstraintSystem.this.variables.store(toReturn);
+							}
+							return toReturn;
+						}
+
+						public <P extends OWLObject> Variable<?> visit(GeneratedVariable<P> v) {
+							return v;
+						}
+
+						public <P extends OWLObject> Variable<?> visit(
+								RegexpGeneratedVariable<P> regExpGenerated) {
+							return regExpGenerated;
+						}
+					});
 				}
 			}
 			return (InputVariable<O>) newVariable;

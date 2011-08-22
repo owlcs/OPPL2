@@ -38,16 +38,25 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
 public class ChangeExtractor {
 	private final boolean considerImportClosure;
 	private final RuntimeExceptionHandler runtimeExceptionHandler;
+	private final ExecutionMonitor executionMonitor;
+
+	public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
+			boolean considerImportClosure) {
+		this(runtimeExceptionHandler, ExecutionMonitor.NON_CANCELLABLE, considerImportClosure);
+	}
 
 	/**
 	 * @param ontologyManager
 	 */
 	public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
-			boolean considerImportClosure) {
+			ExecutionMonitor executionMonitor, boolean considerImportClosure) {
 		if (runtimeExceptionHandler == null) {
-			throw new NullPointerException(
-					"The runtime exception handler cannot be null");
+			throw new NullPointerException("The runtime exception handler cannot be null");
 		}
+		if (executionMonitor == null) {
+			throw new NullPointerException("The executionMonitor cannot be null");
+		}
+		this.executionMonitor = executionMonitor;
 		this.runtimeExceptionHandler = runtimeExceptionHandler;
 		this.considerImportClosure = considerImportClosure;
 	}
@@ -59,24 +68,27 @@ public class ChangeExtractor {
 		List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
 		OPPLQuery q = script.getQuery();
 		if (q != null) {
-			q.execute(this.getRuntimeExceptionHandler());
+			q.execute(this.getRuntimeExceptionHandler(), this.getExecutionMonitor());
 		}
 		List<OWLAxiomChange> changes = script.getActions();
 		for (OWLAxiomChange change : changes) {
 			boolean isAdd = change instanceof AddAxiom;
 			ActionType action = isAdd ? ActionType.ADD : ActionType.REMOVE;
 			if (this.considerImportClosure && !isAdd) {
-				toReturn.addAll(ActionFactory.createChanges(action, change
-						.getAxiom(), script.getConstraintSystem(), script
-						.getConstraintSystem().getOntologyManager()
-						.getImportsClosure(
+				toReturn.addAll(ActionFactory.createChanges(
+						action,
+						change.getAxiom(),
+						script.getConstraintSystem(),
+						script.getConstraintSystem().getOntologyManager().getImportsClosure(
 								script.getConstraintSystem().getOntology()),
 						this.getRuntimeExceptionHandler()));
 			} else {
-				toReturn.addAll(ActionFactory.createChanges(action, change
-						.getAxiom(), script.getConstraintSystem(), script
-						.getConstraintSystem().getOntology(), this
-						.getRuntimeExceptionHandler()));
+				toReturn.addAll(ActionFactory.createChanges(
+						action,
+						change.getAxiom(),
+						script.getConstraintSystem(),
+						script.getConstraintSystem().getOntology(),
+						this.getRuntimeExceptionHandler()));
 			}
 		}
 		return toReturn;
@@ -87,5 +99,12 @@ public class ChangeExtractor {
 	 */
 	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
 		return this.runtimeExceptionHandler;
+	}
+
+	/**
+	 * @return the executionMonitor
+	 */
+	public ExecutionMonitor getExecutionMonitor() {
+		return this.executionMonitor;
 	}
 }

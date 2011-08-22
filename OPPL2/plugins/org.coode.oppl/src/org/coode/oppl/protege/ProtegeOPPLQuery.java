@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.coode.oppl.AbstractConstraint;
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.ExecutionMonitor;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
@@ -155,12 +156,13 @@ public class ProtegeOPPLQuery implements OPPLQuery {
 	 * @param runtimeExceptionHandler
 	 * @see org.coode.oppl.OPPLQuery#execute(org.coode.oppl.exceptions.RuntimeExceptionHandler)
 	 */
-	public void execute(RuntimeExceptionHandler runtimeExceptionHandler) {
-		this.opplQuery.execute(runtimeExceptionHandler);
+	public void execute(RuntimeExceptionHandler runtimeExceptionHandler,
+			ExecutionMonitor executionMonitor) {
+		this.opplQuery.execute(runtimeExceptionHandler, executionMonitor);
 	}
 
 	public void execute(Collection<? extends BindingNode> leaves,
-			RuntimeExceptionHandler runtimeExceptionHandler) {
-		this.opplQuery.execute(leaves, runtimeExceptionHandler);
+			RuntimeExceptionHandler runtimeExceptionHandler, ExecutionMonitor executionMonitor) {
+		this.opplQuery.execute(leaves, runtimeExceptionHandler, executionMonitor);
 	}
 }

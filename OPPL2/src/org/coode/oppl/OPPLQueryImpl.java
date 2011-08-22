@@ -37,9 +37,9 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.queryplanner.AssertedAxiomPlannerItem;
+import org.coode.oppl.queryplanner.ComplexityEstimate;
 import org.coode.oppl.queryplanner.ConstraintQueryPlannerItem;
 import org.coode.oppl.queryplanner.InferredAxiomQueryPlannerItem;
-import org.coode.oppl.queryplanner.QueryItemVariableExtractor;
 import org.coode.oppl.queryplanner.QueryPlannerItem;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.utils.VariableExtractor;
@@ -329,21 +329,22 @@ public class OPPLQueryImpl implements OPPLQuery {
 	}
 
 	public void execute(Collection<? extends BindingNode> leaves,
-			RuntimeExceptionHandler runtimeExceptionHandler) {
+			RuntimeExceptionHandler runtimeExceptionHandler, ExecutionMonitor executionMonitor) {
 		try {
 			this.constraintSystem.setLeaves(new HashSet<BindingNode>(leaves));
-			this.doExecute(runtimeExceptionHandler, false);
+			this.doExecute(runtimeExceptionHandler, false, executionMonitor);
 			this.setDirty(false);
 		} catch (OWLRuntimeException e) {
 			runtimeExceptionHandler.handleOWLRuntimeException(e);
 		}
 	}
 
-	public void execute(RuntimeExceptionHandler runtimeExceptionHandler) {
+	public void execute(RuntimeExceptionHandler runtimeExceptionHandler,
+			ExecutionMonitor executionMonitor) {
 		if (this.isDirty()) {
 			try {
-				this.doExecute(runtimeExceptionHandler, true);
-				this.setDirty(false);
+				this.doExecute(runtimeExceptionHandler, true, executionMonitor);
+				this.setDirty(executionMonitor.isCancelled());
 			} catch (OWLRuntimeException e) {
 				runtimeExceptionHandler.handleOWLRuntimeException(e);
 			}
@@ -352,11 +353,13 @@ public class OPPLQueryImpl implements OPPLQuery {
 
 	/**
 	 * @param runtimeExceptionHandler
+	 * @param executionMonitor
 	 * @throws OWLRuntimeException
 	 * 
 	 */
 	private void doExecute(RuntimeExceptionHandler runtimeExceptionHandler,
-			boolean resetConstraintSystem) throws OWLRuntimeException {
+			boolean resetConstraintSystem, ExecutionMonitor executionMonitor)
+			throws OWLRuntimeException {
 		if (resetConstraintSystem) {
 			this.getConstraintSystem().reset();
 		}
@@ -372,15 +375,16 @@ public class OPPLQueryImpl implements OPPLQuery {
 			queryPlannerItems.add(new InferredAxiomQueryPlannerItem(this.getConstraintSystem(),
 					axiom));
 		}
+		final ComplexityEstimate complexityEstimate = new ComplexityEstimate(this.constraintSystem,
+				runtimeExceptionHandler);
 		Comparator<QueryPlannerItem> comparator = new Comparator<QueryPlannerItem>() {
 			public int compare(QueryPlannerItem anItem, QueryPlannerItem anotherItem) {
 				int toReturn = 0;
 				if (anItem == null) {
 					toReturn = anotherItem == null ? toReturn : -1;
 				} else {
-					QueryItemVariableExtractor variableExtractor = new QueryItemVariableExtractor();
-					int difference = anItem.accept(variableExtractor).size()
-							- anotherItem.accept(variableExtractor).size();
+					int difference = (int) Math.signum(anItem.accept(complexityEstimate)
+							- anotherItem.accept(complexityEstimate));
 					toReturn = difference == 0 ? anItem.hashCode() - anotherItem.hashCode()
 							: difference;
 				}
@@ -388,22 +392,40 @@ public class OPPLQueryImpl implements OPPLQuery {
 			}
 		};
 		Collections.sort(queryPlannerItems, comparator);
+		int increment = (int) Math.ceil((double) 100 / (double) queryPlannerItems.size());
+		int progress = 0;
 		// I want to sort the constraints separately as their matching can only
 		// happen on existing leaves.
 		List<ConstraintQueryPlannerItem> constraintsItems = new ArrayList<ConstraintQueryPlannerItem>();
 		for (AbstractConstraint c : this.getConstraints()) {
 			constraintsItems.add(new ConstraintQueryPlannerItem(this.getConstraintSystem(), c));
 		}
-		for (QueryPlannerItem queryPlannerItem : queryPlannerItems) {
-			currentLeaves = queryPlannerItem.match(currentLeaves, runtimeExceptionHandler);
-			// Now I check the constraints
-			for (ConstraintQueryPlannerItem c : new HashSet<ConstraintQueryPlannerItem>(
-					constraintsItems)) {
-				if (this.canMatch(c, currentLeaves, runtimeExceptionHandler)) {
-					currentLeaves = c.match(currentLeaves, runtimeExceptionHandler);
-					constraintsItems.remove(c);
+		Iterator<QueryPlannerItem> iterator = queryPlannerItems.iterator();
+		while (!executionMonitor.isCancelled() && iterator.hasNext()) {
+			QueryPlannerItem queryPlannerItem = iterator.next();
+			currentLeaves = queryPlannerItem.match(
+					currentLeaves,
+					executionMonitor,
+					runtimeExceptionHandler);
+			if (!executionMonitor.isCancelled()) {
+				// Now I check the constraints
+				Iterator<ConstraintQueryPlannerItem> constraintItemIterator = constraintsItems.iterator();
+				while (!executionMonitor.isCancelled() && constraintItemIterator.hasNext()) {
+					ConstraintQueryPlannerItem c = constraintItemIterator.next();
+					if (this.canMatch(c, currentLeaves, runtimeExceptionHandler)) {
+						currentLeaves = c.match(
+								currentLeaves,
+								executionMonitor,
+								runtimeExceptionHandler);
+						constraintItemIterator.remove();
+					}
 				}
 			}
+			progress += increment;
+			executionMonitor.progressIncrementChanged(progress);
+		}
+		if (executionMonitor.isCancelled()) {
+			currentLeaves = null;
 		}
 		this.getConstraintSystem().setLeaves(currentLeaves);
 	}

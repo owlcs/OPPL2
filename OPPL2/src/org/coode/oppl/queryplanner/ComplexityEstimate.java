@@ -1,23 +1,20 @@
-package org.coode.oppl.search;
+package org.coode.oppl.queryplanner;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
 import org.coode.oppl.ConstraintSystem;
-import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableScope;
-import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.log.Logging;
+import org.coode.oppl.search.AssignableValueExtractor;
 import org.coode.oppl.utils.AbstractVariableVisitorExAdapter;
 import org.coode.oppl.utils.ConstantCollector;
 import org.coode.oppl.utils.VariableExtractor;
@@ -59,59 +56,136 @@ import org.semanticweb.owlapi.model.OWLQuantifiedRestriction;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.util.OWLObjectVisitorAdapter;
 
-public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxiomSearchNode> {
-	private final ConstraintSystem constraintSystem;
+public class ComplexityEstimate implements QueryPlannerVisitorEx<Float> {
+	private final VariableExtractor variableExtractor;
 	private final RuntimeExceptionHandler runtimeExceptionHandler;
-	private final Set<OWLClass> allClasses = new HashSet<OWLClass>();
-	private final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
+	private final ConstraintSystem constraintSystem;
+	private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor = new VariableTypeVisitorEx<Set<? extends OWLObject>>() {
+		public Set<? extends OWLObject> visitCLASSVariableType(CLASSVariableType classVariableType) {
+			return ComplexityEstimate.this.allClasses;
+		}
+
+		public Set<? extends OWLObject> visitOBJECTPROPERTYVariableType(
+				OBJECTPROPERTYVariableType objectpropertyVariableType) {
+			return ComplexityEstimate.this.allObjectProperties;
+		}
+
+		public Set<? extends OWLObject> visitDATAPROPERTYVariableType(
+				DATAPROPERTYVariableType datapropertyVariableType) {
+			return ComplexityEstimate.this.allDataProperties;
+		}
+
+		public Set<? extends OWLObject> visitINDIVIDUALVariableType(
+				INDIVIDUALVariableType individualVariableType) {
+			return ComplexityEstimate.this.allIndividuals;
+		}
+
+		public Set<? extends OWLObject> visitCONSTANTVariableType(
+				CONSTANTVariableType constantVariableType) {
+			return ComplexityEstimate.this.allConstants;
+		}
+
+		public Set<? extends OWLObject> visitANNOTATIONPROPERTYVariableType(
+				ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+			return ComplexityEstimate.this.allAnnotationProperties;
+		}
+	};
 	private final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<OWLAnnotationProperty>();
+	private final Set<OWLClass> allClasses = new HashSet<OWLClass>();
+	private final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
 	private final Set<OWLDataProperty> allDataProperties = new HashSet<OWLDataProperty>();
 	private final Set<OWLIndividual> allIndividuals = new HashSet<OWLIndividual>();
-	private final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
+	private final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
 
-	protected AbstractOPPLAxiomSearchTree(ConstraintSystem constraintSystem,
+	public ComplexityEstimate(ConstraintSystem contraintSystem,
 			RuntimeExceptionHandler runtimeExceptionHandler) {
-		if (constraintSystem == null) {
-			throw new NullPointerException("The constraint system cannot be null");
+		if (contraintSystem == null) {
+			throw new NullPointerException("The contraint system cannot be null");
 		}
 		if (runtimeExceptionHandler == null) {
-			throw new NullPointerException("The runtime exception handler cannot be null");
+			throw new NullPointerException("The runtime Exception Handler cannot be null");
 		}
-		this.constraintSystem = constraintSystem;
+		this.constraintSystem = contraintSystem;
+		this.variableExtractor = new VariableExtractor(contraintSystem, false);
 		this.runtimeExceptionHandler = runtimeExceptionHandler;
+		this.initAssignableValues();
 	}
 
-	@Override
-	protected abstract boolean goalReached(OPPLOWLAxiomSearchNode start);
+	public Float visitConstraintQueryPlannerItem(
+			ConstraintQueryPlannerItem constraintQueryPlannerItem) {
+		// Constraints do not require computing oll the possible permutations of
+		// values as variables are always resolved before getting to constraint
+		// evaluation
+		return 0f;
+	}
+
+	public Float visitAssertedAxiomPlannerItem(AssertedAxiomPlannerItem assertedAxiomPlannerItem) {
+		return this.computeAxiomComplexity(assertedAxiomPlannerItem.getAxiom());
+	}
+
+	private float computeAxiomComplexity(OWLAxiom axiom) {
+		Set<Variable<?>> variables = this.variableExtractor.extractVariables(axiom);
+		long toReturn = 1;
+		ValueComputationParameters parameters = new SimpleValueComputationParameters(
+				this.getConstraintSystem(), BindingNode.createNewEmptyBindingNode(),
+				this.getRuntimeExceptionHandler());
+		for (Variable<?> variable : variables) {
+			toReturn *= this.getAssignableValues(variable, parameters).size();
+		}
+		return toReturn;
+	}
+
+	private Set<OWLObject> getAssignableValues(Variable<?> variable,
+			ValueComputationParameters parameters) {
+		Set<OWLObject> toReturn = new HashSet<OWLObject>();
+		toReturn.addAll(variable.accept(new AssignableValueExtractor(this.assignableValuesVisitor,
+				parameters)));
+		Iterator<OWLObject> iterator = toReturn.iterator();
+		while (iterator.hasNext()) {
+			final OWLObject owlObject = iterator.next();
+			boolean inScope = variable.accept(new AbstractVariableVisitorExAdapter<Boolean>(true) {
+				@Override
+				public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
+					VariableScope<?> variableScope = v.getVariableScope();
+					try {
+						return variableScope == null || variableScope.check(owlObject);
+					} catch (OWLRuntimeException e) {
+						ComplexityEstimate.this.getRuntimeExceptionHandler().handleOWLRuntimeException(
+								e);
+						return false;
+					}
+				}
+			});
+			if (!inScope) {
+				iterator.remove();
+			}
+		}
+		return toReturn;
+	}
+
+	public Float visitInferredAxiomQueryPlannerItem(
+			InferredAxiomQueryPlannerItem inferredAxiomQueryPlannerItem) {
+		return this.computeAxiomComplexity(inferredAxiomQueryPlannerItem.getAxiom());
+	}
 
 	/**
-	 * @see org.coode.oppl.search.SearchTree#getChildren(java.lang.Object)
+	 * @return the variableExtractor
 	 */
-	@Override
-	protected List<OPPLOWLAxiomSearchNode> getChildren(OPPLOWLAxiomSearchNode node) {
-		List<OPPLOWLAxiomSearchNode> toReturn = new ArrayList<OPPLOWLAxiomSearchNode>();
-		Set<Variable<?>> variables = node.getBinding().getUnassignedVariables();
-		BindingNode binding = node.getBinding();
-		ValueComputationParameters parameters = new SimpleValueComputationParameters(
-				this.getConstraintSystem(), node.getBinding(), this.getRuntimeExceptionHandler());
-		if (!variables.isEmpty()) {
-			Variable<?> variable = variables.iterator().next();
-			Set<OWLObject> values = new HashSet<OWLObject>();
-			values.addAll(this.getAssignableValues(variable, parameters));
-			for (OWLObject value : values) {
-				Assignment assignment = new Assignment(variable, value);
-				BindingNode childBinding = new BindingNode(binding.getAssignments(),
-						binding.getUnassignedVariables());
-				childBinding.addAssignment(assignment);
-				ValueComputationParameters newParameters = new SimpleValueComputationParameters(
-						this.getConstraintSystem(), childBinding, this.getRuntimeExceptionHandler());
-				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-						newParameters);
-				OWLAxiom instantiatedAxiom = (OWLAxiom) node.getAxiom().accept(instantiator);
-				OPPLOWLAxiomSearchNode child = new OPPLOWLAxiomSearchNode(instantiatedAxiom,
-						childBinding);
-				toReturn.add(child);
-			}
+	protected VariableExtractor getVariableExtractor() {
+		return this.variableExtractor;
+	}
+
+	/**
+	 * @return the runtimeExceptionHandler
+	 */
+	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
+		return this.runtimeExceptionHandler;
+	}
+
+	private Set<OWLAnnotationProperty> getAllAnnotationProperties() {
+		Set<OWLAnnotationProperty> toReturn = new HashSet<OWLAnnotationProperty>();
+		for (OWLOntology ontology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
+			toReturn.addAll(ontology.getAnnotationPropertiesInSignature());
 		}
 		return toReturn;
 	}
@@ -247,61 +321,10 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 		return toReturn;
 	}
 
-	private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor = new VariableTypeVisitorEx<Set<? extends OWLObject>>() {
-		public Set<? extends OWLObject> visitCLASSVariableType(CLASSVariableType classVariableType) {
-			return AbstractOPPLAxiomSearchTree.this.allClasses;
-		}
-
-		public Set<? extends OWLObject> visitOBJECTPROPERTYVariableType(
-				OBJECTPROPERTYVariableType objectpropertyVariableType) {
-			return AbstractOPPLAxiomSearchTree.this.allObjectProperties;
-		}
-
-		public Set<? extends OWLObject> visitDATAPROPERTYVariableType(
-				DATAPROPERTYVariableType datapropertyVariableType) {
-			return AbstractOPPLAxiomSearchTree.this.allDataProperties;
-		}
-
-		public Set<? extends OWLObject> visitINDIVIDUALVariableType(
-				INDIVIDUALVariableType individualVariableType) {
-			return AbstractOPPLAxiomSearchTree.this.allIndividuals;
-		}
-
-		public Set<? extends OWLObject> visitCONSTANTVariableType(
-				CONSTANTVariableType constantVariableType) {
-			return AbstractOPPLAxiomSearchTree.this.allConstants;
-		}
-
-		public Set<? extends OWLObject> visitANNOTATIONPROPERTYVariableType(
-				ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
-			return AbstractOPPLAxiomSearchTree.this.allAnnotationProperties;
-		}
-	};
-
-	private Collection<? extends OWLObject> getAssignableValues(Variable<?> variable,
-			ValueComputationParameters parameters) {
-		Set<OWLObject> toReturn = new HashSet<OWLObject>();
-		toReturn.addAll(variable.accept(new AssignableValueExtractor(this.assignableValuesVisitor,
-				parameters)));
-		Iterator<OWLObject> iterator = toReturn.iterator();
-		while (iterator.hasNext()) {
-			final OWLObject owlObject = iterator.next();
-			boolean inScope = variable.accept(new AbstractVariableVisitorExAdapter<Boolean>(true) {
-				@Override
-				public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
-					VariableScope<?> variableScope = v.getVariableScope();
-					try {
-						return variableScope == null || variableScope.check(owlObject);
-					} catch (OWLRuntimeException e) {
-						AbstractOPPLAxiomSearchTree.this.getRuntimeExceptionHandler().handleOWLRuntimeException(
-								e);
-						return false;
-					}
-				}
-			});
-			if (!inScope) {
-				iterator.remove();
-			}
+	private Collection<OWLObjectProperty> getAllObjectProperties() {
+		Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
+		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
+			toReturn.addAll(owlOntology.getObjectPropertiesInSignature());
 		}
 		return toReturn;
 	}
@@ -313,7 +336,7 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 		Logging.getQueryLogger().log(
 				Level.FINE,
 				"Possible data property values " + this.allDataProperties.size());
-		this.allObjectProperties.addAll(this.getObjectProperties());
+		this.allObjectProperties.addAll(this.getAllObjectProperties());
 		Logging.getQueryLogger().log(
 				Level.FINE,
 				"Possible object property values " + this.allObjectProperties.size());
@@ -331,87 +354,10 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 				"Possible annotation properties values " + this.allAnnotationProperties.size());
 	}
 
-	private Set<OWLAnnotationProperty> getAllAnnotationProperties() {
-		Set<OWLAnnotationProperty> toReturn = new HashSet<OWLAnnotationProperty>();
-		for (OWLOntology ontology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
-			toReturn.addAll(ontology.getAnnotationPropertiesInSignature());
-		}
-		return toReturn;
-	}
-
 	/**
 	 * @return the constraintSystem
 	 */
 	public ConstraintSystem getConstraintSystem() {
 		return this.constraintSystem;
-	}
-
-	private Collection<OWLObjectProperty> getObjectProperties() {
-		Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
-		for (OWLOntology owlOntology : this.getConstraintSystem().getOntologyManager().getOntologies()) {
-			toReturn.addAll(owlOntology.getObjectPropertiesInSignature());
-		}
-		return toReturn;
-	}
-
-	/**
-	 * @see org.coode.oppl.search.SearchTree#exhaustiveSearchTree(java.lang.Object,
-	 *      java.util.List)
-	 */
-	@Override
-	public boolean exhaustiveSearchTree(OPPLOWLAxiomSearchNode start,
-			List<List<OPPLOWLAxiomSearchNode>> solutions) {
-		this.initAssignableValues();
-		Set<BindingNode> existingLeaves = this.getConstraintSystem().getLeaves();
-		boolean found = false;
-		if (existingLeaves != null) {
-			Logging.getQueryTestLogging().log(
-					Level.INFO,
-					"Existing leaves count: " + existingLeaves.size());
-			int leafIndex = 1;
-			for (BindingNode bindingNode : existingLeaves) {
-				Logging.getQueryTestLogging().log(
-						Level.FINER,
-						"Exhaustive search on leaf: " + leafIndex++ + " out of "
-								+ existingLeaves.size());
-				ValueComputationParameters parameters = new SimpleValueComputationParameters(
-						this.getConstraintSystem(), bindingNode, this.getRuntimeExceptionHandler());
-				PartialOWLObjectInstantiator partialObjectInstantiator = new PartialOWLObjectInstantiator(
-						parameters);
-				OWLAxiom newStartAxiom = (OWLAxiom) start.getAxiom().accept(
-						partialObjectInstantiator);
-				VariableExtractor variableExtractor = new VariableExtractor(
-						this.getConstraintSystem(), false);
-				BindingNode newBindingNode = new BindingNode(bindingNode.getAssignments(),
-						variableExtractor.extractVariables(newStartAxiom));
-				OPPLOWLAxiomSearchNode newStart = new OPPLOWLAxiomSearchNode(newStartAxiom,
-						newBindingNode);
-				List<List<OPPLOWLAxiomSearchNode>> bindingNodeSolutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
-				boolean bindingNodeSearch = super.exhaustiveSearchTree(
-						newStart,
-						bindingNodeSolutions);
-				found = found || bindingNodeSearch;
-				if (bindingNodeSearch) {
-					solutions.addAll(bindingNodeSolutions);
-				}
-			}
-		} else {
-			found = super.exhaustiveSearchTree(start, solutions);
-		}
-		Set<BindingNode> newLeaves = new HashSet<BindingNode>();
-		for (List<OPPLOWLAxiomSearchNode> path : solutions) {
-			OPPLOWLAxiomSearchNode leafSerachNode = path.get(path.size() - 1);
-			BindingNode newLeaf = leafSerachNode.getBinding();
-			newLeaves.add(newLeaf);
-		}
-		// this.constraintSystem.setLeaves(newLeaves);
-		return found;
-	}
-
-	/**
-	 * @return the runtimeExceptionHandler
-	 */
-	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
-		return this.runtimeExceptionHandler;
 	}
 }

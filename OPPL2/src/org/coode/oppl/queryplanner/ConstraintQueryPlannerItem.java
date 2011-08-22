@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.coode.oppl.AbstractConstraint;
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.ExecutionMonitor;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
@@ -41,11 +42,12 @@ public class ConstraintQueryPlannerItem extends AbstractQueryPlannerItem {
 	 *      org.coode.oppl.exceptions.RuntimeExceptionHandler)
 	 */
 	public Set<BindingNode> match(Collection<? extends BindingNode> currentLeaves,
-			RuntimeExceptionHandler runtimeExceptionHandler) {
+			ExecutionMonitor executionMonitor, RuntimeExceptionHandler runtimeExceptionHandler) {
+		Set<BindingNode> toReturn = new HashSet<BindingNode>(currentLeaves.size());
 		if (currentLeaves != null && !currentLeaves.isEmpty()) {
 			Iterator<? extends BindingNode> it = currentLeaves.iterator();
 			BindingNode leaf;
-			while (it.hasNext()) {
+			while (!executionMonitor.isCancelled() && it.hasNext()) {
 				leaf = it.next();
 				boolean holdingLeaf = this.checkConstraint(
 						leaf,
@@ -55,8 +57,14 @@ public class ConstraintQueryPlannerItem extends AbstractQueryPlannerItem {
 					it.remove();
 				}
 			}
+			if (executionMonitor.isCancelled()) {
+				toReturn = null;
+			}
 		}
-		return new HashSet<BindingNode>(currentLeaves);
+		if (toReturn != null) {
+			toReturn.addAll(currentLeaves);
+		}
+		return toReturn;
 	}
 
 	private boolean checkConstraint(BindingNode leaf, AbstractConstraint c,

@@ -53,10 +53,11 @@ public interface OPPLQuery {
 
 	ConstraintSystem getConstraintSystem();
 
-	public void execute(RuntimeExceptionHandler runtimeExceptionHandler);
+	public void execute(RuntimeExceptionHandler runtimeExceptionHandler,
+			ExecutionMonitor executionMonitor);
 
 	public void execute(Collection<? extends BindingNode> leaves,
-			RuntimeExceptionHandler runtimeExceptionHandler);
+			RuntimeExceptionHandler runtimeExceptionHandler, ExecutionMonitor executionMonitor);
 
 	String render(ShortFormProvider shortFormProvider);
 }

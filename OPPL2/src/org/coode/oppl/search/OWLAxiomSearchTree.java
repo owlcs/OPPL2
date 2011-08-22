@@ -73,7 +73,8 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 		VariableExtractor variableExtractor = new VariableExtractor(
 				this.getParameters().getConstraintSystem(), false);
 		Set<Variable<?>> variables = variableExtractor.extractVariables(node);
-		for (Variable<?> variable : variables) {
+		if (!variables.isEmpty()) {
+			Variable<?> variable = variables.iterator().next();
 			Collection<OWLObject> values = new HashSet<OWLObject>();
 			if (leaves == null) {
 				values.addAll(this.getAssignableValues(variable));

@@ -2,10 +2,12 @@ package org.coode.oppl.queryplanner;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.ExecutionMonitor;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
@@ -42,10 +44,12 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
 	}
 
 	public Set<BindingNode> match(Collection<? extends BindingNode> currentLeaves,
-			RuntimeExceptionHandler runtimeExceptionHandler) {
+			ExecutionMonitor executionMonitor, RuntimeExceptionHandler runtimeExceptionHandler) {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		if (currentLeaves != null) {
-			for (BindingNode bindingNode : currentLeaves) {
+			Iterator<? extends BindingNode> iterator = currentLeaves.iterator();
+			while (!executionMonitor.isCancelled() && iterator.hasNext()) {
+				BindingNode bindingNode = iterator.next();
 				ValueComputationParameters parameters = new SimpleValueComputationParameters(
 						this.getConstraintSystem(), bindingNode, runtimeExceptionHandler);
 				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
@@ -55,6 +59,9 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
 						instantiatedAxiom,
 						runtimeExceptionHandler);
 				toReturn.addAll(this.merge(bindingNode, newLeaves));
+			}
+			if (executionMonitor.isCancelled()) {
+				toReturn = null;
 			}
 		} else {
 			toReturn.addAll(this.updateBindings(this.getAxiom(), runtimeExceptionHandler));

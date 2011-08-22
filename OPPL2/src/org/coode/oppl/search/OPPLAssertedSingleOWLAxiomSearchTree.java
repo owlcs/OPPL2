@@ -22,7 +22,6 @@ import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.utils.AbstractVariableVisitorExAdapter;
 import org.coode.oppl.utils.DefaultOWLAxiomVisitorAdapter;
 import org.coode.oppl.utils.OWLObjectExtractor;
-import org.coode.oppl.utils.VariableExtractor;
 import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
 import org.coode.oppl.variabletypes.CONSTANTVariableType;
@@ -86,13 +85,12 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 	@Override
 	protected List<OPPLOWLAxiomSearchNode> getChildren(OPPLOWLAxiomSearchNode node) {
 		List<OPPLOWLAxiomSearchNode> toReturn = new ArrayList<OPPLOWLAxiomSearchNode>();
-		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
-				false);
-		Set<Variable<?>> variables = variableExtractor.extractVariables(node.getAxiom());
+		Set<Variable<?>> variables = node.getBinding().getUnassignedVariables();
 		BindingNode binding = node.getBinding();
 		ValueComputationParameters parameters = new SimpleValueComputationParameters(
 				this.getConstraintSystem(), binding, this.getRuntimeExceptionHandler());
-		for (Variable<?> variable : variables) {
+		if (!variables.isEmpty()) {
+			Variable<?> variable = variables.iterator().next();
 			Collection<OWLObject> values = new HashSet<OWLObject>(this.getAssignableValues(
 					variable,
 					parameters));
