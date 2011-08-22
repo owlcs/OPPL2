@@ -131,7 +131,7 @@ public class OPPLLintParser implements AbstractOPPLLintParser {
 				// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
 				ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 				simplify.setTreeAdaptor(ADAPTOR);
-				simplify.downup(tree);
+				tree = (CommonTree) simplify.downup(tree);
 				nodes.reset();
 				OPPLDefine define = new OPPLDefine(nodes, symtab, this.getListener(),
 						constraintSystem);
@@ -188,6 +188,10 @@ public class OPPLLintParser implements AbstractOPPLLintParser {
 				CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
 				nodes.setTokenStream(tokens); // where to find tokens
 				nodes.setTreeAdaptor(ADAPTOR);
+				nodes.reset();
+				ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+				simplify.setTreeAdaptor(ADAPTOR);
+				tree = (CommonTree) simplify.downup(tree);
 				nodes.reset();
 				OPPLLintTypes opplLintTypes = new OPPLLintTypes(nodes, symtab, this.getListener(),
 						constraintSystem, this.getOPPLLintFactory(), handler);

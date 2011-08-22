@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.coode.oppl.ExecutionMonitor;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
 import org.coode.oppl.bindingtree.BindingNode;
@@ -107,9 +108,17 @@ public class OPPLLintScript implements Lint<OWLObject> {
 	private final OPPLScript opplScript;
 	private final Variable<?> returnVariable;
 	private final RuntimeExceptionHandler handler;
+	private final ExecutionMonitor executionMonitor;
 	private final OWLOntologyManager ontologyManager;
 	private final String explanationTemplate;
 	private final boolean inferenceRequired;
+
+	public OPPLLintScript(String name, OPPLScript opplScript, Variable<?> returnVariable,
+			String explanationTemplate, String description, OWLOntologyManager ontologyManager,
+			boolean inferenceRequired, RuntimeExceptionHandler handler) {
+		this(name, opplScript, returnVariable, explanationTemplate, description, ontologyManager,
+				inferenceRequired, ExecutionMonitor.NON_CANCELLABLE, handler);
+	}
 
 	/**
 	 * @param opplScript
@@ -117,7 +126,8 @@ public class OPPLLintScript implements Lint<OWLObject> {
 	 */
 	public OPPLLintScript(String name, OPPLScript opplScript, Variable<?> returnVariable,
 			String explanationTemplate, String description, OWLOntologyManager ontologyManager,
-			boolean inferenceRequired, RuntimeExceptionHandler handler) {
+			boolean inferenceRequired, ExecutionMonitor executionMonitor,
+			RuntimeExceptionHandler handler) {
 		if (name == null) {
 			throw new NullPointerException("The name cannot be null");
 		}
@@ -139,6 +149,9 @@ public class OPPLLintScript implements Lint<OWLObject> {
 		if (handler == null) {
 			throw new NullPointerException("The runtime exception handler cannot be null");
 		}
+		if (executionMonitor == null) {
+			throw new NullPointerException("The execution monitor cannot be null");
+		}
 		this.name = name;
 		this.opplScript = opplScript;
 		this.returnVariable = returnVariable;
@@ -147,11 +160,12 @@ public class OPPLLintScript implements Lint<OWLObject> {
 		this.ontologyManager = ontologyManager;
 		this.inferenceRequired = inferenceRequired;
 		this.handler = handler;
+		this.executionMonitor = executionMonitor;
 	}
 
 	public Set<OWLObject> getDetectedObjects(OWLOntology ontology,
 			OWLOntologyManager ontologyManager) throws OPPLException {
-		this.getOPPLScript().getQuery().execute(this.getHandler());
+		this.getOPPLScript().getQuery().execute(this.getHandler(), this.getExecutionMonitor());
 		Set<BindingNode> leaves = this.getOPPLScript().getConstraintSystem().getLeaves();
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
 		for (BindingNode leaf : leaves) {
@@ -301,5 +315,12 @@ public class OPPLLintScript implements Lint<OWLObject> {
 	 */
 	public RuntimeExceptionHandler getHandler() {
 		return this.handler;
+	}
+
+	/**
+	 * @return the executionMonitor
+	 */
+	public ExecutionMonitor getExecutionMonitor() {
+		return this.executionMonitor;
 	}
 }
