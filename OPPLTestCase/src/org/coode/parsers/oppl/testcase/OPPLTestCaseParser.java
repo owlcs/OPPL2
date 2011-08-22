@@ -140,7 +140,7 @@ public class OPPLTestCaseParser {
 				// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
 				ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 				simplify.setTreeAdaptor(ADAPTOR);
-				simplify.downup(tree);
+				tree = (CommonTree) simplify.downup(tree);
 				nodes.reset();
 				OPPLDefine define = new OPPLDefine(nodes, symtab, this.getListener(),
 						constraintSystem);

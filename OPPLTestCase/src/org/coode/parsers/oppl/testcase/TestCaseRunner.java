@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.PatternSyntaxException;
 
+import org.coode.oppl.ExecutionMonitor;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
@@ -23,6 +24,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 public abstract class TestCaseRunner {
 	private final OPPLTestCase opplTestCase;
 	private final boolean ignoreConfigurationFailure;
+	private final ExecutionMonitor executionMonitor;
 	private final RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
 		public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
 			TestCaseRunner.this.fail(e);
@@ -38,17 +40,22 @@ public abstract class TestCaseRunner {
 	};
 
 	public TestCaseRunner(OPPLTestCase opplTestCase) {
-		this(opplTestCase, false);
+		this(opplTestCase, ExecutionMonitor.NON_CANCELLABLE, false);
 	}
 
 	/**
 	 * @param opplTestCase
 	 */
-	public TestCaseRunner(OPPLTestCase opplTestCase, boolean ignoreConfigurationFailure) {
+	public TestCaseRunner(OPPLTestCase opplTestCase, ExecutionMonitor executionMonitor,
+			boolean ignoreConfigurationFailure) {
 		if (opplTestCase == null) {
 			throw new NullPointerException("The OPPL Test case cannot be null");
 		}
+		if (executionMonitor == null) {
+			throw new NullPointerException("The execution monitor cannot be null");
+		}
 		this.opplTestCase = opplTestCase;
+		this.executionMonitor = executionMonitor;
 		this.ignoreConfigurationFailure = ignoreConfigurationFailure;
 	}
 
@@ -102,7 +109,7 @@ public abstract class TestCaseRunner {
 	protected Set<BindingNode> executeQuery() {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		OPPLScript opplScript = this.getOPPLTestCase().getOPPLScript();
-		opplScript.getQuery().execute(this.getHandler());
+		opplScript.getQuery().execute(this.getHandler(), this.getExecutionMonitor());
 		Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
 		if (leaves != null) {
 			toReturn = new HashSet<BindingNode>(leaves);
@@ -124,5 +131,12 @@ public abstract class TestCaseRunner {
 	 */
 	public RuntimeExceptionHandler getHandler() {
 		return this.handler;
+	}
+
+	/**
+	 * @return the executionMonitor
+	 */
+	public ExecutionMonitor getExecutionMonitor() {
+		return this.executionMonitor;
 	}
 }
