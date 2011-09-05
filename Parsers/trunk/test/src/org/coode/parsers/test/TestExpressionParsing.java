@@ -39,8 +39,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  * 
  */
 public class TestExpressionParsing extends TestCase {
-	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager
-			.createOWLOntologyManager();
+	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
 	private final static SymbolTableFactory<SymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
 	public static TreeAdaptor adaptor = new CommonTreeAdaptor() {
@@ -58,8 +57,7 @@ public class TestExpressionParsing extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop,
-				RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
@@ -67,13 +65,9 @@ public class TestExpressionParsing extends TestCase {
 	private SymbolTable symtab;
 	static {
 		try {
-			ONTOLOGY_MANAGER
-					.loadOntology(IRI
-							.create(URI
-									.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
-			ONTOLOGY_MANAGER.loadOntology(IRI
-					.create(ComprehensiveAxiomTestCase.class.getResource(
-							"syntaxTest.owl").toURI()));
+			ONTOLOGY_MANAGER.loadOntology(IRI.create(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
+			ONTOLOGY_MANAGER.loadOntology(IRI.create(ComprehensiveAxiomTestCase.class.getResource(
+					"syntaxTest.owl").toURI()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -85,8 +79,7 @@ public class TestExpressionParsing extends TestCase {
 		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		System.out.println(tokens.toDebugString());
-		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(
-				tokens, this.errorListener);
+		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens, this.errorListener);
 		parser.setTreeAdaptor(adaptor);
 		try {
 			RuleReturnScope r = parser.expression();
@@ -95,13 +88,12 @@ public class TestExpressionParsing extends TestCase {
 			nodes.setTokenStream(tokens); // where to find tokens
 			nodes.setTreeAdaptor(adaptor);
 			this.symtab.setErrorListener(this.errorListener);
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-					nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
 			simplify.setTreeAdaptor(adaptor);
-			simplify.downup(tree);
+			tree = (CommonTree) simplify.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes types = new ManchesterOWLSyntaxTypes(
-					nodes, this.symtab, this.errorListener);
+			ManchesterOWLSyntaxTypes types = new ManchesterOWLSyntaxTypes(nodes, this.symtab,
+					this.errorListener);
 			types.downup(tree);
 			return (ManchesterOWLSyntaxTree) tree;
 		} catch (RecognitionException e) {
@@ -140,15 +132,13 @@ public class TestExpressionParsing extends TestCase {
 	}
 
 	public void testRestriction() {
-		ManchesterOWLSyntaxTree parsed = this
-				.parse("Pizza and hasTopping some (Thing and hasTopping some Thing) and Thing");
+		ManchesterOWLSyntaxTree parsed = this.parse("Pizza and hasTopping some (Thing and hasTopping some Thing) and Thing");
 		assertNotNull(parsed);
 		System.out.println(parsed.toStringTree());
 	}
 
 	public void testEscapeIdentifiersAsEntityReferences() {
-		ManchesterOWLSyntaxTree parsed = this
-				.parse("Pizza and 'hasTopping' some Thing");
+		ManchesterOWLSyntaxTree parsed = this.parse("Pizza and 'hasTopping' some Thing");
 		assertNotNull(parsed);
 		System.out.println(parsed.toStringTree());
 	}
@@ -166,15 +156,13 @@ public class TestExpressionParsing extends TestCase {
 	}
 
 	public void testDataRestriction() {
-		ManchesterOWLSyntaxTree parsed = this
-				.parse("hasKCal some float[ > \"1\", > \"2\"]");
+		ManchesterOWLSyntaxTree parsed = this.parse("hasKCal some float[ > \"1\", > \"2\"]");
 		assertNotNull(parsed);
 		System.out.println(parsed.toStringTree());
 	}
 
 	public void testDataIntersectionOf() {
-		ManchesterOWLSyntaxTree parsed = this
-				.parse("float[ > \"1\"] and int [< \"1\"]");
+		ManchesterOWLSyntaxTree parsed = this.parse("float[ > \"1\"] and int [< \"1\"]");
 		assertNotNull(parsed);
 		System.out.println(parsed.toStringTree());
 	}

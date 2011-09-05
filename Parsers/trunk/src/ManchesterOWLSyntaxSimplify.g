@@ -19,14 +19,12 @@ bottomup  :
   ;
    
 conjunction :
-  ^(CONJUNCTION single= expression) -> ^($single)
+  ^(CONJUNCTION single= .) -> $single
   ;
  
 disjunction  :
-	^(DISJUNCTION single= expression) -> ^($single) 
+	^(DISJUNCTION single= .) -> $single 
 	; 
  
- expression	:
- 	.|
- 	; 
+ 
    

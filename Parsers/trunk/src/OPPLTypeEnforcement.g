@@ -330,7 +330,7 @@ returns [Type type, ManchesterOWLSyntaxTree node]
 	{
 				Symbol symbol = this.getSymbolTable().resolve($IDENTIFIER);
 				$type = this.getSymbolTable().getInversePropertyType($start, $IDENTIFIER);
-				getTypesEnforcer().enforceInverseObjectPropertyTypes($start,p.node);
+				getTypesEnforcer().enforceInverseObjectPropertyTypes($start,$IDENTIFIER);
 	}
 	;
 
