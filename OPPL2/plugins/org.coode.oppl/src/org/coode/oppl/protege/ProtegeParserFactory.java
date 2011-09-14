@@ -16,6 +16,7 @@ import org.coode.parsers.ShortFormEntityRenderer;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.OPPLScope;
 import org.coode.parsers.oppl.OPPLSymbolTable;
+import org.protege.editor.core.Disposable;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.event.OWLModelManagerChangeEvent;
 import org.protege.editor.owl.model.event.OWLModelManagerListener;
@@ -32,7 +33,7 @@ import org.semanticweb.owlapi.util.SimpleShortFormProvider;
  * @author Luigi Iannone
  * 
  */
-public class ProtegeParserFactory implements AbstractParserFactory {
+public class ProtegeParserFactory implements AbstractParserFactory, Disposable {
 	private class ProtegeEntityFinder implements EntityFinder {
 		public Set<OWLDatatype> getMatchingOWLDataTypes(String match) {
 			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getMatchingOWLDatatypes(
@@ -149,6 +150,7 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 		this.protegeEntityFinder = new ProtegeEntityFinder();
 		this.opplFactory = new ProtegeOPPLFactory(this.getOWLEditorKit());
 		this.entityRenderer = new ProtegeOWLEntityRenderer();
+		this.owlEditorKit.put("ProtegeParserFactory", this);
 	}
 
 	/**
@@ -202,6 +204,7 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 
 	public void dispose() {
 		this.owlEditorKit.getOWLModelManager().removeListener(modelManagerListener);
+		reset();
 	}
 
 	public static void reset() {
