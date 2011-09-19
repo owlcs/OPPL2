@@ -1,7 +1,7 @@
 package org.coode.oppl.function;
 
 import org.coode.oppl.ConstraintSystem;
-import org.coode.oppl.OWLObjectInstantiator;
+import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
@@ -33,7 +33,8 @@ public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> imp
 		return new ValueComputation<O>() {
 			@SuppressWarnings("unchecked")
 			public O compute(OPPLFunction<? extends O> opplFunction) {
-				OWLObjectInstantiator instantiator = new OWLObjectInstantiator(parameters);
+				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
+						parameters);
 				OWLObject instantiation = Expression.this.getExpression().accept(instantiator);
 				// I am sure the instantiator will return an object of the same
 				// kind.
