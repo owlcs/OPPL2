@@ -74,7 +74,7 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
 		assert axiom != null;
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		Logging.getQueryLogger().log(
-				Level.INFO,
+				Level.FINE,
 				"Initial size: "
 						+ (this.getConstraintSystem().getLeaves() == null ? "empty"
 								: this.getConstraintSystem().getLeaves().size()));
@@ -84,7 +84,7 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
 				this.getConstraintSystem(), runtimeExceptionHandler)
 				: new InferredSolvabilityBasedTreeSearchAxiomQuery(this.getConstraintSystem(),
 						runtimeExceptionHandler);
-		Logging.getQueryTestLogging().log(Level.INFO, "Used engine: " + query.getClass().getName());
+		Logging.getQueryTestLogging().log(Level.FINE, "Used engine: " + query.getClass().getName());
 		axiom.accept(query);
 		toReturn.addAll(query.getLeaves());
 		return toReturn;

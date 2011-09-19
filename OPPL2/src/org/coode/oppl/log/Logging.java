@@ -4,6 +4,7 @@
 package org.coode.oppl.log;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -13,10 +14,14 @@ import java.util.logging.Logger;
  * 
  */
 public class Logging {
+	public static final String LOG_FILE_PRPERTY_NAME = "org.coode.oppl.log.Logging.FileName";
 	static {
 		try {
+			String logFileName = System.getProperty(LOG_FILE_PRPERTY_NAME);
+			InputStream in = logFileName == null ? null
+					: Logging.class.getClassLoader().getResourceAsStream(logFileName);
 			LogManager.getLogManager().readConfiguration(
-					Logging.class.getResourceAsStream("oppl-logging.properties"));
+					in == null ? Logging.class.getResourceAsStream("oppl-logging.properties") : in);
 		} catch (SecurityException e) {
 			getMainLogger().log(Level.WARNING, "No local log coonfiguration file found");
 		} catch (IOException e) {

@@ -366,7 +366,7 @@ public abstract class AbstractOPPLAxiomSearchTree extends SearchTree<OPPLOWLAxio
 		boolean found = false;
 		if (existingLeaves != null) {
 			Logging.getQueryTestLogging().log(
-					Level.INFO,
+					Level.FINE,
 					"Existing leaves count: " + existingLeaves.size());
 			int leafIndex = 1;
 			for (BindingNode bindingNode : existingLeaves) {
