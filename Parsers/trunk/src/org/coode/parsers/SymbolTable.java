@@ -1415,7 +1415,7 @@ public class SymbolTable {
 		}
 		if (allFine) {
 			if (rest.accept(this.owlClassTypeDetector)) {
-				toReturn = this.getDataFactory().getOWLObjectIntersectionOf(
+				toReturn = this.getDataFactory().getOWLObjectUnionOf(
 						disjunctList.toArray(new OWLClassExpression[disjunctList.size()]));
 			} else {
 				toReturn = this.getDataFactory().getOWLDataUnionOf(
