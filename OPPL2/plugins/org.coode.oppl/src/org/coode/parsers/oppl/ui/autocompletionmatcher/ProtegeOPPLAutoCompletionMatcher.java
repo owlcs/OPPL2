@@ -132,7 +132,12 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
 				"VALUES",
 				"RENDERING",
 				"GROUPS",
-				"FAIL");
+				"FAIL",
+				"SET(",
+				"DisjointClasses:",
+				"DisjointProperties:",
+				"DifferentIndividuals:",
+				"SameIndividual:");
 	}
 
 	public static void main(String[] args) {
