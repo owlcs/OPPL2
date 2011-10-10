@@ -1,0 +1,111 @@
+package org.coode.oppl.search.solvability.test;
+
+import junit.framework.TestCase;
+
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.OPPLFactory;
+import org.coode.oppl.Variable;
+import org.coode.oppl.exceptions.OPPLException;
+import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.oppl.querymatching.AssertedSolvabilityBasedAxiomQuery;
+import org.coode.oppl.querymatching.AssertedTreeSearchSingleAxiomQuery;
+import org.coode.oppl.variabletypes.VariableTypeFactory;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+
+public class TestAssertedSolvabilityBasedAxiomQuery extends TestCase {
+	private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+	}
+
+	public void testSubClassAxiom() {
+		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+		OWLOntology ontology;
+		try {
+			ontology = manager.createOntology();
+			OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
+			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
+			Variable<OWLClassExpression> x = constraintSystem.createVariable(
+					"?x",
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
+			OWLDataFactory dataFactory = manager.getOWLDataFactory();
+			manager.addAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(
+					dataFactory.getOWLClass(IRI.create("A")),
+					dataFactory.getOWLClass(IRI.create("A"))));
+			OWLSubClassOfAxiom axiom = dataFactory.getOWLSubClassOfAxiom(
+					dataFactory.getOWLClass(x.getIRI()),
+					dataFactory.getOWLClass(IRI.create("A")));
+			AssertedSolvabilityBasedAxiomQuery assertedSolvabilityBasedAxiomQuery = new AssertedSolvabilityBasedAxiomQuery(
+					manager.getOntologies(), constraintSystem, HANDLER);
+			axiom.accept(assertedSolvabilityBasedAxiomQuery);
+			constraintSystem.setLeaves(assertedSolvabilityBasedAxiomQuery.getLeaves());
+			ConstraintSystem newConstraintSystem = opplFactory.createConstraintSystem();
+			newConstraintSystem.importVariable(x);
+			AssertedTreeSearchSingleAxiomQuery assertedTreeSearchSingleAxiomQuery = new AssertedTreeSearchSingleAxiomQuery(
+					manager.getOntologies(), newConstraintSystem, HANDLER);
+			axiom.accept(assertedTreeSearchSingleAxiomQuery);
+			newConstraintSystem.setLeaves(assertedTreeSearchSingleAxiomQuery.getLeaves());
+			assertTrue(constraintSystem.getLeaves().equals(newConstraintSystem.getLeaves()));
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (OPPLException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	public void testUnsolvableSubClassAxiom() {
+		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+		OWLOntology ontology;
+		try {
+			ontology = manager.createOntology();
+			OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
+			ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
+			Variable<OWLClassExpression> x = constraintSystem.createVariable(
+					"?x",
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
+			Variable<OWLClassExpression> y = constraintSystem.createVariable(
+					"?y",
+					VariableTypeFactory.getCLASSVariableType(),
+					null);
+			OWLDataFactory dataFactory = manager.getOWLDataFactory();
+			manager.addAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(
+					dataFactory.getOWLClass(IRI.create("A")),
+					dataFactory.getOWLClass(IRI.create("A"))));
+			OWLSubClassOfAxiom axiom = dataFactory.getOWLSubClassOfAxiom(
+					dataFactory.getOWLClass(x.getIRI()),
+					dataFactory.getOWLClass(y.getIRI()));
+			ConstraintSystem newConstraintSystem = opplFactory.createConstraintSystem();
+			newConstraintSystem.importVariable(x);
+			newConstraintSystem.importVariable(y);
+			AssertedSolvabilityBasedAxiomQuery assertedSolvabilityBasedAxiomQuery = new AssertedSolvabilityBasedAxiomQuery(
+					manager.getOntologies(), constraintSystem, HANDLER);
+			axiom.accept(assertedSolvabilityBasedAxiomQuery);
+			constraintSystem.setLeaves(assertedSolvabilityBasedAxiomQuery.getLeaves());
+			AssertedTreeSearchSingleAxiomQuery assertedTreeSearchSingleAxiomQuery = new AssertedTreeSearchSingleAxiomQuery(
+					manager.getOntologies(), newConstraintSystem, HANDLER);
+			axiom.accept(assertedTreeSearchSingleAxiomQuery);
+			newConstraintSystem.setLeaves(assertedTreeSearchSingleAxiomQuery.getLeaves());
+			assertTrue(constraintSystem.getLeaves().equals(newConstraintSystem.getLeaves()));
+		} catch (OWLOntologyCreationException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (OPPLException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+}
