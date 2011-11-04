@@ -177,7 +177,13 @@ axiom returns  [Type type, ManchesterOWLSyntaxTree node, OWLAxiom owlAxiom]
    {
      $type = this.getSymbolTable().getSymmetricPropertyType($start, p);
      $owlAxiom =  this.getSymbolTable().getSymmetricProperty($start, p);
-   } 
+   }
+      | ^(UNARY_AXIOM ANTI_SYMMETRIC ^(EXPRESSION p = IDENTIFIER))
+   {
+     $type = this.getSymbolTable().getSymmetricPropertyType($start, p);
+     $owlAxiom =  this.getSymbolTable().getAsymmetricProperty($start, p);
+   }
+    
     | ^(UNARY_AXIOM TRANSITIVE ^(EXPRESSION p = IDENTIFIER))
    {
      $type = this.getSymbolTable().getTransitivePropertyType($start, p);
