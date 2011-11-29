@@ -40,20 +40,24 @@ public class LoggerErrorListener implements ErrorListener {
 			throw new NullPointerException("The level cannot be null");
 		}
 		this.logger = logger;
+		this.level = level;
 	}
 
 	public void unrecognisedSymbol(CommonTree t) {
 		this.getLogger().log(
 				this.getLevel(),
-				"Unerecognised token " + t.getText() + " at line " + t.getLine() + " position "
+				"Unerecognised token " + t.getText() + " at line "
+						+ t.getLine() + " position "
 						+ t.getCharPositionInLine());
 	}
 
-	public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
+	public void incompatibleSymbolType(CommonTree t, Type type,
+			CommonTree expression) {
 		this.getLogger().log(
 				this.getLevel(),
-				"Incompatible type " + type + " for token " + t.getText() + " in expression "
-						+ expression + " at line " + t.getLine() + " position "
+				"Incompatible type " + type + " for token " + t.getText()
+						+ " in expression " + expression + " at line "
+						+ t.getLine() + " position "
 						+ t.getCharPositionInLine());
 	}
 
@@ -69,13 +73,14 @@ public class LoggerErrorListener implements ErrorListener {
 						+ e.getUnexpectedType());
 	}
 
-	public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
-		this.getLogger().log(
-				this.getLevel(),
+	public void reportThrowable(Throwable t, int line, int charPosInLine,
+			int length) {
+		this.getLogger().log(this.getLevel(),
 				t.getMessage() + " at line " + line + " position " + length);
 	}
 
-	public void recognitionException(RecognitionException e, String... tokenNames) {
+	public void recognitionException(RecognitionException e,
+			String... tokenNames) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[");
 		boolean first = true;
@@ -88,18 +93,21 @@ public class LoggerErrorListener implements ErrorListener {
 		builder.append("]");
 		this.getLogger().log(
 				this.getLevel(),
-				"Recognition exception " + e.getMessage() + " " + e.getUnexpectedType()
-						+ " for token names " + builder.toString());
+				"Recognition exception " + e.getMessage() + " "
+						+ e.getUnexpectedType() + " for token names "
+						+ builder.toString());
 	}
 
 	public void illegalToken(CommonTree t, String message) {
 		this.getLogger().log(
 				this.getLevel(),
-				"Illegal token " + t.getText() + " at line " + t.getLine() + " position "
-						+ t.getCharPositionInLine() + ": " + message);
+				"Illegal token " + t.getText() + " at line " + t.getLine()
+						+ " position " + t.getCharPositionInLine() + ": "
+						+ message);
 	}
 
-	public void incompatibleSymbols(CommonTree parentExpression, CommonTree... expressions) {
+	public void incompatibleSymbols(CommonTree parentExpression,
+			CommonTree... expressions) {
 		StringBuilder message = new StringBuilder("Incompatible children in "
 				+ parentExpression.getText());
 		boolean first = true;
