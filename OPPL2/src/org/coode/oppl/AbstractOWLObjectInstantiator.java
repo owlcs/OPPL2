@@ -1,5 +1,6 @@
 package org.coode.oppl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -720,8 +721,7 @@ abstract class AbstractOWLObjectInstantiator implements
 	public OWLObject visit(OWLSubPropertyChainOfAxiom axiom) {
 		List<OWLObjectPropertyExpression> propertyChain = axiom
 				.getPropertyChain();
-		List<OWLObjectPropertyExpression> instantiatedPropertyChain = axiom
-				.getPropertyChain();
+		List<OWLObjectPropertyExpression> instantiatedPropertyChain = new ArrayList<OWLObjectPropertyExpression>();
 		OWLObjectPropertyExpression superProperty = axiom.getSuperProperty();
 		for (OWLObjectPropertyExpression objectPropertyExpression : propertyChain) {
 			instantiatedPropertyChain
