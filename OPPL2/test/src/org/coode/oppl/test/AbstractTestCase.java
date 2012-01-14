@@ -36,12 +36,15 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
+import uk.ac.manchester.cs.jfact.JFactFactory;
+
 public abstract class AbstractTestCase extends TestCase {
 	private final Map<String, OWLOntology> loadedOntologies = new HashMap<String, OWLOntology>();
 	private static final int TOLERANCE = 3;
 	private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
 	// ontology manager
-	protected OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+	protected OWLOntologyManager ontologyManager = OWLManager
+			.createOWLOntologyManager();
 	protected TestQueries testQueries = new TestQueries();
 	private final ErrorListener errorListener = new SystemErrorEcho();
 
@@ -56,13 +59,15 @@ public abstract class AbstractTestCase extends TestCase {
 				URL resource = this.getClass().getResource(name);
 				if (resource != null) {
 					IRI iri = IRI.create(resource.toURI());
-					o = this.ontologyManager.contains(iri) ? this.ontologyManager.getOntology(iri)
-							: this.ontologyManager.loadOntology(iri);
+					o = this.ontologyManager.contains(iri) ? this.ontologyManager
+							.getOntology(iri) : this.ontologyManager
+							.loadOntology(iri);
 				} else {
 					fail("Could not load the ontology " + name);
 				}
 			} catch (OWLOntologyDocumentAlreadyExistsException e) {
-				o = this.ontologyManager.getOntology(e.getOntologyDocumentIRI());
+				o = this.ontologyManager
+						.getOntology(e.getOntologyDocumentIRI());
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 				fail(e.getMessage());
@@ -99,23 +104,24 @@ public abstract class AbstractTestCase extends TestCase {
 			StringWriter resultWriter = new StringWriter();
 			if (script.getConstraintSystem().getLeaves() != null
 					&& !script.getConstraintSystem().getLeaves().isEmpty()) {
-				for (BindingNode bindingNode : script.getConstraintSystem().getLeaves()) {
+				for (BindingNode bindingNode : script.getConstraintSystem()
+						.getLeaves()) {
 					ValueComputationParameters parameters = new SimpleValueComputationParameters(
 							script.getConstraintSystem(), bindingNode, HANDLER);
 					PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
 							parameters);
 					for (OWLAxiom owlAxiom : queryAxioms) {
-						OWLAxiom match = (OWLAxiom) owlAxiom.accept(partialOWLObjectInstantiator);
+						OWLAxiom match = (OWLAxiom) owlAxiom
+								.accept(partialOWLObjectInstantiator);
 						matches.add(match);
 						resultWriter.append(match.toString());
 						resultWriter.append("\n");
 					}
 				}
 			}
-			assertTrue(
-					"Query " + script.toString() + "\n" + " Actual " + matches.size()
-							+ " Expected " + expected + "\n" + resultWriter.toString(),
-					matches.size() == expected);
+			assertTrue("Query " + script.toString() + "\n" + " Actual "
+					+ matches.size() + " Expected " + expected + "\n"
+					+ resultWriter.toString(), matches.size() == expected);
 		} catch (Exception e) {
 			this.log(e);
 		}
@@ -143,8 +149,9 @@ public abstract class AbstractTestCase extends TestCase {
 		return toReturn;
 	}
 
-	protected OWLReasoner initReasoner(OWLOntology ontology) throws OWLRuntimeException {
-		OWLReasonerFactory reasonerFactory = new com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory();
+	protected OWLReasoner initReasoner(OWLOntology ontology)
+			throws OWLRuntimeException {
+		OWLReasonerFactory reasonerFactory = new JFactFactory();
 		OWLReasoner reasoner = reasonerFactory.createReasoner(ontology);
 		return reasoner;
 	}
@@ -177,10 +184,12 @@ public abstract class AbstractTestCase extends TestCase {
 		return null;
 	}
 
-	protected OPPLScript parse(String script, String ontology, OWLReasoner reasoner) {
+	protected OPPLScript parse(String script, String ontology,
+			OWLReasoner reasoner) {
 		try {
-			OPPLParser parser = new ParserFactory(this.ontologyManager, this.getOntology(ontology),
-					reasoner).build(this.errorListener);
+			OPPLParser parser = new ParserFactory(this.ontologyManager,
+					this.getOntology(ontology), reasoner)
+					.build(this.errorListener);
 			return parser.parse(script);
 		} catch (Exception e) {
 			if (this.longStackTrace) {
@@ -224,25 +233,34 @@ public abstract class AbstractTestCase extends TestCase {
 					int value = Integer.parseInt(columnIndex.trim());
 					if (Math.abs(value - expectedIndex) < TOLERANCE) {
 						// then the position is close enough
-						System.out.println("ExhaustingTestCase.testParseDoubleVariableDeclaration() Correct stack trace");
+						System.out
+								.println("ExhaustingTestCase.testParseDoubleVariableDeclaration() Correct stack trace");
 					} else {
-						System.out.println("ExhaustingTestCase The error type is correct but the column does not match the expected one. Expected error column: "
-								+ expectedIndex);
+						System.out
+								.println("ExhaustingTestCase The error type is correct but the column does not match the expected one. Expected error column: "
+										+ expectedIndex);
 						System.out.println(stackTrace);
 					}
 				} catch (NumberFormatException e) {
-					System.out.println("ExhaustingTestCase.checkProperStackTrace() Could not parse a column number to verify the correctness of the stack trace:\nExpected error type: "
-							+ expected + "\nExpected error column: " + expectedIndex);
+					System.out
+							.println("ExhaustingTestCase.checkProperStackTrace() Could not parse a column number to verify the correctness of the stack trace:\nExpected error type: "
+									+ expected
+									+ "\nExpected error column: "
+									+ expectedIndex);
 					System.out.println(stackTrace);
 				}
 			} else {
 				// there is no full stop after the expected string. No column
 				// number info should be available
-				System.out.println("ExhaustingTestCase.testParseDoubleVariableDeclaration() No column info checked; stack trace correct unless a column number was expected.");
+				System.out
+						.println("ExhaustingTestCase.testParseDoubleVariableDeclaration() No column info checked; stack trace correct unless a column number was expected.");
 			}
 		} else {
-			System.out.println("ExhaustingTestCase The stack trace does not correspond to the expected one! \nExpected error type: "
-					+ expected + "\nExpected error column: " + expectedIndex);
+			System.out
+					.println("ExhaustingTestCase The stack trace does not correspond to the expected one! \nExpected error type: "
+							+ expected
+							+ "\nExpected error column: "
+							+ expectedIndex);
 			System.out.println(stackTrace);
 		}
 	}
@@ -250,7 +268,8 @@ public abstract class AbstractTestCase extends TestCase {
 	protected void reportUnexpectedStacktrace(String stackTrace) {
 		// assertEquals(0, stackTrace.length());
 		if (stackTrace.length() != 0) {
-			System.out.println("ExhaustingTestCase There should not have been a stacktrace!");
+			System.out
+					.println("ExhaustingTestCase There should not have been a stacktrace!");
 			System.out.println(stackTrace);
 		}
 	}

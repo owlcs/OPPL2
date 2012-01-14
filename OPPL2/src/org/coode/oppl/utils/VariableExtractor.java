@@ -83,6 +83,7 @@ import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
@@ -188,6 +189,15 @@ public class VariableExtractor {
 				if (value instanceof Variable) {
 					Visitor.this.vetoVariableIntoCollection(toReturn,
 							(Variable<?>) value);
+				}
+				// Some times the parser returns variables as entities
+				if (value instanceof OWLEntity) {
+					OWLEntity owlEntity = (OWLEntity) value;
+					Variable<?> variable = VariableExtractor.this.constraintSystem
+							.getVariable(owlEntity.getIRI());
+					if (variable != null) {
+						toReturn.add(variable);
+					}
 				}
 				return toReturn;
 			}
