@@ -90,7 +90,8 @@ import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.model.SWRLSameIndividualAtom;
 import org.semanticweb.owlapi.model.SWRLVariable;
 
-public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object>> {
+public final class OWLObjectDecomposer implements
+		OWLObjectVisitorEx<List<Object>> {
 	public List<Object> visit(OWLSubClassOfAxiom axiom) {
 		List<Object> toReturn = new ArrayList<Object>();
 		toReturn.add(axiom.getSubClass());
@@ -525,7 +526,7 @@ public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object
 
 	public List<Object> visit(OWLObjectInverseOf property) {
 		List<Object> toReturn = new ArrayList<Object>();
-		toReturn.add(property.getInverseProperty());
+		toReturn.add(property.getInverse());
 		return toReturn;
 	}
 
