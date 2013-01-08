@@ -131,17 +131,17 @@ public class BidirectionalShortFormProviderAdapter extends
 		Set<OWLEntity> processed = new HashSet<OWLEntity>();
 		for (OWLOntologyChange chg : changes) {
 			if (this.ontologies.contains(chg.getOntology())) {
-				if (chg instanceof AddAxiom) {
+				if (chg.isAdd()) {
 					AddAxiom addAx = (AddAxiom) chg;
-					for (OWLEntity ent : addAx.getEntities()) {
+					for (OWLEntity ent : addAx.getSignature()) {
 						if (!processed.contains(ent)) {
 							processed.add(ent);
 							this.add(ent);
 						}
 					}
-				} else if (chg instanceof RemoveAxiom) {
+				} else if (chg.isAxiomChange() && !chg.isAdd()) {
 					RemoveAxiom remAx = (RemoveAxiom) chg;
-					for (OWLEntity ent : remAx.getEntities()) {
+					for (OWLEntity ent : remAx.getSignature()) {
 						if (!processed.contains(ent)) {
 							processed.add(ent);
 							boolean stillRef = false;
