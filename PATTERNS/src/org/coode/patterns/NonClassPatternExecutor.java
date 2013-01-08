@@ -32,7 +32,6 @@ import org.coode.oppl.ActionType;
 import org.coode.oppl.ChangeExtractor;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
-import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
@@ -65,17 +64,17 @@ public class NonClassPatternExecutor extends ChangeExtractor {
 		List<OWLAxiomChange> changes = script.getActions();
 		Set<OWLAxiomChange> p = new HashSet<OWLAxiomChange>(changes.size());
 		for (OWLAxiomChange axiomChange : changes) {
-			ActionType actionType = axiomChange instanceof AddAxiom ? ActionType.ADD
+            ActionType actionType = axiomChange.isAddAxiom() ? ActionType.ADD
 					: ActionType.REMOVE;
 			OWLAxiom axiom = axiomChange.getAxiom();
 			Collection<? extends OWLAxiomChange> createdChanges = PatternActionFactory.createChange(
 					actionType,
 					axiom,
-					this.instantiatedPatternModel,
-					this.ontologyManager.getOWLDataFactory(),
-					this.annotationIRI,
-					this.ontology,
-					this.getRuntimeExceptionHandler());
+					instantiatedPatternModel,
+					ontologyManager.getOWLDataFactory(),
+					annotationIRI,
+					ontology,
+					getRuntimeExceptionHandler());
 			p.addAll(createdChanges);
 		}
 		return new ArrayList<OWLAxiomChange>(p);

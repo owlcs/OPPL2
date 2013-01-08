@@ -14,7 +14,7 @@ public final class VisitedPatternReferenceResolver implements PatternReferenceRe
 
 	public VisitedPatternReferenceResolver(Collection<? extends String> visitedPatterns) {
 		assert visitedPatterns != null;
-		this.visited.addAll(visitedPatterns);
+		visited.addAll(visitedPatterns);
 	}
 
 	public void resolvePattern(OPPLSyntaxTree reference, String patternName,
@@ -24,7 +24,7 @@ public final class VisitedPatternReferenceResolver implements PatternReferenceRe
 				reference,
 				patternName,
 				constraintSystem,
-				this.getVisited(),
+ visited,
 				args);
 	}
 
@@ -32,6 +32,6 @@ public final class VisitedPatternReferenceResolver implements PatternReferenceRe
 	 * @return the visited
 	 */
 	public Set<String> getVisited() {
-		return new HashSet<String>(this.visited);
+		return new HashSet<String>(visited);
 	}
 }

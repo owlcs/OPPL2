@@ -34,7 +34,6 @@ import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.common.SystemErrorEcho;
-import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
@@ -72,12 +71,12 @@ public class PatternManager implements OWLOntologyChangeListener {
 				AbstractPatternModelFactory f) {
 			this.ontologyManager = ontologyManager;
 			this.ontology = ontology;
-			this.factory = f;
+			factory = f;
 		}
 
 		@Override
 		public void visit(OWLAnnotationAssertionAxiom axiom) {
-			PatternExtractor patternExtractor = this.factory.getPatternExtractor(getDefaultErrorListener());
+			PatternExtractor patternExtractor = factory.getPatternExtractor(getDefaultErrorListener());
 			final OWLAnnotation annotation = axiom.getAnnotation();
 			final OPPLScript patternModel = annotation.accept(patternExtractor);
 			OWLAnnotationSubject subject = axiom.getSubject();
@@ -89,12 +88,12 @@ public class PatternManager implements OWLOntologyChangeListener {
 					public void visit(OWLClass desc) {
 						ClassPatternExecutor patternExecutor = new ClassPatternExecutor(desc,
 								(InstantiatedPatternModel) patternModel,
-								AdditionManager.this.ontology,
-								AdditionManager.this.ontologyManager,
+								ontology,
+								ontologyManager,
 								annotation.getProperty().getIRI(), HANDLER);
 						List<OWLAxiomChange> changes = patternExecutor.visit(opplStatement);
 						try {
-							AdditionManager.this.ontologyManager.applyChanges(changes);
+							ontologyManager.applyChanges(changes);
 						} catch (OWLOntologyChangeException e) {
 							throw new RuntimeException(e);
 						}
@@ -113,19 +112,19 @@ public class PatternManager implements OWLOntologyChangeListener {
 		 */
 		public DeletionManager(OWLOntologyManager ontologyManager, AbstractPatternModelFactory f) {
 			this.ontologyManager = ontologyManager;
-			this.factory = f;
+			factory = f;
 		}
 
 		@Override
 		public void visit(OWLAnnotationAssertionAxiom axiom) {
-			PatternExtractor patternExtractor = this.factory.getPatternExtractor(getDefaultErrorListener());
+			PatternExtractor patternExtractor = factory.getPatternExtractor(getDefaultErrorListener());
 			OWLAnnotation annotation = axiom.getAnnotation();
 			PatternOPPLScript patternModel = annotation.accept(patternExtractor);
 			OWLAnnotationSubject subject = axiom.getSubject();
 			List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
 			if (patternModel != null && subject instanceof OWLClass
 					&& patternModel instanceof InstantiatedPatternModel) {
-				Set<OWLOntology> ontologies = this.ontologyManager.getOntologies();
+				Set<OWLOntology> ontologies = ontologyManager.getOntologies();
 				for (OWLOntology ontology : ontologies) {
 					Set<OWLAxiom> axioms = ontology.getAxioms();
 					for (OWLAxiom anOntologyAxiom : axioms) {
@@ -149,7 +148,7 @@ public class PatternManager implements OWLOntologyChangeListener {
 					}
 				}
 				try {
-					this.ontologyManager.applyChanges(changes);
+					ontologyManager.applyChanges(changes);
 				} catch (OWLOntologyChangeException e) {
 					throw new RuntimeException("Could not store the pattern inside the ontology", e);
 				}
@@ -163,11 +162,11 @@ public class PatternManager implements OWLOntologyChangeListener {
 
 	PatternManager(OWLOntologyManager ontologyManager, AbstractPatternModelFactory f) {
 		this.ontologyManager = ontologyManager;
-		this.factory = f;
+		factory = f;
 	}
 
 	public AbstractPatternModelFactory getFactory() {
-		return this.factory;
+		return factory;
 	}
 
 	/**
@@ -181,11 +180,11 @@ public class PatternManager implements OWLOntologyChangeListener {
 				OWLAxiomChange axiomChange = (OWLAxiomChange) ontologyChange;
 				OWLAxiom axiom = axiomChange.getAxiom();
 				OWLAxiomVisitor visitor;
-				if (axiomChange instanceof AddAxiom) {
-					visitor = new AdditionManager(ontology, this.ontologyManager, this.factory);
+                if (axiomChange.isAddAxiom()) {
+					visitor = new AdditionManager(ontology, ontologyManager, factory);
 					axiom.accept(visitor);
-				} else if (axiomChange instanceof RemoveAxiom) {
-					visitor = new DeletionManager(this.ontologyManager, this.factory);
+                } else {
+					visitor = new DeletionManager(ontologyManager, factory);
 					axiom.accept(visitor);
 				}
 			}
