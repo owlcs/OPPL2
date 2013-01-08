@@ -36,7 +36,6 @@ import org.coode.oppl.protege.ui.rendering.VariableOWLCellRenderer;
 import org.protege.editor.core.ui.list.MList;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
-import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /**
@@ -53,18 +52,18 @@ public class ActionList extends MList {
 
 	public ActionList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem, boolean canAdd) {
 		this.owlEditorKit = owlEditorKit;
-		this.setModel(new ActionListModel(canAdd));
+		setModel(new ActionListModel(canAdd));
 		this.canAdd = canAdd;
 		VariableOWLCellRenderer variableAxiomRenderer = new VariableOWLCellRenderer(owlEditorKit,
 				constraintSystem, new OWLCellRenderer(owlEditorKit));
-		this.setCellRenderer(variableAxiomRenderer);
+		setCellRenderer(variableAxiomRenderer);
 	}
 
 	@Override
 	protected void handleDelete() {
 		super.handleDelete();
-		Object selectedValue = this.getSelectedValue();
-		((ActionListModel) this.getModel()).removeElement(selectedValue);
+		Object selectedValue = getSelectedValue();
+		((ActionListModel) getModel()).removeElement(selectedValue);
 	}
 
 	@Override
@@ -96,24 +95,24 @@ public class ActionList extends MList {
 		}
 
 		protected String getString() {
-			return this.axiomChange instanceof AddAxiom ? ActionBorder.ADD : ActionBorder.REMOVE;
+            return axiomChange.isAddAxiom() ? ActionBorder.ADD : ActionBorder.REMOVE;
 		}
 
 		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 			Color oldColor = g.getColor();
 			g.setColor(Color.DARK_GRAY);
-			g.drawString(this.getString(), x + 4, y + 2 + g.getFontMetrics().getAscent()
+			g.drawString(getString(), x + 4, y + 2 + g.getFontMetrics().getAscent()
 					+ g.getFontMetrics().getLeading());
 			g.setColor(oldColor);
 		}
 	}
 
 	public void setConstraintSystem(ConstraintSystem constraintSystem) {
-		this.setCellRenderer(new VariableOWLCellRenderer(this.owlEditorKit, constraintSystem,
-				new OWLCellRenderer(this.owlEditorKit)));
+		setCellRenderer(new VariableOWLCellRenderer(owlEditorKit, constraintSystem,
+				new OWLCellRenderer(owlEditorKit)));
 	}
 
 	public void clear() {
-		this.setModel(new ActionListModel(this.canAdd));
+		setModel(new ActionListModel(canAdd));
 	}
 }

@@ -23,7 +23,6 @@
 package org.coode.oppl.querymatching;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -65,19 +64,19 @@ public class InferredSolvabilityBasedTreeSearchAxiomQuery extends AbstractAxiomQ
 
 	@Override
 	protected Set<BindingNode> match(OWLAxiom axiom) {
-		this.clearInstantions();
+		clearInstantions();
 		List<List<? extends OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<? extends OPPLOWLAxiomSearchNode>>();
-		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
+		VariableExtractor variableExtractor = new VariableExtractor(getConstraintSystem(),
 				false);
 		Set<Variable<?>> extractedVariables = variableExtractor.extractVariables(axiom);
 		SortedSet<Variable<?>> sortedVariables = new TreeSet<Variable<?>>(
 				new PositionBasedVariableComparator(axiom,
-						this.getConstraintSystem().getOntologyManager().getOWLDataFactory()));
+						getConstraintSystem().getOntologyManager().getOWLDataFactory()));
 		sortedVariables.addAll(extractedVariables);
 		OPPLOWLAxiomSearchNode start = new OPPLOWLAxiomSearchNode(axiom, new BindingNode(
 				new HashSet<Assignment>(), sortedVariables));
-		solutions.addAll(this.doMatch(start));
-		return new HashSet<BindingNode>(this.extractLeaves(solutions));
+		solutions.addAll(doMatch(start));
+        return extractLeaves(solutions);
 	}
 
 	private List<List<? extends OPPLOWLAxiomSearchNode>> doMatch(OPPLOWLAxiomSearchNode start) {
@@ -87,9 +86,9 @@ public class InferredSolvabilityBasedTreeSearchAxiomQuery extends AbstractAxiomQ
 		// a specific kind.
 		if (axiom.getAxiomType() == AxiomType.SUBCLASS_OF
 				|| axiom.getAxiomType() == AxiomType.OBJECT_PROPERTY_ASSERTION) {
-			solutions.addAll(this.solvabilityBasedMatching(start.getAxiom(), start.getBinding()));
+			solutions.addAll(solvabilityBasedMatching(start.getAxiom(), start.getBinding()));
 		} else {
-			solutions.addAll(this.nonSolvabilityBasedMatch(start));
+			solutions.addAll(nonSolvabilityBasedMatch(start));
 		}
 		return solutions;
 	}
@@ -97,7 +96,7 @@ public class InferredSolvabilityBasedTreeSearchAxiomQuery extends AbstractAxiomQ
 	private List<List<OPPLOWLAxiomSearchNode>> nonSolvabilityBasedMatch(OPPLOWLAxiomSearchNode start) {
 		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
 		OPPLInferredOWLAxiomSearchTree searchTree = new OPPLInferredOWLAxiomSearchTree(
-				this.getConstraintSystem(), this.getRuntimeExceptionHandler());
+				getConstraintSystem(), getRuntimeExceptionHandler());
 		searchTree.exhaustiveSearchTree(start, solutions);
 		return solutions;
 	}
@@ -105,14 +104,14 @@ public class InferredSolvabilityBasedTreeSearchAxiomQuery extends AbstractAxiomQ
 	private List<List<SolvabilitySearchNode>> solvabilityBasedMatching(OWLAxiom axiom,
 			BindingNode bindingNode) {
 		InferredSolvabilitySearchTree searchTree = new InferredSolvabilitySearchTree(
-				this.getConstraintSystem(), this.getRuntimeExceptionHandler());
+				getConstraintSystem(), getRuntimeExceptionHandler());
 		List<List<SolvabilitySearchNode>> solutions = new ArrayList<List<SolvabilitySearchNode>>();
 		SolvabilitySearchNode start = searchTree.buildSolvabilitySearchNode(axiom, bindingNode);
 		searchTree.exhaustiveSearchTree(start, solutions);
 		return solutions;
 	}
 
-	private Collection<? extends BindingNode> extractLeaves(
+    private Set<BindingNode> extractLeaves(
 			List<List<? extends OPPLOWLAxiomSearchNode>> solutions) {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		for (List<? extends OPPLOWLAxiomSearchNode> path : solutions) {
@@ -124,17 +123,17 @@ public class InferredSolvabilityBasedTreeSearchAxiomQuery extends AbstractAxiomQ
 	}
 
 	private void clearInstantions() {
-		this.instantiations.clear();
+		instantiations.clear();
 	}
 
 	public Map<BindingNode, Set<OWLAxiom>> getInstantiations() {
-		return new HashMap<BindingNode, Set<OWLAxiom>>(this.instantiations);
+		return new HashMap<BindingNode, Set<OWLAxiom>>(instantiations);
 	}
 
 	/**
 	 * @return the constraintSystem
 	 */
 	public ConstraintSystem getConstraintSystem() {
-		return this.constraintSystem;
+		return constraintSystem;
 	}
 }

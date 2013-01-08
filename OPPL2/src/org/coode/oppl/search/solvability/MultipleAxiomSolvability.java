@@ -42,7 +42,7 @@ public class MultipleAxiomSolvability implements AxiomSolvability {
 	public SolvabilitySearchNode getSolvabilitySearchNode(OWLAxiom owlAxiom,
 			BindingNode bindingNode) {
 		boolean solved = false;
-		Iterator<AxiomSolvability> iterator = this.getDelegates().iterator();
+        Iterator<AxiomSolvability> iterator = delegates.iterator();
 		SolvabilitySearchNode toReturn = null;
 		while (!solved && iterator.hasNext()) {
 			AxiomSolvability axiomSolvability = iterator.next();
@@ -78,6 +78,6 @@ public class MultipleAxiomSolvability implements AxiomSolvability {
 	 * @return the delegates
 	 */
 	public Set<AxiomSolvability> getDelegates() {
-		return new HashSet<AxiomSolvability>(this.delegates);
+		return new HashSet<AxiomSolvability>(delegates);
 	}
 }

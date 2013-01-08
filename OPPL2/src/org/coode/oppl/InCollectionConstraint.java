@@ -117,7 +117,7 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
 		if (obj instanceof InCollectionConstraint<?>) {
 			InCollectionConstraint<?> toCompare = (InCollectionConstraint<?>) obj;
 			toReturn = this.getVariable().equals(toCompare.variable)
-					&& this.getCollection().equals(toCompare.collection);
+                    && this.collection.equals(toCompare.collection);
 		}
 		return toReturn;
 	}

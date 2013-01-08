@@ -23,7 +23,8 @@
 package org.coode.oppl.bindingtree;
 
 import java.io.StringWriter;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -46,8 +47,7 @@ import org.semanticweb.owlapi.model.OWLObject;
  * 
  */
 public class BindingNode {
-	private static final BindingNode EMPTY_BINDING_NODE = new BindingNode(
-			Collections.<Assignment> emptySet(), Collections.<Variable<?>> emptySet());
+    private static final BindingNode EMPTY_BINDING_NODE = new BindingNode();
 
 	private static class VariableInspector implements VariableVisitor {
 		private Set<Variable<?>> toUpdate;
@@ -57,7 +57,7 @@ public class BindingNode {
 		}
 
 		public <P extends OWLObject> void visit(InputVariable<P> v) {
-			this.toUpdate.add(v);
+			toUpdate.add(v);
 		}
 
 		public <P extends OWLObject> void visit(GeneratedVariable<P> v) {
@@ -70,13 +70,14 @@ public class BindingNode {
 	private final Set<Assignment> assignments = new HashSet<Assignment>();
 	private final Set<Variable<?>> unassignedVariables = new LinkedHashSet<Variable<?>>();
 	private final VariableInspector unassignedVariablesUpdater = new VariableInspector(
-			this.unassignedVariables);
+			unassignedVariables);
 
 	/**
 	 * @param assignments
 	 * @param unassignedVariables
 	 */
-	public BindingNode(Set<Assignment> assignments, Set<Variable<?>> unassignedVariables) {
+    public BindingNode(Collection<Assignment> assignments,
+            Collection<Variable<?>> unassignedVariables) {
 		this.assignments.addAll(assignments);
 		this.unassignedVariables.addAll(unassignedVariables);
 	}
@@ -85,9 +86,11 @@ public class BindingNode {
 		if (bindingNode == null) {
 			throw new NullPointerException("The binding node cannot be null");
 		}
-		this.assignments.addAll(bindingNode.getAssignments());
-		this.unassignedVariables.addAll(bindingNode.getUnassignedVariables());
+        assignments.addAll(bindingNode.assignments);
+        unassignedVariables.addAll(bindingNode.unassignedVariables);
 	}
+
+    protected BindingNode() {}
 
 	public void accept(BindingVisitor visitor) {
 		visitor.visit(this);
@@ -104,20 +107,20 @@ public class BindingNode {
 		// found = !it.next().getPossibleBindings().isEmpty();
 		// }
 		// return this.unassignedVariables.isEmpty() || !found;
-		return this.unassignedVariables.isEmpty();
+		return unassignedVariables.isEmpty();
 	}
 
 	@Override
 	public String toString() {
-		return this.assignments + "\n"
-				+ (this.unassignedVariables.isEmpty() ? "" : this.unassignedVariables);
+		return assignments + "\n"
+				+ (unassignedVariables.isEmpty() ? "" : unassignedVariables);
 	}
 
 	public String render(ConstraintSystem cs) {
 		boolean first = true;
 		StringWriter stringWriter = new StringWriter();
 		OWLEntityRenderer entityRenderer = cs.getOPPLFactory().getOWLEntityRenderer(cs);
-		for (Assignment assignment : this.assignments) {
+		for (Assignment assignment : assignments) {
 			OWLObject value = assignment.getAssignment();
 			String assignmentRendering = value instanceof OWLEntity ? entityRenderer.render((OWLEntity) value)
 					: value.toString();
@@ -127,9 +130,9 @@ public class BindingNode {
 			stringWriter.append(assignment.getAssignedVariable().getName() + " = "
 					+ assignmentRendering);
 		}
-		if (!this.unassignedVariables.isEmpty()) {
+		if (!unassignedVariables.isEmpty()) {
 			stringWriter.append(" ");
-			stringWriter.append(this.unassignedVariables.toString());
+			stringWriter.append(unassignedVariables.toString());
 		}
 		return stringWriter.toString();
 	}
@@ -138,7 +141,7 @@ public class BindingNode {
 			final ValueComputationParameters parameters) {
 		return variable.accept(new VariableVisitorEx<OWLObject>() {
 			public <O extends OWLObject> OWLObject visit(InputVariable<O> v) {
-				return this.findAssignment(v);
+				return findAssignment(v);
 			}
 
 			/**
@@ -146,7 +149,7 @@ public class BindingNode {
 			 * @return
 			 */
 			public OWLObject findAssignment(Variable<?> v) {
-				Iterator<Assignment> iterator = BindingNode.this.getAssignments().iterator();
+                Iterator<Assignment> iterator = assignments.iterator();
 				boolean found = false;
 				OWLObject toReturn = null;
 				while (!found && iterator.hasNext()) {
@@ -164,7 +167,7 @@ public class BindingNode {
 			}
 
 			public <O extends OWLObject> OWLObject visit(RegexpGeneratedVariable<O> v) {
-				return this.findAssignment(v);
+				return findAssignment(v);
 			}
 		});
 	}
@@ -172,23 +175,23 @@ public class BindingNode {
 	public void addAssignment(final Assignment assignment) {
 		assignment.getAssignedVariable().accept(new VariableVisitor() {
 			public <P extends OWLObject> void visit(RegexpGeneratedVariable<P> regExpGenerated) {
-				BindingNode.this.assignments.add(assignment);
-				BindingNode.this.unassignedVariables.remove(assignment.getAssignedVariable());
+				assignments.add(assignment);
+				unassignedVariables.remove(assignment.getAssignedVariable());
 			}
 
 			public <P extends OWLObject> void visit(GeneratedVariable<P> v) {
 			}
 
 			public <P extends OWLObject> void visit(InputVariable<P> v) {
-				BindingNode.this.assignments.add(assignment);
-				BindingNode.this.unassignedVariables.remove(assignment.getAssignedVariable());
+				assignments.add(assignment);
+				unassignedVariables.remove(assignment.getAssignedVariable());
 			}
 		});
 	}
 
 	public Set<Variable<?>> getAssignedVariables() {
 		Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-		for (Assignment assignment : this.assignments) {
+		for (Assignment assignment : assignments) {
 			toReturn.add(assignment.getAssignedVariable());
 		}
 		return toReturn;
@@ -197,12 +200,12 @@ public class BindingNode {
 	/**
 	 * @return the assignments
 	 */
-	public Set<Assignment> getAssignments() {
-		return new HashSet<Assignment>(this.assignments);
+    public Collection<Assignment> getAssignments() {
+        return new ArrayList<Assignment>(assignments);
 	}
 
 	public Set<Variable<?>> getUnassignedVariables() {
-		return new LinkedHashSet<Variable<?>>(this.unassignedVariables);
+		return new LinkedHashSet<Variable<?>>(unassignedVariables);
 	}
 
 	/**
@@ -211,7 +214,7 @@ public class BindingNode {
 	 * @param v
 	 */
 	public void addUnassignedVariable(Variable<?> v) {
-		v.accept(this.unassignedVariablesUpdater);
+		v.accept(unassignedVariablesUpdater);
 	}
 
 	/**
@@ -219,7 +222,7 @@ public class BindingNode {
 	 *         assign variables
 	 */
 	public boolean isEmpty() {
-		return this.assignments.isEmpty() && this.unassignedVariables.isEmpty();
+		return assignments.isEmpty() && unassignedVariables.isEmpty();
 	}
 
 	public static BindingNode getEmptyBindingNode() {
@@ -227,8 +230,7 @@ public class BindingNode {
 	}
 
 	public static BindingNode createNewEmptyBindingNode() {
-		return new BindingNode(Collections.<Assignment> emptySet(),
-				Collections.<Variable<?>> emptySet());
+        return new BindingNode();
 	}
 
 	/*
@@ -240,9 +242,9 @@ public class BindingNode {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (this.assignments == null ? 0 : this.assignments.hashCode());
+		result = prime * result + (assignments == null ? 0 : assignments.hashCode());
 		result = prime * result
-				+ (this.unassignedVariables == null ? 0 : this.unassignedVariables.hashCode());
+				+ (unassignedVariables == null ? 0 : unassignedVariables.hashCode());
 		return result;
 	}
 
@@ -263,18 +265,18 @@ public class BindingNode {
 			return false;
 		}
 		BindingNode other = (BindingNode) obj;
-		if (this.assignments == null) {
+		if (assignments == null) {
 			if (other.assignments != null) {
 				return false;
 			}
-		} else if (!this.assignments.equals(other.assignments)) {
+		} else if (!assignments.equals(other.assignments)) {
 			return false;
 		}
-		if (this.unassignedVariables == null) {
+		if (unassignedVariables == null) {
 			if (other.unassignedVariables != null) {
 				return false;
 			}
-		} else if (!this.unassignedVariables.equals(other.unassignedVariables)) {
+		} else if (!unassignedVariables.equals(other.unassignedVariables)) {
 			return false;
 		}
 		return true;
@@ -294,6 +296,6 @@ public class BindingNode {
 		if (bindingNode == null) {
 			throw new NullPointerException("The input binding node cannot be null");
 		}
-		return bindingNode.getAssignments().containsAll(this.getAssignments());
+        return bindingNode.assignments.containsAll(assignments);
 	}
 }

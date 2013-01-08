@@ -23,7 +23,6 @@
 package org.coode.oppl.querymatching;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -62,30 +61,30 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
 
 	@Override
 	protected Set<BindingNode> match(OWLAxiom axiom) {
-		this.clearInstantions();
+		clearInstantions();
 		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
-		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
+		VariableExtractor variableExtractor = new VariableExtractor(getConstraintSystem(),
 				false);
 		Set<Variable<?>> extractedVariables = variableExtractor.extractVariables(axiom);
 		SortedSet<Variable<?>> sortedVariables = new TreeSet<Variable<?>>(
 				new PositionBasedVariableComparator(axiom,
-						this.getConstraintSystem().getOntologyManager().getOWLDataFactory()));
+						getConstraintSystem().getOntologyManager().getOWLDataFactory()));
 		sortedVariables.addAll(extractedVariables);
 		OPPLOWLAxiomSearchNode start = new OPPLOWLAxiomSearchNode(axiom, new BindingNode(
 				new HashSet<Assignment>(), sortedVariables));
-		solutions.addAll(this.doMatch(start));
-		return new HashSet<BindingNode>(this.extractLeaves(solutions));
+		solutions.addAll(doMatch(start));
+        return extractLeaves(solutions);
 	}
 
 	private List<List<OPPLOWLAxiomSearchNode>> doMatch(OPPLOWLAxiomSearchNode start) {
 		OPPLInferredOWLAxiomSearchTree searchTree = new OPPLInferredOWLAxiomSearchTree(
-				this.getConstraintSystem(), this.getRuntimeExceptionHandler());
+				getConstraintSystem(), getRuntimeExceptionHandler());
 		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
 		searchTree.exhaustiveSearchTree(start, solutions);
 		return solutions;
 	}
 
-	private Collection<? extends BindingNode> extractLeaves(
+    private Set<BindingNode> extractLeaves(
 			List<List<OPPLOWLAxiomSearchNode>> solutions) {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		for (List<OPPLOWLAxiomSearchNode> path : solutions) {
@@ -97,17 +96,17 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
 	}
 
 	private void clearInstantions() {
-		this.instantiations.clear();
+		instantiations.clear();
 	}
 
 	public Map<BindingNode, Set<OWLAxiom>> getInstantiations() {
-		return new HashMap<BindingNode, Set<OWLAxiom>>(this.instantiations);
+		return new HashMap<BindingNode, Set<OWLAxiom>>(instantiations);
 	}
 
 	/**
 	 * @return the constraintSystem
 	 */
 	public ConstraintSystem getConstraintSystem() {
-		return this.constraintSystem;
+		return constraintSystem;
 	}
 }

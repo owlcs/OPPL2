@@ -23,7 +23,6 @@
 package org.coode.oppl.protege.ui;
 
 import org.protege.editor.core.ui.list.MListItem;
-import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /**
@@ -46,14 +45,14 @@ public class ActionListItem implements MListItem {
 	}
 
 	public String getTooltip() {
-		String addOrRemove = this.axiomChange instanceof AddAxiom ? "ADD "
+        String addOrRemove = axiomChange.isAddAxiom() ? "ADD "
 				: "REMOVE ";
-		String toFrom = this.axiomChange instanceof AddAxiom ? " to "
+        String toFrom = axiomChange.isAddAxiom() ? " to "
 				: " from ";
 		return addOrRemove
 				+ " the axiom"
 				+ toFrom
-				+ this.axiomChange.getOntology().getOntologyID()
+				+ axiomChange.getOntology().getOntologyID()
 						.getOntologyIRI().toString();
 	}
 
@@ -74,20 +73,20 @@ public class ActionListItem implements MListItem {
 	 * @see org.protege.editor.core.ui.list.MListItem#isDeleteable()
 	 */
 	public boolean isDeleteable() {
-		return this.isDeleteable;
+		return isDeleteable;
 	}
 
 	/**
 	 * @see org.protege.editor.core.ui.list.MListItem#isEditable()
 	 */
 	public boolean isEditable() {
-		return this.isEditable;
+		return isEditable;
 	}
 
 	/**
 	 * @return the axiomChange
 	 */
 	public OWLAxiomChange getAxiomChange() {
-		return this.axiomChange;
+		return axiomChange;
 	}
 }

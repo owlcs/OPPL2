@@ -30,24 +30,26 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 		if (assignmentMap == null) {
 			throw new NullPointerException("The input assignment map cannot be null");
 		}
-		this.bindingNodes.addAll(assignmentMap.bindingNodes);
-		this.delegate.clear();
-		this.delegate.putAll(assignmentMap.delegate);
+		bindingNodes.addAll(assignmentMap.bindingNodes);
+		delegate.putAll(assignmentMap.delegate);
 	}
 
 	public AssignmentMap(Collection<? extends BindingNode> bindingNodes) {
 		if (bindingNodes == null) {
 			throw new NullPointerException("The binding nodes collection cannot be null");
 		}
+        if (bindingNodes.isEmpty()) {
+            return;
+        }
 		this.bindingNodes.addAll(bindingNodes);
 		for (BindingNode bindingNode : bindingNodes) {
 			for (Assignment assignment : bindingNode.getAssignments()) {
 				Variable<?> assignedVariable = assignment.getAssignedVariable();
 				OWLObject assignedValue = assignment.getAssignment();
-				Set<OWLObject> previousAssignements = this.get(assignedVariable);
+				Set<OWLObject> previousAssignements = get(assignedVariable);
 				if (previousAssignements == null) {
 					previousAssignements = new HashSet<OWLObject>();
-					this.put(assignedVariable, previousAssignements);
+					put(assignedVariable, previousAssignements);
 				}
 				previousAssignements.add(assignedValue);
 			}
@@ -59,7 +61,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 * @see java.util.Map#size()
 	 */
 	public int size() {
-		return this.delegate.size();
+		return delegate.size();
 	}
 
 	/**
@@ -67,7 +69,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 * @see java.util.Map#isEmpty()
 	 */
 	public boolean isEmpty() {
-		return this.delegate.isEmpty();
+		return delegate.isEmpty();
 	}
 
 	/**
@@ -76,7 +78,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 * @see java.util.Map#containsKey(java.lang.Object)
 	 */
 	public boolean containsKey(Object key) {
-		return this.delegate.containsKey(key);
+		return delegate.containsKey(key);
 	}
 
 	/**
@@ -85,7 +87,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 * @see java.util.Map#containsValue(java.lang.Object)
 	 */
 	public boolean containsValue(Object value) {
-		return this.delegate.containsValue(value);
+		return delegate.containsValue(value);
 	}
 
 	/**
@@ -94,7 +96,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 * @see java.util.Map#get(java.lang.Object)
 	 */
 	public Set<OWLObject> get(Object key) {
-		return this.delegate.get(key);
+		return delegate.get(key);
 	}
 
 	/**
@@ -104,7 +106,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
 	 */
 	public Set<OWLObject> put(Variable<?> key, Set<OWLObject> value) {
-		return this.delegate.put(key, value);
+		return delegate.put(key, value);
 	}
 
 	/**
@@ -113,7 +115,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 * @see java.util.Map#remove(java.lang.Object)
 	 */
 	public Set<OWLObject> remove(Object key) {
-		return this.delegate.remove(key);
+		return delegate.remove(key);
 	}
 
 	/**
@@ -121,7 +123,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 * @see java.util.Map#putAll(java.util.Map)
 	 */
 	public void putAll(Map<? extends Variable<?>, ? extends Set<OWLObject>> arg0) {
-		this.delegate.putAll(arg0);
+		delegate.putAll(arg0);
 	}
 
 	/**
@@ -129,7 +131,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 * @see java.util.Map#clear()
 	 */
 	public void clear() {
-		this.delegate.clear();
+		delegate.clear();
 	}
 
 	/**
@@ -137,7 +139,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 * @see java.util.Map#keySet()
 	 */
 	public Set<Variable<?>> keySet() {
-		return this.delegate.keySet();
+		return delegate.keySet();
 	}
 
 	/**
@@ -145,7 +147,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 * @see java.util.Map#values()
 	 */
 	public Collection<Set<OWLObject>> values() {
-		return this.delegate.values();
+		return delegate.values();
 	}
 
 	/**
@@ -153,7 +155,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 * @see java.util.Map#entrySet()
 	 */
 	public Set<java.util.Map.Entry<Variable<?>, Set<OWLObject>>> entrySet() {
-		return this.delegate.entrySet();
+		return delegate.entrySet();
 	}
 
 	/**
@@ -163,7 +165,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		return this.delegate.equals(o);
+		return delegate.equals(o);
 	}
 
 	/**
@@ -172,7 +174,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 */
 	@Override
 	public int hashCode() {
-		return this.delegate.hashCode();
+		return delegate.hashCode();
 	}
 
 	/**
@@ -181,14 +183,14 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 	 * @return a Set of Variable
 	 */
 	public Set<Variable<?>> getVariables() {
-		return new HashSet<Variable<?>>(this.keySet());
+		return new HashSet<Variable<?>>(keySet());
 	}
 
 	/**
 	 * @return the bindingNodes
 	 */
 	public Set<BindingNode> getBindingNodes() {
-		return new HashSet<BindingNode>(this.bindingNodes);
+		return new HashSet<BindingNode>(bindingNodes);
 	}
 
 	public boolean isDisjointWith(AssignmentMap anotherAssignmentMap) {
@@ -196,11 +198,11 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 			throw new NullPointerException("The input assignment map cannot be null");
 		}
 		boolean found = false;
-		Iterator<Variable<?>> iterator = this.getVariables().iterator();
+        Iterator<Variable<?>> iterator = keySet().iterator();
 		while (!found && iterator.hasNext()) {
 			Variable<?> variable = iterator.next();
-			if (anotherAssignmentMap.getVariables().contains(variable)) {
-				Set<OWLObject> set = new HashSet<OWLObject>(this.get(variable));
+            if (anotherAssignmentMap.keySet().contains(variable)) {
+				Set<OWLObject> set = new HashSet<OWLObject>(get(variable));
 				set.retainAll(anotherAssignmentMap.get(variable));
 				found = !set.isEmpty();
 			}
@@ -232,6 +234,6 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
 
 	@Override
 	public String toString() {
-		return this.delegate.toString();
+		return delegate.toString();
 	}
 }

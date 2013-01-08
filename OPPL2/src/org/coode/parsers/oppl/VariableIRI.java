@@ -2,7 +2,6 @@ package org.coode.parsers.oppl;
 
 import java.net.URI;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.coode.oppl.Variable;
@@ -49,33 +48,31 @@ public class VariableIRI extends IRI {
     }
 
     public Set<OWLEntity> getSignature() {
-        return new HashSet<OWLEntity>(Collections.<OWLEntity> emptySet());
+        return Collections.<OWLEntity> emptySet();
     }
 
     public Set<OWLClass> getClassesInSignature() {
-        return new HashSet<OWLClass>(Collections.<OWLClass> emptySet());
+        return Collections.<OWLClass> emptySet();
     }
 
     public Set<OWLDataProperty> getDataPropertiesInSignature() {
-        return new HashSet<OWLDataProperty>(Collections.<OWLDataProperty> emptySet());
+        return Collections.<OWLDataProperty> emptySet();
     }
 
     public Set<OWLObjectProperty> getObjectPropertiesInSignature() {
-        return new HashSet<OWLObjectProperty>(Collections.<OWLObjectProperty> emptySet());
+        return Collections.<OWLObjectProperty> emptySet();
     }
 
     public Set<OWLNamedIndividual> getIndividualsInSignature() {
-        return new HashSet<OWLNamedIndividual>(
-                Collections.<OWLNamedIndividual> emptySet());
+        return Collections.<OWLNamedIndividual> emptySet();
     }
 
     public Set<OWLDatatype> getDatatypesInSignature() {
-        return new HashSet<OWLDatatype>(Collections.<OWLDatatype> emptySet());
+        return Collections.<OWLDatatype> emptySet();
     }
 
     public Set<OWLClassExpression> getNestedClassExpressions() {
-        return new HashSet<OWLClassExpression>(
-                Collections.<OWLClassExpression> emptySet());
+        return Collections.<OWLClassExpression> emptySet();
     }
 
     public void accept(OWLObjectVisitor visitor) {

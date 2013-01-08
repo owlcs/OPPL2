@@ -35,12 +35,12 @@ public class EvaluationResults {
 		private String rendered = "";
 
 		public void visit(AddAxiom change) {
-			this.rendered = "";
+			rendered = "";
 			StringBuilder out = new StringBuilder();
 			Formatter formatter = new Formatter(out, Locale.getDefault());
-			String renderedString = this.renderAxiom(change.getAxiom());
+			String renderedString = renderAxiom(change.getAxiom());
 			formatter.format("ADD %s", renderedString);
-			this.rendered = out.toString();
+			rendered = out.toString();
 		}
 
 		/**
@@ -48,45 +48,45 @@ public class EvaluationResults {
 		 * @return
 		 */
 		private String renderAxiom(OWLAxiom axiom) {
-			this.rendered = "";
-			ManchesterSyntaxRenderer renderer = EvaluationResults.this.getOpplScript().getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
-					EvaluationResults.this.getOpplScript().getConstraintSystem());
+			rendered = "";
+			ManchesterSyntaxRenderer renderer = getOpplScript().getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
+					getOpplScript().getConstraintSystem());
 			axiom.accept(renderer);
 			String renderedString = renderer.toString();
 			return renderedString;
 		}
 
 		public void visit(RemoveAxiom change) {
-			this.rendered = "";
+			rendered = "";
 			Formatter formatter = new Formatter();
-			String renderedString = this.renderAxiom(change.getAxiom());
+			String renderedString = renderAxiom(change.getAxiom());
 			formatter.format("REMOVE %s", renderedString);
-			this.rendered = formatter.toString();
+			rendered = formatter.toString();
 		}
 
 		public void visit(SetOntologyID change) {
-			this.rendered = "CHANGE ONTOLOGY ID to " + change.getNewOntologyID();
+			rendered = "CHANGE ONTOLOGY ID to " + change.getNewOntologyID();
 		}
 
 		public void visit(RemoveImport change) {
-			this.rendered = "REMOVE IMPORT " + change.getImportDeclaration();
+			rendered = "REMOVE IMPORT " + change.getImportDeclaration();
 		}
 
 		public void visit(AddImport change) {
-			this.rendered = "ADD IMPORT " + change.getImportDeclaration();
+			rendered = "ADD IMPORT " + change.getImportDeclaration();
 		}
 
 		public void visit(AddOntologyAnnotation change) {
-			this.rendered = "ADD Ontology Annotation " + change.getAnnotation();
+			rendered = "ADD Ontology Annotation " + change.getAnnotation();
 		}
 
 		public void visit(RemoveOntologyAnnotation change) {
-			this.rendered = "REMOVE Ontology Annotation " + change.getAnnotation();
+			rendered = "REMOVE Ontology Annotation " + change.getAnnotation();
 		}
 
 		@Override
 		public String toString() {
-			return this.rendered;
+			return rendered;
 		}
 	}
 
@@ -103,33 +103,33 @@ public class EvaluationResults {
 		}
 		this.opplScript = opplScript;
 		this.changes.addAll(changes);
-		this.changeRenderer = new ChangeRenderer();
+		changeRenderer = new ChangeRenderer();
 	}
 
 	/**
 	 * @return the opplScript
 	 */
 	public OPPLScript getOpplScript() {
-		return this.opplScript;
+		return opplScript;
 	}
 
 	/**
 	 * @return the changes
 	 */
 	public List<OWLAxiomChange> getChanges() {
-		return new ArrayList<OWLAxiomChange>(this.changes);
+		return new ArrayList<OWLAxiomChange>(changes);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder out = new StringBuilder();
 		Formatter formatter = new Formatter(out, Locale.getDefault());
-		formatter.format("Script: %s \n Bindings ", this.getOpplScript());
-		if (this.getOpplScript().getConstraintSystem().getLeaves() != null) {
+		formatter.format("Script: %s \n Bindings ", getOpplScript());
+		if (getOpplScript().getConstraintSystem().getLeaves() != null) {
 			formatter.format(
 					" count %d \n",
-					this.getOpplScript().getConstraintSystem().getLeaves().size());
-			for (BindingNode bindingNode : this.getOpplScript().getConstraintSystem().getLeaves()) {
+					getOpplScript().getConstraintSystem().getLeaves().size());
+			for (BindingNode bindingNode : getOpplScript().getConstraintSystem().getLeaves()) {
 				for (Assignment assignment : bindingNode.getAssignments()) {
 					ManchesterSyntaxRenderer renderer = EvaluationResults.this.getOpplScript().getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
 							EvaluationResults.this.getOpplScript().getConstraintSystem());
@@ -144,11 +144,11 @@ public class EvaluationResults {
 		} else {
 			formatter.format(" (none) \n");
 		}
-		if (!this.getChanges().isEmpty()) {
-			formatter.format("Change count %d \n", this.getChanges().size());
-			for (OWLAxiomChange change : this.getChanges()) {
-				change.accept(this.changeRenderer);
-				formatter.format("%s \n", this.changeRenderer.toString());
+        if (!changes.isEmpty()) {
+            formatter.format("Change count %d \n", changes.size());
+            for (OWLAxiomChange change : changes) {
+				change.accept(changeRenderer);
+				formatter.format("%s \n", changeRenderer.toString());
 			}
 		}
 		return out.toString();

@@ -59,14 +59,13 @@ public class LeafBrusher implements BindingVisitor {
 						nodes)) {
 					if (!generatedChild.isLeaf()) {
 						nodes.remove(generatedChild);
-						Set<BindingNode> generatedChildren = this
-								.generateChildren(generatedChild);
+						Set<BindingNode> generatedChildren = generateChildren(generatedChild);
 						nodes.addAll(generatedChildren);
 					}
-					allLeaves = this.allLeaves(nodes);
+					allLeaves = allLeaves(nodes);
 				}
 			}
-			this.leaves.addAll(nodes);
+			leaves.addAll(nodes);
 		}
 	}
 
@@ -90,7 +89,7 @@ public class LeafBrusher implements BindingVisitor {
 	 * @return the leaves
 	 */
 	public Set<BindingNode> getLeaves() {
-		return new HashSet<BindingNode>(this.leaves);
+		return new HashSet<BindingNode>(leaves);
 	}
 
 	private Set<BindingNode> generateChildren(BindingNode node) {
@@ -99,7 +98,7 @@ public class LeafBrusher implements BindingVisitor {
 			Set<Variable<?>> unassignedVariables = node
 					.getUnassignedVariables();
 			for (Variable<?> variable : unassignedVariables) {
-				Set<OWLObject> values = this.getBindings().get(variable);
+                Set<OWLObject> values = bindings.get(variable);
 				if (values != null) {
 					for (OWLObject owlObject : values) {
 						Set<Variable<?>> childUnassignedVariables = new HashSet<Variable<?>>(
@@ -124,6 +123,6 @@ public class LeafBrusher implements BindingVisitor {
 	 * @return the bindings
 	 */
 	public Map<Variable<?>, Set<OWLObject>> getBindings() {
-		return new HashMap<Variable<?>, Set<OWLObject>>(this.bindings);
+		return new HashMap<Variable<?>, Set<OWLObject>>(bindings);
 	}
 }

@@ -81,21 +81,20 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
 
 	@Override
 	protected Set<BindingNode> match(OWLAxiom axiom) {
-		this.clearInstantions();
+		clearInstantions();
 		List<List<? extends OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<? extends OPPLOWLAxiomSearchNode>>();
 		VariableExtractor variableExtractor = new VariableExtractor(
-				this.getConstraintSystem(), false);
+				getConstraintSystem(), false);
 		Set<Variable<?>> extractedVariables = variableExtractor
 				.extractVariables(axiom);
 		SortedSet<Variable<?>> sortedVariables = new TreeSet<Variable<?>>(
-				new PositionBasedVariableComparator(axiom, this
-						.getConstraintSystem().getOntologyManager()
+				new PositionBasedVariableComparator(axiom, getConstraintSystem().getOntologyManager()
 						.getOWLDataFactory()));
 		sortedVariables.addAll(extractedVariables);
 		OPPLOWLAxiomSearchNode start = new OPPLOWLAxiomSearchNode(axiom,
 				new BindingNode(new HashSet<Assignment>(), sortedVariables));
-		solutions.addAll(this.doMatch(start));
-		return new HashSet<BindingNode>(this.extractLeaves(solutions));
+		solutions.addAll(doMatch(start));
+        return extractLeaves(solutions);
 	}
 
 	/**
@@ -110,14 +109,14 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
 		// a specific kind.
 		if (axiom.getAxiomType() == AxiomType.SUBCLASS_OF
 				|| axiom.getAxiomType() == AxiomType.OBJECT_PROPERTY_ASSERTION) {
-			solutions.addAll(this.solvabilityBasedMatching(newStart.getAxiom(),
+			solutions.addAll(solvabilityBasedMatching(newStart.getAxiom(),
 					newStart.getBinding()));
 		} else {
-			for (OWLOntology ontology : this.getOntologies()) {
-				for (OWLAxiom targetAxiom : this.filterAxioms(axiom,
+            for (OWLOntology ontology : ontologies) {
+				for (OWLAxiom targetAxiom : filterAxioms(axiom,
 						ontology.getAxioms())) {
 					if (axiom.getAxiomType().equals(targetAxiom.getAxiomType())) {
-						solutions.addAll(this.matchTargetAxiom(newStart,
+						solutions.addAll(matchTargetAxiom(newStart,
 								targetAxiom));
 					}
 				}
@@ -126,7 +125,7 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
 		return solutions;
 	}
 
-	private Collection<? extends BindingNode> extractLeaves(
+    private Set<BindingNode> extractLeaves(
 			List<List<? extends OPPLOWLAxiomSearchNode>> solutions) {
 		Set<BindingNode> toReturn = new HashSet<BindingNode>();
 		for (List<? extends OPPLOWLAxiomSearchNode> path : solutions) {
@@ -144,8 +143,7 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
 	 */
 	private List<List<OPPLOWLAxiomSearchNode>> matchTargetAxiom(
 			OPPLOWLAxiomSearchNode start, OWLAxiom targetAxiom) {
-		SearchTree<OPPLOWLAxiomSearchNode> searchTree = this
-				.getSearchTree(targetAxiom);
+		SearchTree<OPPLOWLAxiomSearchNode> searchTree = getSearchTree(targetAxiom);
 		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
 		searchTree.exhaustiveSearchTree(start, solutions);
 		return solutions;
@@ -154,9 +152,9 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
 	private List<List<SolvabilitySearchNode>> solvabilityBasedMatching(
 			OWLAxiom axiom, BindingNode bindingNode) {
 		AssertedSolvabilitySearchTree searchTree = new AssertedSolvabilitySearchTree(
-				this.getConstraintSystem(), this.getConstraintSystem()
+				getConstraintSystem(), getConstraintSystem()
 						.getOntologyManager(),
-				this.getRuntimeExceptionHandler());
+				getRuntimeExceptionHandler());
 		List<List<SolvabilitySearchNode>> solutions = new ArrayList<List<SolvabilitySearchNode>>();
 		SolvabilitySearchNode start = searchTree.buildSolvabilitySearchNode(
 				axiom, bindingNode);
@@ -170,48 +168,46 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
 	 */
 	private SearchTree<OPPLOWLAxiomSearchNode> getSearchTree(
 			OWLAxiom targetAxiom) {
-		SearchTree<OPPLOWLAxiomSearchNode> toReturn = this.searchTrees
+		SearchTree<OPPLOWLAxiomSearchNode> toReturn = searchTrees
 				.get(targetAxiom);
 		if (toReturn == null) {
 			toReturn = new OPPLAssertedSingleOWLAxiomSearchTree(targetAxiom,
-					this.getConstraintSystem(),
-					this.getRuntimeExceptionHandler());
-			this.searchTrees.put(targetAxiom, toReturn);
+					getConstraintSystem(),
+					getRuntimeExceptionHandler());
+			searchTrees.put(targetAxiom, toReturn);
 		}
 		return toReturn;
 	}
 
 	private void clearInstantions() {
-		this.instantiations.clear();
+		instantiations.clear();
 	}
 
 	public Map<BindingNode, Set<OWLAxiom>> getInstantiations() {
-		return new HashMap<BindingNode, Set<OWLAxiom>>(this.instantiations);
+		return new HashMap<BindingNode, Set<OWLAxiom>>(instantiations);
 	}
 
 	/**
 	 * @return the constraintSystem
 	 */
 	public ConstraintSystem getConstraintSystem() {
-		return this.constraintSystem;
+		return constraintSystem;
 	}
 
 	public Set<OWLOntology> getOntologies() {
-		return new HashSet<OWLOntology>(this.ontologies);
+		return new HashSet<OWLOntology>(ontologies);
 	}
 
 	private Collection<? extends OWLAxiom> filterAxioms(OWLAxiom toMatchAxiom,
 			Collection<? extends OWLAxiom> axioms) {
 		Set<OWLAxiom> toReturn = new HashSet<OWLAxiom>();
 		VariableExtractor variableExtractor = new VariableExtractor(
-				this.getConstraintSystem(), true);
+				getConstraintSystem(), true);
 		Set<Variable<?>> variables = variableExtractor
 				.extractVariables(toMatchAxiom);
-		Collection<? extends OWLObject> toMatchAllOWLObjects = this
-				.extractOWLObjects(toMatchAxiom);
+		Collection<? extends OWLObject> toMatchAllOWLObjects = extractOWLObjects(toMatchAxiom);
 		for (OWLAxiom candidate : axioms) {
-			Collection<? extends OWLObject> candidateAllOWLObjects = this
-					.extractOWLObjects(candidate);
+			Collection<? extends OWLObject> candidateAllOWLObjects = extractOWLObjects(candidate);
 			if (candidate.getAxiomType().equals(toMatchAxiom.getAxiomType())
 					&& toMatchAllOWLObjects.containsAll(candidateAllOWLObjects)) {
 				toReturn.add(candidate);
@@ -246,10 +242,10 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
 	 * @return
 	 */
 	private Collection<? extends OWLObject> extractOWLObjects(OWLAxiom axiom) {
-		Collection<? extends OWLObject> toReturn = this.cache.get(axiom);
+		Collection<? extends OWLObject> toReturn = cache.get(axiom);
 		if (toReturn == null) {
 			toReturn = OWLObjectExtractor.getAllOWLPrimitives(axiom);
-			this.cache.put(axiom, toReturn);
+			cache.put(axiom, toReturn);
 		}
 		return toReturn;
 	}

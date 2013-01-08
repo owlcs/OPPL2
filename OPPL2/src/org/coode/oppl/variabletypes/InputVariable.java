@@ -54,7 +54,7 @@ public class InputVariable<O extends OWLObject> implements Variable<O> {
 		}
 		this.name = name;
 		this.type = type;
-		this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
+        this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE, this.getName());
 		this.variableScope = variableScope;
 	}
 

@@ -89,7 +89,7 @@ public class Pair<O> {
 		Formatter formatter = new Formatter(sb, Locale.getDefault());
 		// Explicit argument indices may be used to re-order output.
 		Formatter format = formatter.format("(%s, %s)", new ArrayList<O>(this
-				.getMembers()).toArray());
+.members).toArray());
 		return format.toString();
 	}
 }

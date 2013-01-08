@@ -98,7 +98,24 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
  * 
  */
 public class ConstraintSystem {
-	private final static class VariableSet {
+    private static final class RightKindVisitor implements VariableVisitorEx<Boolean> {
+        public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
+            return true;
+        }
+
+        public <P extends OWLObject> Boolean visit(GeneratedVariable<P> v) {
+            return false;
+        }
+
+        public <P extends OWLObject> Boolean visit(
+                RegexpGeneratedVariable<P> regExpGenerated) {
+            return false;
+        }
+    }
+
+    private static final RightKindVisitor rightKindVisitor = new RightKindVisitor();
+
+    private final static class VariableSet {
 		private final Map<String, Variable<?>> map = new HashMap<String, Variable<?>>();
 		private final Map<IRI, Variable<?>> irisMap = new HashMap<IRI, Variable<?>>();
 
@@ -106,25 +123,25 @@ public class ConstraintSystem {
 		}
 
 		public Variable<?> get(String name) {
-			return this.map.get(name);
+			return map.get(name);
 		}
 
 		public Variable<?> get(IRI variableIRI) {
-			return this.irisMap.get(variableIRI);
+			return irisMap.get(variableIRI);
 		}
 
 		public void store(Variable<?> variable) {
-			this.map.put(variable.getName(), variable);
-			this.irisMap.put(variable.getIRI(), variable);
+			map.put(variable.getName(), variable);
+			irisMap.put(variable.getIRI(), variable);
 		}
 
 		public boolean containsVariableIRI(IRI variableURI) {
-			return this.irisMap.containsKey(variableURI);
+			return irisMap.containsKey(variableURI);
 		}
 
 		public Set<InputVariable<?>> getInputVariables() {
-			Set<InputVariable<?>> toReturn = new HashSet<InputVariable<?>>(this.map.values().size());
-			for (Variable<?> v : this.map.values()) {
+			Set<InputVariable<?>> toReturn = new HashSet<InputVariable<?>>(map.values().size());
+			for (Variable<?> v : map.values()) {
 				if (VariableRecogniser.INPUT_VARIABLE_RECOGNISER.recognise(v)) {
 					toReturn.add((InputVariable<?>) v);
 				}
@@ -133,13 +150,13 @@ public class ConstraintSystem {
 		}
 
 		public Set<Variable<?>> getAllVariables() {
-			return new HashSet<Variable<?>>(this.map.values());
+			return new HashSet<Variable<?>>(map.values());
 		}
 
 		public Set<GeneratedVariable<?>> getGeneratedVariables() {
 			Set<GeneratedVariable<?>> toReturn = new HashSet<GeneratedVariable<?>>(
-					this.map.values().size());
-			for (Variable<?> v : this.map.values()) {
+					map.values().size());
+			for (Variable<?> v : map.values()) {
 				if (VariableRecogniser.GENERATED_VARIABLE_RECOGNISER.recognise(v)) {
 					toReturn.add((GeneratedVariable<?>) v);
 				}
@@ -148,26 +165,26 @@ public class ConstraintSystem {
 		}
 
 		public void remove(String name) {
-			Variable<?> removed = this.map.remove(name);
+			Variable<?> removed = map.remove(name);
 			if (removed != null) {
-				this.irisMap.remove(removed.getIRI());
+				irisMap.remove(removed.getIRI());
 			}
 		}
 
 		public void clear() {
-			this.map.clear();
-			this.irisMap.clear();
+			map.clear();
+			irisMap.clear();
 		}
 
 		@Override
 		public String toString() {
-			Set<Variable<?>> allVariables = this.getAllVariables();
+            Collection<Variable<?>> allVariables = map.values();
 			Formatter formatter = new Formatter();
 			for (Variable<?> variable : allVariables) {
 				formatter.format(
 						"Variable name: %s generated: %s \n",
 						variable.getName(),
-						this.getGeneratedVariables().contains(variable));
+						getGeneratedVariables().contains(variable));
 			}
 			return formatter.toString();
 		}
@@ -204,69 +221,62 @@ public class ConstraintSystem {
 	}
 
 	public Variable<?> getVariable(String name) {
-		return this.variables.get(name);
+		return variables.get(name);
 	}
 
 	public <O extends OWLObject> InputVariable<O> createVariable(final String name,
 			final VariableType<O> type, final VariableScope<?> variableScope) throws OPPLException {
 		if (name.matches("\\?([\\p{Alnum}[-_]])+")) {
-			Variable<?> newVariable = this.variables.get(name);
-			if (newVariable == null) {
-				newVariable = type.getInputVariable(name, variableScope);
-				this.variables.store(newVariable);
-			} else {
-				boolean rightKind = newVariable.accept(new VariableVisitorEx<Boolean>() {
-					public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
-						return true;
-					}
-
-					public <P extends OWLObject> Boolean visit(GeneratedVariable<P> v) {
-						return false;
-					}
-
-					public <P extends OWLObject> Boolean visit(
-							RegexpGeneratedVariable<P> regExpGenerated) {
-						return false;
-					}
-				});
-				if (!rightKind) {
-					throw new OPPLException(String.format(
-							"A generated or regexp variable named %s already exists",
-							name));
-				} else if (type != newVariable.getType()) {
-					throw new OPPLException(
-							String.format(
-									"An input variable named %s already exists but is of a different type %s from the input one %s",
-									name,
-									newVariable,
-									type));
-				} else {
-					newVariable = newVariable.accept(new VariableVisitorEx<Variable<?>>() {
-						public <P extends OWLObject> Variable<?> visit(InputVariable<P> v) {
-							Variable<?> toReturn = v;
-							if (v.getVariableScope() != variableScope) {
-								toReturn = type.getInputVariable(name, variableScope);
-								ConstraintSystem.this.variables.store(toReturn);
-							}
-							return toReturn;
-						}
-
-						public <P extends OWLObject> Variable<?> visit(GeneratedVariable<P> v) {
-							return v;
-						}
-
-						public <P extends OWLObject> Variable<?> visit(
-								RegexpGeneratedVariable<P> regExpGenerated) {
-							return regExpGenerated;
-						}
-					});
-				}
-			}
-			return (InputVariable<O>) newVariable;
+			return createVariableWithVerifiedName(name, type, variableScope);
 		} else {
 			throw new InvalidVariableNameException("Invalid name: " + name);
 		}
 	}
+
+    public <O extends OWLObject> InputVariable<O> createVariableWithVerifiedName(
+            final String name, final VariableType<O> type,
+            final VariableScope<?> variableScope) throws OPPLException {
+        Variable<?> newVariable = variables.get(name);
+        if (newVariable == null) {
+        	newVariable = type.getInputVariable(name, variableScope);
+        	variables.store(newVariable);
+        } else {
+            boolean rightKind = newVariable.accept(rightKindVisitor);
+        	if (!rightKind) {
+        		throw new OPPLException(String.format(
+        				"A generated or regexp variable named %s already exists",
+        				name));
+        	} else if (type != newVariable.getType()) {
+        		throw new OPPLException(
+        				String.format(
+        						"An input variable named %s already exists but is of a different type %s from the input one %s",
+        						name,
+        						newVariable,
+        						type));
+        	} else {
+        		newVariable = newVariable.accept(new VariableVisitorEx<Variable<?>>() {
+        			public <P extends OWLObject> Variable<?> visit(InputVariable<P> v) {
+        				Variable<?> toReturn = v;
+        				if (v.getVariableScope() != variableScope) {
+        					toReturn = type.getInputVariable(name, variableScope);
+        					variables.store(toReturn);
+        				}
+        				return toReturn;
+        			}
+
+        			public <P extends OWLObject> Variable<?> visit(GeneratedVariable<P> v) {
+        				return v;
+        			}
+
+        			public <P extends OWLObject> Variable<?> visit(
+        					RegexpGeneratedVariable<P> regExpGenerated) {
+        				return regExpGenerated;
+        			}
+        		});
+        	}
+        }
+        return (InputVariable<O>) newVariable;
+    }
 
 	public Set<Variable<?>> getAxiomVariables(OWLAxiom axiom) {
 		VariableExtractor axiomVariableExtractor = new VariableExtractor(this, true);
@@ -275,11 +285,11 @@ public class ConstraintSystem {
 	}
 
 	public boolean isVariableIRI(IRI uri) {
-		return this.variables.containsVariableIRI(uri);
+		return variables.containsVariableIRI(uri);
 	}
 
 	public Variable<?> getVariable(IRI iri) {
-		return this.variables.get(iri);
+		return variables.get(iri);
 	}
 
 	public boolean isVariable(OWLClassExpression desc) {
@@ -288,31 +298,31 @@ public class ConstraintSystem {
 	}
 
 	public boolean isVariable(OWLAnnotationProperty property) {
-		return this.isVariableIRI(property.getIRI());
+		return isVariableIRI(property.getIRI());
 	}
 
 	public boolean isVariable(OWLObjectProperty property) {
-		return this.isVariableIRI(property.getIRI());
+		return isVariableIRI(property.getIRI());
 	}
 
 	public boolean isVariable(OWLDataProperty property) {
-		return this.isVariableIRI(property.getIRI());
+		return isVariableIRI(property.getIRI());
 	}
 
 	public boolean isVariable(OWLNamedIndividual individual) {
-		return this.isVariableIRI(individual.getIRI());
+		return isVariableIRI(individual.getIRI());
 	}
 
 	public void addLeaf(BindingNode bindingNode) {
-		if (this.leaves == null) {
-			this.leaves = new HashSet<BindingNode>();
+		if (leaves == null) {
+			leaves = new HashSet<BindingNode>();
 		}
-		this.leaves.add(bindingNode);
+		leaves.add(bindingNode);
 	}
 
 	public Set<OWLObject> getVariableBindings(Variable<?> v,
 			RuntimeExceptionHandler runtimeExceptionHandler) {
-		Set<BindingNode> leaves = this.getLeaves();
+		Set<BindingNode> leaves = getLeaves();
 		Set<OWLObject> toReturn = new HashSet<OWLObject>();
 		SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(this,
 				BindingNode.getEmptyBindingNode(), runtimeExceptionHandler);
@@ -330,16 +340,16 @@ public class ConstraintSystem {
 	public boolean addLeaf(Variable<?> variable, OWLObject object) {
 		boolean toReturn = variable.getType().isCompatibleWith(object);
 		if (toReturn) {
-			if (this.leaves == null) {
-				this.leaves = new HashSet<BindingNode>();
+			if (leaves == null) {
+				leaves = new HashSet<BindingNode>();
 			}
 			Assignment assignment = new Assignment(variable, object);
-			if (!this.leaves.isEmpty()) {
-				for (BindingNode node : this.leaves) {
+			if (!leaves.isEmpty()) {
+				for (BindingNode node : leaves) {
 					node.addAssignment(assignment);
 				}
 			} else {
-				this.leaves.add(new BindingNode(Collections.singleton(assignment),
+				leaves.add(new BindingNode(Collections.singleton(assignment),
 						Collections.<Variable<?>> emptySet()));
 			}
 		}
@@ -350,19 +360,19 @@ public class ConstraintSystem {
 	 * @return the leaves
 	 */
 	public Set<BindingNode> getLeaves() {
-		return this.leaves == null ? this.leaves : new HashSet<BindingNode>(this.leaves);
+		return leaves == null ? leaves : new HashSet<BindingNode>(leaves);
 	}
 
 	public OPPLAbstractFactory getOPPLFactory() {
-		return this.opplFactory;
+		return opplFactory;
 	}
 
 	public Set<InputVariable<?>> getInputVariables() {
-		return this.variables.getInputVariables();
+		return variables.getInputVariables();
 	}
 
 	public void removeBinding(BindingNode binding) {
-		this.leaves.remove(binding);
+		leaves.remove(binding);
 	}
 
 	public boolean isVariable(OWLLiteral node) {
@@ -370,7 +380,7 @@ public class ConstraintSystem {
 	}
 
 	public void setLeaves(Set<BindingNode> newLeaves) {
-		this.leaves = newLeaves;
+		leaves = newLeaves;
 	}
 
 	public void setReasoner(OWLReasoner reasoner) {
@@ -378,7 +388,7 @@ public class ConstraintSystem {
 	}
 
 	public Set<Variable<?>> getVariables() {
-		return this.variables.getAllVariables();
+		return variables.getAllVariables();
 	}
 
 	/**
@@ -388,7 +398,7 @@ public class ConstraintSystem {
 	 * @throws OWLRuntimeException
 	 */
 	public OWLReasoner getReasoner() {
-		return this.reasoner;
+		return reasoner;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -448,7 +458,7 @@ public class ConstraintSystem {
 						annotationProperty);
 			}
 		});
-		this.variables.store(generatedVariable);
+		variables.store(generatedVariable);
 		return generatedVariable;
 	}
 
@@ -456,23 +466,23 @@ public class ConstraintSystem {
 	 * @return the ontology
 	 */
 	public OWLOntology getOntology() {
-		return this.ontology;
+		return ontology;
 	}
 
 	public Set<GeneratedVariable<?>> getGeneratedVariables() {
-		return this.variables.getGeneratedVariables();
+		return variables.getGeneratedVariables();
 	}
 
 	public boolean isGenerated(Variable<?> v) {
-		return this.variables.getGeneratedVariables().contains(v);
+		return variables.getGeneratedVariables().contains(v);
 	}
 
 	public void reset() {
-		this.leaves = null;
+		leaves = null;
 	}
 
 	public void removeVariable(Variable<?> variable) {
-		this.variables.remove(variable.getName());
+		variables.remove(variable.getName());
 	}
 
 	public GeneratedVariable<OWLClassExpression> createIntersectionGeneratedVariable(
@@ -516,7 +526,7 @@ public class ConstraintSystem {
 				return null;
 			}
 		});
-		this.variables.store(toReturn);
+		variables.store(toReturn);
 		return toReturn;
 	}
 
@@ -561,7 +571,7 @@ public class ConstraintSystem {
 				return null;
 			}
 		});
-		this.variables.store(toReturn);
+		variables.store(toReturn);
 		return toReturn;
 	}
 
@@ -570,7 +580,7 @@ public class ConstraintSystem {
 		RegexpGeneratedVariable<? extends O> toReturn = type.getRegexpGeneratedVariable(
 				name,
 				patternGeneratingOPPLFunction);
-		this.variables.store(toReturn);
+		variables.store(toReturn);
 		return toReturn;
 	}
 
@@ -584,102 +594,102 @@ public class ConstraintSystem {
 
 			@Override
 			public GeneratedVariable<O> visit(OWLClass desc) {
-				return this.getCLASSGeneratedVariable(name, desc);
+				return getCLASSGeneratedVariable(name, desc);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLObjectIntersectionOf ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLObjectUnionOf ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLObjectComplementOf ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLObjectSomeValuesFrom ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLObjectAllValuesFrom ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLObjectHasValue ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLObjectMinCardinality ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLObjectExactCardinality ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLObjectMaxCardinality ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLObjectHasSelf ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLObjectOneOf ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLDataSomeValuesFrom ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLDataAllValuesFrom ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLDataHasValue ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLDataMinCardinality ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLDataExactCardinality ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLDataMaxCardinality ce) {
-				return this.getCLASSGeneratedVariable(name, ce);
+				return getCLASSGeneratedVariable(name, ce);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLObjectProperty property) {
-				return this.getOBJECTPROPERTYGeneratedVariable(name, property);
+				return getOBJECTPROPERTYGeneratedVariable(name, property);
 			}
 
 			@Override
 			public GeneratedVariable<O> visit(OWLObjectInverseOf property) {
-				return this.getOBJECTPROPERTYGeneratedVariable(name, property);
+				return getOBJECTPROPERTYGeneratedVariable(name, property);
 			}
 
 			@SuppressWarnings("unchecked")
@@ -702,7 +712,7 @@ public class ConstraintSystem {
 						adapted);
 			}
 		});
-		this.variables.store(toReturn);
+		variables.store(toReturn);
 		return toReturn;
 	}
 
@@ -711,17 +721,17 @@ public class ConstraintSystem {
 	}
 
 	public void importVariable(Variable<?> v) {
-		this.variables.store(v);
+		variables.store(v);
 	}
 
 	public void clearVariables() {
-		this.variables.clear();
+		variables.clear();
 	}
 
 	/**
 	 * @return the ontologyManager
 	 */
 	public OWLOntologyManager getOntologyManager() {
-		return this.ontologyManager;
+		return ontologyManager;
 	}
 }

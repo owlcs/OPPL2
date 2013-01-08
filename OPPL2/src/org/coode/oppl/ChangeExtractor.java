@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
-import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /**
@@ -68,27 +67,27 @@ public class ChangeExtractor {
 		List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
 		OPPLQuery q = script.getQuery();
 		if (q != null) {
-			q.execute(this.getRuntimeExceptionHandler(), this.getExecutionMonitor());
+			q.execute(getRuntimeExceptionHandler(), getExecutionMonitor());
 		}
 		List<OWLAxiomChange> changes = script.getActions();
 		for (OWLAxiomChange change : changes) {
-			boolean isAdd = change instanceof AddAxiom;
+            boolean isAdd = change.isAddAxiom();
 			ActionType action = isAdd ? ActionType.ADD : ActionType.REMOVE;
-			if (this.considerImportClosure && !isAdd) {
+			if (considerImportClosure && !isAdd) {
 				toReturn.addAll(ActionFactory.createChanges(
 						action,
 						change.getAxiom(),
 						script.getConstraintSystem(),
 						script.getConstraintSystem().getOntologyManager().getImportsClosure(
 								script.getConstraintSystem().getOntology()),
-						this.getRuntimeExceptionHandler()));
+						getRuntimeExceptionHandler()));
 			} else {
 				toReturn.addAll(ActionFactory.createChanges(
 						action,
 						change.getAxiom(),
 						script.getConstraintSystem(),
 						script.getConstraintSystem().getOntology(),
-						this.getRuntimeExceptionHandler()));
+						getRuntimeExceptionHandler()));
 			}
 		}
 		return toReturn;
@@ -98,13 +97,13 @@ public class ChangeExtractor {
 	 * @return the runtimeExceptionHandler
 	 */
 	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
-		return this.runtimeExceptionHandler;
+		return runtimeExceptionHandler;
 	}
 
 	/**
 	 * @return the executionMonitor
 	 */
 	public ExecutionMonitor getExecutionMonitor() {
-		return this.executionMonitor;
+		return executionMonitor;
 	}
 }

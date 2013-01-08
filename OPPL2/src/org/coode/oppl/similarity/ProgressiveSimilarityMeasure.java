@@ -26,7 +26,7 @@ public class ProgressiveSimilarityMeasure<O> implements SimilarityMeasure<O> {
 
 	public boolean isSymmetric() {
 		boolean notSymmetric = false;
-		Iterator<SimilarityMeasure<O>> iterator = this.getMeasureList().iterator();
+        Iterator<SimilarityMeasure<O>> iterator = this.measureList.iterator();
 		while (iterator.hasNext() && !notSymmetric) {
 			SimilarityMeasure<O> similarityMeasure = iterator.next();
 			notSymmetric = !similarityMeasure.isSymmetric();
@@ -37,7 +37,7 @@ public class ProgressiveSimilarityMeasure<O> implements SimilarityMeasure<O> {
 	public double compare(O anObject, O anotherObject) {
 		double toReturn = 1;
 		boolean found = false;
-		Iterator<SimilarityMeasure<O>> iterator = this.getMeasureList().iterator();
+        Iterator<SimilarityMeasure<O>> iterator = this.measureList.iterator();
 		while (!found && iterator.hasNext()) {
 			SimilarityMeasure<O> similarityMeasure = iterator.next();
 			toReturn = toReturn * similarityMeasure.compare(anObject, anotherObject);
