@@ -38,7 +38,7 @@ public class CombinedReplacementStrategy<I, P extends I> implements ReplacementS
 	 */
 	public final P replace(I input) {
 		P replaced = null;
-		Iterator<ReplacementStrategy<I, P>> iterator = this.getStrategies().iterator();
+		Iterator<ReplacementStrategy<I, P>> iterator = this.strategies.iterator();
 		// There is at least one strategy.
 		do {
 			ReplacementStrategy<I, P> strategy = iterator.next();
