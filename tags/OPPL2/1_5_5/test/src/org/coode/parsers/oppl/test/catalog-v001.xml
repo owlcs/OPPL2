@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog id="XML Catalog File (see http://www.oasis-open.org/committees/entity/spec-2001-08-06.html) - Created By Protege 4" prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=1" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1296741011289" name="http://www.w3.org/2006/12/owl2-xml#" uri="ondrejTest.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1296741011289" name="http://www.coode.org/oppl/ontologies/syntaxTest.owl" uri="syntaxTest.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1296741011289" name="http://www.co-ode.org/roberts/country.owl" uri="test.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1296768901167" name="http://www.semanticweb.org/ontologies/2011/1/siblings.owl" uri="siblings.owl"/>
-    </group>
-</catalog>
