@@ -32,10 +32,11 @@ import org.semanticweb.owlapi.vocab.OWL2Datatype;
  */
 public class BidirectionalShortFormProviderAdapter extends
 		CachingBidirectionalShortFormProvider {
-	private ShortFormProvider shortFormProvider;
+	private final ShortFormProvider shortFormProvider;
 	private Set<OWLOntology> ontologies;
 	private OWLOntologyManager man;
-	private OWLOntologyLoaderListener loaderListener = new OWLOntologyLoaderListener() {
+	private final OWLOntologyLoaderListener loaderListener = new OWLOntologyLoaderListener() {
+		@Override
 		public void finishedLoadingOntology(LoadingFinishedEvent event) {
 			BidirectionalShortFormProviderAdapter.this.ontologies.clear();
 			BidirectionalShortFormProviderAdapter.this.ontologies
@@ -46,11 +47,13 @@ public class BidirectionalShortFormProviderAdapter extends
 							BidirectionalShortFormProviderAdapter.this.ontologies));
 		}
 
+		@Override
 		public void startedLoadingOntology(LoadingStartedEvent event) {
 			// Do nothing
 		}
 	};
-	private OWLOntologyChangeListener changeListener = new OWLOntologyChangeListener() {
+	private final OWLOntologyChangeListener changeListener = new OWLOntologyChangeListener() {
+		@Override
 		public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
 				throws OWLException {
 			BidirectionalShortFormProviderAdapter.this.handleChanges(changes);
@@ -131,7 +134,7 @@ public class BidirectionalShortFormProviderAdapter extends
 		Set<OWLEntity> processed = new HashSet<OWLEntity>();
 		for (OWLOntologyChange chg : changes) {
 			if (this.ontologies.contains(chg.getOntology())) {
-				if (chg.isAdd()) {
+				if (chg.isAddAxiom()) {
 					AddAxiom addAx = (AddAxiom) chg;
 					for (OWLEntity ent : addAx.getSignature()) {
 						if (!processed.contains(ent)) {
@@ -139,7 +142,7 @@ public class BidirectionalShortFormProviderAdapter extends
 							this.add(ent);
 						}
 					}
-				} else if (chg.isAxiomChange() && !chg.isAdd()) {
+				} else if (chg.isAxiomChange() && !chg.isAddAxiom()) {
 					RemoveAxiom remAx = (RemoveAxiom) chg;
 					for (OWLEntity ent : remAx.getSignature()) {
 						if (!processed.contains(ent)) {
