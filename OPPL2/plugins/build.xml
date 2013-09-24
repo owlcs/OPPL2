@@ -2,11 +2,11 @@
 <project name="oppl plugin" default="bundle" basedir="..">
 	<property file="${basedir}/plugins/build.properties" />
 	<property name="src" location="${basedir}/org.coode.oppl/src" />
-	<property name="classes" location="${basedir}/bin" />
+	<property name="classes" location="${oppl.bin}" />
 	<property name="source" location="1.5" />
 	<property name="dist" location="${protegestandalone.equinox}" />
-	<property name="jardest" location="${dist}/plugins/org.coode.oppl.jar" />
-	<property name="releasedownloads" location="/Users/luigi/Documents/workspace/PROTEGEDOCS/WebContent/oppl/downloads" />
+	<property name="jardest" location="${protegestandalone.plugins}/org.coode.oppl.jar" />
+	<property name="releasedownloads" location="/Users/elenimikroyannidi/git/OPPL2/OPPL2/plugins/release" />
 	<property name="releasejardest" location="${releasedownloads}/org.coode.oppl.jar" />
 	<property name="releasezipsourcedest" location="${releasedownloads}/org.coode.oppl-src.zip" />
 	<property name="updateProperty" location="${basedir}/plugins/org.coode.oppl/update.properties" />

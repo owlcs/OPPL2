@@ -22,12 +22,14 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	/**
 	 * @param delegate
 	 */
-	public OWLPropertyChainImpl(List<? extends OWLObjectPropertyExpression> delegate) {
+	public OWLPropertyChainImpl(
+			List<? extends OWLObjectPropertyExpression> delegate) {
 		if (delegate == null) {
 			throw new NullPointerException("The list cannot be null");
 		}
 		if (delegate.size() < 2) {
-			throw new IllegalArgumentException("The list cannot have less than 2 elements");
+			throw new IllegalArgumentException(
+					"The list cannot have less than 2 elements");
 		}
 		this.delegate.clear();
 		this.delegate.addAll(delegate);
@@ -66,7 +68,8 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @return
 	 * @see java.util.List#addAll(int, java.util.Collection)
 	 */
-	public boolean addAll(int index, Collection<? extends OWLObjectPropertyExpression> c) {
+	public boolean addAll(int index,
+			Collection<? extends OWLObjectPropertyExpression> c) {
 		return this.delegate.addAll(index, c);
 	}
 
@@ -217,7 +220,8 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @return
 	 * @see java.util.List#set(int, java.lang.Object)
 	 */
-	public OWLObjectPropertyExpression set(int index, OWLObjectPropertyExpression element) {
+	public OWLObjectPropertyExpression set(int index,
+			OWLObjectPropertyExpression element) {
 		return this.delegate.set(index, element);
 	}
 
@@ -313,5 +317,10 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 
 	public boolean isTopEntity() {
 		return false;
+	}
+
+	public Set<OWLAnonymousIndividual> getAnonymousIndividuals() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

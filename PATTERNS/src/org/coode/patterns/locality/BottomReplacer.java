@@ -62,8 +62,8 @@ import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
-public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVisitor,
-		OWLClassExpressionVisitor {
+public class BottomReplacer extends OWLAxiomVisitorAdapter implements
+		OWLAxiomVisitor, OWLClassExpressionVisitor {
 	/**
 	 * 
 	 */
@@ -102,7 +102,8 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
 		return this.newDescription;
 	}
 
-	public Set<OWLClassExpression> replaceBottom(Set<OWLClassExpression> descriptions) {
+	public Set<OWLClassExpression> replaceBottom(
+			Set<OWLClassExpression> descriptions) {
 		Set<OWLClassExpression> result = new HashSet<OWLClassExpression>();
 		for (OWLClassExpression desc : descriptions) {
 			result.add(this.replaceBottom(desc));
@@ -169,28 +170,30 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
 
 	@Override
 	public void visit(OWLDisjointClassesAxiom ax) {
-		Set<OWLClassExpression> disjointclasses = this.replaceBottom(ax.getClassExpressions());
+		Set<OWLClassExpression> disjointclasses = this.replaceBottom(ax
+				.getClassExpressions());
 		this.newAxiom = this.df.getOWLDisjointClassesAxiom(disjointclasses);
 	}
 
 	@Override
 	public void visit(OWLEquivalentClassesAxiom ax) {
-		Set<OWLClassExpression> eqclasses = this.replaceBottom(ax.getClassExpressions());
+		Set<OWLClassExpression> eqclasses = this.replaceBottom(ax
+				.getClassExpressions());
 		this.newAxiom = this.df.getOWLEquivalentClassesAxiom(eqclasses);
 	}
 
 	public void visit(OWLObjectAllValuesFrom desc) {
 		if (this.signature.contains(desc.getProperty().getNamedProperty())) {
 			this.newDescription = this.df.getOWLObjectAllValuesFrom(
-					desc.getProperty(),
-					this.replaceBottom(desc.getFiller()));
+					desc.getProperty(), this.replaceBottom(desc.getFiller()));
 		} else {
 			this.newDescription = this.thing;
 		}
 	}
 
 	public void visit(OWLObjectComplementOf desc) {
-		this.newDescription = this.df.getOWLObjectComplementOf(this.replaceBottom(desc.getOperand()));
+		this.newDescription = this.df.getOWLObjectComplementOf(this
+				.replaceBottom(desc.getOperand()));
 	}
 
 	public void visit(OWLObjectExactCardinality desc) {
@@ -203,7 +206,8 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
 
 	public void visit(OWLObjectIntersectionOf desc) {
 		Set<OWLClassExpression> operands = desc.getOperands();
-		this.newDescription = this.df.getOWLObjectIntersectionOf(this.replaceBottom(operands));
+		this.newDescription = this.df.getOWLObjectIntersectionOf(this
+				.replaceBottom(operands));
 	}
 
 	public void visit(OWLObjectMaxCardinality desc) {
@@ -233,8 +237,7 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
 	public void visit(OWLObjectSomeValuesFrom desc) {
 		if (this.signature.contains(desc.getProperty().getNamedProperty())) {
 			this.newDescription = this.df.getOWLObjectSomeValuesFrom(
-					desc.getProperty(),
-					this.replaceBottom(desc.getFiller()));
+					desc.getProperty(), this.replaceBottom(desc.getFiller()));
 		} else {
 			this.newDescription = this.nothing;
 		}
@@ -242,7 +245,8 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
 
 	public void visit(OWLObjectUnionOf desc) {
 		Set<OWLClassExpression> operands = desc.getOperands();
-		this.newDescription = this.df.getOWLObjectUnionOf(this.replaceBottom(operands));
+		this.newDescription = this.df.getOWLObjectUnionOf(this
+				.replaceBottom(operands));
 	}
 
 	public void visit(OWLObjectHasValue desc) {
@@ -283,15 +287,13 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
 	@Override
 	public void visit(OWLDataPropertyDomainAxiom axiom) {
 		this.newAxiom = this.df.getOWLDataPropertyDomainAxiom(
-				axiom.getProperty(),
-				this.replaceBottom(axiom.getDomain()));
+				axiom.getProperty(), this.replaceBottom(axiom.getDomain()));
 	}
 
 	@Override
 	public void visit(OWLObjectPropertyDomainAxiom axiom) {
 		this.newAxiom = this.df.getOWLObjectPropertyDomainAxiom(
-				axiom.getProperty(),
-				this.replaceBottom(axiom.getDomain()));
+				axiom.getProperty(), this.replaceBottom(axiom.getDomain()));
 	}
 
 	@Override
@@ -322,8 +324,7 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
 	@Override
 	public void visit(OWLObjectPropertyRangeAxiom axiom) {
 		this.newAxiom = this.df.getOWLObjectPropertyRangeAxiom(
-				axiom.getProperty(),
-				this.replaceBottom(axiom.getRange()));
+				axiom.getProperty(), this.replaceBottom(axiom.getRange()));
 	}
 
 	@Override

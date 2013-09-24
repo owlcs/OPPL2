@@ -1,9 +1,9 @@
 package org.coode.parsers.test;
 
+import static org.junit.Assert.assertTrue;
+
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import junit.framework.TestCase;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.RecognitionException;
@@ -29,6 +29,9 @@ import org.coode.parsers.Type;
 import org.coode.parsers.common.SystemErrorEcho;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
@@ -70,8 +73,9 @@ import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
-public class ComprehensiveAxiomTestCase extends TestCase {
-	private static final class TypeAssociation extends OWLObjectVisitorExAdapter<OWLAxiomType> {
+public class ComprehensiveAxiomTestCase {
+	private static final class TypeAssociation extends
+			OWLObjectVisitorExAdapter<OWLAxiomType> {
 		@Override
 		public OWLAxiomType visit(OWLSubClassOfAxiom axiom) {
 			return OWLAxiomType.SUBCLASS;
@@ -248,16 +252,20 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		}
 	}
 
-	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
+	private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager
+			.createOWLOntologyManager();
 	private SymbolTable symtab;
 	private static TypeAssociation ASSOCOATION = new TypeAssociation();
 	private final static SymbolTableFactory<SymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
 			ONTOLOGY_MANAGER);
 	static {
 		try {
-			ONTOLOGY_MANAGER.loadOntology(IRI.create(URI.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
-			ONTOLOGY_MANAGER.loadOntology(IRI.create(ComprehensiveAxiomTestCase.class.getResource(
-					"syntaxTest.owl").toURI()));
+			ONTOLOGY_MANAGER
+					.loadOntology(IRI.create(URI
+							.create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl")));
+			ONTOLOGY_MANAGER.loadOntology(IRI
+					.create(ComprehensiveAxiomTestCase.class.getResource(
+							"syntaxTest.owl").toURI()));
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -279,17 +287,18 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		}
 
 		@Override
-		public Object errorNode(TokenStream input, Token start, Token stop, RecognitionException e) {
+		public Object errorNode(TokenStream input, Token start, Token stop,
+				RecognitionException e) {
 			return new CommonErrorNode(input, start, stop, e);
 		}
 	};
-	private ErrorListener errorListener = new SystemErrorEcho();
+	private final ErrorListener errorListener = new SystemErrorEcho();
 
 	protected ManchesterOWLSyntaxTree parse(String input) {
 		MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens,
-				new RecognizerSharedState(), this.errorListener);
+		ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(
+				tokens, new RecognizerSharedState(), this.errorListener);
 		parser.setTreeAdaptor(adaptor);
 		try {
 			RuleReturnScope r = parser.main();
@@ -300,12 +309,13 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 			nodes.setTreeAdaptor(adaptor);
 			// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
 			this.symtab.setErrorListener(this.errorListener);
-			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+			ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+					nodes);
 			simplify.setTreeAdaptor(adaptor);
 			simplify.downup(tree);
 			nodes.reset();
-			ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(nodes, this.symtab,
-					this.errorListener);
+			ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(
+					nodes, this.symtab, this.errorListener);
 			typeComp.downup(tree); // trigger resolve/type computation actions
 			// WALK TREE TO DUMP SUBTREE TYPES
 			System.out.println(tree.toStringTree());
@@ -316,54 +326,73 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		}
 	}
 
-	@Override
+	@Before
 	protected void setUp() throws Exception {
-		super.setUp();
 		this.symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
 	}
 
-	@Override
+	@After
 	protected void tearDown() throws Exception {
 		this.symtab.dispose();
 	}
 
+	@Test
 	public void testSubClass() {
 		String input = "NamedPizza subClassOf Pizza and hasTopping min 2";
 		ManchesterOWLSyntaxTree parsed = this.parse(input);
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.SUBCLASS);
-		parseType = this.parse(
-				"NamedPizza and hasTopping min 2 and hasTopping value Italy and aDataProperty value \"2\"^int subClassOf Pizza and hasTopping min 2 Thing").getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.SUBCLASS);
-		parseType = this.parse(
-				"Pizza subClassOf hasTopping some (Thing and hasTopping only PizzaTopping)").getEvalType();
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.SUBCLASS);
+		parseType = this
+				.parse("NamedPizza and hasTopping min 2 and hasTopping value Italy and aDataProperty value \"2\"^int subClassOf Pizza and hasTopping min 2 Thing")
+				.getEvalType();
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.SUBCLASS);
+		parseType = this
+				.parse("Pizza subClassOf hasTopping some (Thing and hasTopping only PizzaTopping)")
+				.getEvalType();
 		// Change keyword case
 	}
 
+	@Test
 	public void testClassAssertion() {
-		ManchesterOWLSyntaxTree parsed = this.parse("America types NamedPizza or not (hasTopping some Pizza)");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("America types NamedPizza or not (hasTopping some Pizza)");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.CLASS_ASSERTION);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.CLASS_ASSERTION);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.CLASS_ASSERTION);
-		parseType = this.parse("America InstanceOf NamedPizza or not (hasTopping some Pizza)").getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.CLASS_ASSERTION);
-		parseType = this.parse("America Type NamedPizza or not (hasTopping some Pizza)").getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.CLASS_ASSERTION);
+		parseType = this.parse(
+				"America InstanceOf NamedPizza or not (hasTopping some Pizza)")
+				.getEvalType();
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.CLASS_ASSERTION);
+		parseType = this.parse(
+				"America Type NamedPizza or not (hasTopping some Pizza)")
+				.getEvalType();
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.CLASS_ASSERTION);
 	}
 
+	@Test
 	public void testObjectPropertyAssertion() {
-		ManchesterOWLSyntaxTree parsed = this.parse("America  hasTopping Italy");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("America  hasTopping Italy");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.OBJECT_PROPERTY_ASSERTION);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.OBJECT_PROPERTY_ASSERTION);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.OBJECT_PROPERTY_ASSERTION);
 		parsed = this.parse("America  INV ( INV (hasTopping)) Italy");
 		parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.OBJECT_PROPERTY_ASSERTION);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.OBJECT_PROPERTY_ASSERTION);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.OBJECT_PROPERTY_ASSERTION);
 	}
 
+	@Test
 	public void testOWLKeys() {
-		ManchesterOWLSyntaxTree parsed = this.parse("Pizza HasKey hasTopping , hasBase");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("Pizza HasKey hasTopping , hasBase");
 		Type parseType = parsed.getEvalType();
 		assertTrue("parse type " + parseType, parseType == OWLAxiomType.HAS_KEY);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.HAS_KEY);
@@ -373,237 +402,317 @@ public class ComprehensiveAxiomTestCase extends TestCase {
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.HAS_KEY);
 	}
 
+	@Test
 	public void testDataPropertyAssertion() {
-		ManchesterOWLSyntaxTree parsed = this.parse("America  aDataProperty \" Monica dei topolissimi \"^int");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("America  aDataProperty \" Monica dei topolissimi \"^int");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.DATA_PROPERTY_ASSERTION);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.DATA_PROPERTY_ASSERTION);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.DATA_PROPERTY_ASSERTION);
 	}
 
+	@Test
 	public void testEquivalentClass() {
-		ManchesterOWLSyntaxTree parsed = this.parse("NamedPizza or not (hasTopping some Pizza) equivalentTo Pizza and  NamedPizza");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("NamedPizza or not (hasTopping some Pizza) equivalentTo Pizza and  NamedPizza");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.EQUIVALENT_CLASSES);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.EQUIVALENT_CLASSES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_CLASSES);
 		parsed = this.parse("NamedPizza  equivalentTo Pizza");
 		parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.EQUIVALENT_CLASSES);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.EQUIVALENT_CLASSES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_CLASSES);
 		// Change the keyword case
-		parsed = this.parse("Pizza or not (hasTopping some Thing) EquivalentTo Pizza and  NamedPizza");
+		parsed = this
+				.parse("Pizza or not (hasTopping some Thing) EquivalentTo Pizza and  NamedPizza");
 		parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.EQUIVALENT_CLASSES);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.EQUIVALENT_CLASSES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_CLASSES);
 	}
 
+	@Test
 	public void testEquivalentClassEscapedEntities() {
-		ManchesterOWLSyntaxTree parsed = this.parse("NamedPizza or not ('hasTopping' some Pizza) equivalentTo Pizza and  NamedPizza");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("NamedPizza or not ('hasTopping' some Pizza) equivalentTo Pizza and  NamedPizza");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.EQUIVALENT_CLASSES);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.EQUIVALENT_CLASSES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_CLASSES);
 		parsed = this.parse("NamedPizza  equivalentTo Pizza");
 		parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.EQUIVALENT_CLASSES);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.EQUIVALENT_CLASSES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_CLASSES);
 	}
 
+	@Test
 	public void testDisjointClasses() {
-		ManchesterOWLSyntaxTree parsed = this.parse("NamedPizza or not (hasTopping some Pizza) DisjointWith Pizza and  NamedPizza");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("NamedPizza or not (hasTopping some Pizza) DisjointWith Pizza and  NamedPizza");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.DISJOINT_CLASSES);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.DISJOINT_CLASSES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.DISJOINT_CLASSES);
 	}
 
 	public void testDisjointObjectProperties() {
-		ManchesterOWLSyntaxTree parsed = this.parse("hasTopping  DisjointWith INV (hasBase)");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("hasTopping  DisjointWith INV (hasBase)");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.DISJOINT_OBJECT_PROPERTIES);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.DISJOINT_OBJECT_PROPERTIES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.DISJOINT_OBJECT_PROPERTIES);
 	}
 
+	@Test
 	public void testDisjointDataProperties() {
-		ManchesterOWLSyntaxTree parsed = this.parse("aDataProperty  DisjointWith aDataProperty");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("aDataProperty  DisjointWith aDataProperty");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.DISJOINT_DATA_PROPERTIES);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.DISJOINT_DATA_PROPERTIES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.DISJOINT_DATA_PROPERTIES);
 	}
 
+	@Test
 	public void testEquivalentObjectProperties() {
-		ManchesterOWLSyntaxTree parsed = this.parse("INV (hasTopping) equivalentTo INV (hasBase)");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("INV (hasTopping) equivalentTo INV (hasBase)");
 		Type parseType = parsed.getEvalType();
-		assertTrue(
-				"parse type " + parseType,
+		assertTrue("parse type " + parseType,
 				parseType == OWLAxiomType.EQUIVALENT_OBJECT_PROPERTIES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_OBJECT_PROPERTIES);
 	}
 
+	@Test
 	public void testEquivalentDataProperties() {
-		ManchesterOWLSyntaxTree parsed = this.parse("aDataProperty equivalentTo aDataProperty");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("aDataProperty equivalentTo aDataProperty");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.EQUIVALENT_DATA_PROPERTIES);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.EQUIVALENT_DATA_PROPERTIES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.EQUIVALENT_DATA_PROPERTIES);
 	}
 
+	@Test
 	public void testSubObjectProperty() {
-		ManchesterOWLSyntaxTree parsed = this.parse("hasTopping subPropertyOf hasBase");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("hasTopping subPropertyOf hasBase");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.SUB_OBJECT_PROPERTY);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.SUB_OBJECT_PROPERTY);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.SUB_OBJECT_PROPERTY);
 	}
 
+	@Test
 	public void testSubDataProperty() {
-		ManchesterOWLSyntaxTree parsed = this.parse("aDataProperty subPropertyOf aDataProperty");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("aDataProperty subPropertyOf aDataProperty");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.SUB_DATA_PROPERTY);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.SUB_DATA_PROPERTY);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.SUB_DATA_PROPERTY);
 	}
 
+	@Test
 	public void testDomainAxiom() {
-		ManchesterOWLSyntaxTree parsed = this.parse("hasTopping Domain Pizza and Thing");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("hasTopping Domain Pizza and Thing");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.OBJECT_PROPERTY_DOMAIN);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.OBJECT_PROPERTY_DOMAIN);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.OBJECT_PROPERTY_DOMAIN);
 		parsed = this.parse("aDataProperty Domain Thing and Pizza");
 		parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.DATA_PROPERTY_DOMAIN);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.DATA_PROPERTY_DOMAIN);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.DATA_PROPERTY_DOMAIN);
 	}
 
+	@Test
 	public void testRangeAxiom() {
-		ManchesterOWLSyntaxTree parsed = this.parse("hasTopping Range Pizza and Thing");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("hasTopping Range Pizza and Thing");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.OBJECT_PROPERTY_RANGE);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.OBJECT_PROPERTY_RANGE);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.OBJECT_PROPERTY_RANGE);
 		parsed = this.parse("aDataProperty Range int");
 		parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.DATA_PROPERTY_RANGE);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.DATA_PROPERTY_RANGE);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.DATA_PROPERTY_RANGE);
 	}
 
+	@Test
 	public void testPropertyChainSubProperty() {
-		ManchesterOWLSyntaxTree parsed = this.parse("hasTopping o hasBase subPropertyOf hasBase");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("hasTopping o hasBase subPropertyOf hasBase");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.PROPERTY_CHAIN_SUB_PROPERTY);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.PROPERTY_CHAIN_SUB_PROPERTY);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.PROPERTY_CHAIN_SUB_PROPERTY);
 	}
 
+	@Test
 	public void testSameIndividuals() {
 		ManchesterOWLSyntaxTree parsed = this.parse("America  sameAs Italy");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.SAME_INDIVIDUAL);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.SAME_INDIVIDUAL);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.SAME_INDIVIDUAL);
 	}
 
+	@Test
 	public void testDifferentIndividuals() {
-		ManchesterOWLSyntaxTree parsed = this.parse("America  differentFrom Italy");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("America  differentFrom Italy");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.DIFFERENT_INDIVIDUALS);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.DIFFERENT_INDIVIDUALS);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.DIFFERENT_INDIVIDUALS);
 	}
 
+	@Test
 	public void testFunctionalObjectProperty() {
 		ManchesterOWLSyntaxTree parsed = this.parse("Functional hasBase");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.FUNCTIONAL_OBJECT_PROPERTY);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.FUNCTIONAL_OBJECT_PROPERTY);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.FUNCTIONAL_OBJECT_PROPERTY);
 	}
 
+	@Test
 	public void testFunctionalDataProperty() {
 		ManchesterOWLSyntaxTree parsed = this.parse("Functional aDataProperty");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.FUNCTIONAL_DATA_PROPERTY);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.FUNCTIONAL_DATA_PROPERTY);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.FUNCTIONAL_DATA_PROPERTY);
 	}
 
+	@Test
 	public void testInverseFunctionalObjectProperty() {
-		ManchesterOWLSyntaxTree parsed = this.parse("InverseFunctional hasTopping");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("InverseFunctional hasTopping");
 		Type parseType = parsed.getEvalType();
-		assertTrue(
-				"parse type " + parseType,
+		assertTrue("parse type " + parseType,
 				parseType == OWLAxiomType.INVERSE_FUNCTIONAL_OBJECT_PROPERTY);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.INVERSE_FUNCTIONAL_OBJECT_PROPERTY);
 	}
 
+	@Test
 	public void testInverseObjectProperties() {
-		ManchesterOWLSyntaxTree parsed = this.parse("hasTopping InverseOf hasTopping");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("hasTopping InverseOf hasTopping");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.INVERSE_OBJECT_PROPERTIES);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.INVERSE_OBJECT_PROPERTIES);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.INVERSE_OBJECT_PROPERTIES);
 	}
 
+	@Test
 	public void testIrreflexiveObjectProperty() {
 		ManchesterOWLSyntaxTree parsed = this.parse("Irreflexive hasTopping");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.IRREFLEXIVE_OBJECT_PROPERTY);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.IRREFLEXIVE_OBJECT_PROPERTY);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.IRREFLEXIVE_OBJECT_PROPERTY);
 	}
 
+	@Test
 	public void testReflexiveObjectProperty() {
 		ManchesterOWLSyntaxTree parsed = this.parse("Reflexive hasTopping");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.REFLEXIVE_OBJECT_PROPERTY);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.REFLEXIVE_OBJECT_PROPERTY);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.REFLEXIVE_OBJECT_PROPERTY);
 	}
 
+	@Test
 	public void testSymmetricObjectProperty() {
 		ManchesterOWLSyntaxTree parsed = this.parse("Symmetric hasTopping");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.SYMMETRIC_OBJECT_PROPERTY);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.SYMMETRIC_OBJECT_PROPERTY);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.SYMMETRIC_OBJECT_PROPERTY);
 	}
 
+	@Test
 	public void testTransitiveObjectProperty() {
 		ManchesterOWLSyntaxTree parsed = this.parse("Transitive hasTopping");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.TRANSITIVE_OBJECT_PROPERTY);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.TRANSITIVE_OBJECT_PROPERTY);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.TRANSITIVE_OBJECT_PROPERTY);
 	}
 
+	@Test
 	public void testNegativeObjectPropertyAssertion() {
-		ManchesterOWLSyntaxTree parsed = this.parse("not America hasTopping Italy");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("not America hasTopping Italy");
 		Type parseType = parsed.getEvalType();
-		assertTrue(
-				"parse type " + parseType,
+		assertTrue("parse type " + parseType,
 				parseType == OWLAxiomType.NEGATIVE_OBJECT_PROPERTY_ASSERTION);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.NEGATIVE_OBJECT_PROPERTY_ASSERTION);
 	}
 
+	@Test
 	public void testDataRange() {
-		ManchesterOWLSyntaxTree parsed = this.parse("Thing subClassOf aDataProperty some int [ > \"1\"]");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("Thing subClassOf aDataProperty some int [ > \"1\"]");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.SUBCLASS);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.SUBCLASS);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.SUBCLASS);
 	}
 
+	@Test
 	public void testDataRangeConjuntion() {
-		ManchesterOWLSyntaxTree parsed = this.parse("Thing subClassOf aDataProperty some (int [ > \"1\"] and int[>\"3\"])");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("Thing subClassOf aDataProperty some (int [ > \"1\"] and int[>\"3\"])");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.SUBCLASS);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.SUBCLASS);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.SUBCLASS);
 	}
 
+	@Test
 	public void testDataRangeDisjuntion() {
-		ManchesterOWLSyntaxTree parsed = this.parse("Thing subClassOf aDataProperty some (int [ > \"1\"] or int[>\"3\"])");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("Thing subClassOf aDataProperty some (int [ > \"1\"] or int[>\"3\"])");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.SUBCLASS);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.SUBCLASS);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.SUBCLASS);
 	}
 
+	@Test
 	public void testAnnotationAssertionAxiom() {
-		ManchesterOWLSyntaxTree parsed = this.parse("<blah#Luigi> label \"boh\"");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("<blah#Luigi> label \"boh\"");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.ANNOTATION_ASSERTION);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.ANNOTATION_ASSERTION);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.ANNOTATION_ASSERTION);
 		parsed = this.parse("<blah#Luigi> label <blah#Monica>");
 		parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.ANNOTATION_ASSERTION);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.ANNOTATION_ASSERTION);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.ANNOTATION_ASSERTION);
 	}
 
+	@Test
 	public void testAnnotationAssertionWithLanguageTagAxiom() {
-		ManchesterOWLSyntaxTree parsed = this.parse("<blah#Luigi> label \"bello\"@it");
+		ManchesterOWLSyntaxTree parsed = this
+				.parse("<blah#Luigi> label \"bello\"@it");
 		Type parseType = parsed.getEvalType();
-		assertTrue("parse type " + parseType, parseType == OWLAxiomType.ANNOTATION_ASSERTION);
+		assertTrue("parse type " + parseType,
+				parseType == OWLAxiomType.ANNOTATION_ASSERTION);
 		assertTrue(parsed.getOWLObject().accept(ASSOCOATION) == OWLAxiomType.ANNOTATION_ASSERTION);
 	}
 }

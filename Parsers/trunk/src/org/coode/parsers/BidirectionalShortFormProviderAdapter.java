@@ -36,7 +36,6 @@ public class BidirectionalShortFormProviderAdapter extends
 	private Set<OWLOntology> ontologies;
 	private OWLOntologyManager man;
 	private final OWLOntologyLoaderListener loaderListener = new OWLOntologyLoaderListener() {
-		@Override
 		public void finishedLoadingOntology(LoadingFinishedEvent event) {
 			BidirectionalShortFormProviderAdapter.this.ontologies.clear();
 			BidirectionalShortFormProviderAdapter.this.ontologies
@@ -47,13 +46,11 @@ public class BidirectionalShortFormProviderAdapter extends
 							BidirectionalShortFormProviderAdapter.this.ontologies));
 		}
 
-		@Override
 		public void startedLoadingOntology(LoadingStartedEvent event) {
 			// Do nothing
 		}
 	};
 	private final OWLOntologyChangeListener changeListener = new OWLOntologyChangeListener() {
-		@Override
 		public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
 				throws OWLException {
 			BidirectionalShortFormProviderAdapter.this.handleChanges(changes);

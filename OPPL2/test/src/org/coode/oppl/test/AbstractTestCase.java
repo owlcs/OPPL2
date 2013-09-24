@@ -24,6 +24,9 @@ import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.common.SystemErrorEcho;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -52,6 +55,7 @@ public abstract class AbstractTestCase extends TestCase {
 		return this.ontologyManager;
 	}
 
+	@Test
 	public OWLOntology getOntology(String name) {
 		OWLOntology o = this.loadedOntologies.get(name);
 		if (o == null) {
@@ -88,6 +92,7 @@ public abstract class AbstractTestCase extends TestCase {
 	// exceptions
 	protected boolean longStackTrace = true;
 
+	@Test
 	protected void execute(OPPLScript script, OWLOntology ontology, int expected) {
 		try {
 			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
@@ -128,18 +133,19 @@ public abstract class AbstractTestCase extends TestCase {
 	}
 
 	@Override
+	@Before
 	protected void setUp() throws Exception {
 		this.testQueries.setUp();
 	}
 
 	@Override
+	@After
 	protected void tearDown() throws Exception {
 		this.lastStackTrace = new StringWriter();
 		this.p = new PrintWriter(this.lastStackTrace);
 		for (OWLOntology ontology : this.ontologyManager.getOntologies()) {
 			this.ontologyManager.removeOntology(ontology);
 		}
-		super.tearDown();
 	}
 
 	protected String popStackTrace() {
