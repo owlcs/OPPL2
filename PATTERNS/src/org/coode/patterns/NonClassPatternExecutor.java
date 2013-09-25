@@ -38,45 +38,37 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jul 3, 2008
- */
+/** @author Luigi Iannone Jul 3, 2008 */
 public class NonClassPatternExecutor extends ChangeExtractor {
-	private InstantiatedPatternModel instantiatedPatternModel;
-	private IRI annotationIRI;
-	private OWLOntology ontology;
-	private OWLOntologyManager ontologyManager;
+    private final InstantiatedPatternModel instantiatedPatternModel;
+    private final IRI annotationIRI;
+    private final OWLOntology ontology;
+    private final OWLOntologyManager ontologyManager;
 
-	public NonClassPatternExecutor(InstantiatedPatternModel instantiatedPatternModel,
-			OWLOntology ontology, OWLOntologyManager ontologyManager, IRI annotationIRI,
-			RuntimeExceptionHandler handler) {
-		super(handler, true);
-		this.instantiatedPatternModel = instantiatedPatternModel;
-		this.annotationIRI = annotationIRI;
-		this.ontology = ontology;
-		this.ontologyManager = ontologyManager;
-	}
+    public NonClassPatternExecutor(InstantiatedPatternModel instantiatedPatternModel,
+            OWLOntology ontology, OWLOntologyManager ontologyManager, IRI annotationIRI,
+            RuntimeExceptionHandler handler) {
+        super(handler, true);
+        this.instantiatedPatternModel = instantiatedPatternModel;
+        this.annotationIRI = annotationIRI;
+        this.ontology = ontology;
+        this.ontologyManager = ontologyManager;
+    }
 
-	@Override
-	public List<OWLAxiomChange> visit(OPPLScript script) {
-		List<OWLAxiomChange> changes = script.getActions();
-		Set<OWLAxiomChange> p = new HashSet<OWLAxiomChange>(changes.size());
-		for (OWLAxiomChange axiomChange : changes) {
+    @Override
+    public List<OWLAxiomChange> visit(OPPLScript script) {
+        List<OWLAxiomChange> changes = script.getActions();
+        Set<OWLAxiomChange> p = new HashSet<OWLAxiomChange>(changes.size());
+        for (OWLAxiomChange axiomChange : changes) {
             ActionType actionType = axiomChange.isAddAxiom() ? ActionType.ADD
-					: ActionType.REMOVE;
-			OWLAxiom axiom = axiomChange.getAxiom();
-			Collection<? extends OWLAxiomChange> createdChanges = PatternActionFactory.createChange(
-					actionType,
-					axiom,
-					instantiatedPatternModel,
-					ontologyManager.getOWLDataFactory(),
-					annotationIRI,
-					ontology,
-					getRuntimeExceptionHandler());
-			p.addAll(createdChanges);
-		}
-		return new ArrayList<OWLAxiomChange>(p);
-	}
+                    : ActionType.REMOVE;
+            OWLAxiom axiom = axiomChange.getAxiom();
+            Collection<? extends OWLAxiomChange> createdChanges = PatternActionFactory
+                    .createChange(actionType, axiom, instantiatedPatternModel,
+                            ontologyManager.getOWLDataFactory(), annotationIRI, ontology,
+                            getRuntimeExceptionHandler());
+            p.addAll(createdChanges);
+        }
+        return new ArrayList<OWLAxiomChange>(p);
+    }
 }

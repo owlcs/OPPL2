@@ -35,85 +35,69 @@ import org.coode.parsers.ErrorListener;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jun 16, 2008
- */
+/** @author Luigi Iannone Jun 16, 2008 */
 public interface AbstractPatternModelFactory {
-	/**
-	 * 
-	 * Creates a PatternModel using the input (name, variables, actions, return
-	 * value, rendering, and constraint system) returnClause can be
-	 * <code>null</code> variables and actions must be non empty Lists
-	 * 
-	 * @param name
-	 * @param variables
-	 * @param actions
-	 * @param returnClause
-	 * @param rendering
-	 * @param constraintSystem
-	 * @return a PatternModel
-	 * @throws UnsuitableOPPLScriptException
-	 */
-	PatternModel createPatternModel(String name, List<Variable<?>> variables,
-			List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
-			ConstraintSystem constraintSystem) throws EmptyVariableListException,
-			EmptyActionListException, UnsuitableOPPLScriptException;
+    /** Creates a PatternModel using the input (name, variables, actions, return
+     * value, rendering, and constraint system) returnClause can be
+     * <code>null</code> variables and actions must be non empty Lists
+     * 
+     * @param name
+     * @param variables
+     * @param actions
+     * @param returnClause
+     * @param rendering
+     * @param constraintSystem
+     * @return a PatternModel
+     * @throws UnsuitableOPPLScriptException */
+    PatternModel createPatternModel(String name, List<Variable<?>> variables,
+            List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
+            ConstraintSystem constraintSystem) throws EmptyVariableListException,
+            EmptyActionListException, UnsuitableOPPLScriptException;
 
-	/**
-	 * Builds a PatternModel instance starting from the input opplScript
-	 * 
-	 * @param opplScript
-	 * @return a PatternModel
-	 * @throws UnsuitableOPPLScriptException
-	 *             when the input OPPLScript is not suitable for creating a
-	 *             pattern model out of it
-	 */
-	PatternModel createPatternModel(OPPLScript opplScript) throws UnsuitableOPPLScriptException;
+    /** Builds a PatternModel instance starting from the input opplScript
+     * 
+     * @param opplScript
+     * @return a PatternModel
+     * @throws UnsuitableOPPLScriptException
+     *             when the input OPPLScript is not suitable for creating a
+     *             pattern model out of it */
+    PatternModel createPatternModel(OPPLScript opplScript)
+            throws UnsuitableOPPLScriptException;
 
-	/**
-	 * @param patternModel
-	 * @return a InstantiatedPatternModel instance created from the input
-	 *         patternModel
-	 */
-	InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel,
-			RuntimeExceptionHandler handler);
+    /** @param patternModel
+     * @return a InstantiatedPatternModel instance created from the input
+     *         patternModel */
+    InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel,
+            RuntimeExceptionHandler handler);
 
-	/**
-	 * Retrieves a PatternExtractor for extracting patterns from annotations.
-	 * 
-	 * @param errorListener
-	 *            The error listener cannot be {@code null}.
-	 * @return a PatternVisitor that extracts patterns from annotations.
-	 * @throws NullPointerException
-	 *             if the input is {@code null}.
-	 */
-	PatternExtractor getPatternExtractor(ErrorListener errorListener);
+    /** Retrieves a PatternExtractor for extracting patterns from annotations.
+     * 
+     * @param errorListener
+     *            The error listener cannot be {@code null}.
+     * @return a PatternVisitor that extracts patterns from annotations.
+     * @throws NullPointerException
+     *             if the input is {@code null}. */
+    PatternExtractor getPatternExtractor(ErrorListener errorListener);
 
-	/**
-	 * Retrieves a PatternExtractor that takes into account already visited
-	 * patterns.
-	 * 
-	 * @param visitedAnnotations
-	 *            The annotations containing already visited patterns as their
-	 *            values. Cannot be {@code null}.
-	 * @param errorListener
-	 *            The error listener. Cannot be {@code null}.
-	 * @return a PatternVisitor that extracts patterns from annotations
-	 *         excluding the input visited ones.
-	 * @throws NullPointerException
-	 *             if either input is {@code null}.
-	 */
-	PatternExtractor getPatternExtractor(Set<OWLAnnotation> visitedAnnotations,
-			ErrorListener errorListener);
+    /** Retrieves a PatternExtractor that takes into account already visited
+     * patterns.
+     * 
+     * @param visitedAnnotations
+     *            The annotations containing already visited patterns as their
+     *            values. Cannot be {@code null}.
+     * @param errorListener
+     *            The error listener. Cannot be {@code null}.
+     * @return a PatternVisitor that extracts patterns from annotations
+     *         excluding the input visited ones.
+     * @throws NullPointerException
+     *             if either input is {@code null}. */
+    PatternExtractor getPatternExtractor(Set<OWLAnnotation> visitedAnnotations,
+            ErrorListener errorListener);
 
-	/**
-	 * @return a fresh instance of a PatternConstraintSystem
-	 */
-	PatternConstraintSystem createConstraintSystem();
+    /** @return a fresh instance of a PatternConstraintSystem */
+    PatternConstraintSystem createConstraintSystem();
 
-	ManchesterSyntaxRenderer getRenderer(PatternConstraintSystem patternConstraintSystem);
+    ManchesterSyntaxRenderer getRenderer(PatternConstraintSystem patternConstraintSystem);
 
-	OPPLAbstractFactory getOPPLFactory();
+    OPPLAbstractFactory getOPPLFactory();
 }

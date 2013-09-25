@@ -58,428 +58,426 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jun 11, 2008
- */
-public class InstantiatedPatternModel implements InstantiatedOPPLScript, PatternOPPLScript {
-	private IRI uri = null;
-	private final PatternModel patternModel;
-	private final RuntimeExceptionHandler runtimeExceptionHandler;
+/** @author Luigi Iannone Jun 11, 2008 */
+public class InstantiatedPatternModel implements InstantiatedOPPLScript,
+        PatternOPPLScript {
+    private IRI uri = null;
+    private final PatternModel patternModel;
+    private final RuntimeExceptionHandler runtimeExceptionHandler;
 
-	/**
-	 * Creates an InstantiatedPatternModel instance starting from the input
-	 * PatternModel
-	 * 
-	 * @param patternModel
-	 *            the Pattern on which the this instantiated pattern will be
-	 *            built. Cannot be {@code null}.
-	 */
-	public InstantiatedPatternModel(PatternModel patternModel, RuntimeExceptionHandler handler) {
-		if (patternModel == null) {
-			throw new NullPointerException("The pattern cannot be null");
-		}
-		if (handler == null) {
-			throw new NullPointerException("Theruntime exception  handler cannot be null");
-		}
-		this.patternModel = patternModel;
-		runtimeExceptionHandler = handler;
-	}
+    /** Creates an InstantiatedPatternModel instance starting from the input
+     * PatternModel
+     * 
+     * @param patternModel
+     *            the Pattern on which the this instantiated pattern will be
+     *            built. Cannot be {@code null}. */
+    public InstantiatedPatternModel(PatternModel patternModel,
+            RuntimeExceptionHandler handler) {
+        if (patternModel == null) {
+            throw new NullPointerException("The pattern cannot be null");
+        }
+        if (handler == null) {
+            throw new NullPointerException("Theruntime exception  handler cannot be null");
+        }
+        this.patternModel = patternModel;
+        runtimeExceptionHandler = handler;
+    }
 
-	private Map<Variable<?>, Set<OWLObject>> instantiations = new HashMap<Variable<?>, Set<OWLObject>>();
-	private String unresolvedOPPLStatementString;
+    private final Map<Variable<?>, Set<OWLObject>> instantiations = new HashMap<Variable<?>, Set<OWLObject>>();
+    private String unresolvedOPPLStatementString;
 
-	public Set<OWLObject> getInstantiations(Variable<?> variable) {
-		// defensive copy; it also guarantees that no nulls are returned
-		Set<OWLObject> toReturn = new HashSet<OWLObject>();
-		if (instantiations.containsKey(variable)) {
-			toReturn.addAll(instantiations.get(variable));
-		}
-		return toReturn;
-	}
+    public Set<OWLObject> getInstantiations(Variable<?> variable) {
+        // defensive copy; it also guarantees that no nulls are returned
+        Set<OWLObject> toReturn = new HashSet<OWLObject>();
+        if (instantiations.containsKey(variable)) {
+            toReturn.addAll(instantiations.get(variable));
+        }
+        return toReturn;
+    }
 
-	public boolean removeInstantiation(Variable<?> variable, OWLObject owlObject) {
-		Set<OWLObject> variableInstantiations = instantiations.get(variable);
-		boolean toReturn = false;
-		if (variableInstantiations != null) {
-			toReturn = variableInstantiations.remove(owlObject);
-		}
-		return toReturn;
-	}
+    public boolean removeInstantiation(Variable<?> variable, OWLObject owlObject) {
+        Set<OWLObject> variableInstantiations = instantiations.get(variable);
+        boolean toReturn = false;
+        if (variableInstantiations != null) {
+            toReturn = variableInstantiations.remove(owlObject);
+        }
+        return toReturn;
+    }
 
-	/**
-	 * Assigns the input value to the input variable, if the variable is already
-	 * in the InstantiatedPatternModel. To add a Variable instance use
-	 * {@link InstantiatedPatternModel#addVariable(Variable)}
-	 * 
-	 * @param variable
-	 * @param value
-	 */
-	public void instantiate(Variable<?> variable, OWLObject value) {
-		if (getPatternModel().getVariables().contains(variable)
-				|| getPatternModel().getConstraintSystem().getThisClassVariable().equals(
-						variable)
-				&& getPatternModel().getConstraintSystem().getVariable(variable.getName()) != null) {
-			Set<OWLObject> instantiation = getInstantiations(variable);
-			if (instantiation == null) {
-				instantiation = new HashSet<OWLObject>();
-			}
-			instantiation.add(value);
-			instantiations.put(variable, instantiation);
-		}
-	}
+    /** Assigns the input value to the input variable, if the variable is already
+     * in the InstantiatedPatternModel. To add a Variable instance use
+     * {@link InstantiatedPatternModel#addVariable(Variable)}
+     * 
+     * @param variable
+     * @param value */
+    @Override
+    public void instantiate(Variable<?> variable, OWLObject value) {
+        if (getPatternModel().getVariables().contains(variable)
+                || getPatternModel().getConstraintSystem().getThisClassVariable()
+                        .equals(variable)
+                && getPatternModel().getConstraintSystem()
+                        .getVariable(variable.getName()) != null) {
+            Set<OWLObject> instantiation = getInstantiations(variable);
+            if (instantiation == null) {
+                instantiation = new HashSet<OWLObject>();
+            }
+            instantiation.add(value);
+            instantiations.put(variable, instantiation);
+        }
+    }
 
-	public boolean isValid() {
-		boolean unassignedVariables = false;
-		Iterator<? extends Variable<?>> it = getInputVariables().iterator();
-		Variable<?> variable;
-		while (!unassignedVariables && it.hasNext()) {
-			variable = it.next();
-			unassignedVariables = instantiations.get(variable) == null
-					|| instantiations.get(variable).isEmpty();
-		}
-		return patternModel.isValid() && !unassignedVariables;
-	}
+    @Override
+    public boolean isValid() {
+        boolean unassignedVariables = false;
+        Iterator<? extends Variable<?>> it = getInputVariables().iterator();
+        Variable<?> variable;
+        while (!unassignedVariables && it.hasNext()) {
+            variable = it.next();
+            unassignedVariables = instantiations.get(variable) == null
+                    || instantiations.get(variable).isEmpty();
+        }
+        return patternModel.isValid() && !unassignedVariables;
+    }
 
-	public String getRendering() {
-		String toReturn = patternModel.getRendering();
-		for (Variable<?> variable : instantiations.keySet()) {
-			Set<OWLObject> instantiation = instantiations.get(variable);
-			if (instantiation != null) {
-				if (instantiation.size() == 1) {
-					OWLObject singleInstantiation = instantiation.iterator().next();
-					toReturn = toReturn.replaceAll(
-							"\\" + variable.getName(),
-							this.render(singleInstantiation));
-				} else {
-					String instantiationReplacement = "{";
-					boolean firstInstantiationValue = true;
-					for (OWLObject object : instantiation) {
-						instantiationReplacement += firstInstantiationValue ? this.render(object)
-								: ", " + this.render(object);
-						firstInstantiationValue = firstInstantiationValue ? false
-								: firstInstantiationValue;
-					}
-					instantiationReplacement += "}";
-					toReturn = toReturn.replaceAll(
-							"\\" + variable.getName(),
-							instantiationReplacement);
-				}
-			} else {
-				toReturn += variable.getName();
-			}
-		}
-		return toReturn;
-	}
+    @Override
+    public String getRendering() {
+        String toReturn = patternModel.getRendering();
+        for (Variable<?> variable : instantiations.keySet()) {
+            Set<OWLObject> instantiation = instantiations.get(variable);
+            if (instantiation != null) {
+                if (instantiation.size() == 1) {
+                    OWLObject singleInstantiation = instantiation.iterator().next();
+                    toReturn = toReturn.replaceAll("\\" + variable.getName(),
+                            this.render(singleInstantiation));
+                } else {
+                    String instantiationReplacement = "{";
+                    boolean firstInstantiationValue = true;
+                    for (OWLObject object : instantiation) {
+                        instantiationReplacement += firstInstantiationValue ? this
+                                .render(object) : ", " + this.render(object);
+                        firstInstantiationValue = firstInstantiationValue ? false
+                                : firstInstantiationValue;
+                    }
+                    instantiationReplacement += "}";
+                    toReturn = toReturn.replaceAll("\\" + variable.getName(),
+                            instantiationReplacement);
+                }
+            } else {
+                toReturn += variable.getName();
+            }
+        }
+        return toReturn;
+    }
 
-	@Override
-	public String toString() {
-		String toReturn = "$" + patternModel.getPatternLocalName();
-		boolean first = true;
-		toReturn += "(";
-		for (Variable<?> variable : getInputVariables()) {
-			if (!first) {
-				toReturn += ", ";
-			} else {
-				first = false;
-			}
-			ManchesterSyntaxRenderer renderer = patternModel.getPatternModelFactory().getRenderer(
-					getConstraintSystem());
-			Set<OWLObject> instantiation = instantiations.get(variable);
-			if (instantiation != null) {
-				if (instantiation.size() == 1) {
-					OWLObject singleInstantiation = instantiation.iterator().next();
-					singleInstantiation.accept(renderer);
-					toReturn += renderer.toString();
-				} else {
-					toReturn += "{";
-					boolean firstInstantiationValue = true;
-					for (OWLObject object : instantiation) {
-						object.accept(renderer);
-						toReturn += firstInstantiationValue ? renderer.toString() : ", "
-								+ renderer.toString();
-						firstInstantiationValue = firstInstantiationValue ? false
-								: firstInstantiationValue;
-						renderer = patternModel.getPatternModelFactory().getRenderer(
-								getConstraintSystem());
-					}
-					toReturn += "}";
-				}
-			} else {
-				toReturn += variable.getName();
-			}
-		}
-		toReturn += ")";
-		return toReturn;
-	}
+    @Override
+    public String toString() {
+        String toReturn = "$" + patternModel.getPatternLocalName();
+        boolean first = true;
+        toReturn += "(";
+        for (Variable<?> variable : getInputVariables()) {
+            if (!first) {
+                toReturn += ", ";
+            } else {
+                first = false;
+            }
+            ManchesterSyntaxRenderer renderer = patternModel.getPatternModelFactory()
+                    .getRenderer(getConstraintSystem());
+            Set<OWLObject> instantiation = instantiations.get(variable);
+            if (instantiation != null) {
+                if (instantiation.size() == 1) {
+                    OWLObject singleInstantiation = instantiation.iterator().next();
+                    singleInstantiation.accept(renderer);
+                    toReturn += renderer.toString();
+                } else {
+                    toReturn += "{";
+                    boolean firstInstantiationValue = true;
+                    for (OWLObject object : instantiation) {
+                        object.accept(renderer);
+                        toReturn += firstInstantiationValue ? renderer.toString() : ", "
+                                + renderer.toString();
+                        firstInstantiationValue = firstInstantiationValue ? false
+                                : firstInstantiationValue;
+                        renderer = patternModel.getPatternModelFactory().getRenderer(
+                                getConstraintSystem());
+                    }
+                    toReturn += "}";
+                }
+            } else {
+                toReturn += variable.getName();
+            }
+        }
+        toReturn += ")";
+        return toReturn;
+    }
 
-	public String render(ShortFormProvider shortFormProvider) {
-		String toReturn = "$" + patternModel.getPatternLocalName();
-		boolean first = true;
-		toReturn += "(";
-		for (Variable<?> variable : getInputVariables()) {
-			if (!first) {
-				toReturn += ", ";
-			} else {
-				first = false;
-			}
-			ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(shortFormProvider);
-			Set<OWLObject> instantiation = instantiations.get(variable);
-			if (instantiation != null) {
-				if (instantiation.size() == 1) {
-					OWLObject singleInstantiation = instantiation.iterator().next();
-					singleInstantiation.accept(renderer);
-					toReturn += renderer.toString();
-				} else {
-					toReturn += "{";
-					boolean firstInstantiationValue = true;
-					for (OWLObject object : instantiation) {
-						object.accept(renderer);
-						toReturn += firstInstantiationValue ? renderer.toString() : ", "
-								+ renderer.toString();
-						firstInstantiationValue = firstInstantiationValue ? false
-								: firstInstantiationValue;
-						renderer = new ManchesterSyntaxRenderer(shortFormProvider);
-					}
-					toReturn += "}";
-				}
-			} else {
-				toReturn += variable.getName();
-			}
-		}
-		toReturn += ")";
-		return toReturn;
-	}
+    @Override
+    public String render(ShortFormProvider shortFormProvider) {
+        String toReturn = "$" + patternModel.getPatternLocalName();
+        boolean first = true;
+        toReturn += "(";
+        for (Variable<?> variable : getInputVariables()) {
+            if (!first) {
+                toReturn += ", ";
+            } else {
+                first = false;
+            }
+            ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(
+                    shortFormProvider);
+            Set<OWLObject> instantiation = instantiations.get(variable);
+            if (instantiation != null) {
+                if (instantiation.size() == 1) {
+                    OWLObject singleInstantiation = instantiation.iterator().next();
+                    singleInstantiation.accept(renderer);
+                    toReturn += renderer.toString();
+                } else {
+                    toReturn += "{";
+                    boolean firstInstantiationValue = true;
+                    for (OWLObject object : instantiation) {
+                        object.accept(renderer);
+                        toReturn += firstInstantiationValue ? renderer.toString() : ", "
+                                + renderer.toString();
+                        firstInstantiationValue = firstInstantiationValue ? false
+                                : firstInstantiationValue;
+                        renderer = new ManchesterSyntaxRenderer(shortFormProvider);
+                    }
+                    toReturn += "}";
+                }
+            } else {
+                toReturn += variable.getName();
+            }
+        }
+        toReturn += ")";
+        return toReturn;
+    }
 
-	protected String render(OWLObject owlObject) {
-		ManchesterSyntaxRenderer renderer = patternModel.getPatternModelFactory().getRenderer(
-				getConstraintSystem());
-		owlObject.accept(renderer);
-		return renderer.toString();
-	}
+    protected String render(OWLObject owlObject) {
+        ManchesterSyntaxRenderer renderer = patternModel.getPatternModelFactory()
+                .getRenderer(getConstraintSystem());
+        owlObject.accept(renderer);
+        return renderer.toString();
+    }
 
-	/**
-	 * @return the instantiatedPatternLocalName
-	 */
-	public String getInstantiatedPatternLocalName() {
-		return patternModel.getPatternLocalName();
-	}
+    /** @return the instantiatedPatternLocalName */
+    public String getInstantiatedPatternLocalName() {
+        return patternModel.getPatternLocalName();
+    }
 
-	public Set<BindingNode> extractBindingNodes() {
-		Set<Assignment> assignments = new HashSet<Assignment>();
-		List<InputVariable<?>> inputVariables = getInputVariables();
-		Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
-		for (InputVariable<?> v : inputVariables) {
-			if (instantiations.containsKey(v)) {
-				bindings.put(v, new HashSet<OWLObject>(instantiations.get(v)));
-			}
-		}
-		Set<Variable<?>> toAssign = new HashSet<Variable<?>>(inputVariables);
-		if (isClassPattern()) {
-			Variable<?> thisClassVariable = getConstraintSystem().getThisClassVariable();
-			toAssign.add(thisClassVariable);
-			if (instantiations.containsKey(thisClassVariable)) {
-				bindings.put(
-						thisClassVariable,
-						new HashSet<OWLObject>(instantiations.get(thisClassVariable)));
-			}
-		}
-		BindingNode rootBindingNode = new BindingNode(assignments, toAssign);
-		LeafBrusher leafBrusher = new LeafBrusher(bindings);
-		rootBindingNode.accept(leafBrusher);
-		Set<BindingNode> leaves = leafBrusher.getLeaves();
-		return leaves;
-	}
+    public Set<BindingNode> extractBindingNodes() {
+        Set<Assignment> assignments = new HashSet<Assignment>();
+        List<InputVariable<?>> inputVariables = getInputVariables();
+        Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
+        for (InputVariable<?> v : inputVariables) {
+            if (instantiations.containsKey(v)) {
+                bindings.put(v, new HashSet<OWLObject>(instantiations.get(v)));
+            }
+        }
+        Set<Variable<?>> toAssign = new HashSet<Variable<?>>(inputVariables);
+        if (isClassPattern()) {
+            Variable<?> thisClassVariable = getConstraintSystem().getThisClassVariable();
+            toAssign.add(thisClassVariable);
+            if (instantiations.containsKey(thisClassVariable)) {
+                bindings.put(thisClassVariable,
+                        new HashSet<OWLObject>(instantiations.get(thisClassVariable)));
+            }
+        }
+        BindingNode rootBindingNode = new BindingNode(assignments, toAssign);
+        LeafBrusher leafBrusher = new LeafBrusher(bindings);
+        rootBindingNode.accept(leafBrusher);
+        Set<BindingNode> leaves = leafBrusher.getLeaves();
+        return leaves;
+    }
 
-	public Set<OWLObject> getOWLObjects(OWLOntology ontology, ErrorListener errorListener) {
-		Set<OWLObject> toReturn = new HashSet<OWLObject>();
-		boolean found = false;
-		OWLAnnotationAssertionAxiom annotationAxiom = null;
-		OWLClass owlClass;
-		Iterator<OWLClass> classIterator = ontology.getClassesInSignature().iterator();
-		while (classIterator.hasNext()) {
-			owlClass = classIterator.next();
-			Iterator<OWLAnnotationAssertionAxiom> annotationIterator = owlClass.getAnnotationAssertionAxioms(
-					ontology).iterator();
-			while (annotationIterator.hasNext()) {
-				annotationAxiom = annotationIterator.next();
-				PatternExtractor patternExtractor = patternModel.getPatternModelFactory().getPatternExtractor(
-						errorListener);
-				OWLAnnotation annotation = annotationAxiom.getAnnotation();
-				PatternOPPLScript script = annotation.accept(patternExtractor);
-				found = script != null && getName().equals(script.getName());
-				if (found) {
-					toReturn.add(annotationAxiom);
-				}
-			}
-		}
-		return toReturn;
-	}
+    @Override
+    public Set<OWLObject>
+            getOWLObjects(OWLOntology ontology, ErrorListener errorListener) {
+        Set<OWLObject> toReturn = new HashSet<OWLObject>();
+        boolean found = false;
+        OWLAnnotationAssertionAxiom annotationAxiom = null;
+        OWLClass owlClass;
+        Iterator<OWLClass> classIterator = ontology.getClassesInSignature().iterator();
+        while (classIterator.hasNext()) {
+            owlClass = classIterator.next();
+            Iterator<OWLAnnotationAssertionAxiom> annotationIterator = owlClass
+                    .getAnnotationAssertionAxioms(ontology).iterator();
+            while (annotationIterator.hasNext()) {
+                annotationAxiom = annotationIterator.next();
+                PatternExtractor patternExtractor = patternModel.getPatternModelFactory()
+                        .getPatternExtractor(errorListener);
+                OWLAnnotation annotation = annotationAxiom.getAnnotation();
+                PatternOPPLScript script = annotation.accept(patternExtractor);
+                found = script != null && getName().equals(script.getName());
+                if (found) {
+                    toReturn.add(annotationAxiom);
+                }
+            }
+        }
+        return toReturn;
+    }
 
-	public OWLOntology getOriginatingOntology() {
-		OWLOntology toReturn = patternModel.getOriginatingOntology();
-		return toReturn;
-	}
+    public OWLOntology getOriginatingOntology() {
+        OWLOntology toReturn = patternModel.getOriginatingOntology();
+        return toReturn;
+    }
 
-	/**
-	 * Adds the input Variable to this InstantiatedPatternModel. The
-	 * instantiations after the addition will be <code>null</code>
-	 * 
-	 * @param v
-	 */
-	public void addVariable(Variable<?> v) {
-		instantiations.put(v, null);
-	}
+    /** Adds the input Variable to this InstantiatedPatternModel. The
+     * instantiations after the addition will be <code>null</code>
+     * 
+     * @param v */
+    @Override
+    public void addVariable(Variable<?> v) {
+        instantiations.put(v, null);
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLScript#getName()
-	 */
-	public String getName() {
-		return patternModel.getPatternLocalName();
-	}
+    @Override
+    public String getName() {
+        return patternModel.getPatternLocalName();
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLScript#getVariables()
-	 */
-	public List<Variable<?>> getVariables() {
-		return patternModel.getVariables();
-	}
+    @Override
+    public List<Variable<?>> getVariables() {
+        return patternModel.getVariables();
+    }
 
-	public PatternConstraintSystem getConstraintSystem() {
-		return patternModel.getConstraintSystem();
-	}
+    @Override
+    public PatternConstraintSystem getConstraintSystem() {
+        return patternModel.getConstraintSystem();
+    }
 
-	public PatternModel getInstantiatedPattern() {
-		return patternModel;
-	}
+    public PatternModel getInstantiatedPattern() {
+        return patternModel;
+    }
 
-	public void addDependency(PatternOPPLScript script) {
-	}
+    @Override
+    public void addDependency(PatternOPPLScript script) {}
 
-	public boolean dependsOn(PatternOPPLScript patternOPPLScript) {
-		return patternOPPLScript.getName().equals(patternModel.getName())
-				|| patternModel.dependsOn(patternOPPLScript);
-	}
+    @Override
+    public boolean dependsOn(PatternOPPLScript patternOPPLScript) {
+        return patternOPPLScript.getName().equals(patternModel.getName())
+                || patternModel.dependsOn(patternOPPLScript);
+    }
 
-	public void setUnresolvedOPPLStatement(String unresolvedString) {
-		unresolvedOPPLStatementString = unresolvedString;
-	}
+    public void setUnresolvedOPPLStatement(String unresolvedString) {
+        unresolvedOPPLStatementString = unresolvedString;
+    }
 
-	public String gettUnresolvedOPPLStatement() {
-		return unresolvedOPPLStatementString;
-	}
+    public String gettUnresolvedOPPLStatement() {
+        return unresolvedOPPLStatementString;
+    }
 
-	public IRI getIRI() {
-		return uri;
-	}
+    @Override
+    public IRI getIRI() {
+        return uri;
+    }
 
-	/**
-	 * @param uri
-	 *            the uri to set
-	 */
-	public void setIRI(IRI uri) {
-		this.uri = uri;
-	}
+    @Override
+    public void setIRI(IRI uri) {
+        this.uri = uri;
+    }
 
-	/**
-	 * @return the pattern instantiation rendered
-	 */
-	public String render() {
-		String toReturn = "$" + getInstantiatedPatternLocalName();
-		boolean first = true;
-		toReturn += "(";
-		for (Variable<?> variable : getInputVariables()) {
-			if (!first) {
-				toReturn += ", ";
-			} else {
-				first = false;
-			}
-			Set<OWLObject> instantiationsValues = getInstantiations(variable);
-			if (instantiationsValues != null && !instantiationsValues.isEmpty()) {
-				if (instantiationsValues.size() == 1) {
-					OWLObject instantiation = instantiationsValues.iterator().next();
-					toReturn += this.render(instantiation);
-				} else {
-					boolean firstInstantiation = true;
-					toReturn += "{";
-					for (OWLObject instantiation : instantiationsValues) {
-						String instantiationRendering = this.render(instantiation);
-						toReturn += firstInstantiation ? instantiationRendering : ", "
-								+ instantiationRendering;
-						firstInstantiation = firstInstantiation ? false : firstInstantiation;
-					}
-					toReturn += "}";
-				}
-			} else {
-				toReturn += variable.getName();
-			}
-		}
-		toReturn += ")";
-		return toReturn;
-	}
+    @Override
+    public String render() {
+        String toReturn = "$" + getInstantiatedPatternLocalName();
+        boolean first = true;
+        toReturn += "(";
+        for (Variable<?> variable : getInputVariables()) {
+            if (!first) {
+                toReturn += ", ";
+            } else {
+                first = false;
+            }
+            Set<OWLObject> instantiationsValues = getInstantiations(variable);
+            if (instantiationsValues != null && !instantiationsValues.isEmpty()) {
+                if (instantiationsValues.size() == 1) {
+                    OWLObject instantiation = instantiationsValues.iterator().next();
+                    toReturn += this.render(instantiation);
+                } else {
+                    boolean firstInstantiation = true;
+                    toReturn += "{";
+                    for (OWLObject instantiation : instantiationsValues) {
+                        String instantiationRendering = this.render(instantiation);
+                        toReturn += firstInstantiation ? instantiationRendering : ", "
+                                + instantiationRendering;
+                        firstInstantiation = firstInstantiation ? false
+                                : firstInstantiation;
+                    }
+                    toReturn += "}";
+                }
+            } else {
+                toReturn += variable.getName();
+            }
+        }
+        toReturn += ")";
+        return toReturn;
+    }
 
-	/**
-	 * @return the patternModel
-	 */
-	public PatternModel getPatternModel() {
-		return patternModel;
-	}
+    /** @return the patternModel */
+    public PatternModel getPatternModel() {
+        return patternModel;
+    }
 
-	public boolean isClassPattern() {
-		return patternModel.isClassPattern();
-	}
+    @Override
+    public boolean isClassPattern() {
+        return patternModel.isClassPattern();
+    }
 
-	public List<InputVariable<?>> getInputVariables() {
-		return patternModel.getOpplStatement().getInputVariables();
-	}
+    @Override
+    public List<InputVariable<?>> getInputVariables() {
+        return patternModel.getOpplStatement().getInputVariables();
+    }
 
-	public boolean hasScopedVariables() {
-		return getPatternModel().hasScopedVariables();
-	}
+    @Override
+    public boolean hasScopedVariables() {
+        return getPatternModel().hasScopedVariables();
+    }
 
-	public void accept(OPPLScriptVisitor visitor) {
-		patternModel.accept(visitor);
-	}
+    @Override
+    public void accept(OPPLScriptVisitor visitor) {
+        patternModel.accept(visitor);
+    }
 
-	public <P> P accept(OPPLScriptVisitorEx<P> visitor) {
-		return patternModel.accept(visitor);
-	}
+    @Override
+    public <P> P accept(OPPLScriptVisitorEx<P> visitor) {
+        return patternModel.accept(visitor);
+    }
 
-	public List<OWLAxiomChange> getActions() {
-		List<OWLAxiomChange> actions = patternModel.getActions();
-		Set<BindingNode> bindingNodes = extractBindingNodes();
-		List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
-		for (BindingNode bindingNode : bindingNodes) {
-			for (OWLAxiomChange axiomChange : actions) {
-				ValueComputationParameters parameters = new SimpleValueComputationParameters(
-						getConstraintSystem(), bindingNode, getRuntimeExceptionHandler());
-				PartialOWLObjectInstantiator partialObjectInstantiator = new PartialOWLObjectInstantiator(
-						parameters);
-				OWLAxiom axiom = axiomChange.getAxiom();
-				OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(partialObjectInstantiator);
+    @Override
+    public List<OWLAxiomChange> getActions() {
+        List<OWLAxiomChange> actions = patternModel.getActions();
+        Set<BindingNode> bindingNodes = extractBindingNodes();
+        List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
+        for (BindingNode bindingNode : bindingNodes) {
+            for (OWLAxiomChange axiomChange : actions) {
+                ValueComputationParameters parameters = new SimpleValueComputationParameters(
+                        getConstraintSystem(), bindingNode, getRuntimeExceptionHandler());
+                PartialOWLObjectInstantiator partialObjectInstantiator = new PartialOWLObjectInstantiator(
+                        parameters);
+                OWLAxiom axiom = axiomChange.getAxiom();
+                OWLAxiom instantiatedAxiom = (OWLAxiom) axiom
+                        .accept(partialObjectInstantiator);
                 OWLAxiomChange instantiatedChange = axiomChange.isAddAxiom() ? new AddAxiom(
-						axiomChange.getOntology(), instantiatedAxiom) : new RemoveAxiom(
-						axiomChange.getOntology(), instantiatedAxiom);
-				toReturn.add(instantiatedChange);
-			}
-		}
-		return toReturn;
-	}
+                        axiomChange.getOntology(), instantiatedAxiom) : new RemoveAxiom(
+                        axiomChange.getOntology(), instantiatedAxiom);
+                toReturn.add(instantiatedChange);
+            }
+        }
+        return toReturn;
+    }
 
-	public OPPLQuery getQuery() {
-		return null;
-	}
+    @Override
+    public OPPLQuery getQuery() {
+        return null;
+    }
 
-	public OWLObject getDefinitorialPortion(Collection<? extends BindingNode> bindingNodes,
-			RuntimeExceptionHandler runtimeExceptionHandler) throws PatternException {
-		return getPatternModel().getDefinitorialPortion(bindingNodes, runtimeExceptionHandler);
-	}
+    @Override
+    public OWLObject getDefinitorialPortion(
+            Collection<? extends BindingNode> bindingNodes,
+            RuntimeExceptionHandler runtimeExceptionHandler) throws PatternException {
+        return getPatternModel().getDefinitorialPortion(bindingNodes,
+                runtimeExceptionHandler);
+    }
 
-	/**
-	 * @return the runtimeExceptionHandler
-	 */
-	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
-		return runtimeExceptionHandler;
-	}
+    /** @return the runtimeExceptionHandler */
+    public RuntimeExceptionHandler getRuntimeExceptionHandler() {
+        return runtimeExceptionHandler;
+    }
 }

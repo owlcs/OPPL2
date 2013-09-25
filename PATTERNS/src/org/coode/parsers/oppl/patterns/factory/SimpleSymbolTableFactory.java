@@ -16,43 +16,35 @@ import org.coode.parsers.oppl.patterns.OPPLPatternsSymbolTable;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
-/**
- * @author Luigi Iannone
- * 
- */
-public class SimpleSymbolTableFactory implements SymbolTableFactory<OPPLPatternsSymbolTable> {
-	private final OWLOntologyManager manager;
+/** @author Luigi Iannone */
+public class SimpleSymbolTableFactory implements
+        SymbolTableFactory<OPPLPatternsSymbolTable> {
+    private final OWLOntologyManager manager;
 
-	/**
-	 * @param manager
-	 */
-	public SimpleSymbolTableFactory(OWLOntologyManager manager) {
-		if (manager == null) {
-			throw new NullPointerException("The manager cannot be null");
-		}
-		this.manager = manager;
-	}
+    /** @param manager */
+    public SimpleSymbolTableFactory(OWLOntologyManager manager) {
+        if (manager == null) {
+            throw new NullPointerException("The manager cannot be null");
+        }
+        this.manager = manager;
+    }
 
-	/**
-	 * @see org.coode.parsers.factory.SymbolTableFactory#createSymbolTable()
-	 */
-	public OPPLPatternsSymbolTable createSymbolTable() {
-		BidirectionalShortFormProviderAdapter shortFormProvider = new BidirectionalShortFormProviderAdapter(
-				this.manager, this.manager.getOntologies(), new SimpleShortFormProvider());
-		DisposableOWLEntityChecker entityChecker = new DisposableShortFormEntityChecker(
-				shortFormProvider);
-		ShortFormEntityRenderer entityRenderer = new ShortFormEntityRenderer(
-				new SimpleShortFormProvider());
-		EntityFinder entityFinder = new EntityFinderImpl(this.manager,
-				new OWLEntityRenderingCacheImpl(this.manager, entityRenderer), false);
-		return new OPPLPatternsSymbolTable(new OPPLScope(entityChecker, entityFinder,
-				entityRenderer), this.getManager());
-	}
+    @Override
+    public OPPLPatternsSymbolTable createSymbolTable() {
+        BidirectionalShortFormProviderAdapter shortFormProvider = new BidirectionalShortFormProviderAdapter(
+                manager, manager.getOntologies(), new SimpleShortFormProvider());
+        DisposableOWLEntityChecker entityChecker = new DisposableShortFormEntityChecker(
+                shortFormProvider);
+        ShortFormEntityRenderer entityRenderer = new ShortFormEntityRenderer(
+                new SimpleShortFormProvider());
+        EntityFinder entityFinder = new EntityFinderImpl(manager,
+                new OWLEntityRenderingCacheImpl(manager, entityRenderer), false);
+        return new OPPLPatternsSymbolTable(new OPPLScope(entityChecker, entityFinder,
+                entityRenderer), getManager());
+    }
 
-	/**
-	 * @return the manager
-	 */
-	public OWLOntologyManager getManager() {
-		return this.manager;
-	}
+    /** @return the manager */
+    public OWLOntologyManager getManager() {
+        return manager;
+    }
 }

@@ -24,18 +24,14 @@ package org.coode.patterns;
 
 import org.coode.oppl.Variable;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jun 25, 2008
- */
+/** @author Luigi Iannone Jun 25, 2008 */
 public class IncompatibleArgumentException extends PatternException {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -7059528951585455789L;
+    private static final long serialVersionUID = -7059528951585455789L;
 
-	public IncompatibleArgumentException(Object argument, Variable<?> v) {
-		super("The value " + argument + " is incompatible for variable " + v.toString());
-	}
+    public IncompatibleArgumentException(Object argument, Variable<?> v) {
+        super("The value " + argument + " is incompatible for variable " + v.toString());
+    }
 }

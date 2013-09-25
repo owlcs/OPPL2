@@ -45,133 +45,122 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jun 16, 2008
- */
+/** @author Luigi Iannone Jun 16, 2008 */
 public class PatternModelFactory implements AbstractPatternModelFactory {
-	private OWLOntologyManager ontologyManager;
-	private OWLOntology ontology;
-	private final OWLReasoner reasoner;
+    private final OWLOntologyManager ontologyManager;
+    private final OWLOntology ontology;
+    private final OWLReasoner reasoner;
 
-	/**
-	 * @param ontologyManager
-	 */
-	public PatternModelFactory(OWLOntology ontology, OWLOntologyManager ontologyManager,
-			OWLReasoner reasoner) {
-		this.ontologyManager = ontologyManager;
-		this.ontology = ontology;
-		this.reasoner = reasoner;
-	}
+    /** @param ontologyManager */
+    public PatternModelFactory(OWLOntology ontology, OWLOntologyManager ontologyManager,
+            OWLReasoner reasoner) {
+        this.ontologyManager = ontologyManager;
+        this.ontology = ontology;
+        this.reasoner = reasoner;
+    }
 
-	public PatternModelFactory(OWLOntology ontology, OWLOntologyManager ontologyManager) {
-		this(ontology, ontologyManager, null);
-	}
+    public PatternModelFactory(OWLOntology ontology, OWLOntologyManager ontologyManager) {
+        this(ontology, ontologyManager, null);
+    }
 
-	public PatternModel createPatternModel(OPPLScript opplScript)
-			throws UnsuitableOPPLScriptException {
-		if (opplScript.getActions().isEmpty()) {
-			throw new UnsuitableOPPLScriptException(opplScript);
-		} else {
-			return new PatternModel(opplScript, this.ontologyManager, this);
-		}
-	}
+    @Override
+    public PatternModel createPatternModel(OPPLScript opplScript)
+            throws UnsuitableOPPLScriptException {
+        if (opplScript.getActions().isEmpty()) {
+            throw new UnsuitableOPPLScriptException(opplScript);
+        } else {
+            return new PatternModel(opplScript, ontologyManager, this);
+        }
+    }
 
-	public InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel,
-			RuntimeExceptionHandler handler) {
-		return new InstantiatedPatternModel(patternModel, handler);
-	}
+    @Override
+    public InstantiatedPatternModel createInstantiatedPatternModel(
+            PatternModel patternModel, RuntimeExceptionHandler handler) {
+        return new InstantiatedPatternModel(patternModel, handler);
+    }
 
-	public PatternExtractor getPatternExtractor(ErrorListener errorListener) {
-		return new PatternExtractor(this.ontology, this.ontologyManager, errorListener);
-	}
+    @Override
+    public PatternExtractor getPatternExtractor(ErrorListener errorListener) {
+        return new PatternExtractor(ontology, ontologyManager, errorListener);
+    }
 
-	public PatternExtractor getPatternExtractor(Set<OWLAnnotation> visitedAnnotations,
-			ErrorListener errorListener) {
-		return new PatternExtractor(this.ontology, this.ontologyManager, errorListener,
-				visitedAnnotations);
-	}
+    @Override
+    public PatternExtractor getPatternExtractor(Set<OWLAnnotation> visitedAnnotations,
+            ErrorListener errorListener) {
+        return new PatternExtractor(ontology, ontologyManager, errorListener,
+                visitedAnnotations);
+    }
 
-	public PatternConstraintSystem createConstraintSystem() {
-		final ConstraintSystem delegate = new ConstraintSystem(this.ontology, this.ontologyManager,
-				this.getOPPLFactory());
-		delegate.setReasoner(this.getReasoner());
-		return new PatternConstraintSystem(delegate, this.ontologyManager, this);
-	}
+    @Override
+    public PatternConstraintSystem createConstraintSystem() {
+        final ConstraintSystem delegate = new ConstraintSystem(ontology, ontologyManager,
+                getOPPLFactory());
+        delegate.setReasoner(getReasoner());
+        return new PatternConstraintSystem(delegate, ontologyManager, this);
+    }
 
-	/**
-	 * @see org.coode.patterns.AbstractPatternModelFactory#createPatternModel(java.lang.String,
-	 *      java.util.List, java.util.List, org.coode.oppl.Variable,
-	 *      java.lang.String, org.coode.oppl.ConstraintSystem)
-	 */
-	public PatternModel createPatternModel(String name, List<Variable<?>> variables,
-			List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
-			ConstraintSystem constraintSystem) throws EmptyVariableListException,
-			EmptyActionListException {
-		if (variables.isEmpty()) {
-			throw new EmptyVariableListException();
-		} else if (actions.isEmpty()) {
-			throw new EmptyActionListException();
-		} else {
-			OPPLScript opplScript = this.getOPPLFactory().buildOPPLScript(
-					constraintSystem,
-					variables,
-					null,
-					actions);
-			try {
-				PatternModel patternModel = this.createPatternModel(opplScript);
-				patternModel.setRendering(rendering);
-				patternModel.setIRI(IRI.create(PatternModel.NAMESPACE + name));
-				return patternModel;
-			} catch (UnsuitableOPPLScriptException e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
+    @Override
+    public PatternModel createPatternModel(String name, List<Variable<?>> variables,
+            List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
+            ConstraintSystem constraintSystem) throws EmptyVariableListException,
+            EmptyActionListException {
+        if (variables.isEmpty()) {
+            throw new EmptyVariableListException();
+        } else if (actions.isEmpty()) {
+            throw new EmptyActionListException();
+        } else {
+            OPPLScript opplScript = getOPPLFactory().buildOPPLScript(constraintSystem,
+                    variables, null, actions);
+            try {
+                PatternModel patternModel = this.createPatternModel(opplScript);
+                patternModel.setRendering(rendering);
+                patternModel.setIRI(IRI.create(PatternModel.NAMESPACE + name));
+                return patternModel;
+            } catch (UnsuitableOPPLScriptException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
-	/**
-	 * @return the ontologyManager
-	 */
-	public OWLOntologyManager getOntologyManager() {
-		return this.ontologyManager;
-	}
+    /** @return the ontologyManager */
+    public OWLOntologyManager getOntologyManager() {
+        return ontologyManager;
+    }
 
-	/**
-	 * @return the ontology
-	 */
-	public OWLOntology getOntology() {
-		return this.ontology;
-	}
+    /** @return the ontology */
+    public OWLOntology getOntology() {
+        return ontology;
+    }
 
-	public ManchesterSyntaxRenderer getRenderer(
-			final PatternConstraintSystem patternConstraintSystem) {
-		return new ManchesterSyntaxRenderer(new ShortFormProvider() {
-			public String getShortForm(OWLEntity entity) {
-				return PatternModelFactory.this.getOWLEntityRenderer(patternConstraintSystem).render(
-						entity);
-			}
+    @Override
+    public ManchesterSyntaxRenderer getRenderer(
+            final PatternConstraintSystem patternConstraintSystem) {
+        return new ManchesterSyntaxRenderer(new ShortFormProvider() {
+            @Override
+            public String getShortForm(OWLEntity entity) {
+                return PatternModelFactory.this.getOWLEntityRenderer(
+                        patternConstraintSystem).render(entity);
+            }
 
-			public void dispose() {
-			}
-		});
-	}
+            @Override
+            public void dispose() {}
+        });
+    }
 
-	public OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {
-		OWLEntityRendererImpl defaultRenderer = new OWLEntityRendererImpl();
-		return new VariableOWLEntityRenderer(cs, defaultRenderer);
-	}
+    public OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {
+        OWLEntityRendererImpl defaultRenderer = new OWLEntityRendererImpl();
+        return new VariableOWLEntityRenderer(cs, defaultRenderer);
+    }
 
-	public OPPLAbstractFactory getOPPLFactory() {
-		ParserFactory parserFactory = new ParserFactory(this.ontologyManager, this.ontology,
-				this.getReasoner());
-		return parserFactory.getOPPLFactory();
-	}
+    @Override
+    public OPPLAbstractFactory getOPPLFactory() {
+        ParserFactory parserFactory = new ParserFactory(ontologyManager, ontology,
+                getReasoner());
+        return parserFactory.getOPPLFactory();
+    }
 
-	/**
-	 * @return the reasoner
-	 */
-	public OWLReasoner getReasoner() {
-		return this.reasoner;
-	}
+    /** @return the reasoner */
+    public OWLReasoner getReasoner() {
+        return reasoner;
+    }
 }

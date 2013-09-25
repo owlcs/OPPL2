@@ -21,134 +21,96 @@ import org.coode.patterns.PatternException;
 import org.coode.patterns.PatternOPPLScript;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class OPPLPatternScope implements Scope {
-	private final Scope delegate;
-	private final OWLOntologyManager ontologyManager;
+    private final Scope delegate;
+    private final OWLOntologyManager ontologyManager;
 
-	public OPPLPatternScope(Scope scope, OWLOntologyManager ontologyManager) {
-		if (scope == null) {
-			throw new NullPointerException("The delegate  scope cannot be null");
-		}
-		if (ontologyManager == null) {
-			throw new NullPointerException("The ontology manager cannot be null");
-		}
-		this.delegate = scope;
-		this.ontologyManager = ontologyManager;
-	}
+    public OPPLPatternScope(Scope scope, OWLOntologyManager ontologyManager) {
+        if (scope == null) {
+            throw new NullPointerException("The delegate  scope cannot be null");
+        }
+        if (ontologyManager == null) {
+            throw new NullPointerException("The ontology manager cannot be null");
+        }
+        delegate = scope;
+        this.ontologyManager = ontologyManager;
+    }
 
-	/**
-	 * @param symbol
-	 * @see org.coode.parsers.Scope#define(org.coode.parsers.Symbol)
-	 */
-	public void define(Symbol symbol) {
-		this.delegate.define(symbol);
-	}
+    @Override
+    public void define(Symbol symbol) {
+        delegate.define(symbol);
+    }
 
-	/**
-	 * @return
-	 * @see org.coode.parsers.Scope#getAllSymbols()
-	 */
-	public Set<Symbol> getAllSymbols() {
-		return this.delegate.getAllSymbols();
-	}
+    @Override
+    public Set<Symbol> getAllSymbols() {
+        return delegate.getAllSymbols();
+    }
 
-	/**
-	 * @param type
-	 * @return
-	 * @see org.coode.parsers.Scope#getAllSymbols(org.coode.parsers.Type)
-	 */
-	public Set<Symbol> getAllSymbols(Type type) {
-		return this.delegate.getAllSymbols(type);
-	}
+    @Override
+    public Set<Symbol> getAllSymbols(Type type) {
+        return delegate.getAllSymbols(type);
+    }
 
-	/**
-	 * @return
-	 * @see org.coode.parsers.Scope#getEnclosingScope()
-	 */
-	public Scope getEnclosingScope() {
-		return this.delegate.getEnclosingScope();
-	}
+    @Override
+    public Scope getEnclosingScope() {
+        return delegate.getEnclosingScope();
+    }
 
-	/**
-	 * @return
-	 * @see org.coode.parsers.Scope#getScopeName()
-	 */
-	public String getScopeName() {
-		return this.delegate.getScopeName();
-	}
+    @Override
+    public String getScopeName() {
+        return delegate.getScopeName();
+    }
 
-	/**
-	 * @param prefix
-	 * @return
-	 * @see org.coode.parsers.Scope#match(java.lang.String)
-	 */
-	public Set<Symbol> match(String prefix) {
-		return this.delegate.match(prefix);
-	}
+    @Override
+    public Set<Symbol> match(String prefix) {
+        return delegate.match(prefix);
+    }
 
-	/**
-	 * @param name
-	 * @return
-	 * @see org.coode.parsers.Scope#resolve(java.lang.String)
-	 */
-	public Symbol resolve(String name) {
-		Symbol toReturn = this.delegate.resolve(name);
-		return toReturn;
-	}
+    @Override
+    public Symbol resolve(String name) {
+        Symbol toReturn = delegate.resolve(name);
+        return toReturn;
+    }
 
-	/**
-	 * @return the delegate
-	 */
-	protected Scope getDelegate() {
-		return this.delegate;
-	}
+    /** @return the delegate */
+    protected Scope getDelegate() {
+        return delegate;
+    }
 
-	public Variable<?> resolvePatternReference(OPPLSyntaxTree reference, String patternName,
-			PatternConstraintSystem constraintSystem, ErrorListener listener, List<Object>... args) {
-		return this.resolvePatternReference(
-				reference,
-				patternName,
-				constraintSystem,
-				Collections.<String> emptySet(),
-				listener,
-				args);
-	}
+    public Variable<?> resolvePatternReference(OPPLSyntaxTree reference,
+            String patternName, PatternConstraintSystem constraintSystem,
+            ErrorListener listener, List<Object>... args) {
+        return this.resolvePatternReference(reference, patternName, constraintSystem,
+                Collections.<String> emptySet(), listener, args);
+    }
 
-	public Variable<?> resolvePatternReference(OPPLSyntaxTree reference, String patternName,
-			PatternConstraintSystem constraintSystem, Collection<? extends String> visited,
-			ErrorListener listener, List<Object>... args) {
-		Variable<?> toReturn = null;
-		try {
-			String resolvedPattern = constraintSystem.resolvePattern(
-					patternName,
-					this.getOntologyManager(),
-					new HashSet<String>(visited),
-					new ArrayList<PatternOPPLScript>(),
-					listener,
-					args);
-			toReturn = constraintSystem.getVariable(resolvedPattern);
-		} catch (PatternException e) {
-			if (listener != null) {
-				listener.illegalToken(
-						reference,
-						"Could not resolve the reference: " + e.getMessage());
-			}
-		}
-		return toReturn;
-	}
+    public Variable<?> resolvePatternReference(OPPLSyntaxTree reference,
+            String patternName, PatternConstraintSystem constraintSystem,
+            Collection<? extends String> visited, ErrorListener listener,
+            List<Object>... args) {
+        Variable<?> toReturn = null;
+        try {
+            String resolvedPattern = constraintSystem.resolvePattern(patternName,
+                    getOntologyManager(), new HashSet<String>(visited),
+                    new ArrayList<PatternOPPLScript>(), listener, args);
+            toReturn = constraintSystem.getVariable(resolvedPattern);
+        } catch (PatternException e) {
+            if (listener != null) {
+                listener.illegalToken(reference,
+                        "Could not resolve the reference: " + e.getMessage());
+            }
+        }
+        return toReturn;
+    }
 
-	/**
-	 * @return the ontologyManager
-	 */
-	public OWLOntologyManager getOntologyManager() {
-		return this.ontologyManager;
-	}
+    /** @return the ontologyManager */
+    public OWLOntologyManager getOntologyManager() {
+        return ontologyManager;
+    }
 
-	public void dispose() {
-		this.delegate.dispose();
-	}
+    @Override
+    public void dispose() {
+        delegate.dispose();
+    }
 }

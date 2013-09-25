@@ -44,104 +44,87 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jul 3, 2008
- */
+/** @author Luigi Iannone Jul 3, 2008 */
 public class PatternActionFactory {
-	public static final String CREATED_BY = "createdBy";
+    public static final String CREATED_BY = "createdBy";
 
-	public static Collection<? extends OWLAxiomChange> createChange(OWLClass thisClass,
-			ActionType actionType, OWLAxiom axiom,
-			InstantiatedPatternModel instantiatedPatternModel, OWLDataFactory owlDataFactory,
-			IRI annotationIRI, OWLOntology ontology, RuntimeExceptionHandler handler) {
-		instantiatedPatternModel.instantiate(
-				instantiatedPatternModel.getConstraintSystem().getThisClassVariable(),
-				thisClass);
-		return createChange(
-				actionType,
-				axiom,
-				instantiatedPatternModel,
-				owlDataFactory,
-				annotationIRI,
-				ontology,
-				handler);
-	}
+    public static Collection<? extends OWLAxiomChange> createChange(OWLClass thisClass,
+            ActionType actionType, OWLAxiom axiom,
+            InstantiatedPatternModel instantiatedPatternModel,
+            OWLDataFactory owlDataFactory, IRI annotationIRI, OWLOntology ontology,
+            RuntimeExceptionHandler handler) {
+        instantiatedPatternModel.instantiate(instantiatedPatternModel
+                .getConstraintSystem().getThisClassVariable(), thisClass);
+        return createChange(actionType, axiom, instantiatedPatternModel, owlDataFactory,
+                annotationIRI, ontology, handler);
+    }
 
-	/**
-	 * @param instantiatedAxiom
-	 * @param actionType
-	 * @param changes
-	 * @param instantiatedPatternModel
-	 * @param owlDataFactory
-	 * @param ontology
-	 * @param annotationIRI
-	 */
-	private static void addChange(OWLAxiom instantiatedAxiom, ActionType actionType,
-			List<OWLAxiomChange> changes, InstantiatedPatternModel instantiatedPatternModel,
-			OWLDataFactory owlDataFactory, OWLOntology ontology, IRI annotationIRI) {
-		OWLAxiomChange axiomChange = null;
-		if (instantiatedPatternModel.getConstraintSystem().getAxiomVariables(instantiatedAxiom).isEmpty()) {
-			switch (actionType) {
-			case ADD:
-				OWLAnnotation annotation = owlDataFactory.getOWLAnnotation(
-						owlDataFactory.getOWLAnnotationProperty(IRI.create(PatternModel.NAMESPACE
-								+ PatternActionFactory.CREATED_BY)),
-						owlDataFactory.getOWLLiteral(annotationIRI.toString()));
-				instantiatedAxiom = instantiatedAxiom.getAnnotatedAxiom(Collections.singleton(annotation));
-				axiomChange = new AddAxiom(ontology, instantiatedAxiom);
-				changes.add(axiomChange);
-				break;
-			case REMOVE:
-				axiomChange = new RemoveAxiom(ontology, instantiatedAxiom);
-				changes.add(axiomChange);
-				break;
-			default:
-				break;
-			}
-		}
-	}
+    /** @param instantiatedAxiom
+     * @param actionType
+     * @param changes
+     * @param instantiatedPatternModel
+     * @param owlDataFactory
+     * @param ontology
+     * @param annotationIRI */
+    private static void addChange(OWLAxiom instantiatedAxiom, ActionType actionType,
+            List<OWLAxiomChange> changes,
+            InstantiatedPatternModel instantiatedPatternModel,
+            OWLDataFactory owlDataFactory, OWLOntology ontology, IRI annotationIRI) {
+        OWLAxiomChange axiomChange = null;
+        if (instantiatedPatternModel.getConstraintSystem()
+                .getAxiomVariables(instantiatedAxiom).isEmpty()) {
+            switch (actionType) {
+                case ADD:
+                    OWLAnnotation annotation = owlDataFactory.getOWLAnnotation(
+                            owlDataFactory.getOWLAnnotationProperty(IRI
+                                    .create(PatternModel.NAMESPACE
+                                            + PatternActionFactory.CREATED_BY)),
+                            owlDataFactory.getOWLLiteral(annotationIRI.toString()));
+                    instantiatedAxiom = instantiatedAxiom.getAnnotatedAxiom(Collections
+                            .singleton(annotation));
+                    axiomChange = new AddAxiom(ontology, instantiatedAxiom);
+                    changes.add(axiomChange);
+                    break;
+                case REMOVE:
+                    axiomChange = new RemoveAxiom(ontology, instantiatedAxiom);
+                    changes.add(axiomChange);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
-	public static Collection<? extends OWLAxiomChange> createChange(ActionType actionType,
-			OWLAxiom axiom, InstantiatedPatternModel instantiatedPatternModel,
-			OWLDataFactory owlDataFactory, IRI annotationIRI, OWLOntology ontology,
-			RuntimeExceptionHandler handler) {
-		List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
-		Set<BindingNode> bindingNodes = instantiatedPatternModel.extractBindingNodes();
-		if (instantiatedPatternModel.getPatternModel().getInputVariables().isEmpty()
-				&& !instantiatedPatternModel.getPatternModel().isClassPattern()
-				|| bindingNodes != null && !bindingNodes.isEmpty()) {
-			if (instantiatedPatternModel.getPatternModel().getInputVariables().isEmpty()
-					&& !instantiatedPatternModel.getPatternModel().isClassPattern()) {
-				// empty variables
-				addChange(
-						axiom,
-						actionType,
-						toReturn,
-						instantiatedPatternModel,
-						owlDataFactory,
-						ontology,
-						annotationIRI);
-			} else {
-				instantiatedPatternModel.getConstraintSystem().setLeaves(bindingNodes);
-				for (BindingNode bindingNode : bindingNodes) {
-					ValueComputationParameters parameters = new SimpleValueComputationParameters(
-							instantiatedPatternModel.getConstraintSystem(), bindingNode, handler);
-					PartialOWLObjectInstantiator instatiator = new PartialOWLObjectInstantiator(
-							parameters);
-					OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instatiator);
-					addChange(
-							instantiatedAxiom,
-							actionType,
-							toReturn,
-							instantiatedPatternModel,
-							owlDataFactory,
-							ontology,
-							annotationIRI);
-				}
-			}
-		}
-		return toReturn;
-	}
+    public static Collection<? extends OWLAxiomChange> createChange(
+            ActionType actionType, OWLAxiom axiom,
+            InstantiatedPatternModel instantiatedPatternModel,
+            OWLDataFactory owlDataFactory, IRI annotationIRI, OWLOntology ontology,
+            RuntimeExceptionHandler handler) {
+        List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
+        Set<BindingNode> bindingNodes = instantiatedPatternModel.extractBindingNodes();
+        if (instantiatedPatternModel.getPatternModel().getInputVariables().isEmpty()
+                && !instantiatedPatternModel.getPatternModel().isClassPattern()
+                || bindingNodes != null && !bindingNodes.isEmpty()) {
+            if (instantiatedPatternModel.getPatternModel().getInputVariables().isEmpty()
+                    && !instantiatedPatternModel.getPatternModel().isClassPattern()) {
+                // empty variables
+                addChange(axiom, actionType, toReturn, instantiatedPatternModel,
+                        owlDataFactory, ontology, annotationIRI);
+            } else {
+                instantiatedPatternModel.getConstraintSystem().setLeaves(bindingNodes);
+                for (BindingNode bindingNode : bindingNodes) {
+                    ValueComputationParameters parameters = new SimpleValueComputationParameters(
+                            instantiatedPatternModel.getConstraintSystem(), bindingNode,
+                            handler);
+                    PartialOWLObjectInstantiator instatiator = new PartialOWLObjectInstantiator(
+                            parameters);
+                    OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instatiator);
+                    addChange(instantiatedAxiom, actionType, toReturn,
+                            instantiatedPatternModel, owlDataFactory, ontology,
+                            annotationIRI);
+                }
+            }
+        }
+        return toReturn;
+    }
 }

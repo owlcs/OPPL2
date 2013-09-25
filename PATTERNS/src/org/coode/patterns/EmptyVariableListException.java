@@ -22,18 +22,14 @@
  */
 package org.coode.patterns;
 
-/**
- * @author Luigi Iannone
- * 
- *         Nov 25, 2008
- */
+/** @author Luigi Iannone Nov 25, 2008 */
 public class EmptyVariableListException extends PatternException {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -6409413195169640507L;
+    private static final long serialVersionUID = -6409413195169640507L;
 
-	public EmptyVariableListException() {
-		super("Empty variables list patterns cannot exist");
-	}
+    public EmptyVariableListException() {
+        super("Empty variables list patterns cannot exist");
+    }
 }

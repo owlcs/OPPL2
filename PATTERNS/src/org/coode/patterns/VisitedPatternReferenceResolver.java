@@ -17,6 +17,7 @@ public final class VisitedPatternReferenceResolver implements PatternReferenceRe
 		visited.addAll(visitedPatterns);
 	}
 
+    @Override
 	public void resolvePattern(OPPLSyntaxTree reference, String patternName,
 			PatternConstraintSystem constraintSystem, OPPLPatternsSymbolTable symbolTable,
 			List<Object>... args) {
@@ -28,9 +29,7 @@ public final class VisitedPatternReferenceResolver implements PatternReferenceRe
 				args);
 	}
 
-	/**
-	 * @return the visited
-	 */
+    /** @return the visited */
 	public Set<String> getVisited() {
 		return new HashSet<String>(visited);
 	}

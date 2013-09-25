@@ -35,7 +35,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  *         Jul 15, 2008
  */
 public class PatternSignature {
-	private String name;
+    private final String name;
 	private final PatternModel pattern;
 
 	/**
@@ -46,7 +46,7 @@ public class PatternSignature {
 		this.name = name;
 		Set<String> existingPatternNames = Utils.getExistingPatternNames(ontologyManger);
 		if (existingPatternNames.contains(name)) {
-			this.pattern = Utils.find(name, ontologyManger, factory);
+            pattern = Utils.find(name, ontologyManger, factory);
 		} else {
 			throw new PatternReferenceNotFoundException(name);
 		}
@@ -54,28 +54,28 @@ public class PatternSignature {
 
 	public VariableType<?> getIthVariableType(int i) throws PatternException {
 		try {
-			return this.pattern.getInputVariables().get(i).getType();
+            return pattern.getInputVariables().get(i).getType();
 		} catch (IndexOutOfBoundsException e) {
-			throw new ArgumentIndexOutOfBoundsException(this.name, i);
+            throw new ArgumentIndexOutOfBoundsException(name, i);
 		}
 	}
 
 	public Variable<?> getIthVariable(int i) throws PatternException {
 		try {
-			return this.pattern.getInputVariables().get(i);
+            return pattern.getInputVariables().get(i);
 		} catch (IndexOutOfBoundsException e) {
-			throw new ArgumentIndexOutOfBoundsException(this.name, i);
+            throw new ArgumentIndexOutOfBoundsException(name, i);
 		}
 	}
 
 	public int size() {
-		return this.pattern.getInputVariables().size();
+        return pattern.getInputVariables().size();
 	}
 
 	/**
 	 * @return the pattern
 	 */
 	public PatternModel getPattern() {
-		return this.pattern;
+        return pattern;
 	}
 }

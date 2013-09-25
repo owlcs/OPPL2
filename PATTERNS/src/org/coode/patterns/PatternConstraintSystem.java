@@ -61,395 +61,344 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jun 19, 2008
- */
+/** @author Luigi Iannone Jun 19, 2008 */
 public class PatternConstraintSystem extends ConstraintSystem {
-	public static final String THIS_CLASS_VARIABLE_CONSTANT_SYMBOL = "$thisClass";
-	private Map<String, GeneratedVariable<?>> specialVariables = new HashMap<String, GeneratedVariable<?>>();
-	private final ConstraintSystem constraintSystem;
-	private Map<String, String> specialVariableRenderings = new HashMap<String, String>();
-	private final AbstractPatternModelFactory factory;
+    public static final String THIS_CLASS_VARIABLE_CONSTANT_SYMBOL = "$thisClass";
+    private final Map<String, GeneratedVariable<?>> specialVariables = new HashMap<String, GeneratedVariable<?>>();
+    private final ConstraintSystem constraintSystem;
+    private final Map<String, String> specialVariableRenderings = new HashMap<String, String>();
+    private final AbstractPatternModelFactory factory;
 
-	public PatternConstraintSystem(ConstraintSystem cs,
-			OWLOntologyManager ontologyManager, AbstractPatternModelFactory f) {
-		super(cs.getOntology(), ontologyManager, f.getOPPLFactory());
-		this.setReasoner(cs.getReasoner());
-		this.constraintSystem = cs;
-		this.factory = f;
-	}
+    public PatternConstraintSystem(ConstraintSystem cs,
+            OWLOntologyManager ontologyManager, AbstractPatternModelFactory f) {
+        super(cs.getOntology(), ontologyManager, f.getOPPLFactory());
+        setReasoner(cs.getReasoner());
+        constraintSystem = cs;
+        factory = f;
+    }
 
-	/**
-	 * @param ontologyManager
-	 * @param reasoner
-	 */
-	public PatternConstraintSystem(OWLOntology ontology,
-			OWLOntologyManager ontologyManager, OWLReasoner reasoner,
-			AbstractPatternModelFactory f) {
-		this(new ConstraintSystem(ontology, ontologyManager, reasoner,
-				f.getOPPLFactory()), ontologyManager, f);
-	}
+    /** @param ontologyManager
+     * @param reasoner */
+    public PatternConstraintSystem(OWLOntology ontology,
+            OWLOntologyManager ontologyManager, OWLReasoner reasoner,
+            AbstractPatternModelFactory f) {
+        this(
+                new ConstraintSystem(ontology, ontologyManager, reasoner,
+                        f.getOPPLFactory()), ontologyManager, f);
+    }
 
-	@Override
-	public <O extends OWLObject> InputVariable<O> createVariable(String name,
-			VariableType<O> type, VariableScope<?> variableScope)
-			throws OPPLException {
-		return this.constraintSystem.createVariable(name, type, variableScope);
-	}
+    @Override
+    public <O extends OWLObject> InputVariable<O> createVariable(String name,
+            VariableType<O> type, VariableScope<?> variableScope) throws OPPLException {
+        return constraintSystem.createVariable(name, type, variableScope);
+    }
 
-	public Variable<?> getThisClassVariable() {
-		Variable<OWLClassExpression> toReturn = VariableFactory
-				.getCLASSVariable(THIS_CLASS_VARIABLE_CONSTANT_SYMBOL, null);
-		this.importVariable(toReturn);
-		return toReturn;
-	}
+    public Variable<?> getThisClassVariable() {
+        Variable<OWLClassExpression> toReturn = VariableFactory.getCLASSVariable(
+                THIS_CLASS_VARIABLE_CONSTANT_SYMBOL, null);
+        importVariable(toReturn);
+        return toReturn;
+    }
 
-	@Override
-	public Variable<?> getVariable(String name) {
-		Variable<?> variable = this.constraintSystem.getVariable(name);
-		if (variable == null) {
-			Iterator<String> it = this.specialVariables.keySet().iterator();
-			boolean found = false;
-			GeneratedVariable<?> specialVariable = null;
-			while (!found && it.hasNext()) {
-				String referenceName = it.next();
-				specialVariable = this.specialVariables.get(referenceName);
-				found = referenceName.equals(name)
-						|| this.specialVariableRenderings.get(specialVariable
-								.getName()) != null
-						&& this.specialVariableRenderings.get(
-								specialVariable.getName()).equals(name);
-			}
-			if (found) {
-				variable = specialVariable;
-			}
-		}
-		return variable;
-	}
+    @Override
+    public Variable<?> getVariable(String name) {
+        Variable<?> variable = constraintSystem.getVariable(name);
+        if (variable == null) {
+            Iterator<String> it = specialVariables.keySet().iterator();
+            boolean found = false;
+            GeneratedVariable<?> specialVariable = null;
+            while (!found && it.hasNext()) {
+                String referenceName = it.next();
+                specialVariable = specialVariables.get(referenceName);
+                found = referenceName.equals(name)
+                        || specialVariableRenderings.get(specialVariable.getName()) != null
+                        && specialVariableRenderings.get(specialVariable.getName())
+                                .equals(name);
+            }
+            if (found) {
+                variable = specialVariable;
+            }
+        }
+        return variable;
+    }
 
-	@Override
-	public Variable<?> getVariable(IRI iri) {
-		Variable<?> variable = this.constraintSystem.getVariable(iri);
-		if (variable == null) {
-			variable = this.getSpecialVariable(iri);
-		}
-		return variable;
-	}
+    @Override
+    public Variable<?> getVariable(IRI iri) {
+        Variable<?> variable = constraintSystem.getVariable(iri);
+        if (variable == null) {
+            variable = getSpecialVariable(iri);
+        }
+        return variable;
+    }
 
-	private Variable<?> getSpecialVariable(IRI iri) {
-		boolean found = false;
-		Iterator<? extends Variable<?>> it = this.specialVariables.values()
-				.iterator();
-		Variable<?> variable = null;
-		while (!found && it.hasNext()) {
-			variable = it.next();
-			found = iri.equals(variable.getIRI());
-		}
-		return found ? variable : null;
-	}
+    private Variable<?> getSpecialVariable(IRI iri) {
+        boolean found = false;
+        Iterator<? extends Variable<?>> it = specialVariables.values().iterator();
+        Variable<?> variable = null;
+        while (!found && it.hasNext()) {
+            variable = it.next();
+            found = iri.equals(variable.getIRI());
+        }
+        return found ? variable : null;
+    }
 
-	@Override
-	public boolean isVariableIRI(IRI uri) {
-		boolean found = this.constraintSystem.isVariableIRI(uri);
-		if (!found) {
-			Iterator<? extends Variable<?>> it = this.specialVariables.values()
-					.iterator();
-			while (!found && it.hasNext()) {
-				Variable<?> variable = it.next();
-				found = uri.equals(variable.getIRI());
-			}
-		}
-		return found;
-	}
+    @Override
+    public boolean isVariableIRI(IRI uri) {
+        boolean found = constraintSystem.isVariableIRI(uri);
+        if (!found) {
+            Iterator<? extends Variable<?>> it = specialVariables.values().iterator();
+            while (!found && it.hasNext()) {
+                Variable<?> variable = it.next();
+                found = uri.equals(variable.getIRI());
+            }
+        }
+        return found;
+    }
 
-	public String resolvePatternConstants(String s) {
-		String toReturn = s;
-		for (String specialVariableName : this.specialVariables.keySet()) {
-			GeneratedVariable<?> variable = this.specialVariables
-					.get(specialVariableName);
-			if (variable != null) {
-				toReturn = toReturn.replaceAll("\\" + specialVariableName,
-						variable.getName());
-			}
-		}
-		return toReturn;
-	}
+    public String resolvePatternConstants(String s) {
+        String toReturn = s;
+        for (String specialVariableName : specialVariables.keySet()) {
+            GeneratedVariable<?> variable = specialVariables.get(specialVariableName);
+            if (variable != null) {
+                toReturn = toReturn.replaceAll("\\" + specialVariableName,
+                        variable.getName());
+            }
+        }
+        return toReturn;
+    }
 
-	public boolean isThisClassVariable(Variable<?> variable) {
-		return variable
-				.equals(this.specialVariables
-						.get(PatternConstraintSystem.THIS_CLASS_VARIABLE_CONSTANT_SYMBOL));
-	}
+    public boolean isThisClassVariable(Variable<?> variable) {
+        return variable.equals(specialVariables
+                .get(PatternConstraintSystem.THIS_CLASS_VARIABLE_CONSTANT_SYMBOL));
+    }
 
-	@Override
-	public Set<Variable<?>> getVariables() {
-		Set<Variable<?>> toReturn = this.constraintSystem.getVariables();
-		toReturn.addAll(this.specialVariables.values());
-		return toReturn;
-	}
+    @Override
+    public Set<Variable<?>> getVariables() {
+        Set<Variable<?>> toReturn = constraintSystem.getVariables();
+        toReturn.addAll(specialVariables.values());
+        return toReturn;
+    }
 
-	public String resolvePattern(String patternName,
-			OWLOntologyManager ontologyManager, Set<String> visitedPatterns,
-			List<PatternOPPLScript> dependencies, ErrorListener errorListener,
-			List<Object>... args) throws PatternException {
-		Set<String> visited = new HashSet<String>(visitedPatterns);
-		PatternReference patternReference = new PatternReference(patternName,
-				this, visited, errorListener, args);
-		dependencies.add(patternReference.getExtractedPattern());
-		VariableType<?> variableType = patternReference.getExtractedPattern()
-				.getReturnVariable().getType();
-		PatternReferenceGeneratedVariable<?> patternReferenceGeneratedVariable = PatternReferenceGeneratedVariable
-				.getPatternReferenceGeneratedVariable(
-						patternReference.toString(), variableType,
-						patternReference);
-		this.importVariable(patternReferenceGeneratedVariable);
-		return patternReferenceGeneratedVariable.getName();
-	}
+    public String resolvePattern(String patternName, OWLOntologyManager ontologyManager,
+            Set<String> visitedPatterns, List<PatternOPPLScript> dependencies,
+            ErrorListener errorListener, List<Object>... args) throws PatternException {
+        Set<String> visited = new HashSet<String>(visitedPatterns);
+        PatternReference patternReference = new PatternReference(patternName, this,
+                visited, errorListener, args);
+        dependencies.add(patternReference.getExtractedPattern());
+        VariableType<?> variableType = patternReference.getExtractedPattern()
+                .getReturnVariable().getType();
+        PatternReferenceGeneratedVariable<?> patternReferenceGeneratedVariable = PatternReferenceGeneratedVariable
+                .getPatternReferenceGeneratedVariable(patternReference.toString(),
+                        variableType, patternReference);
+        importVariable(patternReferenceGeneratedVariable);
+        return patternReferenceGeneratedVariable.getName();
+    }
 
-	public InstantiatedPatternModel resolvePatternInstantiation(
-			String patternName, OWLOntologyManager ontologyManager,
-			Set<String> visitedPatterns, List<PatternOPPLScript> dependencies,
-			final ErrorListener errorListener, List<String>... args)
-			throws PatternException {
-		RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
-			public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
-				errorListener.reportThrowable(e, 0, 0, 0);
-			}
+    public InstantiatedPatternModel resolvePatternInstantiation(String patternName,
+            OWLOntologyManager ontologyManager, Set<String> visitedPatterns,
+            List<PatternOPPLScript> dependencies, final ErrorListener errorListener,
+            List<String>... args) throws PatternException {
+        RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
+            @Override
+            public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
+                errorListener.reportThrowable(e, 0, 0, 0);
+            }
 
-			public void handleOWLRuntimeException(OWLRuntimeException e) {
-				errorListener.reportThrowable(e, 0, 0, 0);
-			}
+            @Override
+            public void handleOWLRuntimeException(OWLRuntimeException e) {
+                errorListener.reportThrowable(e, 0, 0, 0);
+            }
 
-			public void handleException(RuntimeException e) {
-				errorListener.reportThrowable(e, 0, 0, 0);
-			}
-		};
-		PatternReference patternReference = new PatternReference(patternName,
-				this, visitedPatterns, errorListener, args);
-		dependencies.add(patternReference.getExtractedPattern());
-		return patternReference.getInstantiation(handler);
-	}
+            @Override
+            public void handleException(RuntimeException e) {
+                errorListener.reportThrowable(e, 0, 0, 0);
+            }
+        };
+        PatternReference patternReference = new PatternReference(patternName, this,
+                visitedPatterns, errorListener, args);
+        dependencies.add(patternReference.getExtractedPattern());
+        return patternReference.getInstantiation(handler);
+    }
 
-	@Override
-	public <O extends OWLObject> GeneratedVariable<O> createStringGeneratedVariable(
-			String name, VariableType<O> type, OPPLFunction<String> value) {
-		return this.constraintSystem.createStringGeneratedVariable(name, type,
-				value);
-	}
+    @Override
+    public <O extends OWLObject> GeneratedVariable<O> createStringGeneratedVariable(
+            String name, VariableType<O> type, OPPLFunction<String> value) {
+        return constraintSystem.createStringGeneratedVariable(name, type, value);
+    }
 
-	@Override
-	public void removeVariable(Variable<?> variable) {
-		this.constraintSystem.removeVariable(variable);
-	}
+    @Override
+    public void removeVariable(Variable<?> variable) {
+        constraintSystem.removeVariable(variable);
+    }
 
-	@Override
-	public GeneratedVariable<OWLClassExpression> createIntersectionGeneratedVariable(
-			String name,
-			VariableType<?> type,
-			Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> operands) {
-		return this.constraintSystem.createIntersectionGeneratedVariable(name,
-				type, operands);
-	}
+    @Override
+    public
+            GeneratedVariable<OWLClassExpression>
+            createIntersectionGeneratedVariable(
+                    String name,
+                    VariableType<?> type,
+                    Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> operands) {
+        return constraintSystem.createIntersectionGeneratedVariable(name, type, operands);
+    }
 
-	@Override
-	public GeneratedVariable<OWLClassExpression> createUnionGeneratedVariable(
-			String name,
-			VariableType<?> type,
-			Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> operands) {
-		return this.constraintSystem.createUnionGeneratedVariable(name, type,
-				operands);
-	}
+    @Override
+    public
+            GeneratedVariable<OWLClassExpression>
+            createUnionGeneratedVariable(
+                    String name,
+                    VariableType<?> type,
+                    Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> operands) {
+        return constraintSystem.createUnionGeneratedVariable(name, type, operands);
+    }
 
-	@Override
-	public Set<InputVariable<?>> getInputVariables() {
-		return this.constraintSystem.getInputVariables();
-	}
+    @Override
+    public Set<InputVariable<?>> getInputVariables() {
+        return constraintSystem.getInputVariables();
+    }
 
-	@Override
-	public String render(Variable<?> variable) {
-		GeneratedVariable<?> specialVariable = this.specialVariables
-				.get(variable.getName());
-		boolean specialRenderingPresent = specialVariable != null
-				&& this.specialVariableRenderings
-						.get(specialVariable.getName()) != null;
-		String rendering = specialRenderingPresent ? this.specialVariableRenderings
-				.get(specialVariable.getName()) : this.constraintSystem
-				.render(variable);
-		return rendering;
-	}
+    @Override
+    public String render(Variable<?> variable) {
+        GeneratedVariable<?> specialVariable = specialVariables.get(variable.getName());
+        boolean specialRenderingPresent = specialVariable != null
+                && specialVariableRenderings.get(specialVariable.getName()) != null;
+        String rendering = specialRenderingPresent ? specialVariableRenderings
+                .get(specialVariable.getName()) : constraintSystem.render(variable);
+        return rendering;
+    }
 
-	@Override
-	public <O extends OWLObject> RegexpGeneratedVariable<? extends O> createRegexpGeneratedVariable(
-			String name, VariableType<O> type,
-			OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
-		return this.constraintSystem.createRegexpGeneratedVariable(name, type,
-				patternGeneratingOPPLFunction);
-	}
+    @Override
+    public <O extends OWLObject> RegexpGeneratedVariable<? extends O>
+            createRegexpGeneratedVariable(String name, VariableType<O> type,
+                    OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+        return constraintSystem.createRegexpGeneratedVariable(name, type,
+                patternGeneratingOPPLFunction);
+    }
 
-	@Override
-	public void importVariable(Variable<?> v) {
-		this.constraintSystem.importVariable(v);
-	}
+    @Override
+    public void importVariable(Variable<?> v) {
+        constraintSystem.importVariable(v);
+    }
 
-	@Override
-	public void clearVariables() {
-		this.constraintSystem.clearVariables();
-	}
+    @Override
+    public void clearVariables() {
+        constraintSystem.clearVariables();
+    }
 
-	public AbstractPatternModelFactory getPatternModelFactory() {
-		return this.factory;
-	}
+    public AbstractPatternModelFactory getPatternModelFactory() {
+        return factory;
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#getAxiomVariables(org.semanticweb.owlapi.model.OWLAxiom)
-	 */
-	@Override
-	public Set<Variable<?>> getAxiomVariables(OWLAxiom axiom) {
-		return this.constraintSystem.getAxiomVariables(axiom);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#getAxiomVariables(org.semanticweb.owlapi.model.OWLAxiom) */
+    @Override
+    public Set<Variable<?>> getAxiomVariables(OWLAxiom axiom) {
+        return constraintSystem.getAxiomVariables(axiom);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLClassExpression)
-	 */
-	@Override
-	public boolean isVariable(OWLClassExpression desc) {
-		return this.constraintSystem.isVariable(desc);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLClassExpression) */
+    @Override
+    public boolean isVariable(OWLClassExpression desc) {
+        return constraintSystem.isVariable(desc);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLAnnotationProperty)
-	 */
-	@Override
-	public boolean isVariable(OWLAnnotationProperty property) {
-		return this.constraintSystem.isVariable(property);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLAnnotationProperty) */
+    @Override
+    public boolean isVariable(OWLAnnotationProperty property) {
+        return constraintSystem.isVariable(property);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLObjectProperty)
-	 */
-	@Override
-	public boolean isVariable(OWLObjectProperty property) {
-		return this.constraintSystem.isVariable(property);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLObjectProperty) */
+    @Override
+    public boolean isVariable(OWLObjectProperty property) {
+        return constraintSystem.isVariable(property);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLDataProperty)
-	 */
-	@Override
-	public boolean isVariable(OWLDataProperty property) {
-		return this.constraintSystem.isVariable(property);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLDataProperty) */
+    @Override
+    public boolean isVariable(OWLDataProperty property) {
+        return constraintSystem.isVariable(property);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLNamedIndividual)
-	 */
-	@Override
-	public boolean isVariable(OWLNamedIndividual individual) {
-		return this.constraintSystem.isVariable(individual);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLNamedIndividual) */
+    @Override
+    public boolean isVariable(OWLNamedIndividual individual) {
+        return constraintSystem.isVariable(individual);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#addLeaf(org.coode.oppl.bindingtree.BindingNode)
-	 */
-	@Override
-	public void addLeaf(BindingNode bindingNode) {
-		this.constraintSystem.addLeaf(bindingNode);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#addLeaf(org.coode.oppl.bindingtree.BindingNode) */
+    @Override
+    public void addLeaf(BindingNode bindingNode) {
+        constraintSystem.addLeaf(bindingNode);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#getVariableBindings(org.coode.oppl.Variable,
-	 *      org.coode.oppl.exceptions.RuntimeExceptionHandler)
-	 */
-	@Override
-	public Set<OWLObject> getVariableBindings(Variable<?> v,
-			RuntimeExceptionHandler runtimeExceptionHandler) {
-		return this.constraintSystem.getVariableBindings(v,
-				runtimeExceptionHandler);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#getVariableBindings(org.coode.oppl.Variable,
+     *      org.coode.oppl.exceptions.RuntimeExceptionHandler) */
+    @Override
+    public Set<OWLObject> getVariableBindings(Variable<?> v,
+            RuntimeExceptionHandler runtimeExceptionHandler) {
+        return constraintSystem.getVariableBindings(v, runtimeExceptionHandler);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#addLeaf(org.coode.oppl.Variable,
-	 *      org.semanticweb.owlapi.model.OWLObject)
-	 */
-	@Override
-	public boolean addLeaf(Variable<?> variable, OWLObject object) {
-		return this.constraintSystem.addLeaf(variable, object);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#addLeaf(org.coode.oppl.Variable,
+     *      org.semanticweb.owlapi.model.OWLObject) */
+    @Override
+    public boolean addLeaf(Variable<?> variable, OWLObject object) {
+        return constraintSystem.addLeaf(variable, object);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#getLeaves()
-	 */
-	@Override
-	public Set<BindingNode> getLeaves() {
-		return this.constraintSystem.getLeaves();
-	}
+    /** @see org.coode.oppl.ConstraintSystem#getLeaves() */
+    @Override
+    public Set<BindingNode> getLeaves() {
+        return constraintSystem.getLeaves();
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#getOPPLFactory()
-	 */
-	@Override
-	public OPPLAbstractFactory getOPPLFactory() {
-		return this.constraintSystem.getOPPLFactory();
-	}
+    /** @see org.coode.oppl.ConstraintSystem#getOPPLFactory() */
+    @Override
+    public OPPLAbstractFactory getOPPLFactory() {
+        return constraintSystem.getOPPLFactory();
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#removeBinding(org.coode.oppl.bindingtree.BindingNode)
-	 */
-	@Override
-	public void removeBinding(BindingNode binding) {
-		this.constraintSystem.removeBinding(binding);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#removeBinding(org.coode.oppl.bindingtree.BindingNode) */
+    @Override
+    public void removeBinding(BindingNode binding) {
+        constraintSystem.removeBinding(binding);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLLiteral)
-	 */
-	@Override
-	public boolean isVariable(OWLLiteral node) {
-		return this.constraintSystem.isVariable(node);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLLiteral) */
+    @Override
+    public boolean isVariable(OWLLiteral node) {
+        return constraintSystem.isVariable(node);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#setLeaves(java.util.Set)
-	 */
-	@Override
-	public void setLeaves(Set<BindingNode> newLeaves) {
-		this.constraintSystem.setLeaves(newLeaves);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#setLeaves(java.util.Set) */
+    @Override
+    public void setLeaves(Set<BindingNode> newLeaves) {
+        constraintSystem.setLeaves(newLeaves);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#getGeneratedVariables()
-	 */
-	@Override
-	public Set<GeneratedVariable<?>> getGeneratedVariables() {
-		return this.constraintSystem.getGeneratedVariables();
-	}
+    /** @see org.coode.oppl.ConstraintSystem#getGeneratedVariables() */
+    @Override
+    public Set<GeneratedVariable<?>> getGeneratedVariables() {
+        return constraintSystem.getGeneratedVariables();
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#isGenerated(org.coode.oppl.Variable)
-	 */
-	@Override
-	public boolean isGenerated(Variable<?> v) {
-		return this.constraintSystem.isGenerated(v);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#isGenerated(org.coode.oppl.Variable) */
+    @Override
+    public boolean isGenerated(Variable<?> v) {
+        return constraintSystem.isGenerated(v);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#reset()
-	 */
-	@Override
-	public void reset() {
-		this.constraintSystem.reset();
-	}
+    /** @see org.coode.oppl.ConstraintSystem#reset() */
+    @Override
+    public void reset() {
+        constraintSystem.reset();
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintSystem#createExpressionGeneratedVariable(java.lang.String,
-	 *      org.semanticweb.owlapi.model.OWLObject)
-	 */
-	@Override
-	public <O extends OWLObject> GeneratedVariable<O> createExpressionGeneratedVariable(
-			String name, O expression) {
-		return this.constraintSystem.createExpressionGeneratedVariable(name,
-				expression);
-	}
+    /** @see org.coode.oppl.ConstraintSystem#createExpressionGeneratedVariable(java.lang.String,
+     *      org.semanticweb.owlapi.model.OWLObject) */
+    @Override
+    public <O extends OWLObject> GeneratedVariable<O> createExpressionGeneratedVariable(
+            String name, O expression) {
+        return constraintSystem.createExpressionGeneratedVariable(name, expression);
+    }
 }
