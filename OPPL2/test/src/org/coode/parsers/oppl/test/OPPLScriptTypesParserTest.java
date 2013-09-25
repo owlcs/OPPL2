@@ -40,7 +40,7 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-import uk.ac.manchester.cs.factplusplus.owlapiv3.FaCTPlusPlusReasonerFactory;
+import uk.ac.manchester.cs.jfact.JFactFactory;
 
 /**
  * Test for the AST generation for OPPL
@@ -162,7 +162,7 @@ public class OPPLScriptTypesParserTest extends TestCase {
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-		OPPLScriptParser parser = new OPPLScriptParser(tokens, this.listener);
+		OPPLScriptParser parser = new OPPLScriptParser(tokens, listener);
 		parser.setTreeAdaptor(adaptor);
 		try {
 			RuleReturnScope r = parser.statement();
@@ -178,25 +178,25 @@ public class OPPLScriptTypesParserTest extends TestCase {
 				simplify.setTreeAdaptor(adaptor);
 				simplify.downup(tree);
 				nodes.reset();
-				OPPLDefine define = new OPPLDefine(nodes, this.symtab,
-						this.listener, constraintSystem);
+				OPPLDefine define = new OPPLDefine(nodes, symtab,
+						listener, constraintSystem);
 				define.setTreeAdaptor(adaptor);
 				define.downup(tree);
 				nodes.reset();
 				ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(
-						nodes, this.symtab, this.listener);
+						nodes, symtab, listener);
 				mOWLTypes.downup(tree);
 				nodes.reset();
 				OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(
-						nodes, this.symtab, new DefaultTypeEnforcer(
-								this.symtab, opplFactory.getOWLEntityFactory(),
-								this.listener), this.listener);
+						nodes, symtab, new DefaultTypeEnforcer(
+								symtab, opplFactory.getOWLEntityFactory(),
+								listener), listener);
 				typeEnforcement.downup(tree);
 				nodes.reset();
 				mOWLTypes.downup(tree);
 				nodes.reset();
-				OPPLTypes opplTypes = new OPPLTypes(nodes, this.symtab,
-						this.listener, constraintSystem, opplFactory);
+				OPPLTypes opplTypes = new OPPLTypes(nodes, symtab,
+						listener, constraintSystem, opplFactory);
 				opplTypes.downup(tree);
 			}
 			return (OPPLSyntaxTree) r.getTree();
@@ -299,7 +299,7 @@ public class OPPLScriptTypesParserTest extends TestCase {
 	}
 
 	public void testVariableScope() {
-		FaCTPlusPlusReasonerFactory reasonerFactory = new FaCTPlusPlusReasonerFactory();
+        JFactFactory reasonerFactory = new JFactFactory();
 		OWLReasoner reasoner = reasonerFactory.createReasoner(PIZZA_ONTOLOGY);
 		String query = "?M:CLASS[subClassOf NamedPizza], ?I:CLASS, ?S:CLASS SELECT ?M SubClassOf hasTopping some ?I, ?M SubClassOf hasBase some ?S WHERE ?M != Nothing BEGIN ADD ?M SubClassOf Thing END;";
 		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY, reasoner);
@@ -313,7 +313,7 @@ public class OPPLScriptTypesParserTest extends TestCase {
 	}
 
 	public void testVariableScopeInverseProperty() {
-		FaCTPlusPlusReasonerFactory reasonerFactory = new FaCTPlusPlusReasonerFactory();
+        JFactFactory reasonerFactory = new JFactFactory();
 		OWLReasoner reasoner = reasonerFactory.createReasoner(PIZZA_ONTOLOGY);
 		String query = "?M:CLASS[subClassOf NamedPizza], ?I:CLASS[subClassOf INV(hasTopping) some Thing], ?S:CLASS SELECT ?M SubClassOf hasTopping some ?I, ?M SubClassOf hasBase some ?S WHERE ?M != Nothing BEGIN ADD ?M SubClassOf Thing END;";
 		OPPLSyntaxTree parsed = this.parse(query, PIZZA_ONTOLOGY, reasoner);
@@ -442,12 +442,12 @@ public class OPPLScriptTypesParserTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		this.symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
-		this.symtab.setErrorListener(this.listener);
+		symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
+		symtab.setErrorListener(listener);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		this.symtab.dispose();
+		symtab.dispose();
 	}
 }

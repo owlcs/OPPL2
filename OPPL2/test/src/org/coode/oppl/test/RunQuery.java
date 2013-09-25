@@ -34,7 +34,7 @@ import org.semanticweb.owlapi.reasoner.InferenceType;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.AutoIRIMapper;
 
-import uk.ac.manchester.cs.factplusplus.owlapiv3.FaCTPlusPlusReasonerFactory;
+import uk.ac.manchester.cs.jfact.JFactFactory;
 
 public class RunQuery {
 	/**
@@ -58,7 +58,7 @@ public class RunQuery {
 							.loadOntology(IRI.create(url)) : ontology;
 				}
 				String opplScriptString = args[0];
-				FaCTPlusPlusReasonerFactory factory = new FaCTPlusPlusReasonerFactory();
+                JFactFactory factory = new JFactFactory();
 				OWLReasoner reasoner = factory.createReasoner(ontology);
 				reasoner.precomputeInferences(InferenceType.OBJECT_PROPERTY_ASSERTIONS);
 				ParserFactory parserFactory = new ParserFactory(

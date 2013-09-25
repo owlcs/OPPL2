@@ -17,7 +17,7 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.AutoIRIMapper;
 
-import uk.ac.manchester.cs.factplusplus.owlapiv3.FaCTPlusPlusReasonerFactory;
+import uk.ac.manchester.cs.jfact.JFactFactory;
 
 public class TestObjectAssertions {
 	/**
@@ -36,7 +36,7 @@ public class TestObjectAssertions {
 			}
 			OWLOntology ontology = ontologyManager
 					.loadOntology(IRI.create(url));
-			FaCTPlusPlusReasonerFactory factory = new FaCTPlusPlusReasonerFactory();
+            JFactFactory factory = new JFactFactory();
 			OWLReasoner reasoner = factory.createReasoner(ontology);
 			Set<OWLNamedIndividual> individualsInSignature = ontology
 					.getIndividualsInSignature();

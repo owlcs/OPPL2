@@ -47,7 +47,6 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
-import uk.ac.manchester.cs.factplusplus.owlapiv3.FaCTPlusPlusReasonerFactory;
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
 public class SpecificInferenceQueries extends TestCase {
@@ -145,7 +144,7 @@ public class SpecificInferenceQueries extends TestCase {
 			String opplScripString = String
 					.format("%1$s:CLASS, %2$s:CLASS SELECT ASSERTED %1$s SubClassOf A, ASSERTED %2$s SubClassOf A, %1$s SubClassOf %2$s WHERE %1$s != %2$s BEGIN REMOVE %1$s SubClassOf A END;",
 							xVariableName, yVariableName);
-			FaCTPlusPlusReasonerFactory factory = new FaCTPlusPlusReasonerFactory();
+            JFactFactory factory = new JFactFactory();
 			OWLReasoner reasoner = factory.createReasoner(ontology);
 			ParserFactory parserFactory = new ParserFactory(ontologyManager,
 					ontology, reasoner);
@@ -215,18 +214,17 @@ public class SpecificInferenceQueries extends TestCase {
 			ontologyManager.addAxiom(testOntology, ontologyManager
 					.getOWLDataFactory().getOWLSubClassOfAxiom(b, c));
 			String opplString = "?x:CLASS SELECT  ?x subClassOf C BEGIN ADD ?x subClassOf A END;";
-			// FaCTPlusPlusReasonerFactory factory = new
-			// FaCTPlusPlusReasonerFactory();
+            // JFactFactory factory = new
+            // JFactFactory();
 			OWLReasonerFactory factory = new JFactFactory();
 			OWLReasoner reasoner = factory.createReasoner(testOntology);
 			OPPLScript opplScript = new ParserFactory(ontologyManager,
-					testOntology, reasoner).build(this.errorListener).parse(
+					testOntology, reasoner).build(errorListener).parse(
 					opplString);
 			ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
 			List<OWLAxiomChange> changes = changeExtractor.visit(opplScript);
 			assertTrue(changes.size() > 0);
-			Set<OWLAxiom> instantiatedAxioms = this
-					.getOPPLScriptInstantiatedAxioms(opplScript);
+			Set<OWLAxiom> instantiatedAxioms = getOPPLScriptInstantiatedAxioms(opplScript);
 			assertTrue("Instantiated axioms: " + instantiatedAxioms.size()
 					+ " count does not match with the expected (3)",
 					instantiatedAxioms.size() == 4);

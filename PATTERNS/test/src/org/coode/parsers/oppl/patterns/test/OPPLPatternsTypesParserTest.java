@@ -53,7 +53,7 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-import uk.ac.manchester.cs.factplusplus.owlapiv3.FaCTPlusPlusReasonerFactory;
+import uk.ac.manchester.cs.jfact.JFactFactory;
 
 /**
  * Test for the AST generation for OPPL
@@ -128,7 +128,7 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 					.loadOntology(IRI
 							.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
 			String patternString = "?x:CLASS, ?y:CLASS, ?forbiddenContent:CLASS = createUnion(?x.VALUES) BEGIN ADD $thisClass equivalentTo contains only (not ?forbiddenContent) END; A ?x free stuff; RETURN $thisClass";
-			OPPLSyntaxTree parsed = this.parse(patternString);
+			OPPLSyntaxTree parsed = parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
 			assertNotNull(parsed.getOPPLContent());
@@ -167,12 +167,12 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 			OWLOntology referencedPatternOntology = ONTOLOGY_MANAGER
 					.loadOntology(IRI
 							.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
-			FaCTPlusPlusReasonerFactory factory = new FaCTPlusPlusReasonerFactory();
+            JFactFactory factory = new JFactFactory();
 			final OWLReasoner reasoner = factory
 					.createReasoner(referencedPatternOntology);
-			this.patternModelFactory = new PatternModelFactory(
+			patternModelFactory = new PatternModelFactory(
 					referencedPatternOntology, ONTOLOGY_MANAGER, reasoner);
-			OPPLSyntaxTree parsed = this.parse(patternString);
+			OPPLSyntaxTree parsed = parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
 			assertNotNull(parsed.getOPPLContent());
@@ -191,7 +191,7 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 					.loadOntology(IRI
 							.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
 			String patternString = "?base:CLASS,?topping:CLASS, ?allToppings:CLASS = createUnion(?topping.VALUES) BEGIN ADD $thisClass subClassOf Pizza, ADD $thisClass subClassOf hasTopping some ?topping,  ADD $thisClass subClassOf hasTopping only ?allToppings, ADD $thisClass subClassOf hasBase some ?base  END; A pizza with ?base base and ?topping toppings";
-			OPPLSyntaxTree parsed = this.parse(patternString);
+			OPPLSyntaxTree parsed = parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
 			assertNotNull(parsed.getOPPLContent());
@@ -208,7 +208,7 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 					.loadOntology(IRI
 							.create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
 			String patternString = " BEGIN ADD Menu subClassOf Menu END; A variable free pattern";
-			OPPLSyntaxTree parsed = this.parse(patternString);
+			OPPLSyntaxTree parsed = parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
 			assertNotNull(parsed.getOPPLContent());
@@ -233,7 +233,7 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 													.getOWLObjectProperty(
 															IRI.create(" http://www.co-ode.org/ontologies/ont.owl#part_of"))));
 			String patternString = "?cell:CLASS, ?anatomyPart:CLASS, ?partOfRestriction:CLASS = part_of some ?anatomyPart, ?anatomyIntersection:CLASS = createIntersection(?partOfRestriction.VALUES) BEGIN ADD ?cell equivalentTo ?anatomyIntersection END;";
-			OPPLSyntaxTree parsed = this.parse(patternString);
+			OPPLSyntaxTree parsed = parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
 			assertNotNull(parsed.getOPPLContent());
@@ -249,7 +249,7 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 			OWLOntology dolceOntology = ONTOLOGY_MANAGER.loadOntology(IRI
 					.create("http://www.loa-cnr.it/ontologies/DUL.owl"));
 			String patternString = "?informationObject:CLASS, ?informationRealization:CLASS, ?realizationProperty:OBJECTPROPERTY BEGIN ADD ?informationRealization subClassOf InformationRealization, ADD ?informationObject subClassOf InformationObject, ADD ?realizationProperty subPropertyOf realizes, ADD ?informationRealization subClassOf PhysicalObject and ?realizationProperty some ?informationObject END; Information Realization Pattern: ?informationRealization ?realizationProperty ?informationObject";
-			OPPLSyntaxTree parsed = this.parse(patternString);
+			OPPLSyntaxTree parsed = parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
 			assertNotNull(parsed.getOPPLContent());
@@ -265,7 +265,7 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 			OWLOntology dolceOntology = ONTOLOGY_MANAGER.loadOntology(IRI
 					.create("http://www.loa-cnr.it/ontologies/DUL.owl"));
 			String patternString = "?person:CLASS, ?role:CLASS, ?timeInterval:CLASS BEGIN ADD $thisClass subClassOf Situation, ADD $thisClass subClassOf isSettingFor some ?person, ADD $thisClass subClassOf isSettingFor some ?role, ADD $thisClass subClassOf isSettingFor some ?timeInterval END; Situation where ?person play the role ?role during the time interval ?timeInterval";
-			OPPLSyntaxTree parsed = this.parse(patternString);
+			OPPLSyntaxTree parsed = parse(patternString);
 			System.out.println(parsed.toStringTree());
 			assertNotNull(parsed);
 			assertNotNull(parsed.getOPPLContent());
@@ -280,20 +280,20 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 	 * @return the factory
 	 */
 	public AbstractPatternModelFactory getOPPLPatternFactory() {
-		return this.patternModelFactory;
+		return patternModelFactory;
 	}
 
 	protected OPPLSyntaxTree parse(String input) {
 		OPPLPatternsSymbolTable symtab = SYMBOL_TABLE_FACTORY
 				.createSymbolTable();
-		symtab.setErrorListener(this.getListener());
+		symtab.setErrorListener(getListener());
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
-		PatternConstraintSystem constraintSystem = this.getOPPLPatternFactory()
+		PatternConstraintSystem constraintSystem = getOPPLPatternFactory()
 				.createConstraintSystem();
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 		OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens,
-				this.getListener());
+				getListener());
 		parser.setTreeAdaptor(adaptor);
 		try {
 			RuleReturnScope r = parser.pattern();
@@ -310,12 +310,12 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 				simplify.downup(tree);
 				nodes.reset();
 				OPPLDefine define = new OPPLDefine(nodes, symtab,
-						this.getListener(), constraintSystem);
+						getListener(), constraintSystem);
 				define.setTreeAdaptor(adaptor);
 				define.downup(tree);
 				nodes.reset();
 				OPPLPatternsDefine patternsDefine = new OPPLPatternsDefine(
-						nodes, symtab, this.getListener(),
+						nodes, symtab, getListener(),
 						getSimplePatternReferenceResolver(), constraintSystem);
 				patternsDefine.setTreeAdaptor(adaptor);
 				patternsDefine.downup(tree);
@@ -327,61 +327,59 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 				mOWLTypes.downup(tree);
 				nodes.reset();
 				OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(
-						nodes, symtab, new DefaultTypeEnforcer(symtab, this
-								.getOPPLPatternFactory().getOPPLFactory()
-								.getOWLEntityFactory(), this.getListener()),
-						this.getListener());
+						nodes, symtab, new DefaultTypeEnforcer(symtab, getOPPLPatternFactory().getOPPLFactory()
+								.getOWLEntityFactory(), getListener()),
+						getListener());
 				typeEnforcement.downup(tree);
 				nodes.reset();
 				mOWLTypes.downup(tree);
 				nodes.reset();
 				OPPLTypes opplTypes = new OPPLTypes(nodes, symtab,
-						silentErrorListener, constraintSystem, this
-								.getOPPLPatternFactory().getOPPLFactory());
+						silentErrorListener, constraintSystem, getOPPLPatternFactory().getOPPLFactory());
 				opplTypes.downup(tree);
 				nodes.reset();
 				OPPLPatternsReferenceDefine patternReferenceDefine = new OPPLPatternsReferenceDefine(
-						nodes, symtab, this.getListener(),
+						nodes, symtab, getListener(),
 						getSimplePatternReferenceResolver(), constraintSystem);
 				patternReferenceDefine.setTreeAdaptor(adaptor);
 				patternReferenceDefine.downup(tree);
 				nodes.reset();
-				symtab.setErrorListener(this.getListener());
+				symtab.setErrorListener(getListener());
 				mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab,
-						this.getListener());
+						getListener());
 				mOWLTypes.downup(tree);
 				nodes.reset();
 				opplTypes.downup(tree);
 				nodes.reset();
 				OPPLPatternsTypes opplPatternsTypes = new OPPLPatternsTypes(
-						nodes, symtab, this.getListener(), constraintSystem,
-						this.getOPPLPatternFactory());
+						nodes, symtab, getListener(), constraintSystem,
+						getOPPLPatternFactory());
 				opplPatternsTypes.downup(tree);
 			}
 			return (OPPLSyntaxTree) tree;
 		} catch (RecognitionException e) {
-			this.listener.recognitionException(e);
+			listener.recognitionException(e);
 			return null;
 		}
 	}
 
 	@Override
 	protected void setUp() throws Exception {
-		this.symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
-		this.symtab.setErrorListener(this.listener);
-		this.patternModelFactory = new PatternModelFactory(SYNTAX_ONTOLOGY,
+		symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
+		symtab.setErrorListener(listener);
+		patternModelFactory = new PatternModelFactory(SYNTAX_ONTOLOGY,
 				ONTOLOGY_MANAGER);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		this.symtab.dispose();
+		symtab.dispose();
 	}
 
 	/**
 	 * @return the listener
 	 */
 	public ErrorListener getListener() {
-		return this.listener;
+		return listener;
 	}
 }

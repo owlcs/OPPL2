@@ -27,7 +27,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-import uk.ac.manchester.cs.factplusplus.owlapiv3.FaCTPlusPlusReasonerFactory;
+import uk.ac.manchester.cs.jfact.JFactFactory;
 
 public class TestUserQueries extends TestCase {
 	private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
@@ -84,7 +84,7 @@ public class TestUserQueries extends TestCase {
 					b,
 					dataFactory.getOWLObjectSomeValuesFrom(q, c));
 			manager.addAxioms(ontology, new HashSet<OWLAxiom>(Arrays.asList(axiom1, axiom2)));
-			FaCTPlusPlusReasonerFactory factory = new FaCTPlusPlusReasonerFactory();
+            JFactFactory factory = new JFactFactory();
 			OWLReasoner reasoner = factory.createReasoner(ontology);
 			ParserFactory parserFactory = new ParserFactory(manager, ontology, reasoner);
 			OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
@@ -121,7 +121,7 @@ public class TestUserQueries extends TestCase {
 					b,
 					dataFactory.getOWLObjectSomeValuesFrom(q, c));
 			manager.addAxioms(ontology, new HashSet<OWLAxiom>(Arrays.asList(axiom1, axiom2)));
-			FaCTPlusPlusReasonerFactory factory = new FaCTPlusPlusReasonerFactory();
+            JFactFactory factory = new JFactFactory();
 			OWLReasoner reasoner = factory.createReasoner(ontology);
 			ParserFactory parserFactory = new ParserFactory(manager, ontology, reasoner);
 			OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
@@ -253,7 +253,7 @@ public class TestUserQueries extends TestCase {
 							dataFactory.getOWLAnnotation(
 									dataFactory.getRDFSLabel(),
 									dataFactory.getOWLLiteral("luigi"))));
-			FaCTPlusPlusReasonerFactory factory = new FaCTPlusPlusReasonerFactory();
+            JFactFactory factory = new JFactFactory();
 			ParserFactory parserFactory = new ParserFactory(manager, ontology,
 					factory.createReasoner(ontology));
 			OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
@@ -276,7 +276,7 @@ public class TestUserQueries extends TestCase {
 		try {
 			OWLOntology ontology = manager.loadOntology(IRI.create(this.getClass().getResource(
 					"SequentialUnion.owl").toURI()));
-			FaCTPlusPlusReasonerFactory factory = new FaCTPlusPlusReasonerFactory();
+            JFactFactory factory = new JFactFactory();
 			OWLReasoner reasoner = factory.createReasoner(ontology);
 			ParserFactory parserFactory = new ParserFactory(manager, ontology, reasoner);
 			OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
