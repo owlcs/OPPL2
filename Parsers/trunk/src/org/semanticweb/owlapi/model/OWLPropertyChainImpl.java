@@ -35,244 +35,150 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 		this.delegate.addAll(delegate);
 	}
 
-	/**
-	 * @param index
-	 * @param element
-	 * @see java.util.List#add(int, java.lang.Object)
-	 */
+    @Override
 	public void add(int index, OWLObjectPropertyExpression element) {
 		delegate.add(index, element);
 	}
 
-	/**
-	 * @param e
-	 * @return
-	 * @see java.util.List#add(java.lang.Object)
-	 */
+    @Override
 	public boolean add(OWLObjectPropertyExpression e) {
 		return delegate.add(e);
 	}
 
-	/**
-	 * @param c
-	 * @return
-	 * @see java.util.List#addAll(java.util.Collection)
-	 */
+    @Override
 	public boolean addAll(Collection<? extends OWLObjectPropertyExpression> c) {
 		return delegate.addAll(c);
 	}
 
-	/**
-	 * @param index
-	 * @param c
-	 * @return
-	 * @see java.util.List#addAll(int, java.util.Collection)
-	 */
+    @Override
 	public boolean addAll(int index, Collection<? extends OWLObjectPropertyExpression> c) {
 		return delegate.addAll(index, c);
 	}
 
-	/**
-	 * 
-	 * @see java.util.List#clear()
-	 */
+    @Override
 	public void clear() {
 		delegate.clear();
 	}
 
-	/**
-	 * @param o
-	 * @return
-	 * @see java.util.List#contains(java.lang.Object)
-	 */
+    @Override
 	public boolean contains(Object o) {
 		return delegate.contains(o);
 	}
 
-	/**
-	 * @param c
-	 * @return
-	 * @see java.util.List#containsAll(java.util.Collection)
-	 */
+    @Override
 	public boolean containsAll(Collection<?> c) {
 		return delegate.containsAll(c);
 	}
 
-	/**
-	 * @param o
-	 * @return
-	 * @see java.util.List#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object o) {
 		return delegate.equals(o);
 	}
 
-	/**
-	 * @param index
-	 * @return
-	 * @see java.util.List#get(int)
-	 */
+    @Override
 	public OWLObjectPropertyExpression get(int index) {
 		return delegate.get(index);
 	}
 
-	/**
-	 * @return
-	 * @see java.util.List#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		return delegate.hashCode();
 	}
 
-	/**
-	 * @param o
-	 * @return
-	 * @see java.util.List#indexOf(java.lang.Object)
-	 */
+    @Override
 	public int indexOf(Object o) {
 		return delegate.indexOf(o);
 	}
 
-	/**
-	 * @return
-	 * @see java.util.List#isEmpty()
-	 */
+    @Override
 	public boolean isEmpty() {
 		return delegate.isEmpty();
 	}
 
-	/**
-	 * @return
-	 * @see java.util.List#iterator()
-	 */
+    @Override
 	public Iterator<OWLObjectPropertyExpression> iterator() {
 		return delegate.iterator();
 	}
 
-	/**
-	 * @param o
-	 * @return
-	 * @see java.util.List#lastIndexOf(java.lang.Object)
-	 */
+    @Override
 	public int lastIndexOf(Object o) {
 		return delegate.lastIndexOf(o);
 	}
 
-	/**
-	 * @return
-	 * @see java.util.List#listIterator()
-	 */
+    @Override
 	public ListIterator<OWLObjectPropertyExpression> listIterator() {
 		return delegate.listIterator();
 	}
 
-	/**
-	 * @param index
-	 * @return
-	 * @see java.util.List#listIterator(int)
-	 */
+    @Override
 	public ListIterator<OWLObjectPropertyExpression> listIterator(int index) {
 		return delegate.listIterator(index);
 	}
 
-	/**
-	 * @param index
-	 * @return
-	 * @see java.util.List#remove(int)
-	 */
+    @Override
 	public OWLObjectPropertyExpression remove(int index) {
 		return delegate.remove(index);
 	}
 
-	/**
-	 * @param o
-	 * @return
-	 * @see java.util.List#remove(java.lang.Object)
-	 */
+    @Override
 	public boolean remove(Object o) {
 		return delegate.remove(o);
 	}
 
-	/**
-	 * @param c
-	 * @return
-	 * @see java.util.List#removeAll(java.util.Collection)
-	 */
+    @Override
 	public boolean removeAll(Collection<?> c) {
 		return delegate.removeAll(c);
 	}
 
-	/**
-	 * @param c
-	 * @return
-	 * @see java.util.List#retainAll(java.util.Collection)
-	 */
+    @Override
 	public boolean retainAll(Collection<?> c) {
 		return delegate.retainAll(c);
 	}
 
-	/**
-	 * @param index
-	 * @param element
-	 * @return
-	 * @see java.util.List#set(int, java.lang.Object)
-	 */
-	public OWLObjectPropertyExpression set(int index, OWLObjectPropertyExpression element) {
-		return delegate.set(index, element);
-	}
+	@Override
+    public OWLObjectPropertyExpression
+            set(int index, OWLObjectPropertyExpression element) {
+        return delegate.set(index, element);
+    }
 
-	/**
-	 * @return
-	 * @see java.util.List#size()
-	 */
+    @Override
 	public int size() {
 		return delegate.size();
 	}
 
-	/**
-	 * @param fromIndex
-	 * @param toIndex
-	 * @return
-	 * @see java.util.List#subList(int, int)
-	 */
+    @Override
 	public List<OWLObjectPropertyExpression> subList(int fromIndex, int toIndex) {
 		return delegate.subList(fromIndex, toIndex);
 	}
 
-	/**
-	 * @return
-	 * @see java.util.List#toArray()
-	 */
+    @Override
 	public Object[] toArray() {
 		return delegate.toArray();
 	}
 
-	/**
-	 * @param <T>
-	 * @param a
-	 * @return
-	 * @see java.util.List#toArray(T[])
-	 */
+    @Override
 	public <T> T[] toArray(T[] a) {
 		return delegate.toArray(a);
 	}
 
+    @Override
 	public void accept(OWLObjectVisitor visitor) {
 		// Broken visitor pattern
 	}
 
+    @Override
 	public <O> O accept(OWLObjectVisitorEx<O> visitor) {
 		// Broken visitor pattern
 		return null;
 	}
 
+    @Override
 	public int compareTo(OWLObject o) {
 		// Broken comparator
 		return 1;
 	}
 
+    @Override
 	public Set<OWLEntity> getSignature() {
 		Set<OWLEntity> toReturn = new HashSet<OWLEntity>();
 		for (OWLObjectPropertyExpression propertyExpression : delegate) {
@@ -281,22 +187,27 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 		return toReturn;
 	}
 
+    @Override
 	public Set<OWLClass> getClassesInSignature() {
 		return Collections.emptySet();
 	}
 
+    @Override
 	public Set<OWLNamedIndividual> getIndividualsInSignature() {
 		return Collections.emptySet();
 	}
 
+    @Override
 	public Set<OWLDataProperty> getDataPropertiesInSignature() {
 		return Collections.emptySet();
 	}
 
+    @Override
 	public Set<OWLDatatype> getDatatypesInSignature() {
 		return Collections.emptySet();
 	}
 
+    @Override
 	public Set<OWLObjectProperty> getObjectPropertiesInSignature() {
 		Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
 		for (OWLObjectPropertyExpression propertyExpression : delegate) {
@@ -305,14 +216,17 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 		return toReturn;
 	}
 
+    @Override
 	public Set<OWLClassExpression> getNestedClassExpressions() {
 		return Collections.emptySet();
 	}
 
+    @Override
 	public boolean isBottomEntity() {
 		return false;
 	}
 
+    @Override
 	public boolean isTopEntity() {
 		return false;
 	}

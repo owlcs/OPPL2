@@ -130,6 +130,7 @@ public class AutoCompleteStrings {
 		final List<String> toReturn = new ArrayList<String>();
 		if (type != null) {
 			type.accept(new TypeVisitor() {
+                @Override
 				public void visitOWLType(OWLType owlType) {
 					if (OWLType.isClassExpression(owlType)) {
 						toReturn.addAll(getStandaloneClassExpressionCompletions());
@@ -142,9 +143,11 @@ public class AutoCompleteStrings {
 					}
 				}
 
+                @Override
 				public void visitNonOWLType(Type type) {
 				}
 
+                @Override
 				public void visitOWLAxiomType(OWLAxiomType owlAxiomType) {
 				}
 			});
@@ -157,6 +160,7 @@ public class AutoCompleteStrings {
 		final List<String> toReturn = new ArrayList<String>();
 		if (type != null) {
 			type.accept(new TypeVisitor() {
+                @Override
 				public void visitOWLType(OWLType owlType) {
 					if (OWLType.isClassExpression(owlType)) {
 						toReturn.addAll(getIncompleteClassExpressionCompletions(incompleteText));
@@ -169,9 +173,11 @@ public class AutoCompleteStrings {
 					}
 				}
 
+                @Override
 				public void visitOWLAxiomType(OWLAxiomType owlAxiomType) {
 				}
 
+                @Override
 				public void visitNonOWLType(Type type) {
 				}
 			});
@@ -183,6 +189,7 @@ public class AutoCompleteStrings {
 		final List<String> toReturn = new ArrayList<String>();
 		if (type != null) {
 			type.accept(new TypeVisitor() {
+                @Override
 				public void visitOWLType(OWLType owlType) {
 					if (OWLType.isClassExpression(owlType)) {
 						toReturn.addAll(getClassExpressionCompletions());
@@ -193,9 +200,11 @@ public class AutoCompleteStrings {
 					}
 				}
 
+                @Override
 				public void visitOWLAxiomType(OWLAxiomType owlAxiomType) {
 				}
 
+                @Override
 				public void visitNonOWLType(Type type) {
 				}
 			});

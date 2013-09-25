@@ -30,7 +30,10 @@ public class OPPLOWLSameIndividualAxiom extends AbstractInlineSetAxiom<OWLIndivi
     private final OWLSameIndividualAxiom delegate;
     private final boolean shouldExpandAsPairWise;
 
-    /** @param inlineSet */
+    /** @param dataFactory
+     * @param individuals
+     * @param annotations
+     * @param shouldExpandAsPairWise */
     public OPPLOWLSameIndividualAxiom(OPPLOWLDataFactory dataFactory,
             InlineSet<OWLIndividual> individuals,
             Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {
@@ -51,198 +54,157 @@ public class OPPLOWLSameIndividualAxiom extends AbstractInlineSetAxiom<OWLIndivi
         return shouldExpandAsPairWise;
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLObject#getSignature() */
+    @Override
     public Set<OWLEntity> getSignature() {
         return delegate.getSignature();
     }
 
+    @Override
     public Set<OWLAnonymousIndividual> getAnonymousIndividuals() {
         return delegate.getAnonymousIndividuals();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLNaryIndividualAxiom#getIndividuals() */
+    @Override
     public Set<OWLIndividual> getIndividuals() {
         return delegate.getIndividuals();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLNaryIndividualAxiom#getIndividualsAsList() */
+    @Override
     public List<OWLIndividual> getIndividualsAsList() {
         return delegate.getIndividualsAsList();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLSubClassOfAxiomSetShortCut#asOWLSubClassOfAxioms() */
+    @Override
     public Set<OWLSubClassOfAxiom> asOWLSubClassOfAxioms() {
         return delegate.asOWLSubClassOfAxioms();
     }
 
-    /** @param visitor
-     * @see org.semanticweb.owlapi.model.OWLAxiom#accept(org.semanticweb.owlapi.model.OWLAxiomVisitor) */
+    @Override
     public void accept(OWLAxiomVisitor visitor) {
         visitor.visit(this);
     }
 
-    /** @param <O>
-     * @param visitor
-     * @return
-     * @see org.semanticweb.owlapi.model.OWLAxiom#accept(org.semanticweb.owlapi.model.OWLAxiomVisitorEx) */
+    @Override
     public <O> O accept(OWLAxiomVisitorEx<O> visitor) {
         return visitor.visit(this);
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLObject#getDataPropertiesInSignature() */
+    @Override
     public Set<OWLDataProperty> getDataPropertiesInSignature() {
         return delegate.getDataPropertiesInSignature();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLSameIndividualAxiom#asPairwiseAxioms() */
+    @Override
     public Set<OWLSameIndividualAxiom> asPairwiseAxioms() {
         return delegate.asPairwiseAxioms();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLObject#getObjectPropertiesInSignature() */
+    @Override
     public Set<OWLObjectProperty> getObjectPropertiesInSignature() {
         return delegate.getObjectPropertiesInSignature();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLObject#getIndividualsInSignature() */
+    @Override
     public Set<OWLNamedIndividual> getIndividualsInSignature() {
         return delegate.getIndividualsInSignature();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLObject#getDatatypesInSignature() */
+    @Override
     public Set<OWLDatatype> getDatatypesInSignature() {
         return delegate.getDatatypesInSignature();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLObject#getNestedClassExpressions() */
+    @Override
     public Set<OWLClassExpression> getNestedClassExpressions() {
         return delegate.getNestedClassExpressions();
     }
 
-    /** @param visitor
-     * @see org.semanticweb.owlapi.model.OWLObject#accept(org.semanticweb.owlapi.model.OWLObjectVisitor) */
+    @Override
     public void accept(OWLObjectVisitor visitor) {
         visitor.visit(this);
     }
 
-    /** @param <O>
-     * @param visitor
-     * @return
-     * @see org.semanticweb.owlapi.model.OWLObject#accept(org.semanticweb.owlapi.model.OWLObjectVisitorEx) */
+    @Override
     public <O> O accept(OWLObjectVisitorEx<O> visitor) {
         return visitor.visit(this);
     }
 
-    /** @param o
-     * @return
-     * @see java.lang.Comparable#compareTo(java.lang.Object) */
+    @Override
     public int compareTo(OWLObject o) {
         return delegate.compareTo(o);
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLSameIndividualAxiom#getAxiomWithoutAnnotations() */
+    @Override
     public OWLSameIndividualAxiom getAxiomWithoutAnnotations() {
         return delegate.getAxiomWithoutAnnotations();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLObject#getClassesInSignature() */
+    @Override
     public Set<OWLClass> getClassesInSignature() {
         return delegate.getClassesInSignature();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLSameIndividualAxiom#containsAnonymousIndividuals() */
+    @Override
     public boolean containsAnonymousIndividuals() {
         return delegate.containsAnonymousIndividuals();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLAxiom#getAnnotations() */
+    @Override
     public Set<OWLAnnotation> getAnnotations() {
         return delegate.getAnnotations();
     }
 
-    /** @param annotationProperty
-     * @return
-     * @see org.semanticweb.owlapi.model.OWLAxiom#getAnnotations(org.semanticweb.owlapi.model.OWLAnnotationProperty) */
+    @Override
     public Set<OWLAnnotation> getAnnotations(OWLAnnotationProperty annotationProperty) {
         return delegate.getAnnotations(annotationProperty);
     }
 
-    /** @param annotations
-     * @return
-     * @see org.semanticweb.owlapi.model.OWLAxiom#getAnnotatedAxiom(java.util.Set) */
+    @Override
     public OWLAxiom getAnnotatedAxiom(Set<OWLAnnotation> annotations) {
         return delegate.getAnnotatedAxiom(annotations);
     }
 
-    /** @param axiom
-     * @return
-     * @see org.semanticweb.owlapi.model.OWLAxiom#equalsIgnoreAnnotations(org.semanticweb.owlapi.model.OWLAxiom) */
+    @Override
     public boolean equalsIgnoreAnnotations(OWLAxiom axiom) {
         return delegate.equalsIgnoreAnnotations(axiom);
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLObject#isTopEntity() */
+    @Override
     public boolean isTopEntity() {
         return delegate.isTopEntity();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLAxiom#isLogicalAxiom() */
+    @Override
     public boolean isLogicalAxiom() {
         return delegate.isLogicalAxiom();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLObject#isBottomEntity() */
+    @Override
     public boolean isBottomEntity() {
         return delegate.isBottomEntity();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLAxiom#isAnnotated() */
+    @Override
     public boolean isAnnotated() {
         return delegate.isAnnotated();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLAxiom#getAxiomType() */
+    @Override
     public AxiomType<?> getAxiomType() {
         return delegate.getAxiomType();
     }
 
-    /** @param axiomTypes
-     * @return
-     * @see 
-     *      org.semanticweb.owlapi.model.OWLAxiom#isOfType(org.semanticweb.owlapi
-     *      .model.AxiomType<?>[]) */
+    @Override
     public boolean isOfType(AxiomType<?>... axiomTypes) {
         return delegate.isOfType(axiomTypes);
     }
 
-    /** @param types
-     * @return
-     * @see org.semanticweb.owlapi.model.OWLAxiom#isOfType(java.util.Set) */
+    @Override
     public boolean isOfType(Set<AxiomType<?>> types) {
         return delegate.isOfType(types);
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLAxiom#getNNF() */
+    @Override
     public OWLAxiom getNNF() {
         return delegate.getNNF();
     }
@@ -262,8 +224,7 @@ public class OPPLOWLSameIndividualAxiom extends AbstractInlineSetAxiom<OWLIndivi
         return delegate.toString();
     }
 
-    /** @return
-     * @see org.semanticweb.owlapi.model.OWLAxiom#isAnnotationAxiom() */
+    @Override
     public boolean isAnnotationAxiom() {
         return delegate.isAnnotationAxiom();
     }
