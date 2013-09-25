@@ -41,7 +41,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#add(int, java.lang.Object)
 	 */
 	public void add(int index, OWLObjectPropertyExpression element) {
-		this.delegate.add(index, element);
+		delegate.add(index, element);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#add(java.lang.Object)
 	 */
 	public boolean add(OWLObjectPropertyExpression e) {
-		return this.delegate.add(e);
+		return delegate.add(e);
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#addAll(java.util.Collection)
 	 */
 	public boolean addAll(Collection<? extends OWLObjectPropertyExpression> c) {
-		return this.delegate.addAll(c);
+		return delegate.addAll(c);
 	}
 
 	/**
@@ -68,9 +68,8 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @return
 	 * @see java.util.List#addAll(int, java.util.Collection)
 	 */
-	public boolean addAll(int index,
-			Collection<? extends OWLObjectPropertyExpression> c) {
-		return this.delegate.addAll(index, c);
+	public boolean addAll(int index, Collection<? extends OWLObjectPropertyExpression> c) {
+		return delegate.addAll(index, c);
 	}
 
 	/**
@@ -78,7 +77,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#clear()
 	 */
 	public void clear() {
-		this.delegate.clear();
+		delegate.clear();
 	}
 
 	/**
@@ -87,7 +86,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#contains(java.lang.Object)
 	 */
 	public boolean contains(Object o) {
-		return this.delegate.contains(o);
+		return delegate.contains(o);
 	}
 
 	/**
@@ -96,7 +95,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#containsAll(java.util.Collection)
 	 */
 	public boolean containsAll(Collection<?> c) {
-		return this.delegate.containsAll(c);
+		return delegate.containsAll(c);
 	}
 
 	/**
@@ -106,7 +105,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		return this.delegate.equals(o);
+		return delegate.equals(o);
 	}
 
 	/**
@@ -115,7 +114,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#get(int)
 	 */
 	public OWLObjectPropertyExpression get(int index) {
-		return this.delegate.get(index);
+		return delegate.get(index);
 	}
 
 	/**
@@ -124,7 +123,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 */
 	@Override
 	public int hashCode() {
-		return this.delegate.hashCode();
+		return delegate.hashCode();
 	}
 
 	/**
@@ -133,7 +132,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#indexOf(java.lang.Object)
 	 */
 	public int indexOf(Object o) {
-		return this.delegate.indexOf(o);
+		return delegate.indexOf(o);
 	}
 
 	/**
@@ -141,7 +140,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#isEmpty()
 	 */
 	public boolean isEmpty() {
-		return this.delegate.isEmpty();
+		return delegate.isEmpty();
 	}
 
 	/**
@@ -149,7 +148,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#iterator()
 	 */
 	public Iterator<OWLObjectPropertyExpression> iterator() {
-		return this.delegate.iterator();
+		return delegate.iterator();
 	}
 
 	/**
@@ -158,7 +157,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#lastIndexOf(java.lang.Object)
 	 */
 	public int lastIndexOf(Object o) {
-		return this.delegate.lastIndexOf(o);
+		return delegate.lastIndexOf(o);
 	}
 
 	/**
@@ -166,7 +165,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#listIterator()
 	 */
 	public ListIterator<OWLObjectPropertyExpression> listIterator() {
-		return this.delegate.listIterator();
+		return delegate.listIterator();
 	}
 
 	/**
@@ -175,7 +174,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#listIterator(int)
 	 */
 	public ListIterator<OWLObjectPropertyExpression> listIterator(int index) {
-		return this.delegate.listIterator(index);
+		return delegate.listIterator(index);
 	}
 
 	/**
@@ -184,7 +183,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#remove(int)
 	 */
 	public OWLObjectPropertyExpression remove(int index) {
-		return this.delegate.remove(index);
+		return delegate.remove(index);
 	}
 
 	/**
@@ -193,7 +192,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#remove(java.lang.Object)
 	 */
 	public boolean remove(Object o) {
-		return this.delegate.remove(o);
+		return delegate.remove(o);
 	}
 
 	/**
@@ -202,7 +201,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#removeAll(java.util.Collection)
 	 */
 	public boolean removeAll(Collection<?> c) {
-		return this.delegate.removeAll(c);
+		return delegate.removeAll(c);
 	}
 
 	/**
@@ -211,7 +210,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#retainAll(java.util.Collection)
 	 */
 	public boolean retainAll(Collection<?> c) {
-		return this.delegate.retainAll(c);
+		return delegate.retainAll(c);
 	}
 
 	/**
@@ -220,9 +219,8 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @return
 	 * @see java.util.List#set(int, java.lang.Object)
 	 */
-	public OWLObjectPropertyExpression set(int index,
-			OWLObjectPropertyExpression element) {
-		return this.delegate.set(index, element);
+	public OWLObjectPropertyExpression set(int index, OWLObjectPropertyExpression element) {
+		return delegate.set(index, element);
 	}
 
 	/**
@@ -230,7 +228,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#size()
 	 */
 	public int size() {
-		return this.delegate.size();
+		return delegate.size();
 	}
 
 	/**
@@ -240,7 +238,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#subList(int, int)
 	 */
 	public List<OWLObjectPropertyExpression> subList(int fromIndex, int toIndex) {
-		return this.delegate.subList(fromIndex, toIndex);
+		return delegate.subList(fromIndex, toIndex);
 	}
 
 	/**
@@ -248,7 +246,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#toArray()
 	 */
 	public Object[] toArray() {
-		return this.delegate.toArray();
+		return delegate.toArray();
 	}
 
 	/**
@@ -258,7 +256,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 	 * @see java.util.List#toArray(T[])
 	 */
 	public <T> T[] toArray(T[] a) {
-		return this.delegate.toArray(a);
+		return delegate.toArray(a);
 	}
 
 	public void accept(OWLObjectVisitor visitor) {
@@ -277,7 +275,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 
 	public Set<OWLEntity> getSignature() {
 		Set<OWLEntity> toReturn = new HashSet<OWLEntity>();
-		for (OWLObjectPropertyExpression propertyExpression : this.delegate) {
+		for (OWLObjectPropertyExpression propertyExpression : delegate) {
 			toReturn.addAll(propertyExpression.getSignature());
 		}
 		return toReturn;
@@ -301,7 +299,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 
 	public Set<OWLObjectProperty> getObjectPropertiesInSignature() {
 		Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
-		for (OWLObjectPropertyExpression propertyExpression : this.delegate) {
+		for (OWLObjectPropertyExpression propertyExpression : delegate) {
 			toReturn.addAll(propertyExpression.getObjectPropertiesInSignature());
 		}
 		return toReturn;
@@ -319,8 +317,8 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 		return false;
 	}
 
-	public Set<OWLAnonymousIndividual> getAnonymousIndividuals() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Set<OWLAnonymousIndividual> getAnonymousIndividuals() {
+        return Collections.emptySet();
+    }
 }

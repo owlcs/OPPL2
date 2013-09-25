@@ -30,7 +30,6 @@ import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.ShortFormEntityRenderer;
 import org.coode.parsers.SymbolTable;
-import org.coode.parsers.Type;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.ui.autocompletionmatcher.AutoCompletionMatcher;
@@ -84,7 +83,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 			private CommonTree lastErrorTree = null;
 
 			public void clear() {
-				this.lastErrorTree = null;
+				lastErrorTree = null;
 			}
 
 			boolean isRedundant(CommonTree possibleParent,
@@ -106,17 +105,17 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 
 			public void reportThrowable(Throwable t, int line,
 					int charPosInLine, int length) {
-				AxiomChecker.this.lastReport = new ErrorReportImpl(t
+				lastReport = new ErrorReportImpl(t
 						.getMessage(), line, charPosInLine, length);
 			}
 
 			boolean isRedundant(CommonTree newErrorTree) {
-				return this.isRedundant(this.lastErrorTree, newErrorTree);
+				return this.isRedundant(lastErrorTree, newErrorTree);
 			}
 
 			public void unrecognisedSymbol(CommonTree t) {
-				this.lastErrorTree = t;
-				AxiomChecker.this.lastReport = new ErrorReportImpl(
+				lastErrorTree = t;
+				lastReport = new ErrorReportImpl(
 						"Unrecognised token " + t.getText(), t.getLine(), t
 								.getCharPositionInLine(), t.getText().length());
 			}
@@ -126,7 +125,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 						.getName() : e.getMessage();
 				int endIndex = e.token.getText() == null ? 0 : e.token
 						.getText().length();
-				AxiomChecker.this.lastReport = new ErrorReportImpl(message
+				lastReport = new ErrorReportImpl(message
 						+ " on token " + e.token, e.line, e.charPositionInLine,
 						endIndex);
 			}
@@ -137,13 +136,13 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 						+ e.token + e.getClass().getSimpleName();
 				int endIndex = e.token.getText() == null ? 0 : e.token
 						.getText().length();
-				AxiomChecker.this.lastReport = new ErrorReportImpl(message,
+				lastReport = new ErrorReportImpl(message,
 						e.line, e.charPositionInLine, endIndex);
 			}
 
 			public void rewriteEmptyStreamException(
 					RewriteEmptyStreamException e) {
-				AxiomChecker.this.lastReport = new ErrorReportImpl(
+				lastReport = new ErrorReportImpl(
 						"Incomplete input ", 0, 0, 0);
 				;
 			}
@@ -161,7 +160,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 							: expression.getText());
 				}
 				builder.append("]");
-				AxiomChecker.this.lastReport = new ErrorReportImpl(
+				lastReport = new ErrorReportImpl(
 						"Incompatible children expressions: "
 								+ builder.toString()
 								+ " for the parent expression  "
@@ -171,11 +170,11 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 								.getText().length());
 			}
 
-			public void incompatibleSymbolType(CommonTree t, Type type,
+            public void incompatibleSymbolType(CommonTree t, org.coode.parsers.Type type,
 					CommonTree expression) {
 				if (!this.isRedundant(t)) {
-					this.lastErrorTree = t;
-					AxiomChecker.this.lastReport = new ErrorReportImpl(
+					lastErrorTree = t;
+					lastReport = new ErrorReportImpl(
 							"Incompatible type: " + type + "  for token: "
 									+ t.getText()
 									+ " for the parent expression "
@@ -186,7 +185,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 			}
 
 			public void illegalToken(CommonTree t, String message) {
-				AxiomChecker.this.lastReport = new ErrorReportImpl(
+				lastReport = new ErrorReportImpl(
 						"Illegal token: " + t.getText(), t.getLine(), t
 								.getCharPositionInLine(), t.getText().length());
 			}
@@ -210,7 +209,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 					throw new NullPointerException("The message cannot be null");
 				}
 				this.message = message;
-				this.charPositionInLine = charPositionInline;
+				charPositionInLine = charPositionInline;
 				this.line = line;
 				this.length = length;
 			}
@@ -219,28 +218,28 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 			 * @return the message
 			 */
 			public String getMessage() {
-				return this.message;
+				return message;
 			}
 
 			/**
 			 * @return the startIndex
 			 */
 			public int getCharPositionInLine() {
-				return this.charPositionInLine;
+				return charPositionInLine;
 			}
 
 			/**
 			 * @return the line
 			 */
 			public int getLine() {
-				return this.line;
+				return line;
 			}
 
 			/**
 			 * @return the length
 			 */
 			public int getLength() {
-				return this.length;
+				return length;
 			}
 		}
 
@@ -273,16 +272,16 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 		private AutoCompleter autoCompleter = null;
 
 		public void check(String text) {
-			this.reset();
-			this.parsed = this.parse(text);
-			this.lastObject = this.parsed == null
-					|| this.parsed.getOWLObject() == null ? null : this.parsed
+			reset();
+			parsed = parse(text);
+			lastObject = parsed == null
+					|| parsed.getOWLObject() == null ? null : parsed
 					.getOWLObject().accept(
 							new OWLObjectVisitorExAdapter<OWLAxiom>() {
 								@Override
 								protected OWLAxiom getDefaultReturnValue(
 										OWLObject object) {
-									AxiomChecker.this.lastReport = new ErrorReportImpl(
+									lastReport = new ErrorReportImpl(
 											"Wrong kind of owl object parsed "
 													+ object.getClass()
 															.getName(), 0, 0, 0);
@@ -563,13 +562,13 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 		 * 
 		 */
 		private void reset() {
-			this.lastObject = null;
-			this.lastReport = null;
-			this.parsed = null;
-			this.listener.clear();
-			this.symbolTable = ManchesterOWLSyntaxValidatorGUI.this.symbolTableFactory
+			lastObject = null;
+			lastReport = null;
+			parsed = null;
+			listener.clear();
+			symbolTable = symbolTableFactory
 					.createSymbolTable();
-			if (this.autoCompleter == null) {
+			if (autoCompleter == null) {
 				// AutoCompletionMatcher matcher = new
 				// ParseTreeBasedAutoCompletionMatcher() {
 				// @Override
@@ -580,43 +579,43 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 				AutoCompletionMatcher matcher = new ManchesterOWLSyntaxSimpleAutoCompletionMatcher(
 						new ShortFormEntityRenderer(
 								new SimpleShortFormProvider()),
-						ManchesterOWLSyntaxValidatorGUI.this.manager);
-				this.autoCompleter = new AutoCompleter(
-						ManchesterOWLSyntaxValidatorGUI.this.axiomValidator,
+						manager);
+				autoCompleter = new AutoCompleter(
+						axiomValidator,
 						matcher);
 			}
 		}
 
 		public OWLAxiom createObject(String text) {
-			return this.lastObject;
+			return lastObject;
 		}
 
 		public ErrorReport getErrorReport() {
-			return this.lastReport;
+			return lastReport;
 		}
 
 		protected ManchesterOWLSyntaxTree parse(String input) {
 			MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
 			final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
 			ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(
-					tokens, this.listener);
-			parser.setTreeAdaptor(this.adaptor);
+					tokens, listener);
+			parser.setTreeAdaptor(adaptor);
 			try {
 				RuleReturnScope r = parser.main();
 				CommonTree tree = (CommonTree) r.getTree();
 				if (tree != null) {
 					CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
 					nodes.setTokenStream(tokens); // where to find tokens
-					nodes.setTreeAdaptor(this.adaptor);
+					nodes.setTreeAdaptor(adaptor);
 					// RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-					this.symbolTable.setErrorListener(this.listener);
+					symbolTable.setErrorListener(listener);
 					ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
 							nodes);
-					simplify.setTreeAdaptor(this.adaptor);
+					simplify.setTreeAdaptor(adaptor);
 					simplify.downup(tree);
 					nodes.reset();
 					ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(
-							nodes, this.symbolTable, this.listener);
+							nodes, symbolTable, listener);
 					typeComp.downup(tree); // trigger resolve/type computation
 					// actions
 					// WALK TREE TO DUMP SUBTREE TYPES
@@ -624,7 +623,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 				}
 				return (ManchesterOWLSyntaxTree) tree;
 			} catch (RecognitionException e) {
-				this.listener.recognitionException(e);
+				listener.recognitionException(e);
 				return null;
 			}
 		}
@@ -637,13 +636,13 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 	private final OWLOntologyManager manager = OWLManager
 			.createOWLOntologyManager();
 	private final SymbolTableFactory<SymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
-			this.manager);
+			manager);
 	private ExpressionChecker<OWLAxiom> checker = new AxiomChecker();
 	private ExpressionEditor<OWLAxiom> axiomValidator;
 
 	public void loadOntology(URI uri) {
 		try {
-			this.manager.loadOntology(IRI.create(uri));
+			manager.loadOntology(IRI.create(uri));
 		} catch (OWLOntologyCreationException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(),
 					"Error in loading ontology", JOptionPane.ERROR_MESSAGE);
@@ -656,19 +655,19 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
 	}
 
 	public ManchesterOWLSyntaxValidatorGUI() {
-		this.axiomValidator = new ExpressionEditor<OWLAxiom>(this.manager,
-				this.checker);
-		this.initGUI();
+		axiomValidator = new ExpressionEditor<OWLAxiom>(manager,
+				checker);
+		initGUI();
 	}
 
 	/**
 	 * 
 	 */
 	private void initGUI() {
-		this.setLayout(new BorderLayout());
-		this.setTitle(this.getName());
-		this.axiomValidator.setPreferredSize(new Dimension(400, 300));
-		this.add(this.axiomValidator, BorderLayout.CENTER);
+		setLayout(new BorderLayout());
+		setTitle(getName());
+		axiomValidator.setPreferredSize(new Dimension(400, 300));
+		this.add(axiomValidator, BorderLayout.CENTER);
 	}
 
 	public static void main(String[] args) {
