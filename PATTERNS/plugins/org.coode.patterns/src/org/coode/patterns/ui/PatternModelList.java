@@ -55,11 +55,6 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
 			PatternModelList.this.showInstantiationEditorDialog(this.patternModel);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.lang.Object#hashCode()
-		 */
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -70,11 +65,6 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
 			return result;
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
 		@Override
 		public boolean equals(Object obj) {
 			if (this == obj) {

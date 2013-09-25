@@ -3,43 +3,38 @@
  */
 package org.coode.parsers;
 
-/**
- * A generic symbol
+/** A generic symbol
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class Symbol {
-	private final String name;
-	private final Type type;
+    private final String name;
+    private final Type type;
 
-	/**
-	 * @param name
-	 */
-	public Symbol(String name, Type type) {
-		if (name == null) {
-			throw new NullPointerException("The name cannot be null");
-		}
-		if (type == null) {
-			throw new NullPointerException("The type cannot be null");
-		}
-		this.name = name;
-		this.type = type;
-	}
+    /** @param name */
+    public Symbol(String name, Type type) {
+        if (name == null) {
+            throw new NullPointerException("The name cannot be null");
+        }
+        if (type == null) {
+            throw new NullPointerException("The type cannot be null");
+        }
+        this.name = name;
+        this.type = type;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Type getType() {
-		return this.type;
-	}
+    public Type getType() {
+        return type;
+    }
 
-	public void accept(SymbolVisitor visitor) {
-		visitor.visitSymbol(this);
-	}
+    public void accept(SymbolVisitor visitor) {
+        visitor.visitSymbol(this);
+    }
 
-	public <O> O accept(SymbolVisitorEx<O> visitor) {
-		return visitor.visitSymbol(this);
-	}
+    public <O> O accept(SymbolVisitorEx<O> visitor) {
+        return visitor.visitSymbol(this);
+    }
 }

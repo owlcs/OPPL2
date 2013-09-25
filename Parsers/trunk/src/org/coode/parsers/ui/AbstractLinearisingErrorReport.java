@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractLinearisingErrorReport implements ErrorReport {
+    @Override
 	public int getLinearisedPosition(String text) {
 		int toReturn = this.getCharPositionInLine();
 		BufferedReader reader = new BufferedReader(new StringReader(text));

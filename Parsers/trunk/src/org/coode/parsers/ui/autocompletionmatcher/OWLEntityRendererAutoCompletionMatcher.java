@@ -15,42 +15,35 @@ import org.coode.parsers.OWLEntityRenderingCacheImpl;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/**
- * Retrieves the OWL Entities whose rendering match the string to complete
+/** Retrieves the OWL Entities whose rendering match the string to complete
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public final class OWLEntityRendererAutoCompletionMatcher implements
-		AutoCompletionMatcher {
-	private final EntityFinder entityFinder;
-	private final OWLEntityRenderer entityRenderer;
+        AutoCompletionMatcher {
+    private final EntityFinder entityFinder;
+    private final OWLEntityRenderer entityRenderer;
 
-	public OWLEntityRendererAutoCompletionMatcher(
-			OWLEntityRenderer entityRenderer, OWLOntologyManager manager) {
-		if (entityRenderer == null) {
-			throw new NullPointerException("The entity renderer cannot be null");
-		}
-		if (manager == null) {
-			throw new NullPointerException(
-					"The ontology manager cannot be null");
-		}
-		this.entityRenderer = entityRenderer;
-		this.entityFinder = new EntityFinderImpl(manager,
-				new OWLEntityRenderingCacheImpl(manager, entityRenderer), false);
-	}
+    public OWLEntityRendererAutoCompletionMatcher(OWLEntityRenderer entityRenderer,
+            OWLOntologyManager manager) {
+        if (entityRenderer == null) {
+            throw new NullPointerException("The entity renderer cannot be null");
+        }
+        if (manager == null) {
+            throw new NullPointerException("The ontology manager cannot be null");
+        }
+        this.entityRenderer = entityRenderer;
+        entityFinder = new EntityFinderImpl(manager, new OWLEntityRenderingCacheImpl(
+                manager, entityRenderer), false);
+    }
 
-	/**
-	 * @see org.coode.parsers.ui.autocompletionmatcher.AutoCompletionMatcher#getMatches(java.lang.String)
-	 */
-	public List<String> getMatches(String string2Complete) {
-		List<String> toReturn = new ArrayList<String>();
-		Set<OWLEntity> entities = this.entityFinder
-				.getEntities(string2Complete);
-		for (OWLEntity owlEntity : entities) {
-			toReturn.add(this.entityRenderer.render(owlEntity));
-		}
-		Collections.sort(toReturn);
-		return toReturn;
-	}
+    @Override
+    public List<String> getMatches(String string2Complete) {
+        List<String> toReturn = new ArrayList<String>();
+        Set<OWLEntity> entities = entityFinder.getEntities(string2Complete);
+        for (OWLEntity owlEntity : entities) {
+            toReturn.add(entityRenderer.render(owlEntity));
+        }
+        Collections.sort(toReturn);
+        return toReturn;
+    }
 }
