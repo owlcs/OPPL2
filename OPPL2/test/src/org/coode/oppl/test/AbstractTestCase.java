@@ -132,15 +132,13 @@ public abstract class AbstractTestCase extends TestCase {
 		}
 	}
 
-	@Override
 	@Before
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		this.testQueries.setUp();
 	}
 
-	@Override
 	@After
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		this.lastStackTrace = new StringWriter();
 		this.p = new PrintWriter(this.lastStackTrace);
 		for (OWLOntology ontology : this.ontologyManager.getOntologies()) {

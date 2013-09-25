@@ -41,90 +41,83 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
-/**
- * This ConstraintVisitor implementation verifies if the visited Constraint
+/** This ConstraintVisitor implementation verifies if the visited Constraint
  * holds
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
-	private final ValueComputationParameters parameters;
-	private final OWLObjectInstantiator instantiator;
+    private final ValueComputationParameters parameters;
+    private final OWLObjectInstantiator instantiator;
 
-	/**
-	 * @param bindingNode
-	 */
-	public ConstraintChecker(ValueComputationParameters parameters) {
-		if (parameters == null) {
-			throw new NullPointerException("The value computation parameters cannot be null");
-		}
-		this.parameters = parameters;
-		this.instantiator = new OWLObjectInstantiator(this.getParameters());
-	}
+    /** @param bindingNode */
+    public ConstraintChecker(ValueComputationParameters parameters) {
+        if (parameters == null) {
+            throw new NullPointerException(
+                    "The value computation parameters cannot be null");
+        }
+        this.parameters = parameters;
+        instantiator = new OWLObjectInstantiator(getParameters());
+    }
 
-	/**
-	 * @return the parameters
-	 */
-	public ValueComputationParameters getParameters() {
-		return this.parameters;
-	}
+    /** @return the parameters */
+    public ValueComputationParameters getParameters() {
+        return parameters;
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintVisitorEx#visit(org.coode.oppl.InequalityConstraint)
-	 */
-	public Boolean visit(InequalityConstraint c) {
-		OWLObject expression = c.getExpression();
-		OWLObject instantiatedObject = expression.accept(this.instantiator);
-		Variable<?> variable = c.getVariable();
-		OWLObject assignedValue = this.getParameters().getBindingNode().getAssignmentValue(
-				variable,
-				this.getParameters());
-		return !assignedValue.equals(instantiatedObject);
-	}
+    @Override
+    public Boolean visit(InequalityConstraint c) {
+        OWLObject expression = c.getExpression();
+        OWLObject instantiatedObject = expression.accept(instantiator);
+        Variable<?> variable = c.getVariable();
+        OWLObject assignedValue = getParameters().getBindingNode().getAssignmentValue(
+                variable, getParameters());
+        return !assignedValue.equals(instantiatedObject);
+    }
 
-	/**
-	 * @see org.coode.oppl.ConstraintVisitorEx#visit(org.coode.oppl.InCollectionConstraint)
-	 */
-	public Boolean visit(InCollectionConstraint<? extends OWLObject> c) {
-		Set<? extends OWLObject> collection = c.getCollection();
-		OWLObject assignedValue = this.getParameters().getBindingNode().getAssignmentValue(
-				c.getVariable(),
-				this.getParameters());
-		Set<OWLObject> instantiatedObjects = new HashSet<OWLObject>(collection.size());
-		for (OWLObject owlObject : collection) {
-			instantiatedObjects.add(owlObject.accept(this.instantiator));
-		}
-		return instantiatedObjects.contains(assignedValue);
-	}
+    @Override
+    public Boolean visit(InCollectionConstraint<? extends OWLObject> c) {
+        Set<? extends OWLObject> collection = c.getCollection();
+        OWLObject assignedValue = getParameters().getBindingNode().getAssignmentValue(
+                c.getVariable(), getParameters());
+        Set<OWLObject> instantiatedObjects = new HashSet<OWLObject>(collection.size());
+        for (OWLObject owlObject : collection) {
+            instantiatedObjects.add(owlObject.accept(instantiator));
+        }
+        return instantiatedObjects.contains(assignedValue);
+    }
 
-	public Boolean visit(RegExpConstraint c) {
-		return c.matches(this.getParameters());
-	}
+    @Override
+    public Boolean visit(RegExpConstraint c) {
+        return c.matches(getParameters());
+    }
 
-	public Boolean visit(NAFConstraint nafConstraint) {
-		OWLAxiom instantiatedAxiom = (OWLAxiom) nafConstraint.getAxiom().accept(this.instantiator);
-		boolean toReturn = false;
-		try {
-			if (this.getParameters().getConstraintSystem().getReasoner() != null
-					&& nafConstraint.getAxiom().isLogicalAxiom()) {
-				toReturn = !this.getParameters().getConstraintSystem().getReasoner().isEntailed(
-						instantiatedAxiom);
-			} else {
-				boolean found = false;
-				Iterator<OWLOntology> iterator = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies().iterator();
-				while (!found && iterator.hasNext()) {
-					OWLOntology ontology = iterator.next();
-					found = ontology.containsAxiom(instantiatedAxiom);
-				}
-				toReturn = !found;
-			}
-		} catch (OWLRuntimeException e) {
-			Logging.getQueryLogger().log(
-					Level.WARNING,
-					" OWLReasonerException  caught whilst checking the constraint "
-							+ nafConstraint.render(this.getParameters().getConstraintSystem()));
-		}
-		return toReturn;
-	}
+    @Override
+    public Boolean visit(NAFConstraint nafConstraint) {
+        OWLAxiom instantiatedAxiom = (OWLAxiom) nafConstraint.getAxiom().accept(
+                instantiator);
+        boolean toReturn = false;
+        try {
+            if (getParameters().getConstraintSystem().getReasoner() != null
+                    && nafConstraint.getAxiom().isLogicalAxiom()) {
+                toReturn = !getParameters().getConstraintSystem().getReasoner()
+                        .isEntailed(instantiatedAxiom);
+            } else {
+                boolean found = false;
+                Iterator<OWLOntology> iterator = getParameters().getConstraintSystem()
+                        .getOntologyManager().getOntologies().iterator();
+                while (!found && iterator.hasNext()) {
+                    OWLOntology ontology = iterator.next();
+                    found = ontology.containsAxiom(instantiatedAxiom);
+                }
+                toReturn = !found;
+            }
+        } catch (OWLRuntimeException e) {
+            Logging.getQueryLogger()
+                    .log(Level.WARNING,
+                            " OWLReasonerException  caught whilst checking the constraint "
+                                    + nafConstraint.render(getParameters()
+                                            .getConstraintSystem()));
+        }
+        return toReturn;
+    }
 }

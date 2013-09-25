@@ -27,33 +27,22 @@ import org.coode.oppl.generated.GeneratedVariable;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
-/**
- * Represents a limitation in the range of values that can be assigned to a
+/** Represents a limitation in the range of values that can be assigned to a
  * {@link GeneratedVariable} instance
  * 
- * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public interface VariableScope<O extends OWLObject> {
-	/**
-	 * @param owlObject
-	 * @param checker
-	 * @return true if the input OWLObject is into the VariableScope
-	 * @throws OWLRuntimeException
-	 */
-	boolean check(OWLObject owlObject) throws OWLRuntimeException;
+    /** @param owlObject
+     * @param checker
+     * @return true if the input OWLObject is into the VariableScope
+     * @throws OWLRuntimeException */
+    boolean check(OWLObject owlObject) throws OWLRuntimeException;
 
-	/**
-	 * @return the direction of the VariableScope
-	 * 
-	 */
-	Direction getDirection();
+    /** @return the direction of the VariableScope */
+    Direction getDirection();
 
-	/**
-	 * @return the scope delimiter for the VariableScope
-	 */
-	O getScopingObject();
+    /** @return the scope delimiter for the VariableScope */
+    O getScopingObject();
 
-	String render(ConstraintSystem constraintSystem);
+    String render(ConstraintSystem constraintSystem);
 }

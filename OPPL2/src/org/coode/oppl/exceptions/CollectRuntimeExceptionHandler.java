@@ -9,41 +9,33 @@ import java.util.regex.PatternSyntaxException;
 
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
-/**
- * This implementation collects all the run-time exception raised.
+/** This implementation collects all the run-time exception raised.
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class CollectRuntimeExceptionHandler implements RuntimeExceptionHandler {
-	private final Set<RuntimeException> exceptions = new HashSet<RuntimeException>();
+    private final Set<RuntimeException> exceptions = new HashSet<RuntimeException>();
 
-	/**
-	 * @see org.coode.oppl.exceptions.RuntimeExceptionHandler#handleOWLRuntimeException(org.semanticweb.owlapi.model.OWLRuntimeException)
-	 */
-	public void handleOWLRuntimeException(OWLRuntimeException e) {
-		this.handleRuntimeException(e);
-	}
+    @Override
+    public void handleOWLRuntimeException(OWLRuntimeException e) {
+        handleRuntimeException(e);
+    }
 
-	private void handleRuntimeException(RuntimeException e) {
-		this.exceptions.add(e);
-	}
+    private void handleRuntimeException(RuntimeException e) {
+        exceptions.add(e);
+    }
 
-	/**
-	 * @see org.coode.oppl.exceptions.RuntimeExceptionHandler#handlePatternSyntaxExcpetion(java.util.regex.PatternSyntaxException)
-	 */
-	public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
-		this.handleRuntimeException(e);
-	}
+    @Override
+    public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
+        handleRuntimeException(e);
+    }
 
-	public void handleException(RuntimeException e) {
-		this.handleRuntimeException(e);
-	}
+    @Override
+    public void handleException(RuntimeException e) {
+        handleRuntimeException(e);
+    }
 
-	/**
-	 * @return the exceptions
-	 */
-	public Set<RuntimeException> getExceptions() {
-		return new HashSet<RuntimeException>(this.exceptions);
-	}
+    /** @return the exceptions */
+    public Set<RuntimeException> getExceptions() {
+        return new HashSet<RuntimeException>(exceptions);
+    }
 }

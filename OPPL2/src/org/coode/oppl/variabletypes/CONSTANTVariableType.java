@@ -17,46 +17,52 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral> implements
-		VariableType<OWLLiteral> {
-	/**
-	 * @param name
-	 * @param allowedDirections
-	 */
-	public CONSTANTVariableType(VariableTypeName name) {
-		super(name, EnumSet.noneOf(Direction.class));
-	}
+        VariableType<OWLLiteral> {
+    /** @param name
+     * @param allowedDirections */
+    public CONSTANTVariableType(VariableTypeName name) {
+        super(name, EnumSet.noneOf(Direction.class));
+    }
 
-	public void accept(VariableTypeVisitor visitor) {
-		visitor.visitCONSTANTVariableType(this);
-	}
+    @Override
+    public void accept(VariableTypeVisitor visitor) {
+        visitor.visitCONSTANTVariableType(this);
+    }
 
-	public <P> P accept(VariableTypeVisitorEx<P> visitor) {
-		return visitor.visitCONSTANTVariableType(this);
-	}
+    @Override
+    public <P> P accept(VariableTypeVisitorEx<P> visitor) {
+        return visitor.visitCONSTANTVariableType(this);
+    }
 
-	public RegexpGeneratedVariable<? extends OWLLiteral> getRegexpGeneratedVariable(String name,
-			OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
-		return new RegexpGeneratedVariable<OWLLiteral>(name,
-				VariableTypeFactory.getCONSTANTVariableType(), patternGeneratingOPPLFunction);
-	}
+    @Override
+    public RegexpGeneratedVariable<? extends OWLLiteral> getRegexpGeneratedVariable(
+            String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+        return new RegexpGeneratedVariable<OWLLiteral>(name,
+                VariableTypeFactory.getCONSTANTVariableType(),
+                patternGeneratingOPPLFunction);
+    }
 
-	public Set<OWLLiteral> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies) {
-		Set<OWLLiteral> toReturn = new HashSet<OWLLiteral>();
-		for (OWLOntology ontology : ontologies) {
-			for (OWLAxiom axiom : ontology.getAxioms()) {
-				toReturn.addAll(OWLObjectExtractor.getAllOWLLiterals(axiom));
-			}
-		}
-		return toReturn;
-	}
+    @Override
+    public Set<OWLLiteral> getReferencedOWLObjects(
+            Collection<? extends OWLOntology> ontologies) {
+        Set<OWLLiteral> toReturn = new HashSet<OWLLiteral>();
+        for (OWLOntology ontology : ontologies) {
+            for (OWLAxiom axiom : ontology.getAxioms()) {
+                toReturn.addAll(OWLObjectExtractor.getAllOWLLiterals(axiom));
+            }
+        }
+        return toReturn;
+    }
 
-	public boolean isCompatibleWith(OWLObject o) {
-		OWLObjectVisitorExAdapter<Boolean> visitor = new OWLObjectVisitorExAdapter<Boolean>(false) {
-			@Override
-			public Boolean visit(OWLLiteral literal) {
-				return true;
-			}
-		};
-		return o.accept(visitor);
-	}
+    @Override
+    public boolean isCompatibleWith(OWLObject o) {
+        OWLObjectVisitorExAdapter<Boolean> visitor = new OWLObjectVisitorExAdapter<Boolean>(
+                false) {
+            @Override
+            public Boolean visit(OWLLiteral literal) {
+                return true;
+            }
+        };
+        return o.accept(visitor);
+    }
 }

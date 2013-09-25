@@ -162,7 +162,7 @@ public class OPPLScriptTypesParserTest extends TestCase {
 		ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
 		OPPLLexer lexer = new OPPLLexer(antlrStringStream);
 		final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-		OPPLScriptParser parser = new OPPLScriptParser(tokens, listener);
+		OPPLScriptParser parser = new OPPLScriptParser(tokens, this.listener);
 		parser.setTreeAdaptor(adaptor);
 		try {
 			RuleReturnScope r = parser.statement();

@@ -35,26 +35,23 @@ import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public interface VariableType<O extends OWLObject> {
-	public Set<O> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies);
+    public Set<O> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies);
 
-	public EnumSet<Direction> getAllowedDirections();
+    public EnumSet<Direction> getAllowedDirections();
 
-	public boolean isCompatibleWith(OWLObject o);
+    public boolean isCompatibleWith(OWLObject o);
 
-	public RegexpGeneratedVariable<? extends O> getRegexpGeneratedVariable(String name,
-			OPPLFunction<Pattern> patternGeneratingOPPLFunction);
+    public RegexpGeneratedVariable<? extends O> getRegexpGeneratedVariable(String name,
+            OPPLFunction<Pattern> patternGeneratingOPPLFunction);
 
-	public InputVariable<O> getInputVariable(String name, VariableScope<?> variableScope);
+    public InputVariable<O> getInputVariable(String name, VariableScope<?> variableScope);
 
-	public GeneratedVariable<O> getGeneratedVariable(String name,
-			OPPLFunction<? extends O> opplFunction);
+    public GeneratedVariable<O> getGeneratedVariable(String name,
+            OPPLFunction<? extends O> opplFunction);
 
-	public void accept(VariableTypeVisitor visitor);
+    public void accept(VariableTypeVisitor visitor);
 
-	public <P> P accept(VariableTypeVisitorEx<P> visitor);
+    public <P> P accept(VariableTypeVisitorEx<P> visitor);
 }

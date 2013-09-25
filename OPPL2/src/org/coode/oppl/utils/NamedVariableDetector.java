@@ -30,45 +30,45 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 
-/**
- * Detects the presence of a particular variable in an OWLObject instance.
+/** Detects the presence of a particular variable in an OWLObject instance.
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class NamedVariableDetector extends AbstractVariableDetector {
-	private final Variable<?> variable;
+    private final Variable<?> variable;
 
-	/**
-	 * @param constraintSystem
-	 */
-	public NamedVariableDetector(Variable<?> variable, ConstraintSystem constraintSystem) {
-		super(constraintSystem);
-		this.variable = variable;
-	}
+    /** @param constraintSystem */
+    public NamedVariableDetector(Variable<?> variable, ConstraintSystem constraintSystem) {
+        super(constraintSystem);
+        this.variable = variable;
+    }
 
-	public Boolean visit(OWLClass desc) {
-		return this.constraintSystem.isVariableIRI(desc.getIRI())
-				&& this.constraintSystem.getVariable(desc.getIRI()).equals(this.variable);
-	}
+    @Override
+    public Boolean visit(OWLClass desc) {
+        return constraintSystem.isVariableIRI(desc.getIRI())
+                && constraintSystem.getVariable(desc.getIRI()).equals(variable);
+    }
 
-	public Boolean visit(OWLLiteral node) {
-		return this.constraintSystem.isVariable(node)
-				&& this.constraintSystem.getVariable(node.getLiteral()).equals(this.variable);
-	}
+    @Override
+    public Boolean visit(OWLLiteral node) {
+        return constraintSystem.isVariable(node)
+                && constraintSystem.getVariable(node.getLiteral()).equals(variable);
+    }
 
-	public Boolean visit(OWLObjectProperty property) {
-		return this.constraintSystem.isVariable(property)
-				&& this.constraintSystem.getVariable(property.getIRI()).equals(this.variable);
-	}
+    @Override
+    public Boolean visit(OWLObjectProperty property) {
+        return constraintSystem.isVariable(property)
+                && constraintSystem.getVariable(property.getIRI()).equals(variable);
+    }
 
-	public Boolean visit(OWLDataProperty property) {
-		return this.constraintSystem.isVariable(property)
-				&& this.constraintSystem.getVariable(property.getIRI()).equals(this.variable);
-	}
+    @Override
+    public Boolean visit(OWLDataProperty property) {
+        return constraintSystem.isVariable(property)
+                && constraintSystem.getVariable(property.getIRI()).equals(variable);
+    }
 
-	public Boolean visit(OWLNamedIndividual individual) {
-		return this.constraintSystem.isVariable(individual)
-				&& this.constraintSystem.getVariable(individual.getIRI()).equals(this.variable);
-	}
+    @Override
+    public Boolean visit(OWLNamedIndividual individual) {
+        return constraintSystem.isVariable(individual)
+                && constraintSystem.getVariable(individual.getIRI()).equals(variable);
+    }
 }

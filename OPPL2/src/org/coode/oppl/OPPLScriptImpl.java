@@ -31,227 +31,215 @@ import org.coode.oppl.variabletypes.InputVariable;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class OPPLScriptImpl implements OPPLScript {
-	private final ConstraintSystem constraintSystem;
-	private final List<Variable<?>> variables = new ArrayList<Variable<?>>();
-	private final OPPLQuery query;
-	private final List<OWLAxiomChange> actions;
-	private final OPPLAbstractFactory factory;
+    private final ConstraintSystem constraintSystem;
+    private final List<Variable<?>> variables = new ArrayList<Variable<?>>();
+    private final OPPLQuery query;
+    private final List<OWLAxiomChange> actions;
+    private final OPPLAbstractFactory factory;
 
-	/**
-	 * @param constraintSystem
-	 * @param query
-	 * @param actions
-	 */
-	public OPPLScriptImpl(ConstraintSystem constraintSystem, List<Variable<?>> variables,
-			OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory) {
-		this(constraintSystem, variables, query, actions, factory, false);
-	}
+    /** @param constraintSystem
+     * @param query
+     * @param actions */
+    public OPPLScriptImpl(ConstraintSystem constraintSystem, List<Variable<?>> variables,
+            OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory) {
+        this(constraintSystem, variables, query, actions, factory, false);
+    }
 
-	public OPPLScriptImpl(ConstraintSystem constraintSystem, List<Variable<?>> variables,
-			OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory,
-			boolean resetExecution) {
-		this.constraintSystem = constraintSystem;
-		this.variables.addAll(variables);
-		if (!resetExecution) {
-			this.query = query;
-		} else {
-			this.query = query == null ? null : new OPPLQueryImpl(query, factory);
-		}
-		this.actions = new ArrayList<OWLAxiomChange>(actions);
-		this.factory = factory;
-	}
+    public OPPLScriptImpl(ConstraintSystem constraintSystem, List<Variable<?>> variables,
+            OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory,
+            boolean resetExecution) {
+        this.constraintSystem = constraintSystem;
+        this.variables.addAll(variables);
+        if (!resetExecution) {
+            this.query = query;
+        } else {
+            this.query = query == null ? null : new OPPLQueryImpl(query, factory);
+        }
+        this.actions = new ArrayList<OWLAxiomChange>(actions);
+        this.factory = factory;
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLScript#getConstraintSystem()
-	 */
-	public ConstraintSystem getConstraintSystem() {
-		return constraintSystem;
-	}
+    @Override
+    public ConstraintSystem getConstraintSystem() {
+        return constraintSystem;
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLScript#getInputVariables()
-	 */
-	public List<InputVariable<?>> getInputVariables() {
-		List<InputVariable<?>> toReturn = new ArrayList<InputVariable<?>>(
+    @Override
+    public List<InputVariable<?>> getInputVariables() {
+        List<InputVariable<?>> toReturn = new ArrayList<InputVariable<?>>(
                 variables.size());
         for (Variable<?> v : variables) {
-			if (VariableRecogniser.INPUT_VARIABLE_RECOGNISER.recognise(v)) {
-				toReturn.add((InputVariable<?>) v);
-			}
-		}
-		return toReturn;
-	}
+            if (VariableRecogniser.INPUT_VARIABLE_RECOGNISER.recognise(v)) {
+                toReturn.add((InputVariable<?>) v);
+            }
+        }
+        return toReturn;
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLScript#getVariables()
-	 */
-	public List<Variable<?>> getVariables() {
-		return new ArrayList<Variable<?>>(variables);
-	}
+    @Override
+    public List<Variable<?>> getVariables() {
+        return new ArrayList<Variable<?>>(variables);
+    }
 
-	/**
-	 * @return the query
-	 */
-	public OPPLQuery getQuery() {
-		return query;
-	}
+    /** @return the query */
+    @Override
+    public OPPLQuery getQuery() {
+        return query;
+    }
 
-	/**
-	 * @return the actions
-	 */
-	public List<OWLAxiomChange> getActions() {
-		return actions;
-	}
+    /** @return the actions */
+    @Override
+    public List<OWLAxiomChange> getActions() {
+        return actions;
+    }
 
-	public void accept(OPPLScriptVisitor visitor) {
+    @Override
+    public void accept(OPPLScriptVisitor visitor) {
         for (Variable<?> v : variables) {
-			visitor.visit(v);
-		}
-		visitor.visit(getQuery());
-		visitor.visitActions(getActions());
-	}
+            visitor.visit(v);
+        }
+        visitor.visit(getQuery());
+        visitor.visitActions(getActions());
+    }
 
-	public <P> P accept(OPPLScriptVisitorEx<P> visitor) {
-		P p = null;
+    @Override
+    public <P> P accept(OPPLScriptVisitorEx<P> visitor) {
+        P p = null;
         for (Variable<?> v : variables) {
-			p = visitor.visit(v, p);
-		}
-		p = visitor.visit(getQuery(), p);
-		p = visitor.visitActions(getActions(), p);
-		return p;
-	}
+            p = visitor.visit(v, p);
+        }
+        p = visitor.visit(getQuery(), p);
+        p = visitor.visitActions(getActions(), p);
+        return p;
+    }
 
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		boolean first = true;
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        boolean first = true;
         for (Variable<?> v : variables) {
-			String commaString = first ? "" : ", ";
-			first = false;
-			buffer.append(commaString);
-			buffer.append(v.render(getConstraintSystem()));
-		}
-		if (buffer.length() > 0) {
-			buffer.append(" ");
-		}
-		OPPLQuery opplQuery = getQuery();
-		if (query != null) {
-			buffer.append(opplQuery.toString());
-		}
-		if (getActions().size() > 0) {
-			buffer.append(" BEGIN ");
-			first = true;
-			for (OWLAxiomChange action : getActions()) {
-				String commaString = first ? "" : ", ";
-				ManchesterSyntaxRenderer renderer = factory.getManchesterSyntaxRenderer(constraintSystem);
+            String commaString = first ? "" : ", ";
+            first = false;
+            buffer.append(commaString);
+            buffer.append(v.render(getConstraintSystem()));
+        }
+        if (buffer.length() > 0) {
+            buffer.append(" ");
+        }
+        OPPLQuery opplQuery = getQuery();
+        if (query != null) {
+            buffer.append(opplQuery.toString());
+        }
+        if (getActions().size() > 0) {
+            buffer.append(" BEGIN ");
+            first = true;
+            for (OWLAxiomChange action : getActions()) {
+                String commaString = first ? "" : ", ";
+                ManchesterSyntaxRenderer renderer = factory
+                        .getManchesterSyntaxRenderer(constraintSystem);
                 String actionString = action.isAddAxiom() ? "ADD " : "REMOVE ";
-				first = false;
-				buffer.append(commaString);
-				buffer.append(actionString);
-				action.getAxiom().accept(renderer);
-				buffer.append(renderer.toString());
-			}
-			buffer.append(" END;");
-		}
-		return buffer.toString();
-	}
+                first = false;
+                buffer.append(commaString);
+                buffer.append(actionString);
+                action.getAxiom().accept(renderer);
+                buffer.append(renderer.toString());
+            }
+            buffer.append(" END;");
+        }
+        return buffer.toString();
+    }
 
-	public String render() {
-		return toString();
-	}
+    @Override
+    public String render() {
+        return toString();
+    }
 
-	public String render(ShortFormProvider shortFormProvider) {
-		StringBuffer buffer = new StringBuffer();
-		boolean first = true;
+    @Override
+    public String render(ShortFormProvider shortFormProvider) {
+        StringBuffer buffer = new StringBuffer();
+        boolean first = true;
         for (Variable<?> v : variables) {
-			String commaString = first ? "" : ", ";
-			first = false;
-			buffer.append(commaString);
-			buffer.append(v.render(getConstraintSystem()));
-		}
-		if (buffer.length() > 0) {
-			buffer.append(" ");
-		}
-		OPPLQuery opplQuery = getQuery();
-		if (query != null) {
-			buffer.append(opplQuery.render(shortFormProvider));
-		}
-		if (getActions().size() > 0) {
-			buffer.append(" BEGIN ");
-			first = true;
-			for (OWLAxiomChange action : getActions()) {
-				String commaString = first ? "" : ", ";
-				ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(shortFormProvider);
+            String commaString = first ? "" : ", ";
+            first = false;
+            buffer.append(commaString);
+            buffer.append(v.render(getConstraintSystem()));
+        }
+        if (buffer.length() > 0) {
+            buffer.append(" ");
+        }
+        OPPLQuery opplQuery = getQuery();
+        if (query != null) {
+            buffer.append(opplQuery.render(shortFormProvider));
+        }
+        if (getActions().size() > 0) {
+            buffer.append(" BEGIN ");
+            first = true;
+            for (OWLAxiomChange action : getActions()) {
+                String commaString = first ? "" : ", ";
+                ManchesterSyntaxRenderer renderer = new ManchesterSyntaxRenderer(
+                        shortFormProvider);
                 String actionString = action.isAddAxiom() ? "ADD " : "REMOVE ";
-				first = false;
-				buffer.append(commaString);
-				buffer.append(actionString);
-				action.getAxiom().accept(renderer);
-				buffer.append(renderer.toString());
-			}
-			buffer.append(" END;");
-		}
-		return buffer.toString();
-	}
+                first = false;
+                buffer.append(commaString);
+                buffer.append(actionString);
+                action.getAxiom().accept(renderer);
+                buffer.append(renderer.toString());
+            }
+            buffer.append(" END;");
+        }
+        return buffer.toString();
+    }
 
-	public void addVariable(Variable<?> variable) {
-		variables.add(variable);
-	}
+    @Override
+    public void addVariable(Variable<?> variable) {
+        variables.add(variable);
+    }
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (actions == null ? 0 : actions.hashCode());
-		result = prime * result + (query == null ? 0 : query.hashCode());
-		result = prime * result + (variables == null ? 0 : variables.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (actions == null ? 0 : actions.hashCode());
+        result = prime * result + (query == null ? 0 : query.hashCode());
+        result = prime * result + (variables == null ? 0 : variables.hashCode());
+        return result;
+    }
 
-	/**
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (this.getClass() != obj.getClass()) {
-			return false;
-		}
-		OPPLScriptImpl other = (OPPLScriptImpl) obj;
-		if (actions == null) {
-			if (other.actions != null) {
-				return false;
-			}
-		} else if (!actions.equals(other.actions)) {
-			return false;
-		}
-		if (query == null) {
-			if (other.query != null) {
-				return false;
-			}
-		} else if (!query.equals(other.query)) {
-			return false;
-		}
-		if (variables == null) {
-			if (other.variables != null) {
-				return false;
-			}
-		} else if (!variables.equals(other.variables)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        OPPLScriptImpl other = (OPPLScriptImpl) obj;
+        if (actions == null) {
+            if (other.actions != null) {
+                return false;
+            }
+        } else if (!actions.equals(other.actions)) {
+            return false;
+        }
+        if (query == null) {
+            if (other.query != null) {
+                return false;
+            }
+        } else if (!query.equals(other.query)) {
+            return false;
+        }
+        if (variables == null) {
+            if (other.variables != null) {
+                return false;
+            }
+        } else if (!variables.equals(other.variables)) {
+            return false;
+        }
+        return true;
+    }
 }

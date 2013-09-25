@@ -46,76 +46,72 @@ import org.coode.oppl.utils.VariableExtractor;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
-	private final ConstraintSystem constraintSystem;
-	private final Set<OWLOntology> ontologies = new HashSet<OWLOntology>();
-	private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
+    private final ConstraintSystem constraintSystem;
+    private final Set<OWLOntology> ontologies = new HashSet<OWLOntology>();
+    private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
 
-	public AssertedTreeSearchAxiomQuery(Set<OWLOntology> ontologies,
-			ConstraintSystem constraintSystem, RuntimeExceptionHandler runtimeExceptionHandler) {
-		super(runtimeExceptionHandler);
-		if (ontologies == null) {
-			throw new NullPointerException("The ontologies collection cannot be null");
-		}
-		if (constraintSystem == null) {
-			throw new NullPointerException("The constraint system cannot be null");
-		}
-		this.constraintSystem = constraintSystem;
-		this.ontologies.addAll(ontologies);
-	}
+    public AssertedTreeSearchAxiomQuery(Set<OWLOntology> ontologies,
+            ConstraintSystem constraintSystem,
+            RuntimeExceptionHandler runtimeExceptionHandler) {
+        super(runtimeExceptionHandler);
+        if (ontologies == null) {
+            throw new NullPointerException("The ontologies collection cannot be null");
+        }
+        if (constraintSystem == null) {
+            throw new NullPointerException("The constraint system cannot be null");
+        }
+        this.constraintSystem = constraintSystem;
+        this.ontologies.addAll(ontologies);
+    }
 
-	@Override
-	protected Set<BindingNode> match(OWLAxiom axiom) {
-		this.clearInstantions();
-		OPPLAssertedOWLAxiomSearchTree searchTree = new OPPLAssertedOWLAxiomSearchTree(
-				this.getConstraintSystem(), this.getRuntimeExceptionHandler());
-		VariableExtractor variableExtractor = new VariableExtractor(this.getConstraintSystem(),
-				false);
-		Set<Variable<?>> extractedVariables = variableExtractor.extractVariables(axiom);
-		SortedSet<Variable<?>> sortedVariables = new TreeSet<Variable<?>>(
-				new PositionBasedVariableComparator(axiom,
-						this.getConstraintSystem().getOntologyManager().getOWLDataFactory()));
-		sortedVariables.addAll(extractedVariables);
-		List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
-		searchTree.exhaustiveSearchTree(new OPPLOWLAxiomSearchNode(axiom, new BindingNode(
-				new HashSet<Assignment>(), sortedVariables)), solutions);
-		for (List<OPPLOWLAxiomSearchNode> path : solutions) {
-			OPPLOWLAxiomSearchNode searchLeaf = path.get(path.size() - 1);
-			BindingNode leaf = searchLeaf.getBinding();
-			ValueComputationParameters parameters = new SimpleValueComputationParameters(
-					this.getConstraintSystem(), leaf, this.getRuntimeExceptionHandler());
-			PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
-					parameters);
-			Set<OWLAxiom> leafInstantiations = this.instantiations.get(leaf);
-			if (leafInstantiations == null) {
-				leafInstantiations = new HashSet<OWLAxiom>();
-			}
-			leafInstantiations.add((OWLAxiom) axiom.accept(partialOWLObjectInstantiator));
-			this.instantiations.put(leaf, leafInstantiations);
-		}
-		return new HashSet<BindingNode>(this.instantiations.keySet());
-	}
+    @Override
+    protected Set<BindingNode> match(OWLAxiom axiom) {
+        clearInstantions();
+        OPPLAssertedOWLAxiomSearchTree searchTree = new OPPLAssertedOWLAxiomSearchTree(
+                getConstraintSystem(), getRuntimeExceptionHandler());
+        VariableExtractor variableExtractor = new VariableExtractor(
+                getConstraintSystem(), false);
+        Set<Variable<?>> extractedVariables = variableExtractor.extractVariables(axiom);
+        SortedSet<Variable<?>> sortedVariables = new TreeSet<Variable<?>>(
+                new PositionBasedVariableComparator(axiom, getConstraintSystem()
+                        .getOntologyManager().getOWLDataFactory()));
+        sortedVariables.addAll(extractedVariables);
+        List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
+        searchTree.exhaustiveSearchTree(new OPPLOWLAxiomSearchNode(axiom,
+                new BindingNode(new HashSet<Assignment>(), sortedVariables)), solutions);
+        for (List<OPPLOWLAxiomSearchNode> path : solutions) {
+            OPPLOWLAxiomSearchNode searchLeaf = path.get(path.size() - 1);
+            BindingNode leaf = searchLeaf.getBinding();
+            ValueComputationParameters parameters = new SimpleValueComputationParameters(
+                    getConstraintSystem(), leaf, getRuntimeExceptionHandler());
+            PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
+                    parameters);
+            Set<OWLAxiom> leafInstantiations = instantiations.get(leaf);
+            if (leafInstantiations == null) {
+                leafInstantiations = new HashSet<OWLAxiom>();
+            }
+            leafInstantiations.add((OWLAxiom) axiom.accept(partialOWLObjectInstantiator));
+            instantiations.put(leaf, leafInstantiations);
+        }
+        return new HashSet<BindingNode>(instantiations.keySet());
+    }
 
-	private void clearInstantions() {
-		this.instantiations.clear();
-	}
+    private void clearInstantions() {
+        instantiations.clear();
+    }
 
-	public Map<BindingNode, Set<OWLAxiom>> getInstantiations() {
-		return new HashMap<BindingNode, Set<OWLAxiom>>(this.instantiations);
-	}
+    public Map<BindingNode, Set<OWLAxiom>> getInstantiations() {
+        return new HashMap<BindingNode, Set<OWLAxiom>>(instantiations);
+    }
 
-	/**
-	 * @return the constraintSystem
-	 */
-	public ConstraintSystem getConstraintSystem() {
-		return this.constraintSystem;
-	}
+    /** @return the constraintSystem */
+    public ConstraintSystem getConstraintSystem() {
+        return constraintSystem;
+    }
 
-	public Set<OWLOntology> getOntologies() {
-		return new HashSet<OWLOntology>(this.ontologies);
-	}
+    public Set<OWLOntology> getOntologies() {
+        return new HashSet<OWLOntology>(ontologies);
+    }
 }

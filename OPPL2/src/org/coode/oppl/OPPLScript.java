@@ -28,42 +28,31 @@ import org.coode.oppl.variabletypes.InputVariable;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/**
- * Generic interface representing an OPPL Script
+/** Generic interface representing an OPPL Script
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public interface OPPLScript {
-	public void addVariable(Variable<?> variable);
+    public void addVariable(Variable<?> variable);
 
-	/**
-	 * @return the List of the variables declared in this OPPLScript
-	 */
-	public List<Variable<?>> getVariables();
+    /** @return the List of the variables declared in this OPPLScript */
+    public List<Variable<?>> getVariables();
 
-	/**
-	 * @return the List of the InputVariable elements
-	 */
-	public List<InputVariable<?>> getInputVariables();
+    /** @return the List of the InputVariable elements */
+    public List<InputVariable<?>> getInputVariables();
 
-	/**
-	 * @return the ConstraintSystem used by this OPPLScript
-	 */
-	public ConstraintSystem getConstraintSystem();
+    /** @return the ConstraintSystem used by this OPPLScript */
+    public ConstraintSystem getConstraintSystem();
 
-	/**
-	 * @return the appropriate rendering of this OPPLScript
-	 */
-	public String render();
+    /** @return the appropriate rendering of this OPPLScript */
+    public String render();
 
-	public List<OWLAxiomChange> getActions();
+    public List<OWLAxiomChange> getActions();
 
-	public OPPLQuery getQuery();
+    public OPPLQuery getQuery();
 
-	void accept(OPPLScriptVisitor visitor);
+    void accept(OPPLScriptVisitor visitor);
 
-	<P> P accept(OPPLScriptVisitorEx<P> visitor);
+    <P> P accept(OPPLScriptVisitorEx<P> visitor);
 
-	public String render(ShortFormProvider shortFormProvider);
+    public String render(ShortFormProvider shortFormProvider);
 }

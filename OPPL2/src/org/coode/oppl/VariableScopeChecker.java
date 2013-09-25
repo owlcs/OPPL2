@@ -33,90 +33,70 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/**
- * Visitor that checks whether a value is within the scope of the visited
+/** Visitor that checks whether a value is within the scope of the visited
  * VariableScope or not
  * 
- * 
- * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class VariableScopeChecker {
-	private final OWLOntologyManager ontologyManager;
-	private final OWLReasoner reasoner;
+    private final OWLOntologyManager ontologyManager;
+    private final OWLReasoner reasoner;
 
-	/**
-	 * @param ontologyManager
-	 * @param reasoner
-	 */
-	public VariableScopeChecker(OWLOntologyManager ontologyManager,
-			OWLReasoner reasoner) throws OPPLException {
-		if (reasoner == null) {
-			throw new NullReasonerException();
-		} else {
-			this.ontologyManager = ontologyManager;
-			this.reasoner = reasoner;
-		}
-	}
+    /** @param ontologyManager
+     * @param reasoner */
+    public VariableScopeChecker(OWLOntologyManager ontologyManager, OWLReasoner reasoner)
+            throws OPPLException {
+        if (reasoner == null) {
+            throw new NullReasonerException();
+        } else {
+            this.ontologyManager = ontologyManager;
+            this.reasoner = reasoner;
+        }
+    }
 
-	/**
-	 * @param owlCass
-	 * @param scope
-	 * @return true is the input owlClass is in the input scope, false otherwise
-	 * @throws OWLRuntimeException
-	 */
-	protected boolean check(OWLClass owlCass, SubClassVariableScope scope) {
-		OWLClassExpression description = scope.getClassExpression();
-		OWLSubClassOfAxiom axiom = this.getOntologyManager()
-				.getOWLDataFactory()
-				.getOWLSubClassOfAxiom(owlCass, description);
-		return this.getReasoner().isEntailed(axiom);
-	}
+    /** @param owlCass
+     * @param scope
+     * @return true is the input owlClass is in the input scope, false otherwise
+     * @throws OWLRuntimeException */
+    protected boolean check(OWLClass owlCass, SubClassVariableScope scope) {
+        OWLClassExpression description = scope.getClassExpression();
+        OWLSubClassOfAxiom axiom = getOntologyManager().getOWLDataFactory()
+                .getOWLSubClassOfAxiom(owlCass, description);
+        return getReasoner().isEntailed(axiom);
+    }
 
-	/**
-	 * @param owlCass
-	 * @param scope
-	 * @return true is the input owlClass is in the input scope, false otherwise
-	 * @throws OWLRuntimeException
-	 */
-	protected boolean check(OWLClass owlCass, SuperClassVariableScope scope)
-			throws OWLRuntimeException {
-		OWLClassExpression description = scope.getClassExpression();
-		OWLSubClassOfAxiom axiom = this.getOntologyManager()
-				.getOWLDataFactory()
-				.getOWLSubClassOfAxiom(description, owlCass);
-		return this.getReasoner().isEntailed(axiom);
-	}
+    /** @param owlCass
+     * @param scope
+     * @return true is the input owlClass is in the input scope, false otherwise
+     * @throws OWLRuntimeException */
+    protected boolean check(OWLClass owlCass, SuperClassVariableScope scope)
+            throws OWLRuntimeException {
+        OWLClassExpression description = scope.getClassExpression();
+        OWLSubClassOfAxiom axiom = getOntologyManager().getOWLDataFactory()
+                .getOWLSubClassOfAxiom(description, owlCass);
+        return getReasoner().isEntailed(axiom);
+    }
 
-	/**
-	 * @param individual
-	 * @param scope
-	 * @return true is the input individual is in the input scope, false
-	 *         otherwise
-	 * @throws OWLRuntimeException
-	 */
-	protected boolean check(OWLIndividual individual,
-			IndividualVariableScope scope) throws OWLRuntimeException {
-		OWLClassExpression description = scope.getClassExpression();
-		OWLClassAssertionAxiom axiom = this.getOntologyManager()
-				.getOWLDataFactory().getOWLClassAssertionAxiom(description,
-						individual);
-		return this.getReasoner().isEntailed(axiom);
-	}
+    /** @param individual
+     * @param scope
+     * @return true is the input individual is in the input scope, false
+     *         otherwise
+     * @throws OWLRuntimeException */
+    protected boolean check(OWLIndividual individual, IndividualVariableScope scope)
+            throws OWLRuntimeException {
+        OWLClassExpression description = scope.getClassExpression();
+        OWLClassAssertionAxiom axiom = getOntologyManager().getOWLDataFactory()
+                .getOWLClassAssertionAxiom(description, individual);
+        return getReasoner().isEntailed(axiom);
+    }
 
-	/**
-	 * @return the reasoner
-	 * @throws OWLRuntimeException
-	 */
-	public OWLReasoner getReasoner() {
-		return this.reasoner;
-	}
+    /** @return the reasoner
+     * @throws OWLRuntimeException */
+    public OWLReasoner getReasoner() {
+        return reasoner;
+    }
 
-	/**
-	 * @return the ontologyManager
-	 */
-	public OWLOntologyManager getOntologyManager() {
-		return this.ontologyManager;
-	}
+    /** @return the ontologyManager */
+    public OWLOntologyManager getOntologyManager() {
+        return ontologyManager;
+    }
 }

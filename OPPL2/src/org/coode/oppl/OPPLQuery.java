@@ -30,34 +30,30 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public interface OPPLQuery {
-	void addAssertedAxiom(OWLAxiom axiom);
+    void addAssertedAxiom(OWLAxiom axiom);
 
-	void addAxiom(OWLAxiom axiom);
+    void addAxiom(OWLAxiom axiom);
 
-	void addConstraint(AbstractConstraint constraint);
+    void addConstraint(AbstractConstraint constraint);
 
-	List<OWLAxiom> getAxioms();
+    List<OWLAxiom> getAxioms();
 
-	List<OWLAxiom> getAssertedAxioms();
+    List<OWLAxiom> getAssertedAxioms();
 
-	List<AbstractConstraint> getConstraints();
+    List<AbstractConstraint> getConstraints();
 
-	String toString();
+    String render();
 
-	String render();
+    ConstraintSystem getConstraintSystem();
 
-	ConstraintSystem getConstraintSystem();
+    public void execute(RuntimeExceptionHandler runtimeExceptionHandler,
+            ExecutionMonitor executionMonitor);
 
-	public void execute(RuntimeExceptionHandler runtimeExceptionHandler,
-			ExecutionMonitor executionMonitor);
+    public void execute(Collection<? extends BindingNode> leaves,
+            RuntimeExceptionHandler runtimeExceptionHandler,
+            ExecutionMonitor executionMonitor);
 
-	public void execute(Collection<? extends BindingNode> leaves,
-			RuntimeExceptionHandler runtimeExceptionHandler, ExecutionMonitor executionMonitor);
-
-	String render(ShortFormProvider shortFormProvider);
+    String render(ShortFormProvider shortFormProvider);
 }

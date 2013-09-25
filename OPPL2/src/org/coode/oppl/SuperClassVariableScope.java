@@ -30,28 +30,25 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
-/**
- * Represents a range limitations that could be added to a
+/** Represents a range limitations that could be added to a
  * {@link GeneratedVariable} instance with CLASS {@link VariableType}, in
  * particular this restricts the possible values to the set of primitive classes
  * that are super-classes of a given class
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class SuperClassVariableScope extends ClassVariableScope {
-	SuperClassVariableScope(OWLClassExpression description, VariableScopeChecker checker) {
-		super(description, checker);
-	}
+    SuperClassVariableScope(OWLClassExpression description, VariableScopeChecker checker) {
+        super(description, checker);
+    }
 
-	public boolean check(OWLObject owlObject) throws OWLRuntimeException {
-		return owlObject instanceof OWLClass && this.getChecker().check((OWLClass) owlObject, this);
-	}
+    @Override
+    public boolean check(OWLObject owlObject) throws OWLRuntimeException {
+        return owlObject instanceof OWLClass
+                && getChecker().check((OWLClass) owlObject, this);
+    }
 
-	/**
-	 * @see org.coode.oppl.VariableScope#getDirection()
-	 */
-	public Direction getDirection() {
-		return Direction.SUPERCLASSOF;
-	}
+    @Override
+    public Direction getDirection() {
+        return Direction.SUPERCLASSOF;
+    }
 }

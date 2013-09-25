@@ -22,87 +22,87 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
 public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
-	private final OWLAxiom axiom;
+    private final OWLAxiom axiom;
 
-	/**
-	 * @param constraintSystem
-	 * @param axiom
-	 */
-	public InferredAxiomQueryPlannerItem(ConstraintSystem constraintSystem, OWLAxiom axiom) {
-		super(constraintSystem);
-		if (axiom == null) {
-			throw new NullPointerException("The axiom cannot be null");
-		}
-		this.axiom = axiom;
-	}
+    /** @param constraintSystem
+     * @param axiom */
+    public InferredAxiomQueryPlannerItem(ConstraintSystem constraintSystem, OWLAxiom axiom) {
+        super(constraintSystem);
+        if (axiom == null) {
+            throw new NullPointerException("The axiom cannot be null");
+        }
+        this.axiom = axiom;
+    }
 
-	/**
-	 * @return the axiom
-	 */
-	public OWLAxiom getAxiom() {
-		return this.axiom;
-	}
+    /** @return the axiom */
+    public OWLAxiom getAxiom() {
+        return axiom;
+    }
 
-	public Set<BindingNode> match(Collection<? extends BindingNode> currentLeaves,
-			ExecutionMonitor executionMonitor, RuntimeExceptionHandler runtimeExceptionHandler) {
-		Set<BindingNode> toReturn = new HashSet<BindingNode>();
-		if (currentLeaves != null) {
-			Iterator<? extends BindingNode> iterator = currentLeaves.iterator();
-			while (!executionMonitor.isCancelled() && iterator.hasNext()) {
-				BindingNode bindingNode = iterator.next();
-				ValueComputationParameters parameters = new SimpleValueComputationParameters(
-						this.getConstraintSystem(), bindingNode, runtimeExceptionHandler);
-				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-						parameters);
-				OWLAxiom instantiatedAxiom = (OWLAxiom) this.getAxiom().accept(instantiator);
-				Set<BindingNode> newLeaves = this.updateBindings(
-						instantiatedAxiom,
-						runtimeExceptionHandler);
-				toReturn.addAll(this.merge(bindingNode, newLeaves));
-			}
-			if (executionMonitor.isCancelled()) {
-				toReturn = null;
-			}
-		} else {
-			toReturn.addAll(this.updateBindings(this.getAxiom(), runtimeExceptionHandler));
-		}
-		return toReturn;
-	}
+    @Override
+    public Set<BindingNode> match(Collection<? extends BindingNode> currentLeaves,
+            ExecutionMonitor executionMonitor,
+            RuntimeExceptionHandler runtimeExceptionHandler) {
+        Set<BindingNode> toReturn = new HashSet<BindingNode>();
+        if (currentLeaves != null) {
+            Iterator<? extends BindingNode> iterator = currentLeaves.iterator();
+            while (!executionMonitor.isCancelled() && iterator.hasNext()) {
+                BindingNode bindingNode = iterator.next();
+                ValueComputationParameters parameters = new SimpleValueComputationParameters(
+                        getConstraintSystem(), bindingNode, runtimeExceptionHandler);
+                PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
+                        parameters);
+                OWLAxiom instantiatedAxiom = (OWLAxiom) getAxiom().accept(instantiator);
+                Set<BindingNode> newLeaves = updateBindings(instantiatedAxiom,
+                        runtimeExceptionHandler);
+                toReturn.addAll(merge(bindingNode, newLeaves));
+            }
+            if (executionMonitor.isCancelled()) {
+                toReturn = null;
+            }
+        } else {
+            toReturn.addAll(updateBindings(getAxiom(), runtimeExceptionHandler));
+        }
+        return toReturn;
+    }
 
-	private Set<BindingNode> updateBindings(OWLAxiom axiom,
-			RuntimeExceptionHandler runtimeExceptionHandler) throws OWLRuntimeException {
-		assert axiom != null;
-		Set<BindingNode> toReturn = new HashSet<BindingNode>();
-		Logging.getQueryLogger().log(
-				Level.FINE,
-				"Initial size: "
-						+ (this.getConstraintSystem().getLeaves() == null ? "empty"
-								: this.getConstraintSystem().getLeaves().size()));
-		AxiomQuery query = this.getConstraintSystem().getReasoner() == null
-				|| !axiom.isLogicalAxiom() ? new AssertedSolvabilityBasedAxiomQuery(
-				this.getConstraintSystem().getOntologyManager().getOntologies(),
-				this.getConstraintSystem(), runtimeExceptionHandler)
-				: new InferredSolvabilityBasedTreeSearchAxiomQuery(this.getConstraintSystem(),
-						runtimeExceptionHandler);
-		Logging.getQueryTestLogging().log(Level.FINE, "Used engine: " + query.getClass().getName());
-		axiom.accept(query);
-		toReturn.addAll(query.getLeaves());
-		return toReturn;
-	}
+    private Set<BindingNode> updateBindings(OWLAxiom axiom,
+            RuntimeExceptionHandler runtimeExceptionHandler) throws OWLRuntimeException {
+        assert axiom != null;
+        Set<BindingNode> toReturn = new HashSet<BindingNode>();
+        Logging.getQueryLogger().log(
+                Level.FINE,
+                "Initial size: "
+                        + (getConstraintSystem().getLeaves() == null ? "empty"
+                                : getConstraintSystem().getLeaves().size()));
+        AxiomQuery query = getConstraintSystem().getReasoner() == null
+                || !axiom.isLogicalAxiom() ? new AssertedSolvabilityBasedAxiomQuery(
+                getConstraintSystem().getOntologyManager().getOntologies(),
+                getConstraintSystem(), runtimeExceptionHandler)
+                : new InferredSolvabilityBasedTreeSearchAxiomQuery(getConstraintSystem(),
+                        runtimeExceptionHandler);
+        Logging.getQueryTestLogging().log(Level.FINE,
+                "Used engine: " + query.getClass().getName());
+        axiom.accept(query);
+        toReturn.addAll(query.getLeaves());
+        return toReturn;
+    }
 
-	public void accept(QueryPlannerVisitor visitor) {
-		visitor.visitInferredAxiomQueryPlannerItem(this);
-	}
+    @Override
+    public void accept(QueryPlannerVisitor visitor) {
+        visitor.visitInferredAxiomQueryPlannerItem(this);
+    }
 
-	public <O> O accept(QueryPlannerVisitorEx<O> visitor) {
-		return visitor.visitInferredAxiomQueryPlannerItem(this);
-	}
+    @Override
+    public <O> O accept(QueryPlannerVisitorEx<O> visitor) {
+        return visitor.visitInferredAxiomQueryPlannerItem(this);
+    }
 
-	@Override
-	public String toString() {
-		ManchesterSyntaxRenderer renderer = this.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
-				this.getConstraintSystem());
-		this.getAxiom().accept(renderer);
-		return String.format("INFERRED %s ", renderer.toString());
-	}
+    @Override
+    public String toString() {
+        ManchesterSyntaxRenderer renderer = getConstraintSystem().getOPPLFactory()
+                .getManchesterSyntaxRenderer(getConstraintSystem());
+        getAxiom().accept(renderer);
+        return String.format("INFERRED %s ", renderer.toString());
+    }
 }

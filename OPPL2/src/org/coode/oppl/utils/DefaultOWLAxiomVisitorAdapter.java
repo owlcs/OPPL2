@@ -43,358 +43,278 @@ import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
 public class DefaultOWLAxiomVisitorAdapter extends OWLAxiomVisitorAdapter {
-	protected void doDefault(OWLAxiom axiom) {
-	}
+    protected void doDefault(OWLAxiom axiom) {}
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLAsymmetricObjectPropertyAxiom)
-	 */
-	@Override
-	public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLAsymmetricObjectPropertyAxiom) */
+    @Override
+    public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLClassAssertionAxiom)
-	 */
-	@Override
-	public void visit(OWLClassAssertionAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLClassAssertionAxiom) */
+    @Override
+    public void visit(OWLClassAssertionAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * 
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLDataPropertyAssertionAxiom)
-	 */
-	@Override
-	public void visit(OWLDataPropertyAssertionAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLDataPropertyAssertionAxiom) */
+    @Override
+    public void visit(OWLDataPropertyAssertionAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLDataPropertyDomainAxiom)
-	 */
-	@Override
-	public void visit(OWLDataPropertyDomainAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLDataPropertyDomainAxiom) */
+    @Override
+    public void visit(OWLDataPropertyDomainAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLDataPropertyRangeAxiom)
-	 */
-	@Override
-	public void visit(OWLDataPropertyRangeAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLDataPropertyRangeAxiom) */
+    @Override
+    public void visit(OWLDataPropertyRangeAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLDeclarationAxiom)
-	 */
-	@Override
-	public void visit(OWLDeclarationAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLDeclarationAxiom) */
+    @Override
+    public void visit(OWLDeclarationAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLDifferentIndividualsAxiom)
-	 */
-	@Override
-	public void visit(OWLDifferentIndividualsAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLDifferentIndividualsAxiom) */
+    @Override
+    public void visit(OWLDifferentIndividualsAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLDisjointClassesAxiom)
-	 */
-	@Override
-	public void visit(OWLDisjointClassesAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLDisjointClassesAxiom) */
+    @Override
+    public void visit(OWLDisjointClassesAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLDisjointDataPropertiesAxiom)
-	 */
-	@Override
-	public void visit(OWLDisjointDataPropertiesAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLDisjointDataPropertiesAxiom) */
+    @Override
+    public void visit(OWLDisjointDataPropertiesAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLDisjointObjectPropertiesAxiom)
-	 */
-	@Override
-	public void visit(OWLDisjointObjectPropertiesAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLDisjointObjectPropertiesAxiom) */
+    @Override
+    public void visit(OWLDisjointObjectPropertiesAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLDisjointUnionAxiom)
-	 */
-	@Override
-	public void visit(OWLDisjointUnionAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLDisjointUnionAxiom) */
+    @Override
+    public void visit(OWLDisjointUnionAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLEquivalentClassesAxiom)
-	 */
-	@Override
-	public void visit(OWLEquivalentClassesAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLEquivalentClassesAxiom) */
+    @Override
+    public void visit(OWLEquivalentClassesAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLEquivalentDataPropertiesAxiom)
-	 */
-	@Override
-	public void visit(OWLEquivalentDataPropertiesAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLEquivalentDataPropertiesAxiom) */
+    @Override
+    public void visit(OWLEquivalentDataPropertiesAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLEquivalentObjectPropertiesAxiom)
-	 */
-	@Override
-	public void visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLEquivalentObjectPropertiesAxiom) */
+    @Override
+    public void visit(OWLEquivalentObjectPropertiesAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLFunctionalDataPropertyAxiom)
-	 */
-	@Override
-	public void visit(OWLFunctionalDataPropertyAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLFunctionalDataPropertyAxiom) */
+    @Override
+    public void visit(OWLFunctionalDataPropertyAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLFunctionalObjectPropertyAxiom)
-	 */
-	@Override
-	public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLFunctionalObjectPropertyAxiom) */
+    @Override
+    public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLHasKeyAxiom)
-	 */
-	@Override
-	public void visit(OWLHasKeyAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLHasKeyAxiom) */
+    @Override
+    public void visit(OWLHasKeyAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLInverseFunctionalObjectPropertyAxiom)
-	 */
-	@Override
-	public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLInverseFunctionalObjectPropertyAxiom) */
+    @Override
+    public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLInverseObjectPropertiesAxiom)
-	 */
-	@Override
-	public void visit(OWLInverseObjectPropertiesAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLInverseObjectPropertiesAxiom) */
+    @Override
+    public void visit(OWLInverseObjectPropertiesAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLIrreflexiveObjectPropertyAxiom)
-	 */
-	@Override
-	public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLIrreflexiveObjectPropertyAxiom) */
+    @Override
+    public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLNegativeDataPropertyAssertionAxiom)
-	 */
-	@Override
-	public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLNegativeDataPropertyAssertionAxiom) */
+    @Override
+    public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLNegativeObjectPropertyAssertionAxiom)
-	 */
-	@Override
-	public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLNegativeObjectPropertyAssertionAxiom) */
+    @Override
+    public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLObjectPropertyAssertionAxiom)
-	 */
-	@Override
-	public void visit(OWLObjectPropertyAssertionAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLObjectPropertyAssertionAxiom) */
+    @Override
+    public void visit(OWLObjectPropertyAssertionAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLSubPropertyChainOfAxiom)
-	 */
-	@Override
-	public void visit(OWLSubPropertyChainOfAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLSubPropertyChainOfAxiom) */
+    @Override
+    public void visit(OWLSubPropertyChainOfAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLObjectPropertyDomainAxiom)
-	 */
-	@Override
-	public void visit(OWLObjectPropertyDomainAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLObjectPropertyDomainAxiom) */
+    @Override
+    public void visit(OWLObjectPropertyDomainAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLObjectPropertyRangeAxiom)
-	 */
-	@Override
-	public void visit(OWLObjectPropertyRangeAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLObjectPropertyRangeAxiom) */
+    @Override
+    public void visit(OWLObjectPropertyRangeAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLReflexiveObjectPropertyAxiom)
-	 */
-	@Override
-	public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLReflexiveObjectPropertyAxiom) */
+    @Override
+    public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLSameIndividualAxiom)
-	 */
-	@Override
-	public void visit(OWLSameIndividualAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLSameIndividualAxiom) */
+    @Override
+    public void visit(OWLSameIndividualAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLSubClassOfAxiom)
-	 */
-	@Override
-	public void visit(OWLSubClassOfAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLSubClassOfAxiom) */
+    @Override
+    public void visit(OWLSubClassOfAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLSubDataPropertyOfAxiom)
-	 */
-	@Override
-	public void visit(OWLSubDataPropertyOfAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLSubDataPropertyOfAxiom) */
+    @Override
+    public void visit(OWLSubDataPropertyOfAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLSubObjectPropertyOfAxiom)
-	 */
-	@Override
-	public void visit(OWLSubObjectPropertyOfAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLSubObjectPropertyOfAxiom) */
+    @Override
+    public void visit(OWLSubObjectPropertyOfAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLSymmetricObjectPropertyAxiom)
-	 */
-	@Override
-	public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLSymmetricObjectPropertyAxiom) */
+    @Override
+    public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLTransitiveObjectPropertyAxiom)
-	 */
-	@Override
-	public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLTransitiveObjectPropertyAxiom) */
+    @Override
+    public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.SWRLRule)
-	 */
-	@Override
-	public void visit(SWRLRule rule) {
-		this.doDefault(rule);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.SWRLRule) */
+    @Override
+    public void visit(SWRLRule rule) {
+        doDefault(rule);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLAnnotationAssertionAxiom)
-	 */
-	@Override
-	public void visit(OWLAnnotationAssertionAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLAnnotationAssertionAxiom) */
+    @Override
+    public void visit(OWLAnnotationAssertionAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLAnnotationPropertyDomainAxiom)
-	 */
-	@Override
-	public void visit(OWLAnnotationPropertyDomainAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLAnnotationPropertyDomainAxiom) */
+    @Override
+    public void visit(OWLAnnotationPropertyDomainAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLAnnotationPropertyRangeAxiom)
-	 */
-	@Override
-	public void visit(OWLAnnotationPropertyRangeAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLAnnotationPropertyRangeAxiom) */
+    @Override
+    public void visit(OWLAnnotationPropertyRangeAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLSubAnnotationPropertyOfAxiom)
-	 */
-	@Override
-	public void visit(OWLSubAnnotationPropertyOfAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLSubAnnotationPropertyOfAxiom) */
+    @Override
+    public void visit(OWLSubAnnotationPropertyOfAxiom axiom) {
+        doDefault(axiom);
+    }
 
-	/**
-	 * @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
-	 *      .owlapi.model.OWLDatatypeDefinitionAxiom)
-	 */
-	@Override
-	public void visit(OWLDatatypeDefinitionAxiom axiom) {
-		this.doDefault(axiom);
-	}
+    /** @see org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter#visit(org.semanticweb
+     *      .owlapi.model.OWLDatatypeDefinitionAxiom) */
+    @Override
+    public void visit(OWLDatatypeDefinitionAxiom axiom) {
+        doDefault(axiom);
+    }
 }

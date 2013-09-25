@@ -39,42 +39,52 @@ public class VariableIRI extends IRI {
         attribute = new IRIVariableAttribute(variable);
     }
 
+    @Override
     public void accept(OWLAnnotationSubjectVisitor visitor) {
         visitor.visit(this);
     }
 
+    @Override
     public <E> E accept(OWLAnnotationSubjectVisitorEx<E> visitor) {
         return visitor.visit(this);
     }
 
+    @Override
     public Set<OWLEntity> getSignature() {
         return Collections.<OWLEntity> emptySet();
     }
 
+    @Override
     public Set<OWLClass> getClassesInSignature() {
         return Collections.<OWLClass> emptySet();
     }
 
+    @Override
     public Set<OWLDataProperty> getDataPropertiesInSignature() {
         return Collections.<OWLDataProperty> emptySet();
     }
 
+    @Override
     public Set<OWLObjectProperty> getObjectPropertiesInSignature() {
         return Collections.<OWLObjectProperty> emptySet();
     }
 
+    @Override
     public Set<OWLNamedIndividual> getIndividualsInSignature() {
         return Collections.<OWLNamedIndividual> emptySet();
     }
 
+    @Override
     public Set<OWLDatatype> getDatatypesInSignature() {
         return Collections.<OWLDatatype> emptySet();
     }
 
+    @Override
     public Set<OWLClassExpression> getNestedClassExpressions() {
         return Collections.<OWLClassExpression> emptySet();
     }
 
+    @Override
     public void accept(OWLObjectVisitor visitor) {
         if (visitor instanceof IRIVisitor) {
             ((IRIVisitor) visitor).visitVariableIRI(this);
@@ -87,6 +97,7 @@ public class VariableIRI extends IRI {
         visitor.visitVariableIRI(this);
     }
 
+    @Override
     public <O> O accept(OWLObjectVisitorEx<O> visitor) {
         return visitor instanceof IRIVisitorEx<?> ? ((IRIVisitorEx<O>) visitor)
                 .visitVariableIRI(this) : visitor.visit(this);
@@ -96,14 +107,17 @@ public class VariableIRI extends IRI {
         return visitor.visitVariableIRI(this);
     }
 
+    @Override
     public boolean isTopEntity() {
         return false;
     }
 
+    @Override
     public boolean isBottomEntity() {
         return false;
     }
 
+    @Override
     public int compareTo(OWLObject object) {
         if (object == this) {
             return 0;
@@ -114,10 +128,12 @@ public class VariableIRI extends IRI {
         }
     }
 
+    @Override
     public void accept(OWLAnnotationValueVisitor visitor) {
         visitor.visit(this);
     }
 
+    @Override
     public <O> O accept(OWLAnnotationValueVisitorEx<O> visitor) {
         return visitor.visit(this);
     }
@@ -184,10 +200,6 @@ public class VariableIRI extends IRI {
                 getAttribute().getAttribute());
     }
 
-    /*
-     * (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -196,10 +208,6 @@ public class VariableIRI extends IRI {
         return result;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

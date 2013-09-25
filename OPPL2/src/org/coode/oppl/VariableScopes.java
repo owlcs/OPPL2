@@ -26,107 +26,89 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLPropertyExpression;
 
-/**
- * This class consists exclusively of static methods that operate on or return
+/** This class consists exclusively of static methods that operate on or return
  * {@link VariableScope} instances
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class VariableScopes {
-	/**
-	 * @author Luigi Iannone
-	 * 
-	 */
-	public enum Direction {
-		SUBCLASSOF("subClassOf"), SUPERCLASSOF("superClassOf"), SUBPROPERTYOF("subPropertyOf"), SUPERPROPERTYOF(
-				"superPropertyOf"), INSTANCEOF("instanceOf");
-		private String direction;
+    /** @author Luigi Iannone */
+    public enum Direction {
+        SUBCLASSOF("subClassOf"), SUPERCLASSOF("superClassOf"), SUBPROPERTYOF(
+                "subPropertyOf"), SUPERPROPERTYOF("superPropertyOf"), INSTANCEOF(
+                "instanceOf");
+        private final String direction;
 
-		Direction(String s) {
-			this.direction = s;
-		}
+        Direction(String s) {
+            direction = s;
+        }
 
-		/**
-		 * Parser the input String and returns the corresponding Direction. If
-		 * the input does not correspond to any possible Direction instance,
-		 * then <code>null</code> is returned. The method is case insensitive.
-		 * 
-		 * @param direction
-		 * @return the Direction corresponding to the input String (can be null)
-		 */
-		public static Direction getDirection(String direction) {
-			for (Direction d : values()) {
-				if (direction.equalsIgnoreCase(d.direction)) {
-					return d;
-				}
-			}
-			return null;
-		}
+        /** Parser the input String and returns the corresponding Direction. If
+         * the input does not correspond to any possible Direction instance,
+         * then <code>null</code> is returned. The method is case insensitive.
+         * 
+         * @param direction
+         * @return the Direction corresponding to the input String (can be null) */
+        public static Direction getDirection(String direction) {
+            for (Direction d : values()) {
+                if (direction.equalsIgnoreCase(d.direction)) {
+                    return d;
+                }
+            }
+            return null;
+        }
 
-		@Override
-		public String toString() {
-			return this.direction;
-		}
-	}
+        @Override
+        public String toString() {
+            return direction;
+        }
+    }
 
-	/**
-	 * @param description
-	 * @return a VariableScope instance restricting values to be sub-classes of
-	 *         the input OWLClassExpression
-	 */
-	public static SubClassVariableScope buildSubClassVariableScope(OWLClassExpression description,
-			VariableScopeChecker checker) {
-		return ClassVariableScope.buildSubClassVariableScope(description, checker);
-	}
+    /** @param description
+     * @return a VariableScope instance restricting values to be sub-classes of
+     *         the input OWLClassExpression */
+    public static SubClassVariableScope buildSubClassVariableScope(
+            OWLClassExpression description, VariableScopeChecker checker) {
+        return ClassVariableScope.buildSubClassVariableScope(description, checker);
+    }
 
-	/**
-	 * @param description
-	 * @return a VariableScope instance restricting values to be super-classes
-	 *         of the input OWLClassExpression
-	 */
-	public static SuperClassVariableScope buildSuperClassVariableScope(
-			OWLClassExpression description, VariableScopeChecker checker) {
-		return ClassVariableScope.buildSuperClassVariableScope(description, checker);
-	}
+    /** @param description
+     * @return a VariableScope instance restricting values to be super-classes
+     *         of the input OWLClassExpression */
+    public static SuperClassVariableScope buildSuperClassVariableScope(
+            OWLClassExpression description, VariableScopeChecker checker) {
+        return ClassVariableScope.buildSuperClassVariableScope(description, checker);
+    }
 
-	/**
-	 * @param property
-	 * @return a VariableScope instance restricting values to be sub-properties
-	 *         of the input OWLProperty
-	 */
-	public static SubPropertyVariableScope<OWLDataProperty> buildSubPropertyVariableScope(
-			OWLDataProperty property, VariableScopeChecker checker) {
-		return PropertyVariableScope.buildSubPropertyVariableScope(property, checker);
-	}
+    /** @param property
+     * @return a VariableScope instance restricting values to be sub-properties
+     *         of the input OWLProperty */
+    public static SubPropertyVariableScope<OWLDataProperty>
+            buildSubPropertyVariableScope(OWLDataProperty property,
+                    VariableScopeChecker checker) {
+        return PropertyVariableScope.buildSubPropertyVariableScope(property, checker);
+    }
 
-	/**
-	 * @param property
-	 * @return a VariableScope instance restricting values to be sub-properties
-	 *         of the input OWLProperty
-	 */
-	public static <P extends OWLPropertyExpression<?, ?>> SubPropertyVariableScope<P> buildSubPropertyVariableScope(
-			P property, VariableScopeChecker checker) {
-		return PropertyVariableScope.buildSubPropertyVariableScope(property, checker);
-	}
+    /** @param property
+     * @return a VariableScope instance restricting values to be sub-properties
+     *         of the input OWLProperty */
+    public static <P extends OWLPropertyExpression<?, ?>> SubPropertyVariableScope<P>
+            buildSubPropertyVariableScope(P property, VariableScopeChecker checker) {
+        return PropertyVariableScope.buildSubPropertyVariableScope(property, checker);
+    }
 
-	/**
-	 * @param property
-	 * @return a VariableScope instance restricting values to be
-	 *         super-properties of the input OWLProperty
-	 */
-	public static <P extends OWLPropertyExpression<?, ?>> SuperPropertyVariableScope<P> buildSuperPropertyVariableScope(
-			P property, VariableScopeChecker checker) {
-		return PropertyVariableScope.buildSuperPropertyVariableScope(property, checker);
-	}
+    /** @param property
+     * @return a VariableScope instance restricting values to be
+     *         super-properties of the input OWLProperty */
+    public static <P extends OWLPropertyExpression<?, ?>> SuperPropertyVariableScope<P>
+            buildSuperPropertyVariableScope(P property, VariableScopeChecker checker) {
+        return PropertyVariableScope.buildSuperPropertyVariableScope(property, checker);
+    }
 
-	/**
-	 * @param description
-	 * @return a VariableScope instance restricting values to be instances of
-	 *         the input OWLClassExpression
-	 */
-	public static IndividualVariableScope buildIndividualVariableScope(
-			OWLClassExpression description, VariableScopeChecker checker) {
-		return IndividualVariableScope.buildIndividualVariableScope(description, checker);
-	}
+    /** @param description
+     * @return a VariableScope instance restricting values to be instances of
+     *         the input OWLClassExpression */
+    public static IndividualVariableScope buildIndividualVariableScope(
+            OWLClassExpression description, VariableScopeChecker checker) {
+        return IndividualVariableScope.buildIndividualVariableScope(description, checker);
+    }
 }

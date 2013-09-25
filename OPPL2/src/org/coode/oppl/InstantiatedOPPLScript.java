@@ -24,21 +24,15 @@ package org.coode.oppl;
 
 import org.semanticweb.owlapi.model.OWLObject;
 
-/**
+/** Interface representing an instantiated OPPL Script
  * 
- * Interface representing an instantiated OPPL Script
- * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public interface InstantiatedOPPLScript extends OPPLScript {
-	/**
-	 * Adds the value o to the Variable v in this InstantiatedOPPLScript
-	 * 
-	 * @param v
-	 * @param o
-	 */
-	void instantiate(Variable<?> v, OWLObject o);
+    /** Adds the value o to the Variable v in this InstantiatedOPPLScript
+     * 
+     * @param v
+     * @param o */
+    void instantiate(Variable<?> v, OWLObject o);
 
-	public boolean isValid();
+    public boolean isValid();
 }

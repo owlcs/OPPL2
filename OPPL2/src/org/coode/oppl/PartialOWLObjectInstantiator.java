@@ -26,26 +26,22 @@ import org.coode.oppl.function.ValueComputationParameters;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class PartialOWLObjectInstantiator extends AbstractOWLObjectInstantiator {
-	public PartialOWLObjectInstantiator(ValueComputationParameters parameters) {
-		super(parameters);
-	}
+    public PartialOWLObjectInstantiator(ValueComputationParameters parameters) {
+        super(parameters);
+    }
 
-	@Override
-	public OWLObject visit(OWLLiteral node) {
-		OWLLiteral toReturn = node;
-		if (this.getParameters().getConstraintSystem().isVariable(node)) {
-			Variable<?> variable = this.getParameters().getConstraintSystem().getVariable(
-					node.getLiteral());
-			OWLLiteral assignmentValue = (OWLLiteral) this.getParameters().getBindingNode().getAssignmentValue(
-					variable,
-					this.getParameters());
-			toReturn = assignmentValue == null ? node : assignmentValue;
-		}
-		return toReturn;
-	}
+    @Override
+    public OWLObject visit(OWLLiteral node) {
+        OWLLiteral toReturn = node;
+        if (getParameters().getConstraintSystem().isVariable(node)) {
+            Variable<?> variable = getParameters().getConstraintSystem().getVariable(
+                    node.getLiteral());
+            OWLLiteral assignmentValue = (OWLLiteral) getParameters().getBindingNode()
+                    .getAssignmentValue(variable, getParameters());
+            toReturn = assignmentValue == null ? node : assignmentValue;
+        }
+        return toReturn;
+    }
 }

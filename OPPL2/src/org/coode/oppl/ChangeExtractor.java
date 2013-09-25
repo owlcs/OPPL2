@@ -28,82 +28,73 @@ import java.util.List;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
-/**
- * Returns the changes that will occur if the visited OPPL construct is executed
+/** Returns the changes that will occur if the visited OPPL construct is executed
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class ChangeExtractor {
-	private final boolean considerImportClosure;
-	private final RuntimeExceptionHandler runtimeExceptionHandler;
-	private final ExecutionMonitor executionMonitor;
+    private final boolean considerImportClosure;
+    private final RuntimeExceptionHandler runtimeExceptionHandler;
+    private final ExecutionMonitor executionMonitor;
 
-	public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
-			boolean considerImportClosure) {
-		this(runtimeExceptionHandler, ExecutionMonitor.NON_CANCELLABLE, considerImportClosure);
-	}
+    public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
+            boolean considerImportClosure) {
+        this(runtimeExceptionHandler, ExecutionMonitor.NON_CANCELLABLE,
+                considerImportClosure);
+    }
 
-	/**
-	 * @param ontologyManager
-	 */
-	public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
-			ExecutionMonitor executionMonitor, boolean considerImportClosure) {
-		if (runtimeExceptionHandler == null) {
-			throw new NullPointerException("The runtime exception handler cannot be null");
-		}
-		if (executionMonitor == null) {
-			throw new NullPointerException("The executionMonitor cannot be null");
-		}
-		this.executionMonitor = executionMonitor;
-		this.runtimeExceptionHandler = runtimeExceptionHandler;
-		this.considerImportClosure = considerImportClosure;
-	}
+    /** @param ontologyManager */
+    public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
+            ExecutionMonitor executionMonitor, boolean considerImportClosure) {
+        if (runtimeExceptionHandler == null) {
+            throw new NullPointerException("The runtime exception handler cannot be null");
+        }
+        if (executionMonitor == null) {
+            throw new NullPointerException("The executionMonitor cannot be null");
+        }
+        this.executionMonitor = executionMonitor;
+        this.runtimeExceptionHandler = runtimeExceptionHandler;
+        this.considerImportClosure = considerImportClosure;
+    }
 
-	public List<OWLAxiomChange> visit(OPPLScript script) {
-		if (script == null) {
-			throw new NullPointerException("The script cannot be null");
-		}
-		List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
-		OPPLQuery q = script.getQuery();
-		if (q != null) {
-			q.execute(getRuntimeExceptionHandler(), getExecutionMonitor());
-		}
-		List<OWLAxiomChange> changes = script.getActions();
-		for (OWLAxiomChange change : changes) {
+    public List<OWLAxiomChange> visit(OPPLScript script) {
+        if (script == null) {
+            throw new NullPointerException("The script cannot be null");
+        }
+        List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
+        OPPLQuery q = script.getQuery();
+        if (q != null) {
+            q.execute(getRuntimeExceptionHandler(), getExecutionMonitor());
+        }
+        List<OWLAxiomChange> changes = script.getActions();
+        for (OWLAxiomChange change : changes) {
             boolean isAdd = change.isAddAxiom();
-			ActionType action = isAdd ? ActionType.ADD : ActionType.REMOVE;
-			if (considerImportClosure && !isAdd) {
-				toReturn.addAll(ActionFactory.createChanges(
-						action,
-						change.getAxiom(),
-						script.getConstraintSystem(),
-						script.getConstraintSystem().getOntologyManager().getImportsClosure(
-								script.getConstraintSystem().getOntology()),
-						getRuntimeExceptionHandler()));
-			} else {
-				toReturn.addAll(ActionFactory.createChanges(
-						action,
-						change.getAxiom(),
-						script.getConstraintSystem(),
-						script.getConstraintSystem().getOntology(),
-						getRuntimeExceptionHandler()));
-			}
-		}
-		return toReturn;
-	}
+            ActionType action = isAdd ? ActionType.ADD : ActionType.REMOVE;
+            if (considerImportClosure && !isAdd) {
+                toReturn.addAll(ActionFactory.createChanges(
+                        action,
+                        change.getAxiom(),
+                        script.getConstraintSystem(),
+                        script.getConstraintSystem()
+                                .getOntologyManager()
+                                .getImportsClosure(
+                                        script.getConstraintSystem().getOntology()),
+                        getRuntimeExceptionHandler()));
+            } else {
+                toReturn.addAll(ActionFactory.createChanges(action, change.getAxiom(),
+                        script.getConstraintSystem(), script.getConstraintSystem()
+                                .getOntology(), getRuntimeExceptionHandler()));
+            }
+        }
+        return toReturn;
+    }
 
-	/**
-	 * @return the runtimeExceptionHandler
-	 */
-	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
-		return runtimeExceptionHandler;
-	}
+    /** @return the runtimeExceptionHandler */
+    public RuntimeExceptionHandler getRuntimeExceptionHandler() {
+        return runtimeExceptionHandler;
+    }
 
-	/**
-	 * @return the executionMonitor
-	 */
-	public ExecutionMonitor getExecutionMonitor() {
-		return executionMonitor;
-	}
+    /** @return the executionMonitor */
+    public ExecutionMonitor getExecutionMonitor() {
+        return executionMonitor;
+    }
 }

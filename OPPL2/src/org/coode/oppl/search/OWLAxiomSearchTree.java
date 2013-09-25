@@ -41,205 +41,222 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
-	private final ValueComputationParameters parameters;
+    private final ValueComputationParameters parameters;
 
-	/**
-	 * @param manager
-	 * @param constraintSystem
-	 */
-	public OWLAxiomSearchTree(ValueComputationParameters parameters) {
-		if (parameters == null) {
-			throw new NullPointerException("The value computation parameters cannot be null");
-		}
-		this.parameters = parameters;
-	}
+    /** @param manager
+     * @param constraintSystem */
+    public OWLAxiomSearchTree(ValueComputationParameters parameters) {
+        if (parameters == null) {
+            throw new NullPointerException(
+                    "The value computation parameters cannot be null");
+        }
+        this.parameters = parameters;
+    }
 
-	/**
-	 * @return the parameters
-	 */
-	public ValueComputationParameters getParameters() {
-		return this.parameters;
-	}
+    /** @return the parameters */
+    public ValueComputationParameters getParameters() {
+        return parameters;
+    }
 
-	@Override
-	protected List<OWLAxiom> getChildren(OWLAxiom node) {
-		Set<BindingNode> leaves = this.getParameters().getConstraintSystem().getLeaves();
-		List<OWLAxiom> toReturn = new ArrayList<OWLAxiom>();
-		VariableExtractor variableExtractor = new VariableExtractor(
-				this.getParameters().getConstraintSystem(), false);
-		Set<Variable<?>> variables = variableExtractor.extractVariables(node);
-		if (!variables.isEmpty()) {
-			Variable<?> variable = variables.iterator().next();
-			Collection<OWLObject> values = new HashSet<OWLObject>();
-			if (leaves == null) {
-				values.addAll(this.getAssignableValues(variable));
-			} else {
-				for (BindingNode bindingNode : leaves) {
-					SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
-							this.getParameters().getConstraintSystem(), bindingNode,
-							this.getParameters().getRuntimeExceptionHandler());
-					if (bindingNode.getAssignedVariables().contains(variable)) {
-						values.add(this.getParameters().getBindingNode().getAssignmentValue(
-								variable,
-								parameters));
-					} else {
-						values.addAll(this.getAssignableValues(variable));
-					}
-				}
-			}
-			for (OWLObject value : values) {
-				Assignment assignment = new Assignment(variable, value);
-				BindingNode bindingNode = new BindingNode(Collections.singleton(assignment),
-						variables);
-				SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
-						this.getParameters().getConstraintSystem(), bindingNode,
-						this.getParameters().getRuntimeExceptionHandler());
-				PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-						parameters);
-				toReturn.add((OWLAxiom) node.accept(instantiator));
-			}
-		}
-		return toReturn;
-	}
+    @Override
+    protected List<OWLAxiom> getChildren(OWLAxiom node) {
+        Set<BindingNode> leaves = getParameters().getConstraintSystem().getLeaves();
+        List<OWLAxiom> toReturn = new ArrayList<OWLAxiom>();
+        VariableExtractor variableExtractor = new VariableExtractor(getParameters()
+                .getConstraintSystem(), false);
+        Set<Variable<?>> variables = variableExtractor.extractVariables(node);
+        if (!variables.isEmpty()) {
+            Variable<?> variable = variables.iterator().next();
+            Collection<OWLObject> values = new HashSet<OWLObject>();
+            if (leaves == null) {
+                values.addAll(getAssignableValues(variable));
+            } else {
+                for (BindingNode bindingNode : leaves) {
+                    SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
+                            getParameters().getConstraintSystem(), bindingNode,
+                            getParameters().getRuntimeExceptionHandler());
+                    if (bindingNode.getAssignedVariables().contains(variable)) {
+                        values.add(getParameters().getBindingNode().getAssignmentValue(
+                                variable, parameters));
+                    } else {
+                        values.addAll(getAssignableValues(variable));
+                    }
+                }
+            }
+            for (OWLObject value : values) {
+                Assignment assignment = new Assignment(variable, value);
+                BindingNode bindingNode = new BindingNode(
+                        Collections.singleton(assignment), variables);
+                SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
+                        getParameters().getConstraintSystem(), bindingNode,
+                        getParameters().getRuntimeExceptionHandler());
+                PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
+                        parameters);
+                toReturn.add((OWLAxiom) node.accept(instantiator));
+            }
+        }
+        return toReturn;
+    }
 
-	@Override
-	protected boolean goalReached(OWLAxiom start) {
-		boolean found = false;
-		Iterator<OWLOntology> iterator = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies().iterator();
-		while (!found && iterator.hasNext()) {
-			OWLOntology ontology = iterator.next();
-			found = ontology.containsAxiom(start);
-		}
-		return found;
-	}
+    @Override
+    protected boolean goalReached(OWLAxiom start) {
+        boolean found = false;
+        Iterator<OWLOntology> iterator = getParameters().getConstraintSystem()
+                .getOntologyManager().getOntologies().iterator();
+        while (!found && iterator.hasNext()) {
+            OWLOntology ontology = iterator.next();
+            found = ontology.containsAxiom(start);
+        }
+        return found;
+    }
 
-	private Set<OWLClass> getAllClasses() {
-		Set<OWLClass> toReturn = new HashSet<OWLClass>();
-		Set<OWLOntology> ontologies = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies();
-		for (OWLOntology owlOntology : ontologies) {
-			toReturn.addAll(owlOntology.getClassesInSignature());
-		}
-		return toReturn;
-	}
+    private Set<OWLClass> getAllClasses() {
+        Set<OWLClass> toReturn = new HashSet<OWLClass>();
+        Set<OWLOntology> ontologies = getParameters().getConstraintSystem()
+                .getOntologyManager().getOntologies();
+        for (OWLOntology owlOntology : ontologies) {
+            toReturn.addAll(owlOntology.getClassesInSignature());
+        }
+        return toReturn;
+    }
 
-	private Set<OWLLiteral> getAllConstants() {
-		Set<OWLLiteral> toReturn = new HashSet<OWLLiteral>();
-		for (OWLOntology ontology : this.getParameters().getConstraintSystem().getOntologyManager().getOntologies()) {
-			for (OWLAxiom axiom : ontology.getAxioms()) {
-				toReturn.addAll(OWLObjectExtractor.getAllOWLLiterals(axiom));
-			}
-		}
-		return toReturn;
-	}
+    private Set<OWLLiteral> getAllConstants() {
+        Set<OWLLiteral> toReturn = new HashSet<OWLLiteral>();
+        for (OWLOntology ontology : getParameters().getConstraintSystem()
+                .getOntologyManager().getOntologies()) {
+            for (OWLAxiom axiom : ontology.getAxioms()) {
+                toReturn.addAll(OWLObjectExtractor.getAllOWLLiterals(axiom));
+            }
+        }
+        return toReturn;
+    }
 
-	private Set<OWLDataProperty> getAllDataProperties() {
-		Set<OWLDataProperty> toReturn = new HashSet<OWLDataProperty>();
-		Set<OWLOntology> ontologies = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies();
-		for (OWLOntology owlOntology : ontologies) {
-			toReturn.addAll(owlOntology.getDataPropertiesInSignature());
-		}
-		return toReturn;
-	}
+    private Set<OWLDataProperty> getAllDataProperties() {
+        Set<OWLDataProperty> toReturn = new HashSet<OWLDataProperty>();
+        Set<OWLOntology> ontologies = getParameters().getConstraintSystem()
+                .getOntologyManager().getOntologies();
+        for (OWLOntology owlOntology : ontologies) {
+            toReturn.addAll(owlOntology.getDataPropertiesInSignature());
+        }
+        return toReturn;
+    }
 
-	private Set<OWLAnnotationProperty> getAllAnnotationProperties() {
-		Set<OWLAnnotationProperty> toReturn = new HashSet<OWLAnnotationProperty>();
-		Set<OWLOntology> ontologies = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies();
-		for (OWLOntology owlOntology : ontologies) {
-			toReturn.addAll(owlOntology.getAnnotationPropertiesInSignature());
-		}
-		return toReturn;
-	}
+    private Set<OWLAnnotationProperty> getAllAnnotationProperties() {
+        Set<OWLAnnotationProperty> toReturn = new HashSet<OWLAnnotationProperty>();
+        Set<OWLOntology> ontologies = getParameters().getConstraintSystem()
+                .getOntologyManager().getOntologies();
+        for (OWLOntology owlOntology : ontologies) {
+            toReturn.addAll(owlOntology.getAnnotationPropertiesInSignature());
+        }
+        return toReturn;
+    }
 
-	private Set<OWLNamedIndividual> getAllIndividuals() {
-		Set<OWLNamedIndividual> toReturn = new HashSet<OWLNamedIndividual>();
-		Set<OWLOntology> ontologies = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies();
-		for (OWLOntology owlOntology : ontologies) {
-			toReturn.addAll(owlOntology.getIndividualsInSignature());
-		}
-		return toReturn;
-	}
+    private Set<OWLNamedIndividual> getAllIndividuals() {
+        Set<OWLNamedIndividual> toReturn = new HashSet<OWLNamedIndividual>();
+        Set<OWLOntology> ontologies = getParameters().getConstraintSystem()
+                .getOntologyManager().getOntologies();
+        for (OWLOntology owlOntology : ontologies) {
+            toReturn.addAll(owlOntology.getIndividualsInSignature());
+        }
+        return toReturn;
+    }
 
-	private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor = new VariableTypeVisitorEx<Set<? extends OWLObject>>() {
-		public Set<? extends OWLObject> visitCLASSVariableType(CLASSVariableType classVariableType) {
-			return OWLAxiomSearchTree.this.getAllClasses();
-		}
+    private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor = new VariableTypeVisitorEx<Set<? extends OWLObject>>() {
+        @Override
+        public Set<? extends OWLObject> visitCLASSVariableType(
+                CLASSVariableType classVariableType) {
+            return OWLAxiomSearchTree.this.getAllClasses();
+        }
 
-		public Set<? extends OWLObject> visitOBJECTPROPERTYVariableType(
-				OBJECTPROPERTYVariableType objectpropertyVariableType) {
-			return OWLAxiomSearchTree.this.getObjectProperties();
-		}
+        @Override
+        public Set<? extends OWLObject> visitOBJECTPROPERTYVariableType(
+                OBJECTPROPERTYVariableType objectpropertyVariableType) {
+            return OWLAxiomSearchTree.this.getObjectProperties();
+        }
 
-		public Set<? extends OWLObject> visitDATAPROPERTYVariableType(
-				DATAPROPERTYVariableType datapropertyVariableType) {
-			return OWLAxiomSearchTree.this.getAllDataProperties();
-		}
+        @Override
+        public Set<? extends OWLObject> visitDATAPROPERTYVariableType(
+                DATAPROPERTYVariableType datapropertyVariableType) {
+            return OWLAxiomSearchTree.this.getAllDataProperties();
+        }
 
-		public Set<? extends OWLObject> visitANNOTATIONPROPERTYVariableType(
-				ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
-			return OWLAxiomSearchTree.this.getAllAnnotationProperties();
-		}
+        @Override
+        public Set<? extends OWLObject> visitANNOTATIONPROPERTYVariableType(
+                ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+            return OWLAxiomSearchTree.this.getAllAnnotationProperties();
+        }
 
-		public Set<? extends OWLObject> visitINDIVIDUALVariableType(
-				INDIVIDUALVariableType individualVariableType) {
-			return OWLAxiomSearchTree.this.getAllIndividuals();
-		}
+        @Override
+        public Set<? extends OWLObject> visitINDIVIDUALVariableType(
+                INDIVIDUALVariableType individualVariableType) {
+            return OWLAxiomSearchTree.this.getAllIndividuals();
+        }
 
-		public Set<? extends OWLObject> visitCONSTANTVariableType(
-				CONSTANTVariableType constantVariableType) {
-			return OWLAxiomSearchTree.this.getAllConstants();
-		}
-	};
+        @Override
+        public Set<? extends OWLObject> visitCONSTANTVariableType(
+                CONSTANTVariableType constantVariableType) {
+            return OWLAxiomSearchTree.this.getAllConstants();
+        }
+    };
 
-	private Collection<? extends OWLObject> getAssignableValues(Variable<?> variable) {
-		Set<OWLObject> toReturn = new HashSet<OWLObject>();
-		VariableVisitorEx<Set<? extends OWLObject>> visitor = new VariableVisitorEx<Set<? extends OWLObject>>() {
-			public <O extends OWLObject> Set<? extends OWLObject> visit(InputVariable<O> v) {
-				return v.getType().accept(OWLAxiomSearchTree.this.assignableValuesVisitor);
-			}
+    private Collection<? extends OWLObject> getAssignableValues(Variable<?> variable) {
+        Set<OWLObject> toReturn = new HashSet<OWLObject>();
+        VariableVisitorEx<Set<? extends OWLObject>> visitor = new VariableVisitorEx<Set<? extends OWLObject>>() {
+            @Override
+            public <O extends OWLObject> Set<? extends OWLObject>
+                    visit(InputVariable<O> v) {
+                return v.getType().accept(assignableValuesVisitor);
+            }
 
-			public <O extends OWLObject> Set<? extends OWLObject> visit(RegexpGeneratedVariable<O> v) {
-				Set<? extends OWLObject> toReturn = v.getType().accept(
-						OWLAxiomSearchTree.this.assignableValuesVisitor);
-				Iterator<? extends OWLObject> iterator = toReturn.iterator();
-				while (iterator.hasNext()) {
-					OWLObject owlObject = iterator.next();
-					ManchesterSyntaxRenderer renderer = OWLAxiomSearchTree.this.getParameters().getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
-							OWLAxiomSearchTree.this.getParameters().getConstraintSystem());
-					owlObject.accept(renderer);
-					if (!v.getPatternGeneratingOPPLFunction().compute(
-							OWLAxiomSearchTree.this.getParameters()).matcher(renderer.toString()).matches()) {
-						iterator.remove();
-					}
-				}
-				return toReturn;
-			}
+            @Override
+            public <O extends OWLObject> Set<? extends OWLObject> visit(
+                    RegexpGeneratedVariable<O> v) {
+                Set<? extends OWLObject> toReturn = v.getType().accept(
+                        assignableValuesVisitor);
+                Iterator<? extends OWLObject> iterator = toReturn.iterator();
+                while (iterator.hasNext()) {
+                    OWLObject owlObject = iterator.next();
+                    ManchesterSyntaxRenderer renderer = OWLAxiomSearchTree.this
+                            .getParameters()
+                            .getConstraintSystem()
+                            .getOPPLFactory()
+                            .getManchesterSyntaxRenderer(
+                                    OWLAxiomSearchTree.this.getParameters()
+                                            .getConstraintSystem());
+                    owlObject.accept(renderer);
+                    if (!v.getPatternGeneratingOPPLFunction()
+                            .compute(OWLAxiomSearchTree.this.getParameters())
+                            .matcher(renderer.toString()).matches()) {
+                        iterator.remove();
+                    }
+                }
+                return toReturn;
+            }
 
-			public <O extends OWLObject> Set<? extends OWLObject> visit(GeneratedVariable<O> v) {
-				return Collections.emptySet();
-			}
-		};
-		toReturn.addAll(variable.accept(visitor));
-		return toReturn;
-	}
+            @Override
+            public <O extends OWLObject> Set<? extends OWLObject> visit(
+                    GeneratedVariable<O> v) {
+                return Collections.emptySet();
+            }
+        };
+        toReturn.addAll(variable.accept(visitor));
+        return toReturn;
+    }
 
-	private Set<OWLObjectProperty> getObjectProperties() {
-		Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
-		Set<OWLOntology> ontologies = this.getParameters().getConstraintSystem().getOntologyManager().getOntologies();
-		for (OWLOntology owlOntology : ontologies) {
-			toReturn.addAll(owlOntology.getObjectPropertiesInSignature());
-		}
-		return toReturn;
-	}
+    private Set<OWLObjectProperty> getObjectProperties() {
+        Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
+        Set<OWLOntology> ontologies = getParameters().getConstraintSystem()
+                .getOntologyManager().getOntologies();
+        for (OWLOntology owlOntology : ontologies) {
+            toReturn.addAll(owlOntology.getObjectPropertiesInSignature());
+        }
+        return toReturn;
+    }
 
-	/**
-	 * @return the assignableValuesVisitor
-	 */
-	public VariableTypeVisitorEx<Set<? extends OWLObject>> getAssignableValuesVisitor() {
-		return this.assignableValuesVisitor;
-	}
+    /** @return the assignableValuesVisitor */
+    public VariableTypeVisitorEx<Set<? extends OWLObject>> getAssignableValuesVisitor() {
+        return assignableValuesVisitor;
+    }
 }

@@ -14,46 +14,47 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
 public final class ConstantCollector extends OWLAxiomVisitorAdapter {
-	private final Set<OWLLiteral> toReturn;
-	private final OWLClassExpressionVisitor constantExtractor;
+    private final Set<OWLLiteral> toReturn;
+    private final OWLClassExpressionVisitor constantExtractor;
 
-	public ConstantCollector(Set<OWLLiteral> toReturn, OWLClassExpressionVisitor constantExtractor) {
-		this.toReturn = toReturn;
-		this.constantExtractor = constantExtractor;
-	}
+    public ConstantCollector(Set<OWLLiteral> toReturn,
+            OWLClassExpressionVisitor constantExtractor) {
+        this.toReturn = toReturn;
+        this.constantExtractor = constantExtractor;
+    }
 
-	@Override
-	public void visit(OWLClassAssertionAxiom axiom) {
-		axiom.getClassExpression().accept(this.constantExtractor);
-	}
+    @Override
+    public void visit(OWLClassAssertionAxiom axiom) {
+        axiom.getClassExpression().accept(constantExtractor);
+    }
 
-	@Override
-	public void visit(OWLDataPropertyAssertionAxiom axiom) {
-		this.toReturn.add(axiom.getObject());
-	}
+    @Override
+    public void visit(OWLDataPropertyAssertionAxiom axiom) {
+        toReturn.add(axiom.getObject());
+    }
 
-	@Override
-	public void visit(OWLDisjointClassesAxiom axiom) {
-		for (OWLClassExpression description : axiom.getClassExpressions()) {
-			description.accept(this.constantExtractor);
-		}
-	}
+    @Override
+    public void visit(OWLDisjointClassesAxiom axiom) {
+        for (OWLClassExpression description : axiom.getClassExpressions()) {
+            description.accept(constantExtractor);
+        }
+    }
 
-	@Override
-	public void visit(OWLEquivalentClassesAxiom axiom) {
-		for (OWLClassExpression description : axiom.getClassExpressions()) {
-			description.accept(this.constantExtractor);
-		}
-	}
+    @Override
+    public void visit(OWLEquivalentClassesAxiom axiom) {
+        for (OWLClassExpression description : axiom.getClassExpressions()) {
+            description.accept(constantExtractor);
+        }
+    }
 
-	@Override
-	public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
-		this.toReturn.add(axiom.getObject());
-	}
+    @Override
+    public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
+        toReturn.add(axiom.getObject());
+    }
 
-	@Override
-	public void visit(OWLSubClassOfAxiom axiom) {
-		axiom.getSubClass().accept(this.constantExtractor);
-		axiom.getSuperClass().accept(this.constantExtractor);
-	}
+    @Override
+    public void visit(OWLSubClassOfAxiom axiom) {
+        axiom.getSubClass().accept(constantExtractor);
+        axiom.getSuperClass().accept(constantExtractor);
+    }
 }

@@ -31,98 +31,84 @@ import java.util.Set;
 import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class LeafBrusher implements BindingVisitor {
-	private Set<BindingNode> leaves = new HashSet<BindingNode>();
-	private final Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
+    private final Set<BindingNode> leaves = new HashSet<BindingNode>();
+    private final Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
 
-	public LeafBrusher(Map<Variable<?>, Set<OWLObject>> bindings) {
-		if (bindings == null) {
-			throw new NullPointerException("The bindings cannot be null");
-		}
-		this.bindings.putAll(bindings);
-	}
+    public LeafBrusher(Map<Variable<?>, Set<OWLObject>> bindings) {
+        if (bindings == null) {
+            throw new NullPointerException("The bindings cannot be null");
+        }
+        this.bindings.putAll(bindings);
+    }
 
-	/**
-	 * @see org.coode.oppl.bindingtree.BindingVisitor#visit(org.coode.oppl.bindingtree.BindingNode)
-	 */
-	public void visit(BindingNode bindingNode) {
-		if (!bindingNode.isEmpty()) {
-			Set<BindingNode> nodes = new HashSet<BindingNode>();
-			nodes.add(bindingNode);
-			boolean allLeaves = bindingNode.isLeaf();
-			while (!allLeaves) {
-				for (BindingNode generatedChild : new HashSet<BindingNode>(
-						nodes)) {
-					if (!generatedChild.isLeaf()) {
-						nodes.remove(generatedChild);
-						Set<BindingNode> generatedChildren = generateChildren(generatedChild);
-						nodes.addAll(generatedChildren);
-					}
-					allLeaves = allLeaves(nodes);
-				}
-			}
-			leaves.addAll(nodes);
-		}
-	}
+    @Override
+    public void visit(BindingNode bindingNode) {
+        if (!bindingNode.isEmpty()) {
+            Set<BindingNode> nodes = new HashSet<BindingNode>();
+            nodes.add(bindingNode);
+            boolean allLeaves = bindingNode.isLeaf();
+            while (!allLeaves) {
+                for (BindingNode generatedChild : new HashSet<BindingNode>(nodes)) {
+                    if (!generatedChild.isLeaf()) {
+                        nodes.remove(generatedChild);
+                        Set<BindingNode> generatedChildren = generateChildren(generatedChild);
+                        nodes.addAll(generatedChildren);
+                    }
+                    allLeaves = allLeaves(nodes);
+                }
+            }
+            leaves.addAll(nodes);
+        }
+    }
 
-	/**
-	 * @param nodes
-	 * @param allLeaves
-	 * @return
-	 */
-	private boolean allLeaves(Set<BindingNode> nodes) {
-		Iterator<BindingNode> it = nodes.iterator();
-		BindingNode generatedChild;
-		boolean allLeaves = true;
-		while (allLeaves && it.hasNext()) {
-			generatedChild = it.next();
-			allLeaves = generatedChild.isLeaf();
-		}
-		return allLeaves;
-	}
+    /** @param nodes
+     * @param allLeaves
+     * @return */
+    private boolean allLeaves(Set<BindingNode> nodes) {
+        Iterator<BindingNode> it = nodes.iterator();
+        BindingNode generatedChild;
+        boolean allLeaves = true;
+        while (allLeaves && it.hasNext()) {
+            generatedChild = it.next();
+            allLeaves = generatedChild.isLeaf();
+        }
+        return allLeaves;
+    }
 
-	/**
-	 * @return the leaves
-	 */
-	public Set<BindingNode> getLeaves() {
-		return new HashSet<BindingNode>(leaves);
-	}
+    /** @return the leaves */
+    public Set<BindingNode> getLeaves() {
+        return new HashSet<BindingNode>(leaves);
+    }
 
-	private Set<BindingNode> generateChildren(BindingNode node) {
-		Set<BindingNode> toReturn = new HashSet<BindingNode>();
-		if (!node.isLeaf()) {
-			Set<Variable<?>> unassignedVariables = node
-					.getUnassignedVariables();
-			for (Variable<?> variable : unassignedVariables) {
+    private Set<BindingNode> generateChildren(BindingNode node) {
+        Set<BindingNode> toReturn = new HashSet<BindingNode>();
+        if (!node.isLeaf()) {
+            Set<Variable<?>> unassignedVariables = node.getUnassignedVariables();
+            for (Variable<?> variable : unassignedVariables) {
                 Set<OWLObject> values = bindings.get(variable);
-				if (values != null) {
-					for (OWLObject owlObject : values) {
-						Set<Variable<?>> childUnassignedVariables = new HashSet<Variable<?>>(
-								unassignedVariables);
-						childUnassignedVariables.remove(variable);
-						Set<Assignment> childAssignements = new HashSet<Assignment>(
-								node.getAssignments());
-						childAssignements.add(new Assignment(variable,
-								owlObject));
-						toReturn.add(new BindingNode(childAssignements,
-								childUnassignedVariables));
-					}
-				}
-			}
-		} else {
-			toReturn.add(node);
-		}
-		return toReturn;
-	}
+                if (values != null) {
+                    for (OWLObject owlObject : values) {
+                        Set<Variable<?>> childUnassignedVariables = new HashSet<Variable<?>>(
+                                unassignedVariables);
+                        childUnassignedVariables.remove(variable);
+                        Set<Assignment> childAssignements = new HashSet<Assignment>(
+                                node.getAssignments());
+                        childAssignements.add(new Assignment(variable, owlObject));
+                        toReturn.add(new BindingNode(childAssignements,
+                                childUnassignedVariables));
+                    }
+                }
+            }
+        } else {
+            toReturn.add(node);
+        }
+        return toReturn;
+    }
 
-	/**
-	 * @return the bindings
-	 */
-	public Map<Variable<?>, Set<OWLObject>> getBindings() {
-		return new HashMap<Variable<?>, Set<OWLObject>>(bindings);
-	}
+    /** @return the bindings */
+    public Map<Variable<?>, Set<OWLObject>> getBindings() {
+        return new HashMap<Variable<?>, Set<OWLObject>>(bindings);
+    }
 }

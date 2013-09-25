@@ -231,11 +231,6 @@ public class VariableListItem implements MListItem, OPPLMacroStatusChange {
 		return this.owlEditorKit;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;

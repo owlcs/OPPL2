@@ -35,9 +35,6 @@ final class OrderedPair<O> extends Pair<O> {
 		return this.second;
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -47,9 +44,6 @@ final class OrderedPair<O> extends Pair<O> {
 		return result;
 	}
 
-	/**
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

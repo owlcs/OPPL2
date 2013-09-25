@@ -7,35 +7,27 @@ import java.util.regex.PatternSyntaxException;
 
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
-/**
- * This implementation simply re-throws the exception thrown or throws new
+/** This implementation simply re-throws the exception thrown or throws new
  * run-time ones to interrupt the exceution.
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class QuickFailRuntimeExceptionHandler implements RuntimeExceptionHandler {
-	private void handleRuntimeException(RuntimeException e) {
-		throw e;
-	}
+    private void handleRuntimeException(RuntimeException e) {
+        throw e;
+    }
 
-	/**
-	 * @see org.coode.oppl.exceptions.RuntimeExceptionHandler#handleOWLRuntimeException
-	 *      (org.semanticweb.owlapi.model.OWLRuntimeException)
-	 */
-	public void handleOWLRuntimeException(OWLRuntimeException e) {
-		this.handleRuntimeException(e);
-	}
+    @Override
+    public void handleOWLRuntimeException(OWLRuntimeException e) {
+        handleRuntimeException(e);
+    }
 
-	/**
-	 * @see org.coode.oppl.exceptions.RuntimeExceptionHandler#
-	 *      handlePatternSyntaxExcpetion(java.util.regex.PatternSyntaxException)
-	 */
-	public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
-		this.handleRuntimeException(e);
-	}
+    @Override
+    public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
+        handleRuntimeException(e);
+    }
 
-	public void handleException(RuntimeException e) {
-		this.handleException(e);
-	}
+    @Override
+    public void handleException(RuntimeException e) {
+        handleException(e);
+    }
 }

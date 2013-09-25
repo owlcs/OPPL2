@@ -34,76 +34,66 @@ import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
-/**
- * Represents a range limitations that could be added to a
+/** Represents a range limitations that could be added to a
  * {@link GeneratedVariable} instance with INDIVIDUAL {@link VariableType}, in
  * particular this restricts the possible values to the set of individuals that
  * are instances of a given OWLClassExpression
  * 
- * @author Luigi Iannone
- * 
- */
-public class IndividualVariableScope extends AbstractVariableScope<OWLClassExpression> implements
-		VariableScope<OWLClassExpression> {
-	private static Map<OWLClassExpression, IndividualVariableScope> cache = new HashMap<OWLClassExpression, IndividualVariableScope>();
-	private OWLClassExpression classExpression;
+ * @author Luigi Iannone */
+public class IndividualVariableScope extends AbstractVariableScope<OWLClassExpression>
+        implements VariableScope<OWLClassExpression> {
+    private static Map<OWLClassExpression, IndividualVariableScope> cache = new HashMap<OWLClassExpression, IndividualVariableScope>();
+    private OWLClassExpression classExpression;
 
-	/**
-	 * @param classExpression
-	 */
-	IndividualVariableScope(OWLClassExpression classExpression, VariableScopeChecker checker) {
-		super(checker);
-		this.classExpression = classExpression;
-	}
+    /** @param classExpression */
+    IndividualVariableScope(OWLClassExpression classExpression,
+            VariableScopeChecker checker) {
+        super(checker);
+        this.classExpression = classExpression;
+    }
 
-	static IndividualVariableScope buildIndividualVariableScope(
-			OWLClassExpression classDescription, VariableScopeChecker checker) {
-		IndividualVariableScope toReturn = cache.get(classDescription);
-		if (toReturn == null) {
-			toReturn = new IndividualVariableScope(classDescription, checker);
-			cache.put(classDescription, toReturn);
-		}
-		return toReturn;
-	}
+    static IndividualVariableScope buildIndividualVariableScope(
+            OWLClassExpression classDescription, VariableScopeChecker checker) {
+        IndividualVariableScope toReturn = cache.get(classDescription);
+        if (toReturn == null) {
+            toReturn = new IndividualVariableScope(classDescription, checker);
+            cache.put(classDescription, toReturn);
+        }
+        return toReturn;
+    }
 
-	/**
-	 * @return the description
-	 */
-	public OWLClassExpression getClassExpression() {
-		return this.classExpression;
-	}
+    /** @return the description */
+    public OWLClassExpression getClassExpression() {
+        return classExpression;
+    }
 
-	/**
-	 * @param classExpression
-	 *            the description to set
-	 */
-	public void setDescription(OWLClassExpression classExpression) {
-		this.classExpression = classExpression;
-	}
+    /** @param classExpression
+     *            the description to set */
+    public void setDescription(OWLClassExpression classExpression) {
+        this.classExpression = classExpression;
+    }
 
-	public boolean check(OWLObject owlObject) throws OWLRuntimeException {
-		return owlObject instanceof OWLIndividual
-				&& this.getChecker().check((OWLIndividual) owlObject, this);
-	}
+    @Override
+    public boolean check(OWLObject owlObject) throws OWLRuntimeException {
+        return owlObject instanceof OWLIndividual
+                && getChecker().check((OWLIndividual) owlObject, this);
+    }
 
-	/**
-	 * @see org.coode.oppl.VariableScope#getDirection()
-	 */
-	public Direction getDirection() {
-		return Direction.INSTANCEOF;
-	}
+    @Override
+    public Direction getDirection() {
+        return Direction.INSTANCEOF;
+    }
 
-	/**
-	 * @see org.coode.oppl.VariableScope#getScopingObject()
-	 */
-	public OWLClassExpression getScopingObject() {
-		return this.getClassExpression();
-	}
+    @Override
+    public OWLClassExpression getScopingObject() {
+        return getClassExpression();
+    }
 
-	public String render(ConstraintSystem constraintSystem) {
-		ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory().getManchesterSyntaxRenderer(
-				constraintSystem);
-		this.getClassExpression().accept(renderer);
-		return String.format("[%s %s]", this.getDirection(), renderer);
-	}
+    @Override
+    public String render(ConstraintSystem constraintSystem) {
+        ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory()
+                .getManchesterSyntaxRenderer(constraintSystem);
+        getClassExpression().accept(renderer);
+        return String.format("[%s %s]", getDirection(), renderer);
+    }
 }

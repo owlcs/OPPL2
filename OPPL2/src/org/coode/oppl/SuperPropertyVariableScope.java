@@ -33,37 +33,32 @@ import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.model.OWLPropertyExpression;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
-/**
- * Represents a range limitations that could be added to a
+/** Represents a range limitations that could be added to a
  * {@link GeneratedVariable} instance with OBJECTPROERTY or DATAPRPERTY
  * {@link VariableType}, in particular this restricts the possible values to the
  * set of primitive object properties or data properties that are
  * super-properties of a given property
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class SuperPropertyVariableScope<P extends OWLPropertyExpression<?, ?>> extends
-		PropertyVariableScope<P> {
-	SuperPropertyVariableScope(P property, VariableScopeChecker checker) {
-		super(property, checker);
-	}
+        PropertyVariableScope<P> {
+    SuperPropertyVariableScope(P property, VariableScopeChecker checker) {
+        super(property, checker);
+    }
 
-	public boolean check(OWLObject owlObject) throws OWLRuntimeException {
-		return owlObject instanceof OWLProperty
-				&& this.check(
-						this.getProperty(),
-						this.getChecker().getOntologyManager().getOntologies());
-	}
+    @Override
+    public boolean check(OWLObject owlObject) throws OWLRuntimeException {
+        return owlObject instanceof OWLProperty
+                && this.check(getProperty(), getChecker().getOntologyManager()
+                        .getOntologies());
+    }
 
-	boolean check(P property, Set<OWLOntology> ontologies) {
-		return property.getSubProperties(ontologies).contains(property);
-	}
+    boolean check(P property, Set<OWLOntology> ontologies) {
+        return property.getSubProperties(ontologies).contains(property);
+    }
 
-	/**
-	 * @see org.coode.oppl.VariableScope#getDirection()
-	 */
-	public Direction getDirection() {
-		return Direction.SUPERPROPERTYOF;
-	}
+    @Override
+    public Direction getDirection() {
+        return Direction.SUPERPROPERTYOF;
+    }
 }

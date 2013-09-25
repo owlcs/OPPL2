@@ -33,37 +33,32 @@ import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.model.OWLPropertyExpression;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
-/**
- * Represents a range limitations that could be added to a
+/** Represents a range limitations that could be added to a
  * {@link GeneratedVariable} instance with OBJECTPROERTY or DATAPROPERTY
  * {@link VariableType}, in particular this restricts the possible values to the
  * set of primitive object properties or data properties that are sub-properties
  * of a given property
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class SubPropertyVariableScope<P extends OWLPropertyExpression<?, ?>> extends
-		PropertyVariableScope<P> {
-	SubPropertyVariableScope(P property, VariableScopeChecker checker) {
-		super(property, checker);
-	}
+        PropertyVariableScope<P> {
+    SubPropertyVariableScope(P property, VariableScopeChecker checker) {
+        super(property, checker);
+    }
 
-	public boolean check(OWLObject owlObject) throws OWLRuntimeException {
-		return owlObject instanceof OWLProperty
-				&& this.check(
-						this.getProperty(),
-						this.getChecker().getOntologyManager().getOntologies());
-	}
+    @Override
+    public boolean check(OWLObject owlObject) throws OWLRuntimeException {
+        return owlObject instanceof OWLProperty
+                && this.check(getProperty(), getChecker().getOntologyManager()
+                        .getOntologies());
+    }
 
-	boolean check(P property, Set<OWLOntology> ontologies) {
-		return property.getSuperProperties(ontologies).contains(property);
-	}
+    boolean check(P property, Set<OWLOntology> ontologies) {
+        return property.getSuperProperties(ontologies).contains(property);
+    }
 
-	/**
-	 * @see org.coode.oppl.VariableScope#getDirection()
-	 */
-	public Direction getDirection() {
-		return Direction.SUBPROPERTYOF;
-	}
+    @Override
+    public Direction getDirection() {
+        return Direction.SUBPROPERTYOF;
+    }
 }

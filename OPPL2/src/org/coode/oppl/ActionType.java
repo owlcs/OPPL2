@@ -22,21 +22,18 @@
  */
 package org.coode.oppl;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public enum ActionType {
-	// TODO equivalent to a defalut enum without fields and parameters
-	ADD("ADD"), REMOVE("REMOVE");
-	private String actionName;
+    // TODO equivalent to a defalut enum without fields and parameters
+    ADD("ADD"), REMOVE("REMOVE");
+    private String actionName;
 
-	private ActionType(String actionName) {
-		this.actionName = actionName;
-	}
+    private ActionType(String actionName) {
+        this.actionName = actionName;
+    }
 
-	@Override
-	public String toString() {
-		return this.actionName;
-	}
+    @Override
+    public String toString() {
+        return actionName;
+    }
 }

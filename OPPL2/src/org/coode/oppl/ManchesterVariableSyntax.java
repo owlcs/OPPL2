@@ -22,10 +22,7 @@
  */
 package org.coode.oppl;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public interface ManchesterVariableSyntax {
-	public final String NAMESPACE = "http://www.coode.org/oppl/variablemansyntax#";
+    public final String NAMESPACE = "http://www.coode.org/oppl/variablemansyntax#";
 }

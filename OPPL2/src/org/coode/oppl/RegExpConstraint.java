@@ -31,141 +31,117 @@ import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/**
- * Constraint that verifies whether a variable values are contained in a
+/** Constraint that verifies whether a variable values are contained in a
  * collection
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class RegExpConstraint implements AbstractConstraint {
-	private final Variable<?> variable;
-	private final OPPLFunction<Pattern> expression;
-	private final ConstraintSystem constraintSystem;
+    private final Variable<?> variable;
+    private final OPPLFunction<Pattern> expression;
+    private final ConstraintSystem constraintSystem;
 
-	/**
-	 * @param variable
-	 * @param collection
-	 * @param constraintSystem
-	 */
-	public RegExpConstraint(Variable<?> variable, OPPLFunction<Pattern> exp, ConstraintSystem cs) {
-		this.variable = variable;
-		this.constraintSystem = cs;
-		this.expression = exp;
-	}
+    /** @param variable
+     * @param collection
+     * @param constraintSystem */
+    public RegExpConstraint(Variable<?> variable, OPPLFunction<Pattern> exp,
+            ConstraintSystem cs) {
+        this.variable = variable;
+        constraintSystem = cs;
+        expression = exp;
+    }
 
-	/**
-	 * Visitor pattern required method
-	 * 
-	 * @return the specific output of the visit (dependent on the implementation
-	 *         of the visitor input instance)
-	 * @see org.coode.oppl.AbstractConstraint#accept(org.coode.oppl.ConstraintVisitorEx)
-	 */
-	public <O> O accept(ConstraintVisitorEx<O> visitor) {
-		return visitor.visit(this);
-	}
+    @Override
+    public <O> O accept(ConstraintVisitorEx<O> visitor) {
+        return visitor.visit(this);
+    }
 
-	/**
-	 * @return the variable
-	 */
-	public Variable<?> getVariable() {
-		return this.variable;
-	}
+    /** @return the variable */
+    public Variable<?> getVariable() {
+        return variable;
+    }
 
-	public boolean matches(ValueComputationParameters parameters) {
-		OWLObject assignmentValue = parameters.getBindingNode().getAssignmentValue(
-				this.getVariable(),
-				parameters);
-		boolean found = false;
-		if (assignmentValue != null) {
-			Pattern p = this.getExpression().compute(parameters);
-			ManchesterSyntaxRenderer renderer = parameters.getConstraintSystem().getOPPLFactory().getManchesterSyntaxRenderer(
-					this.getConstraintSystem());
-			assignmentValue.accept(renderer);
-			Matcher matcher = p.matcher(renderer.toString());
-			found = matcher.matches();
-		}
-		return found;
-	}
+    public boolean matches(ValueComputationParameters parameters) {
+        OWLObject assignmentValue = parameters.getBindingNode().getAssignmentValue(
+                getVariable(), parameters);
+        boolean found = false;
+        if (assignmentValue != null) {
+            Pattern p = getExpression().compute(parameters);
+            ManchesterSyntaxRenderer renderer = parameters.getConstraintSystem()
+                    .getOPPLFactory().getManchesterSyntaxRenderer(getConstraintSystem());
+            assignmentValue.accept(renderer);
+            Matcher matcher = p.matcher(renderer.toString());
+            found = matcher.matches();
+        }
+        return found;
+    }
 
-	public String render(ShortFormProvider shortFormProvider) {
-		return this.variable.getName() + " Match(" + this.getExpression().render(shortFormProvider)
-				+ ")";
-	}
+    @Override
+    public String render(ShortFormProvider shortFormProvider) {
+        return variable.getName() + " Match(" + getExpression().render(shortFormProvider)
+                + ")";
+    }
 
-	@Override
-	public String toString() {
-		return this.variable.getName() + " Match("
-				+ this.getExpression().render(this.getConstraintSystem()) + ")";
-	}
+    @Override
+    public String toString() {
+        return variable.getName() + " Match("
+                + getExpression().render(getConstraintSystem()) + ")";
+    }
 
-	public String render(ConstraintSystem constraintSystem) {
-		return this.toString();
-	}
+    @Override
+    public String render(ConstraintSystem constraintSystem) {
+        return toString();
+    }
 
-	public void accept(ConstraintVisitor visitor) {
-		visitor.visitInCollectionConstraint(this);
-	}
+    @Override
+    public void accept(ConstraintVisitor visitor) {
+        visitor.visitInCollectionConstraint(this);
+    }
 
-	/**
-	 * @return the constraintSystem
-	 */
-	public ConstraintSystem getConstraintSystem() {
-		return this.constraintSystem;
-	}
+    /** @return the constraintSystem */
+    public ConstraintSystem getConstraintSystem() {
+        return constraintSystem;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (this.expression == null ? 0 : this.expression.hashCode());
-		result = prime * result + (this.variable == null ? 0 : this.variable.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (expression == null ? 0 : expression.hashCode());
+        result = prime * result + (variable == null ? 0 : variable.hashCode());
+        return result;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (this.getClass() != obj.getClass()) {
-			return false;
-		}
-		RegExpConstraint other = (RegExpConstraint) obj;
-		if (this.expression == null) {
-			if (other.expression != null) {
-				return false;
-			}
-		} else if (!this.expression.equals(other.expression)) {
-			return false;
-		}
-		if (this.variable == null) {
-			if (other.variable != null) {
-				return false;
-			}
-		} else if (!this.variable.equals(other.variable)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        RegExpConstraint other = (RegExpConstraint) obj;
+        if (expression == null) {
+            if (other.expression != null) {
+                return false;
+            }
+        } else if (!expression.equals(other.expression)) {
+            return false;
+        }
+        if (variable == null) {
+            if (other.variable != null) {
+                return false;
+            }
+        } else if (!variable.equals(other.variable)) {
+            return false;
+        }
+        return true;
+    }
 
-	/**
-	 * @return the expression
-	 */
-	public OPPLFunction<Pattern> getExpression() {
-		return this.expression;
-	}
+    /** @return the expression */
+    public OPPLFunction<Pattern> getExpression() {
+        return expression;
+    }
 }

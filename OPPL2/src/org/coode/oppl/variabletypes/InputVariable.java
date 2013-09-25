@@ -31,113 +31,103 @@ import org.coode.oppl.VariableVisitorEx;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class InputVariable<O extends OWLObject> implements Variable<O> {
-	private final String name;
-	private final VariableType<O> type;
-	private final IRI iri;
-	private final VariableScope<?> variableScope;
+    private final String name;
+    private final VariableType<O> type;
+    private final IRI iri;
+    private final VariableScope<?> variableScope;
 
-	InputVariable(String name, VariableType<O> type) {
-		this(name, type, null);
-	}
+    InputVariable(String name, VariableType<O> type) {
+        this(name, type, null);
+    }
 
-	InputVariable(String name, VariableType<O> type, VariableScope<?> variableScope) {
-		if (name == null) {
-			throw new NullPointerException("The name of the variable cannot be null");
-		}
-		if (type == null) {
-			throw new NullPointerException("The type of the variable cannot be null");
-		}
-		this.name = name;
-		this.type = type;
+    InputVariable(String name, VariableType<O> type, VariableScope<?> variableScope) {
+        if (name == null) {
+            throw new NullPointerException("The name of the variable cannot be null");
+        }
+        if (type == null) {
+            throw new NullPointerException("The type of the variable cannot be null");
+        }
+        this.name = name;
+        this.type = type;
         this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE, this.getName());
-		this.variableScope = variableScope;
-	}
+        this.variableScope = variableScope;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    @Override
+    public String getName() {
+        return this.name;
+    }
 
-	public IRI getIRI() {
-		return this.iri;
-	}
+    @Override
+    public IRI getIRI() {
+        return this.iri;
+    }
 
-	/**
-	 * @return the type
-	 */
-	public VariableType<O> getType() {
-		return this.type;
-	}
+    @Override
+    public VariableType<O> getType() {
+        return this.type;
+    }
 
-	@Override
-	public String toString() {
-		return this.name + ":" + this.getType();
-	}
+    @Override
+    public String toString() {
+        return this.name + ":" + this.getType();
+    }
 
-	public VariableScope<?> getVariableScope() {
-		return this.variableScope;
-	}
+    public VariableScope<?> getVariableScope() {
+        return this.variableScope;
+    }
 
-	public <T> T accept(VariableVisitorEx<T> visitor) {
-		return visitor.visit(this);
-	}
+    @Override
+    public <T> T accept(VariableVisitorEx<T> visitor) {
+        return visitor.visit(this);
+    }
 
-	public void accept(VariableVisitor visitor) {
-		visitor.visit(this);
-	}
+    @Override
+    public void accept(VariableVisitor visitor) {
+        visitor.visit(this);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 907;
-		int result = 1;
-		result = prime * result + (this.name == null ? 0 : this.name.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 907;
+        int result = 1;
+        result = prime * result + (this.name == null ? 0 : this.name.hashCode());
+        return result;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (this.getClass() != obj.getClass()) {
-			return false;
-		}
-		InputVariable<?> other = (InputVariable<?>) obj;
-		if (this.name == null) {
-			if (other.name != null) {
-				return false;
-			}
-		} else if (!this.name.equals(other.name)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        InputVariable<?> other = (InputVariable<?>) obj;
+        if (this.name == null) {
+            if (other.name != null) {
+                return false;
+            }
+        } else if (!this.name.equals(other.name)) {
+            return false;
+        }
+        return true;
+    }
 
-	public String render(ConstraintSystem constraintSystem) {
-		String scope = this.getVariableScope() == null ? "" : this.getVariableScope().render(
-				constraintSystem);
-		return String.format("%s:%s%s", this.getName(), this.getType(), scope);
-	}
+    @Override
+    public String render(ConstraintSystem constraintSystem) {
+        String scope = this.getVariableScope() == null ? "" : this.getVariableScope()
+                .render(constraintSystem);
+        return String.format("%s:%s%s", this.getName(), this.getType(), scope);
+    }
 
-	static <P extends OWLObject> InputVariable<P> getInputVariable(String name,
-			VariableType<P> type, VariableScope<?> variableScope) {
-		return new InputVariable<P>(name, type, variableScope);
-	}
+    static <P extends OWLObject> InputVariable<P> getInputVariable(String name,
+            VariableType<P> type, VariableScope<?> variableScope) {
+        return new InputVariable<P>(name, type, variableScope);
+    }
 }

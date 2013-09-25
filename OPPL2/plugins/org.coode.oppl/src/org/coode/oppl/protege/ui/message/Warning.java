@@ -16,16 +16,12 @@ public class Warning extends AbstractMessage implements Message {
 		super(messageText);
 	}
 
-	/**
-	 * @see org.coode.oppl.protege.ui.message.Message#accept(org.coode.oppl.protege.ui.message.MessageVisitor)
-	 */
+    @Override
 	public void accept(MessageVisitor visitor) {
 		visitor.visitWarning(this);
 	}
 
-	/**
-	 * @see org.coode.oppl.protege.ui.message.Message#accept(org.coode.oppl.protege.ui.message.MessageVisitorEx)
-	 */
+    @Override
 	public <O> O accept(MessageVisitorEx<O> visitor) {
 		return visitor.visitWarning(this);
 	}

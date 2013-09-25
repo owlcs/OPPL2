@@ -142,10 +142,12 @@ public enum VariableType implements Type {
 		typeMap.put(VariableTypeFactory.getCONSTANTVariableType(), CONSTANT);
 	}
 
+    @Override
 	public void accept(TypeVisitor visitor) {
 		visitor.visitNonOWLType(this);
 	}
 
+    @Override
 	public <O> O accept(TypeVisitorEx<O> visitor) {
 		return visitor.visitNonOWLType(this);
 	}

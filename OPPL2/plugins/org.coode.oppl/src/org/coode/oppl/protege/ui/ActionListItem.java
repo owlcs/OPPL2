@@ -55,30 +55,22 @@ public class ActionListItem implements MListItem {
 				+ axiomChange.getOntology().getOntologyID()
 						.getOntologyIRI().toString();
 	}
-
-	/**
-	 * @see org.protege.editor.core.ui.list.MListItem#handleDelete()
-	 */
+	
+    @Override
 	public boolean handleDelete() {
 		return true;
 	}
 
-	/**
-	 * @see org.protege.editor.core.ui.list.MListItem#handleEdit()
-	 */
+    @Override
 	public void handleEdit() {
 	}
 
-	/**
-	 * @see org.protege.editor.core.ui.list.MListItem#isDeleteable()
-	 */
-	public boolean isDeleteable() {
+    @Override
+    public boolean isDeleteable() {
 		return isDeleteable;
 	}
 
-	/**
-	 * @see org.protege.editor.core.ui.list.MListItem#isEditable()
-	 */
+    @Override
 	public boolean isEditable() {
 		return isEditable;
 	}

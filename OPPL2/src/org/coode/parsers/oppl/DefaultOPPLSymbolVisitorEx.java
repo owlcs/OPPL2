@@ -11,31 +11,41 @@ import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
 import org.semanticweb.owlapi.model.OWLObject;
 
 public abstract class DefaultOPPLSymbolVisitorEx<O> implements OPPLSymbolVisitorEx<O> {
-	protected abstract O doDefault(Symbol symbol);
+    protected abstract O doDefault(Symbol symbol);
 
-	public <P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>> O visitCollectionVariableAttributeSymbol(
-			CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol) {
-		return this.doDefault(collectionVariableAttributeSymbol);
-	}
+    @Override
+    public
+            <P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>>
+            O
+            visitCollectionVariableAttributeSymbol(
+                    CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol) {
+        return this.doDefault(collectionVariableAttributeSymbol);
+    }
 
-	public O visitStringVariableAttributeSymbol(
-			StringVariableAttributeSymbol stringVariableAttributeSymbol) {
-		return this.doDefault(stringVariableAttributeSymbol);
-	}
+    @Override
+    public O visitStringVariableAttributeSymbol(
+            StringVariableAttributeSymbol stringVariableAttributeSymbol) {
+        return this.doDefault(stringVariableAttributeSymbol);
+    }
 
-	public O visitOWLEntity(OWLEntitySymbol owlEntitySymbol) {
-		return this.doDefault(owlEntitySymbol);
-	}
+    @Override
+    public O visitOWLEntity(OWLEntitySymbol owlEntitySymbol) {
+        return this.doDefault(owlEntitySymbol);
+    }
 
-	public O visitOWLLiteral(OWLLiteralSymbol owlConstantSymbol) {
-		return this.doDefault(owlConstantSymbol);
-	}
+    @Override
+    public O visitOWLLiteral(OWLLiteralSymbol owlConstantSymbol) {
+        return this.doDefault(owlConstantSymbol);
+    }
 
-	public O visitSymbol(Symbol symbol) {
-		return this.doDefault(symbol);
-	}
+    @Override
+    public O visitSymbol(Symbol symbol) {
+        return this.doDefault(symbol);
+    }
 
-	public O visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier) {
-		return this.doDefault(createOnDemandIdentifier);
-	}
+    @Override
+    public O visitCreateOnDemandIdentifier(
+            CreateOnDemandIdentifier createOnDemandIdentifier) {
+        return this.doDefault(createOnDemandIdentifier);
+    }
 }

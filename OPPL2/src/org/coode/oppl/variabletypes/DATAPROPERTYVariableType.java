@@ -16,43 +16,48 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 public class DATAPROPERTYVariableType extends
-		AbstractVariableType<OWLDataPropertyExpression> implements
-		VariableType<OWLDataPropertyExpression> {
-	public DATAPROPERTYVariableType(VariableTypeName name) {
-		super(name, EnumSet.of(Direction.SUBPROPERTYOF,
-				Direction.SUPERPROPERTYOF));
-	}
+        AbstractVariableType<OWLDataPropertyExpression> implements
+        VariableType<OWLDataPropertyExpression> {
+    public DATAPROPERTYVariableType(VariableTypeName name) {
+        super(name, EnumSet.of(Direction.SUBPROPERTYOF, Direction.SUPERPROPERTYOF));
+    }
 
-	public void accept(VariableTypeVisitor visitor) {
-		visitor.visitDATAPROPERTYVariableType(this);
-	}
+    @Override
+    public void accept(VariableTypeVisitor visitor) {
+        visitor.visitDATAPROPERTYVariableType(this);
+    }
 
-	public <P> P accept(VariableTypeVisitorEx<P> visitor) {
-		return visitor.visitDATAPROPERTYVariableType(this);
-	}
+    @Override
+    public <P> P accept(VariableTypeVisitorEx<P> visitor) {
+        return visitor.visitDATAPROPERTYVariableType(this);
+    }
 
-	public RegexpGeneratedVariable<? extends OWLDataPropertyExpression> getRegexpGeneratedVariable(
-			String name, OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
-		return new RegexpGeneratedVariable<OWLDataPropertyExpression>(name,
-				VariableTypeFactory.getDATAPROPERTYVariableType(),
-				patternGeneratingOPPLFunction);
-	}
+    @Override
+    public RegexpGeneratedVariable<? extends OWLDataPropertyExpression>
+            getRegexpGeneratedVariable(String name,
+                    OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
+        return new RegexpGeneratedVariable<OWLDataPropertyExpression>(name,
+                VariableTypeFactory.getDATAPROPERTYVariableType(),
+                patternGeneratingOPPLFunction);
+    }
 
-	public Set<OWLDataPropertyExpression> getReferencedOWLObjects(
-			Collection<? extends OWLOntology> ontologies) {
-		Set<OWLDataPropertyExpression> toReturn = new HashSet<OWLDataPropertyExpression>();
-		for (OWLOntology ontology : ontologies) {
-			toReturn.addAll(ontology.getDataPropertiesInSignature());
-		}
-		return toReturn;
-	}
+    @Override
+    public Set<OWLDataPropertyExpression> getReferencedOWLObjects(
+            Collection<? extends OWLOntology> ontologies) {
+        Set<OWLDataPropertyExpression> toReturn = new HashSet<OWLDataPropertyExpression>();
+        for (OWLOntology ontology : ontologies) {
+            toReturn.addAll(ontology.getDataPropertiesInSignature());
+        }
+        return toReturn;
+    }
 
-	public boolean isCompatibleWith(OWLObject o) {
-		return o.accept(new OWLObjectVisitorExAdapter<Boolean>(false) {
-			@Override
-			public Boolean visit(OWLDataProperty property) {
-				return true;
-			}
-		});
-	}
+    @Override
+    public boolean isCompatibleWith(OWLObject o) {
+        return o.accept(new OWLObjectVisitorExAdapter<Boolean>(false) {
+            @Override
+            public Boolean visit(OWLDataProperty property) {
+                return true;
+            }
+        });
+    }
 }

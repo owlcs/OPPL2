@@ -37,17 +37,11 @@ public class SolvableSearchNode extends SolvabilitySearchNode {
 		this.variable = variable;
 	}
 
-	/**
-	 * @see org.coode.oppl.search.solvability.SolvabilitySearchNode#accept(org.coode.oppl.search.solvability.SolvabilitySearchNodeVisitor)
-	 */
 	@Override
 	public void accept(SolvabilitySearchNodeVisitor visitor) {
 		visitor.visitSolvableSearchNode(this);
 	}
 
-	/**
-	 * @see org.coode.oppl.search.solvability.SolvabilitySearchNode#accept(org.coode.oppl.search.solvability.SolvabilitySearchNodeVisitorEx)
-	 */
 	@Override
 	public <O> O accept(SolvabilitySearchNodeVisitorEx<O> visitor) {
 		return visitor.visitSolvableSearchNode(this);

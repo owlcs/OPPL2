@@ -29,35 +29,35 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class VariableDetector extends AbstractVariableDetector {
-	/**
-	 * @param constraintSystem
-	 */
-	public VariableDetector(ConstraintSystem constraintSystem) {
-		super(constraintSystem);
-	}
+    /** @param constraintSystem */
+    public VariableDetector(ConstraintSystem constraintSystem) {
+        super(constraintSystem);
+    }
 
-	public Boolean visit(OWLClass desc) {
-		return this.constraintSystem.isVariableIRI(desc.getIRI());
-	}
+    @Override
+    public Boolean visit(OWLClass desc) {
+        return constraintSystem.isVariableIRI(desc.getIRI());
+    }
 
-	public Boolean visit(OWLLiteral node) {
-		return this.constraintSystem.isVariable(node);
-	}
+    @Override
+    public Boolean visit(OWLLiteral node) {
+        return constraintSystem.isVariable(node);
+    }
 
-	public Boolean visit(OWLObjectProperty property) {
-		return this.constraintSystem.isVariable(property);
-	}
+    @Override
+    public Boolean visit(OWLObjectProperty property) {
+        return constraintSystem.isVariable(property);
+    }
 
-	public Boolean visit(OWLDataProperty property) {
-		return this.constraintSystem.isVariable(property);
-	}
+    @Override
+    public Boolean visit(OWLDataProperty property) {
+        return constraintSystem.isVariable(property);
+    }
 
-	public Boolean visit(OWLNamedIndividual individual) {
-		return this.constraintSystem.isVariable(individual);
-	}
+    @Override
+    public Boolean visit(OWLNamedIndividual individual) {
+        return constraintSystem.isVariable(individual);
+    }
 }

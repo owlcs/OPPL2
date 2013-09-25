@@ -24,43 +24,33 @@ package org.coode.oppl;
 
 import org.semanticweb.owlapi.model.OWLObject;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public interface ConstraintVisitorEx<O extends Object> {
-	/**
-	 * Visitor pattern required method
-	 * 
-	 * @param c
-	 * @return the specific output of the visit (dependent on the
-	 *         implementation)
-	 */
-	O visit(InequalityConstraint c);
+    /** Visitor pattern required method
+     * 
+     * @param c
+     * @return the specific output of the visit (dependent on the
+     *         implementation) */
+    O visit(InequalityConstraint c);
 
-	/**
-	 * Visitor pattern required method
-	 * 
-	 * @param c
-	 * @return the specific output of the visit (dependent on the
-	 *         implementation)
-	 */
-	O visit(InCollectionConstraint<? extends OWLObject> c);
+    /** Visitor pattern required method
+     * 
+     * @param c
+     * @return the specific output of the visit (dependent on the
+     *         implementation) */
+    O visit(InCollectionConstraint<? extends OWLObject> c);
 
-	/**
-	 * Visitor pattern required method
-	 * 
-	 * @param c
-	 * @return the specific output of the visit (dependent on the
-	 *         implementation)
-	 */
-	O visit(RegExpConstraint c);
+    /** Visitor pattern required method
+     * 
+     * @param c
+     * @return the specific output of the visit (dependent on the
+     *         implementation) */
+    O visit(RegExpConstraint c);
 
-	/**
-	 * Visitor pattern required method
-	 * 
-	 * @param nafConstraint
-	 * @return
-	 */
-	O visit(NAFConstraint nafConstraint);
+    /** Visitor pattern required method
+     * 
+     * @param nafConstraint
+     * @return the specific output of the visit (dependent on the
+     *         implementation) */
+    O visit(NAFConstraint nafConstraint);
 }

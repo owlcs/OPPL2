@@ -26,46 +26,32 @@ import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/**
- * Any variable not generated implements this interface; generated variables
+/** Any variable not generated implements this interface; generated variables
  * implement Variable
  * 
  * @see SingleValueGeneratedVariable
- * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public interface Variable<O extends OWLObject> {
-	/**
-	 * @return the name of the Variable
-	 */
-	public String getName();
+    /** @return the name of the Variable */
+    public String getName();
 
-	/**
-	 * @return an URI for the Variable
-	 */
-	public IRI getIRI();
+    /** @return an URI for the Variable */
+    public IRI getIRI();
 
-	/**
-	 * @return the type of the Variable
-	 * @see VariableType
-	 */
-	public VariableType<O> getType();
+    /** @return the type of the Variable
+     * @see VariableType */
+    public VariableType<O> getType();
 
-	/**
-	 * Visitor pattern interface method for visitors without return type
-	 * 
-	 * @param visitor
-	 */
-	public void accept(VariableVisitor visitor);
+    /** Visitor pattern interface method for visitors without return type
+     * 
+     * @param visitor */
+    public void accept(VariableVisitor visitor);
 
-	/**
-	 * Visitor pattern interface method for visitors with return type
-	 * 
-	 * @param visitor
-	 * @return an instance of T
-	 */
-	public <T> T accept(VariableVisitorEx<T> visitor);
+    /** Visitor pattern interface method for visitors with return type
+     * 
+     * @param visitor
+     * @return an instance of T */
+    public <T> T accept(VariableVisitorEx<T> visitor);
 
-	public String render(ConstraintSystem constraintSystem);
+    public String render(ConstraintSystem constraintSystem);
 }

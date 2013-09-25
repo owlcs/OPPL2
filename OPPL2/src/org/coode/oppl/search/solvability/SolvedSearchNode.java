@@ -19,17 +19,11 @@ public class SolvedSearchNode extends SolvabilitySearchNode {
 		super(axiom, bindingNode);
 	}
 
-	/**
-	 * @see org.coode.oppl.search.solvability.SolvabilitySearchNode#accept(org.coode.oppl.search.solvability.SolvabilitySearchNodeVisitor)
-	 */
 	@Override
 	public void accept(SolvabilitySearchNodeVisitor visitor) {
 		visitor.visitSolvedSearchNode(this);
 	}
 
-	/**
-	 * @see org.coode.oppl.search.solvability.SolvabilitySearchNode#accept(org.coode.oppl.search.solvability.SolvabilitySearchNodeVisitorEx)
-	 */
 	@Override
 	public <O> O accept(SolvabilitySearchNodeVisitorEx<O> visitor) {
 		return visitor.visitSolvedSearchNode(this);

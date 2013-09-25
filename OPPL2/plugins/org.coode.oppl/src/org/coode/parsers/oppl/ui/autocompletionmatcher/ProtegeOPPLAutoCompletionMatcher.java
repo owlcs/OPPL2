@@ -55,10 +55,7 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
 		this.reset();
 	}
 
-	/**
-	 * @see org.coode.parsers.ui.autocompletionmatcher.AutoCompletionMatcher#getMatches
-	 *      (java.lang.String)
-	 */
+    @Override
 	public List<String> getMatches(String string2Complete) {
 		List<String> matches = this.delegate.getMatches(string2Complete);
 		matches.addAll(this.matchFragments(string2Complete));

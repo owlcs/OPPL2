@@ -17,197 +17,197 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-public abstract class Create<I extends OPPLFunction<?>, O> extends AbstractOPPLFunction<O>
-		implements OPPLFunction<O> {
-	public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {
-		return visitor.visitCreate(this);
-	}
+public abstract class Create<I extends OPPLFunction<?>, O> extends
+        AbstractOPPLFunction<O> implements OPPLFunction<O> {
+    @Override
+    public <P> P accept(OPPLFunctionVisitorEx<P> visitor) {
+        return visitor.visitCreate(this);
+    }
 
-	public void accept(OPPLFunctionVisitor visitor) {
-		visitor.visitCreate(this);
-	}
+    @Override
+    public void accept(OPPLFunctionVisitor visitor) {
+        visitor.visitCreate(this);
+    }
 
-	private final I input;
+    private final I input;
 
-	/**
-	 * @param input
-	 */
-	protected Create(I input) {
-		if (input == null) {
-			throw new NullPointerException("The input cannot be null");
-		}
-		this.input = input;
-	}
+    /** @param input */
+    protected Create(I input) {
+        if (input == null) {
+            throw new NullPointerException("The input cannot be null");
+        }
+        this.input = input;
+    }
 
-	public abstract boolean isCompatible(VariableType<?> variableType);
+    public abstract boolean isCompatible(VariableType<?> variableType);
 
-	/**
-	 * @return the input
-	 */
-	public I getInput() {
-		return this.input;
-	}
+    /** @return the input */
+    public I getInput() {
+        return this.input;
+    }
 
-	public String render(ConstraintSystem constraintSystem) {
-		return String.format("create(%s)", this.getInput().render(constraintSystem));
-	}
+    @Override
+    public String render(ConstraintSystem constraintSystem) {
+        return String.format("create(%s)", this.getInput().render(constraintSystem));
+    }
 
-	public String render(ShortFormProvider shortFormProvider) {
-		return String.format("create(%s)", this.getInput().render(shortFormProvider));
-	}
+    @Override
+    public String render(ShortFormProvider shortFormProvider) {
+        return String.format("create(%s)", this.getInput().render(shortFormProvider));
+    }
 
-	public static <T extends OPPLFunction<? extends String>> Create<T, OWLClass> createOWLClass(
-			final T t) {
-		return new CreateOWLEntity<T, OWLClass>(t) {
-			@Override
-			protected OWLClass createEntity(String entityRendering, OWLEntityFactory entityFactory,
-					OWLOntologyManager manager) throws OWLEntityCreationException {
-				OWLEntityCreationSet<OWLClass> entitySet = entityFactory.createOWLClass(
-						entityRendering,
-						null);
-				// manager.applyChanges(entitySet.getOntologyChanges());
-				return entitySet.getOWLEntity();
-			}
+    public static <T extends OPPLFunction<? extends String>> Create<T, OWLClass>
+            createOWLClass(final T t) {
+        return new CreateOWLEntity<T, OWLClass>(t) {
+            @Override
+            protected OWLClass createEntity(String entityRendering,
+                    OWLEntityFactory entityFactory, OWLOntologyManager manager)
+                    throws OWLEntityCreationException {
+                OWLEntityCreationSet<OWLClass> entitySet = entityFactory.createOWLClass(
+                        entityRendering, null);
+                // manager.applyChanges(entitySet.getOntologyChanges());
+                return entitySet.getOWLEntity();
+            }
 
-			@Override
-			public boolean isCompatible(VariableType<?> variableType) {
-				return variableType == VariableTypeFactory.getCLASSVariableType();
-			}
+            @Override
+            public boolean isCompatible(VariableType<?> variableType) {
+                return variableType == VariableTypeFactory.getCLASSVariableType();
+            }
 
-			@Override
-			protected OWLClass getExistingEntity(String entityRendering,
-					OWLEntityChecker entityChecker) {
-				return entityChecker.getOWLClass(entityRendering);
-			}
-		};
-	}
+            @Override
+            protected OWLClass getExistingEntity(String entityRendering,
+                    OWLEntityChecker entityChecker) {
+                return entityChecker.getOWLClass(entityRendering);
+            }
+        };
+    }
 
-	public static <T extends OPPLFunction<? extends String>> Create<T, OWLObjectProperty> createOWLObjectProperty(
-			final T t) {
-		return new CreateOWLEntity<T, OWLObjectProperty>(t) {
-			@Override
-			protected OWLObjectProperty createEntity(String entityRendering,
-					OWLEntityFactory entityFactory, OWLOntologyManager manager)
-					throws OWLEntityCreationException {
-				OWLEntityCreationSet<OWLObjectProperty> entitySet = entityFactory.createOWLObjectProperty(
-						entityRendering,
-						null);
-				// manager.applyChanges(entitySet.getOntologyChanges());
-				return entitySet.getOWLEntity();
-			}
+    public static <T extends OPPLFunction<? extends String>> Create<T, OWLObjectProperty>
+            createOWLObjectProperty(final T t) {
+        return new CreateOWLEntity<T, OWLObjectProperty>(t) {
+            @Override
+            protected OWLObjectProperty createEntity(String entityRendering,
+                    OWLEntityFactory entityFactory, OWLOntologyManager manager)
+                    throws OWLEntityCreationException {
+                OWLEntityCreationSet<OWLObjectProperty> entitySet = entityFactory
+                        .createOWLObjectProperty(entityRendering, null);
+                // manager.applyChanges(entitySet.getOntologyChanges());
+                return entitySet.getOWLEntity();
+            }
 
-			@Override
-			public boolean isCompatible(VariableType<?> variableType) {
-				return variableType == VariableTypeFactory.getOBJECTPROPERTYTypeVariableType();
-			}
+            @Override
+            public boolean isCompatible(VariableType<?> variableType) {
+                return variableType == VariableTypeFactory
+                        .getOBJECTPROPERTYTypeVariableType();
+            }
 
-			@Override
-			protected OWLObjectProperty getExistingEntity(String entityRendering,
-					OWLEntityChecker entityChecker) {
-				return entityChecker.getOWLObjectProperty(entityRendering);
-			}
-		};
-	}
+            @Override
+            protected OWLObjectProperty getExistingEntity(String entityRendering,
+                    OWLEntityChecker entityChecker) {
+                return entityChecker.getOWLObjectProperty(entityRendering);
+            }
+        };
+    }
 
-	public static <T extends OPPLFunction<? extends String>> Create<T, OWLDataProperty> createOWLDataProperty(
-			final T t) {
-		return new CreateOWLEntity<T, OWLDataProperty>(t) {
-			@Override
-			protected OWLDataProperty createEntity(String entityRendering,
-					OWLEntityFactory entityFactory, OWLOntologyManager manager)
-					throws OWLEntityCreationException {
-				OWLEntityCreationSet<OWLDataProperty> entitySet = entityFactory.createOWLDataProperty(
-						entityRendering,
-						null);
-				// manager.applyChanges(entitySet.getOntologyChanges());
-				return entitySet.getOWLEntity();
-			}
+    public static <T extends OPPLFunction<? extends String>> Create<T, OWLDataProperty>
+            createOWLDataProperty(final T t) {
+        return new CreateOWLEntity<T, OWLDataProperty>(t) {
+            @Override
+            protected OWLDataProperty createEntity(String entityRendering,
+                    OWLEntityFactory entityFactory, OWLOntologyManager manager)
+                    throws OWLEntityCreationException {
+                OWLEntityCreationSet<OWLDataProperty> entitySet = entityFactory
+                        .createOWLDataProperty(entityRendering, null);
+                // manager.applyChanges(entitySet.getOntologyChanges());
+                return entitySet.getOWLEntity();
+            }
 
-			@Override
-			public boolean isCompatible(VariableType<?> variableType) {
-				return variableType == VariableTypeFactory.getDATAPROPERTYVariableType();
-			}
+            @Override
+            public boolean isCompatible(VariableType<?> variableType) {
+                return variableType == VariableTypeFactory.getDATAPROPERTYVariableType();
+            }
 
-			@Override
-			protected OWLDataProperty getExistingEntity(String entityRendering,
-					OWLEntityChecker entityChecker) {
-				return entityChecker.getOWLDataProperty(entityRendering);
-			}
-		};
-	}
+            @Override
+            protected OWLDataProperty getExistingEntity(String entityRendering,
+                    OWLEntityChecker entityChecker) {
+                return entityChecker.getOWLDataProperty(entityRendering);
+            }
+        };
+    }
 
-	public static <T extends OPPLFunction<? extends String>> Create<T, OWLNamedIndividual> createOWLNamedIndividual(
-			final T t) {
-		return new CreateOWLEntity<T, OWLNamedIndividual>(t) {
-			@Override
-			protected OWLNamedIndividual createEntity(String entityRendering,
-					OWLEntityFactory entityFactory, OWLOntologyManager manager)
-					throws OWLEntityCreationException {
-				OWLEntityCreationSet<OWLNamedIndividual> entitySet = entityFactory.createOWLIndividual(
-						entityRendering,
-						null);
-				// manager.applyChanges(entitySet.getOntologyChanges());
-				return entitySet.getOWLEntity();
-			}
+    public static <T extends OPPLFunction<? extends String>>
+            Create<T, OWLNamedIndividual> createOWLNamedIndividual(final T t) {
+        return new CreateOWLEntity<T, OWLNamedIndividual>(t) {
+            @Override
+            protected OWLNamedIndividual createEntity(String entityRendering,
+                    OWLEntityFactory entityFactory, OWLOntologyManager manager)
+                    throws OWLEntityCreationException {
+                OWLEntityCreationSet<OWLNamedIndividual> entitySet = entityFactory
+                        .createOWLIndividual(entityRendering, null);
+                // manager.applyChanges(entitySet.getOntologyChanges());
+                return entitySet.getOWLEntity();
+            }
 
-			@Override
-			public boolean isCompatible(VariableType<?> variableType) {
-				return variableType == VariableTypeFactory.getINDIVIDUALVariableType();
-			}
+            @Override
+            public boolean isCompatible(VariableType<?> variableType) {
+                return variableType == VariableTypeFactory.getINDIVIDUALVariableType();
+            }
 
-			@Override
-			protected OWLNamedIndividual getExistingEntity(String entityRendering,
-					OWLEntityChecker entityChecker) {
-				return entityChecker.getOWLIndividual(entityRendering);
-			}
-		};
-	}
+            @Override
+            protected OWLNamedIndividual getExistingEntity(String entityRendering,
+                    OWLEntityChecker entityChecker) {
+                return entityChecker.getOWLIndividual(entityRendering);
+            }
+        };
+    }
 
-	public static OPPLFunction<OWLLiteral> createOWLLiteral(OPPLFunction<String> value) {
-		return new Create<OPPLFunction<String>, OWLLiteral>(value) {
-			@Override
-			public ValueComputation<OWLLiteral> getValueComputation(
-					final ValueComputationParameters parameters) {
-				return new ValueComputation<OWLLiteral>() {
-					public OWLLiteral compute(OPPLFunction<? extends OWLLiteral> opplFunction) {
-						OWLDataFactory dataFactory = parameters.getConstraintSystem().getOntologyManager().getOWLDataFactory();
-						String value = getInput().compute(parameters);
-						return dataFactory.getOWLLiteral(value);
-					}
-				};
-			}
+    public static OPPLFunction<OWLLiteral> createOWLLiteral(OPPLFunction<String> value) {
+        return new Create<OPPLFunction<String>, OWLLiteral>(value) {
+            @Override
+            public ValueComputation<OWLLiteral> getValueComputation(
+                    final ValueComputationParameters parameters) {
+                return new ValueComputation<OWLLiteral>() {
+                    @Override
+                    public OWLLiteral compute(
+                            OPPLFunction<? extends OWLLiteral> opplFunction) {
+                        OWLDataFactory dataFactory = parameters.getConstraintSystem()
+                                .getOntologyManager().getOWLDataFactory();
+                        String value = getInput().compute(parameters);
+                        return dataFactory.getOWLLiteral(value);
+                    }
+                };
+            }
 
-			@Override
-			public boolean isCompatible(VariableType<?> variableType) {
-				return variableType == VariableTypeFactory.getCONSTANTVariableType();
-			}
-		};
-	}
+            @Override
+            public boolean isCompatible(VariableType<?> variableType) {
+                return variableType == VariableTypeFactory.getCONSTANTVariableType();
+            }
+        };
+    }
 
-	public static <T extends OPPLFunction<? extends String>> Create<T, OWLAnnotationProperty> createOWLAnnotationProperty(
-			final T t) {
-		return new CreateOWLEntity<T, OWLAnnotationProperty>(t) {
-			@Override
-			protected OWLAnnotationProperty createEntity(String entityRendering,
-					OWLEntityFactory entityFactory, OWLOntologyManager manager)
-					throws OWLEntityCreationException {
-				OWLEntityCreationSet<OWLAnnotationProperty> entitySet = entityFactory.createOWLAnnotationProperty(
-						entityRendering,
-						null);
-				// manager.applyChanges(entitySet.getOntologyChanges());
-				return entitySet.getOWLEntity();
-			}
+    public static <T extends OPPLFunction<? extends String>>
+            Create<T, OWLAnnotationProperty> createOWLAnnotationProperty(final T t) {
+        return new CreateOWLEntity<T, OWLAnnotationProperty>(t) {
+            @Override
+            protected OWLAnnotationProperty createEntity(String entityRendering,
+                    OWLEntityFactory entityFactory, OWLOntologyManager manager)
+                    throws OWLEntityCreationException {
+                OWLEntityCreationSet<OWLAnnotationProperty> entitySet = entityFactory
+                        .createOWLAnnotationProperty(entityRendering, null);
+                // manager.applyChanges(entitySet.getOntologyChanges());
+                return entitySet.getOWLEntity();
+            }
 
-			@Override
-			public boolean isCompatible(VariableType<?> variableType) {
-				return variableType == VariableTypeFactory.getDATAPROPERTYVariableType();
-			}
+            @Override
+            public boolean isCompatible(VariableType<?> variableType) {
+                return variableType == VariableTypeFactory.getDATAPROPERTYVariableType();
+            }
 
-			@Override
-			protected OWLAnnotationProperty getExistingEntity(String entityRendering,
-					OWLEntityChecker entityChecker) {
-				return entityChecker.getOWLAnnotationProperty(entityRendering);
-			}
-		};
-	}
+            @Override
+            protected OWLAnnotationProperty getExistingEntity(String entityRendering,
+                    OWLEntityChecker entityChecker) {
+                return entityChecker.getOWLAnnotationProperty(entityRendering);
+            }
+        };
+    }
 }

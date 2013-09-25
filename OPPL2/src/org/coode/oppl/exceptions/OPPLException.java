@@ -22,37 +22,28 @@
  */
 package org.coode.oppl.exceptions;
 
-/**
- * Generic OPPL Exception
+/** Generic OPPL Exception
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class OPPLException extends Exception {
-	private static final long serialVersionUID = 567886696227544902L;
+    private static final long serialVersionUID = 567886696227544902L;
 
-	/**
-	 * @param message
-	 * @see Exception#Exception(String)
-	 */
-	public OPPLException(String message) {
-		super(message);
-	}
+    /** @param message
+     * @see Exception#Exception(String) */
+    public OPPLException(String message) {
+        super(message);
+    }
 
-	/**
-	 * @see Exception#Exception(Throwable)
-	 * @param t
-	 */
-	public OPPLException(Throwable t) {
-		super(t);
-	}
+    /** @see Exception#Exception(Throwable)
+     * @param t */
+    public OPPLException(Throwable t) {
+        super(t);
+    }
 
-	/**
-	 * @param message
-	 * @param t
-	 * @see Exception#Exception(String, Throwable)
-	 */
-	public OPPLException(String message, Throwable t) {
-		super(message, t);
-	}
+    /** @param message
+     * @param t
+     * @see Exception#Exception(String, Throwable) */
+    public OPPLException(String message, Throwable t) {
+        super(message, t);
+    }
 }
