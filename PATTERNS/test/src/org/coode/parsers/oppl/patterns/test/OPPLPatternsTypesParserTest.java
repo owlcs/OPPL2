@@ -91,9 +91,7 @@ public class OPPLPatternsTypesParserTest extends TestCase {
 	private final ErrorListener listener = new SystemErrorEcho();
 	private AbstractPatternModelFactory patternModelFactory;
 
-	/**
-	 * @return
-	 */
+	    /** @return reference resolver */
 	public static PatternReferenceResolver getSimplePatternReferenceResolver() {
 		return new PatternReferenceResolver() {
 			public void resolvePattern(OPPLSyntaxTree reference,

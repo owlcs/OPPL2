@@ -8,18 +8,19 @@ import org.coode.parsers.common.SystemErrorEcho;
 import org.coode.parsers.test.AbstractExpectedErrorCheckerErrorListener;
 import org.coode.parsers.test.JunitTestErrorChecker;
 
+@SuppressWarnings("javadoc")
 public class ExhaustingPatternTest extends AbstractPatternTestCase {
 	private final static ErrorListener JUNITERR_ERROR_LISTENER = new SystemErrorEcho();
 
 	public void testDocumentationScriptFood() {
 		String formula = "?x:CLASS, ?y:CLASS, ?forbiddenContent:CLASS=CreateUnion(?x.VALUES) BEGIN ADD $thisClass equivalentTo contains only (not ?forbiddenContent) END; A ?x free stuff ; RETURN $thisClass;";
-		this.parseCorrect(formula, this.getOntology("food.owl"));
+		parseCorrect(formula, getOntology("food.owl"));
 	}
 
 	public void testRegExpGroupUse() {
 		OPPLScript result = this.parse("?island:CLASS=Match(\"(BoundaryFragment)\"), ?newIsland:CLASS=create(\"Test\"+?island.GROUPS(1)) BEGIN ADD ?newIsland subClassOf ?island END;");
-		this.expectedCorrect(result);
-		this.execute(result, this.getOntology("test.owl"), 0);
+		expectedCorrect(result);
+		this.execute(result, getOntology("test.owl"), 0);
 	}
 
 	public void testDocumentationScriptPizza() {
@@ -31,7 +32,7 @@ public class ExhaustingPatternTest extends AbstractPatternTestCase {
 				+ "ADD $thisClass subClassOf hasBase some ?base\n"
 				+ "END;\n"
 				+ "A pizza with ?base base and ?topping toppings ";
-		this.parseCorrect(formula, this.getOntology("patternedPizza.owl"));
+		parseCorrect(formula, getOntology("patternedPizza.owl"));
 	}
 
 	public void testDocumentationScriptDOLCE() {
@@ -42,7 +43,7 @@ public class ExhaustingPatternTest extends AbstractPatternTestCase {
 				+ "Information Realization Pattern:\n"
 				+ "?informationRealization ?realizationProperty ?informationObject\n"
 				+ "	Named pizza pattern";
-		this.parseCorrect(formula, this.getOntology("patternedDUL.owl"));
+		parseCorrect(formula, getOntology("patternedDUL.owl"));
 	}
 
 	public void testDocumentationScriptDolce2() {
@@ -56,7 +57,7 @@ public class ExhaustingPatternTest extends AbstractPatternTestCase {
 				+ "ADD $thisClass subClassOf isSettingFor some ?timeInterval\n"
 				+ "END;\n"
 				+ "Situation where ?person play the role ?role during the time interval ?timeInterval ";
-		this.parseCorrect(formula, this.getOntology("patternedDUL.owl"));
+		parseCorrect(formula, getOntology("patternedDUL.owl"));
 	}
 
 	public void _testDocumentationScriptPizzaRefersPattern() {
@@ -64,34 +65,34 @@ public class ExhaustingPatternTest extends AbstractPatternTestCase {
 				+ "ADD $thisClass subClassOf Menu,\n"
 				+ "ADD $thisClass subClassOf contains Course and only ($FreeFromPattern(?x))\n"
 				+ "END;\n" + "A ?x - free Menu";
-		this.parseCorrect(formula, this.getOntology("patternedPizza.owl"));
+		parseCorrect(formula, getOntology("patternedPizza.owl"));
 	}
 
 	public void testMultilineError() {
 		String formula = "?x:CLASS\n" + "BEGIN\n" + "ADD $thisClass sub_ClassOf Menu\n" + "END;\n"
 				+ "A ?x  free Menu";
-		this.parseWrong(
+		parseWrong(
 				formula,
-				this.getOntology("patternedPizza.owl"),
+				getOntology("patternedPizza.owl"),
 				new AbstractExpectedErrorCheckerErrorListener(new JunitTestErrorChecker(
 						JUNITERR_ERROR_LISTENER)) {
 					@Override
 					public void illegalToken(CommonTree t, String message) {
-						this.getErrorChecker().getErrorListenerForExpectedError().illegalToken(
+						getErrorChecker().getErrorListenerForExpectedError().illegalToken(
 								t,
 								message);
 					}
 
 					@Override
 					public void unrecognisedSymbol(CommonTree t) {
-						this.getErrorChecker().getErrorListenerForExpectedError().unrecognisedSymbol(
+						getErrorChecker().getErrorListenerForExpectedError().unrecognisedSymbol(
 								t);
 					}
 
 					@Override
 					public void incompatibleSymbolType(CommonTree t, Type type,
 							CommonTree expression) {
-						this.getErrorChecker().getErrorListenerForExpectedError().incompatibleSymbolType(
+						getErrorChecker().getErrorListenerForExpectedError().incompatibleSymbolType(
 								t,
 								type,
 								expression);
@@ -102,19 +103,19 @@ public class ExhaustingPatternTest extends AbstractPatternTestCase {
 
 	public void testParseMissingQuery() {
 		OPPLScript result = this.parse("?island:INDIVIDUAL BEGIN ADD Asinara InstanceOf Country END;");
-		this.expectedCorrect(result);
-		this.execute(result, this.getOntology("test.owl"), 0);
+		expectedCorrect(result);
+		this.execute(result, getOntology("test.owl"), 0);
 		String script = "?island:INDIVIDUAL BEGIN REMOVE Asinara InstanceOf Country END;";
-		this.parseWrong(
+		parseWrong(
 				script,
-				this.getOntology("test.owl"),
+				getOntology("test.owl"),
 				AbstractExpectedErrorCheckerErrorListener.getIllegalTokenExpected(new JunitTestErrorChecker(
 						JUNITERR_ERROR_LISTENER)));
-		this.execute(result, this.getOntology("test.owl"), 0);
+		this.execute(result, getOntology("test.owl"), 0);
 	}
 
 	@Override
 	protected OPPLScript parse(String script) {
-		return super.parsePattern(script, this.getOntology("test.owl"));
+		return super.parsePattern(script, getOntology("test.owl"));
 	}
 }

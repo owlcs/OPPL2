@@ -33,9 +33,6 @@ public class VariableIRI extends IRI {
 
     public VariableIRI(Variable<?> variable) {
         super(String.format("%s.%s", variable.getName(), AttributeName.IRI));
-        if (variable == null) {
-            throw new NullPointerException("The variable cannot be null");
-        }
         attribute = new IRIVariableAttribute(variable);
     }
 
