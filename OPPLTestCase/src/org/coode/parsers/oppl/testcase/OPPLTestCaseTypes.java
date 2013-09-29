@@ -1,29 +1,35 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseTypes.g 2011-01-10 16:48:15
 
   package org.coode.parsers.oppl.testcase;
-  import org.coode.parsers.ErrorListener;
-  import org.coode.parsers.oppl.OPPLSyntaxTree;
-  import org.coode.oppl.OPPLScript;
-  import org.coode.oppl.exceptions.RuntimeExceptionHandler;  
-  import org.coode.oppl.bindingtree.Assignment;  
-  import org.coode.oppl.Variable;
-  import org.coode.oppl.bindingtree.BindingNode;
-  import org.coode.oppl.ConstraintSystem;
-  import org.coode.parsers.oppl.testcase.OPPLTestCaseSymbolTable;
-  import org.semanticweb.owlapi.model.OWLAxiomChange;
-  import java.util.Collections;
-  import org.coode.oppl.OPPLQuery;
-  import org.coode.parsers.oppl.testcase.assertions.Assertion;
-  import org.coode.parsers.oppl.testcase.assertions.AssertionExpression;
-  import org.semanticweb.owlapi.model.OWLObject;  
-
-
-import org.antlr.runtime.*;
-import org.antlr.runtime.tree.*;import java.util.Stack;
+  import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.EarlyExitException;
+import org.antlr.runtime.IntStream;
+import org.antlr.runtime.MismatchedTokenException;
+import org.antlr.runtime.NoViableAltException;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.tree.RewriteEmptyStreamException;
+import org.antlr.runtime.tree.TreeFilter;
+import org.antlr.runtime.tree.TreeNodeStream;
+import org.antlr.runtime.tree.TreeRuleReturnScope;
+import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.OPPLQuery;
+import org.coode.oppl.OPPLScript;
+import org.coode.oppl.Variable;
+import org.coode.oppl.bindingtree.Assignment;
+import org.coode.oppl.bindingtree.BindingNode;
+import org.coode.oppl.exceptions.RuntimeExceptionHandler;
+import org.coode.parsers.ErrorListener;
+import org.coode.parsers.oppl.OPPLSyntaxTree;
+import org.coode.parsers.oppl.testcase.assertions.Assertion;
+import org.coode.parsers.oppl.testcase.assertions.AssertionExpression;
+import org.semanticweb.owlapi.model.OWLAxiomChange;
+import org.semanticweb.owlapi.model.OWLObject;
 public class OPPLTestCaseTypes extends TreeFilter {
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES", "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR", "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE", "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS", "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE", "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE", "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES", "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE", "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM", "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM", "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION", "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION", "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION", "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION", "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION", "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED", "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION", "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET", "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF", "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE", "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION", "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION", "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS", "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER", "OPPL_STATEMENT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION", "IRI_ATTRIBUTE_NAME", "AT", "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING", "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL", "NAF_CONSTRAINT", "COUNT", "SEMICOLON", "INFERENCE", "CONTAINS", "OPPL_TEST_CASE", "MESSAGE", "TEST", "ASSERT_EQUAL", "ASSERT_NOT_EQUAL", "ASSERT_TRUE", "ASSERT_FALSE", "TEXT", "ASSERT", "STAR", "LESS_THAN", "LESS_THAN_EQUAL", "GREATER_THAN", "GREATER_THAN_EQUAL", "ASSERT_LESS_THAN", "ASSERT_LESS_THAN_EQUAL", "ASSERT_GREATER_THAN", "ASSERT_GREATER_THAN_EQUAL", "BINDING"

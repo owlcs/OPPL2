@@ -1,18 +1,29 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 MOWLParser.g 2011-08-02 17:20:09
 
 	package org.coode.parsers.oppl.testcase;
-	import org.coode.parsers.oppl.OPPLSyntaxTree;
-	import org.coode.parsers.ErrorListener;
-
-
-import org.antlr.runtime.*;
-import java.util.Stack;
+	import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 
-import org.antlr.runtime.tree.*;
+import org.antlr.runtime.BaseRecognizer;
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.DFA;
+import org.antlr.runtime.EarlyExitException;
+import org.antlr.runtime.IntStream;
+import org.antlr.runtime.NoViableAltException;
+import org.antlr.runtime.Parser;
+import org.antlr.runtime.ParserRuleReturnScope;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
+import org.antlr.runtime.RuleReturnScope;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.antlr.runtime.tree.RewriteEarlyExitException;
+import org.antlr.runtime.tree.RewriteEmptyStreamException;
+import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
+import org.antlr.runtime.tree.RewriteRuleTokenStream;
+import org.antlr.runtime.tree.TreeAdaptor;
+import org.coode.parsers.oppl.OPPLSyntaxTree;
 
 public class OPPLTestCaseCombined_OPPLParser_MOWLParser extends Parser {
     public static final int STAR=482;

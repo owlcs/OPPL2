@@ -3,12 +3,18 @@
   package org.coode.parsers;
 
 
-import org.antlr.runtime.*;
-import org.antlr.runtime.tree.*;import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.NoViableAltException;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.antlr.runtime.tree.RewriteRuleNodeStream;
+import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
+import org.antlr.runtime.tree.TreeAdaptor;
+import org.antlr.runtime.tree.TreeNodeStream;
+import org.antlr.runtime.tree.TreeRewriter;
+import org.antlr.runtime.tree.TreeRuleReturnScope;
 
 public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
     public static final String[] tokenNames = new String[] {
