@@ -14,6 +14,9 @@ import org.semanticweb.owlapi.vocab.OWLFacet;
 
 /** @author Luigi Iannone */
 public class OPPLOWLDataFactory implements OWLDataFactory {
+    /** a convenience reference for an empty annotation set, saves on typing */
+    private static final Set<OWLAnnotation> NO_ANNOTATIONS = Collections
+            .<OWLAnnotation> emptySet();
     private final OWLDataFactory delegate;
 
     /** @param delegate */
@@ -26,8 +29,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
             InlineSet<OWLClassExpression> set, boolean shouldExpabdAsPairWise) {
-        return new OPPLOWLDisjointClassesAxiom(this, set,
-                Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
+        return new OPPLOWLDisjointClassesAxiom(this, set, NO_ANNOTATIONS,
+                shouldExpabdAsPairWise);
     }
 
     public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
@@ -39,8 +42,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
             InlineSet<OWLObjectPropertyExpression> set, boolean shouldExpabdAsPairWise) {
-        return new OPPLOWLDisjointObjectPropertiesAxiom(this, set,
-                Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
+        return new OPPLOWLDisjointObjectPropertiesAxiom(this, set, NO_ANNOTATIONS,
+                shouldExpabdAsPairWise);
     }
 
     public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
@@ -52,8 +55,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
             InlineSet<OWLDataPropertyExpression> set, boolean shouldExpabdAsPairWise) {
-        return new OPPLOWLDisjointDataPropertiesAxiom(this, set,
-                Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
+        return new OPPLOWLDisjointDataPropertiesAxiom(this, set, NO_ANNOTATIONS,
+                shouldExpabdAsPairWise);
     }
 
     public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
@@ -65,8 +68,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     public OWLDifferentIndividualsAxiom getOWLDifferentIndividualsAxiom(
             InlineSet<OWLIndividual> set, boolean shouldExpabdAsPairWise) {
-        return new OPPLOWLDifferentIndividualsAxiom(this, set,
-                Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
+        return new OPPLOWLDifferentIndividualsAxiom(this, set, NO_ANNOTATIONS,
+                shouldExpabdAsPairWise);
     }
 
     public OWLDifferentIndividualsAxiom getOWLDifferentIndividualsAxiom(
@@ -78,8 +81,8 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     public OWLSameIndividualAxiom getOWLSameIndividualAxiom(InlineSet<OWLIndividual> set,
             boolean shouldExpabdAsPairWise) {
-        return new OPPLOWLSameIndividualAxiom(this, set,
-                Collections.<OWLAnnotation> emptySet(), shouldExpabdAsPairWise);
+        return new OPPLOWLSameIndividualAxiom(this, set, NO_ANNOTATIONS,
+                shouldExpabdAsPairWise);
     }
 
     public OWLSameIndividualAxiom getOWLSameIndividualAxiom(InlineSet<OWLIndividual> set,
