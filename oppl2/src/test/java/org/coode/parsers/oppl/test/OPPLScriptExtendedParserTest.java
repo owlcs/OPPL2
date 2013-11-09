@@ -5,17 +5,18 @@ import static org.junit.Assert.*;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.semanticweb.owlapi.model.OWLOntology;
 
+@SuppressWarnings("javadoc")
 public class OPPLScriptExtendedParserTest extends OPPLScriptTypesParserTest {
     public void testRoundTripSubClassQuery() {
         String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
-        OPPLSyntaxTree parsed = this.parse(query, SYNTAX_ONTOLOGY);
+        OPPLSyntaxTree parsed = this.parse(query, ontologies.syntax);
         System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
         System.out.println("original script: \t" + query);
         System.out.println("parsed content:  \t" + parsed.getOPPLContent());
         query = parsed.getOPPLContent().toString();
-        parsed = this.parse(query, SYNTAX_ONTOLOGY);
+        parsed = this.parse(query, ontologies.syntax);
         System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
@@ -23,7 +24,7 @@ public class OPPLScriptExtendedParserTest extends OPPLScriptTypesParserTest {
 
     public void testRegexp() {
         String query = "?regexp:CLASS=MATCH(\"([A-Z]+)izza\"), ?x:CLASS=create(?regexp.GROUPS(1)) SELECT ?regexp subClassOf Thing WHERE ?regexp MATCH(\"(([A-Z]+))izza\") BEGIN ADD ?x subClassOf ?regexp END;";
-        OPPLSyntaxTree parsed = this.parse(query, SYNTAX_ONTOLOGY);
+        OPPLSyntaxTree parsed = this.parse(query, ontologies.syntax);
         System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
@@ -103,7 +104,7 @@ public class OPPLScriptExtendedParserTest extends OPPLScriptTypesParserTest {
     }
 
     public void tester(String query) {
-        this.tester(query, SYNTAX_ONTOLOGY);
+        this.tester(query, ontologies.syntax);
     }
 
     public void tester(String query, OWLOntology ontology) {
@@ -124,7 +125,7 @@ public class OPPLScriptExtendedParserTest extends OPPLScriptTypesParserTest {
     public void testerExpectFail(String query) {
         try {
             System.out.println("script:\t" + query);
-            OPPLSyntaxTree parsed = this.parse(query, SYNTAX_ONTOLOGY);
+            OPPLSyntaxTree parsed = this.parse(query, ontologies.syntax);
             System.out.println(parsed.toStringTree());
             assertNotNull(parsed);
             assertNull(query, parsed.getOPPLContent());

@@ -15,6 +15,7 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
+import org.coode.oppl.Ontologies;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.Variable;
@@ -27,36 +28,38 @@ import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.search.OWLAxiomSearchTree;
 import org.coode.oppl.search.SearchTree;
 import org.coode.oppl.utils.VariableExtractor;
-import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
-import org.coode.oppl.variabletypes.CLASSVariableType;
-import org.coode.oppl.variabletypes.CONSTANTVariableType;
-import org.coode.oppl.variabletypes.DATAPROPERTYVariableType;
-import org.coode.oppl.variabletypes.INDIVIDUALVariableType;
-import org.coode.oppl.variabletypes.OBJECTPROPERTYVariableType;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.test.JUnitTestErrorListener;
+import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
+@SuppressWarnings("javadoc")
 public class SearchTest {
+    Ontologies ontologies = new Ontologies();
+    OWLOntology ontology;
+    OWLDataFactory df = ontologies.manager.getOWLDataFactory();
     private final ErrorListener errorListener = new JUnitTestErrorListener();
-    private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
+    final RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
+
+    @Before
+    public void setUp() throws OWLOntologyCreationException {
+        ontology = OWLManager.createOWLOntologyManager().createOntology();
+        ontology.getOWLOntologyManager()
+                .addAxioms(ontology, ontologies.pizza.getAxioms());
+    }
 
     @Test
     public void testIntegerSearchTree() {
@@ -105,25 +108,20 @@ public class SearchTest {
     }
 
     @Test
-    public void testOWLAxiomSearch() throws OWLOntologyCreationException {
-        final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(getClass()
-                .getResourceAsStream("/pizza.owl"));
-        OWLClass namedPizzaClass = manager
-                .getOWLDataFactory()
-                .getOWLClass(
-                        IRI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#NamedPizza"));
-        OWLClass pizzaClass = manager.getOWLDataFactory().getOWLClass(
-                IRI.create("http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza"));
-        final OWLSubClassOfAxiom subClassAxiom = manager.getOWLDataFactory()
-                .getOWLSubClassOfAxiom(namedPizzaClass, pizzaClass);
+    public void testOWLAxiomSearch() {
+        OWLClass namedPizzaClass = df.getOWLClass(IRI
+                .create("http://www.co-ode.org/ontologies/pizza/pizza.owl#NamedPizza"));
+        OWLClass pizzaClass = df.getOWLClass(IRI
+                .create("http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza"));
+        final OWLSubClassOfAxiom subClassAxiom = df.getOWLSubClassOfAxiom(
+                namedPizzaClass, pizzaClass);
         String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf ?y BEGIN ADD ?x subClassOf ?y END;";
-        final OPPLScript opplScript = parseScript(manager, ontology, opplString);
+        final OPPLScript opplScript = parseScript(ontology, opplString);
         OWLAxiom start = opplScript.getQuery().getAssertedAxioms().iterator().next();
         SearchTree<OWLAxiom> searchTree = new SearchTree<OWLAxiom>() {
             @Override
             protected boolean goalReached(OWLAxiom startAxiom) {
-                return startAxiom.equals(subClassAxiom);
+                return startAxiom.equalsIgnoreAnnotations(subClassAxiom);
             }
 
             @Override
@@ -152,93 +150,12 @@ public class SearchTest {
                 return toReturn;
             }
 
-            private final VariableTypeVisitorEx<Collection<? extends OWLObject>> assignableValuesVisitor = new VariableTypeVisitorEx<Collection<? extends OWLObject>>() {
-                public Collection<? extends OWLObject> visitINDIVIDUALVariableType(
-                        INDIVIDUALVariableType v) {
-                    return getAllIndividuals();
-                }
-
-                public Collection<? extends OWLObject> visitDATAPROPERTYVariableType(
-                        DATAPROPERTYVariableType v) {
-                    return getAllDataProperties();
-                }
-
-                public Collection<? extends OWLObject> visitOBJECTPROPERTYVariableType(
-                        OBJECTPROPERTYVariableType v) {
-                    return getObjectProperties();
-                }
-
-                public Collection<? extends OWLObject> visitCONSTANTVariableType(
-                        CONSTANTVariableType v) {
-                    return getAllConstants();
-                }
-
-                public Collection<? extends OWLObject> visitCLASSVariableType(
-                        CLASSVariableType v) {
-                    return getAllClasses();
-                }
-
-                public
-                        Collection<? extends OWLObject>
-                        visitANNOTATIONPROPERTYVariableType(
-                                ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
-                    return getAllAnnotationProperty();
-                }
-            };
-
-            private Set<OWLObject> getAssignableValues(Variable<?> variable) {
-                Set<OWLObject> toReturn = new HashSet<OWLObject>();
-                toReturn.addAll(variable.getType().accept(assignableValuesVisitor));
-                return toReturn;
+            private Set<? extends OWLObject> getAssignableValues(Variable<?> variable) {
+                return variable.getType().accept(assignableValuesVisitor);
             }
 
-            private Set<OWLAnnotationProperty> getAllAnnotationProperty() {
-                Set<OWLAnnotationProperty> toReturn = new HashSet<OWLAnnotationProperty>();
-                for (OWLOntology ontology : manager.getOntologies()) {
-                    toReturn.addAll(ontology.getAnnotationPropertiesInSignature());
-                }
-                return toReturn;
-            }
-
-            private Collection<? extends OWLObject> getAllConstants() {
-                return Collections.emptySet();
-            }
-
-            private Set<OWLNamedIndividual> getAllIndividuals() {
-                Set<OWLNamedIndividual> toReturn = new HashSet<OWLNamedIndividual>();
-                Set<OWLOntology> ontologies = manager.getOntologies();
-                for (OWLOntology owlOntology : ontologies) {
-                    toReturn.addAll(owlOntology.getIndividualsInSignature());
-                }
-                return toReturn;
-            }
-
-            private Set<OWLObjectProperty> getObjectProperties() {
-                Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
-                Set<OWLOntology> ontologies = manager.getOntologies();
-                for (OWLOntology owlOntology : ontologies) {
-                    toReturn.addAll(owlOntology.getObjectPropertiesInSignature());
-                }
-                return toReturn;
-            }
-
-            private Set<OWLDataProperty> getAllDataProperties() {
-                Set<OWLDataProperty> toReturn = new HashSet<OWLDataProperty>();
-                Set<OWLOntology> ontologies = manager.getOntologies();
-                for (OWLOntology owlOntology : ontologies) {
-                    toReturn.addAll(owlOntology.getDataPropertiesInSignature());
-                }
-                return toReturn;
-            }
-
-            private Set<OWLClass> getAllClasses() {
-                Set<OWLClass> toReturn = new HashSet<OWLClass>();
-                Set<OWLOntology> ontologies = manager.getOntologies();
-                for (OWLOntology owlOntology : ontologies) {
-                    toReturn.addAll(owlOntology.getClassesInSignature());
-                }
-                return toReturn;
-            }
+            private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor = new AssValVisitor(
+                    ontology);
         };
         List<List<OWLAxiom>> solutions = new ArrayList<List<OWLAxiom>>();
         boolean found = searchTree.exhaustiveSearchTree(start, solutions);
@@ -249,20 +166,16 @@ public class SearchTest {
         }
     }
 
-    private OPPLScript parseScript(final OWLOntologyManager manager,
-            OWLOntology ontology, String opplString) {
-        OPPLParser parser = new ParserFactory(manager, ontology, null)
+    private OPPLScript parseScript(OWLOntology o, String opplString) {
+        OPPLParser parser = new ParserFactory(o.getOWLOntologyManager(), o, null)
                 .build(errorListener);
         return parser.parse(opplString);
     }
 
     @Test
-    public void testOWLAxiomSearchTree() throws OWLOntologyCreationException {
-        final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(getClass()
-                .getResourceAsStream("/pizza.owl"));
+    public void testOWLAxiomSearchTree() {
         String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf ?y BEGIN ADD ?x subClassOf ?y END;";
-        final OPPLScript opplScript = parseScript(manager, ontology, opplString);
+        final OPPLScript opplScript = parseScript(ontology, opplString);
         OWLAxiom start = opplScript.getQuery().getAssertedAxioms().iterator().next();
         ValueComputationParameters parameters = new SimpleValueComputationParameters(
                 opplScript.getConstraintSystem(),
@@ -278,21 +191,19 @@ public class SearchTest {
             System.out.println(path);
         }
         final Set<OWLAxiom> subClassAxioms = new HashSet<OWLAxiom>(solutions.size());
-        for (OWLOntology onOwlOntology : manager.getOntologies()) {
-            Set<OWLSubClassOfAxiom> axioms = onOwlOntology
-                    .getAxioms(AxiomType.SUBCLASS_OF);
-            for (OWLSubClassOfAxiom owlSubClassAxiom : axioms) {
-                owlSubClassAxiom.accept(new OWLAxiomVisitorAdapter() {
-                    @Override
-                    public void visit(OWLSubClassOfAxiom axiom) {
-                        OWLClassExpression subClass = axiom.getSubClass();
-                        OWLClassExpression superClass = axiom.getSuperClass();
-                        if (!subClass.isAnonymous() && !superClass.isAnonymous()) {
-                            subClassAxioms.add(axiom);
-                        }
+        Set<OWLSubClassOfAxiom> axioms = ontologies.pizza
+                .getAxioms(AxiomType.SUBCLASS_OF);
+        for (OWLSubClassOfAxiom owlSubClassAxiom : axioms) {
+            owlSubClassAxiom.accept(new OWLAxiomVisitorAdapter() {
+                @Override
+                public void visit(OWLSubClassOfAxiom axiom) {
+                    OWLClassExpression subClass = axiom.getSubClass();
+                    OWLClassExpression superClass = axiom.getSuperClass();
+                    if (!subClass.isAnonymous() && !superClass.isAnonymous()) {
+                        subClassAxioms.add(axiom);
                     }
-                });
-            }
+                }
+            });
         }
         assertTrue("Mismatched count sub class axioms count " + subClassAxioms.size()
                 + " solutions count " + results.size(),

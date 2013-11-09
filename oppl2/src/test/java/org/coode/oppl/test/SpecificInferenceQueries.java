@@ -40,10 +40,8 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
@@ -51,7 +49,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
 public class SpecificInferenceQueries {
-    private final static IRI TEST_NS = IRI.create("http://www.co-ode.org/opp/test#");
+    private final static String TEST_NS = "http://www.co-ode.org/opp/test#";
     private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
     private final ErrorListener errorListener = new ErrorListener() {
         public void unrecognisedSymbol(CommonTree t) {
@@ -183,50 +181,37 @@ public class SpecificInferenceQueries {
     }
 
     @Test
-    public void testTransitiveSubClassClosure() {
+    public void testTransitiveSubClassClosure() throws OWLOntologyCreationException {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-        OWLOntology testOntology;
-        try {
-            testOntology = ontologyManager.createOntology(TEST_NS);
-            OWLClass a = ontologyManager.getOWLDataFactory().getOWLClass(
-                    IRI.create(TEST_NS.toString() + "A"));
-            OWLClass b = ontologyManager.getOWLDataFactory().getOWLClass(
-                    IRI.create(TEST_NS.toString() + "B"));
-            OWLClass c = ontologyManager.getOWLDataFactory().getOWLClass(
-                    IRI.create(TEST_NS.toString() + "C"));
-            ontologyManager.addAxiom(testOntology, ontologyManager.getOWLDataFactory()
-                    .getOWLSubClassOfAxiom(a, b));
-            ontologyManager.addAxiom(testOntology, ontologyManager.getOWLDataFactory()
-                    .getOWLSubClassOfAxiom(b, c));
-            String opplString = "?x:CLASS SELECT  ?x subClassOf C BEGIN ADD ?x subClassOf A END;";
-            // JFactFactory factory = new
-            // JFactFactory();
-            OWLReasonerFactory factory = new JFactFactory();
-            OWLReasoner reasoner = factory.createReasoner(testOntology);
-            OPPLScript opplScript = new ParserFactory(ontologyManager, testOntology,
-                    reasoner).build(errorListener).parse(opplString);
-            ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
-            List<OWLAxiomChange> changes = changeExtractor.visit(opplScript);
-            assertTrue(changes.size() > 0);
-            Set<OWLAxiom> instantiatedAxioms = getOPPLScriptInstantiatedAxioms(opplScript);
-            assertTrue("Instantiated axioms: " + instantiatedAxioms.size()
-                    + " count does not match with the expected (3)",
-                    instantiatedAxioms.size() == 4);
-            for (OWLAxiom axiom : instantiatedAxioms) {
-                Logging.getQueryTestLogging().log(Level.INFO, axiom.toString());
-            }
-            NodeSet<OWLClass> subClasses = reasoner.getSubClasses(c, false);
-            Logging.getQueryTestLogging().log(Level.INFO, subClasses.toString());
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        } catch (OWLOntologyChangeException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        } catch (OWLRuntimeException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
+        OWLOntology testOntology = ontologyManager.createOntology(IRI.create(TEST_NS));
+        OWLClass a = ontologyManager.getOWLDataFactory().getOWLClass(
+                IRI.create(TEST_NS, "A"));
+        OWLClass b = ontologyManager.getOWLDataFactory().getOWLClass(
+                IRI.create(TEST_NS, "B"));
+        OWLClass c = ontologyManager.getOWLDataFactory().getOWLClass(
+                IRI.create(TEST_NS, "C"));
+        ontologyManager.addAxiom(testOntology, ontologyManager.getOWLDataFactory()
+                .getOWLSubClassOfAxiom(a, b));
+        ontologyManager.addAxiom(testOntology, ontologyManager.getOWLDataFactory()
+                .getOWLSubClassOfAxiom(b, c));
+        String opplString = "?x:CLASS SELECT  ?x subClassOf C BEGIN ADD ?x subClassOf A END;";
+        OWLReasonerFactory factory = new JFactFactory();
+        OWLReasoner reasoner = factory.createReasoner(testOntology);
+        System.out.println("SpecificInferenceQueries.testTransitiveSubClassClosure() "
+                + testOntology.getAxioms().toString().replace(",", ",\n"));
+        OPPLScript opplScript = new ParserFactory(ontologyManager, testOntology, reasoner)
+                .build(errorListener).parse(opplString);
+        ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+        List<OWLAxiomChange> changes = changeExtractor.visit(opplScript);
+        assertTrue(changes.size() > 0);
+        Set<OWLAxiom> instantiatedAxioms = getOPPLScriptInstantiatedAxioms(opplScript);
+        assertEquals("Instantiated axioms number does not match", 4,
+                instantiatedAxioms.size());
+        for (OWLAxiom axiom : instantiatedAxioms) {
+            Logging.getQueryTestLogging().log(Level.INFO, axiom.toString());
         }
+        NodeSet<OWLClass> subClasses = reasoner.getSubClasses(c, false);
+        Logging.getQueryTestLogging().log(Level.INFO, subClasses.toString());
     }
 
     private Set<OWLAxiom> getOPPLScriptInstantiatedAxioms(OPPLScript opplScript) {

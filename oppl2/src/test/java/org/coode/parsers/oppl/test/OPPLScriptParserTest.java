@@ -24,6 +24,7 @@ import org.junit.Test;
 /** Test for the AST generation for OPPL
  * 
  * @author Luigi Iannone */
+@SuppressWarnings("javadoc")
 public class OPPLScriptParserTest {
     private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
         @Override

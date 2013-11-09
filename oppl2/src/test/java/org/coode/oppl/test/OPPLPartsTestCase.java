@@ -3,12 +3,8 @@ package org.coode.oppl.test;
 import static org.junit.Assert.*;
 
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.regex.PatternSyntaxException;
 
@@ -18,6 +14,7 @@ import org.coode.oppl.AbstractConstraint;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ManchesterVariableSyntax;
 import org.coode.oppl.OPPLParser;
+import org.coode.oppl.Ontologies;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableVisitor;
@@ -39,71 +36,42 @@ import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.common.SystemErrorEcho;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.junit.Test;
-import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyDocumentAlreadyExistsException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
+@SuppressWarnings("javadoc")
 public class OPPLPartsTestCase {
-    // ontology manager
-    private final OWLOntologyManager ontologyManager = OWLManager
-            .createOWLOntologyManager();
-    private final ErrorListener errorListener = new SystemErrorEcho();
-    private final Map<String, OWLOntology> loadedOntologies = new HashMap<String, OWLOntology>();
+    private Ontologies ontologies = new Ontologies();
+    final ErrorListener errorListener = new SystemErrorEcho();
     private final RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
+        @Override
         public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
             errorListener.reportThrowable(e, 0, 0, 0);
         }
 
+        @Override
         public void handleOWLRuntimeException(OWLRuntimeException e) {
             errorListener.reportThrowable(e, 0, 0, 0);
         }
 
+        @Override
         public void handleException(RuntimeException e) {
             errorListener.reportThrowable(e, 0, 0, 0);
         }
     };
 
-    protected OPPLParser getParser(String ontology) {
-        OPPLParser parser = new ParserFactory(ontologyManager, getOntology(ontology),
+    protected OPPLParser getParser(OWLOntology ontology) {
+        OPPLParser parser = new ParserFactory(ontology.getOWLOntologyManager(), ontology,
                 null).build(errorListener);
         return parser;
     }
 
-    private OWLOntology getOntology(String name) {
-        OWLOntology o = loadedOntologies.get(name);
-        if (o == null) {
-            try {
-                URL resource = this.getClass().getResource(name);
-                if (resource != null) {
-                    IRI iri = IRI.create(resource.toURI());
-                    o = ontologyManager.contains(iri) ? ontologyManager.getOntology(iri)
-                            : ontologyManager.loadOntology(iri);
-                } else {
-                    fail("Could not load the ontology " + name);
-                }
-            } catch (OWLOntologyDocumentAlreadyExistsException e) {
-                o = ontologyManager.getOntology(e.getOntologyDocumentIRI());
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-                fail(e.getMessage());
-            } catch (OWLOntologyCreationException e) {
-                e.printStackTrace();
-                fail(e.getMessage());
-            }
-            loadedOntologies.put(name, o);
-        }
-        return o;
-    }
-
     @Test
     public void testParseInSetConstraint() {
-        OPPLParser parser = getParser("/test.owl");
+        OPPLParser parser = getParser(ontologies.test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
@@ -125,7 +93,7 @@ public class OPPLPartsTestCase {
 
     @Test
     public void testParseInequalityConstraint() {
-        OPPLParser parser = getParser("/test.owl");
+        OPPLParser parser = getParser(ontologies.test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
@@ -147,7 +115,7 @@ public class OPPLPartsTestCase {
 
     @Test
     public void testParseOPPLFunction() {
-        OPPLParser parser = getParser("/test.owl");
+        OPPLParser parser = getParser(ontologies.test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
@@ -167,7 +135,7 @@ public class OPPLPartsTestCase {
 
     @Test
     public void testParseOPPLFunctionAggregatingLooseObjectAndVariableValues() {
-        OPPLParser parser = getParser("/test.owl");
+        OPPLParser parser = getParser(ontologies.test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
@@ -196,11 +164,13 @@ public class OPPLPartsTestCase {
         Logging.getParseTestLogging().log(Level.INFO,
                 opplFunction.render(constraintSystem));
         opplFunction.accept(new VariableVisitor() {
+            @Override
             public <P extends OWLObject> void visit(
                     RegexpGeneratedVariable<P> regExpGenerated) {
                 fail("Wrong kind of variable expected generated variable found regexp ");
             }
 
+            @Override
             public <P extends OWLObject> void visit(GeneratedVariable<P> v) {
                 P value = v.getOPPLFunction().compute(parameters);
                 assertNotNull(value);
@@ -211,6 +181,7 @@ public class OPPLPartsTestCase {
                 System.out.println(renderer.toString());
             }
 
+            @Override
             public <P extends OWLObject> void visit(InputVariable<P> v) {
                 fail("Wrong kind of variable expected generated variable found input ");
             }
@@ -219,7 +190,7 @@ public class OPPLPartsTestCase {
 
     @Test
     public void testParseAxiom() {
-        OPPLParser parser = getParser("/test.owl");
+        OPPLParser parser = getParser(ontologies.test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
@@ -235,7 +206,7 @@ public class OPPLPartsTestCase {
 
     @Test
     public void testParseNAFConstraint() {
-        OPPLParser parser = getParser("/NAF.owl");
+        OPPLParser parser = getParser(ontologies.naf);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
@@ -251,7 +222,7 @@ public class OPPLPartsTestCase {
 
     @Test
     public void testParseRegExpConstraint() {
-        OPPLParser parser = getParser("/test.owl");
+        OPPLParser parser = getParser(ontologies.test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
         OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
@@ -267,44 +238,58 @@ public class OPPLPartsTestCase {
 
     private Token createImaginaryToken(final String text) {
         return new Token() {
+            @Override
             public void setType(int ttype) {}
 
+            @Override
             public void setTokenIndex(int index) {}
 
-            public void setText(String text) {}
+            @Override
+            public void setText(String t) {}
 
+            @Override
             public void setLine(int line) {}
 
+            @Override
             public void setInputStream(CharStream input) {}
 
+            @Override
             public void setCharPositionInLine(int pos) {}
 
+            @Override
             public void setChannel(int channel) {}
 
+            @Override
             public int getType() {
                 return 0;
             }
 
+            @Override
             public int getTokenIndex() {
                 return 0;
             }
 
+            @Override
             public String getText() {
                 return text;
             }
 
+            @Override
             public int getLine() {
                 return 0;
             }
 
+            @Override
             public CharStream getInputStream() {
                 return null;
             }
 
+            @Override
             public int getCharPositionInLine() {
                 return 0;
             }
 
+            @Override
             public int getChannel() {
                 return 0;
             }
@@ -318,25 +303,31 @@ public class OPPLPartsTestCase {
     private <O extends OWLObject> Variable<O> createTempVariable(final String name,
             final VariableType<O> type) {
         return new Variable<O>() {
+            @Override
             public IRI getIRI() {
                 return IRI.create(URI.create(ManchesterVariableSyntax.NAMESPACE
                         + getName()));
             }
 
+            @Override
             public VariableType<O> getType() {
                 return type;
             }
 
+            @Override
             public String getName() {
                 return name;
             }
 
+            @Override
             public void accept(VariableVisitor visitor) {}
 
+            @Override
             public <T> T accept(VariableVisitorEx<T> visitor) {
                 return null;
             }
 
+            @Override
             public String render(ConstraintSystem constraintSystem) {
                 return String.format("%s:%s", getName(), getType());
             }

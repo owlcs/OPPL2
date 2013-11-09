@@ -9,6 +9,7 @@ import java.util.Set;
 import org.coode.oppl.ChangeExtractor;
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
+import org.coode.oppl.Ontologies;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
@@ -99,40 +100,34 @@ public class TestUserQueries {
     }
 
     @Test
-    public void testSimpleTwoQueries() {
+    public void testSimpleTwoQueries() throws OWLOntologyCreationException {
         String string = "?x:CLASS, ?y:CLASS, ?z:CLASS SELECT ?x subClassOf p some ?y, ?y subClassOf q some ?z WHERE ?x !=Nothing BEGIN ADD ?x subClassOf p some ?y END;";
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        try {
-            OWLOntology ontology = manager.createOntology();
-            OWLDataFactory dataFactory = manager.getOWLDataFactory();
-            OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI.create("blah#p"));
-            OWLObjectProperty q = dataFactory.getOWLObjectProperty(IRI.create("blah#q"));
-            OWLClass a = dataFactory.getOWLClass(IRI.create("blah#a"));
-            OWLClass b = dataFactory.getOWLClass(IRI.create("blah#b"));
-            OWLClass c = dataFactory.getOWLClass(IRI.create("blah#c"));
-            // a subClassOf p some b
-            // b subClassOf q some c
-            OWLSubClassOfAxiom axiom1 = dataFactory.getOWLSubClassOfAxiom(a,
-                    dataFactory.getOWLObjectSomeValuesFrom(p, b));
-            OWLSubClassOfAxiom axiom2 = dataFactory.getOWLSubClassOfAxiom(b,
-                    dataFactory.getOWLObjectSomeValuesFrom(q, c));
-            manager.addAxioms(ontology,
-                    new HashSet<OWLAxiom>(Arrays.asList(axiom1, axiom2)));
-            JFactFactory factory = new JFactFactory();
-            OWLReasoner reasoner = factory.createReasoner(ontology);
-            ParserFactory parserFactory = new ParserFactory(manager, ontology, reasoner);
-            OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
-            OPPLScript opplScript = parser.parse(string);
-            ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
-            changeExtractor.visit(opplScript);
-            Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-            assertTrue(leaves != null);
-            assertFalse(leaves.isEmpty());
-            System.out.println(leaves);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        OWLOntology ontology = manager.createOntology();
+        OWLDataFactory dataFactory = manager.getOWLDataFactory();
+        OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI.create("blah#p"));
+        OWLObjectProperty q = dataFactory.getOWLObjectProperty(IRI.create("blah#q"));
+        OWLClass a = dataFactory.getOWLClass(IRI.create("blah#a"));
+        OWLClass b = dataFactory.getOWLClass(IRI.create("blah#b"));
+        OWLClass c = dataFactory.getOWLClass(IRI.create("blah#c"));
+        // a subClassOf p some b
+        // b subClassOf q some c
+        OWLSubClassOfAxiom axiom1 = dataFactory.getOWLSubClassOfAxiom(a,
+                dataFactory.getOWLObjectSomeValuesFrom(p, b));
+        OWLSubClassOfAxiom axiom2 = dataFactory.getOWLSubClassOfAxiom(b,
+                dataFactory.getOWLObjectSomeValuesFrom(q, c));
+        manager.addAxioms(ontology, new HashSet<OWLAxiom>(Arrays.asList(axiom1, axiom2)));
+        JFactFactory factory = new JFactFactory();
+        OWLReasoner reasoner = factory.createReasoner(ontology);
+        ParserFactory parserFactory = new ParserFactory(manager, ontology, reasoner);
+        OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
+        OPPLScript opplScript = parser.parse(string);
+        ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+        changeExtractor.visit(opplScript);
+        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
+        assertTrue(leaves != null);
+        assertFalse(leaves.isEmpty());
+        System.out.println(leaves);
     }
 
     @Test
@@ -257,13 +252,13 @@ public class TestUserQueries {
 
     @Test
     public void testSequentialUnion() throws OWLOntologyCreationException {
+        Ontologies ontologies = new Ontologies();
         String string = "?a:CLASS, ?f:CLASS, ?g:CLASS SELECT ?f subClassOf Union_Mapping some ?g, ?g subClassOf has_DPWS_Output some ?a WHERE ?f !=Nothing BEGIN ADD ?f subClassOf Union_Mapping some ?g END;";
-        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(this.getClass()
-                .getResourceAsStream("/SequentialUnion.owl"));
+        OWLOntology ontology = ontologies.sequentialUnion;
         JFactFactory factory = new JFactFactory();
         OWLReasoner reasoner = factory.createReasoner(ontology);
-        ParserFactory parserFactory = new ParserFactory(manager, ontology, reasoner);
+        ParserFactory parserFactory = new ParserFactory(ontologies.manager, ontology,
+                reasoner);
         OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
         OPPLScript opplScript = parser.parse(string);
         ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);

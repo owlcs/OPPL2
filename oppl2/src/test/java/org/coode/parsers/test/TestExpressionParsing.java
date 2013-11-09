@@ -16,6 +16,7 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
+import org.coode.oppl.Ontologies;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.MOWLLexer;
 import org.coode.parsers.ManchesterOWLSyntaxParser;
@@ -29,14 +30,12 @@ import org.coode.parsers.factory.SymbolTableFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /** @author Luigi Iannone */
+@SuppressWarnings("javadoc")
 public class TestExpressionParsing {
-    private OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
     private final SymbolTableFactory<SymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
-            ONTOLOGY_MANAGER);
+            new Ontologies().manager);
     public TreeAdaptor adaptor = new CommonTreeAdaptor() {
         @Override
         public Object create(Token token) {
@@ -89,16 +88,12 @@ public class TestExpressionParsing {
     }
 
     @Before
-    public void setUp() throws Exception {
-        ONTOLOGY_MANAGER.loadOntologyFromOntologyDocument(this.getClass()
-                .getResourceAsStream("/pizza.owl"));
-        ONTOLOGY_MANAGER.loadOntologyFromOntologyDocument(this.getClass()
-                .getResourceAsStream("syntaxTest.owl"));
+    public void setUp() {
         symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         symtab.dispose();
     }
 

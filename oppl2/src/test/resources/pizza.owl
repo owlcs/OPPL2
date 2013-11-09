@@ -13,12 +13,8 @@
     xmlns:dc="http://purl.org/dc/elements/1.1/"
   xml:base="http://www.co-ode.org/ontologies/pizza/2005/10/18/pizza.owl">
   <owl:Ontology rdf:about="">
-    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >version 1.3</owl:versionInfo>
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">version 1.3</owl:versionInfo>
     <rdfs:comment xml:lang="en">An example ontology that contains all constructs required for the various versions of the Pizza Tutorial run by Manchester University (see http://www.co-ode.org/resources/tutorials/)</rdfs:comment>
-    <owl:imports rdf:resource="http://protege.stanford.edu/plugins/owl/protege"/>
-    <protege:defaultLanguage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >en</protege:defaultLanguage>
   </owl:Ontology>
   <owl:Class rdf:ID="DeepPanBase">
     <owl:disjointWith>

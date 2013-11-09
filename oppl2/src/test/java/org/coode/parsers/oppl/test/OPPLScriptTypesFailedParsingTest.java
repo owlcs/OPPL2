@@ -17,6 +17,7 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLFactory;
+import org.coode.oppl.Ontologies;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
@@ -68,18 +69,16 @@ public class OPPLScriptTypesFailedParsingTest {
     protected OWLOntology PIZZA_ONTOLOGY;
     protected OWLOntology SYNTAX_ONTOLOGY;
     protected OWLOntology TEST_ONTOLOGY;
+    private Ontologies ontologies = new Ontologies();
     private final SymbolTableFactory<OPPLSymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
             ONTOLOGY_MANAGER);
     private OPPLSymbolTable symtab;
 
     @Before
     public void setUp() throws OWLOntologyCreationException, URISyntaxException {
-        PIZZA_ONTOLOGY = ONTOLOGY_MANAGER.loadOntologyFromOntologyDocument(this
-                .getClass().getResourceAsStream("/pizza.owl"));
-        SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntologyFromOntologyDocument(this
-                .getClass().getResourceAsStream("/syntaxTest.owl"));
-        TEST_ONTOLOGY = ONTOLOGY_MANAGER.loadOntologyFromOntologyDocument(this.getClass()
-                .getResourceAsStream("/test.owl"));
+        PIZZA_ONTOLOGY = ontologies.pizza;
+        SYNTAX_ONTOLOGY = ontologies.syntax;
+        TEST_ONTOLOGY = ontologies.test;
         symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
         symtab.setErrorListener(listener);
     }

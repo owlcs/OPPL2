@@ -10,28 +10,32 @@ import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.junit.Test;
 
+@SuppressWarnings("javadoc")
 public class ExhaustingTestCase extends AbstractTestCase {
     @Test
     public void testParseMissingVariableDeclaration() {
         OPPLScript result = this
-                .parse("SELECT Asinara InstanceOf Country BEGIN ADD Asinara InstanceOf Thing END;");
+                .parse("SELECT Asinara InstanceOf Country BEGIN ADD Asinara InstanceOf Thing END;",
+                        ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 1);
+        execute(result, ontologies.test, 1);
         result = this
-                .parse("SELECT Asinara InstanceOf Country BEGIN REMOVE Asinara InstanceOf Country END;");
+                .parse("SELECT Asinara InstanceOf Country BEGIN REMOVE Asinara InstanceOf Country END;",
+                        ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 1);
+        execute(result, ontologies.test, 1);
     }
 
     @Test
     public void testParseActionsError() {
         OPPLScript result = this
-                .parse("SELECT Asinara InstanceOf Country BEGIN ADD Asinara InstanceOf Country END;");
+                .parse("SELECT Asinara InstanceOf Country BEGIN ADD Asinara InstanceOf Country END;",
+                        ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 1);
+        execute(result, ontologies.test, 1);
         String correctPortion = "SELECT Asinara InstanceOf Country BEGIN ADD ";
         String script = correctPortion + "Asin InstanceOf Country END;";
-        result = this.parse(script);
+        result = this.parse(script, ontologies.test);
         assertNull(result);
         checkProperStackTrace("Encountered Asin at line 1 column ",
                 correctPortion.length());
@@ -41,7 +45,7 @@ public class ExhaustingTestCase extends AbstractTestCase {
     public void testParseVariableDeclarationAdvancedErrors() {
         String correctPortion = "?island:";
         String script = correctPortion + "INDIVIDUAL_;";
-        OPPLScript result = this.parse(script);
+        OPPLScript result = this.parse(script, ontologies.test);
         assertNull(result);
         // reportUnexpectedStacktrace(popStackTrace());
         checkProperStackTrace(
@@ -50,31 +54,32 @@ public class ExhaustingTestCase extends AbstractTestCase {
         correctPortion = "?someClass:INDIVIDUAL[";
         result = this
                 .parse(correctPortion
-                        + "subClassOf Country], ?island:CLASS=CreateIntersection(?someClass.VALUES);");
+                        + "subClassOf Country], ?island:CLASS=CreateIntersection(?someClass.VALUES);",
+                        ontologies.test);
         assertNull(result);
         checkProperStackTrace(
                 "Type mismatch for variable ?someClass: type CLASS needed instead of the actual INDIVIDUAL",
                 correctPortion.length());
         correctPortion = "?island:INDIVIDUAL=";
         script = correctPortion + "createe(\"TestIndividual\");";
-        result = this.parse(script);
+        result = this.parse(script, ontologies.test);
         assertNull(result);
         checkProperStackTrace("Encountered createe at line 1 column ",
                 correctPortion.length());
         correctPortion = "?someClass:CLASS[subClassOf ";
         script = correctPortion
                 + "__Country], ?island:CLASS=CreateUnion(?someClass.VALUES);";
-        result = this.parse(script);
+        result = this.parse(script, ontologies.test);
         assertNull(result);
         checkProperStackTrace("Encountered __Country at line 1 column ",
                 correctPortion.length());
         correctPortion = "?island:CLASS[subClassOf hasHeight";
-        result = this.parse(correctPortion + "];");
+        result = this.parse(correctPortion + "];", ontologies.test);
         assertNull(result);
         checkProperStackTrace("Encountered <EOF> at line 1 column ",
                 correctPortion.length());
         correctPortion = "?test:OBJECTPROPERTY[subPropertyOf ";
-        result = this.parse(correctPortion + "hasHeight];");
+        result = this.parse(correctPortion + "hasHeight];", ontologies.test);
         assertNull("hasHeight is a datatype property, should not be allowed", result);
         checkProperStackTrace("Encountered hasHeight at line 1 column ",
                 correctPortion.length());
@@ -83,61 +88,68 @@ public class ExhaustingTestCase extends AbstractTestCase {
     @Test
     public void testParseWhereClauses() {
         OPPLScript result = this
-                .parse("?island:INDIVIDUAL SELECT ?island InstanceOf Country WHERE ?island != Asinara BEGIN ADD ?island InstanceOf Country END;");
+                .parse("?island:INDIVIDUAL SELECT ?island InstanceOf Country WHERE ?island != Asinara BEGIN ADD ?island InstanceOf Country END;",
+                        ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 0);
+        execute(result, ontologies.test, 0);
         result = this
-                .parse("?island:INDIVIDUAL SELECT ?island InstanceOf Country WHERE ?island IN {Asinara} BEGIN ADD ?island InstanceOf Country END;");
+                .parse("?island:INDIVIDUAL SELECT ?island InstanceOf Country WHERE ?island IN {Asinara} BEGIN ADD ?island InstanceOf Country END;",
+                        ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 1);
+        execute(result, ontologies.test, 1);
     }
 
     @Test
     public void testAssembleVariables() {
         OPPLScript result = this
-                .parse("?y:CLASS, ?x:CLASS=create(\"Test\"+?y.RENDERING) SELECT ?y subClassOf Country  BEGIN ADD ?x subClassOf ?y END;");
+                .parse("?y:CLASS, ?x:CLASS=create(\"Test\"+?y.RENDERING) SELECT ?y subClassOf Country  BEGIN ADD ?x subClassOf ?y END;",
+                        ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 2);
+        execute(result, ontologies.test, 2);
     }
 
     @Test
     public void testAssembleConstantVariables() {
         OPPLScript result = this
-                .parse("?y:CLASS, ?x:CLASS=create(\"test \"+?y.RENDERING) SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;");
+                .parse("?y:CLASS, ?x:CLASS=create(\"test \"+?y.RENDERING) SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;",
+                        ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 2);
+        execute(result, ontologies.test, 2);
     }
 
     @Test
     public void testAssembleConstantAndVariables() {
         OPPLScript result = this
-                .parse("?y:CLASS, ?x:CLASS=create(\"'test and \"+?y.RENDERING+\"'\") SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;");
+                .parse("?y:CLASS, ?x:CLASS=create(\"'test and \"+?y.RENDERING+\"'\") SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;",
+                        ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 2);
+        execute(result, ontologies.test, 2);
     }
 
     @Test
     public void testReverseRegularExpressions() {
         OPPLScript result = this
-                .parse("?regexp:CLASS=Match(\"'test ([a-z]+)'\"), ?x:CLASS=create(?regexp.GROUPS(1)) SELECT ?regexp subClassOf Thing  BEGIN ADD ?x subClassOf Thing END;");
+                .parse("?regexp:CLASS=Match(\"'test ([a-z]+)'\"), ?x:CLASS=create(?regexp.GROUPS(1)) SELECT ?regexp subClassOf Thing  BEGIN ADD ?x subClassOf Thing END;",
+                        ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 0);
+        execute(result, ontologies.test, 0);
     }
 
     @Test
     public void testAssembleRegExpVariables() {
         OPPLScript result = this
-                .parse("?x:CLASS, ?y:CLASS=Match(\"'abc \"+?x.RENDERING+\"'\") SELECT ?y subClassOf Thing BEGIN ADD ?y subClassOf Thing END;");
+                .parse("?x:CLASS, ?y:CLASS=Match(\"'abc \"+?x.RENDERING+\"'\") SELECT ?y subClassOf Thing BEGIN ADD ?y subClassOf Thing END;",
+                        ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 0);
+        execute(result, ontologies.test, 0);
     }
 
     @Test
     public void testRegExpConstraints() {
         String correct = "?island:CLASS SELECT ?island subClassOf Thing WHERE ?island Match(\"Island\") BEGIN ADD ?island subClassOf Thing END;";
-        OPPLScript result = this.parse(correct);
+        OPPLScript result = this.parse(correct, ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 0);
+        execute(result, ontologies.test, 0);
         // result = this.parse(correct + " \"Is**land\");");
         // assertNull("the reg expr is broken, should not be allowed", result);
         // this.checkProperStackTrace("Encountered Is**land", correct.length());
@@ -146,17 +158,17 @@ public class ExhaustingTestCase extends AbstractTestCase {
     @Test
     public void testRegExpGroupConstraints() {
         String correct = "?island:CLASS SELECT ?island subClassOf Thing WHERE ?island Match(\"([a-zA-Z])*[Ii](sl)*(and)*\") BEGIN ADD ?island subClassOf Thing END;";
-        OPPLScript result = this.parse(correct);
+        OPPLScript result = this.parse(correct, ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 0);
+        execute(result, ontologies.test, 0);
     }
 
     @Test
     public void testClassNameSameAsVariable() {
         String script = "?Chunk:CLASS SELECT ?Chunk subClassOf Thing BEGIN ADD ?Chunk subClassOf Country END;";
-        OPPLScript result = this.parse(script);
+        OPPLScript result = this.parse(script, ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 8);
+        execute(result, ontologies.test, 8);
     }
 
     @Test
@@ -165,15 +177,15 @@ public class ExhaustingTestCase extends AbstractTestCase {
                 + "?height:CONSTANT\n" + "SELECT ?island size ?height\n" + "BEGIN\n"
                 + " 	REMOVE ?island size ?height,\n"
                 + " 	ADD ?island !hasMaximumHeight ?height\n" + "END;";
-        OPPLScript result = this.parse(script);
+        OPPLScript result = this.parse(script, ontologies.test);
         expectedCorrect(result);
-        execute(result, getOntology("/test.owl"), 0);
+        execute(result, ontologies.test, 0);
     }
 
     @Test
     public void testNAF() {
         String script = "?x:CLASS,?y:CLASS,?z:CLASS = MATCH(\"A_\"+?x.RENDERING) SELECT ?x subClassOf A, ?x subClassOf hasP some ?y,?z subClassOf  A_A WHERE FAIL ?z subClassOf hasP some ?y BEGIN ADD ?z subClassOf hasP some ?y END;";
-        OPPLScript opplScript = this.parse(script, "/NAF.owl", null);
+        OPPLScript opplScript = this.parse(script, ontologies.naf, null);
         assertNotNull(opplScript);
         List<Variable<?>> variables = opplScript.getVariables();
         assertEquals(3, variables.size());
@@ -189,7 +201,7 @@ public class ExhaustingTestCase extends AbstractTestCase {
     @Test
     public void testComplexRestrictionInQuery() {
         String script = "?x:CLASS SELECT ?x subClassOf  Pizza and hasTopping some (Thing and hasTopping some (hasBase some Thing)) BEGIN ADD ?x subClassOf Thing END;";
-        OPPLScript opplScript = this.parse(script, "/pizza.owl", null);
+        OPPLScript opplScript = this.parse(script, ontologies.pizza, null);
         assertNotNull(opplScript);
         List<Variable<?>> variables = opplScript.getVariables();
         assertEquals(1, variables.size());

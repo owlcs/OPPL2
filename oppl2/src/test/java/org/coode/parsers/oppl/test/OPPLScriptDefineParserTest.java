@@ -16,6 +16,7 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.OPPLFactory;
+import org.coode.oppl.Ontologies;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
@@ -31,9 +32,6 @@ import org.coode.parsers.oppl.factory.SimpleSymbolTableFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /** Test for the AST generation for OPPL
  * 
@@ -60,17 +58,12 @@ public class OPPLScriptDefineParserTest {
         }
     };
     private final ErrorListener listener = new SystemErrorEcho();
-    protected OWLOntology SYNTAX_ONTOLOGY;
-    private OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
+    private Ontologies ontologies = new Ontologies();
     private SymbolTableFactory<OPPLSymbolTable> SYMBOL_TABLE_FACTORY;
 
     @Before
     public void setUp() throws Exception {
-        ONTOLOGY_MANAGER.loadOntologyFromOntologyDocument(getClass().getResourceAsStream(
-                "/pizza.owl"));
-        SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntologyFromOntologyDocument(this
-                .getClass().getResourceAsStream("/syntaxTest.owl"));
-        SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(ONTOLOGY_MANAGER);
+        SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(ontologies.manager);
         symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
     }
 
@@ -127,7 +120,8 @@ public class OPPLScriptDefineParserTest {
             simplify.setTreeAdaptor(adaptor);
             simplify.downup(tree);
             nodes.reset();
-            OPPLFactory factory = new OPPLFactory(ONTOLOGY_MANAGER, SYNTAX_ONTOLOGY, null);
+            OPPLFactory factory = new OPPLFactory(ontologies.manager, ontologies.syntax,
+                    null);
             OPPLDefine define = new OPPLDefine(nodes, symtab, listener,
                     factory.createConstraintSystem());
             define.setTreeAdaptor(adaptor);
