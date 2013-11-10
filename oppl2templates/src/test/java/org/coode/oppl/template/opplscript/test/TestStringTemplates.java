@@ -29,7 +29,6 @@ public class TestStringTemplates {
     @Test
     public void testTemplateNoPlaceHolder() {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-        try {
             OWLOntology emptyOntology = ontologyManager.createOntology();
             ParsingStrategy<String, OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
                     ontologyManager, emptyOntology, null, ERROR_LISTENER);
@@ -39,18 +38,11 @@ public class TestStringTemplates {
                             Collections.emptyList()), parserCreationStrategy);
             OPPLScript opplScript = stringTemplate.replace();
             assertNotNull(opplScript);
-            System.out.println("TestStringTemplates.testTemplateNoPlaceHolder() "
-                    + opplScript);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
 
     @Test
     public void testTemplateOnePlaceHolder() {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-        try {
             OWLOntology emptyOntology = ontologyManager.createOntology();
             ParsingStrategy<String, OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
                     ontologyManager, emptyOntology, null, ERROR_LISTENER);
@@ -61,13 +53,7 @@ public class TestStringTemplates {
                     parserCreationStrategy);
             OPPLScript opplScript = stringTemplate.replace();
             assertNotNull(opplScript);
-            System.out.println("TestStringTemplates.testTemplateOnePlaceHolder() "
-                    + opplScript);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
-    }
+     }
 
     @Test
     public void testTemplateOnePlaceHolderButNoData() {
@@ -91,7 +77,6 @@ public class TestStringTemplates {
     @Test
     public void testTestPropertyBasedStringTemplateOnePlaceholder() {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-        try {
             OWLOntology emptyOntology = ontologyManager.createOntology();
             ParsingStrategy<String, OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
                     ontologyManager, emptyOntology, null, ERROR_LISTENER);
@@ -103,19 +88,11 @@ public class TestStringTemplates {
                     parserCreationStrategy);
             OPPLScript opplScript = stringTemplate.replace();
             assertNotNull(opplScript);
-            System.out
-                    .println("TestStringTemplates.testTestPropertyBasedStringTemplateOnePlaceholder() "
-                            + opplScript);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
 
     @Test
     public void testTestPropertyBasedStringTemplateOnePlaceholderButNoData() {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-        try {
             OWLOntology emptyOntology = ontologyManager.createOntology();
             ParsingStrategy<String, OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
                     ontologyManager, emptyOntology, null, ERROR_LISTENER);
@@ -125,21 +102,11 @@ public class TestStringTemplates {
                     template, new KeyBasedReplacementStrategy(properties),
                     parserCreationStrategy);
             stringTemplate.replace();
-            fail("Should not get to here");
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        } catch (NullPointerException e) {
-            System.out
-                    .println("TestStringTemplates.testTestPropertyBasedStringTemplateOnePlaceholderButNoData() Missing value (as expected)  "
-                            + e.getMessage());
-        }
     }
 
     @Test
     public void testTestPropertyBasedStringTemplateOnePlaceholderUsedTwice() {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-        try {
             OWLOntology emptyOntology = ontologyManager.createOntology();
             ParsingStrategy<String, OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
                     ontologyManager, emptyOntology, null, ERROR_LISTENER);
@@ -151,20 +118,14 @@ public class TestStringTemplates {
                     parserCreationStrategy);
             OPPLScript opplScript = stringTemplate.replace();
             assertNotNull(opplScript);
-            System.out
-                    .println("TestStringTemplates.testTestPropertyBasedStringTemplateOnePlaceholderUsedTwice() "
-                            + opplScript);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+       
     }
 
     @Test
     public void
             testTestPropertyBasedStringTemplateOnePlaceholderUsingAnnotationForParsing() {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-        try {Ontologies ontologies=new Ontologies();
+     Ontologies ontologies=new Ontologies();
             OWLOntology emptyOntology =ontologies.pizza;
             ParsingStrategy<String, OPPLScript> parserCreationStrategy = new AnnotationBasedSimpleOPPLParserCreationStrategy(
                     Arrays.asList(IRI
@@ -178,12 +139,6 @@ public class TestStringTemplates {
                     parserCreationStrategy);
             OPPLScript opplScript = stringTemplate.replace();
             assertNotNull(opplScript);
-            System.out
-                    .println("TestStringTemplates.testTestPropertyBasedStringTemplateOnePlaceholderUsingAnnotationForParsing() "
-                            + opplScript);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+     
     }
 }

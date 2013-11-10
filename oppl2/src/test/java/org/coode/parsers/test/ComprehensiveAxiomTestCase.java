@@ -66,7 +66,6 @@ public class ComprehensiveAxiomTestCase {
             throw new RuntimeException(e);
         }
         CommonTree tree = (CommonTree) r.getTree();
-        System.out.println(tree.toStringTree());
         CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
         nodes.setTokenStream(tokens); // where to find tokens
         nodes.setTreeAdaptor(adaptor);
@@ -78,8 +77,6 @@ public class ComprehensiveAxiomTestCase {
         ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(nodes,
                 symbolTable, errorListener);
         typeComp.downup(tree); // trigger resolve/type computation actions
-        // WALK TREE TO DUMP SUBTREE TYPES
-        System.out.println(tree.toStringTree());
         return (ManchesterOWLSyntaxTree) tree;
     }
 

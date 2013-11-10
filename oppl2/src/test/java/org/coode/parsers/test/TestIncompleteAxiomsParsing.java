@@ -70,8 +70,7 @@ public class TestIncompleteAxiomsParsing {
             nodes.reset();
             return (ManchesterOWLSyntaxTree) tree;
         } catch (RecognitionException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -79,13 +78,11 @@ public class TestIncompleteAxiomsParsing {
     public void testSubClassAxiom() {
         ManchesterOWLSyntaxTree parsed = parse("Pizza subClassOf NamedPizza and");
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
     public void testIncompleteStandaloneExpression() {
         ManchesterOWLSyntaxTree parsed = parse("NamedPizza and Pizza s");
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 }

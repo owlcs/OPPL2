@@ -55,7 +55,6 @@ public class TestExpressionParsing {
     protected ManchesterOWLSyntaxTree parse(String input) {
         MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-        System.out.println(tokens.toDebugString());
         ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens,
                 errorListener);
         parser.setTreeAdaptor(adaptor);
@@ -76,8 +75,7 @@ public class TestExpressionParsing {
             types.downup(tree);
             return (ManchesterOWLSyntaxTree) tree;
         } catch (RecognitionException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -85,62 +83,53 @@ public class TestExpressionParsing {
     public void testOWLClass() {
         ManchesterOWLSyntaxTree parsed = parse("Pizza");
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
     public void testOWLClassDescription() {
         ManchesterOWLSyntaxTree parsed = parse("Pizza and Pizza");
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
     public void testEntityReference() {
         ManchesterOWLSyntaxTree parsed = parse("'Pizza (the italian)'");
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
     public void testRestriction() {
         ManchesterOWLSyntaxTree parsed = parse("Pizza and hasTopping some (Thing and hasTopping some Thing) and Thing");
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
     public void testEscapeIdentifiersAsEntityReferences() {
         ManchesterOWLSyntaxTree parsed = parse("Pizza and 'hasTopping' some Thing");
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
     public void testDataRange() {
         ManchesterOWLSyntaxTree parsed = parse("int [ > \"1\"]");
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
     public void testComplexDataRange() {
         ManchesterOWLSyntaxTree parsed = parse("float[ > \"1\", > \"2\"]");
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
     public void testDataRestriction() {
         ManchesterOWLSyntaxTree parsed = parse("hasKCal some float[ > \"1\", > \"2\"]");
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
     public void testDataIntersectionOf() {
         ManchesterOWLSyntaxTree parsed = parse("float[ > \"1\"] and int [< \"1\"]");
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 }

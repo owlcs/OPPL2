@@ -20,6 +20,8 @@ import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
 import org.antlr.runtime.tree.RewriteRuleTokenStream;
 import org.antlr.runtime.tree.TreeAdaptor;
+import org.coode.oppl.log.Logger;
+import org.coode.oppl.log.Logging;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 
 public class OPPLPatternScript_OPPLParser extends Parser {
@@ -4719,6 +4721,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
             }
         }
     }
+    Logger logger=Logging.getParseLogging();
 
     // $ANTLR end synpred19_OPPLParser
     // Delegated rules
@@ -4728,7 +4731,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
         try {
             synpred18_OPPLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: " , re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -4743,7 +4746,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
         try {
             synpred15_OPPLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: " , re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -4758,7 +4761,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
         try {
             synpred19_OPPLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: " , re);
         }
         boolean success = !state.failed;
         input.rewind(start);

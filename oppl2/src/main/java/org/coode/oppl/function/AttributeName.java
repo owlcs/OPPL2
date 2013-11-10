@@ -1,5 +1,5 @@
 package org.coode.oppl.function;
 
 public enum AttributeName {
-	GROUP, RENDERING, VALUES, IRI
+    GROUPS, RENDERING, VALUES, IRI
 }

@@ -111,7 +111,7 @@ ontologies.manager);
                     .create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
             String patternString = "?x:CLASS, ?y:CLASS, ?forbiddenContent:CLASS = createUnion(?x.VALUES) BEGIN ADD $thisClass equivalentTo contains only (not ?forbiddenContent) END; A ?x free stuff; RETURN $thisClass";
             OPPLSyntaxTree parsed = parse(patternString);
-            System.out.println(parsed.toStringTree());
+            
             assertNotNull(parsed);
             assertNotNull(parsed.getOPPLContent());
             PatternModel patternModel = (PatternModel) parsed.getOPPLContent();
@@ -143,7 +143,6 @@ ontologies.manager);
     @Test
     public void testMenu() {
         String patternString = "?x:CLASS[subClassOf Food] BEGIN ADD $thisClass subClassOf Menu, ADD $thisClass subClassOf contains only (Course and contains only ($Free(?x))) END; A ?x free Menu";
-        try {
             OWLOntology referencedPatternOntology = ONTOLOGY_MANAGER.loadOntology(IRI
                     .create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
             JFactFactory factory = new JFactFactory();
@@ -152,54 +151,35 @@ ontologies.manager);
             patternModelFactory = new PatternModelFactory(referencedPatternOntology,
                     ONTOLOGY_MANAGER, reasoner);
             OPPLSyntaxTree parsed = parse(patternString);
-            System.out.println(parsed.toStringTree());
             assertNotNull(parsed);
             assertNotNull(parsed.getOPPLContent());
-            System.out.println(((PatternModel) parsed.getOPPLContent()).render());
             ONTOLOGY_MANAGER.removeOntology(referencedPatternOntology);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail();
-        }
     }
 
     @Test
     public void testPizza() {
-        try {
             OWLOntology pizzaOntology = ONTOLOGY_MANAGER.loadOntology(IRI
                     .create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
             String patternString = "?base:CLASS,?topping:CLASS, ?allToppings:CLASS = createUnion(?topping.VALUES) BEGIN ADD $thisClass subClassOf Pizza, ADD $thisClass subClassOf hasTopping some ?topping,  ADD $thisClass subClassOf hasTopping only ?allToppings, ADD $thisClass subClassOf hasBase some ?base  END; A pizza with ?base base and ?topping toppings";
             OPPLSyntaxTree parsed = parse(patternString);
-            System.out.println(parsed.toStringTree());
             assertNotNull(parsed);
             assertNotNull(parsed.getOPPLContent());
             ONTOLOGY_MANAGER.removeOntology(pizzaOntology);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail();
-        }
     }
 
     @Test
     public void testNoVariablePattern() {
-        try {
             OWLOntology pizzaOntology = ONTOLOGY_MANAGER.loadOntology(IRI
                     .create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
             String patternString = " BEGIN ADD Menu subClassOf Menu END; A variable free pattern";
             OPPLSyntaxTree parsed = parse(patternString);
-            System.out.println(parsed.toStringTree());
             assertNotNull(parsed);
             assertNotNull(parsed.getOPPLContent());
             ONTOLOGY_MANAGER.removeOntology(pizzaOntology);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail();
-        }
     }
 
     @Test
     public void testComplexExpressionConjuntionGeneratedVariablePattern() {
-        try {
             OWLOntology ontology = ONTOLOGY_MANAGER.createOntology();
             ONTOLOGY_MANAGER
                     .addAxiom(
@@ -213,48 +193,31 @@ ontologies.manager);
                                                             IRI.create(" http://www.co-ode.org/ontologies/ont.owl#part_of"))));
             String patternString = "?cell:CLASS, ?anatomyPart:CLASS, ?partOfRestriction:CLASS = part_of some ?anatomyPart, ?anatomyIntersection:CLASS = createIntersection(?partOfRestriction.VALUES) BEGIN ADD ?cell equivalentTo ?anatomyIntersection END;";
             OPPLSyntaxTree parsed = parse(patternString);
-            System.out.println(parsed.toStringTree());
             assertNotNull(parsed);
             assertNotNull(parsed.getOPPLContent());
             ONTOLOGY_MANAGER.removeOntology(ontology);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail();
-        }
     }
 
     @Test
     public void testDOLCEInformationRealization() {
-        try {
             OWLOntology dolceOntology = ONTOLOGY_MANAGER.loadOntology(IRI
                     .create("http://www.loa-cnr.it/ontologies/DUL.owl"));
             String patternString = "?informationObject:CLASS, ?informationRealization:CLASS, ?realizationProperty:OBJECTPROPERTY BEGIN ADD ?informationRealization subClassOf InformationRealization, ADD ?informationObject subClassOf InformationObject, ADD ?realizationProperty subPropertyOf realizes, ADD ?informationRealization subClassOf PhysicalObject and ?realizationProperty some ?informationObject END; Information Realization Pattern: ?informationRealization ?realizationProperty ?informationObject";
             OPPLSyntaxTree parsed = parse(patternString);
-            System.out.println(parsed.toStringTree());
             assertNotNull(parsed);
             assertNotNull(parsed.getOPPLContent());
             ONTOLOGY_MANAGER.removeOntology(dolceOntology);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail();
-        }
     }
 
     @Test
     public void testDOLCEPersonRoleTimeInterval() {
-        try {
             OWLOntology dolceOntology = ONTOLOGY_MANAGER.loadOntology(IRI
                     .create("http://www.loa-cnr.it/ontologies/DUL.owl"));
             String patternString = "?person:CLASS, ?role:CLASS, ?timeInterval:CLASS BEGIN ADD $thisClass subClassOf Situation, ADD $thisClass subClassOf isSettingFor some ?person, ADD $thisClass subClassOf isSettingFor some ?role, ADD $thisClass subClassOf isSettingFor some ?timeInterval END; Situation where ?person play the role ?role during the time interval ?timeInterval";
             OPPLSyntaxTree parsed = parse(patternString);
-            System.out.println(parsed.toStringTree());
             assertNotNull(parsed);
             assertNotNull(parsed.getOPPLContent());
             ONTOLOGY_MANAGER.removeOntology(dolceOntology);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail();
-        }
     }
 
     /** @return the factory */

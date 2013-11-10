@@ -34,6 +34,7 @@ public final class OPPLLintPlugin implements
 	private final IExtension extension;
 	private final OWLEditorKit owlEditorKit;
 	public static final ErrorListener ERROR_LISTENER = new ErrorListener() {
+	    
 		public void unrecognisedSymbol(CommonTree t) {
 			System.err.println("Unerecognised token " + t.getText() + " at line " + t.getLine()
 					+ " position " + t.getCharPositionInLine());

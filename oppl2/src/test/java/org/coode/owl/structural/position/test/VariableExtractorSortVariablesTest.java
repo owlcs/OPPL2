@@ -1,6 +1,6 @@
 package org.coode.owl.structural.position.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 import java.util.SortedSet;
@@ -23,56 +23,46 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 public class VariableExtractorSortVariablesTest {
     @Test
-    public void testVariableExtractor() {
+    public void testVariableExtractor() throws Exception {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        try {
-            OWLOntology ontology = manager.createOntology();
-            OWLDataFactory dataFactory = manager.getOWLDataFactory();
-            OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
-            ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
-            Variable<?> x = constraintSystem.createVariable("?x",
-                    VariableTypeFactory.getCLASSVariableType(), null);
-            Variable<?> y = constraintSystem.createVariable("?y",
-                    VariableTypeFactory.getOBJECTPROPERTYTypeVariableType(), null);
-            Variable<?> z = constraintSystem.createVariable("?z",
-                    VariableTypeFactory.getCLASSVariableType(), null);
-            OWLClass xClass = dataFactory.getOWLClass(x.getIRI());
-            OWLClass zClass = dataFactory.getOWLClass(z.getIRI());
-            OWLObjectProperty yObjectProperty = dataFactory.getOWLObjectProperty(y
-                    .getIRI());
-            OWLObjectIntersectionOf xANDySOMEx = dataFactory.getOWLObjectIntersectionOf(
-                    xClass,
-                    dataFactory.getOWLObjectSomeValuesFrom(yObjectProperty, xClass));
-            OWLObjectIntersectionOf xANDySOMEz = dataFactory.getOWLObjectIntersectionOf(
-                    xClass,
-                    dataFactory.getOWLObjectSomeValuesFrom(yObjectProperty, zClass));
-            VariableExtractor variableExtractor = new VariableExtractor(constraintSystem,
-                    false);
-            Set<Variable<?>> variables = variableExtractor.extractVariables(xANDySOMEx);
-            assertTrue(variables.size() == 2);
-            PositionBasedVariableComparator positionBasedVariableComparator = new PositionBasedVariableComparator(
-                    xANDySOMEx, dataFactory);
-            SortedSet<Variable<?>> sortedVariables = new TreeSet<Variable<?>>(
-                    positionBasedVariableComparator);
-            sortedVariables.addAll(variables);
-            assertTrue(sortedVariables.size() == 2);
-            assertTrue(sortedVariables.first().equals(x));
-            assertTrue(sortedVariables.last().equals(y));
-            System.out.println(sortedVariables);
-            OWLObjectIntersectionOf xANDySOMExANDySOMEz = dataFactory
-                    .getOWLObjectIntersectionOf(xClass, xANDySOMEx, xANDySOMEz);
-            variables = variableExtractor.extractVariables(xANDySOMExANDySOMEz);
-            positionBasedVariableComparator = new PositionBasedVariableComparator(
-                    xANDySOMExANDySOMEz, dataFactory);
-            sortedVariables = new TreeSet<Variable<?>>(positionBasedVariableComparator);
-            sortedVariables.addAll(variables);
-            assertTrue(sortedVariables.size() == 3);
-            assertTrue(sortedVariables.first().equals(x));
-            assertTrue(sortedVariables.last().equals(z));
-            System.out.println(sortedVariables);
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        OWLOntology ontology = manager.createOntology();
+        OWLDataFactory dataFactory = manager.getOWLDataFactory();
+        OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
+        ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
+        Variable<?> x = constraintSystem.createVariable("?x",
+                VariableTypeFactory.getCLASSVariableType(), null);
+        Variable<?> y = constraintSystem.createVariable("?y",
+                VariableTypeFactory.getOBJECTPROPERTYTypeVariableType(), null);
+        Variable<?> z = constraintSystem.createVariable("?z",
+                VariableTypeFactory.getCLASSVariableType(), null);
+        OWLClass xClass = dataFactory.getOWLClass(x.getIRI());
+        OWLClass zClass = dataFactory.getOWLClass(z.getIRI());
+        OWLObjectProperty yObjectProperty = dataFactory.getOWLObjectProperty(y.getIRI());
+        OWLObjectIntersectionOf xANDySOMEx = dataFactory.getOWLObjectIntersectionOf(
+                xClass, dataFactory.getOWLObjectSomeValuesFrom(yObjectProperty, xClass));
+        OWLObjectIntersectionOf xANDySOMEz = dataFactory.getOWLObjectIntersectionOf(
+                xClass, dataFactory.getOWLObjectSomeValuesFrom(yObjectProperty, zClass));
+        VariableExtractor variableExtractor = new VariableExtractor(constraintSystem,
+                false);
+        Set<Variable<?>> variables = variableExtractor.extractVariables(xANDySOMEx);
+        assertTrue(variables.size() == 2);
+        PositionBasedVariableComparator positionBasedVariableComparator = new PositionBasedVariableComparator(
+                xANDySOMEx, dataFactory);
+        SortedSet<Variable<?>> sortedVariables = new TreeSet<Variable<?>>(
+                positionBasedVariableComparator);
+        sortedVariables.addAll(variables);
+        assertTrue(sortedVariables.size() == 2);
+        assertTrue(sortedVariables.first().equals(x));
+        assertTrue(sortedVariables.last().equals(y));
+        OWLObjectIntersectionOf xANDySOMExANDySOMEz = dataFactory
+                .getOWLObjectIntersectionOf(xClass, xANDySOMEx, xANDySOMEz);
+        variables = variableExtractor.extractVariables(xANDySOMExANDySOMEz);
+        positionBasedVariableComparator = new PositionBasedVariableComparator(
+                xANDySOMExANDySOMEz, dataFactory);
+        sortedVariables = new TreeSet<Variable<?>>(positionBasedVariableComparator);
+        sortedVariables.addAll(variables);
+        assertTrue(sortedVariables.size() == 3);
+        assertTrue(sortedVariables.first().equals(x));
+        assertTrue(sortedVariables.last().equals(z));
     }
 }

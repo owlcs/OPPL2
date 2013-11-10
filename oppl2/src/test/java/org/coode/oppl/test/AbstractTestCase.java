@@ -51,9 +51,6 @@ public abstract class AbstractTestCase {
         try {
             ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
             List<OWLAxiomChange> changes = changeExtractor.visit(script);
-            for (OWLAxiomChange change : changes) {
-                System.out.println(change);
-            }
             Set<OWLAxiom> queryAxioms = new HashSet<OWLAxiom>();
             if (script.getQuery() != null) {
                 queryAxioms.addAll(script.getQuery().getAssertedAxioms());
@@ -173,42 +170,36 @@ public abstract class AbstractTestCase {
                     int value = Integer.parseInt(columnIndex.trim());
                     if (Math.abs(value - expectedIndex) < TOLERANCE) {
                         // then the position is close enough
-                        System.out
-                                .println("ExhaustingTestCase.testParseDoubleVariableDeclaration() Correct stack trace");
                     } else {
-                        System.out
-                                .println("ExhaustingTestCase The error type is correct but the column does not match the expected one. Expected error column: "
-                                        + expectedIndex);
-                        System.out.println(stackTrace);
+                        fail("ExhaustingTestCase The error type is correct but the column does not match the expected one. Expected error column: "
+                                + expectedIndex + "\n actual stacktrace: " + stackTrace);
                     }
                 } catch (NumberFormatException e) {
-                    System.out
-                            .println("ExhaustingTestCase.checkProperStackTrace() Could not parse a column number to verify the correctness of the stack trace:\nExpected error type: "
-                                    + expected
-                                    + "\nExpected error column: "
-                                    + expectedIndex);
-                    System.out.println(stackTrace);
+                    fail("ExhaustingTestCase.checkProperStackTrace() Could not parse a column number to verify the correctness of the stack trace:\nExpected error type: "
+                            + expected
+                            + "\nExpected error column: "
+                            + expectedIndex
+                            + "\n actual stacktrace: " + stackTrace);
                 }
             } else {
                 // there is no full stop after the expected string. No column
                 // number info should be available
-                System.out
-                        .println("ExhaustingTestCase.testParseDoubleVariableDeclaration() No column info checked; stack trace correct unless a column number was expected.");
+                fail("ExhaustingTestCase.testParseDoubleVariableDeclaration() No column info checked; stack trace correct unless a column number was expected.");
             }
         } else {
-            System.out
-                    .println("ExhaustingTestCase The stack trace does not correspond to the expected one! \nExpected error type: "
-                            + expected + "\nExpected error column: " + expectedIndex);
-            System.out.println(stackTrace);
+            fail("ExhaustingTestCase The stack trace does not correspond to the expected one! \nExpected error type: "
+                    + expected
+                    + "\nExpected error column: "
+                    + expectedIndex
+                    + "\n actual stacktrace: " + stackTrace);
         }
     }
 
     protected void reportUnexpectedStacktrace(String stackTrace) {
         // assertEquals(0, stackTrace.length());
         if (stackTrace.length() != 0) {
-            System.out
-                    .println("ExhaustingTestCase There should not have been a stacktrace!");
-            System.out.println(stackTrace);
+            fail("ExhaustingTestCase There should not have been a stacktrace!\n actual stacktrace: "
+                    + stackTrace);
         }
     }
 

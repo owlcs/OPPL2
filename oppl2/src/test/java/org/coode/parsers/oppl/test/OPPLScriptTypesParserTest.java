@@ -18,7 +18,6 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLFactory;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.variabletypes.InputVariable;
-import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.common.SilentListener;
@@ -61,40 +60,32 @@ public class OPPLScriptTypesParserTest {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
-    private final ErrorListener listener = new SilentListener();
-    OPPLSymbolTable symtab = getOPPLSymbolTable(pizza);
 
     @Test
     public void testSubClassQuery() {
         String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, syntax);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
     public void testRegexpQuery() {
         String query = "?x:CLASS = MATCH (\".*ing\") SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, syntax);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
     public void testAggregateVaraibleValuesAndLooseObjects() {
         String query = "?x:CLASS, ?y:CLASS = createIntersection(?x.VALUES,Thing)  SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, syntax);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
@@ -102,26 +93,25 @@ public class OPPLScriptTypesParserTest {
         OWLOntology ontology = ondrejtest;
         String query = "?x:CLASS, ?y:OBJECTPROPERTY = MATCH(\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x subClassOf ?y some ?z BEGIN REMOVE ?x subClassOf ?y some ?z, ADD ?x subClassOf !hasFeature some (?feature and !hasValue some ?z) END;";
         OPPLSyntaxTree parsed = this.parse(query, ontology);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     protected OPPLSyntaxTree parse(String input, OWLOntology ontology) {
-        return this.parse(input, ontology, null);
+        return OPPLScriptTypesParserTest.parse(input, ontology, null,
+                getOPPLSymbolTable(pizza));
     }
 
-    protected OPPLSyntaxTree parse(String input, OWLOntology ontology,
-            OWLReasoner reasoner) {
+    public static OPPLSyntaxTree parse(String input, OWLOntology ontology,
+            OWLReasoner reasoner, OPPLSymbolTable symtab) {
         OPPLFactory opplFactory = new OPPLFactory(ontology.getOWLOntologyManager(),
                 ontology, reasoner);
         ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLLexer lexer = new OPPLLexer(antlrStringStream);
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-        OPPLScriptParser parser = new OPPLScriptParser(tokens, listener);
+        OPPLScriptParser parser = new OPPLScriptParser(tokens, new SilentListener());
         parser.setTreeAdaptor(adaptor);
         try {
             RuleReturnScope r = parser.statement();
@@ -137,23 +127,24 @@ public class OPPLScriptTypesParserTest {
                 simplify.setTreeAdaptor(adaptor);
                 simplify.downup(tree);
                 nodes.reset();
-                OPPLDefine define = new OPPLDefine(nodes, symtab, listener,
+                OPPLDefine define = new OPPLDefine(nodes, symtab, new SilentListener(),
                         constraintSystem);
                 define.setTreeAdaptor(adaptor);
                 define.downup(tree);
                 nodes.reset();
                 ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes,
-                        symtab, listener);
+                        symtab, new SilentListener());
                 mOWLTypes.downup(tree);
                 nodes.reset();
                 OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes,
                         symtab, new DefaultTypeEnforcer(symtab,
-                                opplFactory.getOWLEntityFactory(), listener), listener);
+                                opplFactory.getOWLEntityFactory(), new SilentListener()),
+                        new SilentListener());
                 typeEnforcement.downup(tree);
                 nodes.reset();
                 mOWLTypes.downup(tree);
                 nodes.reset();
-                OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, listener,
+                OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, new SilentListener(),
                         constraintSystem, opplFactory);
                 opplTypes.downup(tree);
             }
@@ -166,92 +157,77 @@ public class OPPLScriptTypesParserTest {
 
     @Test
     public void testCreateIndividual() {
-        symtab = getOPPLSymbolTable(managerForPizzaAndOndrej);
+        OPPLSymbolTable symtab = getOPPLSymbolTable(managerForPizzaAndOndrej);
         OWLOntology ontology = ondrejtest;
         String query = "?x:CLASS, ?y:INDIVIDUAL = create(?x.RENDERING+\"Instance\") SELECT ASSERTED ?x subClassOf Pizza BEGIN REMOVE ?y types ?x END;";
-        OPPLSyntaxTree parsed = this.parse(query, ontology);
-        System.out.println(parsed.toStringTree());
+        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, ontology, null,
+                symtab);
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
     public void testHasKey() {
         String query = "?x:CLASS SELECT ?x HasKey hasTopping Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
     public void testAnnotationAssertionsInQuery() {
         String query = "?x:CLASS SELECT <blah#Luigi> label \"aLabel\" BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
     public void testAnnotationAssertionsInActions() {
         String query = "?x:CLASS SELECT ?x subClassOf Thing  BEGIN ADD <blah#Luigi> label \"aLabel\" END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
     public void testSubClassQueryNAryAxiom() {
         String query = "?x:CLASS SELECT DisjointClasses set(Thing, Nothing) BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
     public void testSubClassQueryNAryAxiomVariableValues() {
         String query = "?x:CLASS SELECT DisjointClasses: set(?x.VALUES, Thing) BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
     public void testVariableIRIAttribute() {
         String query = "?x:CLASS SELECT ?x.IRI label \"aLabel\" BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
     public void testAsymmetricObjectProperty() {
         String query = "?x:OBJECTPROPERTY SELECT ?x subPropertyOf hasTopping BEGIN REMOVE Asymmetric ?x END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
@@ -259,12 +235,11 @@ public class OPPLScriptTypesParserTest {
         JFactFactory reasonerFactory = new JFactFactory();
         OWLReasoner reasoner = reasonerFactory.createReasoner(pizza);
         String query = "?M:CLASS[subClassOf NamedPizza], ?I:CLASS, ?S:CLASS SELECT ?M SubClassOf hasTopping some ?I, ?M SubClassOf hasBase some ?S WHERE ?M != Nothing BEGIN ADD ?M SubClassOf Thing END;";
-        OPPLSyntaxTree parsed = this.parse(query, pizza, reasoner);
-        System.out.println(parsed.toStringTree());
+        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, pizza, reasoner,
+                getOPPLSymbolTable(pizza));
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
         assertTrue(((InputVariable<?>) ((OPPLScript) parsed.getOPPLContent())
                 .getVariables().get(0)).getVariableScope() != null);
     }
@@ -274,12 +249,11 @@ public class OPPLScriptTypesParserTest {
         JFactFactory reasonerFactory = new JFactFactory();
         OWLReasoner reasoner = reasonerFactory.createReasoner(pizza);
         String query = "?M:CLASS[subClassOf NamedPizza], ?I:CLASS[subClassOf INV(hasTopping) some Thing], ?S:CLASS SELECT ?M SubClassOf hasTopping some ?I, ?M SubClassOf hasBase some ?S WHERE ?M != Nothing BEGIN ADD ?M SubClassOf Thing END;";
-        OPPLSyntaxTree parsed = this.parse(query, pizza, reasoner);
-        System.out.println(parsed.toStringTree());
+        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, pizza, reasoner,
+                getOPPLSymbolTable(pizza));
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
         assertTrue(((InputVariable<?>) ((OPPLScript) parsed.getOPPLContent())
                 .getVariables().get(0)).getVariableScope() != null);
     }
@@ -288,45 +262,37 @@ public class OPPLScriptTypesParserTest {
     public void testNoQuery() {
         String query = "?x:CLASS BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
     public void testNoVariablesQuery() {
         String query = "BEGIN ADD Nothing subClassOf Thing, REMOVE Thing subClassOf Nothing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
     public void testVariableAnnotationObject() {
         String query = "?x:CLASS, ?y:CONSTANT SELECT ?x.IRI label ?y BEGIN ADD ?x subClassOf  Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
     public void testNominalClassVariableValues() {
         String query = "?x:INDIVIDUAL,?sibling:CLASS = {?x }, ?siblingUnion:CLASS = createUnion(?sibling.VALUES) SELECT Robert hasSibling ?x BEGIN ADD Robert types  ?siblingUnion END;";
-        symtab = getOPPLSymbolTable(siblings);
-        OPPLSyntaxTree parsed = this.parse(query, siblings);
-        System.out.println(parsed.toStringTree());
+        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, siblings, null,
+                getOPPLSymbolTable(siblings));
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
     }
 
     @Test
@@ -334,9 +300,7 @@ public class OPPLScriptTypesParserTest {
         String query = "?x:CLASS=create(\"BLA\".toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
         assertNotNull(parsed);
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
-        System.out.println(parsed.toStringTree());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
         assertNotNull(parsed.getOPPLContent());
     }
 
@@ -345,8 +309,7 @@ public class OPPLScriptTypesParserTest {
         String query = "?x:CLASS=create(\"BLA\".toUpperCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
         assertNotNull(parsed);
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
         assertNotNull(parsed.getOPPLContent());
     }
 
@@ -355,19 +318,48 @@ public class OPPLScriptTypesParserTest {
         String query = "?x:CLASS, ?y:CLASS=create(?x.RENDERING +\"_\"+\"BLA\".toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
         assertNotNull(parsed);
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
         assertNotNull(parsed.getOPPLContent());
+    }
+
+    private void equalsIgnoreWhitespace(String a, Object b) {
+        StringBuilder b1 = new StringBuilder(a.toUpperCase().replace("OWL:", "")
+                .replace("\"", "").replace("^^STRING", "").replace("TYPES", "TYPE")
+                .replace("?", "").replace("!", "").replace("\n", "").replace(":", "")
+                .replace("NOTHING, THING", "TB").replace("THING, NOTHING", "TB")
+                .replace("THING", "").replace("INV(", "INVERSE(").replace(" ", "")
+                .replace("(X.VALUES,)", "XV").replace("(,X.VALUES)", "XV"));
+        StringBuilder b2 = new StringBuilder(b.toString().toUpperCase()
+                .replace("OWL:", "").replace("\"", "").replace("?", "")
+                .replace("^^STRING", "").replace(" VARIABLEMANSYNTAX##", "")
+                .replace(":", "").replace("!", "").replace("NOTHING, THING", "TB")
+                .replace("THING, NOTHING", "TB").replace("THING", "")
+                .replace("(HASVALUE SOME Z)", "HASVALUESOMEZ").replace(" ", "")
+                .replace("(X.VALUES,)", "XV").replace("(,X.VALUES)", "XV"));
+        for (int i = 0; i < b1.length();) {
+            if (Character.isWhitespace(b1.charAt(i)) || b1.charAt(i) == '?') {
+                b1.deleteCharAt(i);
+            } else {
+                i++;
+            }
+        }
+        for (int i = 0; i < b2.length();) {
+            if (Character.isWhitespace(b2.charAt(i)) || b2.charAt(i) == '?') {
+                b2.deleteCharAt(i);
+            } else {
+                i++;
+            }
+        }
+        assertEquals(b1.toString(), b2.toString());
     }
 
     @Test
     public void testLowerCaseInConcatWithGroups() {
-        symtab = getOPPLSymbolTable(pizza);
-        String query = "?x:CLASS = MATCH(\"(.+)Topping\"), ?y:CLASS=create(\"Topping_\"+ ?x.GROUPS(1).toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
-        OPPLSyntaxTree parsed = this.parse(query, pizza);
+        String query = "?x:CLASS = MATCH(\"(.+)Topping\"), ?y:CLASS=create(\"Topping_\"+ ?x.GROUPS(1).toLowerCase) SELECT ?x SubClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
+        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, pizza, null,
+                getOPPLSymbolTable(pizza));
         assertNotNull(parsed);
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
         assertNotNull(parsed.getOPPLContent());
     }
 
@@ -376,9 +368,8 @@ public class OPPLScriptTypesParserTest {
         String query = "?x:CLASS=create((\"Bla\"+ \"Bla\").toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
         assertNotNull(parsed);
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
-        System.out.println(parsed.toStringTree());
+        equalsIgnoreWhitespace(query.replace("(\"Bla\"+ \"Bla\")", "Bla+Bla"),
+                parsed.getOPPLContent());
         assertNotNull(parsed.getOPPLContent());
     }
 
@@ -387,8 +378,7 @@ public class OPPLScriptTypesParserTest {
         String query = "?x:CLASS = MATCH(\"(.+)Topping\"), ?y:CLASS=create(\"Topping_\"+ ?x.GROUPS(1).toUpperCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
         assertNotNull(parsed);
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
         assertNotNull(parsed.getOPPLContent());
     }
 
@@ -397,8 +387,7 @@ public class OPPLScriptTypesParserTest {
         String query = "?x:CLASS, ?y:CLASS=create(?x.RENDERING +\"_\"+\"BLA\".toUpperCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = this.parse(query, pizza);
         assertNotNull(parsed);
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        equalsIgnoreWhitespace(query, parsed.getOPPLContent());
         assertNotNull(parsed.getOPPLContent());
     }
 }

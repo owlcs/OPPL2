@@ -137,9 +137,4 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
 				"SameIndividual:");
 	}
 
-	public static void main(String[] args) {
-		String bla = "?bla";
-		bla = bla.replaceAll("\\?", "\\\\?");
-		System.out.println(bla);
-	}
 }

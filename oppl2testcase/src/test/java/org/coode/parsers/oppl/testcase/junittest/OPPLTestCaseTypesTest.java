@@ -107,7 +107,6 @@ public class OPPLTestCaseTypesTest {
             simplify.setTreeAdaptor(adaptor);
             simplify.downup(tree);
             nodes.reset();
-            System.out.println(tree.toStringTree());
             OPPLDefine define = new OPPLDefine(nodes, symtab, ERROR_LISTENER,
                     constraintSystem);
             define.setTreeAdaptor(adaptor);
@@ -147,7 +146,7 @@ public class OPPLTestCaseTypesTest {
             ontology = ontologyManager.createOntology();
             OPPLTestCase parsed = parse(testCase, ontology, ontologyManager);
             assertNotNull(parsed);
-            System.out.println("OPPLTestCaseParserTest.testOneAssertion()\n" + parsed);
+            
         } catch (OWLOntologyCreationException e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -163,7 +162,7 @@ public class OPPLTestCaseTypesTest {
             ontology = ontologyManager.createOntology();
             OPPLTestCase parsed = parse(testCase, ontology, ontologyManager);
             assertNotNull(parsed);
-            System.out.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n"
+            
                     + parsed);
         } catch (OWLOntologyCreationException e) {
             e.printStackTrace();
@@ -180,7 +179,7 @@ public class OPPLTestCaseTypesTest {
             ontology = ontologyManager.createOntology();
             OPPLTestCase parsed = parse(testCase, ontology, ontologyManager);
             assertNotNull(parsed);
-            System.out.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n"
+            
                     + parsed);
         } catch (OWLOntologyCreationException e) {
             e.printStackTrace();
@@ -197,7 +196,7 @@ public class OPPLTestCaseTypesTest {
             ontology = ontologyManager.createOntology();
             OPPLTestCase parsed = parse(testCase, ontology, ontologyManager);
             assertNotNull(parsed);
-            System.out.println("OPPLTestCaseParserTest.testCountAssertionWithMessage()\n"
+            
                     + parsed);
         } catch (OWLOntologyCreationException e) {
             e.printStackTrace();
@@ -358,7 +357,7 @@ public class OPPLTestCaseTypesTest {
             ontology = ontologyManager.createOntology();
             OPPLTestCase parsed = parse(testCase, ontology, ontologyManager);
             assertNotNull(parsed);
-            System.out.println("OPPLTestCaseTypesTest.testBindingWithMessage()\n"
+            
                     + parsed);
         } catch (OWLOntologyCreationException e) {
             e.printStackTrace();
@@ -370,12 +369,12 @@ public class OPPLTestCaseTypesTest {
     public void test2BindingsWithOutMessages() {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(?x=Pizza, ?y=PizzaBase) > 0 ASSERT count(?x=Thing, ?y=Nothing) > 0";
         Ontologies ontologies=new Ontologies();
-        ParserFactory parserFactory = new ParserFactory(,
+        ParserFactory parserFactory = new ParserFactory(
 ontologies.manager);
 
             OPPLTestCase parsed = parse(testCase, ontologies.pizza, ontologies.manager);
             assertNotNull(parsed);
-            System.out.println("OPPLTestCaseTypesTest.test2BindingsWithMessages()\n"
+            
                     + parsed);
         } catch (OWLOntologyCreationException e) {
             e.printStackTrace();

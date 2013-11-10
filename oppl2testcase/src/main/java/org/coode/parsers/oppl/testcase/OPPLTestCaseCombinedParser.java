@@ -20,6 +20,8 @@ import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
 import org.antlr.runtime.tree.RewriteRuleTokenStream;
 import org.antlr.runtime.tree.TreeAdaptor;
+import org.coode.oppl.log.Logger;
+import org.coode.oppl.log.Logging;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 
@@ -3922,6 +3924,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 			throws RecognitionException {
 		return this.gMOWLParser.disjunction();
 	}
+    Logger logger=Logging.getParseLogging();
 
 	public final boolean synpred11_OPPLTestCaseCombined() {
 		this.state.backtracking++;
@@ -3930,7 +3933,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 			this.synpred11_OPPLTestCaseCombined_fragment(); // can never throw
 															// exception
 		} catch (RecognitionException re) {
-			System.err.println("impossible: " + re);
+			logger.info("impossible: " , re);
 		}
 		boolean success = !this.state.failed;
 		this.input.rewind(start);
@@ -3946,7 +3949,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 			this.synpred5_OPPLTestCaseCombined_fragment(); // can never throw
 															// exception
 		} catch (RecognitionException re) {
-			System.err.println("impossible: " + re);
+			logger.info("impossible: " , re);
 		}
 		boolean success = !this.state.failed;
 		this.input.rewind(start);
@@ -3962,7 +3965,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 			this.synpred8_OPPLTestCaseCombined_fragment(); // can never throw
 															// exception
 		} catch (RecognitionException re) {
-			System.err.println("impossible: " + re);
+			logger.info("impossible: " , re);
 		}
 		boolean success = !this.state.failed;
 		this.input.rewind(start);
@@ -3978,7 +3981,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 			this.synpred6_OPPLTestCaseCombined_fragment(); // can never throw
 															// exception
 		} catch (RecognitionException re) {
-			System.err.println("impossible: " + re);
+			logger.info("impossible: " , re);
 		}
 		boolean success = !this.state.failed;
 		this.input.rewind(start);
@@ -3994,7 +3997,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 			this.synpred4_OPPLTestCaseCombined_fragment(); // can never throw
 															// exception
 		} catch (RecognitionException re) {
-			System.err.println("impossible: " + re);
+			logger.info("impossible: " , re);
 		}
 		boolean success = !this.state.failed;
 		this.input.rewind(start);
@@ -4010,7 +4013,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 			this.synpred9_OPPLTestCaseCombined_fragment(); // can never throw
 															// exception
 		} catch (RecognitionException re) {
-			System.err.println("impossible: " + re);
+			logger.info("impossible: " , re);
 		}
 		boolean success = !this.state.failed;
 		this.input.rewind(start);
@@ -4026,7 +4029,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 			this.synpred7_OPPLTestCaseCombined_fragment(); // can never throw
 															// exception
 		} catch (RecognitionException re) {
-			System.err.println("impossible: " + re);
+			logger.info("impossible: " , re);
 		}
 		boolean success = !this.state.failed;
 		this.input.rewind(start);

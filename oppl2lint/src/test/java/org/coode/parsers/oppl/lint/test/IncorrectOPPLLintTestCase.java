@@ -40,6 +40,5 @@ public class IncorrectOPPLLintTestCase extends TestCase {
 		OPPLLintParser parser = factory.build(IncorrectOPPLLintTestCase.ERROR_LISTENER);
 		OPPLLintScript parsed = parser.parse(script, HANDLER);
 		assertNull(parsed);
-		System.out.println(parsed);
 	}
 }

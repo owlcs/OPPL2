@@ -474,7 +474,6 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
                     typeComp.downup(tree); // trigger resolve/type computation
                     // actions
                     // WALK TREE TO DUMP SUBTREE TYPES
-                    System.out.println(tree.toStringTree());
                 }
                 return (ManchesterOWLSyntaxTree) tree;
             } catch (RecognitionException e) {

@@ -54,44 +54,36 @@ public class TestUserQueries {
         Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
         assertTrue(leaves != null);
         assertFalse(leaves.isEmpty());
-        System.out.println(leaves);
     }
 
     @Test
-    public void testSimpleQuery() {
+    public void testSimpleQuery() throws OWLOntologyCreationException {
         String string = "?y:CLASS, ?z:CLASS SELECT ?y subClassOf q some ?z WHERE ?y!=Nothing BEGIN ADD ?y subClassOf p some ?y END;";
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        try {
-            OWLOntology ontology = manager.createOntology();
-            OWLDataFactory dataFactory = manager.getOWLDataFactory();
-            OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI.create("blah#p"));
-            OWLObjectProperty q = dataFactory.getOWLObjectProperty(IRI.create("blah#q"));
-            OWLClass a = dataFactory.getOWLClass(IRI.create("blah#a"));
-            OWLClass b = dataFactory.getOWLClass(IRI.create("blah#b"));
-            OWLClass c = dataFactory.getOWLClass(IRI.create("blah#c"));
-            // a subClassOf p some b
-            // b subClassOf q some c
-            OWLSubClassOfAxiom axiom1 = dataFactory.getOWLSubClassOfAxiom(a,
-                    dataFactory.getOWLObjectSomeValuesFrom(p, b));
-            OWLSubClassOfAxiom axiom2 = dataFactory.getOWLSubClassOfAxiom(b,
-                    dataFactory.getOWLObjectSomeValuesFrom(q, c));
-            manager.addAxioms(ontology,
-                    new HashSet<OWLAxiom>(Arrays.asList(axiom1, axiom2)));
-            JFactFactory factory = new JFactFactory();
-            OWLReasoner reasoner = factory.createReasoner(ontology);
-            ParserFactory parserFactory = new ParserFactory(manager, ontology, reasoner);
-            OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
-            OPPLScript opplScript = parser.parse(string);
-            ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
-            changeExtractor.visit(opplScript);
-            Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-            assertTrue(leaves != null);
-            assertFalse(leaves.isEmpty());
-            System.out.println(leaves);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        OWLOntology ontology = manager.createOntology();
+        OWLDataFactory dataFactory = manager.getOWLDataFactory();
+        OWLObjectProperty p = dataFactory.getOWLObjectProperty(IRI.create("blah#p"));
+        OWLObjectProperty q = dataFactory.getOWLObjectProperty(IRI.create("blah#q"));
+        OWLClass a = dataFactory.getOWLClass(IRI.create("blah#a"));
+        OWLClass b = dataFactory.getOWLClass(IRI.create("blah#b"));
+        OWLClass c = dataFactory.getOWLClass(IRI.create("blah#c"));
+        // a subClassOf p some b
+        // b subClassOf q some c
+        OWLSubClassOfAxiom axiom1 = dataFactory.getOWLSubClassOfAxiom(a,
+                dataFactory.getOWLObjectSomeValuesFrom(p, b));
+        OWLSubClassOfAxiom axiom2 = dataFactory.getOWLSubClassOfAxiom(b,
+                dataFactory.getOWLObjectSomeValuesFrom(q, c));
+        manager.addAxioms(ontology, new HashSet<OWLAxiom>(Arrays.asList(axiom1, axiom2)));
+        JFactFactory factory = new JFactFactory();
+        OWLReasoner reasoner = factory.createReasoner(ontology);
+        ParserFactory parserFactory = new ParserFactory(manager, ontology, reasoner);
+        OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
+        OPPLScript opplScript = parser.parse(string);
+        ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+        changeExtractor.visit(opplScript);
+        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
+        assertTrue(leaves != null);
+        assertFalse(leaves.isEmpty());
     }
 
     @Test
@@ -122,127 +114,102 @@ public class TestUserQueries {
         Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
         assertTrue(leaves != null);
         assertFalse(leaves.isEmpty());
-        System.out.println(leaves);
     }
 
     @Test
-    public void testAnnotationQuery() {
+    public void testAnnotationQuery() throws OWLOntologyCreationException {
         String string = "?a:CLASS SELECT ?a.IRI label \"luigi\" BEGIN ADD ?a subClassOf Thing END;";
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        try {
-            OWLOntology ontology = manager.createOntology();
-            OWLDataFactory dataFactory = manager.getOWLDataFactory();
-            IRI iri = IRI.create("blah#Luigi");
-            manager.addAxiom(ontology,
-                    dataFactory.getOWLDeclarationAxiom(dataFactory.getOWLClass(iri)));
-            manager.addAxiom(ontology, dataFactory.getOWLAnnotationAssertionAxiom(
-                    iri,
-                    dataFactory.getOWLAnnotation(dataFactory.getRDFSLabel(),
-                            dataFactory.getOWLLiteral("luigi"))));
-            ParserFactory parserFactory = new ParserFactory(manager, ontology, null);
-            OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
-            OPPLScript opplScript = parser.parse(string);
-            ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
-            changeExtractor.visit(opplScript);
-            Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-            assertTrue(leaves != null);
-            assertFalse(leaves.isEmpty());
-            System.out.println(leaves);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        OWLOntology ontology = manager.createOntology();
+        OWLDataFactory dataFactory = manager.getOWLDataFactory();
+        IRI iri = IRI.create("blah#Luigi");
+        manager.addAxiom(ontology,
+                dataFactory.getOWLDeclarationAxiom(dataFactory.getOWLClass(iri)));
+        manager.addAxiom(ontology, dataFactory.getOWLAnnotationAssertionAxiom(
+                iri,
+                dataFactory.getOWLAnnotation(dataFactory.getRDFSLabel(),
+                        dataFactory.getOWLLiteral("luigi"))));
+        ParserFactory parserFactory = new ParserFactory(manager, ontology, null);
+        OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
+        OPPLScript opplScript = parser.parse(string);
+        ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+        changeExtractor.visit(opplScript);
+        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
+        assertTrue(leaves != null);
+        assertFalse(leaves.isEmpty());
     }
 
     @Test
-    public void testAnnotationPropertyVariableQuery() {
+    public void testAnnotationPropertyVariableQuery() throws OWLOntologyCreationException {
         String string = "?a:CLASS,?p:ANNOTATIONPROPERTY SELECT ?a.IRI ?p \"luigi\" BEGIN ADD ?a subClassOf Thing END;";
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        try {
-            OWLOntology ontology = manager.createOntology();
-            OWLDataFactory dataFactory = manager.getOWLDataFactory();
-            IRI iri = IRI.create("blah#Luigi");
-            manager.addAxiom(ontology,
-                    dataFactory.getOWLDeclarationAxiom(dataFactory.getOWLClass(iri)));
-            manager.addAxiom(ontology, dataFactory.getOWLAnnotationAssertionAxiom(
-                    iri,
-                    dataFactory.getOWLAnnotation(dataFactory.getRDFSLabel(),
-                            dataFactory.getOWLLiteral("luigi"))));
-            ParserFactory parserFactory = new ParserFactory(manager, ontology, null);
-            OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
-            OPPLScript opplScript = parser.parse(string);
-            ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
-            changeExtractor.visit(opplScript);
-            Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-            assertTrue(leaves != null);
-            assertFalse(leaves.isEmpty());
-            System.out.println(leaves);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        OWLOntology ontology = manager.createOntology();
+        OWLDataFactory dataFactory = manager.getOWLDataFactory();
+        IRI iri = IRI.create("blah#Luigi");
+        manager.addAxiom(ontology,
+                dataFactory.getOWLDeclarationAxiom(dataFactory.getOWLClass(iri)));
+        manager.addAxiom(ontology, dataFactory.getOWLAnnotationAssertionAxiom(
+                iri,
+                dataFactory.getOWLAnnotation(dataFactory.getRDFSLabel(),
+                        dataFactory.getOWLLiteral("luigi"))));
+        ParserFactory parserFactory = new ParserFactory(manager, ontology, null);
+        OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
+        OPPLScript opplScript = parser.parse(string);
+        ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+        changeExtractor.visit(opplScript);
+        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
+        assertTrue(leaves != null);
+        assertFalse(leaves.isEmpty());
     }
 
     @Test
-    public void testAnnotationInConstraintQuery() {
+    public void testAnnotationInConstraintQuery() throws OWLOntologyCreationException {
         String string = "?a:CLASS SELECT ?a subClassOf Thing WHERE FAIL ?a.IRI label \"pippo\" BEGIN ADD ?a subClassOf Thing END;";
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        try {
-            OWLOntology ontology = manager.createOntology();
-            OWLDataFactory dataFactory = manager.getOWLDataFactory();
-            IRI iri = IRI.create("blah#Luigi");
-            OWLClass owlClass = dataFactory.getOWLClass(iri);
-            manager.addAxiom(ontology, dataFactory.getOWLDeclarationAxiom(owlClass));
-            manager.addAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(owlClass,
-                    dataFactory.getOWLThing()));
-            manager.addAxiom(ontology, dataFactory.getOWLAnnotationAssertionAxiom(
-                    iri,
-                    dataFactory.getOWLAnnotation(dataFactory.getRDFSLabel(),
-                            dataFactory.getOWLLiteral("luigi"))));
-            ParserFactory parserFactory = new ParserFactory(manager, ontology, null);
-            OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
-            OPPLScript opplScript = parser.parse(string);
-            ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
-            changeExtractor.visit(opplScript);
-            Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-            assertTrue(leaves != null);
-            assertFalse(leaves.isEmpty());
-            System.out.println(leaves);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        OWLOntology ontology = manager.createOntology();
+        OWLDataFactory dataFactory = manager.getOWLDataFactory();
+        IRI iri = IRI.create("blah#Luigi");
+        OWLClass owlClass = dataFactory.getOWLClass(iri);
+        manager.addAxiom(ontology, dataFactory.getOWLDeclarationAxiom(owlClass));
+        manager.addAxiom(ontology,
+                dataFactory.getOWLSubClassOfAxiom(owlClass, dataFactory.getOWLThing()));
+        manager.addAxiom(ontology, dataFactory.getOWLAnnotationAssertionAxiom(
+                iri,
+                dataFactory.getOWLAnnotation(dataFactory.getRDFSLabel(),
+                        dataFactory.getOWLLiteral("luigi"))));
+        ParserFactory parserFactory = new ParserFactory(manager, ontology, null);
+        OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
+        OPPLScript opplScript = parser.parse(string);
+        ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+        changeExtractor.visit(opplScript);
+        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
+        assertTrue(leaves != null);
+        assertFalse(leaves.isEmpty());
     }
 
     @Test
-    public void testAnnotationQueryWithReasoner() {
+    public void testAnnotationQueryWithReasoner() throws OWLOntologyCreationException {
         String string = "?a:CLASS SELECT ?a.IRI label \"luigi\" BEGIN ADD ?a subClassOf Thing END;";
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        try {
-            OWLOntology ontology = manager.createOntology();
-            OWLDataFactory dataFactory = manager.getOWLDataFactory();
-            IRI iri = IRI.create("blah#Luigi");
-            manager.addAxiom(ontology,
-                    dataFactory.getOWLDeclarationAxiom(dataFactory.getOWLClass(iri)));
-            manager.addAxiom(ontology, dataFactory.getOWLAnnotationAssertionAxiom(
-                    iri,
-                    dataFactory.getOWLAnnotation(dataFactory.getRDFSLabel(),
-                            dataFactory.getOWLLiteral("luigi"))));
-            JFactFactory factory = new JFactFactory();
-            ParserFactory parserFactory = new ParserFactory(manager, ontology,
-                    factory.createReasoner(ontology));
-            OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
-            OPPLScript opplScript = parser.parse(string);
-            ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
-            changeExtractor.visit(opplScript);
-            Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-            assertTrue(leaves != null);
-            assertFalse(leaves.isEmpty());
-            System.out.println(leaves);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        OWLOntology ontology = manager.createOntology();
+        OWLDataFactory dataFactory = manager.getOWLDataFactory();
+        IRI iri = IRI.create("blah#Luigi");
+        manager.addAxiom(ontology,
+                dataFactory.getOWLDeclarationAxiom(dataFactory.getOWLClass(iri)));
+        manager.addAxiom(ontology, dataFactory.getOWLAnnotationAssertionAxiom(
+                iri,
+                dataFactory.getOWLAnnotation(dataFactory.getRDFSLabel(),
+                        dataFactory.getOWLLiteral("luigi"))));
+        JFactFactory factory = new JFactFactory();
+        ParserFactory parserFactory = new ParserFactory(manager, ontology,
+                factory.createReasoner(ontology));
+        OPPLParser parser = parserFactory.build(new QuickFailErrorListener());
+        OPPLScript opplScript = parser.parse(string);
+        ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
+        changeExtractor.visit(opplScript);
+        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
+        assertTrue(leaves != null);
+        assertFalse(leaves.isEmpty());
     }
 
     @Test
@@ -260,6 +227,5 @@ public class TestUserQueries {
         Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
         assertTrue(leaves != null);
         assertFalse(leaves.isEmpty());
-        System.out.println(leaves);
     }
 }

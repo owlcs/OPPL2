@@ -110,7 +110,6 @@ public abstract class ParseTreeBasedAutoCompletionMatcher implements
                 if (tree.getCompletions() != null) {
                     toReturn.addAll(tree.getCompletions());
                 }
-                System.out.println(tree.toStringTree());
             }
         } catch (RecognitionException e) {
             e.printStackTrace();

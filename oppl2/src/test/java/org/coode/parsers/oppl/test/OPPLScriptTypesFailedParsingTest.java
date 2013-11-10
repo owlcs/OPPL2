@@ -61,22 +61,16 @@ public class OPPLScriptTypesFailedParsingTest {
     public void testVariableScope() {
         String query = "?x:CLASS[subClassOf Pizza] SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = parse(query, pizza);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
     }
 
     @Test
     public void testAggregateVaraibleValuesAndLooseObjects() {
         String query = "?x:CLASS,?z:OBJECTPROPERTY, ?y:CLASS = createIntersection(?x.VALUES,?z)  SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSyntaxTree parsed = parse(query, syntax);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
     }
 
     protected OPPLSyntaxTree parse(String input, OWLOntology ontology) {
@@ -121,8 +115,7 @@ public class OPPLScriptTypesFailedParsingTest {
             opplTypes.downup(tree);
             return (OPPLSyntaxTree) r.getTree();
         } catch (RecognitionException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 }

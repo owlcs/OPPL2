@@ -32,6 +32,7 @@ import org.junit.Test;
 /** Test for the AST generation for OPPL
  * 
  * @author Luigi Iannone */
+@SuppressWarnings("javadoc")
 public class OPPLScriptDefineParserTest {
     private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
         @Override
@@ -60,11 +61,9 @@ public class OPPLScriptDefineParserTest {
         String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSymbolTable opplSymbolTable = getOPPLSymbolTable(pizza);
         ManchesterOWLSyntaxTree parsed = parse(query, opplSymbolTable);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         Set<Symbol> definedSymbols = opplSymbolTable.getDefinedSymbols();
         assertTrue(definedSymbols.size() == 1);
-        System.out.println(definedSymbols);
     }
 
     @Test
@@ -72,11 +71,9 @@ public class OPPLScriptDefineParserTest {
         String query = "?x:CLASS = MATCH (\".*ing\") SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSymbolTable opplSymbolTable = getOPPLSymbolTable(pizza);
         ManchesterOWLSyntaxTree parsed = parse(query, opplSymbolTable);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         Set<Symbol> definedSymbols = opplSymbolTable.getDefinedSymbols();
         assertTrue(definedSymbols.size() == 1);
-        System.out.println(definedSymbols);
     }
 
     @Test
@@ -84,11 +81,9 @@ public class OPPLScriptDefineParserTest {
         String query = "?x:CLASS, ?y:OBJECTPROPERTY = MATCH(\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x subClassOf ?y some ?z BEGIN REMOVE ?x subClassOf ?y some ?z, ADD ?x subClassOf !hasFeature some (?feature and !hasValue some ?z) END;";
         OPPLSymbolTable opplSymbolTable = getOPPLSymbolTable(pizza);
         ManchesterOWLSyntaxTree parsed = parse(query, opplSymbolTable);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         Set<Symbol> definedSymbols = opplSymbolTable.getDefinedSymbols();
         assertTrue(definedSymbols.size() > 2);
-        System.out.println(definedSymbols);
     }
 
     protected ManchesterOWLSyntaxTree parse(String input, OPPLSymbolTable symbolTable) {
@@ -117,8 +112,7 @@ public class OPPLScriptDefineParserTest {
             define.downup(tree);
             return (ManchesterOWLSyntaxTree) r.getTree();
         } catch (RecognitionException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 }

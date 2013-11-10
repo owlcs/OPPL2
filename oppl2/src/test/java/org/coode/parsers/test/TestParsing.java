@@ -3,6 +3,8 @@
  */
 package org.coode.parsers.test;
 
+import static org.junit.Assert.assertEquals;
+
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RuleReturnScope;
@@ -44,23 +46,14 @@ public class TestParsing {
     @Test
     public void main() throws RecognitionException {
         String input = "hasTopping subPropertyOf INV (hasTopping)";
-        System.out.println(input);
         MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
         ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens);
         parser.setTreeAdaptor(adaptor);
         RuleReturnScope r = parser.main();
         CommonTree tree = (CommonTree) r.getTree();
-        System.out.println(tree.toStringTree());
-    }
-
-    static void showTypes(ManchesterOWLSyntaxTree t, TokenRewriteStream tokens) {
-        if (t.getEvalType() != null
-                && t.getType() != ManchesterOWLSyntaxParser.EXPRESSION) {
-            System.out.printf("%-17s",
-                    tokens.toString(t.getTokenStartIndex(), t.getTokenStopIndex()));
-            String ts = t.getEvalType().toString();
-            System.out.printf(" type %-8s\n", ts);
-        }
+        assertEquals(
+                "(SUB_PROPERTY_AXIOM type: (none) (EXPRESSION type: (none) (DISJUNCTION type: (none) (CONJUNCTION type: (none) hasTopping type: (none)))) (EXPRESSION type: (none) (INVERSE_OBJECT_PROPERTY_EXPRESSION type: (none) hasTopping type: (none))))",
+                tree.toStringTree());
     }
 }

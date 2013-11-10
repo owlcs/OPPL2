@@ -41,6 +41,5 @@ public class OPPLParserFactoryTest {
         OPPLScript parsedScript = parseScript(opplString, ontologyManager, ontology,
                 annotationBasedSymbolTableFactory);
         assertNotNull(parsedScript);
-        System.out.println(parsedScript);
     }
 }

@@ -33,8 +33,6 @@ import org.coode.parsers.ErrorListener;
 import org.coode.parsers.test.JUnitTestErrorListener;
 import org.junit.Before;
 import org.junit.Test;
-import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
-import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -80,10 +78,6 @@ public class SearchTest {
         List<List<Integer>> result = new ArrayList<List<Integer>>();
         boolean found = searchTree.exhaustiveSearchTree(2, result);
         assertTrue("It's there but cannot find it ", found);
-        System.out.println("Found? " + found);
-        for (List<Integer> path : result) {
-            System.out.println(path);
-        }
         SearchTree<Integer> anotherSearchTree = new SearchTree<Integer>() {
             @Override
             protected boolean goalReached(Integer start) {
@@ -97,10 +91,6 @@ public class SearchTest {
             }
         };
         found = anotherSearchTree.exhaustiveSearchTree(2, result);
-        System.out.println("Found? " + found);
-        for (List<Integer> path : result) {
-            System.out.println(path);
-        }
         assertFalse("It's not there but can find it ", found);
     }
 
@@ -118,7 +108,6 @@ public class SearchTest {
         SearchTree<OWLAxiom> searchTree = new SearchTree<OWLAxiom>() {
             @Override
             protected boolean goalReached(OWLAxiom startAxiom) {
-                // System.out.println(startAxiom + "\t" + subClassAxiom);
                 return startAxiom.equalsIgnoreAnnotations(subClassAxiom);
             }
 
@@ -158,10 +147,6 @@ public class SearchTest {
         List<List<OWLAxiom>> solutions = new ArrayList<List<OWLAxiom>>();
         boolean found = searchTree.exhaustiveSearchTree(start, solutions);
         assertTrue("It's there but cannot find it: " + start + "\n" + solutions, found);
-        System.out.println("Found? " + found);
-        for (List<OWLAxiom> path : solutions) {
-            System.out.println(path);
-        }
     }
 
     private OPPLScript parseScript(OWLOntology o, String opplString) {
@@ -182,11 +167,9 @@ public class SearchTest {
         List<List<OWLAxiom>> solutions = new ArrayList<List<OWLAxiom>>();
         boolean found = searchTree.exhaustiveSearchTree(start, solutions);
         assertTrue("It's there but cannot find it ", found);
-        System.out.println("Found? " + found);
         Set<OWLAxiom> results = new HashSet<OWLAxiom>(solutions.size());
         for (List<OWLAxiom> path : solutions) {
             results.add(path.get(path.size() - 1));
-            System.out.println(path);
         }
         final Set<OWLAxiom> subClassAxioms = new HashSet<OWLAxiom>(solutions.size());
         Set<OWLSubClassOfAxiom> axioms = pizza.getAxioms(AxiomType.SUBCLASS_OF);

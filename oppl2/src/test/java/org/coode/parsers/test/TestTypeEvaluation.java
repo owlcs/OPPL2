@@ -57,14 +57,12 @@ public class TestTypeEvaluation {
         SymbolTableFactory<SymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
                 ontologyManager);
         String input = "hasTopping subPropertyOf INV (hasTopping)";
-        System.out.println(input);
         MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
         ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens);
         parser.setTreeAdaptor(adaptor);
         RuleReturnScope r = parser.main();
         CommonTree tree = (CommonTree) r.getTree();
-        System.out.println(tree.toString());
         CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
         nodes.setTokenStream(tokens); // where to find tokens
         nodes.setTreeAdaptor(adaptor);
@@ -74,8 +72,6 @@ public class TestTypeEvaluation {
         ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(nodes, symtab,
                 new SilentListener());
         typeComp.downup(tree); // trigger resolve/type computation actions
-        // WALK TREE TO DUMP SUBTREE TYPES
-        System.out.println(tree.toStringTree());
     }
 
     private static ErrorListener errorListener = new SilentListener();

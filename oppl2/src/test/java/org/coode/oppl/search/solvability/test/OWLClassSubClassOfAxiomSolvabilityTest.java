@@ -35,6 +35,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
+@SuppressWarnings("javadoc")
 public class OWLClassSubClassOfAxiomSolvabilityTest {
     @Test
     public void testSolvableSubClassAxiom() throws Exception {
@@ -58,23 +59,26 @@ public class OWLClassSubClassOfAxiomSolvabilityTest {
         SolvabilitySearchNode node = axiomSolvability.getSolvabilitySearchNode(axiom,
                 BindingNode.createNewEmptyBindingNode());
         node.accept(new SolvabilitySearchNodeVisitor() {
+            @Override
             public void visitUnsolvableSearchNode(
                     UnsolvableSearchNode unsolvableSearchNode) {
                 fail("Wrong type of solvability node: unsolvable, when expecting solavble");
             }
 
+            @Override
             public void visitSolvedSearchNode(SolvedSearchNode solvedSearchNode) {
                 fail("Wrong type of solvability node: solved, when expecting solavble");
             }
 
+            @Override
             public void visitNoSolutionSolvableSearchNode(
                     NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
                 fail("Wrong type of solvability node: no solution, when expecting solavble");
             }
 
+            @Override
             public void visitSolvableSearchNode(SolvableSearchNode solvableSearchNode) {
                 // That's fine
-                System.out.println("Values " + solvableSearchNode.getValues());
             }
         });
     }
@@ -98,23 +102,26 @@ public class OWLClassSubClassOfAxiomSolvabilityTest {
         SolvabilitySearchNode node = axiomSolvability.getSolvabilitySearchNode(axiom,
                 BindingNode.createNewEmptyBindingNode());
         node.accept(new SolvabilitySearchNodeVisitor() {
+            @Override
             public void visitUnsolvableSearchNode(
                     UnsolvableSearchNode unsolvableSearchNode) {
                 fail("Wrong type of solvability node: unsolvable, when expecting solavble");
             }
 
+            @Override
             public void visitNoSolutionSolvableSearchNode(
                     NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
                 fail("Wrong type of solvability node: no solution, when expecting solavble");
             }
 
+            @Override
             public void visitSolvedSearchNode(SolvedSearchNode solvedSearchNode) {
                 fail("Wrong type of solvability node: solved, when expecting solavble");
             }
 
+            @Override
             public void visitSolvableSearchNode(SolvableSearchNode solvableSearchNode) {
                 // That's fine
-                System.out.println("Values " + solvableSearchNode.getValues());
             }
         });
     }
@@ -145,23 +152,26 @@ public class OWLClassSubClassOfAxiomSolvabilityTest {
         SolvabilitySearchNode node = axiomSolvability.getSolvabilitySearchNode(axiom,
                 BindingNode.createNewEmptyBindingNode());
         node.accept(new SolvabilitySearchNodeVisitor() {
+            @Override
             public void visitUnsolvableSearchNode(
                     UnsolvableSearchNode unsolvableSearchNode) {
                 fail("Wrong type of solvability node: unsolvable, when expecting solavble");
             }
 
+            @Override
             public void visitNoSolutionSolvableSearchNode(
                     NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
                 fail("Wrong type of solvability node: no solutions, when expecting solavble");
             }
 
+            @Override
             public void visitSolvedSearchNode(SolvedSearchNode solvedSearchNode) {
                 fail("Wrong type of solvability node: solved, when expecting solavble");
             }
 
+            @Override
             public void visitSolvableSearchNode(SolvableSearchNode solvableSearchNode) {
                 assertTrue(solvableSearchNode.getValues().size() == 2);
-                System.out.println("Values " + solvableSearchNode.getValues());
             }
         });
     }
@@ -189,23 +199,26 @@ public class OWLClassSubClassOfAxiomSolvabilityTest {
         SolvabilitySearchNode node = axiomSolvability.getSolvabilitySearchNode(axiom,
                 BindingNode.createNewEmptyBindingNode());
         node.accept(new SolvabilitySearchNodeVisitor() {
+            @Override
             public void visitUnsolvableSearchNode(
                     UnsolvableSearchNode unsolvableSearchNode) {
                 fail("Wrong type of solvability node: unsolvable, when expecting solavble");
             }
 
+            @Override
             public void visitNoSolutionSolvableSearchNode(
                     NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
                 fail("Wrong type of solvability node: no solution, when expecting solavble");
             }
 
+            @Override
             public void visitSolvedSearchNode(SolvedSearchNode solvedSearchNode) {
                 fail("Wrong type of solvability node: solved, when expecting solavble");
             }
 
+            @Override
             public void visitSolvableSearchNode(SolvableSearchNode solvableSearchNode) {
                 // That's fine
-                System.out.println("Values " + solvableSearchNode.getValues());
             }
         });
     }
@@ -234,20 +247,24 @@ public class OWLClassSubClassOfAxiomSolvabilityTest {
         SolvabilitySearchNode node = axiomSolvability.getSolvabilitySearchNode(axiom,
                 BindingNode.createNewEmptyBindingNode());
         node.accept(new SolvabilitySearchNodeVisitor() {
+            @Override
             public void visitUnsolvableSearchNode(
                     UnsolvableSearchNode unsolvableSearchNode) {
                 // That's fine
             }
 
+            @Override
             public void visitNoSolutionSolvableSearchNode(
                     NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
                 fail("Wrong type of solvability node: no solutions, when expecting unsolavble");
             }
 
+            @Override
             public void visitSolvedSearchNode(SolvedSearchNode solvedSearchNode) {
                 fail("Wrong type of solvability node: solved, when expecting unsolavble");
             }
 
+            @Override
             public void visitSolvableSearchNode(SolvableSearchNode solvableSearchNode) {
                 fail("Wrong type of solvability node: solvable, when expecting unsolavble");
             }
@@ -277,20 +294,24 @@ public class OWLClassSubClassOfAxiomSolvabilityTest {
         SolvabilitySearchNode node = axiomSolvability.getSolvabilitySearchNode(axiom,
                 BindingNode.createNewEmptyBindingNode());
         node.accept(new SolvabilitySearchNodeVisitor() {
+            @Override
             public void visitUnsolvableSearchNode(
                     UnsolvableSearchNode unsolvableSearchNode) {
                 // That's fine
             }
 
+            @Override
             public void visitNoSolutionSolvableSearchNode(
                     NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
                 fail("Wrong type of solvability node: no solutions, when expecting unsolavble");
             }
 
+            @Override
             public void visitSolvedSearchNode(SolvedSearchNode solvedSearchNode) {
                 fail("Wrong type of solvability node: solved, when expecting unsolavble");
             }
 
+            @Override
             public void visitSolvableSearchNode(SolvableSearchNode solvableSearchNode) {
                 fail("Wrong type of solvability node: solvable, when expecting unsolavble");
             }

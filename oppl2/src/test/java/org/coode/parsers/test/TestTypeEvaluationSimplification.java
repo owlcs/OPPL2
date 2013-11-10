@@ -59,14 +59,12 @@ public class TestTypeEvaluationSimplification {
         SymbolTableFactory<SymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
                 ontologyManager);
         String input = "America hasTopping Italy";
-        System.out.println(input);
         MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
         ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens);
         parser.setTreeAdaptor(adaptor);
         RuleReturnScope r = parser.main();
         CommonTree tree = (CommonTree) r.getTree();
-        System.out.println(tree.toStringTree());
         CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
         nodes.setTokenStream(tokens); // where to find tokens
         nodes.setTreeAdaptor(adaptor);
@@ -80,7 +78,5 @@ public class TestTypeEvaluationSimplification {
         ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(nodes, symtab,
                 errorListener);
         typeComp.downup(tree); // trigger resolve/type computation actions
-        // WALK TREE TO DUMP SUBTREE TYPES
-        System.out.println(tree.toStringTree());
     }
 }

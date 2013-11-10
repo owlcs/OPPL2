@@ -23,6 +23,8 @@ import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
 import org.antlr.runtime.tree.RewriteRuleTokenStream;
 import org.antlr.runtime.tree.TreeAdaptor;
+import org.coode.oppl.log.Logger;
+import org.coode.oppl.log.Logging;
 
 @SuppressWarnings("javadoc")
 public class OPPLScript_OPPLParser_MOWLParser extends Parser {
@@ -285,9 +287,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_p = new RewriteRuleSubtreeStream(
                                 adaptor, "rule p", p != null ? p.tree : null);
                         RewriteRuleSubtreeStream stream_o = new RewriteRuleSubtreeStream(
@@ -370,9 +369,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_p = new RewriteRuleSubtreeStream(
                                 adaptor, "rule p", p != null ? p.tree : null);
                         RewriteRuleSubtreeStream stream_a = new RewriteRuleSubtreeStream(
@@ -458,9 +454,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         RewriteRuleSubtreeStream stream_objectIRI = new RewriteRuleSubtreeStream(
                                 adaptor, "rule objectIRI",
                                 objectIRI != null ? objectIRI.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_subjectIRI = new RewriteRuleSubtreeStream(
                                 adaptor, "rule subjectIRI",
                                 subjectIRI != null ? subjectIRI.tree : null);
@@ -545,8 +538,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.disjunction_return exp = null;
         OPPLScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression4 = null;
         OPPLScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression6 = null;
-        OPPLSyntaxTree HAS_KEY3_tree = null;
-        OPPLSyntaxTree COMMA5_tree = null;
         RewriteRuleTokenStream stream_HAS_KEY = new RewriteRuleTokenStream(adaptor,
                 "token HAS_KEY");
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
@@ -636,8 +627,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     retval.tree = root_0;
                     RewriteRuleSubtreeStream stream_exp = new RewriteRuleSubtreeStream(
                             adaptor, "rule exp", exp != null ? exp.tree : null);
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 87:75: -> ^( HAS_KEY ^( EXPRESSION $exp) ( ^( EXPRESSION
                     // propertyExpression ) )+ )
@@ -724,9 +713,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression10 = null;
         OPPLScript_OPPLParser_MOWLParser.value_return value11 = null;
         OPPLScript_OPPLParser_MOWLParser.assertionAxiom_return assertionAxiom13 = null;
-        OPPLSyntaxTree INSTANCE_OF7_tree = null;
-        OPPLSyntaxTree TYPES8_tree = null;
-        OPPLSyntaxTree NOT12_tree = null;
         RewriteRuleTokenStream stream_TYPES = new RewriteRuleTokenStream(adaptor,
                 "token TYPES");
         RewriteRuleTokenStream stream_NOT = new RewriteRuleTokenStream(adaptor,
@@ -828,9 +814,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_i = new RewriteRuleSubtreeStream(
                                 adaptor, "rule i", i != null ? i.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
@@ -911,9 +894,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_subject = new RewriteRuleSubtreeStream(
                                 adaptor, "rule subject", subject != null ? subject.tree
                                         : null);
@@ -997,9 +977,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 96:24: -> ^( NEGATED_ASSERTION assertionAxiom )
                         {
@@ -1083,15 +1060,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser.atomic_return rhsID = null;
         OPPLScript_OPPLParser_MOWLParser.expression_return expression22 = null;
         OPPLScript_OPPLParser_MOWLParser.expression_return expression24 = null;
-        OPPLSyntaxTree SUBCLASS_OF14_tree = null;
-        OPPLSyntaxTree EQUIVALENT_TO15_tree = null;
-        OPPLSyntaxTree DISJOINT_WITH16_tree = null;
-        OPPLSyntaxTree SUB_PROPERTY_OF17_tree = null;
-        OPPLSyntaxTree INVERSE_OF18_tree = null;
-        OPPLSyntaxTree SAME_AS19_tree = null;
-        OPPLSyntaxTree DIFFERENT_FROM20_tree = null;
-        OPPLSyntaxTree DOMAIN21_tree = null;
-        OPPLSyntaxTree RANGE23_tree = null;
         RewriteRuleTokenStream stream_RANGE = new RewriteRuleTokenStream(adaptor,
                 "token RANGE");
         RewriteRuleTokenStream stream_SAME_AS = new RewriteRuleTokenStream(adaptor,
@@ -1177,9 +1145,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_superClass = new RewriteRuleSubtreeStream(
                                 adaptor, "rule superClass",
                                 superClass != null ? superClass.tree : null);
@@ -1263,9 +1228,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_rhs = new RewriteRuleSubtreeStream(
                                 adaptor, "rule rhs", rhs != null ? rhs.tree : null);
                         RewriteRuleSubtreeStream stream_lhs = new RewriteRuleSubtreeStream(
@@ -1347,9 +1309,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_disjoint = new RewriteRuleSubtreeStream(
                                 adaptor, "rule disjoint",
                                 disjoint != null ? disjoint.tree : null);
@@ -1433,9 +1392,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_superProperty = new RewriteRuleSubtreeStream(
                                 adaptor, "rule superProperty",
                                 superProperty != null ? superProperty.tree : null);
@@ -1522,9 +1478,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
                                 adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_rhsAtomic = new RewriteRuleSubtreeStream(
                                 adaptor, "rule rhsAtomic",
                                 rhsAtomic != null ? rhsAtomic.tree : null);
@@ -1606,9 +1559,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
                                 adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_rhsID = new RewriteRuleSubtreeStream(
                                 adaptor, "rule rhsID", rhsID != null ? rhsID.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
@@ -1690,9 +1640,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
                                 adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_rhsID = new RewriteRuleSubtreeStream(
                                 adaptor, "rule rhsID", rhsID != null ? rhsID.tree : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
@@ -1773,9 +1720,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
                                 adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 110:46: -> ^( DOMAIN ^( EXPRESSION $lhsID) ^(
                         // EXPRESSION expression ) )
@@ -1853,9 +1797,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
                                 adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 111:44: -> ^( RANGE ^( EXPRESSION $lhsID) ^(
                         // EXPRESSION expression ) )
@@ -1964,8 +1905,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 116:32: -> ^( UNARY_AXIOM unaryCharacteristic ^(
                     // EXPRESSION unary ) )
@@ -2033,13 +1972,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token REFLEXIVE31 = null;
         Token IRREFLEXIVE32 = null;
         Token TRANSITIVE33 = null;
-        OPPLSyntaxTree FUNCTIONAL27_tree = null;
-        OPPLSyntaxTree INVERSE_FUNCTIONAL28_tree = null;
-        OPPLSyntaxTree SYMMETRIC29_tree = null;
-        OPPLSyntaxTree ANTI_SYMMETRIC30_tree = null;
-        OPPLSyntaxTree REFLEXIVE31_tree = null;
-        OPPLSyntaxTree IRREFLEXIVE32_tree = null;
-        OPPLSyntaxTree TRANSITIVE33_tree = null;
         RewriteRuleTokenStream stream_REFLEXIVE = new RewriteRuleTokenStream(adaptor,
                 "token REFLEXIVE");
         RewriteRuleTokenStream stream_SYMMETRIC = new RewriteRuleTokenStream(adaptor,
@@ -2119,9 +2051,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 120:16: -> ^( FUNCTIONAL )
                         {
@@ -2157,9 +2086,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 121:26: -> ^( INVERSE_FUNCTIONAL )
                         {
@@ -2195,9 +2121,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 122:17: -> ^( SYMMETRIC )
                         {
@@ -2233,9 +2156,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 123:22: -> ^( ANTI_SYMMETRIC )
                         {
@@ -2271,9 +2191,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 124:17: -> ^( REFLEXIVE )
                         {
@@ -2309,9 +2226,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 125:19: -> ^( IRREFLEXIVE )
                         {
@@ -2347,9 +2261,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 126:18: -> ^( TRANSITIVE )
                         {
@@ -2404,8 +2315,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.disjunction_return disjunction34 = null;
         OPPLScript_OPPLParser_MOWLParser.complexPropertyExpression_return complexPropertyExpression35 = null;
         OPPLScript_OPPLParser_MOWLParser.expression_return expression37 = null;
-        OPPLSyntaxTree OPEN_PARENTHESYS36_tree = null;
-        OPPLSyntaxTree CLOSED_PARENTHESYS38_tree = null;
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
                 adaptor, "token CLOSED_PARENTHESYS");
         RewriteRuleTokenStream stream_OPEN_PARENTHESYS = new RewriteRuleTokenStream(
@@ -2454,9 +2363,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (OPPLSyntaxTree) adaptor.nil();
                             // 132:17: -> ^( disjunction )
                             {
@@ -2495,9 +2401,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (OPPLSyntaxTree) adaptor.nil();
                             // 133:32: -> ^( complexPropertyExpression )
                             {
@@ -2554,9 +2457,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (OPPLSyntaxTree) adaptor.nil();
                             // 134:53: -> ^( expression )
                             {
@@ -2609,7 +2509,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token OR40 = null;
         OPPLScript_OPPLParser_MOWLParser.conjunction_return conjunction39 = null;
         OPPLScript_OPPLParser_MOWLParser.conjunction_return conjunction41 = null;
-        OPPLSyntaxTree OR40_tree = null;
         RewriteRuleTokenStream stream_OR = new RewriteRuleTokenStream(adaptor, "token OR");
         RewriteRuleSubtreeStream stream_conjunction = new RewriteRuleSubtreeStream(
                 adaptor, "rule conjunction");
@@ -2672,8 +2571,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 143:33: -> ^( DISJUNCTION ( conjunction )+ )
                     {
@@ -2730,7 +2627,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token AND43 = null;
         OPPLScript_OPPLParser_MOWLParser.unary_return unary42 = null;
         OPPLScript_OPPLParser_MOWLParser.unary_return unary44 = null;
-        OPPLSyntaxTree AND43_tree = null;
         RewriteRuleTokenStream stream_AND = new RewriteRuleTokenStream(adaptor,
                 "token AND");
         RewriteRuleSubtreeStream stream_unary = new RewriteRuleSubtreeStream(adaptor,
@@ -2795,8 +2691,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 147:24: -> ^( CONJUNCTION ( unary )+ )
                     {
@@ -2854,9 +2748,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token OPEN_PARENTHESYS46 = null;
         Token CLOSED_PARENTHESYS48 = null;
         OPPLScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression47 = null;
-        OPPLSyntaxTree INVERSE45_tree = null;
-        OPPLSyntaxTree OPEN_PARENTHESYS46_tree = null;
-        OPPLSyntaxTree CLOSED_PARENTHESYS48_tree = null;
         RewriteRuleTokenStream stream_INVERSE = new RewriteRuleTokenStream(adaptor,
                 "token INVERSE");
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
@@ -2914,8 +2805,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 151:65: -> ^( INVERSE_OBJECT_PROPERTY_EXPRESSION
                     // propertyExpression )
@@ -2984,11 +2873,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.constant_return constant58 = null;
         OPPLScript_OPPLParser.atomic_return atomic59 = null;
         RuleReturnScope rest = null;
-        OPPLSyntaxTree COMPOSITION49_tree = null;
-        OPPLSyntaxTree NOT50_tree = null;
-        OPPLSyntaxTree OPEN_PARENTHESYS51_tree = null;
-        OPPLSyntaxTree CLOSED_PARENTHESYS53_tree = null;
-        OPPLSyntaxTree NOT54_tree = null;
         RewriteRuleTokenStream stream_NOT = new RewriteRuleTokenStream(adaptor,
                 "token NOT");
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
@@ -3087,9 +2971,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_head = new RewriteRuleSubtreeStream(
                                 adaptor, "rule head", head != null ? head.tree : null);
                         RewriteRuleSubtreeStream stream_rest = new RewriteRuleSubtreeStream(
@@ -3158,9 +3039,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 158:56: -> ^( NEGATED_EXPRESSION expression )
                         {
@@ -3207,9 +3085,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 159:16: -> ^( NEGATED_EXPRESSION atomic )
                         {
@@ -3249,9 +3124,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 160:26: -> ^( qualifiedRestriction )
                         {
@@ -3351,10 +3223,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token CLOSED_SQUARE_BRACKET65 = null;
         OPPLScript_OPPLParser_MOWLParser.dataRangeFacet_return dataRangeFacet62 = null;
         OPPLScript_OPPLParser_MOWLParser.dataRangeFacet_return dataRangeFacet64 = null;
-        OPPLSyntaxTree IDENTIFIER60_tree = null;
-        OPPLSyntaxTree OPEN_SQUARE_BRACKET61_tree = null;
-        OPPLSyntaxTree COMMA63_tree = null;
-        OPPLSyntaxTree CLOSED_SQUARE_BRACKET65_tree = null;
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
                 "token COMMA");
         RewriteRuleTokenStream stream_OPEN_SQUARE_BRACKET = new RewriteRuleTokenStream(
@@ -3448,8 +3316,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 169:96: -> ^( DATA_RANGE IDENTIFIER ( dataRangeFacet )+ )
                     {
@@ -3514,10 +3380,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.constant_return constant69 = null;
         OPPLScript_OPPLParser_MOWLParser.constant_return constant71 = null;
         OPPLScript_OPPLParser_MOWLParser.constant_return constant73 = null;
-        OPPLSyntaxTree LESS_THAN66_tree = null;
-        OPPLSyntaxTree LESS_THAN_EQUAL68_tree = null;
-        OPPLSyntaxTree GREATER_THAN70_tree = null;
-        OPPLSyntaxTree GREATER_THAN_EQUAL72_tree = null;
         RewriteRuleTokenStream stream_LESS_THAN_EQUAL = new RewriteRuleTokenStream(
                 adaptor, "token LESS_THAN_EQUAL");
         RewriteRuleTokenStream stream_GREATER_THAN_EQUAL = new RewriteRuleTokenStream(
@@ -3589,9 +3451,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 174:22: -> ^( LESS_THAN constant )
                         {
@@ -3637,9 +3496,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 175:31: -> ^( LESS_THAN_EQUAL constant )
                         {
@@ -3686,9 +3542,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 176:27: -> ^( GREATER_THAN constant )
                         {
@@ -3734,9 +3587,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 177:33: -> ^( GREATER_THAN_EQUAL constant )
                         {
@@ -3799,8 +3649,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.cardinalityRestriction_return cardinalityRestriction80 = null;
         OPPLScript_OPPLParser_MOWLParser.oneOf_return oneOf81 = null;
         OPPLScript_OPPLParser_MOWLParser.valueRestriction_return valueRestriction82 = null;
-        OPPLSyntaxTree SOME75_tree = null;
-        OPPLSyntaxTree ONLY78_tree = null;
         RewriteRuleTokenStream stream_ONLY = new RewriteRuleTokenStream(adaptor,
                 "token ONLY");
         RewriteRuleTokenStream stream_SOME = new RewriteRuleTokenStream(adaptor,
@@ -3877,9 +3725,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (OPPLSyntaxTree) adaptor.nil();
                             // 188:46: -> ^( SOME_RESTRICTION propertyExpression
                             // expression )
@@ -3940,9 +3785,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (OPPLSyntaxTree) adaptor.nil();
                             // 189:44: -> ^( ALL_RESTRICTION propertyExpression
                             // expression )
@@ -3987,9 +3829,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (OPPLSyntaxTree) adaptor.nil();
                             // 190:30: -> ^( cardinalityRestriction )
                             {
@@ -4029,9 +3868,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (OPPLSyntaxTree) adaptor.nil();
                             // 191:13: -> ^( oneOf )
                             {
@@ -4069,9 +3905,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (OPPLSyntaxTree) adaptor.nil();
                             // 192:24: -> ^( valueRestriction )
                             {
@@ -4167,9 +4000,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 197:14: -> ^( atomic )
                         {
@@ -4207,9 +4037,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 198:33: -> ^( complexPropertyExpression )
                         {
@@ -4265,7 +4092,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         OPPLScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression85 = null;
         OPPLScript_OPPLParser_MOWLParser.restrictionKind_return restrictionKind86 = null;
         OPPLScript_OPPLParser_MOWLParser.unary_return unary88 = null;
-        OPPLSyntaxTree INTEGER87_tree = null;
         RewriteRuleTokenStream stream_INTEGER = new RewriteRuleTokenStream(adaptor,
                 "token INTEGER");
         RewriteRuleSubtreeStream stream_unary = new RewriteRuleSubtreeStream(adaptor,
@@ -4341,8 +4167,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 203:53: -> ^( CARDINALITY_RESTRICTION restrictionKind
                     // INTEGER propertyExpression ( unary )? )
@@ -4403,9 +4227,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token MIN89 = null;
         Token MAX90 = null;
         Token EXACTLY91 = null;
-        OPPLSyntaxTree MIN89_tree = null;
-        OPPLSyntaxTree MAX90_tree = null;
-        OPPLSyntaxTree EXACTLY91_tree = null;
         RewriteRuleTokenStream stream_MAX = new RewriteRuleTokenStream(adaptor,
                 "token MAX");
         RewriteRuleTokenStream stream_MIN = new RewriteRuleTokenStream(adaptor,
@@ -4457,9 +4278,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 207:9: -> ^( MIN )
                         {
@@ -4494,9 +4312,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 208:11: -> ^( MAX )
                         {
@@ -4532,9 +4347,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 209:15: -> ^( EXACTLY )
                         {
@@ -4587,9 +4399,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token CLOSED_CURLY_BRACES96 = null;
         OPPLScript_OPPLParser.atomic_return atomic93 = null;
         OPPLScript_OPPLParser.atomic_return atomic95 = null;
-        OPPLSyntaxTree OPEN_CURLY_BRACES92_tree = null;
-        OPPLSyntaxTree COMMA94_tree = null;
-        OPPLSyntaxTree CLOSED_CURLY_BRACES96_tree = null;
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
                 "token COMMA");
         RewriteRuleTokenStream stream_CLOSED_CURLY_BRACES = new RewriteRuleTokenStream(
@@ -4672,8 +4481,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 214:64: -> ^( ONE_OF ( atomic )+ )
                     {
@@ -4729,7 +4536,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token VALUE98 = null;
         OPPLScript_OPPLParser_MOWLParser.propertyExpression_return propertyExpression97 = null;
         OPPLScript_OPPLParser_MOWLParser.value_return value99 = null;
-        OPPLSyntaxTree VALUE98_tree = null;
         RewriteRuleTokenStream stream_VALUE = new RewriteRuleTokenStream(adaptor,
                 "token VALUE");
         RewriteRuleSubtreeStream stream_propertyExpression = new RewriteRuleSubtreeStream(
@@ -4776,8 +4582,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 217:51: -> ^( VALUE_RESTRICTION propertyExpression value
                     // )
@@ -4968,11 +4772,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token type = null;
         Token AT102 = null;
         Token POW103 = null;
-        OPPLSyntaxTree constantValue_tree = null;
-        OPPLSyntaxTree language_tree = null;
-        OPPLSyntaxTree type_tree = null;
-        OPPLSyntaxTree AT102_tree = null;
-        OPPLSyntaxTree POW103_tree = null;
         RewriteRuleTokenStream stream_AT = new RewriteRuleTokenStream(adaptor, "token AT");
         RewriteRuleTokenStream stream_POW = new RewriteRuleTokenStream(adaptor,
                 "token POW");
@@ -5679,6 +5478,8 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         }
     }
 
+    Logger logger = Logging.getParseLogging();
+
     // $ANTLR end synpred43_MOWLParser
     // Delegated rules
     public final boolean synpred3_MOWLParser() {
@@ -5687,7 +5488,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred3_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5702,7 +5503,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred17_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5717,7 +5518,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred25_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5732,7 +5533,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred27_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5747,7 +5548,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred7_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5762,7 +5563,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred1_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5777,7 +5578,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred12_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5792,7 +5593,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred14_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5807,7 +5608,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred31_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5822,7 +5623,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred16_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5837,7 +5638,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred11_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5852,7 +5653,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred15_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5867,7 +5668,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred42_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5882,7 +5683,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred33_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5897,7 +5698,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred41_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5912,7 +5713,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred4_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5927,7 +5728,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred32_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5942,7 +5743,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred18_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5957,7 +5758,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred34_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5972,7 +5773,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred28_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5987,7 +5788,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred26_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6002,7 +5803,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred30_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6017,7 +5818,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred43_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6032,7 +5833,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred13_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: " + re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);

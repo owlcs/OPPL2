@@ -64,8 +64,6 @@ import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-import uk.ac.manchester.cs.owl.owlapi.mansyntaxrenderer.ManchesterOWLSyntaxOWLObjectRendererImpl;
-
 @SuppressWarnings("javadoc")
 public class OPPLFunctionTest {
     private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
@@ -108,7 +106,6 @@ public class OPPLFunctionTest {
                 constraintSystem, bindingNode, HANDLER);
         IRI value = iriVariableAttribute.compute(parameters);
         assertTrue(value.equals(a.getIRI()));
-        System.out.println(value);
         manager.removeOntology(ontology);
     }
 
@@ -154,10 +151,6 @@ public class OPPLFunctionTest {
         Collection<? extends OWLClassExpression> values = valuesVariableAtttribute
                 .compute(parameters);
         assertTrue(values.size() == 2);
-        for (OWLClassExpression owlClassExpression : values) {
-            ManchesterOWLSyntaxOWLObjectRendererImpl renderer = new ManchesterOWLSyntaxOWLObjectRendererImpl();
-            System.out.println(renderer.render(owlClassExpression));
-        }
         manager.removeOntology(ontology);
     }
 
@@ -264,10 +257,6 @@ public class OPPLFunctionTest {
         OWLClassExpression value = classExpressionIntersection.compute(parameters);
         assertTrue(value.equals(manager.getOWLDataFactory().getOWLObjectIntersectionOf(a,
                 b)));
-        ManchesterSyntaxRenderer manchesterSyntaxRenderer = factory
-                .getManchesterSyntaxRenderer(constraintSystem);
-        value.accept(manchesterSyntaxRenderer);
-        System.out.println(manchesterSyntaxRenderer);
         // Variable values
         Variable<OWLClassExpression> x = constraintSystem.createVariable("?x",
                 VariableTypeFactory.getCLASSVariableType(), null);
@@ -288,9 +277,6 @@ public class OPPLFunctionTest {
         value = classExpressionIntersection.compute(parameters);
         assertTrue(value.equals(manager.getOWLDataFactory().getOWLObjectIntersectionOf(a,
                 b)));
-        manchesterSyntaxRenderer = factory.getManchesterSyntaxRenderer(constraintSystem);
-        value.accept(manchesterSyntaxRenderer);
-        System.out.println(manchesterSyntaxRenderer);
         // Mix them up
         OWLClass stop = manager.getOWLDataFactory().getOWLClass(IRI.create("stop"));
         Set<OWLClassExpression> operands = new HashSet<OWLClassExpression>(values);
@@ -301,9 +287,6 @@ public class OPPLFunctionTest {
         value = classExpressionIntersection.compute(parameters);
         assertTrue(value.equals(manager.getOWLDataFactory().getOWLObjectIntersectionOf(a,
                 b, stop)));
-        manchesterSyntaxRenderer = factory.getManchesterSyntaxRenderer(constraintSystem);
-        value.accept(manchesterSyntaxRenderer);
-        System.out.println(manchesterSyntaxRenderer);
         manager.removeOntology(ontology);
     }
 
@@ -324,10 +307,6 @@ public class OPPLFunctionTest {
                 constraintSystem, bindingNode, HANDLER);
         OWLClassExpression value = classExpressionIntersection.compute(parameters);
         assertTrue(value.equals(manager.getOWLDataFactory().getOWLObjectUnionOf(a, b)));
-        ManchesterSyntaxRenderer manchesterSyntaxRenderer = factory
-                .getManchesterSyntaxRenderer(constraintSystem);
-        value.accept(manchesterSyntaxRenderer);
-        System.out.println(manchesterSyntaxRenderer);
         manager.removeOntology(ontology);
     }
 
@@ -383,7 +362,9 @@ public class OPPLFunctionTest {
         ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory()
                 .getManchesterSyntaxRenderer(constraintSystem);
         axiom.accept(renderer);
-        System.out.println(renderer);
+        assertEquals(
+                "<http://www.w3.org/2002/07/owl#Thing> annotationProperty \"Luigi and Monica\"^^string",
+                renderer.toString());
     }
 
     @Test
@@ -417,10 +398,6 @@ public class OPPLFunctionTest {
                         BindingNode.createNewEmptyBindingNode(), HANDLER));
         OWLAxiom instantiatedAxiom = (OWLAxiom) axiom.accept(instantiator);
         assertTrue(instantiatedAxiom.getAxiomType() == AxiomType.DISJOINT_CLASSES);
-        ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory()
-                .getManchesterSyntaxRenderer(constraintSystem);
-        instantiatedAxiom.accept(renderer);
-        System.out.println(renderer);
     }
 
     @Test
@@ -529,7 +506,6 @@ public class OPPLFunctionTest {
         Set<? extends OWLObject> values = regexpGeneratedVariable
                 .accept(assignableValueExtractor);
         assertTrue(!values.isEmpty());
-        System.out.println(values);
         list = new ArrayList<Aggregandum<String>>();
         list.add(Adapter.buildSingletonAggregandum(new Constant<String>("Test")));
         list.add(Adapter.buildSingletonAggregandum(renderingVariableAttribute));

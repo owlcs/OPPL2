@@ -74,8 +74,6 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x = Thing";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out.println("OPPLTestCaseParserTest.testOneAssertion()\n"
-                + parsed.toStringTree());
     }
 
     @Test
@@ -83,8 +81,6 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x = Thing; ?x is not equal to Thing";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n"
-                + parsed.toStringTree());
     }
 
     @Test
@@ -92,8 +88,6 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x != Thing; ?x is equal to Thing;";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out.println("OPPLTestCaseParserTest.testNotEqualAssertionWithMessage\n"
-                + parsed.toStringTree());
     }
 
     @Test
@@ -101,8 +95,6 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT count(?x) = 2; ?x values count is not 2;";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out.println("OPPLTestCaseParserTest.testCountAssertionWithMessage()\n"
-                + parsed.toStringTree());
     }
 
     @Test
@@ -110,8 +102,6 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x CONTAINS Thing; ?x values do not contain Thing;";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out.println("OPPLTestCaseParserTest.testCountAssertionWithMessage()\n"
-                + parsed.toStringTree());
     }
 
     @Test
@@ -119,9 +109,6 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x CONTAINS Thing, Nothing; ?x values do not contain Thing and Nothing;";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out
-                .println("OPPLTestCaseParserTest.testContainsAssertionWithMessageWithMoreThanObject\n"
-                        + parsed.toStringTree());
     }
 
     @Test
@@ -129,8 +116,6 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT ?x = ?y; ?x values are not equal to ?y;";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out.println("OPPLTestCaseParserTest.testOneAssertionWithMessage()\n"
-                + parsed.toStringTree());
     }
 
     @Test
@@ -138,8 +123,6 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) = 1; The total count of bindings is not 1";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out.println("OPPLTestCaseParserTest.testCountStarWithMessage()\n"
-                + parsed.toStringTree());
     }
 
     @Test
@@ -147,8 +130,6 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) < 1; The total count of bindings is greater than or equal to 1";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out.println("OPPLTestCaseParserTest.testLessThanWithMessage()\n"
-                + parsed.toStringTree());
     }
 
     @Test
@@ -156,8 +137,6 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) <= 1; The total count of bindings is greater than 1";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out.println("OPPLTestCaseParserTest.testLessThanEqualToWithMessage()\n"
-                + parsed.toStringTree());
     }
 
     @Test
@@ -165,8 +144,6 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) >= 1; The total count of bindings is less than 1";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out.println("OPPLTestCaseParserTest.testGreaterThanEqualToWithMessage()\n"
-                + parsed.toStringTree());
     }
 
     @Test
@@ -174,8 +151,6 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) > 1; The total count of bindings is less than or equal to 1";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out.println("OPPLTestCaseParserTest.testGreaterThanWithMessage()\n"
-                + parsed.toStringTree());
     }
 
     @Test
@@ -183,8 +158,6 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(?x=Thing, ?y=Thing) > 0; The total count of bindings with ?x=Thing and ?y=Thing is less or equal than 0";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out.println("OPPLTestCaseParserTest.testBindingWithMessage()\n"
-                + parsed.toStringTree());
     }
 
     @Test
@@ -192,7 +165,5 @@ public class OPPLTestCaseParserTest {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(?x=Thing, ?y=Thing) > 0; The total count of bindings with ?x=Thing and ?y=Thing is less or equal than 0 ASSERT count(?x=Nothing, ?y=Nothing) > 0; The total count of bindings with ?x=Thing and ?y=Thing is less or equal than 0";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
-        System.out.println("OPPLTestCaseParserTest.testBindingWithMessage()\n"
-                + parsed.toStringTree());
     }
 }

@@ -1,31 +1,31 @@
 package org.coode.parsers.oppl.test;
 
-import static org.coode.oppl.Ontologies.syntax;
+import static org.coode.oppl.Ontologies.*;
 import static org.junit.Assert.*;
 
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 @SuppressWarnings("javadoc")
-public class OPPLScriptExtendedParserTest extends OPPLScriptTypesParserTest {
+public class OPPLScriptExtendedParserTest {
     public void testRoundTripSubClassQuery() {
         String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
-        OPPLSyntaxTree parsed = this.parse(query, syntax);
-        System.out.println(parsed.toStringTree());
+        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, syntax, null,
+                getOPPLSymbolTable(syntax));
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        System.out.println("original script: \t" + query);
-        System.out.println("parsed content:  \t" + parsed.getOPPLContent());
+        assertEquals("parsed content:  \t", parsed.getOPPLContent());
         query = parsed.getOPPLContent().toString();
-        parsed = this.parse(query, syntax);
-        System.out.println(parsed.toStringTree());
+        parsed = OPPLScriptTypesParserTest.parse(query, syntax, null,
+                getOPPLSymbolTable(syntax));
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
     }
 
     public void testRegexp() {
         String query = "?regexp:CLASS=MATCH(\"([A-Z]+)izza\"), ?x:CLASS=create(?regexp.GROUPS(1)) SELECT ?regexp subClassOf Thing WHERE ?regexp MATCH(\"(([A-Z]+))izza\") BEGIN ADD ?x subClassOf ?regexp END;";
-        OPPLSyntaxTree parsed = this.parse(query, syntax);
+        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, syntax, null,
+                getOPPLSymbolTable(syntax));
         System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
@@ -109,30 +109,17 @@ public class OPPLScriptExtendedParserTest extends OPPLScriptTypesParserTest {
     }
 
     public void tester(String query, OWLOntology ontology) {
-        try {
-            System.out.println("script:\t" + query);
-            OPPLSyntaxTree parsed = this.parse(query, ontology);
-            System.out.println(parsed.toStringTree());
-            assertNotNull(parsed);
-            assertNotNull(query, parsed.getOPPLContent());
-            System.out.println("original script: \t" + query);
-            System.out.println("parsed content:  \t" + parsed.getOPPLContent());
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            fail(e.getMessage());
-        }
+        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, ontology, null,
+                getOPPLSymbolTable(ontology));
+        assertNotNull(parsed);
+        assertNotNull(query, parsed.getOPPLContent());
+        assertEquals("parsed content:  \t", parsed.getOPPLContent());
     }
 
     public void testerExpectFail(String query) {
-        try {
-            System.out.println("script:\t" + query);
-            OPPLSyntaxTree parsed = this.parse(query, syntax);
-            System.out.println(parsed.toStringTree());
-            assertNotNull(parsed);
-            assertNull(query, parsed.getOPPLContent());
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            fail("There should not be exceptions: " + e.getMessage());
-        }
+        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, syntax, null,
+                getOPPLSymbolTable(syntax));
+        assertNotNull(parsed);
+        assertNull(query, parsed.getOPPLContent());
     }
 }

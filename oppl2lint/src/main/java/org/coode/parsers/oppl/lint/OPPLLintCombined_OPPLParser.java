@@ -1,11 +1,12 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 OPPLParser.g 2011-08-02 17:13:32
 
   package org.coode.parsers.oppl.lint;
-  import org.coode.parsers.oppl.OPPLSyntaxTree;
-    import org.coode.parsers.ErrorListener;
-
-
+  import org.coode.oppl.log.Logger;
+import org.coode.oppl.log.Logging;
+import org.coode.parsers.oppl.OPPLSyntaxTree;
+import org.coode.parsers.ErrorListener;
 import org.antlr.runtime.*;
+
 import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
@@ -4438,6 +4439,9 @@ public class OPPLLintCombined_OPPLParser extends Parser {
 
         }
     }
+    
+    Logger logger=Logging.getParseLogging();
+
     // $ANTLR end synpred19_OPPLParser
 
     // Delegated rules
@@ -4448,7 +4452,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
         try {
             synpred18_OPPLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
+            logger.info("impossible: " , re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -4462,7 +4466,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
         try {
             synpred15_OPPLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
+            logger.info("impossible: " , re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -4476,7 +4480,7 @@ public class OPPLLintCombined_OPPLParser extends Parser {
         try {
             synpred19_OPPLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            System.err.println("impossible: "+re);
+            logger.info("impossible: " , re);
         }
         boolean success = !state.failed;
         input.rewind(start);

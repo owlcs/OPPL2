@@ -21,7 +21,5 @@ public class PerformanceTest extends ExhaustingPatternTest {
                 + "END;";
         long start = System.currentTimeMillis();
         parseCorrect(string, getOntology("AnnotatedSiemensStart.owl"));
-        System.out.println("PerformanceTest.testPerformance() elapsed: "
-                + (System.currentTimeMillis() - start));
     }
 }

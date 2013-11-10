@@ -106,77 +106,69 @@ public class SpecificInferenceQueries {
     };
 
     @Test
-    public void testRedundantSubClasses() {
+    public void testRedundantSubClasses() throws OWLOntologyCreationException {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-        try {
-            OWLOntology ontology = ontologyManager.createOntology();
-            OWLDataFactory dataFactory = ontologyManager.getOWLDataFactory();
-            OWLClass a = dataFactory.getOWLClass(IRI.create("blah#A"));
-            OWLClass b = dataFactory.getOWLClass(IRI.create("blah#B"));
-            OWLClass c = dataFactory.getOWLClass(IRI.create("blah#C"));
-            OWLClass d = dataFactory.getOWLClass(IRI.create("blah#D"));
-            OWLClass e = dataFactory.getOWLClass(IRI.create("blah#E"));
-            List<AddAxiom> changes = Arrays.asList(
-                    new AddAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(b, a)),
-                    new AddAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(c, b)),
-                    new AddAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(d, b)),
-                    new AddAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(e, b)),
-                    // Redundant
-                    new AddAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(c, a)),
-                    // Redundant
-                    new AddAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(d, a)));
-            ontologyManager.applyChanges(changes);
-            String xVariableName = "?x";
-            String yVariableName = "?y";
-            String opplScripString = String
-                    .format("%1$s:CLASS, %2$s:CLASS SELECT ASSERTED %1$s SubClassOf A, ASSERTED %2$s SubClassOf A, %1$s SubClassOf %2$s WHERE %1$s != %2$s BEGIN REMOVE %1$s SubClassOf A END;",
-                            xVariableName, yVariableName);
-            JFactFactory factory = new JFactFactory();
-            OWLReasoner reasoner = factory.createReasoner(ontology);
-            ParserFactory parserFactory = new ParserFactory(ontologyManager, ontology,
-                    reasoner);
-            OPPLParser parser = parserFactory.build(new SilentListener());
-            OPPLScript opplScript = parser.parse(opplScripString);
-            ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, false);
-            List<OWLAxiomChange> extractedChanges = changeExtractor.visit(opplScript);
-            assertTrue(extractedChanges.size() == 2);
-            Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-            assertNotNull(leaves);
-            assertTrue(leaves.size() == 2);
-            Map<String, Set<OWLObject>> assignments = new HashMap<String, Set<OWLObject>>();
-            for (BindingNode bindingNode : leaves) {
-                Set<Variable<?>> assignedVariables = bindingNode.getAssignedVariables();
-                for (Variable<?> variable : assignedVariables) {
-                    String name = variable.getName();
-                    if (name.compareTo(xVariableName) == 0
-                            || name.compareTo(yVariableName) == 0) {
-                        Set<OWLObject> set = assignments.get(name);
-                        if (set == null) {
-                            set = new HashSet<OWLObject>();
-                            assignments.put(name, set);
-                        }
-                        set.add(bindingNode.getAssignmentValue(
-                                variable,
-                                new SimpleValueComputationParameters(opplScript
-                                        .getConstraintSystem(), bindingNode, HANDLER)));
+        OWLOntology ontology = ontologyManager.createOntology();
+        OWLDataFactory dataFactory = ontologyManager.getOWLDataFactory();
+        OWLClass a = dataFactory.getOWLClass(IRI.create("blah#A"));
+        OWLClass b = dataFactory.getOWLClass(IRI.create("blah#B"));
+        OWLClass c = dataFactory.getOWLClass(IRI.create("blah#C"));
+        OWLClass d = dataFactory.getOWLClass(IRI.create("blah#D"));
+        OWLClass e = dataFactory.getOWLClass(IRI.create("blah#E"));
+        List<AddAxiom> changes = Arrays.asList(
+                new AddAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(b, a)),
+                new AddAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(c, b)),
+                new AddAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(d, b)),
+                new AddAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(e, b)),
+                // Redundant
+                new AddAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(c, a)),
+                // Redundant
+                new AddAxiom(ontology, dataFactory.getOWLSubClassOfAxiom(d, a)));
+        ontologyManager.applyChanges(changes);
+        String xVariableName = "?x";
+        String yVariableName = "?y";
+        String opplScripString = String
+                .format("%1$s:CLASS, %2$s:CLASS SELECT ASSERTED %1$s SubClassOf A, ASSERTED %2$s SubClassOf A, %1$s SubClassOf %2$s WHERE %1$s != %2$s BEGIN REMOVE %1$s SubClassOf A END;",
+                        xVariableName, yVariableName);
+        JFactFactory factory = new JFactFactory();
+        OWLReasoner reasoner = factory.createReasoner(ontology);
+        ParserFactory parserFactory = new ParserFactory(ontologyManager, ontology,
+                reasoner);
+        OPPLParser parser = parserFactory.build(new SilentListener());
+        OPPLScript opplScript = parser.parse(opplScripString);
+        ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, false);
+        List<OWLAxiomChange> extractedChanges = changeExtractor.visit(opplScript);
+        assertTrue(extractedChanges.size() == 2);
+        Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
+        assertNotNull(leaves);
+        assertTrue(leaves.size() == 2);
+        Map<String, Set<OWLObject>> assignments = new HashMap<String, Set<OWLObject>>();
+        for (BindingNode bindingNode : leaves) {
+            Set<Variable<?>> assignedVariables = bindingNode.getAssignedVariables();
+            for (Variable<?> variable : assignedVariables) {
+                String name = variable.getName();
+                if (name.compareTo(xVariableName) == 0
+                        || name.compareTo(yVariableName) == 0) {
+                    Set<OWLObject> set = assignments.get(name);
+                    if (set == null) {
+                        set = new HashSet<OWLObject>();
+                        assignments.put(name, set);
                     }
+                    set.add(bindingNode.getAssignmentValue(
+                            variable,
+                            new SimpleValueComputationParameters(opplScript
+                                    .getConstraintSystem(), bindingNode, HANDLER)));
                 }
             }
-            Set<OWLObject> xValues = assignments.get(xVariableName);
-            assertNotNull(xValues);
-            assertTrue(xValues.size() == 2);
-            assertTrue(xValues.containsAll(Arrays.asList(c, d)));
-            Set<OWLObject> yValues = assignments.get(yVariableName);
-            assertNotNull(yValues);
-            assertTrue(yValues.size() == 1);
-            assertTrue(yValues.containsAll(Arrays.asList(b)));
-            for (OWLObject owlObject : xValues) {
-                System.out.println(owlObject);
-            }
-        } catch (OWLOntologyCreationException e) {
-            fail(e.getMessage());
-            e.printStackTrace();
         }
+        Set<OWLObject> xValues = assignments.get(xVariableName);
+        assertNotNull(xValues);
+        assertTrue(xValues.size() == 2);
+        assertTrue(xValues.containsAll(Arrays.asList(c, d)));
+        Set<OWLObject> yValues = assignments.get(yVariableName);
+        assertNotNull(yValues);
+        assertTrue(yValues.size() == 1);
+        assertTrue(yValues.containsAll(Arrays.asList(b)));
     }
 
     @Test
@@ -196,8 +188,6 @@ public class SpecificInferenceQueries {
         String opplString = "?x:CLASS SELECT  ?x subClassOf C BEGIN ADD ?x subClassOf A END;";
         OWLReasonerFactory factory = new JFactFactory();
         OWLReasoner reasoner = factory.createReasoner(testOntology);
-        System.out.println("SpecificInferenceQueries.testTransitiveSubClassClosure() "
-                + testOntology.getAxioms().toString().replace(",", ",\n"));
         OPPLScript opplScript = new ParserFactory(ontologyManager, testOntology, reasoner)
                 .build(errorListener).parse(opplString);
         ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
@@ -206,10 +196,8 @@ public class SpecificInferenceQueries {
         Set<OWLAxiom> instantiatedAxioms = getOPPLScriptInstantiatedAxioms(opplScript);
         assertEquals("Instantiated axioms number does not match", 4,
                 instantiatedAxioms.size());
-        for (OWLAxiom axiom : instantiatedAxioms) {
-            Logging.getQueryTestLogging().info(axiom);
-        }
         NodeSet<OWLClass> subClasses = reasoner.getSubClasses(c, false);
+        // XXX automate test
         Logging.getQueryTestLogging().info(subClasses);
     }
 

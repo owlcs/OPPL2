@@ -77,7 +77,6 @@ ontologies.manager);
     public void testFood() {
         String patternString = "?x:CLASS, ?y:CLASS, ?forbiddenContent:CLASS = createUnion(?x.VALUES) BEGIN ADD $thisClass equivalentTo contains only (not ?forbiddenContent) END; A ?x free stuff; RETURN $thisClass";
         OPPLSyntaxTree parsed = parse(patternString);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
         assertTrue("Exected 5 actual " + definedSymbols.size() + " " + definedSymbols,
@@ -91,7 +90,6 @@ ontologies.manager);
             OWLOntology referencedPatternOntology = ONTOLOGY_MANAGER.loadOntology(IRI
                     .create("http://oppl2.sourceforge.net/patterns/ontologies/food.owl"));
             OPPLSyntaxTree parsed = parse(patternString);
-            System.out.println(parsed.toStringTree());
             assertNotNull(parsed);
             Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
             assertTrue(
@@ -108,7 +106,6 @@ ontologies.manager);
     public void testPizza() {
         String patternString = "?base:CLASS,?topping:CLASS, ?allToppings:CLASS = createUnion(?topping.VALUES) BEGIN ADD $thisClass subClassOf Pizza, ADD $thisClass subClassOf hasTopping some ?topping,  ADD $thisClass subClassOf hasTopping only ?allToppings, ADD $thisClass subClassOf hasBase some ?base  END; A pizza with ?base base and ?topping toppings";
         OPPLSyntaxTree parsed = parse(patternString);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
         assertTrue("Exected 5 actual " + definedSymbols.size() + " " + definedSymbols,
@@ -119,7 +116,6 @@ ontologies.manager);
     public void testDOLCEInformationRealization() {
         String patternString = "?informationObject:CLASS, ?informationRealization:CLASS, ?realizationProperty:OBJECTPROPERTY BEGIN ADD ?informationRealization subClassOf InformationRealization, ADD ?informationObject subClassOf InformationObject, ADD ?realizationProperty subPropertyOf realizes, ADD ?informationRealization subClassOf PhysicalObject and ?realizationProperty some ?InformationObject END;Information Realization Pattern: ?informationRealization ?realizationProperty ?informationObject";
         OPPLSyntaxTree parsed = parse(patternString);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
         assertTrue("Exected 3 actual " + definedSymbols.size() + " " + definedSymbols,
@@ -130,7 +126,6 @@ ontologies.manager);
     public void testDOLCEPersonRoleTimeInterval() {
         String patternString = "?person:CLASS, ?role:CLASS, ?timeInterval:CLASS BEGIN ADD $thisClass subClassOf Situation, ADD $thisClass subClassOf isSettingFor some ?person, ADD $thisClass subClassOf isSettingFor some ?role, ADD $thisClass subClassOf isSettingFor some ?timeInterval END; Situation where ?person play the role ?role during the time interval ?timeInterval";
         OPPLSyntaxTree parsed = parse(patternString);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
         assertTrue("Exected 4 actual " + definedSymbols.size() + " " + definedSymbols,

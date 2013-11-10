@@ -26,7 +26,6 @@ import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.log.Logging;
-import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.VariableType;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
@@ -170,11 +169,6 @@ public class OPPLPartsTestCase {
             public <P extends OWLObject> void visit(GeneratedVariable<P> v) {
                 P value = v.getOPPLFunction().compute(parameters);
                 assertNotNull(value);
-                ManchesterSyntaxRenderer renderer = parameters.getConstraintSystem()
-                        .getOPPLFactory()
-                        .getManchesterSyntaxRenderer(parameters.getConstraintSystem());
-                value.accept(renderer);
-                System.out.println(renderer.toString());
             }
 
             @Override
@@ -197,7 +191,6 @@ public class OPPLPartsTestCase {
         OWLAxiom axiom = parser.parseAxiom("?x subClassOf !hasP some ?y", symbolTable,
                 constraintSystem);
         assertNotNull("The axiom cannot be null", axiom);
-        Logging.getParseTestLogging().info(axiom);
     }
 
     @Test

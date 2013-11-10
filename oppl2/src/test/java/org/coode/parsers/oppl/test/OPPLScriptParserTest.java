@@ -51,7 +51,6 @@ public class OPPLScriptParserTest {
     public void testSubClassQuery() {
         String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
     }
 
@@ -59,7 +58,6 @@ public class OPPLScriptParserTest {
     public void testSubClassQueryNAryAxiom() {
         String query = "?x:CLASS SELECT DisjointClasses set(Thing, Nothing) BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
-        System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
     }
 
@@ -68,7 +66,6 @@ public class OPPLScriptParserTest {
         String query = "?x:CLASS SELECT DisjointClasses: set(?x.VALUES) BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
@@ -76,7 +73,6 @@ public class OPPLScriptParserTest {
         String query = "?x:CLASS=create(\"BLA\".toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
@@ -84,7 +80,6 @@ public class OPPLScriptParserTest {
         String query = "?x:CLASS=create(\"BLA\".toUpperCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
@@ -92,7 +87,6 @@ public class OPPLScriptParserTest {
         String query = "?x:CLASS, ?y:CLASS=create(?x.RENDERING +\"_\"+\"BLA\".toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
@@ -100,7 +94,6 @@ public class OPPLScriptParserTest {
         String query = "?x:CLASS = MATCH(\"(.+)Topping\"), ?y:CLASS=create(\"Topping_\" + ?x.GROUPS(1).toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
@@ -108,7 +101,6 @@ public class OPPLScriptParserTest {
         String query = "?x:CLASS = MATCH(\"(.+)Topping\"), ?y:CLASS=create(\"Topping_\" + ?x.GROUPS(1).toUpperCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
@@ -116,7 +108,6 @@ public class OPPLScriptParserTest {
         String query = "?x:CLASS=create((\"Bla\"+ \"Bla\").toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
@@ -124,7 +115,6 @@ public class OPPLScriptParserTest {
         String query = "?x:CLASS, ?y:CLASS=create(?x.RENDERING +\"_\"+\"BLA\".toUpperCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
@@ -132,7 +122,6 @@ public class OPPLScriptParserTest {
         String query = "?x:CLASS = MATCH (\".*ing\") SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     @Test
@@ -140,7 +129,6 @@ public class OPPLScriptParserTest {
         String query = "?x:CLASS, ?y:OBJECTPROPERTY = MATCH(\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x subClassOf ?y some ?z BEGIN REMOVE ?x subClassOf ?y some ?z, ADD ?x subClassOf !hasFeature some (?feature and !hasValue some ?z) END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
-        System.out.println(parsed.toStringTree());
     }
 
     protected ManchesterOWLSyntaxTree parse(String input) {
@@ -165,8 +153,7 @@ public class OPPLScriptParserTest {
             }
             return (ManchesterOWLSyntaxTree) r.getTree();
         } catch (RecognitionException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 }

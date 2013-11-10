@@ -18,7 +18,7 @@ public class GroupVariableAttribute<O extends OWLObject> extends
     /** @param variable
      * @param attribute */
     public GroupVariableAttribute(RegexpGeneratedVariable<O> variable, int index) {
-        super(variable, AttributeName.GROUP);
+        super(variable, AttributeName.GROUPS);
         if (index < 0) {
             throw new IllegalArgumentException(String.format("Invalid index %d", index));
         }

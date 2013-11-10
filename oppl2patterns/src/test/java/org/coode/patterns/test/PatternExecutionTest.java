@@ -67,7 +67,7 @@ public class PatternExecutionTest {
             OPPLPatternParser parser = factory.build(errorListener);
             PatternModel patternModel = parser.parse(string);
             assertNotNull(patternModel);
-            System.out.println(patternModel.render());
+            
             RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
                 public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
                     errorListener.reportThrowable(e, 0, 0, 0);
@@ -116,12 +116,12 @@ public class PatternExecutionTest {
 
                     public void visit(RemoveAxiom change) {
                         change.getAxiom().accept(renderer);
-                        System.out.printf("REMOVE %s \n", renderer.toString());
+                        
                     }
 
                     public void visit(AddAxiom change) {
                         change.getAxiom().accept(renderer);
-                        System.out.printf("ADD %s \n", renderer.toString());
+                        
                     }
                 });
             }
@@ -146,7 +146,7 @@ public class PatternExecutionTest {
             OPPLPatternParser parser = factory.build(errorListener);
             PatternModel patternModel = parser.parse(string);
             assertNotNull(patternModel);
-            System.out.println(patternModel.render());
+            
             RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
                 public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
                     errorListener.reportThrowable(e, 0, 0, 0);
@@ -189,12 +189,12 @@ public class PatternExecutionTest {
 
                     public void visit(RemoveAxiom change) {
                         change.getAxiom().accept(renderer);
-                        System.out.printf("REMOVE %s \n", renderer.toString());
+                        
                     }
 
                     public void visit(AddAxiom change) {
                         change.getAxiom().accept(renderer);
-                        System.out.printf("ADD %s \n", renderer.toString());
+                        
                     }
                 });
             }
@@ -218,7 +218,7 @@ public class PatternExecutionTest {
             OPPLPatternParser parser = factory.build(errorListener);
             PatternModel patternModel = parser.parse(string);
             assertNotNull(patternModel);
-            System.out.println(patternModel.render());
+            
             RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
                 public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
                     errorListener.reportThrowable(e, 0, 0, 0);
@@ -267,12 +267,12 @@ public class PatternExecutionTest {
 
                     public void visit(RemoveAxiom change) {
                         change.getAxiom().accept(renderer);
-                        System.out.printf("REMOVE %s \n", renderer.toString());
+                        
                     }
 
                     public void visit(AddAxiom change) {
                         change.getAxiom().accept(renderer);
-                        System.out.printf("ADD %s \n", renderer.toString());
+                        
                     }
                 });
             }
@@ -344,12 +344,12 @@ public class PatternExecutionTest {
 
                     public void visit(RemoveAxiom change) {
                         change.getAxiom().accept(renderer);
-                        System.out.printf("REMOVE %s \n", renderer.toString());
+                        
                     }
 
                     public void visit(AddAxiom change) {
                         change.getAxiom().accept(renderer);
-                        System.out.printf("ADD %s \n", renderer.toString());
+                        
                     }
                 });
             }
@@ -388,12 +388,12 @@ public class PatternExecutionTest {
 
                     public void visit(RemoveAxiom change) {
                         change.getAxiom().accept(renderer);
-                        System.out.printf("REMOVE %s \n", renderer.toString());
+                        
                     }
 
                     public void visit(AddAxiom change) {
                         change.getAxiom().accept(renderer);
-                        System.out.printf("ADD %s \n", renderer.toString());
+                        
                     }
                 });
             }
@@ -456,12 +456,12 @@ public class PatternExecutionTest {
 
                     public void visit(RemoveAxiom change) {
                         change.getAxiom().accept(renderer);
-                        System.out.printf("REMOVE %s \n", renderer.toString());
+                        
                     }
 
                     public void visit(AddAxiom change) {
                         change.getAxiom().accept(renderer);
-                        System.out.printf("ADD %s \n", renderer.toString());
+                        
                     }
                 });
             }
