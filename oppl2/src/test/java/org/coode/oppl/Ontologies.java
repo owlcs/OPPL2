@@ -749,11 +749,14 @@ public class Ontologies {
             siblings = load(siblings_owl);
             ondrejtest = load(ondrejtest_owl);
             sequentialUnion = load(sequentialUnion_owl);
-            pizza = load(pizza_owl_1 + pizza_owl_2);
+            StringBuilder b = new StringBuilder();
+            b.append(pizza_owl_1);
+            b.append(pizza_owl_2);
+            pizza = load(b.toString());
             load(managerForPizzaAndSyntax, syntax_owl);
-            load(managerForPizzaAndSyntax, pizza_owl_1 + pizza_owl_2);
+            load(managerForPizzaAndSyntax, b.toString());
             load(managerForPizzaAndOndrej, ondrejtest_owl);
-            load(managerForPizzaAndOndrej, pizza_owl_1 + pizza_owl_2);
+            load(managerForPizzaAndOndrej, b.toString());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

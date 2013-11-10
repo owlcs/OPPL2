@@ -15,13 +15,16 @@ public class Logging {
             String logFileName = System.getProperty(LOG_FILE_PRPERTY_NAME);
             InputStream in = logFileName == null ? null : Logging.class.getClassLoader()
                     .getResourceAsStream(logFileName);
-            LogManager.getLogManager().readConfiguration(
-                    in == null ? Logging.class
-                            .getResourceAsStream("oppl-logging.properties") : in);
+            if (in == null) {
+                in = Logging.class.getResourceAsStream("/oppl-logging.properties");
+            }
+            if (in != null) {
+                LogManager.getLogManager().readConfiguration(in);
+            }
         } catch (SecurityException e) {
-            getMainLogger().log("No local log configuration file found");
+            System.out.println("No local log configuration file found");
         } catch (IOException e) {
-            getMainLogger().log("No local log configuration file found");
+            System.out.println("No local log configuration file found");
         }
     }
     private static final Logger profiling = new Logger("org.coode.oppl.profiling");

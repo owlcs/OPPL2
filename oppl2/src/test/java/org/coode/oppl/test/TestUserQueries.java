@@ -225,7 +225,7 @@ public class TestUserQueries {
         ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
         changeExtractor.visit(opplScript);
         Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
-        assertTrue(leaves != null);
+        assertNotNull(leaves);
         assertFalse(leaves.isEmpty());
     }
 }
