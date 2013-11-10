@@ -1,12 +1,11 @@
 package org.coode.parsers.oppl.testcase.junittest;
 
-import static org.junit.Assert.fail;
+import static org.coode.oppl.Ontologies.pizza;
 
 import java.util.regex.PatternSyntaxException;
 
 import junit.framework.TestCase;
 
-import org.coode.oppl.Ontologies;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.oppl.testcase.JUnitTestCaseRunner;
@@ -17,18 +16,12 @@ import org.coode.parsers.oppl.testcase.ParserFactory;
 import org.coode.parsers.oppl.testcase.TestCaseRunner;
 import org.coode.parsers.test.JUnitTestErrorListener;
 import org.junit.Test;
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
 public class OPPLTestCaseRunnerTest {
-    Ontologies ontologies=new Ontologies();
     private final class JunitConfigShouldFailTestCaseRunner extends TestCaseRunner {
         /** @param opplTestCase */
         public JunitConfigShouldFailTestCaseRunner(OPPLTestCase opplTestCase) {
@@ -103,51 +96,44 @@ public class OPPLTestCaseRunnerTest {
     @Test
     public void testCount() {
         String testCase = "testOneAssertion; ?x:CLASS SELECT ?x subClassOf Pizza ASSERT count(?x) = 1; ?x count is not 1;";
-       
-            ParserFactory parserFactory = new ParserFactory(ontologies.pizza,
-ontologies.manager);
-            OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
-            OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
-            this.runTestCase(opplTestCase);
+        ParserFactory parserFactory = new ParserFactory(pizza,
+                pizza.getOWLOntologyManager());
+        OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
+        OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
+        this.runTestCase(opplTestCase);
     }
 
     @Test
     public void testCountInference() {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf InterestingPizza WHERE ?x!=InterestingPizza, FAIL ?x equivalentTo Nothing  ASSERT count(?x) = 20; ?x count is not 20;";
-
-            JFactFactory reasonerFactory = new JFactFactory();
-            OWLReasoner reasoner = reasonerFactory.createReasoner(ontologies.pizza);
-            
-            ParserFactory parserFactory = new ParserFactory(ontologies.pizza,
-ontologies.manager,reasoner);
-            OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
-            OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
-            this.runTestCase(opplTestCase);
+        JFactFactory reasonerFactory = new JFactFactory();
+        OWLReasoner reasoner = reasonerFactory.createReasoner(pizza);
+        ParserFactory parserFactory = new ParserFactory(pizza,
+                pizza.getOWLOntologyManager(), reasoner);
+        OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
+        OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
+        this.runTestCase(opplTestCase);
     }
 
     @Test
     public void testCountShouldFail() {
         String testCase = "testOneAssertion; ?x:CLASS SELECT ?x subClassOf Pizza ASSERT count(?x) != 1; ?x count is 1;";
-            
-            ParserFactory parserFactory = new ParserFactory(ontologies.pizza,
-ontologies.manager);
-
-            OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
-            OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
-            this.runTestCase(opplTestCase, false);
+        ParserFactory parserFactory = new ParserFactory(pizza,
+                pizza.getOWLOntologyManager());
+        OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
+        OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
+        this.runTestCase(opplTestCase, false);
     }
 
     @Test
     public void testConfigurationNotOK() {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Pizza ASSERT count(?x) != 1; ?x count is 1;";
-        
-        ParserFactory parserFactory = new ParserFactory(ontologies.pizza,
-ontologies.manager);
-
-            OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
-            OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
-            TestCaseRunner runner = new JunitConfigShouldFailTestCaseRunner(opplTestCase);
-            runner.run();
+        ParserFactory parserFactory = new ParserFactory(pizza,
+                pizza.getOWLOntologyManager());
+        OPPLTestCaseParser parser = parserFactory.build(ERROR_LISTENER);
+        OPPLTestCase opplTestCase = parser.parse(testCase, HANDLER);
+        TestCaseRunner runner = new JunitConfigShouldFailTestCaseRunner(opplTestCase);
+        runner.run();
     }
 
     private void runTestCase(OPPLTestCase opplTestCase) {

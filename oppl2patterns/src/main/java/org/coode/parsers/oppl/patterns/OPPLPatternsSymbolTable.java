@@ -11,7 +11,7 @@ import org.coode.oppl.Variable;
 import org.coode.parsers.Scope;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
-import org.coode.parsers.oppl.VariableType;
+import org.coode.parsers.oppl.VariableTypes;
 import org.coode.patterns.PatternConstraintSystem;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
@@ -36,7 +36,7 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
         if (resolvedPatternReference == null) {
             reportIllegalToken(reference, "The pattern reference is invalid");
         } else {
-            VariableType type = VariableType.getVariableType(resolvedPatternReference
+            VariableTypes type = VariableTypes.getVariableType(resolvedPatternReference
                     .getType());
             define(reference.token,
                     type.getSymbol(getDataFactory(), reference.token.getText()));
@@ -54,7 +54,7 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
         if (resolvedPatternReference == null) {
             reportIllegalToken(reference, "The pattern reference is invalid");
         } else {
-            VariableType type = VariableType.getVariableType(resolvedPatternReference
+            VariableTypes type = VariableTypes.getVariableType(resolvedPatternReference
                     .getType());
             define(reference.token,
                     type.getSymbol(getDataFactory(), reference.token.getText()));
@@ -74,7 +74,7 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
     public void resolveThisClass(OPPLSyntaxTree thisClass,
             PatternConstraintSystem constraintSystem) {
         Variable<?> thisClassVariable = constraintSystem.getThisClassVariable();
-        VariableType type = VariableType.getVariableType(thisClassVariable.getType());
+        VariableTypes type = VariableTypes.getVariableType(thisClassVariable.getType());
         define(thisClass.token,
                 type.getSymbol(getDataFactory(), thisClass.token.getText()));
     }

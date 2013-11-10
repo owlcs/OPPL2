@@ -402,6 +402,11 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
     }
 
     @Override
+    public String render(ConstraintSystem constraintSystem) {
+        return render();
+    }
+
+    @Override
     public String render(ShortFormProvider shortFormProvider) {
         String rendering = this.rendering == null ? "" : this.rendering;
         return String.format("%s %s", opplStatement.render(shortFormProvider), rendering)

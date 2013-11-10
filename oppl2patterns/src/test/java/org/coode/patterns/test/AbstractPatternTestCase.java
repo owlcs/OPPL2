@@ -27,13 +27,13 @@ public abstract class AbstractPatternTestCase extends AbstractTestCase {
     }
 
     protected void execute(PatternOPPLScript p, OWLOntology o, boolean noClass) {
-        TestPatternHarness tph = new TestPatternHarness(o, getOntologyManager());
+        TestPatternHarness tph = new TestPatternHarness(o, o.getOWLOntologyManager());
         try {
             if (noClass) {
                 tph.executeNonClass(p);
             } else {
-                tph.executeClass(getOntologyManager().getOWLDataFactory().getOWLThing(),
-                        p);
+                tph.executeClass(o.getOWLOntologyManager().getOWLDataFactory()
+                        .getOWLThing(), p);
             }
         } catch (Exception e) {
             log(e);
@@ -47,7 +47,7 @@ public abstract class AbstractPatternTestCase extends AbstractTestCase {
     protected PatternOPPLScript parsePattern(String pattern, OWLOntology o,
             ErrorListener errorListener) {
         try {
-            OPPLPatternParser p = new ParserFactory(o, ontologyManager)
+            OPPLPatternParser p = new ParserFactory(o, o.getOWLOntologyManager())
                     .build(errorListener);
             PatternModel script = p.parse(pattern);
             return script;

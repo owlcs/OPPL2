@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.InstantiatedOPPLScript;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.OPPLScriptVisitor;
@@ -372,6 +373,11 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
     @Override
     public void setIRI(IRI uri) {
         this.uri = uri;
+    }
+
+    @Override
+    public String render(ConstraintSystem constraintSystem) {
+        return render();
     }
 
     @Override
