@@ -3,6 +3,8 @@
  */
 package org.coode.parsers.test;
 
+import static org.coode.oppl.Ontologies.pizza;
+
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RuleReturnScope;
@@ -14,14 +16,13 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
-import org.coode.oppl.Ontologies;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.MOWLLexer;
 import org.coode.parsers.ManchesterOWLSyntaxParser;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
 import org.coode.parsers.SymbolTable;
-import org.coode.parsers.common.SystemErrorEcho;
+import org.coode.parsers.common.SilentListener;
 import org.coode.parsers.factory.SimpleSymbolTableFactory;
 import org.coode.parsers.factory.SymbolTableFactory;
 import org.junit.Test;
@@ -52,8 +53,7 @@ public class TestTypeEvaluation {
 
     @Test
     public void main() throws RecognitionException {
-        Ontologies ontologies = new Ontologies();
-        OWLOntologyManager ontologyManager = ontologies.pizza.getOWLOntologyManager();
+        OWLOntologyManager ontologyManager = pizza.getOWLOntologyManager();
         SymbolTableFactory<SymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
                 ontologyManager);
         String input = "hasTopping subPropertyOf INV (hasTopping)";
@@ -72,11 +72,11 @@ public class TestTypeEvaluation {
         SymbolTable symtab = symbolTableFactory.createSymbolTable();
         symtab.setErrorListener(errorListener);
         ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(nodes, symtab,
-                new SystemErrorEcho());
+                new SilentListener());
         typeComp.downup(tree); // trigger resolve/type computation actions
         // WALK TREE TO DUMP SUBTREE TYPES
         System.out.println(tree.toStringTree());
     }
 
-    private static ErrorListener errorListener = new SystemErrorEcho();
+    private static ErrorListener errorListener = new SilentListener();
 }

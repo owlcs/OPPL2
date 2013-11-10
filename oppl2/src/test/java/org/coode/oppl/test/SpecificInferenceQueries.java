@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
@@ -29,7 +28,7 @@ import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.log.Logging;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Type;
-import org.coode.parsers.common.SystemErrorEcho;
+import org.coode.parsers.common.SilentListener;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -136,7 +135,7 @@ public class SpecificInferenceQueries {
             OWLReasoner reasoner = factory.createReasoner(ontology);
             ParserFactory parserFactory = new ParserFactory(ontologyManager, ontology,
                     reasoner);
-            OPPLParser parser = parserFactory.build(new SystemErrorEcho());
+            OPPLParser parser = parserFactory.build(new SilentListener());
             OPPLScript opplScript = parser.parse(opplScripString);
             ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, false);
             List<OWLAxiomChange> extractedChanges = changeExtractor.visit(opplScript);
@@ -208,10 +207,10 @@ public class SpecificInferenceQueries {
         assertEquals("Instantiated axioms number does not match", 4,
                 instantiatedAxioms.size());
         for (OWLAxiom axiom : instantiatedAxioms) {
-            Logging.getQueryTestLogging().log(Level.INFO, axiom.toString());
+            Logging.getQueryTestLogging().info(axiom);
         }
         NodeSet<OWLClass> subClasses = reasoner.getSubClasses(c, false);
-        Logging.getQueryTestLogging().log(Level.INFO, subClasses.toString());
+        Logging.getQueryTestLogging().info(subClasses);
     }
 
     private Set<OWLAxiom> getOPPLScriptInstantiatedAxioms(OPPLScript opplScript) {

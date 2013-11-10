@@ -31,7 +31,7 @@ import org.semanticweb.owlapi.model.OWLObject;
  * 
  * @see SingleValueGeneratedVariable
  * @author Luigi Iannone */
-public interface Variable<O extends OWLObject> {
+public interface Variable<O extends OWLObject> extends Renderable {
     /** @return the name of the Variable */
     public String getName();
 
@@ -52,6 +52,4 @@ public interface Variable<O extends OWLObject> {
      * @param visitor
      * @return an instance of T */
     public <T> T accept(VariableVisitorEx<T> visitor);
-
-    public String render(ConstraintSystem constraintSystem);
 }

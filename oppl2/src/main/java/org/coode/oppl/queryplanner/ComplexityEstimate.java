@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
@@ -344,25 +343,21 @@ public class ComplexityEstimate implements QueryPlannerVisitorEx<Float> {
 
     private void initAssignableValues() {
         allClasses.addAll(getAllClasses());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible class values " + allClasses.size());
+        Logging.getQueryLogger().fine("Possible class values ", allClasses.size());
         allDataProperties.addAll(getAllDataProperties());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible data property values " + allDataProperties.size());
+        Logging.getQueryLogger().fine("Possible data property values ",
+                allDataProperties.size());
         allObjectProperties.addAll(getAllObjectProperties());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible object property values " + allObjectProperties.size());
+        Logging.getQueryLogger().fine("Possible object property values ",
+                allObjectProperties.size());
         allIndividuals.addAll(getAllIndividuals());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible individual  values " + allIndividuals.size());
+        Logging.getQueryLogger().fine("Possible individual  values ",
+                allIndividuals.size());
         allConstants.addAll(getAllConstants());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible constant  values " + allConstants.size());
+        Logging.getQueryLogger().fine("Possible constant  values ", allConstants.size());
         allAnnotationProperties.addAll(getAllAnnotationProperties());
-        Logging.getQueryLogger()
-                .log(Level.FINE,
-                        "Possible annotation properties values "
-                                + allAnnotationProperties.size());
+        Logging.getQueryLogger().fine("Possible annotation properties values ",
+                allAnnotationProperties.size());
     }
 
     /** @return the constraintSystem */

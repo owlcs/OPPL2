@@ -31,7 +31,7 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /** @author Luigi Iannone */
-public interface OPPLQuery {
+public interface OPPLQuery extends Renderable {
     void addAssertedAxiom(OWLAxiom axiom);
 
     void addAxiom(OWLAxiom axiom);

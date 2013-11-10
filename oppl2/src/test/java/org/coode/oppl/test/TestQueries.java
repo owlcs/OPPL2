@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
@@ -421,8 +420,6 @@ public class TestQueries {
         Set<OWLClassExpression> subClasses = generateClasses(dataFactory, 0, cs);
         Set<OWLClassExpression> superClasses = generateClasses(dataFactory, 1, cs);
         VariableExtractor variableExtractor = new VariableExtractor(cs, false);
-        int testSize = subClasses.size() * superClasses.size();
-        int i = 1;
         for (OWLClassExpression subClass : subClasses) {
             for (OWLClassExpression superClass : superClasses) {
                 OWLSubClassOfAxiom axiom = dataFactory.getOWLSubClassOfAxiom(subClass,
@@ -434,8 +431,6 @@ public class TestQueries {
                 actions.add(new AddAxiom(testOntology, axiom));
                 OPPLScript opplScript = opplFactory.buildOPPLScript(cs,
                         new ArrayList<Variable<?>>(variables), query, actions);
-                Logging.getQueryTestLogging()
-                        .log(Level.INFO, i++ + " out of " + testSize);
                 testQuery(opplScript, testOntology);
             }
         }
@@ -657,8 +652,8 @@ public class TestQueries {
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
         assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().log(Level.INFO,
-                " Leaves " + opplScript.getConstraintSystem().getLeaves());
+        Logging.getQueryTestLogging().info(" Leaves ",
+                opplScript.getConstraintSystem().getLeaves());
     }
 
     @Test
@@ -674,8 +669,8 @@ public class TestQueries {
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
         assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().log(Level.INFO,
-                " Leaves " + opplScript.getConstraintSystem().getLeaves());
+        Logging.getQueryTestLogging().info(" Leaves ",
+                opplScript.getConstraintSystem().getLeaves());
     }
 
     @Test
@@ -691,8 +686,8 @@ public class TestQueries {
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
         assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().log(Level.INFO,
-                " Leaves " + opplScript.getConstraintSystem().getLeaves());
+        Logging.getQueryTestLogging().info(" Leaves ",
+                opplScript.getConstraintSystem().getLeaves());
     }
 
     @Test
@@ -708,8 +703,8 @@ public class TestQueries {
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
         assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().log(Level.INFO,
-                " Leaves " + opplScript.getConstraintSystem().getLeaves());
+        Logging.getQueryTestLogging().info(" Leaves ",
+                opplScript.getConstraintSystem().getLeaves());
     }
 
     @Test
@@ -724,8 +719,8 @@ public class TestQueries {
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
         assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().log(Level.INFO,
-                " Leaves " + opplScript.getConstraintSystem().getLeaves());
+        Logging.getQueryTestLogging().info(" Leaves ",
+                opplScript.getConstraintSystem().getLeaves());
     }
 
     @Test
@@ -740,8 +735,8 @@ public class TestQueries {
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
         assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().log(Level.INFO,
-                " Leaves " + opplScript.getConstraintSystem().getLeaves());
+        Logging.getQueryTestLogging().info(" Leaves ",
+                opplScript.getConstraintSystem().getLeaves());
     }
 
     @Test
@@ -758,8 +753,8 @@ public class TestQueries {
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
         assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().log(Level.INFO,
-                " Leaves " + opplScript.getConstraintSystem().getLeaves());
+        Logging.getQueryTestLogging().info(" Leaves ",
+                opplScript.getConstraintSystem().getLeaves());
     }
 
     @Test
@@ -775,8 +770,8 @@ public class TestQueries {
         Set<OWLAxiom> results = getOPPLScriptResults(opplScript);
         assertTrue(results.size() == 1);
         assertTrue(opplScript.getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().log(Level.INFO,
-                " Leaves " + opplScript.getConstraintSystem().getLeaves());
+        Logging.getQueryTestLogging().info(" Leaves ",
+                opplScript.getConstraintSystem().getLeaves());
     }
 
     @Test
@@ -795,7 +790,7 @@ public class TestQueries {
         assertTrue("Expected 2 Actual "
                 + opplScript.getConstraintSystem().getLeaves().size(), opplScript
                 .getConstraintSystem().getLeaves().size() == 2);
-        Logging.getQueryTestLogging().log(Level.INFO,
-                " Leaves " + opplScript.getConstraintSystem().getLeaves());
+        Logging.getQueryTestLogging().info(" Leaves ",
+                opplScript.getConstraintSystem().getLeaves());
     }
 }

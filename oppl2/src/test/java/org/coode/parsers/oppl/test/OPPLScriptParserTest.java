@@ -15,7 +15,7 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
-import org.coode.parsers.common.SystemErrorEcho;
+import org.coode.parsers.common.SilentListener;
 import org.coode.parsers.oppl.OPPLLexer;
 import org.coode.parsers.oppl.OPPLScriptParser;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -147,7 +147,7 @@ public class OPPLScriptParserTest {
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLLexer lexer = new OPPLLexer(antlrStringStream);
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
-        OPPLScriptParser parser = new OPPLScriptParser(tokens, new SystemErrorEcho());
+        OPPLScriptParser parser = new OPPLScriptParser(tokens, new SilentListener());
         parser.setTreeAdaptor(adaptor);
         try {
             RuleReturnScope r = parser.statement();

@@ -16,6 +16,7 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.ConstraintSystem;
+import org.coode.oppl.Ontologies;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
@@ -368,13 +369,11 @@ public class OPPLTestCaseTypesTest {
     @Test
     public void test2BindingsWithOutMessages() {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(?x=Pizza, ?y=PizzaBase) > 0 ASSERT count(?x=Thing, ?y=Nothing) > 0";
-        OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-        OWLOntology ontology;
-        try {
-            ontology = ontologyManager
-                    .loadOntology(IRI
-                            .create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-            OPPLTestCase parsed = parse(testCase, ontology, ontologyManager);
+        Ontologies ontologies=new Ontologies();
+        ParserFactory parserFactory = new ParserFactory(,
+ontologies.manager);
+
+            OPPLTestCase parsed = parse(testCase, ontologies.pizza, ontologies.manager);
             assertNotNull(parsed);
             System.out.println("OPPLTestCaseTypesTest.test2BindingsWithMessages()\n"
                     + parsed);

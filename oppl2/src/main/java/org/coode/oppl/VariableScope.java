@@ -31,7 +31,7 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
  * {@link GeneratedVariable} instance
  * 
  * @author Luigi Iannone */
-public interface VariableScope<O extends OWLObject> {
+public interface VariableScope<O extends OWLObject> extends Renderable {
     /** @param owlObject
      * @param checker
      * @return true if the input OWLObject is into the VariableScope
@@ -43,6 +43,4 @@ public interface VariableScope<O extends OWLObject> {
 
     /** @return the scope delimiter for the VariableScope */
     O getScopingObject();
-
-    String render(ConstraintSystem constraintSystem);
 }

@@ -16,6 +16,7 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
+import org.coode.oppl.Ontologies;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.Symbol;
@@ -66,27 +67,11 @@ public class OPPLPatternsDefineParserTest {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
-    private static OWLOntologyManager ONTOLOGY_MANAGER = OWLManager
-            .createOWLOntologyManager();
-    private final static SymbolTableFactory<OPPLPatternsSymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
-            ONTOLOGY_MANAGER);
+private Ontologies ontologies=new Ontologies();
+    private SymbolTableFactory<OPPLPatternsSymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
+ontologies.manager);
     private OPPLPatternsSymbolTable symtab;
-    private static OWLOntology SYNTAX_ONTOLOGY;
     private final ErrorListener listener = new SystemErrorEcho();
-    static {
-        try {
-            ONTOLOGY_MANAGER
-                    .loadOntology(IRI
-                            .create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-            SYNTAX_ONTOLOGY = ONTOLOGY_MANAGER.loadOntology(IRI
-                    .create(ComprehensiveAxiomTestCase.class
-                            .getResource("syntaxTest.owl").toURI()));
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Test
     public void testFood() {

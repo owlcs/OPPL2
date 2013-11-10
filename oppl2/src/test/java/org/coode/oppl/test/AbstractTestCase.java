@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +13,6 @@ import java.util.Set;
 import org.coode.oppl.ChangeExtractor;
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.Ontologies;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.bindingtree.BindingNode;
@@ -24,14 +21,11 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.parsers.ErrorListener;
-import org.coode.parsers.common.SystemErrorEcho;
+import org.coode.parsers.common.SilentListener;
 import org.junit.After;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyDocumentAlreadyExistsException;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
@@ -44,35 +38,7 @@ public abstract class AbstractTestCase {
     private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
     // ontology manager
     protected TestQueries testQueries = new TestQueries();
-    private final ErrorListener errorListener = new SystemErrorEcho();
-    protected Ontologies ontologies = new Ontologies();
-
-    public OWLOntology getOntology(String name) {
-        OWLOntology o = loadedOntologies.get(name);
-        if (o == null) {
-            try {
-                URL resource = this.getClass().getResource(name);
-                if (resource != null) {
-                    IRI iri = IRI.create(resource.toURI());
-                    o = ontologies.manager.contains(iri) ? ontologies.manager
-                            .getOntology(iri) : ontologies.manager.loadOntology(iri);
-                } else {
-                    fail("Could not load the ontology " + name);
-                }
-            } catch (OWLOntologyDocumentAlreadyExistsException e) {
-                o = ontologies.manager.getOntology(e.getOntologyDocumentIRI());
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-                fail(e.getMessage());
-            } catch (OWLOntologyCreationException e) {
-                e.printStackTrace();
-                fail(e.getMessage());
-            }
-            loadedOntologies.put(name, o);
-        }
-        return o;
-    }
-
+    private final ErrorListener errorListener = new SilentListener();
     // last generated exception; used to check that the exception being raised
     // is the one being expected
     private StringWriter lastStackTrace = new StringWriter();
@@ -162,8 +128,8 @@ public abstract class AbstractTestCase {
 
     protected OPPLScript parse(String script, OWLOntology ontology, OWLReasoner reasoner) {
         try {
-            OPPLParser parser = new ParserFactory(ontologies.manager, ontology, reasoner)
-                    .build(errorListener);
+            OPPLParser parser = new ParserFactory(ontology.getOWLOntologyManager(),
+                    ontology, reasoner).build(errorListener);
             return parser.parse(script);
         } catch (Exception e) {
             if (longStackTrace) {

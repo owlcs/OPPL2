@@ -31,7 +31,7 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 /** Generic interface representing an OPPL Script
  * 
  * @author Luigi Iannone */
-public interface OPPLScript {
+public interface OPPLScript extends Renderable {
     public void addVariable(Variable<?> variable);
 
     /** @return the List of the variables declared in this OPPLScript */

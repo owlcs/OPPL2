@@ -16,7 +16,7 @@ import org.coode.parsers.Type;
 public final class SystemErrorEcho implements ErrorListener {
     @Override
     public void unrecognisedSymbol(CommonTree t) {
-        System.err.println("Unerecognised token " + t.getText() + " at line "
+        System.err.println("Unrecognised token " + t.getText() + " at line "
                 + t.getLine() + " position " + t.getCharPositionInLine());
     }
 

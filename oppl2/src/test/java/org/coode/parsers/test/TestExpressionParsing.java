@@ -3,6 +3,7 @@
  */
 package org.coode.parsers.test;
 
+import static org.coode.oppl.Ontologies.*;
 import static org.junit.Assert.assertNotNull;
 
 import org.antlr.runtime.ANTLRStringStream;
@@ -16,26 +17,19 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
-import org.coode.oppl.Ontologies;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.MOWLLexer;
 import org.coode.parsers.ManchesterOWLSyntaxParser;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
-import org.coode.parsers.SymbolTable;
-import org.coode.parsers.common.SystemErrorEcho;
-import org.coode.parsers.factory.SimpleSymbolTableFactory;
-import org.coode.parsers.factory.SymbolTableFactory;
-import org.junit.After;
-import org.junit.Before;
+import org.coode.parsers.common.SilentListener;
+import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.junit.Test;
 
 /** @author Luigi Iannone */
 @SuppressWarnings("javadoc")
 public class TestExpressionParsing {
-    private final SymbolTableFactory<SymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
-            new Ontologies().manager);
     public TreeAdaptor adaptor = new CommonTreeAdaptor() {
         @Override
         public Object create(Token token) {
@@ -56,8 +50,7 @@ public class TestExpressionParsing {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
-    private ErrorListener errorListener = new SystemErrorEcho();
-    private SymbolTable symtab;
+    private ErrorListener errorListener = new SilentListener();
 
     protected ManchesterOWLSyntaxTree parse(String input) {
         MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
@@ -72,6 +65,7 @@ public class TestExpressionParsing {
             CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
             nodes.setTokenStream(tokens); // where to find tokens
             nodes.setTreeAdaptor(adaptor);
+            OPPLSymbolTable symtab = getOPPLSymbolTable(pizza);
             symtab.setErrorListener(errorListener);
             ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
             simplify.setTreeAdaptor(adaptor);
@@ -85,16 +79,6 @@ public class TestExpressionParsing {
             e.printStackTrace();
             return null;
         }
-    }
-
-    @Before
-    public void setUp() {
-        symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
-    }
-
-    @After
-    public void tearDown() {
-        symtab.dispose();
     }
 
     @Test

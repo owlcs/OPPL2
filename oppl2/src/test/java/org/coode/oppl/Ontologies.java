@@ -1,12 +1,41 @@
 package org.coode.oppl;
 
+import org.coode.parsers.SymbolTable;
+import org.coode.parsers.common.SilentListener;
+import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.StringDocumentSource;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 public class Ontologies {
+    public static OPPLSymbolTable getOPPLSymbolTable(OWLOntology o) {
+        OPPLSymbolTable symtab = new org.coode.parsers.oppl.factory.SimpleSymbolTableFactory(
+                o.getOWLOntologyManager()).createSymbolTable();
+        symtab.setErrorListener(new SilentListener());
+        return symtab;
+    }
+
+    public static OPPLSymbolTable getOPPLSymbolTable(OWLOntologyManager o) {
+        OPPLSymbolTable symtab = new org.coode.parsers.oppl.factory.SimpleSymbolTableFactory(
+                o).createSymbolTable();
+        symtab.setErrorListener(new SilentListener());
+        return symtab;
+    }
+
+    public static SymbolTable getSymbolTable(OWLOntology o) {
+        SymbolTable symtab = new org.coode.parsers.factory.SimpleSymbolTableFactory(
+                o.getOWLOntologyManager()).createSymbolTable();
+        symtab.setErrorListener(new SilentListener());
+        return symtab;
+    }
+
+    private Ontologies() {
+        // TODO Auto-generated constructor stub
+    }
+
     private final static String test_owl = "<?xml version=\"1.0\"?>\n"
             + "\n"
             + "\n"
@@ -261,40 +290,482 @@ public class Ontologies {
             + "    <owl:Class rdf:about=\"&UPnPWriter;x\"><rdfs:subClassOf rdf:resource=\"&UPnPWriter;UPnP_StateVariable\"/><rdfs:subClassOf><owl:Restriction><owl:onProperty rdf:resource=\"&UPnPWriter;x_has_UPnP_StateVariable_Type\"/><owl:someValuesFrom rdf:resource=\"&xsd;string\"/></owl:Restriction></rdfs:subClassOf></owl:Class>\n"
             + "    <owl:Class rdf:about=\"&UPnPWriter;y\"><rdfs:subClassOf rdf:resource=\"&UPnPWriter;UPnP_StateVariable\"/><rdfs:subClassOf><owl:Restriction><owl:onProperty rdf:resource=\"&UPnPWriter;y_has_UPnP_StateVariable_Type\"/><owl:someValuesFrom rdf:resource=\"&xsd;string\"/></owl:Restriction></rdfs:subClassOf></owl:Class>\n"
             + "</rdf:RDF>";
-    public OWLOntology test;
-    public OWLOntology naf;
-    public OWLOntology pizza;
-    public OWLOntology syntax;
-    public OWLOntology siblings;
-    public OWLOntology ondrejtest;
-    public OWLOntology testLongLabels;
-    public OWLOntology sequentialUnion;
-    public OWLOntologyManager manager;
-
-    public Ontologies() {
+    private static final String pizza_owl_1 = "Prefix(owl:=<http://www.w3.org/2002/07/owl#>)\n"
+            + "Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)\n"
+            + "Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)\n"
+            + "Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)\n"
+            + "Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)\n"
+            + "Ontology(<http://pizza.com/pizza.owl>\n"
+            + "Annotation(rdfs:comment \"An example ontology that contains all constructs required for the various versions of the Pizza Tutorial run by Manchester University (see http://www.co-ode.org/resources/tutorials/)\"@en)\n"
+            + "Annotation(owl:versionInfo \"version 1.3\"^^xsd:string)\n"
+            + "Declaration(Class(<http://pizza.com/pizza.owl#American>)) Declaration(Class(<http://pizza.com/pizza.owl#AmericanHot>)) Declaration(Class(<http://pizza.com/pizza.owl#AnchoviesTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#ArtichokeTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#AsparagusTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#Cajun>)) Declaration(Class(<http://pizza.com/pizza.owl#CajunSpiceTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#CaperTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#Capricciosa>)) Declaration(Class(<http://pizza.com/pizza.owl#Caprina>)) Declaration(Class(<http://pizza.com/pizza.owl#CheeseTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#CheeseyPizza>)) Declaration(Class(<http://pizza.com/pizza.owl#CheeseyVegetableTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#ChickenTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#Country>)) Declaration(Class(<http://pizza.com/pizza.owl#DeepPanBase>)) Declaration(Class(<http://pizza.com/pizza.owl#DomainConcept>)) Declaration(Class(<http://pizza.com/pizza.owl#Fiorentina>))\n"
+            + "Declaration(Class(<http://pizza.com/pizza.owl#FishTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#FourCheesesTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#FourSeasons>)) Declaration(Class(<http://pizza.com/pizza.owl#FruitTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#FruttiDiMare>)) Declaration(Class(<http://pizza.com/pizza.owl#GarlicTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#Giardiniera>)) Declaration(Class(<http://pizza.com/pizza.owl#GoatsCheeseTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#GorgonzolaTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#GreenPepperTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#HamTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#HerbSpiceTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#Hot>)) Declaration(Class(<http://pizza.com/pizza.owl#HotGreenPepperTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#HotSpicedBeefTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#IceCream>)) Declaration(Class(<http://pizza.com/pizza.owl#InterestingPizza>)) Declaration(Class(<http://pizza.com/pizza.owl#JalapenoPepperTopping>))\n"
+            + "Declaration(Class(<http://pizza.com/pizza.owl#LaReine>)) Declaration(Class(<http://pizza.com/pizza.owl#LeekTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#Margherita>)) Declaration(Class(<http://pizza.com/pizza.owl#MeatTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#MeatyPizza>)) Declaration(Class(<http://pizza.com/pizza.owl#Medium>)) Declaration(Class(<http://pizza.com/pizza.owl#Mild>)) Declaration(Class(<http://pizza.com/pizza.owl#MixedSeafoodTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#MozzarellaTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#Mushroom>)) Declaration(Class(<http://pizza.com/pizza.owl#MushroomTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#NamedPizza>)) Declaration(Class(<http://pizza.com/pizza.owl#Napoletana>)) Declaration(Class(<http://pizza.com/pizza.owl#NonVegetarianPizza>)) Declaration(Class(<http://pizza.com/pizza.owl#NutTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#OliveTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#OnionTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#ParmaHamTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#Parmense>))\n"
+            + "Declaration(Class(<http://pizza.com/pizza.owl#ParmesanTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#PeperonataTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#PeperoniSausageTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#PepperTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#PetitPoisTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#PineKernels>)) Declaration(Class(<http://pizza.com/pizza.owl#Pizza>)) Declaration(Class(<http://pizza.com/pizza.owl#PizzaBase>)) Declaration(Class(<http://pizza.com/pizza.owl#PizzaTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#PolloAdAstra>)) Declaration(Class(<http://pizza.com/pizza.owl#PrawnsTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#PrinceCarlo>)) Declaration(Class(<http://pizza.com/pizza.owl#QuattroFormaggi>)) Declaration(Class(<http://pizza.com/pizza.owl#RealItalianPizza>)) Declaration(Class(<http://pizza.com/pizza.owl#RedOnionTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#RocketTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#Rosa>))\n"
+            + "Declaration(Class(<http://pizza.com/pizza.owl#RosemaryTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#SauceTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#Siciliana>)) Declaration(Class(<http://pizza.com/pizza.owl#SlicedTomatoTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#SloppyGiuseppe>)) Declaration(Class(<http://pizza.com/pizza.owl#Soho>)) Declaration(Class(<http://pizza.com/pizza.owl#Spiciness>)) Declaration(Class(<http://pizza.com/pizza.owl#SpicyPizza>)) Declaration(Class(<http://pizza.com/pizza.owl#SpicyPizzaEquivalent>)) Declaration(Class(<http://pizza.com/pizza.owl#SpicyTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#SpinachTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#SultanaTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#SundriedTomatoTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#SweetPepperTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#ThinAndCrispyBase>)) Declaration(Class(<http://pizza.com/pizza.owl#TobascoPepperSauce>)) Declaration(Class(<http://pizza.com/pizza.owl#TomatoTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#UnclosedPizza>))\n"
+            + "Declaration(Class(<http://pizza.com/pizza.owl#ValuePartition>)) Declaration(Class(<http://pizza.com/pizza.owl#VegetableTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#VegetarianPizza>)) Declaration(Class(<http://pizza.com/pizza.owl#VegetarianPizzaEquivalent1>)) Declaration(Class(<http://pizza.com/pizza.owl#VegetarianPizzaEquivalent2>)) Declaration(Class(<http://pizza.com/pizza.owl#VegetarianTopping>)) Declaration(Class(<http://pizza.com/pizza.owl#Veneziana>)) Declaration(ObjectProperty(<http://pizza.com/pizza.owl#hasBase>)) Declaration(ObjectProperty(<http://pizza.com/pizza.owl#hasCountryOfOrigin>)) Declaration(ObjectProperty(<http://pizza.com/pizza.owl#hasIngredient>)) Declaration(ObjectProperty(<http://pizza.com/pizza.owl#hasSpiciness>)) Declaration(ObjectProperty(<http://pizza.com/pizza.owl#hasTopping>)) Declaration(ObjectProperty(<http://pizza.com/pizza.owl#isBaseOf>)) Declaration(ObjectProperty(<http://pizza.com/pizza.owl#isIngredientOf>)) Declaration(ObjectProperty(<http://pizza.com/pizza.owl#isToppingOf>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#American> \"Americana\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#American> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#American> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#American> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#PeperoniSausageTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#American> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#American> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#PeperoniSausageTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#AmericanHot> \"AmericanaPicante\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#AmericanHot> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#AmericanHot> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#HotGreenPepperTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#AmericanHot> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#JalapenoPepperTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#AmericanHot> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#AmericanHot> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#PeperoniSausageTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#AmericanHot> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#AmericanHot> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#HotGreenPepperTopping> <http://pizza.com/pizza.owl#JalapenoPepperTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#PeperoniSausageTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#AnchoviesTopping> \"CoberturaDeAnchovies\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#AnchoviesTopping> <http://pizza.com/pizza.owl#FishTopping>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#ArtichokeTopping> \"CoberturaDeArtichoke\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#ArtichokeTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#ArtichokeTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#AsparagusTopping> \"CoberturaDeAspargos\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#AsparagusTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#AsparagusTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Cajun> \"Cajun\"@pt)\n";
+    private static final String pizza_owl_2 = "SubClassOf(<http://pizza.com/pizza.owl#Cajun> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Cajun> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Cajun> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#OnionTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Cajun> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#PeperonataTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Cajun> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#PrawnsTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Cajun> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TobascoPepperSauce>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Cajun> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Cajun> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#OnionTopping> <http://pizza.com/pizza.owl#PeperonataTopping> <http://pizza.com/pizza.owl#PrawnsTopping> <http://pizza.com/pizza.owl#TobascoPepperSauce> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#CajunSpiceTopping> \"CoberturaDeCajun\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#CajunSpiceTopping> <http://pizza.com/pizza.owl#HerbSpiceTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#CajunSpiceTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Hot>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#CaperTopping> \"CoberturaDeCaper\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#CaperTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#CaperTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Capricciosa> \"Capricciosa\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Capricciosa> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Capricciosa> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#AnchoviesTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Capricciosa> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#CaperTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Capricciosa> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#HamTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Capricciosa> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Capricciosa> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#OliveTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Capricciosa> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#PeperonataTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Capricciosa> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Capricciosa> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#AnchoviesTopping> <http://pizza.com/pizza.owl#CaperTopping> <http://pizza.com/pizza.owl#HamTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#OliveTopping> <http://pizza.com/pizza.owl#PeperonataTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Caprina> \"Caprina\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Caprina> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Caprina> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#GoatsCheeseTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Caprina> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Caprina> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#SundriedTomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Caprina> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Caprina> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#GoatsCheeseTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#SundriedTomatoTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#CheeseTopping> \"CoberturaDeQueijo\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#CheeseTopping> <http://pizza.com/pizza.owl#PizzaTopping>)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#CheeseyPizza> \"Any pizza that has at least 1 cheese topping.\"@en)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#CheeseyPizza> \"PizzaComQueijo\"@pt)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#CheeseyPizza> ObjectIntersectionOf(ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#CheeseTopping>) <http://pizza.com/pizza.owl#Pizza>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#CheeseyVegetableTopping> \"CoberturaDeQueijoComVegetais\"@pt)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#CheeseyVegetableTopping> \"This class will be inconsistent. This is because we have given it 2 disjoint parents, which means it could never have any members (as nothing can simultaneously be a CheeseTopping and a VegetableTopping). NB Called ProbeInconsistentTopping in the ProtegeOWL Tutorial.\"@en)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#CheeseyVegetableTopping> <http://pizza.com/pizza.owl#CheeseTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#CheeseyVegetableTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#ChickenTopping> \"CoberturaDeFrango\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#ChickenTopping> <http://pizza.com/pizza.owl#MeatTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#ChickenTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#Country> \"A class that is equivalent to the set of individuals that are described in the enumeration - ie Countries can only be either America, England, France, Germany or Italy and nothing else. Note that these individuals have been asserted to be allDifferent from each other.\"@en)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Country> \"Pais\"@pt)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#Country> ObjectIntersectionOf(ObjectOneOf(<http://pizza.com/pizza.owl#Italy> <http://pizza.com/pizza.owl#France> <http://pizza.com/pizza.owl#England> <http://pizza.com/pizza.owl#America> <http://pizza.com/pizza.owl#Germany>) <http://pizza.com/pizza.owl#DomainConcept>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#DeepPanBase> \"BaseEspessa\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#DeepPanBase> <http://pizza.com/pizza.owl#PizzaBase>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Fiorentina> \"Fiorentina\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Fiorentina> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Fiorentina> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#GarlicTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Fiorentina> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Fiorentina> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#OliveTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Fiorentina> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#ParmesanTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Fiorentina> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#SpinachTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Fiorentina> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Fiorentina> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#GarlicTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#OliveTopping> <http://pizza.com/pizza.owl#ParmesanTopping> <http://pizza.com/pizza.owl#SpinachTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#FishTopping> \"CoberturaDePeixe\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FishTopping> <http://pizza.com/pizza.owl#PizzaTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FishTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#FourCheesesTopping> \"CoberturaQuatroQueijos\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FourCheesesTopping> <http://pizza.com/pizza.owl#CheeseTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FourCheesesTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#FourSeasons> \"QuatroQueijos\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FourSeasons> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FourSeasons> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#AnchoviesTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FourSeasons> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#CaperTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FourSeasons> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FourSeasons> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MushroomTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FourSeasons> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#OliveTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FourSeasons> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#PeperoniSausageTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FourSeasons> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FourSeasons> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#AnchoviesTopping> <http://pizza.com/pizza.owl#CaperTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#MushroomTopping> <http://pizza.com/pizza.owl#OliveTopping> <http://pizza.com/pizza.owl#PeperoniSausageTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#FruitTopping> \"CoberturaDeFrutas\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FruitTopping> <http://pizza.com/pizza.owl#PizzaTopping>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#FruttiDiMare> \"FrutosDoMar\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FruttiDiMare> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FruttiDiMare> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#GarlicTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FruttiDiMare> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MixedSeafoodTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FruttiDiMare> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#FruttiDiMare> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#GarlicTopping> <http://pizza.com/pizza.owl#MixedSeafoodTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#GarlicTopping> \"CoberturaDeAlho\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#GarlicTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#GarlicTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Medium>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Giardiniera> \"Giardiniera\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Giardiniera> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Giardiniera> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#LeekTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Giardiniera> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Giardiniera> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MushroomTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Giardiniera> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#OliveTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Giardiniera> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#PeperonataTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Giardiniera> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#PetitPoisTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Giardiniera> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#SlicedTomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Giardiniera> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Giardiniera> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#LeekTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#MushroomTopping> <http://pizza.com/pizza.owl#OliveTopping> <http://pizza.com/pizza.owl#PeperonataTopping> <http://pizza.com/pizza.owl#PetitPoisTopping> <http://pizza.com/pizza.owl#SlicedTomatoTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#GoatsCheeseTopping> \"CoberturaDeQueijoDeCabra    \"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#GoatsCheeseTopping> <http://pizza.com/pizza.owl#CheeseTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#GoatsCheeseTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#GorgonzolaTopping> \"CoberturaDeGorgonzola\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#GorgonzolaTopping> <http://pizza.com/pizza.owl#CheeseTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#GorgonzolaTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#GreenPepperTopping> \"CoberturaDePimentaoVerde\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#GreenPepperTopping> <http://pizza.com/pizza.owl#PepperTopping>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#HamTopping> \"CoberturaDePresunto\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#HamTopping> <http://pizza.com/pizza.owl#MeatTopping>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#HerbSpiceTopping> \"CoberturaDeErvas\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#HerbSpiceTopping> <http://pizza.com/pizza.owl#PizzaTopping>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Hot> \"Picante\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Hot> <http://pizza.com/pizza.owl#Spiciness>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#HotGreenPepperTopping> \"CoberturaDePimentaoVerdePicante\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#HotGreenPepperTopping> <http://pizza.com/pizza.owl#GreenPepperTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#HotGreenPepperTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Hot>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#HotSpicedBeefTopping> \"CoberturaDeBifePicante\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#HotSpicedBeefTopping> <http://pizza.com/pizza.owl#MeatTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#HotSpicedBeefTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Hot>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#IceCream> \"Sorvete\"@pt)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#IceCream> \"A class to demonstrate mistakes made with setting a property domain. The property hasTopping has a domain of Pizza. This means that the reasoner can infer that all individuals using the hasTopping property must be of type Pizza. Because of the restriction on this class, all members of IceCream must use the hasTopping property, and therefore must also be members of Pizza. However, Pizza and IceCream are disjoint, so this causes an inconsistency. If they were not disjoint, IceCream would be inferred to be a subclass of Pizza.\"@en)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#IceCream> <http://pizza.com/pizza.owl#DomainConcept>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#IceCream> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#FruitTopping>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#InterestingPizza> \"PizzaInteressante\"@pt)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#InterestingPizza> \"Any pizza that has at least 3 toppings. Note that this is a cardinality constraint on the hasTopping property and NOT a qualified cardinality constraint (QCR). A QCR would specify from which class the members in this relationship must be. eg has at least 3 toppings from PizzaTopping. This is currently not supported in OWL.\"@en)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#InterestingPizza> ObjectIntersectionOf(ObjectMinCardinality(3 <http://pizza.com/pizza.owl#hasTopping>) <http://pizza.com/pizza.owl#Pizza>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#JalapenoPepperTopping> \"CoberturaDeJalapeno\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#JalapenoPepperTopping> <http://pizza.com/pizza.owl#PepperTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#JalapenoPepperTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Hot>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#LaReine> \"LaReine\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#LaReine> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#LaReine> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#HamTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#LaReine> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#LaReine> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MushroomTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#LaReine> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#OliveTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#LaReine> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#LaReine> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#HamTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#MushroomTopping> <http://pizza.com/pizza.owl#OliveTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#LeekTopping> \"CoberturaDeLeek\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#LeekTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#LeekTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Margherita> \"Margherita\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Margherita> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Margherita> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Margherita> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Margherita> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#TomatoTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#MeatTopping> \"CoberturaDeCarne\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#MeatTopping> <http://pizza.com/pizza.owl#PizzaTopping>)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#MeatyPizza> \"Any pizza that has at least one meat topping\"@en)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#MeatyPizza> \"PizzaDeCarne\"@pt)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#MeatyPizza> ObjectIntersectionOf(ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MeatTopping>) <http://pizza.com/pizza.owl#Pizza>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Medium> \"Media\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Medium> <http://pizza.com/pizza.owl#Spiciness>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Mild> \"NaoPicante\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Mild> <http://pizza.com/pizza.owl#Spiciness>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#MixedSeafoodTopping> \"CoberturaDeFrutosDoMarMistos\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#MixedSeafoodTopping> <http://pizza.com/pizza.owl#FishTopping>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#MozzarellaTopping> \"CoberturaDeMozzarella\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#CheeseTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#MozzarellaTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#MozzarellaTopping> ObjectHasValue(<http://pizza.com/pizza.owl#hasCountryOfOrigin> <http://pizza.com/pizza.owl#Italy>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Mushroom> \"Cogumelo\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Mushroom> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Mushroom> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Mushroom> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MushroomTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Mushroom> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Mushroom> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#MushroomTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#MushroomTopping> \"CoberturaDeCogumelo\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#MushroomTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#MushroomTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#NamedPizza> \"A pizza that can be found on a pizza menu\"@en)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#NamedPizza> \"PizzaComUmNome\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#NamedPizza> <http://pizza.com/pizza.owl#Pizza>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Napoletana> \"Napoletana\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Napoletana> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Napoletana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#AnchoviesTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Napoletana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#CaperTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Napoletana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Napoletana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#OliveTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Napoletana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Napoletana> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#AnchoviesTopping> <http://pizza.com/pizza.owl#CaperTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#OliveTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#NonVegetarianPizza> \"PizzaNaoVegetariana\"@pt)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#NonVegetarianPizza> \"Any Pizza that is not a VegetarianPizza\"@en)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#NonVegetarianPizza> ObjectIntersectionOf(ObjectComplementOf(<http://pizza.com/pizza.owl#VegetarianPizza>) <http://pizza.com/pizza.owl#Pizza>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#NutTopping> \"CoberturaDeCastanha\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#NutTopping> <http://pizza.com/pizza.owl#PizzaTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#NutTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#OliveTopping> \"CoberturaDeAzeitona\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#OliveTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#OliveTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#OnionTopping> \"CoberturaDeCebola\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#OnionTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#OnionTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Medium>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#ParmaHamTopping> \"CoberturaDePrezuntoParma\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#ParmaHamTopping> <http://pizza.com/pizza.owl#HamTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#ParmaHamTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Parmense> \"Parmense\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Parmense> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Parmense> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#AsparagusTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Parmense> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#HamTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Parmense> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Parmense> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#ParmesanTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Parmense> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Parmense> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#AsparagusTopping> <http://pizza.com/pizza.owl#HamTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#ParmesanTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#ParmesanTopping> \"CoberturaDeParmesao\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#ParmesanTopping> <http://pizza.com/pizza.owl#CheeseTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#ParmesanTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#PeperonataTopping> \"CoberturaPeperonata\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PeperonataTopping> <http://pizza.com/pizza.owl#PepperTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PeperonataTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Medium>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#PeperoniSausageTopping> \"CoberturaDeCalabreza\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PeperoniSausageTopping> <http://pizza.com/pizza.owl#MeatTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PeperoniSausageTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Medium>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#PepperTopping> \"CoberturaDePimentao\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PepperTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#PetitPoisTopping> \"CoberturaPetitPois\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PetitPoisTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PetitPoisTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#PineKernels> \"CoberturaPineKernels\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PineKernels> <http://pizza.com/pizza.owl#NutTopping>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Pizza> \"Pizza\"@en)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Pizza> <http://pizza.com/pizza.owl#DomainConcept>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Pizza> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasBase> <http://pizza.com/pizza.owl#PizzaBase>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#PizzaBase> \"BaseDaPizza\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PizzaBase> <http://pizza.com/pizza.owl#DomainConcept>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#PizzaTopping> \"CoberturaDaPizza\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PizzaTopping> <http://pizza.com/pizza.owl#DomainConcept>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#PolloAdAstra> \"PolloAdAstra\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PolloAdAstra> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PolloAdAstra> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#CajunSpiceTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PolloAdAstra> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#ChickenTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PolloAdAstra> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#GarlicTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PolloAdAstra> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PolloAdAstra> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#RedOnionTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PolloAdAstra> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#SweetPepperTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PolloAdAstra> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PolloAdAstra> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#CajunSpiceTopping> <http://pizza.com/pizza.owl#ChickenTopping> <http://pizza.com/pizza.owl#GarlicTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#RedOnionTopping> <http://pizza.com/pizza.owl#SweetPepperTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#PrawnsTopping> \"CoberturaDeCamarao\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PrawnsTopping> <http://pizza.com/pizza.owl#FishTopping>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#PrinceCarlo> \"CoberturaPrinceCarlo\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PrinceCarlo> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PrinceCarlo> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#LeekTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PrinceCarlo> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PrinceCarlo> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#ParmesanTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PrinceCarlo> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#RosemaryTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PrinceCarlo> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#PrinceCarlo> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#LeekTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#ParmesanTopping> <http://pizza.com/pizza.owl#RosemaryTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#QuattroFormaggi> \"QuatroQueijos\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#QuattroFormaggi> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#QuattroFormaggi> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#FourCheesesTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#QuattroFormaggi> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#QuattroFormaggi> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#TomatoTopping> <http://pizza.com/pizza.owl#FourCheesesTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#RealItalianPizza> \"PizzaItalianaReal\"@pt)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#RealItalianPizza> \"This defined class has conditions that are part of the definition: ie any Pizza that has the country of origin, Italy is a RealItalianPizza. It also has conditions that merely describe the members - that all RealItalianPizzas must only have ThinAndCrispy bases.\"@en)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#RealItalianPizza> ObjectIntersectionOf(ObjectHasValue(<http://pizza.com/pizza.owl#hasCountryOfOrigin> <http://pizza.com/pizza.owl#Italy>) <http://pizza.com/pizza.owl#Pizza>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#RealItalianPizza> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasBase> <http://pizza.com/pizza.owl#ThinAndCrispyBase>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#RedOnionTopping> \"CoberturaDeCebolaVermelha\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#RedOnionTopping> <http://pizza.com/pizza.owl#OnionTopping>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#RocketTopping> \"CoberturaRocket\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#RocketTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#RocketTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Medium>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Rosa> \"Rosa\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Rosa> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Rosa> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#GorgonzolaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Rosa> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Rosa> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Rosa> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#GorgonzolaTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#RosemaryTopping> \"CoberturaRosemary\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#RosemaryTopping> <http://pizza.com/pizza.owl#HerbSpiceTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#RosemaryTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#SauceTopping> \"CoberturaEmMolho\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SauceTopping> <http://pizza.com/pizza.owl#PizzaTopping>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Siciliana> \"Siciliana\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Siciliana> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Siciliana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#AnchoviesTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Siciliana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#ArtichokeTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Siciliana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#GarlicTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Siciliana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#HamTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Siciliana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Siciliana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#OliveTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Siciliana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Siciliana> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#AnchoviesTopping> <http://pizza.com/pizza.owl#ArtichokeTopping> <http://pizza.com/pizza.owl#GarlicTopping> <http://pizza.com/pizza.owl#HamTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#OliveTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#SlicedTomatoTopping> \"CoberturaDeTomateFatiado\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SlicedTomatoTopping> <http://pizza.com/pizza.owl#TomatoTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SlicedTomatoTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#SloppyGiuseppe> \"SloppyGiuseppe\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SloppyGiuseppe> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SloppyGiuseppe> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#GreenPepperTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SloppyGiuseppe> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#HotSpicedBeefTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SloppyGiuseppe> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SloppyGiuseppe> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#OnionTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SloppyGiuseppe> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SloppyGiuseppe> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#GreenPepperTopping> <http://pizza.com/pizza.owl#HotSpicedBeefTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#OnionTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Soho> \"Soho\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Soho> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Soho> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#GarlicTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Soho> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Soho> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#OliveTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Soho> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#ParmesanTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Soho> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#RocketTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Soho> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Soho> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#GarlicTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#OliveTopping> <http://pizza.com/pizza.owl#ParmesanTopping> <http://pizza.com/pizza.owl#RocketTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#Spiciness> \"A ValuePartition that describes only values from Hot, Medium or Mild. NB Subclasses can themselves be divided up into further partitions.\"@en)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Spiciness> \"Tempero\"@pt)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#Spiciness> ObjectUnionOf(<http://pizza.com/pizza.owl#Hot> <http://pizza.com/pizza.owl#Medium> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Spiciness> <http://pizza.com/pizza.owl#ValuePartition>)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#SpicyPizza> \"Any pizza that has a spicy topping is a SpicyPizza\"@en)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#SpicyPizza> \"PizzaTemperada\"@pt)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#SpicyPizza> ObjectIntersectionOf(ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#SpicyTopping>) <http://pizza.com/pizza.owl#Pizza>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#SpicyPizzaEquivalent> \"PizzaTemperadaEquivalente\"@pt)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#SpicyPizzaEquivalent> \"An alternative definition for the SpicyPizza which does away with needing a definition of SpicyTopping and uses a slightly more complicated restriction: Pizzas that have at least one topping that is both a PizzaTopping and has spiciness hot are members of this class. \"@en)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#SpicyPizzaEquivalent> ObjectIntersectionOf(ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectIntersectionOf(ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Hot>) <http://pizza.com/pizza.owl#PizzaTopping>)) <http://pizza.com/pizza.owl#Pizza>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#SpicyTopping> \"CoberturaTemperada\"@pt)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#SpicyTopping> \"Any pizza topping that has spiciness Hot\"@en)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#SpicyTopping> ObjectIntersectionOf(ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Hot>) <http://pizza.com/pizza.owl#PizzaTopping>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#SpinachTopping> \"CoberturaDeEspinafre\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SpinachTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SpinachTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#SultanaTopping> \"CoberturaSultana\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SultanaTopping> <http://pizza.com/pizza.owl#FruitTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SultanaTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Medium>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#SundriedTomatoTopping> \"CoberturaDeTomateRessecadoAoSol\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SundriedTomatoTopping> <http://pizza.com/pizza.owl#TomatoTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SundriedTomatoTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#SweetPepperTopping> \"CoberturaDePimentaoDoce\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SweetPepperTopping> <http://pizza.com/pizza.owl#PepperTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#SweetPepperTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#ThinAndCrispyBase> \"BaseFinaEQuebradica\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#ThinAndCrispyBase> <http://pizza.com/pizza.owl#PizzaBase>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#TobascoPepperSauce> \"MolhoTobascoPepper\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#TobascoPepperSauce> <http://pizza.com/pizza.owl#SauceTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#TobascoPepperSauce> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Hot>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#TomatoTopping> \"CoberturaDeTomate\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#TomatoTopping> <http://pizza.com/pizza.owl#VegetableTopping>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#TomatoTopping> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Mild>))\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#UnclosedPizza> \"An unclosed Pizza cannot be inferred to be either a VegetarianPizza or a NonVegetarianPizza, because it might have other toppings.\"^^xsd:string)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#UnclosedPizza> \"PizzaAberta\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#UnclosedPizza> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#UnclosedPizza> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#ValuePartition> \"ValorDaParticao\"@pt)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#ValuePartition> \"A ValuePartition is a pattern that describes a restricted set of classes from which a property can be associated. The parent class is used in restrictions, and the covering axiom means that only members of the subclasses may be used as values. The possible subclasses cannot be extended without updating the ValuePartition class.\"^^xsd:string)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#VegetableTopping> \"CoberturaDeVegetais\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#VegetableTopping> <http://pizza.com/pizza.owl#PizzaTopping>)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#VegetarianPizza> \"PizzaVegetariana\"@pt)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#VegetarianPizza> \"Any pizza that does not have fish topping and does not have meat topping is a VegetarianPizza. Members of this class do not need to have any toppings at all.\"@en)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#VegetarianPizza> ObjectIntersectionOf(<http://pizza.com/pizza.owl#Pizza> ObjectComplementOf(ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#FishTopping>)) ObjectComplementOf(ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MeatTopping>))))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#VegetarianPizzaEquivalent1> \"PizzaVegetarianaEquivalente1\"@pt)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#VegetarianPizzaEquivalent1> \"Any pizza that only has vegetarian toppings or no toppings is a VegetarianPizzaEquiv1. Should be inferred to be equivalent to VegetarianPizzaEquiv2.  Not equivalent to VegetarianPizza because PizzaTopping is not covering\"@en)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#VegetarianPizzaEquivalent1> ObjectIntersectionOf(ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#VegetarianTopping>) <http://pizza.com/pizza.owl#Pizza>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#VegetarianPizzaEquivalent2> \"PizzaVegetarianaEquivalente2\"@pt)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#VegetarianPizzaEquivalent2> \"An alternative to VegetarianPizzaEquiv1 that does not require a definition of VegetarianTopping. Perhaps more difficult to maintain. Not equivalent to VegetarianPizza \"@en)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#VegetarianPizzaEquivalent2> ObjectIntersectionOf(ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#CheeseTopping> <http://pizza.com/pizza.owl#FruitTopping> <http://pizza.com/pizza.owl#HerbSpiceTopping> <http://pizza.com/pizza.owl#NutTopping> <http://pizza.com/pizza.owl#SauceTopping> <http://pizza.com/pizza.owl#VegetableTopping>)) <http://pizza.com/pizza.owl#Pizza>))\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#VegetarianTopping> \"An example of a covering axiom. VegetarianTopping is equivalent to the union of all toppings in the given axiom. VegetarianToppings can only be Cheese or Vegetable or....etc.\"@en)\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#VegetarianTopping> \"CoberturaVegetariana\"@pt)\n"
+            + "EquivalentClasses(<http://pizza.com/pizza.owl#VegetarianTopping> ObjectIntersectionOf(ObjectUnionOf(<http://pizza.com/pizza.owl#CheeseTopping> <http://pizza.com/pizza.owl#FruitTopping> <http://pizza.com/pizza.owl#HerbSpiceTopping> <http://pizza.com/pizza.owl#NutTopping> <http://pizza.com/pizza.owl#SauceTopping> <http://pizza.com/pizza.owl#VegetableTopping>) <http://pizza.com/pizza.owl#PizzaTopping>))\n"
+            + "AnnotationAssertion(rdfs:label <http://pizza.com/pizza.owl#Veneziana> \"Veneziana\"@pt)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Veneziana> <http://pizza.com/pizza.owl#NamedPizza>)\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Veneziana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#CaperTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Veneziana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#MozzarellaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Veneziana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#OliveTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Veneziana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#OnionTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Veneziana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#PineKernels>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Veneziana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#SultanaTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Veneziana> ObjectSomeValuesFrom(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#TomatoTopping>))\n"
+            + "SubClassOf(<http://pizza.com/pizza.owl#Veneziana> ObjectAllValuesFrom(<http://pizza.com/pizza.owl#hasTopping> ObjectUnionOf(<http://pizza.com/pizza.owl#CaperTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#OliveTopping> <http://pizza.com/pizza.owl#OnionTopping> <http://pizza.com/pizza.owl#PineKernels> <http://pizza.com/pizza.owl#SultanaTopping> <http://pizza.com/pizza.owl#TomatoTopping>)))\n"
+            + "SubObjectPropertyOf(<http://pizza.com/pizza.owl#hasBase> <http://pizza.com/pizza.owl#hasIngredient>)\n"
+            + "InverseObjectProperties(<http://pizza.com/pizza.owl#hasBase> <http://pizza.com/pizza.owl#isBaseOf>)\n"
+            + "FunctionalObjectProperty(<http://pizza.com/pizza.owl#hasBase>)\n"
+            + "InverseFunctionalObjectProperty(<http://pizza.com/pizza.owl#hasBase>)\n"
+            + "ObjectPropertyDomain(<http://pizza.com/pizza.owl#hasBase> <http://pizza.com/pizza.owl#Pizza>)\n"
+            + "ObjectPropertyRange(<http://pizza.com/pizza.owl#hasBase> <http://pizza.com/pizza.owl#PizzaBase>)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#hasIngredient> \"NB Transitive - the ingredients of ingredients are ingredients of the whole\"@en)\n"
+            + "InverseObjectProperties(<http://pizza.com/pizza.owl#hasIngredient> <http://pizza.com/pizza.owl#isIngredientOf>)\n"
+            + "TransitiveObjectProperty(<http://pizza.com/pizza.owl#hasIngredient>)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#hasSpiciness> \"A property created to be used with the ValuePartition - Spiciness.\"@en)\n"
+            + "FunctionalObjectProperty(<http://pizza.com/pizza.owl#hasSpiciness>)\n"
+            + "ObjectPropertyRange(<http://pizza.com/pizza.owl#hasSpiciness> <http://pizza.com/pizza.owl#Spiciness>)\n"
+            + "SubObjectPropertyOf(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#hasIngredient>)\n"
+            + "InverseObjectProperties(<http://pizza.com/pizza.owl#isToppingOf> <http://pizza.com/pizza.owl#hasTopping>)\n"
+            + "ObjectPropertyDomain(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#Pizza>)\n"
+            + "ObjectPropertyRange(<http://pizza.com/pizza.owl#hasTopping> <http://pizza.com/pizza.owl#PizzaTopping>)\n"
+            + "SubObjectPropertyOf(<http://pizza.com/pizza.owl#isBaseOf> <http://pizza.com/pizza.owl#isIngredientOf>)\n"
+            + "FunctionalObjectProperty(<http://pizza.com/pizza.owl#isBaseOf>)\n"
+            + "InverseFunctionalObjectProperty(<http://pizza.com/pizza.owl#isBaseOf>)\n"
+            + "ObjectPropertyDomain(<http://pizza.com/pizza.owl#isBaseOf> <http://pizza.com/pizza.owl#PizzaBase>)\n"
+            + "ObjectPropertyRange(<http://pizza.com/pizza.owl#isBaseOf> <http://pizza.com/pizza.owl#Pizza>)\n"
+            + "AnnotationAssertion(rdfs:comment <http://pizza.com/pizza.owl#isIngredientOf> \"The inverse property tree to hasIngredient - all subproperties and attributes of the properties should reflect those under hasIngredient.\"@en)\n"
+            + "TransitiveObjectProperty(<http://pizza.com/pizza.owl#isIngredientOf>)\n"
+            + "SubObjectPropertyOf(<http://pizza.com/pizza.owl#isToppingOf> <http://pizza.com/pizza.owl#isIngredientOf>)\n"
+            + "ObjectPropertyDomain(<http://pizza.com/pizza.owl#isToppingOf> <http://pizza.com/pizza.owl#PizzaTopping>)\n"
+            + "ObjectPropertyRange(<http://pizza.com/pizza.owl#isToppingOf> <http://pizza.com/pizza.owl#Pizza>)\n"
+            + "ClassAssertion(<http://pizza.com/pizza.owl#Country> <http://pizza.com/pizza.owl#America>)\n"
+            + "ClassAssertion(<http://pizza.com/pizza.owl#Country> <http://pizza.com/pizza.owl#England>)\n"
+            + "ClassAssertion(<http://pizza.com/pizza.owl#Country> <http://pizza.com/pizza.owl#France>)\n"
+            + "ClassAssertion(<http://pizza.com/pizza.owl#Country> <http://pizza.com/pizza.owl#Germany>)\n"
+            + "ClassAssertion(<http://pizza.com/pizza.owl#Country> <http://pizza.com/pizza.owl#Italy>)\n"
+            + "DifferentIndividuals(<http://pizza.com/pizza.owl#America> <http://pizza.com/pizza.owl#England> <http://pizza.com/pizza.owl#France> <http://pizza.com/pizza.owl#Germany> <http://pizza.com/pizza.owl#Italy>)\n"
+            + "DisjointClasses(<http://pizza.com/pizza.owl#American> <http://pizza.com/pizza.owl#AmericanHot> <http://pizza.com/pizza.owl#Cajun> <http://pizza.com/pizza.owl#Capricciosa> <http://pizza.com/pizza.owl#Caprina> <http://pizza.com/pizza.owl#Fiorentina> <http://pizza.com/pizza.owl#FourSeasons> <http://pizza.com/pizza.owl#FruttiDiMare> <http://pizza.com/pizza.owl#Giardiniera> <http://pizza.com/pizza.owl#LaReine> <http://pizza.com/pizza.owl#Margherita> <http://pizza.com/pizza.owl#Mushroom> <http://pizza.com/pizza.owl#Napoletana> <http://pizza.com/pizza.owl#Parmense> <http://pizza.com/pizza.owl#PolloAdAstra> <http://pizza.com/pizza.owl#PrinceCarlo> <http://pizza.com/pizza.owl#QuattroFormaggi> <http://pizza.com/pizza.owl#Rosa> <http://pizza.com/pizza.owl#Siciliana> <http://pizza.com/pizza.owl#SloppyGiuseppe> <http://pizza.com/pizza.owl#Soho> <http://pizza.com/pizza.owl#UnclosedPizza> <http://pizza.com/pizza.owl#Veneziana>)\n"
+            + "DisjointClasses(<http://pizza.com/pizza.owl#DeepPanBase> <http://pizza.com/pizza.owl#ThinAndCrispyBase>)\n"
+            + "DisjointClasses(<http://pizza.com/pizza.owl#DomainConcept> <http://pizza.com/pizza.owl#ValuePartition>)\n"
+            + "DisjointClasses(<http://pizza.com/pizza.owl#Hot> <http://pizza.com/pizza.owl#Medium> <http://pizza.com/pizza.owl#Mild>)\n"
+            + "DisjointClasses(<http://pizza.com/pizza.owl#IceCream> <http://pizza.com/pizza.owl#Pizza> <http://pizza.com/pizza.owl#PizzaBase> <http://pizza.com/pizza.owl#PizzaTopping>)\n"
+            + "DisjointClasses(<http://pizza.com/pizza.owl#NonVegetarianPizza> <http://pizza.com/pizza.owl#VegetarianPizza>)\n"
+            + "DisjointClasses(<http://pizza.com/pizza.owl#ArtichokeTopping> <http://pizza.com/pizza.owl#AsparagusTopping> <http://pizza.com/pizza.owl#CaperTopping> <http://pizza.com/pizza.owl#GarlicTopping> <http://pizza.com/pizza.owl#LeekTopping> <http://pizza.com/pizza.owl#MushroomTopping> <http://pizza.com/pizza.owl#OliveTopping> <http://pizza.com/pizza.owl#PepperTopping> <http://pizza.com/pizza.owl#OnionTopping> <http://pizza.com/pizza.owl#PetitPoisTopping> <http://pizza.com/pizza.owl#RocketTopping> <http://pizza.com/pizza.owl#SpinachTopping> <http://pizza.com/pizza.owl#TomatoTopping><http://pizza.com/pizza.owl#CheeseTopping> <http://pizza.com/pizza.owl#FishTopping> <http://pizza.com/pizza.owl#FruitTopping> <http://pizza.com/pizza.owl#ChickenTopping> <http://pizza.com/pizza.owl#FourCheesesTopping> <http://pizza.com/pizza.owl#GoatsCheeseTopping> <http://pizza.com/pizza.owl#GorgonzolaTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#GreenPepperTopping> <http://pizza.com/pizza.owl#HamTopping> <http://pizza.com/pizza.owl#HotSpicedBeefTopping> <http://pizza.com/pizza.owl#PeperoniSausageTopping> <http://pizza.com/pizza.owl#HerbSpiceTopping> <http://pizza.com/pizza.owl#MeatTopping> <http://pizza.com/pizza.owl#HerbSpiceTopping> <http://pizza.com/pizza.owl#NutTopping> <http://pizza.com/pizza.owl#SauceTopping> <http://pizza.com/pizza.owl#VegetableTopping><http://pizza.com/pizza.owl#JalapenoPepperTopping> <http://pizza.com/pizza.owl#MixedSeafoodTopping> <http://pizza.com/pizza.owl#PrawnsTopping> <http://pizza.com/pizza.owl#MozzarellaTopping> <http://pizza.com/pizza.owl#ParmesanTopping> <http://pizza.com/pizza.owl#PeperonataTopping> <http://pizza.com/pizza.owl#SweetPepperTopping> <http://pizza.com/pizza.owl#SlicedTomatoTopping> <http://pizza.com/pizza.owl#SundriedTomatoTopping>)\n"
+            + ")";
+    public static OWLOntology test;
+    public static OWLOntology naf;
+    public static OWLOntology pizza;
+    public static OWLOntology syntax;
+    public static OWLOntology siblings;
+    public static OWLOntology ondrejtest;
+    public static OWLOntology testLongLabels;
+    public static OWLOntology sequentialUnion;
+    public static OWLDataFactory df = OWLManager.getOWLDataFactory();
+    public static OWLOntologyManager managerForPizzaAndSyntax = OWLManager
+            .createOWLOntologyManager();
+    public static OWLOntologyManager managerForPizzaAndOndrej = OWLManager
+            .createOWLOntologyManager();
+    static {
         try {
-            manager = OWLManager.createOWLOntologyManager();
-            naf = manager.loadOntologyFromOntologyDocument(new StringDocumentSource(
-                    naf_owl));
-            test = manager.loadOntologyFromOntologyDocument(new StringDocumentSource(
-                    test_owl));
-            pizza = manager.loadOntologyFromOntologyDocument(getClass()
-                    .getResourceAsStream("/pizza.owl"));
-            syntax = manager.loadOntologyFromOntologyDocument(new StringDocumentSource(
-                    syntax_owl));
-            testLongLabels = manager
-                    .loadOntologyFromOntologyDocument(new StringDocumentSource(
-                            testLongLabels_owl));
-            siblings = manager.loadOntologyFromOntologyDocument(new StringDocumentSource(
-                    siblings_owl));
-            ondrejtest = manager
-                    .loadOntologyFromOntologyDocument(new StringDocumentSource(
-                            ondrejtest_owl));
-            sequentialUnion = manager
-                    .loadOntologyFromOntologyDocument(new StringDocumentSource(
-                            sequentialUnion_owl));
-        } catch (OWLOntologyCreationException e) {
+            naf = load(naf_owl);
+            test = load(test_owl);
+            syntax = load(syntax_owl);
+            testLongLabels = load(testLongLabels_owl);
+            siblings = load(siblings_owl);
+            ondrejtest = load(ondrejtest_owl);
+            sequentialUnion = load(sequentialUnion_owl);
+            pizza = load(pizza_owl_1 + pizza_owl_2);
+            load(managerForPizzaAndSyntax, syntax_owl);
+            load(managerForPizzaAndSyntax, pizza_owl_1 + pizza_owl_2);
+            load(managerForPizzaAndOndrej, ondrejtest_owl);
+            load(managerForPizzaAndOndrej, pizza_owl_1 + pizza_owl_2);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static OWLOntology load(String input) throws OWLOntologyCreationException {
+        return OWLManager.createOWLOntologyManager().loadOntologyFromOntologyDocument(
+                new StringDocumentSource(input));
+    }
+
+    private static OWLOntology load(OWLOntologyManager m, String input)
+            throws OWLOntologyCreationException {
+        return m.loadOntologyFromOntologyDocument(new StringDocumentSource(input));
     }
 }

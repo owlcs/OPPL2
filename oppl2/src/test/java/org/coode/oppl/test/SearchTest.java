@@ -1,5 +1,6 @@
 package org.coode.oppl.test;
 
+import static org.coode.oppl.Ontologies.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.Ontologies;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.Variable;
@@ -33,32 +33,29 @@ import org.coode.parsers.ErrorListener;
 import org.coode.parsers.test.JUnitTestErrorListener;
 import org.junit.Before;
 import org.junit.Test;
-import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.io.OWLFunctionalSyntaxOntologyFormat;
+import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
 @SuppressWarnings("javadoc")
 public class SearchTest {
-    Ontologies ontologies = new Ontologies();
     OWLOntology ontology;
-    OWLDataFactory df = ontologies.manager.getOWLDataFactory();
     private final ErrorListener errorListener = new JUnitTestErrorListener();
     final RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
 
     @Before
     public void setUp() throws OWLOntologyCreationException {
-        ontology = OWLManager.createOWLOntologyManager().createOntology();
-        ontology.getOWLOntologyManager()
-                .addAxioms(ontology, ontologies.pizza.getAxioms());
+        ontology = pizza;
     }
 
     @Test
@@ -108,11 +105,11 @@ public class SearchTest {
     }
 
     @Test
-    public void testOWLAxiomSearch() {
+    public void testOWLAxiomSearch() throws OWLOntologyStorageException {
         OWLClass namedPizzaClass = df.getOWLClass(IRI
-                .create("http://www.co-ode.org/ontologies/pizza/pizza.owl#NamedPizza"));
+                .create("http://pizza.com/pizza.owl#NamedPizza"));
         OWLClass pizzaClass = df.getOWLClass(IRI
-                .create("http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza"));
+                .create("http://pizza.com/pizza.owl#Pizza"));
         final OWLSubClassOfAxiom subClassAxiom = df.getOWLSubClassOfAxiom(
                 namedPizzaClass, pizzaClass);
         String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf ?y BEGIN ADD ?x subClassOf ?y END;";
@@ -121,6 +118,7 @@ public class SearchTest {
         SearchTree<OWLAxiom> searchTree = new SearchTree<OWLAxiom>() {
             @Override
             protected boolean goalReached(OWLAxiom startAxiom) {
+                // System.out.println(startAxiom + "\t" + subClassAxiom);
                 return startAxiom.equalsIgnoreAnnotations(subClassAxiom);
             }
 
@@ -159,7 +157,7 @@ public class SearchTest {
         };
         List<List<OWLAxiom>> solutions = new ArrayList<List<OWLAxiom>>();
         boolean found = searchTree.exhaustiveSearchTree(start, solutions);
-        assertTrue("It's there but cannot find it ", found);
+        assertTrue("It's there but cannot find it: " + start + "\n" + solutions, found);
         System.out.println("Found? " + found);
         for (List<OWLAxiom> path : solutions) {
             System.out.println(path);
@@ -191,8 +189,7 @@ public class SearchTest {
             System.out.println(path);
         }
         final Set<OWLAxiom> subClassAxioms = new HashSet<OWLAxiom>(solutions.size());
-        Set<OWLSubClassOfAxiom> axioms = ontologies.pizza
-                .getAxioms(AxiomType.SUBCLASS_OF);
+        Set<OWLSubClassOfAxiom> axioms = pizza.getAxioms(AxiomType.SUBCLASS_OF);
         for (OWLSubClassOfAxiom owlSubClassAxiom : axioms) {
             owlSubClassAxiom.accept(new OWLAxiomVisitorAdapter() {
                 @Override

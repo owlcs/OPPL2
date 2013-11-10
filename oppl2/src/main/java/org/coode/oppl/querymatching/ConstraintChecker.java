@@ -25,7 +25,6 @@ package org.coode.oppl.querymatching;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.coode.oppl.ConstraintVisitorEx;
 import org.coode.oppl.InCollectionConstraint;
@@ -112,11 +111,9 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
                 toReturn = !found;
             }
         } catch (OWLRuntimeException e) {
-            Logging.getQueryLogger()
-                    .log(Level.WARNING,
-                            " OWLReasonerException  caught whilst checking the constraint "
-                                    + nafConstraint.render(getParameters()
-                                            .getConstraintSystem()));
+            Logging.getQueryLogger().log(
+                    "OWLReasonerException caught whilst checking the constraint ",
+                    nafConstraint, getParameters().getConstraintSystem(), e);
         }
         return toReturn;
     }

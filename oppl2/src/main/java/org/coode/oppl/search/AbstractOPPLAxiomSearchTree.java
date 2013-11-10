@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PartialOWLObjectInstantiator;
@@ -320,25 +319,21 @@ public abstract class AbstractOPPLAxiomSearchTree extends
 
     private void initAssignableValues() {
         allClasses.addAll(getAllClasses());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible class values " + allClasses.size());
+        Logging.getQueryLogger().fine("Possible class values ", allClasses.size());
         allDataProperties.addAll(getAllDataProperties());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible data property values " + allDataProperties.size());
+        Logging.getQueryLogger().fine("Possible data property values ",
+                allDataProperties.size());
         allObjectProperties.addAll(getObjectProperties());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible object property values " + allObjectProperties.size());
+        Logging.getQueryLogger().fine("Possible object property values ",
+                allObjectProperties.size());
         allIndividuals.addAll(getAllIndividuals());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible individual  values " + allIndividuals.size());
+        Logging.getQueryLogger().fine("Possible individual  values ",
+                allIndividuals.size());
         allConstants.addAll(getAllConstants());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible constant  values " + allConstants.size());
+        Logging.getQueryLogger().fine("Possible constant  values ", allConstants.size());
         allAnnotationProperties.addAll(getAllAnnotationProperties());
-        Logging.getQueryLogger()
-                .log(Level.FINE,
-                        "Possible annotation properties values "
-                                + allAnnotationProperties.size());
+        Logging.getQueryLogger().fine("Possible annotation properties values ",
+                allAnnotationProperties.size());
     }
 
     private Set<OWLAnnotationProperty> getAllAnnotationProperties() {
@@ -373,14 +368,13 @@ public abstract class AbstractOPPLAxiomSearchTree extends
         Set<BindingNode> existingLeaves = getConstraintSystem().getLeaves();
         boolean found = false;
         if (existingLeaves != null) {
-            Logging.getQueryTestLogging().log(Level.FINE,
-                    "Existing leaves count: " + existingLeaves.size());
+            Logging.getQueryTestLogging().fine("Existing leaves count: ",
+                    existingLeaves.size());
             int leafIndex = 1;
             for (BindingNode bindingNode : existingLeaves) {
-                Logging.getQueryTestLogging().log(
-                        Level.FINER,
-                        "Exhaustive search on leaf: " + leafIndex++ + " out of "
-                                + existingLeaves.size());
+                Logging.getQueryTestLogging().fine("Exhaustive search on leaf: ",
+                        leafIndex, " out of ", existingLeaves.size());
+                leafIndex++;
                 ValueComputationParameters parameters = new SimpleValueComputationParameters(
                         getConstraintSystem(), bindingNode, getRuntimeExceptionHandler());
                 PartialOWLObjectInstantiator partialObjectInstantiator = new PartialOWLObjectInstantiator(

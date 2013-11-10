@@ -8,6 +8,7 @@ import java.util.MissingFormatArgumentException;
 import java.util.Properties;
 
 import org.coode.oppl.OPPLScript;
+import org.coode.oppl.Ontologies;
 import org.coode.oppl.template.ParsingStrategy;
 import org.coode.oppl.template.commons.JavaFormatterReplacementStrategy;
 import org.coode.oppl.template.commons.KeyBasedReplacementStrategy;
@@ -163,10 +164,8 @@ public class TestStringTemplates {
     public void
             testTestPropertyBasedStringTemplateOnePlaceholderUsingAnnotationForParsing() {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-        try {
-            OWLOntology emptyOntology = ontologyManager
-                    .loadOntology(IRI
-                            .create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
+        try {Ontologies ontologies=new Ontologies();
+            OWLOntology emptyOntology =ontologies.pizza;
             ParsingStrategy<String, OPPLScript> parserCreationStrategy = new AnnotationBasedSimpleOPPLParserCreationStrategy(
                     Arrays.asList(IRI
                             .create("http://www.w3.org/2000/01/rdf-schema#label")),

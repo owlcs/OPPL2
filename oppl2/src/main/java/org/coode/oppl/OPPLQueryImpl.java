@@ -216,6 +216,11 @@ public class OPPLQueryImpl implements OPPLQuery {
     }
 
     @Override
+    public String render(ConstraintSystem constraintSystem) {
+        return render();
+    }
+
+    @Override
     public String render() {
         StringBuffer buffer = new StringBuffer("SELECT ");
         int i = 0;

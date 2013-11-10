@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.PatternSyntaxException;
 
+import org.coode.oppl.Ontologies;
 import org.coode.oppl.Variable;
 import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
@@ -42,14 +43,14 @@ import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
 import org.semanticweb.owlapi.model.SetOntologyID;
 
 public class PatternExecutionTest {
+    Ontologies ontologies=new Ontologies();
+    OWLOntologyManager manager =ontologies.manager;
+        OWLOntology ontology = ontologies.pizza;
+        OWLDataFactory dataFactory = manager.getOWLDataFactory();
+        
+
     @Test
     public void testPatternReference() {
-        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        try {
-            OWLOntology ontology = manager
-                    .loadOntology(IRI
-                            .create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-            OWLDataFactory dataFactory = manager.getOWLDataFactory();
             OWLAnnotationProperty patternAnnotationProperty = dataFactory
                     .getOWLAnnotationProperty(IRI
                             .create("http://www.co-ode.org/patterns#Free"));
@@ -124,21 +125,12 @@ public class PatternExecutionTest {
                     }
                 });
             }
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
 
     @Test
     public void testPatternReferenceMultipleValuesPerArgument() {
-        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        try {
-            OWLOntology ontology = manager
-                    .loadOntology(IRI
-                            .create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-            OWLDataFactory dataFactory = manager.getOWLDataFactory();
-            OWLAnnotationProperty patternAnnotationProperty = dataFactory
+    
+        OWLAnnotationProperty patternAnnotationProperty = dataFactory
                     .getOWLAnnotationProperty(IRI
                             .create("http://www.co-ode.org/patterns#Free"));
             AddOntologyAnnotation addFoodPattern = new AddOntologyAnnotation(
@@ -206,20 +198,10 @@ public class PatternExecutionTest {
                     }
                 });
             }
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
 
     @Test
     public void testPatternReferenceVariableValuesPerArgument() {
-        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        try {
-            OWLOntology ontology = manager
-                    .loadOntology(IRI
-                            .create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
-            OWLDataFactory dataFactory = manager.getOWLDataFactory();
             OWLAnnotationProperty patternAnnotationProperty = dataFactory
                     .getOWLAnnotationProperty(IRI
                             .create("http://www.co-ode.org/patterns#Free"));
@@ -294,17 +276,10 @@ public class PatternExecutionTest {
                     }
                 });
             }
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
     }
 
     @Test
     public void testComplexExpressionConjuntionGeneratedVariablePattern() {
-        try {
-            OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-            OWLOntology ontology = manager.createOntology();
             manager.addAxiom(
                     ontology,
                     manager.getOWLDataFactory()
@@ -379,19 +354,10 @@ public class PatternExecutionTest {
                 });
             }
             manager.removeOntology(ontology);
-        } catch (OWLOntologyCreationException e) {
-            e.printStackTrace();
-            fail();
-        }
     }
 
     @Test
     public void testNoVariables() {
-        OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        try {
-            OWLOntology pizzaontology = man
-                    .loadOntology(IRI
-                            .create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
             String pattern = "BEGIN ADD FishTopping equivalentTo FruitTopping END;";
             ParserFactory pf = new ParserFactory(pizzaontology, man);
             OPPLPatternParser parser = pf.build(new SystemErrorEcho());
@@ -431,19 +397,11 @@ public class PatternExecutionTest {
                     }
                 });
             }
-        } catch (OWLOntologyCreationException e) {
-            fail();
-        }
     }
 
     @Test
     public void testPizzaMultipleValuedVariables() {
-        OWLOntologyManager man = OWLManager.createOWLOntologyManager();
         OWLDataFactory fact = man.getOWLDataFactory();
-        try {
-            OWLOntology pizzaOntology = man
-                    .loadOntology(IRI
-                            .create("http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl"));
             String pattern = "?pizza:CLASS, "
                     + "?topping:CLASS, "
                     + "?toppingRestriction:CLASS = hasTopping some ?topping, "
@@ -453,10 +411,10 @@ public class PatternExecutionTest {
                     .getOWLClass(IRI.create("http://example.owl#JuppsPizza"));
             OWLClass meatTopping = fact
                     .getOWLClass(IRI
-                            .create("http://www.co-ode.org/ontologies/pizza/pizza.owl#MeatTopping"));
+                            .create("http://pizza.com/pizza.owl#MeatTopping"));
             OWLClass fishTopping = fact
                     .getOWLClass(IRI
-                            .create("http://www.co-ode.org/ontologies/pizza/pizza.owl#FishTopping"));
+                            .create("http://pizza.com/pizza.owl#FishTopping"));
             ParserFactory pf = new ParserFactory(pizzaOntology, man);
             OPPLPatternParser parser = pf.build(new SystemErrorEcho());
             PatternModel patternModel = parser.parse(pattern);
@@ -507,8 +465,5 @@ public class PatternExecutionTest {
                     }
                 });
             }
-        } catch (OWLOntologyCreationException e) {
-            fail();
-        }
     }
 }

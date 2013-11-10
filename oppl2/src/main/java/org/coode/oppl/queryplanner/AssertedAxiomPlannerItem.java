@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ExecutionMonitor;
@@ -68,11 +67,9 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
             RuntimeExceptionHandler runtimeExceptionHandler) {
         assert axiom != null;
         Set<BindingNode> toReturn = new HashSet<BindingNode>();
-        Logging.getQueryLogger().log(
-                Level.FINE,
-                "Initial size: "
-                        + (getConstraintSystem().getLeaves() == null ? "empty"
-                                : getConstraintSystem().getLeaves().size()));
+        int initialSize = getConstraintSystem().getLeaves() == null ? 0
+                : getConstraintSystem().getLeaves().size();
+        Logging.getQueryLogger().log("Initial size: ", initialSize);
         AxiomQuery query = new AssertedSolvabilityBasedAxiomQuery(getConstraintSystem()
                 .getOntologyManager().getOntologies(), getConstraintSystem(),
                 runtimeExceptionHandler);

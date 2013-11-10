@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 
 import org.coode.oppl.ConstraintSystem;
@@ -402,23 +401,21 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 
     private void initAssignableValues() {
         allClasses.addAll(getAllClasses());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible class values " + allClasses.size());
+        Logging.getQueryLogger().fine("Possible class values ", allClasses.size());
         allDataProperties.addAll(getAllDataProperties());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible data property values " + allDataProperties.size());
+        Logging.getQueryLogger().fine("Possible data property values ",
+                allDataProperties.size());
         allObjectProperties.addAll(getObjectProperties());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible object property values " + allObjectProperties.size());
+        Logging.getQueryLogger().fine("Possible object property values ",
+                allObjectProperties.size());
         allIndividuals.addAll(getAllIndividuals());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible individual  values " + allIndividuals.size());
+        Logging.getQueryLogger().fine("Possible individual  values ",
+                allIndividuals.size());
         allConstants.addAll(getAllConstants());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible constant  values " + allConstants.size());
+        Logging.getQueryLogger().fine("Possible constant  values ", allConstants.size());
         allAnnotationProperties.addAll(getAllAnnotationProperties());
-        Logging.getQueryLogger().log(Level.FINE,
-                "Possible annotation properties  values " + allConstants.size());
+        Logging.getQueryLogger().fine("Possible annotation properties values ",
+                allConstants.size());
     }
 
     private Collection<OWLClass> getAllClasses() {

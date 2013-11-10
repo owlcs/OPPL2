@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ExecutionMonitor;
@@ -70,19 +69,16 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
             RuntimeExceptionHandler runtimeExceptionHandler) throws OWLRuntimeException {
         assert axiom != null;
         Set<BindingNode> toReturn = new HashSet<BindingNode>();
-        Logging.getQueryLogger().log(
-                Level.FINE,
-                "Initial size: "
-                        + (getConstraintSystem().getLeaves() == null ? "empty"
-                                : getConstraintSystem().getLeaves().size()));
+        int initialSize = getConstraintSystem().getLeaves() == null ? 0
+                : getConstraintSystem().getLeaves().size();
+        Logging.getQueryLogger().fine("Initial size: ", initialSize);
         AxiomQuery query = getConstraintSystem().getReasoner() == null
                 || !axiom.isLogicalAxiom() ? new AssertedSolvabilityBasedAxiomQuery(
                 getConstraintSystem().getOntologyManager().getOntologies(),
                 getConstraintSystem(), runtimeExceptionHandler)
                 : new InferredSolvabilityBasedTreeSearchAxiomQuery(getConstraintSystem(),
                         runtimeExceptionHandler);
-        Logging.getQueryTestLogging().log(Level.FINE,
-                "Used engine: " + query.getClass().getName());
+        Logging.getQueryTestLogging().fine("Used engine: ", query.getClass().getName());
         axiom.accept(query);
         toReturn.addAll(query.getLeaves());
         return toReturn;

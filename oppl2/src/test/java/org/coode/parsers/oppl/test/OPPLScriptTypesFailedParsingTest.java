@@ -1,8 +1,7 @@
 package org.coode.parsers.oppl.test;
 
+import static org.coode.oppl.Ontologies.*;
 import static org.junit.Assert.*;
-
-import java.net.URISyntaxException;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.RecognitionException;
@@ -17,12 +16,10 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.OPPLFactory;
-import org.coode.oppl.Ontologies;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
-import org.coode.parsers.common.SystemErrorEcho;
-import org.coode.parsers.factory.SymbolTableFactory;
+import org.coode.parsers.common.SilentListener;
 import org.coode.parsers.oppl.DefaultTypeEnforcer;
 import org.coode.parsers.oppl.OPPLDefine;
 import org.coode.parsers.oppl.OPPLLexer;
@@ -31,14 +28,8 @@ import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.OPPLTypeEnforcement;
 import org.coode.parsers.oppl.OPPLTypes;
-import org.coode.parsers.oppl.factory.SimpleSymbolTableFactory;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /** Test for the AST generation for OPPL
  * 
@@ -64,29 +55,12 @@ public class OPPLScriptTypesFailedParsingTest {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
-    private final ErrorListener listener = new SystemErrorEcho();
-    private OWLOntologyManager ONTOLOGY_MANAGER = OWLManager.createOWLOntologyManager();
-    protected OWLOntology PIZZA_ONTOLOGY;
-    protected OWLOntology SYNTAX_ONTOLOGY;
-    protected OWLOntology TEST_ONTOLOGY;
-    private Ontologies ontologies = new Ontologies();
-    private final SymbolTableFactory<OPPLSymbolTable> SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(
-            ONTOLOGY_MANAGER);
-    private OPPLSymbolTable symtab;
-
-    @Before
-    public void setUp() throws OWLOntologyCreationException, URISyntaxException {
-        PIZZA_ONTOLOGY = ontologies.pizza;
-        SYNTAX_ONTOLOGY = ontologies.syntax;
-        TEST_ONTOLOGY = ontologies.test;
-        symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
-        symtab.setErrorListener(listener);
-    }
+    private final ErrorListener listener = new SilentListener();
 
     @Test
     public void testVariableScope() {
         String query = "?x:CLASS[subClassOf Pizza] SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
-        OPPLSyntaxTree parsed = parse(query, PIZZA_ONTOLOGY);
+        OPPLSyntaxTree parsed = parse(query, pizza);
         System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNull(parsed.getOPPLContent());
@@ -97,7 +71,7 @@ public class OPPLScriptTypesFailedParsingTest {
     @Test
     public void testAggregateVaraibleValuesAndLooseObjects() {
         String query = "?x:CLASS,?z:OBJECTPROPERTY, ?y:CLASS = createIntersection(?x.VALUES,?z)  SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
-        OPPLSyntaxTree parsed = parse(query, SYNTAX_ONTOLOGY);
+        OPPLSyntaxTree parsed = parse(query, syntax);
         System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
         assertNull(parsed.getOPPLContent());
@@ -105,13 +79,9 @@ public class OPPLScriptTypesFailedParsingTest {
         System.out.println("parsed content:  \t" + parsed.getOPPLContent());
     }
 
-    @After
-    public void tearDown() throws Exception {
-        symtab.dispose();
-    }
-
     protected OPPLSyntaxTree parse(String input, OWLOntology ontology) {
-        OPPLFactory opplFactory = new OPPLFactory(ONTOLOGY_MANAGER, ontology, null);
+        OPPLFactory opplFactory = new OPPLFactory(ontology.getOWLOntologyManager(),
+                ontology, null);
         ConstraintSystem constraintSystem = opplFactory.createConstraintSystem();
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLLexer lexer = new OPPLLexer(antlrStringStream);
@@ -130,6 +100,7 @@ public class OPPLScriptTypesFailedParsingTest {
             simplify.setTreeAdaptor(adaptor);
             simplify.downup(tree);
             nodes.reset();
+            OPPLSymbolTable symtab = getOPPLSymbolTable(ontology);
             OPPLDefine define = new OPPLDefine(nodes, symtab, listener, constraintSystem);
             define.setTreeAdaptor(adaptor);
             define.downup(tree);

@@ -1,5 +1,6 @@
 package org.coode.parsers.oppl.test;
 
+import static org.coode.oppl.Ontologies.*;
 import static org.junit.Assert.*;
 
 import java.util.Set;
@@ -16,21 +17,16 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.OPPLFactory;
-import org.coode.oppl.Ontologies;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.coode.parsers.Symbol;
-import org.coode.parsers.common.SystemErrorEcho;
-import org.coode.parsers.factory.SymbolTableFactory;
+import org.coode.parsers.common.SilentListener;
 import org.coode.parsers.oppl.OPPLDefine;
 import org.coode.parsers.oppl.OPPLLexer;
 import org.coode.parsers.oppl.OPPLScriptParser;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
-import org.coode.parsers.oppl.factory.SimpleSymbolTableFactory;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 /** Test for the AST generation for OPPL
@@ -57,25 +53,16 @@ public class OPPLScriptDefineParserTest {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
-    private final ErrorListener listener = new SystemErrorEcho();
-    private Ontologies ontologies = new Ontologies();
-    private SymbolTableFactory<OPPLSymbolTable> SYMBOL_TABLE_FACTORY;
-
-    @Before
-    public void setUp() throws Exception {
-        SYMBOL_TABLE_FACTORY = new SimpleSymbolTableFactory(ontologies.manager);
-        symtab = SYMBOL_TABLE_FACTORY.createSymbolTable();
-    }
-
-    private OPPLSymbolTable symtab;
+    private final ErrorListener listener = new SilentListener();
 
     @Test
     public void testSubClassQuery() {
         String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
-        ManchesterOWLSyntaxTree parsed = parse(query);
+        OPPLSymbolTable opplSymbolTable = getOPPLSymbolTable(pizza);
+        ManchesterOWLSyntaxTree parsed = parse(query, opplSymbolTable);
         System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
-        Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+        Set<Symbol> definedSymbols = opplSymbolTable.getDefinedSymbols();
         assertTrue(definedSymbols.size() == 1);
         System.out.println(definedSymbols);
     }
@@ -83,10 +70,11 @@ public class OPPLScriptDefineParserTest {
     @Test
     public void testRegexpQuery() {
         String query = "?x:CLASS = MATCH (\".*ing\") SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
-        ManchesterOWLSyntaxTree parsed = parse(query);
+        OPPLSymbolTable opplSymbolTable = getOPPLSymbolTable(pizza);
+        ManchesterOWLSyntaxTree parsed = parse(query, opplSymbolTable);
         System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
-        Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+        Set<Symbol> definedSymbols = opplSymbolTable.getDefinedSymbols();
         assertTrue(definedSymbols.size() == 1);
         System.out.println(definedSymbols);
     }
@@ -94,15 +82,16 @@ public class OPPLScriptDefineParserTest {
     @Test
     public void testGeneratedVariable() {
         String query = "?x:CLASS, ?y:OBJECTPROPERTY = MATCH(\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x subClassOf ?y some ?z BEGIN REMOVE ?x subClassOf ?y some ?z, ADD ?x subClassOf !hasFeature some (?feature and !hasValue some ?z) END;";
-        ManchesterOWLSyntaxTree parsed = parse(query);
+        OPPLSymbolTable opplSymbolTable = getOPPLSymbolTable(pizza);
+        ManchesterOWLSyntaxTree parsed = parse(query, opplSymbolTable);
         System.out.println(parsed.toStringTree());
         assertNotNull(parsed);
-        Set<Symbol> definedSymbols = symtab.getDefinedSymbols();
+        Set<Symbol> definedSymbols = opplSymbolTable.getDefinedSymbols();
         assertTrue(definedSymbols.size() > 2);
         System.out.println(definedSymbols);
     }
 
-    protected ManchesterOWLSyntaxTree parse(String input) {
+    protected ManchesterOWLSyntaxTree parse(String input, OPPLSymbolTable symbolTable) {
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLLexer lexer = new OPPLLexer(antlrStringStream);
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
@@ -120,9 +109,9 @@ public class OPPLScriptDefineParserTest {
             simplify.setTreeAdaptor(adaptor);
             simplify.downup(tree);
             nodes.reset();
-            OPPLFactory factory = new OPPLFactory(ontologies.manager, ontologies.syntax,
+            OPPLFactory factory = new OPPLFactory(syntax.getOWLOntologyManager(), syntax,
                     null);
-            OPPLDefine define = new OPPLDefine(nodes, symtab, listener,
+            OPPLDefine define = new OPPLDefine(nodes, symbolTable, listener,
                     factory.createConstraintSystem());
             define.setTreeAdaptor(adaptor);
             define.downup(tree);
@@ -131,10 +120,5 @@ public class OPPLScriptDefineParserTest {
             e.printStackTrace();
             return null;
         }
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        symtab.dispose();
     }
 }

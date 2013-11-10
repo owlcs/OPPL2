@@ -157,6 +157,11 @@ public class OPPLScriptImpl implements OPPLScript {
     }
 
     @Override
+    public String render(ConstraintSystem constraintSystem) {
+        return render();
+    }
+
+    @Override
     public String render(ShortFormProvider shortFormProvider) {
         StringBuffer buffer = new StringBuffer();
         boolean first = true;

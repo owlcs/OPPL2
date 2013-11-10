@@ -13,7 +13,7 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.coode.parsers.common.SystemErrorEcho;
+import org.coode.parsers.common.SilentListener;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.AddImport;
@@ -37,101 +37,94 @@ import org.semanticweb.owlapi.util.AutoIRIMapper;
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
 public class RunQuery {
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		OWLOntologyManager ontologyManager = OWLManager
-				.createOWLOntologyManager();
-		if (args.length >= 2) {
-			OWLOntology ontology = null;
-			try {
-				for (int i = 1; i < args.length; i++) {
-					URL url = new URL(args[i]);
-					File parentFile = new File(url.toURI()).getParentFile();
-					if (parentFile != null && parentFile.isDirectory()) {
-						AutoIRIMapper mapper = new AutoIRIMapper(parentFile,
-								true);
-						ontologyManager.addIRIMapper(mapper);
-					}
-					ontology = ontology == null ? ontologyManager
-							.loadOntology(IRI.create(url)) : ontology;
-				}
-				String opplScriptString = args[0];
+    /** @param args */
+    public static void main(String[] args) {
+        OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
+        if (args.length >= 2) {
+            OWLOntology ontology = null;
+            try {
+                for (int i = 1; i < args.length; i++) {
+                    URL url = new URL(args[i]);
+                    File parentFile = new File(url.toURI()).getParentFile();
+                    if (parentFile != null && parentFile.isDirectory()) {
+                        AutoIRIMapper mapper = new AutoIRIMapper(parentFile, true);
+                        ontologyManager.addIRIMapper(mapper);
+                    }
+                    ontology = ontology == null ? ontologyManager.loadOntology(IRI
+                            .create(url)) : ontology;
+                }
+                String opplScriptString = args[0];
                 JFactFactory factory = new JFactFactory();
-				OWLReasoner reasoner = factory.createReasoner(ontology);
-				reasoner.precomputeInferences(InferenceType.OBJECT_PROPERTY_ASSERTIONS);
-				ParserFactory parserFactory = new ParserFactory(
-						ontologyManager, ontology, reasoner);
-				OPPLParser parser = parserFactory.build(new SystemErrorEcho());
-				OPPLScript parsed = parser.parse(opplScriptString);
-				ChangeExtractor extractor = new ChangeExtractor(
-						new RuntimeExceptionHandler() {
-							public void handlePatternSyntaxExcpetion(
-									PatternSyntaxException e) {
-								e.printStackTrace();
-							}
+                OWLReasoner reasoner = factory.createReasoner(ontology);
+                reasoner.precomputeInferences(InferenceType.OBJECT_PROPERTY_ASSERTIONS);
+                ParserFactory parserFactory = new ParserFactory(ontologyManager,
+                        ontology, reasoner);
+                OPPLParser parser = parserFactory.build(new SilentListener());
+                OPPLScript parsed = parser.parse(opplScriptString);
+                ChangeExtractor extractor = new ChangeExtractor(
+                        new RuntimeExceptionHandler() {
+                            public void handlePatternSyntaxExcpetion(
+                                    PatternSyntaxException e) {
+                                e.printStackTrace();
+                            }
 
-							public void handleOWLRuntimeException(
-									OWLRuntimeException e) {
-								e.printStackTrace();
-							}
+                            public void handleOWLRuntimeException(OWLRuntimeException e) {
+                                e.printStackTrace();
+                            }
 
-							public void handleException(RuntimeException e) {
-								e.printStackTrace();
-							}
-						}, true);
-				List<OWLAxiomChange> changes = extractor.visit(parsed);
-				for (OWLAxiomChange owlAxiomChange : changes) {
-					final ManchesterSyntaxRenderer renderer = parserFactory
-							.getOPPLFactory().getManchesterSyntaxRenderer(
-									parsed.getConstraintSystem());
-					owlAxiomChange.accept(new OWLOntologyChangeVisitor() {
-						public void visit(RemoveOntologyAnnotation change) {
-							System.out.println(change);
-						}
+                            public void handleException(RuntimeException e) {
+                                e.printStackTrace();
+                            }
+                        }, true);
+                List<OWLAxiomChange> changes = extractor.visit(parsed);
+                for (OWLAxiomChange owlAxiomChange : changes) {
+                    final ManchesterSyntaxRenderer renderer = parserFactory
+                            .getOPPLFactory().getManchesterSyntaxRenderer(
+                                    parsed.getConstraintSystem());
+                    owlAxiomChange.accept(new OWLOntologyChangeVisitor() {
+                        public void visit(RemoveOntologyAnnotation change) {
+                            System.out.println(change);
+                        }
 
-						public void visit(AddOntologyAnnotation change) {
-							System.out.println(change);
-						}
+                        public void visit(AddOntologyAnnotation change) {
+                            System.out.println(change);
+                        }
 
-						public void visit(RemoveImport change) {
-							System.out.println(change);
-						}
+                        public void visit(RemoveImport change) {
+                            System.out.println(change);
+                        }
 
-						public void visit(AddImport change) {
-							System.out.println(change);
-						}
+                        public void visit(AddImport change) {
+                            System.out.println(change);
+                        }
 
-						public void visit(SetOntologyID change) {
-							System.out.println(change);
-						}
+                        public void visit(SetOntologyID change) {
+                            System.out.println(change);
+                        }
 
-						public void visit(RemoveAxiom change) {
-							OWLAxiom axiom = change.getAxiom();
-							axiom.accept(renderer);
-							System.out.println(String.format("REMOVE %s",
-									renderer));
-						}
+                        public void visit(RemoveAxiom change) {
+                            OWLAxiom axiom = change.getAxiom();
+                            axiom.accept(renderer);
+                            System.out.println(String.format("REMOVE %s", renderer));
+                        }
 
-						public void visit(AddAxiom change) {
-							OWLAxiom axiom = change.getAxiom();
-							axiom.accept(renderer);
-							System.out.println(String
-									.format("ADD %s", renderer));
-						}
-					});
-				}
-			} catch (OWLOntologyCreationException e) {
-				e.printStackTrace();
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-		} else {
-			System.out
-					.println("Usage java org.coode.oppl.test.RunQuery <OPPL Script> <ontology URL>...<ontology URL>");
-		}
-	}
+                        public void visit(AddAxiom change) {
+                            OWLAxiom axiom = change.getAxiom();
+                            axiom.accept(renderer);
+                            System.out.println(String.format("ADD %s", renderer));
+                        }
+                    });
+                }
+            } catch (OWLOntologyCreationException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out
+                    .println("Usage java org.coode.oppl.test.RunQuery <OPPL Script> <ontology URL>...<ontology URL>");
+        }
+    }
 }

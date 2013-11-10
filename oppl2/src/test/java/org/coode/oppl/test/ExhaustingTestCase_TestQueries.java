@@ -1,5 +1,7 @@
 package org.coode.oppl.test;
 
+import static org.coode.oppl.Ontologies.test;
+
 import org.coode.oppl.OPPLScript;
 
 @SuppressWarnings("javadoc")
@@ -10,41 +12,41 @@ public class ExhaustingTestCase_TestQueries extends AbstractTestCase {
                         + "?newIsland:CLASS=create(\"Test\"+?island.GROUPS(1)) \n"
                         + "SELECT ?island subClassOf Fragment  WHERE ?island Match(\"[A-Za-z]*(Fragment)\")\n"
                         + "BEGIN \n" + "ADD ?newIsland subClassOf ?island\n" + "END;",
-                        ontologies.test);
+                        test);
         expectedCorrect(result);
-        execute(result, getOntology("test.owl"), 4);
+        execute(result, test, 4);
     }
 
     public void testAssembleVariables() {
         OPPLScript result = this
                 .parse("?y:CLASS, ?x:CLASS=create(\"Test\"+?y.RENDERING) SELECT ?y subClassOf Thing  BEGIN ADD ?x subClassOf ?y END;",
-                        ontologies.test);
+                        test);
         expectedCorrect(result);
-        execute(result, getOntology("test.owl"), 8);
+        execute(result, test, 8);
     }
 
     public void testAssembleVariablesConstants() {
         OPPLScript result = this
                 .parse("?y:CLASS, ?k:CONSTANT=create(\"mytest\"), ?x:CLASS=create(\"Test\"+?k.RENDERING) SELECT ?y subClassOf Country BEGIN ADD ?x subClassOf ?y END;",
-                        ontologies.test);
+                        test);
         expectedCorrect(result);
-        execute(result, getOntology("test.owl"), 2);
+        execute(result, test, 2);
     }
 
     public void testAssembleConstantVariables() {
         OPPLScript result = this
                 .parse("?y:CLASS, ?x:CLASS=create(\"'test \"+?y.RENDERING+\"'\") SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;",
-                        ontologies.test);
+                        test);
         expectedCorrect(result);
-        execute(result, getOntology("test.owl"), 2);
+        execute(result, test, 2);
     }
 
     public void testAssembleConstantAndVariables() {
         OPPLScript result = this
                 .parse("?y:CLASS, ?x:CLASS=create(\"test and \"+?y.RENDERING) SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;",
-                        ontologies.test);
+                        test);
         expectedCorrect(result);
-        execute(result, getOntology("test.owl"), 2);
+        execute(result, test, 2);
     }
 
     public void testReverseRegularExpressions() {
@@ -52,34 +54,33 @@ public class ExhaustingTestCase_TestQueries extends AbstractTestCase {
                 .parse("?regexp:CLASS=Match(\"([a-z]+)Division\"), "
                         + "?x:CLASS=create(?regexp.GROUPS(1)) "
                         + "SELECT ?regexp subClassOf Thing WHERE ?regexp Match(\"(([a-z]+))Division\") "
-                        + "BEGIN ADD ?x subClassOf ?regexp END;", ontologies.test);
+                        + "BEGIN ADD ?x subClassOf ?regexp END;", test);
         expectedCorrect(result);
-        execute(result, getOntology("test.owl"), 0);
+        execute(result, test, 0);
     }
 
     public void testReverseRegularExpressions_() {
         OPPLScript result = this
                 .parse("?y:CLASS SELECT ?y subClassOf Thing WHERE ?y Match(\"(([a-z]+))Division\") BEGIN ADD ?y subClassOf Thing END;",
-                        ontologies.test);
+                        test);
         expectedCorrect(result);
-        execute(result, getOntology("test.owl"), 0);
+        execute(result, test, 0);
     }
 
     public void testAssembleRegExpVariables() {
         OPPLScript result = this
                 .parse("?x:CLASS, ?y:CLASS=Match(\"[abc ]*\"+?x.RENDERING) SELECT ?y subClassOf Thing, ?x subClassOf Thing WHERE ?y Match(\"[abc ]*\"+?x.RENDERING)BEGIN ADD ?y subClassOf Thing END;",
-                        ontologies.test);
+                        test);
         expectedCorrect(result);
-        execute(result, getOntology("test.owl"), 0);
+        execute(result, test, 0);
     }
 
     public void testRegExpConstraints() {
         String correct = "?island:CLASS SELECT ?island subClassOf Thing WHERE ?island Match(";
         OPPLScript result = this.parse(correct
-                + " \"(([\\w]*))Island\") BEGIN ADD ?island subClassOf Thing END;",
-                ontologies.test);
+                + " \"(([\\w]*))Island\") BEGIN ADD ?island subClassOf Thing END;", test);
         expectedCorrect(result);
-        execute(result, getOntology("test.owl"), 0);
+        execute(result, test, 0);
         // result = this.parse(correct + " \"Is**land\");");
         // assertNull("the reg expr is broken, should not be allowed", result);
         // this.checkProperStackTrace("Encountered Is**land", correct.length());
@@ -87,9 +88,9 @@ public class ExhaustingTestCase_TestQueries extends AbstractTestCase {
 
     public void testRegExpGroupConstraints() {
         String correct = "?island:CLASS SELECT ?island subClassOf Thing WHERE ?island Match(\"[A-Z][a-z]+Fragment\") BEGIN ADD ?island subClassOf Thing END;";
-        OPPLScript result = this.parse(correct, ontologies.test);
+        OPPLScript result = this.parse(correct, test);
         expectedCorrect(result);
-        execute(result, getOntology("test.owl"), 1);
+        execute(result, test, 1);
     }
 
     public static void main(String[] args) {
