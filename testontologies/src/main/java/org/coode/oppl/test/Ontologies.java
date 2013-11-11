@@ -1,8 +1,5 @@
-package org.coode.oppl;
+package org.coode.oppl.test;
 
-import org.coode.parsers.SymbolTable;
-import org.coode.parsers.common.SilentListener;
-import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -11,27 +8,6 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 public class Ontologies {
-    public static OPPLSymbolTable getOPPLSymbolTable(OWLOntology o) {
-        OPPLSymbolTable symtab = new org.coode.parsers.oppl.factory.SimpleSymbolTableFactory(
-                o.getOWLOntologyManager()).createSymbolTable();
-        symtab.setErrorListener(new SilentListener());
-        return symtab;
-    }
-
-    public static OPPLSymbolTable getOPPLSymbolTable(OWLOntologyManager o) {
-        OPPLSymbolTable symtab = new org.coode.parsers.oppl.factory.SimpleSymbolTableFactory(
-                o).createSymbolTable();
-        symtab.setErrorListener(new SilentListener());
-        return symtab;
-    }
-
-    public static SymbolTable getSymbolTable(OWLOntology o) {
-        SymbolTable symtab = new org.coode.parsers.factory.SimpleSymbolTableFactory(
-                o.getOWLOntologyManager()).createSymbolTable();
-        symtab.setErrorListener(new SilentListener());
-        return symtab;
-    }
-
     private Ontologies() {
         // TODO Auto-generated constructor stub
     }

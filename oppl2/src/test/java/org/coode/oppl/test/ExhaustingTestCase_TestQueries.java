@@ -1,6 +1,6 @@
 package org.coode.oppl.test;
 
-import static org.coode.oppl.Ontologies.test;
+import static org.coode.oppl.test.Ontologies.test;
 
 import org.coode.oppl.OPPLScript;
 

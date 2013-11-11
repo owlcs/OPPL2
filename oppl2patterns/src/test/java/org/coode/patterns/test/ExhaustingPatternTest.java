@@ -1,6 +1,6 @@
 package org.coode.patterns.test;
 
-import static org.coode.oppl.Ontologies.*;
+import static org.coode.oppl.test.Ontologies.*;
 
 import org.antlr.runtime.tree.CommonTree;
 import org.coode.oppl.OPPLScript;

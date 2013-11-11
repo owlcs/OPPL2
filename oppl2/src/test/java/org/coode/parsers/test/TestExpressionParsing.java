@@ -3,7 +3,8 @@
  */
 package org.coode.parsers.test;
 
-import static org.coode.oppl.Ontologies.*;
+import static org.coode.oppl.test.Ontologies.pizza;
+import static org.coode.parsers.oppl.test.SymbolTables.getOPPLSymbolTable;
 import static org.junit.Assert.assertNotNull;
 
 import org.antlr.runtime.ANTLRStringStream;

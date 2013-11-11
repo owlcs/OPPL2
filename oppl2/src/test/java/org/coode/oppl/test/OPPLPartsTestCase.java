@@ -1,6 +1,6 @@
 package org.coode.oppl.test;
 
-import static org.coode.oppl.Ontologies.*;
+import static org.coode.oppl.test.Ontologies.*;
 import static org.junit.Assert.*;
 
 import java.net.URI;

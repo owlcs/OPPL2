@@ -3,7 +3,7 @@
  */
 package org.coode.parsers.test;
 
-import static org.coode.oppl.Ontologies.pizza;
+import static org.coode.oppl.test.Ontologies.pizza;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.RecognitionException;

@@ -3,7 +3,7 @@
  */
 package org.coode.patterns.test;
 
-import static org.coode.oppl.Ontologies.test;
+import static org.coode.oppl.test.Ontologies.test;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;

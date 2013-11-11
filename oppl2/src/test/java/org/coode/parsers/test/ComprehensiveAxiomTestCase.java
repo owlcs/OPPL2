@@ -1,6 +1,7 @@
 package org.coode.parsers.test;
 
-import static org.coode.oppl.Ontologies.*;
+import static org.coode.oppl.test.Ontologies.*;
+import static org.coode.parsers.oppl.test.SymbolTables.*;
 import static org.junit.Assert.assertTrue;
 
 import org.antlr.runtime.ANTLRStringStream;

@@ -1,6 +1,6 @@
 package org.coode.patterns.test;
 
-import static org.coode.oppl.Ontologies.food;
+import static org.coode.oppl.test.Ontologies.food;
 
 import org.junit.Test;
 

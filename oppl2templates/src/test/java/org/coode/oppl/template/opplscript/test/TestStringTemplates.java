@@ -8,13 +8,13 @@ import java.util.MissingFormatArgumentException;
 import java.util.Properties;
 
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.Ontologies;
 import org.coode.oppl.template.ParsingStrategy;
 import org.coode.oppl.template.commons.JavaFormatterReplacementStrategy;
 import org.coode.oppl.template.commons.KeyBasedReplacementStrategy;
 import org.coode.oppl.template.commons.StringTemplate;
 import org.coode.oppl.template.commons.opplscript.AnnotationBasedSimpleOPPLParserCreationStrategy;
 import org.coode.oppl.template.commons.opplscript.SimpleOPPLParserCreationStrategy;
+import org.coode.oppl.test.Ontologies;
 import org.coode.parsers.test.JUnitTestErrorListener;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;

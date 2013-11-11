@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.testcase.junittest;
 
-import static org.coode.oppl.Ontologies.pizza;
+import static org.coode.oppl.test.Ontologies.pizza;
 
 import java.util.regex.PatternSyntaxException;
 
