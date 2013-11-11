@@ -42,7 +42,10 @@ public class Assignment {
         }
         if (VariableTypeFactory.getVariableType(assignment) != assignedVariable.getType()) {
             throw new IllegalArgumentException(
-                    "The assigned value is incompatible with the variable it is assigned to");
+                    "The assigned value is incompatible with the variable it is assigned to: "
+                            + assignment.getClass() + " "
+                            + VariableTypeFactory.getVariableType(assignment) + " "
+                            + assignedVariable.getType());
         }
         this.assignedVariable = assignedVariable;
         this.assignment = assignment;

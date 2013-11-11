@@ -424,7 +424,7 @@ public class PatternExecutionTest {
         }
         for (String var : opplVariableMap.keySet()) {
             if (var.equals("?pizza")) {
-                ipm.instantiate(opplVariableMap.get(var), pizza);
+                ipm.instantiate(opplVariableMap.get(var), pizzaClass);
             } else if (var.equals("?topping")) {
                 ipm.instantiate(opplVariableMap.get(var), meatTopping);
                 ipm.instantiate(opplVariableMap.get(var), fishTopping);
@@ -434,7 +434,7 @@ public class PatternExecutionTest {
                 pizza.getOWLOntologyManager(),
                 IRI.create("http://example.owl#OPPL_pattern"), handler);
         changes.addAll(patternExecutor.visit(ipm.getPatternModel()));
-        assertTrue(changes.size() == 1);
+        assertEquals(1, changes.size());
         for (OWLAxiomChange owlAxiomChange : changes) {
             final ManchesterSyntaxRenderer renderer = patternModel.getConstraintSystem()
                     .getOPPLFactory()

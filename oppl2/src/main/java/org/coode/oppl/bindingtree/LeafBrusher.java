@@ -30,6 +30,7 @@ import java.util.Set;
 
 import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 /** @author Luigi Iannone */
 public class LeafBrusher implements BindingVisitor {
@@ -90,14 +91,16 @@ public class LeafBrusher implements BindingVisitor {
                 Set<OWLObject> values = bindings.get(variable);
                 if (values != null) {
                     for (OWLObject owlObject : values) {
-                        Set<Variable<?>> childUnassignedVariables = new HashSet<Variable<?>>(
-                                unassignedVariables);
-                        childUnassignedVariables.remove(variable);
-                        Set<Assignment> childAssignements = new HashSet<Assignment>(
-                                node.getAssignments());
-                        childAssignements.add(new Assignment(variable, owlObject));
-                        toReturn.add(new BindingNode(childAssignements,
-                                childUnassignedVariables));
+                        if (!(owlObject instanceof OWLOntology)) {
+                            Set<Variable<?>> childUnassignedVariables = new HashSet<Variable<?>>(
+                                    unassignedVariables);
+                            childUnassignedVariables.remove(variable);
+                            Set<Assignment> childAssignements = new HashSet<Assignment>(
+                                    node.getAssignments());
+                            childAssignements.add(new Assignment(variable, owlObject));
+                            toReturn.add(new BindingNode(childAssignements,
+                                    childUnassignedVariables));
+                        }
                     }
                 }
             }

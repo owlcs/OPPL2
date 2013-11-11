@@ -1,4 +1,3 @@
-
 <?xml version="1.0"?>
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -8,46 +7,9 @@
     xmlns:owl="http://www.w3.org/2002/07/owl#"
   xml:base="http://www.loa-cnr.it/ontologies/DUL.owl">
   <owl:Ontology rdf:about="">
-    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >3.22</owl:versionInfo>
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3.22</owl:versionInfo>
     <owl:versionInfo>Created by Aldo Gangemi as both a simplification and extension of DOLCE and Descriptions and Situations ontologies.</owl:versionInfo>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >The DOLCE+DnS Ultralite ontology.
-It is a simplification of some parts of the DOLCE Lite-Plus library (cf. http://www.loa-cnr.it/ontologies/DLP397.owl). 
-Main aspects in which DOLCE+DnS Ultralite departs from DOLCE Lite-Plus are the following:
-
-- The names of classes and relations have been made more intuitive
-- The DnS-related part is closer to the newer 'constructive DnS' ontology (http://www.loa-cnr.it/ontologies/cDnS.owl).
-- Temporal and spatial relations are simplified
-- Axiomatization makes use of simpler constructs than DOLCE Lite-Plus
-- The architecture of the ontology is pattern-based, which means that DOLCE+DnS Ultralite is also available in modules, called 'content ontology design patterns', which can be applied independently in the design of domain ontologies (cf. http://www.ontologydesignpatterns.org).  If many modules are needes in a same ontology project, is anyway useful to use this integrated version.
-
-The final result is a lightweight, easy-to-apply foundational ontology for modeling either physical or social contexts.
-Several extensions of DOLCE+DnS Ultralite are being designed; see for example the extensions for information objects: http://www.loa-cnr.it/ontologies/IOLite.owl, for systems: http://www.loa-cnr.it/ontologies/SystemsLite.owl, for plans: http://www.loa-cnr.it/ontologies/PlansLite.owl, for the legal domain: http://www.loa-cnr.it/ontologies/CLO/CoreLegal.owl, for the lexical and semiotic domains: http://www.loa-cnr.it/codeps/owl/LMM_L2.owl; etc.</rdfs:comment>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >DOLCE+DnS Ultralite</rdfs:label>
-    <owl:versionInfo>In 3.2, the links between instances of Region or Parameter, and datatypes have been revised and made more powerful, in order to support efficient design patterns for data value modelling in OWL1.0.
-Also, the names of the related properties have been changed in order to make them more intuitive.
-Furthermore, a large comment field has been added to the 'expresses' object property, in order to clarify some issues about the many interpretations.
-In 3.3, the relation between regions, parameters, and datatypes has been still improved.
-In 3.5, the person-related classes have been refactored: Person in 3.4 is now SocialPerson, to avoid confusion with commonsense intuition; Person is now the union of social persons and humans, therefore being a subclass of Agent.
-In 3.6, other fixes on universal restriction involving expresses. Also added the property 'isConstraintFor' between parameters and entities. Moved the properties: 'assumes' and 'adopts' to the new module: http://www.loa-cnr.it/ontologies/Conceptualization.owl.
-In 3.7, some fixes on the names of classes and properties related to FormalEntity; created a new separate module for general universal restrictions (DULGCI.owl).
-In 3.8, more fixes on the interface to formal entities and links to IOLite.owl.
-In 3.9, some naming and comment fixes.
-In 3.10, removed cardinality restriction from hasPart and isPartOf restrictions (changed to hasComponent and isComponentOf), for OWL(DL) compatibility. Also enlarged the range of includesAgent to contain both social and physical agents, and of conceptualizes universal restriction on agents, to include all social objects.
-In 3.11, some more subproperty axioms have been introduced, and all elements have got English labels.
-In 3.12, added some classes to map some old DolceLitePlus classes that were used to align OntoWordNet.
-In 3.13, added the LocalConcept class to express a Concept that cannot be used in a Description different from the one that defines it. Also updated some comments.
-In 3.14, added some comments.
-In 3.15, removed some owl:disjointWith axioms relating Collection to InformationObject, Description, Situation, and SocialAgent. The rationale for doing that is to allow less strict constraints on domain relations involving collections that can be also conceived as descriptions, situations, social agents, or information objects; for example: a collection of sentences from a text (an information object) that are ranked with a relevance criterion can be still considered a text.
-In 3.16, name of isActedBy changed to actsThrough, which is clearer. Also added SpatioTemporalRegion as constituted by a SpaceRegion and a TimeInterval.
-In 3.17, removed redundant universal axioms from Entity and other top classes. Fixed restrictions on FunctionalSubstance class, and comments in Design and Substance classes.
-In 3.18, removed subClassOf axiom from FunctionalSubstance to DesignedArtifact, created a new subclass of FunctionalSubstance, called DesignedSubstance, and created a subClassOf axiom from DesignedSubstance to DesignedArtifact.
-In 3.19, removed disjointness axiom between Concept and Collection (the same rationale applies as in 3.15 version.
-In 3.20, revised the comment for Quality, added InformationEntity as the superclass for InformationObject and InformationRealization (represented as the union of those classes). This is needed in many domain ontologies that do not need to distinguish between abstract and concrete aspects of information entities. One possible revision (not implemented here) would be to introduce the relations: expresses and isAbout with a broader domain:InformationEntity, and two more specific properties: abstractlyExpresses and isAbstractlyAbout. This last revision has not been implemented yet, since a large revision procedure should be carried out in order to check the impact of the revision on the existing DOLCE-DnS-Ultralite plugins.
-In 3.21, added comment to InformationEntity, and optimized representation of equivalence for InformationRealization.
-In 3.22, added comment to Personification.</owl:versionInfo>
+   <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">DOLCE+DnS Ultralite</rdfs:label>
   </owl:Ontology>
   <owl:Class rdf:ID="SocialObjectAttribute">
     <rdfs:label xml:lang="en">Social attribute</rdfs:label>

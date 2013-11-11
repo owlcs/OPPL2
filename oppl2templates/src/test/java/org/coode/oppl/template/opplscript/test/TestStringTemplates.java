@@ -91,7 +91,7 @@ public class TestStringTemplates {
         assertNotNull(opplScript);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testTestPropertyBasedStringTemplateOnePlaceholderButNoData()
             throws OWLOntologyCreationException {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
@@ -126,11 +126,11 @@ public class TestStringTemplates {
     @Test
     public void
             testTestPropertyBasedStringTemplateOnePlaceholderUsingAnnotationForParsing() {
-        OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology emptyOntology = Ontologies.pizza;
         ParsingStrategy<String, OPPLScript> parserCreationStrategy = new AnnotationBasedSimpleOPPLParserCreationStrategy(
                 Arrays.asList(IRI.create("http://www.w3.org/2000/01/rdf-schema#label")),
-                ontologyManager, emptyOntology, null, ERROR_LISTENER);
+                emptyOntology.getOWLOntologyManager(), emptyOntology, null,
+                ERROR_LISTENER);
         String template = "?x:CLASS SELECT ?x subClassOf ${ValuePartition} BEGIN ADD ?x subClassOf Thing END;";
         Properties properties = new Properties();
         properties.setProperty("ValuePartition", "ValorDaParticao");

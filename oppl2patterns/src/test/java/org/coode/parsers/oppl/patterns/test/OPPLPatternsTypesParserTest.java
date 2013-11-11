@@ -81,6 +81,7 @@ public class OPPLPatternsTypesParserTest {
     private OPPLPatternsSymbolTable symtab;
     private final ErrorListener listener = new SystemErrorEcho();
     private AbstractPatternModelFactory patternModelFactory;
+    JFactFactory factory = new JFactFactory();
 
     /** @return reference resolver */
     public static PatternReferenceResolver getSimplePatternReferenceResolver() {
@@ -125,7 +126,6 @@ public class OPPLPatternsTypesParserTest {
     @Test
     public void testMenu() {
         String patternString = "?x:CLASS[subClassOf Food] BEGIN ADD $thisClass subClassOf Menu, ADD $thisClass subClassOf contains only (Course and contains only ($Free(?x))) END; A ?x free Menu";
-        JFactFactory factory = new JFactFactory();
         final OWLReasoner reasoner = factory.createReasoner(food);
         patternModelFactory = new PatternModelFactory(food, food.getOWLOntologyManager(),
                 reasoner);
@@ -137,7 +137,7 @@ public class OPPLPatternsTypesParserTest {
     @Test
     public void testPizza() {
         String patternString = "?base:CLASS,?topping:CLASS, ?allToppings:CLASS = createUnion(?topping.VALUES) BEGIN ADD $thisClass subClassOf Pizza, ADD $thisClass subClassOf hasTopping some ?topping,  ADD $thisClass subClassOf hasTopping only ?allToppings, ADD $thisClass subClassOf hasBase some ?base  END; A pizza with ?base base and ?topping toppings";
-        OPPLSyntaxTree parsed = parse(patternString, food);
+        OPPLSyntaxTree parsed = parse(patternString, pizza);
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
     }
@@ -179,18 +179,15 @@ public class OPPLPatternsTypesParserTest {
         assertNotNull(parsed.getOPPLContent());
     }
 
-    /** @return the factory */
-    public AbstractPatternModelFactory getOPPLPatternFactory() {
-        return patternModelFactory;
-    }
-
     protected OPPLSyntaxTree parse(String input, OWLOntology o) {
         OPPLPatternsSymbolTable symtab = new SimpleSymbolTableFactory(
                 o.getOWLOntologyManager()).createSymbolTable();
         symtab.setErrorListener(getListener());
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
-        PatternConstraintSystem constraintSystem = getOPPLPatternFactory()
+        PatternModelFactory patternModelFactory = new PatternModelFactory(o,
+                o.getOWLOntologyManager(), factory.createReasoner(o));
+        PatternConstraintSystem constraintSystem = patternModelFactory
                 .createConstraintSystem();
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
         OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens,
@@ -228,7 +225,7 @@ public class OPPLPatternsTypesParserTest {
                 mOWLTypes.downup(tree);
                 nodes.reset();
                 OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes,
-                        symtab, new DefaultTypeEnforcer(symtab, getOPPLPatternFactory()
+                        symtab, new DefaultTypeEnforcer(symtab, patternModelFactory
                                 .getOPPLFactory().getOWLEntityFactory(), getListener()),
                         getListener());
                 typeEnforcement.downup(tree);
@@ -236,7 +233,7 @@ public class OPPLPatternsTypesParserTest {
                 mOWLTypes.downup(tree);
                 nodes.reset();
                 OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, silentErrorListener,
-                        constraintSystem, getOPPLPatternFactory().getOPPLFactory());
+                        constraintSystem, patternModelFactory.getOPPLFactory());
                 opplTypes.downup(tree);
                 nodes.reset();
                 OPPLPatternsReferenceDefine patternReferenceDefine = new OPPLPatternsReferenceDefine(
@@ -252,7 +249,7 @@ public class OPPLPatternsTypesParserTest {
                 opplTypes.downup(tree);
                 nodes.reset();
                 OPPLPatternsTypes opplPatternsTypes = new OPPLPatternsTypes(nodes,
-                        symtab, getListener(), constraintSystem, getOPPLPatternFactory());
+                        symtab, getListener(), constraintSystem, patternModelFactory);
                 opplPatternsTypes.downup(tree);
             }
             return (OPPLSyntaxTree) tree;

@@ -824,17 +824,16 @@ public class Ontologies {
             + "    <!ENTITY rdfs \"http://www.w3.org/2000/01/rdf-schema#\" >\n"
             + "    <!ENTITY rdf \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" >\n"
             + "]>\n"
-            + "<rdf:RDF xmlns=\"http://www.co-ode.org/patterns/pizza#\"\n"
-            + "     xml:base=\"http://www.co-ode.org/patterns/pizza\"\n"
+            + "<rdf:RDF xmlns=\"http://patterns/pizza#\"\n"
+            + "     xml:base=\"http://patterns/pizza\"\n"
             + "     xmlns:owl2xml=\"http://www.w3.org/2006/12/owl2-xml#\"\n"
             + "     xmlns:xsd=\"http://www.w3.org/2001/XMLSchema#\"\n"
-            + "     xmlns:patterns=\"http://www.co-ode.org/patterns#\"\n"
+            + "     xmlns:patterns=\"http://patterns#\"\n"
             + "     xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\"\n"
             + "     xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
             + "     xmlns:owl=\"http://www.w3.org/2002/07/owl#\">\n"
             + "    <owl:Ontology rdf:about=\"\">\n"
-            + "        <patterns:namedPizza rdf:datatype=\"&xsd;string\"\n"
-            + "            >?base:CLASS, ?topping:CLASS, ?allToppings:CLASS = createUnion(?topping.VALUES)  BEGIN ADD ?_thisClass subClassOf Pizza, ADD ?_thisClass subClassOf hasTopping some ?topping, ADD ?_thisClass subClassOf hasTopping only ?allToppings, ADD ?_thisClass subClassOf hasBase some ?base END; A pizza with ?base base and ?topping toppings </patterns:namedPizza>\n"
+            + "        <patterns:namedPizza rdf:datatype=\"&xsd;string\">?base:CLASS, ?topping:CLASS, ?allToppings:CLASS = createUnion(?topping.VALUES)  BEGIN ADD ?_thisClass subClassOf Pizza, ADD ?_thisClass subClassOf hasTopping some ?topping, ADD ?_thisClass subClassOf hasTopping only ?allToppings, ADD ?_thisClass subClassOf hasBase some ?base END; A pizza with ?base base and ?topping toppings </patterns:namedPizza>\n"
             + "        <owl:imports rdf:resource=\"http://pizza.com/pizza.owl\"/>\n"
             + "    </owl:Ontology>\n"
             + "    <owl:AnnotationProperty rdf:about=\"&patterns;namedPizza\"/>\n"
@@ -850,10 +849,10 @@ public class Ontologies {
             + "    <!ENTITY rdf \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" >\n"
             + "    <!ENTITY pizza \"http://pizza.com/pizza.owl#\" >\n"
             + "]>\n"
-            + "<rdf:RDF xmlns=\"http://patterns/pizza#\"\n"
-            + "     xml:base=\"http://patterns/pizza\"\n"
+            + "<rdf:RDF xmlns=\"http://patterns/pizzaluigi#\"\n"
+            + "     xml:base=\"http://patterns/pizzaluigi\"\n"
             + "     xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\"\n"
-            + "     xmlns:pizza2=\"http://patterns/pizza#\"\n"
+            + "     xmlns:pizza2=\"http://patterns/pizzaluigi#\"\n"
             + "     xmlns:patterns=\"http://www.co-ode.org/patterns#\"\n"
             + "     xmlns:owl2xml=\"http://www.w3.org/2006/12/owl2-xml#\"\n"
             + "     xmlns:pizza=\"http://pizza.com/pizza.owl#\"\n"
@@ -963,6 +962,51 @@ public class Ontologies {
             + "                <owl:someValuesFrom rdf:resource=\"&pizza;HotSpicedBeefTopping\"/>\n"
             + "            </owl:Restriction>\n" + "        </owl:object>\n"
             + "    </rdf:Description>\n" + "</rdf:RDF>";
+    private static final String patternedDUL_owl = "<?xml version=\"1.0\"?>\n"
+            + "<!DOCTYPE rdf:RDF [\n"
+            + "    <!ENTITY owl \"http://www.w3.org/2002/07/owl#\" >\n"
+            + "    <!ENTITY patterns \"http://www.co-ode.org/patterns#\" >\n"
+            + "    <!ENTITY xsd \"http://www.w3.org/2001/XMLSchema#\" >\n"
+            + "    <!ENTITY owl2xml \"http://www.w3.org/2006/12/owl2-xml#\" >\n"
+            + "    <!ENTITY rdfs \"http://www.w3.org/2000/01/rdf-schema#\" >\n"
+            + "    <!ENTITY rdf \"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" >\n"
+            + "]>\n"
+            + "<rdf:RDF xmlns=\"http://patterns/patternedDUL#\"\n"
+            + "     xml:base=\"http://patterns/patternedDUL\"\n"
+            + "     xmlns:owl2xml=\"http://www.w3.org/2006/12/owl2-xml#\"\n"
+            + "     xmlns:xsd=\"http://www.w3.org/2001/XMLSchema#\"\n"
+            + "     xmlns:patterns=\"http://www.co-ode.org/patterns#\"\n"
+            + "     xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\"\n"
+            + "     xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
+            + "     xmlns:owl=\"http://www.w3.org/2002/07/owl#\">\n"
+            + "    <owl:Ontology rdf:about=\"\">\n"
+            + "        <patterns:informationRealization rdf:datatype=\"&xsd;string\">?informationObject:CLASS,\n"
+            + "?informationRealization:CLASS,\n"
+            + "?realizationProperty:OBJECTPROPERTY\n"
+            + "BEGIN\n"
+            + "ADD ?informationRealization subClassOf InformationRealization,\n"
+            + "ADD ?informationObject subClassOf InformationObject,\n"
+            + "ADD ?realizationProperty subPropertyOf realizes,\n"
+            + "ADD ?informationRealization subClassOf PhysicalObject\n"
+            + "and ?realizationProperty some ?InformationObject\n"
+            + "END;\n"
+            + "Information Realization Pattern:\n"
+            + "?informationRealization ?realizationProperty ?informationObject </patterns:informationRealization>\n"
+            + "        <patterns:timeIndexedPersonRole rdf:datatype=\"&xsd;string\">?person:CLASS,\n"
+            + "?role:CLASS,\n"
+            + "?timeInterval:CLASS\n"
+            + "BEGIN\n"
+            + "ADD $thisClass subClassOf Situation,\n"
+            + "ADD $thisClass subClassOf isSettingFor some ?person,\n"
+            + "ADD $thisClass subClassOf isSettingFor some ?role,\n"
+            + "ADD $thisClass subClassOf isSettingFor some ?timeInterval\n"
+            + "END;\n"
+            + "Situation where ?person play the role ?role during the time interval ?timeInterval</patterns:timeIndexedPersonRole>\n"
+            + "        <owl:imports rdf:resource=\"http://www.loa-cnr.it/ontologies/DUL.owl\"/>\n"
+            + "    </owl:Ontology>\n"
+            + "    <owl:AnnotationProperty rdf:about=\"&patterns;informationRealization\"/>\n"
+            + "    <owl:AnnotationProperty rdf:about=\"&patterns;timeIndexedPersonRole\"/>\n"
+            + "</rdf:RDF>";
     public static OWLOntology test;
     public static OWLOntology naf;
     public static OWLOntology pizza;
@@ -995,13 +1039,16 @@ public class Ontologies {
             b.append(pizza_owl_2);
             pizza = load(b.toString());
             food = load(food_owl);
-            patternedPizza = load(patternedPizza_owl);
-            patternedPizzaLuigi = load(patternedPizzaLuigi_owl);
+            OWLOntology temp = load(b.toString());
+            patternedPizza = load(temp.getOWLOntologyManager(), patternedPizza_owl);
+            patternedPizzaLuigi = load(temp.getOWLOntologyManager(),
+                    patternedPizzaLuigi_owl);
             load(managerForPizzaAndSyntax, syntax_owl);
             load(managerForPizzaAndSyntax, b.toString());
             load(managerForPizzaAndOndrej, ondrejtest_owl);
             load(managerForPizzaAndOndrej, b.toString());
-            dul = load(OWLManager.createOWLOntologyManager(), "/DUL.owl");
+            dul = loadFromClasspath("/DUL.owl");
+            patternedDUL = load(dul.getOWLOntologyManager(), patternedDUL_owl);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1010,6 +1057,12 @@ public class Ontologies {
     private static OWLOntology load(String input) throws OWLOntologyCreationException {
         return OWLManager.createOWLOntologyManager().loadOntologyFromOntologyDocument(
                 new StringDocumentSource(input));
+    }
+
+    private static OWLOntology loadFromClasspath(String input)
+            throws OWLOntologyCreationException {
+        return OWLManager.createOWLOntologyManager().loadOntologyFromOntologyDocument(
+                Ontologies.class.getResourceAsStream(input));
     }
 
     private static OWLOntology load(OWLOntologyManager m, String input)
