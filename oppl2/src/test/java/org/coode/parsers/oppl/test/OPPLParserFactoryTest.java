@@ -1,8 +1,8 @@
 package org.coode.parsers.oppl.test;
 
+import static org.coode.oppl.testontologies.TestOntologies.entire;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.InputStream;
 import java.util.Arrays;
 
 import org.coode.oppl.AnnotationBasedSymbolTableFactory;
@@ -13,11 +13,12 @@ import org.coode.parsers.factory.SymbolTableFactory;
 import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.test.JUnitTestErrorListener;
 import org.junit.Test;
-import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
+@SuppressWarnings("javadoc")
 public class OPPLParserFactoryTest {
     private OPPLScript parseScript(String opplString, OWLOntologyManager ontologyManager,
             OWLOntology testOntology,
@@ -30,16 +31,11 @@ public class OPPLParserFactoryTest {
     @Test
     public void testNewEntityCreationInline() throws OWLOntologyCreationException {
         String opplString = "?A:CLASS SELECT ?A SubClassOf 'Heart disease (disorder)' BEGIN ADD ?A SubClassOf !Candidate END;";
-        OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
-        InputStream in = this.getClass().getResourceAsStream(
-                "/entire-june-21-prop-paths.owl");
-        assertNotNull(in);
-        OWLOntology ontology = ontologyManager.loadOntologyFromOntologyDocument(in);
         AnnotationBasedSymbolTableFactory annotationBasedSymbolTableFactory = new AnnotationBasedSymbolTableFactory(
-                ontologyManager, Arrays.asList(ontologyManager.getOWLDataFactory()
-                        .getRDFSLabel().getIRI()));
-        OPPLScript parsedScript = parseScript(opplString, ontologyManager, ontology,
-                annotationBasedSymbolTableFactory);
+                entire.getOWLOntologyManager(), Arrays.asList(OWLRDFVocabulary.RDFS_LABEL
+                        .getIRI()));
+        OPPLScript parsedScript = parseScript(opplString, entire.getOWLOntologyManager(),
+                entire, annotationBasedSymbolTableFactory);
         assertNotNull(parsedScript);
     }
 }

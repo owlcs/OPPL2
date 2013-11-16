@@ -1,6 +1,6 @@
 package org.coode.oppl.test;
 
-import static org.coode.oppl.test.Ontologies.sequentialUnion;
+import static org.coode.oppl.testontologies.TestOntologies.sequentialUnion;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;

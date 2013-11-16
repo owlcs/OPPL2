@@ -3,7 +3,7 @@
  */
 package org.coode.parsers.test;
 
-import static org.coode.oppl.test.Ontologies.pizza;
+import static org.coode.oppl.testontologies.TestOntologies.pizza;
 import static org.coode.parsers.oppl.test.SymbolTables.getOPPLSymbolTable;
 import static org.junit.Assert.assertNotNull;
 

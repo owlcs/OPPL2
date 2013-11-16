@@ -12,13 +12,14 @@ import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
+import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
+import org.coode.parsers.Type;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.testcase.OPPLTestCaseCombinedParser;
 import org.coode.parsers.oppl.testcase.OPPLTestCaseLexer;
-import org.coode.parsers.test.JUnitTestErrorListener;
 import org.junit.Test;
 
 public class OPPLTestCaseParserTest {
@@ -42,7 +43,48 @@ public class OPPLTestCaseParserTest {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
-    private static final ErrorListener ERROR_LISTENER = new JUnitTestErrorListener();
+    private static final ErrorListener ERROR_LISTENER = new ErrorListener() {
+        @Override
+        public void unrecognisedSymbol(CommonTree t) {
+            throw new RuntimeException(t.toString());
+        }
+
+        @Override
+        public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
+            throw new RuntimeException(t);
+        }
+
+        @Override
+        public void recognitionException(RecognitionException e, String... tokenNames) {
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        public void recognitionException(RecognitionException e) {
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
+            throw new RuntimeException(parentExpression.toString());
+        }
+
+        @Override
+        public void
+                incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
+            throw new RuntimeException(t.toString());
+        }
+
+        @Override
+        public void illegalToken(CommonTree t, String message) {
+            throw new RuntimeException(t.toString());
+        }
+    };
 
     protected OPPLSyntaxTree parse(String input) {
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);

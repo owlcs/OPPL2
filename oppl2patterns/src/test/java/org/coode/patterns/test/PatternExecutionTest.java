@@ -1,6 +1,6 @@
 package org.coode.patterns.test;
 
-import static org.coode.oppl.test.Ontologies.*;
+import static org.coode.oppl.patterntestontologies.PatternTestOntologies.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ import org.coode.oppl.exceptions.QuickFailRuntimeExceptionHandler;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.parsers.common.SystemErrorEcho;
-import org.coode.parsers.test.JUnitTestErrorListener;
 import org.coode.patterns.ClassPatternExecutor;
 import org.coode.patterns.InstantiatedPatternModel;
 import org.coode.patterns.NonClassPatternExecutor;

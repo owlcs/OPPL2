@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.testcase.junittest;
 
-import static org.coode.oppl.test.Ontologies.pizza;
+import static org.coode.oppl.testcaseontologies.TestCaseTestOntologies.pizza;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.regex.PatternSyntaxException;
@@ -15,12 +15,14 @@ import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
+import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.ManchesterOWLSyntaxSimplify;
 import org.coode.parsers.ManchesterOWLSyntaxTypes;
+import org.coode.parsers.Type;
 import org.coode.parsers.oppl.DefaultTypeEnforcer;
 import org.coode.parsers.oppl.OPPLDefine;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
@@ -34,7 +36,6 @@ import org.coode.parsers.oppl.testcase.OPPLTestCaseLexer;
 import org.coode.parsers.oppl.testcase.OPPLTestCaseSymbolTable;
 import org.coode.parsers.oppl.testcase.OPPLTestCaseTypes;
 import org.coode.parsers.oppl.testcase.SimpleSymbolTableFactory;
-import org.coode.parsers.test.JUnitTestErrorListener;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -64,7 +65,48 @@ public class OPPLTestCaseTypesTest {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
-    static final ErrorListener ERROR_LISTENER = new JUnitTestErrorListener();
+    static final ErrorListener ERROR_LISTENER = new ErrorListener() {
+        @Override
+        public void unrecognisedSymbol(CommonTree t) {
+            throw new RuntimeException(t.toString());
+        }
+
+        @Override
+        public void
+                incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
+            throw new RuntimeException(t.toString());
+        }
+
+        @Override
+        public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
+            throw new RuntimeException(parentExpression.toString());
+        }
+
+        @Override
+        public void illegalToken(CommonTree t, String message) {
+            throw new RuntimeException(t.toString());
+        }
+
+        @Override
+        public void recognitionException(RecognitionException e) {
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        public void recognitionException(RecognitionException e, String... tokenNames) {
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
+            throw new RuntimeException(t);
+        }
+    };
     private static final RuntimeExceptionHandler HANDLER = new RuntimeExceptionHandler() {
         @Override
         public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {

@@ -2,18 +2,14 @@ package org.coode.patterns.test;
 
 import static org.junit.Assert.assertNull;
 
-import org.coode.oppl.test.AbstractTestCase;
 import org.coode.parsers.ErrorListener;
-import org.coode.parsers.test.JUnitTestErrorListener;
 import org.coode.patterns.OPPLPatternParser;
 import org.coode.patterns.ParserFactory;
 import org.coode.patterns.PatternModel;
 import org.coode.patterns.PatternOPPLScript;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-public abstract class AbstractPatternTestCase extends AbstractTestCase {
-    private final ErrorListener erroListener = new JUnitTestErrorListener();
-
+public abstract class AbstractPatternTestCase extends BasePatternTestCase {
     protected void parseCorrect(String formula, OWLOntology o) {
         PatternOPPLScript script = this.parsePattern(formula, o);
         expectedCorrect(script);
@@ -41,7 +37,8 @@ public abstract class AbstractPatternTestCase extends AbstractTestCase {
     }
 
     protected PatternOPPLScript parsePattern(String pattern, OWLOntology o) {
-        return this.parsePattern(pattern, o, getErroListener());
+        return this.parsePattern(pattern, o,
+                new AbstractExpectedErrorCheckerErrorListener());
     }
 
     protected PatternOPPLScript parsePattern(String pattern, OWLOntology o,
@@ -55,10 +52,5 @@ public abstract class AbstractPatternTestCase extends AbstractTestCase {
             log(e);
         }
         return null;
-    }
-
-    /** @return the erroListener */
-    public ErrorListener getErroListener() {
-        return erroListener;
     }
 }

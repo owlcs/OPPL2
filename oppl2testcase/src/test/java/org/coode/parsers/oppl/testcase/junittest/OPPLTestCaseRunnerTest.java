@@ -1,20 +1,23 @@
 package org.coode.parsers.oppl.testcase.junittest;
 
-import static org.coode.oppl.test.Ontologies.pizza;
+import static org.coode.oppl.testcaseontologies.TestCaseTestOntologies.pizza;
 
 import java.util.regex.PatternSyntaxException;
 
 import junit.framework.TestCase;
 
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.parsers.ErrorListener;
+import org.coode.parsers.Type;
 import org.coode.parsers.oppl.testcase.JUnitTestCaseRunner;
 import org.coode.parsers.oppl.testcase.OPPLTest;
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 import org.coode.parsers.oppl.testcase.OPPLTestCaseParser;
 import org.coode.parsers.oppl.testcase.ParserFactory;
 import org.coode.parsers.oppl.testcase.TestCaseRunner;
-import org.coode.parsers.test.JUnitTestErrorListener;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -80,7 +83,48 @@ public class OPPLTestCaseRunnerTest {
         }
     }
 
-    private static final ErrorListener ERROR_LISTENER = new JUnitTestErrorListener();
+    private static final ErrorListener ERROR_LISTENER = new ErrorListener() {
+        @Override
+        public void unrecognisedSymbol(CommonTree t) {
+            throw new RuntimeException(t.toString());
+        }
+
+        @Override
+        public void
+                incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
+            throw new RuntimeException(t.toString());
+        }
+
+        @Override
+        public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
+            throw new RuntimeException(parentExpression.toString());
+        }
+
+        @Override
+        public void illegalToken(CommonTree t, String message) {
+            throw new RuntimeException(t.toString());
+        }
+
+        @Override
+        public void recognitionException(RecognitionException e) {
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        public void recognitionException(RecognitionException e, String... tokenNames) {
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
+            throw new RuntimeException(t);
+        }
+    };
     private static final RuntimeExceptionHandler HANDLER = new RuntimeExceptionHandler() {
         public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
             ERROR_LISTENER.reportThrowable(e, 0, 0, 0);

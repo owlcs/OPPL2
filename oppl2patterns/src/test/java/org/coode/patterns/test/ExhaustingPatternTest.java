@@ -1,19 +1,11 @@
 package org.coode.patterns.test;
 
-import static org.coode.oppl.test.Ontologies.*;
+import static org.coode.oppl.patterntestontologies.PatternTestOntologies.*;
 
-import org.antlr.runtime.tree.CommonTree;
 import org.coode.oppl.OPPLScript;
-import org.coode.parsers.ErrorListener;
-import org.coode.parsers.Type;
-import org.coode.parsers.common.SystemErrorEcho;
-import org.coode.parsers.test.AbstractExpectedErrorCheckerErrorListener;
-import org.coode.parsers.test.JunitTestErrorChecker;
 
 @SuppressWarnings("javadoc")
 public class ExhaustingPatternTest extends AbstractPatternTestCase {
-    private final static ErrorListener JUNITERR_ERROR_LISTENER = new SystemErrorEcho();
-
     public void testDocumentationScriptFood() {
         String formula = "?x:CLASS, ?y:CLASS, ?forbiddenContent:CLASS=CreateUnion(?x.VALUES) BEGIN ADD $thisClass equivalentTo contains only (not ?forbiddenContent) END; A ?x free stuff ; RETURN $thisClass;";
         parseCorrect(formula, food);
@@ -78,28 +70,7 @@ public class ExhaustingPatternTest extends AbstractPatternTestCase {
         String formula = "?x:CLASS\n" + "BEGIN\n" + "ADD $thisClass sub_ClassOf Menu\n"
                 + "END;\n" + "A ?x  free Menu";
         parseWrong(formula, patternedPizza,
-                new AbstractExpectedErrorCheckerErrorListener(new JunitTestErrorChecker(
-                        JUNITERR_ERROR_LISTENER)) {
-                    @Override
-                    public void illegalToken(CommonTree t, String message) {
-                        getErrorChecker().getErrorListenerForExpectedError()
-                                .illegalToken(t, message);
-                    }
-
-                    @Override
-                    public void unrecognisedSymbol(CommonTree t) {
-                        getErrorChecker().getErrorListenerForExpectedError()
-                                .unrecognisedSymbol(t);
-                    }
-
-                    @Override
-                    public void incompatibleSymbolType(CommonTree t, Type type,
-                            CommonTree expression) {
-                        getErrorChecker().getErrorListenerForExpectedError()
-                                .incompatibleSymbolType(t, type, expression);
-                        ;
-                    }
-                });
+                new AbstractExpectedErrorCheckerErrorListener());
     }
 
     public void testParseMissingQuery() {
@@ -108,10 +79,7 @@ public class ExhaustingPatternTest extends AbstractPatternTestCase {
         expectedCorrect(result);
         this.execute(result, test, 0);
         String script = "?island:INDIVIDUAL BEGIN REMOVE Asinara InstanceOf Country END;";
-        parseWrong(script, test,
-                AbstractExpectedErrorCheckerErrorListener
-                        .getIllegalTokenExpected(new JunitTestErrorChecker(
-                                JUNITERR_ERROR_LISTENER)));
+        parseWrong(script, test, new AbstractExpectedErrorCheckerErrorListener());
         this.execute(result, test, 0);
     }
 }

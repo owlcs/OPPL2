@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.test;
 
-import static org.coode.oppl.test.Ontologies.syntax;
+import static org.coode.oppl.testontologies.TestOntologies.syntax;
 import static org.coode.parsers.oppl.test.SymbolTables.getOPPLSymbolTable;
 import static org.junit.Assert.*;
 

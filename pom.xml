@@ -177,7 +177,6 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.antlr</groupId>
@@ -191,10 +190,9 @@
 		</dependency>
 	</dependencies>
 	<modules>
-		<module>testontologies</module>
 		<module>oppl2</module>
 		<module>oppl2patterns</module>
-		<module>oppl2templates</module>
 		<module>oppl2testcase</module>
+		<module>oppl2templates</module>
 	</modules>
 </project>

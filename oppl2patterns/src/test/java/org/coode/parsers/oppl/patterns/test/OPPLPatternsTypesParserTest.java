@@ -1,6 +1,6 @@
 package org.coode.parsers.oppl.patterns.test;
 
-import static org.coode.oppl.test.Ontologies.*;
+import static org.coode.oppl.patterntestontologies.PatternTestOntologies.*;
 import static org.junit.Assert.*;
 
 import java.util.List;

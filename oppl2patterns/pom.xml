@@ -18,11 +18,5 @@
 			<version>2.1.0-SNAPSHOT</version>
 			<artifactId>oppl2-oppl2</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>net.sourceforge.owlapi</groupId>
-			<version>2.1.0-SNAPSHOT</version>
-			<artifactId>oppl2-testontologies</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 </project>
