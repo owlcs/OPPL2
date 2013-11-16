@@ -35,114 +35,103 @@ import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class ProtegeOPPLScript implements OPPLScript {
-	private final OPPLScript opplScript;
+    private final OPPLScript opplScript;
 
-	/**
-	 * @param opplScript
-	 * @param modelManager
-	 */
-	public ProtegeOPPLScript(OPPLScript opplScript, OWLModelManager modelManager) {
-		this.opplScript = opplScript;
-	}
+    /** @param opplScript
+     * @param modelManager */
+    public ProtegeOPPLScript(OPPLScript opplScript, OWLModelManager modelManager) {
+        this.opplScript = opplScript;
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLScript#accept(org.coode.oppl.OPPLScriptVisitor)
-	 */
-	public void accept(OPPLScriptVisitor visitor) {
-		this.opplScript.accept(visitor);
-	}
+    @Override
+    public void accept(OPPLScriptVisitor visitor) {
+        opplScript.accept(visitor);
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLScript#accept(org.coode.oppl.OPPLScriptVisitorEx)
-	 */
-	public <P> P accept(OPPLScriptVisitorEx<P> visitor) {
-		return this.opplScript.accept(visitor);
-	}
+    @Override
+    public <P> P accept(OPPLScriptVisitorEx<P> visitor) {
+        return opplScript.accept(visitor);
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLScript#getActions()
-	 */
-	public List<OWLAxiomChange> getActions() {
-		return this.opplScript.getActions();
-	}
+    @Override
+    public List<OWLAxiomChange> getActions() {
+        return opplScript.getActions();
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLScript#getConstraintSystem()
-	 */
-	public ConstraintSystem getConstraintSystem() {
-		return this.opplScript.getConstraintSystem();
-	}
+    @Override
+    public ConstraintSystem getConstraintSystem() {
+        return opplScript.getConstraintSystem();
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLScript#getInputVariables()
-	 */
-	public List<InputVariable<?>> getInputVariables() {
-		return this.opplScript.getInputVariables();
-	}
+    @Override
+    public List<InputVariable<?>> getInputVariables() {
+        return opplScript.getInputVariables();
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLScript#getQuery()
-	 */
-	public OPPLQuery getQuery() {
-		return this.opplScript.getQuery();
-	}
+    @Override
+    public OPPLQuery getQuery() {
+        return opplScript.getQuery();
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLScript#getVariables()
-	 */
-	public List<Variable<?>> getVariables() {
-		return this.opplScript.getVariables();
-	}
+    @Override
+    public List<Variable<?>> getVariables() {
+        return opplScript.getVariables();
+    }
 
-	@Override
-	public String toString() {
-		return this.opplScript.toString();
-	}
+    @Override
+    public String toString() {
+        return opplScript.toString();
+    }
 
-	public String render(ShortFormProvider shortFormProvider) {
-		return this.opplScript.render(shortFormProvider);
-	}
+    @Override
+    public String render(ShortFormProvider shortFormProvider) {
+        return opplScript.render(shortFormProvider);
+    }
 
-	public String render() {
-		return this.opplScript.render();
-	}
+    @Override
+    public String render(ConstraintSystem constraintSystem) {
+        return render();
+    }
 
-	public void addVariable(Variable<?> variable) {
-		this.opplScript.addVariable(variable);
-	}
+    @Override
+    public String render() {
+        return opplScript.render();
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (this.opplScript == null ? 0 : this.opplScript.hashCode());
-		return result;
-	}
+    @Override
+    public void addVariable(Variable<?> variable) {
+        opplScript.addVariable(variable);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (this.getClass() != obj.getClass()) {
-			return false;
-		}
-		ProtegeOPPLScript other = (ProtegeOPPLScript) obj;
-		if (this.opplScript == null) {
-			if (other.opplScript != null) {
-				return false;
-			}
-		} else if (!this.opplScript.equals(other.opplScript)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (opplScript == null ? 0 : opplScript.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        ProtegeOPPLScript other = (ProtegeOPPLScript) obj;
+        if (opplScript == null) {
+            if (other.opplScript != null) {
+                return false;
+            }
+        } else if (!opplScript.equals(other.opplScript)) {
+            return false;
+        }
+        return true;
+    }
 }

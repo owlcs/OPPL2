@@ -35,124 +35,120 @@ import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class ProtegeOPPLQuery implements OPPLQuery {
-	private final OPPLQuery opplQuery;
+    private final OPPLQuery opplQuery;
 
-	/**
-	 * @param opplQuery
-	 * @param modelManager
-	 */
-	public ProtegeOPPLQuery(OPPLQuery opplQuery, OWLModelManager modelManager) {
-		this.opplQuery = opplQuery;
-	}
+    /** @param opplQuery
+     * @param modelManager */
+    public ProtegeOPPLQuery(OPPLQuery opplQuery, OWLModelManager modelManager) {
+        this.opplQuery = opplQuery;
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLQuery#addAssertedAxiom(org.semanticweb.owl.model.OWLAxiom)
-	 */
-	public void addAssertedAxiom(OWLAxiom axiom) {
-		this.opplQuery.addAssertedAxiom(axiom);
-	}
+    /** @see org.coode.oppl.OPPLQuery#addAssertedAxiom(org.semanticweb.owl.model.OWLAxiom) */
+    @Override
+    public void addAssertedAxiom(OWLAxiom axiom) {
+        opplQuery.addAssertedAxiom(axiom);
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLQuery#addAxiom(org.semanticweb.owl.model.OWLAxiom)
-	 */
-	public void addAxiom(OWLAxiom axiom) {
-		this.opplQuery.addAxiom(axiom);
-	}
+    /** @see org.coode.oppl.OPPLQuery#addAxiom(org.semanticweb.owl.model.OWLAxiom) */
+    @Override
+    public void addAxiom(OWLAxiom axiom) {
+        opplQuery.addAxiom(axiom);
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLQuery#addConstraint(org.coode.oppl.InequalityConstraint)
-	 */
-	public void addConstraint(AbstractConstraint constraint) {
-		this.opplQuery.addConstraint(constraint);
-	}
+    /** @see org.coode.oppl.OPPLQuery#addConstraint(org.coode.oppl.InequalityConstraint) */
+    @Override
+    public void addConstraint(AbstractConstraint constraint) {
+        opplQuery.addConstraint(constraint);
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLQuery#getAssertedAxioms()
-	 */
-	public List<OWLAxiom> getAssertedAxioms() {
-		return this.opplQuery.getAssertedAxioms();
-	}
+    /** @see org.coode.oppl.OPPLQuery#getAssertedAxioms() */
+    @Override
+    public List<OWLAxiom> getAssertedAxioms() {
+        return opplQuery.getAssertedAxioms();
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLQuery#getAxioms()
-	 */
-	public List<OWLAxiom> getAxioms() {
-		return this.opplQuery.getAxioms();
-	}
+    /** @see org.coode.oppl.OPPLQuery#getAxioms() */
+    @Override
+    public List<OWLAxiom> getAxioms() {
+        return opplQuery.getAxioms();
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLQuery#getConstraints()
-	 */
-	public List<AbstractConstraint> getConstraints() {
-		return this.opplQuery.getConstraints();
-	}
+    /** @see org.coode.oppl.OPPLQuery#getConstraints() */
+    @Override
+    public List<AbstractConstraint> getConstraints() {
+        return opplQuery.getConstraints();
+    }
 
-	/**
-	 * @see org.coode.oppl.OPPLQuery#toString(org.coode.oppl.ConstraintSystem)
-	 */
-	@Override
-	public String toString() {
-		return this.opplQuery.toString();
-	}
+    /** @see org.coode.oppl.OPPLQuery#toString(org.coode.oppl.ConstraintSystem) */
+    @Override
+    public String toString() {
+        return opplQuery.toString();
+    }
 
-	public String render(ShortFormProvider shortFormProvider) {
-		return this.opplQuery.render(shortFormProvider);
-	}
+    @Override
+    public String render(ShortFormProvider shortFormProvider) {
+        return opplQuery.render(shortFormProvider);
+    }
 
-	public String render() {
-		return this.opplQuery.render();
-	}
+    @Override
+    public String render() {
+        return opplQuery.render();
+    }
 
-	public ConstraintSystem getConstraintSystem() {
-		return this.opplQuery.getConstraintSystem();
-	}
+    @Override
+    public String render(ConstraintSystem constraintSystem) {
+        return render();
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (this.opplQuery == null ? 0 : this.opplQuery.hashCode());
-		return result;
-	}
+    @Override
+    public ConstraintSystem getConstraintSystem() {
+        return opplQuery.getConstraintSystem();
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (this.getClass() != obj.getClass()) {
-			return false;
-		}
-		ProtegeOPPLQuery other = (ProtegeOPPLQuery) obj;
-		if (this.opplQuery == null) {
-			if (other.opplQuery != null) {
-				return false;
-			}
-		} else if (!this.opplQuery.equals(other.opplQuery)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (opplQuery == null ? 0 : opplQuery.hashCode());
+        return result;
+    }
 
-	/**
-	 * @param runtimeExceptionHandler
-	 * @see org.coode.oppl.OPPLQuery#execute(org.coode.oppl.exceptions.RuntimeExceptionHandler)
-	 */
-	public void execute(RuntimeExceptionHandler runtimeExceptionHandler,
-			ExecutionMonitor executionMonitor) {
-		this.opplQuery.execute(runtimeExceptionHandler, executionMonitor);
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        ProtegeOPPLQuery other = (ProtegeOPPLQuery) obj;
+        if (opplQuery == null) {
+            if (other.opplQuery != null) {
+                return false;
+            }
+        } else if (!opplQuery.equals(other.opplQuery)) {
+            return false;
+        }
+        return true;
+    }
 
-	public void execute(Collection<? extends BindingNode> leaves,
-			RuntimeExceptionHandler runtimeExceptionHandler, ExecutionMonitor executionMonitor) {
-		this.opplQuery.execute(leaves, runtimeExceptionHandler, executionMonitor);
-	}
+    /** @param runtimeExceptionHandler
+     * @see org.coode.oppl.OPPLQuery#execute(org.coode.oppl.exceptions.RuntimeExceptionHandler) */
+    @Override
+    public void execute(RuntimeExceptionHandler runtimeExceptionHandler,
+            ExecutionMonitor executionMonitor) {
+        opplQuery.execute(runtimeExceptionHandler, executionMonitor);
+    }
+
+    @Override
+    public void execute(Collection<? extends BindingNode> leaves,
+            RuntimeExceptionHandler runtimeExceptionHandler,
+            ExecutionMonitor executionMonitor) {
+        opplQuery.execute(leaves, runtimeExceptionHandler, executionMonitor);
+    }
 }

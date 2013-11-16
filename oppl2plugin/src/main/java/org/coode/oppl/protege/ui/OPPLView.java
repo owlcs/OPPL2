@@ -51,7 +51,9 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.ListModel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
@@ -76,7 +78,6 @@ import org.coode.oppl.utils.AbstractVariableVisitorExAdapter;
 import org.coode.oppl.utils.EvaluationResults;
 import org.coode.oppl.validation.OPPLScriptValidator;
 import org.coode.oppl.variabletypes.InputVariable;
-import org.jdesktop.swingworker.SwingWorker;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.owl.model.inference.NoOpReasoner;
@@ -88,470 +89,499 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public final class OPPLView extends AbstractOWLViewComponent implements
-		InputVerificationStatusChangedListener {
-	private static final String INSTANTIATED_AXIOMS_TITLE = "Instantiated axioms: ";
-	private static final String BINDINGS_TITLE = "Bindings";
-	private static final String AFFECTED_AXIOMS_TITLE = "Affected axioms";
-	private RuntimeExceptionHandler runtimeExceptionHandler;
+        InputVerificationStatusChangedListener {
+    private static final String INSTANTIATED_AXIOMS_TITLE = "Instantiated axioms: ";
+    private static final String BINDINGS_TITLE = "Bindings";
+    private static final String AFFECTED_AXIOMS_TITLE = "Affected axioms";
+    private RuntimeExceptionHandler runtimeExceptionHandler;
 
-	private final class InstantiatedAxiomListModel implements ListModel {
-		private final Set<BindingNode> bindingNodes = new HashSet<BindingNode>();
-		private final Set<ListDataListener> listeners = new HashSet<ListDataListener>();
-		private final List<OWLAxiom> instantiations = new ArrayList<OWLAxiom>();
+    private final class InstantiatedAxiomListModel implements ListModel {
+        private final Set<BindingNode> bindingNodes = new HashSet<BindingNode>();
+        private final Set<ListDataListener> listeners = new HashSet<ListDataListener>();
+        private final List<OWLAxiom> instantiations = new ArrayList<OWLAxiom>();
 
-		private final void init() {
-			this.instantiations.clear();
-			for (BindingNode leaf : this.getBindingNodes()) {
-				this.instantiateAxioms(leaf);
-			}
-			this.notifyListeners();
-		}
+        private final void init() {
+            instantiations.clear();
+            for (BindingNode leaf : getBindingNodes()) {
+                instantiateAxioms(leaf);
+            }
+            notifyListeners();
+        }
 
-		public void clear() {
-			this.bindingNodes.clear();
-			this.init();
-		}
+        public void clear() {
+            bindingNodes.clear();
+            init();
+        }
 
-		public void setBindingNodes(Collection<? extends BindingNode> bindingNodes) {
-			this.bindingNodes.clear();
-			this.bindingNodes.addAll(bindingNodes);
-			this.init();
-		}
+        public void setBindingNodes(Collection<? extends BindingNode> bindingNodes) {
+            this.bindingNodes.clear();
+            this.bindingNodes.addAll(bindingNodes);
+            init();
+        }
 
-		/**
-		 * @param leaf
-		 */
-		private void instantiateAxioms(BindingNode leaf) {
-			if (OPPLView.this.statementModel != null) {
-				OPPLQuery query = OPPLView.this.statementModel.getQuery();
-				if (query != null) {
-					PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
-							new SimpleValueComputationParameters(
-									OPPLView.this.statementModel.getConstraintSystem(), leaf,
-									OPPLView.this.getRuntimeExceptionHandler()));
-					List<OWLAxiom> assertedAxioms = query.getAssertedAxioms();
-					for (OWLAxiom owlAxiom : assertedAxioms) {
-						this.instantiations.add((OWLAxiom) owlAxiom.accept(partialOWLObjectInstantiator));
-					}
-					List<OWLAxiom> axioms = query.getAxioms();
-					for (OWLAxiom owlAxiom : axioms) {
-						this.instantiations.add((OWLAxiom) owlAxiom.accept(partialOWLObjectInstantiator));
-					}
-				}
-			}
-		}
+        /** @param leaf */
+        private void instantiateAxioms(BindingNode leaf) {
+            if (statementModel != null) {
+                OPPLQuery query = statementModel.getQuery();
+                if (query != null) {
+                    PartialOWLObjectInstantiator partialOWLObjectInstantiator = new PartialOWLObjectInstantiator(
+                            new SimpleValueComputationParameters(
+                                    statementModel.getConstraintSystem(), leaf,
+                                    getRuntimeExceptionHandler()));
+                    List<OWLAxiom> assertedAxioms = query.getAssertedAxioms();
+                    for (OWLAxiom owlAxiom : assertedAxioms) {
+                        instantiations.add((OWLAxiom) owlAxiom
+                                .accept(partialOWLObjectInstantiator));
+                    }
+                    List<OWLAxiom> axioms = query.getAxioms();
+                    for (OWLAxiom owlAxiom : axioms) {
+                        instantiations.add((OWLAxiom) owlAxiom
+                                .accept(partialOWLObjectInstantiator));
+                    }
+                }
+            }
+        }
 
-		private void notifyListeners() {
-			for (ListDataListener l : this.listeners) {
-				l.contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0,
-						this.instantiations.size() - 1));
-			}
-		}
+        private void notifyListeners() {
+            for (ListDataListener l : listeners) {
+                l.contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED,
+                        0, instantiations.size() - 1));
+            }
+        }
 
-		public void addListDataListener(ListDataListener l) {
-			if (l != null) {
-				this.listeners.add(l);
-			}
-		}
+        @Override
+        public void addListDataListener(ListDataListener l) {
+            if (l != null) {
+                listeners.add(l);
+            }
+        }
 
-		public Object getElementAt(int index) {
-			return this.instantiations.get(index);
-		}
+        @Override
+        public Object getElementAt(int index) {
+            return instantiations.get(index);
+        }
 
-		public int getSize() {
-			return this.instantiations.size();
-		}
+        @Override
+        public int getSize() {
+            return instantiations.size();
+        }
 
-		public void removeListDataListener(ListDataListener l) {
-			this.listeners.remove(l);
-		}
+        @Override
+        public void removeListDataListener(ListDataListener l) {
+            listeners.remove(l);
+        }
 
-		/**
-		 * @return the bindingNodes
-		 */
-		public Set<BindingNode> getBindingNodes() {
-			return new HashSet<BindingNode>(this.bindingNodes);
-		}
-	}
+        /** @return the bindingNodes */
+        public Set<BindingNode> getBindingNodes() {
+            return new HashSet<BindingNode>(bindingNodes);
+        }
+    }
 
-	private final class ReasonerOPPLScriptValiator implements OPPLScriptValidator {
-		private final class ScriptVisitor implements OPPLScriptVisitorEx<Boolean> {
-			public ScriptVisitor() {
-			}
+    private final class ReasonerOPPLScriptValiator implements OPPLScriptValidator {
+        private final class ScriptVisitor implements OPPLScriptVisitorEx<Boolean> {
+            public ScriptVisitor() {}
 
-			public Boolean visitActions(List<OWLAxiomChange> changes, Boolean p) {
-				return p == null ? true : p;
-			}
+            @Override
+            public Boolean visitActions(List<OWLAxiomChange> changes, Boolean p) {
+                return p == null ? true : p;
+            }
 
-			public Boolean visit(OPPLQuery q, Boolean p) {
-				return p == null ? true : p;
-			}
+            @Override
+            public Boolean visit(OPPLQuery q, Boolean p) {
+                return p == null ? true : p;
+            }
 
-			public Boolean visit(Variable<?> v, Boolean p) {
-				AbstractVariableVisitorExAdapter<Boolean> nullScopeDetector = new AbstractVariableVisitorExAdapter<Boolean>(
-						true) {
-					@Override
-					public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
-						return v.getVariableScope() == null;
-					}
-				};
-				return p == null ? v.accept(nullScopeDetector) : p || v.accept(nullScopeDetector);
-			}
-		}
+            @Override
+            public Boolean visit(Variable<?> v, Boolean p) {
+                AbstractVariableVisitorExAdapter<Boolean> nullScopeDetector = new AbstractVariableVisitorExAdapter<Boolean>(
+                        true) {
+                    @Override
+                    public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
+                        return v.getVariableScope() == null;
+                    }
+                };
+                return p == null ? v.accept(nullScopeDetector) : p
+                        || v.accept(nullScopeDetector);
+            }
+        }
 
-		public ReasonerOPPLScriptValiator() {
-		}
+        public ReasonerOPPLScriptValiator() {}
 
-		public boolean accept(OPPLScript script) {
-			OWLReasoner reasoner = OPPLView.this.getOWLEditorKit().getModelManager().getReasoner();
-			Boolean accept = script.accept(new ScriptVisitor());
-			return !(reasoner instanceof NoOpReasoner) || accept;
-		}
+        @Override
+        public boolean accept(OPPLScript script) {
+            OWLReasoner reasoner = getOWLEditorKit().getModelManager().getReasoner();
+            Boolean accept = script.accept(new ScriptVisitor());
+            return !(reasoner instanceof NoOpReasoner) || accept;
+        }
 
-		public String getValidationRuleDescription() {
-			return "If the script contains scoped variables the selected reasoner cannot be NoOpReasoner";
-		}
-	}
+        @Override
+        public String getValidationRuleDescription() {
+            return "If the script contains scoped variables the selected reasoner cannot be NoOpReasoner";
+        }
+    }
 
-	class OPPLExecutorSwingWorker extends SwingWorker<List<OWLAxiomChange>, OPPLScript> {
-		private final List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
+    class OPPLExecutorSwingWorker extends SwingWorker<List<OWLAxiomChange>, OPPLScript> {
+        private final List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
 
-		/**
-		 * @param changes
-		 */
-		protected OPPLExecutorSwingWorker(List<OWLAxiomChange> changes) {
-			this.changes.addAll(changes);
-		}
+        /** @param changes */
+        protected OPPLExecutorSwingWorker(List<OWLAxiomChange> changes) {
+            this.changes.addAll(changes);
+        }
 
-		@Override
-		protected List<OWLAxiomChange> doInBackground() {
-			OPPLView.this.getOWLEditorKit().getModelManager().applyChanges(this.changes);
-			return this.changes;
-		}
+        @Override
+        protected List<OWLAxiomChange> doInBackground() {
+            getOWLEditorKit().getModelManager().applyChanges(changes);
+            return changes;
+        }
 
-		@Override
-		protected void done() {
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					OPPLView.this.window.setVisible(false);
-					OPPLView.this.window.dispose();
-				}
-			});
-		}
-	}
+        @Override
+        protected void done() {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    window.setVisible(false);
+                    window.dispose();
+                }
+            });
+        }
+    }
 
-	class OPPLChangeDetectorSwingWorker extends SwingWorker<List<OWLAxiomChange>, OPPLScript> {
-		@Override
-		protected void done() {
-			List<OWLAxiomChange> changes;
-			try {
-				changes = this.get();
-				ActionListModel model = (ActionListModel) OPPLView.this.affectedAxioms.getModel();
-				model.clear();
-				if (!this.isCancelled()) {
-					if (changes != null) {
-						for (OWLAxiomChange axiomChange : changes) {
-							model.addAction(axiomChange, false, true);
-						}
-					}
-					OPPLView.this.revalidate();
-					EvaluationResults evaluationResults = new EvaluationResults(
-							OPPLView.this.statementModel, changes);
-					OPPLView.this.copyResultsAction.setEnabled(true);
-					OPPLView.this.copyResultsAction.setResult(evaluationResults.toString());
-					OPPLView.this.bindingTableModel = new InstantiationTableModel(
-							OPPLView.this.statementModel, OPPLView.this.getOWLEditorKit());
-					OPPLView.this.bindingTable.setModel(OPPLView.this.bindingTableModel);
-					OPPLView.this.bindingTreeScrollPane.setBorder(ComponentFactory.createTitledBorder(String.format(
-							"%s: %d",
-							BINDINGS_TITLE,
-							OPPLView.this.bindingTableModel.getRowCount())));
-					SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
-							OPPLView.this.affectedScrollPane.setBorder(ComponentFactory.createTitledBorder(String.format(
-									"%s: %d",
-									AFFECTED_AXIOMS_TITLE,
-									OPPLView.this.affectedAxioms.getModel().getSize())));
-							OPPLView.this.window.setVisible(false);
-							OPPLView.this.window.dispose();
-						}
-					});
-				} else {
-					OPPLView.this.evaluate.setEnabled(true);
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			} catch (CancellationException e) {
-				ActionListModel model = (ActionListModel) OPPLView.this.affectedAxioms.getModel();
-				model.clear();
-				OPPLView.this.evaluate.setEnabled(true);
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						OPPLView.this.affectedScrollPane.setBorder(ComponentFactory.createTitledBorder(String.format(
-								"%s: %d",
-								AFFECTED_AXIOMS_TITLE,
-								OPPLView.this.affectedAxioms.getModel().getSize())));
-						OPPLView.this.window.setVisible(false);
-						OPPLView.this.window.dispose();
-					}
-				});
-			}
-		}
+    class OPPLChangeDetectorSwingWorker extends
+            SwingWorker<List<OWLAxiomChange>, OPPLScript> {
+        @Override
+        protected void done() {
+            List<OWLAxiomChange> changes;
+            try {
+                changes = this.get();
+                ActionListModel model = (ActionListModel) affectedAxioms.getModel();
+                model.clear();
+                if (!isCancelled()) {
+                    if (changes != null) {
+                        for (OWLAxiomChange axiomChange : changes) {
+                            model.addAction(axiomChange, false, true);
+                        }
+                    }
+                    revalidate();
+                    EvaluationResults evaluationResults = new EvaluationResults(
+                            statementModel, changes);
+                    copyResultsAction.setEnabled(true);
+                    copyResultsAction.setResult(evaluationResults.toString());
+                    bindingTableModel = new InstantiationTableModel(statementModel,
+                            getOWLEditorKit());
+                    bindingTable.setModel(bindingTableModel);
+                    bindingTreeScrollPane.setBorder(ComponentFactory
+                            .createTitledBorder(String.format("%s: %d", BINDINGS_TITLE,
+                                    bindingTableModel.getRowCount())));
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            affectedScrollPane.setBorder(ComponentFactory
+                                    .createTitledBorder(String.format("%s: %d",
+                                            AFFECTED_AXIOMS_TITLE, affectedAxioms
+                                                    .getModel().getSize())));
+                            window.setVisible(false);
+                            window.dispose();
+                        }
+                    });
+                } else {
+                    evaluate.setEnabled(true);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (CancellationException e) {
+                ActionListModel model = (ActionListModel) affectedAxioms.getModel();
+                model.clear();
+                evaluate.setEnabled(true);
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        affectedScrollPane.setBorder(ComponentFactory
+                                .createTitledBorder(String.format("%s: %d",
+                                        AFFECTED_AXIOMS_TITLE, affectedAxioms.getModel()
+                                                .getSize())));
+                        window.setVisible(false);
+                        window.dispose();
+                    }
+                });
+            }
+        }
 
-		@Override
-		protected List<OWLAxiomChange> doInBackground() {
-			List<OWLAxiomChange> result = new ArrayList<OWLAxiomChange>();
-			try {
-				ChangeExtractor changeExtractor = new ChangeExtractor(
-						OPPLView.this.getRuntimeExceptionHandler(), new ExecutionMonitor() {
-							public boolean isCancelled() {
-								return OPPLChangeDetectorSwingWorker.this.isCancelled();
-							}
+        @Override
+        protected List<OWLAxiomChange> doInBackground() {
+            List<OWLAxiomChange> result = new ArrayList<OWLAxiomChange>();
+            try {
+                ChangeExtractor changeExtractor = new ChangeExtractor(
+                        getRuntimeExceptionHandler(), new ExecutionMonitor() {
+                            @Override
+                            public boolean isCancelled() {
+                                return OPPLChangeDetectorSwingWorker.this.isCancelled();
+                            }
 
-							public void progressIncrementChanged(int newValue) {
-								OPPLView.this.progressBarModel.setValue(newValue);
-							}
-						}, OPPLView.this.considerImportClosureCheckBox.isSelected());
-				result.addAll(changeExtractor.visit(OPPLView.this.statementModel));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return result;
-		}
-	}
+                            @Override
+                            public void progressIncrementChanged(int newValue) {
+                                progressBarModel.setValue(newValue);
+                            }
+                        }, considerImportClosureCheckBox.isSelected());
+                result.addAll(changeExtractor.visit(statementModel));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+    }
 
-	/**
+    /**
 	 *
 	 */
-	private static final long serialVersionUID = 1897093057453176659L;
-	private static final String OPPL_COMPUTATION_IN_PROGRESS_PLEASE_WAIT = "OPPL Computation in progress...please wait";
-	private OPPLEditor editor;
-	private final ReasonerOPPLScriptValiator validator = new ReasonerOPPLScriptValiator();
-	private JButton evaluate = new JButton("Evaluate");
-	private JButton stopEvaluation = new JButton("Cancel");
-	private JButton execute = new JButton("Execute");
-	private ActionList affectedAxioms;
-	private final InstantiatedAxiomListModel instantiatedAxiomListModel = new InstantiatedAxiomListModel();
-	private OWLLinkedObjectList instantiatedAxiomsList;
-	private OPPLScript statementModel;
-	private JDialog window;
-	private JScrollPane affectedScrollPane;
-	private JScrollPane instantiatedScrollPane;
-	private JCheckBox considerImportClosureCheckBox = new JCheckBox(
-			"When removing consider Active Ontology Imported Closure", false);
-	private final CopyAction copyResultsAction = new CopyAction("Copy results to Clipboard");
-	private final BoundedRangeModel progressBarModel = new DefaultBoundedRangeModel();
-	private TableModel bindingTableModel = InstantiationTableModel.getNoOPPLScriptTableModel();
-	private final JTable bindingTable = new JTable(this.bindingTableModel);
-	private JScrollPane bindingTreeScrollPane;
-	private OPPLChangeDetectorSwingWorker opplSwingWorker;
+    private static final long serialVersionUID = 1897093057453176659L;
+    private static final String OPPL_COMPUTATION_IN_PROGRESS_PLEASE_WAIT = "OPPL Computation in progress...please wait";
+    private OPPLEditor editor;
+    private final ReasonerOPPLScriptValiator validator = new ReasonerOPPLScriptValiator();
+    private JButton evaluate = new JButton("Evaluate");
+    private JButton stopEvaluation = new JButton("Cancel");
+    private JButton execute = new JButton("Execute");
+    private ActionList affectedAxioms;
+    private final InstantiatedAxiomListModel instantiatedAxiomListModel = new InstantiatedAxiomListModel();
+    private OWLLinkedObjectList instantiatedAxiomsList;
+    private OPPLScript statementModel;
+    private JDialog window;
+    private JScrollPane affectedScrollPane;
+    private JScrollPane instantiatedScrollPane;
+    private JCheckBox considerImportClosureCheckBox = new JCheckBox(
+            "When removing consider Active Ontology Imported Closure", false);
+    private final CopyAction copyResultsAction = new CopyAction(
+            "Copy results to Clipboard");
+    private final BoundedRangeModel progressBarModel = new DefaultBoundedRangeModel();
+    private TableModel bindingTableModel = InstantiationTableModel
+            .getNoOPPLScriptTableModel();
+    private final JTable bindingTable = new JTable(bindingTableModel);
+    private JScrollPane bindingTreeScrollPane;
+    private OPPLChangeDetectorSwingWorker opplSwingWorker;
 
-	@Override
-	protected void disposeOWLView() {
-		// this.getOWLEditorKit().getModelManager().removeListener(this);
-		this.editor.removeStatusChangedListener(this);
-		this.editor.dispose();
-		ProtegeParserFactory.getInstance(this.getOWLEditorKit()).dispose();
-	}
+    @Override
+    protected void disposeOWLView() {
+        // this.getOWLEditorKit().getModelManager().removeListener(this);
+        editor.removeStatusChangedListener(this);
+        editor.dispose();
+        ProtegeParserFactory.getInstance(getOWLEditorKit()).dispose();
+    }
 
-	@Override
-	protected void initialiseOWLView() {
-		this.setLayout(new BorderLayout());
-		JSplitPane mainPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		mainPanel.setDividerLocation(.6);
-		mainPanel.setResizeWeight(.6);
-		JPanel statementPanel = new JPanel(new BorderLayout());
-		ProtegeParserFactory.reset();
-		OPPLAbstractFactory opplFactory = ProtegeParserFactory.getInstance(this.getOWLEditorKit()).getOPPLFactory();
-		this.runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(this);
-		this.affectedAxioms = new ActionList(this.getOWLEditorKit(), new ConstraintSystem(
-				this.getOWLEditorKit().getModelManager().getActiveOntology(),
-				this.getOWLEditorKit().getModelManager().getOWLOntologyManager(), opplFactory),
-				false);
-		this.instantiatedAxiomsList = new OWLLinkedObjectList(this.getOWLEditorKit());
-		this.instantiatedAxiomsList.setModel(this.instantiatedAxiomListModel);
-		OWLCellRenderer cellRenderer = new OWLCellRenderer(this.getOWLEditorKit());
-		cellRenderer.setWrap(true);
-		cellRenderer.setHighlightKeywords(true);
-		this.considerImportClosureCheckBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				((DefaultListModel) OPPLView.this.affectedAxioms.getModel()).clear();
-				OPPLView.this.affectedScrollPane.setBorder(ComponentFactory.createTitledBorder("Affected axioms: "));
-				OPPLView.this.evaluate.setEnabled(OPPLView.this.statementModel != null);
-				OPPLView.this.copyResultsAction.setEnabled(false);
-				OPPLView.this.execute.setEnabled(false);
-			}
-		});
-		this.instantiatedAxiomsList.setCellRenderer(cellRenderer);
-		this.editor = new OPPLEditor(this.getOWLEditorKit(), this.validator);
-		this.editor.setPreferredSize(new Dimension(200, 300));
-		statementPanel.add(this.evaluate, BorderLayout.SOUTH);
-		mainPanel.add(statementPanel, JSplitPane.TOP);
-		// Effects GUI portion
-		JSplitPane effects = new JSplitPane();
-		this.affectedScrollPane = ComponentFactory.createScrollPane(this.affectedAxioms);
-		this.instantiatedScrollPane = ComponentFactory.createScrollPane(this.instantiatedAxiomsList);
-		this.instantiatedScrollPane.setBorder(ComponentFactory.createTitledBorder(OPPLView.INSTANTIATED_AXIOMS_TITLE));
-		this.affectedScrollPane.setBorder(ComponentFactory.createTitledBorder(AFFECTED_AXIOMS_TITLE));
-		JPanel bottomPanel = new JPanel(new BorderLayout());
-		JToolBar toolBar = new JToolBar(JToolBar.HORIZONTAL);
-		toolBar.setFloatable(false);
-		toolBar.add(this.copyResultsAction);
-		statementPanel.add(ComponentFactory.createScrollPane(this.editor), BorderLayout.CENTER);
-		JPanel toolBarPanel = new JPanel(new BorderLayout());
-		toolBarPanel.add(toolBar, BorderLayout.WEST);
-		toolBarPanel.add(this.considerImportClosureCheckBox, BorderLayout.EAST);
-		bottomPanel.add(toolBarPanel, BorderLayout.NORTH);
-		effects.add(this.affectedScrollPane, JSplitPane.LEFT);
-		JSplitPane instantiatonPanel = new JSplitPane();
-		this.bindingTreeScrollPane = ComponentFactory.createScrollPane(this.bindingTable);
-		this.bindingTreeScrollPane.setBorder(ComponentFactory.createTitledBorder(OPPLView.BINDINGS_TITLE));
-		instantiatonPanel.add(this.bindingTreeScrollPane, JSplitPane.LEFT);
-		instantiatonPanel.add(this.instantiatedScrollPane, JSplitPane.RIGHT);
-		effects.add(instantiatonPanel, JSplitPane.RIGHT);
-		bottomPanel.add(effects, BorderLayout.CENTER);
-		mainPanel.add(bottomPanel, JSplitPane.BOTTOM);
-		this.add(mainPanel, BorderLayout.CENTER);
-		this.add(this.execute, BorderLayout.SOUTH);
-		this.evaluate.setEnabled(false);
-		this.execute.setEnabled(false);
-		this.copyResultsAction.setEnabled(false);
-		this.evaluate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				OPPLView.this.evaluate.setEnabled(false);
-				OPPLView.this.copyResultsAction.setEnabled(false);
-				OPPLView.this.setupOPPLProgressMonitor();
-				OPPLView.this.opplSwingWorker = new OPPLChangeDetectorSwingWorker();
-				OPPLView.this.window.pack();
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						OPPLView.this.window.setVisible(true);
-					}
-				});
-				OPPLView.this.opplSwingWorker.execute();
-			}
-		});
-		this.stopEvaluation.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				OPPLView.this.opplSwingWorker.cancel(true);
-			}
-		});
-		this.affectedAxioms.getModel().addListDataListener(new ListDataListener() {
-			public void contentsChanged(ListDataEvent e) {
-				OPPLView.this.execute.setEnabled(OPPLView.this.affectedAxioms.getModel().getSize() > 0);
-			}
+    @Override
+    protected void initialiseOWLView() {
+        setLayout(new BorderLayout());
+        JSplitPane mainPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        mainPanel.setDividerLocation(.6);
+        mainPanel.setResizeWeight(.6);
+        JPanel statementPanel = new JPanel(new BorderLayout());
+        ProtegeParserFactory.reset();
+        OPPLAbstractFactory opplFactory = ProtegeParserFactory.getInstance(
+                getOWLEditorKit()).getOPPLFactory();
+        runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(this);
+        affectedAxioms = new ActionList(getOWLEditorKit(),
+                new ConstraintSystem(getOWLEditorKit().getModelManager()
+                        .getActiveOntology(), getOWLEditorKit().getModelManager()
+                        .getOWLOntologyManager(), opplFactory), false);
+        instantiatedAxiomsList = new OWLLinkedObjectList(getOWLEditorKit());
+        instantiatedAxiomsList.setModel(instantiatedAxiomListModel);
+        OWLCellRenderer cellRenderer = new OWLCellRenderer(getOWLEditorKit());
+        cellRenderer.setWrap(true);
+        cellRenderer.setHighlightKeywords(true);
+        considerImportClosureCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ((DefaultListModel) affectedAxioms.getModel()).clear();
+                affectedScrollPane.setBorder(ComponentFactory
+                        .createTitledBorder("Affected axioms: "));
+                evaluate.setEnabled(statementModel != null);
+                copyResultsAction.setEnabled(false);
+                execute.setEnabled(false);
+            }
+        });
+        instantiatedAxiomsList.setCellRenderer(cellRenderer);
+        editor = new OPPLEditor(getOWLEditorKit(), validator);
+        editor.setPreferredSize(new Dimension(200, 300));
+        statementPanel.add(evaluate, BorderLayout.SOUTH);
+        mainPanel.add(statementPanel, JSplitPane.TOP);
+        // Effects GUI portion
+        JSplitPane effects = new JSplitPane();
+        affectedScrollPane = ComponentFactory.createScrollPane(affectedAxioms);
+        instantiatedScrollPane = ComponentFactory
+                .createScrollPane(instantiatedAxiomsList);
+        instantiatedScrollPane.setBorder(ComponentFactory
+                .createTitledBorder(OPPLView.INSTANTIATED_AXIOMS_TITLE));
+        affectedScrollPane.setBorder(ComponentFactory
+                .createTitledBorder(AFFECTED_AXIOMS_TITLE));
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        JToolBar toolBar = new JToolBar(SwingConstants.HORIZONTAL);
+        toolBar.setFloatable(false);
+        toolBar.add(copyResultsAction);
+        statementPanel
+                .add(ComponentFactory.createScrollPane(editor), BorderLayout.CENTER);
+        JPanel toolBarPanel = new JPanel(new BorderLayout());
+        toolBarPanel.add(toolBar, BorderLayout.WEST);
+        toolBarPanel.add(considerImportClosureCheckBox, BorderLayout.EAST);
+        bottomPanel.add(toolBarPanel, BorderLayout.NORTH);
+        effects.add(affectedScrollPane, JSplitPane.LEFT);
+        JSplitPane instantiatonPanel = new JSplitPane();
+        bindingTreeScrollPane = ComponentFactory.createScrollPane(bindingTable);
+        bindingTreeScrollPane.setBorder(ComponentFactory
+                .createTitledBorder(OPPLView.BINDINGS_TITLE));
+        instantiatonPanel.add(bindingTreeScrollPane, JSplitPane.LEFT);
+        instantiatonPanel.add(instantiatedScrollPane, JSplitPane.RIGHT);
+        effects.add(instantiatonPanel, JSplitPane.RIGHT);
+        bottomPanel.add(effects, BorderLayout.CENTER);
+        mainPanel.add(bottomPanel, JSplitPane.BOTTOM);
+        this.add(mainPanel, BorderLayout.CENTER);
+        this.add(execute, BorderLayout.SOUTH);
+        evaluate.setEnabled(false);
+        execute.setEnabled(false);
+        copyResultsAction.setEnabled(false);
+        evaluate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                evaluate.setEnabled(false);
+                copyResultsAction.setEnabled(false);
+                OPPLView.this.setupOPPLProgressMonitor();
+                opplSwingWorker = new OPPLChangeDetectorSwingWorker();
+                window.pack();
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        window.setVisible(true);
+                    }
+                });
+                opplSwingWorker.execute();
+            }
+        });
+        stopEvaluation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                opplSwingWorker.cancel(true);
+            }
+        });
+        affectedAxioms.getModel().addListDataListener(new ListDataListener() {
+            @Override
+            public void contentsChanged(ListDataEvent e) {
+                execute.setEnabled(affectedAxioms.getModel().getSize() > 0);
+            }
 
-			public void intervalAdded(ListDataEvent e) {
-				OPPLView.this.execute.setEnabled(OPPLView.this.affectedAxioms.getModel().getSize() > 0);
-			}
+            @Override
+            public void intervalAdded(ListDataEvent e) {
+                execute.setEnabled(affectedAxioms.getModel().getSize() > 0);
+            }
 
-			public void intervalRemoved(ListDataEvent e) {
-				OPPLView.this.execute.setEnabled(OPPLView.this.affectedAxioms.getModel().getSize() > 0);
-			}
-		});
-		this.execute.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ActionListModel model = (ActionListModel) OPPLView.this.affectedAxioms.getModel();
-				OPPLView.this.setupOPPLProgressMonitor();
-				OPPLView.this.window.pack();
-				List<OWLAxiomChange> changes = model.getOWLAxiomChanges();
-				OPPLExecutorSwingWorker executorSwingWorker = new OPPLExecutorSwingWorker(changes);
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						OPPLView.this.affectedScrollPane.setBorder(ComponentFactory.createTitledBorder(AFFECTED_AXIOMS_TITLE));
-						OPPLView.this.editor.clear();
-						OPPLView.this.window.setVisible(true);
-					}
-				});
-				executorSwingWorker.execute();
-				model.clear();
-			}
-		});
-		this.editor.addStatusChangedListener(this);
-		this.bindingTable.setDefaultRenderer(OWLObject.class, new InstantiationTableCellRenderer(
-				this.getOWLEditorKit()));
-		this.bindingTable.setDefaultRenderer(
-				Set.class,
-				new InstantiationTableCellRenderer(this.getOWLEditorKit()));
-		this.bindingTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				if (!e.getValueIsAdjusting()
-						&& OPPLView.this.bindingTable.getModel() instanceof InstantiationTableModel) {
-					InstantiationTableModel instantiationTableModel = (InstantiationTableModel) OPPLView.this.bindingTable.getModel();
-					int[] selectedRows = OPPLView.this.bindingTable.getSelectedRows();
-					Set<BindingNode> bindingNodes = new HashSet<BindingNode>(selectedRows.length);
-					for (int i : selectedRows) {
-						bindingNodes.add(instantiationTableModel.getLeaves().get(i));
-					}
-					OPPLView.this.instantiatedAxiomListModel.setBindingNodes(bindingNodes);
-				}
-			}
-		});
-	}
+            @Override
+            public void intervalRemoved(ListDataEvent e) {
+                execute.setEnabled(affectedAxioms.getModel().getSize() > 0);
+            }
+        });
+        execute.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ActionListModel model = (ActionListModel) affectedAxioms.getModel();
+                OPPLView.this.setupOPPLProgressMonitor();
+                window.pack();
+                List<OWLAxiomChange> changes = model.getOWLAxiomChanges();
+                OPPLExecutorSwingWorker executorSwingWorker = new OPPLExecutorSwingWorker(
+                        changes);
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        affectedScrollPane.setBorder(ComponentFactory
+                                .createTitledBorder(AFFECTED_AXIOMS_TITLE));
+                        editor.clear();
+                        window.setVisible(true);
+                    }
+                });
+                executorSwingWorker.execute();
+                model.clear();
+            }
+        });
+        editor.addStatusChangedListener(this);
+        bindingTable.setDefaultRenderer(OWLObject.class,
+                new InstantiationTableCellRenderer(getOWLEditorKit()));
+        bindingTable.setDefaultRenderer(Set.class, new InstantiationTableCellRenderer(
+                getOWLEditorKit()));
+        bindingTable.getSelectionModel().addListSelectionListener(
+                new ListSelectionListener() {
+                    @Override
+                    public void valueChanged(ListSelectionEvent e) {
+                        if (!e.getValueIsAdjusting()
+                                && bindingTable.getModel() instanceof InstantiationTableModel) {
+                            InstantiationTableModel instantiationTableModel = (InstantiationTableModel) bindingTable
+                                    .getModel();
+                            int[] selectedRows = bindingTable.getSelectedRows();
+                            Set<BindingNode> bindingNodes = new HashSet<BindingNode>(
+                                    selectedRows.length);
+                            for (int i : selectedRows) {
+                                bindingNodes.add(instantiationTableModel.getLeaves().get(
+                                        i));
+                            }
+                            instantiatedAxiomListModel.setBindingNodes(bindingNodes);
+                        }
+                    }
+                });
+    }
 
-	private final void setupOPPLProgressMonitor() {
-		JPanel panel = new JPanel(new BorderLayout(7, 7));
-		this.progressBarModel.setValue(0);
-		JProgressBar progressBar = new JProgressBar(this.progressBarModel);
-		JPanel progressPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		progressPanel.add(progressBar);
-		progressPanel.add(this.stopEvaluation);
-		panel.add(progressPanel, BorderLayout.SOUTH);
-		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		JLabel label = new JLabel(OPPL_COMPUTATION_IN_PROGRESS_PLEASE_WAIT);
-		panel.add(label, BorderLayout.NORTH);
-		this.window = new JDialog((Frame) SwingUtilities.getAncestorOfClass(
-				Frame.class,
-				this.getOWLEditorKit().getWorkspace()), "OPPL Engine progress", true);
-		this.window.setLocation(400, 400);
-		JPanel holderPanel = new JPanel(new BorderLayout(7, 7));
-		holderPanel.add(panel, BorderLayout.NORTH);
-		holderPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
-		this.window.getContentPane().setLayout(new BorderLayout());
-		this.window.getContentPane().add(holderPanel, BorderLayout.NORTH);
-		this.window.pack();
-		Dimension windowSize = this.window.getSize();
-		this.window.setSize(400, windowSize.height);
-		this.window.setResizable(false);
-	}
+    private final void setupOPPLProgressMonitor() {
+        JPanel panel = new JPanel(new BorderLayout(7, 7));
+        progressBarModel.setValue(0);
+        JProgressBar progressBar = new JProgressBar(progressBarModel);
+        JPanel progressPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        progressPanel.add(progressBar);
+        progressPanel.add(stopEvaluation);
+        panel.add(progressPanel, BorderLayout.SOUTH);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JLabel label = new JLabel(OPPL_COMPUTATION_IN_PROGRESS_PLEASE_WAIT);
+        panel.add(label, BorderLayout.NORTH);
+        window = new JDialog((Frame) SwingUtilities.getAncestorOfClass(Frame.class,
+                getOWLEditorKit().getWorkspace()), "OPPL Engine progress", true);
+        window.setLocation(400, 400);
+        JPanel holderPanel = new JPanel(new BorderLayout(7, 7));
+        holderPanel.add(panel, BorderLayout.NORTH);
+        holderPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
+        window.getContentPane().setLayout(new BorderLayout());
+        window.getContentPane().add(holderPanel, BorderLayout.NORTH);
+        window.pack();
+        Dimension windowSize = window.getSize();
+        window.setSize(400, windowSize.height);
+        window.setResizable(false);
+    }
 
-	public void verifiedStatusChanged(boolean newState) {
-		this.instantiatedAxiomListModel.clear();
-		this.bindingTableModel = InstantiationTableModel.getNoOPPLScriptTableModel();
-		this.bindingTable.setModel(this.bindingTableModel);
-		this.evaluate.setEnabled(newState);
-		this.copyResultsAction.setEnabled(false);
-		this.bindingTreeScrollPane.setBorder(ComponentFactory.createTitledBorder(BINDINGS_TITLE));
-		ListModel model = this.affectedAxioms.getModel();
-		((DefaultListModel) model).clear();
-		OPPLView.this.affectedScrollPane.setBorder(ComponentFactory.createTitledBorder(AFFECTED_AXIOMS_TITLE));
-		if (newState) {
-			this.statementModel = this.editor.getOPPLScript();
-			this.bindingTableModel = new InstantiationTableModel(this.statementModel,
-					this.getOWLEditorKit());
-			this.bindingTable.setModel(this.bindingTableModel);
-		}
-	}
+    @Override
+    public void verifiedStatusChanged(boolean newState) {
+        instantiatedAxiomListModel.clear();
+        bindingTableModel = InstantiationTableModel.getNoOPPLScriptTableModel();
+        bindingTable.setModel(bindingTableModel);
+        evaluate.setEnabled(newState);
+        copyResultsAction.setEnabled(false);
+        bindingTreeScrollPane.setBorder(ComponentFactory
+                .createTitledBorder(BINDINGS_TITLE));
+        ListModel model = affectedAxioms.getModel();
+        ((DefaultListModel) model).clear();
+        OPPLView.this.affectedScrollPane.setBorder(ComponentFactory
+                .createTitledBorder(AFFECTED_AXIOMS_TITLE));
+        if (newState) {
+            statementModel = editor.getOPPLScript();
+            bindingTableModel = new InstantiationTableModel(statementModel,
+                    getOWLEditorKit());
+            bindingTable.setModel(bindingTableModel);
+        }
+    }
 
-	/**
-	 * @return the runtimeExceptionHandler
-	 */
-	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
-		return this.runtimeExceptionHandler;
-	}
+    /** @return the runtimeExceptionHandler */
+    public RuntimeExceptionHandler getRuntimeExceptionHandler() {
+        return runtimeExceptionHandler;
+    }
 
-	/**
-	 * @param runtimeExceptionHandler
-	 *            the runtimeExceptionHandler to set
-	 */
-	public void setRuntimeExceptionHandler(RuntimeExceptionHandler runtimeExceptionHandler) {
-		this.runtimeExceptionHandler = runtimeExceptionHandler;
-	}
+    /** @param runtimeExceptionHandler
+     *            the runtimeExceptionHandler to set */
+    public void
+            setRuntimeExceptionHandler(RuntimeExceptionHandler runtimeExceptionHandler) {
+        this.runtimeExceptionHandler = runtimeExceptionHandler;
+    }
 }

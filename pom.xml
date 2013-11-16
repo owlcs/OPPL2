@@ -194,5 +194,8 @@
 		<module>oppl2patterns</module>
 		<module>oppl2testcase</module>
 		<module>oppl2templates</module>
+		<module>oppl2plugin</module>
+		<module>oppl2patternsplugin</module>
+		<module>oppl2testcaseplugin</module>
 	</modules>
 </project>

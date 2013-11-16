@@ -13,110 +13,108 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.SwingWorker;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreePath;
 
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 import org.coode.parsers.oppl.testcase.ui.report.Report;
-import org.jdesktop.swingworker.SwingWorker;
 import org.protege.editor.core.ProtegeApplication;
 import org.protege.editor.core.ui.util.ComponentFactory;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class OPPLTestCaseRunPanel extends JPanel {
-	private final class RunTest extends SwingWorker<Map<OPPLTestCase, List<Report>>, Object> {
-		private final OPPLTestCase opplTestCase;
+    private final class RunTest extends
+            SwingWorker<Map<OPPLTestCase, List<Report>>, Object> {
+        private final OPPLTestCase opplTestCase;
 
-		/**
-		 * @param opplTestCase
-		 */
-		public RunTest(OPPLTestCase opplTestCase) {
-			this.opplTestCase = opplTestCase;
-		}
+        /** @param opplTestCase */
+        public RunTest(OPPLTestCase opplTestCase) {
+            this.opplTestCase = opplTestCase;
+        }
 
-		@Override
-		protected Map<OPPLTestCase, List<Report>> doInBackground() throws Exception {
-			ReportingTestRunner reportingTestRunner = new ReportingTestRunner(this.opplTestCase);
-			return reportingTestRunner.run();
-		}
+        @Override
+        protected Map<OPPLTestCase, List<Report>> doInBackground() throws Exception {
+            ReportingTestRunner reportingTestRunner = new ReportingTestRunner(
+                    opplTestCase);
+            return reportingTestRunner.run();
+        }
 
-		@Override
-		protected void done() {
-			try {
-				Map<OPPLTestCase, List<Report>> reports = this.get();
-				if (reports != null) {
-					OPPLTestCaseRunPanel.this.resultTreeModel.addReports(reports);
-					OPPLTestCaseRunPanel.this.summaryPanel.addReports(reports);
-				}
-			} catch (InterruptedException e) {
-				ProtegeApplication.getErrorLog().logError(e);
-			} catch (ExecutionException e) {
-				ProtegeApplication.getErrorLog().logError(e);
-			}
-		}
-	}
+        @Override
+        protected void done() {
+            try {
+                Map<OPPLTestCase, List<Report>> reports = this.get();
+                if (reports != null) {
+                    resultTreeModel.addReports(reports);
+                    summaryPanel.addReports(reports);
+                }
+            } catch (InterruptedException e) {
+                ProtegeApplication.getErrorLog().logError(e);
+            } catch (ExecutionException e) {
+                ProtegeApplication.getErrorLog().logError(e);
+            }
+        }
+    }
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -5802632215147728332L;
-	private final ReportTreeModel resultTreeModel = new ReportTreeModel();
-	private final JTree resultTree = new JTree(this.resultTreeModel);
-	private final SummaryPanel summaryPanel = new SummaryPanel();
-	private TreeModelListener treeModelLister = new TreeModelListener() {
-		public void treeStructureChanged(TreeModelEvent e) {
-			this.expandUnsucessfulNodes();
-		}
+    private static final long serialVersionUID = -5802632215147728332L;
+    private final ReportTreeModel resultTreeModel = new ReportTreeModel();
+    private final JTree resultTree = new JTree(resultTreeModel);
+    private final SummaryPanel summaryPanel = new SummaryPanel();
+    private TreeModelListener treeModelLister = new TreeModelListener() {
+        public void treeStructureChanged(TreeModelEvent e) {
+            expandUnsucessfulNodes();
+        }
 
-		public void treeNodesRemoved(TreeModelEvent e) {
-			this.expandUnsucessfulNodes();
-		}
+        public void treeNodesRemoved(TreeModelEvent e) {
+            expandUnsucessfulNodes();
+        }
 
-		public void treeNodesInserted(TreeModelEvent e) {
-			this.expandUnsucessfulNodes();
-		}
+        public void treeNodesInserted(TreeModelEvent e) {
+            expandUnsucessfulNodes();
+        }
 
-		public void treeNodesChanged(TreeModelEvent e) {
-			this.expandUnsucessfulNodes();
-		}
+        public void treeNodesChanged(TreeModelEvent e) {
+            expandUnsucessfulNodes();
+        }
 
-		private void expandUnsucessfulNodes() {
-			TreePath[] unsuccessfulTreePaths = OPPLTestCaseRunPanel.this.resultTreeModel.getUnsuccessfulTreePaths();
-			for (TreePath treePath : unsuccessfulTreePaths) {
-				OPPLTestCaseRunPanel.this.resultTree.expandPath(treePath);
-			}
-		}
-	};
+        private void expandUnsucessfulNodes() {
+            TreePath[] unsuccessfulTreePaths = resultTreeModel.getUnsuccessfulTreePaths();
+            for (TreePath treePath : unsuccessfulTreePaths) {
+                resultTree.expandPath(treePath);
+            }
+        }
+    };
 
-	public OPPLTestCaseRunPanel() {
-		this.initGUI();
-	}
+    public OPPLTestCaseRunPanel() {
+        initGUI();
+    }
 
-	private void initGUI() {
-		this.setLayout(new BorderLayout());
-		JScrollPane resultTreeScrollPane = ComponentFactory.createScrollPane(this.resultTree);
-		resultTreeScrollPane.setBorder(ComponentFactory.createTitledBorder("Test cases results"));
-		this.resultTree.setCellRenderer(new ReportTreeCellRenderer());
-		this.resultTreeModel.addTreeModelListener(this.treeModelLister);
-		this.add(this.summaryPanel, BorderLayout.NORTH);
-		this.add(resultTreeScrollPane, BorderLayout.CENTER);
-	}
+    private void initGUI() {
+        setLayout(new BorderLayout());
+        JScrollPane resultTreeScrollPane = ComponentFactory.createScrollPane(resultTree);
+        resultTreeScrollPane.setBorder(ComponentFactory
+                .createTitledBorder("Test cases results"));
+        resultTree.setCellRenderer(new ReportTreeCellRenderer());
+        resultTreeModel.addTreeModelListener(treeModelLister);
+        this.add(summaryPanel, BorderLayout.NORTH);
+        this.add(resultTreeScrollPane, BorderLayout.CENTER);
+    }
 
-	public void runTests(Collection<? extends OPPLTestCase> testCases) {
-		this.resultTreeModel.clear();
-		this.summaryPanel.clear();
-		Map<OPPLTestCase, List<Report>> emptyReports = new HashMap<OPPLTestCase, List<Report>>();
-		for (OPPLTestCase opplTestCase : testCases) {
-			emptyReports.put(opplTestCase, null);
-		}
-		this.summaryPanel.addReports(emptyReports);
-		for (OPPLTestCase opplTestCase : testCases) {
-			RunTest runTest = new RunTest(opplTestCase);
-			runTest.execute();
-		}
-	}
+    public void runTests(Collection<? extends OPPLTestCase> testCases) {
+        resultTreeModel.clear();
+        summaryPanel.clear();
+        Map<OPPLTestCase, List<Report>> emptyReports = new HashMap<OPPLTestCase, List<Report>>();
+        for (OPPLTestCase opplTestCase : testCases) {
+            emptyReports.put(opplTestCase, null);
+        }
+        summaryPanel.addReports(emptyReports);
+        for (OPPLTestCase opplTestCase : testCases) {
+            RunTest runTest = new RunTest(opplTestCase);
+            runTest.execute();
+        }
+    }
 }
