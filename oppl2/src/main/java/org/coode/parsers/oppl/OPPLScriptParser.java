@@ -263,8 +263,7 @@ public class OPPLScriptParser extends Parser {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLScript.g:77:1: statement
     // : ( variableDefinitions )? ( query )? actions -> ^( OPPL_STATEMENT (
     // variableDefinitions )? ( query )? actions ) ;
-    public final OPPLScriptParser.statement_return statement()
-            throws RecognitionException {
+    public final OPPLScriptParser.statement_return statement() {
         OPPLScriptParser.statement_return retval = new OPPLScriptParser.statement_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -351,8 +350,6 @@ public class OPPLScriptParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 79:41: -> ^( OPPL_STATEMENT ( variableDefinitions )? (
                     // query )? actions )

@@ -73,7 +73,7 @@ public class TestStringTemplates {
     };
 
     @Test
-    public void testTemplateNoPlaceHolder() throws OWLOntologyCreationException {
+    public void shouldTestTemplateNoPlaceHolder() throws OWLOntologyCreationException {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology emptyOntology = ontologyManager.createOntology();
         ParsingStrategy<String, OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
@@ -87,7 +87,7 @@ public class TestStringTemplates {
     }
 
     @Test
-    public void testTemplateOnePlaceHolder() throws OWLOntologyCreationException {
+    public void shouldTestTemplateOnePlaceHolder() throws OWLOntologyCreationException {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology emptyOntology = ontologyManager.createOntology();
         ParsingStrategy<String, OPPLScript> parserCreationStrategy = new SimpleOPPLParserCreationStrategy(
@@ -101,7 +101,7 @@ public class TestStringTemplates {
     }
 
     @Test
-    public void testTemplateOnePlaceHolderButNoData() {
+    public void shouldTestTemplateOnePlaceHolderButNoData() {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         try {
             OWLOntology emptyOntology = ontologyManager.createOntology();
@@ -120,7 +120,7 @@ public class TestStringTemplates {
     }
 
     @Test
-    public void testTestPropertyBasedStringTemplateOnePlaceholder()
+    public void shouldTestTestPropertyBasedStringTemplateOnePlaceholder()
             throws OWLOntologyCreationException {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology emptyOntology = ontologyManager.createOntology();
@@ -137,7 +137,7 @@ public class TestStringTemplates {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testTestPropertyBasedStringTemplateOnePlaceholderButNoData()
+    public void shouldTestTestPropertyBasedStringTemplateOnePlaceholderButNoData()
             throws OWLOntologyCreationException {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology emptyOntology = ontologyManager.createOntology();
@@ -152,7 +152,7 @@ public class TestStringTemplates {
     }
 
     @Test
-    public void testTestPropertyBasedStringTemplateOnePlaceholderUsedTwice()
+    public void shouldTestTestPropertyBasedStringTemplateOnePlaceholderUsedTwice()
             throws OWLOntologyCreationException {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology emptyOntology = ontologyManager.createOntology();

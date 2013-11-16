@@ -12,7 +12,6 @@ import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.RewriteRuleNodeStream;
-import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.antlr.runtime.tree.TreeNodeStream;
 import org.antlr.runtime.tree.TreeRewriter;
@@ -268,9 +267,7 @@ public class OPPLDefine extends TreeRewriter {
     public final OPPLDefine.bottomup_return bottomup() throws RecognitionException {
         OPPLDefine.bottomup_return retval = new OPPLDefine.bottomup_return();
         retval.start = input.LT(1);
-        OPPLSyntaxTree root_0 = null;
         OPPLSyntaxTree _first_0 = null;
-        OPPLSyntaxTree _last = null;
         OPPLDefine.variableDefinition_return variableDefinition1 = null;
         OPPLDefine.variableIRISymbolDefinition_return variableIRISymbolDefinition2 = null;
         try {
@@ -296,7 +293,7 @@ public class OPPLDefine extends TreeRewriter {
                 // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:80:5:
                 // variableDefinition
                 {
-                    _last = (OPPLSyntaxTree) input.LT(1);
+                    input.LT(1);
                     pushFollow(FOLLOW_variableDefinition_in_bottomup82);
                     variableDefinition1 = variableDefinition();
                     state._fsp--;
@@ -321,7 +318,7 @@ public class OPPLDefine extends TreeRewriter {
                 // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:81:7:
                 // variableIRISymbolDefinition
                 {
-                    _last = (OPPLSyntaxTree) input.LT(1);
+                    input.LT(1);
                     pushFollow(FOLLOW_variableIRISymbolDefinition_in_bottomup90);
                     variableIRISymbolDefinition2 = variableIRISymbolDefinition();
                     state._fsp--;
@@ -369,21 +366,15 @@ public class OPPLDefine extends TreeRewriter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:87:1:
     // variableDefinition : ^( ( INPUT_VARIABLE_DEFINITION |
     // GENERATED_VARIABLE_DEFINITION ) VARIABLE_NAME VARIABLE_TYPE ( . )* ) ;
-    public final OPPLDefine.variableDefinition_return variableDefinition()
-            throws RecognitionException {
+    public final OPPLDefine.variableDefinition_return variableDefinition() {
         OPPLDefine.variableDefinition_return retval = new OPPLDefine.variableDefinition_return();
         retval.start = input.LT(1);
-        OPPLSyntaxTree root_0 = null;
         OPPLSyntaxTree _first_0 = null;
         OPPLSyntaxTree _last = null;
         OPPLSyntaxTree set3 = null;
         OPPLSyntaxTree VARIABLE_NAME4 = null;
         OPPLSyntaxTree VARIABLE_TYPE5 = null;
         OPPLSyntaxTree wildcard6 = null;
-        OPPLSyntaxTree set3_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME4_tree = null;
-        OPPLSyntaxTree VARIABLE_TYPE5_tree = null;
-        OPPLSyntaxTree wildcard6_tree = null;
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:88:2: (
             // ^( ( INPUT_VARIABLE_DEFINITION | GENERATED_VARIABLE_DEFINITION )
@@ -527,7 +518,7 @@ public class OPPLDefine extends TreeRewriter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g:95:1:
     // variableIRISymbolDefinition : ^( IRI VARIABLE_NAME ) -> ^( IRI ) ;
     public final OPPLDefine.variableIRISymbolDefinition_return
-            variableIRISymbolDefinition() throws RecognitionException {
+            variableIRISymbolDefinition() {
         OPPLDefine.variableIRISymbolDefinition_return retval = new OPPLDefine.variableIRISymbolDefinition_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -535,8 +526,6 @@ public class OPPLDefine extends TreeRewriter {
         OPPLSyntaxTree _last = null;
         OPPLSyntaxTree IRI7 = null;
         OPPLSyntaxTree VARIABLE_NAME8 = null;
-        OPPLSyntaxTree IRI7_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME8_tree = null;
         RewriteRuleNodeStream stream_IRI = new RewriteRuleNodeStream(adaptor, "token IRI");
         RewriteRuleNodeStream stream_VARIABLE_NAME = new RewriteRuleNodeStream(adaptor,
                 "token VARIABLE_NAME");
@@ -549,7 +538,6 @@ public class OPPLDefine extends TreeRewriter {
                 _last = (OPPLSyntaxTree) input.LT(1);
                 {
                     OPPLSyntaxTree _save_last_1 = _last;
-                    OPPLSyntaxTree _first_1 = null;
                     _last = (OPPLSyntaxTree) input.LT(1);
                     IRI7 = (OPPLSyntaxTree) match(input, IRI,
                             FOLLOW_IRI_in_variableIRISymbolDefinition141);
@@ -596,8 +584,6 @@ public class OPPLDefine extends TreeRewriter {
                 // wildcard labels:
                 if (state.backtracking == 1) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 100:4: -> ^( IRI )
                     {

@@ -3,6 +3,7 @@
  */
 package org.coode.parsers.oppl.factory;
 
+import org.coode.oppl.OPPLShortFormProvider;
 import org.coode.parsers.BidirectionalShortFormProviderAdapter;
 import org.coode.parsers.DisposableOWLEntityChecker;
 import org.coode.parsers.DisposableShortFormEntityChecker;
@@ -31,11 +32,12 @@ public class SimpleSymbolTableFactory implements SymbolTableFactory<OPPLSymbolTa
     @Override
     public OPPLSymbolTable createSymbolTable() {
         BidirectionalShortFormProviderAdapter shortFormProvider = new BidirectionalShortFormProviderAdapter(
-                manager, manager.getOntologies(), new SimpleShortFormProvider());
+                manager, manager.getOntologies(), new OPPLShortFormProvider(
+                        new SimpleShortFormProvider()));
         DisposableOWLEntityChecker entityChecker = new DisposableShortFormEntityChecker(
                 shortFormProvider);
         ShortFormEntityRenderer entityRenderer = new ShortFormEntityRenderer(
-                new SimpleShortFormProvider());
+                new OPPLShortFormProvider(new SimpleShortFormProvider()));
         EntityFinder entityFinder = new EntityFinderImpl(manager,
                 new OWLEntityRenderingCacheImpl(manager, entityRenderer), false);
         return new OPPLSymbolTable(new OPPLScope(entityChecker, entityFinder,

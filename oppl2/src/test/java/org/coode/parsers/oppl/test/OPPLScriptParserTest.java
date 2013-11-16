@@ -48,84 +48,84 @@ public class OPPLScriptParserTest {
     };
 
     @Test
-    public void testSubClassQuery() {
+    public void shouldTestSubClassQuery() {
         String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testSubClassQueryNAryAxiom() {
+    public void shouldTestSubClassQueryNAryAxiom() {
         String query = "?x:CLASS SELECT DisjointClasses set(Thing, Nothing) BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testSubClassQueryNAryAxiomVariableValues() {
+    public void shouldTestSubClassQueryNAryAxiomVariableValues() {
         String query = "?x:CLASS SELECT DisjointClasses: set(?x.VALUES) BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testLowerCase() {
+    public void shouldTestLowerCase() {
         String query = "?x:CLASS=create(\"BLA\".toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testUpperCase() {
+    public void shouldTestUpperCase() {
         String query = "?x:CLASS=create(\"BLA\".toUpperCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testLowerCaseInConcat() {
+    public void shouldTestLowerCaseInConcat() {
         String query = "?x:CLASS, ?y:CLASS=create(?x.RENDERING +\"_\"+\"BLA\".toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testLowerCaseInConcatWithGroups() {
+    public void shouldTestLowerCaseInConcatWithGroups() {
         String query = "?x:CLASS = MATCH(\"(.+)Topping\"), ?y:CLASS=create(\"Topping_\" + ?x.GROUPS(1).toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testUpperCaseInConcatWithGroups() {
+    public void shouldTestUpperCaseInConcatWithGroups() {
         String query = "?x:CLASS = MATCH(\"(.+)Topping\"), ?y:CLASS=create(\"Topping_\" + ?x.GROUPS(1).toUpperCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testLowerCaseParenthesys() {
+    public void shouldTestLowerCaseParenthesys() {
         String query = "?x:CLASS=create((\"Bla\"+ \"Bla\").toLowerCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testUpperCaseInConcat() {
+    public void shouldTestUpperCaseInConcat() {
         String query = "?x:CLASS, ?y:CLASS=create(?x.RENDERING +\"_\"+\"BLA\".toUpperCase) SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testRegexpQuery() {
+    public void shouldTestRegexpQuery() {
         String query = "?x:CLASS = MATCH (\".*ing\") SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testGeneratedVariable() {
+    public void shouldTestGeneratedVariable() {
         String query = "?x:CLASS, ?y:OBJECTPROPERTY = MATCH(\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x subClassOf ?y some ?z BEGIN REMOVE ?x subClassOf ?y some ?z, ADD ?x subClassOf !hasFeature some (?feature and !hasValue some ?z) END;";
         ManchesterOWLSyntaxTree parsed = parse(query);
         assertNotNull(parsed);
@@ -137,23 +137,18 @@ public class OPPLScriptParserTest {
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
         OPPLScriptParser parser = new OPPLScriptParser(tokens, new SilentListener());
         parser.setTreeAdaptor(adaptor);
-        try {
-            RuleReturnScope r = parser.statement();
-            CommonTree tree = (CommonTree) r.getTree();
-            if (tree != null) {
-                CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
-                nodes.setTokenStream(tokens); // where to find tokens
-                nodes.setTreeAdaptor(adaptor);
-                nodes.reset();
-                // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-                ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-                        nodes);
-                simplify.setTreeAdaptor(adaptor);
-                simplify.downup(tree);
-            }
-            return (ManchesterOWLSyntaxTree) r.getTree();
-        } catch (RecognitionException e) {
-            throw new RuntimeException(e);
+        RuleReturnScope r = parser.statement();
+        CommonTree tree = (CommonTree) r.getTree();
+        if (tree != null) {
+            CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
+            nodes.setTokenStream(tokens); // where to find tokens
+            nodes.setTreeAdaptor(adaptor);
+            nodes.reset();
+            // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
+            ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+            simplify.setTreeAdaptor(adaptor);
+            simplify.downup(tree);
         }
+        return (ManchesterOWLSyntaxTree) r.getTree();
     }
 }

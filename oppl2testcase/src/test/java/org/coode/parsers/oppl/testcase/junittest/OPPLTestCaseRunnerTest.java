@@ -140,7 +140,7 @@ public class OPPLTestCaseRunnerTest {
     };
 
     @Test
-    public void testCount() {
+    public void shouldTestCount() {
         String testCase = "testOneAssertion; ?x:CLASS SELECT ?x subClassOf Pizza ASSERT count(?x) = 1; ?x count is not 1;";
         ParserFactory parserFactory = new ParserFactory(pizza,
                 pizza.getOWLOntologyManager());
@@ -151,7 +151,7 @@ public class OPPLTestCaseRunnerTest {
 
     @Ignore
     @Test
-    public void testCountInference() {
+    public void shouldTestCountInference() {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf InterestingPizza WHERE ?x!=InterestingPizza, FAIL ?x equivalentTo Nothing  ASSERT count(?x) = 20; ?x count is not 20;";
         JFactFactory reasonerFactory = new JFactFactory();
         OWLReasoner reasoner = reasonerFactory.createReasoner(pizza);
@@ -168,7 +168,7 @@ public class OPPLTestCaseRunnerTest {
     }
 
     @Test
-    public void testCountShouldFail() {
+    public void shouldTestCountShouldFail() {
         String testCase = "testOneAssertion; ?x:CLASS SELECT ?x subClassOf Pizza ASSERT count(?x) != 1; ?x count is 1;";
         ParserFactory parserFactory = new ParserFactory(pizza,
                 pizza.getOWLOntologyManager());
@@ -178,7 +178,7 @@ public class OPPLTestCaseRunnerTest {
     }
 
     @Test
-    public void testConfigurationNotOK() {
+    public void shouldTestConfigurationNotOK() {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Pizza ASSERT count(?x) != 1; ?x count is 1;";
         ParserFactory parserFactory = new ParserFactory(pizza,
                 pizza.getOWLOntologyManager());

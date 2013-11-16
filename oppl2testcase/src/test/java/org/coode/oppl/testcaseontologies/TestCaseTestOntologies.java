@@ -1,17 +1,10 @@
 package org.coode.oppl.testcaseontologies;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.io.StringDocumentTarget;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAnnotationSubject;
@@ -21,21 +14,12 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLDataHasValue;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
-import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
-import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
-import org.semanticweb.owlapi.model.OWLDataRange;
-import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
-import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
-import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
@@ -43,7 +27,6 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectComplementOf;
-import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
 import org.semanticweb.owlapi.model.OWLObjectHasValue;
 import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
 import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
@@ -56,14 +39,9 @@ import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
-import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
-import org.semanticweb.owlapi.vocab.OWL2Datatype;
-import org.semanticweb.owlapi.vocab.XSDVocabulary;
 
 public class TestCaseTestOntologies {
     private static void declare(OWLOntology o, OWLEntity... entities) {
@@ -89,7 +67,6 @@ public class TestCaseTestOntologies {
     private static List<OWLAxiom> label(OWLEntity e, String... lines) {
         List<OWLAxiom> axioms = new ArrayList<OWLAxiom>();
         axioms.add(dec(e));
-        Set<OWLAnnotation> labels = new HashSet<OWLAnnotation>();
         for (String l : lines) {
             String language = "";
             int index = l.indexOf("@");
@@ -100,27 +77,6 @@ public class TestCaseTestOntologies {
             axioms.add(ann(RDFSLabel(), e.getIRI(), Literal(l, language)));
         }
         return axioms;
-    }
-
-    private void same(OWLOntology o1, OWLOntology o2) throws OWLOntologyStorageException {
-        Set<OWLAxiom> common = new HashSet<OWLAxiom>(o1.getAxioms());
-        common.retainAll(o2.getAxioms());
-        o1.getOWLOntologyManager().removeAxioms(o1, common);
-        o2.getOWLOntologyManager().removeAxioms(o2, common);
-        if (o1.getAxiomCount() == 0 && o2.getAxiomCount() == 0) {
-            return;
-        }
-        StringDocumentTarget t1 = new StringDocumentTarget();
-        StringDocumentTarget t2 = new StringDocumentTarget();
-        o1.getOWLOntologyManager().saveOntology(o1, t1);
-        o2.getOWLOntologyManager().saveOntology(o2, t2);
-        assertEquals(
-                t1.toString().replace("file:/C:/Tools/Alignement/align-4.0/temp.owl",
-                        "urn:temp"), t2.toString());
-    }
-
-    private static OWLDatatype string() {
-        return OWL2Datatype.XSD_STRING.getDatatype(dataFactory);
     }
 
     public static OWLOntology pizza(OWLOntologyManager m) {
@@ -739,14 +695,6 @@ public class TestCaseTestOntologies {
     }
 
     private static final OWLDataFactory dataFactory = OWLManager.getOWLDataFactory();
-    private static final OWLDatatype any = dataFactory
-            .getOWLDatatype(XSDVocabulary.ANY_URI.getIRI());
-    private static final OWLDatatype date = dataFactory.getOWLDatatype(XSDVocabulary.DATE
-            .getIRI());
-
-    private static OWLImportsDeclaration ImportsDeclaration(IRI i) {
-        return dataFactory.getOWLImportsDeclaration(i);
-    }
 
     private static OWLClass Class(String i) {
         return dataFactory.getOWLClass(IRI(i));
@@ -760,20 +708,8 @@ public class TestCaseTestOntologies {
         return dataFactory.getOWLThing();
     }
 
-    private static OWLDatatype Integer() {
-        return dataFactory.getIntegerOWLDatatype();
-    }
-
     private static OWLObjectProperty object(String iri) {
         return dataFactory.getOWLObjectProperty(IRI(iri));
-    }
-
-    private static OWLDataProperty DataProperty(String iri) {
-        return dataFactory.getOWLDataProperty(IRI(iri));
-    }
-
-    private static OWLAnnotationProperty ann(String iri) {
-        return dataFactory.getOWLAnnotationProperty(IRI(iri));
     }
 
     private static OWLNamedIndividual NamedIndividual(String i) {
@@ -816,27 +752,8 @@ public class TestCaseTestOntologies {
         return dataFactory.getOWLObjectMinCardinality(cardinality, pe, ce);
     }
 
-    private static OWLObjectMinCardinality min(int cardinality,
-            OWLObjectPropertyExpression pe) {
-        return dataFactory.getOWLObjectMinCardinality(cardinality, pe, OWLThing());
-    }
-
-    private static OWLObjectExactCardinality exact(int cardinality,
-            OWLObjectPropertyExpression pe) {
-        return dataFactory.getOWLObjectExactCardinality(cardinality, pe, OWLThing());
-    }
-
     private static OWLObjectOneOf one(OWLIndividual... individuals) {
         return dataFactory.getOWLObjectOneOf(individuals);
-    }
-
-    private static OWLDataSomeValuesFrom some(OWLDataPropertyExpression pe,
-            OWLDataRange dr) {
-        return dataFactory.getOWLDataSomeValuesFrom(pe, dr);
-    }
-
-    private static OWLDataHasValue has(OWLDataPropertyExpression pe, OWLLiteral literal) {
-        return dataFactory.getOWLDataHasValue(pe, literal);
     }
 
     private static OWLSubClassOfAxiom sub(OWLClassExpression subClass,
@@ -844,19 +761,8 @@ public class TestCaseTestOntologies {
         return dataFactory.getOWLSubClassOfAxiom(subClass, superClass);
     }
 
-    private static OWLSubClassOfAxiom sub(OWLClassExpression subClass,
-            OWLClassExpression superClass, Set<OWLAnnotation> a) {
-        return dataFactory.getOWLSubClassOfAxiom(subClass, superClass, a);
-    }
-
     private static OWLEquivalentClassesAxiom eq(OWLClassExpression... classExpressions) {
         return dataFactory.getOWLEquivalentClassesAxiom(classExpressions);
-    }
-
-    private static OWLEquivalentClassesAxiom eq(Set<OWLAnnotation> a,
-            OWLClassExpression... classExpressions) {
-        return dataFactory.getOWLEquivalentClassesAxiom(new HashSet<OWLClassExpression>(
-                Arrays.asList(classExpressions)), a);
     }
 
     private static OWLDisjointClassesAxiom disjoint(
@@ -895,29 +801,9 @@ public class TestCaseTestOntologies {
         return dataFactory.getOWLInverseFunctionalObjectPropertyAxiom(property);
     }
 
-    private static OWLSymmetricObjectPropertyAxiom symmetric(
-            OWLObjectPropertyExpression property) {
-        return dataFactory.getOWLSymmetricObjectPropertyAxiom(property);
-    }
-
     private static OWLTransitiveObjectPropertyAxiom transitive(
             OWLObjectPropertyExpression property) {
         return dataFactory.getOWLTransitiveObjectPropertyAxiom(property);
-    }
-
-    private static OWLSubDataPropertyOfAxiom sub(OWLDataPropertyExpression subProperty,
-            OWLDataPropertyExpression superProperty) {
-        return dataFactory.getOWLSubDataPropertyOfAxiom(subProperty, superProperty);
-    }
-
-    private static OWLDataPropertyDomainAxiom domain(OWLDataPropertyExpression property,
-            OWLClassExpression domain) {
-        return dataFactory.getOWLDataPropertyDomainAxiom(property, domain);
-    }
-
-    private static OWLDataPropertyRangeAxiom range(OWLDataPropertyExpression property,
-            OWLDataRange range) {
-        return dataFactory.getOWLDataPropertyRangeAxiom(property, range);
     }
 
     private static OWLDifferentIndividualsAxiom diff(OWLIndividual... individuals) {
@@ -934,25 +820,12 @@ public class TestCaseTestOntologies {
         return dataFactory.getOWLAnnotationAssertionAxiom(property, subject, value);
     }
 
-    private static OWLAnnotation ann(OWLAnnotationProperty property,
-            OWLAnnotationValue value) {
-        return dataFactory.getOWLAnnotation(property, value);
-    }
-
     private static IRI IRI(String iri) {
         return IRI.create(iri);
     }
 
     private static OWLLiteral Literal(String literal, String lang) {
         return dataFactory.getOWLLiteral(literal, lang);
-    }
-
-    private static OWLLiteral Literal(String literal, OWLDatatype type) {
-        return dataFactory.getOWLLiteral(literal, type);
-    }
-
-    private static OWLLiteral Literal(String literal) {
-        return dataFactory.getOWLLiteral(literal);
     }
 
     public static OWLOntology pizza;

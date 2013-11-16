@@ -22,6 +22,7 @@ import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.TreeAdaptor;
+import org.coode.oppl.OPPLShortFormProvider;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.MOWLLexer;
 import org.coode.parsers.ManchesterOWLSyntaxParser;
@@ -433,8 +434,8 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
                 // }
                 // };
                 AutoCompletionMatcher matcher = new ManchesterOWLSyntaxSimpleAutoCompletionMatcher(
-                        new ShortFormEntityRenderer(new SimpleShortFormProvider()),
-                        manager);
+                        new ShortFormEntityRenderer(new OPPLShortFormProvider(
+                                new SimpleShortFormProvider())), manager);
                 autoCompleter = new AutoCompleter(axiomValidator, matcher);
             }
         }

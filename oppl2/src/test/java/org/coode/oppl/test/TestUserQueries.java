@@ -30,11 +30,12 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
+@SuppressWarnings("javadoc")
 public class TestUserQueries {
     private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
 
     @Test
-    public void testLongIRIInQuery() throws OWLOntologyCreationException {
+    public void shouldTestLongIRIInQuery() throws OWLOntologyCreationException {
         String string = "SELECT <http://www.cs.manchester.ac.uk/owl/bla#foo> label \"luigi\" BEGIN ADD Thing subClassOf Thing END;";
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
@@ -57,7 +58,7 @@ public class TestUserQueries {
     }
 
     @Test
-    public void testSimpleQuery() throws OWLOntologyCreationException {
+    public void shouldTestSimpleQuery() throws OWLOntologyCreationException {
         String string = "?y:CLASS, ?z:CLASS SELECT ?y subClassOf q some ?z WHERE ?y!=Nothing BEGIN ADD ?y subClassOf p some ?y END;";
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
@@ -87,7 +88,7 @@ public class TestUserQueries {
     }
 
     @Test
-    public void testSimpleTwoQueries() throws OWLOntologyCreationException {
+    public void shouldTestSimpleTwoQueries() throws OWLOntologyCreationException {
         String string = "?x:CLASS, ?y:CLASS, ?z:CLASS SELECT ?x subClassOf p some ?y, ?y subClassOf q some ?z WHERE ?x !=Nothing BEGIN ADD ?x subClassOf p some ?y END;";
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
@@ -117,7 +118,7 @@ public class TestUserQueries {
     }
 
     @Test
-    public void testAnnotationQuery() throws OWLOntologyCreationException {
+    public void shouldTestAnnotationQuery() throws OWLOntologyCreationException {
         String string = "?a:CLASS SELECT ?a.IRI label \"luigi\" BEGIN ADD ?a subClassOf Thing END;";
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
@@ -140,7 +141,8 @@ public class TestUserQueries {
     }
 
     @Test
-    public void testAnnotationPropertyVariableQuery() throws OWLOntologyCreationException {
+    public void shouldTestAnnotationPropertyVariableQuery()
+            throws OWLOntologyCreationException {
         String string = "?a:CLASS,?p:ANNOTATIONPROPERTY SELECT ?a.IRI ?p \"luigi\" BEGIN ADD ?a subClassOf Thing END;";
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
@@ -163,7 +165,8 @@ public class TestUserQueries {
     }
 
     @Test
-    public void testAnnotationInConstraintQuery() throws OWLOntologyCreationException {
+    public void shouldTestAnnotationInConstraintQuery()
+            throws OWLOntologyCreationException {
         String string = "?a:CLASS SELECT ?a subClassOf Thing WHERE FAIL ?a.IRI label \"pippo\" BEGIN ADD ?a subClassOf Thing END;";
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
@@ -188,7 +191,8 @@ public class TestUserQueries {
     }
 
     @Test
-    public void testAnnotationQueryWithReasoner() throws OWLOntologyCreationException {
+    public void shouldTestAnnotationQueryWithReasoner()
+            throws OWLOntologyCreationException {
         String string = "?a:CLASS SELECT ?a.IRI label \"luigi\" BEGIN ADD ?a subClassOf Thing END;";
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
@@ -213,7 +217,7 @@ public class TestUserQueries {
     }
 
     @Test
-    public void testSequentialUnion() throws OWLOntologyCreationException {
+    public void shouldTestSequentialUnion() {
         String string = "?a:CLASS, ?f:CLASS, ?g:CLASS SELECT ?f subClassOf Union_Mapping some ?g, ?g subClassOf has_DPWS_Output some ?a WHERE ?f !=Nothing BEGIN ADD ?f subClassOf Union_Mapping some ?g END;";
         OWLOntology ontology = sequentialUnion;
         JFactFactory factory = new JFactFactory();

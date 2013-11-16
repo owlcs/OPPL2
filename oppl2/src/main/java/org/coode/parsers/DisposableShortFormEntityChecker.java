@@ -1,5 +1,6 @@
 package org.coode.parsers;
 
+import org.coode.oppl.OPPLShortFormProvider;
 import org.semanticweb.owlapi.expression.OWLEntityChecker;
 import org.semanticweb.owlapi.expression.ShortFormEntityChecker;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
@@ -28,7 +29,7 @@ public class DisposableShortFormEntityChecker implements DisposableOWLEntityChec
         }
         delegate = owlEntityChecker;
         shrotFormProviderAdaptor = new BidirectionalShortFormProviderAdapter(
-                new SimpleShortFormProvider());
+                new OPPLShortFormProvider(new SimpleShortFormProvider()));
     }
 
     @Override

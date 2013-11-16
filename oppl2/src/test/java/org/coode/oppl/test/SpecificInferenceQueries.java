@@ -47,23 +47,28 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
+@SuppressWarnings("javadoc")
 public class SpecificInferenceQueries {
     private final static String TEST_NS = "http://www.co-ode.org/opp/test#";
     private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
     private final ErrorListener errorListener = new ErrorListener() {
+        @Override
         public void unrecognisedSymbol(CommonTree t) {
             fail("Unrecognised symbol " + t);
         }
 
+        @Override
         public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
             fail(e.getMessage());
         }
 
+        @Override
         public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
             fail(t.getMessage() + " at line " + line + " position " + charPosInLine
                     + " length " + length);
         }
 
+        @Override
         public void recognitionException(RecognitionException e, String... tokenNames) {
             StringBuilder out = new StringBuilder();
             Formatter formatter = new Formatter(out, Locale.getDefault());
@@ -73,10 +78,12 @@ public class SpecificInferenceQueries {
             fail(e.getMessage() + out.toString());
         }
 
+        @Override
         public void recognitionException(RecognitionException e) {
             fail(e.getMessage());
         }
 
+        @Override
         public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
             StringBuilder out = new StringBuilder();
             Formatter formatter = new Formatter(out, Locale.getDefault());
@@ -87,6 +94,7 @@ public class SpecificInferenceQueries {
             fail(out.toString());
         }
 
+        @Override
         public void
                 incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
             StringBuilder out = new StringBuilder();
@@ -96,6 +104,7 @@ public class SpecificInferenceQueries {
             fail(out.toString());
         }
 
+        @Override
         public void illegalToken(CommonTree t, String message) {
             StringBuilder out = new StringBuilder();
             Formatter formatter = new Formatter(out, Locale.getDefault());
@@ -106,7 +115,7 @@ public class SpecificInferenceQueries {
     };
 
     @Test
-    public void testRedundantSubClasses() throws OWLOntologyCreationException {
+    public void shouldTestRedundantSubClasses() throws OWLOntologyCreationException {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = ontologyManager.createOntology();
         OWLDataFactory dataFactory = ontologyManager.getOWLDataFactory();
@@ -172,7 +181,7 @@ public class SpecificInferenceQueries {
     }
 
     @Test
-    public void testTransitiveSubClassClosure() throws OWLOntologyCreationException {
+    public void shouldTestTransitiveSubClassClosure() throws OWLOntologyCreationException {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology testOntology = ontologyManager.createOntology(IRI.create(TEST_NS));
         OWLClass a = ontologyManager.getOWLDataFactory().getOWLClass(

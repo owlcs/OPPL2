@@ -46,49 +46,49 @@ public class OPPLPatternsParserTest {
     };
 
     @Test
-    public void testFood() throws RecognitionException {
+    public void shouldTestFood() {
         String patternString = "?x:CLASS, ?y:CLASS, ?forbiddenContent:CLASS = createUnion(?x.VALUES) BEGIN ADD $thisClass equivalentTo contains only (not ?forbiddenContent) END; A ?x free stuff; RETURN $thisClass";
         OPPLSyntaxTree parsed = parse(patternString);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testFoodLowerCase() throws RecognitionException {
+    public void shouldTestFoodLowerCase() {
         String patternString = "?x:CLASS, ?y:CLASS, ?z:CLASS= create(\"LOWERCASED_\" +?x.RENDERING.toLowerCase), ?forbiddenContent:CLASS = createUnion(?z.VALUES) BEGIN ADD $thisClass equivalentTo contains only (not ?forbiddenContent) END; A ?x free stuff; RETURN $thisClass";
         OPPLSyntaxTree parsed = parse(patternString);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testMenu() throws RecognitionException {
+    public void shouldTestMenu() {
         String patternString = "?x:CLASS[subClassOf Food] BEGIN ADD $thisClass subClassOf Menu, ADD $thisClass subClassOf contains only (Course and contains only ($FreeFromPattern(?x))) END; A ?x free Menu";
         OPPLSyntaxTree parsed = parse(patternString);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testPizza() throws RecognitionException {
+    public void shouldTestPizza() {
         String patternString = "?base:CLASS,?topping:CLASS, ?allToppings:CLASS = createUnion(?topping.VALUES) BEGIN ADD $thisClass subClassOf Pizza, ADD $thisClass subClassOf hasTopping some ?topping,  ADD $thisClass subClassOf hasTopping only ?allToppings, ADD $thisClass subClassOf hasBase some ?base  END; A pizza with ?base base and ?topping toppings";
         OPPLSyntaxTree parsed = parse(patternString);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testDOLCEInformationRealization() throws RecognitionException {
+    public void shouldTestDOLCEInformationRealization() {
         String patternString = "?informationObject:CLASS, ?informationRealization:CLASS, ?realizationProperty:OBJECTPROPERTY BEGIN ADD ?informationRealization subClassOf InformationRealization, ADD ?informationObject subClassOf InformationObject, ADD ?realizationProperty subPropertyOf realizes, ADD ?informationRealization subClassOf PhysicalObject and ?realizationProperty some ?InformationObject END;Information Realization Pattern: ?informationRealization ?realizationProperty ?informationObject";
         OPPLSyntaxTree parsed = parse(patternString);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testDOLCEPersonRoleTimeInterval() throws RecognitionException {
+    public void shouldTestDOLCEPersonRoleTimeInterval() {
         String patternString = "?person:CLASS, ?role:CLASS, ?timeInterval:CLASS BEGIN ADD $thisClass subClassOf Situation, ADD $thisClass subClassOf isSettingFor some ?person, ADD $thisClass subClassOf isSettingFor some ?role, ADD $thisClass subClassOf isSettingFor some ?timeInterval END; Situation where ?person play the role ?role during the time interval ?timeInterval";
         OPPLSyntaxTree parsed = parse(patternString);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testParseThisClassAtomic() throws RecognitionException {
+    public void shouldTestParseThisClassAtomic() {
         String input = "$thisClass";
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
@@ -101,7 +101,7 @@ public class OPPLPatternsParserTest {
     }
 
     @Test
-    public void testParseAtomic() throws RecognitionException {
+    public void shouldTestParseAtomic() {
         String input = "Thing";
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
@@ -114,7 +114,7 @@ public class OPPLPatternsParserTest {
     }
 
     @Test
-    public void testParseThisClassExpression() throws RecognitionException {
+    public void shouldTestParseThisClassExpression() throws RecognitionException {
         String input = "$thisClass";
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
@@ -127,7 +127,7 @@ public class OPPLPatternsParserTest {
     }
 
     @Test
-    public void testParseUnaryVariable() throws RecognitionException {
+    public void shouldTestParseUnaryVariable() throws RecognitionException {
         String input = "?x";
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
@@ -140,7 +140,7 @@ public class OPPLPatternsParserTest {
     }
 
     @Test
-    public void testParseUnaryThisClass() throws RecognitionException {
+    public void shouldTestParseUnaryThisClass() throws RecognitionException {
         String input = "$thisClass";
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
@@ -153,7 +153,7 @@ public class OPPLPatternsParserTest {
     }
 
     @Test
-    public void testParseThisClassAtomicSubClassAxiom() throws RecognitionException {
+    public void shouldTestParseThisClassAtomicSubClassAxiom() throws RecognitionException {
         String input = "$thisClass subClassOf Thing";
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
@@ -166,7 +166,7 @@ public class OPPLPatternsParserTest {
     }
 
     @Test
-    public void testParseExpression() throws RecognitionException {
+    public void shouldTestParseExpression() throws RecognitionException {
         String input = "Thing";
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
@@ -179,7 +179,7 @@ public class OPPLPatternsParserTest {
     }
 
     @Test
-    public void testParsePatternReferenceAtomic() throws RecognitionException {
+    public void shouldTestParsePatternReferenceAtomic() {
         String input = "$p(Thing,Nothing)";
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
@@ -191,7 +191,7 @@ public class OPPLPatternsParserTest {
         CommonTree tree = (CommonTree) r.getTree();
     }
 
-    protected OPPLSyntaxTree parse(String input) throws RecognitionException {
+    protected OPPLSyntaxTree parse(String input) {
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLPatternLexer lexer = new OPPLPatternLexer(antlrStringStream);
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);

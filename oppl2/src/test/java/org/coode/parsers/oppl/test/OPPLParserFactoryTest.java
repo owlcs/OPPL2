@@ -14,7 +14,6 @@ import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.coode.parsers.test.JUnitTestErrorListener;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
@@ -29,7 +28,7 @@ public class OPPLParserFactoryTest {
     }
 
     @Test
-    public void testNewEntityCreationInline() throws OWLOntologyCreationException {
+    public void shouldTestNewEntityCreationInline() {
         String opplString = "?A:CLASS SELECT ?A SubClassOf 'Heart disease (disorder)' BEGIN ADD ?A SubClassOf !Candidate END;";
         AnnotationBasedSymbolTableFactory annotationBasedSymbolTableFactory = new AnnotationBasedSymbolTableFactory(
                 entire.getOWLOntologyManager(), Arrays.asList(OWLRDFVocabulary.RDFS_LABEL

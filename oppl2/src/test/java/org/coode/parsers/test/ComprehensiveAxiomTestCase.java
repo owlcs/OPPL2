@@ -82,7 +82,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testSubClass() {
+    public void shouldTestSubClass() {
         symbolTable = getOPPLSymbolTable(managerForPizzaAndSyntax);
         String input = "NamedPizza subClassOf Pizza and hasTopping min 2";
         ManchesterOWLSyntaxTree parsed = parse(input, symbolTable);
@@ -99,7 +99,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testClassAssertion() {
+    public void shouldTestClassAssertion() {
         ManchesterOWLSyntaxTree parsed = parse(
                 "America types NamedPizza or not (hasTopping some Pizza)", symbolTable);
         Type parseType = parsed.getEvalType();
@@ -114,7 +114,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testObjectPropertyAssertion() {
+    public void shouldTestObjectPropertyAssertion() {
         ManchesterOWLSyntaxTree parsed = parse("America  hasTopping Italy", symbolTable);
         Type parseType = parsed.getEvalType();
         assertTrue("parse type " + parseType,
@@ -128,7 +128,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testOWLKeys() {
+    public void shouldTestOWLKeys() {
         ManchesterOWLSyntaxTree parsed = parse("Pizza HasKey hasTopping , hasBase",
                 symbolTable);
         Type parseType = parsed.getEvalType();
@@ -141,7 +141,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testDataPropertyAssertion() {
+    public void shouldTestDataPropertyAssertion() {
         symbolTable = getOPPLSymbolTable(managerForPizzaAndSyntax);
         ManchesterOWLSyntaxTree parsed = parse(
                 "America  aDataProperty \" Monica dei topolissimi \"^int", symbolTable);
@@ -152,7 +152,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testEquivalentClass() {
+    public void shouldTestEquivalentClass() {
         ManchesterOWLSyntaxTree parsed = parse(
                 "NamedPizza or not (hasTopping some Pizza) equivalentTo Pizza and  NamedPizza",
                 symbolTable);
@@ -176,7 +176,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testEquivalentClassEscapedEntities() {
+    public void shouldTestEquivalentClassEscapedEntities() {
         ManchesterOWLSyntaxTree parsed = parse(
                 "NamedPizza or not ('hasTopping' some Pizza) equivalentTo Pizza and  NamedPizza",
                 symbolTable);
@@ -192,7 +192,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testDisjointClasses() {
+    public void shouldTestDisjointClasses() {
         ManchesterOWLSyntaxTree parsed = parse(
                 "NamedPizza or not (hasTopping some Pizza) DisjointWith Pizza and  NamedPizza",
                 symbolTable);
@@ -202,7 +202,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testDisjointObjectProperties() {
+    public void shouldTestDisjointObjectProperties() {
         ManchesterOWLSyntaxTree parsed = parse("hasTopping  DisjointWith INV (hasBase)",
                 symbolTable);
         Type parseType = parsed.getEvalType();
@@ -212,7 +212,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testDisjointDataProperties() {
+    public void shouldTestDisjointDataProperties() {
         symbolTable = getOPPLSymbolTable(managerForPizzaAndSyntax);
         ManchesterOWLSyntaxTree parsed = parse(
                 "aDataProperty  DisjointWith aDataProperty", symbolTable);
@@ -223,7 +223,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testEquivalentObjectProperties() {
+    public void shouldTestEquivalentObjectProperties() {
         ManchesterOWLSyntaxTree parsed = parse(
                 "INV (hasTopping) equivalentTo INV (hasBase)", symbolTable);
         Type parseType = parsed.getEvalType();
@@ -233,7 +233,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testEquivalentDataProperties() {
+    public void shouldTestEquivalentDataProperties() {
         symbolTable = getOPPLSymbolTable(managerForPizzaAndSyntax);
         ManchesterOWLSyntaxTree parsed = parse(
                 "aDataProperty equivalentTo aDataProperty", symbolTable);
@@ -244,7 +244,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testSubObjectProperty() {
+    public void shouldTestSubObjectProperty() {
         ManchesterOWLSyntaxTree parsed = parse("hasTopping subPropertyOf hasBase",
                 symbolTable);
         Type parseType = parsed.getEvalType();
@@ -254,7 +254,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testSubDataProperty() {
+    public void shouldTestSubDataProperty() {
         symbolTable = getOPPLSymbolTable(managerForPizzaAndSyntax);
         ManchesterOWLSyntaxTree parsed = parse(
                 "aDataProperty subPropertyOf aDataProperty", symbolTable);
@@ -264,7 +264,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testDomainAxiom() {
+    public void shouldTestDomainAxiom() {
         symbolTable = getOPPLSymbolTable(managerForPizzaAndSyntax);
         ManchesterOWLSyntaxTree parsed = parse("hasTopping Domain Pizza and Thing",
                 symbolTable);
@@ -280,7 +280,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testRangeAxiom() {
+    public void shouldTestRangeAxiom() {
         symbolTable = getOPPLSymbolTable(managerForPizzaAndSyntax);
         ManchesterOWLSyntaxTree parsed = parse("hasTopping Range Pizza and Thing",
                 symbolTable);
@@ -296,7 +296,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testPropertyChainSubProperty() {
+    public void shouldTestPropertyChainSubProperty() {
         ManchesterOWLSyntaxTree parsed = parse(
                 "hasTopping o hasBase subPropertyOf hasBase", symbolTable);
         Type parseType = parsed.getEvalType();
@@ -306,7 +306,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testSameIndividuals() {
+    public void shouldTestSameIndividuals() {
         ManchesterOWLSyntaxTree parsed = parse("America  sameAs Italy", symbolTable);
         Type parseType = parsed.getEvalType();
         assertTrue("parse type " + parseType, parseType == OWLAxiomType.SAME_INDIVIDUAL);
@@ -314,7 +314,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testDifferentIndividuals() {
+    public void shouldTestDifferentIndividuals() {
         ManchesterOWLSyntaxTree parsed = parse("America  differentFrom Italy",
                 symbolTable);
         Type parseType = parsed.getEvalType();
@@ -324,7 +324,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testFunctionalObjectProperty() {
+    public void shouldTestFunctionalObjectProperty() {
         ManchesterOWLSyntaxTree parsed = parse("Functional hasBase", symbolTable);
         Type parseType = parsed.getEvalType();
         assertTrue("parse type " + parseType,
@@ -333,7 +333,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testFunctionalDataProperty() {
+    public void shouldTestFunctionalDataProperty() {
         symbolTable = getOPPLSymbolTable(managerForPizzaAndSyntax);
         ManchesterOWLSyntaxTree parsed = parse("Functional aDataProperty", symbolTable);
         Type parseType = parsed.getEvalType();
@@ -343,7 +343,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testInverseFunctionalObjectProperty() {
+    public void shouldTestInverseFunctionalObjectProperty() {
         ManchesterOWLSyntaxTree parsed = parse("InverseFunctional hasTopping",
                 symbolTable);
         Type parseType = parsed.getEvalType();
@@ -353,7 +353,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testInverseObjectProperties() {
+    public void shouldTestInverseObjectProperties() {
         ManchesterOWLSyntaxTree parsed = parse("hasTopping InverseOf hasTopping",
                 symbolTable);
         Type parseType = parsed.getEvalType();
@@ -363,7 +363,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testIrreflexiveObjectProperty() {
+    public void shouldTestIrreflexiveObjectProperty() {
         ManchesterOWLSyntaxTree parsed = parse("Irreflexive hasTopping", symbolTable);
         Type parseType = parsed.getEvalType();
         assertTrue("parse type " + parseType,
@@ -372,7 +372,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testReflexiveObjectProperty() {
+    public void shouldTestReflexiveObjectProperty() {
         ManchesterOWLSyntaxTree parsed = parse("Reflexive hasTopping", symbolTable);
         Type parseType = parsed.getEvalType();
         assertTrue("parse type " + parseType,
@@ -381,7 +381,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testSymmetricObjectProperty() {
+    public void shouldTestSymmetricObjectProperty() {
         ManchesterOWLSyntaxTree parsed = parse("Symmetric hasTopping", symbolTable);
         Type parseType = parsed.getEvalType();
         assertTrue("parse type " + parseType,
@@ -390,7 +390,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testTransitiveObjectProperty() {
+    public void shouldTestTransitiveObjectProperty() {
         ManchesterOWLSyntaxTree parsed = parse("Transitive hasTopping", symbolTable);
         Type parseType = parsed.getEvalType();
         assertTrue("parse type " + parseType,
@@ -399,7 +399,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testNegativeObjectPropertyAssertion() {
+    public void shouldTestNegativeObjectPropertyAssertion() {
         ManchesterOWLSyntaxTree parsed = parse("not America hasTopping Italy",
                 symbolTable);
         Type parseType = parsed.getEvalType();
@@ -409,7 +409,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testDataRange() {
+    public void shouldTestDataRange() {
         symbolTable = getOPPLSymbolTable(managerForPizzaAndSyntax);
         ManchesterOWLSyntaxTree parsed = parse(
                 "Thing subClassOf aDataProperty some int [ > \"1\"]", symbolTable);
@@ -419,7 +419,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testDataRangeConjuntion() {
+    public void shouldTestDataRangeConjuntion() {
         symbolTable = getOPPLSymbolTable(managerForPizzaAndSyntax);
         ManchesterOWLSyntaxTree parsed = parse(
                 "Thing subClassOf aDataProperty some (int [ > \"1\"] and int[>\"3\"])",
@@ -430,7 +430,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testDataRangeDisjuntion() {
+    public void shouldTestDataRangeDisjuntion() {
         symbolTable = getOPPLSymbolTable(managerForPizzaAndSyntax);
         ManchesterOWLSyntaxTree parsed = parse(
                 "Thing subClassOf aDataProperty some (int [ > \"1\"] or int[>\"3\"])",
@@ -441,7 +441,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testAnnotationAssertionAxiom() {
+    public void shouldTestAnnotationAssertionAxiom() {
         ManchesterOWLSyntaxTree parsed = parse("<blah#Luigi> label \"boh\"", symbolTable);
         Type parseType = parsed.getEvalType();
         assertTrue("parse type " + parseType,
@@ -455,7 +455,7 @@ public class ComprehensiveAxiomTestCase {
     }
 
     @Test
-    public void testAnnotationAssertionWithLanguageTagAxiom() {
+    public void shouldTestAnnotationAssertionWithLanguageTagAxiom() {
         ManchesterOWLSyntaxTree parsed = parse("<blah#Luigi> label \"bello\"@it",
                 symbolTable);
         Type parseType = parsed.getEvalType();

@@ -65,7 +65,8 @@ public class OPPLFactory implements OPPLAbstractFactory {
 
     private OWLEntityChecker defaultEntityChecker() {
         BidirectionalShortFormProviderAdapter bshp = new BidirectionalShortFormProviderAdapter(
-                ontologyManager.getOntologies(), new SimpleShortFormProvider());
+                ontologyManager.getOntologies(), new OPPLShortFormProvider(
+                        new SimpleShortFormProvider()));
         // XXX fix for missing Thing
         bshp.add(ontologyManager.getOWLDataFactory().getOWLThing());
         bshp.add(ontologyManager.getOWLDataFactory().getOWLNothing());
@@ -133,7 +134,8 @@ public class OPPLFactory implements OPPLAbstractFactory {
     @Override
     public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs) {
         ArgCheck.checkNullArgument("The constraint system", cs);
-        return new ManchesterSyntaxRenderer(new SimpleShortFormProvider());
+        return new ManchesterSyntaxRenderer(new OPPLShortFormProvider(
+                new SimpleShortFormProvider()));
     }
 
     @Override

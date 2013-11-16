@@ -31,7 +31,7 @@ public class CorrectOPPLLintTestCase extends TestCase {
         }
     };
 
-    public void testTransitivePropertyHierarchy() throws Exception {
+    @Test public void shouldTestTransitivePropertyHierarchy() throws Exception {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = ontologyManager
                 .createOntology(IRI
@@ -43,7 +43,7 @@ public class CorrectOPPLLintTestCase extends TestCase {
         assertNotNull(parsed);
     }
 
-    public void testNoActions() throws Exception {
+    @Test public void shouldTestNoActions() throws Exception {
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = ontologyManager
                 .createOntology(IRI

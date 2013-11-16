@@ -40,8 +40,6 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
@@ -52,12 +50,12 @@ public class SearchTest {
     final RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
 
     @Before
-    public void setUp() throws OWLOntologyCreationException {
+    public void setUp() {
         ontology = pizza;
     }
 
     @Test
-    public void testIntegerSearchTree() {
+    public void shouldTestIntegerSearchTree() {
         final Map<Integer, List<Integer>> childrenLists = new HashMap<Integer, List<Integer>>();
         childrenLists.put(2, Arrays.asList(1, 3, 4, 5));
         childrenLists.put(1, Arrays.asList(2, 3));
@@ -95,7 +93,7 @@ public class SearchTest {
     }
 
     @Test
-    public void testOWLAxiomSearch() throws OWLOntologyStorageException {
+    public void shouldTestOWLAxiomSearch() {
         OWLClass namedPizzaClass = df.getOWLClass(IRI
                 .create("http://pizza.com/pizza.owl#NamedPizza"));
         OWLClass pizzaClass = df.getOWLClass(IRI
@@ -156,7 +154,7 @@ public class SearchTest {
     }
 
     @Test
-    public void testOWLAxiomSearchTree() {
+    public void shouldTestOWLAxiomSearchTree() {
         String opplString = "?x:CLASS, ?y:CLASS SELECT ASSERTED ?x subClassOf ?y BEGIN ADD ?x subClassOf ?y END;";
         final OPPLScript opplScript = parseScript(ontology, opplString);
         OWLAxiom start = opplScript.getQuery().getAssertedAxioms().iterator().next();

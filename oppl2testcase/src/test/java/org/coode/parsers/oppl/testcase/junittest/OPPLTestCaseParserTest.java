@@ -112,98 +112,98 @@ public class OPPLTestCaseParserTest {
     }
 
     @Test
-    public void testOneAssertion() {
+    public void shouldTestOneAssertion() {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x = Thing";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testOneAssertionWithMessage() {
+    public void shouldTestOneAssertionWithMessage() {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x = Thing; ?x is not equal to Thing";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testNotEqualAssertionWithMessage() {
+    public void shouldTestNotEqualAssertionWithMessage() {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x != Thing; ?x is equal to Thing;";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testCountAssertionWithMessage() {
+    public void shouldTestCountAssertionWithMessage() {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT count(?x) = 2; ?x values count is not 2;";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testContainsAssertionWithMessage() {
+    public void shouldTestContainsAssertionWithMessage() {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x CONTAINS Thing; ?x values do not contain Thing;";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testContainsAssertionWithMessageWithMoreThanObject() {
+    public void shouldTestContainsAssertionWithMessageWithMoreThanObject() {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x CONTAINS Thing, Nothing; ?x values do not contain Thing and Nothing;";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testVariableEqualAssertionWithMessage() {
+    public void shouldTestVariableEqualAssertionWithMessage() {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT ?x = ?y; ?x values are not equal to ?y;";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testCountStarWithMessage() {
+    public void shouldTestCountStarWithMessage() {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) = 1; The total count of bindings is not 1";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testLessThanWithMessage() {
+    public void shouldTestLessThanWithMessage() {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) < 1; The total count of bindings is greater than or equal to 1";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testLessThanEqualToWithMessage() {
+    public void shouldTestLessThanEqualToWithMessage() {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) <= 1; The total count of bindings is greater than 1";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testGreaterThanEqualToWithMessage() {
+    public void shouldTestGreaterThanEqualToWithMessage() {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) >= 1; The total count of bindings is less than 1";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testGreaterThanWithMessage() {
+    public void shouldTestGreaterThanWithMessage() {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) > 1; The total count of bindings is less than or equal to 1";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
     }
 
     @Test
-    public void testBindingWithMessage() {
+    public void shouldTestBindingWithMessage() {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(?x=Thing, ?y=Thing) > 0; The total count of bindings with ?x=Thing and ?y=Thing is less or equal than 0";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);
     }
 
     @Test
-    public void test2BindingsWithMessages() {
+    public void shouldTest2BindingsWithMessages() {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(?x=Thing, ?y=Thing) > 0; The total count of bindings with ?x=Thing and ?y=Thing is less or equal than 0 ASSERT count(?x=Nothing, ?y=Nothing) > 0; The total count of bindings with ?x=Thing and ?y=Thing is less or equal than 0";
         OPPLSyntaxTree parsed = parse(testCase);
         assertNotNull(parsed);

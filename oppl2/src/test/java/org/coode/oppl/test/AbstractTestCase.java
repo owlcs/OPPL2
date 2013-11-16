@@ -4,10 +4,8 @@ import static org.junit.Assert.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.coode.oppl.ChangeExtractor;
@@ -33,7 +31,6 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
 public abstract class AbstractTestCase {
-    private final Map<String, OWLOntology> loadedOntologies = new HashMap<String, OWLOntology>();
     private static final int TOLERANCE = 3;
     private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
     // ontology manager
@@ -47,7 +44,7 @@ public abstract class AbstractTestCase {
     // exceptions
     protected boolean longStackTrace = true;
 
-    protected void execute(OPPLScript script, OWLOntology ontology, int expected) {
+    protected void execute(OPPLScript script, int expected) {
         try {
             ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
             List<OWLAxiomChange> changes = changeExtractor.visit(script);
@@ -82,7 +79,7 @@ public abstract class AbstractTestCase {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         lastStackTrace = new StringWriter();
         p = new PrintWriter(lastStackTrace);
     }

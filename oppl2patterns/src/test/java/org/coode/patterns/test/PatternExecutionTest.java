@@ -38,7 +38,7 @@ import org.semanticweb.owlapi.model.SetOntologyID;
 
 public class PatternExecutionTest {
     @Test
-    public void testPatternReference() {
+    public void shouldTestPatternReference() {
         OWLAnnotationProperty patternAnnotationProperty = df.getOWLAnnotationProperty(IRI
                 .create("http://www.co-ode.org/patterns#Free"));
         AddOntologyAnnotation addFoodPattern = new AddOntologyAnnotation(
@@ -117,7 +117,7 @@ public class PatternExecutionTest {
     }
 
     @Test
-    public void testPatternReferenceMultipleValuesPerArgument() {
+    public void shouldTestPatternReferenceMultipleValuesPerArgument() {
         OWLAnnotationProperty patternAnnotationProperty = df.getOWLAnnotationProperty(IRI
                 .create("http://www.co-ode.org/patterns#Free"));
         AddOntologyAnnotation addFoodPattern = new AddOntologyAnnotation(
@@ -192,7 +192,7 @@ public class PatternExecutionTest {
     }
 
     @Test
-    public void testPatternReferenceVariableValuesPerArgument() {
+    public void shouldTestPatternReferenceVariableValuesPerArgument() {
         OWLAnnotationProperty patternAnnotationProperty = df.getOWLAnnotationProperty(IRI
                 .create("http://www.co-ode.org/patterns#Free"));
         AddOntologyAnnotation addFoodPattern = new AddOntologyAnnotation(
@@ -273,7 +273,7 @@ public class PatternExecutionTest {
     }
 
     @Test
-    public void testComplexExpressionConjuntionGeneratedVariablePattern() {
+    public void shouldTestComplexExpressionConjuntionGeneratedVariablePattern() {
         pizza.getOWLOntologyManager().addAxiom(
                 pizza,
                 df.getOWLDeclarationAxiom(df.getOWLObjectProperty(IRI
@@ -351,7 +351,7 @@ public class PatternExecutionTest {
     }
 
     @Test
-    public void testNoVariables() {
+    public void shouldTestNoVariables() {
         String pattern = "BEGIN ADD FishTopping equivalentTo FruitTopping END;";
         ParserFactory pf = new ParserFactory(pizza, pizza.getOWLOntologyManager());
         OPPLPatternParser parser = pf.build(new SystemErrorEcho());
@@ -399,7 +399,7 @@ public class PatternExecutionTest {
     }
 
     @Test
-    public void testPizzaMultipleValuedVariables() {
+    public void shouldTestPizzaMultipleValuedVariables() {
         String pattern = "?pizza:CLASS, "
                 + "?topping:CLASS, "
                 + "?toppingRestriction:CLASS = hasTopping some ?topping, "

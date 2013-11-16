@@ -29,7 +29,7 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
 public class NoResultsAxiomSolvabilityTest {
     @Test
-    public void testNoResultsSubClassAxiom() throws Exception {
+    public void shouldTestNoResultsSubClassAxiom() throws Exception {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
         OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
@@ -76,7 +76,7 @@ public class NoResultsAxiomSolvabilityTest {
     }
 
     @Test
-    public void testUnsolvableSubClassAxiom() throws Exception {
+    public void shouldTestUnsolvableSubClassAxiom() throws Exception {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
         OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);

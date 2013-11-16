@@ -21,9 +21,10 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
+@SuppressWarnings("javadoc")
 public class VariableExtractorSortVariablesTest {
     @Test
-    public void testVariableExtractor() throws Exception {
+    public void shouldTestVariableExtractor() throws Exception {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
         OWLDataFactory dataFactory = manager.getOWLDataFactory();

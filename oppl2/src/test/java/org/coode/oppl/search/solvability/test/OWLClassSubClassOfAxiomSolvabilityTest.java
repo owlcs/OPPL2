@@ -38,7 +38,7 @@ import uk.ac.manchester.cs.jfact.JFactFactory;
 @SuppressWarnings("javadoc")
 public class OWLClassSubClassOfAxiomSolvabilityTest {
     @Test
-    public void testSolvableSubClassAxiom() throws Exception {
+    public void shouldTestSolvableSubClassAxiom() throws Exception {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
         OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
@@ -84,7 +84,7 @@ public class OWLClassSubClassOfAxiomSolvabilityTest {
     }
 
     @Test
-    public void testInferredSolvableSubClassAxiom() throws Exception {
+    public void shouldTestInferredSolvableSubClassAxiom() throws Exception {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
         OWLReasonerFactory reasonerFactory = new JFactFactory();
@@ -127,7 +127,7 @@ public class OWLClassSubClassOfAxiomSolvabilityTest {
     }
 
     @Test
-    public void testSolvableSubClassAxiomMultipleValues() throws Exception {
+    public void shouldTestSolvableSubClassAxiomMultipleValues() throws Exception {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
         OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
@@ -177,7 +177,7 @@ public class OWLClassSubClassOfAxiomSolvabilityTest {
     }
 
     @Test
-    public void testSolvableSubClassAxiomComplexExpression() throws Exception {
+    public void shouldTestSolvableSubClassAxiomComplexExpression() throws Exception {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
         OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
@@ -224,7 +224,7 @@ public class OWLClassSubClassOfAxiomSolvabilityTest {
     }
 
     @Test
-    public void testUnSolvableSubClassAxiomComplexExpression() throws Exception {
+    public void shouldTestUnSolvableSubClassAxiomComplexExpression() throws Exception {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
         OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
@@ -272,7 +272,7 @@ public class OWLClassSubClassOfAxiomSolvabilityTest {
     }
 
     @Test
-    public void testUnsolvableSubClassAxiom() throws Exception {
+    public void shouldTestUnsolvableSubClassAxiom() throws Exception {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
         OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);

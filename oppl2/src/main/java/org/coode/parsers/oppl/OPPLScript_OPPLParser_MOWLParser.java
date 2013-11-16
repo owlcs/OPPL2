@@ -583,7 +583,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     int alt3 = 2;
                     int LA3_0 = input.LA(1);
                     if (LA3_0 == COMMA) {
-                        int LA3_2 = input.LA(2);
+                        input.LA(2);
                         if (synpred7_MOWLParser()) {
                             alt3 = 1;
                         }
@@ -2531,7 +2531,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     int alt9 = 2;
                     int LA9_0 = input.LA(1);
                     if (LA9_0 == OR) {
-                        int LA9_2 = input.LA(2);
+                        input.LA(2);
                         if (synpred27_MOWLParser()) {
                             alt9 = 1;
                         }
@@ -2650,7 +2650,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     int alt10 = 2;
                     int LA10_0 = input.LA(1);
                     if (LA10_0 == AND) {
-                        int LA10_2 = input.LA(2);
+                        input.LA(2);
                         if (synpred28_MOWLParser()) {
                             alt10 = 1;
                         }
@@ -3206,7 +3206,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "dataRange"
     // MOWLParser.g:167:1: dataRange : IDENTIFIER OPEN_SQUARE_BRACKET
@@ -3360,7 +3360,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "dataRangeFacet"
     // MOWLParser.g:172:1: dataRangeFacet : ( LESS_THAN constant -> ^( LESS_THAN
@@ -3626,7 +3626,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "qualifiedRestriction"
     // MOWLParser.g:185:1: qualifiedRestriction : ( options {backtrack=true; } :
@@ -3944,7 +3944,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "propertyExpression"
     // MOWLParser.g:196:1: propertyExpression : ( atomic -> ^( atomic ) |
@@ -4076,7 +4076,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "cardinalityRestriction"
     // MOWLParser.g:201:1: cardinalityRestriction options {backtrack=true; } :
@@ -4214,7 +4214,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "restrictionKind"
     // MOWLParser.g:206:1: restrictionKind : ( MIN -> ^( MIN ) | MAX -> ^( MAX )
@@ -4384,7 +4384,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "oneOf"
     // MOWLParser.g:213:1: oneOf : OPEN_CURLY_BRACES atomic ( COMMA atomic )*
@@ -4523,7 +4523,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "valueRestriction"
     // MOWLParser.g:217:1: valueRestriction : propertyExpression VALUE value ->
@@ -4621,7 +4621,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "value"
     // MOWLParser.g:220:1: value : ( atomic -> ^( atomic ) | constant -> ^(
@@ -4677,9 +4677,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 221:14: -> ^( atomic )
                         {
@@ -4716,9 +4713,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 222:16: -> ^( constant )
                         {
@@ -4756,7 +4750,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "constant"
     // MOWLParser.g:225:1: constant : constantValue= DBLQUOTE ( AT language=
@@ -4865,8 +4859,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             adaptor, "token language", language);
                     RewriteRuleTokenStream stream_type = new RewriteRuleTokenStream(
                             adaptor, "token type", type);
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 225:93: -> ^( CONSTANT $constantValue ( ^( AT $language)
                     // )? ( $type)? )
@@ -4983,15 +4975,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $ANTLR end synpred7_MOWLParser
     // $ANTLR start synpred11_MOWLParser
     public final void synpred11_MOWLParser_fragment() throws RecognitionException {
-        OPPLScript_OPPLParser_MOWLParser.expression_return lhs = null;
-        OPPLScript_OPPLParser_MOWLParser.expression_return superClass = null;
         // MOWLParser.g:103:2: (lhs= expression SUBCLASS_OF superClass=
         // expression )
         // MOWLParser.g:103:2: lhs= expression SUBCLASS_OF superClass=
         // expression
         {
             pushFollow(FOLLOW_expression_in_synpred11_MOWLParser639);
-            lhs = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5001,7 +4991,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return;
             }
             pushFollow(FOLLOW_expression_in_synpred11_MOWLParser648);
-            superClass = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5012,13 +5002,11 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $ANTLR end synpred11_MOWLParser
     // $ANTLR start synpred12_MOWLParser
     public final void synpred12_MOWLParser_fragment() throws RecognitionException {
-        OPPLScript_OPPLParser_MOWLParser.expression_return lhs = null;
-        OPPLScript_OPPLParser_MOWLParser.expression_return rhs = null;
         // MOWLParser.g:104:11: (lhs= expression EQUIVALENT_TO rhs= expression )
         // MOWLParser.g:104:11: lhs= expression EQUIVALENT_TO rhs= expression
         {
             pushFollow(FOLLOW_expression_in_synpred12_MOWLParser686);
-            lhs = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5028,7 +5016,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return;
             }
             pushFollow(FOLLOW_expression_in_synpred12_MOWLParser694);
-            rhs = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5039,15 +5027,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $ANTLR end synpred12_MOWLParser
     // $ANTLR start synpred13_MOWLParser
     public final void synpred13_MOWLParser_fragment() throws RecognitionException {
-        OPPLScript_OPPLParser_MOWLParser.expression_return lhs = null;
-        OPPLScript_OPPLParser_MOWLParser.expression_return disjoint = null;
         // MOWLParser.g:105:11: (lhs= expression DISJOINT_WITH disjoint=
         // expression )
         // MOWLParser.g:105:11: lhs= expression DISJOINT_WITH disjoint=
         // expression
         {
             pushFollow(FOLLOW_expression_in_synpred13_MOWLParser731);
-            lhs = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5057,7 +5043,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return;
             }
             pushFollow(FOLLOW_expression_in_synpred13_MOWLParser739);
-            disjoint = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5068,15 +5054,13 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $ANTLR end synpred13_MOWLParser
     // $ANTLR start synpred14_MOWLParser
     public final void synpred14_MOWLParser_fragment() throws RecognitionException {
-        OPPLScript_OPPLParser_MOWLParser.expression_return lhs = null;
-        OPPLScript_OPPLParser_MOWLParser.propertyExpression_return superProperty = null;
         // MOWLParser.g:106:11: (lhs= expression SUB_PROPERTY_OF superProperty=
         // propertyExpression )
         // MOWLParser.g:106:11: lhs= expression SUB_PROPERTY_OF superProperty=
         // propertyExpression
         {
             pushFollow(FOLLOW_expression_in_synpred14_MOWLParser776);
-            lhs = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5087,7 +5071,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return;
             }
             pushFollow(FOLLOW_propertyExpression_in_synpred14_MOWLParser784);
-            superProperty = propertyExpression();
+            propertyExpression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5098,13 +5082,11 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $ANTLR end synpred14_MOWLParser
     // $ANTLR start synpred15_MOWLParser
     public final void synpred15_MOWLParser_fragment() throws RecognitionException {
-        OPPLScript_OPPLParser.atomic_return lhsID = null;
-        OPPLScript_OPPLParser.atomic_return rhsAtomic = null;
         // MOWLParser.g:107:11: (lhsID= atomic INVERSE_OF rhsAtomic= atomic )
         // MOWLParser.g:107:11: lhsID= atomic INVERSE_OF rhsAtomic= atomic
         {
             pushFollow(FOLLOW_atomic_in_synpred15_MOWLParser821);
-            lhsID = gOPPLParser.atomic();
+            gOPPLParser.atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5114,7 +5096,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return;
             }
             pushFollow(FOLLOW_atomic_in_synpred15_MOWLParser829);
-            rhsAtomic = gOPPLParser.atomic();
+            gOPPLParser.atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5125,13 +5107,11 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $ANTLR end synpred15_MOWLParser
     // $ANTLR start synpred16_MOWLParser
     public final void synpred16_MOWLParser_fragment() throws RecognitionException {
-        OPPLScript_OPPLParser.atomic_return lhsID = null;
-        OPPLScript_OPPLParser.atomic_return rhsID = null;
         // MOWLParser.g:108:3: (lhsID= atomic SAME_AS rhsID= atomic )
         // MOWLParser.g:108:3: lhsID= atomic SAME_AS rhsID= atomic
         {
             pushFollow(FOLLOW_atomic_in_synpred16_MOWLParser860);
-            lhsID = gOPPLParser.atomic();
+            gOPPLParser.atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5141,7 +5121,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return;
             }
             pushFollow(FOLLOW_atomic_in_synpred16_MOWLParser869);
-            rhsID = gOPPLParser.atomic();
+            gOPPLParser.atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5152,13 +5132,11 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $ANTLR end synpred16_MOWLParser
     // $ANTLR start synpred17_MOWLParser
     public final void synpred17_MOWLParser_fragment() throws RecognitionException {
-        OPPLScript_OPPLParser.atomic_return lhsID = null;
-        OPPLScript_OPPLParser.atomic_return rhsID = null;
         // MOWLParser.g:109:11: (lhsID= atomic DIFFERENT_FROM rhsID= atomic )
         // MOWLParser.g:109:11: lhsID= atomic DIFFERENT_FROM rhsID= atomic
         {
             pushFollow(FOLLOW_atomic_in_synpred17_MOWLParser907);
-            lhsID = gOPPLParser.atomic();
+            gOPPLParser.atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5168,7 +5146,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return;
             }
             pushFollow(FOLLOW_atomic_in_synpred17_MOWLParser916);
-            rhsID = gOPPLParser.atomic();
+            gOPPLParser.atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5179,12 +5157,11 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $ANTLR end synpred17_MOWLParser
     // $ANTLR start synpred18_MOWLParser
     public final void synpred18_MOWLParser_fragment() throws RecognitionException {
-        OPPLScript_OPPLParser.atomic_return lhsID = null;
         // MOWLParser.g:110:11: (lhsID= atomic DOMAIN expression )
         // MOWLParser.g:110:11: lhsID= atomic DOMAIN expression
         {
             pushFollow(FOLLOW_atomic_in_synpred18_MOWLParser953);
-            lhsID = gOPPLParser.atomic();
+            gOPPLParser.atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5274,7 +5251,6 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $ANTLR start synpred30_MOWLParser
     public final void synpred30_MOWLParser_fragment() throws RecognitionException {
         List list_rest = null;
-        OPPLScript_OPPLParser_MOWLParser.propertyExpression_return head = null;
         RuleReturnScope rest = null;
         // MOWLParser.g:157:4: (head= propertyExpression ( COMPOSITION rest+=
         // propertyExpression )+ )
@@ -5282,7 +5258,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         // propertyExpression )+
         {
             pushFollow(FOLLOW_propertyExpression_in_synpred30_MOWLParser1411);
-            head = propertyExpression();
+            propertyExpression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6000,13 +5976,14 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         }
 
         @Override
-        public int specialStateTransition(int s, IntStream _input)
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
             TokenStream input = (TokenStream) _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    int LA6_1 = input.LA(1);
+                    input.LA(1);
                     int index6_1 = input.index();
                     input.rewind();
                     s = -1;
@@ -6035,7 +6012,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 1:
-                    int LA6_2 = input.LA(1);
+                    input.LA(1);
                     int index6_2 = input.index();
                     input.rewind();
                     s = -1;
@@ -6064,7 +6041,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 2:
-                    int LA6_3 = input.LA(1);
+                    input.LA(1);
                     int index6_3 = input.index();
                     input.rewind();
                     s = -1;
@@ -6093,7 +6070,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 3:
-                    int LA6_4 = input.LA(1);
+                    input.LA(1);
                     int index6_4 = input.index();
                     input.rewind();
                     s = -1;
@@ -6122,7 +6099,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 4:
-                    int LA6_5 = input.LA(1);
+                    input.LA(1);
                     int index6_5 = input.index();
                     input.rewind();
                     s = -1;
@@ -6141,7 +6118,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 5:
-                    int LA6_6 = input.LA(1);
+                    input.LA(1);
                     int index6_6 = input.index();
                     input.rewind();
                     s = -1;
@@ -6160,7 +6137,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 6:
-                    int LA6_7 = input.LA(1);
+                    input.LA(1);
                     int index6_7 = input.index();
                     input.rewind();
                     s = -1;
@@ -6179,7 +6156,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 7:
-                    int LA6_8 = input.LA(1);
+                    input.LA(1);
                     int index6_8 = input.index();
                     input.rewind();
                     s = -1;
@@ -6198,7 +6175,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 8:
-                    int LA6_9 = input.LA(1);
+                    input.LA(1);
                     int index6_9 = input.index();
                     input.rewind();
                     s = -1;
@@ -6278,7 +6255,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
             int _s = s;
             switch (s) {
                 case 0:
-                    int LA8_5 = input.LA(1);
+                    input.LA(1);
                     int index8_5 = input.index();
                     input.rewind();
                     s = -1;
@@ -6348,13 +6325,14 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         }
 
         @Override
-        public int specialStateTransition(int s, IntStream _input)
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
             TokenStream input = (TokenStream) _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    int LA12_1 = input.LA(1);
+                    input.LA(1);
                     int index12_1 = input.index();
                     input.rewind();
                     s = -1;
@@ -6373,7 +6351,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 1:
-                    int LA12_2 = input.LA(1);
+                    input.LA(1);
                     int index12_2 = input.index();
                     input.rewind();
                     s = -1;
@@ -6390,7 +6368,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 2:
-                    int LA12_3 = input.LA(1);
+                    input.LA(1);
                     int index12_3 = input.index();
                     input.rewind();
                     s = -1;
@@ -6407,7 +6385,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 3:
-                    int LA12_4 = input.LA(1);
+                    input.LA(1);
                     int index12_4 = input.index();
                     input.rewind();
                     s = -1;
@@ -6424,7 +6402,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 4:
-                    int LA12_5 = input.LA(1);
+                    input.LA(1);
                     int index12_5 = input.index();
                     input.rewind();
                     s = -1;
@@ -6439,7 +6417,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 5:
-                    int LA12_6 = input.LA(1);
+                    input.LA(1);
                     int index12_6 = input.index();
                     input.rewind();
                     s = -1;
@@ -6509,13 +6487,14 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         }
 
         @Override
-        public int specialStateTransition(int s, IntStream _input)
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
             TokenStream input = (TokenStream) _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    int LA16_1 = input.LA(1);
+                    input.LA(1);
                     int index16_1 = input.index();
                     input.rewind();
                     s = -1;
@@ -6534,7 +6513,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 1:
-                    int LA16_2 = input.LA(1);
+                    input.LA(1);
                     int index16_2 = input.index();
                     input.rewind();
                     s = -1;
@@ -6553,7 +6532,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 2:
-                    int LA16_3 = input.LA(1);
+                    input.LA(1);
                     int index16_3 = input.index();
                     input.rewind();
                     s = -1;
@@ -6572,7 +6551,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 3:
-                    int LA16_4 = input.LA(1);
+                    input.LA(1);
                     int index16_4 = input.index();
                     input.rewind();
                     s = -1;
@@ -6591,7 +6570,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     }
                     break;
                 case 4:
-                    int LA16_5 = input.LA(1);
+                    input.LA(1);
                     int index16_5 = input.index();
                     input.rewind();
                     s = -1;

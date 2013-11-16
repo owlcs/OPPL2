@@ -183,7 +183,7 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void testOneAssertion() throws OWLOntologyCreationException {
+    public void shouldTestOneAssertion() throws OWLOntologyCreationException {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x = Thing";
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = ontologyManager.createOntology();
@@ -192,7 +192,7 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void testOneAssertionWithMessage() throws OWLOntologyCreationException {
+    public void shouldTestOneAssertionWithMessage() throws OWLOntologyCreationException {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x = Thing; ?x is not equal to Thing";
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = ontologyManager.createOntology();
@@ -201,7 +201,8 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void testNotEqualAssertionWithMessage() throws OWLOntologyCreationException {
+    public void shouldTestNotEqualAssertionWithMessage()
+            throws OWLOntologyCreationException {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x != Thing; ?x is equal to Thing;";
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = ontologyManager.createOntology();
@@ -210,7 +211,7 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void testCountAssertionWithMessage() throws OWLOntologyCreationException {
+    public void shouldTestCountAssertionWithMessage() throws OWLOntologyCreationException {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT count(?x) = 2; ?x values count is not 2;";
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = ontologyManager.createOntology();
@@ -219,7 +220,8 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void testContainsAssertionWithMessage() throws OWLOntologyCreationException {
+    public void shouldTestContainsAssertionWithMessage()
+            throws OWLOntologyCreationException {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x CONTAINS Thing; ?x values do not contain Thing;";
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = ontologyManager.createOntology();
@@ -228,7 +230,7 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void testContainsAssertionWithMessageWithMoreThanOneOWLObject()
+    public void shouldTestContainsAssertionWithMessageWithMoreThanOneOWLObject()
             throws OWLOntologyCreationException {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS SELECT ?x subClassOf Thing ASSERT ?x CONTAINS Thing, Nothing; ?x values do not contain Thing and Nothing;";
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
@@ -238,7 +240,7 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void testVariableEqualAssertionWithMessage()
+    public void shouldTestVariableEqualAssertionWithMessage()
             throws OWLOntologyCreationException {
         String testCase = "testOneAssertion; INFERENCE; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT ?x = ?y; ?x values are not equal to ?y;";
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
@@ -248,7 +250,8 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void testCountStarAssertionWithMessage() throws OWLOntologyCreationException {
+    public void shouldTestCountStarAssertionWithMessage()
+            throws OWLOntologyCreationException {
         String testCase = "testOneAssertion;  ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*)= 1; The total count of bindings is not 1;";
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = ontologyManager.createOntology();
@@ -257,7 +260,8 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void testLessThanAssertionWithMessage() throws OWLOntologyCreationException {
+    public void shouldTestLessThanAssertionWithMessage()
+            throws OWLOntologyCreationException {
         String testCase = "testOneAssertion;  ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*)< 1; The total count of bindings is greater than or equal to 1;";
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = ontologyManager.createOntology();
@@ -266,7 +270,7 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void testLessThanEqualToAssertionWithMessage()
+    public void shouldTestLessThanEqualToAssertionWithMessage()
             throws OWLOntologyCreationException {
         String testCase = "testOneAssertion;  ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*)<= 1; The total count of bindings is greater than 1;";
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
@@ -276,7 +280,7 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void testGreaterThanEqualToAssertionWithMessage()
+    public void shouldTestGreaterThanEqualToAssertionWithMessage()
             throws OWLOntologyCreationException {
         String testCase = "testOneAssertion;  ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*) >= 1; The total count of bindings is Less than 1;";
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
@@ -286,7 +290,8 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void testGreaterThanAssertionWithMessage() throws OWLOntologyCreationException {
+    public void shouldTestGreaterThanAssertionWithMessage()
+            throws OWLOntologyCreationException {
         String testCase = "testOneAssertion;  ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(*)> 1; The total count of bindings is Less than or equal to 1;";
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = ontologyManager.createOntology();
@@ -295,7 +300,7 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void testBindingWithMessage() throws OWLOntologyCreationException {
+    public void shouldTestBindingWithMessage() throws OWLOntologyCreationException {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(?x=Thing, ?y=Thing) > 0; The total count of bindings with ?x=Thing and ?y=Thing is less or equal than 0";
         OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology;
@@ -305,7 +310,7 @@ public class OPPLTestCaseTypesTest {
     }
 
     @Test
-    public void test2BindingsWithOutMessages() {
+    public void shouldTest2BindingsWithOutMessages() {
         String testCase = "testOneAssertion; ?x:CLASS, ?y:CLASS SELECT ?x subClassOf ?y ASSERT count(?x=Pizza, ?y=PizzaBase) > 0 ASSERT count(?x=Thing, ?y=Nothing) > 0";
         OPPLTestCase parsed = parse(testCase, pizza, pizza.getOWLOntologyManager());
         assertNotNull(parsed);

@@ -38,7 +38,6 @@ import org.coode.parsers.oppl.patterns.OPPLPatternsReferenceDefine;
 import org.coode.parsers.oppl.patterns.OPPLPatternsSymbolTable;
 import org.coode.parsers.oppl.patterns.OPPLPatternsTypes;
 import org.coode.parsers.oppl.patterns.factory.SimpleSymbolTableFactory;
-import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.OPPLPatternParser.PatternReferenceResolver;
 import org.coode.patterns.PatternConstraintSystem;
 import org.coode.patterns.PatternModel;
@@ -50,13 +49,13 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
 /** Test for the AST generation for OPPL
  * 
  * @author Luigi Iannone */
+@SuppressWarnings("javadoc")
 public class OPPLPatternsTypesParserTest {
     private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
         @Override
@@ -78,14 +77,13 @@ public class OPPLPatternsTypesParserTest {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
-    private OPPLPatternsSymbolTable symtab;
     private final ErrorListener listener = new SystemErrorEcho();
-    private AbstractPatternModelFactory patternModelFactory;
     JFactFactory factory = new JFactFactory();
 
     /** @return reference resolver */
     public static PatternReferenceResolver getSimplePatternReferenceResolver() {
         return new PatternReferenceResolver() {
+            @Override
             public void resolvePattern(OPPLSyntaxTree reference, String patternName,
                     PatternConstraintSystem constraintSystem,
                     OPPLPatternsSymbolTable symbolTable, List<Object>... args) {
@@ -96,8 +94,7 @@ public class OPPLPatternsTypesParserTest {
     }
 
     @Test
-    public void testFood() {
-        OWLOntology referencedPatternOntology;
+    public void shouldTestFood() {
         String patternString = "?x:CLASS, ?y:CLASS, ?forbiddenContent:CLASS = createUnion(?x.VALUES) BEGIN ADD $thisClass equivalentTo contains only (not ?forbiddenContent) END; A ?x free stuff; RETURN $thisClass";
         OPPLSyntaxTree parsed = parse(patternString, food);
         assertNotNull(parsed);
@@ -107,14 +104,17 @@ public class OPPLPatternsTypesParserTest {
                 "?forbiddenContent");
         assertNotNull(variable);
         boolean isGenerated = variable.accept(new VariableVisitorEx<Boolean>() {
+            @Override
             public <P extends OWLObject> Boolean visit(GeneratedVariable<P> v) {
                 return true;
             }
 
+            @Override
             public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
                 return false;
             }
 
+            @Override
             public <P extends OWLObject> Boolean visit(
                     RegexpGeneratedVariable<P> regExpGenerated) {
                 return false;
@@ -124,18 +124,15 @@ public class OPPLPatternsTypesParserTest {
     }
 
     @Test
-    public void testMenu() {
+    public void shouldTestMenu() {
         String patternString = "?x:CLASS[subClassOf Food] BEGIN ADD $thisClass subClassOf Menu, ADD $thisClass subClassOf contains only (Course and contains only ($Free(?x))) END; A ?x free Menu";
-        final OWLReasoner reasoner = factory.createReasoner(food);
-        patternModelFactory = new PatternModelFactory(food, food.getOWLOntologyManager(),
-                reasoner);
         OPPLSyntaxTree parsed = parse(patternString, food);
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
     }
 
     @Test
-    public void testPizza() {
+    public void shouldTestPizza() {
         String patternString = "?base:CLASS,?topping:CLASS, ?allToppings:CLASS = createUnion(?topping.VALUES) BEGIN ADD $thisClass subClassOf Pizza, ADD $thisClass subClassOf hasTopping some ?topping,  ADD $thisClass subClassOf hasTopping only ?allToppings, ADD $thisClass subClassOf hasBase some ?base  END; A pizza with ?base base and ?topping toppings";
         OPPLSyntaxTree parsed = parse(patternString, pizza);
         assertNotNull(parsed);
@@ -143,7 +140,7 @@ public class OPPLPatternsTypesParserTest {
     }
 
     @Test
-    public void testNoVariablePattern() {
+    public void shouldTestNoVariablePattern() {
         String patternString = " BEGIN ADD Menu subClassOf Menu END; A variable free pattern";
         OPPLSyntaxTree parsed = parse(patternString, food);
         assertNotNull(parsed);
@@ -151,7 +148,7 @@ public class OPPLPatternsTypesParserTest {
     }
 
     @Test
-    public void testComplexExpressionConjuntionGeneratedVariablePattern()
+    public void shouldTestComplexExpressionConjuntionGeneratedVariablePattern()
             throws OWLOntologyCreationException {
         OWLOntology ontology = OWLManager.createOWLOntologyManager().createOntology();
         OWLOntologyManager m = ontology.getOWLOntologyManager();
@@ -164,7 +161,7 @@ public class OPPLPatternsTypesParserTest {
     }
 
     @Test
-    public void testDOLCEInformationRealization() {
+    public void shouldTestDOLCEInformationRealization() {
         String patternString = "?informationObject:CLASS, ?informationRealization:CLASS, ?realizationProperty:OBJECTPROPERTY BEGIN ADD ?informationRealization subClassOf InformationRealization, ADD ?informationObject subClassOf InformationObject, ADD ?realizationProperty subPropertyOf realizes, ADD ?informationRealization subClassOf PhysicalObject and ?realizationProperty some ?informationObject END; Information Realization Pattern: ?informationRealization ?realizationProperty ?informationObject";
         OPPLSyntaxTree parsed = parse(patternString, dul);
         assertNotNull(parsed);
@@ -172,7 +169,7 @@ public class OPPLPatternsTypesParserTest {
     }
 
     @Test
-    public void testDOLCEPersonRoleTimeInterval() {
+    public void shouldTestDOLCEPersonRoleTimeInterval() {
         String patternString = "?person:CLASS, ?role:CLASS, ?timeInterval:CLASS BEGIN ADD $thisClass subClassOf Situation, ADD $thisClass subClassOf isSettingFor some ?person, ADD $thisClass subClassOf isSettingFor some ?role, ADD $thisClass subClassOf isSettingFor some ?timeInterval END; Situation where ?person play the role ?role during the time interval ?timeInterval";
         OPPLSyntaxTree parsed = parse(patternString, dul);
         assertNotNull(parsed);

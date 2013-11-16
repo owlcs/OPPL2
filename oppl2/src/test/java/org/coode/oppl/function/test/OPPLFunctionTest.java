@@ -70,7 +70,7 @@ public class OPPLFunctionTest {
     OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 
     @Test
-    public void testRendering() throws Exception {
+    public void shouldTestRendering() throws Exception {
         OWLOntology ontology = manager.createOntology();
         OPPLFactory factory = new OPPLFactory(manager, ontology, null);
         ConstraintSystem constraintSystem = factory.createConstraintSystem();
@@ -92,7 +92,7 @@ public class OPPLFunctionTest {
     }
 
     @Test
-    public void testVariableIRI() throws Exception {
+    public void shouldTestVariableIRI() throws Exception {
         OWLOntology ontology = manager.createOntology();
         OPPLFactory factory = new OPPLFactory(manager, ontology, null);
         ConstraintSystem constraintSystem = factory.createConstraintSystem();
@@ -110,7 +110,7 @@ public class OPPLFunctionTest {
     }
 
     @Test
-    public void testExpressionValues() throws Exception {
+    public void shouldTestExpressionValues() throws Exception {
         OWLOntology ontology = manager.createOntology();
         OPPLFactory factory = new OPPLFactory(manager, ontology, null);
         ConstraintSystem constraintSystem = factory.createConstraintSystem();
@@ -155,7 +155,7 @@ public class OPPLFunctionTest {
     }
 
     @Test
-    public void testValues() throws Exception {
+    public void shouldTestValues() throws Exception {
         OWLOntology ontology = manager.createOntology();
         OPPLFactory factory = new OPPLFactory(manager, ontology, null);
         ConstraintSystem constraintSystem = factory.createConstraintSystem();
@@ -182,7 +182,7 @@ public class OPPLFunctionTest {
     }
 
     @Test
-    public void testValuesNoValues() throws Exception {
+    public void shouldTestValuesNoValues() throws Exception {
         OWLOntology ontology = manager.createOntology();
         OPPLFactory factory = new OPPLFactory(manager, ontology, null);
         ConstraintSystem constraintSystem = factory.createConstraintSystem();
@@ -200,7 +200,7 @@ public class OPPLFunctionTest {
     }
 
     @Test
-    public void testGroupValue() throws Exception {
+    public void shouldTestGroupValue() throws Exception {
         OWLOntology ontology = manager.createOntology();
         OPPLFactory factory = new OPPLFactory(manager, ontology, null);
         ConstraintSystem constraintSystem = factory.createConstraintSystem();
@@ -223,7 +223,7 @@ public class OPPLFunctionTest {
     }
 
     @Test
-    public void testRenderingNoValue() throws Exception {
+    public void shouldTestRenderingNoValue() throws Exception {
         OWLOntology ontology = manager.createOntology();
         OPPLFactory factory = new OPPLFactory(manager, ontology, null);
         ConstraintSystem constraintSystem = factory.createConstraintSystem();
@@ -240,7 +240,7 @@ public class OPPLFunctionTest {
     }
 
     @Test
-    public void testCreateIntersection() throws Exception {
+    public void shouldTestCreateIntersection() throws Exception {
         OWLOntology ontology = manager.createOntology();
         OPPLFactory factory = new OPPLFactory(manager, ontology, null);
         ConstraintSystem constraintSystem = factory.createConstraintSystem();
@@ -291,7 +291,7 @@ public class OPPLFunctionTest {
     }
 
     @Test
-    public void testCreateUnion() throws Exception {
+    public void shouldTestCreateUnion() throws Exception {
         OWLOntology ontology = manager.createOntology();
         OPPLFactory factory = new OPPLFactory(manager, ontology, null);
         ConstraintSystem constraintSystem = factory.createConstraintSystem();
@@ -311,7 +311,7 @@ public class OPPLFunctionTest {
     }
 
     @Test
-    public void testExpression() throws Exception {
+    public void shouldTestExpression() throws Exception {
         OWLOntology ontology = manager.createOntology();
         OPPLFactory factory = new OPPLFactory(manager, ontology, null);
         ConstraintSystem constraintSystem = factory.createConstraintSystem();
@@ -349,7 +349,7 @@ public class OPPLFunctionTest {
     }
 
     @Test
-    public void testOWLEntityAnnotationRendering() throws Exception {
+    public void shouldTestOWLEntityAnnotationRendering() throws Exception {
         OWLOntology ontology = manager.createOntology();
         OWLAnnotationAssertionAxiom axiom = manager.getOWLDataFactory()
                 .getOWLAnnotationAssertionAxiom(
@@ -368,7 +368,7 @@ public class OPPLFunctionTest {
     }
 
     @Test
-    public void testOWLDisjointClassesAxiomInlineSet() throws Exception {
+    public void shouldTestOWLDisjointClassesAxiomInlineSet() throws Exception {
         OWLOntology ontology = manager.createOntology();
         OPPLOWLDataFactory dataFactory = new OPPLOWLDataFactory(
                 manager.getOWLDataFactory());
@@ -401,7 +401,7 @@ public class OPPLFunctionTest {
     }
 
     @Test
-    public void testRegularExpressionDependentOnAnotherVariable() throws Exception {
+    public void shouldTestRegularExpressionDependentOnAnotherVariable() throws Exception {
         OWLOntology ontology = manager.createOntology();
         OPPLFactory factory = new OPPLFactory(manager, ontology, null);
         ConstraintSystem constraintSystem = factory.createConstraintSystem();

@@ -81,55 +81,55 @@ public class TestExpressionParsing {
     }
 
     @Test
-    public void testOWLClass() {
+    public void shouldTestOWLClass() {
         ManchesterOWLSyntaxTree parsed = parse("Pizza");
         assertNotNull(parsed);
     }
 
     @Test
-    public void testOWLClassDescription() {
+    public void shouldTestOWLClassDescription() {
         ManchesterOWLSyntaxTree parsed = parse("Pizza and Pizza");
         assertNotNull(parsed);
     }
 
     @Test
-    public void testEntityReference() {
+    public void shouldTestEntityReference() {
         ManchesterOWLSyntaxTree parsed = parse("'Pizza (the italian)'");
         assertNotNull(parsed);
     }
 
     @Test
-    public void testRestriction() {
+    public void shouldTestRestriction() {
         ManchesterOWLSyntaxTree parsed = parse("Pizza and hasTopping some (Thing and hasTopping some Thing) and Thing");
         assertNotNull(parsed);
     }
 
     @Test
-    public void testEscapeIdentifiersAsEntityReferences() {
+    public void shouldTestEscapeIdentifiersAsEntityReferences() {
         ManchesterOWLSyntaxTree parsed = parse("Pizza and 'hasTopping' some Thing");
         assertNotNull(parsed);
     }
 
     @Test
-    public void testDataRange() {
+    public void shouldTestDataRange() {
         ManchesterOWLSyntaxTree parsed = parse("int [ > \"1\"]");
         assertNotNull(parsed);
     }
 
     @Test
-    public void testComplexDataRange() {
+    public void shouldTestComplexDataRange() {
         ManchesterOWLSyntaxTree parsed = parse("float[ > \"1\", > \"2\"]");
         assertNotNull(parsed);
     }
 
     @Test
-    public void testDataRestriction() {
+    public void shouldTestDataRestriction() {
         ManchesterOWLSyntaxTree parsed = parse("hasKCal some float[ > \"1\", > \"2\"]");
         assertNotNull(parsed);
     }
 
     @Test
-    public void testDataIntersectionOf() {
+    public void shouldTestDataIntersectionOf() {
         ManchesterOWLSyntaxTree parsed = parse("float[ > \"1\"] and int [< \"1\"]");
         assertNotNull(parsed);
     }

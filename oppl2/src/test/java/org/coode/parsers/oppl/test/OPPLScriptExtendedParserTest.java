@@ -1,125 +1,175 @@
 package org.coode.parsers.oppl.test;
 
-import static org.coode.oppl.testontologies.TestOntologies.syntax;
+import static org.coode.oppl.testontologies.TestOntologies.pizza;
 import static org.coode.parsers.oppl.test.SymbolTables.getOPPLSymbolTable;
 import static org.junit.Assert.*;
 
 import org.coode.parsers.oppl.OPPLSyntaxTree;
+import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 @SuppressWarnings("javadoc")
 public class OPPLScriptExtendedParserTest {
-    public void testRoundTripSubClassQuery() {
+    @Test
+    public void shouldTestRoundTripSubClassQuery() {
         String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
-        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, syntax, null,
-                getOPPLSymbolTable(syntax));
+        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, pizza, null,
+                getOPPLSymbolTable(pizza));
+        assertNotNull(parsed);
+        Object opplContent = parsed.getOPPLContent();
+        assertNotNull(opplContent);
+        String string = opplContent.toString();
+        assertEquals("?x:CLASS SELECT ?x SubClassOf Thing\n"
+                + " BEGIN ADD ?x SubClassOf Thing END;", string);
+        query = string;
+        parsed = OPPLScriptTypesParserTest.parse(query, pizza, null,
+                getOPPLSymbolTable(pizza));
+        assertNotNull(parsed);
+        assertNotNull(opplContent);
+    }
+
+    @Test
+    public void shouldTestRegexp() {
+        String query = "?regexp:CLASS=MATCH(\"([A-Z]+)izza\"), ?x:CLASS=create(?regexp.GROUPS(1)) "
+                + "SELECT ?regexp SubClassOf Thing WHERE ?regexp MATCH(\"(([A-Z]+))izza\") "
+                + "BEGIN ADD ?x SubClassOf ?regexp END;";
+        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, pizza, null,
+                getOPPLSymbolTable(pizza));
         assertNotNull(parsed);
         assertNotNull(parsed.getOPPLContent());
-        assertEquals("parsed content:  \t", parsed.getOPPLContent());
-        query = parsed.getOPPLContent().toString();
-        parsed = OPPLScriptTypesParserTest.parse(query, syntax, null,
-                getOPPLSymbolTable(syntax));
-        assertNotNull(parsed);
-        assertNotNull(parsed.getOPPLContent());
+        assertEquals(
+                "?regexp:CLASS= MATCH (\"([A-Z]+)izza\"), ?x:CLASS = create(?regexp.GROUPS(1)) SELECT ?regexp SubClassOf Thing\n"
+                        + " WHERE ?regexp Match(\"(([A-Z]+))izza\")\n"
+                        + " BEGIN ADD ?x SubClassOf ?regexp END;", parsed
+                        .getOPPLContent().toString());
     }
 
-    public void testRegexp() {
-        String query = "?regexp:CLASS=MATCH(\"([A-Z]+)izza\"), ?x:CLASS=create(?regexp.GROUPS(1)) SELECT ?regexp subClassOf Thing WHERE ?regexp MATCH(\"(([A-Z]+))izza\") BEGIN ADD ?x subClassOf ?regexp END;";
-        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, syntax, null,
-                getOPPLSymbolTable(syntax));
-        System.out.println(parsed.toStringTree());
-        assertNotNull(parsed);
-        assertNotNull(parsed.getOPPLContent());
-        System.out.println(parsed.getOPPLContent().toString());
+    @Test
+    public void shouldTestOld6() {
+        tester("?y:CLASS SELECT ?y SubClassOf DomainConcept\n"
+                + " WHERE ?y Match(\"(([A-Z]+))izza\")\n"
+                + " BEGIN ADD ?y SubClassOf Thing END;", pizza);
     }
 
-    public void testOld0() {
-        this.tester("?x:CLASS, ?y:CLASS SELECT ?x subClassOf Pizza, ?y subClassOf Pizza WHERE ?x != ?y BEGIN ADD ?x disjointWith ?y END;");
+    @Test
+    public void shouldTestOld0() {
+        tester("?x:CLASS, ?y:CLASS SELECT ?x SubClassOf Pizza,\n"
+                + "?y SubClassOf Pizza\n" + " WHERE ?x != ?y\n"
+                + " BEGIN ADD ?x DisjointWith ?y END;", pizza);
     }
 
-    public void testOld1() {
-        this.tester("?y:CLASS, ?x:CLASS=create(\"Test\"+?y.RENDERING) SELECT ?y subClassOf Thing  BEGIN ADD ?x subClassOf ?y END;");
+    @Test
+    public void shouldTestOld1() {
+        tester("?y:CLASS, ?x:CLASS = create(\"Test\"+?y.RENDERING) SELECT ?y SubClassOf Thing\n"
+                + " BEGIN ADD ?x SubClassOf ?y END;", pizza);
     }
 
-    public void testOld2() {
-        this.tester("?y:CLASS, ?k:CONSTANT=create(\"mytest\"), ?x:CLASS=create(\"Test\"+?k.RENDERING) SELECT ?y subClassOf Pizza BEGIN ADD ?x subClassOf ?y END;");
+    @Test
+    public void shouldTestOld2() {
+        tester("?y:CLASS, ?k:CONSTANT = create(\"mytest\"), ?x:CLASS = create(\"Test\"+?k.RENDERING) SELECT ?y SubClassOf Pizza\n"
+                + " BEGIN ADD ?x SubClassOf ?y END;", pizza);
     }
 
-    public void testOld3() {
-        this.tester("?y:CLASS, ?x:CLASS=create(\"'test \"+?y.RENDERING+\"'\") SELECT ?y subClassOf Pizza  BEGIN ADD ?y subClassOf ?x END;");
+    @Test
+    public void shouldTestOld3() {
+        tester("?y:CLASS, ?x:CLASS = create(\"'test \"+?y.RENDERING+\"'\") SELECT ?y SubClassOf Pizza\n"
+                + " BEGIN ADD ?y SubClassOf ?x END;", pizza);
     }
 
-    public void testOld4() {
-        this.tester("?y:CLASS, ?x:CLASS=create(\"test and \"+?y.RENDERING) SELECT ?y subClassOf Pizza  BEGIN ADD ?y subClassOf ?x END;");
+    @Test
+    public void shouldTestOld4() {
+        tester("?y:CLASS, ?x:CLASS = create(\"test and \"+?y.RENDERING) SELECT ?y SubClassOf Pizza\n"
+                + " BEGIN ADD ?y SubClassOf ?x END;", pizza);
     }
 
-    public void testOld5() {
-        this.tester("?regexp:CLASS=MATCH(\"([A-Z]+)izza\"), ?x:CLASS=create(?regexp.GROUPS(1)) SELECT ?regexp subClassOf Thing WHERE ?regexp MATCH(\"(([A-Z]+))izza\") BEGIN ADD ?x subClassOf ?regexp END;");
+    @Test
+    public void shouldTestOld5() {
+        tester("?regexp:CLASS= MATCH (\"([A-Z]+)izza\"), ?x:CLASS = create(?regexp.GROUPS(1)) SELECT ?regexp SubClassOf Thing\n"
+                + " WHERE ?regexp Match(\"(([A-Z]+))izza\")\n"
+                + " BEGIN ADD ?x SubClassOf ?regexp END;", pizza);
     }
 
-    public void testOld6() {
-        this.tester("?y:CLASS SELECT ?y subClassOf Food WHERE ?y MATCH(\"(([A-Z]+))izza\") BEGIN ADD ?y subClassOf Thing END;");
+    @Test
+    public void shouldTestOld8() {
+        tester("SELECT America Type Country\n" + " BEGIN REMOVE America Type Pizza END;",
+                pizza);
     }
 
-    public void testOld8() {
-        this.tester("SELECT America InstanceOf Country BEGIN REMOVE America InstanceOf Pizza END;");
+    @Test
+    public void shouldTestOld12() {
+        tester("SELECT America Type Country\n" + " BEGIN ADD America Type Thing END;",
+                pizza);
     }
 
-    public void testOld12() {
-        this.tester("SELECT America InstanceOf Country BEGIN ADD America InstanceOf Thing END;");
+    @Test
+    public void shouldTestOld13() {
+        shouldTesterExpectFail("SELECT America InstanceOf Pais "
+                + "BEGIN ADD Am InstanceOf Pizza END;", pizza);
     }
 
-    public void testOld13() {
-        testerExpectFail("SELECT America InstanceOf Pais BEGIN ADD Am InstanceOf Pizza END;");
+    @Test
+    public void shouldTestOld14() {
+        tester("?Chunk:CLASS SELECT ?Chunk SubClassOf Thing\n"
+                + " BEGIN ADD ?Chunk SubClassOf Pizza END;", pizza);
     }
 
-    public void testOld14() {
-        this.tester("?Chunk:CLASS SELECT ?Chunk subClassOf Thing BEGIN ADD ?Chunk subClassOf Pizza END;");
+    @Test
+    public void shouldTestOld15() {
+        tester("?regexp:CLASS= MATCH (\"(Piz)za\"), ?x:CLASS = create(?regexp.GROUPS(1)) SELECT ?regexp SubClassOf DomainConcept\n"
+                + " WHERE ?regexp Match(\"(Piz)za\")\n"
+                + " BEGIN ADD ?x SubClassOf DomainConcept END;", pizza);
     }
 
-    public void testOld15() {
-        this.tester("?regexp:CLASS=MATCH(\"(Piz)za\"), ?x:CLASS=create(?regexp.GROUPS(1)) SELECT ?regexp subClassOf Food WHERE ?regexp MATCH(\"(Piz)za\")  BEGIN ADD ?x subClassOf Food END;");
+    @Test
+    public void shouldTestOld16() {
+        tester("?y:CLASS, ?x:CLASS = create(\"Test\"+?y.RENDERING) SELECT ?y SubClassOf Pizza\n"
+                + " BEGIN ADD ?x SubClassOf ?y END;", pizza);
     }
 
-    public void testOld16() {
-        this.tester("?y:CLASS, ?x:CLASS=create(\"Test\"+?y.RENDERING) SELECT ?y subClassOf Pizza  BEGIN ADD ?x subClassOf ?y END;");
+    @Test
+    public void shouldTestOld17() {
+        tester("?y:CLASS, ?x:CLASS = create(\"test \"+?y.RENDERING) SELECT ?y SubClassOf Pizza\n"
+                + " BEGIN ADD ?y SubClassOf ?x END;", pizza);
     }
 
-    public void testOld17() {
-        this.tester("?y:CLASS, ?x:CLASS=create(\"test \"+?y.RENDERING) SELECT ?y subClassOf Pizza  BEGIN ADD ?y subClassOf ?x END;");
+    @Test
+    public void shouldTestOld18() {
+        tester("?y:CLASS, ?x:CLASS = create(\"'test \"+?y.RENDERING+\"'\") SELECT ?y SubClassOf Pizza\n"
+                + " BEGIN ADD ?y SubClassOf ?x END;", pizza);
     }
 
-    public void testOld18() {
-        this.tester("?y:CLASS, ?x:CLASS=create(\"'test \"+?y.RENDERING+\"'\") SELECT ?y subClassOf Pizza  BEGIN ADD ?y subClassOf ?x END;");
+    @Test
+    public void shouldTestOld19() {
+        tester("?island:CLASS SELECT ?island SubClassOf Thing\n"
+                + " WHERE ?island Match(\"(([\\w]*))Pizza\")\n"
+                + " BEGIN ADD ?island SubClassOf Thing END;", pizza);
     }
 
-    public void testOld19() {
-        this.tester("?island:CLASS SELECT ?island subClassOf Thing WHERE ?island MATCH(\"(([\\w]*))Pizza\") BEGIN ADD ?island subClassOf Thing END;");
+    @Test
+    public void shouldTestOld20() {
+        tester("?island:CLASS SELECT ?island SubClassOf Thing\n"
+                + " WHERE ?island Match(\"[A-Z][a-z]+Topping\")\n"
+                + " BEGIN ADD ?island SubClassOf Thing END;", pizza);
     }
 
-    public void testOld20() {
-        this.tester("?island:CLASS SELECT ?island subClassOf Thing WHERE ?island MATCH(\"[A-Z][a-z]+Topping\") BEGIN ADD ?island subClassOf Thing END;");
-    }
-
-    public void testOld21() {
-        this.tester("?x:CLASS, ?y:CLASS=MATCH(\"[Pizza]+\"+?x.RENDERING) SELECT ?y subClassOf Food, ?x subClassOf Thing WHERE ?y MATCH(\"[Piza]+\"+?x.RENDERING) BEGIN ADD ?y subClassOf Thing END;");
-    }
-
-    public void tester(String query) {
-        this.tester(query, syntax);
+    @Test
+    public void shouldTestOld21() {
+        tester("?x:CLASS, ?y:CLASS= MATCH (\"[Pizza]+\"+?x.RENDERING) SELECT ?x SubClassOf Thing\n"
+                + " WHERE ?y Match(\"[Piza]+\"+?x.RENDERING)\n"
+                + " BEGIN ADD ?y SubClassOf Thing END;", pizza);
     }
 
     public void tester(String query, OWLOntology ontology) {
         OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, ontology, null,
                 getOPPLSymbolTable(ontology));
         assertNotNull(parsed);
-        assertNotNull(query, parsed.getOPPLContent());
-        assertEquals("parsed content:  \t", parsed.getOPPLContent());
+        assertNotNull(parsed.getOPPLContent());
+        assertEquals(query, parsed.getOPPLContent().toString());
     }
 
-    public void testerExpectFail(String query) {
-        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, syntax, null,
-                getOPPLSymbolTable(syntax));
+    public void shouldTesterExpectFail(String query, OWLOntology o) {
+        OPPLSyntaxTree parsed = OPPLScriptTypesParserTest.parse(query, o, null,
+                getOPPLSymbolTable(pizza));
         assertNotNull(parsed);
         assertNull(query, parsed.getOPPLContent());
     }

@@ -1265,9 +1265,10 @@ public class OPPLPatternLexer extends Lexer {
         }
 
         @Override
-        public int specialStateTransition(int s, IntStream _input)
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
             IntStream input = _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:

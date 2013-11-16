@@ -244,7 +244,8 @@ public class TestQueries {
     }
 
     @Test
-    public void testTransitiveObjectPropertyQuery() throws OWLOntologyCreationException {
+    public void shouldTestTransitiveObjectPropertyQuery()
+            throws OWLOntologyCreationException {
         String opplString = "?x:OBJECTPROPERTY SELECT ASSERTED Transitive ?x BEGIN ADD transitive ?x END;";
         this.genericTestQuery(opplString);
     }
@@ -269,151 +270,153 @@ public class TestQueries {
     }
 
     @Test
-    public void testSymmetricObjectPropertyQuery() throws OWLOntologyCreationException {
+    public void shouldTestSymmetricObjectPropertyQuery()
+            throws OWLOntologyCreationException {
         String opplString = "?x:OBJECTPROPERTY SELECT ASSERTED symmetric ?x BEGIN ADD symmetric ?x END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testReflexiveObjectPropertyQuery() throws OWLOntologyCreationException {
+    public void shouldTestReflexiveObjectPropertyQuery()
+            throws OWLOntologyCreationException {
         String opplString = "?x:OBJECTPROPERTY SELECT ASSERTED reflexive ?x BEGIN ADD reflexive ?x END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testIrreflexiveObjectPropertyQuery() throws Exception {
+    public void shouldTestIrreflexiveObjectPropertyQuery() throws Exception {
         String opplString = "?x:OBJECTPROPERTY SELECT ASSERTED Irreflexive ?x BEGIN ADD Irreflexive ?x END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testInverseObjectPropertiesQuery() throws Exception {
+    public void shouldTestInverseObjectPropertiesQuery() throws Exception {
         String opplString = "?x:OBJECTPROPERTY, ?y:OBJECTPROPERTY SELECT ASSERTED ?x InverseOf ?y BEGIN ADD ?x InverseOf ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testInverseFunctionalObjectPropertiesQuery() throws Exception {
+    public void shouldTestInverseFunctionalObjectPropertiesQuery() throws Exception {
         String opplString = "?x:OBJECTPROPERTY SELECT ASSERTED InverseFunctional ?x BEGIN ADD InverseFunctional ?x END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testFunctionalDataPropertiesQuery() throws Exception {
+    public void shouldTestFunctionalDataPropertiesQuery() throws Exception {
         String opplString = "?x:DATAPROPERTY SELECT ASSERTED Functional ?x BEGIN ADD Functional ?x END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testFunctionalObjectPropertiesQuery() throws Exception {
+    public void shouldTestFunctionalObjectPropertiesQuery() throws Exception {
         String opplString = "?x:OBJECTPROPERTY SELECT ASSERTED Functional ?x BEGIN ADD Functional ?x END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testEquivalentObjectPropertiesQuery() throws Exception {
+    public void shouldTestEquivalentObjectPropertiesQuery() throws Exception {
         String opplString = "?x:OBJECTPROPERTY,?y:OBJECTPROPERTY SELECT ASSERTED ?x equivalentTo ?y BEGIN ADD ?x equivalentTo ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testEquivalentDataPropertiesQuery() throws Exception {
+    public void shouldTestEquivalentDataPropertiesQuery() throws Exception {
         String opplString = "?x:DATAPROPERTY,?y:DATAPROPERTY SELECT ASSERTED ?x equivalentTo ?y BEGIN ADD ?x equivalentTo ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testEquivalentClassesQuery() throws Exception {
+    public void shouldTestEquivalentClassesQuery() throws Exception {
         String opplString = "?x:CLASS,?y:CLASS SELECT ASSERTED ?x equivalentTo ?y BEGIN ADD ?x equivalentTo ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testDisjointObjectPropertiesQuery() throws Exception {
+    public void shouldTestDisjointObjectPropertiesQuery() throws Exception {
         String opplString = "?x:OBJECTPROPERTY,?y:OBJECTPROPERTY SELECT ASSERTED ?x disjointWith ?y BEGIN ADD ?x disjointWith ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testDisjointDataPropertiesQuery() throws Exception {
+    public void shouldTestDisjointDataPropertiesQuery() throws Exception {
         String opplString = "?x:DATAPROPERTY,?y:DATAPROPERTY SELECT ASSERTED ?x disjointWith ?y BEGIN ADD ?x disjointWith ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testDisjointClassesQuery() throws Exception {
+    public void shouldTestDisjointClassesQuery() throws Exception {
         String opplString = "?x:CLASS,?y:CLASS SELECT ASSERTED ?x disjointWith ?y BEGIN ADD ?x disjointWith ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testDataPropertyRangeQuery() throws Exception {
+    public void shouldTestDataPropertyRangeQuery() throws Exception {
         String opplString = "?x:DATAPROPERTY SELECT ASSERTED ?x range int BEGIN ADD ?x range int END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testObjectPropertyDomainQuery() throws Exception {
+    public void shouldTestObjectPropertyDomainQuery() throws Exception {
         String opplString = "?x:OBJECTPROPERTY, ?y:CLASS SELECT ASSERTED ?x domain ?y BEGIN ADD ?x domain ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testObjectPropertyRangeQuery() throws Exception {
+    public void shouldTestObjectPropertyRangeQuery() throws Exception {
         String opplString = "?x:OBJECTPROPERTY, ?y:CLASS SELECT ASSERTED ?x range ?y BEGIN ADD ?x range ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testDataPropertyDomainQuery() throws Exception {
+    public void shouldTestDataPropertyDomainQuery() throws Exception {
         String opplString = "?x:DATAPROPERTY, ?y:CLASS SELECT ASSERTED	?x domain ?y  BEGIN ADD ?x domain ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testSameIndividualsQuery() throws Exception {
+    public void shouldTestSameIndividualsQuery() throws Exception {
         String opplString = "?x:INDIVIDUAL,?y:INDIVIDUAL SELECT ASSERTED ?x  SameAs  ?y BEGIN ADD ?x  DifferentFrom ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testDifferentIndividualsQuery() throws Exception {
+    public void shouldTestDifferentIndividualsQuery() throws Exception {
         String opplString = "?x:INDIVIDUAL,?y:INDIVIDUAL SELECT ASSERTED ?x  DifferentFrom  ?y BEGIN ADD ?x  DifferentFrom ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testNegativeObjectPropertyAssertionQuery() throws Exception {
+    public void shouldTestNegativeObjectPropertyAssertionQuery() throws Exception {
         String opplString = "?x:INDIVIDUAL,?y:INDIVIDUAL,?z:OBJECTPROPERTY SELECT ASSERTED not ?x ?z ?y BEGIN ADD ?x ?z ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testObjectPropertyAssertionQuery() throws Exception {
+    public void shouldTestObjectPropertyAssertionQuery() throws Exception {
         String opplString = "?x:INDIVIDUAL,?y:INDIVIDUAL,?z:OBJECTPROPERTY SELECT ASSERTED ?x ?z ?y BEGIN ADD ?x ?z ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testNegativeDataPropertyAssertionQuery() throws Exception {
+    public void shouldTestNegativeDataPropertyAssertionQuery() throws Exception {
         String opplString = "?x:INDIVIDUAL,?y:CONSTANT,?z:DATAPROPERTY SELECT ASSERTED not ?x ?z ?y BEGIN ADD ?x ?z ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testDataPropertyAssertionQuery() throws Exception {
+    public void shouldTestDataPropertyAssertionQuery() throws Exception {
         String opplString = "?x:INDIVIDUAL,?y:CONSTANT,?z:DATAPROPERTY SELECT ASSERTED ?x ?z ?y BEGIN ADD ?x ?z ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testSubClassQuery() throws Exception {
+    public void shouldTestSubClassQuery() throws Exception {
         String opplString = "?x:CLASS,?y:CLASS SELECT ASSERTED ?x subClassOf ?y BEGIN ADD ?x subClassOf ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testComplexSubClassUnaryQueries() throws Exception {
+    public void shouldTestComplexSubClassUnaryQueries() throws Exception {
         OPPLAbstractFactory opplFactory = new OPPLFactory(ontologyManager, testOntology,
                 null);
         ConstraintSystem cs = opplFactory.createConstraintSystem();
@@ -437,7 +440,7 @@ public class TestQueries {
     }
 
     @Test
-    public void testBinarySubClassQuery() throws Exception {
+    public void shouldTestBinarySubClassQuery() throws Exception {
         String opplString = "?x:CLASS,?y:CLASS, ?z:CLASS SELECT ASSERTED ?x subClassOf ?z, ASSERTED ?y subClassOf ?z BEGIN ADD ?x subClassOf ?y END;";
         this.genericTestQuery(opplString);
         opplString = "?x:CLASS,?y:CLASS, ?z:CLASS SELECT ASSERTED ?x subClassOf ?y, ASSERTED ?x subClassOf ?z BEGIN ADD ?x subClassOf ?y END;";
@@ -445,13 +448,13 @@ public class TestQueries {
     }
 
     @Test
-    public void testSubDataPropertyQuery() throws Exception {
+    public void shouldTestSubDataPropertyQuery() throws Exception {
         String opplString = "?x:DATAPROPERTY,?y:DATAPROPERTY SELECT ASSERTED ?x subPropertyOf ?y BEGIN ADD ?x subPropertyOf ?y END;";
         this.genericTestQuery(opplString);
     }
 
     @Test
-    public void testSubObjectPropertyQuery() throws Exception {
+    public void shouldTestSubObjectPropertyQuery() throws Exception {
         String opplString = "?x:OBJECTPROPERTY,?y:OBJECTPROPERTY SELECT ASSERTED ?x subPropertyOf ?y BEGIN ADD ?x subPropertyOf ?y END;";
         this.genericTestQuery(opplString);
     }
@@ -640,7 +643,7 @@ public class TestQueries {
     }
 
     @Test
-    public void testDoublyMatchingEquivalentObjectProperties() {
+    public void shouldTestDoublyMatchingEquivalentObjectProperties() {
         OWLObjectProperty aProperty = dataFactory.getOWLObjectProperty(IRI.create(
                 TEST_NS, "aProperty"));
         OWLObjectProperty anotherProperty = dataFactory.getOWLObjectProperty(IRI.create(
@@ -657,7 +660,7 @@ public class TestQueries {
     }
 
     @Test
-    public void testDoublyMatchingEquivalentDataProperties() {
+    public void shouldTestDoublyMatchingEquivalentDataProperties() {
         OWLDataProperty aProperty = dataFactory.getOWLDataProperty(IRI.create(TEST_NS,
                 "aProperty"));
         OWLDataProperty anotherProperty = dataFactory.getOWLDataProperty(IRI.create(
@@ -674,7 +677,7 @@ public class TestQueries {
     }
 
     @Test
-    public void testDoublyMatchingDisjointDataProperties() {
+    public void shouldTestDoublyMatchingDisjointDataProperties() {
         OWLDataProperty aProperty = dataFactory.getOWLDataProperty(IRI.create(TEST_NS,
                 "aProperty"));
         OWLDataProperty anotherProperty = dataFactory.getOWLDataProperty(IRI.create(
@@ -691,7 +694,7 @@ public class TestQueries {
     }
 
     @Test
-    public void testDoublyMatchingDisjointObjectProperties() {
+    public void shouldTestDoublyMatchingDisjointObjectProperties() {
         OWLObjectProperty aProperty = dataFactory.getOWLObjectProperty(IRI.create(
                 TEST_NS, "aProperty"));
         OWLObjectProperty anotherProperty = dataFactory.getOWLObjectProperty(IRI.create(
@@ -708,7 +711,7 @@ public class TestQueries {
     }
 
     @Test
-    public void testDoublyMatchingEquivalentClasses() {
+    public void shouldTestDoublyMatchingEquivalentClasses() {
         OWLClass aClass = dataFactory.getOWLClass(IRI.create(TEST_NS, "aClass"));
         OWLClass anotherClass = dataFactory.getOWLClass(IRI.create(TEST_NS,
                 "anotherClass"));
@@ -724,7 +727,7 @@ public class TestQueries {
     }
 
     @Test
-    public void testDoublyMatchingDisjointClasses() {
+    public void shouldTestDoublyMatchingDisjointClasses() {
         OWLClass aClass = dataFactory.getOWLClass(IRI.create(TEST_NS, "aClass"));
         OWLClass anotherClass = dataFactory.getOWLClass(IRI.create(TEST_NS,
                 "anotherClass"));
@@ -740,7 +743,7 @@ public class TestQueries {
     }
 
     @Test
-    public void testDoublyMatchingSameIndividuals() {
+    public void shouldTestDoublyMatchingSameIndividuals() {
         OWLIndividual anIndividual = dataFactory.getOWLNamedIndividual(IRI.create(
                 TEST_NS, "anIndividual"));
         OWLIndividual anotherIndividual = dataFactory.getOWLNamedIndividual(IRI.create(
@@ -758,7 +761,7 @@ public class TestQueries {
     }
 
     @Test
-    public void testDoublyMatchingDifferentIndividuals() {
+    public void shouldTestDoublyMatchingDifferentIndividuals() {
         OWLIndividual anIndividual = dataFactory.getOWLNamedIndividual(IRI.create(
                 TEST_NS, "anIndividual"));
         OWLIndividual anotherIndividual = dataFactory.getOWLNamedIndividual(IRI.create(
@@ -775,7 +778,7 @@ public class TestQueries {
     }
 
     @Test
-    public void testDoublyMatchingClassDescription() {
+    public void shouldTestDoublyMatchingClassDescription() {
         OWLClass aClass = dataFactory.getOWLClass(IRI.create(TEST_NS, "A"));
         OWLClass anotherClass = dataFactory.getOWLClass(IRI.create(TEST_NS, "B"));
         OWLClass yetAnotherClass = dataFactory.getOWLClass(IRI.create(TEST_NS, "C"));

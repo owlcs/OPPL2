@@ -329,7 +329,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // $ANTLR start "expressionRoot"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:96:1:
     // expressionRoot : ^( EXPRESSION expression ) ;
-    public final void expressionRoot() throws RecognitionException {
+    public final void expressionRoot() {
         OPPLSyntaxTree EXPRESSION1 = null;
         OPPLTypeEnforcement.expression_return expression2 = null;
         try {
@@ -405,7 +405,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // ) ) | ^( UNARY_AXIOM SYMMETRIC ^( EXPRESSION p= IDENTIFIER ) ) | ^(
     // UNARY_AXIOM TRANSITIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^(
     // NEGATED_ASSERTION a= axiom ) );
-    public final OPPLTypeEnforcement.axiom_return axiom() throws RecognitionException {
+    public final OPPLTypeEnforcement.axiom_return axiom() {
         OPPLTypeEnforcement.axiom_return retval = new OPPLTypeEnforcement.axiom_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree p = null;
@@ -1480,8 +1480,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // DISJUNCTION (disjuncts+= conjunction )+ ) | ^( PROPERTY_CHAIN
     // (chainItems+= expression )+ ) | conjunction | complexPropertyExpression
     // );
-    public final OPPLTypeEnforcement.expression_return expression()
-            throws RecognitionException {
+    public final OPPLTypeEnforcement.expression_return expression() {
         OPPLTypeEnforcement.expression_return retval = new OPPLTypeEnforcement.expression_return();
         retval.start = input.LT(1);
         List list_disjuncts = null;
@@ -1736,8 +1735,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:237:1:
     // conjunction returns [Type type, ManchesterOWLSyntaxTree node] : ( ^(
     // CONJUNCTION (conjuncts+= unary )+ ) | unary );
-    public final OPPLTypeEnforcement.conjunction_return conjunction()
-            throws RecognitionException {
+    public final OPPLTypeEnforcement.conjunction_return conjunction() {
         OPPLTypeEnforcement.conjunction_return retval = new OPPLTypeEnforcement.conjunction_return();
         retval.start = input.LT(1);
         List list_conjuncts = null;
@@ -1879,7 +1877,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // unary returns [Type type, ManchesterOWLSyntaxTree node] : ( IDENTIFIER |
     // ^( NEGATED_EXPRESSION e= expression ) | qualifiedRestriction |
     // ENTITY_REFERENCE | ^( CONSTANT value= . (constantType= IDENTIFIER )? ) );
-    public final OPPLTypeEnforcement.unary_return unary() throws RecognitionException {
+    public final OPPLTypeEnforcement.unary_return unary() {
         OPPLTypeEnforcement.unary_return retval = new OPPLTypeEnforcement.unary_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree constantType = null;
@@ -2078,8 +2076,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:296:1:
     // propertyExpression returns [Type type, ManchesterOWLSyntaxTree node] : (
     // IDENTIFIER | complexPropertyExpression );
-    public final OPPLTypeEnforcement.propertyExpression_return propertyExpression()
-            throws RecognitionException {
+    public final OPPLTypeEnforcement.propertyExpression_return propertyExpression() {
         OPPLTypeEnforcement.propertyExpression_return retval = new OPPLTypeEnforcement.propertyExpression_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree IDENTIFIER9 = null;
@@ -2163,7 +2160,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // complexPropertyExpression ) | ^( INVERSE_OBJECT_PROPERTY_EXPRESSION
     // IDENTIFIER ) );
     public final OPPLTypeEnforcement.complexPropertyExpression_return
-            complexPropertyExpression() throws RecognitionException {
+            complexPropertyExpression() {
         OPPLTypeEnforcement.complexPropertyExpression_return retval = new OPPLTypeEnforcement.complexPropertyExpression_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree IDENTIFIER11 = null;
@@ -2301,8 +2298,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // ( ^( SOME_RESTRICTION p= propertyExpression f= expression ) | ^(
     // ALL_RESTRICTION p= propertyExpression f= expression ) |
     // cardinalityRestriction | oneOf | valueRestriction );
-    public final OPPLTypeEnforcement.qualifiedRestriction_return qualifiedRestriction()
-            throws RecognitionException {
+    public final OPPLTypeEnforcement.qualifiedRestriction_return qualifiedRestriction() {
         OPPLTypeEnforcement.qualifiedRestriction_return retval = new OPPLTypeEnforcement.qualifiedRestriction_return();
         retval.start = input.LT(1);
         OPPLTypeEnforcement.propertyExpression_return p = null;
@@ -2498,7 +2494,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // (filler= expression )? ) | ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER
     // p= unary (filler= expression )? ) );
     public final OPPLTypeEnforcement.cardinalityRestriction_return
-            cardinalityRestriction() throws RecognitionException {
+            cardinalityRestriction() {
         OPPLTypeEnforcement.cardinalityRestriction_return retval = new OPPLTypeEnforcement.cardinalityRestriction_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree i = null;
@@ -2786,7 +2782,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:396:1:
     // oneOf returns [Type type , ManchesterOWLSyntaxTree node] : ^( ONE_OF
     // (individuals+= IDENTIFIER )+ ) ;
-    public final OPPLTypeEnforcement.oneOf_return oneOf() throws RecognitionException {
+    public final OPPLTypeEnforcement.oneOf_return oneOf() {
         OPPLTypeEnforcement.oneOf_return retval = new OPPLTypeEnforcement.oneOf_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree individuals = null;
@@ -2886,8 +2882,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:413:1:
     // valueRestriction returns [Type type , ManchesterOWLSyntaxTree node] : ^(
     // VALUE_RESTRICTION p= unary value= unary ) ;
-    public final OPPLTypeEnforcement.valueRestriction_return valueRestriction()
-            throws RecognitionException {
+    public final OPPLTypeEnforcement.valueRestriction_return valueRestriction() {
         OPPLTypeEnforcement.valueRestriction_return retval = new OPPLTypeEnforcement.valueRestriction_return();
         retval.start = input.LT(1);
         OPPLTypeEnforcement.unary_return p = null;

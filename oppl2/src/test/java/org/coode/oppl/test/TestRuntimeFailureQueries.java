@@ -17,7 +17,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 public class TestRuntimeFailureQueries {
     @Test(expected = PatternSyntaxException.class)
-    public void testIllegalPattern() throws OWLOntologyCreationException {
+    public void shouldTestIllegalPattern() throws OWLOntologyCreationException {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
         // Add an axiom so the query results will be matched against the

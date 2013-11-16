@@ -19,9 +19,10 @@ import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
+@SuppressWarnings("javadoc")
 public class OWLObjectFinderTest {
     @Test
-    public void testFindAll() {
+    public void shouldTestFindAll() {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLDataFactory dataFactory = manager.getOWLDataFactory();
         OWLClass a = dataFactory.getOWLClass(IRI.create("blah#A"));
@@ -56,7 +57,7 @@ public class OWLObjectFinderTest {
     }
 
     @Test
-    public void testFindAllNoResults() {
+    public void shouldTestFindAllNoResults() {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLDataFactory dataFactory = manager.getOWLDataFactory();
         OWLClass a = dataFactory.getOWLClass(IRI.create("blah#A"));
@@ -68,7 +69,7 @@ public class OWLObjectFinderTest {
     }
 
     @Test
-    public void testFindAllVariable() {
+    public void shouldTestFindAllVariable() {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLDataFactory dataFactory = manager.getOWLDataFactory();
         OWLClass a = dataFactory.getOWLClass(IRI.create("blah#A"));

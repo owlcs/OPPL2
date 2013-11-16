@@ -365,7 +365,7 @@ public class OPPLTypes extends TreeFilter {
     // $ANTLR start "statement"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:136:1: statement
     // : ^( OPPL_STATEMENT (vd= variableDefinitions )? (q= query )? actions ) ;
-    public final OPPLTypes.statement_return statement() throws RecognitionException {
+    public final OPPLTypes.statement_return statement() {
         OPPLTypes.statement_return retval = new OPPLTypes.statement_return();
         retval.start = input.LT(1);
         OPPLTypes.variableDefinitions_return vd = null;
@@ -499,8 +499,7 @@ public class OPPLTypes extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:163:1:
     // variableDefinitions returns [List<Variable<?>> variables] : ^(
     // VARIABLE_DEFINITIONS (vd= variableDefinition )+ ) ;
-    public final OPPLTypes.variableDefinitions_return variableDefinitions()
-            throws RecognitionException {
+    public final OPPLTypes.variableDefinitions_return variableDefinitions() {
         OPPLTypes.variableDefinitions_return retval = new OPPLTypes.variableDefinitions_return();
         retval.start = input.LT(1);
         OPPLTypes.variableDefinition_return vd = null;
@@ -590,7 +589,7 @@ public class OPPLTypes extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:175:1: query
     // returns [OPPLQuery query, OPPLSyntaxTree node] : ^( QUERY ( selectClause
     // )+ ( constraint )* ) ;
-    public final OPPLTypes.query_return query() throws RecognitionException {
+    public final OPPLTypes.query_return query() {
         OPPLTypes.query_return retval = new OPPLTypes.query_return();
         retval.start = input.LT(1);
         OPPLTypes.selectClause_return selectClause2 = null;
@@ -728,7 +727,7 @@ public class OPPLTypes extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:207:1:
     // selectClause returns [OWLAxiom axiom, boolean asserted] : ( ^(
     // ASSERTED_CLAUSE a= . ) | ^( PLAIN_CLAUSE a= . ) );
-    public final OPPLTypes.selectClause_return selectClause() throws RecognitionException {
+    public final OPPLTypes.selectClause_return selectClause() {
         OPPLTypes.selectClause_return retval = new OPPLTypes.selectClause_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree a = null;
@@ -836,7 +835,7 @@ public class OPPLTypes extends TreeFilter {
     // $ANTLR start "actions"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:232:1: actions
     // returns [List<OWLAxiomChange> actions] : ^( ACTIONS ( action )+ ) ;
-    public final OPPLTypes.actions_return actions() throws RecognitionException {
+    public final OPPLTypes.actions_return actions() {
         OPPLTypes.actions_return retval = new OPPLTypes.actions_return();
         retval.start = input.LT(1);
         OWLAxiomChange action4 = null;
@@ -919,7 +918,7 @@ public class OPPLTypes extends TreeFilter {
     // $ANTLR start "action"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:250:1: action
     // returns [OWLAxiomChange change] : ( ^( ADD a= . ) | ^( REMOVE a= . ) );
-    public final OWLAxiomChange action() throws RecognitionException {
+    public final OWLAxiomChange action() {
         OWLAxiomChange change = null;
         OPPLSyntaxTree a = null;
         try {
@@ -1035,8 +1034,7 @@ public class OPPLTypes extends TreeFilter {
     // CREATE_INTERSECTION va= aggregandums ) ) | ^(
     // GENERATED_VARIABLE_DEFINITION name= VARIABLE_NAME VARIABLE_TYPE ^(
     // CREATE_DISJUNCTION va= aggregandums ) ) );
-    public final OPPLTypes.variableDefinition_return variableDefinition()
-            throws RecognitionException {
+    public final OPPLTypes.variableDefinition_return variableDefinition() {
         OPPLTypes.variableDefinition_return retval = new OPPLTypes.variableDefinition_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree expr = null;
@@ -1507,7 +1505,7 @@ public class OPPLTypes extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:344:1:
     // stringOperation returns [OPPLFunction<String> value] : ^(
     // STRING_OPERATION (valuesToAggregate= stringExpression )+ ) ;
-    public final OPPLFunction<String> stringOperation() throws RecognitionException {
+    public final OPPLFunction<String> stringOperation() {
         OPPLFunction<String> value = null;
         OPPLFunction<String> valuesToAggregate = null;
         List<Aggregandum<String>> values = new ArrayList<Aggregandum<String>>();
@@ -1595,7 +1593,7 @@ public class OPPLTypes extends TreeFilter {
     // expression= stringOperation ) | ^( TO_UPPER_CASE expression=
     // stringOperation ) | ^( TO_LOWER_CASE simpleExpression= stringExpression )
     // | ^( TO_UPPER_CASE simpleExpression= stringExpression ) );
-    public final OPPLFunction<String> stringExpression() throws RecognitionException {
+    public final OPPLFunction<String> stringExpression() {
         OPPLFunction<String> value = null;
         OPPLSyntaxTree DBLQUOTE16 = null;
         OPPLSyntaxTree VARIABLE_NAME17 = null;
@@ -1858,8 +1856,7 @@ public class OPPLTypes extends TreeFilter {
     // propertyExpression= . ) | ^( VARIABLE_SCOPE SUBPROPERTY_OF
     // propertyExpression= . ) | ^( VARIABLE_SCOPE ( INSTANCE_OF | TYPES )
     // individualExpression= . ) );
-    public final OPPLTypes.variableScope_return variableScope()
-            throws RecognitionException {
+    public final OPPLTypes.variableScope_return variableScope() {
         OPPLTypes.variableScope_return retval = new OPPLTypes.variableScope_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree classExpression = null;
@@ -2202,7 +2199,7 @@ public class OPPLTypes extends TreeFilter {
     // IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^(
     // REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a=
     // . ) );
-    public final OPPLTypes.constraint_return constraint() throws RecognitionException {
+    public final OPPLTypes.constraint_return constraint() {
         OPPLTypes.constraint_return retval = new OPPLTypes.constraint_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree v = null;
@@ -2452,7 +2449,7 @@ public class OPPLTypes extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:484:1:
     // aggregandums returns [List<Aggregandum<?>> list, List<OPPLSyntaxTree>
     // tokenList] : (a= aggregandum )+ ;
-    public final OPPLTypes.aggregandums_return aggregandums() throws RecognitionException {
+    public final OPPLTypes.aggregandums_return aggregandums() {
         OPPLTypes.aggregandums_return retval = new OPPLTypes.aggregandums_return();
         retval.start = input.LT(1);
         OPPLTypes.aggregandum_return a = null;
@@ -2525,7 +2522,7 @@ public class OPPLTypes extends TreeFilter {
     // ) ) ) | ^( DISJOINT_PROPERTIES ^( EXPRESSION ^( SET va= aggregandums ) )
     // ) | ^( DIFFERENT_INDIVIDUALS ^( EXPRESSION ^( SET va= aggregandums ) ) )
     // | ^( SAME_INDIVIDUAL ^( EXPRESSION ^( SET va= aggregandums ) ) ) );
-    public final OPPLTypes.opplAxioms_return opplAxioms() throws RecognitionException {
+    public final OPPLTypes.opplAxioms_return opplAxioms() {
         OPPLTypes.opplAxioms_return retval = new OPPLTypes.opplAxioms_return();
         retval.start = input.LT(1);
         OPPLTypes.aggregandums_return va = null;
@@ -2810,7 +2807,7 @@ public class OPPLTypes extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g:523:1:
     // aggregandum returns [Aggregandum<?> a, OPPLSyntaxTree node] : ( ^(
     // IDENTIFIER VARIABLE_NAME DOT VALUES ) | IDENTIFIER );
-    public final OPPLTypes.aggregandum_return aggregandum() throws RecognitionException {
+    public final OPPLTypes.aggregandum_return aggregandum() {
         OPPLTypes.aggregandum_return retval = new OPPLTypes.aggregandum_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree VARIABLE_NAME22 = null;

@@ -32,7 +32,7 @@ public class IncorrectOPPLLintTestCase extends TestCase {
 		}
 	};
 
-	public void testOntologyDoesNotContainEntities() throws Exception {
+	@Test public void shouldTestOntologyDoesNotContainEntities() throws Exception {
 		OWLOntologyManager ontologyManager = OWLManager.createOWLOntologyManager();
 		OWLOntology ontology = ontologyManager.createOntology(IRI.create("http://oppl2.sourceforge.net/owllint/transitivePropertyHierachyTest.owl"));
 		String script = "Missing display name lint; ?x:CLASS SELECT ?x subClassOf Element or Feature or Consideration RETURN ?x;  ?x is without a display name; Lint that detects Elements Features or Considerations without a display name";

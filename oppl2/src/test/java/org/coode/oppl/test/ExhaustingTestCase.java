@@ -14,26 +14,26 @@ import org.junit.Test;
 @SuppressWarnings("javadoc")
 public class ExhaustingTestCase extends AbstractTestCase {
     @Test
-    public void testParseMissingVariableDeclaration() {
+    public void shouldTestParseMissingVariableDeclaration() {
         OPPLScript result = this
                 .parse("SELECT Asinara InstanceOf Country BEGIN ADD Asinara InstanceOf Thing END;",
                         test);
         expectedCorrect(result);
-        execute(result, test, 1);
+        execute(result, 1);
         result = this
                 .parse("SELECT Asinara InstanceOf Country BEGIN REMOVE Asinara InstanceOf Country END;",
                         test);
         expectedCorrect(result);
-        execute(result, test, 1);
+        execute(result, 1);
     }
 
     @Test
-    public void testParseActionsError() {
+    public void shouldTestParseActionsError() {
         OPPLScript result = this
                 .parse("SELECT Asinara InstanceOf Country BEGIN ADD Asinara InstanceOf Country END;",
                         test);
         expectedCorrect(result);
-        execute(result, test, 1);
+        execute(result, 1);
         String correctPortion = "SELECT Asinara InstanceOf Country BEGIN ADD ";
         String script = correctPortion + "Asin InstanceOf Country END;";
         result = this.parse(script, test);
@@ -45,7 +45,7 @@ public class ExhaustingTestCase extends AbstractTestCase {
     }
 
     @Test
-    public void testParseVariableDeclarationAdvancedErrors() {
+    public void shouldTestParseVariableDeclarationAdvancedErrors() {
         String correctPortion = "?island:";
         String script = correctPortion + "INDIVIDUAL_;";
         OPPLScript result = this.parse(script, test);
@@ -91,104 +91,104 @@ public class ExhaustingTestCase extends AbstractTestCase {
     }
 
     @Test
-    public void testParseWhereClauses() {
+    public void shouldTestParseWhereClauses() {
         OPPLScript result = this
                 .parse("?island:INDIVIDUAL SELECT ?island InstanceOf Country WHERE ?island != Asinara BEGIN ADD ?island InstanceOf Country END;",
                         test);
         expectedCorrect(result);
-        execute(result, test, 0);
+        execute(result, 0);
         result = this
                 .parse("?island:INDIVIDUAL SELECT ?island InstanceOf Country WHERE ?island IN {Asinara} BEGIN ADD ?island InstanceOf Country END;",
                         test);
         expectedCorrect(result);
-        execute(result, test, 1);
+        execute(result, 1);
     }
 
     @Test
-    public void testAssembleVariables() {
+    public void shouldTestAssembleVariables() {
         OPPLScript result = this
                 .parse("?y:CLASS, ?x:CLASS=create(\"Test\"+?y.RENDERING) SELECT ?y subClassOf Country  BEGIN ADD ?x subClassOf ?y END;",
                         test);
         expectedCorrect(result);
-        execute(result, test, 2);
+        execute(result, 2);
     }
 
     @Test
-    public void testAssembleConstantVariables() {
+    public void shouldTestAssembleConstantVariables() {
         OPPLScript result = this
                 .parse("?y:CLASS, ?x:CLASS=create(\"test \"+?y.RENDERING) SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;",
                         test);
         expectedCorrect(result);
-        execute(result, test, 2);
+        execute(result, 2);
     }
 
     @Test
-    public void testAssembleConstantAndVariables() {
+    public void shouldTestAssembleConstantAndVariables() {
         OPPLScript result = this
                 .parse("?y:CLASS, ?x:CLASS=create(\"'test and \"+?y.RENDERING+\"'\") SELECT ?y subClassOf Country  BEGIN ADD ?y subClassOf ?x END;",
                         test);
         expectedCorrect(result);
-        execute(result, test, 2);
+        execute(result, 2);
     }
 
     @Test
-    public void testReverseRegularExpressions() {
+    public void shouldTestReverseRegularExpressions() {
         OPPLScript result = this
                 .parse("?regexp:CLASS=Match(\"'test ([a-z]+)'\"), ?x:CLASS=create(?regexp.GROUPS(1)) SELECT ?regexp subClassOf Thing  BEGIN ADD ?x subClassOf Thing END;",
                         test);
         expectedCorrect(result);
-        execute(result, test, 0);
+        execute(result, 0);
     }
 
     @Test
-    public void testAssembleRegExpVariables() {
+    public void shouldTestAssembleRegExpVariables() {
         OPPLScript result = this
                 .parse("?x:CLASS, ?y:CLASS=Match(\"'abc \"+?x.RENDERING+\"'\") SELECT ?y subClassOf Thing BEGIN ADD ?y subClassOf Thing END;",
                         test);
         expectedCorrect(result);
-        execute(result, test, 0);
+        execute(result, 0);
     }
 
     @Test
-    public void testRegExpConstraints() {
+    public void shouldTestRegExpConstraints() {
         String correct = "?island:CLASS SELECT ?island subClassOf Thing WHERE ?island Match(\"Island\") BEGIN ADD ?island subClassOf Thing END;";
         OPPLScript result = this.parse(correct, test);
         expectedCorrect(result);
-        execute(result, test, 0);
+        execute(result, 0);
         // result = this.parse(correct + " \"Is**land\");");
         // assertNull("the reg expr is broken, should not be allowed", result);
         // this.checkProperStackTrace("Encountered Is**land", correct.length());
     }
 
     @Test
-    public void testRegExpGroupConstraints() {
+    public void shouldTestRegExpGroupConstraints() {
         String correct = "?island:CLASS SELECT ?island subClassOf Thing WHERE ?island Match(\"([a-zA-Z])*[Ii](sl)*(and)*\") BEGIN ADD ?island subClassOf Thing END;";
         OPPLScript result = this.parse(correct, test);
         expectedCorrect(result);
-        execute(result, test, 0);
+        execute(result, 0);
     }
 
     @Test
-    public void testClassNameSameAsVariable() {
+    public void shouldTestClassNameSameAsVariable() {
         String script = "?Chunk:CLASS SELECT ?Chunk subClassOf Thing BEGIN ADD ?Chunk subClassOf Country END;";
         OPPLScript result = this.parse(script, test);
         expectedCorrect(result);
-        execute(result, test, 8);
+        execute(result, 8);
     }
 
     @Test
-    public void testRobertsScripts1() {
+    public void shouldTestRobertsScripts1() {
         String script = "?island:INDIVIDUAL[instanceOf Country],\n"
                 + "?height:CONSTANT\n" + "SELECT ?island size ?height\n" + "BEGIN\n"
                 + " 	REMOVE ?island size ?height,\n"
                 + " 	ADD ?island !hasMaximumHeight ?height\n" + "END;";
         OPPLScript result = this.parse(script, test);
         expectedCorrect(result);
-        execute(result, test, 0);
+        execute(result, 0);
     }
 
     @Test
-    public void testNAF() {
+    public void shouldTestNAF() {
         String script = "?x:CLASS,?y:CLASS,?z:CLASS = MATCH(\"A_\"+?x.RENDERING) SELECT ?x subClassOf A, ?x subClassOf hasP some ?y,?z subClassOf  A_A WHERE FAIL ?z subClassOf hasP some ?y BEGIN ADD ?z subClassOf hasP some ?y END;";
         OPPLScript opplScript = this.parse(script, naf, null);
         assertNotNull(opplScript);
@@ -204,7 +204,7 @@ public class ExhaustingTestCase extends AbstractTestCase {
     }
 
     @Test
-    public void testComplexRestrictionInQuery() {
+    public void shouldTestComplexRestrictionInQuery() {
         String script = "?x:CLASS SELECT ?x subClassOf  Pizza and hasTopping some (Thing and hasTopping some (hasBase some Thing)) BEGIN ADD ?x subClassOf Thing END;";
         OPPLScript opplScript = this.parse(script, pizza, null);
         assertNotNull(opplScript);

@@ -76,13 +76,13 @@ public class TestIncompleteAxiomsParsing {
     }
 
     @Test
-    public void testSubClassAxiom() {
+    public void shouldTestSubClassAxiom() {
         ManchesterOWLSyntaxTree parsed = parse("Pizza subClassOf NamedPizza and");
         assertNotNull(parsed);
     }
 
     @Test
-    public void testIncompleteStandaloneExpression() {
+    public void shouldTestIncompleteStandaloneExpression() {
         ManchesterOWLSyntaxTree parsed = parse("NamedPizza and Pizza s");
         assertNotNull(parsed);
     }

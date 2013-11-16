@@ -24,6 +24,7 @@ import org.semanticweb.owlapi.model.OWLObjectVisitor;
 import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 
 public class VariableIRI extends IRI {
+    private static final long serialVersionUID = 210L;
     private final IRIVariableAttribute attribute;
 
     /** @return the attribute */

@@ -368,7 +368,7 @@ public class OPPLTypesParts extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:130:1:
     // stringOperation returns [OPPLFunction<String> value] : ^(
     // STRING_OPERATION (valuesToAggregate= stringExpression )+ ) ;
-    public final OPPLFunction<String> stringOperation() throws RecognitionException {
+    public final OPPLFunction<String> stringOperation() {
         OPPLFunction<String> value = null;
         OPPLFunction<String> valuesToAggregate = null;
         List<Aggregandum<String>> values = new ArrayList<Aggregandum<String>>();
@@ -452,7 +452,7 @@ public class OPPLTypesParts extends TreeFilter {
     // stringExpression returns [OPPLFunction<String> value] : ( DBLQUOTE | ^(
     // IDENTIFIER VARIABLE_NAME DOT GROUPS ^( ATTRIBUTE_SELECTOR INTEGER ) ) |
     // ^( IDENTIFIER VARIABLE_NAME DOT RENDERING ) );
-    public final OPPLFunction<String> stringExpression() throws RecognitionException {
+    public final OPPLFunction<String> stringExpression() {
         OPPLFunction<String> value = null;
         OPPLSyntaxTree DBLQUOTE1 = null;
         OPPLSyntaxTree VARIABLE_NAME2 = null;
@@ -647,7 +647,7 @@ public class OPPLTypesParts extends TreeFilter {
     // $ANTLR start "regexp"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:159:1:
     // regexp returns [Variable variable] : ^( MATCH se= stringOperation ) ;
-    public final OPPLTypesParts.regexp_return regexp() throws RecognitionException {
+    public final OPPLTypesParts.regexp_return regexp() {
         OPPLTypesParts.regexp_return retval = new OPPLTypesParts.regexp_return();
         retval.start = input.LT(1);
         OPPLFunction<String> se = null;
@@ -713,8 +713,7 @@ public class OPPLTypesParts extends TreeFilter {
     // opplFunction returns [Variable variable] : ( ^( CREATE_OPPL_FUNCTION
     // value= stringOperation ) | ^( CREATE_INTERSECTION va= aggregandums ) | ^(
     // CREATE_DISJUNCTION va= aggregandums ) );
-    public final OPPLTypesParts.opplFunction_return opplFunction()
-            throws RecognitionException {
+    public final OPPLTypesParts.opplFunction_return opplFunction() {
         OPPLTypesParts.opplFunction_return retval = new OPPLTypesParts.opplFunction_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree CREATE_INTERSECTION5 = null;
@@ -899,8 +898,7 @@ public class OPPLTypesParts extends TreeFilter {
     // IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ ) | ^(
     // REGEXP_CONSTRAINT IDENTIFIER se= stringOperation ) | ^( NAF_CONSTRAINT a=
     // . ) );
-    public final OPPLTypesParts.constraint_return constraint()
-            throws RecognitionException {
+    public final OPPLTypesParts.constraint_return constraint() {
         OPPLTypesParts.constraint_return retval = new OPPLTypesParts.constraint_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree v = null;
@@ -1153,8 +1151,7 @@ public class OPPLTypesParts extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:249:1:
     // aggregandums returns [List<Aggregandum<?>> list, List<OPPLSyntaxTree>
     // tokenList] : (a= aggregandum )+ ;
-    public final OPPLTypesParts.aggregandums_return aggregandums()
-            throws RecognitionException {
+    public final OPPLTypesParts.aggregandums_return aggregandums() {
         OPPLTypesParts.aggregandums_return retval = new OPPLTypesParts.aggregandums_return();
         retval.start = input.LT(1);
         OPPLTypesParts.aggregandum_return a = null;
@@ -1228,8 +1225,7 @@ public class OPPLTypesParts extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypesParts.g:262:1:
     // aggregandum returns [Aggregandum<?> a, OPPLSyntaxTree node] : ( ^(
     // IDENTIFIER VARIABLE_NAME DOT VALUES ) | IDENTIFIER );
-    public final OPPLTypesParts.aggregandum_return aggregandum()
-            throws RecognitionException {
+    public final OPPLTypesParts.aggregandum_return aggregandum() {
         OPPLTypesParts.aggregandum_return retval = new OPPLTypesParts.aggregandum_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree VARIABLE_NAME9 = null;

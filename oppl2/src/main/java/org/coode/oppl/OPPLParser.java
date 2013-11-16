@@ -154,9 +154,6 @@ public class OPPLParser implements AbstractOPPLParser {
             }
             return tree != null ? (OPPLScript) ((OPPLSyntaxTree) tree).getOPPLContent()
                     : null;
-        } catch (RecognitionException e) {
-            listener.recognitionException(e);
-            return null;
         } catch (RewriteEmptyStreamException e) {
             listener.rewriteEmptyStreamException(e);
             return null;

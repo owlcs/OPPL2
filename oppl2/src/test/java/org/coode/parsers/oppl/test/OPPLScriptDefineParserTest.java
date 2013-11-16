@@ -58,7 +58,7 @@ public class OPPLScriptDefineParserTest {
     private final ErrorListener listener = new SilentListener();
 
     @Test
-    public void testSubClassQuery() {
+    public void shouldTestSubClassQuery() {
         String query = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSymbolTable opplSymbolTable = getOPPLSymbolTable(pizza);
         ManchesterOWLSyntaxTree parsed = parse(query, opplSymbolTable);
@@ -68,7 +68,7 @@ public class OPPLScriptDefineParserTest {
     }
 
     @Test
-    public void testRegexpQuery() {
+    public void shouldTestRegexpQuery() {
         String query = "?x:CLASS = MATCH (\".*ing\") SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         OPPLSymbolTable opplSymbolTable = getOPPLSymbolTable(pizza);
         ManchesterOWLSyntaxTree parsed = parse(query, opplSymbolTable);
@@ -78,7 +78,7 @@ public class OPPLScriptDefineParserTest {
     }
 
     @Test
-    public void testGeneratedVariable() {
+    public void shouldTestGeneratedVariable() {
         String query = "?x:CLASS, ?y:OBJECTPROPERTY = MATCH(\" has((\\w+)) \"), ?z:CLASS, ?feature:CLASS = create(?y.GROUPS(1)) SELECT ASSERTED ?x subClassOf ?y some ?z BEGIN REMOVE ?x subClassOf ?y some ?z, ADD ?x subClassOf !hasFeature some (?feature and !hasValue some ?z) END;";
         OPPLSymbolTable opplSymbolTable = getOPPLSymbolTable(pizza);
         ManchesterOWLSyntaxTree parsed = parse(query, opplSymbolTable);
@@ -93,27 +93,23 @@ public class OPPLScriptDefineParserTest {
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
         OPPLScriptParser parser = new OPPLScriptParser(tokens);
         parser.setTreeAdaptor(adaptor);
-        try {
-            RuleReturnScope r = parser.statement();
-            CommonTree tree = (CommonTree) r.getTree();
-            CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
-            nodes.setTokenStream(tokens); // where to find tokens
-            nodes.setTreeAdaptor(adaptor);
-            nodes.reset();
-            // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-            ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
-            simplify.setTreeAdaptor(adaptor);
-            simplify.downup(tree);
-            nodes.reset();
-            OPPLFactory factory = new OPPLFactory(syntax.getOWLOntologyManager(), syntax,
-                    null);
-            OPPLDefine define = new OPPLDefine(nodes, symbolTable, listener,
-                    factory.createConstraintSystem());
-            define.setTreeAdaptor(adaptor);
-            define.downup(tree);
-            return (ManchesterOWLSyntaxTree) r.getTree();
-        } catch (RecognitionException e) {
-            throw new RuntimeException(e);
-        }
+        RuleReturnScope r = parser.statement();
+        CommonTree tree = (CommonTree) r.getTree();
+        CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
+        nodes.setTokenStream(tokens); // where to find tokens
+        nodes.setTreeAdaptor(adaptor);
+        nodes.reset();
+        // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
+        ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+        simplify.setTreeAdaptor(adaptor);
+        simplify.downup(tree);
+        nodes.reset();
+        OPPLFactory factory = new OPPLFactory(syntax.getOWLOntologyManager(), syntax,
+                null);
+        OPPLDefine define = new OPPLDefine(nodes, symbolTable, listener,
+                factory.createConstraintSystem());
+        define.setTreeAdaptor(adaptor);
+        define.downup(tree);
+        return (ManchesterOWLSyntaxTree) r.getTree();
     }
 }

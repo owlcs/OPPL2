@@ -23,7 +23,7 @@ public class TestAssertedSolvabilityBasedAxiomQuery {
     private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
 
     @Test
-    public void testSubClassAxiom() throws Exception {
+    public void shouldTestSubClassAxiom() throws Exception {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
         OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);
@@ -53,7 +53,7 @@ public class TestAssertedSolvabilityBasedAxiomQuery {
     }
 
     @Test
-    public void testUnsolvableSubClassAxiom() throws Exception {
+    public void shouldTestUnsolvableSubClassAxiom() throws Exception {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         OWLOntology ontology = manager.createOntology();
         OPPLFactory opplFactory = new OPPLFactory(manager, ontology, null);

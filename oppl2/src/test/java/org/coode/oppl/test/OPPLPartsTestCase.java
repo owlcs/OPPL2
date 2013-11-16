@@ -67,7 +67,7 @@ public class OPPLPartsTestCase {
     }
 
     @Test
-    public void testParseInSetConstraint() {
+    public void shouldTestParseInSetConstraint() {
         OPPLParser parser = getParser(test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
@@ -89,7 +89,7 @@ public class OPPLPartsTestCase {
     }
 
     @Test
-    public void testParseInequalityConstraint() {
+    public void shouldTestParseInequalityConstraint() {
         OPPLParser parser = getParser(test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
@@ -111,7 +111,7 @@ public class OPPLPartsTestCase {
     }
 
     @Test
-    public void testParseOPPLFunction() {
+    public void shouldTestParseOPPLFunction() {
         OPPLParser parser = getParser(test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
@@ -130,7 +130,7 @@ public class OPPLPartsTestCase {
     }
 
     @Test
-    public void testParseOPPLFunctionAggregatingLooseObjectAndVariableValues() {
+    public void shouldTestParseOPPLFunctionAggregatingLooseObjectAndVariableValues() {
         OPPLParser parser = getParser(test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
@@ -179,7 +179,7 @@ public class OPPLPartsTestCase {
     }
 
     @Test
-    public void testParseAxiom() {
+    public void shouldTestParseAxiom() {
         OPPLParser parser = getParser(test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
@@ -194,7 +194,7 @@ public class OPPLPartsTestCase {
     }
 
     @Test
-    public void testParseNAFConstraint() {
+    public void shouldTestParseNAFConstraint() {
         OPPLParser parser = getParser(naf);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
@@ -210,7 +210,7 @@ public class OPPLPartsTestCase {
     }
 
     @Test
-    public void testParseRegExpConstraint() {
+    public void shouldTestParseRegExpConstraint() {
         OPPLParser parser = getParser(test);
         ConstraintSystem constraintSystem = parser.getOPPLAbstractFactory()
                 .createConstraintSystem();
