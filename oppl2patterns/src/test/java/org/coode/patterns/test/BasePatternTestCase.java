@@ -82,7 +82,7 @@ public abstract class BasePatternTestCase {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         lastStackTrace = new StringWriter();
         p = new PrintWriter(lastStackTrace);
     }

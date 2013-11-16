@@ -1,7 +1,5 @@
 package org.coode.oppl.patterntestontologies;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.io.StringDocumentTarget;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.AddOntologyAnnotation;
 import org.semanticweb.owlapi.model.IRI;
@@ -24,13 +21,11 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLDataHasValue;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDataRange;
-import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
@@ -59,7 +54,6 @@ import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubDataPropertyOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
@@ -106,36 +100,6 @@ public class PatternTestOntologies {
         return axioms;
     }
 
-    public static OWLOntology naf(OWLOntologyManager m) {
-        String naf_ns = "http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl";
-        try {
-            OWLOntology naf = m.createOntology(IRI(naf_ns));
-            OWLObjectProperty hasP = object(naf_ns + "#hasP");
-            OWLClass prange = Class(naf_ns + "#P_Range");
-            OWLClass a = Class(naf_ns + "#A");
-            OWLClass b = Class(naf_ns + "#B");
-            OWLClass c = Class(naf_ns + "#C");
-            OWLClass d = Class(naf_ns + "#D");
-            OWLClass aa = Class(naf_ns + "#A_A");
-            OWLClass ab = Class(naf_ns + "#A_B");
-            OWLClass ac = Class(naf_ns + "#A_C");
-            OWLClass ad = Class(naf_ns + "#A_D");
-            OWLClass bpr = Class(naf_ns + "#B_P_Range");
-            OWLClass cpr = Class(naf_ns + "#C_P_Range");
-            OWLClass dpr = Class(naf_ns + "#D_P_Range");
-            declare(naf, a, aa, ab, ac, ad, bpr, cpr, d, dpr, prange, hasP);
-            state(naf, sub(a, some(hasP, prange)), sub(bpr, prange), sub(c, a),
-                    sub(ab, aa), sub(ac, aa), sub(ad, aa), sub(b, a), sub(cpr, prange),
-                    sub(d, a), sub(dpr, prange), sub(ab, some(hasP, bpr)),
-                    sub(b, some(hasP, bpr)), sub(c, some(hasP, cpr)),
-                    sub(d, some(hasP, dpr)));
-            state(naf, label(b, "B"), label(c, "C"));
-            return naf;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static OWLOntology country(OWLOntologyManager m) {
         String country_ns = "http://www.co-ode.org/roberts/country.owl";
         try {
@@ -175,82 +139,6 @@ public class PatternTestOntologies {
         }
     }
 
-    private void same(OWLOntology o1, OWLOntology o2) throws OWLOntologyStorageException {
-        Set<OWLAxiom> common = new HashSet<OWLAxiom>(o1.getAxioms());
-        common.retainAll(o2.getAxioms());
-        o1.getOWLOntologyManager().removeAxioms(o1, common);
-        o2.getOWLOntologyManager().removeAxioms(o2, common);
-        if (o1.getAxiomCount() == 0 && o2.getAxiomCount() == 0) {
-            return;
-        }
-        StringDocumentTarget t1 = new StringDocumentTarget();
-        StringDocumentTarget t2 = new StringDocumentTarget();
-        o1.getOWLOntologyManager().saveOntology(o1, t1);
-        o2.getOWLOntologyManager().saveOntology(o2, t2);
-        assertEquals(
-                t1.toString().replace("file:/C:/Tools/Alignement/align-4.0/temp.owl",
-                        "urn:temp"), t2.toString());
-    }
-
-    // @Test
-    // public void shouldnaf() throws OWLOntologyStorageException {
-    // same(Ontologies.naf, naf());
-    // }
-    //
-    // @Test
-    // public void shouldondrej() throws OWLOntologyStorageException {
-    // same(Ontologies.ondrejtest, ondrejtest());
-    // }
-    //
-    // @Test
-    // public void shoulddul() throws OWLOntologyStorageException {
-    // same(Ontologies.dul, dul());
-    // }
-    //
-    // @Test
-    // public void shouldfood() throws OWLOntologyStorageException {
-    // same(Ontologies.food, food());
-    // }
-    //
-    // @Test
-    // public void shouldpatterndul() throws OWLOntologyStorageException {
-    // same(Ontologies.patternedDUL, patternedDul());
-    // }
-    //
-    // @Test
-    // public void shouldpatternpizza() throws OWLOntologyStorageException {
-    // same(Ontologies.patternedPizza, patternedPizza());
-    // }
-    //
-    // @Test
-    // public void shouldluigi() throws OWLOntologyStorageException {
-    // same(Ontologies.patternedPizzaLuigi, pizzaLuigi());
-    // }
-    //
-    // @Test
-    // public void shouldsequential() throws OWLOntologyStorageException {
-    // same(Ontologies.sequentialUnion, sequentialUnion());
-    // }
-    //
-    // @Test
-    // public void shouldsiblings() throws OWLOntologyStorageException {
-    // same(Ontologies.siblings, siblings());
-    // }
-    //
-    // @Test
-    // public void shouldsyntax() throws OWLOntologyStorageException {
-    // same(Ontologies.syntax, syntax());
-    // }
-    //
-    // @Test
-    // public void shouldcountry() throws OWLOntologyStorageException {
-    // same(Ontologies.test, country());
-    // }
-    //
-    // @Test
-    // public void shouldtestLongLabels() throws OWLOntologyStorageException {
-    // same(Ontologies.testLongLabels, testLongLabels());
-    // }
     public static OWLOntology syntax(OWLOntologyManager m) {
         String syntax_ns = "http://www.coode.org/oppl/ontologies/syntaxTest.owl";
         try {
@@ -259,233 +147,6 @@ public class PatternTestOntologies {
             state(syntax, label(p, "aDataProperty"));
             state(syntax, range(p, OWL2Datatype.XSD_INT.getDatatype(dataFactory)));
             return syntax;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static OWLOntology testLongLabels(OWLOntologyManager m) {
-        String ns = "http://www.coode.org/oppl/testLongLabels";
-        try {
-            OWLOntology testLongLabels = m.createOntology(IRI(ns));
-            OWLClass a = Class(ns + "#A");
-            OWLClass b = Class(ns + "#B");
-            state(testLongLabels,
-                    label(a, "Structure of femoral artery (body structure)"),
-                    label(b, "Structure of arm artery (body structure)"));
-            return testLongLabels;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static OWLOntology siblings(OWLOntologyManager m) {
-        String ns = "http://www.semanticweb.org/ontologies/2011/1/siblings.owl";
-        try {
-            OWLOntology siblings = m.createOntology(IRI(ns));
-            declare(siblings, object(ns + "#hasSibling"), NamedIndividual(ns + "#Robert"));
-            return siblings;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static OWLOntology ondrejtest(OWLOntologyManager m) {
-        String ns = "http://www.semanticweb.org/ontologies/2010/2/Ontology1269524218581.owl";
-        try {
-            OWLOntology ondrejtest = m.createOntology();
-            OWLClass a = Class(ns + "#A");
-            OWLClass c = Class(ns + "#C");
-            OWLObjectProperty p = object(ns + "#p");
-            declare(ondrejtest, a, c, p);
-            state(ondrejtest, eq(a, some(p, c)), sub(c, OWLThing()));
-            return ondrejtest;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static OWLOntology sequentialUnion(OWLOntologyManager m) {
-        String ns1 = "http://www.semanticweb.com/mergedont";
-        String ns = "urn:temp#";
-        try {
-            OWLOntology sequentialUnion = m.createOntology(IRI(ns));
-            String nsf = "http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#";
-            String nsf1 = "http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#";
-            OWLClass DPWS_Action = Class(nsf + "DPWS_Action");
-            OWLClass DPWS_Device = Class(nsf + "DPWS_Device");
-            OWLClass DPWS_Service = Class(nsf + "DPWS_Service");
-            OWLClass DPWS_StateVariable = Class(nsf + "DPWS_StateVariable");
-            OWLClass DummyOperation = Class(nsf + "DummyOperation");
-            OWLClass SeqClockStd = Class(nsf + "SeqClockStd");
-            OWLClass Set1 = Class(nsf + "Set1");
-            OWLClass Set2 = Class(nsf + "Set2");
-            OWLClass a = Class(nsf + "a");
-            OWLClass seqentialClock = Class(nsf + "seqentialClock");
-            OWLClass x = Class(nsf + "x");
-            OWLClass y = Class(nsf + "y");
-            OWLClass newx = Class(nsf1 + "Newx");
-            OWLClass newy = Class(nsf1 + "Newy");
-            OWLClass sequentialunionclock = Class(nsf1 + "SequentialUnionClock");
-            OWLObjectProperty has_dpws_statevariable = object(nsf
-                    + "has_DPWS_StateVariable");
-            OWLObjectProperty has_DPWS_Action = object(nsf + "has_DPWS_Action");
-            OWLObjectProperty has_DPWS_Input = object(nsf + "has_DPWS_Input");
-            OWLObjectProperty has_DPWS_Output = object(nsf + "has_DPWS_Output");
-            OWLObjectProperty has_DPWS_Service = object(nsf + "has_DPWS_Service");
-            OWLDataProperty a_has_DPWS_StateVariable_Type = DataProperty(nsf
-                    + "a_has_DPWS_StateVariable_Type");
-            OWLDataProperty has_DPWS_Logical_Device_Name = DataProperty(nsf
-                    + "has_DPWS_Logical_Device_Name");
-            OWLDataProperty x_has_DPWS_StateVariable_Type = DataProperty(nsf
-                    + "x_has_DPWS_StateVariable_Type");
-            OWLDataProperty y_has_DPWS_StateVariable_Type = DataProperty(nsf
-                    + "y_has_DPWS_StateVariable_Type");
-            OWLDataProperty y_has_UPnP_StateVariable_Type = DataProperty(nsf1
-                    + "y_has_UPnP_StateVariable_Type");
-            OWLDataProperty x_has_UPnP_StateVariable_Type = DataProperty(nsf1
-                    + "x_has_UPnP_StateVariable_Type");
-            OWLDataProperty has_UPnP_Service_Version = DataProperty(nsf1
-                    + "has_UPnP_Service_Version");
-            OWLDataProperty has_UPnP_Service_Type = DataProperty(nsf1
-                    + "has_UPnP_Service_Type");
-            OWLDataProperty has_UPnP_Service_ID = DataProperty(nsf1
-                    + "has_UPnP_Service_ID");
-            OWLDataProperty has_UPnP_Device_Type = DataProperty(nsf1
-                    + "has_UPnP_Device_Type");
-            OWLObjectProperty UPnP_is_instance_of_type = object(nsf1
-                    + "UPnP_is_instance_of_type");
-            OWLObjectProperty has_UPnP_Action = object(nsf1 + "has_UPnP_Action");
-            OWLObjectProperty has_UPnP_Input = object(nsf1 + "has_UPnP_Input");
-            OWLObjectProperty has_UPnP_Instance_Input = object(nsf1
-                    + "has_UPnP_Instance_Input");
-            OWLObjectProperty has_UPnP_Instance_Output = object(nsf1
-                    + "has_UPnP_Instance_Output");
-            OWLObjectProperty has_UPnP_Output = object(nsf1 + "has_UPnP_Output");
-            OWLObjectProperty has_UPnP_Service = object(nsf1 + "has_UPnP_Service");
-            OWLClass Set12 = Class(nsf1 + "Set12");
-            OWLClass Time = Class(nsf1 + "Time");
-            OWLClass UPnP_Action = Class(nsf1 + "UPnP_Action");
-            OWLClass UPnP_Device = Class(nsf1 + "UPnP_Device");
-            OWLClass UPnP_Service = Class(nsf1 + "UPnP_Service");
-            OWLClass UPnP_StateVariable = Class(nsf1 + "UPnP_StateVariable");
-            OWLClass x1 = Class(nsf1 + "x");
-            OWLClass y1 = Class(nsf1 + "y");
-            OWLObjectProperty Sequential_Union_Mapping_First_member = object(ns
-                    + "Sequential_Union_Mapping_First_member");
-            OWLObjectProperty Sequential_Union_Mapping_Second_member = object(ns
-                    + "Sequential_Union_Mapping_Second_member");
-            OWLObjectProperty Simple_Mapping_Input = object(ns + "Simple_Mapping_Input");
-            OWLObjectProperty Simple_Mapping_Input_Output = object(ns
-                    + "Simple_Mapping_Input_Output");
-            OWLObjectProperty Simple_Mapping_Output = object(ns + "Simple_Mapping_Output");
-            OWLObjectProperty Union_Mapping = object(ns + "Union_Mapping");
-            OWLObjectProperty Union_Mapping_First_member = object(ns
-                    + "Union_Mapping_First_member");
-            OWLObjectProperty Union_Mapping_Second_member = object(ns
-                    + "Union_Mapping_Second_member");
-            OWLObjectProperty Exact_Input_Match = object(ns1 + "#Exact_Input_Match");
-            OWLObjectProperty Exact_Input_Output_Match = object(ns1
-                    + "#Exact_Input_Output_Match");
-            OWLObjectProperty Exact_Output_Match = object(ns1 + "#Exact_Output_Match");
-            OWLObjectProperty PlugIn_Input_Output_Match = object(ns1
-                    + "#PlugIn_Input_Output_Match");
-            OWLObjectProperty PlugIn_Output_Match = object(ns1 + "#PlugIn_Output_Match");
-            OWLObjectProperty has_Next = object(ns1 + "#has_Next");
-            OWLObjectProperty PlugIn_Input_Match = object(ns1 + "#PlugIn_Input_Match");
-            OWLClass SequentialUnionClock = Class(nsf1 + "SequentialUnionClock");
-            declare(sequentialUnion, DPWS_Action, DPWS_Device, DPWS_Service,
-                    DPWS_StateVariable, DummyOperation, SeqClockStd, Set1, Set2, a,
-                    seqentialClock, x, y, newx, newy, sequentialunionclock, Set12, Time,
-                    UPnP_Action, UPnP_Device, UPnP_Service, UPnP_StateVariable, x1, y1,
-                    Sequential_Union_Mapping_First_member,
-                    Sequential_Union_Mapping_Second_member, Simple_Mapping_Input,
-                    Simple_Mapping_Input_Output, Simple_Mapping_Output, Union_Mapping,
-                    Union_Mapping_First_member, Union_Mapping_Second_member,
-                    has_DPWS_Action, has_DPWS_Input, has_DPWS_Output, has_DPWS_Service,
-                    has_dpws_statevariable, UPnP_is_instance_of_type, has_UPnP_Action,
-                    has_UPnP_Input, has_UPnP_Instance_Input, has_UPnP_Instance_Output,
-                    has_UPnP_Output, has_UPnP_Service, Exact_Input_Match,
-                    Exact_Input_Output_Match, Exact_Output_Match, PlugIn_Input_Match,
-                    PlugIn_Input_Output_Match, PlugIn_Output_Match, has_Next,
-                    a_has_DPWS_StateVariable_Type, has_DPWS_Logical_Device_Name,
-                    x_has_DPWS_StateVariable_Type, y_has_DPWS_StateVariable_Type,
-                    has_UPnP_Device_Type, has_UPnP_Service_ID, has_UPnP_Service_Type,
-                    has_UPnP_Service_Version, x_has_UPnP_StateVariable_Type,
-                    y_has_UPnP_StateVariable_Type);
-            state(sequentialUnion,
-                    sub(DPWS_Action, some(has_dpws_statevariable, DPWS_StateVariable)),
-                    sub(DPWS_Device, some(has_DPWS_Service, DPWS_Service)),
-                    sub(DPWS_Service, some(has_DPWS_Action, DPWS_Action)),
-                    sub(DummyOperation, DPWS_Action),
-                    sub(DummyOperation, some(has_DPWS_Input, y)),
-                    eq(SeqClockStd, Time),
-                    sub(SeqClockStd, DPWS_Service),
-                    sub(SeqClockStd, some(has_DPWS_Action, DummyOperation)),
-                    sub(SeqClockStd, some(has_DPWS_Action, Set1)),
-                    sub(SeqClockStd, some(has_DPWS_Action, Set2)),
-                    eq(Set1, Set12),
-                    sub(Set1, DPWS_Action),
-                    sub(Set1, some(has_DPWS_Input, x)),
-                    sub(Set1, some(has_DPWS_Output, a)),
-                    sub(Set1, some(Exact_Input_Match, Set12)),
-                    eq(Set2, Set12),
-                    sub(Set2, DPWS_Action),
-                    sub(Set2, some(has_DPWS_Input, a)),
-                    sub(Set2, some(has_DPWS_Output, y)),
-                    sub(Set2, some(Exact_Output_Match, Set12)),
-                    sub(a, DPWS_StateVariable),
-                    sub(a, some(a_has_DPWS_StateVariable_Type, string())),
-                    eq(seqentialClock, SequentialUnionClock),
-                    sub(seqentialClock, DPWS_Device),
-                    sub(seqentialClock, some(has_DPWS_Service, SeqClockStd)),
-                    sub(seqentialClock,
-                            has(has_DPWS_Logical_Device_Name,
-                                    Literal("hosted:seqentialClock", ""))),
-                    eq(x, x1),
-                    sub(x, DPWS_StateVariable),
-                    sub(x, some(x_has_DPWS_StateVariable_Type, string())),
-                    eq(y, y1),
-                    sub(y, DPWS_StateVariable),
-                    sub(y, some(y_has_DPWS_StateVariable_Type, string())),
-                    sub(newx, x1),
-                    sub(newx, some(UPnP_is_instance_of_type, x1)),
-                    sub(newy, y1),
-                    sub(newy, some(UPnP_is_instance_of_type, y1)),
-                    sub(SequentialUnionClock, UPnP_Device),
-                    sub(SequentialUnionClock, some(has_UPnP_Service, Time)),
-                    sub(SequentialUnionClock,
-                            has(has_UPnP_Device_Type,
-                                    Literal("urn:schemas-upnp-org:device:SequentialUnionClock:1",
-                                            ""))),
-                    sub(Set12, UPnP_Action),
-                    sub(Set12, some(Simple_Mapping_Input, Set1)),
-                    sub(Set12, some(Simple_Mapping_Output, Set2)),
-                    sub(Set12, some(Union_Mapping, Set1)),
-                    sub(Set12, some(has_UPnP_Input, x1)),
-                    sub(Set12, some(has_UPnP_Instance_Input, newx)),
-                    sub(Set12, some(has_UPnP_Instance_Output, newy)),
-                    sub(Set12, some(has_UPnP_Output, y1)),
-                    sub(Set12, some(Exact_Input_Match, Set1)),
-                    sub(Set12, some(Exact_Output_Match, Set2)),
-                    sub(Time, UPnP_Service),
-                    sub(Time, some(has_UPnP_Action, Set12)),
-                    sub(Time,
-                            has(has_UPnP_Service_ID,
-                                    Literal("urn:upnp-org:serviceId:Time.1", ""))),
-                    sub(Time,
-                            has(has_UPnP_Service_Type,
-                                    Literal("urn:schemas-upnp-org:service:Time:1", ""))),
-                    sub(Time, has(has_UPnP_Service_Version, Literal("1", ""))),
-                    sub(UPnP_Action, some(has_UPnP_Input, UPnP_StateVariable)),
-                    sub(UPnP_Action, some(has_UPnP_Output, UPnP_StateVariable)),
-                    sub(UPnP_Device, some(has_UPnP_Service, UPnP_Service)),
-                    sub(UPnP_Service, some(has_UPnP_Action, UPnP_Action)),
-                    sub(x1, UPnP_StateVariable),
-                    sub(x1, some(x_has_UPnP_StateVariable_Type, string())),
-                    sub(y1, UPnP_StateVariable),
-                    sub(y1, some(y_has_UPnP_StateVariable_Type, string())));
-            return sequentialUnion;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1188,59 +849,6 @@ public class PatternTestOntologies {
             m.applyChange(new AddOntologyAnnotation(patternedPizza, ann));
             declare(patternedPizza, named);
             return patternedPizza;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static OWLOntology pizzaLuigi(OWLOntologyManager m) {
-        String ns = "http://pizza.com/pizza.owl#";
-        String ns1 = "http://www.co-ode.org/patterns#";
-        try {
-            OWLOntology pizza = m.createOntology(IRI("http://patterns/pizzaluigi"));
-            m.applyChange(new AddImport(pizza,
-                    ImportsDeclaration(IRI("http://pizza.com/pizza.owl"))));
-            OWLAnnotationProperty namedPizza = ann(ns1 + "namedPizza");
-            OWLAnnotation ann = ann(
-                    namedPizza,
-                    Literal("?base:CLASS, ?topping:CLASS, ?allToppings:CLASS = createUnion(?topping.VALUES)  BEGIN ADD ?_thisClass subClassOf Pizza, ADD ?_thisClass subClassOf hasTopping some ?topping, ADD ?_thisClass subClassOf hasTopping only ?allToppings, ADD ?_thisClass subClassOf hasBase some ?base END; A pizza with ?base base and ?topping toppings",
-                            string()));
-            m.applyChange(new AddOntologyAnnotation(pizza, ann));
-            OWLClass LuigiPizza = Class("http://patterns/pizzaluigi#LuigiPizza");
-            OWLClass ChickenTopping = Class(ns + "ChickenTopping");
-            OWLClass DeepPanBase = Class(ns + "DeepPanBase");
-            OWLClass HotSpicedBeefTopping = Class(ns + "HotSpicedBeefTopping");
-            OWLClass ParmaHamTopping = Class(ns + "ParmaHamTopping");
-            OWLClass Pizza = Class(ns + "Pizza");
-            OWLClass ThinAndCrispyBase = Class(ns + "ThinAndCrispyBase");
-            OWLObjectProperty hasBase = object(ns + "hasBase");
-            OWLObjectProperty hasTopping = object(ns + "hasTopping");
-            OWLAnnotationProperty LuigiPizzanamedPizzaPatternInstantiation = ann(ns1
-                    + "LuigiPizzanamedPizzaPatternInstantiation");
-            OWLAnnotationProperty createdBy = ann(ns1 + "createdBy");
-            OWLAnnotationProperty namedPizzaPatternInstantiation = ann(ns1
-                    + "namedPizzaPatternInstantiation");
-            OWLLiteral lit = Literal(
-                    "http://www.co-ode.org/patterns#namedPizzaPatternInstantiation",
-                    string());
-            Set<OWLAnnotation> a = Collections.singleton(ann(createdBy, lit));
-            declare(pizza, LuigiPizza, Pizza, ThinAndCrispyBase, hasBase, hasTopping,
-                    createdBy, ChickenTopping, DeepPanBase, HotSpicedBeefTopping,
-                    namedPizza, ParmaHamTopping,
-                    LuigiPizzanamedPizzaPatternInstantiation,
-                    namedPizzaPatternInstantiation);
-            state(pizza,
-                    ann(namedPizzaPatternInstantiation,
-                            LuigiPizza.getIRI(),
-                            Literal("$namedPizza(DeepPanBase, {HotSpicedBeefTopping, ChickenTopping})",
-                                    string())),
-                    sub(LuigiPizza, Pizza, a),
-                    sub(LuigiPizza, some(hasBase, DeepPanBase), a),
-                    sub(LuigiPizza, some(hasTopping, ChickenTopping), a),
-                    sub(LuigiPizza, some(hasTopping, HotSpicedBeefTopping), a),
-                    sub(LuigiPizza,
-                            all(hasTopping, or(HotSpicedBeefTopping, ChickenTopping)), a));
-            return pizza;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2227,10 +1835,6 @@ public class PatternTestOntologies {
         return dataFactory.getOWLThing();
     }
 
-    private static OWLDatatype Integer() {
-        return dataFactory.getIntegerOWLDatatype();
-    }
-
     private static OWLObjectProperty object(String iri) {
         return dataFactory.getOWLObjectProperty(IRI(iri));
     }
@@ -2295,15 +1899,6 @@ public class PatternTestOntologies {
 
     private static OWLObjectOneOf one(OWLIndividual... individuals) {
         return dataFactory.getOWLObjectOneOf(individuals);
-    }
-
-    private static OWLDataSomeValuesFrom some(OWLDataPropertyExpression pe,
-            OWLDataRange dr) {
-        return dataFactory.getOWLDataSomeValuesFrom(pe, dr);
-    }
-
-    private static OWLDataHasValue has(OWLDataPropertyExpression pe, OWLLiteral literal) {
-        return dataFactory.getOWLDataHasValue(pe, literal);
     }
 
     private static OWLSubClassOfAxiom sub(OWLClassExpression subClass,
@@ -2423,44 +2018,22 @@ public class PatternTestOntologies {
     }
 
     public static OWLOntology test;
-    public static OWLOntology naf;
     public static OWLOntology pizza;
     public static OWLOntology patternedPizza;
     public static OWLOntology patternedDUL;
-    public static OWLOntology patternedPizzaLuigi;
     public static OWLOntology food;
     public static OWLOntology dul;
     public static OWLOntology syntax;
-    public static OWLOntology siblings;
-    public static OWLOntology ondrejtest;
-    public static OWLOntology testLongLabels;
-    public static OWLOntology sequentialUnion;
     public static OWLDataFactory df = OWLManager.getOWLDataFactory();
-    public static OWLOntologyManager managerForPizzaAndSyntax = OWLManager
-            .createOWLOntologyManager();
-    public static OWLOntologyManager managerForPizzaAndOndrej = OWLManager
-            .createOWLOntologyManager();
     static {
         try {
-            naf = naf(OWLManager.createOWLOntologyManager());
             test = country(OWLManager.createOWLOntologyManager());
             syntax = syntax(OWLManager.createOWLOntologyManager());
-            testLongLabels = testLongLabels(OWLManager.createOWLOntologyManager());
-            siblings = siblings(OWLManager.createOWLOntologyManager());
-            ondrejtest = ondrejtest(OWLManager.createOWLOntologyManager());
-            sequentialUnion = sequentialUnion(OWLManager.createOWLOntologyManager());
             pizza = pizza(OWLManager.createOWLOntologyManager());
             food = food(OWLManager.createOWLOntologyManager());
             // load a copy of pizza and patterned pizza on the same manager
             OWLOntology temp = pizza(OWLManager.createOWLOntologyManager());
             patternedPizza = patternedPizza(temp.getOWLOntologyManager());
-            patternedPizzaLuigi = pizzaLuigi(temp.getOWLOntologyManager());
-            temp = pizza(OWLManager.createOWLOntologyManager());
-            managerForPizzaAndSyntax = syntax(temp.getOWLOntologyManager())
-                    .getOWLOntologyManager();
-            temp = pizza(OWLManager.createOWLOntologyManager());
-            managerForPizzaAndOndrej = ondrejtest(temp.getOWLOntologyManager())
-                    .getOWLOntologyManager();
             dul = dul(OWLManager.createOWLOntologyManager());
             temp = dul(OWLManager.createOWLOntologyManager());
             patternedDUL = patternedDul(temp.getOWLOntologyManager());

@@ -283,8 +283,7 @@ public class OPPLPatternScriptParser extends Parser {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:73:1:
     // pattern : statement ( rendering )? ( SEMICOLON returnClause )? -> ^(
     // OPPL_PATTERN statement ( rendering )? ( returnClause )? ) ;
-    public final OPPLPatternScriptParser.pattern_return pattern()
-            throws RecognitionException {
+    public final OPPLPatternScriptParser.pattern_return pattern() {
         OPPLPatternScriptParser.pattern_return retval = new OPPLPatternScriptParser.pattern_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -292,7 +291,6 @@ public class OPPLPatternScriptParser extends Parser {
         OPPLPatternScriptParser.statement_return statement1 = null;
         OPPLPatternScriptParser.rendering_return rendering2 = null;
         OPPLPatternScriptParser.returnClause_return returnClause4 = null;
-        OPPLSyntaxTree SEMICOLON3_tree = null;
         RewriteRuleTokenStream stream_SEMICOLON = new RewriteRuleTokenStream(adaptor,
                 "token SEMICOLON");
         RewriteRuleSubtreeStream stream_statement = new RewriteRuleSubtreeStream(adaptor,
@@ -447,8 +445,7 @@ public class OPPLPatternScriptParser extends Parser {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:78:1:
     // statement : ( variableDefinitions )? actions -> ^( OPPL_STATEMENT (
     // variableDefinitions )? actions ) ;
-    public final OPPLPatternScriptParser.statement_return statement()
-            throws RecognitionException {
+    public final OPPLPatternScriptParser.statement_return statement() {
         OPPLPatternScriptParser.statement_return retval = new OPPLPatternScriptParser.statement_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -567,8 +564,7 @@ public class OPPLPatternScriptParser extends Parser {
     // returnClause : ( RETURN VARIABLE_NAME -> ^( RETURN ^(
     // IDENTIFIER[$VARIABLE_NAME] ) ) | RETURN THIS_CLASS -> ^( RETURN ^(
     // THIS_CLASS ) ) );
-    public final OPPLPatternScriptParser.returnClause_return returnClause()
-            throws RecognitionException {
+    public final OPPLPatternScriptParser.returnClause_return returnClause() {
         OPPLPatternScriptParser.returnClause_return retval = new OPPLPatternScriptParser.returnClause_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -576,10 +572,6 @@ public class OPPLPatternScriptParser extends Parser {
         Token VARIABLE_NAME8 = null;
         Token RETURN9 = null;
         Token THIS_CLASS10 = null;
-        OPPLSyntaxTree RETURN7_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME8_tree = null;
-        OPPLSyntaxTree RETURN9_tree = null;
-        OPPLSyntaxTree THIS_CLASS10_tree = null;
         RewriteRuleTokenStream stream_THIS_CLASS = new RewriteRuleTokenStream(adaptor,
                 "token THIS_CLASS");
         RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(adaptor,
@@ -644,9 +636,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 85:28: -> ^( RETURN ^( IDENTIFIER[$VARIABLE_NAME] ) )
                         {
@@ -702,9 +691,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 86:26: -> ^( RETURN ^( THIS_CLASS ) )
                         {
@@ -762,8 +748,7 @@ public class OPPLPatternScriptParser extends Parser {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:91:1:
     // rendering : ( renderingPart )+ -> ^( RENDERING[builder.toString()] (
     // renderingPart )+ ) ;
-    public final OPPLPatternScriptParser.rendering_return rendering()
-            throws RecognitionException {
+    public final OPPLPatternScriptParser.rendering_return rendering() {
         OPPLPatternScriptParser.rendering_return retval = new OPPLPatternScriptParser.rendering_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -833,8 +818,6 @@ public class OPPLPatternScriptParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 101:7: -> ^( RENDERING[builder.toString()] (
                     // renderingPart )+ )
@@ -893,8 +876,7 @@ public class OPPLPatternScriptParser extends Parser {
     // IDENTIFIER -> ^( IDENTIFIER ) | ENTITY_REFERENCE -> ^( ENTITY_REFERENCE )
     // | VARIABLE_NAME -> ^( IDENTIFIER[$VARIABLE_NAME] ) | HYPHEN -> ^( HYPHEN
     // ) );
-    public final OPPLPatternScriptParser.renderingPart_return renderingPart()
-            throws RecognitionException {
+    public final OPPLPatternScriptParser.renderingPart_return renderingPart() {
         OPPLPatternScriptParser.renderingPart_return retval = new OPPLPatternScriptParser.renderingPart_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -903,11 +885,6 @@ public class OPPLPatternScriptParser extends Parser {
         Token ENTITY_REFERENCE14 = null;
         Token VARIABLE_NAME15 = null;
         Token HYPHEN16 = null;
-        OPPLSyntaxTree THIS_CLASS12_tree = null;
-        OPPLSyntaxTree IDENTIFIER13_tree = null;
-        OPPLSyntaxTree ENTITY_REFERENCE14_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME15_tree = null;
-        OPPLSyntaxTree HYPHEN16_tree = null;
         RewriteRuleTokenStream stream_REGEXP_CONSTRAINT = new RewriteRuleTokenStream(
                 adaptor, "token REGEXP_CONSTRAINT");
         RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(adaptor,
@@ -976,9 +953,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 107:18: -> ^( IDENTIFIER[$THIS_CLASS] THIS_CLASS )
                         {
@@ -1017,9 +991,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 108:18: -> ^( IDENTIFIER )
                         {
@@ -1057,9 +1028,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 109:24: -> ^( ENTITY_REFERENCE )
                         {
@@ -1097,9 +1065,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 110:21: -> ^( IDENTIFIER[$VARIABLE_NAME] )
                         {
@@ -1138,9 +1103,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 111:14: -> ^( HYPHEN )
                         {
@@ -1193,8 +1155,7 @@ public class OPPLPatternScriptParser extends Parser {
     // ^( createIdentifier ) | variableAttributeReference -> ^(
     // variableAttributeReference ) | patternReference -> ^( patternReference )
     // );
-    public final OPPLPatternScriptParser.atomic_return atomic()
-            throws RecognitionException {
+    public final OPPLPatternScriptParser.atomic_return atomic() {
         OPPLPatternScriptParser.atomic_return retval = new OPPLPatternScriptParser.atomic_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -1205,10 +1166,6 @@ public class OPPLPatternScriptParser extends Parser {
         OPPLPatternScript_OPPLParser.createIdentifier_return createIdentifier21 = null;
         OPPLPatternScript_OPPLParser.variableAttributeReference_return variableAttributeReference22 = null;
         OPPLPatternScriptParser.patternReference_return patternReference23 = null;
-        OPPLSyntaxTree THIS_CLASS17_tree = null;
-        OPPLSyntaxTree IDENTIFIER18_tree = null;
-        OPPLSyntaxTree ENTITY_REFERENCE19_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME20_tree = null;
         RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(adaptor,
                 "token VARIABLE_NAME");
         RewriteRuleTokenStream stream_THIS_CLASS = new RewriteRuleTokenStream(adaptor,
@@ -1311,9 +1268,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 119:16: -> ^( IDENTIFIER[$THIS_CLASS] THIS_CLASS )
                         {
@@ -1352,9 +1306,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 120:15: -> ^( IDENTIFIER )
                         {
@@ -1392,9 +1343,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 121:24: -> ^( ENTITY_REFERENCE )
                         {
@@ -1432,9 +1380,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 122:21: -> ^( IDENTIFIER[$VARIABLE_NAME] )
                         {
@@ -1474,9 +1419,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 123:24: -> ^( createIdentifier )
                         {
@@ -1516,9 +1458,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 124:34: -> ^( variableAttributeReference )
                         {
@@ -1558,9 +1497,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 125:24: -> ^( patternReference )
                         {
@@ -1610,16 +1546,13 @@ public class OPPLPatternScriptParser extends Parser {
     // patternReference : DOLLAR name= IDENTIFIER arguments -> ^(
     // IDENTIFIER[$DOLLAR.getText() + name.getText() + $arguments.string]
     // PATTERN_REFERENCE[name.getText()] arguments ) ;
-    public final OPPLPatternScriptParser.patternReference_return patternReference()
-            throws RecognitionException {
+    public final OPPLPatternScriptParser.patternReference_return patternReference() {
         OPPLPatternScriptParser.patternReference_return retval = new OPPLPatternScriptParser.patternReference_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
         Token name = null;
         Token DOLLAR24 = null;
         OPPLPatternScriptParser.arguments_return arguments25 = null;
-        OPPLSyntaxTree name_tree = null;
-        OPPLSyntaxTree DOLLAR24_tree = null;
         RewriteRuleTokenStream stream_DOLLAR = new RewriteRuleTokenStream(adaptor,
                 "token DOLLAR");
         RewriteRuleTokenStream stream_IDENTIFIER = new RewriteRuleTokenStream(adaptor,
@@ -1669,8 +1602,6 @@ public class OPPLPatternScriptParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 134:3: -> ^( IDENTIFIER[$DOLLAR.getText() +
                     // name.getText() + $arguments.string]
@@ -1728,8 +1659,7 @@ public class OPPLPatternScriptParser extends Parser {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:137:1:
     // arguments returns [String string] : OPEN_PARENTHESYS (a= argument ( COMMA
     // a= argument )* )? CLOSED_PARENTHESYS -> ^( ARGUMENTS ( argument )* ) ;
-    public final OPPLPatternScriptParser.arguments_return arguments()
-            throws RecognitionException {
+    public final OPPLPatternScriptParser.arguments_return arguments() {
         OPPLPatternScriptParser.arguments_return retval = new OPPLPatternScriptParser.arguments_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -1737,9 +1667,6 @@ public class OPPLPatternScriptParser extends Parser {
         Token COMMA27 = null;
         Token CLOSED_PARENTHESYS28 = null;
         OPPLPatternScriptParser.argument_return a = null;
-        OPPLSyntaxTree OPEN_PARENTHESYS26_tree = null;
-        OPPLSyntaxTree COMMA27_tree = null;
-        OPPLSyntaxTree CLOSED_PARENTHESYS28_tree = null;
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
                 "token COMMA");
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
@@ -1858,8 +1785,6 @@ public class OPPLPatternScriptParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 162:7: -> ^( ARGUMENTS ( argument )* )
                     {
@@ -1918,8 +1843,7 @@ public class OPPLPatternScriptParser extends Parser {
     // EXPRESSION[$a.text.trim()] atomic ) ) | OPEN_CURLY_BRACES a= atomic (
     // COMMA a= atomic )* CLOSED_CURLY_BRACES -> ^( ARGUMENT ( ^(
     // EXPRESSION[$a.text.trim()] atomic ) )+ ) );
-    public final OPPLPatternScriptParser.argument_return argument()
-            throws RecognitionException {
+    public final OPPLPatternScriptParser.argument_return argument() {
         OPPLPatternScriptParser.argument_return retval = new OPPLPatternScriptParser.argument_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -1927,9 +1851,6 @@ public class OPPLPatternScriptParser extends Parser {
         Token COMMA30 = null;
         Token CLOSED_CURLY_BRACES31 = null;
         OPPLPatternScriptParser.atomic_return a = null;
-        OPPLSyntaxTree OPEN_CURLY_BRACES29_tree = null;
-        OPPLSyntaxTree COMMA30_tree = null;
-        OPPLSyntaxTree CLOSED_CURLY_BRACES31_tree = null;
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
                 "token COMMA");
         RewriteRuleTokenStream stream_CLOSED_CURLY_BRACES = new RewriteRuleTokenStream(
@@ -1988,9 +1909,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 174:6: -> ^( ARGUMENT ^( EXPRESSION[$a.text.trim()]
                         // atomic ) )
@@ -2114,9 +2032,6 @@ public class OPPLPatternScriptParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 186:5: -> ^( ARGUMENT ( ^( EXPRESSION[$a.text.trim()]
                         // atomic ) )+ )

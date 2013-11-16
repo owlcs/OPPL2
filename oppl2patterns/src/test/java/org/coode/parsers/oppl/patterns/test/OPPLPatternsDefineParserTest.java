@@ -126,34 +126,29 @@ public class OPPLPatternsDefineParserTest {
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
         OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens);
         parser.setTreeAdaptor(adaptor);
-        try {
-            RuleReturnScope r = parser.pattern();
-            CommonTree tree = (CommonTree) r.getTree();
-            CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
-            nodes.setTokenStream(tokens); // where to find tokens
-            nodes.setTreeAdaptor(adaptor);
-            nodes.reset();
-            // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-            ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
-            simplify.setTreeAdaptor(adaptor);
-            simplify.downup(tree);
-            AbstractPatternModelFactory factory = new PatternModelFactory(o,
-                    o.getOWLOntologyManager());
-            PatternConstraintSystem constraintSystem = factory.createConstraintSystem();
-            OPPLDefine define = new OPPLDefine(nodes, symtab, new SilentListener(),
-                    constraintSystem);
-            define.setTreeAdaptor(adaptor);
-            define.downup(tree);
-            nodes.reset();
-            OPPLPatternsDefine patternsDefine = new OPPLPatternsDefine(nodes, symtab,
-                    new SilentListener(),
-                    OPPLPatternParser.getSimplePatternReferenceResolver(),
-                    constraintSystem);
-            patternsDefine.setTreeAdaptor(adaptor);
-            patternsDefine.downup(tree);
-            return (OPPLSyntaxTree) r.getTree();
-        } catch (RecognitionException e) {
-            throw new RuntimeException(e);
-        }
+        RuleReturnScope r = parser.pattern();
+        CommonTree tree = (CommonTree) r.getTree();
+        CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
+        nodes.setTokenStream(tokens); // where to find tokens
+        nodes.setTreeAdaptor(adaptor);
+        nodes.reset();
+        // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
+        ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+        simplify.setTreeAdaptor(adaptor);
+        simplify.downup(tree);
+        AbstractPatternModelFactory factory = new PatternModelFactory(o,
+                o.getOWLOntologyManager());
+        PatternConstraintSystem constraintSystem = factory.createConstraintSystem();
+        OPPLDefine define = new OPPLDefine(nodes, symtab, new SilentListener(),
+                constraintSystem);
+        define.setTreeAdaptor(adaptor);
+        define.downup(tree);
+        nodes.reset();
+        OPPLPatternsDefine patternsDefine = new OPPLPatternsDefine(nodes, symtab,
+                new SilentListener(),
+                OPPLPatternParser.getSimplePatternReferenceResolver(), constraintSystem);
+        patternsDefine.setTreeAdaptor(adaptor);
+        patternsDefine.downup(tree);
+        return (OPPLSyntaxTree) r.getTree();
     }
 }

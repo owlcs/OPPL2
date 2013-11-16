@@ -159,72 +159,66 @@ public class OPPLPatternParser implements AbstractOPPLParser {
         OPPLPatternScriptParser parser = new OPPLPatternScriptParser(tokens,
                 getListener());
         parser.setTreeAdaptor(ADAPTOR);
-        try {
-            RuleReturnScope r = parser.pattern();
-            CommonTree tree = (CommonTree) r.getTree();
-            if (tree != null) {
-                CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
-                nodes.setTokenStream(tokens); // where to find tokens
-                nodes.setTreeAdaptor(ADAPTOR);
-                nodes.reset();
-                // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-                ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-                        nodes);
-                simplify.setTreeAdaptor(ADAPTOR);
-                tree = (CommonTree) simplify.downup(tree);
-                nodes.reset();
-                OPPLDefine define = new OPPLDefine(nodes, symtab, getListener(),
-                        constraintSystem);
-                define.setTreeAdaptor(ADAPTOR);
-                define.downup(tree);
-                nodes.reset();
-                OPPLPatternsDefine patternsDefine = new OPPLPatternsDefine(nodes, symtab,
-                        getListener(), getPatternReferenceResolver(), constraintSystem);
-                patternsDefine.setTreeAdaptor(ADAPTOR);
-                patternsDefine.downup(tree);
-                nodes.reset();
-                SilentListener silentListener = new SilentListener();
-                symtab.setErrorListener(silentListener);
-                ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes,
-                        symtab, silentListener);
-                mOWLTypes.downup(tree);
-                nodes.reset();
-                OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes,
-                        symtab, new DefaultTypeEnforcer(symtab, getOPPLPatternFactory()
-                                .getOPPLFactory().getOWLEntityFactory(), getListener()),
-                        getListener());
-                typeEnforcement.downup(tree);
-                nodes.reset();
-                mOWLTypes.downup(tree);
-                nodes.reset();
-                OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, silentListener,
-                        constraintSystem, getOPPLPatternFactory().getOPPLFactory());
-                opplTypes.downup(tree);
-                nodes.reset();
-                OPPLPatternsReferenceDefine patternReferenceDefine = new OPPLPatternsReferenceDefine(
-                        nodes, symtab, getListener(), getPatternReferenceResolver(),
-                        constraintSystem);
-                patternReferenceDefine.setTreeAdaptor(ADAPTOR);
-                patternReferenceDefine.downup(tree);
-                nodes.reset();
-                symtab.setErrorListener(getListener());
-                mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab, getListener());
-                mOWLTypes.downup(tree);
-                nodes.reset();
-                opplTypes = new OPPLTypes(nodes, symtab, getListener(), constraintSystem,
-                        getOPPLPatternFactory().getOPPLFactory());
-                opplTypes.downup(tree);
-                nodes.reset();
-                OPPLPatternsTypes opplPatternsTypes = new OPPLPatternsTypes(nodes,
-                        symtab, getListener(), constraintSystem, getOPPLPatternFactory());
-                opplPatternsTypes.downup(tree);
-            }
-            return tree != null ? (PatternModel) ((OPPLSyntaxTree) tree).getOPPLContent()
-                    : null;
-        } catch (RecognitionException e) {
-            listener.recognitionException(e);
-            return null;
+        RuleReturnScope r = parser.pattern();
+        CommonTree tree = (CommonTree) r.getTree();
+        if (tree != null) {
+            CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
+            nodes.setTokenStream(tokens); // where to find tokens
+            nodes.setTreeAdaptor(ADAPTOR);
+            nodes.reset();
+            // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
+            ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+            simplify.setTreeAdaptor(ADAPTOR);
+            tree = (CommonTree) simplify.downup(tree);
+            nodes.reset();
+            OPPLDefine define = new OPPLDefine(nodes, symtab, getListener(),
+                    constraintSystem);
+            define.setTreeAdaptor(ADAPTOR);
+            define.downup(tree);
+            nodes.reset();
+            OPPLPatternsDefine patternsDefine = new OPPLPatternsDefine(nodes, symtab,
+                    getListener(), getPatternReferenceResolver(), constraintSystem);
+            patternsDefine.setTreeAdaptor(ADAPTOR);
+            patternsDefine.downup(tree);
+            nodes.reset();
+            SilentListener silentListener = new SilentListener();
+            symtab.setErrorListener(silentListener);
+            ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes,
+                    symtab, silentListener);
+            mOWLTypes.downup(tree);
+            nodes.reset();
+            OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, symtab,
+                    new DefaultTypeEnforcer(symtab, getOPPLPatternFactory()
+                            .getOPPLFactory().getOWLEntityFactory(), getListener()),
+                    getListener());
+            typeEnforcement.downup(tree);
+            nodes.reset();
+            mOWLTypes.downup(tree);
+            nodes.reset();
+            OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, silentListener,
+                    constraintSystem, getOPPLPatternFactory().getOPPLFactory());
+            opplTypes.downup(tree);
+            nodes.reset();
+            OPPLPatternsReferenceDefine patternReferenceDefine = new OPPLPatternsReferenceDefine(
+                    nodes, symtab, getListener(), getPatternReferenceResolver(),
+                    constraintSystem);
+            patternReferenceDefine.setTreeAdaptor(ADAPTOR);
+            patternReferenceDefine.downup(tree);
+            nodes.reset();
+            symtab.setErrorListener(getListener());
+            mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab, getListener());
+            mOWLTypes.downup(tree);
+            nodes.reset();
+            opplTypes = new OPPLTypes(nodes, symtab, getListener(), constraintSystem,
+                    getOPPLPatternFactory().getOPPLFactory());
+            opplTypes.downup(tree);
+            nodes.reset();
+            OPPLPatternsTypes opplPatternsTypes = new OPPLPatternsTypes(nodes, symtab,
+                    getListener(), constraintSystem, getOPPLPatternFactory());
+            opplPatternsTypes.downup(tree);
         }
+        return tree != null ? (PatternModel) ((OPPLSyntaxTree) tree).getOPPLContent()
+                : null;
     }
 
     /** @return the symbolTableFactory */
