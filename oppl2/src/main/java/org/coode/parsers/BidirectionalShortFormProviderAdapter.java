@@ -1,22 +1,16 @@
 package org.coode.parsers;
 
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
-import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
-import org.semanticweb.owlapi.model.OWLOntologyLoaderListener;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.util.CachingBidirectionalShortFormProvider;
-import org.semanticweb.owlapi.util.ReferencedEntitySetProvider;
+import org.semanticweb.owlapi.util.OWLEntitySetProvider;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
@@ -28,31 +22,10 @@ import org.semanticweb.owlapi.vocab.OWL2Datatype;
  * A bidirectional short form provider which uses a specified short form
  * provider to generate the bidirectional entity--shortform mappings. */
 public class BidirectionalShortFormProviderAdapter extends
-        CachingBidirectionalShortFormProvider {
+        CachingBidirectionalShortFormProvider implements OWLEntitySetProvider<OWLEntity> {
     private final ShortFormProvider shortFormProvider;
-    private Set<OWLOntology> ontologies;
+    protected Set<OWLOntology> ontologies;
     private OWLOntologyManager man;
-    private final OWLOntologyLoaderListener loaderListener = new OWLOntologyLoaderListener() {
-        @Override
-        public void finishedLoadingOntology(LoadingFinishedEvent event) {
-            ontologies.clear();
-            ontologies.addAll(man.getOntologies());
-            BidirectionalShortFormProviderAdapter.this
-                    .rebuild(new ReferencedEntitySetProvider(ontologies));
-        }
-
-        @Override
-        public void startedLoadingOntology(LoadingStartedEvent event) {
-            // Do nothing
-        }
-    };
-    private final OWLOntologyChangeListener changeListener = new OWLOntologyChangeListener() {
-        @Override
-        public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
-                throws OWLException {
-            BidirectionalShortFormProviderAdapter.this.handleChanges(changes);
-        }
-    };
 
     public BidirectionalShortFormProviderAdapter(ShortFormProvider shortFormProvider) {
         this.shortFormProvider = shortFormProvider;
@@ -81,17 +54,13 @@ public class BidirectionalShortFormProviderAdapter extends
         this.ontologies = ontologies;
         this.shortFormProvider = shortFormProvider;
         this.man = man;
-        this.man.addOntologyChangeListener(changeListener);
-        rebuild(new ReferencedEntitySetProvider(ontologies));
+        rebuild(this);
         // Apparently Thing, Nothing, and the well know datatypes are not
         // referenced entities, so I need to add them.
-        addWellKnownEntities(man);
-        man.addOntologyLoaderListener(loaderListener);
+        addWellKnownEntities(man.getOWLDataFactory());
     }
 
-    /** @param man */
-    private void addWellKnownEntities(OWLOntologyManager man) {
-        OWLDataFactory dataFactory = man.getOWLDataFactory();
+    private void addWellKnownEntities(OWLDataFactory dataFactory) {
         add(dataFactory.getOWLThing());
         add(dataFactory.getOWLNothing());
         add(dataFactory.getTopDatatype());
@@ -107,47 +76,18 @@ public class BidirectionalShortFormProviderAdapter extends
         return shortFormProvider.getShortForm(entity);
     }
 
-    /** Disposes of this short form provider. Note that this method MUST be
-     * called if the constructor that specifies an ontology manager was used. */
     @Override
-    public void dispose() {
-        if (man != null) {
-            man.removeOntologyChangeListener(changeListener);
-            man.removeOntologyLoaderListener(loaderListener);
-        }
-    }
+    public void dispose() {}
 
-    private void handleChanges(List<? extends OWLOntologyChange> changes) {
-        Set<OWLEntity> processed = new HashSet<OWLEntity>();
-        for (OWLOntologyChange chg : changes) {
-            if (ontologies.contains(chg.getOntology())) {
-                if (chg.isAddAxiom()) {
-                    AddAxiom addAx = (AddAxiom) chg;
-                    for (OWLEntity ent : addAx.getSignature()) {
-                        if (!processed.contains(ent)) {
-                            processed.add(ent);
-                            add(ent);
-                        }
-                    }
-                } else if (chg.isAxiomChange() && !chg.isAddAxiom()) {
-                    RemoveAxiom remAx = (RemoveAxiom) chg;
-                    for (OWLEntity ent : remAx.getSignature()) {
-                        if (!processed.contains(ent)) {
-                            processed.add(ent);
-                            boolean stillRef = false;
-                            for (OWLOntology ont : ontologies) {
-                                if (ont.containsEntityInSignature(ent)) {
-                                    stillRef = true;
-                                    break;
-                                }
-                            }
-                            if (!stillRef) {
-                                remove(ent);
-                            }
-                        }
-                    }
-                }
-            }
+    @Override
+    public Set<OWLEntity> getEntities() {
+        if (man == null) {
+            return Collections.emptySet();
         }
+        Set<OWLEntity> set = new HashSet<OWLEntity>();
+        for (OWLOntology o : man.getOntologies()) {
+            set.addAll(o.getSignature());
+        }
+        return set;
     }
 }
