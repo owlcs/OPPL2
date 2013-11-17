@@ -136,14 +136,12 @@ public class OPPLFunctionTest {
         BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
         OWLClass a = dataFactory.getOWLClass(IRI.create("blah#a"));
         OWLClass b = dataFactory.getOWLClass(IRI.create("blah#b"));
-        BindingNode aBindingNode = new BindingNode(new HashSet<Assignment>(Arrays.asList(
-                new Assignment(x, a), new Assignment(y, b))),
-                Collections.<Variable<?>> emptySet());
+        BindingNode aBindingNode = new BindingNode(new Assignment(x, a), new Assignment(
+                y, b));
         OWLClass c = dataFactory.getOWLClass(IRI.create("blah#c"));
         OWLClass d = dataFactory.getOWLClass(IRI.create("blah#d"));
-        BindingNode anotherBindingNode = new BindingNode(new HashSet<Assignment>(
-                Arrays.asList(new Assignment(x, c), new Assignment(y, d))),
-                Collections.<Variable<?>> emptySet());
+        BindingNode anotherBindingNode = new BindingNode(new Assignment(x, c),
+                new Assignment(y, d));
         constraintSystem.setLeaves(new HashSet<BindingNode>(Arrays.asList(aBindingNode,
                 anotherBindingNode)));
         ValueComputationParameters parameters = new SimpleValueComputationParameters(
@@ -166,11 +164,8 @@ public class OPPLFunctionTest {
         BindingNode bindingNode = BindingNode.createNewEmptyBindingNode();
         OWLClass a = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#a"));
         OWLClass b = manager.getOWLDataFactory().getOWLClass(IRI.create("blah#b"));
-        BindingNode aBindingNode = new BindingNode(Collections.singleton(new Assignment(
-                x, a)), Collections.<Variable<?>> emptySet());
-        BindingNode anotherBindingNode = new BindingNode(
-                Collections.singleton(new Assignment(x, b)),
-                Collections.<Variable<?>> emptySet());
+        BindingNode aBindingNode = new BindingNode(new Assignment(x, a));
+        BindingNode anotherBindingNode = new BindingNode(new Assignment(x, b));
         constraintSystem.setLeaves(new HashSet<BindingNode>(Arrays.asList(aBindingNode,
                 anotherBindingNode)));
         ValueComputationParameters parameters = new SimpleValueComputationParameters(
@@ -260,11 +255,8 @@ public class OPPLFunctionTest {
         // Variable values
         Variable<OWLClassExpression> x = constraintSystem.createVariable("?x",
                 VariableTypeFactory.getCLASSVariableType(), null);
-        BindingNode aBindingNode = new BindingNode(Collections.singleton(new Assignment(
-                x, a)), Collections.<Variable<?>> emptySet());
-        BindingNode anotherBindingNode = new BindingNode(
-                Collections.singleton(new Assignment(x, b)),
-                Collections.<Variable<?>> emptySet());
+        BindingNode aBindingNode = new BindingNode(new Assignment(x, a));
+        BindingNode anotherBindingNode = new BindingNode(new Assignment(x, b));
         constraintSystem.setLeaves(new HashSet<BindingNode>(Arrays.asList(aBindingNode,
                 anotherBindingNode)));
         ValuesVariableAtttribute<OWLClassExpression> valuesVariableAtttribute = new ValuesVariableAtttribute<OWLClassExpression>(

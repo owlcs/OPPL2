@@ -28,7 +28,6 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -373,9 +372,8 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
                 OWLAxiomChange change = item.getAxiomChange();
                 OWLAxiom axiom = change.getAxiom();
                 for (OWLObject object : possibleBindings) {
-                    BindingNode bindingNode = new BindingNode(
-                            Collections.singleton(new Assignment(variable, object)),
-                            Collections.<Variable<?>> emptySet());
+                    BindingNode bindingNode = new BindingNode(new Assignment(variable,
+                            object));
                     PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
                             new SimpleValueComputationParameters(constraintSystem,
                                     bindingNode, getRuntimeExceptionHandler()));

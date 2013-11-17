@@ -24,7 +24,6 @@ package org.coode.oppl.querymatching;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -36,7 +35,6 @@ import java.util.TreeSet;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
-import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.search.OPPLAssertedSingleOWLAxiomSearchTree;
@@ -87,7 +85,7 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
                         .getOntologyManager().getOWLDataFactory()));
         sortedVariables.addAll(extractedVariables);
         OPPLOWLAxiomSearchNode start = new OPPLOWLAxiomSearchNode(axiom, new BindingNode(
-                Collections.<Assignment> emptySet(), sortedVariables));
+                sortedVariables));
         solutions.addAll(doMatch(start));
         return extractLeaves(solutions);
     }

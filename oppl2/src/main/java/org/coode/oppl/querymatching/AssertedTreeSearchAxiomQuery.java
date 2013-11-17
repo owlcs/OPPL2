@@ -23,7 +23,6 @@
 package org.coode.oppl.querymatching;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -35,7 +34,6 @@ import java.util.TreeSet;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.Variable;
-import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
@@ -81,8 +79,7 @@ public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
         sortedVariables.addAll(extractedVariables);
         List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
         searchTree.exhaustiveSearchTree(new OPPLOWLAxiomSearchNode(axiom,
-                new BindingNode(Collections.<Assignment> emptySet(), sortedVariables)),
-                solutions);
+                new BindingNode(sortedVariables)), solutions);
         for (List<OPPLOWLAxiomSearchNode> path : solutions) {
             OPPLOWLAxiomSearchNode searchLeaf = path.get(path.size() - 1);
             BindingNode leaf = searchLeaf.getBinding();

@@ -38,7 +38,6 @@ import org.coode.oppl.OPPLScriptVisitor;
 import org.coode.oppl.OPPLScriptVisitorEx;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.Variable;
-import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.bindingtree.LeafBrusher;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
@@ -264,7 +263,6 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
     }
 
     public Set<BindingNode> extractBindingNodes() {
-        Set<Assignment> assignments = new HashSet<Assignment>();
         List<InputVariable<?>> inputVariables = getInputVariables();
         Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
         for (InputVariable<?> v : inputVariables) {
@@ -281,7 +279,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
                         new HashSet<OWLObject>(instantiations.get(thisClassVariable)));
             }
         }
-        BindingNode rootBindingNode = new BindingNode(assignments, toAssign);
+        BindingNode rootBindingNode = new BindingNode(toAssign);
         LeafBrusher leafBrusher = new LeafBrusher(bindings);
         rootBindingNode.accept(leafBrusher);
         Set<BindingNode> leaves = leafBrusher.getLeaves();

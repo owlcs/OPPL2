@@ -115,22 +115,23 @@ public class BindingNode implements Renderable {
     /** @param assignments
      * @param unassignedVariables */
     public BindingNode(Collection<Assignment> assignments,
-            Collection<Variable<?>> unassignedVariables) {
+            Collection<? extends Variable<?>> unassignedVariables) {
         this.assignments.addAll(assignments);
+        this.unassignedVariables.addAll(unassignedVariables);
+    }
+
+    public BindingNode(Assignment... assignments) {
+        for (Assignment a : assignments) {
+            this.assignments.add(a);
+        }
+    }
+
+    public BindingNode(Collection<? extends Variable<?>> unassignedVariables) {
         this.unassignedVariables.addAll(unassignedVariables);
     }
 
     public BindingNode(Assignment assignment) {
         assignments.add(assignment);
-    }
-
-    public BindingNode(Collection<Assignment> assignments,
-            Collection<Variable<?>> unassignedVariables, Assignment extraAssignment,
-            Variable<?> skipVariable) {
-        this.assignments.addAll(assignments);
-        this.assignments.add(extraAssignment);
-        this.unassignedVariables.addAll(unassignedVariables);
-        this.unassignedVariables.remove(skipVariable);
     }
 
     /** @param bindingNode */

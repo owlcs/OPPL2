@@ -31,7 +31,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.StringWriter;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -61,7 +60,6 @@ import javax.swing.table.TableCellRenderer;
 
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.Variable;
-import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
@@ -636,8 +634,7 @@ public class PatternInstantiationEditor extends
                     .extractBindingNodes();
             if (bindingNodes.isEmpty()) {
                 BindingNode bindingNode = new BindingNode(
-                        Collections.<Assignment> emptySet(), new HashSet<Variable<?>>(
-                                instantiatedPattern.getInputVariables()));
+                        instantiatedPattern.getInputVariables());
                 ValueComputationParameters parameters = new SimpleValueComputationParameters(
                         instantiatedPatternModel.getConstraintSystem(), bindingNode,
                         showMessageRuntimeExceptionHandler);

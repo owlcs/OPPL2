@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.coode.oppl.Variable;
-import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
@@ -190,8 +189,7 @@ public class LocalityChecker {
 
     public boolean isLocal() {
         sigmaValues = buildMinimalBindingNodes();
-        BindingNode rootBindingNode = new BindingNode(
-                Collections.<Assignment> emptySet(), sigmaValues.keySet());
+        BindingNode rootBindingNode = new BindingNode(sigmaValues.keySet());
         leafBrusher = new LocalityCheckerLeafBrusher(getEvaluator(),
                 getInstantiatedPatternModel().getConstraintSystem(),
                 getInstantiatedPatternModel().getInstantiatedPattern(), sigmaValues,

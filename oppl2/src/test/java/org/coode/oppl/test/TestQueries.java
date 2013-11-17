@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,7 +25,6 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.ParserFactory;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.Variable;
-import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.bindingtree.LeafBrusher;
 import org.coode.oppl.exceptions.OPPLException;
@@ -140,8 +138,7 @@ public class TestQueries {
         for (Variable<?> variable : inputVariables) {
             bindings.put(variable, generateValues(variable, o.getOWLOntologyManager()));
         }
-        BindingNode root = new BindingNode(Collections.<Assignment> emptySet(),
-                new HashSet<Variable<?>>(inputVariables));
+        BindingNode root = new BindingNode(new HashSet<Variable<?>>(inputVariables));
         LeafBrusher leafBrusher = new LeafBrusher(bindings);
         root.accept(leafBrusher);
         Set<BindingNode> leaves = leafBrusher.getLeaves();

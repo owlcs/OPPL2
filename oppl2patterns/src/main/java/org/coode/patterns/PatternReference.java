@@ -35,7 +35,6 @@ import java.util.regex.PatternSyntaxException;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
-import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.bindingtree.LeafBrusher;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
@@ -246,8 +245,7 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
         // replacement is a variable will create an OWLObject corresponding to
         // it.
         LeafBrusher leafBrusher = new LeafBrusher(bindings);
-        BindingNode root = new BindingNode(Collections.<Assignment> emptySet(),
-                bindings.keySet());
+        BindingNode root = new BindingNode(bindings.keySet());
         root.accept(leafBrusher);
         final Set<BindingNode> leaves = leafBrusher.getLeaves();
         List<OWLObject> toReturn = new ArrayList<OWLObject>(leaves.size());
