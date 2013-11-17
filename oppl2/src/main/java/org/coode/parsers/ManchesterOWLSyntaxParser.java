@@ -14,6 +14,7 @@ import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 
+@SuppressWarnings("javadoc")
 public class ManchesterOWLSyntaxParser extends Parser {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",

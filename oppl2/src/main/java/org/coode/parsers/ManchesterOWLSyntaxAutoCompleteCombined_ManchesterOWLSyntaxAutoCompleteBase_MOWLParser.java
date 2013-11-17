@@ -26,6 +26,7 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 
+@SuppressWarnings("javadoc")
 public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser
         extends Parser {
     public static final int COMMA = 37;

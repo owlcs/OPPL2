@@ -19,6 +19,7 @@ import org.antlr.runtime.tree.TreeNodeStream;
 import org.antlr.runtime.tree.TreeRuleReturnScope;
 import org.semanticweb.owlapi.model.OWLObject;
 
+@SuppressWarnings("javadoc")
 public class ManchesterOWLSyntaxTypesParts extends TreeFilter {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",

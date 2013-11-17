@@ -14,6 +14,7 @@ import org.antlr.runtime.tree.TreeNodeStream;
 import org.antlr.runtime.tree.TreeRewriter;
 import org.antlr.runtime.tree.TreeRuleReturnScope;
 
+@SuppressWarnings("javadoc")
 public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
