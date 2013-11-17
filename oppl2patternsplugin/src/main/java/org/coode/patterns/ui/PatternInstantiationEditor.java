@@ -31,6 +31,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.StringWriter;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -634,8 +635,9 @@ public class PatternInstantiationEditor extends
             Set<BindingNode> bindingNodes = instantiatedPatternModel
                     .extractBindingNodes();
             if (bindingNodes.isEmpty()) {
-                BindingNode bindingNode = new BindingNode(new HashSet<Assignment>(),
-                        new HashSet<Variable<?>>(instantiatedPattern.getInputVariables()));
+                BindingNode bindingNode = new BindingNode(
+                        Collections.<Assignment> emptySet(), new HashSet<Variable<?>>(
+                                instantiatedPattern.getInputVariables()));
                 ValueComputationParameters parameters = new SimpleValueComputationParameters(
                         instantiatedPatternModel.getConstraintSystem(), bindingNode,
                         showMessageRuntimeExceptionHandler);

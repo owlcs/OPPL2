@@ -85,27 +85,24 @@ public class LeafBrusher implements BindingVisitor {
 
     private Set<BindingNode> generateChildren(BindingNode node) {
         Set<BindingNode> toReturn = new HashSet<BindingNode>();
-        if (!node.isLeaf()) {
-            Set<Variable<?>> unassignedVariables = node.getUnassignedVariables();
-            for (Variable<?> variable : unassignedVariables) {
-                Set<OWLObject> values = bindings.get(variable);
-                if (values != null) {
-                    for (OWLObject owlObject : values) {
-                        if (!(owlObject instanceof OWLOntology)) {
-                            Set<Variable<?>> childUnassignedVariables = new HashSet<Variable<?>>(
-                                    unassignedVariables);
-                            childUnassignedVariables.remove(variable);
-                            Set<Assignment> childAssignements = new HashSet<Assignment>(
-                                    node.getAssignments());
-                            childAssignements.add(new Assignment(variable, owlObject));
-                            toReturn.add(new BindingNode(childAssignements,
-                                    childUnassignedVariables));
-                        }
+        if (node.isLeaf()) {
+            toReturn.add(node);
+            return toReturn;
+        }
+        Set<Variable<?>> unassignedVariables = node.getUnassignedVariables();
+        for (Variable<?> variable : unassignedVariables) {
+            Set<OWLObject> values = bindings.get(variable);
+            if (values != null) {
+                for (OWLObject owlObject : values) {
+                    if (!(owlObject instanceof OWLOntology)) {
+                        Assignment extraAssignment = new Assignment(variable, owlObject);
+                        BindingNode newNode = new BindingNode(node.getAssignments(),
+                                unassignedVariables);
+                        newNode.addAssignment(extraAssignment);
+                        toReturn.add(newNode);
                     }
                 }
             }
-        } else {
-            toReturn.add(node);
         }
         return toReturn;
     }

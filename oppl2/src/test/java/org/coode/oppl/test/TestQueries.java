@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -139,7 +140,7 @@ public class TestQueries {
         for (Variable<?> variable : inputVariables) {
             bindings.put(variable, generateValues(variable, o.getOWLOntologyManager()));
         }
-        BindingNode root = new BindingNode(new HashSet<Assignment>(),
+        BindingNode root = new BindingNode(Collections.<Assignment> emptySet(),
                 new HashSet<Variable<?>>(inputVariables));
         LeafBrusher leafBrusher = new LeafBrusher(bindings);
         root.accept(leafBrusher);

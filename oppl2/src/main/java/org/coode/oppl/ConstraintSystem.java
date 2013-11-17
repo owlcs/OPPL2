@@ -23,7 +23,6 @@
 package org.coode.oppl;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -348,8 +347,7 @@ public class ConstraintSystem {
                     node.addAssignment(assignment);
                 }
             } else {
-                leaves.add(new BindingNode(Collections.singleton(assignment), Collections
-                        .<Variable<?>> emptySet()));
+                leaves.add(new BindingNode(assignment));
             }
         }
         return toReturn;

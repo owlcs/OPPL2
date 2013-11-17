@@ -98,8 +98,7 @@ public abstract class AbstractOPPLAxiomSearchTree extends
             values.addAll(getAssignableValues(variable, parameters));
             for (OWLObject value : values) {
                 Assignment assignment = new Assignment(variable, value);
-                BindingNode childBinding = new BindingNode(binding.getAssignments(),
-                        binding.getUnassignedVariables());
+                BindingNode childBinding = new BindingNode(binding);
                 childBinding.addAssignment(assignment);
                 ValueComputationParameters newParameters = new SimpleValueComputationParameters(
                         getConstraintSystem(), childBinding, getRuntimeExceptionHandler());

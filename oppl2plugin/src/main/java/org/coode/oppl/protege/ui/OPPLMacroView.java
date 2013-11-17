@@ -29,7 +29,6 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -376,7 +375,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
                 for (OWLObject object : possibleBindings) {
                     BindingNode bindingNode = new BindingNode(
                             Collections.singleton(new Assignment(variable, object)),
-                            new HashSet<Variable<?>>());
+                            Collections.<Variable<?>> emptySet());
                     PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
                             new SimpleValueComputationParameters(constraintSystem,
                                     bindingNode, getRuntimeExceptionHandler()));

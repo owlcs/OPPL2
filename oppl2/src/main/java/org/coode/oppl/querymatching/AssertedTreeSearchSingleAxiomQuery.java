@@ -24,6 +24,7 @@ package org.coode.oppl.querymatching;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -82,7 +83,7 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
                         .getOntologyManager().getOWLDataFactory()));
         sortedVariables.addAll(extractedVariables);
         OPPLOWLAxiomSearchNode start = new OPPLOWLAxiomSearchNode(axiom, new BindingNode(
-                new HashSet<Assignment>(), sortedVariables));
+                Collections.<Assignment> emptySet(), sortedVariables));
         solutions.addAll(doMatch(start));
         return extractLeaves(solutions);
     }
