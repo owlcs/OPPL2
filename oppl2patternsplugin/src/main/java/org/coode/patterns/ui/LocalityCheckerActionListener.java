@@ -18,74 +18,73 @@ import org.coode.patterns.locality.LocalityChecker;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owlapi.model.OWLEntity;
 
-public class LocalityCheckerActionListener extends LocalityChecker implements ActionListener {
-	private static final String SAFETY_ANALYSIS_BREAKDOWN = "Safety analysis breakdown";
-	public final static int DIMENSION = 18;
-	private final JButton resultButton;
+public class LocalityCheckerActionListener extends LocalityChecker implements
+        ActionListener {
+    private static final String SAFETY_ANALYSIS_BREAKDOWN = "Safety analysis breakdown";
+    public final static int DIMENSION = 18;
+    private final JButton resultButton;
 
-	public LocalityCheckerActionListener(final OWLEditorKit kit, Set<OWLEntity> signature,
-			JButton resultButton, RuntimeExceptionHandler handler) {
-		super(kit.getOWLModelManager().getOWLOntologyManager(),
-				kit.getOWLModelManager().getReasoner(), signature, handler);
-		this.resultButton = resultButton;
-		this.resultButton.setIcon(this.generateIcon(Color.gray));
-		this.resultButton.setToolTipText("Check not executed yet");
-		this.resultButton.setEnabled(false);
-	}
+    public LocalityCheckerActionListener(final OWLEditorKit kit,
+            Set<OWLEntity> signature, JButton resultButton,
+            RuntimeExceptionHandler handler) {
+        super(kit.getOWLModelManager().getOWLOntologyManager(), kit.getOWLModelManager()
+                .getReasoner(), signature, handler);
+        this.resultButton = resultButton;
+        this.resultButton.setIcon(generateIcon(Color.gray));
+        this.resultButton.setToolTipText("Check not executed yet");
+        this.resultButton.setEnabled(false);
+    }
 
-	public Icon generateIcon(final Color color) {
-		return new Icon() {
-			/**
-			 * Draw the icon at the specified location. Icon implementations may
-			 * use the Component argument to get properties useful for painting,
-			 * e.g. the foreground or background color.
-			 */
-			public void paintIcon(Component c, Graphics g, int x, int y) {
-				Color oldColor = g.getColor();
-				Graphics2D g2 = (Graphics2D) g;
-				g2.setRenderingHint(
-						RenderingHints.KEY_ANTIALIASING,
-						RenderingHints.VALUE_ANTIALIAS_ON);
-				g2.setColor(color);
-				g2.fillOval(x + 2, y + 2, DIMENSION - 4, DIMENSION - 4);
-				g2.setColor(Color.LIGHT_GRAY);
-				g2.drawOval(x + 2, y + 2, DIMENSION - 4, DIMENSION - 4);
-				g2.setColor(oldColor);
-			}
+    public Icon generateIcon(final Color color) {
+        return new Icon() {
+            /** Draw the icon at the specified location. Icon implementations may
+             * use the Component argument to get properties useful for painting,
+             * e.g. the foreground or background color. */
+            @Override
+            public void paintIcon(Component c, Graphics g, int x, int y) {
+                Color oldColor = g.getColor();
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(color);
+                g2.fillOval(x + 2, y + 2, DIMENSION - 4, DIMENSION - 4);
+                g2.setColor(Color.LIGHT_GRAY);
+                g2.drawOval(x + 2, y + 2, DIMENSION - 4, DIMENSION - 4);
+                g2.setColor(oldColor);
+            }
 
-			/**
-			 * Returns the icon's width.
-			 * 
-			 * @return an int specifying the fixed width of the icon.
-			 */
-			public int getIconWidth() {
-				return DIMENSION;
-			}
+            /** Returns the icon's width.
+             * 
+             * @return an int specifying the fixed width of the icon. */
+            @Override
+            public int getIconWidth() {
+                return DIMENSION;
+            }
 
-			/**
-			 * Returns the icon's height.
-			 * 
-			 * @return an int specifying the fixed height of the icon.
-			 */
-			public int getIconHeight() {
-				return DIMENSION;
-			}
-		};
-	}
+            /** Returns the icon's height.
+             * 
+             * @return an int specifying the fixed height of the icon. */
+            @Override
+            public int getIconHeight() {
+                return DIMENSION;
+            }
+        };
+    }
 
-	public void actionPerformed(ActionEvent e) {
-		this.resultButton.setEnabled(true);
-		this.resultButton.setToolTipText(SAFETY_ANALYSIS_BREAKDOWN);
-		if (this.getInstantiatedPatternModel() != null) {
-			if (!this.isLocal()) {
-				this.resultButton.setIcon(this.generateIcon(Color.red));
-			} else {
-				this.resultButton.setIcon(this.generateIcon(Color.green));
-			}
-		}
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        resultButton.setEnabled(true);
+        resultButton.setToolTipText(SAFETY_ANALYSIS_BREAKDOWN);
+        if (getInstantiatedPatternModel() != null) {
+            if (!isLocal()) {
+                resultButton.setIcon(generateIcon(Color.red));
+            } else {
+                resultButton.setIcon(generateIcon(Color.green));
+            }
+        }
+    }
 
-	public TableModel print() {
-		return new LocalityCheckResultTableModel(this);
-	}
+    public TableModel print() {
+        return new LocalityCheckResultTableModel(this);
+    }
 }

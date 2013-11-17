@@ -29,44 +29,36 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jul 24, 2008
- */
+/** @author Luigi Iannone Jul 24, 2008 */
 public class PatternOWLSubClassAxiomFrameSectionRow extends
-		OWLSubClassAxiomFrameSectionRow {
-	private final PatternModel generatingPatternModel;
+        OWLSubClassAxiomFrameSectionRow {
+    private final PatternModel generatingPatternModel;
 
-	/**
-	 * @param owlEditorKit
-	 * @param section
-	 * @param ontology
-	 * @param rootObject
-	 * @param axiom
-	 */
-	public PatternOWLSubClassAxiomFrameSectionRow(OWLEditorKit owlEditorKit,
-			PatternOWLSubCLassAxiomFrameSection section, OWLOntology ontology,
-			OWLClass rootObject, OWLSubClassOfAxiom axiom,
-			PatternModel generatingPatternModel) {
-		super(owlEditorKit, section, ontology, rootObject, axiom);
-		this.generatingPatternModel = generatingPatternModel;
-	}
+    /** @param owlEditorKit
+     * @param section
+     * @param ontology
+     * @param rootObject
+     * @param axiom */
+    public PatternOWLSubClassAxiomFrameSectionRow(OWLEditorKit owlEditorKit,
+            PatternOWLSubCLassAxiomFrameSection section, OWLOntology ontology,
+            OWLClass rootObject, OWLSubClassOfAxiom axiom,
+            PatternModel generatingPatternModel) {
+        super(owlEditorKit, section, ontology, rootObject, axiom);
+        this.generatingPatternModel = generatingPatternModel;
+    }
 
-	@Override
-	public boolean isDeleteable() {
-		return false;
-	}
+    @Override
+    public boolean isDeleteable() {
+        return false;
+    }
 
-	@Override
-	public boolean isEditable() {
-		return false;
-	}
+    @Override
+    public boolean isEditable() {
+        return false;
+    }
 
-	/**
-	 * @return the generatingPatternModel
-	 */
-	public final PatternModel getGeneratingPatternModel() {
-		return this.generatingPatternModel;
-	}
+    /** @return the generatingPatternModel */
+    public final PatternModel getGeneratingPatternModel() {
+        return generatingPatternModel;
+    }
 }

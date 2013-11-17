@@ -89,7 +89,7 @@ public abstract class OPPLTestCaseList extends
 	 */
     private static final long serialVersionUID = 6792396788714900301L;
     // Have to as the super class header is not visible;
-    private MListSectionHeader header = new MListSectionHeader() {
+    private final MListSectionHeader header = new MListSectionHeader() {
         @Override
         public String getName() {
             return "OPPL Test Cases";

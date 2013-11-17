@@ -1,26 +1,22 @@
 package org.coode.parsers.oppl.testcase.assertions;
 
-/**
- * Visitor pattern for AssertionExpression, with return values.
+/** Visitor pattern for AssertionExpression, with return values.
  * 
  * @author Luigi Iannone
- * 
  * @param <O>
- *            The type of the return value.
- */
+ *            The type of the return value. */
 public interface AssertionExpressionVisitorEx<O> {
-	O visitCountAssertionExpression(
-			CountAssertionExpression countAssertionExpression);
+    O visitCountAssertionExpression(CountAssertionExpression countAssertionExpression);
 
-	O visitIntegerAssertionExpressionVisitor(
-			IntegerAssertionExpression integerAssertionExpression);
+    O visitIntegerAssertionExpressionVisitor(
+            IntegerAssertionExpression integerAssertionExpression);
 
-	O visitOWLExpressionAssertionExpression(
-			OWLExpressionAssertionExpression owlExpressionAssertionExpression);
+    O visitOWLExpressionAssertionExpression(
+            OWLExpressionAssertionExpression owlExpressionAssertionExpression);
 
-	O visitCountStarAssertionExpression(
-			CountStarAssertionExpression countStarAssertionExpression);
+    O visitCountStarAssertionExpression(
+            CountStarAssertionExpression countStarAssertionExpression);
 
-	O visitBindingNodeCountAssertionExpression(
-			BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression);
+    O visitBindingNodeCountAssertionExpression(
+            BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression);
 }

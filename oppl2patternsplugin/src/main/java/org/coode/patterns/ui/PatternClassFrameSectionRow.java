@@ -54,110 +54,100 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jun 9, 2008
- */
+/** @author Luigi Iannone Jun 9, 2008 */
 public class PatternClassFrameSectionRow
-		extends
-		AbstractOWLFrameSectionRow<OWLClass, OWLAnnotationAssertionAxiom, InstantiatedPatternModel> {
-	private final InstantiatedPatternModel patternModel;
-	private final AbstractPatternModelFactory factory;
+        extends
+        AbstractOWLFrameSectionRow<OWLClass, OWLAnnotationAssertionAxiom, InstantiatedPatternModel> {
+    private final InstantiatedPatternModel patternModel;
+    private final AbstractPatternModelFactory factory;
 
-	protected PatternClassFrameSectionRow(
-			OWLEditorKit owlEditorKit,
-			OWLFrameSection<OWLClass, OWLAnnotationAssertionAxiom, InstantiatedPatternModel> section,
-			OWLOntology ontology, OWLClass rootObject,
-			OWLAnnotationAssertionAxiom axiom, AbstractPatternModelFactory f) {
-		super(owlEditorKit, section, ontology, rootObject, axiom);
-		this.factory = f;
-		PatternExtractor patternExtractor = this.factory
-				.getPatternExtractor(ProtegeParserFactory
-						.getDefaultErrorListener());
-		OWLAnnotation annotation = axiom.getAnnotation();
-		this.patternModel = (InstantiatedPatternModel) annotation
-				.accept(patternExtractor);
-	}
+    protected PatternClassFrameSectionRow(
+            OWLEditorKit owlEditorKit,
+            OWLFrameSection<OWLClass, OWLAnnotationAssertionAxiom, InstantiatedPatternModel> section,
+            OWLOntology ontology, OWLClass rootObject, OWLAnnotationAssertionAxiom axiom,
+            AbstractPatternModelFactory f) {
+        super(owlEditorKit, section, ontology, rootObject, axiom);
+        factory = f;
+        PatternExtractor patternExtractor = factory
+                .getPatternExtractor(ProtegeParserFactory.getDefaultErrorListener());
+        OWLAnnotation annotation = axiom.getAnnotation();
+        patternModel = (InstantiatedPatternModel) annotation.accept(patternExtractor);
+    }
 
-	@Override
-	protected OWLAnnotationAssertionAxiom createAxiom(
-			InstantiatedPatternModel editedObject) {
-		OWLDataFactory dataFactory = this.getOWLDataFactory();
-		OWLLiteral constant = dataFactory
-				.getOWLLiteral(editedObject.toString());
-		IRI annotationIRI = IRI.create(PatternModel.NAMESPACE
-				+ editedObject.getInstantiatedPatternLocalName()
-				+ "PatternInstantiation");
-		OWLAnnotation annotation = dataFactory.getOWLAnnotation(dataFactory
-				.getOWLAnnotationProperty(annotationIRI), constant);
-		return this.getOWLDataFactory().getOWLAnnotationAssertionAxiom(
-				this.getRootObject().getIRI(), annotation);
-	}
+    @Override
+    protected OWLAnnotationAssertionAxiom createAxiom(
+            InstantiatedPatternModel editedObject) {
+        OWLDataFactory dataFactory = getOWLDataFactory();
+        OWLLiteral constant = dataFactory.getOWLLiteral(editedObject.toString());
+        IRI annotationIRI = IRI
+                .create(PatternModel.NAMESPACE
+                        + editedObject.getInstantiatedPatternLocalName()
+                        + "PatternInstantiation");
+        OWLAnnotation annotation = dataFactory.getOWLAnnotation(
+                dataFactory.getOWLAnnotationProperty(annotationIRI), constant);
+        return getOWLDataFactory().getOWLAnnotationAssertionAxiom(
+                getRootObject().getIRI(), annotation);
+    }
 
-	@Override
-	protected OWLObjectEditor<InstantiatedPatternModel> getObjectEditor() {
-		PatternInstantiationEditor editor = new PatternInstantiationEditor(this
-				.getOWLEditorKit(), this.getRootObject(), this.factory);
-		OWLAnnotationAssertionAxiom annotationAxiom = (OWLAnnotationAssertionAxiom) this
-				.getManipulatableObjects().iterator().next();
-		PatternExtractor patternExtractor = this.factory
-				.getPatternExtractor(ProtegeParserFactory
-						.getDefaultErrorListener());
-		OWLAnnotation annotation = annotationAxiom.getAnnotation();
-		editor
-				.setInstantiatedPatternModel((ProtegeInstantiatedPatternModel) annotation
-						.accept(patternExtractor));
-		return editor;
-	}
+    @Override
+    protected OWLObjectEditor<InstantiatedPatternModel> getObjectEditor() {
+        PatternInstantiationEditor editor = new PatternInstantiationEditor(
+                getOWLEditorKit(), getRootObject(), factory);
+        OWLAnnotationAssertionAxiom annotationAxiom = (OWLAnnotationAssertionAxiom) getManipulatableObjects()
+                .iterator().next();
+        PatternExtractor patternExtractor = factory
+                .getPatternExtractor(ProtegeParserFactory.getDefaultErrorListener());
+        OWLAnnotation annotation = annotationAxiom.getAnnotation();
+        editor.setInstantiatedPatternModel((ProtegeInstantiatedPatternModel) annotation
+                .accept(patternExtractor));
+        return editor;
+    }
 
-	public List<? extends OWLObject> getManipulatableObjects() {
-		return new ArrayList<OWLObject>(Collections.singleton(this.axiom));
-	}
+    @Override
+    public List<? extends OWLObject> getManipulatableObjects() {
+        return new ArrayList<OWLObject>(Collections.singleton(axiom));
+    }
 
-	@Override
-	public List<? extends OWLOntologyChange> getDeletionChanges() {
-		List<OWLOntologyChange> deletionChanges = new ArrayList<OWLOntologyChange>(
-				super.getDeletionChanges());
-		Set<OWLAxiom> axioms = this.getOntology().getAxioms();
-		for (OWLAxiom ax : axioms) {
-			Set<OWLAnnotation> annotationAxioms = ax.getAnnotations();
-			if (Utils.isPatternGenerated(this.patternModel
-					.getInstantiatedPatternLocalName(), annotationAxioms)) {
-				deletionChanges.add(new RemoveAxiom(this.getOntology(), ax));
-			}
-		}
-		return deletionChanges;
-	}
+    @Override
+    public List<? extends OWLOntologyChange> getDeletionChanges() {
+        List<OWLOntologyChange> deletionChanges = new ArrayList<OWLOntologyChange>(
+                super.getDeletionChanges());
+        Set<OWLAxiom> axioms = getOntology().getAxioms();
+        for (OWLAxiom ax : axioms) {
+            Set<OWLAnnotation> annotationAxioms = ax.getAnnotations();
+            if (Utils.isPatternGenerated(patternModel.getInstantiatedPatternLocalName(),
+                    annotationAxioms)) {
+                deletionChanges.add(new RemoveAxiom(getOntology(), ax));
+            }
+        }
+        return deletionChanges;
+    }
 
-	@Override
-	public void handleEditingFinished(
-			Set<InstantiatedPatternModel> editedObjects) {
-		Iterator<InstantiatedPatternModel> it = editedObjects.iterator();
-		boolean found = false;
-		InstantiatedPatternModel instantiatedPatternModel = null;
-		while (!found && it.hasNext()) {
-			instantiatedPatternModel = it.next();
-			found = instantiatedPatternModel.hasScopedVariables()
-					&& this.getOWLEditorKit().getModelManager().getReasoner() instanceof NoOpReasoner;
-			if (found) {
-				JOptionPane
-						.showMessageDialog(
-								this.getOWLEditorKit().getWorkspace(),
-								"The pattern model "
-										+ instantiatedPatternModel.getName()
-										+ " has got scoped variables but you are curently using a NoOpReasoner, the pattern will not work properly unless you activate reasoning.",
-								"No Reasoner", JOptionPane.ERROR_MESSAGE);
-			} else {
-				super.handleEditingFinished(editedObjects);
-			}
-		}
-	}
+    @Override
+    public void handleEditingFinished(Set<InstantiatedPatternModel> editedObjects) {
+        Iterator<InstantiatedPatternModel> it = editedObjects.iterator();
+        boolean found = false;
+        InstantiatedPatternModel instantiatedPatternModel = null;
+        while (!found && it.hasNext()) {
+            instantiatedPatternModel = it.next();
+            found = instantiatedPatternModel.hasScopedVariables()
+                    && getOWLEditorKit().getModelManager().getReasoner() instanceof NoOpReasoner;
+            if (found) {
+                JOptionPane
+                        .showMessageDialog(
+                                getOWLEditorKit().getWorkspace(),
+                                "The pattern model "
+                                        + instantiatedPatternModel.getName()
+                                        + " has got scoped variables but you are curently using a NoOpReasoner, the pattern will not work properly unless you activate reasoning.",
+                                "No Reasoner", JOptionPane.ERROR_MESSAGE);
+            } else {
+                super.handleEditingFinished(editedObjects);
+            }
+        }
+    }
 
-	/**
-	 * @return the patternModel
-	 */
-	public final InstantiatedPatternModel getPatternModel() {
-		return this.patternModel;
-	}
+    /** @return the patternModel */
+    public final InstantiatedPatternModel getPatternModel() {
+        return patternModel;
+    }
 }

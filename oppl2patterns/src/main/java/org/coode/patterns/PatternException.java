@@ -22,26 +22,22 @@
  */
 package org.coode.patterns;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jun 25, 2008
- */
+/** @author Luigi Iannone Jun 25, 2008 */
 public class PatternException extends RuntimeException {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 2493600446336152357L;
+    private static final long serialVersionUID = 2493600446336152357L;
 
-	public PatternException(String message) {
-		super(message);
-	}
+    public PatternException(String message) {
+        super(message);
+    }
 
-	public PatternException(Throwable t) {
-		super(t);
-	}
+    public PatternException(Throwable t) {
+        super(t);
+    }
 
-	public PatternException(String message, Throwable t) {
-		super(message, t);
-	}
+    public PatternException(String message, Throwable t) {
+        super(message, t);
+    }
 }

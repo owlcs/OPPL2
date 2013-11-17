@@ -45,43 +45,36 @@ public class ProtegeOPPLQuery implements OPPLQuery {
         this.opplQuery = opplQuery;
     }
 
-    /** @see org.coode.oppl.OPPLQuery#addAssertedAxiom(org.semanticweb.owl.model.OWLAxiom) */
     @Override
     public void addAssertedAxiom(OWLAxiom axiom) {
         opplQuery.addAssertedAxiom(axiom);
     }
 
-    /** @see org.coode.oppl.OPPLQuery#addAxiom(org.semanticweb.owl.model.OWLAxiom) */
     @Override
     public void addAxiom(OWLAxiom axiom) {
         opplQuery.addAxiom(axiom);
     }
 
-    /** @see org.coode.oppl.OPPLQuery#addConstraint(org.coode.oppl.InequalityConstraint) */
     @Override
     public void addConstraint(AbstractConstraint constraint) {
         opplQuery.addConstraint(constraint);
     }
 
-    /** @see org.coode.oppl.OPPLQuery#getAssertedAxioms() */
     @Override
     public List<OWLAxiom> getAssertedAxioms() {
         return opplQuery.getAssertedAxioms();
     }
 
-    /** @see org.coode.oppl.OPPLQuery#getAxioms() */
     @Override
     public List<OWLAxiom> getAxioms() {
         return opplQuery.getAxioms();
     }
 
-    /** @see org.coode.oppl.OPPLQuery#getConstraints() */
     @Override
     public List<AbstractConstraint> getConstraints() {
         return opplQuery.getConstraints();
     }
 
-    /** @see org.coode.oppl.OPPLQuery#toString(org.coode.oppl.ConstraintSystem) */
     @Override
     public String toString() {
         return opplQuery.toString();
@@ -137,8 +130,6 @@ public class ProtegeOPPLQuery implements OPPLQuery {
         return true;
     }
 
-    /** @param runtimeExceptionHandler
-     * @see org.coode.oppl.OPPLQuery#execute(org.coode.oppl.exceptions.RuntimeExceptionHandler) */
     @Override
     public void execute(RuntimeExceptionHandler runtimeExceptionHandler,
             ExecutionMonitor executionMonitor) {

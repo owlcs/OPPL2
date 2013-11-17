@@ -8,29 +8,24 @@ import java.util.Set;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.bindingtree.BindingNode;
 
-/**
- * An assertion is a test on the results of a query contained in an OPPLTestCase
+/** An assertion is a test on the results of a query contained in an OPPLTestCase
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public interface Assertion {
-	void accept(AssertionVisitor visitor);
+    void accept(AssertionVisitor visitor);
 
-	<O> O accept(AssertionVisitorEx<O> visitor);
+    <O> O accept(AssertionVisitorEx<O> visitor);
 
-	/**
-	 * Determines whether this Assertion is valid for the input bindings.
-	 * 
-	 * @param bindings
-	 *            The bindings against which this Assertion will be checked.
-	 *            Cannot be <code>null</code>.
-	 * @param constraintSystem
-	 *            . Cannot be <code>null</code>.
-	 * @return <code>true</code> if this Assertion holds.
-	 * @throws NullPointerException
-	 *             if either input is <code>null</code>.
-	 */
-	public boolean holds(Set<? extends BindingNode> bindings,
-			ConstraintSystem constraintSystem);
+    /** Determines whether this Assertion is valid for the input bindings.
+     * 
+     * @param bindings
+     *            The bindings against which this Assertion will be checked.
+     *            Cannot be <code>null</code>.
+     * @param constraintSystem
+     *            . Cannot be <code>null</code>.
+     * @return <code>true</code> if this Assertion holds.
+     * @throws NullPointerException
+     *             if either input is <code>null</code>. */
+    public boolean holds(Set<? extends BindingNode> bindings,
+            ConstraintSystem constraintSystem);
 }

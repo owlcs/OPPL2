@@ -37,53 +37,50 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jun 12, 2008
- */
+/** @author Luigi Iannone Jun 12, 2008 */
 public class TestPatternHarness {
-	private IRI iri = IRI.create("http://mytest.com/testpatternharness#test");
-	private OWLOntologyManager manager;
-	private OWLOntology ontology;
-	private PatternModelFactory factory;
+    private final IRI iri = IRI.create("http://mytest.com/testpatternharness#test");
+    private final OWLOntologyManager manager;
+    private final OWLOntology ontology;
+    private final PatternModelFactory factory;
 
-	protected TestPatternHarness(OWLOntology ontology, OWLOntologyManager manager) {
-		this.manager = manager;
-		this.ontology = ontology;
-		this.factory = new PatternModelFactory(ontology, manager);
-	}
+    protected TestPatternHarness(OWLOntology ontology, OWLOntologyManager manager) {
+        this.manager = manager;
+        this.ontology = ontology;
+        factory = new PatternModelFactory(ontology, manager);
+    }
 
-	public void executeNonClass(PatternOPPLScript editor) throws UnsuitableOPPLScriptException {
-		QuickFailRuntimeExceptionHandler handler = new QuickFailRuntimeExceptionHandler();
-		NonClassPatternExecutor patternExecutor = new NonClassPatternExecutor(
-				this.factory.createInstantiatedPatternModel(
-						this.factory.createPatternModel(editor),
-						handler), this.ontology, this.manager, this.iri, handler);
-		List<OWLAxiomChange> changes = patternExecutor.visit(editor);
-		for (OWLAxiomChange change : changes) {
-			try {
-				this.manager.applyChange(change);
-			} catch (OWLOntologyChangeException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    public void executeNonClass(PatternOPPLScript editor)
+            throws UnsuitableOPPLScriptException {
+        QuickFailRuntimeExceptionHandler handler = new QuickFailRuntimeExceptionHandler();
+        NonClassPatternExecutor patternExecutor = new NonClassPatternExecutor(
+                factory.createInstantiatedPatternModel(
+                        factory.createPatternModel(editor), handler), ontology, manager,
+                iri, handler);
+        List<OWLAxiomChange> changes = patternExecutor.visit(editor);
+        for (OWLAxiomChange change : changes) {
+            try {
+                manager.applyChange(change);
+            } catch (OWLOntologyChangeException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	public void executeClass(OWLClass clazz, PatternOPPLScript editor)
-			throws UnsuitableOPPLScriptException {
-		QuickFailRuntimeExceptionHandler handler = new QuickFailRuntimeExceptionHandler();
-		ClassPatternExecutor patternExecutor = new ClassPatternExecutor(clazz,
-				this.factory.createInstantiatedPatternModel(
-						this.factory.createPatternModel(editor),
-						handler), this.ontology, this.manager, this.iri, handler);
-		List<OWLAxiomChange> changes = patternExecutor.visit(editor);
-		for (OWLAxiomChange change : changes) {
-			try {
-				this.manager.applyChange(change);
-			} catch (OWLOntologyChangeException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    public void executeClass(OWLClass clazz, PatternOPPLScript editor)
+            throws UnsuitableOPPLScriptException {
+        QuickFailRuntimeExceptionHandler handler = new QuickFailRuntimeExceptionHandler();
+        ClassPatternExecutor patternExecutor = new ClassPatternExecutor(clazz,
+                factory.createInstantiatedPatternModel(
+                        factory.createPatternModel(editor), handler), ontology, manager,
+                iri, handler);
+        List<OWLAxiomChange> changes = patternExecutor.visit(editor);
+        for (OWLAxiomChange change : changes) {
+            try {
+                manager.applyChange(change);
+            } catch (OWLOntologyChangeException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

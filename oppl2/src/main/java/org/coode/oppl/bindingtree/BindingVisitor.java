@@ -22,10 +22,7 @@
  */
 package org.coode.oppl.bindingtree;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public interface BindingVisitor {
-	void visit(BindingNode bindingNode);
+    void visit(BindingNode bindingNode);
 }

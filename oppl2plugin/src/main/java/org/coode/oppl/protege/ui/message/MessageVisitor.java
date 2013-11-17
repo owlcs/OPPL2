@@ -3,14 +3,11 @@
  */
 package org.coode.oppl.protege.ui.message;
 
-/**
- * Simple visitor pattern for the Message hierarchy.
+/** Simple visitor pattern for the Message hierarchy.
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public interface MessageVisitor {
-	void visitError(Error error);
+    void visitError(Error error);
 
-	void visitWarning(Warning warning);
+    void visitWarning(Warning warning);
 }

@@ -30,57 +30,55 @@ import org.coode.patterns.InstantiatedPatternModel;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jun 12, 2008
- */
+/** @author Luigi Iannone Jun 12, 2008 */
 public class ProtegeInstantiatedPatternModel extends InstantiatedPatternModel {
-	private final OWLModelManager modelManager;
+    private final OWLModelManager modelManager;
 
-	public ProtegeInstantiatedPatternModel(ProtegePatternModel patternModel,
-			RuntimeExceptionHandler handler) {
-		super(patternModel, handler);
-		this.modelManager = patternModel.getModelManager();
-	}
+    public ProtegeInstantiatedPatternModel(ProtegePatternModel patternModel,
+            RuntimeExceptionHandler handler) {
+        super(patternModel, handler);
+        modelManager = patternModel.getModelManager();
+    }
 
-	@Override
-	protected String render(OWLObject owlObject) {
-		return this.modelManager.getRendering(owlObject);
-	}
+    @Override
+    protected String render(OWLObject owlObject) {
+        return modelManager.getRendering(owlObject);
+    }
 
-	@Override
-	public String render() {
-		StringBuilder toReturn = new StringBuilder("$" + this.getInstantiatedPatternLocalName()
-				+ "(");
-		boolean first = true;
-		for (Variable<?> variable : this.getInputVariables()) {
-			if (!first) {
-				toReturn.append(", ");
-			} else {
-				first = false;
-			}
-			Set<OWLObject> instantiationsValues = this.getInstantiations(variable);
-			if (instantiationsValues != null && !instantiationsValues.isEmpty()) {
-				if (instantiationsValues.size() == 1) {
-					OWLObject instantiation = instantiationsValues.iterator().next();
-					toReturn.append(this.modelManager.getRendering(instantiation));
-				} else {
-					boolean firstInstantiation = true;
-					toReturn.append("{");
-					for (OWLObject instantiation : instantiationsValues) {
-						String instantiationRendering = this.modelManager.getRendering(instantiation);
-						toReturn.append(firstInstantiation ? instantiationRendering : ", "
-								+ instantiationRendering);
-						firstInstantiation = firstInstantiation ? false : firstInstantiation;
-					}
-					toReturn.append("}");
-				}
-			} else {
-				toReturn.append(variable.getName());
-			}
-		}
-		toReturn.append(")");
-		return toReturn.toString();
-	}
+    @Override
+    public String render() {
+        StringBuilder toReturn = new StringBuilder("$"
+                + getInstantiatedPatternLocalName() + "(");
+        boolean first = true;
+        for (Variable<?> variable : getInputVariables()) {
+            if (!first) {
+                toReturn.append(", ");
+            } else {
+                first = false;
+            }
+            Set<OWLObject> instantiationsValues = getInstantiations(variable);
+            if (instantiationsValues != null && !instantiationsValues.isEmpty()) {
+                if (instantiationsValues.size() == 1) {
+                    OWLObject instantiation = instantiationsValues.iterator().next();
+                    toReturn.append(modelManager.getRendering(instantiation));
+                } else {
+                    boolean firstInstantiation = true;
+                    toReturn.append("{");
+                    for (OWLObject instantiation : instantiationsValues) {
+                        String instantiationRendering = modelManager
+                                .getRendering(instantiation);
+                        toReturn.append(firstInstantiation ? instantiationRendering
+                                : ", " + instantiationRendering);
+                        firstInstantiation = firstInstantiation ? false
+                                : firstInstantiation;
+                    }
+                    toReturn.append("}");
+                }
+            } else {
+                toReturn.append(variable.getName());
+            }
+        }
+        toReturn.append(")");
+        return toReturn.toString();
+    }
 }

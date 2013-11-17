@@ -40,106 +40,82 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class VariableOWLCellRenderer extends OWLCellRenderer implements ListCellRenderer {
-	private final ConstraintSystem constraintSystem;
-	private final OWLCellRenderer defaultRenderer;
-	private final OWLEditorKit owlEditorKit;
+    private final ConstraintSystem constraintSystem;
+    private final OWLCellRenderer defaultRenderer;
+    private final OWLEditorKit owlEditorKit;
 
-	/**
-	 * Builds a an instance of this VariableOWLCellRenderer from a constraint
-	 * system and a default renderer for non variable OWLObject instances.
-	 * 
-	 * @param owlEditorKit
-	 *            the OWLEditorKit. Cannot be {@code null}.
-	 * @param constraintSystem
-	 *            the ConstraintSystem for detecting variables. Cannot be
-	 *            {@code null}.
-	 * @param defaultRenderer
-	 *            the fall-back renderer for non variable OWLObjects. Cannot be
-	 *            {@code null}.
-	 * @throws IllegalArgumentException
-	 *             when either of the inputs is {@code null}.
-	 */
-	public VariableOWLCellRenderer(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem,
-			OWLCellRenderer defaultRenderer) {
-		super(owlEditorKit);
-		ArgCheck.checkNullArgument("The OWL editor kit", owlEditorKit);
-		ArgCheck.checkNullArgument("The constraint system", constraintSystem);
-		ArgCheck.checkNullArgument("The default cell renderer", defaultRenderer);
-		this.constraintSystem = constraintSystem;
-		this.defaultRenderer = defaultRenderer;
-		this.owlEditorKit = owlEditorKit;
-		this.setHighlightKeywords(true);
-		this.setWrap(true);
-	}
+    /** Builds a an instance of this VariableOWLCellRenderer from a constraint
+     * system and a default renderer for non variable OWLObject instances.
+     * 
+     * @param owlEditorKit
+     *            the OWLEditorKit. Cannot be {@code null}.
+     * @param constraintSystem
+     *            the ConstraintSystem for detecting variables. Cannot be
+     *            {@code null}.
+     * @param defaultRenderer
+     *            the fall-back renderer for non variable OWLObjects. Cannot be
+     *            {@code null}.
+     * @throws IllegalArgumentException
+     *             when either of the inputs is {@code null}. */
+    public VariableOWLCellRenderer(OWLEditorKit owlEditorKit,
+            ConstraintSystem constraintSystem, OWLCellRenderer defaultRenderer) {
+        super(owlEditorKit);
+        ArgCheck.checkNullArgument("The OWL editor kit", owlEditorKit);
+        ArgCheck.checkNullArgument("The constraint system", constraintSystem);
+        ArgCheck.checkNullArgument("The default cell renderer", defaultRenderer);
+        this.constraintSystem = constraintSystem;
+        this.defaultRenderer = defaultRenderer;
+        this.owlEditorKit = owlEditorKit;
+        setHighlightKeywords(true);
+        setWrap(true);
+    }
 
-	@Override
-	public Component getListCellRendererComponent(JList list, Object value, int index,
-			boolean isSelected, boolean cellHasFocus) {
-		Component toReturn = this.defaultRenderer.getListCellRendererComponent(
-				list,
-				value,
-				index,
-				isSelected,
-				cellHasFocus);
-		if (value instanceof ActionListItem) {
-			ActionListItem actionListItem = (ActionListItem) value;
-			OWLAxiomChange axiomChange = actionListItem.getAxiomChange();
-			toReturn = super.getListCellRendererComponent(
-					list,
-					axiomChange.getAxiom(),
-					index,
-					isSelected,
-					cellHasFocus);
-		}
-		if (value instanceof OPPLSelectClauseListItem) {
-			OWLAxiom axiom = ((OPPLSelectClauseListItem) value).getAxiom();
-			toReturn = super.getListCellRendererComponent(
-					list,
-					axiom,
-					index,
-					isSelected,
-					cellHasFocus);
-		}
-		if (value instanceof OWLObjectListItem) {
-			toReturn = super.getListCellRendererComponent(
-					list,
-					((OWLObjectListItem) value).getOwlObject(),
-					index,
-					isSelected,
-					cellHasFocus);
-		}
-		return toReturn;
-	}
+    @Override
+    public Component getListCellRendererComponent(JList list, Object value, int index,
+            boolean isSelected, boolean cellHasFocus) {
+        Component toReturn = defaultRenderer.getListCellRendererComponent(list, value,
+                index, isSelected, cellHasFocus);
+        if (value instanceof ActionListItem) {
+            ActionListItem actionListItem = (ActionListItem) value;
+            OWLAxiomChange axiomChange = actionListItem.getAxiomChange();
+            toReturn = super.getListCellRendererComponent(list, axiomChange.getAxiom(),
+                    index, isSelected, cellHasFocus);
+        }
+        if (value instanceof OPPLSelectClauseListItem) {
+            OWLAxiom axiom = ((OPPLSelectClauseListItem) value).getAxiom();
+            toReturn = super.getListCellRendererComponent(list, axiom, index, isSelected,
+                    cellHasFocus);
+        }
+        if (value instanceof OWLObjectListItem) {
+            toReturn = super.getListCellRendererComponent(list,
+                    ((OWLObjectListItem) value).getOwlObject(), index, isSelected,
+                    cellHasFocus);
+        }
+        return toReturn;
+    }
 
-	@Override
-	public String getRendering(Object object) {
-		if (object instanceof OWLObject) {
-			ManchesterSyntaxRenderer manchesterSyntaxRenderer = ProtegeParserFactory.getInstance(
-					this.getOWLEditorKit()).getOPPLFactory().getManchesterSyntaxRenderer(
-					this.getConstraintSystem());
-			OWLObject owlObject = (OWLObject) object;
-			owlObject.accept(manchesterSyntaxRenderer);
-			return manchesterSyntaxRenderer.toString();
-		}
-		return super.getRendering(object);
-	}
+    @Override
+    public String getRendering(Object object) {
+        if (object instanceof OWLObject) {
+            ManchesterSyntaxRenderer manchesterSyntaxRenderer = ProtegeParserFactory
+                    .getInstance(getOWLEditorKit()).getOPPLFactory()
+                    .getManchesterSyntaxRenderer(getConstraintSystem());
+            OWLObject owlObject = (OWLObject) object;
+            owlObject.accept(manchesterSyntaxRenderer);
+            return manchesterSyntaxRenderer.toString();
+        }
+        return super.getRendering(object);
+    }
 
-	/**
-	 * @return the constraintSystem
-	 */
-	public ConstraintSystem getConstraintSystem() {
-		return this.constraintSystem;
-	}
+    /** @return the constraintSystem */
+    public ConstraintSystem getConstraintSystem() {
+        return constraintSystem;
+    }
 
-	/**
-	 * @return the owlEditorKit
-	 */
-	public OWLEditorKit getOWLEditorKit() {
-		return this.owlEditorKit;
-	}
+    /** @return the owlEditorKit */
+    public OWLEditorKit getOWLEditorKit() {
+        return owlEditorKit;
+    }
 }

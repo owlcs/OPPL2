@@ -22,19 +22,15 @@
  */
 package org.coode.patterns;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jun 25, 2008
- */
+/** @author Luigi Iannone Jun 25, 2008 */
 public class PatternReferenceNotFoundException extends PatternException {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -8329481668814742677L;
+    private static final long serialVersionUID = -8329481668814742677L;
 
-	public PatternReferenceNotFoundException(String patternName) {
-		super("The pattern referenced by $" + patternName
-				+ " does not exist or could not be found");
-	}
+    public PatternReferenceNotFoundException(String patternName) {
+        super("The pattern referenced by $" + patternName
+                + " does not exist or could not be found");
+    }
 }

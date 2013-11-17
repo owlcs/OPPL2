@@ -22,19 +22,15 @@
  */
 package org.coode.patterns;
 
-/**
- * @author Luigi Iannone
- * 
- *         Sep 17, 2008
- */
+/** @author Luigi Iannone Sep 17, 2008 */
 public class NonClassAssignablePatternException extends PatternException {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -8771416055466593219L;
+    private static final long serialVersionUID = -8771416055466593219L;
 
-	public NonClassAssignablePatternException(String patternName) {
-		super("Impossible to attach the non class pattern: " + patternName
-				+ "to any OWL class");
-	}
+    public NonClassAssignablePatternException(String patternName) {
+        super("Impossible to attach the non class pattern: " + patternName
+                + "to any OWL class");
+    }
 }

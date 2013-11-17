@@ -55,20 +55,24 @@ public class NoResultsAxiomSolvabilityTest {
         SolvabilitySearchNode node = axiomSolvability.getSolvabilitySearchNode(axiom,
                 BindingNode.createNewEmptyBindingNode());
         node.accept(new SolvabilitySearchNodeVisitor() {
+            @Override
             public void visitUnsolvableSearchNode(
                     UnsolvableSearchNode unsolvableSearchNode) {
                 fail("Wrong type of solvability node: unsolvable, when expecting no solutions");
             }
 
+            @Override
             public void visitSolvedSearchNode(SolvedSearchNode solvedSearchNode) {
                 fail("Wrong type of solvability node: solved, when expecting no solutions");
             }
 
+            @Override
             public void visitNoSolutionSolvableSearchNode(
                     NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
                 // That's fine
             }
 
+            @Override
             public void visitSolvableSearchNode(SolvableSearchNode solvableSearchNode) {
                 fail("Wrong type of solvability node: no solution, when expecting no solutions");
             }
@@ -101,20 +105,24 @@ public class NoResultsAxiomSolvabilityTest {
         SolvabilitySearchNode node = axiomSolvability.getSolvabilitySearchNode(axiom,
                 BindingNode.createNewEmptyBindingNode());
         node.accept(new SolvabilitySearchNodeVisitor() {
+            @Override
             public void visitUnsolvableSearchNode(
                     UnsolvableSearchNode unsolvableSearchNode) {
                 // That's fine
             }
 
+            @Override
             public void visitSolvedSearchNode(SolvedSearchNode solvedSearchNode) {
                 fail("Wrong type of solvability node: solved, when expecting unsolvable");
             }
 
+            @Override
             public void visitNoSolutionSolvableSearchNode(
                     NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
                 fail("Wrong type of solvability node: no solutions, when expecting unsolvable");
             }
 
+            @Override
             public void visitSolvableSearchNode(SolvableSearchNode solvableSearchNode) {
                 fail("Wrong type of solvability node: no solution, when expecting unsolvable");
             }

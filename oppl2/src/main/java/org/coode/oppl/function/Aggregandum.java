@@ -12,6 +12,7 @@ public interface Aggregandum<I> extends Renderable {
 
     public boolean isCompatible(VariableType<?> variableType);
 
+    @Override
     public String render(ConstraintSystem constraintSystem);
 
     public String render(ShortFormProvider shortFormProvider);

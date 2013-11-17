@@ -36,7 +36,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * 
  * @author Luigi Iannone */
 public class OPPLScriptTypesFailedParsingTest {
-    private TreeAdaptor adaptor = new CommonTreeAdaptor() {
+    private final TreeAdaptor adaptor = new CommonTreeAdaptor() {
         @Override
         public Object create(Token token) {
             return new OPPLSyntaxTree(token);

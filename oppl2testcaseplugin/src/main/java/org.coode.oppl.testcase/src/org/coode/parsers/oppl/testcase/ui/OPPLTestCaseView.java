@@ -29,8 +29,6 @@ public class OPPLTestCaseView extends AbstractActiveOntologyViewComponent {
     private final OPPLTestCaseRunPanel testCaseRunPanel = new OPPLTestCaseRunPanel();
     private AbstractAllOPPLTestCaseAction runAllTestAction;
 
-    /** @see org.protege.editor.owl.ui.view.AbstractActiveOntologyViewComponent#
-     *      initialiseOntologyView() */
     @Override
     protected void initialiseOntologyView() throws Exception {
         setLayout(new BorderLayout());
@@ -69,8 +67,6 @@ public class OPPLTestCaseView extends AbstractActiveOntologyViewComponent {
         this.add(mainPanel);
     }
 
-    /** @see org.protege.editor.owl.ui.view.AbstractActiveOntologyViewComponent#
-     *      disposeOntologyView() */
     @Override
     protected void disposeOntologyView() {
         if (list != null) {
@@ -81,8 +77,6 @@ public class OPPLTestCaseView extends AbstractActiveOntologyViewComponent {
         }
     }
 
-    /** @see org.protege.editor.owl.ui.view.AbstractActiveOntologyViewComponent#updateView
-     *      (org.semanticweb.owlapi.model.OWLOntology) */
     @Override
     protected void updateView(OWLOntology activeOntology) throws Exception {
         list.setRootObject(new OPPLTestCaseAnnotationContainer(getOWLEditorKit()));

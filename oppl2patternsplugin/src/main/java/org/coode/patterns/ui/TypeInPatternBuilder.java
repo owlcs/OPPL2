@@ -57,222 +57,217 @@ import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jun 10, 2008
- */
+/** @author Luigi Iannone Jun 10, 2008 */
 public class TypeInPatternBuilder implements VerifiedInputEditor,
-		InputVerificationStatusChangedListener, PatternModelChangeListener {
-	/**
+        InputVerificationStatusChangedListener, PatternModelChangeListener {
+    /**
 	 *
 	 */
-	private static final long serialVersionUID = -4071865934355642992L;
-	private Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
-	private final OWLEditorKit owlEditorKit;
-	private PatternModel patternModel = null;
-	private JPanel mainPanel = new JPanel();
-	private ExpressionEditor<PatternModel> patternModelEditor;
-	private IRI iri;
-	private org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor<String> patternNameTextField;
-	private final ProtegeOPPLPatternsAutoCompletionMatcher autoCompletionMatcher;
-	private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
-		public void handleChange(OWLModelManagerChangeEvent event) {
-			TypeInPatternBuilder.this.patternModelEditor.setText(TypeInPatternBuilder.this.patternModelEditor.getText());
-		}
-	};
-	private final OWLOntologyChangeListener ontologyChangeListener = new OWLOntologyChangeListener() {
-		public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
-				throws OWLException {
-			TypeInPatternBuilder.this.patternModelEditor.setText(TypeInPatternBuilder.this.patternModelEditor.getText());
-		}
-	};
+    private static final long serialVersionUID = -4071865934355642992L;
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final OWLEditorKit owlEditorKit;
+    private PatternModel patternModel = null;
+    private final JPanel mainPanel = new JPanel();
+    private ExpressionEditor<PatternModel> patternModelEditor;
+    private IRI iri;
+    private org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor<String> patternNameTextField;
+    private final ProtegeOPPLPatternsAutoCompletionMatcher autoCompletionMatcher;
+    private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
+        @Override
+        public void handleChange(OWLModelManagerChangeEvent event) {
+            patternModelEditor.setText(patternModelEditor.getText());
+        }
+    };
+    private final OWLOntologyChangeListener ontologyChangeListener = new OWLOntologyChangeListener() {
+        @Override
+        public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
+                throws OWLException {
+            patternModelEditor.setText(patternModelEditor.getText());
+        }
+    };
 
-	public TypeInPatternBuilder(OWLEditorKit owlEditorKit) {
-		this.mainPanel.setLayout(new BorderLayout());
-		this.mainPanel.setName("Pattern Text Editor");
-		this.owlEditorKit = owlEditorKit;
-		this.getOWLEditorKit().getOWLModelManager().addListener(this.modelManagerListener);
-		this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager().addOntologyChangeListener(
-				this.ontologyChangeListener);
-		this.patternNameTextField = new org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor<String>(
-				owlEditorKit, new OWLExpressionChecker<String>() {
-					private String lastName;
+    public TypeInPatternBuilder(OWLEditorKit owlEditorKit) {
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setName("Pattern Text Editor");
+        this.owlEditorKit = owlEditorKit;
+        getOWLEditorKit().getOWLModelManager().addListener(modelManagerListener);
+        getOWLEditorKit().getOWLModelManager().getOWLOntologyManager()
+                .addOntologyChangeListener(ontologyChangeListener);
+        patternNameTextField = new org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor<String>(
+                owlEditorKit, new OWLExpressionChecker<String>() {
+                    private String lastName;
 
-					public void check(String text) throws OWLExpressionParserException {
-						if (text.matches("\\w+")) {
-							this.lastName = text;
-						} else {
-							throw new OWLExpressionParserException(new Exception(
-									"Invalid pattern name " + text));
-						}
-					}
+                    @Override
+                    public void check(String text) throws OWLExpressionParserException {
+                        if (text.matches("\\w+")) {
+                            lastName = text;
+                        } else {
+                            throw new OWLExpressionParserException(new Exception(
+                                    "Invalid pattern name " + text));
+                        }
+                    }
 
-					public String createObject(String text) throws OWLExpressionParserException {
-						this.check(text);
-						return this.lastName;
-					}
-				});
-		JPanel patternNamePanel = new JPanel(new BorderLayout());
-		patternNamePanel.add(this.patternNameTextField);
-		this.patternNameTextField.addStatusChangedListener(new org.protege.editor.core.ui.util.InputVerificationStatusChangedListener() {
-			private void updateIRI() {
-				TypeInPatternBuilder.this.iri = null;
-				String localName = TypeInPatternBuilder.this.patternNameTextField.getText();
-				if (localName.length() != 0) {
-					try {
-						TypeInPatternBuilder.this.iri = IRI.create(PatternModel.NAMESPACE
-								+ localName);
-					} catch (Exception e) {
-					} finally {
-						TypeInPatternBuilder.this.handleChange();
-					}
-				}
-			}
+                    @Override
+                    public String createObject(String text)
+                            throws OWLExpressionParserException {
+                        this.check(text);
+                        return lastName;
+                    }
+                });
+        JPanel patternNamePanel = new JPanel(new BorderLayout());
+        patternNamePanel.add(patternNameTextField);
+        patternNameTextField
+                .addStatusChangedListener(new org.protege.editor.core.ui.util.InputVerificationStatusChangedListener() {
+                    private void updateIRI() {
+                        iri = null;
+                        String localName = patternNameTextField.getText();
+                        if (localName.length() != 0) {
+                            try {
+                                iri = IRI.create(PatternModel.NAMESPACE + localName);
+                            } catch (Exception e) {} finally {
+                                TypeInPatternBuilder.this.handleChange();
+                            }
+                        }
+                    }
 
-			public void verifiedStatusChanged(boolean newState) {
-				this.updateIRI();
-			}
-		});
-		patternNamePanel.setBorder(ComponentFactory.createTitledBorder("Pattern name"));
-		this.mainPanel.add(patternNamePanel, BorderLayout.NORTH);
-		ExpressionChecker<PatternModel> expressionChecker = new OPPLExpressionChecker<PatternModel>(
-				this.getOWLEditorKit()) {
-			@Override
-			protected PatternModel parse(String text) {
-				OPPLPatternParser parser = ProtegeParserFactory.getInstance(this.getOWLEditorKit()).build(
-						this.getListener());
-				return parser.parse(text);
-			}
-		};
-		this.patternModelEditor = new ExpressionEditor<PatternModel>(
-				this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager(),
-				expressionChecker);
-		this.autoCompletionMatcher = new ProtegeOPPLPatternsAutoCompletionMatcher(
-				this.getOWLEditorKit());
-		new AutoCompleter(this.patternModelEditor, this.autoCompletionMatcher);
-		this.removeKeyListeners();
-		this.patternModelEditor.setPreferredSize(new Dimension(50, 200));
-		JScrollPane opplStatementEditorPane = ComponentFactory.createScrollPane(this.patternModelEditor);
-		JPanel opplStatementEditorPanel = new JPanel(new BorderLayout());
-		opplStatementEditorPanel.setBorder(ComponentFactory.createTitledBorder("Pattern statement"));
-		this.patternModelEditor.addStatusChangedListener(this);
-		opplStatementEditorPanel.add(opplStatementEditorPane);
-		this.mainPanel.add(opplStatementEditorPanel, BorderLayout.CENTER);
-		if (this.patternModel != null) {
-			this.patternModel.addChangeListener(this);
-		}
-	}
+                    @Override
+                    public void verifiedStatusChanged(boolean newState) {
+                        updateIRI();
+                    }
+                });
+        patternNamePanel.setBorder(ComponentFactory.createTitledBorder("Pattern name"));
+        mainPanel.add(patternNamePanel, BorderLayout.NORTH);
+        ExpressionChecker<PatternModel> expressionChecker = new OPPLExpressionChecker<PatternModel>(
+                getOWLEditorKit()) {
+            @Override
+            protected PatternModel parse(String text) {
+                OPPLPatternParser parser = ProtegeParserFactory.getInstance(
+                        getOWLEditorKit()).build(getListener());
+                return parser.parse(text);
+            }
+        };
+        patternModelEditor = new ExpressionEditor<PatternModel>(getOWLEditorKit()
+                .getOWLModelManager().getOWLOntologyManager(), expressionChecker);
+        autoCompletionMatcher = new ProtegeOPPLPatternsAutoCompletionMatcher(
+                getOWLEditorKit());
+        new AutoCompleter(patternModelEditor, autoCompletionMatcher);
+        removeKeyListeners();
+        patternModelEditor.setPreferredSize(new Dimension(50, 200));
+        JScrollPane opplStatementEditorPane = ComponentFactory
+                .createScrollPane(patternModelEditor);
+        JPanel opplStatementEditorPanel = new JPanel(new BorderLayout());
+        opplStatementEditorPanel.setBorder(ComponentFactory
+                .createTitledBorder("Pattern statement"));
+        patternModelEditor.addStatusChangedListener(this);
+        opplStatementEditorPanel.add(opplStatementEditorPane);
+        mainPanel.add(opplStatementEditorPanel, BorderLayout.CENTER);
+        if (patternModel != null) {
+            patternModel.addChangeListener(this);
+        }
+    }
 
-	/**
-	 * @see org.protege.editor.owl.ui.frame.VerifiedInputEditor#addStatusChangedListener(org.protege.editor.owl.ui.frame.InputVerificationStatusChangedListener)
-	 */
-	public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
-		this.listeners.add(listener);
-		this.notifyListener(this.check(), listener);
-	}
+    @Override
+    public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
+        listeners.add(listener);
+        notifyListener(check(), listener);
+    }
 
-	/**
-	 * @see org.protege.editor.owl.ui.frame.VerifiedInputEditor#removeStatusChangedListener(org.protege.editor.owl.ui.frame.InputVerificationStatusChangedListener)
-	 */
-	public void removeStatusChangedListener(InputVerificationStatusChangedListener listener) {
-		this.listeners.remove(listener);
-	}
+    @Override
+    public void removeStatusChangedListener(
+            InputVerificationStatusChangedListener listener) {
+        listeners.remove(listener);
+    }
 
-	public PatternModel getPatternModel() {
-		return this.patternModel;
-	}
+    public PatternModel getPatternModel() {
+        return patternModel;
+    }
 
-	public void verifiedStatusChanged(boolean newState) {
-		this.patternModel = null;
-		if (newState) {
-			this.patternModel = this.patternModelEditor.createObject();
-		}
-		this.handleChange();
-	}
+    @Override
+    public void verifiedStatusChanged(boolean newState) {
+        patternModel = null;
+        if (newState) {
+            patternModel = patternModelEditor.createObject();
+        }
+        handleChange();
+    }
 
-	public void handleChange() {
-		if (this.patternModel != null) {
-			this.patternModel.setIRI(this.iri);
-		}
-		boolean newState = this.check();
-		for (InputVerificationStatusChangedListener listener : this.listeners) {
-			this.notifyListener(newState, listener);
-		}
-	}
+    @Override
+    public void handleChange() {
+        if (patternModel != null) {
+            patternModel.setIRI(iri);
+        }
+        boolean newState = check();
+        for (InputVerificationStatusChangedListener listener : listeners) {
+            notifyListener(newState, listener);
+        }
+    }
 
-	/**
-	 * @param listener
-	 */
-	private void notifyListener(boolean newState, InputVerificationStatusChangedListener listener) {
-		listener.verifiedStatusChanged(newState);
-	}
+    /** @param listener */
+    private void notifyListener(boolean newState,
+            InputVerificationStatusChangedListener listener) {
+        listener.verifiedStatusChanged(newState);
+    }
 
-	/**
-	 * @return
-	 */
-	private boolean check() {
-		return this.patternModel != null && this.patternModel.isValid()
-				&& this.patternModel.getIRI() != null;
-	}
+    /** @return */
+    private boolean check() {
+        return patternModel != null && patternModel.isValid()
+                && patternModel.getIRI() != null;
+    }
 
-	public void clear() {
-		this.patternModelEditor.setText("");
-		this.patternNameTextField.setText("");
-	}
+    public void clear() {
+        patternModelEditor.setText("");
+        patternNameTextField.setText("");
+    }
 
-	public void dispose() {
-		if (this.patternModel != null) {
-			this.patternModel.removeChangeListener(this);
-		}
-		this.patternModelEditor.removeStatusChangedListener(this);
-		this.autoCompletionMatcher.dispose();
-		this.getOWLEditorKit().getOWLModelManager().removeListener(this.modelManagerListener);
-		this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager().removeOntologyChangeListener(
-				this.ontologyChangeListener);
-	}
+    public void dispose() {
+        if (patternModel != null) {
+            patternModel.removeChangeListener(this);
+        }
+        patternModelEditor.removeStatusChangedListener(this);
+        autoCompletionMatcher.dispose();
+        getOWLEditorKit().getOWLModelManager().removeListener(modelManagerListener);
+        getOWLEditorKit().getOWLModelManager().getOWLOntologyManager()
+                .removeOntologyChangeListener(ontologyChangeListener);
+    }
 
-	public PatternModel getEditedObject() {
-		return this.patternModel;
-	}
+    public PatternModel getEditedObject() {
+        return patternModel;
+    }
 
-	public JComponent getEditorComponent() {
-		return this.mainPanel;
-	}
+    public JComponent getEditorComponent() {
+        return mainPanel;
+    }
 
-	/**
-	 * @param patternModel
-	 *            the patternModel to set
-	 */
-	public void setPatternModel(PatternModel patternModel) {
-		this.patternModelEditor.setText(patternModel == null ? ""
-				: patternModel.render(new ShortFormProvider() {
-					public String getShortForm(OWLEntity entity) {
-						return TypeInPatternBuilder.this.getOWLEditorKit().getOWLModelManager().getRendering(
-								entity);
-					}
+    /** @param patternModel
+     *            the patternModel to set */
+    public void setPatternModel(PatternModel patternModel) {
+        patternModelEditor.setText(patternModel == null ? "" : patternModel
+                .render(new ShortFormProvider() {
+                    @Override
+                    public String getShortForm(OWLEntity entity) {
+                        return TypeInPatternBuilder.this.getOWLEditorKit()
+                                .getOWLModelManager().getRendering(entity);
+                    }
 
-					public void dispose() {
-					}
-				}));
-		this.patternNameTextField.setText(patternModel == null ? ""
-				: patternModel.getPatternLocalName());
-	}
+                    @Override
+                    public void dispose() {}
+                }));
+        patternNameTextField.setText(patternModel == null ? "" : patternModel
+                .getPatternLocalName());
+    }
 
-	/**
+    /**
 	 *
 	 */
-	private void removeKeyListeners() {
-		KeyListener[] keyListeners = this.patternNameTextField.getKeyListeners();
-		for (KeyListener keyListener : keyListeners) {
-			this.patternNameTextField.removeKeyListener(keyListener);
-		}
-	}
+    private void removeKeyListeners() {
+        KeyListener[] keyListeners = patternNameTextField.getKeyListeners();
+        for (KeyListener keyListener : keyListeners) {
+            patternNameTextField.removeKeyListener(keyListener);
+        }
+    }
 
-	/**
-	 * @return the owlEditorKit
-	 */
-	public OWLEditorKit getOWLEditorKit() {
-		return this.owlEditorKit;
-	}
+    /** @return the owlEditorKit */
+    public OWLEditorKit getOWLEditorKit() {
+        return owlEditorKit;
+    }
 }

@@ -45,244 +45,216 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.inference.NoOpReasoner;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class VariableListItem implements MListItem, OPPLMacroStatusChange {
-	private Variable<?> variable;
-	private final OWLEditorKit owlEditorKit;
-	private final RuntimeExceptionHandler runtimeExceptionHandler;
-	private final List<OPPLMacroListener> listeners = new ArrayList<OPPLMacroListener>();
-	private final boolean isEditable;
-	private final boolean isDeleteable;
-	private final ConstraintSystem constraintSystem;
+    private Variable<?> variable;
+    private final OWLEditorKit owlEditorKit;
+    private final RuntimeExceptionHandler runtimeExceptionHandler;
+    private final List<OPPLMacroListener> listeners = new ArrayList<OPPLMacroListener>();
+    private final boolean isEditable;
+    private final boolean isDeleteable;
+    private final ConstraintSystem constraintSystem;
 
-	/**
-	 * @param variable
-	 * @param owlEditorKit
-	 */
-	public VariableListItem(Variable<?> variable, ConstraintSystem constraintSystem,
-			OWLEditorKit owlEditorKit, boolean isEditable, boolean isDeleatable) {
-		if (variable == null) {
-			throw new NullPointerException("The variable cannot be null");
-		}
-		if (constraintSystem == null) {
-			throw new NullPointerException("The constraint system cannot null");
-		}
-		if (owlEditorKit == null) {
-			throw new NullPointerException("The OWL editor kit cannot null");
-		}
-		this.variable = variable;
-		this.owlEditorKit = owlEditorKit;
-		this.isEditable = isEditable;
-		this.isDeleteable = isDeleatable;
-		this.constraintSystem = constraintSystem;
-		this.runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(
-				this.getOwlEditorKit().getOWLWorkspace());
-	}
+    /** @param variable
+     * @param owlEditorKit */
+    public VariableListItem(Variable<?> variable, ConstraintSystem constraintSystem,
+            OWLEditorKit owlEditorKit, boolean isEditable, boolean isDeleatable) {
+        if (variable == null) {
+            throw new NullPointerException("The variable cannot be null");
+        }
+        if (constraintSystem == null) {
+            throw new NullPointerException("The constraint system cannot null");
+        }
+        if (owlEditorKit == null) {
+            throw new NullPointerException("The OWL editor kit cannot null");
+        }
+        this.variable = variable;
+        this.owlEditorKit = owlEditorKit;
+        this.isEditable = isEditable;
+        isDeleteable = isDeleatable;
+        this.constraintSystem = constraintSystem;
+        runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(
+                getOwlEditorKit().getOWLWorkspace());
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.list.MListItem#getTooltip()
-	 */
-	public String getTooltip() {
-		StringBuilder toReturnBuilder = new StringBuilder(this.variable.getName());
-		boolean first = true;
-		toReturnBuilder.append(" = ");
-		for (OWLObject value : this.getConstraintSystem().getVariableBindings(
-				this.variable,
-				this.getRuntimeExceptionHandler())) {
-			String rendering = first ? this.owlEditorKit.getModelManager().getRendering(value)
-					: ", " + this.owlEditorKit.getModelManager().getRendering(value);
-			toReturnBuilder.append(rendering);
-		}
-		return toReturnBuilder.toString();
-	}
+    @Override
+    public String getTooltip() {
+        StringBuilder toReturnBuilder = new StringBuilder(variable.getName());
+        boolean first = true;
+        toReturnBuilder.append(" = ");
+        for (OWLObject value : getConstraintSystem().getVariableBindings(variable,
+                getRuntimeExceptionHandler())) {
+            String rendering = first ? owlEditorKit.getModelManager().getRendering(value)
+                    : ", " + owlEditorKit.getModelManager().getRendering(value);
+            toReturnBuilder.append(rendering);
+        }
+        return toReturnBuilder.toString();
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.list.MListItem#handleDelete()
-	 */
-	public boolean handleDelete() {
-		this.notifyListeners(this.getVariable());
-		for (OPPLMacroListener l : new ArrayList<OPPLMacroListener>(this.getListeners())) {
-			this.removeOPPLMacroListener(l);
-		}
-		return true;
-	}
+    @Override
+    public boolean handleDelete() {
+        notifyListeners(getVariable());
+        for (OPPLMacroListener l : new ArrayList<OPPLMacroListener>(getListeners())) {
+            removeOPPLMacroListener(l);
+        }
+        return true;
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.list.MListItem#handleEdit()
-	 */
-	public void handleEdit() {
-		VariableScopeChecker checker;
-		try {
-			checker = this.getConstraintSystem().getOPPLFactory().getVariableScopeChecker();
-			final ScopeEditor scopeEditor = ScopeEditor.getTypeScopeEditor(
-					this.variable.getType(),
-					checker,
-					this.owlEditorKit);
-			final VerifyingOptionPane optionPane = new VerifyingOptionPane(scopeEditor) {
-				/**
-				 *
-				 */
-				private static final long serialVersionUID = 7217535942418544769L;
+    @Override
+    public void handleEdit() {
+        VariableScopeChecker checker;
+        try {
+            checker = getConstraintSystem().getOPPLFactory().getVariableScopeChecker();
+            final ScopeEditor scopeEditor = ScopeEditor.getTypeScopeEditor(
+                    variable.getType(), checker, owlEditorKit);
+            final VerifyingOptionPane optionPane = new VerifyingOptionPane(scopeEditor) {
+                private static final long serialVersionUID = 7217535942418544769L;
 
-				@Override
-				public void selectInitialValue() {
-					// This is overridden so that the option pane dialog default
-					// button
-					// doesn't get the focus.
-				}
-			};
-			if (this.owlEditorKit.getModelManager().getReasoner() instanceof NoOpReasoner) {
-				JOptionPane.showMessageDialog(
-						this.owlEditorKit.getWorkspace(),
-						"You are not using any reasoner, in order to scope variables, please activate reasoning.",
-						"No Reasoner",
-						JOptionPane.ERROR_MESSAGE);
-			} else {
-				final InputVerificationStatusChangedListener verificationListener = new InputVerificationStatusChangedListener() {
-					public void verifiedStatusChanged(boolean verified) {
-						optionPane.setOKEnabled(verified);
-					}
-				};
-				scopeEditor.addStatusChangedListener(verificationListener);
-				final JDialog dlg = optionPane.createDialog(this.owlEditorKit.getWorkspace(), null);
-				// The editor shouldn't be modal (or should it?)
-				dlg.setModal(false);
-				dlg.setTitle(scopeEditor.getTitle());
-				dlg.setResizable(true);
-				dlg.pack();
-				dlg.setLocationRelativeTo(this.owlEditorKit.getWorkspace());
-				dlg.addComponentListener(new ComponentAdapter() {
-					@Override
-					public void componentHidden(ComponentEvent e) {
-						Object retVal = optionPane.getValue();
-						if (retVal != null && retVal.equals(JOptionPane.OK_OPTION)) {
-							VariableScope<?> variableScope = scopeEditor.getVariableScope();
-							try {
-								VariableListItem.this.variable = VariableListItem.this.getConstraintSystem().createVariable(
-										VariableListItem.this.getVariable().getName(),
-										VariableListItem.this.getVariable().getType(),
-										variableScope);
-							} catch (OPPLException e1) {
-								throw new RuntimeException(e1);
-							}
-						}
-						scopeEditor.removeStatusChangedListener(verificationListener);
-					}
-				});
-				dlg.setVisible(true);
-			}
-		} catch (OPPLException e2) {
-			JOptionPane.showMessageDialog(
-					this.owlEditorKit.getWorkspace(),
-					"Choose a reasoner first");
-		}
-	}
+                @Override
+                public void selectInitialValue() {
+                    // This is overridden so that the option pane dialog default
+                    // button
+                    // doesn't get the focus.
+                }
+            };
+            if (owlEditorKit.getModelManager().getReasoner() instanceof NoOpReasoner) {
+                JOptionPane
+                        .showMessageDialog(
+                                owlEditorKit.getWorkspace(),
+                                "You are not using any reasoner, in order to scope variables, please activate reasoning.",
+                                "No Reasoner", JOptionPane.ERROR_MESSAGE);
+            } else {
+                final InputVerificationStatusChangedListener verificationListener = new InputVerificationStatusChangedListener() {
+                    @Override
+                    public void verifiedStatusChanged(boolean verified) {
+                        optionPane.setOKEnabled(verified);
+                    }
+                };
+                scopeEditor.addStatusChangedListener(verificationListener);
+                final JDialog dlg = optionPane.createDialog(owlEditorKit.getWorkspace(),
+                        null);
+                // The editor shouldn't be modal (or should it?)
+                dlg.setModal(false);
+                dlg.setTitle(scopeEditor.getTitle());
+                dlg.setResizable(true);
+                dlg.pack();
+                dlg.setLocationRelativeTo(owlEditorKit.getWorkspace());
+                dlg.addComponentListener(new ComponentAdapter() {
+                    @Override
+                    public void componentHidden(ComponentEvent e) {
+                        Object retVal = optionPane.getValue();
+                        if (retVal != null && retVal.equals(JOptionPane.OK_OPTION)) {
+                            VariableScope<?> variableScope = scopeEditor
+                                    .getVariableScope();
+                            try {
+                                variable = VariableListItem.this.getConstraintSystem()
+                                        .createVariable(
+                                                VariableListItem.this.getVariable()
+                                                        .getName(),
+                                                VariableListItem.this.getVariable()
+                                                        .getType(), variableScope);
+                            } catch (OPPLException e1) {
+                                throw new RuntimeException(e1);
+                            }
+                        }
+                        scopeEditor.removeStatusChangedListener(verificationListener);
+                    }
+                });
+                dlg.setVisible(true);
+            }
+        } catch (OPPLException e2) {
+            JOptionPane.showMessageDialog(owlEditorKit.getWorkspace(),
+                    "Choose a reasoner first");
+        }
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.list.MListItem#isDeleteable()
-	 */
-	public boolean isDeleteable() {
-		return this.isDeleteable;
-	}
+    @Override
+    public boolean isDeleteable() {
+        return isDeleteable;
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.list.MListItem#isEditable()
-	 */
-	public boolean isEditable() {
-		return this.isEditable
-				&& this.variable.getType() != VariableTypeFactory.getCONSTANTVariableType();
-	}
+    @Override
+    public boolean isEditable() {
+        return isEditable
+                && variable.getType() != VariableTypeFactory.getCONSTANTVariableType();
+    }
 
-	/**
-	 * @return the variable
-	 */
-	public Variable<?> getVariable() {
-		return this.variable;
-	}
+    /** @return the variable */
+    public Variable<?> getVariable() {
+        return variable;
+    }
 
-	public void addOPPLMacroListener(OPPLMacroListener listener) {
-		this.listeners.add(listener);
-	}
+    @Override
+    public void addOPPLMacroListener(OPPLMacroListener listener) {
+        listeners.add(listener);
+    }
 
-	public void removeOPPLMacroListener(OPPLMacroListener listener) {
-		this.listeners.remove(listener);
-	}
+    @Override
+    public void removeOPPLMacroListener(OPPLMacroListener listener) {
+        listeners.remove(listener);
+    }
 
-	private void notifyListeners(Variable<?> variable1) {
-		for (OPPLMacroListener listener : this.listeners) {
-			listener.handleDeletedVariable(variable1);
-		}
-	}
+    private void notifyListeners(Variable<?> variable1) {
+        for (OPPLMacroListener listener : listeners) {
+            listener.handleDeletedVariable(variable1);
+        }
+    }
 
-	/**
-	 * @return the listeners
-	 */
-	private Collection<OPPLMacroListener> getListeners() {
-		return this.listeners;
-	}
+    /** @return the listeners */
+    private Collection<OPPLMacroListener> getListeners() {
+        return listeners;
+    }
 
-	/**
-	 * @return the owlEditorKit
-	 */
-	protected final OWLEditorKit getOwlEditorKit() {
-		return this.owlEditorKit;
-	}
+    /** @return the owlEditorKit */
+    protected final OWLEditorKit getOwlEditorKit() {
+        return owlEditorKit;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (this.isDeleteable ? 1231 : 1237);
-		result = prime * result + (this.isEditable ? 1231 : 1237);
-		result = prime * result + (this.variable == null ? 0 : this.variable.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (isDeleteable ? 1231 : 1237);
+        result = prime * result + (isEditable ? 1231 : 1237);
+        result = prime * result + (variable == null ? 0 : variable.hashCode());
+        return result;
+    }
 
-	/**
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (this.getClass() != obj.getClass()) {
-			return false;
-		}
-		VariableListItem other = (VariableListItem) obj;
-		if (this.isDeleteable != other.isDeleteable) {
-			return false;
-		}
-		if (this.isEditable != other.isEditable) {
-			return false;
-		}
-		if (this.variable == null) {
-			if (other.variable != null) {
-				return false;
-			}
-		} else if (!this.variable.equals(other.variable)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        VariableListItem other = (VariableListItem) obj;
+        if (isDeleteable != other.isDeleteable) {
+            return false;
+        }
+        if (isEditable != other.isEditable) {
+            return false;
+        }
+        if (variable == null) {
+            if (other.variable != null) {
+                return false;
+            }
+        } else if (!variable.equals(other.variable)) {
+            return false;
+        }
+        return true;
+    }
 
-	/**
-	 * @return the constraintSystem
-	 */
-	public ConstraintSystem getConstraintSystem() {
-		return this.constraintSystem;
-	}
+    /** @return the constraintSystem */
+    public ConstraintSystem getConstraintSystem() {
+        return constraintSystem;
+    }
 
-	/**
-	 * @return the runtimeExceptionHandler
-	 */
-	public RuntimeExceptionHandler getRuntimeExceptionHandler() {
-		return this.runtimeExceptionHandler;
-	}
+    /** @return the runtimeExceptionHandler */
+    public RuntimeExceptionHandler getRuntimeExceptionHandler() {
+        return runtimeExceptionHandler;
+    }
 }

@@ -34,59 +34,41 @@ import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.ui.view.AbstractActiveOntologyViewComponent;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jul 3, 2008
- */
+/** @author Luigi Iannone Jul 3, 2008 */
 public class PatternOntologyView extends AbstractActiveOntologyViewComponent {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -8110091764534100865L;
-	private PatternModelList list;
-	private PatternManager patternManager;
+    private static final long serialVersionUID = -8110091764534100865L;
+    private PatternModelList list;
+    private PatternManager patternManager;
 
-	// private AbstractPatternModelFactory factory;
-	/**
-	 * @see org.protege.editor.owl.ui.view.AbstractActiveOntologyViewComponent#disposeOntologyView()
-	 */
-	@Override
-	protected void disposeOntologyView() {
-		if (this.list != null) {
-			this.list.dispose();
-		}
-		if (this.patternManager != null) {
-			this.getOWLEditorKit().getModelManager().removeOntologyChangeListener(
-					this.patternManager);
-		}
-		ProtegeParserFactory.getInstance(this.getOWLEditorKit()).dispose();
-	}
+    @Override
+    protected void disposeOntologyView() {
+        if (list != null) {
+            list.dispose();
+        }
+        if (patternManager != null) {
+            getOWLEditorKit().getModelManager().removeOntologyChangeListener(
+                    patternManager);
+        }
+        ProtegeParserFactory.getInstance(getOWLEditorKit()).dispose();
+    }
 
-	/**
-	 * @see org.protege.editor.owl.ui.view.AbstractActiveOntologyViewComponent#initialiseOntologyView()
-	 */
-	@Override
-	protected void initialiseOntologyView() throws Exception {
-		this.setLayout(new BorderLayout());
-		this.list = new PatternModelList(this.getOWLEditorKit());
-		AbstractPatternModelFactory patternFactory = org.coode.patterns.protege.ProtegeParserFactory.getInstance(
-				this.getOWLEditorKit()).getPatternFactory();
-		this.list.setRootObject(new PatternAnnotationContainer(this.getOWLEditorKit()));
-		this.list.setCellRenderer(new PatternCellRenderer(this.getOWLEditorKit(), patternFactory));
-		JScrollPane listPane = ComponentFactory.createScrollPane(this.list);
-		this.patternManager = PatternManager.getInstance(
-				this.getOWLEditorKit().getModelManager().getOWLOntologyManager(),
-				patternFactory);
-		this.getOWLEditorKit().getModelManager().addOntologyChangeListener(this.patternManager);
-		this.add(listPane);
-	}
+    @Override
+    protected void initialiseOntologyView() throws Exception {
+        setLayout(new BorderLayout());
+        list = new PatternModelList(getOWLEditorKit());
+        AbstractPatternModelFactory patternFactory = org.coode.patterns.protege.ProtegeParserFactory
+                .getInstance(getOWLEditorKit()).getPatternFactory();
+        list.setRootObject(new PatternAnnotationContainer(getOWLEditorKit()));
+        list.setCellRenderer(new PatternCellRenderer(getOWLEditorKit(), patternFactory));
+        JScrollPane listPane = ComponentFactory.createScrollPane(list);
+        patternManager = PatternManager.getInstance(getOWLEditorKit().getModelManager()
+                .getOWLOntologyManager(), patternFactory);
+        getOWLEditorKit().getModelManager().addOntologyChangeListener(patternManager);
+        this.add(listPane);
+    }
 
-	/**
-	 * @see org.protege.editor.owl.ui.view.AbstractActiveOntologyViewComponent#updateView(org.semanticweb.owl.model.OWLOntology)
-	 */
-	@Override
-	protected void updateView(OWLOntology activeOntology) throws Exception {
-		this.list.setRootObject(new PatternAnnotationContainer(this.getOWLEditorKit()));
-	}
+    @Override
+    protected void updateView(OWLOntology activeOntology) throws Exception {
+        list.setRootObject(new PatternAnnotationContainer(getOWLEditorKit()));
+    }
 }

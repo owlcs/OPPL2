@@ -3,25 +3,20 @@
  */
 package org.coode.oppl.protege.ui.message;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class Error extends AbstractMessage implements Message {
-	/**
-	 * @param messageText
-	 */
-	public Error(String messageText) {
-		super(messageText);
-	}
+    /** @param messageText */
+    public Error(String messageText) {
+        super(messageText);
+    }
 
-	@Override
-	public void accept(MessageVisitor visitor) {
-		visitor.visitError(this);
-	}
+    @Override
+    public void accept(MessageVisitor visitor) {
+        visitor.visitError(this);
+    }
 
     @Override
     public <O> O accept(MessageVisitorEx<O> visitor) {
-		return visitor.visitError(this);
-	}
+        return visitor.visitError(this);
+    }
 }

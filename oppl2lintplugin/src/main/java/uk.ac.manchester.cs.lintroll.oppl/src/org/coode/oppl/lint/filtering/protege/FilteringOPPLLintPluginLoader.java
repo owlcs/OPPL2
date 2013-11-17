@@ -24,9 +24,6 @@ public class FilteringOPPLLintPluginLoader
 				FilteringOPPLLintPlugin.FILTER_OPPL_LINT_PLUGIN_TYPE_ID, owlEditorKit);
 	}
 
-	/**
-	 * @see org.protege.editor.core.plugin.AbstractPluginLoader#getExtensionMatcher()
-	 */
 	@Override
 	protected PluginExtensionMatcher getExtensionMatcher() {
 		return new PluginExtensionMatcher() {
@@ -46,10 +43,6 @@ public class FilteringOPPLLintPluginLoader
 		};
 	}
 
-	/**
-	 * @see org.protege.editor.core.plugin.AbstractPluginLoader#createInstance(org
-	 *      .eclipse.core.runtime.IExtension)
-	 */
 	@Override
 	protected FilteringOPPLLintPlugin createInstance(IExtension extension) {
 		return new FilteringOPPLLintPlugin(extension, this.getOWLEditorKit());

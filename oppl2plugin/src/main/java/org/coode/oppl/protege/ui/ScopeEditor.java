@@ -66,373 +66,390 @@ import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor {
-	static class ClassScopeEditor extends ScopeEditor implements
-			InputVerificationStatusChangedListener, ChangeListener {
-		/**
+    static class ClassScopeEditor extends ScopeEditor implements
+            InputVerificationStatusChangedListener, ChangeListener {
+        /**
 		 *
 		 */
-		private static final long serialVersionUID = 1748983757452740791L;
-		private final ExpressionEditor<OWLClassExpression> editor = new ExpressionEditor<OWLClassExpression>(
-				this.owlEditorKit,
-				this.owlEditorKit.getOWLModelManager().getOWLExpressionCheckerFactory().getOWLClassExpressionChecker());
-		private final ButtonGroup directionButtonGroup = new ButtonGroup();
-		private final Map<JRadioButton, Direction> radioButtonDirectionMap = new HashMap<JRadioButton, Direction>();
-		private final Map<Direction, JRadioButton> directionRadioButtonMap = new HashMap<Direction, JRadioButton>();
-		private static final String CLASS_TITLE = "Class Variable Scope";
+        private static final long serialVersionUID = 1748983757452740791L;
+        private final ExpressionEditor<OWLClassExpression> editor = new ExpressionEditor<OWLClassExpression>(
+                owlEditorKit, owlEditorKit.getOWLModelManager()
+                        .getOWLExpressionCheckerFactory().getOWLClassExpressionChecker());
+        private final ButtonGroup directionButtonGroup = new ButtonGroup();
+        private final Map<JRadioButton, Direction> radioButtonDirectionMap = new HashMap<JRadioButton, Direction>();
+        private final Map<Direction, JRadioButton> directionRadioButtonMap = new HashMap<Direction, JRadioButton>();
+        private static final String CLASS_TITLE = "Class Variable Scope";
 
-		public ClassScopeEditor(OWLEditorKit owlEditorKit, VariableScopeChecker checker) {
-			super(CLASS_TITLE, checker, owlEditorKit);
-			this.setLayout(new BorderLayout());
-			JRadioButton superClassRadioButton = new JRadioButton(Direction.SUPERCLASSOF.toString());
-			superClassRadioButton.setSelected(true);
-			this.radioButtonDirectionMap.put(superClassRadioButton, Direction.SUPERCLASSOF);
-			this.directionRadioButtonMap.put(Direction.SUPERCLASSOF, superClassRadioButton);
-			this.directionButtonGroup.add(superClassRadioButton);
-			superClassRadioButton.getModel().addChangeListener(this);
-			JRadioButton subClassRadioButton = new JRadioButton(Direction.SUBCLASSOF.toString());
-			this.radioButtonDirectionMap.put(subClassRadioButton, Direction.SUBCLASSOF);
-			this.directionRadioButtonMap.put(Direction.SUBCLASSOF, subClassRadioButton);
-			this.directionButtonGroup.add(subClassRadioButton);
-			JPanel directionPanel = new JPanel(new GridLayout(0, 2));
-			directionPanel.setBorder(ComponentFactory.createTitledBorder("Direction"));
-			directionPanel.add(subClassRadioButton);
-			directionPanel.add(superClassRadioButton);
-			subClassRadioButton.setSelected(true);
-			this.editor.addStatusChangedListener(this);
-			this.editor.setPreferredSize(new Dimension(100, 100));
-			this.add(directionPanel, BorderLayout.NORTH);
-			JPanel editorPaneBorder = new JPanel(new BorderLayout());
-			editorPaneBorder.setBorder(ComponentFactory.createTitledBorder("Scoping Class Description"));
-			JScrollPane editorPane = ComponentFactory.createScrollPane(this.editor);
-			editorPaneBorder.add(editorPane);
-			this.add(editorPaneBorder, BorderLayout.CENTER);
-		}
+        public ClassScopeEditor(OWLEditorKit owlEditorKit, VariableScopeChecker checker) {
+            super(CLASS_TITLE, checker, owlEditorKit);
+            setLayout(new BorderLayout());
+            JRadioButton superClassRadioButton = new JRadioButton(
+                    Direction.SUPERCLASSOF.toString());
+            superClassRadioButton.setSelected(true);
+            radioButtonDirectionMap.put(superClassRadioButton, Direction.SUPERCLASSOF);
+            directionRadioButtonMap.put(Direction.SUPERCLASSOF, superClassRadioButton);
+            directionButtonGroup.add(superClassRadioButton);
+            superClassRadioButton.getModel().addChangeListener(this);
+            JRadioButton subClassRadioButton = new JRadioButton(
+                    Direction.SUBCLASSOF.toString());
+            radioButtonDirectionMap.put(subClassRadioButton, Direction.SUBCLASSOF);
+            directionRadioButtonMap.put(Direction.SUBCLASSOF, subClassRadioButton);
+            directionButtonGroup.add(subClassRadioButton);
+            JPanel directionPanel = new JPanel(new GridLayout(0, 2));
+            directionPanel.setBorder(ComponentFactory.createTitledBorder("Direction"));
+            directionPanel.add(subClassRadioButton);
+            directionPanel.add(superClassRadioButton);
+            subClassRadioButton.setSelected(true);
+            editor.addStatusChangedListener(this);
+            editor.setPreferredSize(new Dimension(100, 100));
+            this.add(directionPanel, BorderLayout.NORTH);
+            JPanel editorPaneBorder = new JPanel(new BorderLayout());
+            editorPaneBorder.setBorder(ComponentFactory
+                    .createTitledBorder("Scoping Class Description"));
+            JScrollPane editorPane = ComponentFactory.createScrollPane(editor);
+            editorPaneBorder.add(editorPane);
+            this.add(editorPaneBorder, BorderLayout.CENTER);
+        }
 
-		private JRadioButton findSelectedButton() {
-			JRadioButton button = null;
-			Enumeration<AbstractButton> directions = this.directionButtonGroup.getElements();
-			boolean found = false;
-			while (!found && directions.hasMoreElements()) {
-				button = (JRadioButton) directions.nextElement();
-				found = button.isSelected();
-			}
-			return found ? button : null;
-		}
+        private JRadioButton findSelectedButton() {
+            JRadioButton button = null;
+            Enumeration<AbstractButton> directions = directionButtonGroup.getElements();
+            boolean found = false;
+            while (!found && directions.hasMoreElements()) {
+                button = (JRadioButton) directions.nextElement();
+                found = button.isSelected();
+            }
+            return found ? button : null;
+        }
 
-		public void verifiedStatusChanged(boolean newState) {
-			this.setVariableScope(null);
-			if (newState) {
-				JRadioButton button = this.findSelectedButton();
-				if (button != null) {
-					Direction direction = this.radioButtonDirectionMap.get(button);
-					OWLClassExpression object = null;
-					try {
-						object = this.editor.createObject();
-					} catch (OWLException e) {
-						throw new RuntimeException(e);
-					}
-					if (direction.equals(Direction.SUPERCLASSOF)) {
-						this.setVariableScope(VariableScopes.buildSuperClassVariableScope(
-								object,
-								this.getChecker()));
-					}
-					if (direction.equals(Direction.SUBCLASSOF)) {
-						this.setVariableScope(VariableScopes.buildSubClassVariableScope(
-								object,
-								this.getChecker()));
-					}
-				}
-			}
-		}
+        @Override
+        public void verifiedStatusChanged(boolean newState) {
+            setVariableScope(null);
+            if (newState) {
+                JRadioButton button = findSelectedButton();
+                if (button != null) {
+                    Direction direction = radioButtonDirectionMap.get(button);
+                    OWLClassExpression object = null;
+                    try {
+                        object = editor.createObject();
+                    } catch (OWLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if (direction.equals(Direction.SUPERCLASSOF)) {
+                        setVariableScope(VariableScopes.buildSuperClassVariableScope(
+                                object, getChecker()));
+                    }
+                    if (direction.equals(Direction.SUBCLASSOF)) {
+                        setVariableScope(VariableScopes.buildSubClassVariableScope(
+                                object, getChecker()));
+                    }
+                }
+            }
+        }
 
-		public void stateChanged(ChangeEvent e) {
-			JRadioButton selectedButton = this.findSelectedButton();
-			if (selectedButton != null) {
-				Direction direction = this.radioButtonDirectionMap.get(selectedButton);
-				OWLClassExpression object = null;
-				try {
-					object = this.editor.createObject();
-					if (direction.equals(Direction.SUPERCLASSOF)) {
-						this.setVariableScope(VariableScopes.buildSuperClassVariableScope(
-								object,
-								this.getChecker()));
-					}
-					if (direction.equals(Direction.SUBCLASSOF)) {
-						this.setVariableScope(VariableScopes.buildSubClassVariableScope(
-								object,
-								this.getChecker()));
-					}
-				} catch (OWLException ex) {
-					this.setVariableScope(null);
-				}
-			}
-		}
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            JRadioButton selectedButton = findSelectedButton();
+            if (selectedButton != null) {
+                Direction direction = radioButtonDirectionMap.get(selectedButton);
+                OWLClassExpression object = null;
+                try {
+                    object = editor.createObject();
+                    if (direction.equals(Direction.SUPERCLASSOF)) {
+                        setVariableScope(VariableScopes.buildSuperClassVariableScope(
+                                object, getChecker()));
+                    }
+                    if (direction.equals(Direction.SUBCLASSOF)) {
+                        setVariableScope(VariableScopes.buildSubClassVariableScope(
+                                object, getChecker()));
+                    }
+                } catch (OWLException ex) {
+                    setVariableScope(null);
+                }
+            }
+        }
 
-		@Override
-		public void dispose() {
-			this.editor.removeStatusChangedListener(this);
-		}
+        @Override
+        public void dispose() {
+            editor.removeStatusChangedListener(this);
+        }
 
-		@Override
-		public void setScope(VariableScope<?> scope) {
-			this.editor.setText(this.owlEditorKit.getModelManager().getRendering(
-					scope.getScopingObject()));
-			JRadioButton radioButton = this.directionRadioButtonMap.get(scope.getDirection());
-			if (radioButton != null) {
-				radioButton.setSelected(true);
-			}
-		}
-	}
+        @Override
+        public void setScope(VariableScope<?> scope) {
+            editor.setText(owlEditorKit.getModelManager().getRendering(
+                    scope.getScopingObject()));
+            JRadioButton radioButton = directionRadioButtonMap.get(scope.getDirection());
+            if (radioButton != null) {
+                radioButton.setSelected(true);
+            }
+        }
+    }
 
-	static class IndividualScopeEditor extends ScopeEditor implements
-			InputVerificationStatusChangedListener {
-		/**
+    static class IndividualScopeEditor extends ScopeEditor implements
+            InputVerificationStatusChangedListener {
+        /**
 		 *
 		 */
-		private static final long serialVersionUID = 1748983757452740791L;
-		private final ExpressionEditor<OWLClassExpression> editor = new ExpressionEditor<OWLClassExpression>(
-				this.owlEditorKit,
-				this.owlEditorKit.getModelManager().getOWLExpressionCheckerFactory().getOWLClassExpressionChecker());
-		private static final String INDIVIDUAL_TITLE = "Individual Variable Scope";
+        private static final long serialVersionUID = 1748983757452740791L;
+        private final ExpressionEditor<OWLClassExpression> editor = new ExpressionEditor<OWLClassExpression>(
+                owlEditorKit, owlEditorKit.getModelManager()
+                        .getOWLExpressionCheckerFactory().getOWLClassExpressionChecker());
+        private static final String INDIVIDUAL_TITLE = "Individual Variable Scope";
 
-		public IndividualScopeEditor(VariableScopeChecker checker, OWLEditorKit owlEditorKit) {
-			super(INDIVIDUAL_TITLE, checker, owlEditorKit);
-			this.setLayout(new BorderLayout());
-			this.editor.addStatusChangedListener(this);
-			this.editor.setSize(new Dimension(100, 50));
-			JPanel editorPaneBorder = new JPanel(new BorderLayout());
-			JScrollPane editorPane = ComponentFactory.createScrollPane(this.editor);
-			editorPaneBorder.setBorder(ComponentFactory.createTitledBorder("Scoping Class Description"));
-			editorPaneBorder.add(editorPane);
-			this.add(editorPaneBorder, BorderLayout.CENTER);
-		}
+        public IndividualScopeEditor(VariableScopeChecker checker,
+                OWLEditorKit owlEditorKit) {
+            super(INDIVIDUAL_TITLE, checker, owlEditorKit);
+            setLayout(new BorderLayout());
+            editor.addStatusChangedListener(this);
+            editor.setSize(new Dimension(100, 50));
+            JPanel editorPaneBorder = new JPanel(new BorderLayout());
+            JScrollPane editorPane = ComponentFactory.createScrollPane(editor);
+            editorPaneBorder.setBorder(ComponentFactory
+                    .createTitledBorder("Scoping Class Description"));
+            editorPaneBorder.add(editorPane);
+            this.add(editorPaneBorder, BorderLayout.CENTER);
+        }
 
-		public void verifiedStatusChanged(boolean newState) {
-			this.setVariableScope(null);
-			if (newState) {
-				try {
-					this.setVariableScope(VariableScopes.buildIndividualVariableScope(
-							this.editor.createObject(),
-							this.getChecker()));
-				} catch (OWLException e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
+        @Override
+        public void verifiedStatusChanged(boolean newState) {
+            setVariableScope(null);
+            if (newState) {
+                try {
+                    setVariableScope(VariableScopes.buildIndividualVariableScope(
+                            editor.createObject(), getChecker()));
+                } catch (OWLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
 
-		@Override
-		public void dispose() {
-			this.editor.removeStatusChangedListener(this);
-		}
+        @Override
+        public void dispose() {
+            editor.removeStatusChangedListener(this);
+        }
 
-		@Override
-		public void setScope(VariableScope<?> scope) {
-			OWLObject scopingObject = scope.getScopingObject();
-			this.editor.setText(this.owlEditorKit.getModelManager().getRendering(scopingObject));
-		}
-	}
+        @Override
+        public void setScope(VariableScope<?> scope) {
+            OWLObject scopingObject = scope.getScopingObject();
+            editor.setText(owlEditorKit.getModelManager().getRendering(scopingObject));
+        }
+    }
 
-	static class PropertyScopeEditor extends ScopeEditor implements ChangeListener {
-		/**
+    static class PropertyScopeEditor extends ScopeEditor implements ChangeListener {
+        /**
 		 *
 		 */
-		private static final long serialVersionUID = 1014596361426722995L;
-		private ButtonGroup directionButtonGroup = new ButtonGroup();
-		private Map<JRadioButton, Direction> radioButtonDirectionMap = new HashMap<JRadioButton, Direction>();
-		private AbstractHierarchySelectorPanel<?> propertyTree;
-		private final static String PROPERTY_TITLE = "Property Variable Scope";
-		private final boolean isDataProperty;
+        private static final long serialVersionUID = 1014596361426722995L;
+        private final ButtonGroup directionButtonGroup = new ButtonGroup();
+        private final Map<JRadioButton, Direction> radioButtonDirectionMap = new HashMap<JRadioButton, Direction>();
+        private final AbstractHierarchySelectorPanel<?> propertyTree;
+        private final static String PROPERTY_TITLE = "Property Variable Scope";
+        private final boolean isDataProperty;
 
-		public PropertyScopeEditor(OWLEditorKit owlEditorKit, VariableScopeChecker checker,
-				boolean isDataProperty) {
-			super(PROPERTY_TITLE, checker, owlEditorKit);
-			this.isDataProperty = isDataProperty;
-			this.setLayout(new BorderLayout());
-			JRadioButton superPropertyRadioButton = new JRadioButton(
-					Direction.SUBPROPERTYOF.toString());
-			superPropertyRadioButton.setSelected(true);
-			this.radioButtonDirectionMap.put(superPropertyRadioButton, Direction.SUBPROPERTYOF);
-			this.directionButtonGroup.add(superPropertyRadioButton);
-			JRadioButton subPropertyRadioButton = new JRadioButton(
-					Direction.SUPERPROPERTYOF.toString());
-			this.radioButtonDirectionMap.put(subPropertyRadioButton, Direction.SUPERPROPERTYOF);
-			this.directionButtonGroup.add(subPropertyRadioButton);
-			JPanel directionPanel = new JPanel(new GridLayout(0, 2));
-			directionPanel.setBorder(ComponentFactory.createTitledBorder("Direction"));
-			directionPanel.add(subPropertyRadioButton);
-			directionPanel.add(superPropertyRadioButton);
-			subPropertyRadioButton.setSelected(true);
-			this.add(directionPanel, BorderLayout.NORTH);
-			this.propertyTree = isDataProperty ? new OWLDataPropertySelectorPanel(this.owlEditorKit)
-					: new OWLObjectPropertySelectorPanel(this.owlEditorKit);
-			this.propertyTree.addSelectionListener(this);
-			JPanel propertyPaneBorder = new JPanel(new BorderLayout());
-			JScrollPane propertyPane = ComponentFactory.createScrollPane(this.propertyTree);
-			propertyPaneBorder.setBorder(ComponentFactory.createTitledBorder("Scoping property"));
-			propertyPane.setSize(new Dimension(100, 50));
-			propertyPaneBorder.add(propertyPane);
-			this.add(propertyPaneBorder, BorderLayout.SOUTH);
-		}
+        public PropertyScopeEditor(OWLEditorKit owlEditorKit,
+                VariableScopeChecker checker, boolean isDataProperty) {
+            super(PROPERTY_TITLE, checker, owlEditorKit);
+            this.isDataProperty = isDataProperty;
+            setLayout(new BorderLayout());
+            JRadioButton superPropertyRadioButton = new JRadioButton(
+                    Direction.SUBPROPERTYOF.toString());
+            superPropertyRadioButton.setSelected(true);
+            radioButtonDirectionMap
+                    .put(superPropertyRadioButton, Direction.SUBPROPERTYOF);
+            directionButtonGroup.add(superPropertyRadioButton);
+            JRadioButton subPropertyRadioButton = new JRadioButton(
+                    Direction.SUPERPROPERTYOF.toString());
+            radioButtonDirectionMap
+                    .put(subPropertyRadioButton, Direction.SUPERPROPERTYOF);
+            directionButtonGroup.add(subPropertyRadioButton);
+            JPanel directionPanel = new JPanel(new GridLayout(0, 2));
+            directionPanel.setBorder(ComponentFactory.createTitledBorder("Direction"));
+            directionPanel.add(subPropertyRadioButton);
+            directionPanel.add(superPropertyRadioButton);
+            subPropertyRadioButton.setSelected(true);
+            this.add(directionPanel, BorderLayout.NORTH);
+            propertyTree = isDataProperty ? new OWLDataPropertySelectorPanel(
+                    this.owlEditorKit) : new OWLObjectPropertySelectorPanel(
+                    this.owlEditorKit);
+            propertyTree.addSelectionListener(this);
+            JPanel propertyPaneBorder = new JPanel(new BorderLayout());
+            JScrollPane propertyPane = ComponentFactory.createScrollPane(propertyTree);
+            propertyPaneBorder.setBorder(ComponentFactory
+                    .createTitledBorder("Scoping property"));
+            propertyPane.setSize(new Dimension(100, 50));
+            propertyPaneBorder.add(propertyPane);
+            this.add(propertyPaneBorder, BorderLayout.SOUTH);
+        }
 
-		public void valueChanged(TreeSelectionEvent e) {
-		}
+        public void valueChanged(TreeSelectionEvent e) {}
 
-		private JRadioButton findSelectedButton() {
-			JRadioButton button = null;
-			Enumeration<AbstractButton> directions = this.directionButtonGroup.getElements();
-			boolean found = false;
-			while (!found && directions.hasMoreElements()) {
-				button = (JRadioButton) directions.nextElement();
-				found = button.isSelected();
-			}
-			return found ? button : null;
-		}
+        private JRadioButton findSelectedButton() {
+            JRadioButton button = null;
+            Enumeration<AbstractButton> directions = directionButtonGroup.getElements();
+            boolean found = false;
+            while (!found && directions.hasMoreElements()) {
+                button = (JRadioButton) directions.nextElement();
+                found = button.isSelected();
+            }
+            return found ? button : null;
+        }
 
-		@Override
-		public void dispose() {
-			this.propertyTree.removeSelectionListener(this);
-		}
+        @Override
+        public void dispose() {
+            propertyTree.removeSelectionListener(this);
+        }
 
-		@Override
-		public void setScope(VariableScope<?> scope) {
-			if (this.isDataProperty) {
-				OWLDataPropertySelectorPanel panel = (OWLDataPropertySelectorPanel) this.propertyTree;
-				panel.setSelection((OWLDataProperty) scope.getScopingObject());
-			} else {
-				OWLObjectPropertySelectorPanel panel = (OWLObjectPropertySelectorPanel) this.propertyTree;
-				panel.setSelection((OWLObjectProperty) scope.getScopingObject());
-			}
-		}
+        @Override
+        public void setScope(VariableScope<?> scope) {
+            if (isDataProperty) {
+                OWLDataPropertySelectorPanel panel = (OWLDataPropertySelectorPanel) propertyTree;
+                panel.setSelection((OWLDataProperty) scope.getScopingObject());
+            } else {
+                OWLObjectPropertySelectorPanel panel = (OWLObjectPropertySelectorPanel) propertyTree;
+                panel.setSelection((OWLObjectProperty) scope.getScopingObject());
+            }
+        }
 
-		public void stateChanged(ChangeEvent e) {
-			Object lastPathComponent = this.propertyTree.getSelectedObject();
-			JRadioButton selectedButton = this.findSelectedButton();
-			if (selectedButton != null) {
-				Direction direction = this.radioButtonDirectionMap.get(selectedButton);
-				this.setVariableScope(null);
-				if (lastPathComponent != null && direction != null) {
-					if (direction.equals(Direction.SUBPROPERTYOF)) {
-						if (lastPathComponent instanceof OWLDataProperty) {
-							this.setVariableScope(VariableScopes.buildSubPropertyVariableScope(
-									(OWLDataProperty) lastPathComponent,
-									this.getChecker()));
-						} else if (lastPathComponent instanceof OWLObjectProperty) {
-							this.setVariableScope(VariableScopes.buildSubPropertyVariableScope(
-									(OWLObjectProperty) lastPathComponent,
-									this.getChecker()));
-						}
-					}
-					if (direction.equals(Direction.SUPERPROPERTYOF)) {
-						if (lastPathComponent instanceof OWLDataProperty) {
-							this.setVariableScope(VariableScopes.buildSuperPropertyVariableScope(
-									(OWLDataProperty) lastPathComponent,
-									this.getChecker()));
-						} else if (lastPathComponent instanceof OWLObjectProperty) {
-							this.setVariableScope(VariableScopes.buildSuperPropertyVariableScope(
-									(OWLObjectProperty) lastPathComponent,
-									this.getChecker()));
-						}
-					}
-				}
-			}
-		}
-	}
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            Object lastPathComponent = propertyTree.getSelectedObject();
+            JRadioButton selectedButton = findSelectedButton();
+            if (selectedButton != null) {
+                Direction direction = radioButtonDirectionMap.get(selectedButton);
+                setVariableScope(null);
+                if (lastPathComponent != null && direction != null) {
+                    if (direction.equals(Direction.SUBPROPERTYOF)) {
+                        if (lastPathComponent instanceof OWLDataProperty) {
+                            setVariableScope(VariableScopes
+                                    .buildSubPropertyVariableScope(
+                                            (OWLDataProperty) lastPathComponent,
+                                            getChecker()));
+                        } else if (lastPathComponent instanceof OWLObjectProperty) {
+                            setVariableScope(VariableScopes
+                                    .buildSubPropertyVariableScope(
+                                            (OWLObjectProperty) lastPathComponent,
+                                            getChecker()));
+                        }
+                    }
+                    if (direction.equals(Direction.SUPERPROPERTYOF)) {
+                        if (lastPathComponent instanceof OWLDataProperty) {
+                            setVariableScope(VariableScopes
+                                    .buildSuperPropertyVariableScope(
+                                            (OWLDataProperty) lastPathComponent,
+                                            getChecker()));
+                        } else if (lastPathComponent instanceof OWLObjectProperty) {
+                            setVariableScope(VariableScopes
+                                    .buildSuperPropertyVariableScope(
+                                            (OWLObjectProperty) lastPathComponent,
+                                            getChecker()));
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-	private static final long serialVersionUID = 2459124639459085302L;
-	protected final OWLEditorKit owlEditorKit;
-	private List<InputVerificationStatusChangedListener> listeners = new ArrayList<InputVerificationStatusChangedListener>();
-	private VariableScope<?> variableScope = null;
-	private final String title;
-	private final VariableScopeChecker checker;
+    private static final long serialVersionUID = 2459124639459085302L;
+    protected final OWLEditorKit owlEditorKit;
+    private final List<InputVerificationStatusChangedListener> listeners = new ArrayList<InputVerificationStatusChangedListener>();
+    private VariableScope<?> variableScope = null;
+    private final String title;
+    private final VariableScopeChecker checker;
 
-	/**
-	 * @return the checker
-	 */
-	public VariableScopeChecker getChecker() {
-		return this.checker;
-	}
+    /** @return the checker */
+    public VariableScopeChecker getChecker() {
+        return checker;
+    }
 
-	protected ScopeEditor(String title, VariableScopeChecker checker, OWLEditorKit owlEditorKit) {
-		this.owlEditorKit = owlEditorKit;
-		this.title = title;
-		this.checker = checker;
-	}
+    protected ScopeEditor(String title, VariableScopeChecker checker,
+            OWLEditorKit owlEditorKit) {
+        this.owlEditorKit = owlEditorKit;
+        this.title = title;
+        this.checker = checker;
+    }
 
-	/**
-	 * @return the VariableScope set by this ScopeEditor. It can be
-	 *         <code>null</code>
-	 */
-	public VariableScope<?> getVariableScope() {
-		return this.variableScope;
-	}
+    /** @return the VariableScope set by this ScopeEditor. It can be
+     *         <code>null</code> */
+    public VariableScope<?> getVariableScope() {
+        return variableScope;
+    }
 
-	protected final void setVariableScope(VariableScope<?> variableScope) {
-		this.variableScope = variableScope;
-		this.notifyListeners();
-	}
+    protected final void setVariableScope(VariableScope<?> variableScope) {
+        this.variableScope = variableScope;
+        notifyListeners();
+    }
 
-	private void notifyListeners() {
-		for (InputVerificationStatusChangedListener listener : this.listeners) {
-			listener.verifiedStatusChanged(this.variableScope != null);
-		}
-	}
+    private void notifyListeners() {
+        for (InputVerificationStatusChangedListener listener : listeners) {
+            listener.verifiedStatusChanged(variableScope != null);
+        }
+    }
 
-	public static ScopeEditor getTypeScopeEditor(VariableType<?> variableType,
-			final VariableScopeChecker checker, final OWLEditorKit owlEditorKit) {
-		ScopeEditor toReturn = variableType.accept(new VariableTypeVisitorEx<ScopeEditor>() {
-			public ScopeEditor visitCLASSVariableType(CLASSVariableType classVariableType) {
-				return new ClassScopeEditor(owlEditorKit, checker);
-			}
+    public static ScopeEditor getTypeScopeEditor(VariableType<?> variableType,
+            final VariableScopeChecker checker, final OWLEditorKit owlEditorKit) {
+        ScopeEditor toReturn = variableType
+                .accept(new VariableTypeVisitorEx<ScopeEditor>() {
+                    @Override
+                    public ScopeEditor visitCLASSVariableType(
+                            CLASSVariableType classVariableType) {
+                        return new ClassScopeEditor(owlEditorKit, checker);
+                    }
 
-			public ScopeEditor visitOBJECTPROPERTYVariableType(
-					OBJECTPROPERTYVariableType objectpropertyVariableType) {
-				return new PropertyScopeEditor(owlEditorKit, checker, false);
-			}
+                    @Override
+                    public ScopeEditor visitOBJECTPROPERTYVariableType(
+                            OBJECTPROPERTYVariableType objectpropertyVariableType) {
+                        return new PropertyScopeEditor(owlEditorKit, checker, false);
+                    }
 
-			public ScopeEditor visitDATAPROPERTYVariableType(
-					DATAPROPERTYVariableType datapropertyVariableType) {
-				return new PropertyScopeEditor(owlEditorKit, checker, true);
-			}
+                    @Override
+                    public ScopeEditor visitDATAPROPERTYVariableType(
+                            DATAPROPERTYVariableType datapropertyVariableType) {
+                        return new PropertyScopeEditor(owlEditorKit, checker, true);
+                    }
 
-			public ScopeEditor visitINDIVIDUALVariableType(
-					INDIVIDUALVariableType individualVariableType) {
-				return new IndividualScopeEditor(checker, owlEditorKit);
-			}
+                    @Override
+                    public ScopeEditor visitINDIVIDUALVariableType(
+                            INDIVIDUALVariableType individualVariableType) {
+                        return new IndividualScopeEditor(checker, owlEditorKit);
+                    }
 
-			public ScopeEditor visitCONSTANTVariableType(CONSTANTVariableType constantVariableType) {
-				return null;
-			}
+                    @Override
+                    public ScopeEditor visitCONSTANTVariableType(
+                            CONSTANTVariableType constantVariableType) {
+                        return null;
+                    }
 
-			public ScopeEditor visitANNOTATIONPROPERTYVariableType(
-					ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
-				return null;
-			}
-		});
-		return toReturn;
-	}
+                    @Override
+                    public
+                            ScopeEditor
+                            visitANNOTATIONPROPERTYVariableType(
+                                    ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
+                        return null;
+                    }
+                });
+        return toReturn;
+    }
 
-	public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
-		this.listeners.add(listener);
-		this.notifyListeners();
-	}
+    @Override
+    public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
+        listeners.add(listener);
+        notifyListeners();
+    }
 
-	public void removeStatusChangedListener(InputVerificationStatusChangedListener listener) {
-		this.listeners.remove(listener);
-	}
+    @Override
+    public void removeStatusChangedListener(
+            InputVerificationStatusChangedListener listener) {
+        listeners.remove(listener);
+    }
 
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return this.title;
-	}
+    /** @return the title */
+    public String getTitle() {
+        return title;
+    }
 
-	public abstract void dispose();
+    public abstract void dispose();
 
-	public abstract void setScope(VariableScope<?> scope);
+    public abstract void setScope(VariableScope<?> scope);
 }

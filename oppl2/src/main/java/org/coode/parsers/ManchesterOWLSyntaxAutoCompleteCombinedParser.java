@@ -185,10 +185,12 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
         return adaptor;
     }
 
+    @Override
     public String[] getTokenNames() {
         return ManchesterOWLSyntaxAutoCompleteCombinedParser.tokenNames;
     }
 
+    @Override
     public String getGrammarFileName() {
         return "/Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g";
     }
@@ -209,6 +211,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
         this.errorListener = errorListener;
     }
 
+    @Override
     public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
         if (getErrorListener() != null) {
             getErrorListener().recognitionException(e, tokenNames);
@@ -224,6 +227,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
         throw new MismatchedTokenException(ttype, input);
     }
 
+    @Override
     public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
             BitSet follow) throws RecognitionException {
         throw e;
@@ -232,6 +236,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     public static class main_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -808,10 +813,12 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
             transition = DFA1_transition;
         }
 
+        @Override
         public String getDescription() {
             return "66:1: ( options {backtrack=true; } : axiom -> axiom | incompleteAxiom -> incompleteAxiom | incompleteExpression -> incompleteExpression | standaloneExpression -> standaloneExpression )";
         }
 
+        @Override
         public int specialStateTransition(int s, IntStream _input)
                 throws NoViableAltException {
             TokenStream input = (TokenStream) _input;

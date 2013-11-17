@@ -39,11 +39,6 @@ public class ProtegeFilter<O extends OWLObject> implements Filter<O> {
 		return this.owlEditorKit;
 	}
 
-	/**
-	 * @param owlObject
-	 * @return
-	 * @see org.coode.oppl.lint.filtering.Filter#accept(org.semanticweb.owl.model.OWLObject)
-	 */
 	public boolean accept(O owlObject, OWLOntologyManager ontologyManager,
 			OWLReasoner reasoner, LintConfiguration lintConfiguration) {
 		return this.getDelegate().accept(

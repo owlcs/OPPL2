@@ -18,11 +18,6 @@ public class OPPLAssertedOWLAxiomSearchTree extends AbstractOPPLAxiomSearchTree 
         super(constraintSystem, runtimeExceptionHandler);
     }
 
-    /** @return {@code true} if the input {@link OPPLOWLAxiomSearchNode}
-     *         represents an OWLAxiom that is contained in one of the ontologies
-     *         managed by the ontology manager encapsulated in this
-     *         OPPLOWLAxiomSearchTree.
-     * @see org.coode.oppl.search.SearchTree#goalReached(java.lang.Object) */
     @Override
     protected boolean goalReached(OPPLOWLAxiomSearchNode start) {
         boolean found = false;

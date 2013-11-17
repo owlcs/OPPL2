@@ -1,12 +1,12 @@
 package org.coode.oppl.search.solvability;
 
 public interface SolvabilitySearchNodeVisitorEx<O> {
-	O visitSolvedSearchNode(SolvedSearchNode solvedSearchNode);
+    O visitSolvedSearchNode(SolvedSearchNode solvedSearchNode);
 
-	O visitUnsolvableSearchNode(UnsolvableSearchNode unsolvableSearchNode);
+    O visitUnsolvableSearchNode(UnsolvableSearchNode unsolvableSearchNode);
 
-	O visitSolvableSearchNode(SolvableSearchNode solvableSearchNode);
+    O visitSolvableSearchNode(SolvableSearchNode solvableSearchNode);
 
-	O visitNoSolutionSolvableSearchNode(
-			NoSolutionSolvableSearchNode noSolutionSolvableSearchNode);
+    O visitNoSolutionSolvableSearchNode(
+            NoSolutionSolvableSearchNode noSolutionSolvableSearchNode);
 }

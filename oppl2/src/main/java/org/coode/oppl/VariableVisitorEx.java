@@ -6,9 +6,9 @@ import org.coode.oppl.variabletypes.InputVariable;
 import org.semanticweb.owlapi.model.OWLObject;
 
 public interface VariableVisitorEx<O> {
-	<P extends OWLObject> O visit(InputVariable<P> v);
+    <P extends OWLObject> O visit(InputVariable<P> v);
 
-	<P extends OWLObject> O visit(GeneratedVariable<P> v);
+    <P extends OWLObject> O visit(GeneratedVariable<P> v);
 
-	<P extends OWLObject> O visit(RegexpGeneratedVariable<P> regExpGenerated);
+    <P extends OWLObject> O visit(RegexpGeneratedVariable<P> regExpGenerated);
 }

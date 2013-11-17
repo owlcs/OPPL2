@@ -27,15 +27,11 @@ import org.coode.oppl.exceptions.OPPLException;
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.inference.NoOpReasoner;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class ProtegeScopeVariableChecker extends VariableScopeChecker {
-	public ProtegeScopeVariableChecker(OWLModelManager manager)
-			throws OPPLException {
-		super(manager.getOWLOntologyManager(),
-				manager.getReasoner() instanceof NoOpReasoner ? null : manager
-						.getReasoner());
-	}
+    public ProtegeScopeVariableChecker(OWLModelManager manager) throws OPPLException {
+        super(manager.getOWLOntologyManager(),
+                manager.getReasoner() instanceof NoOpReasoner ? null : manager
+                        .getReasoner());
+    }
 }

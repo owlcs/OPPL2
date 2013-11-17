@@ -37,74 +37,63 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jul 24, 2008
- */
-public class PatternOWLSubCLassAxiomFrameSection extends
-		OWLSubClassAxiomFrameSection {
-	private final AbstractPatternModelFactory factory;
+/** @author Luigi Iannone Jul 24, 2008 */
+public class PatternOWLSubCLassAxiomFrameSection extends OWLSubClassAxiomFrameSection {
+    private final AbstractPatternModelFactory factory;
 
-	/**
-	 * @param editorKit
-	 * @param frame
-	 */
-	public PatternOWLSubCLassAxiomFrameSection(OWLEditorKit editorKit,
-			OWLFrame<OWLClass> frame, AbstractPatternModelFactory f) {
-		super(editorKit, frame);
-		this.factory = f;
-	}
+    /** @param editorKit
+     * @param frame */
+    public PatternOWLSubCLassAxiomFrameSection(OWLEditorKit editorKit,
+            OWLFrame<OWLClass> frame, AbstractPatternModelFactory f) {
+        super(editorKit, frame);
+        factory = f;
+    }
 
-	@Override
-	protected Set<OWLSubClassOfAxiom> getClassAxioms(OWLClassExpression descr,
-			OWLOntology ont) {
-		Set<OWLSubClassOfAxiom> toReturn = new HashSet<OWLSubClassOfAxiom>();
-		if (!descr.isAnonymous()) {
-			for (OWLSubClassOfAxiom ax : ont.getSubClassAxiomsForSubClass(this
-					.getRootObject().asOWLClass())) {
-				Set<OWLAnnotation> annotationAxioms = ax.getAnnotations();
-				boolean isPatternGenerated = Utils
-						.isPatternGenerated(annotationAxioms);
-				if (isPatternGenerated) {
-					toReturn.add(ax);
-				}
-			}
-		}
-		return toReturn;
-	}
+    @Override
+    protected Set<OWLSubClassOfAxiom> getClassAxioms(OWLClassExpression descr,
+            OWLOntology ont) {
+        Set<OWLSubClassOfAxiom> toReturn = new HashSet<OWLSubClassOfAxiom>();
+        if (!descr.isAnonymous()) {
+            for (OWLSubClassOfAxiom ax : ont.getSubClassAxiomsForSubClass(getRootObject()
+                    .asOWLClass())) {
+                Set<OWLAnnotation> annotationAxioms = ax.getAnnotations();
+                boolean isPatternGenerated = Utils.isPatternGenerated(annotationAxioms);
+                if (isPatternGenerated) {
+                    toReturn.add(ax);
+                }
+            }
+        }
+        return toReturn;
+    }
 
-	@Override
-	protected void addAxiom(OWLSubClassOfAxiom ax, OWLOntology ontology) {
-		Set<OWLAnnotation> annotationAxioms = ax.getAnnotations();
-		boolean isPatternGenerated = Utils.isPatternGenerated(annotationAxioms);
-		if (isPatternGenerated) {
-			PatternModel generatingPatternModel = Utils
-					.getGeneratingPatternModel(annotationAxioms, this
-							.getOWLEditorKit().getModelManager()
-							.getOWLOntologyManager(), this.factory);
-			if (generatingPatternModel != null) {
-				this.addRow(new PatternOWLSubClassAxiomFrameSectionRow(this
-						.getOWLEditorKit(), this, ontology, this
-						.getRootObject().asOWLClass(), ax,
-						generatingPatternModel));
-			}
-		}
-	}
+    @Override
+    protected void addAxiom(OWLSubClassOfAxiom ax, OWLOntology ontology) {
+        Set<OWLAnnotation> annotationAxioms = ax.getAnnotations();
+        boolean isPatternGenerated = Utils.isPatternGenerated(annotationAxioms);
+        if (isPatternGenerated) {
+            PatternModel generatingPatternModel = Utils.getGeneratingPatternModel(
+                    annotationAxioms, getOWLEditorKit().getModelManager()
+                            .getOWLOntologyManager(), factory);
+            if (generatingPatternModel != null) {
+                addRow(new PatternOWLSubClassAxiomFrameSectionRow(getOWLEditorKit(),
+                        this, ontology, getRootObject().asOWLClass(), ax,
+                        generatingPatternModel));
+            }
+        }
+    }
 
-	@Override
-	public void visit(OWLSubClassOfAxiom axiom) {
-		if (Utils.isPatternGenerated(axiom.getAnnotations())) {
-			this.reset();
-		}
-	}
+    @Override
+    public void visit(OWLSubClassOfAxiom axiom) {
+        if (Utils.isPatternGenerated(axiom.getAnnotations())) {
+            reset();
+        }
+    }
 
-	@Override
-	protected void refillInferred() {
-	}
+    @Override
+    protected void refillInferred() {}
 
-	@Override
-	public boolean canAdd() {
-		return false;
-	}
+    @Override
+    public boolean canAdd() {
+        return false;
+    }
 }

@@ -236,17 +236,17 @@ public class OPPLDefine extends TreeRewriter {
     }
 
     @Override
-    public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
-        getErrorListener().recognitionException(e, tokenNames);
+    public void displayRecognitionError(String[] t, RecognitionException e) {
+        getErrorListener().recognitionException(e, t);
     }
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
+    protected void mismatch(IntStream i, int ttype, BitSet follow)
             throws RecognitionException {
-        throw new MismatchedTokenException(ttype, input);
+        throw new MismatchedTokenException(ttype, i);
     }
 
     @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
+    public Object recoverFromMismatchedSet(IntStream i, RecognitionException e,
             BitSet follow) throws RecognitionException {
         throw e;
     }

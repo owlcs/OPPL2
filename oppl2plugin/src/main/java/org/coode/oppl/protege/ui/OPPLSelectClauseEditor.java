@@ -37,98 +37,89 @@ import org.coode.parsers.ui.VerifiedInputEditor;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.OWLEditorKit;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEditor {
-	/**
+    /**
 	 *
 	 */
-	private static final long serialVersionUID = -4594021425664502052L;
-	private final OWLEditorKit owlEditorKit;
-	private final ConstraintSystem constraintSystem;
-	private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
-	private final AxiomEditor axiomEditor;
-	private final JCheckBox assertedCheckBox = new JCheckBox("ASSERTED");
-	private OPPLSelectClauseListItem selectListItem;
+    private static final long serialVersionUID = -4594021425664502052L;
+    private final OWLEditorKit owlEditorKit;
+    private final ConstraintSystem constraintSystem;
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final AxiomEditor axiomEditor;
+    private final JCheckBox assertedCheckBox = new JCheckBox("ASSERTED");
+    private OPPLSelectClauseListItem selectListItem;
 
-	/**
-	 * @return the selectListItem
-	 */
-	public OPPLSelectClauseListItem getSelectListItem() {
-		return this.selectListItem;
-	}
+    /** @return the selectListItem */
+    public OPPLSelectClauseListItem getSelectListItem() {
+        return selectListItem;
+    }
 
-	/**
-	 * @param selectListItem
-	 *            the selectListItem to set
-	 */
-	public void setSelectListItem(OPPLSelectClauseListItem selectListItem) {
-		this.assertedCheckBox.setSelected(selectListItem.isAsserted());
-		this.axiomEditor.setOWLAxiom(selectListItem.getAxiom());
-	}
+    /** @param selectListItem
+     *            the selectListItem to set */
+    public void setSelectListItem(OPPLSelectClauseListItem selectListItem) {
+        assertedCheckBox.setSelected(selectListItem.isAsserted());
+        axiomEditor.setOWLAxiom(selectListItem.getAxiom());
+    }
 
-	public OPPLSelectClauseEditor(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
-		this.setLayout(new BorderLayout());
-		this.owlEditorKit = owlEditorKit;
-		this.constraintSystem = constraintSystem;
-		// Setting up the axiom editor
-		this.axiomEditor = new AxiomEditor(this.owlEditorKit, this.constraintSystem);
-		JPanel axiomEditorPanel = new JPanel(new BorderLayout());
-		axiomEditorPanel.add(ComponentFactory.createScrollPane(this.axiomEditor));
-		this.axiomEditor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
-			public void verifiedStatusChanged(boolean newState) {
-				OPPLSelectClauseEditor.this.handleChange();
-			}
-		});
-		this.add(axiomEditorPanel, BorderLayout.CENTER);
-		// Setting up the Asserted flag
-		this.assertedCheckBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				OPPLSelectClauseEditor.this.handleChange();
-			}
-		});
-		this.add(this.assertedCheckBox, BorderLayout.EAST);
-	}
+    public OPPLSelectClauseEditor(OWLEditorKit owlEditorKit,
+            ConstraintSystem constraintSystem) {
+        setLayout(new BorderLayout());
+        this.owlEditorKit = owlEditorKit;
+        this.constraintSystem = constraintSystem;
+        // Setting up the axiom editor
+        axiomEditor = new AxiomEditor(this.owlEditorKit, this.constraintSystem);
+        JPanel axiomEditorPanel = new JPanel(new BorderLayout());
+        axiomEditorPanel.add(ComponentFactory.createScrollPane(axiomEditor));
+        axiomEditor
+                .addStatusChangedListener(new InputVerificationStatusChangedListener() {
+                    @Override
+                    public void verifiedStatusChanged(boolean newState) {
+                        OPPLSelectClauseEditor.this.handleChange();
+                    }
+                });
+        this.add(axiomEditorPanel, BorderLayout.CENTER);
+        // Setting up the Asserted flag
+        assertedCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                OPPLSelectClauseEditor.this.handleChange();
+            }
+        });
+        this.add(assertedCheckBox, BorderLayout.EAST);
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.util.VerifiedInputEditor#addStatusChangedListener(org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
-	 */
-	public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
-		this.listeners.add(listener);
-		listener.verifiedStatusChanged(this.check());
-	}
+    @Override
+    public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
+        listeners.add(listener);
+        listener.verifiedStatusChanged(check());
+    }
 
-	private boolean check() {
-		return this.axiomEditor.getAxiom() != null;
-	}
+    private boolean check() {
+        return axiomEditor.getAxiom() != null;
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.util.VerifiedInputEditor#removeStatusChangedListener(org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
-	 */
-	public void removeStatusChangedListener(InputVerificationStatusChangedListener listener) {
-		this.listeners.remove(listener);
-	}
+    @Override
+    public void removeStatusChangedListener(
+            InputVerificationStatusChangedListener listener) {
+        listeners.remove(listener);
+    }
 
-	public void handleChange() {
-		boolean isValid = this.check();
-		if (isValid) {
-			this.selectListItem = new OPPLSelectClauseListItem(
-					this.assertedCheckBox.getModel().isSelected(), this.axiomEditor.getAxiom());
-		}
-		this.notifyListeners(isValid);
-	}
+    public void handleChange() {
+        boolean isValid = check();
+        if (isValid) {
+            selectListItem = new OPPLSelectClauseListItem(assertedCheckBox.getModel()
+                    .isSelected(), axiomEditor.getAxiom());
+        }
+        notifyListeners(isValid);
+    }
 
-	/**
-	 * @param isValid
-	 */
-	private void notifyListeners(boolean isValid) {
-		for (InputVerificationStatusChangedListener listener : this.listeners) {
-			listener.verifiedStatusChanged(isValid);
-		}
-	}
+    /** @param isValid */
+    private void notifyListeners(boolean isValid) {
+        for (InputVerificationStatusChangedListener listener : listeners) {
+            listener.verifiedStatusChanged(isValid);
+        }
+    }
 
-	public void dispose() {
-	}
+    public void dispose() {}
 }

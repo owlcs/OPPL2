@@ -27,11 +27,6 @@ public class ProtegeOPPLLintFactory implements OPPLLintAbstractFactory {
 		this.owlEditorKit = owlEditorKit;
 	}
 
-	/**
-	 * @see org.coode.oppl.lint.OPPLLintAbstractFactory#buildOPPLLintScript(java.lang.String,
-	 *      org.coode.oppl.OPPLScript, org.coode.oppl.Variable,
-	 *      java.lang.String)
-	 */
 	public OPPLLintScript buildOPPLLintScript(String name, OPPLScript opplScript, Variable<?> v,
 			String explanationTemplate, String description, boolean inferenceRequired,
 			RuntimeExceptionHandler handler) {

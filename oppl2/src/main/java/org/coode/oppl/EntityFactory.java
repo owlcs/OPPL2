@@ -69,8 +69,8 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
     private static final char[] forbiddenCharacters = new char[] { '\'', '>', '<', '`',
             '"' };
 
-    /** @return the original string purged of characters which are not supposed
-     *         to belong to a label (e.g., ' ", etc). Complete list is in the
+    /** @return the original string purged of characters which are not supposed to
+     *         belong to a label (e.g., ' ", etc). Complete list is in the
      *         forbiddenCharacters list. */
     private String buildLabelString(String label) {
         String toReturn = label.trim();

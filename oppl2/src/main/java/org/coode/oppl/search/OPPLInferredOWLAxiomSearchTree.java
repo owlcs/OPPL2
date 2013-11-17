@@ -15,10 +15,6 @@ public class OPPLInferredOWLAxiomSearchTree extends AbstractOPPLAxiomSearchTree 
         super(constraintSystem, runtimeExceptionHandler);
     }
 
-    /** @return {@code true} if the input {@link OPPLOWLAxiomSearchNode}
-     *         represents an OWLAxiom that can be inferred using the reasoner
-     *         exposed by the ConstraintSystem.
-     * @see org.coode.oppl.search.SearchTree#goalReached(java.lang.Object) */
     @Override
     protected boolean goalReached(OPPLOWLAxiomSearchNode start) {
         boolean toReturn = start.getBinding().isLeaf();

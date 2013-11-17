@@ -3,63 +3,49 @@ package org.coode.oppl.protege.ui;
 import org.protege.editor.core.ui.list.MListItem;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class OPPLSelectClauseListItem implements MListItem {
-	private final boolean asserted;
-	private final OWLAxiom axiom;
+    private final boolean asserted;
+    private final OWLAxiom axiom;
 
-	/**
-	 * @param asserted
-	 * @param axiom
-	 */
-	public OPPLSelectClauseListItem(boolean asserted, OWLAxiom axiom) {
-		this.asserted = asserted;
-		this.axiom = axiom;
-	}
+    /** @param asserted
+     * @param axiom */
+    public OPPLSelectClauseListItem(boolean asserted, OWLAxiom axiom) {
+        this.asserted = asserted;
+        this.axiom = axiom;
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.list.MListItem#getTooltip()
-	 */
-	public String getTooltip() {
-		String isAsserted = this.isAsserted() ? "ASSERTED " : "";
-		return isAsserted;
-	}
+    @Override
+    public String getTooltip() {
+        String isAsserted = isAsserted() ? "ASSERTED " : "";
+        return isAsserted;
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.list.MListItem#isDeleteable()
-	 */
-	public boolean isDeleteable() {
-		return true;
-	}
+    @Override
+    public boolean isDeleteable() {
+        return true;
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.list.MListItem#isEditable()
-	 */
-	public boolean isEditable() {
-		return true;
-	}
+    @Override
+    public boolean isEditable() {
+        return true;
+    }
 
-	/**
-	 * @return the asserted
-	 */
-	public boolean isAsserted() {
-		return this.asserted;
-	}
+    /** @return the asserted */
+    public boolean isAsserted() {
+        return asserted;
+    }
 
-	/**
-	 * @return the axiom
-	 */
-	public OWLAxiom getAxiom() {
-		return this.axiom;
-	}
+    /** @return the axiom */
+    public OWLAxiom getAxiom() {
+        return axiom;
+    }
 
-	public boolean handleDelete() {
-		return true;
-	}
+    @Override
+    public boolean handleDelete() {
+        return true;
+    }
 
-	public void handleEdit() {
-	}
+    @Override
+    public void handleEdit() {}
 }

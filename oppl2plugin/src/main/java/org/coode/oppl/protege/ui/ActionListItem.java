@@ -25,60 +25,48 @@ package org.coode.oppl.protege.ui;
 import org.protege.editor.core.ui.list.MListItem;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class ActionListItem implements MListItem {
-	private final OWLAxiomChange axiomChange;
-	private final boolean isDeleteable;
-	private final boolean isEditable;
+    private final OWLAxiomChange axiomChange;
+    private final boolean isDeleteable;
+    private final boolean isEditable;
 
-	/**
-	 * @param axiomChange
-	 */
-	public ActionListItem(OWLAxiomChange axiomChange, boolean isEditable,
-			boolean isDeleteable) {
-		this.axiomChange = axiomChange;
-		this.isDeleteable = isDeleteable;
-		this.isEditable = isEditable;
-	}
-
-	public String getTooltip() {
-        String addOrRemove = axiomChange.isAddAxiom() ? "ADD "
-				: "REMOVE ";
-        String toFrom = axiomChange.isAddAxiom() ? " to "
-				: " from ";
-		return addOrRemove
-				+ " the axiom"
-				+ toFrom
-				+ axiomChange.getOntology().getOntologyID()
-						.getOntologyIRI().toString();
-	}
-	
-    @Override
-	public boolean handleDelete() {
-		return true;
-	}
+    /** @param axiomChange */
+    public ActionListItem(OWLAxiomChange axiomChange, boolean isEditable,
+            boolean isDeleteable) {
+        this.axiomChange = axiomChange;
+        this.isDeleteable = isDeleteable;
+        this.isEditable = isEditable;
+    }
 
     @Override
-	public void handleEdit() {
-	}
+    public String getTooltip() {
+        String addOrRemove = axiomChange.isAddAxiom() ? "ADD " : "REMOVE ";
+        String toFrom = axiomChange.isAddAxiom() ? " to " : " from ";
+        return addOrRemove + " the axiom" + toFrom
+                + axiomChange.getOntology().getOntologyID().getOntologyIRI().toString();
+    }
+
+    @Override
+    public boolean handleDelete() {
+        return true;
+    }
+
+    @Override
+    public void handleEdit() {}
 
     @Override
     public boolean isDeleteable() {
-		return isDeleteable;
-	}
+        return isDeleteable;
+    }
 
     @Override
-	public boolean isEditable() {
-		return isEditable;
-	}
+    public boolean isEditable() {
+        return isEditable;
+    }
 
-	/**
-	 * @return the axiomChange
-	 */
-	public OWLAxiomChange getAxiomChange() {
-		return axiomChange;
-	}
+    /** @return the axiomChange */
+    public OWLAxiomChange getAxiomChange() {
+        return axiomChange;
+    }
 }

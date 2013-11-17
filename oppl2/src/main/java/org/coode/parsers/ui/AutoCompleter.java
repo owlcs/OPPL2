@@ -84,10 +84,6 @@ public final class AutoCompleter {
         }
     };
     private final HierarchyListener hierarchyListener = new HierarchyListener() {
-        /** Called when the hierarchy has been changed. To discern the actual
-         * type of change, call <code>HierarchyEvent.getChangeFlags()</code>.
-         * 
-         * @see java.awt.event.HierarchyEvent#getChangeFlags() */
         @Override
         public void hierarchyChanged(HierarchyEvent e) {
             if ((e.getChangeFlags() & HierarchyEvent.PARENT_CHANGED) != 0) {

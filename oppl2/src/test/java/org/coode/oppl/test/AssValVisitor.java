@@ -14,7 +14,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 public class AssValVisitor implements VariableTypeVisitorEx<Set<? extends OWLObject>> {
-    private OWLOntology o;
+    private final OWLOntology o;
 
     public AssValVisitor(OWLOntology o) {
         this.o = o;

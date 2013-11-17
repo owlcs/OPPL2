@@ -4721,7 +4721,8 @@ public class OPPLPatternScript_OPPLParser extends Parser {
             }
         }
     }
-    Logger logger=Logging.getParseLogging();
+
+    Logger logger = Logging.getParseLogging();
 
     // $ANTLR end synpred19_OPPLParser
     // Delegated rules
@@ -4731,7 +4732,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
         try {
             synpred18_OPPLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -4746,7 +4747,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
         try {
             synpred15_OPPLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -4761,7 +4762,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
         try {
             synpred19_OPPLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);

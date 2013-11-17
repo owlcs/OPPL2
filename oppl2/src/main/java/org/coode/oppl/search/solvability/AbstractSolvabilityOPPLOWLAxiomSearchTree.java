@@ -232,7 +232,6 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
     protected abstract boolean goalReachedUnsolvabelNode(
             UnsolvableSearchNode unsolvableSearchNode);
 
-    /** @see org.coode.oppl.search.SearchTree#getChildren(java.lang.Object) */
     @Override
     protected List<SolvabilitySearchNode> getChildren(SolvabilitySearchNode node) {
         return node
@@ -562,8 +561,6 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
         return toReturn;
     }
 
-    /** @see org.coode.oppl.search.SearchTree#exhaustiveSearchTree(java.lang.Object,
-     *      java.util.List) */
     @Override
     public boolean exhaustiveSearchTree(SolvabilitySearchNode start,
             List<List<SolvabilitySearchNode>> solutions) {

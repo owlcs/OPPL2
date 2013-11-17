@@ -22,14 +22,11 @@
  */
 package org.coode.oppl.exceptions;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class InvalidVariableNameException extends OPPLException {
-	private static final long serialVersionUID = 8798358304817114024L;
+    private static final long serialVersionUID = 8798358304817114024L;
 
-	public InvalidVariableNameException(String message) {
-		super(message);
-	}
+    public InvalidVariableNameException(String message) {
+        super(message);
+    }
 }

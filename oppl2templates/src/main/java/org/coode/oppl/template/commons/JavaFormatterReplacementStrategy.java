@@ -14,7 +14,7 @@ import org.coode.oppl.template.ReplacementStrategy;
  * @author Luigi Iannone */
 public final class JavaFormatterReplacementStrategy implements
         ReplacementStrategy<String, String> {
-    private List<Object> params;
+    private final List<Object> params;
 
     /** @param params */
     public JavaFormatterReplacementStrategy(Collection<? extends Object> params) {

@@ -78,7 +78,6 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
         initAssignableValues();
     }
 
-    /** @see org.coode.oppl.search.SearchTree#getChildren(java.lang.Object) */
     @Override
     protected List<OPPLOWLAxiomSearchNode> getChildren(OPPLOWLAxiomSearchNode node) {
         List<OPPLOWLAxiomSearchNode> toReturn = new ArrayList<OPPLOWLAxiomSearchNode>();
@@ -109,9 +108,6 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
         return toReturn;
     }
 
-    /** @return {@code true} if the input {@link OPPLOWLAxiomSearchNode}
-     *         represents an OWLAxiom that is equal to the target axiom.
-     * @see org.coode.oppl.search.SearchTree#goalReached(java.lang.Object) */
     @Override
     protected boolean goalReached(OPPLOWLAxiomSearchNode start) {
         return targetAxiom.getAxiomWithoutAnnotations().equals(start.getAxiom());
@@ -268,8 +264,6 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
         return constraintSystem;
     }
 
-    /** @see org.coode.oppl.search.SearchTree#exhaustiveSearchTree(java.lang.Object,
-     *      java.util.List) */
     @Override
     public boolean exhaustiveSearchTree(OPPLOWLAxiomSearchNode start,
             List<List<OPPLOWLAxiomSearchNode>> solutions) {

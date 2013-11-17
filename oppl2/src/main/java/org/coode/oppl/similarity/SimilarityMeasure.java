@@ -12,9 +12,9 @@ public interface SimilarityMeasure<O> {
     boolean isSymmetric();
 
     /** Compares the two input objects. It required for this interface to
-     * implement this method in accordance to the {@code equals} method
-     * available for {@code O}. If {@code isSymmetric} returns {@code true},
-     * then it must hold that {@code compare(A,B) == compare (B,A)}.
+     * implement this method in accordance to the {@code equals} method available
+     * for {@code O}. If {@code isSymmetric} returns {@code true}, then it must
+     * hold that {@code compare(A,B) == compare (B,A)}.
      * 
      * @param anObject
      *            the first object to compare. cannot be {@code null}.

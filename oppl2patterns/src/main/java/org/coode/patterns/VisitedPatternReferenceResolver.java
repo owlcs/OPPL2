@@ -10,27 +10,23 @@ import org.coode.parsers.oppl.patterns.OPPLPatternsSymbolTable;
 import org.coode.patterns.OPPLPatternParser.PatternReferenceResolver;
 
 public final class VisitedPatternReferenceResolver implements PatternReferenceResolver {
-	private final Set<String> visited = new HashSet<String>();
+    private final Set<String> visited = new HashSet<String>();
 
-	public VisitedPatternReferenceResolver(Collection<? extends String> visitedPatterns) {
-		assert visitedPatterns != null;
-		visited.addAll(visitedPatterns);
-	}
+    public VisitedPatternReferenceResolver(Collection<? extends String> visitedPatterns) {
+        assert visitedPatterns != null;
+        visited.addAll(visitedPatterns);
+    }
 
     @Override
-	public void resolvePattern(OPPLSyntaxTree reference, String patternName,
-			PatternConstraintSystem constraintSystem, OPPLPatternsSymbolTable symbolTable,
-			List<Object>... args) {
-		symbolTable.resolvePattern(
-				reference,
-				patternName,
-				constraintSystem,
- visited,
-				args);
-	}
+    public void resolvePattern(OPPLSyntaxTree reference, String patternName,
+            PatternConstraintSystem constraintSystem,
+            OPPLPatternsSymbolTable symbolTable, List<Object>... args) {
+        symbolTable.resolvePattern(reference, patternName, constraintSystem, visited,
+                args);
+    }
 
     /** @return the visited */
-	public Set<String> getVisited() {
-		return new HashSet<String>(visited);
-	}
+    public Set<String> getVisited() {
+        return new HashSet<String>(visited);
+    }
 }

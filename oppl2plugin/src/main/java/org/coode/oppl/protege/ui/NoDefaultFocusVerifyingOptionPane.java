@@ -4,18 +4,17 @@ import javax.swing.JComponent;
 
 import org.protege.editor.core.ui.util.VerifyingOptionPane;
 
-public final class NoDefaultFocusVerifyingOptionPane extends
-		VerifyingOptionPane {
-	private static final long serialVersionUID = 7816306100172449202L;
+public final class NoDefaultFocusVerifyingOptionPane extends VerifyingOptionPane {
+    private static final long serialVersionUID = 7816306100172449202L;
 
-	public NoDefaultFocusVerifyingOptionPane(JComponent c) {
-		super(c);
-	}
+    public NoDefaultFocusVerifyingOptionPane(JComponent c) {
+        super(c);
+    }
 
-	@Override
-	public void selectInitialValue() {
-		// This is overridden so that the option pane dialog default
-		// button
-		// doesn't get the focus.
-	}
+    @Override
+    public void selectInitialValue() {
+        // This is overridden so that the option pane dialog default
+        // button
+        // doesn't get the focus.
+    }
 }

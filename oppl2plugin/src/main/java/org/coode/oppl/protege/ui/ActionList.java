@@ -38,81 +38,82 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class ActionList extends MList {
-	/**
+    /**
 	 *
 	 */
-	private static final long serialVersionUID = 6135780833694887712L;
-	private final OWLEditorKit owlEditorKit;
-	private final boolean canAdd;
+    private static final long serialVersionUID = 6135780833694887712L;
+    private final OWLEditorKit owlEditorKit;
+    private final boolean canAdd;
 
-	public ActionList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem, boolean canAdd) {
-		this.owlEditorKit = owlEditorKit;
-		setModel(new ActionListModel(canAdd));
-		this.canAdd = canAdd;
-		VariableOWLCellRenderer variableAxiomRenderer = new VariableOWLCellRenderer(owlEditorKit,
-				constraintSystem, new OWLCellRenderer(owlEditorKit));
-		setCellRenderer(variableAxiomRenderer);
-	}
+    public ActionList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem,
+            boolean canAdd) {
+        this.owlEditorKit = owlEditorKit;
+        setModel(new ActionListModel(canAdd));
+        this.canAdd = canAdd;
+        VariableOWLCellRenderer variableAxiomRenderer = new VariableOWLCellRenderer(
+                owlEditorKit, constraintSystem, new OWLCellRenderer(owlEditorKit));
+        setCellRenderer(variableAxiomRenderer);
+    }
 
-	@Override
-	protected void handleDelete() {
-		super.handleDelete();
-		Object selectedValue = getSelectedValue();
-		((ActionListModel) getModel()).removeElement(selectedValue);
-	}
+    @Override
+    protected void handleDelete() {
+        super.handleDelete();
+        Object selectedValue = getSelectedValue();
+        ((ActionListModel) getModel()).removeElement(selectedValue);
+    }
 
-	@Override
-	protected Border createListItemBorder(JList list, Object value, int index, boolean isSelected,
-			boolean cellHasFocus) {
-		Border border = super.createListItemBorder(list, value, index, isSelected, cellHasFocus);
-		return BorderFactory.createCompoundBorder(
-				border,
-				new ActionBorder(((ActionListItem) value).getAxiomChange()));
-	}
+    @Override
+    protected Border createListItemBorder(JList list, Object value, int index,
+            boolean isSelected, boolean cellHasFocus) {
+        Border border = super.createListItemBorder(list, value, index, isSelected,
+                cellHasFocus);
+        return BorderFactory.createCompoundBorder(border, new ActionBorder(
+                ((ActionListItem) value).getAxiomChange()));
+    }
 
-	private static class ActionBorder implements Border {
-		private static final String REMOVE = "Remove";
-		private static final String ADD = "Add";
-		private final OWLAxiomChange axiomChange;
+    private static class ActionBorder implements Border {
+        private static final String REMOVE = "Remove";
+        private static final String ADD = "Add";
+        private final OWLAxiomChange axiomChange;
 
-		ActionBorder(OWLAxiomChange axiomChange) {
-			this.axiomChange = axiomChange;
-		}
+        ActionBorder(OWLAxiomChange axiomChange) {
+            this.axiomChange = axiomChange;
+        }
 
-		public Insets getBorderInsets(Component c) {
-			return new Insets(0, c.getFontMetrics(c.getFont()).getStringBounds(
-					REMOVE,
-					c.getGraphics()).getBounds().width + 8, 0, 0);
-		}
+        @Override
+        public Insets getBorderInsets(Component c) {
+            return new Insets(0, c.getFontMetrics(c.getFont())
+                    .getStringBounds(REMOVE, c.getGraphics()).getBounds().width + 8, 0, 0);
+        }
 
-		public boolean isBorderOpaque() {
-			return false;
-		}
+        @Override
+        public boolean isBorderOpaque() {
+            return false;
+        }
 
-		protected String getString() {
+        protected String getString() {
             return axiomChange.isAddAxiom() ? ActionBorder.ADD : ActionBorder.REMOVE;
-		}
+        }
 
-		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			Color oldColor = g.getColor();
-			g.setColor(Color.DARK_GRAY);
-			g.drawString(getString(), x + 4, y + 2 + g.getFontMetrics().getAscent()
-					+ g.getFontMetrics().getLeading());
-			g.setColor(oldColor);
-		}
-	}
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int width,
+                int height) {
+            Color oldColor = g.getColor();
+            g.setColor(Color.DARK_GRAY);
+            g.drawString(getString(), x + 4, y + 2 + g.getFontMetrics().getAscent()
+                    + g.getFontMetrics().getLeading());
+            g.setColor(oldColor);
+        }
+    }
 
-	public void setConstraintSystem(ConstraintSystem constraintSystem) {
-		setCellRenderer(new VariableOWLCellRenderer(owlEditorKit, constraintSystem,
-				new OWLCellRenderer(owlEditorKit)));
-	}
+    public void setConstraintSystem(ConstraintSystem constraintSystem) {
+        setCellRenderer(new VariableOWLCellRenderer(owlEditorKit, constraintSystem,
+                new OWLCellRenderer(owlEditorKit)));
+    }
 
-	public void clear() {
-		setModel(new ActionListModel(canAdd));
-	}
+    public void clear() {
+        setModel(new ActionListModel(canAdd));
+    }
 }

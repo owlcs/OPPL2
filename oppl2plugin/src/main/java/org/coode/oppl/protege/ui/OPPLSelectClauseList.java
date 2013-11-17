@@ -41,135 +41,124 @@ import org.protege.editor.core.ui.list.MListSectionHeader;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class OPPLSelectClauseList extends MList {
-	/**
+    /**
 	 *
 	 */
-	private static final long serialVersionUID = 3978563738563698974L;
-	private final OWLEditorKit owlEditorKit;
-	private ConstraintSystem constraintSystem;
+    private static final long serialVersionUID = 3978563738563698974L;
+    private final OWLEditorKit owlEditorKit;
+    private final ConstraintSystem constraintSystem;
 
-	public OPPLSelectClauseList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
-		if (owlEditorKit == null) {
-			throw new NullPointerException("The editorKit cannot be null");
-		}
-		if (constraintSystem == null) {
-			throw new NullPointerException("The constraint system cannot be null");
-		}
-		this.owlEditorKit = owlEditorKit;
-		this.constraintSystem = constraintSystem;
-		DefaultListModel model = this.clearModel();
-		this.setModel(model);
-		this.setCellRenderer(new OPPLSelectListItemCellRederer());
-	}
+    public OPPLSelectClauseList(OWLEditorKit owlEditorKit,
+            ConstraintSystem constraintSystem) {
+        if (owlEditorKit == null) {
+            throw new NullPointerException("The editorKit cannot be null");
+        }
+        if (constraintSystem == null) {
+            throw new NullPointerException("The constraint system cannot be null");
+        }
+        this.owlEditorKit = owlEditorKit;
+        this.constraintSystem = constraintSystem;
+        DefaultListModel model = clearModel();
+        setModel(model);
+        setCellRenderer(new OPPLSelectListItemCellRederer());
+    }
 
-	/**
-	 * @return
-	 */
-	private DefaultListModel clearModel() {
-		DefaultListModel model = new DefaultListModel();
-		model.addElement(new MListSectionHeader() {
-			public boolean canAdd() {
-				return true;
-			}
+    /** @return */
+    private DefaultListModel clearModel() {
+        DefaultListModel model = new DefaultListModel();
+        model.addElement(new MListSectionHeader() {
+            @Override
+            public boolean canAdd() {
+                return true;
+            }
 
-			public String getName() {
-				return "SELECT";
-			}
-		});
-		return model;
-	}
+            @Override
+            public String getName() {
+                return "SELECT";
+            }
+        });
+        return model;
+    }
 
-	@Override
-	protected Border createListItemBorder(JList list, Object value, int index, boolean isSelected,
-			boolean cellHasFocus) {
-		Border toReturn = super.createListItemBorder(list, value, index, isSelected, cellHasFocus);
-		if (value instanceof OPPLSelectClauseListItem
-				&& ((OPPLSelectClauseListItem) value).isAsserted()) {
-			toReturn = BorderFactory.createCompoundBorder(
-					toReturn,
-					new OPPLAssertedSelectClauseListItemBorder());
-		}
-		return toReturn;
-	}
+    @Override
+    protected Border createListItemBorder(JList list, Object value, int index,
+            boolean isSelected, boolean cellHasFocus) {
+        Border toReturn = super.createListItemBorder(list, value, index, isSelected,
+                cellHasFocus);
+        if (value instanceof OPPLSelectClauseListItem
+                && ((OPPLSelectClauseListItem) value).isAsserted()) {
+            toReturn = BorderFactory.createCompoundBorder(toReturn,
+                    new OPPLAssertedSelectClauseListItemBorder());
+        }
+        return toReturn;
+    }
 
-	private static class OPPLAssertedSelectClauseListItemBorder implements Border {
-		public OPPLAssertedSelectClauseListItemBorder() {
-		}
+    private static class OPPLAssertedSelectClauseListItemBorder implements Border {
+        public OPPLAssertedSelectClauseListItemBorder() {}
 
-		private static final String ASSERTED = "ASSERTED";
+        private static final String ASSERTED = "ASSERTED";
 
-		public Insets getBorderInsets(Component c) {
-			return new Insets(0, c.getFontMetrics(c.getFont()).getStringBounds(
-					ASSERTED,
-					c.getGraphics()).getBounds().width + 8, 0, 0);
-		}
+        @Override
+        public Insets getBorderInsets(Component c) {
+            return new Insets(0, c.getFontMetrics(c.getFont())
+                    .getStringBounds(ASSERTED, c.getGraphics()).getBounds().width + 8, 0,
+                    0);
+        }
 
-		public boolean isBorderOpaque() {
-			return false;
-		}
+        @Override
+        public boolean isBorderOpaque() {
+            return false;
+        }
 
-		public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-			Color oldColor = g.getColor();
-			g.setColor(Color.DARK_GRAY);
-			g.drawString(OPPLAssertedSelectClauseListItemBorder.ASSERTED, x + 4, y + 2
-					+ g.getFontMetrics().getAscent() + g.getFontMetrics().getLeading());
-			g.setColor(oldColor);
-		}
-	}
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int width,
+                int height) {
+            Color oldColor = g.getColor();
+            g.setColor(Color.DARK_GRAY);
+            g.drawString(OPPLAssertedSelectClauseListItemBorder.ASSERTED, x + 4, y + 2
+                    + g.getFontMetrics().getAscent() + g.getFontMetrics().getLeading());
+            g.setColor(oldColor);
+        }
+    }
 
-	private class OPPLSelectListItemCellRederer implements ListCellRenderer {
-		private final DefaultListCellRenderer defaultListCellRenderer = new DefaultListCellRenderer();
-		private final VariableOWLCellRenderer variableAxiomRenderer = new VariableOWLCellRenderer(
-				OPPLSelectClauseList.this.getOwlEditorKit(),
-				OPPLSelectClauseList.this.getConstraintSystem(), new OWLCellRenderer(
-						OPPLSelectClauseList.this.getOwlEditorKit()));
+    private class OPPLSelectListItemCellRederer implements ListCellRenderer {
+        private final DefaultListCellRenderer defaultListCellRenderer = new DefaultListCellRenderer();
+        private final VariableOWLCellRenderer variableAxiomRenderer = new VariableOWLCellRenderer(
+                getOwlEditorKit(), getConstraintSystem(), new OWLCellRenderer(
+                        getOwlEditorKit()));
 
-		public OPPLSelectListItemCellRederer() {
-			this.variableAxiomRenderer.setHighlightKeywords(true);
-			this.variableAxiomRenderer.setWrap(true);
-		}
+        public OPPLSelectListItemCellRederer() {
+            variableAxiomRenderer.setHighlightKeywords(true);
+            variableAxiomRenderer.setWrap(true);
+        }
 
-		public Component getListCellRendererComponent(JList list, Object value, int index,
-				boolean isSelected, boolean cellHasFocus) {
-			Component toReturn = this.defaultListCellRenderer.getListCellRendererComponent(
-					list,
-					value,
-					index,
-					isSelected,
-					cellHasFocus);
-			if (value instanceof OPPLSelectClauseListItem) {
-				OPPLSelectClauseListItem item = (OPPLSelectClauseListItem) value;
-				toReturn = this.variableAxiomRenderer.getListCellRendererComponent(
-						list,
-						item,
-						index,
-						isSelected,
-						cellHasFocus);
-			}
-			return toReturn;
-		}
-	}
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value,
+                int index, boolean isSelected, boolean cellHasFocus) {
+            Component toReturn = defaultListCellRenderer.getListCellRendererComponent(
+                    list, value, index, isSelected, cellHasFocus);
+            if (value instanceof OPPLSelectClauseListItem) {
+                OPPLSelectClauseListItem item = (OPPLSelectClauseListItem) value;
+                toReturn = variableAxiomRenderer.getListCellRendererComponent(list, item,
+                        index, isSelected, cellHasFocus);
+            }
+            return toReturn;
+        }
+    }
 
-	public void clear() {
-		this.setModel(this.clearModel());
-	}
+    public void clear() {
+        setModel(clearModel());
+    }
 
-	/**
-	 * @return the owlEditorKit
-	 */
-	public final OWLEditorKit getOwlEditorKit() {
-		return this.owlEditorKit;
-	}
+    /** @return the owlEditorKit */
+    public final OWLEditorKit getOwlEditorKit() {
+        return owlEditorKit;
+    }
 
-	/**
-	 * @return the constraintSystem
-	 */
-	public ConstraintSystem getConstraintSystem() {
-		return this.constraintSystem;
-	}
+    /** @return the constraintSystem */
+    public ConstraintSystem getConstraintSystem() {
+        return constraintSystem;
+    }
 }

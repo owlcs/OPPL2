@@ -12,7 +12,6 @@ public class JUnitTestCaseRunner extends TestCaseRunner {
         super(opplTestCase);
     }
 
-    /** @see org.coode.parsers.oppl.testcase.TestCaseRunner#fail(org.coode.parsers.oppl.testcase.OPPLTest) */
     @Override
     protected void fail(OPPLTest test) {
         String message = test.getMessage();
@@ -23,14 +22,11 @@ public class JUnitTestCaseRunner extends TestCaseRunner {
         }
     }
 
-    /** @see org.coode.parsers.oppl.testcase.TestCaseRunner#fail(java.lang.Throwable) */
     @Override
     protected void fail(Throwable e) {
         Assert.fail(e.getMessage());
     }
 
-    /** @see org.coode.parsers.oppl.testcase.TestCaseRunner#success(org.coode.parsers
-     *      .oppl.testcase.OPPLTest) */
     @Override
     protected void success(OPPLTest test) {}
 

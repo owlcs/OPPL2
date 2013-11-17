@@ -27,18 +27,13 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.frame.AbstractOWLFrame;
 import org.semanticweb.owlapi.model.OWLClass;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class PatternClassFrame extends AbstractOWLFrame<OWLClass> {
-	public PatternClassFrame(OWLEditorKit owlEditorKit,
-			AbstractPatternModelFactory f) {
-		super(owlEditorKit.getModelManager().getOWLOntologyManager());
-		this.addSection(new PatternClassFrameSection(owlEditorKit, this, f));
-		this.addSection(new PatternOWLEquivalentClassesAxiomFrameSection(
-				owlEditorKit, this, f));
-		this.addSection(new PatternOWLSubCLassAxiomFrameSection(owlEditorKit,
-				this, f));
-	}
+    public PatternClassFrame(OWLEditorKit owlEditorKit, AbstractPatternModelFactory f) {
+        super(owlEditorKit.getModelManager().getOWLOntologyManager());
+        this.addSection(new PatternClassFrameSection(owlEditorKit, this, f));
+        this.addSection(new PatternOWLEquivalentClassesAxiomFrameSection(owlEditorKit,
+                this, f));
+        this.addSection(new PatternOWLSubCLassAxiomFrameSection(owlEditorKit, this, f));
+    }
 }

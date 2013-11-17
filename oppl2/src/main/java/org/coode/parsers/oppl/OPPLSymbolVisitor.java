@@ -9,11 +9,13 @@ import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
 import org.semanticweb.owlapi.model.OWLObject;
 
 public interface OPPLSymbolVisitor extends SymbolVisitor {
-	void visitStringVariableAttributeSymbol(
-			StringVariableAttributeSymbol stringVariableAttributeSymbol);
+    void visitStringVariableAttributeSymbol(
+            StringVariableAttributeSymbol stringVariableAttributeSymbol);
 
-	<P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>> void visitCollectionVariableAttributeSymbol(
-			CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol);
+            <P extends OWLObject, T extends VariableAttribute<Collection<? extends P>>>
+            void
+            visitCollectionVariableAttributeSymbol(
+                    CollectionVariableAttributeSymbol<P, T> collectionVariableAttributeSymbol);
 
-	void visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier);
+    void visitCreateOnDemandIdentifier(CreateOnDemandIdentifier createOnDemandIdentifier);
 }

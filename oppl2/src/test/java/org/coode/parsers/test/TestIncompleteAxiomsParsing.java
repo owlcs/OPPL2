@@ -49,7 +49,7 @@ public class TestIncompleteAxiomsParsing {
             return new CommonErrorNode(input, start, stop, e);
         }
     };
-    private ErrorListener errorListener = new SilentListener();
+    private final ErrorListener errorListener = new SilentListener();
 
     protected ManchesterOWLSyntaxTree parse(String input) {
         MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));

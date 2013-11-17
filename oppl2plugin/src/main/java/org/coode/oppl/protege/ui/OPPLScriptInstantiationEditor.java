@@ -38,106 +38,101 @@ import org.protege.editor.owl.model.classexpression.OWLExpressionParserException
 import org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor;
 import org.semanticweb.owlapi.model.OWLException;
 
-/**
- * GUI component that allows to instantiate a generic OPPL Script
+/** GUI component that allows to instantiate a generic OPPL Script
  * 
- * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public abstract class OPPLScriptInstantiationEditor<P extends InstantiatedOPPLScript>
-		implements VerifiedInputEditor, InputVerificationStatusChangedListener {
-	private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
-	protected ExpressionEditor<P> editor;
-	protected OWLEditorKit owlEditorKit;
-	protected JPanel mainPane = new JPanel(new BorderLayout());
-	protected P instantiatedScript = null;
+        implements VerifiedInputEditor, InputVerificationStatusChangedListener {
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    protected ExpressionEditor<P> editor;
+    protected OWLEditorKit owlEditorKit;
+    protected JPanel mainPane = new JPanel(new BorderLayout());
+    protected P instantiatedScript = null;
 
-	public OPPLScriptInstantiationEditor(P instantiatedOPPLScript,
-			OWLEditorKit owlEditorKit) {
-		this.instantiatedScript = instantiatedOPPLScript;
-		this.owlEditorKit = owlEditorKit;
-		this.init();
-	}
+    public OPPLScriptInstantiationEditor(P instantiatedOPPLScript,
+            OWLEditorKit owlEditorKit) {
+        this.instantiatedScript = instantiatedOPPLScript;
+        this.owlEditorKit = owlEditorKit;
+        this.init();
+    }
 
-	protected void init() {
-		this.editor = this.getScriptExpressionEditor();
-		// will go away when the completer will be removed from the expression
-		// editor
-		this.removeKeyListeners();
-		this.setupAutoCompleter();
-	}
+    protected void init() {
+        this.editor = this.getScriptExpressionEditor();
+        // will go away when the completer will be removed from the expression
+        // editor
+        this.removeKeyListeners();
+        this.setupAutoCompleter();
+    }
 
-	protected abstract void setupAutoCompleter();
+    protected abstract void setupAutoCompleter();
 
-	protected abstract ExpressionEditor<P> getScriptExpressionEditor();
+    protected abstract ExpressionEditor<P> getScriptExpressionEditor();
 
-	/**
+    /**
 	 *
 	 */
-	private void removeKeyListeners() {
-		KeyListener[] keyListeners = this.editor.getKeyListeners();
-		for (KeyListener keyListener : keyListeners) {
-			this.editor.removeKeyListener(keyListener);
-		}
-	}
+    private void removeKeyListeners() {
+        KeyListener[] keyListeners = this.editor.getKeyListeners();
+        for (KeyListener keyListener : keyListeners) {
+            this.editor.removeKeyListener(keyListener);
+        }
+    }
 
-	public void addStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
-		this.listeners.add(listener);
-		this.notifyListener(listener);
-	}
+    @Override
+    public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
+        this.listeners.add(listener);
+        this.notifyListener(listener);
+    }
 
-	public void removeStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
-		this.listeners.remove(listener);
-	}
+    @Override
+    public void removeStatusChangedListener(
+            InputVerificationStatusChangedListener listener) {
+        this.listeners.remove(listener);
+    }
 
-	/**
-	 * @param listener
-	 */
-	private void notifyListener(InputVerificationStatusChangedListener listener) {
-		boolean valid = this.instantiatedScript != null ? this.instantiatedScript
-				.isValid()
-				: false;
-		listener.verifiedStatusChanged(valid);
-	}
+    /** @param listener */
+    private void notifyListener(InputVerificationStatusChangedListener listener) {
+        boolean valid = this.instantiatedScript != null ? this.instantiatedScript
+                .isValid() : false;
+        listener.verifiedStatusChanged(valid);
+    }
 
-	public void verifiedStatusChanged(boolean newState) {
-		this.instantiatedScript = null;
-		if (newState) {
-			try {
-				this.instantiatedScript = this.editor.createObject();
-				this.handleChange();
-			} catch (OWLExpressionParserException e) {
-				e.printStackTrace();
-			} catch (OWLException e) {
-				e.printStackTrace();
-			}
-		}
-		this.handleChange();
-	}
+    @Override
+    public void verifiedStatusChanged(boolean newState) {
+        this.instantiatedScript = null;
+        if (newState) {
+            try {
+                this.instantiatedScript = this.editor.createObject();
+                this.handleChange();
+            } catch (OWLExpressionParserException e) {
+                e.printStackTrace();
+            } catch (OWLException e) {
+                e.printStackTrace();
+            }
+        }
+        this.handleChange();
+    }
 
-	public void handleChange() {
-		for (InputVerificationStatusChangedListener listener : this.listeners) {
-			this.notifyListener(listener);
-		}
-	}
+    public void handleChange() {
+        for (InputVerificationStatusChangedListener listener : this.listeners) {
+            this.notifyListener(listener);
+        }
+    }
 
-	public void clear() {
-		this.mainPane.removeAll();
-		this.init();
-	}
+    public void clear() {
+        this.mainPane.removeAll();
+        this.init();
+    }
 
-	public void dispose() {
-		this.editor.removeStatusChangedListener(this);
-	}
+    public void dispose() {
+        this.editor.removeStatusChangedListener(this);
+    }
 
-	public InstantiatedOPPLScript getEditedObject() {
-		return this.instantiatedScript;
-	}
+    public InstantiatedOPPLScript getEditedObject() {
+        return this.instantiatedScript;
+    }
 
-	public JComponent getEditorComponent() {
-		return this.mainPane;
-	}
+    public JComponent getEditorComponent() {
+        return this.mainPane;
+    }
 }

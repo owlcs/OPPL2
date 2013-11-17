@@ -173,19 +173,23 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
         return adaptor;
     }
 
+    @Override
     public String[] getTokenNames() {
         return ManchesterOWLSyntaxParser.tokenNames;
     }
 
+    @Override
     public String getGrammarFileName() {
         return "MOWLParser.g";
     }
 
+    @Override
     public void displayRecognitionError(String[] tokenNames, RecognitionException e) {}
 
     public static class axiom_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -445,6 +449,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class annotationAssertionAxiom_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -834,6 +839,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class iri_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -898,6 +904,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class hasKeyAxiom_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -1069,6 +1076,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class assertionAxiom_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -1459,6 +1467,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class binaryAxiom_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -2344,6 +2353,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class unaryAxiom_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -2443,6 +2453,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class unaryCharacteristic_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -2824,6 +2835,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class expression_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -3073,6 +3085,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class disjunction_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -3192,6 +3205,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class conjunction_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -3312,6 +3326,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class complexPropertyExpression_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -3431,6 +3446,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class unary_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -3813,6 +3829,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class dataRange_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -3974,6 +3991,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class dataRangeFacet_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -4260,6 +4278,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class atomic_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -4371,6 +4390,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class qualifiedRestriction_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -4784,6 +4804,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class propertyExpression_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -4923,6 +4944,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class cardinalityRestriction_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -5064,6 +5086,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class restrictionKind_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -5249,6 +5272,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class oneOf_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -5394,6 +5418,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class valueRestriction_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -5497,6 +5522,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class value_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -5633,6 +5659,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static class constant_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
@@ -6669,10 +6696,12 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
             transition = DFA1_transition;
         }
 
+        @Override
         public String getDescription() {
             return "64:1: axiom options {backtrack=true; } : ( binaryAxiom -> ^( binaryAxiom ) | unaryAxiom -> ^( unaryAxiom ) | assertionAxiom -> ^( assertionAxiom ) | hasKeyAxiom -> ^( hasKeyAxiom ) | annotationAssertionAxiom -> ^( annotationAssertionAxiom ) );";
         }
 
+        @Override
         public int specialStateTransition(int s, IntStream _input)
                 throws NoViableAltException {
             TokenStream input = (TokenStream) _input;
@@ -6824,10 +6853,12 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
             transition = DFA6_transition;
         }
 
+        @Override
         public String getDescription() {
             return "101:1: binaryAxiom options {backtrack=true; } : (lhs= expression SUBCLASS_OF superClass= expression -> ^( SUB_CLASS_AXIOM ^( EXPRESSION $lhs) ^( EXPRESSION $superClass) ) | lhs= expression EQUIVALENT_TO rhs= expression -> ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION $lhs) ^( EXPRESSION $rhs) ) | lhs= expression DISJOINT_WITH disjoint= expression -> ^( DISJOINT_WITH_AXIOM ^( EXPRESSION $lhs) ^( EXPRESSION $disjoint) ) | lhs= expression SUB_PROPERTY_OF superProperty= propertyExpression -> ^( SUB_PROPERTY_AXIOM ^( EXPRESSION $lhs) ^( EXPRESSION $superProperty) ) | lhsID= atomic INVERSE_OF rhsAtomic= atomic -> ^( INVERSE_OF ^( EXPRESSION $lhsID) ^( EXPRESSION $rhsAtomic) ) | lhsID= atomic SAME_AS rhsID= atomic -> ^( SAME_AS_AXIOM ^( EXPRESSION $lhsID) ^( EXPRESSION $rhsID) ) | lhsID= atomic DIFFERENT_FROM rhsID= atomic -> ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION $lhsID) ^( EXPRESSION $rhsID) ) | lhsID= atomic DOMAIN expression -> ^( DOMAIN ^( EXPRESSION $lhsID) ^( EXPRESSION expression ) ) | lhsID= atomic RANGE expression -> ^( RANGE ^( EXPRESSION $lhsID) ^( EXPRESSION expression ) ) );";
         }
 
+        @Override
         public int specialStateTransition(int s, IntStream _input)
                 throws NoViableAltException {
             TokenStream input = (TokenStream) _input;
@@ -7035,10 +7066,12 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
             transition = DFA12_transition;
         }
 
+        @Override
         public String getDescription() {
             return "155:1: unary options {backtrack=true; } : (head= propertyExpression ( COMPOSITION rest+= propertyExpression )+ -> ^( PROPERTY_CHAIN $head $rest) | NOT OPEN_PARENTHESYS expression CLOSED_PARENTHESYS -> ^( NEGATED_EXPRESSION expression ) | NOT atomic -> ^( NEGATED_EXPRESSION atomic ) | qualifiedRestriction -> ^( qualifiedRestriction ) | dataRange | constant | atomic );";
         }
 
+        @Override
         public int specialStateTransition(int s, IntStream _input)
                 throws NoViableAltException {
             TokenStream input = (TokenStream) _input;

@@ -21,67 +21,65 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owlapi.model.OWLEntity;
 
 public class OWLEntitySelector extends JPanel implements VerifiedInputEditor {
-	private static final long serialVersionUID = -2876275234475209099L;
-	protected MList facetClassView = new MList();
-	protected List<OWLEntity> facetClasses = new ArrayList<OWLEntity>();
-	protected VariableListModel<OWLEntity> facetClassesModel = new VariableListModel<OWLEntity>(
-			this.facetClasses, "OWL entity selection");
-	private Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
-	private OWLEditorKit kit;
+    private static final long serialVersionUID = -2876275234475209099L;
+    protected MList facetClassView = new MList();
+    protected List<OWLEntity> facetClasses = new ArrayList<OWLEntity>();
+    protected VariableListModel<OWLEntity> facetClassesModel = new VariableListModel<OWLEntity>(
+            facetClasses, "OWL entity selection");
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final OWLEditorKit kit;
 
-	public void addStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
-		this.listeners.add(listener);
-	}
+    @Override
+    public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
+        listeners.add(listener);
+    }
 
-	public void removeStatusChangedListener(
-			InputVerificationStatusChangedListener listener) {
-		this.listeners.remove(listener);
-	}
+    @Override
+    public void removeStatusChangedListener(
+            InputVerificationStatusChangedListener listener) {
+        listeners.remove(listener);
+    }
 
-	public OWLEntitySelector(OWLEditorKit k) {
-		super(new BorderLayout());
-		this.kit = k;
-		this.facetClasses.addAll(LocalityChecker.collectEntities(k
-				.getOWLModelManager().getOntologies()));
-		this.facetClassView.setCellRenderer(new RenderableObjectCellRenderer(
-				this.kit));
-		this.facetClassView.setModel(this.facetClassesModel);
-		this.setOK(false);
-		this.facetClassesModel.init();
-		JScrollPane spobjf = ComponentFactory
-				.createScrollPane(this.facetClassView);
-		spobjf.setBorder(ComponentFactory
-				.createTitledBorder("Entity selection"));
-		this.add(spobjf);
-		this.facetClassView
-				.addListSelectionListener(new ListSelectionListener() {
-					public void valueChanged(ListSelectionEvent e) {
-						if (!e.getValueIsAdjusting()) {
-							// then status is OK
-							OWLEntitySelector.this.setOK(true);
-						}
-					}
-				});
-	}
+    public OWLEntitySelector(OWLEditorKit k) {
+        super(new BorderLayout());
+        kit = k;
+        facetClasses.addAll(LocalityChecker.collectEntities(k.getOWLModelManager()
+                .getOntologies()));
+        facetClassView.setCellRenderer(new RenderableObjectCellRenderer(kit));
+        facetClassView.setModel(facetClassesModel);
+        setOK(false);
+        facetClassesModel.init();
+        JScrollPane spobjf = ComponentFactory.createScrollPane(facetClassView);
+        spobjf.setBorder(ComponentFactory.createTitledBorder("Entity selection"));
+        this.add(spobjf);
+        facetClassView.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    // then status is OK
+                    OWLEntitySelector.this.setOK(true);
+                }
+            }
+        });
+    }
 
-	protected void setOK(boolean b) {
-		for (InputVerificationStatusChangedListener i : this.listeners) {
-			i.verifiedStatusChanged(b);
-		}
-	}
+    protected void setOK(boolean b) {
+        for (InputVerificationStatusChangedListener i : listeners) {
+            i.verifiedStatusChanged(b);
+        }
+    }
 
-	public void clear() {
-		this.facetClassView.getSelectionModel().clearSelection();
-	}
+    public void clear() {
+        facetClassView.getSelectionModel().clearSelection();
+    }
 
-	@SuppressWarnings("unchecked")
-	public OWLEntity getOWLClass() {
-		if (this.facetClassView.getSelectedIndex() > -1) {
-			OWLEntity p = ((VariableListItem<OWLEntity>) this.facetClassView
-					.getSelectedValue()).getItem();
-			return p;
-		}
-		return null;
-	}
+    @SuppressWarnings("unchecked")
+    public OWLEntity getOWLClass() {
+        if (facetClassView.getSelectedIndex() > -1) {
+            OWLEntity p = ((VariableListItem<OWLEntity>) facetClassView
+                    .getSelectedValue()).getItem();
+            return p;
+        }
+        return null;
+    }
 }

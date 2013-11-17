@@ -16,27 +16,25 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class AnnotationBasedSimpleOPPLTestCaseParserCreationStrategy extends
-		SimpleOPPLTestCaseParsingStrategy {
-	private final SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory;
+        SimpleOPPLTestCaseParsingStrategy {
+    private final SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory;
 
-	public AnnotationBasedSimpleOPPLTestCaseParserCreationStrategy(List<IRI> iris,
-			OWLOntologyManager ontologyManager, OWLOntology ontology, OWLReasoner reasoner,
-			ErrorListener errorListener, RuntimeExceptionHandler handler) {
-		super(ontologyManager, ontology, reasoner, errorListener, handler);
-		if (iris == null) {
-			throw new NullPointerException(
-					"The collection of annotation property IRIs cannot be null");
-		}
-		this.symbolTableFactory = new AnnotationBasedSymbolTableFactory(ontologyManager, iris);
-	}
+    public AnnotationBasedSimpleOPPLTestCaseParserCreationStrategy(List<IRI> iris,
+            OWLOntologyManager ontologyManager, OWLOntology ontology,
+            OWLReasoner reasoner, ErrorListener errorListener,
+            RuntimeExceptionHandler handler) {
+        super(ontologyManager, ontology, reasoner, errorListener, handler);
+        if (iris == null) {
+            throw new NullPointerException(
+                    "The collection of annotation property IRIs cannot be null");
+        }
+        symbolTableFactory = new AnnotationBasedSymbolTableFactory(ontologyManager, iris);
+    }
 
-	@Override
-	public OPPLTestCaseParser build() {
-		return this.getParserFactory().build(this.getErrorListener(), this.symbolTableFactory);
-	}
+    @Override
+    public OPPLTestCaseParser build() {
+        return getParserFactory().build(getErrorListener(), symbolTableFactory);
+    }
 }

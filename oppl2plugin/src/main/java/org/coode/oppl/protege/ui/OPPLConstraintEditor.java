@@ -41,125 +41,112 @@ import org.coode.parsers.ui.VerifiedInputEditor;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.owl.OWLEditorKit;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class OPPLConstraintEditor extends JPanel implements VerifiedInputEditor {
-	/**
+    /**
 	 *
 	 */
-	private static final long serialVersionUID = 3477960268272607549L;
-	private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
-	private final ExpressionEditor<AbstractConstraint> constraintEditor;
-	private AbstractConstraint constraint;
-	private final OWLEditorKit owlEditorKit;
-	private final ConstraintSystem constraintSystem;
-	private final OPPLExpressionChecker<AbstractConstraint> constraintExpressionChecker;
+    private static final long serialVersionUID = 3477960268272607549L;
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final ExpressionEditor<AbstractConstraint> constraintEditor;
+    private AbstractConstraint constraint;
+    private final OWLEditorKit owlEditorKit;
+    private final ConstraintSystem constraintSystem;
+    private final OPPLExpressionChecker<AbstractConstraint> constraintExpressionChecker;
 
-	/**
-	 * @return the constraint
-	 */
-	public AbstractConstraint getConstraint() {
-		return this.constraint;
-	}
+    /** @return the constraint */
+    public AbstractConstraint getConstraint() {
+        return constraint;
+    }
 
-	/**
-	 * @param constraint
-	 *            the constraint to set
-	 */
-	public void setConstraint(AbstractConstraint constraint) {
-		this.constraintEditor.setText(constraint.toString());
-	}
+    /** @param constraint
+     *            the constraint to set */
+    public void setConstraint(AbstractConstraint constraint) {
+        constraintEditor.setText(constraint.toString());
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.util.VerifiedInputEditor#addStatusChangedListener(org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
-	 */
-	public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
-		this.listeners.add(listener);
-		listener.verifiedStatusChanged(this.check());
-	}
+    @Override
+    public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
+        listeners.add(listener);
+        listener.verifiedStatusChanged(check());
+    }
 
-	private boolean check() {
-		boolean toReturn = false;
-		this.constraint = this.constraintEditor.createObject();
-		toReturn = this.constraint != null;
-		return toReturn;
-	}
+    private boolean check() {
+        boolean toReturn = false;
+        constraint = constraintEditor.createObject();
+        toReturn = constraint != null;
+        return toReturn;
+    }
 
-	/**
-	 * @param isValid
-	 */
-	private void notifyListeners(boolean isValid) {
-		for (InputVerificationStatusChangedListener listener : this.listeners) {
-			listener.verifiedStatusChanged(isValid);
-		}
-	}
+    /** @param isValid */
+    private void notifyListeners(boolean isValid) {
+        for (InputVerificationStatusChangedListener listener : listeners) {
+            listener.verifiedStatusChanged(isValid);
+        }
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.util.VerifiedInputEditor#removeStatusChangedListener(org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
-	 */
-	public void removeStatusChangedListener(InputVerificationStatusChangedListener listener) {
-		this.listeners.remove(listener);
-	}
+    @Override
+    public void removeStatusChangedListener(
+            InputVerificationStatusChangedListener listener) {
+        listeners.remove(listener);
+    }
 
-	public void handleChange() {
-		boolean isValid = this.check();
-		this.notifyListeners(isValid);
-	}
+    public void handleChange() {
+        boolean isValid = check();
+        notifyListeners(isValid);
+    }
 
-	public OPPLConstraintEditor(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
-		this.setLayout(new BorderLayout());
-		this.owlEditorKit = owlEditorKit;
-		this.constraintSystem = constraintSystem;
-		this.constraintExpressionChecker = new OPPLExpressionChecker<AbstractConstraint>(
-				this.getOWLEditorKit()) {
-			@Override
-			protected AbstractConstraint parse(String text) {
-				AbstractParserFactory factory = ProtegeParserFactory.getInstance(this.getOWLEditorKit());
-				OPPLParser parser = factory.build(this.getListener());
-				OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
-				symbolTable.importConstraintSystem(OPPLConstraintEditor.this.getConstraintSystem());
-				AbstractConstraint toReturn = parser.parseConstraint(
-						text,
-						symbolTable,
-						OPPLConstraintEditor.this.getConstraintSystem());
-				return toReturn;
-			}
-		};
-		// Setup the constraint editor
-		this.constraintEditor = new ExpressionEditor<AbstractConstraint>(
-				this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager(),
-				this.constraintExpressionChecker);
-		JPanel constraintEditorPanel = new JPanel(new BorderLayout());
-		constraintEditorPanel.add(ComponentFactory.createScrollPane(this.constraintEditor));
-		// remove listeners
-		KeyListener[] keyListeners = this.constraintEditor.getKeyListeners();
-		for (KeyListener keyListener : keyListeners) {
-			this.constraintEditor.removeKeyListener(keyListener);
-		}
-		this.constraintEditor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
-			public void verifiedStatusChanged(boolean newState) {
-				OPPLConstraintEditor.this.handleChange();
-			}
-		});
-		this.add(constraintEditorPanel, BorderLayout.CENTER);
-	}
+    public OPPLConstraintEditor(OWLEditorKit owlEditorKit,
+            ConstraintSystem constraintSystem) {
+        setLayout(new BorderLayout());
+        this.owlEditorKit = owlEditorKit;
+        this.constraintSystem = constraintSystem;
+        constraintExpressionChecker = new OPPLExpressionChecker<AbstractConstraint>(
+                getOWLEditorKit()) {
+            @Override
+            protected AbstractConstraint parse(String text) {
+                AbstractParserFactory factory = ProtegeParserFactory
+                        .getInstance(getOWLEditorKit());
+                OPPLParser parser = factory.build(getListener());
+                OPPLSymbolTable symbolTable = parser.getSymbolTableFactory()
+                        .createSymbolTable();
+                symbolTable.importConstraintSystem(OPPLConstraintEditor.this
+                        .getConstraintSystem());
+                AbstractConstraint toReturn = parser.parseConstraint(text, symbolTable,
+                        OPPLConstraintEditor.this.getConstraintSystem());
+                return toReturn;
+            }
+        };
+        // Setup the constraint editor
+        constraintEditor = new ExpressionEditor<AbstractConstraint>(getOWLEditorKit()
+                .getOWLModelManager().getOWLOntologyManager(),
+                constraintExpressionChecker);
+        JPanel constraintEditorPanel = new JPanel(new BorderLayout());
+        constraintEditorPanel.add(ComponentFactory.createScrollPane(constraintEditor));
+        // remove listeners
+        KeyListener[] keyListeners = constraintEditor.getKeyListeners();
+        for (KeyListener keyListener : keyListeners) {
+            constraintEditor.removeKeyListener(keyListener);
+        }
+        constraintEditor
+                .addStatusChangedListener(new InputVerificationStatusChangedListener() {
+                    @Override
+                    public void verifiedStatusChanged(boolean newState) {
+                        OPPLConstraintEditor.this.handleChange();
+                    }
+                });
+        this.add(constraintEditorPanel, BorderLayout.CENTER);
+    }
 
-	public void dispose() {
-	}
+    public void dispose() {}
 
-	/**
-	 * @return the owlEditorKit
-	 */
-	public OWLEditorKit getOWLEditorKit() {
-		return this.owlEditorKit;
-	}
+    /** @return the owlEditorKit */
+    public OWLEditorKit getOWLEditorKit() {
+        return owlEditorKit;
+    }
 
-	/**
-	 * @return the constraintSystem
-	 */
-	public ConstraintSystem getConstraintSystem() {
-		return this.constraintSystem;
-	}
+    /** @return the constraintSystem */
+    public ConstraintSystem getConstraintSystem() {
+        return constraintSystem;
+    }
 }

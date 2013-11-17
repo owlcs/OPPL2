@@ -341,9 +341,9 @@ public final class OPPLView extends AbstractOWLViewComponent implements
     private static final String OPPL_COMPUTATION_IN_PROGRESS_PLEASE_WAIT = "OPPL Computation in progress...please wait";
     private OPPLEditor editor;
     private final ReasonerOPPLScriptValiator validator = new ReasonerOPPLScriptValiator();
-    private JButton evaluate = new JButton("Evaluate");
-    private JButton stopEvaluation = new JButton("Cancel");
-    private JButton execute = new JButton("Execute");
+    private final JButton evaluate = new JButton("Evaluate");
+    private final JButton stopEvaluation = new JButton("Cancel");
+    private final JButton execute = new JButton("Execute");
     private ActionList affectedAxioms;
     private final InstantiatedAxiomListModel instantiatedAxiomListModel = new InstantiatedAxiomListModel();
     private OWLLinkedObjectList instantiatedAxiomsList;
@@ -351,7 +351,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
     private JDialog window;
     private JScrollPane affectedScrollPane;
     private JScrollPane instantiatedScrollPane;
-    private JCheckBox considerImportClosureCheckBox = new JCheckBox(
+    private final JCheckBox considerImportClosureCheckBox = new JCheckBox(
             "When removing consider Active Ontology Imported Closure", false);
     private final CopyAction copyResultsAction = new CopyAction(
             "Copy results to Clipboard");

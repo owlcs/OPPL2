@@ -64,7 +64,7 @@ public class OPPLTestCaseRunPanel extends JPanel {
     private final ReportTreeModel resultTreeModel = new ReportTreeModel();
     private final JTree resultTree = new JTree(resultTreeModel);
     private final SummaryPanel summaryPanel = new SummaryPanel();
-    private TreeModelListener treeModelLister = new TreeModelListener() {
+    private final TreeModelListener treeModelLister = new TreeModelListener() {
         @Override
         public void treeStructureChanged(TreeModelEvent e) {
             expandUnsucessfulNodes();

@@ -38,92 +38,80 @@ import org.protege.editor.owl.ui.framelist.OWLFrameList;
 import org.protege.editor.owl.ui.view.cls.AbstractOWLClassViewComponent;
 import org.semanticweb.owlapi.model.OWLClass;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class ClassPatternView extends AbstractOWLClassViewComponent {
-	private OWLFrameList<OWLClass> list;
-	private JScrollPane listPane = null;
-	private PatternManager patternManager;
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 4660000035200458342L;
+    private OWLFrameList<OWLClass> list;
+    private JScrollPane listPane = null;
+    private PatternManager patternManager;
+    private static final long serialVersionUID = 4660000035200458342L;
 
-	/**
-	 * @see org.protege.editor.owl.ui.view.AbstractOWLClassViewComponent#initialiseClassView()
-	 */
-	@Override
-	public void initialiseClassView() throws Exception {
-		this.setLayout(new BorderLayout());
-		AbstractPatternModelFactory f = new ProtegePatternModelFactory(this.getOWLModelManager());
-		this.list = new OWLFrameList<OWLClass>(this.getOWLEditorKit(), new PatternClassFrame(
-				this.getOWLEditorKit(), f)) {
-			/**
+    @Override
+    public void initialiseClassView() throws Exception {
+        setLayout(new BorderLayout());
+        AbstractPatternModelFactory f = new ProtegePatternModelFactory(
+                getOWLModelManager());
+        list = new OWLFrameList<OWLClass>(getOWLEditorKit(), new PatternClassFrame(
+                getOWLEditorKit(), f)) {
+            /**
 			*
 			*/
-			private static final long serialVersionUID = 1068899822314449303L;
+            private static final long serialVersionUID = 1068899822314449303L;
 
-			@Override
-			protected Border createListItemBorder(JList l, Object value, int index,
-					boolean isSelected, boolean cellHasFocus) {
-				Border border = super.createListItemBorder(
-						l,
-						value,
-						index,
-						isSelected,
-						cellHasFocus);
-				Border toReturn = border;
-				if (value instanceof PatternOWLEquivalentClassesAxiomFrameSectionRow) {
-					PatternOWLEquivalentClassesAxiomFrameSectionRow row = (PatternOWLEquivalentClassesAxiomFrameSectionRow) value;
-					PatternModel generatingPatternModel = row.getGeneratingPatternModel();
-					PatternBorder patternBorder = new PatternBorder(generatingPatternModel);
-					toReturn = BorderFactory.createCompoundBorder(border, patternBorder);
-				}
-				if (value instanceof PatternOWLSubClassAxiomFrameSectionRow) {
-					PatternOWLSubClassAxiomFrameSectionRow row = (PatternOWLSubClassAxiomFrameSectionRow) value;
-					PatternModel generatingPatternModel = row.getGeneratingPatternModel();
-					PatternBorder patternBorder = new PatternBorder(generatingPatternModel);
-					toReturn = BorderFactory.createCompoundBorder(border, patternBorder);
-				}
-				if (value instanceof PatternClassFrameSectionRow) {
-					PatternClassFrameSectionRow row = (PatternClassFrameSectionRow) value;
-					PatternModel generatingPatternModel = row.getPatternModel().getInstantiatedPattern();
-					PatternBorder patternBorder = new PatternBorder(generatingPatternModel);
-					toReturn = BorderFactory.createCompoundBorder(border, patternBorder);
-				}
-				return toReturn;
-			}
-		};
-		this.list.setCellRenderer(new PatternCellRenderer(this.getOWLEditorKit(), f));
-		this.listPane = ComponentFactory.createScrollPane(this.list);
-		// PatternParser.setPatternModelFactory(new ProtegePatternModelFactory(
-		// this.getOWLModelManager()));
-		this.patternManager = PatternManager.getInstance(
-				this.getOWLEditorKit().getModelManager().getOWLOntologyManager(),
-				f);
-		this.getOWLEditorKit().getModelManager().addOntologyChangeListener(this.patternManager);
-		this.add(this.listPane);
-	}
+            @Override
+            protected Border createListItemBorder(JList l, Object value, int index,
+                    boolean isSelected, boolean cellHasFocus) {
+                Border border = super.createListItemBorder(l, value, index, isSelected,
+                        cellHasFocus);
+                Border toReturn = border;
+                if (value instanceof PatternOWLEquivalentClassesAxiomFrameSectionRow) {
+                    PatternOWLEquivalentClassesAxiomFrameSectionRow row = (PatternOWLEquivalentClassesAxiomFrameSectionRow) value;
+                    PatternModel generatingPatternModel = row.getGeneratingPatternModel();
+                    PatternBorder patternBorder = new PatternBorder(
+                            generatingPatternModel);
+                    toReturn = BorderFactory.createCompoundBorder(border, patternBorder);
+                }
+                if (value instanceof PatternOWLSubClassAxiomFrameSectionRow) {
+                    PatternOWLSubClassAxiomFrameSectionRow row = (PatternOWLSubClassAxiomFrameSectionRow) value;
+                    PatternModel generatingPatternModel = row.getGeneratingPatternModel();
+                    PatternBorder patternBorder = new PatternBorder(
+                            generatingPatternModel);
+                    toReturn = BorderFactory.createCompoundBorder(border, patternBorder);
+                }
+                if (value instanceof PatternClassFrameSectionRow) {
+                    PatternClassFrameSectionRow row = (PatternClassFrameSectionRow) value;
+                    PatternModel generatingPatternModel = row.getPatternModel()
+                            .getInstantiatedPattern();
+                    PatternBorder patternBorder = new PatternBorder(
+                            generatingPatternModel);
+                    toReturn = BorderFactory.createCompoundBorder(border, patternBorder);
+                }
+                return toReturn;
+            }
+        };
+        list.setCellRenderer(new PatternCellRenderer(getOWLEditorKit(), f));
+        listPane = ComponentFactory.createScrollPane(list);
+        // PatternParser.setPatternModelFactory(new ProtegePatternModelFactory(
+        // this.getOWLModelManager()));
+        patternManager = PatternManager.getInstance(getOWLEditorKit().getModelManager()
+                .getOWLOntologyManager(), f);
+        getOWLEditorKit().getModelManager().addOntologyChangeListener(patternManager);
+        this.add(listPane);
+    }
 
-	/**
-	 * @see org.protege.editor.owl.ui.view.AbstractOWLSelectionViewComponent#disposeView()
-	 */
-	@Override
-	public void disposeView() {
-		if (this.list != null) {
-			this.list.dispose();
-		}
-		if (this.patternManager != null) {
-			this.getOWLEditorKit().getModelManager().removeOntologyChangeListener(
-					this.patternManager);
-		}
-	}
+    @Override
+    public void disposeView() {
+        if (list != null) {
+            list.dispose();
+        }
+        if (patternManager != null) {
+            getOWLEditorKit().getModelManager().removeOntologyChangeListener(
+                    patternManager);
+        }
+    }
 
-	@Override
-	protected OWLClass updateView(OWLClass selectedClass) {
-		this.list.setRootObject(selectedClass);
-		return selectedClass;
-	}
+    @Override
+    protected OWLClass updateView(OWLClass selectedClass) {
+        list.setRootObject(selectedClass);
+        return selectedClass;
+    }
 }

@@ -28,40 +28,33 @@ import java.awt.event.ActionListener;
 
 import org.protege.editor.core.ui.list.MListButton;
 
-/**
- * @author Luigi Iannone
- * 
- *         Sep 17, 2008
- */
+/** @author Luigi Iannone Sep 17, 2008 */
 public class InstantiatePatternButton extends MListButton {
-	public InstantiatePatternButton(ActionListener actionListener) {
-		super("Instantiate pattern", new Color(100, 40, 140), actionListener);
-	}
+    public InstantiatePatternButton(ActionListener actionListener) {
+        super("Instantiate pattern", new Color(100, 40, 140), actionListener);
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.list.MListButton#paintButtonContent(java.awt.Graphics2D)
-	 */
-	@Override
-	public void paintButtonContent(Graphics2D g) {
-		int stringWidth = g.getFontMetrics().getStringBounds("?", g).getBounds().width;
-		int w = this.getBounds().width;
-		int h = this.getBounds().height;
-		g.drawString("i", this.getBounds().x + w / 2 - stringWidth / 2, this.getBounds().y
-				+ g.getFontMetrics().getAscent() / 2 + h / 2);
-	}
+    @Override
+    public void paintButtonContent(Graphics2D g) {
+        int stringWidth = g.getFontMetrics().getStringBounds("?", g).getBounds().width;
+        int w = getBounds().width;
+        int h = getBounds().height;
+        g.drawString("i", getBounds().x + w / 2 - stringWidth / 2, getBounds().y
+                + g.getFontMetrics().getAscent() / 2 + h / 2);
+    }
 
-	@Override
-	public int hashCode() {
-		return this.getActionListener().hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return getActionListener().hashCode();
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		boolean toReturn = obj == this;
-		if (!toReturn && obj instanceof InstantiatePatternButton) {
-			toReturn = ((InstantiatePatternButton) obj).getActionListener().equals(
-					this.getActionListener());
-		}
-		return toReturn;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        boolean toReturn = obj == this;
+        if (!toReturn && obj instanceof InstantiatePatternButton) {
+            toReturn = ((InstantiatePatternButton) obj).getActionListener().equals(
+                    getActionListener());
+        }
+        return toReturn;
+    }
 }

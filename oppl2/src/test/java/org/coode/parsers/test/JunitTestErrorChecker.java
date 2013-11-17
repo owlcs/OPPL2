@@ -20,10 +20,12 @@ public class JunitTestErrorChecker implements ErrorCheckerCallBack {
         this.expectedErrorListener = expectedErrorListener;
     }
 
+    @Override
     public void unexpectedError(String errorMessage) {
         fail(errorMessage);
     }
 
+    @Override
     public ErrorListener getErrorListenerForExpectedError() {
         return expectedErrorListener;
     }

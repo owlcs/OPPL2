@@ -31,7 +31,6 @@ public class ReportingTestRunner {
             this.reports = reports;
         }
 
-        /** @see org.coode.parsers.oppl.testcase.TestCaseRunner#configurationFailed(java.lang.String) */
         @Override
         protected void configurationFailed(String message) {
             List<OPPLTest> tests = getOPPLTestCase().getTests();
@@ -42,7 +41,6 @@ public class ReportingTestRunner {
             this.reports.put(opplTestCase, reports);
         }
 
-        /** @see org.coode.parsers.oppl.testcase.TestCaseRunner#success(org.coode.parsers.oppl.testcase.Test) */
         @Override
         protected void success(OPPLTest test) {
             List<Report> previousReports = reports.get(getOPPLTestCase());
@@ -53,7 +51,6 @@ public class ReportingTestRunner {
             previousReports.add(new SuccessfulExecutionReport(getOPPLTestCase(), test));
         }
 
-        /** @see org.coode.parsers.oppl.testcase.TestCaseRunner#fail(org.coode.parsers.oppl.testcase.Test) */
         @Override
         protected void fail(OPPLTest test) {
             List<Report> previousReports = reports.get(getOPPLTestCase());
@@ -65,7 +62,6 @@ public class ReportingTestRunner {
                     test));
         }
 
-        /** @see org.coode.parsers.oppl.testcase.TestCaseRunner#fail(java.lang.Throwable) */
         @Override
         protected void fail(Throwable e) {
             List<Report> previousReports = reports.get(getOPPLTestCase());

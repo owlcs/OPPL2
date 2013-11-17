@@ -102,9 +102,6 @@ public class OPPLLintParser implements AbstractOPPLLintParser {
 		this.symbolTableFactory = symbolTableFactory;
 	}
 
-	/**
-	 * @see org.coode.oppl.lint.AbstractOPPLLintParser#parse(java.lang.String)
-	 */
 	public OPPLLintScript parse(String input, RuntimeExceptionHandler handler) {
 		if (input == null) {
 			throw new NullPointerException("The input string cannot be null");
@@ -169,9 +166,6 @@ public class OPPLLintParser implements AbstractOPPLLintParser {
 		}
 	}
 
-	/**
-	 * @see org.coode.oppl.lint.AbstractOPPLLintParser#parse(java.lang.String)
-	 */
 	public String parseDescription(String input, OPPLSymbolTable symtab,
 			RuntimeExceptionHandler handler) {
 		symtab.setErrorListener(this.getListener());

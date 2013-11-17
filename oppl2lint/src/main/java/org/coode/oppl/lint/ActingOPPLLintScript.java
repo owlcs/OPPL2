@@ -59,9 +59,6 @@ public class ActingOPPLLintScript extends OPPLLintScript implements ActingLint<O
 		return buffer.toString();
 	}
 
-	/**
-	 * @see org.semanticweb.owlapi.lint.ActingLint#executeActions(org.semanticweb.owlapi.lint.LintReport)
-	 */
 	public void executeActions(Collection<? extends OWLOntology> ontologies)
 			throws LintActionException {
 		List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();

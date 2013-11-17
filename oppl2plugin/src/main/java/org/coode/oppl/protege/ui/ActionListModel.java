@@ -30,37 +30,32 @@ import javax.swing.DefaultListModel;
 
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class ActionListModel extends DefaultListModel {
-	public ActionListModel(boolean canAdd) {
-		if (canAdd) {
-			this.addElement(new ActionListSectionHeader());
-		}
-	}
+    public ActionListModel(boolean canAdd) {
+        if (canAdd) {
+            addElement(new ActionListSectionHeader());
+        }
+    }
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -5708452398843328281L;
+    private static final long serialVersionUID = -5708452398843328281L;
 
-	public void addAction(OWLAxiomChange axiomChange, boolean isEditable,
-			boolean isDeleteable) {
-		this.addElement(new ActionListItem(axiomChange, isEditable,
-				isDeleteable));
-	}
+    public void addAction(OWLAxiomChange axiomChange, boolean isEditable,
+            boolean isDeleteable) {
+        addElement(new ActionListItem(axiomChange, isEditable, isDeleteable));
+    }
 
-	public List<OWLAxiomChange> getOWLAxiomChanges() {
-		List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
-		Enumeration<? extends Object> elements = this.elements();
-		while (elements.hasMoreElements()) {
-			ActionListItem actionListItem = (ActionListItem) elements
-					.nextElement();
-			OWLAxiomChange axiomChange = actionListItem.getAxiomChange();
-			toReturn.add(axiomChange);
-		}
-		return toReturn;
-	}
+    public List<OWLAxiomChange> getOWLAxiomChanges() {
+        List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
+        Enumeration<? extends Object> elements = elements();
+        while (elements.hasMoreElements()) {
+            ActionListItem actionListItem = (ActionListItem) elements.nextElement();
+            OWLAxiomChange axiomChange = actionListItem.getAxiomChange();
+            toReturn.add(axiomChange);
+        }
+        return toReturn;
+    }
 }

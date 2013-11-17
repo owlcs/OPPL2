@@ -45,108 +45,97 @@ import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class AxiomEditor extends JPanel implements VerifiedInputEditor {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 6596764398797669959L;
-	private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
-	private final ExpressionEditor<OWLAxiom> editor;
-	private final OWLEditorKit owlEditorKit;
-	private final ConstraintSystem constraintSystem;
-	private OWLAxiom axiom = null;
-	private final ExpressionChecker<OWLAxiom> expressionChecker;;
+    private static final long serialVersionUID = 6596764398797669959L;
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final ExpressionEditor<OWLAxiom> editor;
+    private final OWLEditorKit owlEditorKit;
+    private final ConstraintSystem constraintSystem;
+    private OWLAxiom axiom = null;
+    private final ExpressionChecker<OWLAxiom> expressionChecker;
 
-	protected AxiomEditor(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
-		this.owlEditorKit = owlEditorKit;
-		this.constraintSystem = constraintSystem;
-		this.expressionChecker = new OPPLExpressionChecker<OWLAxiom>(this.owlEditorKit) {
-			/**
-			 * @see org.coode.oppl.protege.ui.OPPLExpressionChecker#parse(java.lang.String
-			 *      )
-			 */
-			@Override
-			protected OWLAxiom parse(String text) {
-				AbstractParserFactory factory = ProtegeParserFactory.getInstance(this.getOWLEditorKit());
-				OPPLParser parser = factory.build(this.getListener());
-				OPPLSymbolTable symbolTable = parser.getSymbolTableFactory().createSymbolTable();
-				symbolTable.importConstraintSystem(AxiomEditor.this.getConstraintSystem());
-				OWLAxiom toReturn = parser.parseAxiom(
-						text,
-						symbolTable,
-						AxiomEditor.this.getConstraintSystem());
-				return toReturn;
-			}
-		};
-		this.setLayout(new BorderLayout());
-		this.editor = new ExpressionEditor<OWLAxiom>(
-				this.owlEditorKit.getOWLModelManager().getOWLOntologyManager(),
-				this.expressionChecker);
-		// Deactivating auto completions
-		for (KeyListener l : this.editor.getKeyListeners()) {
-			this.editor.removeKeyListener(l);
-		}
-		this.editor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
-			public void verifiedStatusChanged(boolean newState) {
-				AxiomEditor.this.check();
-				AxiomEditor.this.notifyListeners(newState);
-			}
-		});
-		JPanel editorPanel = new JPanel(new BorderLayout());
-		editorPanel.setBorder(ComponentFactory.createTitledBorder("Axiom body:"));
-		this.editor.setPreferredSize(new Dimension(50, 100));
-		editorPanel.add(ComponentFactory.createScrollPane(this.editor));
-		this.add(editorPanel, BorderLayout.CENTER);
-	}
+    protected AxiomEditor(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
+        this.owlEditorKit = owlEditorKit;
+        this.constraintSystem = constraintSystem;
+        expressionChecker = new OPPLExpressionChecker<OWLAxiom>(this.owlEditorKit) {
+            @Override
+            protected OWLAxiom parse(String text) {
+                AbstractParserFactory factory = ProtegeParserFactory
+                        .getInstance(getOWLEditorKit());
+                OPPLParser parser = factory.build(getListener());
+                OPPLSymbolTable symbolTable = parser.getSymbolTableFactory()
+                        .createSymbolTable();
+                symbolTable
+                        .importConstraintSystem(AxiomEditor.this.getConstraintSystem());
+                OWLAxiom toReturn = parser.parseAxiom(text, symbolTable,
+                        AxiomEditor.this.getConstraintSystem());
+                return toReturn;
+            }
+        };
+        setLayout(new BorderLayout());
+        editor = new ExpressionEditor<OWLAxiom>(this.owlEditorKit.getOWLModelManager()
+                .getOWLOntologyManager(), expressionChecker);
+        // Deactivating auto completions
+        for (KeyListener l : editor.getKeyListeners()) {
+            editor.removeKeyListener(l);
+        }
+        editor.addStatusChangedListener(new InputVerificationStatusChangedListener() {
+            @Override
+            public void verifiedStatusChanged(boolean newState) {
+                AxiomEditor.this.check();
+                AxiomEditor.this.notifyListeners(newState);
+            }
+        });
+        JPanel editorPanel = new JPanel(new BorderLayout());
+        editorPanel.setBorder(ComponentFactory.createTitledBorder("Axiom body:"));
+        editor.setPreferredSize(new Dimension(50, 100));
+        editorPanel.add(ComponentFactory.createScrollPane(editor));
+        this.add(editorPanel, BorderLayout.CENTER);
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.util.VerifiedInputEditor#addStatusChangedListener(org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
-	 */
-	public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
-		listener.verifiedStatusChanged(this.check());
-		this.listeners.add(listener);
-	}
+    @Override
+    public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
+        listener.verifiedStatusChanged(check());
+        listeners.add(listener);
+    }
 
-	protected boolean check() {
-		this.axiom = this.editor.createObject();
-		return this.axiom != null;
-	}
+    protected boolean check() {
+        axiom = editor.createObject();
+        return axiom != null;
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.util.VerifiedInputEditor#removeStatusChangedListener(org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
-	 */
-	public void removeStatusChangedListener(InputVerificationStatusChangedListener listener) {
-		this.listeners.remove(listener);
-	}
+    @Override
+    public void removeStatusChangedListener(
+            InputVerificationStatusChangedListener listener) {
+        listeners.remove(listener);
+    }
 
-	protected void notifyListeners(boolean newStatus) {
-		for (InputVerificationStatusChangedListener listener : this.listeners) {
-			listener.verifiedStatusChanged(newStatus);
-		}
-	}
+    protected void notifyListeners(boolean newStatus) {
+        for (InputVerificationStatusChangedListener listener : listeners) {
+            listener.verifiedStatusChanged(newStatus);
+        }
+    }
 
-	public OWLAxiom getAxiom() {
-		return this.axiom;
-	}
+    public OWLAxiom getAxiom() {
+        return axiom;
+    }
 
-	protected void clear() {
-		this.editor.setText("");
-	}
+    protected void clear() {
+        editor.setText("");
+    }
 
-	public void setOWLAxiom(OWLAxiom anOWLAxiom) {
-		VariableOWLCellRenderer renderer = new VariableOWLCellRenderer(this.owlEditorKit,
-				this.constraintSystem, new OWLCellRenderer(this.owlEditorKit));
-		this.editor.setText(renderer.getRendering(anOWLAxiom));
-	}
+    public void setOWLAxiom(OWLAxiom anOWLAxiom) {
+        VariableOWLCellRenderer renderer = new VariableOWLCellRenderer(owlEditorKit,
+                constraintSystem, new OWLCellRenderer(owlEditorKit));
+        editor.setText(renderer.getRendering(anOWLAxiom));
+    }
 
-	/**
-	 * @return the constraintSystem
-	 */
-	public ConstraintSystem getConstraintSystem() {
-		return this.constraintSystem;
-	}
+    /** @return the constraintSystem */
+    public ConstraintSystem getConstraintSystem() {
+        return constraintSystem;
+    }
 }

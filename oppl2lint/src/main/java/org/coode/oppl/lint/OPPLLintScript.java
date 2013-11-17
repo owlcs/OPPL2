@@ -269,9 +269,6 @@ public class OPPLLintScript implements Lint<OWLObject> {
 		return toReturn;
 	}
 
-	/**
-	 * @see org.semanticweb.owlapi.lint.Lint#detected(java.util.Set)
-	 */
 	public LintReport<OWLObject> detected(Collection<? extends OWLOntology> targets)
 			throws LintException {
 		LintReport<OWLObject> toReturn = new SimpleMatchBasedLintReport<OWLObject>(this);

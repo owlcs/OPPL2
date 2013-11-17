@@ -11,32 +11,22 @@ import java.awt.event.ActionListener;
 
 import org.protege.editor.core.ui.list.MListButton;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class RunOPPLTestCaseMListButton extends MListButton {
-	/**
-	 * @param name
-	 * @param rollOverColor
-	 * @param actionListener
-	 */
-	public RunOPPLTestCaseMListButton(ActionListener actionListener) {
-		super("Run OPPL TestCase ", Color.GREEN, actionListener);
-	}
+    /** @param actionListener */
+    public RunOPPLTestCaseMListButton(ActionListener actionListener) {
+        super("Run OPPL TestCase ", Color.GREEN, actionListener);
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.list.MListButton#paintButtonContent(java.awt.Graphics2D)
-	 */
-	@Override
-	public void paintButtonContent(Graphics2D g) {
-		int inset = 5;
-		Rectangle bounds = this.getBounds();
-		Polygon triangle = new Polygon(new int[] { (int) bounds.getMinX() + inset,
-				(int) bounds.getMinX() + inset, (int) bounds.getMaxX() - inset }, new int[] {
-				(int) bounds.getMinY() + inset, (int) bounds.getMaxY() - inset,
-				(int) bounds.getCenterY() }, 3);
-		g.draw(triangle);
-		g.fill(triangle);
-	}
+    @Override
+    public void paintButtonContent(Graphics2D g) {
+        int inset = 5;
+        Rectangle bounds = getBounds();
+        Polygon triangle = new Polygon(new int[] { (int) bounds.getMinX() + inset,
+                (int) bounds.getMinX() + inset, (int) bounds.getMaxX() - inset },
+                new int[] { (int) bounds.getMinY() + inset,
+                        (int) bounds.getMaxY() - inset, (int) bounds.getCenterY() }, 3);
+        g.draw(triangle);
+        g.fill(triangle);
+    }
 }

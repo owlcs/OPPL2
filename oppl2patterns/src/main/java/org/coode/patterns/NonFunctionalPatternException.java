@@ -22,19 +22,15 @@
  */
 package org.coode.patterns;
 
-/**
- * @author Luigi Iannone
- * 
- *         Sep 17, 2008
- */
+/** @author Luigi Iannone Sep 17, 2008 */
 public class NonFunctionalPatternException extends PatternException {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 3681297703428444607L;
+    private static final long serialVersionUID = 3681297703428444607L;
 
-	public NonFunctionalPatternException(String patternName) {
-		super("Non functional pattern: " + patternName
-				+ " invoke in a functional context");
-	}
+    public NonFunctionalPatternException(String patternName) {
+        super("Non functional pattern: " + patternName
+                + " invoke in a functional context");
+    }
 }

@@ -85,7 +85,6 @@ public abstract class AbstractOPPLAxiomSearchTree extends
     @Override
     protected abstract boolean goalReached(OPPLOWLAxiomSearchNode start);
 
-    /** @see org.coode.oppl.search.SearchTree#getChildren(java.lang.Object) */
     @Override
     protected List<OPPLOWLAxiomSearchNode> getChildren(OPPLOWLAxiomSearchNode node) {
         List<OPPLOWLAxiomSearchNode> toReturn = new ArrayList<OPPLOWLAxiomSearchNode>();
@@ -360,8 +359,6 @@ public abstract class AbstractOPPLAxiomSearchTree extends
         return toReturn;
     }
 
-    /** @see org.coode.oppl.search.SearchTree#exhaustiveSearchTree(java.lang.Object,
-     *      java.util.List) */
     @Override
     public boolean exhaustiveSearchTree(OPPLOWLAxiomSearchNode start,
             List<List<OPPLOWLAxiomSearchNode>> solutions) {

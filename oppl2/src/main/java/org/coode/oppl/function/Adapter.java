@@ -343,7 +343,7 @@ public class Adapter {
         return builder.toString();
     }
 
-    private static <I> String renderAggregandum(Aggregandum<I> aggregandum,
+    protected static <I> String renderAggregandum(Aggregandum<I> aggregandum,
             ShortFormProvider shortFormProvider) {
         StringBuilder builder = new StringBuilder();
         Iterator<OPPLFunction<I>> iterator = aggregandum.getOPPLFunctions().iterator();

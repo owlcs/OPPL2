@@ -30,7 +30,6 @@ public final class OPPLLintFilter implements Filter<OWLObject> {
 	/**
 	 * @param owlObject
 	 * @return
-	 * @see org.coode.oppl.lint.filtering.Filter#accept(org.semanticweb.owl.model.OWLObject)
 	 */
 	public boolean accept(OWLObject owlObject,
 			OWLOntologyManager ontologyManager, OWLReasoner reasoner,

@@ -45,117 +45,64 @@ import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jun 16, 2008
- */
+/** @author Luigi Iannone Jun 16, 2008 */
 public class ProtegePatternModelFactory implements AbstractPatternModelFactory {
-	private final AbstractPatternModelFactory delegate;
+    private final AbstractPatternModelFactory delegate;
 
-	/**
-	 * @param modelManager
-	 */
-	public ProtegePatternModelFactory(OWLModelManager modelManager) {
-		if (modelManager == null) {
-			throw new NullPointerException("The model manager cannot be null");
-		}
-		this.delegate = new PatternModelFactory(modelManager.getActiveOntology(),
-				modelManager.getOWLOntologyManager(), modelManager.getReasoner());
-	}
+    /** @param modelManager */
+    public ProtegePatternModelFactory(OWLModelManager modelManager) {
+        if (modelManager == null) {
+            throw new NullPointerException("The model manager cannot be null");
+        }
+        delegate = new PatternModelFactory(modelManager.getActiveOntology(),
+                modelManager.getOWLOntologyManager(), modelManager.getReasoner());
+    }
 
-	/**
-	 * @param name
-	 * @param variables
-	 * @param actions
-	 * @param returnClause
-	 * @param rendering
-	 * @param constraintSystem
-	 * @return
-	 * @throws EmptyVariableListException
-	 * @throws EmptyActionListException
-	 * @throws UnsuitableOPPLScriptException
-	 * @see org.coode.patterns.AbstractPatternModelFactory#createPatternModel(java.lang.String,
-	 *      java.util.List, java.util.List, org.coode.oppl.Variable,
-	 *      java.lang.String, org.coode.oppl.ConstraintSystem)
-	 */
-	public PatternModel createPatternModel(String name, List<Variable<?>> variables,
-			List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
-			ConstraintSystem constraintSystem) throws EmptyVariableListException,
-			EmptyActionListException, UnsuitableOPPLScriptException {
-		return this.delegate.createPatternModel(
-				name,
-				variables,
-				actions,
-				returnClause,
-				rendering,
-				constraintSystem);
-	}
+    @Override
+    public PatternModel createPatternModel(String name, List<Variable<?>> variables,
+            List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
+            ConstraintSystem constraintSystem) throws EmptyVariableListException,
+            EmptyActionListException, UnsuitableOPPLScriptException {
+        return delegate.createPatternModel(name, variables, actions, returnClause,
+                rendering, constraintSystem);
+    }
 
-	/**
-	 * @param opplScript
-	 * @return
-	 * @throws UnsuitableOPPLScriptException
-	 * @see org.coode.patterns.AbstractPatternModelFactory#createPatternModel(org.coode.oppl.OPPLScript)
-	 */
-	public PatternModel createPatternModel(OPPLScript opplScript)
-			throws UnsuitableOPPLScriptException {
-		return this.delegate.createPatternModel(opplScript);
-	}
+    @Override
+    public PatternModel createPatternModel(OPPLScript opplScript)
+            throws UnsuitableOPPLScriptException {
+        return delegate.createPatternModel(opplScript);
+    }
 
-	/**
-	 * @param patternModel
-	 * @return
-	 * @see org.coode.patterns.AbstractPatternModelFactory#createInstantiatedPatternModel(org.coode.patterns.PatternModel)
-	 */
-	public InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel,
-			RuntimeExceptionHandler handler) {
-		return this.delegate.createInstantiatedPatternModel(patternModel, handler);
-	}
+    @Override
+    public InstantiatedPatternModel createInstantiatedPatternModel(
+            PatternModel patternModel, RuntimeExceptionHandler handler) {
+        return delegate.createInstantiatedPatternModel(patternModel, handler);
+    }
 
-	/**
-	 * @param errorListener
-	 * @return
-	 * @see org.coode.patterns.AbstractPatternModelFactory#getPatternExtractor(org.coode.parsers.ErrorListener)
-	 */
-	public PatternExtractor getPatternExtractor(ErrorListener errorListener) {
-		return this.delegate.getPatternExtractor(errorListener);
-	}
+    @Override
+    public PatternExtractor getPatternExtractor(ErrorListener errorListener) {
+        return delegate.getPatternExtractor(errorListener);
+    }
 
-	/**
-	 * @param visitedAnnotations
-	 * @param errorListener
-	 * @return
-	 * @see org.coode.patterns.AbstractPatternModelFactory#getPatternExtractor(java.util.Set,
-	 *      org.coode.parsers.ErrorListener)
-	 */
-	public PatternExtractor getPatternExtractor(Set<OWLAnnotation> visitedAnnotations,
-			ErrorListener errorListener) {
-		return this.delegate.getPatternExtractor(visitedAnnotations, errorListener);
-	}
+    @Override
+    public PatternExtractor getPatternExtractor(Set<OWLAnnotation> visitedAnnotations,
+            ErrorListener errorListener) {
+        return delegate.getPatternExtractor(visitedAnnotations, errorListener);
+    }
 
-	/**
-	 * @return
-	 * @see org.coode.patterns.AbstractPatternModelFactory#createConstraintSystem()
-	 */
-	public PatternConstraintSystem createConstraintSystem() {
-		return this.delegate.createConstraintSystem();
-	}
+    @Override
+    public PatternConstraintSystem createConstraintSystem() {
+        return delegate.createConstraintSystem();
+    }
 
-	/**
-	 * @param patternConstraintSystem
-	 * @return
-	 * @see org.coode.patterns.AbstractPatternModelFactory#getRenderer(org.coode.patterns.PatternConstraintSystem)
-	 */
-	public ManchesterSyntaxRenderer getRenderer(PatternConstraintSystem patternConstraintSystem) {
-		return this.delegate.getRenderer(patternConstraintSystem);
-	}
+    @Override
+    public ManchesterSyntaxRenderer getRenderer(
+            PatternConstraintSystem patternConstraintSystem) {
+        return delegate.getRenderer(patternConstraintSystem);
+    }
 
-	/**
-	 * @return
-	 * @see org.coode.patterns.AbstractPatternModelFactory#getOPPLFactory()
-	 */
-	public OPPLAbstractFactory getOPPLFactory() {
-		return this.delegate.getOPPLFactory();
-	}
+    @Override
+    public OPPLAbstractFactory getOPPLFactory() {
+        return delegate.getOPPLFactory();
+    }
 }

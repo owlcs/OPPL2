@@ -12,6 +12,7 @@ import org.antlr.runtime.NoViableAltException;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 
+@SuppressWarnings("javadoc")
 public class MOWLLexer extends Lexer {
     public static final int COMMA = 37;
     public static final int GREATER_THAN = 485;
@@ -3576,9 +3577,10 @@ public class MOWLLexer extends Lexer {
         }
 
         @Override
-        public int specialStateTransition(int s, IntStream _input)
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
             IntStream input = _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:

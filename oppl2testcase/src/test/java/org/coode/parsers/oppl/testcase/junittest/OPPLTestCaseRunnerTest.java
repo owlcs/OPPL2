@@ -26,6 +26,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
+@SuppressWarnings("javadoc")
 public class OPPLTestCaseRunnerTest {
     private final class JunitConfigShouldFailTestCaseRunner extends TestCaseRunner {
         /** @param opplTestCase */
@@ -33,7 +34,6 @@ public class OPPLTestCaseRunnerTest {
             super(opplTestCase);
         }
 
-        /** @see org.coode.parsers.oppl.testcase.TestCaseRunner#fail(org.coode.parsers.oppl.testcase.OPPLTest) */
         @Override
         protected void fail(OPPLTest test) {
             TestCase.fail("The configuration should fail and the tests should not be carried out, but they have been instead ");
@@ -42,14 +42,12 @@ public class OPPLTestCaseRunnerTest {
         @Override
         protected void configurationFailed(String message) {}
 
-        /** @see org.coode.parsers.oppl.testcase.TestCaseRunner#fail(java.lang.Throwable) */
         @Override
         protected void fail(Throwable e) {
             TestCase.fail("The configuration should fail and the query  should not be carried out, but it has and an exception was raised in the process "
                     + e.getMessage());
         }
 
-        /** @see org.coode.parsers.oppl.testcase.TestCaseRunner#success(org.coode.parsers.oppl.testcase.OPPLTest) */
         @Override
         protected void success(OPPLTest test) {
             TestCase.fail("The configuration should fail and the tests should not be carried out, but they have been instead ");
@@ -62,7 +60,6 @@ public class OPPLTestCaseRunnerTest {
             super(opplTestCase);
         }
 
-        /** @see org.coode.parsers.oppl.testcase.TestCaseRunner#fail(org.coode.parsers.oppl.testcase.OPPLTest) */
         @Override
         protected void fail(OPPLTest test) {}
 
@@ -72,11 +69,9 @@ public class OPPLTestCaseRunnerTest {
                     + message);
         }
 
-        /** @see org.coode.parsers.oppl.testcase.TestCaseRunner#fail(java.lang.Throwable) */
         @Override
         protected void fail(Throwable e) {}
 
-        /** @see org.coode.parsers.oppl.testcase.TestCaseRunner#success(org.coode.parsers.oppl.testcase.OPPLTest) */
         @Override
         protected void success(OPPLTest test) {
             TestCase.fail("Test " + test + " sould fail; it succeded instead");
@@ -126,14 +121,17 @@ public class OPPLTestCaseRunnerTest {
         }
     };
     private static final RuntimeExceptionHandler HANDLER = new RuntimeExceptionHandler() {
+        @Override
         public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
             ERROR_LISTENER.reportThrowable(e, 0, 0, 0);
         }
 
+        @Override
         public void handleOWLRuntimeException(OWLRuntimeException e) {
             ERROR_LISTENER.reportThrowable(e, 0, 0, 0);
         }
 
+        @Override
         public void handleException(RuntimeException e) {
             ERROR_LISTENER.reportThrowable(e, 0, 0, 0);
         }

@@ -110,8 +110,6 @@ public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> im
         return opplTestCase != null;
     }
 
-    /** @see org.protege.editor.core.ui.util.VerifiedInputEditor#addStatusChangedListener
-     *      (org.protege.editor.core.ui.util.InputVerificationStatusChangedListener) */
     @Override
     public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
         if (listener != null) {
@@ -120,9 +118,6 @@ public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> im
         }
     }
 
-    /** @see org.protege.editor.core.ui.util.VerifiedInputEditor#
-     *      removeStatusChangedListener
-     *      (org.protege.editor.core.ui.util.InputVerificationStatusChangedListener) */
     @Override
     public void removeStatusChangedListener(
             InputVerificationStatusChangedListener listener) {
@@ -134,33 +129,26 @@ public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> im
         return owlEditorKit;
     }
 
-    /** @see org.protege.editor.owl.ui.editor.OWLObjectEditor#getEditorTypeName() */
     @Override
     public String getEditorTypeName() {
         return "OPPL Test Case";
     }
 
-    /** @see org.protege.editor.owl.ui.editor.OWLObjectEditor#canEdit(java.lang.Object
-     *      ) */
     @Override
     public boolean canEdit(Object object) {
         return true;
     }
 
-    /** @see org.protege.editor.owl.ui.editor.OWLObjectEditor#getEditorComponent() */
     @Override
     public JComponent getEditorComponent() {
         return mainPanel;
     }
 
-    /** @see org.protege.editor.owl.ui.editor.OWLObjectEditor#getEditedObject() */
     @Override
     public OPPLTestCase getEditedObject() {
         return opplTestCase;
     }
 
-    /** @see org.protege.editor.owl.ui.editor.OWLObjectEditor#setEditedObject(java
-     *      .lang.Object) */
     @Override
     public boolean setEditedObject(OPPLTestCase editedObject) {
         // This needs to be reset as the parser checks for duplicates test case
@@ -178,7 +166,6 @@ public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> im
         return true;
     }
 
-    /** @see org.protege.editor.owl.ui.editor.OWLObjectEditor#dispose() */
     @Override
     public void dispose() {
         autoCompletionMatcher.dispose();

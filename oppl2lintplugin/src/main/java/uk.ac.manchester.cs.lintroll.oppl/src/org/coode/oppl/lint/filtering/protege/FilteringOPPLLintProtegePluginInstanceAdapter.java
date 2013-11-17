@@ -37,10 +37,6 @@ public final class FilteringOPPLLintProtegePluginInstanceAdapter extends Filteri
 		this.lintConfiguration = filter.getInitialLintConfiguration();
 	}
 
-	/**
-	 * @return
-	 * @see org.semanticweb.owlapi.lint.Lint#getName()
-	 */
 	@Override
 	public String getName() {
 		return PluginProperties.getParameterValue(

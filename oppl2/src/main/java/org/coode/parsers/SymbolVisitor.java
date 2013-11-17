@@ -3,16 +3,13 @@
  */
 package org.coode.parsers;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public interface SymbolVisitor {
-	void visitSymbol(Symbol symbol);
+    void visitSymbol(Symbol symbol);
 
-	void visitOWLEntity(OWLEntitySymbol owlEntitySymbol);
+    void visitOWLEntity(OWLEntitySymbol owlEntitySymbol);
 
-	void visitOWLLiteral(OWLLiteralSymbol owlConstantSymbol);
+    void visitOWLLiteral(OWLLiteralSymbol owlConstantSymbol);
 
-	void visitIRI(IRISymbol iriSymbol);
+    void visitIRI(IRISymbol iriSymbol);
 }

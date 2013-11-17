@@ -12,31 +12,28 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/**
- * Builds a parser that recognises named entities based on the value for the
+/** Builds a parser that recognises named entities based on the value for the
  * annotation whose annotation properties are listed in a List provided to the
  * constructor for this class.
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public class AnnotationBasedSimpleOPPLParserCreationStrategy extends
-		SimpleOPPLParserCreationStrategy {
-	private final SymbolTableFactory<OPPLSymbolTable> symbolTableFactory;
+        SimpleOPPLParserCreationStrategy {
+    private final SymbolTableFactory<OPPLSymbolTable> symbolTableFactory;
 
-	public AnnotationBasedSimpleOPPLParserCreationStrategy(List<IRI> iris,
-			OWLOntologyManager ontologyManager, OWLOntology ontology, OWLReasoner reasoner,
-			ErrorListener errorListener) {
-		super(ontologyManager, ontology, reasoner, errorListener);
-		if (iris == null) {
-			throw new NullPointerException(
-					"The collection of annotation property IRIs cannot be null");
-		}
-		this.symbolTableFactory = new AnnotationBasedSymbolTableFactory(ontologyManager, iris);
-	}
+    public AnnotationBasedSimpleOPPLParserCreationStrategy(List<IRI> iris,
+            OWLOntologyManager ontologyManager, OWLOntology ontology,
+            OWLReasoner reasoner, ErrorListener errorListener) {
+        super(ontologyManager, ontology, reasoner, errorListener);
+        if (iris == null) {
+            throw new NullPointerException(
+                    "The collection of annotation property IRIs cannot be null");
+        }
+        symbolTableFactory = new AnnotationBasedSymbolTableFactory(ontologyManager, iris);
+    }
 
-	@Override
-	public OPPLParser build() {
-		return this.getParserFactory().build(this.getErrorListener(), this.symbolTableFactory);
-	}
+    @Override
+    public OPPLParser build() {
+        return getParserFactory().build(getErrorListener(), symbolTableFactory);
+    }
 }

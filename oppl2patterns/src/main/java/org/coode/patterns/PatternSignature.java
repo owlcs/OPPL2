@@ -29,53 +29,45 @@ import org.coode.oppl.variabletypes.VariableType;
 import org.coode.patterns.utils.Utils;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/**
- * @author Luigi Iannone
- * 
- *         Jul 15, 2008
- */
+/** @author Luigi Iannone Jul 15, 2008 */
 public class PatternSignature {
     private final String name;
-	private final PatternModel pattern;
+    private final PatternModel pattern;
 
-	/**
-	 * @param name
-	 */
-	public PatternSignature(String name, OWLOntologyManager ontologyManger,
-			AbstractPatternModelFactory factory) throws PatternException {
-		this.name = name;
-		Set<String> existingPatternNames = Utils.getExistingPatternNames(ontologyManger);
-		if (existingPatternNames.contains(name)) {
+    /** @param name */
+    public PatternSignature(String name, OWLOntologyManager ontologyManger,
+            AbstractPatternModelFactory factory) throws PatternException {
+        this.name = name;
+        Set<String> existingPatternNames = Utils.getExistingPatternNames(ontologyManger);
+        if (existingPatternNames.contains(name)) {
             pattern = Utils.find(name, ontologyManger, factory);
-		} else {
-			throw new PatternReferenceNotFoundException(name);
-		}
-	}
+        } else {
+            throw new PatternReferenceNotFoundException(name);
+        }
+    }
 
-	public VariableType<?> getIthVariableType(int i) throws PatternException {
-		try {
+    public VariableType<?> getIthVariableType(int i) throws PatternException {
+        try {
             return pattern.getInputVariables().get(i).getType();
-		} catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             throw new ArgumentIndexOutOfBoundsException(name, i);
-		}
-	}
+        }
+    }
 
-	public Variable<?> getIthVariable(int i) throws PatternException {
-		try {
+    public Variable<?> getIthVariable(int i) throws PatternException {
+        try {
             return pattern.getInputVariables().get(i);
-		} catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             throw new ArgumentIndexOutOfBoundsException(name, i);
-		}
-	}
+        }
+    }
 
-	public int size() {
+    public int size() {
         return pattern.getInputVariables().size();
-	}
+    }
 
-	/**
-	 * @return the pattern
-	 */
-	public PatternModel getPattern() {
+    /** @return the pattern */
+    public PatternModel getPattern() {
         return pattern;
-	}
+    }
 }

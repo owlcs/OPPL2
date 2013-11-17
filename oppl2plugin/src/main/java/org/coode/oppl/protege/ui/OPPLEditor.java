@@ -43,159 +43,147 @@ import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 
-/**
- * Tabbed pane containing two editors for OPPL, namely the text based
+/** Tabbed pane containing two editors for OPPL, namely the text based
  * OPPLTextEditor and OPPLBuilder.
  * 
- * @author Luigi Iannone
- * 
- */
-public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor, ChangeListener {
-	private static final long serialVersionUID = 3481576138019196471L;
-	private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
-	private final OWLEditorKit owlEditorKit;
-	protected final OPPLBuilder opplBuilder;
-	protected final OPPLTextEditor opplTextEditor;
-	private OPPLScript opplScript;
-	private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
-		public void handleChange(OWLModelManagerChangeEvent event) {
-			OPPLEditor.this.setSelectedComponent(OPPLEditor.this.opplTextEditor);
-		}
-	};
-	private final OWLOntologyChangeListener ontologyChangeListener = new OWLOntologyChangeListener() {
-		public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
-				throws OWLException {
-			OPPLEditor.this.setSelectedComponent(OPPLEditor.this.opplTextEditor);
-		}
-	};
+ * @author Luigi Iannone */
+public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor,
+        ChangeListener {
+    private static final long serialVersionUID = 3481576138019196471L;
+    private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
+    private final OWLEditorKit owlEditorKit;
+    protected final OPPLBuilder opplBuilder;
+    protected final OPPLTextEditor opplTextEditor;
+    private OPPLScript opplScript;
+    private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
+        @Override
+        public void handleChange(OWLModelManagerChangeEvent event) {
+            OPPLEditor.this.setSelectedComponent(opplTextEditor);
+        }
+    };
+    private final OWLOntologyChangeListener ontologyChangeListener = new OWLOntologyChangeListener() {
+        @Override
+        public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
+                throws OWLException {
+            OPPLEditor.this.setSelectedComponent(opplTextEditor);
+        }
+    };
 
-	/**
-	 * @return the opplScript
-	 */
-	public OPPLScript getOPPLScript() {
-		return this.opplScript;
-	}
+    /** @return the opplScript */
+    public OPPLScript getOPPLScript() {
+        return opplScript;
+    }
 
-	/**
-	 * @param opplScript
-	 *            the opplScript to set
-	 */
-	public void setOPPLScript(OPPLScript opplScript) {
-		this.opplTextEditor.setOPPLScript(opplScript);
-		this.setSelectedComponent(this.opplTextEditor);
-		this.fireStateChanged();
-	}
+    /** @param opplScript
+     *            the opplScript to set */
+    public void setOPPLScript(OPPLScript opplScript) {
+        opplTextEditor.setOPPLScript(opplScript);
+        setSelectedComponent(opplTextEditor);
+        fireStateChanged();
+    }
 
-	/**
-	 * @return the owlEditorKit
-	 */
-	public final OWLEditorKit getOwlEditorKit() {
-		return this.owlEditorKit;
-	}
+    /** @return the owlEditorKit */
+    public final OWLEditorKit getOwlEditorKit() {
+        return owlEditorKit;
+    }
 
-	public OPPLEditor(OWLEditorKit owlEditor, OPPLBuilder builder, OPPLTextEditor textEditor) {
-		this.owlEditorKit = owlEditor;
-		this.opplBuilder = builder;
-		this.opplTextEditor = textEditor;
-		this.opplBuilder.addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
-			public void verifiedStatusChanged(boolean newState) {
-				OPPLEditor.this.opplScript = null;
-				if (newState) {
-					OPPLEditor.this.opplScript = OPPLEditor.this.opplBuilder.getOPPLScript();
-				}
-				OPPLEditor.this.handleChange();
-			}
-		});
-		this.opplTextEditor.addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
-			public void verifiedStatusChanged(boolean newState) {
-				OPPLEditor.this.opplScript = null;
-				if (newState) {
-					OPPLEditor.this.opplScript = OPPLEditor.this.opplTextEditor.getOPPLScript();
-				}
-				OPPLEditor.this.handleChange();
-			}
-		});
-		this.getOwlEditorKit().getOWLModelManager().addListener(this.modelManagerListener);
-		this.getOwlEditorKit().getOWLModelManager().getOWLOntologyManager().addOntologyChangeListener(
-				this.ontologyChangeListener);
-		this.addChangeListener(this);
-		this.initGUI();
-	}
+    public OPPLEditor(OWLEditorKit owlEditor, OPPLBuilder builder,
+            OPPLTextEditor textEditor) {
+        owlEditorKit = owlEditor;
+        opplBuilder = builder;
+        opplTextEditor = textEditor;
+        opplBuilder
+                .addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
+                    @Override
+                    public void verifiedStatusChanged(boolean newState) {
+                        opplScript = null;
+                        if (newState) {
+                            opplScript = opplBuilder.getOPPLScript();
+                        }
+                        OPPLEditor.this.handleChange();
+                    }
+                });
+        opplTextEditor
+                .addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
+                    @Override
+                    public void verifiedStatusChanged(boolean newState) {
+                        opplScript = null;
+                        if (newState) {
+                            opplScript = opplTextEditor.getOPPLScript();
+                        }
+                        OPPLEditor.this.handleChange();
+                    }
+                });
+        getOwlEditorKit().getOWLModelManager().addListener(modelManagerListener);
+        getOwlEditorKit().getOWLModelManager().getOWLOntologyManager()
+                .addOntologyChangeListener(ontologyChangeListener);
+        addChangeListener(this);
+        initGUI();
+    }
 
-	public OPPLEditor(OWLEditorKit owlEditor) {
-		this(owlEditor, new OPPLBuilder(owlEditor), new OPPLTextEditor(owlEditor));
-	}
+    public OPPLEditor(OWLEditorKit owlEditor) {
+        this(owlEditor, new OPPLBuilder(owlEditor), new OPPLTextEditor(owlEditor));
+    }
 
-	public OPPLEditor(OWLEditorKit owlEditor, OPPLScriptValidator validator) {
-		this(owlEditor, new OPPLBuilder(owlEditor, validator), new OPPLTextEditor(owlEditor,
-				validator));
-	}
+    public OPPLEditor(OWLEditorKit owlEditor, OPPLScriptValidator validator) {
+        this(owlEditor, new OPPLBuilder(owlEditor, validator), new OPPLTextEditor(
+                owlEditor, validator));
+    }
 
-	private void initGUI() {
-		this.add(this.opplBuilder);
-		this.add(this.opplTextEditor);
-	}
+    private void initGUI() {
+        this.add(opplBuilder);
+        this.add(opplTextEditor);
+    }
 
-	protected void handleChange() {
-		boolean newStatus = this.check();
-		this.notifyListeners(newStatus);
-	}
+    protected void handleChange() {
+        boolean newStatus = check();
+        notifyListeners(newStatus);
+    }
 
-	/**
-	 * @return
-	 */
-	private boolean check() {
-		return this.getOPPLScript() != null;
-	}
+    /** @return */
+    private boolean check() {
+        return getOPPLScript() != null;
+    }
 
-	/**
-	 * @throws NullPointerException
-	 *             if the input is {@code null}.
-	 * @see org.protege.editor.core.ui.util.VerifiedInputEditor#addStatusChangedListener
-	 *      (org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
-	 */
-	public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
-		ArgCheck.checkNullArgument("The listener", listener);
-		this.listeners.add(listener);
-	}
+    @Override
+    public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
+        ArgCheck.checkNullArgument("The listener", listener);
+        listeners.add(listener);
+    }
 
-	/**
-	 * @see org.protege.editor.core.ui.util.VerifiedInputEditor#
-	 *      removeStatusChangedListener
-	 *      (org.protege.editor.core.ui.util.InputVerificationStatusChangedListener)
-	 */
-	public void removeStatusChangedListener(InputVerificationStatusChangedListener listener) {
-		this.listeners.remove(listener);
-	}
+    @Override
+    public void removeStatusChangedListener(
+            InputVerificationStatusChangedListener listener) {
+        listeners.remove(listener);
+    }
 
-	private void notifyListeners(boolean newStatus) {
-		for (InputVerificationStatusChangedListener l : this.listeners) {
-			l.verifiedStatusChanged(newStatus);
-		}
-	}
+    private void notifyListeners(boolean newStatus) {
+        for (InputVerificationStatusChangedListener l : listeners) {
+            l.verifiedStatusChanged(newStatus);
+        }
+    }
 
-	/**
-	 * Clears both internal editors.
-	 */
-	public void clear() {
-		this.opplBuilder.clear();
-		this.opplTextEditor.clear();
-	}
+    /** Clears both internal editors. */
+    public void clear() {
+        opplBuilder.clear();
+        opplTextEditor.clear();
+    }
 
-	public void stateChanged(ChangeEvent changeEvent1) {
-		Component selectedComponent = this.getSelectedComponent();
-		if (selectedComponent.equals(this.opplBuilder) && this.opplScript != null) {
-			this.opplBuilder.setOPPLScript(this.opplScript);
-		} else if (selectedComponent.equals(this.opplTextEditor) && this.opplScript != null) {
-			this.opplTextEditor.setOPPLScript(this.opplScript);
-		}
-	}
+    @Override
+    public void stateChanged(ChangeEvent changeEvent1) {
+        Component selectedComponent = getSelectedComponent();
+        if (selectedComponent.equals(opplBuilder) && opplScript != null) {
+            opplBuilder.setOPPLScript(opplScript);
+        } else if (selectedComponent.equals(opplTextEditor) && opplScript != null) {
+            opplTextEditor.setOPPLScript(opplScript);
+        }
+    }
 
-	public void dispose() {
-		this.opplBuilder.dispose();
-		this.opplTextEditor.dispose();
-		this.getOwlEditorKit().getOWLModelManager().removeListener(this.modelManagerListener);
-		this.getOwlEditorKit().getOWLModelManager().getOWLOntologyManager().removeOntologyChangeListener(
-				this.ontologyChangeListener);
-	}
+    public void dispose() {
+        opplBuilder.dispose();
+        opplTextEditor.dispose();
+        getOwlEditorKit().getOWLModelManager().removeListener(modelManagerListener);
+        getOwlEditorKit().getOWLModelManager().getOWLOntologyManager()
+                .removeOntologyChangeListener(ontologyChangeListener);
+    }
 }

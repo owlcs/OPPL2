@@ -32,275 +32,281 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class ProtegeParserFactory implements AbstractParserFactory {
-	private class ProtegeEntityFinder implements EntityFinder {
-		public Set<OWLEntity> getEntities(String match) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getMatchingOWLEntities(
-					match);
-		}
+    private class ProtegeEntityFinder implements EntityFinder {
+        @Override
+        public Set<OWLEntity> getEntities(String match) {
+            return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
+                    .getMatchingOWLEntities(match);
+        }
 
-		public Set<OWLEntity> getEntities(String match, boolean fullRegExp) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getMatchingOWLEntities(
-					match,
-					fullRegExp);
-		}
+        @Override
+        public Set<OWLEntity> getEntities(String match, boolean fullRegExp) {
+            return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
+                    .getMatchingOWLEntities(match, fullRegExp);
+        }
 
-		public Set<OWLClass> getMatchingOWLClasses(String match) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getMatchingOWLClasses(
-					match);
-		}
+        @Override
+        public Set<OWLClass> getMatchingOWLClasses(String match) {
+            return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
+                    .getMatchingOWLClasses(match);
+        }
 
-		public Set<OWLClass> getMatchingOWLClasses(String match, boolean fullRegExp) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getMatchingOWLClasses(
-					match,
-					fullRegExp);
-		}
+        @Override
+        public Set<OWLClass> getMatchingOWLClasses(String match, boolean fullRegExp) {
+            return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
+                    .getMatchingOWLClasses(match, fullRegExp);
+        }
 
-		public Set<OWLObjectProperty> getMatchingOWLObjectProperties(String match) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getMatchingOWLObjectProperties(
-					match);
-		}
+        @Override
+        public Set<OWLObjectProperty> getMatchingOWLObjectProperties(String match) {
+            return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
+                    .getMatchingOWLObjectProperties(match);
+        }
 
-		public Set<OWLObjectProperty> getMatchingOWLObjectProperties(String match,
-				boolean fullRegExp) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getMatchingOWLObjectProperties(
-					match,
-					fullRegExp);
-		}
+        @Override
+        public Set<OWLObjectProperty> getMatchingOWLObjectProperties(String match,
+                boolean fullRegExp) {
+            return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
+                    .getMatchingOWLObjectProperties(match, fullRegExp);
+        }
 
-		public Set<OWLDataProperty> getMatchingOWLDataProperties(String match) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getMatchingOWLDataProperties(
-					match);
-		}
+        @Override
+        public Set<OWLDataProperty> getMatchingOWLDataProperties(String match) {
+            return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
+                    .getMatchingOWLDataProperties(match);
+        }
 
-		public Set<OWLDataProperty> getMatchingOWLDataProperties(String match, boolean fullRegExp) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getMatchingOWLDataProperties(
-					match,
-					fullRegExp);
-		}
+        @Override
+        public Set<OWLDataProperty> getMatchingOWLDataProperties(String match,
+                boolean fullRegExp) {
+            return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
+                    .getMatchingOWLDataProperties(match, fullRegExp);
+        }
 
-		public Set<OWLNamedIndividual> getMatchingOWLIndividuals(String match) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getMatchingOWLIndividuals(
-					match);
-		}
+        @Override
+        public Set<OWLNamedIndividual> getMatchingOWLIndividuals(String match) {
+            return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
+                    .getMatchingOWLIndividuals(match);
+        }
 
-		public Set<OWLNamedIndividual> getMatchingOWLIndividuals(String match, boolean fullRegExp) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getMatchingOWLIndividuals(
-					match,
-					fullRegExp);
-		}
+        @Override
+        public Set<OWLNamedIndividual> getMatchingOWLIndividuals(String match,
+                boolean fullRegExp) {
+            return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
+                    .getMatchingOWLIndividuals(match, fullRegExp);
+        }
 
-		public Set<OWLDatatype> getMatchingOWLDataTypes(String match) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getMatchingOWLDatatypes(
-					match);
-		}
+        @Override
+        public Set<OWLDatatype> getMatchingOWLDataTypes(String match) {
+            return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
+                    .getMatchingOWLDatatypes(match);
+        }
 
-		public Set<OWLDatatype> getMatchingOWLDataTypes(String match, boolean fullRegExp) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getMatchingOWLDatatypes(
-					match,
-					fullRegExp);
-		}
-	}
+        @Override
+        public Set<OWLDatatype> getMatchingOWLDataTypes(String match, boolean fullRegExp) {
+            return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
+                    .getMatchingOWLDatatypes(match, fullRegExp);
+        }
+    }
 
-	private class ProtegeOWLEntityChecker implements OWLEntityChecker {
-		public OWLClass getOWLClass(String name) {
-			OWLClass toReturn = null;
-			OWLEntity owlEntity = ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getOWLEntity(
-					name);
-			if (owlEntity != null) {
-				toReturn = owlEntity.accept(new OWLObjectVisitorExAdapter<OWLClass>() {
-					@Override
-					public OWLClass visit(OWLClass desc) {
-						return desc;
-					}
-				});
-			}
-			return toReturn;
-		}
+    private class ProtegeOWLEntityChecker implements OWLEntityChecker {
+        @Override
+        public OWLClass getOWLClass(String name) {
+            OWLClass toReturn = null;
+            OWLEntity owlEntity = getOWLEditorKit().getOWLModelManager()
+                    .getOWLEntityFinder().getOWLEntity(name);
+            if (owlEntity != null) {
+                toReturn = owlEntity.accept(new OWLObjectVisitorExAdapter<OWLClass>() {
+                    @Override
+                    public OWLClass visit(OWLClass desc) {
+                        return desc;
+                    }
+                });
+            }
+            return toReturn;
+        }
 
-		public OWLAnnotationProperty getOWLAnnotationProperty(String name) {
-			OWLAnnotationProperty toReturn = null;
-			OWLEntity owlEntity = ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getOWLEntity(
-					name);
-			if (owlEntity != null) {
-				toReturn = owlEntity.accept(new OWLObjectVisitorExAdapter<OWLAnnotationProperty>() {
-					@Override
-					public OWLAnnotationProperty visit(OWLAnnotationProperty property) {
-						return property;
-					}
-				});
-			}
-			return toReturn;
-		}
+        @Override
+        public OWLAnnotationProperty getOWLAnnotationProperty(String name) {
+            OWLAnnotationProperty toReturn = null;
+            OWLEntity owlEntity = getOWLEditorKit().getOWLModelManager()
+                    .getOWLEntityFinder().getOWLEntity(name);
+            if (owlEntity != null) {
+                toReturn = owlEntity
+                        .accept(new OWLObjectVisitorExAdapter<OWLAnnotationProperty>() {
+                            @Override
+                            public OWLAnnotationProperty visit(
+                                    OWLAnnotationProperty property) {
+                                return property;
+                            }
+                        });
+            }
+            return toReturn;
+        }
 
-		public OWLDataProperty getOWLDataProperty(String name) {
-			OWLDataProperty toReturn = null;
-			OWLEntity owlEntity = ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getOWLEntity(
-					name);
-			if (owlEntity != null) {
-				toReturn = owlEntity.accept(new OWLObjectVisitorExAdapter<OWLDataProperty>() {
-					@Override
-					public OWLDataProperty visit(OWLDataProperty property) {
-						return property;
-					}
-				});
-			}
-			return toReturn;
-		}
+        @Override
+        public OWLDataProperty getOWLDataProperty(String name) {
+            OWLDataProperty toReturn = null;
+            OWLEntity owlEntity = getOWLEditorKit().getOWLModelManager()
+                    .getOWLEntityFinder().getOWLEntity(name);
+            if (owlEntity != null) {
+                toReturn = owlEntity
+                        .accept(new OWLObjectVisitorExAdapter<OWLDataProperty>() {
+                            @Override
+                            public OWLDataProperty visit(OWLDataProperty property) {
+                                return property;
+                            }
+                        });
+            }
+            return toReturn;
+        }
 
-		public OWLObjectProperty getOWLObjectProperty(String name) {
-			OWLObjectProperty toReturn = null;
-			OWLEntity owlEntity = ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getOWLEntity(
-					name);
-			if (owlEntity != null) {
-				toReturn = owlEntity.accept(new OWLObjectVisitorExAdapter<OWLObjectProperty>() {
-					@Override
-					public OWLObjectProperty visit(OWLObjectProperty property) {
-						return property;
-					}
-				});
-			}
-			return toReturn;
-		}
+        @Override
+        public OWLObjectProperty getOWLObjectProperty(String name) {
+            OWLObjectProperty toReturn = null;
+            OWLEntity owlEntity = getOWLEditorKit().getOWLModelManager()
+                    .getOWLEntityFinder().getOWLEntity(name);
+            if (owlEntity != null) {
+                toReturn = owlEntity
+                        .accept(new OWLObjectVisitorExAdapter<OWLObjectProperty>() {
+                            @Override
+                            public OWLObjectProperty visit(OWLObjectProperty property) {
+                                return property;
+                            }
+                        });
+            }
+            return toReturn;
+        }
 
-		public OWLDatatype getOWLDatatype(String name) {
-			OWLDatatype toReturn = null;
-			OWLEntity owlEntity = ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getOWLEntity(
-					name);
-			if (owlEntity != null) {
-				toReturn = owlEntity.accept(new OWLObjectVisitorExAdapter<OWLDatatype>() {
-					@Override
-					public OWLDatatype visit(OWLDatatype node) {
-						return node;
-					}
-				});
-			}
-			return toReturn;
-		}
+        @Override
+        public OWLDatatype getOWLDatatype(String name) {
+            OWLDatatype toReturn = null;
+            OWLEntity owlEntity = getOWLEditorKit().getOWLModelManager()
+                    .getOWLEntityFinder().getOWLEntity(name);
+            if (owlEntity != null) {
+                toReturn = owlEntity.accept(new OWLObjectVisitorExAdapter<OWLDatatype>() {
+                    @Override
+                    public OWLDatatype visit(OWLDatatype node) {
+                        return node;
+                    }
+                });
+            }
+            return toReturn;
+        }
 
-		public OWLNamedIndividual getOWLIndividual(String name) {
-			OWLNamedIndividual toReturn = null;
-			OWLEntity owlEntity = ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLEntityFinder().getOWLEntity(
-					name);
-			if (owlEntity != null) {
-				toReturn = owlEntity.accept(new OWLObjectVisitorExAdapter<OWLNamedIndividual>() {
-					@Override
-					public OWLNamedIndividual visit(OWLNamedIndividual individual) {
-						return individual;
-					}
-				});
-			}
-			return toReturn;
-		}
-	}
+        @Override
+        public OWLNamedIndividual getOWLIndividual(String name) {
+            OWLNamedIndividual toReturn = null;
+            OWLEntity owlEntity = getOWLEditorKit().getOWLModelManager()
+                    .getOWLEntityFinder().getOWLEntity(name);
+            if (owlEntity != null) {
+                toReturn = owlEntity
+                        .accept(new OWLObjectVisitorExAdapter<OWLNamedIndividual>() {
+                            @Override
+                            public OWLNamedIndividual
+                                    visit(OWLNamedIndividual individual) {
+                                return individual;
+                            }
+                        });
+            }
+            return toReturn;
+        }
+    }
 
-	private class ProtegeOWLEntityRenderer extends ShortFormEntityRenderer {
-		public ProtegeOWLEntityRenderer() {
-			super(new SimpleShortFormProvider());
-		}
+    private class ProtegeOWLEntityRenderer extends ShortFormEntityRenderer {
+        public ProtegeOWLEntityRenderer() {
+            super(new SimpleShortFormProvider());
+        }
 
-		@Override
-		public String render(OWLEntity entity) {
-			return ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getRendering(
-					entity);
-		}
-	}
+        @Override
+        public String render(OWLEntity entity) {
+            return getOWLEditorKit().getOWLModelManager().getRendering(entity);
+        }
+    }
 
-	private class ProtegeSymbolTableFactory implements SymbolTableFactory<OPPLPatternsSymbolTable> {
-		public OPPLPatternsSymbolTable createSymbolTable() {
-			DisposableOWLEntityChecker entityChecker = new DisposableShortFormEntityChecker(
-					ProtegeParserFactory.this.getOWLEntityChecker());
-			ShortFormEntityRenderer entityRenderer = ProtegeParserFactory.this.getEntityRenderer();
-			EntityFinder entityFinder = ProtegeParserFactory.this.getEntityFinder();
-			return new OPPLPatternsSymbolTable(
-					new OPPLScope(entityChecker, entityFinder, entityRenderer),
-					ProtegeParserFactory.this.getOWLEditorKit().getOWLModelManager().getOWLOntologyManager());
-		}
-	}
+    private class ProtegeSymbolTableFactory implements
+            SymbolTableFactory<OPPLPatternsSymbolTable> {
+        @Override
+        public OPPLPatternsSymbolTable createSymbolTable() {
+            DisposableOWLEntityChecker entityChecker = new DisposableShortFormEntityChecker(
+                    getOWLEntityChecker());
+            ShortFormEntityRenderer entityRenderer = getEntityRenderer();
+            EntityFinder entityFinder = getEntityFinder();
+            return new OPPLPatternsSymbolTable(new OPPLScope(entityChecker, entityFinder,
+                    entityRenderer), getOWLEditorKit().getOWLModelManager()
+                    .getOWLOntologyManager());
+        }
+    }
 
-	private final OWLEditorKit owlEditorKit;
-	private final EntityFinder protegeEntityFinder;
-	private final ShortFormEntityRenderer entityRenderer;
-	private final ProtegeOWLEntityChecker protegeOWLEntityChecker;
-	private static ProtegeParserFactory instance = null;
+    private final OWLEditorKit owlEditorKit;
+    private final EntityFinder protegeEntityFinder;
+    private final ShortFormEntityRenderer entityRenderer;
+    private final ProtegeOWLEntityChecker protegeOWLEntityChecker;
+    private static ProtegeParserFactory instance = null;
 
-	/**
-	 * @param owlEditorKit
-	 */
-	public ProtegeParserFactory(OWLEditorKit owlEditorKit) {
-		if (owlEditorKit == null) {
-			throw new NullPointerException("The OWL editor kit cannot be null");
-		}
-		this.owlEditorKit = owlEditorKit;
-		this.protegeOWLEntityChecker = new ProtegeOWLEntityChecker();
-		this.protegeEntityFinder = new ProtegeEntityFinder();
-		this.entityRenderer = new ProtegeOWLEntityRenderer();
-	}
+    /** @param owlEditorKit */
+    public ProtegeParserFactory(OWLEditorKit owlEditorKit) {
+        if (owlEditorKit == null) {
+            throw new NullPointerException("The OWL editor kit cannot be null");
+        }
+        this.owlEditorKit = owlEditorKit;
+        protegeOWLEntityChecker = new ProtegeOWLEntityChecker();
+        protegeEntityFinder = new ProtegeEntityFinder();
+        entityRenderer = new ProtegeOWLEntityRenderer();
+    }
 
-	/**
-	 * @see org.coode.patterns.OPPLPatternParser.AbstractParserFactory#build(org.coode.parsers.ErrorListener)
-	 */
-	public OPPLPatternParser build(ErrorListener errorListener) {
-		SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory = new ProtegeSymbolTableFactory();
-		return new OPPLPatternParser(this.getPatternFactory(), errorListener, symbolTableFactory);
-	}
+    @Override
+    public OPPLPatternParser build(ErrorListener errorListener) {
+        SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory = new ProtegeSymbolTableFactory();
+        return new OPPLPatternParser(getPatternFactory(), errorListener,
+                symbolTableFactory);
+    }
 
-	/**
-	 * @see org.coode.patterns.OPPLPatternParser.AbstractParserFactory#build(java.util.Collection,
-	 *      org.coode.parsers.ErrorListener)
-	 */
-	public OPPLPatternParser build(Collection<? extends String> visitedPatterns,
-			ErrorListener errorListener) {
-		SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory = new ProtegeSymbolTableFactory();
-		return new OPPLPatternParser(this.getPatternFactory(), errorListener, symbolTableFactory,
-				new VisitedPatternReferenceResolver(visitedPatterns));
-	}
+    @Override
+    public OPPLPatternParser build(Collection<? extends String> visitedPatterns,
+            ErrorListener errorListener) {
+        SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory = new ProtegeSymbolTableFactory();
+        return new OPPLPatternParser(getPatternFactory(), errorListener,
+                symbolTableFactory, new VisitedPatternReferenceResolver(visitedPatterns));
+    }
 
-	/**
-	 * @see org.coode.patterns.OPPLPatternParser.AbstractParserFactory#getPatternFactory()
-	 */
-	public AbstractPatternModelFactory getPatternFactory() {
-		return new ProtegePatternModelFactory(this.getOWLEditorKit().getModelManager());
-	}
+    @Override
+    public AbstractPatternModelFactory getPatternFactory() {
+        return new ProtegePatternModelFactory(getOWLEditorKit().getModelManager());
+    }
 
-	/**
-	 * @return the owlEditorKit
-	 */
-	public OWLEditorKit getOWLEditorKit() {
-		return this.owlEditorKit;
-	}
+    /** @return the owlEditorKit */
+    public OWLEditorKit getOWLEditorKit() {
+        return owlEditorKit;
+    }
 
-	public EntityFinder getEntityFinder() {
-		return this.protegeEntityFinder;
-	}
+    public EntityFinder getEntityFinder() {
+        return protegeEntityFinder;
+    }
 
-	public OWLEntityChecker getOWLEntityChecker() {
-		return this.protegeOWLEntityChecker;
-	}
+    public OWLEntityChecker getOWLEntityChecker() {
+        return protegeOWLEntityChecker;
+    }
 
-	/**
-	 * @return the entityRenderer
-	 */
-	public ShortFormEntityRenderer getEntityRenderer() {
-		return this.entityRenderer;
-	}
+    /** @return the entityRenderer */
+    public ShortFormEntityRenderer getEntityRenderer() {
+        return entityRenderer;
+    }
 
-	public static ProtegeParserFactory getInstance(OWLEditorKit owlEditorKit) {
-		if (owlEditorKit == null) {
-			throw new NullPointerException("The OWLEditorKit cannot be null");
-		}
-		if (instance == null) {
-			instance = new ProtegeParserFactory(owlEditorKit);
-		}
-		return instance;
-	}
+    public static ProtegeParserFactory getInstance(OWLEditorKit owlEditorKit) {
+        if (owlEditorKit == null) {
+            throw new NullPointerException("The OWLEditorKit cannot be null");
+        }
+        if (instance == null) {
+            instance = new ProtegeParserFactory(owlEditorKit);
+        }
+        return instance;
+    }
 
-	public static ErrorListener getDefaultErrorListener() {
-		Logger logger = Logger.getLogger("org.coode.patterns.protege");
-		return new LoggerErrorListener(logger);
-	}
+    public static ErrorListener getDefaultErrorListener() {
+        Logger logger = Logger.getLogger("org.coode.patterns.protege");
+        return new LoggerErrorListener(logger);
+    }
 }

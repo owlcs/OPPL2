@@ -26,19 +26,17 @@ import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/**
- * @author Luigi Iannone
- * 
- *         Dec 10, 2008
- */
-public class PatternReferenceGeneratedVariable<O extends OWLObject> extends GeneratedVariable<O> {
-	public PatternReferenceGeneratedVariable(String referenceName, VariableType<O> type,
-			PatternReference<O> value) {
-		super(referenceName, type, value);
-	}
+/** @author Luigi Iannone Dec 10, 2008 */
+public class PatternReferenceGeneratedVariable<O extends OWLObject> extends
+        GeneratedVariable<O> {
+    public PatternReferenceGeneratedVariable(String referenceName, VariableType<O> type,
+            PatternReference<O> value) {
+        super(referenceName, type, value);
+    }
 
-	public static <T extends OWLObject> PatternReferenceGeneratedVariable<T> getPatternReferenceGeneratedVariable(
-			String referenceName, VariableType<T> type, PatternReference<T> value) {
-		return new PatternReferenceGeneratedVariable<T>(referenceName, type, value);
-	}
+    public static <T extends OWLObject> PatternReferenceGeneratedVariable<T>
+            getPatternReferenceGeneratedVariable(String referenceName,
+                    VariableType<T> type, PatternReference<T> value) {
+        return new PatternReferenceGeneratedVariable<T>(referenceName, type, value);
+    }
 }

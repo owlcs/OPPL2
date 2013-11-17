@@ -36,11 +36,12 @@ import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 public class ProtegeParserFactory implements AbstractParserFactory {
     private final class ProtegeSymbolTableFactory implements
             SymbolTableFactory<OPPLTestCaseSymbolTable> {
+        public ProtegeSymbolTableFactory() {}
+
         @Override
         public OPPLTestCaseSymbolTable createSymbolTable() {
             DisposableOWLEntityChecker entityChecker = new DisposableShortFormEntityChecker(
                     getOWLEntityChecker());
-            ShortFormEntityRenderer entityRenderer = getEntityRenderer();
             EntityFinder entityFinder = getEntityFinder();
             return new OPPLTestCaseSymbolTable(new OPPLScope(entityChecker, entityFinder,
                     entityRenderer), getOWLEditorKit().getOWLModelManager()
@@ -49,6 +50,8 @@ public class ProtegeParserFactory implements AbstractParserFactory {
     }
 
     private class ProtegeEntityFinder implements EntityFinder {
+        public ProtegeEntityFinder() {}
+
         @Override
         public Set<OWLDatatype> getMatchingOWLDataTypes(String match) {
             return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
@@ -137,7 +140,7 @@ public class ProtegeParserFactory implements AbstractParserFactory {
     }
 
     private final OWLEditorKit owlEditorKit;
-    private final ShortFormEntityRenderer entityRenderer;
+    protected final ShortFormEntityRenderer entityRenderer;
     private final EntityFinder protegeEntityFinder;
     private final ProtegeOWLEntityChecker protegeOWLEntityChecker;
 
@@ -152,8 +155,6 @@ public class ProtegeParserFactory implements AbstractParserFactory {
         entityRenderer = new ProtegeOWLEntityRenderer();
     }
 
-    /** @see org.coode.parsers.oppl.testcase.OPPLTestCaseParser.AbstractParserFactory
-     *      #build(org.coode.parsers.ErrorListener) */
     @Override
     public OPPLTestCaseParser build(ErrorListener errorListener) {
         OWLOntology activeOntology = getOWLEditorKit().getOWLModelManager()
@@ -169,13 +170,11 @@ public class ProtegeParserFactory implements AbstractParserFactory {
             public AbstractOPPLTestCaseFactory getOPPLTestCaseFactory() {
                 return new ProtegeOPPLTestCaseFactory(
                         ProtegeParserFactory.this.getOWLEditorKit());
-            };
+            }
         };
         return parserFactory.build(errorListener, symbolTableFactory);
     }
 
-    /** @see org.coode.parsers.oppl.testcase.OPPLTestCaseParser.AbstractParserFactory
-     *      #getOPPLTestCaseFactory() */
     @Override
     public AbstractOPPLTestCaseFactory getOPPLTestCaseFactory() {
         return new ProtegeOPPLTestCaseFactory(getOWLEditorKit());
@@ -186,6 +185,7 @@ public class ProtegeParserFactory implements AbstractParserFactory {
         return owlEditorKit;
     }
 
+    /** @return entity finder */
     public EntityFinder getEntityFinder() {
         return protegeEntityFinder;
     }
@@ -195,6 +195,7 @@ public class ProtegeParserFactory implements AbstractParserFactory {
         return entityRenderer;
     }
 
+    /** @return entity checker */
     public OWLEntityChecker getOWLEntityChecker() {
         return protegeOWLEntityChecker;
     }

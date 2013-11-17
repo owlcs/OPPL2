@@ -42,14 +42,17 @@ public class GreatThanAssertion implements Assertion {
         return right;
     }
 
+    @Override
     public void accept(AssertionVisitor visitor) {
         visitor.visitAssertGreaterThan(this);
     }
 
+    @Override
     public <O> O accept(AssertionVisitorEx<O> visitor) {
         return visitor.visitAssertGreaterThan(this);
     }
 
+    @Override
     public boolean holds(Set<? extends BindingNode> bindings,
             ConstraintSystem constraintSystem) {
         return getLeft().resolve(bindings, constraintSystem) > getRight().resolve(

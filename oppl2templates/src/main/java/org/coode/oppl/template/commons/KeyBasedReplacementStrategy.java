@@ -9,59 +9,51 @@ import java.util.regex.Pattern;
 
 import org.coode.oppl.template.ReplacementStrategy;
 
-/**
- * This strategy assumes that place-holders are also keys in a
+/** This strategy assumes that place-holders are also keys in a
  * {@link Properties} instance. It replaces them with their corresponding
  * values. The property names are the place-holders name <b>without</b> the
  * {@literal %} prefix
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public final class KeyBasedReplacementStrategy implements
-		ReplacementStrategy<String, String> {
-	private final Properties properties;
+        ReplacementStrategy<String, String> {
+    private final Properties properties;
 
-	/**
-	 * @param properties
-	 */
-	public KeyBasedReplacementStrategy(Properties properties) {
-		if (properties == null) {
-			throw new NullPointerException("The properties cannot be null");
-		}
-		this.properties = properties;
-	}
+    /** @param properties */
+    public KeyBasedReplacementStrategy(Properties properties) {
+        if (properties == null) {
+            throw new NullPointerException("The properties cannot be null");
+        }
+        this.properties = properties;
+    }
 
-	/**
-	 * @see org.coode.oppl.template.opplscript.OPPLScriptReplacementStrategy#replace(java.lang.String,
-	 *      org.coode.oppl.template.opplscript.OPPLScriptParsingStrategy)
-	 */
-	public String replace(String templateString) {
-		// Non greedy matching
-		Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
-		String replacedString = templateString;
-		Matcher matcher = pattern.matcher(replacedString);
-		while (matcher.find()) {
-			String placeholder = matcher.group();
-			String key = matcher.group(1);
-			replacedString = replacedString.replaceAll(
-					this.encode(placeholder), this.getReplacement(key));
-			matcher = pattern.matcher(replacedString);
-		}
-		return replacedString;
-	}
+    @Override
+    public String replace(String templateString) {
+        // Non greedy matching
+        Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
+        String replacedString = templateString;
+        Matcher matcher = pattern.matcher(replacedString);
+        while (matcher.find()) {
+            String placeholder = matcher.group();
+            String key = matcher.group(1);
+            replacedString = replacedString.replaceAll(encode(placeholder),
+                    getReplacement(key));
+            matcher = pattern.matcher(replacedString);
+        }
+        return replacedString;
+    }
 
-	private String encode(String placeholder) {
-		return placeholder.replaceAll("(\\$)", "\\\\$1").replaceAll("(\\{)",
-				"\\\\$1").replaceAll("(\\})", "\\\\$1");
-	}
+    private String encode(String placeholder) {
+        return placeholder.replaceAll("(\\$)", "\\\\$1").replaceAll("(\\{)", "\\\\$1")
+                .replaceAll("(\\})", "\\\\$1");
+    }
 
-	private String getReplacement(String placeholder) {
-		String replacement = this.properties.getProperty(placeholder);
-		if (replacement == null) {
-			throw new NullPointerException("Missing value for place-holder "
-					+ placeholder);
-		}
-		return replacement;
-	}
+    private String getReplacement(String placeholder) {
+        String replacement = properties.getProperty(placeholder);
+        if (replacement == null) {
+            throw new NullPointerException("Missing value for place-holder "
+                    + placeholder);
+        }
+        return replacement;
+    }
 }

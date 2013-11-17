@@ -25,11 +25,13 @@ package org.coode.oppl.protege.ui;
 import org.protege.editor.core.ui.list.MListSectionHeader;
 
 public class GeneratedVariableSectionHeader implements MListSectionHeader {
-	public boolean canAdd() {
-		return true;
-	}
+    @Override
+    public boolean canAdd() {
+        return true;
+    }
 
-	public String getName() {
-		return "Generated Variables:";
-	}
+    @Override
+    public String getName() {
+        return "Generated Variables:";
+    }
 }

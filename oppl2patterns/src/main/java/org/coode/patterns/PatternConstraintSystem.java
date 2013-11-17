@@ -289,113 +289,92 @@ public class PatternConstraintSystem extends ConstraintSystem {
         return factory;
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#getAxiomVariables(org.semanticweb.owlapi.model.OWLAxiom) */
     @Override
     public Set<Variable<?>> getAxiomVariables(OWLAxiom axiom) {
         return constraintSystem.getAxiomVariables(axiom);
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLClassExpression) */
     @Override
     public boolean isVariable(OWLClassExpression desc) {
         return constraintSystem.isVariable(desc);
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLAnnotationProperty) */
     @Override
     public boolean isVariable(OWLAnnotationProperty property) {
         return constraintSystem.isVariable(property);
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLObjectProperty) */
     @Override
     public boolean isVariable(OWLObjectProperty property) {
         return constraintSystem.isVariable(property);
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLDataProperty) */
     @Override
     public boolean isVariable(OWLDataProperty property) {
         return constraintSystem.isVariable(property);
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLNamedIndividual) */
     @Override
     public boolean isVariable(OWLNamedIndividual individual) {
         return constraintSystem.isVariable(individual);
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#addLeaf(org.coode.oppl.bindingtree.BindingNode) */
     @Override
     public void addLeaf(BindingNode bindingNode) {
         constraintSystem.addLeaf(bindingNode);
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#getVariableBindings(org.coode.oppl.Variable,
-     *      org.coode.oppl.exceptions.RuntimeExceptionHandler) */
     @Override
     public Set<OWLObject> getVariableBindings(Variable<?> v,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         return constraintSystem.getVariableBindings(v, runtimeExceptionHandler);
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#addLeaf(org.coode.oppl.Variable,
-     *      org.semanticweb.owlapi.model.OWLObject) */
     @Override
     public boolean addLeaf(Variable<?> variable, OWLObject object) {
         return constraintSystem.addLeaf(variable, object);
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#getLeaves() */
     @Override
     public Set<BindingNode> getLeaves() {
         return constraintSystem.getLeaves();
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#getOPPLFactory() */
     @Override
     public OPPLAbstractFactory getOPPLFactory() {
         return constraintSystem.getOPPLFactory();
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#removeBinding(org.coode.oppl.bindingtree.BindingNode) */
     @Override
     public void removeBinding(BindingNode binding) {
         constraintSystem.removeBinding(binding);
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#isVariable(org.semanticweb.owlapi.model.OWLLiteral) */
     @Override
     public boolean isVariable(OWLLiteral node) {
         return constraintSystem.isVariable(node);
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#setLeaves(java.util.Set) */
     @Override
     public void setLeaves(Set<BindingNode> newLeaves) {
         constraintSystem.setLeaves(newLeaves);
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#getGeneratedVariables() */
     @Override
     public Set<GeneratedVariable<?>> getGeneratedVariables() {
         return constraintSystem.getGeneratedVariables();
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#isGenerated(org.coode.oppl.Variable) */
     @Override
     public boolean isGenerated(Variable<?> v) {
         return constraintSystem.isGenerated(v);
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#reset() */
     @Override
     public void reset() {
         constraintSystem.reset();
     }
 
-    /** @see org.coode.oppl.ConstraintSystem#createExpressionGeneratedVariable(java.lang.String,
-     *      org.semanticweb.owlapi.model.OWLObject) */
     @Override
     public <O extends OWLObject> GeneratedVariable<O> createExpressionGeneratedVariable(
             String name, O expression) {

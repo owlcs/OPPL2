@@ -3,30 +3,42 @@
  */
 package org.coode.parsers.oppl.testcase.assertions;
 
-/**
- * Visitor pattern for the hierarchy rooted in {@link Assertion} with a return
+/** Visitor pattern for the hierarchy rooted in {@link Assertion} with a return
  * value.
  * 
  * @author Luigi Iannone
  * @param <O>
- *            the type of the returned value.
- */
+ *            the type of the returned value. */
 public interface AssertionVisitorEx<O> {
-	O visitAssertEqual(AssertEqual assertEqual);
+    /** @param assertion
+     * @return visitor value */
+    O visitAssertEqual(AssertEqual assertion);
 
-	O visitAssertNotEqual(AssertNotEqual assertNotEqual);
+    /** @param assertion
+     * @return visitor value */
+    O visitAssertNotEqual(AssertNotEqual assertion);
 
-	O visitAssertContains(AssertContains assertContains);
+    /** @param assertion
+     * @return visitor value */
+    O visitAssertContains(AssertContains assertion);
 
-	O visitAssertionComplement(AssertionComplement assertionComplement);
+    /** @param assertion
+     * @return visitor value */
+    O visitAssertionComplement(AssertionComplement assertion);
 
-	O visitAssertLessThan(LessThanAssertion lessThanAssertion);
+    /** @param assertion
+     * @return visitor value */
+    O visitAssertLessThan(LessThanAssertion assertion);
 
-	O visitAssertLessThanEqualtTo(
-			LessThanEqualToAssertion lessThanEqualToAssertion);
+    /** @param assertion
+     * @return visitor value */
+    O visitAssertLessThanEqualtTo(LessThanEqualToAssertion assertion);
 
-	O visitAssertGreaterThan(GreatThanAssertion greatThanAssertion);
+    /** @param assertion
+     * @return visitor value */
+    O visitAssertGreaterThan(GreatThanAssertion assertion);
 
-	O visitAssertGreaterThanEqualTo(
-			GreaterThanEqualToAssertion greaterThanEqualToAssertion);
+    /** @param assertion
+     * @return visitor value */
+    O visitAssertGreaterThanEqualTo(GreaterThanEqualToAssertion assertion);
 }

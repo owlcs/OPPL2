@@ -5,9 +5,9 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 
 public interface ValueComputationParameters {
-	ConstraintSystem getConstraintSystem();
+    ConstraintSystem getConstraintSystem();
 
-	BindingNode getBindingNode();
+    BindingNode getBindingNode();
 
-	RuntimeExceptionHandler getRuntimeExceptionHandler();
+    RuntimeExceptionHandler getRuntimeExceptionHandler();
 }

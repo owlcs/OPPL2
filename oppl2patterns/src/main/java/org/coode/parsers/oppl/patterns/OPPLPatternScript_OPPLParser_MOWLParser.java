@@ -5856,7 +5856,8 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
             }
         }
     }
-    Logger logger=Logging.getParseLogging();
+
+    Logger logger = Logging.getParseLogging();
 
     // $ANTLR end synpred43_MOWLParser
     // Delegated rules
@@ -5866,7 +5867,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred17_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5881,7 +5882,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred7_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5896,7 +5897,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred14_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5911,7 +5912,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred15_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5926,7 +5927,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred6_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5941,7 +5942,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred41_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5956,7 +5957,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred4_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5971,7 +5972,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred18_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -5986,7 +5987,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred34_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6001,7 +6002,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred28_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6016,7 +6017,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred43_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6031,7 +6032,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred3_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6046,7 +6047,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred25_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6061,7 +6062,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred27_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6076,7 +6077,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred12_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6091,7 +6092,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred1_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6106,7 +6107,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred31_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6121,7 +6122,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred16_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6136,7 +6137,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred11_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6151,7 +6152,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred42_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6166,7 +6167,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred5_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6181,7 +6182,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred9_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6196,7 +6197,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred33_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6211,7 +6212,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred32_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6226,7 +6227,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred10_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6241,7 +6242,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred26_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6256,7 +6257,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred30_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);
@@ -6271,7 +6272,7 @@ public class OPPLPatternScript_OPPLParser_MOWLParser extends Parser {
         try {
             synpred13_MOWLParser_fragment(); // can never throw exception
         } catch (RecognitionException re) {
-            logger.info("impossible: " , re);
+            logger.info("impossible: ", re);
         }
         boolean success = !state.failed;
         input.rewind(start);

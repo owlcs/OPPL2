@@ -35,16 +35,10 @@ public final class FilteringOPPLLintPlugin implements
 		this.owlEditorKit = owlEditorKit;
 	}
 
-	/**
-	 * @see org.protege.editor.core.plugin.ProtegePlugin#getId()
-	 */
 	public String getId() {
 		return this.extension.getUniqueIdentifier();
 	}
 
-	/**
-	 * @see org.protege.editor.core.plugin.ProtegePlugin#getDocumentation()
-	 */
 	public String getDocumentation() {
 		return JPFUtil.getDocumentation(this.extension);
 	}

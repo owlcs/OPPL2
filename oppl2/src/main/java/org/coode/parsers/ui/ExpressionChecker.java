@@ -1,8 +1,6 @@
 package org.coode.parsers.ui;
 
-
-/**
- * Author: Matthew Horridge<br>
+/** Author: Matthew Horridge<br>
  * The University Of Manchester<br>
  * Medical Informatics Group<br>
  * Date: 11-Oct-2006<br>
@@ -10,12 +8,11 @@ package org.coode.parsers.ui;
  * <p/>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br>
- * <br>
- */
+ * <br> */
 public interface ExpressionChecker<O> {
-	public void check(String text);
+    public void check(String text);
 
-	O createObject(String text);
+    O createObject(String text);
 
-	ErrorReport getErrorReport();
+    ErrorReport getErrorReport();
 }

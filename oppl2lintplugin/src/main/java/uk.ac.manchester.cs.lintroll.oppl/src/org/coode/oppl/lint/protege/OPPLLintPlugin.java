@@ -107,23 +107,14 @@ public final class OPPLLintPlugin implements
 		this.owlEditorKit = owlEditorKit;
 	}
 
-	/**
-	 * @see org.protege.editor.core.plugin.ProtegePlugin#getId()
-	 */
 	public String getId() {
 		return this.extension.getUniqueIdentifier();
 	}
 
-	/**
-	 * @see org.protege.editor.core.plugin.ProtegePlugin#getDocumentation()
-	 */
 	public String getDocumentation() {
 		return JPFUtil.getDocumentation(this.extension);
 	}
 
-	/**
-	 * @see org.protege.editor.core.plugin.ProtegePlugin#newInstance()
-	 */
 	public LintProtegePluginInstanceAdapter<OWLObject> newInstance() throws ClassNotFoundException,
 			IllegalAccessException, InstantiationException {
 		ExtensionInstantiator<OPPLLintScript> instantiator = new ExtensionInstantiator<OPPLLintScript>(

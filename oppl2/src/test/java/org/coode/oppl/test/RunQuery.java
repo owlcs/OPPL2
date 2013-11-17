@@ -63,15 +63,18 @@ public class RunQuery {
                 OPPLScript parsed = parser.parse(opplScriptString);
                 ChangeExtractor extractor = new ChangeExtractor(
                         new RuntimeExceptionHandler() {
+                            @Override
                             public void handlePatternSyntaxExcpetion(
                                     PatternSyntaxException e) {
                                 e.printStackTrace();
                             }
 
+                            @Override
                             public void handleOWLRuntimeException(OWLRuntimeException e) {
                                 e.printStackTrace();
                             }
 
+                            @Override
                             public void handleException(RuntimeException e) {
                                 e.printStackTrace();
                             }
@@ -82,32 +85,39 @@ public class RunQuery {
                             .getOPPLFactory().getManchesterSyntaxRenderer(
                                     parsed.getConstraintSystem());
                     owlAxiomChange.accept(new OWLOntologyChangeVisitor() {
+                        @Override
                         public void visit(RemoveOntologyAnnotation change) {
                             System.out.println(change);
                         }
 
+                        @Override
                         public void visit(AddOntologyAnnotation change) {
                             System.out.println(change);
                         }
 
+                        @Override
                         public void visit(RemoveImport change) {
                             System.out.println(change);
                         }
 
+                        @Override
                         public void visit(AddImport change) {
                             System.out.println(change);
                         }
 
+                        @Override
                         public void visit(SetOntologyID change) {
                             System.out.println(change);
                         }
 
+                        @Override
                         public void visit(RemoveAxiom change) {
                             OWLAxiom axiom = change.getAxiom();
                             axiom.accept(renderer);
                             System.out.println(String.format("REMOVE %s", renderer));
                         }
 
+                        @Override
                         public void visit(AddAxiom change) {
                             OWLAxiom axiom = change.getAxiom();
                             axiom.accept(renderer);

@@ -44,7 +44,6 @@ public class AssertedSolvabilitySearchTree extends
                                 getConstraintSystem(), querySolver)));
     }
 
-    /** @see org.coode.oppl.search.solvability.AbstractSolvabilityOPPLOWLAxiomSearchTree#goalReachedUnsolvabelNode(org.coode.oppl.search.solvability.UnsolvableSearchNode) */
     @Override
     protected boolean
             goalReachedUnsolvabelNode(UnsolvableSearchNode unsolvableSearchNode) {

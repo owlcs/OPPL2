@@ -49,117 +49,108 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class PatternClassFrameSection
-		extends
-		AbstractOWLFrameSection<OWLClass, OWLAnnotationAssertionAxiom, InstantiatedPatternModel> {
-	private static final String LABEL = "Patterns";
-	private final AbstractPatternModelFactory factory;
+        extends
+        AbstractOWLFrameSection<OWLClass, OWLAnnotationAssertionAxiom, InstantiatedPatternModel> {
+    private static final String LABEL = "Patterns";
+    private final AbstractPatternModelFactory factory;
 
-	protected PatternClassFrameSection(OWLEditorKit editorKit,
-			OWLFrame<? extends OWLClass> frame, AbstractPatternModelFactory f) {
-		super(editorKit, LABEL, frame);
-		this.factory = f;
-	}
+    protected PatternClassFrameSection(OWLEditorKit editorKit,
+            OWLFrame<? extends OWLClass> frame, AbstractPatternModelFactory f) {
+        super(editorKit, LABEL, frame);
+        factory = f;
+    }
 
-	@Override
-	public boolean canAdd() {
-		return true;
-	}
+    @Override
+    public boolean canAdd() {
+        return true;
+    }
 
-	@Override
-	protected void clear() {
-	}
+    @Override
+    protected void clear() {}
 
-	public Comparator<OWLFrameSectionRow<OWLClass, OWLAnnotationAssertionAxiom, InstantiatedPatternModel>> getRowComparator() {
-		return null;
-	}
+    @Override
+    public
+            Comparator<OWLFrameSectionRow<OWLClass, OWLAnnotationAssertionAxiom, InstantiatedPatternModel>>
+            getRowComparator() {
+        return null;
+    }
 
-	@Override
-	protected OWLAnnotationAssertionAxiom createAxiom(
-			InstantiatedPatternModel instantiatedPattern) {
-		OWLDataFactory dataFactory = this.getOWLDataFactory();
-		OWLLiteral constant = dataFactory.getOWLLiteral(instantiatedPattern
-				.toString());
-		IRI annotationIRI = IRI.create(PatternModel.NAMESPACE
-				+ instantiatedPattern.getInstantiatedPatternLocalName()
-				+ "PatternInstantiation");
-		OWLAnnotation annotation = dataFactory.getOWLAnnotation(dataFactory
-				.getOWLAnnotationProperty(annotationIRI), constant);
-		OWLAnnotationAssertionAxiom axiom = this.getOWLDataFactory()
-				.getOWLAnnotationAssertionAxiom(this.getRootObject().getIRI(),
-						annotation);
-		return axiom;
-	}
+    @Override
+    protected OWLAnnotationAssertionAxiom createAxiom(
+            InstantiatedPatternModel instantiatedPattern) {
+        OWLDataFactory dataFactory = getOWLDataFactory();
+        OWLLiteral constant = dataFactory.getOWLLiteral(instantiatedPattern.toString());
+        IRI annotationIRI = IRI.create(PatternModel.NAMESPACE
+                + instantiatedPattern.getInstantiatedPatternLocalName()
+                + "PatternInstantiation");
+        OWLAnnotation annotation = dataFactory.getOWLAnnotation(
+                dataFactory.getOWLAnnotationProperty(annotationIRI), constant);
+        OWLAnnotationAssertionAxiom axiom = getOWLDataFactory()
+                .getOWLAnnotationAssertionAxiom(getRootObject().getIRI(), annotation);
+        return axiom;
+    }
 
-	@Override
-	public OWLObjectEditor<InstantiatedPatternModel> getObjectEditor() {
-		return new PatternInstantiationEditor(this.getOWLEditorKit(), this
-				.getRootObject(), this.factory);
-	}
+    @Override
+    public OWLObjectEditor<InstantiatedPatternModel> getObjectEditor() {
+        return new PatternInstantiationEditor(getOWLEditorKit(), getRootObject(), factory);
+    }
 
-	@Override
-	protected void refill(OWLOntology ontology) {
-		OWLClass rootObject = this.getRootObject();
-		Set<OWLAnnotationAssertionAxiom> annotationAxioms = rootObject
-				.getAnnotationAssertionAxioms(ontology);
-		PatternExtractor patternExtractor = this.factory
-				.getPatternExtractor(ProtegeParserFactory
-						.getDefaultErrorListener());
-		for (OWLAnnotationAssertionAxiom annotationAxiom : annotationAxioms) {
-			OWLAnnotation annotation = annotationAxiom.getAnnotation();
-			PatternOPPLScript statementModel = annotation
-					.accept(patternExtractor);
-			if (statementModel != null) {
-				OWLFrameSectionRow<OWLClass, OWLAnnotationAssertionAxiom, InstantiatedPatternModel> row = new PatternClassFrameSectionRow(
-						this.getOWLEditorKit(), this, ontology, this
-								.getRootObject(), annotationAxiom, this.factory);
-				this.addRow(row);
-			}
-		}
-	}
+    @Override
+    protected void refill(OWLOntology ontology) {
+        OWLClass rootObject = getRootObject();
+        Set<OWLAnnotationAssertionAxiom> annotationAxioms = rootObject
+                .getAnnotationAssertionAxioms(ontology);
+        PatternExtractor patternExtractor = factory
+                .getPatternExtractor(ProtegeParserFactory.getDefaultErrorListener());
+        for (OWLAnnotationAssertionAxiom annotationAxiom : annotationAxioms) {
+            OWLAnnotation annotation = annotationAxiom.getAnnotation();
+            PatternOPPLScript statementModel = annotation.accept(patternExtractor);
+            if (statementModel != null) {
+                OWLFrameSectionRow<OWLClass, OWLAnnotationAssertionAxiom, InstantiatedPatternModel> row = new PatternClassFrameSectionRow(
+                        getOWLEditorKit(), this, ontology, getRootObject(),
+                        annotationAxiom, factory);
+                addRow(row);
+            }
+        }
+    }
 
-	@Override
-	protected void refillInferred() throws OWLRuntimeException {
-	}
+    @Override
+    protected void refillInferred() throws OWLRuntimeException {}
 
-	@Override
-	public void visit(OWLAnnotationAssertionAxiom annotationAxiom) {
-		if (annotationAxiom.getSubject().equals(this.getRootObject().getIRI())) {
-			PatternExtractor patternExtractor = this.factory
-					.getPatternExtractor(ProtegeParserFactory
-							.getDefaultErrorListener());
-			OWLAnnotation annotation = annotationAxiom.getAnnotation();
-			if (annotation.accept(patternExtractor) != null) {
-				this.reset();
-			}
-		}
-	}
+    @Override
+    public void visit(OWLAnnotationAssertionAxiom annotationAxiom) {
+        if (annotationAxiom.getSubject().equals(getRootObject().getIRI())) {
+            PatternExtractor patternExtractor = factory
+                    .getPatternExtractor(ProtegeParserFactory.getDefaultErrorListener());
+            OWLAnnotation annotation = annotationAxiom.getAnnotation();
+            if (annotation.accept(patternExtractor) != null) {
+                reset();
+            }
+        }
+    }
 
-	@Override
-	public void handleEditingFinished(
-			Set<InstantiatedPatternModel> editedObjects) {
-		Iterator<InstantiatedPatternModel> it = editedObjects.iterator();
-		boolean found = false;
-		InstantiatedPatternModel instantiatedPatternModel = null;
-		while (!found && it.hasNext()) {
-			instantiatedPatternModel = it.next();
-			found = instantiatedPatternModel.hasScopedVariables()
-					&& this.getOWLEditorKit().getModelManager().getReasoner() instanceof NoOpReasoner;
-			if (found) {
-				JOptionPane
-						.showConfirmDialog(
-								this.getOWLEditorKit().getWorkspace(),
-								"The pattern model "
-										+ instantiatedPatternModel.getName()
-										+ " has got scoped variables but you are curently using a NoOpReasoner, the pattern will not work properly unless you activate reasoning.",
-								"No Reasoner", JOptionPane.OK_OPTION);
-			} else {
-				super.handleEditingFinished(editedObjects);
-			}
-		}
-	}
+    @Override
+    public void handleEditingFinished(Set<InstantiatedPatternModel> editedObjects) {
+        Iterator<InstantiatedPatternModel> it = editedObjects.iterator();
+        boolean found = false;
+        InstantiatedPatternModel instantiatedPatternModel = null;
+        while (!found && it.hasNext()) {
+            instantiatedPatternModel = it.next();
+            found = instantiatedPatternModel.hasScopedVariables()
+                    && getOWLEditorKit().getModelManager().getReasoner() instanceof NoOpReasoner;
+            if (found) {
+                JOptionPane
+                        .showConfirmDialog(
+                                getOWLEditorKit().getWorkspace(),
+                                "The pattern model "
+                                        + instantiatedPatternModel.getName()
+                                        + " has got scoped variables but you are curently using a NoOpReasoner, the pattern will not work properly unless you activate reasoning.",
+                                "No Reasoner", JOptionPane.OK_OPTION);
+            } else {
+                super.handleEditingFinished(editedObjects);
+            }
+        }
+    }
 }

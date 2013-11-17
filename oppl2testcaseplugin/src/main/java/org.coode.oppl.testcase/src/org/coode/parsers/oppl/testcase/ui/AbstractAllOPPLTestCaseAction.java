@@ -80,7 +80,6 @@ abstract class AbstractAllOPPLTestCaseAction extends AbstractOWLActiveOntologyAc
         super(name, ICON, owlEditorKit);
     }
 
-    /** @see org.protege.editor.core.ui.view.AbstractOWLActiveOntologyAction#initialiseAction() */
     @Override
     protected void initialiseAction() {
         if (ontologyChangeListener == null) {
@@ -140,8 +139,6 @@ abstract class AbstractAllOPPLTestCaseAction extends AbstractOWLActiveOntologyAc
         setEnabled(!opplTestCases.isEmpty());
     }
 
-    /** @see org.protege.editor.core.ui.view.AbstractOWLActiveOntologyAction#
-     *      disposeOWLActiveOntologyAction() */
     @Override
     protected void disposeOWLActiveOntologyAction() {
         getOWLEditorKit().getOWLModelManager().getOWLOntologyManager()
@@ -149,8 +146,6 @@ abstract class AbstractAllOPPLTestCaseAction extends AbstractOWLActiveOntologyAc
         getOWLEditorKit().getOWLModelManager().removeListener(modelManagerListener);
     }
 
-    /** @see org.protege.editor.core.ui.view.AbstractOWLActiveOntologyAction#updateAction
-     *      (org.semanticweb.owlapi.model.OWLOntology) */
     @Override
     protected void updateAction(OWLOntology ontology) {
         opplTestCases.clear();

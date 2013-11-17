@@ -1,10 +1,11 @@
 package org.coode.oppl.queryplanner;
 
 public interface QueryPlannerVisitor {
-	void visitConstraintQueryPlannerItem(ConstraintQueryPlannerItem constraintQueryPlannerItem);
+    void visitConstraintQueryPlannerItem(
+            ConstraintQueryPlannerItem constraintQueryPlannerItem);
 
-	void visitAssertedAxiomPlannerItem(AssertedAxiomPlannerItem assertedAxiomPlannerItem);
+    void visitAssertedAxiomPlannerItem(AssertedAxiomPlannerItem assertedAxiomPlannerItem);
 
-	void visitInferredAxiomQueryPlannerItem(
-			InferredAxiomQueryPlannerItem inferredAxiomQueryPlannerItem);
+    void visitInferredAxiomQueryPlannerItem(
+            InferredAxiomQueryPlannerItem inferredAxiomQueryPlannerItem);
 }

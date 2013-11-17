@@ -25,11 +25,13 @@ package org.coode.oppl.protege.ui;
 import org.protege.editor.core.ui.list.MListSectionHeader;
 
 public class ActionListSectionHeader implements MListSectionHeader {
-	public boolean canAdd() {
-		return true;
-	}
+    @Override
+    public boolean canAdd() {
+        return true;
+    }
 
-	public String getName() {
-		return "Actions";
-	}
+    @Override
+    public String getName() {
+        return "Actions";
+    }
 }

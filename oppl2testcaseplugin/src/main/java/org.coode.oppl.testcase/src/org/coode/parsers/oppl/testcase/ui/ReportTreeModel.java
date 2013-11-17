@@ -45,13 +45,11 @@ public final class ReportTreeModel implements TreeModel {
         }
     };
 
-    /** @see javax.swing.tree.TreeModel#getRoot() */
     @Override
     public Object getRoot() {
         return root;
     }
 
-    /** @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int) */
     @Override
     public Object getChild(Object parent, int index) {
         Object toReturn = null;
@@ -71,7 +69,6 @@ public final class ReportTreeModel implements TreeModel {
         return toReturn;
     }
 
-    /** @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object) */
     @Override
     public int getChildCount(Object parent) {
         int toReturn = 0;
@@ -85,22 +82,17 @@ public final class ReportTreeModel implements TreeModel {
         return toReturn;
     }
 
-    /** @see javax.swing.tree.TreeModel#isLeaf(java.lang.Object) */
     @Override
     public boolean isLeaf(Object node) {
         return node == getRoot() && reportMap.isEmpty()
                 || Report.class.isAssignableFrom(node.getClass());
     }
 
-    /** @see javax.swing.tree.TreeModel#valueForPathChanged(javax.swing.tree.TreePath,
-     *      java.lang.Object) */
     @Override
     public void valueForPathChanged(TreePath path, Object newValue) {
         // Do nothing
     }
 
-    /** @see javax.swing.tree.TreeModel#getIndexOfChild(java.lang.Object,
-     *      java.lang.Object) */
     @Override
     public int getIndexOfChild(Object parent, Object child) {
         int toReturn = -1;
@@ -116,8 +108,6 @@ public final class ReportTreeModel implements TreeModel {
         return toReturn;
     }
 
-    /** @see javax.swing.tree.TreeModel#addTreeModelListener(javax.swing.event.
-     *      TreeModelListener) */
     @Override
     public void addTreeModelListener(TreeModelListener l) {
         if (l != null) {
@@ -125,8 +115,6 @@ public final class ReportTreeModel implements TreeModel {
         }
     }
 
-    /** @see javax.swing.tree.TreeModel#removeTreeModelListener(javax.swing.event.
-     *      TreeModelListener) */
     @Override
     public void removeTreeModelListener(TreeModelListener l) {
         listeners.remove(l);

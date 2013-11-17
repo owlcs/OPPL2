@@ -41,82 +41,82 @@ import org.protege.editor.core.ui.list.MList;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class VariableList extends MList {
-	class VariableListCellRenderer extends DefaultListCellRenderer {
-		/**
+    class VariableListCellRenderer extends DefaultListCellRenderer {
+        /**
 		 *
 		 */
-		private static final long serialVersionUID = -6717057306871665492L;
+        private static final long serialVersionUID = -6717057306871665492L;
 
-		// private final DefaultListCellRenderer defaultCellRenderer = new
-		// DefaultListCellRenderer();
-		@Override
-		public Component getListCellRendererComponent(JList list, Object value, int index,
-				boolean isSelected, boolean cellHasFocus) {
-			JLabel label = (JLabel) super.getListCellRendererComponent(
-					list,
-					value,
-					index,
-					isSelected,
-					cellHasFocus);
-			if (value instanceof VariableListItem) {
-				Variable<?> variable = ((VariableListItem) value).getVariable();
-				VariableScope<?> variableScope = variable.accept(new AbstractVariableVisitorExAdapter<VariableScope<?>>(
-						null) {
-					@Override
-					public <P extends OWLObject> VariableScope<?> visit(InputVariable<P> v) {
-						return v.getVariableScope();
-					}
-				});
-				String variableScopeString = null;
-				if (variableScope == null) {
-					variableScopeString = "";
-				} else {
-					String rendering = VariableList.this.owlEditorKit.getModelManager().getRendering(
-							variableScope.getScopingObject());
-					variableScopeString = new StringBuilder("[").append(
-							variableScope.getDirection()).append(" ").append(rendering).append("] ").toString();
-				}
-				label.setIcon(new ImageIcon(this.getClass().getClassLoader().getResource(
-						variable instanceof GeneratedVariable<?> ? "cog.png" : "user-icon.gif")));
-				label.setText(VariableList.this.constraintSystem.render(variable) + ":"
-						+ variable.getType() + variableScopeString);
-			}
-			return label;
-		}
-	}
+        // private final DefaultListCellRenderer defaultCellRenderer = new
+        // DefaultListCellRenderer();
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value,
+                int index, boolean isSelected, boolean cellHasFocus) {
+            JLabel label = (JLabel) super.getListCellRendererComponent(list, value,
+                    index, isSelected, cellHasFocus);
+            if (value instanceof VariableListItem) {
+                Variable<?> variable = ((VariableListItem) value).getVariable();
+                VariableScope<?> variableScope = variable
+                        .accept(new AbstractVariableVisitorExAdapter<VariableScope<?>>(
+                                null) {
+                            @Override
+                            public <P extends OWLObject> VariableScope<?> visit(
+                                    InputVariable<P> v) {
+                                return v.getVariableScope();
+                            }
+                        });
+                String variableScopeString = null;
+                if (variableScope == null) {
+                    variableScopeString = "";
+                } else {
+                    String rendering = owlEditorKit.getModelManager().getRendering(
+                            variableScope.getScopingObject());
+                    variableScopeString = new StringBuilder("[")
+                            .append(variableScope.getDirection()).append(" ")
+                            .append(rendering).append("] ").toString();
+                }
+                label.setIcon(new ImageIcon(this
+                        .getClass()
+                        .getClassLoader()
+                        .getResource(
+                                variable instanceof GeneratedVariable<?> ? "cog.png"
+                                        : "user-icon.gif")));
+                label.setText(constraintSystem.render(variable) + ":"
+                        + variable.getType() + variableScopeString);
+            }
+            return label;
+        }
+    }
 
-	private static final long serialVersionUID = 6135780833694887712L;
-	private final VariableListCellRenderer variableListCellRenderer = new VariableListCellRenderer();
-	protected final OWLEditorKit owlEditorKit;
-	protected ConstraintSystem constraintSystem;
+    private static final long serialVersionUID = 6135780833694887712L;
+    private final VariableListCellRenderer variableListCellRenderer = new VariableListCellRenderer();
+    protected final OWLEditorKit owlEditorKit;
+    protected ConstraintSystem constraintSystem;
 
-	public VariableList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
-		this.owlEditorKit = owlEditorKit;
-		this.constraintSystem = constraintSystem;
-		this.setModel(new DefaultListModel());
-		this.setCellRenderer(this.variableListCellRenderer);
-	}
+    public VariableList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
+        this.owlEditorKit = owlEditorKit;
+        this.constraintSystem = constraintSystem;
+        setModel(new DefaultListModel());
+        setCellRenderer(variableListCellRenderer);
+    }
 
-	@Override
-	protected void handleDelete() {
-		super.handleDelete();
-		DefaultListModel model = (DefaultListModel) this.getModel();
-		Object selectedValue = this.getSelectedValue();
-		if (selectedValue != null) {
-			model.removeElement(selectedValue);
-		}
-	}
+    @Override
+    protected void handleDelete() {
+        super.handleDelete();
+        DefaultListModel model = (DefaultListModel) getModel();
+        Object selectedValue = getSelectedValue();
+        if (selectedValue != null) {
+            model.removeElement(selectedValue);
+        }
+    }
 
-	protected OWLEditorKit getOWLEditorKit() {
-		return this.owlEditorKit;
-	}
+    protected OWLEditorKit getOWLEditorKit() {
+        return owlEditorKit;
+    }
 
-	public ListCellRenderer getVariableListCellRenderer() {
-		return this.variableListCellRenderer;
-	}
+    public ListCellRenderer getVariableListCellRenderer() {
+        return variableListCellRenderer;
+    }
 }

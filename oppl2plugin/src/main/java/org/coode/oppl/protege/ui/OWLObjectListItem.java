@@ -25,43 +25,40 @@ package org.coode.oppl.protege.ui;
 import org.protege.editor.core.ui.list.MListItem;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class OWLObjectListItem implements MListItem {
-	private final OWLObject owlObject;
+    private final OWLObject owlObject;
 
-	/**
-	 * @param owlObject
-	 */
-	public OWLObjectListItem(OWLObject owlObject) {
-		this.owlObject = owlObject;
-	}
+    /** @param owlObject */
+    public OWLObjectListItem(OWLObject owlObject) {
+        this.owlObject = owlObject;
+    }
 
-	public String getTooltip() {
-		return this.owlObject.toString();
-	}
+    @Override
+    public String getTooltip() {
+        return owlObject.toString();
+    }
 
-	public boolean handleDelete() {
-		return false;
-	}
+    @Override
+    public boolean handleDelete() {
+        return false;
+    }
 
-	public void handleEdit() {
-	}
+    @Override
+    public void handleEdit() {}
 
-	public boolean isDeleteable() {
-		return false;
-	}
+    @Override
+    public boolean isDeleteable() {
+        return false;
+    }
 
-	public boolean isEditable() {
-		return false;
-	}
+    @Override
+    public boolean isEditable() {
+        return false;
+    }
 
-	/**
-	 * @return the owlObject
-	 */
-	public OWLObject getOwlObject() {
-		return this.owlObject;
-	}
+    /** @return the owlObject */
+    public OWLObject getOwlObject() {
+        return owlObject;
+    }
 }

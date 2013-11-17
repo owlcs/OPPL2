@@ -4,16 +4,13 @@ import java.util.regex.PatternSyntaxException;
 
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
-/**
- * Handles run-time error raised during the execution of an OPPL Script
+/** Handles run-time error raised during the execution of an OPPL Script
  * 
- * @author Luigi Iannone
- * 
- */
+ * @author Luigi Iannone */
 public interface RuntimeExceptionHandler {
-	public void handleOWLRuntimeException(OWLRuntimeException e);
+    public void handleOWLRuntimeException(OWLRuntimeException e);
 
-	public void handlePatternSyntaxExcpetion(PatternSyntaxException e);
+    public void handlePatternSyntaxExcpetion(PatternSyntaxException e);
 
-	public void handleException(RuntimeException e);
+    public void handleException(RuntimeException e);
 }
