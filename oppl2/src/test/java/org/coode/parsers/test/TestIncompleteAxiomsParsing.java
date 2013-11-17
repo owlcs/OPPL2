@@ -28,6 +28,7 @@ import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.junit.Test;
 
 /** @author Luigi Iannone */
+@SuppressWarnings("javadoc")
 public class TestIncompleteAxiomsParsing {
     public TreeAdaptor adaptor = new CommonTreeAdaptor() {
         @Override

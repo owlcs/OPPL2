@@ -54,7 +54,7 @@ public class ComprehensiveAxiomTestCase {
     };
     private final ErrorListener errorListener = new SilentListener();
 
-    protected ManchesterOWLSyntaxTree parse(String input, SymbolTable symbolTable) {
+    protected ManchesterOWLSyntaxTree parse(String input, SymbolTable st) {
         MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);
         ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens,
@@ -75,8 +75,8 @@ public class ComprehensiveAxiomTestCase {
         simplify.setTreeAdaptor(adaptor);
         simplify.downup(tree);
         nodes.reset();
-        ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(nodes,
-                symbolTable, errorListener);
+        ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(nodes, st,
+                errorListener);
         typeComp.downup(tree); // trigger resolve/type computation actions
         return (ManchesterOWLSyntaxTree) tree;
     }

@@ -422,8 +422,8 @@ public class OPPLFunctionTest {
             @Override
             public Set<OWLClass> visitCLASSVariableType(CLASSVariableType t) {
                 Set<OWLClass> toReturn = new HashSet<OWLClass>();
-                for (OWLOntology ontology : manager.getOntologies()) {
-                    for (OWLAxiom axiom : ontology.getAxioms()) {
+                for (OWLOntology ont : manager.getOntologies()) {
+                    for (OWLAxiom axiom : ont.getAxioms()) {
                         toReturn.addAll(OWLObjectExtractor.getAllClasses(axiom));
                     }
                 }
@@ -433,8 +433,8 @@ public class OPPLFunctionTest {
             @Override
             public Set<OWLLiteral> visitCONSTANTVariableType(CONSTANTVariableType t) {
                 Set<OWLLiteral> toReturn = new HashSet<OWLLiteral>();
-                for (OWLOntology ontology : manager.getOntologies()) {
-                    for (OWLAxiom axiom : ontology.getAxioms()) {
+                for (OWLOntology ont : manager.getOntologies()) {
+                    for (OWLAxiom axiom : ont.getAxioms()) {
                         toReturn.addAll(OWLObjectExtractor.getAllOWLLiterals(axiom));
                     }
                 }
@@ -445,8 +445,8 @@ public class OPPLFunctionTest {
             public Set<OWLObjectProperty> visitOBJECTPROPERTYVariableType(
                     OBJECTPROPERTYVariableType t) {
                 Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
-                for (OWLOntology ontology : manager.getOntologies()) {
-                    for (OWLAxiom axiom : ontology.getAxioms()) {
+                for (OWLOntology ont : manager.getOntologies()) {
+                    for (OWLAxiom axiom : ont.getAxioms()) {
                         toReturn.addAll(OWLObjectExtractor
                                 .getAllOWLObjectProperties(axiom));
                     }
@@ -458,8 +458,8 @@ public class OPPLFunctionTest {
             public Set<OWLDataProperty> visitDATAPROPERTYVariableType(
                     DATAPROPERTYVariableType t) {
                 Set<OWLDataProperty> toReturn = new HashSet<OWLDataProperty>();
-                for (OWLOntology ontology : manager.getOntologies()) {
-                    for (OWLAxiom axiom : ontology.getAxioms()) {
+                for (OWLOntology ont : manager.getOntologies()) {
+                    for (OWLAxiom axiom : ont.getAxioms()) {
                         toReturn.addAll(OWLObjectExtractor.getAllOWLDataProperties(axiom));
                     }
                 }
@@ -470,8 +470,8 @@ public class OPPLFunctionTest {
             public Set<OWLAnnotationProperty> visitANNOTATIONPROPERTYVariableType(
                     ANNOTATIONPROPERTYVariableType annotationpropertyVariableType) {
                 Set<OWLAnnotationProperty> toReturn = new HashSet<OWLAnnotationProperty>();
-                for (OWLOntology ontology : manager.getOntologies()) {
-                    for (OWLAxiom axiom : ontology.getAxioms()) {
+                for (OWLOntology ont : manager.getOntologies()) {
+                    for (OWLAxiom axiom : ont.getAxioms()) {
                         toReturn.addAll(OWLObjectExtractor
                                 .getAllAnnotationProperties(axiom));
                     }
@@ -483,8 +483,8 @@ public class OPPLFunctionTest {
             public Set<OWLNamedIndividual> visitINDIVIDUALVariableType(
                     INDIVIDUALVariableType t) {
                 Set<OWLNamedIndividual> toReturn = new HashSet<OWLNamedIndividual>();
-                for (OWLOntology ontology : manager.getOntologies()) {
-                    for (OWLAxiom axiom : ontology.getAxioms()) {
+                for (OWLOntology ont : manager.getOntologies()) {
+                    for (OWLAxiom axiom : ont.getAxioms()) {
                         toReturn.addAll(OWLObjectExtractor.getAllOWLIndividuals(axiom));
                     }
                 }

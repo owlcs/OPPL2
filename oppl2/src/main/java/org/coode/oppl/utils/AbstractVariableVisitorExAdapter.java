@@ -10,7 +10,8 @@ import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.variabletypes.InputVariable;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/** @author Luigi Iannone
+ * @param <O> */
 public class AbstractVariableVisitorExAdapter<O> implements VariableVisitorEx<O> {
     private final O defaultValue;
 
@@ -19,7 +20,8 @@ public class AbstractVariableVisitorExAdapter<O> implements VariableVisitorEx<O>
         this.defaultValue = defaultValue;
     }
 
-    protected <P extends OWLObject> O getDefaultValue(Variable<P> v) {
+    protected <P extends OWLObject> O getDefaultValue(
+            @SuppressWarnings("unused") Variable<P> v) {
         return this.defaultValue;
     }
 

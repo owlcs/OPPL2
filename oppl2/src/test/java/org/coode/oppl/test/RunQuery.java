@@ -36,6 +36,7 @@ import org.semanticweb.owlapi.util.AutoIRIMapper;
 
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
+@SuppressWarnings("javadoc")
 public class RunQuery {
     /** @param args */
     public static void main(String[] args) {

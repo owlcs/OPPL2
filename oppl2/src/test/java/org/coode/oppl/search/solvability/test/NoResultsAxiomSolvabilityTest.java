@@ -27,6 +27,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
+@SuppressWarnings("javadoc")
 public class NoResultsAxiomSolvabilityTest {
     @Test
     public void shouldTestNoResultsSubClassAxiom() throws Exception {

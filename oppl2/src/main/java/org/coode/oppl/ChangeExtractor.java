@@ -36,13 +36,17 @@ public class ChangeExtractor {
     private final RuntimeExceptionHandler runtimeExceptionHandler;
     private final ExecutionMonitor executionMonitor;
 
+    /** @param runtimeExceptionHandler
+     * @param considerImportClosure */
     public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
             boolean considerImportClosure) {
         this(runtimeExceptionHandler, ExecutionMonitor.NON_CANCELLABLE,
                 considerImportClosure);
     }
 
-    /** @param ontologyManager */
+    /** @param runtimeExceptionHandler
+     * @param executionMonitor
+     * @param considerImportClosure */
     public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
             ExecutionMonitor executionMonitor, boolean considerImportClosure) {
         if (runtimeExceptionHandler == null) {

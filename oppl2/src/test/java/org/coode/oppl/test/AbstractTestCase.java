@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.ChangeExtractor;
@@ -22,7 +21,6 @@ import org.coode.parsers.ErrorListener;
 import org.coode.parsers.common.SilentListener;
 import org.junit.After;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
@@ -30,6 +28,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
+@SuppressWarnings("javadoc")
 public abstract class AbstractTestCase {
     private static final int TOLERANCE = 3;
     private final static RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
@@ -47,7 +46,7 @@ public abstract class AbstractTestCase {
     protected void execute(OPPLScript script, int expected) {
         try {
             ChangeExtractor changeExtractor = new ChangeExtractor(HANDLER, true);
-            List<OWLAxiomChange> changes = changeExtractor.visit(script);
+            changeExtractor.visit(script);
             Set<OWLAxiom> queryAxioms = new HashSet<OWLAxiom>();
             if (script.getQuery() != null) {
                 queryAxioms.addAll(script.getQuery().getAssertedAxioms());

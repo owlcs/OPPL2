@@ -35,6 +35,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 /** Test for the AST generation for OPPL
  * 
  * @author Luigi Iannone */
+@SuppressWarnings("javadoc")
 public class OPPLPatternsDefineParserTest {
     private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
         @Override

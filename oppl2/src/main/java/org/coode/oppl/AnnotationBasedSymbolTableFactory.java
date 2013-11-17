@@ -30,7 +30,8 @@ public class AnnotationBasedSymbolTableFactory implements
     private final OWLOntologyManager manager;
     private final List<OWLAnnotationProperty> annotations = new ArrayList<OWLAnnotationProperty>();
 
-    /** @param manager */
+    /** @param manager
+     * @param iris */
     public AnnotationBasedSymbolTableFactory(OWLOntologyManager manager,
             List<? extends IRI> iris) {
         if (manager == null) {

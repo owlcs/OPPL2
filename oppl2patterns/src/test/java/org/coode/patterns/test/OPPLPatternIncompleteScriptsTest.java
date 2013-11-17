@@ -8,6 +8,7 @@ import static org.coode.oppl.patterntestontologies.PatternTestOntologies.test;
 import org.junit.Test;
 
 /** @author Luigi Iannone */
+@SuppressWarnings("javadoc")
 public class OPPLPatternIncompleteScriptsTest extends AbstractPatternTestCase {
     @Test
     public void shouldTestJustVariableDefinition() {

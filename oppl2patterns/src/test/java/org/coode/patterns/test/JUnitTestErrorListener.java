@@ -10,6 +10,7 @@ import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Type;
 
+@SuppressWarnings("javadoc")
 public final class JUnitTestErrorListener implements ErrorListener {
     @Override
     public void unrecognisedSymbol(CommonTree t) {

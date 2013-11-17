@@ -10,7 +10,6 @@ import java.util.Set;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.StringDocumentTarget;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAnnotationSubject;
@@ -58,6 +57,7 @@ import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
 import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
+@SuppressWarnings({ "javadoc", "unchecked" })
 public class TestOntologies {
     private static void declare(OWLOntology o, OWLEntity... entities) {
         for (OWLEntity e : entities) {
@@ -82,7 +82,6 @@ public class TestOntologies {
     private static List<OWLAxiom> label(OWLEntity e, String... lines) {
         List<OWLAxiom> axioms = new ArrayList<OWLAxiom>();
         axioms.add(dec(e));
-        Set<OWLAnnotation> labels = new HashSet<OWLAnnotation>();
         for (String l : lines) {
             String language = "";
             int index = l.indexOf("@");
@@ -98,7 +97,7 @@ public class TestOntologies {
     public static OWLOntology naf(OWLOntologyManager m) {
         String naf_ns = "http://www.semanticweb.org/ontologies/2010/6/Ontology1278505688859.owl";
         try {
-            OWLOntology naf = m.createOntology(IRI(naf_ns));
+            OWLOntology _naf = m.createOntology(IRI(naf_ns));
             OWLObjectProperty hasP = object(naf_ns + "#hasP");
             OWLClass prange = Class(naf_ns + "#P_Range");
             OWLClass a = Class(naf_ns + "#A");
@@ -112,14 +111,14 @@ public class TestOntologies {
             OWLClass bpr = Class(naf_ns + "#B_P_Range");
             OWLClass cpr = Class(naf_ns + "#C_P_Range");
             OWLClass dpr = Class(naf_ns + "#D_P_Range");
-            declare(naf, a, aa, ab, ac, ad, bpr, cpr, d, dpr, prange, hasP);
-            state(naf, sub(a, some(hasP, prange)), sub(bpr, prange), sub(c, a),
+            declare(_naf, a, aa, ab, ac, ad, bpr, cpr, d, dpr, prange, hasP);
+            state(_naf, sub(a, some(hasP, prange)), sub(bpr, prange), sub(c, a),
                     sub(ab, aa), sub(ac, aa), sub(ad, aa), sub(b, a), sub(cpr, prange),
                     sub(d, a), sub(dpr, prange), sub(ab, some(hasP, bpr)),
                     sub(b, some(hasP, bpr)), sub(c, some(hasP, cpr)),
                     sub(d, some(hasP, dpr)));
-            state(naf, label(b, "B"), label(c, "C"));
-            return naf;
+            state(_naf, label(b, "B"), label(c, "C"));
+            return _naf;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -164,7 +163,8 @@ public class TestOntologies {
         }
     }
 
-    private void same(OWLOntology o1, OWLOntology o2) throws OWLOntologyStorageException {
+    public static void same(OWLOntology o1, OWLOntology o2)
+            throws OWLOntologyStorageException {
         Set<OWLAxiom> common = new HashSet<OWLAxiom>(o1.getAxioms());
         common.retainAll(o2.getAxioms());
         o1.getOWLOntologyManager().removeAxioms(o1, common);
@@ -184,7 +184,7 @@ public class TestOntologies {
     public static OWLOntology entire(OWLOntologyManager m) {
         String ns = "http://www.ihtsdo.org/";
         try {
-            OWLOntology entire = m.createOntology(IRI("http://www.ihtsdo.org"));
+            OWLOntology _entire = m.createOntology(IRI("http://www.ihtsdo.org"));
             OWLObjectProperty RoleGroup = object(ns + "RoleGroup");
             OWLObjectProperty SCT_116676008 = object(ns + "SCT_116676008");
             OWLObjectProperty SCT_246075003 = object(ns + "SCT_246075003");
@@ -222,7 +222,7 @@ public class TestOntologies {
                     SCT_363705008, SCT_363713009, SCT_363714003, SCT_370135005,
                     SCT_47429007, has_locus, has_locus_entire, PartOf, cPartOf,
                     containedIn, hasMember, laterality, rPartOf, sPartOf);
-            state(entire,
+            state(_entire,
                     label(SCT_56265001, "Heart disease (disorder)@en"),
                     label(SCT_415991003, "Disorder of cardiac ventricle (disorder)@en"),
                     label(SCT_368009, "Heart valve disorder (disorder)@en"),
@@ -259,7 +259,7 @@ public class TestOntologies {
             OWLClass E00017 = Class(ns + "sep/E00017");
             OWLClass E00016 = Class(ns + "sep/E00016");
             OWLClass E00612 = Class(ns + "sep/E00612");
-            state(entire,
+            state(_entire,
                     sub(SCT_102298001, SCT_312168006),
                     sub(SCT_102957003, SCT_404684003),
                     sub(SCT_105981003, SCT_56265001),
@@ -286,7 +286,7 @@ public class TestOntologies {
                     sub(SCT_246075003, SCT_47429007), sub(cPartOf, PartOf),
                     sub(SCT_255234002, SCT_47429007), sub(has_locus_entire, has_locus),
                     sub(rPartOf, PartOf), sub(sPartOf, PartOf));
-            return entire;
+            return _entire;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -295,11 +295,11 @@ public class TestOntologies {
     public static OWLOntology syntax(OWLOntologyManager m) {
         String syntax_ns = "http://www.coode.org/oppl/ontologies/syntaxTest.owl";
         try {
-            OWLOntology syntax = m.createOntology(IRI(syntax_ns));
+            OWLOntology _syntax = m.createOntology(IRI(syntax_ns));
             OWLDataProperty p = DataProperty(syntax_ns + "#aDataProperty");
-            state(syntax, label(p, "aDataProperty"));
-            state(syntax, range(p, OWL2Datatype.XSD_INT.getDatatype(dataFactory)));
-            return syntax;
+            state(_syntax, label(p, "aDataProperty"));
+            state(_syntax, range(p, OWL2Datatype.XSD_INT.getDatatype(dataFactory)));
+            return _syntax;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -308,9 +308,10 @@ public class TestOntologies {
     public static OWLOntology siblings(OWLOntologyManager m) {
         String ns = "http://www.semanticweb.org/ontologies/2011/1/siblings.owl";
         try {
-            OWLOntology siblings = m.createOntology(IRI(ns));
-            declare(siblings, object(ns + "#hasSibling"), NamedIndividual(ns + "#Robert"));
-            return siblings;
+            OWLOntology _siblings = m.createOntology(IRI(ns));
+            declare(_siblings, object(ns + "#hasSibling"),
+                    NamedIndividual(ns + "#Robert"));
+            return _siblings;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -319,13 +320,13 @@ public class TestOntologies {
     public static OWLOntology ondrejtest(OWLOntologyManager m) {
         String ns = "http://www.semanticweb.org/ontologies/2010/2/Ontology1269524218581.owl";
         try {
-            OWLOntology ondrejtest = m.createOntology();
+            OWLOntology _ondrejtest = m.createOntology();
             OWLClass a = Class(ns + "#A");
             OWLClass c = Class(ns + "#C");
             OWLObjectProperty p = object(ns + "#p");
-            declare(ondrejtest, a, c, p);
-            state(ondrejtest, eq(a, some(p, c)), sub(c, OWLThing()));
-            return ondrejtest;
+            declare(_ondrejtest, a, c, p);
+            state(_ondrejtest, eq(a, some(p, c)), sub(c, OWLThing()));
+            return _ondrejtest;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -335,7 +336,7 @@ public class TestOntologies {
         String ns1 = "http://www.semanticweb.com/mergedont";
         String ns = "urn:temp#";
         try {
-            OWLOntology sequentialUnion = m.createOntology(IRI(ns));
+            OWLOntology _sequentialUnion = m.createOntology(IRI(ns));
             String nsf = "http://www.francetelecom.com/OWLWriter/DPWSWriter.owl#";
             String nsf1 = "http://www.francetelecom.com/OWLWriter/UPnPWriter.owl#";
             OWLClass DPWS_Action = Class(nsf + "DPWS_Action");
@@ -420,7 +421,7 @@ public class TestOntologies {
             OWLObjectProperty has_Next = object(ns1 + "#has_Next");
             OWLObjectProperty PlugIn_Input_Match = object(ns1 + "#PlugIn_Input_Match");
             OWLClass SequentialUnionClock = Class(nsf1 + "SequentialUnionClock");
-            declare(sequentialUnion, DPWS_Action, DPWS_Device, DPWS_Service,
+            declare(_sequentialUnion, DPWS_Action, DPWS_Device, DPWS_Service,
                     DPWS_StateVariable, DummyOperation, SeqClockStd, Set1, Set2, a,
                     seqentialClock, x, y, newx, newy, sequentialunionclock, Set12, Time,
                     UPnP_Action, UPnP_Device, UPnP_Service, UPnP_StateVariable, x1, y1,
@@ -439,7 +440,7 @@ public class TestOntologies {
                     has_UPnP_Device_Type, has_UPnP_Service_ID, has_UPnP_Service_Type,
                     has_UPnP_Service_Version, x_has_UPnP_StateVariable_Type,
                     y_has_UPnP_StateVariable_Type);
-            state(sequentialUnion,
+            state(_sequentialUnion,
                     sub(DPWS_Action, some(has_dpws_statevariable, DPWS_StateVariable)),
                     sub(DPWS_Device, some(has_DPWS_Service, DPWS_Service)),
                     sub(DPWS_Service, some(has_DPWS_Action, DPWS_Action)),
@@ -511,7 +512,7 @@ public class TestOntologies {
                     sub(x1, some(x_has_UPnP_StateVariable_Type, string())),
                     sub(y1, UPnP_StateVariable),
                     sub(y1, some(y_has_UPnP_StateVariable_Type, string())));
-            return sequentialUnion;
+            return _sequentialUnion;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -524,7 +525,7 @@ public class TestOntologies {
     public static OWLOntology pizza(OWLOntologyManager m) {
         String ns = "http://pizza.com/pizza.owl#";
         try {
-            OWLOntology pizza = m.createOntology(IRI("http://pizza.com/pizza.owl"));
+            OWLOntology _pizza = m.createOntology(IRI("http://pizza.com/pizza.owl"));
             OWLClass American = Class(ns + "American");
             OWLClass AmericanHot = Class(ns + "AmericanHot");
             OWLClass AnchoviesTopping = Class(ns + "AnchoviesTopping");
@@ -635,10 +636,10 @@ public class TestOntologies {
             OWLNamedIndividual England = NamedIndividual(ns + "England");
             OWLNamedIndividual France = NamedIndividual(ns + "France");
             OWLNamedIndividual America = NamedIndividual(ns + "America");
-            declare(pizza, DeepPanBase, DomainConcept, hasBase, hasCountryOfOrigin,
+            declare(_pizza, DeepPanBase, DomainConcept, hasBase, hasCountryOfOrigin,
                     hasIngredient, hasSpiciness, hasTopping, isBaseOf, isIngredientOf,
                     isToppingOf);
-            state(pizza, label(GoatsCheeseTopping, "CoberturaDeQueijoDeCabra@pt"),
+            state(_pizza, label(GoatsCheeseTopping, "CoberturaDeQueijoDeCabra@pt"),
                     label(GorgonzolaTopping, "CoberturaDeGorgonzola@pt"),
                     label(GreenPepperTopping, "CoberturaDePimentaoVerde@pt"),
                     label(HamTopping, "CoberturaDePresunto@pt"),
@@ -726,7 +727,7 @@ public class TestOntologies {
                     label(FruttiDiMare, "FrutosDoMar@pt"),
                     label(GarlicTopping, "CoberturaDeAlho@pt"),
                     label(Giardiniera, "Giardiniera@pt"), label(Soho, "Soho@pt"));
-            state(pizza,
+            state(_pizza,
                     sub(American, NamedPizza),
                     sub(American, some(hasTopping, MozzarellaTopping)),
                     sub(American, some(hasTopping, PeperoniSausageTopping)),
@@ -1130,7 +1131,7 @@ public class TestOntologies {
                             SloppyGiuseppe, Soho, UnclosedPizza, Veneziana),
                     diff(America, England, France, Germany, Italy),
                     disjoint(Hot, Medium, Mild));
-            return pizza;
+            return _pizza;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

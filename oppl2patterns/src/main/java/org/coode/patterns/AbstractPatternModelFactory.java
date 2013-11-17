@@ -48,6 +48,8 @@ public interface AbstractPatternModelFactory {
      * @param rendering
      * @param constraintSystem
      * @return a PatternModel
+     * @throws EmptyVariableListException
+     * @throws EmptyActionListException
      * @throws UnsuitableOPPLScriptException */
     PatternModel createPatternModel(String name, List<Variable<?>> variables,
             List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
@@ -65,6 +67,7 @@ public interface AbstractPatternModelFactory {
             throws UnsuitableOPPLScriptException;
 
     /** @param patternModel
+     * @param handler
      * @return a InstantiatedPatternModel instance created from the input
      *         patternModel */
     InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel,
@@ -97,7 +100,10 @@ public interface AbstractPatternModelFactory {
     /** @return a fresh instance of a PatternConstraintSystem */
     PatternConstraintSystem createConstraintSystem();
 
+    /** @param patternConstraintSystem
+     * @return renderer */
     ManchesterSyntaxRenderer getRenderer(PatternConstraintSystem patternConstraintSystem);
 
+    /** @return the oppl factory */
     OPPLAbstractFactory getOPPLFactory();
 }

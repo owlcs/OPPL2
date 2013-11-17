@@ -63,6 +63,7 @@ import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 import org.semanticweb.owlapi.vocab.XSDVocabulary;
 
+@SuppressWarnings({ "javadoc", "unchecked" })
 public class PatternTestOntologies {
     private static void declare(OWLOntology o, OWLEntity... entities) {
         for (OWLEntity e : entities) {
@@ -87,7 +88,6 @@ public class PatternTestOntologies {
     private static List<OWLAxiom> label(OWLEntity e, String... lines) {
         List<OWLAxiom> axioms = new ArrayList<OWLAxiom>();
         axioms.add(dec(e));
-        Set<OWLAnnotation> labels = new HashSet<OWLAnnotation>();
         for (String l : lines) {
             String language = "";
             int index = l.indexOf("@");
@@ -142,11 +142,11 @@ public class PatternTestOntologies {
     public static OWLOntology syntax(OWLOntologyManager m) {
         String syntax_ns = "http://www.coode.org/oppl/ontologies/syntaxTest.owl";
         try {
-            OWLOntology syntax = m.createOntology(IRI(syntax_ns));
+            OWLOntology _syntax = m.createOntology(IRI(syntax_ns));
             OWLDataProperty p = DataProperty(syntax_ns + "#aDataProperty");
-            state(syntax, label(p, "aDataProperty"));
-            state(syntax, range(p, OWL2Datatype.XSD_INT.getDatatype(dataFactory)));
-            return syntax;
+            state(_syntax, label(p, "aDataProperty"));
+            state(_syntax, range(p, OWL2Datatype.XSD_INT.getDatatype(dataFactory)));
+            return _syntax;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -224,7 +224,7 @@ public class PatternTestOntologies {
     public static OWLOntology pizza(OWLOntologyManager m) {
         String ns = "http://pizza.com/pizza.owl#";
         try {
-            OWLOntology pizza = m.createOntology(IRI("http://pizza.com/pizza.owl"));
+            OWLOntology _pizza = m.createOntology(IRI("http://pizza.com/pizza.owl"));
             OWLClass American = Class(ns + "American");
             OWLClass AmericanHot = Class(ns + "AmericanHot");
             OWLClass AnchoviesTopping = Class(ns + "AnchoviesTopping");
@@ -335,10 +335,10 @@ public class PatternTestOntologies {
             OWLNamedIndividual England = NamedIndividual(ns + "England");
             OWLNamedIndividual France = NamedIndividual(ns + "France");
             OWLNamedIndividual America = NamedIndividual(ns + "America");
-            declare(pizza, DeepPanBase, DomainConcept, hasBase, hasCountryOfOrigin,
+            declare(_pizza, DeepPanBase, DomainConcept, hasBase, hasCountryOfOrigin,
                     hasIngredient, hasSpiciness, hasTopping, isBaseOf, isIngredientOf,
                     isToppingOf);
-            state(pizza, label(GoatsCheeseTopping, "CoberturaDeQueijoDeCabra@pt"),
+            state(_pizza, label(GoatsCheeseTopping, "CoberturaDeQueijoDeCabra@pt"),
                     label(GorgonzolaTopping, "CoberturaDeGorgonzola@pt"),
                     label(GreenPepperTopping, "CoberturaDePimentaoVerde@pt"),
                     label(HamTopping, "CoberturaDePresunto@pt"),
@@ -426,7 +426,7 @@ public class PatternTestOntologies {
                     label(FruttiDiMare, "FrutosDoMar@pt"),
                     label(GarlicTopping, "CoberturaDeAlho@pt"),
                     label(Giardiniera, "Giardiniera@pt"), label(Soho, "Soho@pt"));
-            state(pizza,
+            state(_pizza,
                     sub(American, NamedPizza),
                     sub(American, some(hasTopping, MozzarellaTopping)),
                     sub(American, some(hasTopping, PeperoniSausageTopping)),
@@ -830,7 +830,7 @@ public class PatternTestOntologies {
                             SloppyGiuseppe, Soho, UnclosedPizza, Veneziana),
                     diff(America, England, France, Germany, Italy),
                     disjoint(Hot, Medium, Mild));
-            return pizza;
+            return _pizza;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -838,17 +838,17 @@ public class PatternTestOntologies {
 
     public static OWLOntology patternedPizza(OWLOntologyManager m) {
         try {
-            OWLOntology patternedPizza = m.createOntology(IRI("http://patterns/pizza"));
-            m.applyChange(new AddImport(patternedPizza,
+            OWLOntology _patternedPizza = m.createOntology(IRI("http://patterns/pizza"));
+            m.applyChange(new AddImport(_patternedPizza,
                     ImportsDeclaration(IRI("http://pizza.com/pizza.owl"))));
             OWLAnnotationProperty named = ann("http://patterns#namedPizza");
             OWLAnnotation ann = ann(
                     named,
                     Literal("?base:CLASS, ?topping:CLASS, ?allToppings:CLASS = createUnion(?topping.VALUES)  BEGIN ADD ?_thisClass subClassOf Pizza, ADD ?_thisClass subClassOf hasTopping some ?topping, ADD ?_thisClass subClassOf hasTopping only ?allToppings, ADD ?_thisClass subClassOf hasBase some ?base END; A pizza with ?base base and ?topping toppings ",
                             string()));
-            m.applyChange(new AddOntologyAnnotation(patternedPizza, ann));
-            declare(patternedPizza, named);
-            return patternedPizza;
+            m.applyChange(new AddOntologyAnnotation(_patternedPizza, ann));
+            declare(_patternedPizza, named);
+            return _patternedPizza;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -857,7 +857,7 @@ public class PatternTestOntologies {
     public static OWLOntology dul(OWLOntologyManager m) {
         String ns = "http://www.loa-cnr.it/ontologies/DUL.owl#";
         try {
-            OWLOntology dul = m
+            OWLOntology _dul = m
                     .createOntology(IRI("http://www.loa-cnr.it/ontologies/DUL.owl"));
             OWLClass Abstract = Class(ns + "Abstract");
             OWLClass BiologicalObject = Class(ns + "BiologicalObject");
@@ -1049,8 +1049,8 @@ public class PatternTestOntologies {
             OWLDataProperty hasRegionDataValue = DataProperty(ns + "hasRegionDataValue");
             OWLAnnotationProperty mappableTo = ann(ns + "mappableTo");
             OWLClass Person = Class(ns + "Person");
-            declare(dul, DesignedSubstance, SpatioTemporalRegion, InformationEntity);
-            state(dul,
+            declare(_dul, DesignedSubstance, SpatioTemporalRegion, InformationEntity);
+            state(_dul,
                     label(Abstract, "Astratto@it", "Abstract@en"),
                     label(Action, "Action@en", "Azione@it"),
                     label(Agent, "Agent@en", "Agente@it"),
@@ -1276,7 +1276,7 @@ public class PatternTestOntologies {
                     label(hasProxy, "ha proxy@it", "has proxy@en"),
                     label(hasRegionDataValue, "has region data value@en",
                             "regione ha valore@it"), label(mappableTo, "mappable to@en"));
-            state(dul,
+            state(_dul,
                     sub(Pattern, Relation),
                     sub(Abstract, Entity),
                     disjoint(Abstract, Event),
@@ -1776,14 +1776,13 @@ public class PatternTestOntologies {
                     domain(hasParameterDataValue, Parameter), domain(hasProxy, Entity),
                     range(hasProxy, any), sub(hasRegionDataValue, hasDataValue),
                     domain(hasRegionDataValue, Region));
-            return dul;
+            return _dul;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     public static OWLOntology patternedDul(OWLOntologyManager m) {
-        String ns = "http://www.semanticweb.org/ontologies/2011/1/siblings.owl";
         try {
             OWLOntology siblings = m.createOntology(IRI("http://patterns/patternedDUL"));
             m.applyChange(new AddImport(siblings,

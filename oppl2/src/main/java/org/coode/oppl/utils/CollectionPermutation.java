@@ -61,7 +61,8 @@ class PermutationState<N> {
     }
 }
 
-/** @author Luigi Iannone */
+/** @author Luigi Iannone
+ * @param <N> */
 public class CollectionPermutation<N> extends SearchTree<PermutationState<N>> {
     private CollectionPermutation() {}
 
@@ -84,6 +85,8 @@ public class CollectionPermutation<N> extends SearchTree<PermutationState<N>> {
         return node.isGoal();
     }
 
+    /** @param collection
+     * @return all permutations */
     public static <O> Set<List<O>> getAllPermutations(Collection<O> collection) {
         CollectionPermutation<O> setPermutation = new CollectionPermutation<O>();
         Set<List<O>> toReturn = new HashSet<List<O>>();

@@ -38,6 +38,7 @@ import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /** @author Luigi Iannone Jun 12, 2008 */
+@SuppressWarnings("javadoc")
 public class TestPatternHarness {
     private final IRI iri = IRI.create("http://mytest.com/testpatternharness#test");
     private final OWLOntologyManager manager;

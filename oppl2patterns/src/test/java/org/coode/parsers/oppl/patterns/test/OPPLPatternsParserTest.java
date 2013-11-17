@@ -22,7 +22,7 @@ import org.junit.Test;
 /** Test for the AST generation for OPPL
  * 
  * @author Luigi Iannone */
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "unused" })
 public class OPPLPatternsParserTest {
     private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
         @Override

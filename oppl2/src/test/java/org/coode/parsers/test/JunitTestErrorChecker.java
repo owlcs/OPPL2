@@ -10,6 +10,7 @@ import org.coode.parsers.ErrorListener;
 /** Convenience JUnit ErrorChecke. Just fails when an unexpected error is raised
  * 
  * @author Luigi Iannone */
+@SuppressWarnings("javadoc")
 public class JunitTestErrorChecker implements ErrorCheckerCallBack {
     private final ErrorListener expectedErrorListener;
 

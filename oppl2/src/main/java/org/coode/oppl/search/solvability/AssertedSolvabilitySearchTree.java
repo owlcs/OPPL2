@@ -20,7 +20,9 @@ public class AssertedSolvabilitySearchTree extends
         AbstractSolvabilityOPPLOWLAxiomSearchTree {
     private final OWLOntologyManager ontologyManager;
 
-    /** @param constraintSystem */
+    /** @param constraintSystem
+     * @param ontologyManager
+     * @param runtimeExceptionHandler */
     public AssertedSolvabilitySearchTree(ConstraintSystem constraintSystem,
             OWLOntologyManager ontologyManager,
             RuntimeExceptionHandler runtimeExceptionHandler) {

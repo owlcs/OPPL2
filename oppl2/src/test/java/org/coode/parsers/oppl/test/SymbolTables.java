@@ -6,6 +6,7 @@ import org.coode.parsers.oppl.OPPLSymbolTable;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
+@SuppressWarnings("javadoc")
 public class SymbolTables {
     public static OPPLSymbolTable getOPPLSymbolTable(OWLOntology o) {
         OPPLSymbolTable symtab = new org.coode.parsers.oppl.factory.SimpleSymbolTableFactory(

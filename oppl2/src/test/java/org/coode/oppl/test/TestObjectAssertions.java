@@ -13,12 +13,12 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.AutoIRIMapper;
 
 import uk.ac.manchester.cs.jfact.JFactFactory;
 
+@SuppressWarnings("javadoc")
 public class TestObjectAssertions {
     /** @param args */
     public static void main(String[] args) {
@@ -41,10 +41,10 @@ public class TestObjectAssertions {
             for (OWLNamedIndividual owlNamedIndividual : individualsInSignature) {
                 for (OWLObjectProperty owlObjectProperty : objectPropertiesInSignature) {
                     long start = System.currentTimeMillis();
-                    NodeSet<OWLNamedIndividual> objectPropertyValues = reasoner
-                            .getObjectPropertyValues(owlNamedIndividual,
-                                    owlObjectProperty);
+                    reasoner.getObjectPropertyValues(owlNamedIndividual,
+                            owlObjectProperty);
                     long elapsed = System.currentTimeMillis() - start;
+                    System.out.println("TestObjectAssertions.main() " + elapsed);
                 }
             }
         } catch (MalformedURLException e) {

@@ -22,6 +22,7 @@ import org.coode.parsers.oppl.testcase.OPPLTestCaseCombinedParser;
 import org.coode.parsers.oppl.testcase.OPPLTestCaseLexer;
 import org.junit.Test;
 
+@SuppressWarnings("javadoc")
 public class OPPLTestCaseParserTest {
     private static TreeAdaptor adaptor = new CommonTreeAdaptor() {
         @Override

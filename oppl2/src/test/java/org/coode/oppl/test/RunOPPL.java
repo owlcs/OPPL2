@@ -28,6 +28,7 @@ import org.semanticweb.owlapi.model.RemoveImport;
 import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
 import org.semanticweb.owlapi.model.SetOntologyID;
 
+@SuppressWarnings("javadoc")
 public class RunOPPL {
     public void feedOPPL(String script, String ontologyName)
             throws OWLOntologyCreationException {

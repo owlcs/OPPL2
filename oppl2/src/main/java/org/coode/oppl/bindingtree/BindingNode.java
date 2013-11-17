@@ -148,7 +148,7 @@ public class BindingNode implements Renderable {
 
     /** @param visitor
      * @return visitor value */
-    public <O> O accept(BindingVistorEx<O> visitor) {
+    public <O> O accept(BindingVisitorEx<O> visitor) {
         return visitor.visit(this);
     }
 

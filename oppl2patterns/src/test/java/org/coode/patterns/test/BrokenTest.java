@@ -4,6 +4,7 @@ import static org.coode.oppl.patterntestontologies.PatternTestOntologies.food;
 
 import org.junit.Test;
 
+@SuppressWarnings("javadoc")
 public class BrokenTest extends AbstractPatternTestCase {
     @Test
     public void shouldTestSpaces() {

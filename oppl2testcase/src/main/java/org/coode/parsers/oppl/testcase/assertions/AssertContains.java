@@ -28,7 +28,10 @@ public class AssertContains implements Assertion {
     private final RuntimeExceptionHandler handler;
 
     /** @param variable
-     * @param values */
+     * @param values
+     * @param constraintSystem
+     * @param testCaseFactory
+     * @param handler */
     public AssertContains(Variable<?> variable, Collection<? extends OWLObject> values,
             ConstraintSystem constraintSystem,
             AbstractOPPLTestCaseFactory testCaseFactory, RuntimeExceptionHandler handler) {
@@ -99,12 +102,11 @@ public class AssertContains implements Assertion {
     }
 
     @Override
-    public boolean holds(Set<? extends BindingNode> bindings,
-            ConstraintSystem constraintSystem) {
+    public boolean holds(Set<? extends BindingNode> bindings, ConstraintSystem cs) {
         Set<OWLObject> containerValues = new HashSet<OWLObject>(bindings.size());
         for (BindingNode bindingNode : bindings) {
             ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                    getConstraintSystem(), bindingNode, getHandler());
+                    cs, bindingNode, getHandler());
             OWLObject value = bindingNode.getAssignmentValue(getVariable(), parameters);
             if (value != null) {
                 containerValues.add(value);

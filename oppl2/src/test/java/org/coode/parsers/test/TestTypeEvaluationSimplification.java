@@ -30,6 +30,7 @@ import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /** @author Luigi Iannone */
+@SuppressWarnings("javadoc")
 public class TestTypeEvaluationSimplification {
     public static TreeAdaptor adaptor = new CommonTreeAdaptor() {
         @Override

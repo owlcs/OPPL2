@@ -38,6 +38,7 @@ import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
+@SuppressWarnings("javadoc")
 public class TypeAssociation extends OWLObjectVisitorExAdapter<OWLAxiomType> {
     @Override
     public OWLAxiomType visit(OWLSubClassOfAxiom axiom) {

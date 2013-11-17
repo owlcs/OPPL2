@@ -3,6 +3,7 @@
  */
 package org.coode.parsers.oppl.testcase.assertions;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -22,7 +23,9 @@ public class BindingNodeCountAssertionExpression implements AssertionExpression<
     private final AbstractOPPLTestCaseFactory testCaseFactory;
     private final ConstraintSystem constraintSystem;
 
-    /** @param bindingNode */
+    /** @param bindingNode
+     * @param constraintSystem
+     * @param testCaseFactory */
     public BindingNodeCountAssertionExpression(BindingNode bindingNode,
             ConstraintSystem constraintSystem, AbstractOPPLTestCaseFactory testCaseFactory) {
         if (bindingNode == null) {
@@ -50,12 +53,11 @@ public class BindingNodeCountAssertionExpression implements AssertionExpression<
     }
 
     @Override
-    public Integer resolve(Set<? extends BindingNode> bindings,
-            ConstraintSystem constraintSystem) {
+    public Integer resolve(Set<? extends BindingNode> bindings, ConstraintSystem cs) {
         int count = 0;
-        for (BindingNode bindingNode : bindings) {
-            if (bindingNode.getAssignments().containsAll(
-                    getBindingNode().getAssignments())) {
+        Collection<Assignment> assignments = getBindingNode().getAssignments();
+        for (BindingNode n : bindings) {
+            if (n.getAssignments().containsAll(assignments)) {
                 count++;
             }
         }

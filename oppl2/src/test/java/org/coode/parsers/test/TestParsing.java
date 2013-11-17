@@ -21,6 +21,7 @@ import org.coode.parsers.ManchesterOWLSyntaxTree;
 import org.junit.Test;
 
 /** @author Luigi Iannone */
+@SuppressWarnings("javadoc")
 public class TestParsing {
     public static TreeAdaptor adaptor = new CommonTreeAdaptor() {
         @Override

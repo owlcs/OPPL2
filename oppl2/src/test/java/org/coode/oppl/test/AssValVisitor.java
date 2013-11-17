@@ -13,6 +13,7 @@ import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 
+@SuppressWarnings("javadoc")
 public class AssValVisitor implements VariableTypeVisitorEx<Set<? extends OWLObject>> {
     private final OWLOntology o;
 

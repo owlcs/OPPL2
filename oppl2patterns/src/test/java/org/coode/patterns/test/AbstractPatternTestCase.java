@@ -9,6 +9,7 @@ import org.coode.patterns.PatternModel;
 import org.coode.patterns.PatternOPPLScript;
 import org.semanticweb.owlapi.model.OWLOntology;
 
+@SuppressWarnings("javadoc")
 public abstract class AbstractPatternTestCase extends BasePatternTestCase {
     protected void parseCorrect(String formula, OWLOntology o) {
         PatternOPPLScript script = this.parsePattern(formula, o);

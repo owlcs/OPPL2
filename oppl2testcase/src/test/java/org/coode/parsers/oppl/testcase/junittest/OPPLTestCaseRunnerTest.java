@@ -78,7 +78,7 @@ public class OPPLTestCaseRunnerTest {
         }
     }
 
-    private static final ErrorListener ERROR_LISTENER = new ErrorListener() {
+    static final ErrorListener ERROR_LISTENER = new ErrorListener() {
         @Override
         public void unrecognisedSymbol(CommonTree t) {
             throw new RuntimeException(t.toString());
@@ -136,11 +136,6 @@ public class OPPLTestCaseRunnerTest {
             ERROR_LISTENER.reportThrowable(e, 0, 0, 0);
         }
     };
-
-    @Test
-    public void shoudStopForProfiler() throws Exception {
-        // System.in.read();
-    }
 
     @Test
     public void shouldTestCount() {

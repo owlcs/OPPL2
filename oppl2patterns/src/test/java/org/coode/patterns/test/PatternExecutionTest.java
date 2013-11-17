@@ -36,6 +36,7 @@ import org.semanticweb.owlapi.model.RemoveImport;
 import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
 import org.semanticweb.owlapi.model.SetOntologyID;
 
+@SuppressWarnings("javadoc")
 public class PatternExecutionTest {
     @Test
     public void shouldTestPatternReference() {
@@ -417,8 +418,8 @@ public class PatternExecutionTest {
         QuickFailRuntimeExceptionHandler handler = new QuickFailRuntimeExceptionHandler();
         InstantiatedPatternModel ipm = pf.getPatternFactory()
                 .createInstantiatedPatternModel(patternModel, handler);
-        Map<String, Variable> opplVariableMap = new HashMap<String, Variable>();
-        for (Variable v : patternModel.getInputVariables()) {
+        Map<String, Variable<?>> opplVariableMap = new HashMap<String, Variable<?>>();
+        for (Variable<?> v : patternModel.getInputVariables()) {
             opplVariableMap.put(v.getName(), v);
         }
         for (String var : opplVariableMap.keySet()) {

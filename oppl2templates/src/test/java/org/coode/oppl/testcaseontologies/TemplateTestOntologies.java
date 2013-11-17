@@ -80,10 +80,11 @@ public class TemplateTestOntologies {
         return axioms;
     }
 
+    @SuppressWarnings("unchecked")
     public static OWLOntology pizza(OWLOntologyManager m) {
         String ns = "http://pizza.com/pizza.owl#";
         try {
-            OWLOntology pizza = m.createOntology(IRI("http://pizza.com/pizza.owl"));
+            OWLOntology _pizza = m.createOntology(IRI("http://pizza.com/pizza.owl"));
             OWLClass American = Class(ns + "American");
             OWLClass AmericanHot = Class(ns + "AmericanHot");
             OWLClass AnchoviesTopping = Class(ns + "AnchoviesTopping");
@@ -194,10 +195,10 @@ public class TemplateTestOntologies {
             OWLNamedIndividual England = NamedIndividual(ns + "England");
             OWLNamedIndividual France = NamedIndividual(ns + "France");
             OWLNamedIndividual America = NamedIndividual(ns + "America");
-            declare(pizza, DeepPanBase, DomainConcept, hasBase, hasCountryOfOrigin,
+            declare(_pizza, DeepPanBase, DomainConcept, hasBase, hasCountryOfOrigin,
                     hasIngredient, hasSpiciness, hasTopping, isBaseOf, isIngredientOf,
                     isToppingOf);
-            state(pizza, label(GoatsCheeseTopping, "CoberturaDeQueijoDeCabra@pt"),
+            state(_pizza, label(GoatsCheeseTopping, "CoberturaDeQueijoDeCabra@pt"),
                     label(GorgonzolaTopping, "CoberturaDeGorgonzola@pt"),
                     label(GreenPepperTopping, "CoberturaDePimentaoVerde@pt"),
                     label(HamTopping, "CoberturaDePresunto@pt"),
@@ -285,7 +286,7 @@ public class TemplateTestOntologies {
                     label(FruttiDiMare, "FrutosDoMar@pt"),
                     label(GarlicTopping, "CoberturaDeAlho@pt"),
                     label(Giardiniera, "Giardiniera@pt"), label(Soho, "Soho@pt"));
-            state(pizza,
+            state(_pizza,
                     sub(American, NamedPizza),
                     sub(American, some(hasTopping, MozzarellaTopping)),
                     sub(American, some(hasTopping, PeperoniSausageTopping)),
@@ -689,7 +690,7 @@ public class TemplateTestOntologies {
                             SloppyGiuseppe, Soho, UnclosedPizza, Veneziana),
                     diff(America, England, France, Germany, Italy),
                     disjoint(Hot, Medium, Mild));
-            return pizza;
+            return _pizza;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
