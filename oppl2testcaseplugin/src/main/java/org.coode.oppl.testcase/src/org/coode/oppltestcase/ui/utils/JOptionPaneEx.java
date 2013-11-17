@@ -13,7 +13,16 @@ import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.VerifiedInputEditor;
 import org.protege.editor.core.ui.util.VerifyingOptionPane;
 
+/** @author Luigi Iannone */
 public class JOptionPaneEx {
+    /** @param parent
+     * @param title
+     * @param component
+     * @param verifiedInputEditor
+     * @param messageType
+     * @param optionType
+     * @param defaultFocusedComponent
+     * @return option pane return value */
     public static int showValidatingConfirmDialog(Component parent, String title,
             JComponent component, VerifiedInputEditor verifiedInputEditor,
             int messageType, int optionType, final JComponent defaultFocusedComponent) {

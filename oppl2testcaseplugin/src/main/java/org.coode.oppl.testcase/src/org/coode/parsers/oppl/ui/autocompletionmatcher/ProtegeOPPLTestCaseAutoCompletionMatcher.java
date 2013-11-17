@@ -30,6 +30,7 @@ public final class ProtegeOPPLTestCaseAutoCompletionMatcher implements
     private final OWLEditorKit owlEditorKit;
     private AutoCompletionMatcher delegate;
 
+    /** @param owlEditorKit */
     public ProtegeOPPLTestCaseAutoCompletionMatcher(OWLEditorKit owlEditorKit) {
         if (owlEditorKit == null) {
             throw new NullPointerException("The owl editor kit cannot be null");
@@ -44,6 +45,7 @@ public final class ProtegeOPPLTestCaseAutoCompletionMatcher implements
         return delegate.getMatches(string2Complete);
     }
 
+    /** dispose */
     public void dispose() {
         getOWLEditorKit().getOWLModelManager().removeListener(modelManagerListener);
     }
@@ -67,7 +69,9 @@ public final class ProtegeOPPLTestCaseAutoCompletionMatcher implements
                 OPPL_KEYWORD_AUTO_COMPLETION_MATCHER));
     }
 
+    /** @return keywords */
     public static List<String> getKeywords() {
+        // XXX group these with the other keywords
         return Arrays.asList("WHERE", "IN", "SELECT", "ASSERTED", "create",
                 "createIntersection", "createDisjuntion", "superClassOf",
                 "superPropertyOf", "CLASS", "OBJECTPROPERTY", "DATAPROPERTY",

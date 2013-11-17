@@ -7,18 +7,21 @@ package org.coode.parsers.oppl.testcase.ui.report;
  * 
  * @author Luigi Iannone */
 public interface ReportVisitor {
-    void visitSuccessfulExecutionReport(
-            SuccessfulExecutionReport successfulExecutionReport);
+    /** @param report */
+    void visitSuccessfulExecutionReport(SuccessfulExecutionReport report);
 
-    void visitConfigurationFailedExecutionReport(
-            ConfigurationFailedExecutionReport configurationFailedExecutionReport);
+    /** @param report */
+    void
+            visitConfigurationFailedExecutionReport(
+                    ConfigurationFailedExecutionReport report);
 
-            void
-            visitRuntimeErrorEncounteredExecutionReport(
-                    RuntimeErrorEncounteredExecutionReport runtimeErrorEncounteredExecutionReport);
+    /** @param report */
+    void visitRuntimeErrorEncounteredExecutionReport(
+            RuntimeErrorEncounteredExecutionReport report);
 
-    void visitAssertionFailedExecutionReport(
-            AssertionFailedExecutionReport assertionFailedExecutionReport);
+    /** @param report */
+    void visitAssertionFailedExecutionReport(AssertionFailedExecutionReport report);
 
-    void visitUnexecutedTestReport(UnexecutedTestReport unexecutedTestReport);
+    /** @param report */
+    void visitUnexecutedTestReport(UnexecutedTestReport report);
 }

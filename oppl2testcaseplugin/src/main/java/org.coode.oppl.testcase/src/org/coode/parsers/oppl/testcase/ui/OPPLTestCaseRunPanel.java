@@ -57,13 +57,10 @@ public class OPPLTestCaseRunPanel extends JPanel {
         }
     }
 
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = -5802632215147728332L;
-    private final ReportTreeModel resultTreeModel = new ReportTreeModel();
-    private final JTree resultTree = new JTree(resultTreeModel);
-    private final SummaryPanel summaryPanel = new SummaryPanel();
+    protected final ReportTreeModel resultTreeModel = new ReportTreeModel();
+    protected final JTree resultTree = new JTree(resultTreeModel);
+    protected final SummaryPanel summaryPanel = new SummaryPanel();
     private final TreeModelListener treeModelLister = new TreeModelListener() {
         @Override
         public void treeStructureChanged(TreeModelEvent e) {
@@ -93,6 +90,7 @@ public class OPPLTestCaseRunPanel extends JPanel {
         }
     };
 
+    /** init gui */
     public OPPLTestCaseRunPanel() {
         initGUI();
     }
@@ -108,6 +106,7 @@ public class OPPLTestCaseRunPanel extends JPanel {
         this.add(resultTreeScrollPane, BorderLayout.CENTER);
     }
 
+    /** @param testCases */
     public void runTests(Collection<? extends OPPLTestCase> testCases) {
         resultTreeModel.clear();
         summaryPanel.clear();

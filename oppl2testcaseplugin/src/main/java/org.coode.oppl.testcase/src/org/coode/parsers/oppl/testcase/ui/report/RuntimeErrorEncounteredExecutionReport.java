@@ -12,7 +12,8 @@ import org.coode.parsers.oppl.testcase.OPPLTestCase;
 public class RuntimeErrorEncounteredExecutionReport extends UnsuccessfulExecutionReport {
     private final Throwable cause;
 
-    /** @param opplTestCase */
+    /** @param opplTestCase
+     * @param t */
     public RuntimeErrorEncounteredExecutionReport(OPPLTestCase opplTestCase, Throwable t) {
         super(opplTestCase);
         if (t == null) {

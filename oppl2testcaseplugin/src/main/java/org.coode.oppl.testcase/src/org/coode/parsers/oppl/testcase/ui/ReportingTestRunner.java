@@ -36,9 +36,9 @@ public class ReportingTestRunner {
             List<OPPLTest> tests = getOPPLTestCase().getTests();
             ConfigurationFailedExecutionReport configurationFailedExecutionReport = new ConfigurationFailedExecutionReport(
                     getOPPLTestCase(), message);
-            List<Report> reports = new ArrayList<Report>(tests.size() + 1);
-            reports.add(configurationFailedExecutionReport);
-            this.reports.put(opplTestCase, reports);
+            List<Report> reportList = new ArrayList<Report>(tests.size() + 1);
+            reportList.add(configurationFailedExecutionReport);
+            reports.put(opplTestCase, reportList);
         }
 
         @Override
@@ -74,7 +74,7 @@ public class ReportingTestRunner {
         }
     }
 
-    private final OPPLTestCase opplTestCase;
+    protected final OPPLTestCase opplTestCase;
 
     /** @param opplTestCase */
     public ReportingTestRunner(OPPLTestCase opplTestCase) {

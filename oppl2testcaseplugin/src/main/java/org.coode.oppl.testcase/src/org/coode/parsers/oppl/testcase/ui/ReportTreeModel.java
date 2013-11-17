@@ -126,12 +126,14 @@ public final class ReportTreeModel implements TreeModel {
         }
     }
 
+    /** clear report map */
     public void clear() {
         root = DEFAULT_ROOT;
         reportMap.clear();
         notifyListeners();
     }
 
+    /** @param reports */
     public void addReports(Map<OPPLTestCase, List<Report>> reports) {
         if (reportMap.isEmpty()) {
             root = ReportTreeModel.TEST_CASES_EXECUTED;
@@ -196,7 +198,7 @@ public final class ReportTreeModel implements TreeModel {
     }
 
     /** @param report
-     * @return */
+     * @return true if unsuccesful */
     public boolean isUnsuccessful(Report report) {
         boolean found;
         found = report.accept(new DefaultReportVisitorExAdapter<Boolean>(true) {

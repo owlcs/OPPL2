@@ -22,7 +22,7 @@ import org.coode.parsers.oppl.testcase.ui.report.Report;
 
 /** @author Luigi Iannone */
 public class ReportTreeCellRenderer implements TreeCellRenderer {
-    private static final Stroke ICON_STROKE = new BasicStroke(2.0f,
+    protected static final Stroke ICON_STROKE = new BasicStroke(2.0f,
             BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
     @Override

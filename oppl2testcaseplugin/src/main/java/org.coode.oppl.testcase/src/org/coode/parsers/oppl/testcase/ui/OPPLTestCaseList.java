@@ -28,13 +28,15 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
 
+/** @author Luigi Iannone */
 public abstract class OPPLTestCaseList extends
         AbstractAnnotationsList<OPPLTestCaseAnnotationContainer> {
     /** @author Luigi Iannone */
     public final class OPPLTestCaseListItem extends AnnotationsListItem {
         private final OPPLTestCase opplTestCase;
 
-        /** @param annot */
+        /** @param annot
+         * @param opplTestCase */
         public OPPLTestCaseListItem(OWLAnnotation annot, OPPLTestCase opplTestCase) {
             super(annot);
             if (opplTestCase == null) {
@@ -84,9 +86,6 @@ public abstract class OPPLTestCaseList extends
         }
     }
 
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = 6792396788714900301L;
     // Have to as the super class header is not visible;
     private final MListSectionHeader header = new MListSectionHeader() {
@@ -102,7 +101,7 @@ public abstract class OPPLTestCaseList extends
     };
     private final OWLEditorKit owlEditorKit;
     private final OPPLTestCaseEditor editor;
-    private final Map<OPPLTestCase, List<MListButton>> buttons = new HashMap<OPPLTestCase, List<MListButton>>();
+    protected final Map<OPPLTestCase, List<MListButton>> buttons = new HashMap<OPPLTestCase, List<MListButton>>();
     private final OWLModelManagerListener modelManagerListener;
 
     /** @param owlEditorKit */

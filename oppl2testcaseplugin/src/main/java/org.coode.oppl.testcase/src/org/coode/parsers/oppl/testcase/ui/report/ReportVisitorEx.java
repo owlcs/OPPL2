@@ -9,17 +9,24 @@ package org.coode.parsers.oppl.testcase.ui.report;
  * @param <O>
  *            the type of the values returned by this visitor. */
 public interface ReportVisitorEx<O> {
-    O visitSuccessfulExecutionReport(SuccessfulExecutionReport successfulExecutionReport);
+    /** @param report
+     * @return visitor result */
+    O visitSuccessfulExecutionReport(SuccessfulExecutionReport report);
 
-    O visitConfigurationFailedExecutionReport(
-            ConfigurationFailedExecutionReport configurationFailedExecutionReport);
+    /** @param report
+     * @return visitor result */
+    O visitConfigurationFailedExecutionReport(ConfigurationFailedExecutionReport report);
 
-            O
-            visitRuntimeErrorEncounteredExecutionReport(
-                    RuntimeErrorEncounteredExecutionReport runtimeErrorEncounteredExecutionReport);
+    /** @param report
+     * @return visitor result */
+    O visitRuntimeErrorEncounteredExecutionReport(
+            RuntimeErrorEncounteredExecutionReport report);
 
-    O visitAssertionFailedExecutionReport(
-            AssertionFailedExecutionReport assertionFailedExecutionReport);
+    /** @param report
+     * @return visitor result */
+    O visitAssertionFailedExecutionReport(AssertionFailedExecutionReport report);
 
-    O visitUnexecutedTestReport(UnexecutedTestReport unexecutedTestReport);
+    /** @param report
+     * @return visitor result */
+    O visitUnexecutedTestReport(UnexecutedTestReport report);
 }

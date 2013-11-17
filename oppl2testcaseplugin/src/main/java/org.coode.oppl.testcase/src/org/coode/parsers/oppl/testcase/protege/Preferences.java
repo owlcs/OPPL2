@@ -13,6 +13,8 @@ public class Preferences {
     private static final String TEST_CASE_IRI_STRING_DEFAULT = "http://www.coode.org/oppl/testCase";
     private static final String TEST_CASE_IRI_STRING = "testCaseIRIString";
 
+    /** @param dataFactory
+     * @return annotation property for test */
     public static OWLAnnotationProperty getTestCaseAnnotationProperty(
             OWLDataFactory dataFactory) {
         PreferencesManager preferenceManager = PreferencesManager.getInstance();

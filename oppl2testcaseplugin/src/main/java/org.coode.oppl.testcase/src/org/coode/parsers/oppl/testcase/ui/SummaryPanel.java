@@ -22,15 +22,15 @@ import org.coode.parsers.oppl.testcase.ui.report.UnexecutedTestReport;
 
 /** @author Luigi Iannone */
 public class SummaryPanel extends JPanel {
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = 8637279561572511591L;
     private final JLabel runTestSummary = new JLabel();
     private final JLabel okTestSummary = new JLabel();
     private final JLabel errorTestSummary = new JLabel();
     private final Map<OPPLTestCase, List<Report>> reports = new HashMap<OPPLTestCase, List<Report>>();
 
+    /**
+     * 
+     */
     public SummaryPanel() {
         initGUI();
         refresh();
@@ -47,8 +47,9 @@ public class SummaryPanel extends JPanel {
         this.add(resultBreakDown, BorderLayout.EAST);
     }
 
-    public void addReports(Map<OPPLTestCase, List<Report>> reports) {
-        this.reports.putAll(reports);
+    /** @param reportList */
+    public void addReports(Map<OPPLTestCase, List<Report>> reportList) {
+        reports.putAll(reportList);
         refresh();
     }
 
@@ -112,6 +113,7 @@ public class SummaryPanel extends JPanel {
         errorTestSummary.setText(String.format("Failures %d", errorCount));
     }
 
+    /** clear reports */
     public void clear() {
         reports.clear();
         refresh();

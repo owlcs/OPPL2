@@ -33,9 +33,9 @@ public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> im
     private final OWLEditorKit owlEditorKit;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private JPanel mainPanel;
-    private OPPLTestCase opplTestCase = null;
-    private final Set<OPPLTestCase> otherOPPLTestCases = new HashSet<OPPLTestCase>();
-    private final ExpressionEditor<OPPLTestCase> editor;
+    protected OPPLTestCase opplTestCase = null;
+    protected final Set<OPPLTestCase> otherOPPLTestCases = new HashSet<OPPLTestCase>();
+    protected final ExpressionEditor<OPPLTestCase> editor;
     private final ProtegeOPPLTestCaseAutoCompletionMatcher autoCompletionMatcher;
 
     /** @param owlEditorKit */
@@ -69,12 +69,12 @@ public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> im
                         return toReturn;
                     }
 
-                    private final boolean isNameUnique(OPPLTestCase opplTestCase) {
+                    private final boolean isNameUnique(OPPLTestCase test) {
                         boolean found = false;
                         Iterator<OPPLTestCase> iterator = otherOPPLTestCases.iterator();
                         while (!found && iterator.hasNext()) {
                             OPPLTestCase existingOPPLTestCase = iterator.next();
-                            found = opplTestCase.getName().compareTo(
+                            found = test.getName().compareTo(
                                     existingOPPLTestCase.getName()) == 0;
                         }
                         return !found;

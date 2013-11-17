@@ -3,7 +3,8 @@
  */
 package org.coode.parsers.oppl.testcase.ui.report;
 
-/** @author Luigi Iannone */
+/** @author Luigi Iannone
+ * @param <O> */
 public abstract class DefaultReportVisitorExAdapter<O> implements ReportVisitorEx<O> {
     private final O defaultValue;
 

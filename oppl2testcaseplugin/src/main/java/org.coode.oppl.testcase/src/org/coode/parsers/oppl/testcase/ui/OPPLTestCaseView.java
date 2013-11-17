@@ -6,7 +6,6 @@ package org.coode.parsers.oppl.testcase.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.util.Collections;
-import java.util.Set;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,7 +25,7 @@ public class OPPLTestCaseView extends AbstractActiveOntologyViewComponent {
 	 */
     private static final long serialVersionUID = -8432231579317686072L;
     private OPPLTestCaseList list;
-    private final OPPLTestCaseRunPanel testCaseRunPanel = new OPPLTestCaseRunPanel();
+    protected final OPPLTestCaseRunPanel testCaseRunPanel = new OPPLTestCaseRunPanel();
     private AbstractAllOPPLTestCaseAction runAllTestAction;
 
     @Override
@@ -53,8 +52,7 @@ public class OPPLTestCaseView extends AbstractActiveOntologyViewComponent {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Set<OPPLTestCase> opplTestCases = getOPPLTestCases();
-                testCaseRunPanel.runTests(opplTestCases);
+                testCaseRunPanel.runTests(getOPPLTestCases());
             }
         };
         JToolBar toolBar = ComponentFactory.createViewToolBar();
