@@ -20,94 +20,100 @@ import org.coode.parsers.oppl.testcase.ui.report.RuntimeErrorEncounteredExecutio
 import org.coode.parsers.oppl.testcase.ui.report.SuccessfulExecutionReport;
 import org.coode.parsers.oppl.testcase.ui.report.UnexecutedTestReport;
 
-/**
- * @author Luigi Iannone
- * 
- */
+/** @author Luigi Iannone */
 public class SummaryPanel extends JPanel {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 8637279561572511591L;
-	private final JLabel runTestSummary = new JLabel();
-	private final JLabel okTestSummary = new JLabel();
-	private final JLabel errorTestSummary = new JLabel();
-	private final Map<OPPLTestCase, List<Report>> reports = new HashMap<OPPLTestCase, List<Report>>();
+    private static final long serialVersionUID = 8637279561572511591L;
+    private final JLabel runTestSummary = new JLabel();
+    private final JLabel okTestSummary = new JLabel();
+    private final JLabel errorTestSummary = new JLabel();
+    private final Map<OPPLTestCase, List<Report>> reports = new HashMap<OPPLTestCase, List<Report>>();
 
-	public SummaryPanel() {
-		this.initGUI();
-		this.refresh();
-	}
+    public SummaryPanel() {
+        initGUI();
+        refresh();
+    }
 
-	private void initGUI() {
-		this.setLayout(new BorderLayout());
-		this.add(this.runTestSummary, BorderLayout.WEST);
-		JPanel resultBreakDown = new JPanel();
-		resultBreakDown.add(this.okTestSummary);
-		resultBreakDown.add(this.errorTestSummary);
-		this.okTestSummary.setIcon(ReportTreeCellRenderer.getSuccessIcon(16, 16));
-		this.errorTestSummary.setIcon(ReportTreeCellRenderer.getErrorIcon(16, 16));
-		this.add(resultBreakDown, BorderLayout.EAST);
-	}
+    private void initGUI() {
+        setLayout(new BorderLayout());
+        this.add(runTestSummary, BorderLayout.WEST);
+        JPanel resultBreakDown = new JPanel();
+        resultBreakDown.add(okTestSummary);
+        resultBreakDown.add(errorTestSummary);
+        okTestSummary.setIcon(ReportTreeCellRenderer.getSuccessIcon(16, 16));
+        errorTestSummary.setIcon(ReportTreeCellRenderer.getErrorIcon(16, 16));
+        this.add(resultBreakDown, BorderLayout.EAST);
+    }
 
-	public void addReports(Map<OPPLTestCase, List<Report>> reports) {
-		this.reports.putAll(reports);
-		this.refresh();
-	}
+    public void addReports(Map<OPPLTestCase, List<Report>> reports) {
+        this.reports.putAll(reports);
+        refresh();
+    }
 
-	private void refresh() {
-		int count = 0;
-		int okCount = 0;
-		int errorCount = 0;
-		for (OPPLTestCase testCase : this.reports.keySet()) {
-			List<Report> testCaseReports = this.reports.get(testCase);
-			if (testCaseReports != null) {
-				count++;
-				for (Report report : testCaseReports) {
-					boolean isSuccesful = report.accept(new ReportVisitorEx<Boolean>() {
-						public Boolean visitSuccessfulExecutionReport(
-								SuccessfulExecutionReport successfulExecutionReport) {
-							return true;
-						}
+    private void refresh() {
+        int count = 0;
+        int okCount = 0;
+        int errorCount = 0;
+        for (OPPLTestCase testCase : reports.keySet()) {
+            List<Report> testCaseReports = reports.get(testCase);
+            if (testCaseReports != null) {
+                count++;
+                for (Report report : testCaseReports) {
+                    boolean isSuccesful = report.accept(new ReportVisitorEx<Boolean>() {
+                        @Override
+                        public Boolean visitSuccessfulExecutionReport(
+                                SuccessfulExecutionReport successfulExecutionReport) {
+                            return true;
+                        }
 
-						public Boolean visitAssertionFailedExecutionReport(
-								AssertionFailedExecutionReport assertionFailedExecutionReport) {
-							return false;
-						}
+                        @Override
+                        public
+                                Boolean
+                                visitAssertionFailedExecutionReport(
+                                        AssertionFailedExecutionReport assertionFailedExecutionReport) {
+                            return false;
+                        }
 
-						public Boolean visitConfigurationFailedExecutionReport(
-								ConfigurationFailedExecutionReport configurationFailedExecutionReport) {
-							return false;
-						}
+                        @Override
+                        public
+                                Boolean
+                                visitConfigurationFailedExecutionReport(
+                                        ConfigurationFailedExecutionReport configurationFailedExecutionReport) {
+                            return false;
+                        }
 
-						public Boolean visitRuntimeErrorEncounteredExecutionReport(
-								RuntimeErrorEncounteredExecutionReport runtimeErrorEncounteredExecutionReport) {
-							return false;
-						}
+                        @Override
+                        public
+                                Boolean
+                                visitRuntimeErrorEncounteredExecutionReport(
+                                        RuntimeErrorEncounteredExecutionReport runtimeErrorEncounteredExecutionReport) {
+                            return false;
+                        }
 
-						public Boolean visitUnexecutedTestReport(
-								UnexecutedTestReport unexecutedTestReport) {
-							return false;
-						}
-					});
-					if (isSuccesful) {
-						okCount++;
-					} else {
-						errorCount++;
-					}
-				}
-			}
-		}
-		this.runTestSummary.setText(String.format(
-				"Run %d of %d",
-				count,
-				this.reports.keySet().size()));
-		this.okTestSummary.setText(String.format("Succesful %d", okCount));
-		this.errorTestSummary.setText(String.format("Failures %d", errorCount));
-	}
+                        @Override
+                        public Boolean visitUnexecutedTestReport(
+                                UnexecutedTestReport unexecutedTestReport) {
+                            return false;
+                        }
+                    });
+                    if (isSuccesful) {
+                        okCount++;
+                    } else {
+                        errorCount++;
+                    }
+                }
+            }
+        }
+        runTestSummary.setText(String.format("Run %d of %d", count, reports.keySet()
+                .size()));
+        okTestSummary.setText(String.format("Succesful %d", okCount));
+        errorTestSummary.setText(String.format("Failures %d", errorCount));
+    }
 
-	public void clear() {
-		this.reports.clear();
-		this.refresh();
-	}
+    public void clear() {
+        reports.clear();
+        refresh();
+    }
 }

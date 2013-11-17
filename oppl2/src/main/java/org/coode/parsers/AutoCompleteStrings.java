@@ -12,7 +12,9 @@ import java.util.List;
 /** Helper class providing Strings for the autocompletion
  * 
  * @author Luigi Iannone */
+@SuppressWarnings("javadoc")
 public class AutoCompleteStrings {
+    // XXX enumeration
     public final static String SUBCLASS_OF = "subClassOf";
     public final static String EQUIVALENT_TO = "equivalentTo";
     public final static String SUB_PROPERTY_OF = "subPropertyOf";

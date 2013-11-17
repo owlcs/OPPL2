@@ -3,8 +3,6 @@
  */
 package org.coode.parsers.oppl.testcase.ui.report;
 
-import java.util.Formatter;
-
 import org.coode.parsers.oppl.testcase.OPPLTest;
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 
@@ -24,14 +22,12 @@ public class UnexecutedTestReport extends AbstractReport {
         this.unexecutedTest = unexecutedTest;
     }
 
-    /** @see org.coode.parsers.oppl.testcase.ui.report.Report#accept(org.coode.parsers
-     *      .oppl.testcase.ui.report.ReportVisitor) */
+    @Override
     public void accept(ReportVisitor visitor) {
         visitor.visitUnexecutedTestReport(this);
     }
 
-    /** @see org.coode.parsers.oppl.testcase.ui.report.Report#accept(org.coode.parsers
-     *      .oppl.testcase.ui.report.ReportVisitorEx) */
+    @Override
     public <O> O accept(ReportVisitorEx<O> visitor) {
         return visitor.visitUnexecutedTestReport(this);
     }
@@ -43,8 +39,6 @@ public class UnexecutedTestReport extends AbstractReport {
 
     @Override
     public String toString() {
-        Formatter formatter = new Formatter();
-        formatter.format("UNEXECUTED %s", getUnexecutedTest());
-        return formatter.toString();
+        return String.format("UNEXECUTED %s", getUnexecutedTest());
     }
 }

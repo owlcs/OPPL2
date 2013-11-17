@@ -3,8 +3,6 @@
  */
 package org.coode.parsers.oppl.testcase.ui.report;
 
-import java.util.Formatter;
-
 import org.coode.parsers.oppl.testcase.OPPLTest;
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 
@@ -25,14 +23,12 @@ public class AssertionFailedExecutionReport extends UnsuccessfulExecutionReport 
         this.failedTest = failedTest;
     }
 
-    /** @see org.coode.parsers.oppl.testcase.ui.report.Report#accept(org.coode.parsers
-     *      .oppl.testcase.ui.report.ReportVisitor) */
+    @Override
     public void accept(ReportVisitor visitor) {
         visitor.visitAssertionFailedExecutionReport(this);
     }
 
-    /** @see org.coode.parsers.oppl.testcase.ui.report.Report#accept(org.coode.parsers
-     *      .oppl.testcase.ui.report.ReportVisitorEx) */
+    @Override
     public <O> O accept(ReportVisitorEx<O> visitor) {
         return visitor.visitAssertionFailedExecutionReport(this);
     }
@@ -44,8 +40,6 @@ public class AssertionFailedExecutionReport extends UnsuccessfulExecutionReport 
 
     @Override
     public String toString() {
-        Formatter formatter = new Formatter();
-        formatter.format("FAILED %s", getFailedTest());
-        return formatter.toString();
+        return String.format("FAILED %s", getFailedTest());
     }
 }

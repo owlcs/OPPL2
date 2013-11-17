@@ -26,16 +26,13 @@ public class ProtegeOPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
         this.owlEditorKit = owlEditorKit;
     }
 
-    /** @see org.coode.parsers.oppl.testcase.AbstractOPPLTestCaseFactory#buildOPPLTestCase
-     *      (java.lang.String, org.coode.oppl.OPPLScript, java.util.List,
-     *      boolean) */
+    @Override
     public OPPLTestCase buildOPPLTestCase(String name, OPPLScript opplContent,
             List<? extends OPPLTest> tests, boolean requiresInference) {
         return new OPPLTestCaseImpl(name, opplContent, tests, requiresInference);
     }
 
-    /** @see org.coode.parsers.oppl.testcase.AbstractOPPLTestCaseFactory#getOPPLFactory
-     *      () */
+    @Override
     public OPPLAbstractFactory getOPPLFactory() {
         return new ProtegeOPPLFactory(getOWLEditorKit());
     }

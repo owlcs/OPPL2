@@ -4,7 +4,7 @@
 package org.coode.oppl.lint.filtering;
 
 import java.util.Collection;
-import java.util.Formatter;
+
 import java.util.Set;
 
 import org.coode.oppl.OPPLScript;
@@ -146,12 +146,9 @@ public class FilteringOPPLLint implements Lint<OWLObject> {
 	 */
 	@Override
 	public String toString() {
-		Formatter formatter = new Formatter();
-		formatter.format(
+		return String.format(
 				"Fiiltering OPPL Lint script: %s, filter: %s",
-				this.getDelegate().toString(),
-				this.getFilter().toString());
-		return formatter.out().toString();
+getDelegate(),getFilter());
 	}
 
 	/**

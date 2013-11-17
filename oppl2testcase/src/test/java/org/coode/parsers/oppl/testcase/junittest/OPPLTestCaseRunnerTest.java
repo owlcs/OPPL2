@@ -140,6 +140,11 @@ public class OPPLTestCaseRunnerTest {
     };
 
     @Test
+    public void shoudStopForProfiler() throws Exception {
+        // System.in.read();
+    }
+
+    @Test
     public void shouldTestCount() {
         String testCase = "testOneAssertion; ?x:CLASS SELECT ?x subClassOf Pizza ASSERT count(?x) = 1; ?x count is not 1;";
         ParserFactory parserFactory = new ParserFactory(pizza,

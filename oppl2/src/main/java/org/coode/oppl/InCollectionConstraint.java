@@ -23,7 +23,6 @@
 package org.coode.oppl;
 
 import java.util.Collection;
-import java.util.Formatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -62,12 +61,9 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
                 ManchesterSyntaxRenderer manchesterSyntaxRenderer = constraintSystem
                         .getOPPLFactory().getManchesterSyntaxRenderer(constraintSystem);
                 p.accept(manchesterSyntaxRenderer);
-                Formatter formatter = new Formatter();
-                formatter
-                        .format("The value %s is incompatible with variable %s of type %s",
-                                manchesterSyntaxRenderer.toString(), variable,
-                                variable.getType());
-                throw new IllegalArgumentException(formatter.out().toString());
+                throw new IllegalArgumentException(String.format(
+                        "The value %s is incompatible with variable %s of type %s",
+                        manchesterSyntaxRenderer, variable, variable.getType()));
             }
         }
         this.variable = variable;

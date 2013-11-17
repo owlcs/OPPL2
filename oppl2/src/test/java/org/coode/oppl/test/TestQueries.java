@@ -6,11 +6,9 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -96,12 +94,7 @@ public class TestQueries {
 
         @Override
         public void recognitionException(RecognitionException e, String... tokenNames) {
-            StringBuilder out = new StringBuilder();
-            Formatter formatter = new Formatter(out, Locale.getDefault());
-            for (String string : tokenNames) {
-                formatter.format("%s ", string);
-            }
-            fail(e.getMessage() + out.toString());
+            fail(e.getMessage() + Arrays.toString(tokenNames));
         }
 
         @Override
@@ -111,32 +104,18 @@ public class TestQueries {
 
         @Override
         public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
-            StringBuilder out = new StringBuilder();
-            Formatter formatter = new Formatter(out, Locale.getDefault());
-            formatter.format("Incompatible symbols in %s ", parentExpression.getText());
-            for (CommonTree commonTree : trees) {
-                formatter.format("%s ", commonTree.getText());
-            }
-            fail(out.toString());
+            fail(parentExpression.toString());
         }
 
         @Override
         public void
                 incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
-            StringBuilder out = new StringBuilder();
-            Formatter formatter = new Formatter(out, Locale.getDefault());
-            formatter.format("Incompatible symbols type [%s] for %s  in %s ", type,
-                    t.getText(), expression.getText());
-            fail(out.toString());
+            fail(t.toString());
         }
 
         @Override
         public void illegalToken(CommonTree t, String message) {
-            StringBuilder out = new StringBuilder();
-            Formatter formatter = new Formatter(out, Locale.getDefault());
-            formatter
-                    .format("Illegal token %s  additional information: [%s]", t, message);
-            fail(out.toString());
+            fail(t.toString());
         }
     };
     private final static String TEST_NS = "http://www.co-ode.org/opp/test#";

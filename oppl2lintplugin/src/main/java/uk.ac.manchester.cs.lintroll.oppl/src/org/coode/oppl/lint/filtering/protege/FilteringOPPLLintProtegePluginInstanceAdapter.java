@@ -1,7 +1,7 @@
 package org.coode.oppl.lint.filtering.protege;
 
 import java.util.Collection;
-import java.util.Formatter;
+
 
 import org.coode.lint.protege.LintProtegePluginInstance;
 import org.coode.oppl.lint.OPPLLintScript;
@@ -70,10 +70,7 @@ public final class FilteringOPPLLintProtegePluginInstanceAdapter extends Filteri
 	}
 
 	public String getId() {
-		Formatter formatter = new Formatter();
-		formatter.format("filteroppllint.%s", this.extension.getSimpleIdentifier());
-		String string = formatter.out().toString();
-		return string;
+		return String.format("filteroppllint.%s", this.extension.getSimpleIdentifier());
 	}
 
 	@Override

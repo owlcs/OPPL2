@@ -24,7 +24,6 @@ package org.coode.oppl;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -178,13 +177,13 @@ public class ConstraintSystem {
 
         @Override
         public String toString() {
-            Collection<Variable<?>> allVariables = map.values();
-            Formatter formatter = new Formatter();
-            for (Variable<?> variable : allVariables) {
-                formatter.format("Variable name: %s generated: %s \n",
-                        variable.getName(), getGeneratedVariables().contains(variable));
+            Set<GeneratedVariable<?>> generatedVariables = getGeneratedVariables();
+            StringBuilder b = new StringBuilder();
+            for (Variable<?> variable : map.values()) {
+                b.append(String.format("Variable name: %s generated: %s \n",
+                        variable.getName(), generatedVariables.contains(variable)));
             }
-            return formatter.toString();
+            return b.toString();
         }
     }
 

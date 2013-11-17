@@ -3,9 +3,6 @@
  */
 package org.coode.parsers.common;
 
-import java.util.Formatter;
-import java.util.Locale;
-
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTree;
@@ -34,14 +31,11 @@ public final class SystemErrorEcho implements ErrorListener {
 
     @Override
     public void recognitionException(RecognitionException e) {
-        String message = e.getMessage() != null ? e.getMessage() : "";
-        StringBuilder out = new StringBuilder();
-        Formatter formatter = new Formatter(out, Locale.getDefault());
         Token token = e.token;
-        formatter.format(
-                "Recognition exception when parsing  token: %s line %d position %d",
-                token.getText(), token.getLine(), token.getCharPositionInLine());
-        message = out.toString();
+        String message = String
+                .format("Recognition exception when parsing  token: %s line %d position %d message: %s",
+                        token.getText(), token.getLine(), token.getCharPositionInLine(),
+                        e.getMessage());
         System.err.println(message + " unexpected token code " + e.getUnexpectedType());
     }
 

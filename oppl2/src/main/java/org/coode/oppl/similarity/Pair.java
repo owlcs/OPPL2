@@ -1,14 +1,13 @@
 package org.coode.oppl.similarity;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Formatter;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 public class Pair<O> {
-    private final Set<O> members = new HashSet<O>(2);
+    protected final O o1;
+    protected final O o2;
 
     public Pair(O anOWLObject, O anotherOWLObject) {
         if (anOWLObject == null) {
@@ -22,19 +21,19 @@ public class Pair<O> {
             throw new IllegalArgumentException(
                     "The pair is meant to be made of two distic entities");
         }
-        this.members.add(anOWLObject);
-        this.members.add(anotherOWLObject);
+        o1 = anOWLObject;
+        o2 = anotherOWLObject;
     }
 
     public Set<O> getMembers() {
-        return new HashSet<O>(this.members);
+        return new HashSet<O>(Arrays.asList(o1, o2));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (this.members == null ? 0 : this.members.hashCode());
+        result = prime * result + o1.hashCode() + o2.hashCode();
         return result;
     }
 
@@ -50,14 +49,8 @@ public class Pair<O> {
             return false;
         }
         Pair<?> other = (Pair<?>) obj;
-        if (this.members == null) {
-            if (other.members != null) {
-                return false;
-            }
-        } else if (!this.members.equals(other.members)) {
-            return false;
-        }
-        return true;
+        return o1.equals(other.o1) && o2.equals(other.o2) || o1.equals(other.o2)
+                && o2.equals(other.o1);
     }
 
     public static <T> Set<Pair<T>> getAllPossiblePairs(Collection<? extends T> c) {
@@ -74,12 +67,6 @@ public class Pair<O> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        // Send all output to the Appendable object sb
-        Formatter formatter = new Formatter(sb, Locale.getDefault());
-        // Explicit argument indices may be used to re-order output.
-        Formatter format = formatter.format("(%s, %s)",
-                new ArrayList<O>(this.members).toArray());
-        return format.toString();
+        return String.format("(%s, %s)", o1, o2);
     }
 }

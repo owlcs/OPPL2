@@ -96,13 +96,15 @@ public class ComplexityEstimate implements QueryPlannerVisitorEx<Float> {
             return allAnnotationProperties;
         }
     };
-    private final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<OWLAnnotationProperty>();
-    private final Set<OWLClass> allClasses = new HashSet<OWLClass>();
-    private final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
-    private final Set<OWLDataProperty> allDataProperties = new HashSet<OWLDataProperty>();
-    private final Set<OWLIndividual> allIndividuals = new HashSet<OWLIndividual>();
-    private final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
+    protected final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<OWLAnnotationProperty>();
+    protected final Set<OWLClass> allClasses = new HashSet<OWLClass>();
+    protected final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
+    protected final Set<OWLDataProperty> allDataProperties = new HashSet<OWLDataProperty>();
+    protected final Set<OWLIndividual> allIndividuals = new HashSet<OWLIndividual>();
+    protected final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
 
+    /** @param contraintSystem
+     * @param runtimeExceptionHandler */
     public ComplexityEstimate(ConstraintSystem contraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         if (contraintSystem == null) {

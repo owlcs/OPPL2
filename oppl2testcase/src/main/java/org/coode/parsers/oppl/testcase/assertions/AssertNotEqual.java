@@ -1,6 +1,5 @@
 package org.coode.parsers.oppl.testcase.assertions;
 
-import java.util.Formatter;
 import java.util.Set;
 
 import org.coode.oppl.ConstraintSystem;
@@ -28,10 +27,12 @@ public class AssertNotEqual implements Assertion {
         this.right = right;
     }
 
+    @Override
     public <O> O accept(AssertionVisitorEx<O> visitor) {
         return visitor.visitAssertNotEqual(this);
     }
 
+    @Override
     public void accept(AssertionVisitor visitor) {
         visitor.visitAssertNotEqual(this);
     }
@@ -48,11 +49,10 @@ public class AssertNotEqual implements Assertion {
 
     @Override
     public String toString() {
-        Formatter formatter = new Formatter();
-        formatter.format("%s != %s", getLeft(), getRight());
-        return formatter.toString();
+        return String.format("%s != %s", getLeft(), getRight());
     }
 
+    @Override
     public boolean holds(Set<? extends BindingNode> bindings,
             ConstraintSystem constraintSystem) {
         Object leftObjects = getLeft().resolve(bindings, constraintSystem);

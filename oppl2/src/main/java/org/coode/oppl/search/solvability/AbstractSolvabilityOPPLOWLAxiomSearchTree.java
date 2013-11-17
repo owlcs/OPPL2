@@ -162,13 +162,15 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
             return allAnnotationProperties;
         }
     };
-    private final Set<OWLClass> allClasses = new HashSet<OWLClass>();
-    private final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
-    private final Set<OWLDataProperty> allDataProperties = new HashSet<OWLDataProperty>();
-    private final Set<OWLIndividual> allIndividuals = new HashSet<OWLIndividual>();
-    private final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
-    private final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<OWLAnnotationProperty>();
+    protected final Set<OWLClass> allClasses = new HashSet<OWLClass>();
+    protected final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
+    protected final Set<OWLDataProperty> allDataProperties = new HashSet<OWLDataProperty>();
+    protected final Set<OWLIndividual> allIndividuals = new HashSet<OWLIndividual>();
+    protected final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
+    protected final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<OWLAnnotationProperty>();
 
+    /** @param constraintSystem
+     * @param runtimeExceptionHandler */
     public AbstractSolvabilityOPPLOWLAxiomSearchTree(ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         if (constraintSystem == null) {

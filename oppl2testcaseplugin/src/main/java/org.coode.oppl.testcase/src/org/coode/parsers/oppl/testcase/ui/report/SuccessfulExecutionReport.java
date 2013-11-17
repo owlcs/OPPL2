@@ -3,8 +3,6 @@
  */
 package org.coode.parsers.oppl.testcase.ui.report;
 
-import java.util.Formatter;
-
 import org.coode.parsers.oppl.testcase.OPPLTest;
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 
@@ -15,7 +13,8 @@ import org.coode.parsers.oppl.testcase.OPPLTestCase;
 public final class SuccessfulExecutionReport extends AbstractReport {
     private final OPPLTest successfulTest;
 
-    /** @param opplTestCase */
+    /** @param opplTestCase
+     * @param test */
     public SuccessfulExecutionReport(OPPLTestCase opplTestCase, OPPLTest test) {
         super(opplTestCase);
         if (test == null) {
@@ -24,14 +23,12 @@ public final class SuccessfulExecutionReport extends AbstractReport {
         successfulTest = test;
     }
 
-    /** @see org.coode.parsers.oppl.testcase.ui.report.Report#accept(org.coode.parsers
-     *      .oppl.testcase.ui.report.ReportVisitor) */
+    @Override
     public void accept(ReportVisitor visitor) {
         visitor.visitSuccessfulExecutionReport(this);
     }
 
-    /** @see org.coode.parsers.oppl.testcase.ui.report.Report#accept(org.coode.parsers
-     *      .oppl.testcase.ui.report.ReportVisitorEx) */
+    @Override
     public <O> O accept(ReportVisitorEx<O> visitor) {
         return visitor.visitSuccessfulExecutionReport(this);
     }
@@ -43,8 +40,6 @@ public final class SuccessfulExecutionReport extends AbstractReport {
 
     @Override
     public String toString() {
-        Formatter formatter = new Formatter();
-        formatter.format("SUCCESSFUL %s", getSuccessfulTest());
-        return formatter.toString();
+        return String.format("SUCCESSFUL %s", getSuccessfulTest());
     }
 }

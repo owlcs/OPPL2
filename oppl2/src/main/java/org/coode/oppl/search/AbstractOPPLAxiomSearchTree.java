@@ -58,16 +58,17 @@ import org.semanticweb.owlapi.model.OWLQuantifiedRestriction;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.util.OWLObjectVisitorAdapter;
 
+/** axiom search tree */
 public abstract class AbstractOPPLAxiomSearchTree extends
         SearchTree<OPPLOWLAxiomSearchNode> {
     private final ConstraintSystem constraintSystem;
     private final RuntimeExceptionHandler runtimeExceptionHandler;
-    private final Set<OWLClass> allClasses = new HashSet<OWLClass>();
-    private final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
-    private final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<OWLAnnotationProperty>();
-    private final Set<OWLDataProperty> allDataProperties = new HashSet<OWLDataProperty>();
-    private final Set<OWLIndividual> allIndividuals = new HashSet<OWLIndividual>();
-    private final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
+    protected final Set<OWLClass> allClasses = new HashSet<OWLClass>();
+    protected final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
+    protected final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<OWLAnnotationProperty>();
+    protected final Set<OWLDataProperty> allDataProperties = new HashSet<OWLDataProperty>();
+    protected final Set<OWLIndividual> allIndividuals = new HashSet<OWLIndividual>();
+    protected final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
 
     protected AbstractOPPLAxiomSearchTree(ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {

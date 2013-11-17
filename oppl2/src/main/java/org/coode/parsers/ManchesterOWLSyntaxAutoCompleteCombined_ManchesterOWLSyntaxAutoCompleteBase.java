@@ -25,6 +25,7 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 
+@SuppressWarnings("javadoc")
 public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase
         extends Parser {
     public static final int COMMA = 37;
@@ -165,10 +166,12 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         return adaptor;
     }
 
+    @Override
     public String[] getTokenNames() {
         return ManchesterOWLSyntaxAutoCompleteCombinedParser.tokenNames;
     }
 
+    @Override
     public String getGrammarFileName() {
         return "ManchesterOWLSyntaxAutoCompleteBase.g";
     }
@@ -176,17 +179,18 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static class standaloneExpression_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "standaloneExpression"
     // ManchesterOWLSyntaxAutoCompleteBase.g:43:1: standaloneExpression : exp=
     // expression -> ^( STANDALONE_EXPRESSION ^( EXPRESSION $exp) ) ;
     public final
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.standaloneExpression_return
-            standaloneExpression() throws RecognitionException {
+            standaloneExpression() {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.standaloneExpression_return retval = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.standaloneExpression_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
@@ -218,8 +222,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     retval.tree = root_0;
                     RewriteRuleSubtreeStream stream_exp = new RewriteRuleSubtreeStream(
                             adaptor, "rule exp", exp != null ? exp.tree : null);
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 45:22: -> ^( STANDALONE_EXPRESSION ^( EXPRESSION $exp) )
                     {
@@ -266,10 +268,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static class incompleteAxiom_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "incompleteAxiom"
     // ManchesterOWLSyntaxAutoCompleteBase.g:49:1: incompleteAxiom : (
@@ -278,7 +281,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // incompleteAssertionAxiom -> ^( incompleteAssertionAxiom ) );
     public final
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom_return
-            incompleteAxiom() throws RecognitionException {
+            incompleteAxiom() {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom_return retval = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
@@ -368,9 +371,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 50:27: -> ^( incompleteBinaryAxiom )
                         {
@@ -410,9 +410,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 51:30: -> ^( incompleteUnaryAxiom )
                         {
@@ -453,9 +450,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 52:32: -> ^( incompleteAssertionAxiom )
                         {
@@ -494,10 +488,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static class incompleteAssertionAxiom_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "incompleteAssertionAxiom"
     // ManchesterOWLSyntaxAutoCompleteBase.g:55:1: incompleteAssertionAxiom : i=
@@ -505,16 +500,13 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // EXPRESSION $i) ) ;
     public final
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAssertionAxiom_return
-            incompleteAssertionAxiom() throws RecognitionException {
+            incompleteAssertionAxiom() {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAssertionAxiom_return retval = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAssertionAxiom_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
         Token i = null;
         Token INSTANCE_OF4 = null;
         Token TYPES5 = null;
-        ManchesterOWLSyntaxTree i_tree = null;
-        ManchesterOWLSyntaxTree INSTANCE_OF4_tree = null;
-        ManchesterOWLSyntaxTree TYPES5_tree = null;
         RewriteRuleTokenStream stream_TYPES = new RewriteRuleTokenStream(adaptor,
                 "token TYPES");
         RewriteRuleTokenStream stream_IDENTIFIER = new RewriteRuleTokenStream(adaptor,
@@ -591,8 +583,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     retval.tree = root_0;
                     RewriteRuleTokenStream stream_i = new RewriteRuleTokenStream(adaptor,
                             "token i", i);
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 56:41: -> ^( INCOMPLETE_TYPE_ASSERTION ^( EXPRESSION $i)
                     // )
@@ -640,17 +630,18 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static class incompleteUnaryAxiom_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "incompleteUnaryAxiom"
     // ManchesterOWLSyntaxAutoCompleteBase.g:60:1: incompleteUnaryAxiom :
     // unaryCharacteristic -> ^( INCOMPLETE_UNARY_AXIOM unaryCharacteristic ) ;
     public final
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnaryAxiom_return
-            incompleteUnaryAxiom() throws RecognitionException {
+            incompleteUnaryAxiom() {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnaryAxiom_return retval = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnaryAxiom_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
@@ -682,8 +673,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 61:25: -> ^( INCOMPLETE_UNARY_AXIOM unaryCharacteristic )
                     {
@@ -722,10 +711,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static class incompleteBinaryAxiom_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "incompleteBinaryAxiom"
     // ManchesterOWLSyntaxAutoCompleteBase.g:65:1: incompleteBinaryAxiom : (lhs=
@@ -751,7 +741,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // EXPRESSION $lhsID) ) ) );
     public final
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteBinaryAxiom_return
-            incompleteBinaryAxiom() throws RecognitionException {
+            incompleteBinaryAxiom() {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteBinaryAxiom_return retval = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteBinaryAxiom_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
@@ -776,21 +766,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return disjoint = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return incompleteDomain = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return incompleteRange = null;
-        ManchesterOWLSyntaxTree lhsID_tree = null;
-        ManchesterOWLSyntaxTree SUBCLASS_OF7_tree = null;
-        ManchesterOWLSyntaxTree SUBCLASS_OF8_tree = null;
-        ManchesterOWLSyntaxTree EQUIVALENT_TO9_tree = null;
-        ManchesterOWLSyntaxTree EQUIVALENT_TO10_tree = null;
-        ManchesterOWLSyntaxTree DISJOINT_WITH11_tree = null;
-        ManchesterOWLSyntaxTree DISJOINT_WITH12_tree = null;
-        ManchesterOWLSyntaxTree SUB_PROPERTY_OF13_tree = null;
-        ManchesterOWLSyntaxTree SAME_AS14_tree = null;
-        ManchesterOWLSyntaxTree DIFFERENT_FROM15_tree = null;
-        ManchesterOWLSyntaxTree DOMAIN16_tree = null;
-        ManchesterOWLSyntaxTree DOMAIN17_tree = null;
-        ManchesterOWLSyntaxTree RANGE18_tree = null;
-        ManchesterOWLSyntaxTree RANGE19_tree = null;
-        ManchesterOWLSyntaxTree INVERSE_OF20_tree = null;
         RewriteRuleTokenStream stream_RANGE = new RewriteRuleTokenStream(adaptor,
                 "token RANGE");
         RewriteRuleTokenStream stream_DISJOINT_WITH = new RewriteRuleTokenStream(adaptor,
@@ -940,9 +915,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 RewriteRuleSubtreeStream stream_lhs = new RewriteRuleSubtreeStream(
                                         adaptor, "rule lhs", lhs != null ? lhs.tree
                                                 : null);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                                 // 69:31: -> ^( INCOMPLETE_SUB_CLASS_AXIOM ^(
                                 // EXPRESSION $lhs) )
@@ -1011,9 +983,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 RewriteRuleSubtreeStream stream_lhs = new RewriteRuleSubtreeStream(
                                         adaptor, "rule lhs", lhs != null ? lhs.tree
                                                 : null);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 RewriteRuleSubtreeStream stream_superClass = new RewriteRuleSubtreeStream(
                                         adaptor, "rule superClass",
                                         superClass != null ? superClass.tree : null);
@@ -1092,9 +1061,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 RewriteRuleSubtreeStream stream_lhs = new RewriteRuleSubtreeStream(
                                         adaptor, "rule lhs", lhs != null ? lhs.tree
                                                 : null);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                                 // 71:34: -> ^( INCOMPLETE_EQUIVALENT_TO_AXIOM
                                 // ^( EXPRESSION $lhs) )
@@ -1164,9 +1130,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 RewriteRuleSubtreeStream stream_lhs = new RewriteRuleSubtreeStream(
                                         adaptor, "rule lhs", lhs != null ? lhs.tree
                                                 : null);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 RewriteRuleSubtreeStream stream_rhs = new RewriteRuleSubtreeStream(
                                         adaptor, "rule rhs", rhs != null ? rhs.tree
                                                 : null);
@@ -1243,9 +1206,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 RewriteRuleSubtreeStream stream_lhs = new RewriteRuleSubtreeStream(
                                         adaptor, "rule lhs", lhs != null ? lhs.tree
                                                 : null);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                                 // 73:33: -> ^( INCOMPLETE_DISJOINT_WITH_AXIOM
                                 // ^( EXPRESSION $lhs) )
@@ -1318,9 +1278,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 RewriteRuleSubtreeStream stream_disjoint = new RewriteRuleSubtreeStream(
                                         adaptor, "rule disjoint",
                                         disjoint != null ? disjoint.tree : null);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                                 // 74:65: -> ^( DISJOINT_WITH_AXIOM ^(
                                 // EXPRESSION $lhs) ^( INCOMPLETE_EXPRESSION
@@ -1395,9 +1352,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 RewriteRuleSubtreeStream stream_lhs = new RewriteRuleSubtreeStream(
                                         adaptor, "rule lhs", lhs != null ? lhs.tree
                                                 : null);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                                 // 75:36: -> ^( INCOMPLETE_SUB_PROPERTY_AXIOM ^(
                                 // EXPRESSION $lhs) )
@@ -1497,9 +1451,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 retval.tree = root_0;
                                 RewriteRuleTokenStream stream_lhsID = new RewriteRuleTokenStream(
                                         adaptor, "token lhsID", lhsID);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                                 // 79:31: -> ^( INCOMPLETE_SAME_AS_AXIOM ^(
                                 // EXPRESSION $lhsID) )
@@ -1558,9 +1509,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 retval.tree = root_0;
                                 RewriteRuleTokenStream stream_lhsID = new RewriteRuleTokenStream(
                                         adaptor, "token lhsID", lhsID);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                                 // 80:37: -> ^( INCOMPLETE_DIFFERENT_FROM_AXIOM
                                 // ^( EXPRESSION $lhsID) )
@@ -1619,9 +1567,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 retval.tree = root_0;
                                 RewriteRuleTokenStream stream_lhsID = new RewriteRuleTokenStream(
                                         adaptor, "token lhsID", lhsID);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                                 // 81:29: -> ^( INCOMPLETE_DOMAIN ^( EXPRESSION
                                 // $lhsID) )
@@ -1693,9 +1638,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                         adaptor, "rule incompleteDomain",
                                         incompleteDomain != null ? incompleteDomain.tree
                                                 : null);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                                 // 82:69: -> ^( INCOMPLETE_DOMAIN ^( EXPRESSION
                                 // $lhsID) ^( INCOMPLETE_EXPRESSION
@@ -1769,9 +1711,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 retval.tree = root_0;
                                 RewriteRuleTokenStream stream_lhsID = new RewriteRuleTokenStream(
                                         adaptor, "token lhsID", lhsID);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                                 // 83:28: -> ^( INCOMPLETE_RANGE ^( EXPRESSION
                                 // $lhsID) )
@@ -1843,9 +1782,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                         adaptor, "rule incompleteRange",
                                         incompleteRange != null ? incompleteRange.tree
                                                 : null);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                                 // 84:67: -> ^( INCOMPLETE_RANGE ^( EXPRESSION
                                 // $lhsID) ^( INCOMPLETE_EXPRESSION
@@ -1920,9 +1856,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 retval.tree = root_0;
                                 RewriteRuleTokenStream stream_lhsID = new RewriteRuleTokenStream(
                                         adaptor, "token lhsID", lhsID);
-                                RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                        adaptor, "rule retval",
-                                        retval != null ? retval.tree : null);
                                 root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                                 // 85:32: -> ^( INCOMPLETE_INVERSE_OF ^(
                                 // EXPRESSION $lhsID) )
@@ -1980,10 +1913,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static class incompleteExpression_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "incompleteExpression"
     // ManchesterOWLSyntaxAutoCompleteBase.g:90:1: incompleteExpression : (
@@ -1998,7 +1932,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // EXPRESSION expression ) IDENTIFIER ) ) ;
     public final
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return
-            incompleteExpression() throws RecognitionException {
+            incompleteExpression() {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return retval = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
@@ -2016,12 +1950,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnary_return incompleteUnary29 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return expression30 = null;
         RuleReturnScope rest = null;
-        ManchesterOWLSyntaxTree COMPOSITION21_tree = null;
-        ManchesterOWLSyntaxTree COMPOSITION22_tree = null;
-        ManchesterOWLSyntaxTree OR24_tree = null;
         ManchesterOWLSyntaxTree wildcard25_tree = null;
-        ManchesterOWLSyntaxTree OR26_tree = null;
-        ManchesterOWLSyntaxTree IDENTIFIER31_tree = null;
         RewriteRuleTokenStream stream_IDENTIFIER = new RewriteRuleTokenStream(adaptor,
                 "token IDENTIFIER");
         RewriteRuleTokenStream stream_COMPOSITION = new RewriteRuleTokenStream(adaptor,
@@ -2168,9 +2097,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                             retval.tree = root_0;
                             RewriteRuleSubtreeStream stream_head = new RewriteRuleSubtreeStream(
                                     adaptor, "rule head", head != null ? head.tree : null);
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             RewriteRuleSubtreeStream stream_rest = new RewriteRuleSubtreeStream(
                                     adaptor, "token rest", list_rest);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
@@ -2289,9 +2215,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 94:58: -> ^( INCOMPLETE_EXPRESSION ^(
                             // INCOMPLETE_DISJUNCTION incompleteConjunction ) )
@@ -2351,9 +2274,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 95:31: -> ^( INCOMPLETE_EXPRESSION ^(
                             // INCOMPLETE_DISJUNCTION incompleteConjunction ) )
@@ -2412,9 +2332,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 96:25: -> ^( INCOMPLETE_EXPRESSION
                             // incompleteUnary )
@@ -2468,9 +2385,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 97:31: -> ^( INCOMPLETE_EXPRESSION ^( EXPRESSION
                             // expression ) IDENTIFIER )
@@ -2526,10 +2440,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static class incompleteConjunction_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "incompleteConjunction"
     // ManchesterOWLSyntaxAutoCompleteBase.g:101:1: incompleteConjunction : (
@@ -2537,7 +2452,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // ( ^( incompleteUnary ) )? ) ;
     public final
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteConjunction_return
-            incompleteConjunction() throws RecognitionException {
+            incompleteConjunction() {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteConjunction_return retval = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteConjunction_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
@@ -2546,9 +2461,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         Token AND35 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unary_return unary32 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnary_return incompleteUnary36 = null;
-        ManchesterOWLSyntaxTree AND33_tree = null;
         ManchesterOWLSyntaxTree wildcard34_tree = null;
-        ManchesterOWLSyntaxTree AND35_tree = null;
         RewriteRuleTokenStream stream_AND = new RewriteRuleTokenStream(adaptor,
                 "token AND");
         RewriteRuleSubtreeStream stream_incompleteUnary = new RewriteRuleSubtreeStream(
@@ -2686,8 +2599,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 102:49: -> ^( INCOMPLETE_CONJUNCTION ( ^( incompleteUnary
                     // ) )? )
@@ -2742,10 +2653,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
             ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "incompleteComplexPropertyExpression"
     // ManchesterOWLSyntaxAutoCompleteBase.g:105:1:
@@ -2753,14 +2665,12 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // INCOMPLETE_INVERSE_OBJECT_PROPERTY_EXPRESSION ) ;
     public final
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteComplexPropertyExpression_return
-            incompleteComplexPropertyExpression() throws RecognitionException {
+            incompleteComplexPropertyExpression() {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteComplexPropertyExpression_return retval = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteComplexPropertyExpression_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
         Token INVERSE37 = null;
         Token OPEN_PARENTHESYS38 = null;
-        ManchesterOWLSyntaxTree INVERSE37_tree = null;
-        ManchesterOWLSyntaxTree OPEN_PARENTHESYS38_tree = null;
         RewriteRuleTokenStream stream_INVERSE = new RewriteRuleTokenStream(adaptor,
                 "token INVERSE");
         RewriteRuleTokenStream stream_OPEN_PARENTHESYS = new RewriteRuleTokenStream(
@@ -2797,8 +2707,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 106:29: -> ^(
                     // INCOMPLETE_INVERSE_OBJECT_PROPERTY_EXPRESSION )
@@ -2839,10 +2747,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static class incompleteUnary_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "incompleteUnary"
     // ManchesterOWLSyntaxAutoCompleteBase.g:109:1: incompleteUnary : ( NOT
@@ -2850,15 +2759,13 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // incompleteQualifiedRestriction -> incompleteQualifiedRestriction );
     public final
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnary_return
-            incompleteUnary() throws RecognitionException {
+            incompleteUnary() {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnary_return retval = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnary_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
         Token NOT39 = null;
         Token OPEN_PARENTHESYS40 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteQualifiedRestriction_return incompleteQualifiedRestriction41 = null;
-        ManchesterOWLSyntaxTree NOT39_tree = null;
-        ManchesterOWLSyntaxTree OPEN_PARENTHESYS40_tree = null;
         RewriteRuleTokenStream stream_NOT = new RewriteRuleTokenStream(adaptor,
                 "token NOT");
         RewriteRuleTokenStream stream_OPEN_PARENTHESYS = new RewriteRuleTokenStream(
@@ -2914,9 +2821,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 110:27: -> ^( INCOMPLETE_NEGATED_EXPRESSION )
                         {
@@ -2958,9 +2862,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 111:38: -> incompleteQualifiedRestriction
                         {
@@ -2992,10 +2893,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
             ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "incompleteQualifiedRestriction"
     // ManchesterOWLSyntaxAutoCompleteBase.g:114:1:
@@ -3008,7 +2910,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // incompleteValueRestriction ) ;
     public final
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteQualifiedRestriction_return
-            incompleteQualifiedRestriction() throws RecognitionException {
+            incompleteQualifiedRestriction() {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteQualifiedRestriction_return retval = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteQualifiedRestriction_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
@@ -3019,8 +2921,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteOneOf_return incompleteOneOf46 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteCardinalityRestriction_return incompleteCardinalityRestriction47 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteValueRestriction_return incompleteValueRestriction48 = null;
-        ManchesterOWLSyntaxTree SOME43_tree = null;
-        ManchesterOWLSyntaxTree ONLY45_tree = null;
         RewriteRuleTokenStream stream_SOME = new RewriteRuleTokenStream(adaptor,
                 "token SOME");
         RewriteRuleTokenStream stream_ONLY = new RewriteRuleTokenStream(adaptor,
@@ -3062,65 +2962,41 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 int alt12 = 5;
                 switch (input.LA(1)) {
                     case IDENTIFIER: {
-                        int LA12_1 = input.LA(2);
+                        input.LA(2);
                         if (synpred5_ManchesterOWLSyntaxAutoCompleteBase()) {
                             alt12 = 1;
                         } else if (synpred6_ManchesterOWLSyntaxAutoCompleteBase()) {
                             alt12 = 2;
                         } else if (synpred8_ManchesterOWLSyntaxAutoCompleteBase()) {
                             alt12 = 4;
-                        } else if (true) {
-                            alt12 = 5;
                         } else {
-                            if (state.backtracking > 0) {
-                                state.failed = true;
-                                return retval;
-                            }
-                            NoViableAltException nvae = new NoViableAltException("", 12,
-                                    1, input);
-                            throw nvae;
+                            alt12 = 5;
                         }
                     }
                         break;
                     case ENTITY_REFERENCE: {
-                        int LA12_2 = input.LA(2);
+                        input.LA(2);
                         if (synpred5_ManchesterOWLSyntaxAutoCompleteBase()) {
                             alt12 = 1;
                         } else if (synpred6_ManchesterOWLSyntaxAutoCompleteBase()) {
                             alt12 = 2;
                         } else if (synpred8_ManchesterOWLSyntaxAutoCompleteBase()) {
                             alt12 = 4;
-                        } else if (true) {
-                            alt12 = 5;
                         } else {
-                            if (state.backtracking > 0) {
-                                state.failed = true;
-                                return retval;
-                            }
-                            NoViableAltException nvae = new NoViableAltException("", 12,
-                                    2, input);
-                            throw nvae;
+                            alt12 = 5;
                         }
                     }
                         break;
                     case INVERSE: {
-                        int LA12_3 = input.LA(2);
+                        input.LA(2);
                         if (synpred5_ManchesterOWLSyntaxAutoCompleteBase()) {
                             alt12 = 1;
                         } else if (synpred6_ManchesterOWLSyntaxAutoCompleteBase()) {
                             alt12 = 2;
                         } else if (synpred8_ManchesterOWLSyntaxAutoCompleteBase()) {
                             alt12 = 4;
-                        } else if (true) {
-                            alt12 = 5;
                         } else {
-                            if (state.backtracking > 0) {
-                                state.failed = true;
-                                return retval;
-                            }
-                            NoViableAltException nvae = new NoViableAltException("", 12,
-                                    3, input);
-                            throw nvae;
+                            alt12 = 5;
                         }
                     }
                         break;
@@ -3169,9 +3045,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 116:36: -> ^( INCOMPLETE_SOME_RESTRICTION
                             // propertyExpression )
@@ -3227,9 +3100,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 117:35: -> ^( INCOMPLETE_ALL_RESTRICTION
                             // propertyExpression )
@@ -3275,9 +3145,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 118:27: -> ^( incompleteOneOf )
                             {
@@ -3320,9 +3187,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 119:37: -> incompleteCardinalityRestriction
                             {
@@ -3357,9 +3221,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 120:38: -> incompleteValueRestriction
                             {
@@ -3392,10 +3253,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
             ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "incompleteCardinalityRestriction"
     // ManchesterOWLSyntaxAutoCompleteBase.g:126:1:
@@ -3404,14 +3266,13 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // propertyExpression ) ;
     public final
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteCardinalityRestriction_return
-            incompleteCardinalityRestriction() throws RecognitionException {
+            incompleteCardinalityRestriction() {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteCardinalityRestriction_return retval = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteCardinalityRestriction_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
         Token INTEGER51 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return propertyExpression49 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.restrictionKind_return restrictionKind50 = null;
-        ManchesterOWLSyntaxTree INTEGER51_tree = null;
         RewriteRuleTokenStream stream_INTEGER = new RewriteRuleTokenStream(adaptor,
                 "token INTEGER");
         RewriteRuleSubtreeStream stream_propertyExpression = new RewriteRuleSubtreeStream(
@@ -3463,8 +3324,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 127:56: -> ^( INCOMPLETE_CARDINALITY_RESTRICTION
                     // restrictionKind INTEGER propertyExpression )
@@ -3507,10 +3366,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static class incompleteOneOf_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "incompleteOneOf"
     // ManchesterOWLSyntaxAutoCompleteBase.g:130:1: incompleteOneOf :
@@ -3518,7 +3378,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // INCOMPLETE_ONE_OF ( IDENTIFIER )+ ) ;
     public final
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteOneOf_return
-            incompleteOneOf() throws RecognitionException {
+            incompleteOneOf() {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteOneOf_return retval = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteOneOf_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
@@ -3527,11 +3387,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         Token COMMA54 = null;
         Token IDENTIFIER55 = null;
         Token COMMA56 = null;
-        ManchesterOWLSyntaxTree OPEN_CURLY_BRACES52_tree = null;
-        ManchesterOWLSyntaxTree IDENTIFIER53_tree = null;
-        ManchesterOWLSyntaxTree COMMA54_tree = null;
-        ManchesterOWLSyntaxTree IDENTIFIER55_tree = null;
-        ManchesterOWLSyntaxTree COMMA56_tree = null;
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
                 "token COMMA");
         RewriteRuleTokenStream stream_OPEN_CURLY_BRACES = new RewriteRuleTokenStream(
@@ -3615,8 +3470,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 131:60: -> ^( INCOMPLETE_ONE_OF ( IDENTIFIER )+ )
                     {
@@ -3660,10 +3513,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public static class incompleteValueRestriction_return extends ParserRuleReturnScope {
         ManchesterOWLSyntaxTree tree;
 
+        @Override
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "incompleteValueRestriction"
     // ManchesterOWLSyntaxAutoCompleteBase.g:134:1: incompleteValueRestriction :
@@ -3671,13 +3525,12 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // propertyExpression ) ;
     public final
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteValueRestriction_return
-            incompleteValueRestriction() throws RecognitionException {
+            incompleteValueRestriction() {
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteValueRestriction_return retval = new ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteValueRestriction_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
         Token VALUE58 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return propertyExpression57 = null;
-        ManchesterOWLSyntaxTree VALUE58_tree = null;
         RewriteRuleTokenStream stream_VALUE = new RewriteRuleTokenStream(adaptor,
                 "token VALUE");
         RewriteRuleSubtreeStream stream_propertyExpression = new RewriteRuleSubtreeStream(
@@ -3716,8 +3569,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 134:57: -> ^( INCOMPLETE_VALUE_RESTRICTION
                     // propertyExpression )
@@ -3757,7 +3608,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public final void synpred1_ManchesterOWLSyntaxAutoCompleteBase_fragment()
             throws RecognitionException {
         List list_rest = null;
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return head = null;
         RuleReturnScope rest = null;
         // ManchesterOWLSyntaxAutoCompleteBase.g:93:7: (head= propertyExpression
         // ( COMPOSITION rest+= propertyExpression )+ COMPOSITION )
@@ -3765,7 +3615,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         // ( COMPOSITION rest+= propertyExpression )+ COMPOSITION
         {
             pushFollow(FOLLOW_propertyExpression_in_synpred1_ManchesterOWLSyntaxAutoCompleteBase1121);
-            head = gManchesterOWLSyntaxAutoCompleteCombined.propertyExpression();
+            gManchesterOWLSyntaxAutoCompleteCombined.propertyExpression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -3887,8 +3737,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
 
     // $ANTLR end synpred2_ManchesterOWLSyntaxAutoCompleteBase
     // $ANTLR start synpred3_ManchesterOWLSyntaxAutoCompleteBase
-    public final void synpred3_ManchesterOWLSyntaxAutoCompleteBase_fragment()
-            throws RecognitionException {
+    public final void synpred3_ManchesterOWLSyntaxAutoCompleteBase_fragment() {
         // ManchesterOWLSyntaxAutoCompleteBase.g:95:9: ( incompleteConjunction )
         // ManchesterOWLSyntaxAutoCompleteBase.g:95:9: incompleteConjunction
         {
@@ -3903,8 +3752,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
 
     // $ANTLR end synpred3_ManchesterOWLSyntaxAutoCompleteBase
     // $ANTLR start synpred4_ManchesterOWLSyntaxAutoCompleteBase
-    public final void synpred4_ManchesterOWLSyntaxAutoCompleteBase_fragment()
-            throws RecognitionException {
+    public final void synpred4_ManchesterOWLSyntaxAutoCompleteBase_fragment() {
         // ManchesterOWLSyntaxAutoCompleteBase.g:96:9: ( incompleteUnary )
         // ManchesterOWLSyntaxAutoCompleteBase.g:96:9: incompleteUnary
         {
@@ -3963,8 +3811,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
 
     // $ANTLR end synpred6_ManchesterOWLSyntaxAutoCompleteBase
     // $ANTLR start synpred8_ManchesterOWLSyntaxAutoCompleteBase
-    public final void synpred8_ManchesterOWLSyntaxAutoCompleteBase_fragment()
-            throws RecognitionException {
+    public final void synpred8_ManchesterOWLSyntaxAutoCompleteBase_fragment() {
         // ManchesterOWLSyntaxAutoCompleteBase.g:119:4: (
         // incompleteCardinalityRestriction )
         // ManchesterOWLSyntaxAutoCompleteBase.g:119:4:
@@ -3987,10 +3834,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred1_ManchesterOWLSyntaxAutoCompleteBase_fragment(); // can
-                                                                     // never
-                                                                     // throw
-                                                                     // exception
+            synpred1_ManchesterOWLSyntaxAutoCompleteBase_fragment();
         } catch (RecognitionException re) {
             logger.info("impossible: ", re);
         }
@@ -4005,10 +3849,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred6_ManchesterOWLSyntaxAutoCompleteBase_fragment(); // can
-                                                                     // never
-                                                                     // throw
-                                                                     // exception
+            synpred6_ManchesterOWLSyntaxAutoCompleteBase_fragment();
         } catch (RecognitionException re) {
             logger.info("impossible: ", re);
         }
@@ -4022,14 +3863,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public final boolean synpred3_ManchesterOWLSyntaxAutoCompleteBase() {
         state.backtracking++;
         int start = input.mark();
-        try {
-            synpred3_ManchesterOWLSyntaxAutoCompleteBase_fragment(); // can
-                                                                     // never
-                                                                     // throw
-                                                                     // exception
-        } catch (RecognitionException re) {
-            logger.info("impossible: ", re);
-        }
+        synpred3_ManchesterOWLSyntaxAutoCompleteBase_fragment();
         boolean success = !state.failed;
         input.rewind(start);
         state.backtracking--;
@@ -4040,14 +3874,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public final boolean synpred4_ManchesterOWLSyntaxAutoCompleteBase() {
         state.backtracking++;
         int start = input.mark();
-        try {
-            synpred4_ManchesterOWLSyntaxAutoCompleteBase_fragment(); // can
-                                                                     // never
-                                                                     // throw
-                                                                     // exception
-        } catch (RecognitionException re) {
-            logger.info("impossible: ", re);
-        }
+        synpred4_ManchesterOWLSyntaxAutoCompleteBase_fragment();
         boolean success = !state.failed;
         input.rewind(start);
         state.backtracking--;
@@ -4059,10 +3886,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred2_ManchesterOWLSyntaxAutoCompleteBase_fragment(); // can
-                                                                     // never
-                                                                     // throw
-                                                                     // exception
+            synpred2_ManchesterOWLSyntaxAutoCompleteBase_fragment();
         } catch (RecognitionException re) {
             logger.info("impossible: ", re);
         }
@@ -4077,10 +3901,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         state.backtracking++;
         int start = input.mark();
         try {
-            synpred5_ManchesterOWLSyntaxAutoCompleteBase_fragment(); // can
-                                                                     // never
-                                                                     // throw
-                                                                     // exception
+            synpred5_ManchesterOWLSyntaxAutoCompleteBase_fragment();
         } catch (RecognitionException re) {
             logger.info("impossible: ", re);
         }
@@ -4094,14 +3915,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     public final boolean synpred8_ManchesterOWLSyntaxAutoCompleteBase() {
         state.backtracking++;
         int start = input.mark();
-        try {
-            synpred8_ManchesterOWLSyntaxAutoCompleteBase_fragment(); // can
-                                                                     // never
-                                                                     // throw
-                                                                     // exception
-        } catch (RecognitionException re) {
-            logger.info("impossible: ", re);
-        }
+        synpred8_ManchesterOWLSyntaxAutoCompleteBase_fragment();
         boolean success = !state.failed;
         input.rewind(start);
         state.backtracking--;
@@ -4153,6 +3967,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
             transition = DFA3_transition;
         }
 
+        @Override
         public String getDescription() {
             return "68:17: ( SUBCLASS_OF -> ^( INCOMPLETE_SUB_CLASS_AXIOM ^( EXPRESSION $lhs) ) | SUBCLASS_OF superClass= incompleteExpression -> ^( INCOMPLETE_SUB_CLASS_AXIOM ^( EXPRESSION $lhs) ^( INCOMPLETE_EXPRESSION $superClass) ) | EQUIVALENT_TO -> ^( INCOMPLETE_EQUIVALENT_TO_AXIOM ^( EXPRESSION $lhs) ) | EQUIVALENT_TO rhs= incompleteExpression -> ^( EQUIVALENT_TO_AXIOM ^( EXPRESSION $lhs) ^( INCOMPLETE_EXPRESSION $rhs) ) | DISJOINT_WITH -> ^( INCOMPLETE_DISJOINT_WITH_AXIOM ^( EXPRESSION $lhs) ) | DISJOINT_WITH disjoint= incompleteExpression -> ^( DISJOINT_WITH_AXIOM ^( EXPRESSION $lhs) ^( INCOMPLETE_EXPRESSION $disjoint) ) | SUB_PROPERTY_OF -> ^( INCOMPLETE_SUB_PROPERTY_AXIOM ^( EXPRESSION $lhs) ) )";
         }
@@ -4196,6 +4011,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
             transition = DFA4_transition;
         }
 
+        @Override
         public String getDescription() {
             return "78:25: ( SAME_AS -> ^( INCOMPLETE_SAME_AS_AXIOM ^( EXPRESSION $lhsID) ) | DIFFERENT_FROM -> ^( INCOMPLETE_DIFFERENT_FROM_AXIOM ^( EXPRESSION $lhsID) ) | DOMAIN -> ^( INCOMPLETE_DOMAIN ^( EXPRESSION $lhsID) ) | DOMAIN incompleteDomain= incompleteExpression -> ^( INCOMPLETE_DOMAIN ^( EXPRESSION $lhsID) ^( INCOMPLETE_EXPRESSION $incompleteDomain) ) | RANGE -> ^( INCOMPLETE_RANGE ^( EXPRESSION $lhsID) ) | RANGE incompleteRange= incompleteExpression -> ^( INCOMPLETE_RANGE ^( EXPRESSION $lhsID) ^( INCOMPLETE_EXPRESSION $incompleteRange) ) | INVERSE_OF -> ^( INCOMPLETE_INVERSE_OF ^( EXPRESSION $lhsID) ) )";
         }
@@ -4239,17 +4055,20 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
             transition = DFA8_transition;
         }
 
+        @Override
         public String getDescription() {
             return "91:5: ( options {backtrack=true; } : head= propertyExpression ( COMPOSITION rest+= propertyExpression )+ COMPOSITION -> ^( INCOMPLETE_EXPRESSION ^( INCOMPLETE_PROPERTY_CHAIN $head $rest) ) | ( conjunction ( OR . )* ) OR incompleteConjunction -> ^( INCOMPLETE_EXPRESSION ^( INCOMPLETE_DISJUNCTION incompleteConjunction ) ) | incompleteConjunction -> ^( INCOMPLETE_EXPRESSION ^( INCOMPLETE_DISJUNCTION incompleteConjunction ) ) | incompleteUnary -> ^( INCOMPLETE_EXPRESSION incompleteUnary ) | expression IDENTIFIER -> ^( INCOMPLETE_EXPRESSION ^( EXPRESSION expression ) IDENTIFIER ) )";
         }
 
-        public int specialStateTransition(int s, IntStream _input)
+        @Override
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
             TokenStream input = (TokenStream) _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    int LA8_1 = input.LA(1);
+                    input.LA(1);
                     int index8_1 = input.index();
                     input.rewind();
                     s = -1;
@@ -4270,7 +4089,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     }
                     break;
                 case 1:
-                    int LA8_2 = input.LA(1);
+                    input.LA(1);
                     int index8_2 = input.index();
                     input.rewind();
                     s = -1;
@@ -4291,7 +4110,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     }
                     break;
                 case 2:
-                    int LA8_3 = input.LA(1);
+                    input.LA(1);
                     int index8_3 = input.index();
                     input.rewind();
                     s = -1;
@@ -4312,7 +4131,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     }
                     break;
                 case 3:
-                    int LA8_4 = input.LA(1);
+                    input.LA(1);
                     int index8_4 = input.index();
                     input.rewind();
                     s = -1;
@@ -4331,7 +4150,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     }
                     break;
                 case 4:
-                    int LA8_5 = input.LA(1);
+                    input.LA(1);
                     int index8_5 = input.index();
                     input.rewind();
                     s = -1;
@@ -4350,7 +4169,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     }
                     break;
                 case 5:
-                    int LA8_6 = input.LA(1);
+                    input.LA(1);
                     int index8_6 = input.index();
                     input.rewind();
                     s = -1;
@@ -4418,6 +4237,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
             transition = DFA7_transition;
         }
 
+        @Override
         public String getDescription() {
             return "()* loopback of 94:22: ( OR . )*";
         }
@@ -4463,6 +4283,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
             transition = DFA15_transition;
         }
 
+        @Override
         public String getDescription() {
             return "()* loopback of 94:22: ( OR . )*";
         }

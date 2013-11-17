@@ -4,7 +4,6 @@
 package org.coode.oppl.function.inline;
 
 import java.util.Collection;
-import java.util.Formatter;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -127,31 +126,29 @@ public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunctio
 
     @Override
     public String render(ConstraintSystem constraintSystem) {
-        Formatter out = new Formatter();
-        out.format("set(");
+        StringBuilder out = new StringBuilder("set(");
         Iterator<Aggregandum<Collection<? extends O>>> aggregandumIterator = this.aggregandums
                 .iterator();
         while (aggregandumIterator.hasNext()) {
             Aggregandum<Collection<? extends O>> aggregandum = aggregandumIterator.next();
             String comma = aggregandumIterator.hasNext() ? ", " : "";
-            out.format("%s%s", aggregandum.render(constraintSystem), comma);
+            out.append(aggregandum.render(constraintSystem)).append(comma);
         }
-        out.format(")");
+        out.append(")");
         return out.toString();
     }
 
     @Override
     public String render(ShortFormProvider shortFormProvider) {
-        Formatter out = new Formatter();
-        out.format("set(");
+        StringBuilder out = new StringBuilder("set(");
         Iterator<Aggregandum<Collection<? extends O>>> aggregandumIterator = this.aggregandums
                 .iterator();
         while (aggregandumIterator.hasNext()) {
             Aggregandum<Collection<? extends O>> aggregandum = aggregandumIterator.next();
             String comma = aggregandumIterator.hasNext() ? ", " : "";
-            out.format("%s%s", aggregandum.render(shortFormProvider), comma);
+            out.append(aggregandum.render(shortFormProvider)).append(comma);
         }
-        out.format(")");
+        out.append(")");
         return out.toString();
     }
 

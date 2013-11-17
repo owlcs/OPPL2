@@ -41,14 +41,14 @@ import org.coode.parsers.ui.autocompletionmatcher.AutoCompletionMatcher;
  * <br> */
 public final class AutoCompleter {
     public static final int DEFAULT_MAX_ENTRIES = 100;
-    private final JTextComponent textComponent;
+    protected final JTextComponent textComponent;
     private final Set<String> wordDelimeters;
     private final JList popupList;
-    private JWindow popupWindow;
+    protected JWindow popupWindow;
     private final AutoCompletionMatcher matcher;
     public static final int POPUP_WIDTH = 350;
     public static final int POPUP_HEIGHT = 300;
-    private String lastTextUpdate = "*";
+    protected String lastTextUpdate = "*";
     private final int maxEntries = DEFAULT_MAX_ENTRIES;
     private final KeyListener keyListener = new KeyAdapter() {
         @Override
@@ -67,7 +67,7 @@ public final class AutoCompleter {
             }
         }
     };
-    private final ComponentAdapter componentListener = new ComponentAdapter() {
+    protected final ComponentAdapter componentListener = new ComponentAdapter() {
         @Override
         public void componentHidden(ComponentEvent event) {
             AutoCompleter.this.hidePopup();
@@ -151,7 +151,7 @@ public final class AutoCompleter {
         hidePopup();
     }
 
-    private void processKeyPressed(KeyEvent e) {
+    protected void processKeyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE && e.isControlDown()) {
             // Show popup
             performAutoCompletion();
@@ -187,7 +187,7 @@ public final class AutoCompleter {
         }
     }
 
-    private void completeWithPopupSelection() {
+    protected void completeWithPopupSelection() {
         if (popupWindow.isVisible()) {
             Object selObject = popupList.getSelectedValue();
             if (selObject != null) {
@@ -197,11 +197,11 @@ public final class AutoCompleter {
         }
     }
 
-    private List<String> getMatches() {
+    protected List<String> getMatches() {
         return matcher.getMatches(getWordToComplete());
     }
 
-    private void createPopupWindow() {
+    protected void createPopupWindow() {
         JScrollPane sp = new JScrollPane(popupList);
         popupWindow = new JWindow((Window) SwingUtilities.getAncestorOfClass(
                 Window.class, textComponent));
@@ -271,12 +271,12 @@ public final class AutoCompleter {
         }
     }
 
-    private void hidePopup() {
+    protected void hidePopup() {
         popupWindow.setVisible(false);
         popupList.setListData(new Object[0]);
     }
 
-    private void updatePopup(List<String> matches) {
+    protected void updatePopup(List<String> matches) {
         int count = matches.size();
         if (count > maxEntries) {
             count = maxEntries;

@@ -3,11 +3,9 @@ package org.coode.oppl.test;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -70,12 +68,7 @@ public class SpecificInferenceQueries {
 
         @Override
         public void recognitionException(RecognitionException e, String... tokenNames) {
-            StringBuilder out = new StringBuilder();
-            Formatter formatter = new Formatter(out, Locale.getDefault());
-            for (String string : tokenNames) {
-                formatter.format("%s ", string);
-            }
-            fail(e.getMessage() + out.toString());
+            fail(e.getMessage() + Arrays.toString(tokenNames));
         }
 
         @Override
@@ -86,10 +79,10 @@ public class SpecificInferenceQueries {
         @Override
         public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
             StringBuilder out = new StringBuilder();
-            Formatter formatter = new Formatter(out, Locale.getDefault());
-            formatter.format("Incompatible symbols in %s ", parentExpression.getText());
+            out.append(String.format("Incompatible symbols in %s ",
+                    parentExpression.getText()));
             for (CommonTree commonTree : trees) {
-                formatter.format("%s ", commonTree.getText());
+                out.append(String.format("%s ", commonTree.getText()));
             }
             fail(out.toString());
         }
@@ -97,20 +90,14 @@ public class SpecificInferenceQueries {
         @Override
         public void
                 incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
-            StringBuilder out = new StringBuilder();
-            Formatter formatter = new Formatter(out, Locale.getDefault());
-            formatter.format("Incompatible symbols type [%s] for %s  in %s ", type,
-                    t.getText(), expression.getText());
-            fail(out.toString());
+            fail(String.format("Incompatible symbols type [%s] for %s  in %s ", type,
+                    t.getText(), expression.getText()));
         }
 
         @Override
         public void illegalToken(CommonTree t, String message) {
-            StringBuilder out = new StringBuilder();
-            Formatter formatter = new Formatter(out, Locale.getDefault());
-            formatter
-                    .format("Illegal token %s  additional information: [%s]", t, message);
-            fail(out.toString());
+            fail(String.format("Illegal token %s  additional information: [%s]", t,
+                    message));
         }
     };
 

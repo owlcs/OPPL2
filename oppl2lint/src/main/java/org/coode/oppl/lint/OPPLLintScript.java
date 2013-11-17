@@ -4,7 +4,7 @@
 package org.coode.oppl.lint;
 
 import java.util.Collection;
-import java.util.Formatter;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -194,14 +194,12 @@ public class OPPLLintScript implements Lint<OWLObject> {
 
 	@Override
 	public String toString() {
-		Formatter formatter = new Formatter();
-		formatter.format(
+		return String.format(
 				"%s; %s RETURN %s; %s ",
-				this.getName(),
-				this.getOPPLScript().render(),
-				this.getReturnVariable().getName(),
-				this.getDescription());
-		return formatter.out().toString();
+				getName(),
+				getOPPLScript().render(),
+				getReturnVariable().getName(),
+				getDescription());
 	}
 
 	/**

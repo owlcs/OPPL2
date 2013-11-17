@@ -3,8 +3,6 @@
  */
 package org.coode.oppl;
 
-import java.util.Formatter;
-
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
@@ -39,22 +37,16 @@ public class NAFConstraint implements AbstractConstraint {
 
     @Override
     public String render(ShortFormProvider shortFormProvider) {
-        Formatter formatter = new Formatter();
-        ManchesterSyntaxRenderer manchesterSyntaxRenderer = new ManchesterSyntaxRenderer(
-                shortFormProvider);
-        getAxiom().accept(manchesterSyntaxRenderer);
-        formatter.format("FAIL %s", manchesterSyntaxRenderer.toString());
-        return formatter.out().toString();
+        ManchesterSyntaxRenderer r = new ManchesterSyntaxRenderer(shortFormProvider);
+        getAxiom().accept(r);
+        return String.format("FAIL %s", r.toString());
     }
 
     @Override
-    public String render(ConstraintSystem constraintSystem) {
-        Formatter formatter = new Formatter();
-        ManchesterSyntaxRenderer manchesterSyntaxRenderer = getConstraintSystem()
-                .getOPPLFactory().getManchesterSyntaxRenderer(getConstraintSystem());
-        getAxiom().accept(manchesterSyntaxRenderer);
-        formatter.format("FAIL %s", manchesterSyntaxRenderer.toString());
-        return formatter.out().toString();
+    public String render(ConstraintSystem cs) {
+        ManchesterSyntaxRenderer r = cs.getOPPLFactory().getManchesterSyntaxRenderer(cs);
+        getAxiom().accept(r);
+        return String.format("FAIL %s", r);
     }
 
     @Override

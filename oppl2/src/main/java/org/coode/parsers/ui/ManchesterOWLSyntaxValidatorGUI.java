@@ -77,7 +77,11 @@ import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 /** @author Luigi Iannone */
 public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
     private final class AxiomChecker implements ExpressionChecker<OWLAxiom> {
+        public AxiomChecker() {}
+
         private final class AxiomCheckerErrorListener implements ErrorListener {
+            public AxiomCheckerErrorListener() {}
+
             private CommonTree lastErrorTree = null;
 
             public void clear() {
@@ -223,8 +227,8 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
             }
         }
 
-        private final AxiomCheckerErrorListener listener = new AxiomCheckerErrorListener();
-        private ErrorReport lastReport = null;
+        protected final AxiomCheckerErrorListener listener = new AxiomCheckerErrorListener();
+        protected ErrorReport lastReport = null;
         private OWLAxiom lastObject = null;
         private final TreeAdaptor adaptor = new CommonTreeAdaptor() {
             @Override
@@ -485,11 +489,11 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
     }
 
     private static final long serialVersionUID = -4513506293333415642L;
-    private final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-    private final SymbolTableFactory<SymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
+    protected final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+    protected final SymbolTableFactory<SymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
             manager);
     private final ExpressionChecker<OWLAxiom> checker = new AxiomChecker();
-    private final ExpressionEditor<OWLAxiom> axiomValidator;
+    protected final ExpressionEditor<OWLAxiom> axiomValidator;
 
     public void loadOntology(URI uri) {
         try {

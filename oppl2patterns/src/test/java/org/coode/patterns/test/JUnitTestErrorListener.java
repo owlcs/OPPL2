@@ -2,8 +2,7 @@ package org.coode.patterns.test;
 
 import static org.junit.Assert.fail;
 
-import java.util.Formatter;
-import java.util.Locale;
+import java.util.Arrays;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
@@ -30,12 +29,7 @@ public final class JUnitTestErrorListener implements ErrorListener {
 
     @Override
     public void recognitionException(RecognitionException e, String... tokenNames) {
-        StringBuilder out = new StringBuilder();
-        Formatter formatter = new Formatter(out, Locale.getDefault());
-        for (String string : tokenNames) {
-            formatter.format("%s ", string);
-        }
-        fail(e.getMessage() + out.toString());
+        fail(e.getMessage() + Arrays.toString(tokenNames));
     }
 
     @Override
@@ -46,28 +40,20 @@ public final class JUnitTestErrorListener implements ErrorListener {
     @Override
     public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
         StringBuilder out = new StringBuilder();
-        Formatter formatter = new Formatter(out, Locale.getDefault());
-        formatter.format("Incompatible symbols in %s ", parentExpression.getText());
-        for (CommonTree commonTree : trees) {
-            formatter.format("%s ", commonTree.getText());
-        }
+        out.append(String.format("Incompatible symbols in %s ",
+                parentExpression.getText()));
+        out.append(Arrays.toString(trees));
         fail(out.toString());
     }
 
     @Override
     public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
-        StringBuilder out = new StringBuilder();
-        Formatter formatter = new Formatter(out, Locale.getDefault());
-        formatter.format("Incompatible symbols type [%s] for %s  in %s ", type,
-                t.getText(), expression.getText());
-        fail(out.toString());
+        fail(String.format("Incompatible symbols type [%s] for %s  in %s ", type,
+                t.getText(), expression.getText()));
     }
 
     @Override
     public void illegalToken(CommonTree t, String message) {
-        StringBuilder out = new StringBuilder();
-        Formatter formatter = new Formatter(out, Locale.getDefault());
-        formatter.format("Illegal token %s  additional information: [%s]", t, message);
-        fail(out.toString());
+        fail(String.format("Illegal token %s  additional information: [%s]", t, message));
     }
 }

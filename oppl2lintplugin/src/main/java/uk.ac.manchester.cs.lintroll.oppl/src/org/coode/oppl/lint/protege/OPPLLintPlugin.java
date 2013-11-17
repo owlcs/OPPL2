@@ -3,7 +3,7 @@
  */
 package org.coode.oppl.lint.protege;
 
-import java.util.Formatter;
+
 import java.util.Locale;
 
 import org.antlr.runtime.RecognitionException;
@@ -51,17 +51,11 @@ public final class OPPLLintPlugin implements
 		}
 
 		public void recognitionException(RecognitionException e) {
-			String message = e.getMessage() != null ? e.getMessage() : "";
-			StringBuilder out = new StringBuilder();
-			Formatter formatter = new Formatter(out, Locale.getDefault());
-			Token token = e.token;
-			formatter.format(
-					"Recognition exception when parsing  token: %s line %d position %d",
-					token.getText(),
-					token.getLine(),
-					token.getCharPositionInLine());
-			message = out.toString();
-			System.err.println(message + " unexpected token code " + e.getUnexpectedType());
+			System.err.println(String.format(
+                    "Recognition exception when parsing  token: %s line %d position %d message: %s unexpected token code %s",
+                    token.getText(),
+                    token.getLine(),
+                    token.getCharPositionInLine(), e.getMessage(),e.getUnexpectedType())  );
 		}
 
 		public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {

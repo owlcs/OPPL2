@@ -3,8 +3,7 @@
  */
 package org.coode.parsers.test;
 
-import java.util.Formatter;
-import java.util.Locale;
+import java.util.Arrays;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
@@ -34,77 +33,51 @@ public abstract class AbstractExpectedErrorCheckerErrorListener implements Error
 
     @Override
     public void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression) {
-        StringBuilder out = new StringBuilder();
-        Formatter formatter = new Formatter(out, Locale.getDefault());
-        formatter.format("Unexpected incompatible symbol for token %s type %s inside %s",
-                t, type, expression);
-        String errorMessage = out.toString();
-        getErrorChecker().unexpectedError(errorMessage);
+        getErrorChecker().unexpectedError(
+                String.format(
+                        "Unexpected incompatible symbol for token %s type %s inside %s",
+                        t, type, expression));
     }
 
     @Override
     public void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees) {
-        StringBuilder out = new StringBuilder();
-        Formatter formatter = new Formatter(out, Locale.getDefault());
-        formatter
-                .format("Unexpected incompatible symbols  inside %s [", parentExpression);
-        for (CommonTree commonTree : trees) {
-            formatter.format("%s ", commonTree);
-        }
-        formatter.format("]");
-        String errorMessage = out.toString();
-        getErrorChecker().unexpectedError(errorMessage);
+        getErrorChecker().unexpectedError(
+                String.format("Unexpected incompatible symbols  inside %s [%s]",
+                        parentExpression, Arrays.toString(trees)));
     }
 
     @Override
     public void illegalToken(CommonTree t, String message) {
-        StringBuilder out = new StringBuilder();
-        Formatter formatter = new Formatter(out, Locale.getDefault());
-        formatter.format("Unexpected illegal token for token %s type message %s", t,
-                message);
-        String errorMessage = out.toString();
-        getErrorChecker().unexpectedError(errorMessage);
+        getErrorChecker().unexpectedError(
+                String.format("Unexpected illegal token for token %s type message %s", t,
+                        message));
     }
 
     @Override
     public void recognitionException(RecognitionException e) {
-        StringBuilder out = new StringBuilder();
-        Formatter formatter = new Formatter(out, Locale.getDefault());
-        formatter.format("Unexpected recognition exception message %s", e.getMessage());
-        String errorMessage = out.toString();
-        getErrorChecker().unexpectedError(errorMessage);
+        getErrorChecker().unexpectedError(
+                String.format("Unexpected recognition exception message %s",
+                        e.getMessage()));
     }
 
     @Override
     public void recognitionException(RecognitionException e, String... tokenNames) {
-        StringBuilder out = new StringBuilder();
-        Formatter formatter = new Formatter(out, Locale.getDefault());
-        formatter.format("Unexpected recognition exception message %s", e.getMessage());
-        for (String s : tokenNames) {
-            formatter.format("%s ", s);
-        }
-        formatter.format("]");
-        String errorMessage = out.toString();
-        getErrorChecker().unexpectedError(errorMessage);
+        getErrorChecker().unexpectedError(Arrays.toString(tokenNames));
     }
 
     @Override
     public void rewriteEmptyStreamException(RewriteEmptyStreamException e) {
-        StringBuilder out = new StringBuilder();
-        Formatter formatter = new Formatter(out, Locale.getDefault());
-        formatter.format("Unexpected rewrite empty stream exception %s", e.getMessage());
-        String errorMessage = out.toString();
-        getErrorChecker().unexpectedError(errorMessage);
+        getErrorChecker().unexpectedError(
+                String.format("Unexpected rewrite empty stream exception %s",
+                        e.getMessage()));
     }
 
     @Override
     public void reportThrowable(Throwable t, int line, int charPosInLine, int length) {
-        StringBuilder out = new StringBuilder();
-        Formatter formatter = new Formatter(out, Locale.getDefault());
-        formatter.format("Unexpected  exception %s at line %d position %d length %d",
-                t.getMessage(), line, charPosInLine, length);
-        String errorMessage = out.toString();
-        getErrorChecker().unexpectedError(errorMessage);
+        getErrorChecker().unexpectedError(
+                String.format(
+                        "Unexpected  exception %s at line %d position %d length %d",
+                        t.getMessage(), line, charPosInLine, length));
     }
 
     /** @return the errorChecker */
