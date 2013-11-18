@@ -23,6 +23,7 @@
 package org.coode.oppl.utils;
 
 import org.coode.oppl.ConstraintSystem;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLLiteral;
@@ -37,27 +38,32 @@ public class VariableDetector extends AbstractVariableDetector {
     }
 
     @Override
-    public Boolean visit(OWLClass desc) {
-        return constraintSystem.isVariableIRI(desc.getIRI());
+    public Boolean visit(OWLClass e) {
+        return constraintSystem.isVariableIRI(e.getIRI());
     }
 
     @Override
-    public Boolean visit(OWLLiteral node) {
-        return constraintSystem.isVariable(node);
+    public Boolean visit(OWLLiteral e) {
+        return constraintSystem.isVariable(e);
     }
 
     @Override
-    public Boolean visit(OWLObjectProperty property) {
-        return constraintSystem.isVariable(property);
+    public Boolean visit(OWLObjectProperty e) {
+        return constraintSystem.isVariableIRI(e.getIRI());
     }
 
     @Override
-    public Boolean visit(OWLDataProperty property) {
-        return constraintSystem.isVariable(property);
+    public Boolean visit(OWLDataProperty e) {
+        return constraintSystem.isVariableIRI(e.getIRI());
     }
 
     @Override
-    public Boolean visit(OWLNamedIndividual individual) {
-        return constraintSystem.isVariable(individual);
+    public Boolean visit(OWLNamedIndividual e) {
+        return constraintSystem.isVariableIRI(e.getIRI());
+    }
+
+    @Override
+    public Boolean visit(OWLAnnotationProperty e) {
+        return constraintSystem.isVariableIRI(e.getIRI());
     }
 }

@@ -48,14 +48,10 @@ import org.coode.oppl.variabletypes.VariableFactory;
 import org.coode.oppl.variabletypes.VariableType;
 import org.coode.parsers.ErrorListener;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLLiteral;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
@@ -295,28 +291,8 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     @Override
-    public boolean isVariable(OWLClassExpression desc) {
+    public boolean isVariable(OWLObject desc) {
         return constraintSystem.isVariable(desc);
-    }
-
-    @Override
-    public boolean isVariable(OWLAnnotationProperty property) {
-        return constraintSystem.isVariable(property);
-    }
-
-    @Override
-    public boolean isVariable(OWLObjectProperty property) {
-        return constraintSystem.isVariable(property);
-    }
-
-    @Override
-    public boolean isVariable(OWLDataProperty property) {
-        return constraintSystem.isVariable(property);
-    }
-
-    @Override
-    public boolean isVariable(OWLNamedIndividual individual) {
-        return constraintSystem.isVariable(individual);
     }
 
     @Override
