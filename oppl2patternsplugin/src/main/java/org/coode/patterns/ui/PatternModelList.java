@@ -16,6 +16,7 @@ import javax.swing.border.Border;
 
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.protege.ui.ShowMessageRuntimeExceptionHandler;
+import org.coode.patterns.HasPatternModel;
 import org.coode.patterns.InstantiatedPatternModel;
 import org.coode.patterns.NonClassPatternExecutor;
 import org.coode.patterns.PatternModel;
@@ -95,10 +96,12 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
     }
 
     /** @author Luigi Iannone */
-    public final class PatternListItem extends AnnotationsListItem {
+    public final class PatternListItem extends AnnotationsListItem implements
+            HasPatternModel {
         private final PatternModel patternModel;
 
-        /** @param annot */
+        /** @param annot
+         * @param patternModel */
         public PatternListItem(OWLAnnotation annot, PatternModel patternModel) {
             super(annot);
             if (patternModel == null) {
@@ -107,7 +110,7 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
             this.patternModel = patternModel;
         }
 
-        /** @return the patternModel */
+        @Override
         public PatternModel getPatternModel() {
             return patternModel;
         }
@@ -122,12 +125,12 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
                     getEditor(), JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION,
                     getComponentPopupMenu());
             if (ret == JOptionPane.OK_OPTION) {
-                PatternModel patternModel = getEditor().getEditedObject();
+                PatternModel pm = getEditor().getEditedObject();
                 OWLDataFactory dataFactory = getOWLEditorKit().getOWLModelManager()
                         .getOWLOntologyManager().getOWLDataFactory();
-                OWLLiteral literal = dataFactory.getOWLLiteral(patternModel
+                OWLLiteral literal = dataFactory.getOWLLiteral(pm
                         .render(new SimpleShortFormProvider()));
-                IRI annotationIRI = patternModel.getIRI();
+                IRI annotationIRI = pm.getIRI();
                 OWLAnnotation newAnnotation = dataFactory.getOWLAnnotation(
                         dataFactory.getOWLAnnotationProperty(annotationIRI), literal);
                 if (!newAnnotation.equals(getAnnotation())) {
@@ -289,7 +292,7 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
         return owlEditorKit;
     }
 
-    private void showInstantiationEditorDialog(final PatternModel patternModel) {
+    protected void showInstantiationEditorDialog(final PatternModel patternModel) {
         final PatternInstantiationEditor editor = new PatternInstantiationEditor(
                 getOWLEditorKit(), patternModel.getPatternModelFactory());
         final JComponent editorComponent = editor.getEditorComponent();

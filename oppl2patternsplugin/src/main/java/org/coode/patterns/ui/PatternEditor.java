@@ -48,11 +48,11 @@ import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 /** @author Luigi Iannone Apr 2, 2009 */
 public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> implements
         org.protege.editor.core.ui.util.VerifiedInputEditor, ChangeListener {
-    private final JTabbedPane mainPanel = new JTabbedPane();
+    protected final JTabbedPane mainPanel = new JTabbedPane();
     private final Set<org.protege.editor.core.ui.util.InputVerificationStatusChangedListener> listeners = new HashSet<org.protege.editor.core.ui.util.InputVerificationStatusChangedListener>();
-    private final PatternBuilder patternBuilder;
-    private final TypeInPatternBuilder patternTextEditor;
-    private PatternModel patternModel = null;
+    protected final PatternBuilder patternBuilder;
+    protected final TypeInPatternBuilder patternTextEditor;
+    protected PatternModel patternModel = null;
     private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
         @Override
         public void handleChange(OWLModelManagerChangeEvent event) {
@@ -68,6 +68,8 @@ public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> impleme
     };
     private final OWLEditorKit owlEditorKit;
 
+    /** @param owlEditorKit
+     * @param f */
     public PatternEditor(OWLEditorKit owlEditorKit, AbstractPatternModelFactory f) {
         if (owlEditorKit == null) {
             throw new NullPointerException("The OWL editor kit cannot be null");
@@ -179,6 +181,7 @@ public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> impleme
         }
     }
 
+    /** @param patternModel */
     public void setPatternModel(PatternModel patternModel) {
         patternTextEditor.setPatternModel(patternModel);
         patternBuilder.setPatternModel(patternModel);

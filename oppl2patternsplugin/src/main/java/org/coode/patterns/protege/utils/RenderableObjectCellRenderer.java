@@ -11,11 +11,9 @@ import org.semanticweb.owlapi.model.OWLObject;
  * StaticListItems containing either OWLObjects or PRopertyChainModel,
  * PropertyChainCell or BindingModel objects */
 public class RenderableObjectCellRenderer extends OWLCellRenderer {
-    private final OWLEditorKit kit;
-
+    /** @param edkit */
     public RenderableObjectCellRenderer(OWLEditorKit edkit) {
         super(edkit);
-        kit = edkit;
     }
 
     @Override
@@ -46,12 +44,11 @@ public class RenderableObjectCellRenderer extends OWLCellRenderer {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     protected Icon getIcon(Object object) {
         Object item = null;
         // handles the special cases of VariableListItem and StaticListItem
         if (object instanceof VariableListItem) {
-            item = ((VariableListItem) object).getItem();
+            item = ((VariableListItem<?>) object).getItem();
         }
         // item contains now the actual element
         if (item != null) {

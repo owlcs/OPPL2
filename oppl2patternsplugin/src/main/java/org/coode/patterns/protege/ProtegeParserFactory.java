@@ -35,6 +35,8 @@ import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 /** @author Luigi Iannone */
 public class ProtegeParserFactory implements AbstractParserFactory {
     private class ProtegeEntityFinder implements EntityFinder {
+        public ProtegeEntityFinder() {}
+
         @Override
         public Set<OWLEntity> getEntities(String match) {
             return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
@@ -112,6 +114,8 @@ public class ProtegeParserFactory implements AbstractParserFactory {
     }
 
     private class ProtegeOWLEntityChecker implements OWLEntityChecker {
+        public ProtegeOWLEntityChecker() {}
+
         @Override
         public OWLClass getOWLClass(String name) {
             OWLClass toReturn = null;
@@ -228,11 +232,12 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 
     private class ProtegeSymbolTableFactory implements
             SymbolTableFactory<OPPLPatternsSymbolTable> {
+        public ProtegeSymbolTableFactory() {}
+
         @Override
         public OPPLPatternsSymbolTable createSymbolTable() {
             DisposableOWLEntityChecker entityChecker = new DisposableShortFormEntityChecker(
                     getOWLEntityChecker());
-            ShortFormEntityRenderer entityRenderer = getEntityRenderer();
             EntityFinder entityFinder = getEntityFinder();
             return new OPPLPatternsSymbolTable(new OPPLScope(entityChecker, entityFinder,
                     entityRenderer), getOWLEditorKit().getOWLModelManager()
@@ -242,7 +247,7 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 
     private final OWLEditorKit owlEditorKit;
     private final EntityFinder protegeEntityFinder;
-    private final ShortFormEntityRenderer entityRenderer;
+    protected final ShortFormEntityRenderer entityRenderer;
     private final ProtegeOWLEntityChecker protegeOWLEntityChecker;
     private static ProtegeParserFactory instance = null;
 
@@ -282,10 +287,12 @@ public class ProtegeParserFactory implements AbstractParserFactory {
         return owlEditorKit;
     }
 
+    /** @return entity finder */
     public EntityFinder getEntityFinder() {
         return protegeEntityFinder;
     }
 
+    /** @return rntity checker */
     public OWLEntityChecker getOWLEntityChecker() {
         return protegeOWLEntityChecker;
     }
@@ -295,6 +302,8 @@ public class ProtegeParserFactory implements AbstractParserFactory {
         return entityRenderer;
     }
 
+    /** @param owlEditorKit
+     * @return protege parser factory */
     public static ProtegeParserFactory getInstance(OWLEditorKit owlEditorKit) {
         if (owlEditorKit == null) {
             throw new NullPointerException("The OWLEditorKit cannot be null");
@@ -305,6 +314,7 @@ public class ProtegeParserFactory implements AbstractParserFactory {
         return instance;
     }
 
+    /** @return error listener */
     public static ErrorListener getDefaultErrorListener() {
         Logger logger = Logger.getLogger("org.coode.patterns.protege");
         return new LoggerErrorListener(logger);

@@ -16,6 +16,7 @@ import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.patterns.locality.LocalityChecker;
 import org.semanticweb.owlapi.model.OWLEntity;
 
+/** table model for locality checker */
 public class LocalityCheckResultTableModel implements TableModel {
     private static enum values {
         PRESENT("X", 'X'), ABSENT(" ", ' ');
@@ -25,6 +26,10 @@ public class LocalityCheckResultTableModel implements TableModel {
         values(String val, char v) {
             this.val = val;
             this.v = v;
+        }
+
+        public String value() {
+            return val;
         }
 
         public static String getValue(char v) {
@@ -41,10 +46,12 @@ public class LocalityCheckResultTableModel implements TableModel {
     private final String[][] dataArray;
     private final List<TableModelListener> listeners = new ArrayList<TableModelListener>();
 
+    /** @return data array */
     public String[][] getDataArray() {
         return dataArray;
     }
 
+    /** @param checker */
     public LocalityCheckResultTableModel(LocalityChecker checker) {
         List<InputVariable<?>> toAssign = new ArrayList<InputVariable<?>>(checker
                 .getInstantiatedPatternModel().getInputVariables());
@@ -67,9 +74,9 @@ public class LocalityCheckResultTableModel implements TableModel {
                 for (int j = 0; j < toAssign.size(); j++) {
                     Variable<?> v = toAssign.get(j);
                     if (sigmaMinus.contains(node.getAssignmentValue(v, parameters))) {
-                        setValueAt(values.PRESENT.val, i, j + 1);
+                        setValueAt(values.PRESENT.value(), i, j + 1);
                     } else {
-                        setValueAt(values.ABSENT.val, i, j + 1);
+                        setValueAt(values.ABSENT.value(), i, j + 1);
                     }
                 }
             }

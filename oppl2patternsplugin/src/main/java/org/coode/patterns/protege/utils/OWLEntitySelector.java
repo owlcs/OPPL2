@@ -20,6 +20,7 @@ import org.protege.editor.core.ui.util.VerifiedInputEditor;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owlapi.model.OWLEntity;
 
+/** @author Luigi Iannone */
 public class OWLEntitySelector extends JPanel implements VerifiedInputEditor {
     private static final long serialVersionUID = -2876275234475209099L;
     protected MList facetClassView = new MList();
@@ -40,6 +41,7 @@ public class OWLEntitySelector extends JPanel implements VerifiedInputEditor {
         listeners.remove(listener);
     }
 
+    /** @param k */
     public OWLEntitySelector(OWLEditorKit k) {
         super(new BorderLayout());
         kit = k;
@@ -69,10 +71,12 @@ public class OWLEntitySelector extends JPanel implements VerifiedInputEditor {
         }
     }
 
+    /** clear the view */
     public void clear() {
         facetClassView.getSelectionModel().clearSelection();
     }
 
+    /** @return the owl class */
     @SuppressWarnings("unchecked")
     public OWLEntity getOWLClass() {
         if (facetClassView.getSelectedIndex() > -1) {

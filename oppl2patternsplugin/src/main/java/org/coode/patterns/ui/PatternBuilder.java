@@ -81,6 +81,7 @@ import org.coode.parsers.ui.VerifiedInputEditor;
 import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.EmptyActionListException;
 import org.coode.patterns.EmptyVariableListException;
+import org.coode.patterns.HasPatternModel;
 import org.coode.patterns.PatternConstraintSystem;
 import org.coode.patterns.PatternModel;
 import org.coode.patterns.PatternModelChangeListener;
@@ -95,7 +96,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 
 /** @author Luigi Iannone Jun 10, 2008 */
 public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implements
-        VerifiedInputEditor, PatternModelChangeListener {
+        VerifiedInputEditor, PatternModelChangeListener, HasPatternModel {
     private final class PatternBuilderModel {
         private String name = "";
         private final List<Variable<?>> variables = new ArrayList<Variable<?>>();
@@ -377,7 +378,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
             private final OWLAxiomChangeEditor actionEditor;
             private final InputVerificationStatusChangedListener verificationListener;
 
-            private EditActionAdapter(VerifyingOptionPane optionPane,
+            protected EditActionAdapter(VerifyingOptionPane optionPane,
                     OWLAxiomChangeEditor actionEditor,
                     InputVerificationStatusChangedListener verificationListener) {
                 this.optionPane = optionPane;
@@ -441,9 +442,6 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
     }
 
     private class PatternVariableList extends VariableList implements ListDataListener {
-        /**
-		 *
-		 */
         private static final long serialVersionUID = -2540053052502672472L;
 
         @Override
@@ -496,7 +494,8 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 
         public PatternVariableList(OWLEditorKit owlEditorKit) {
             super(owlEditorKit, patternBuilderModel.getConstraintSystem());
-            ((DefaultListModel) getModel()).addElement(new InputVariableSectionHeader());
+            ((DefaultListModel<Object>) getModel())
+                    .addElement(new InputVariableSectionHeader());
             ((DefaultListModel) getModel())
                     .addElement(new GeneratedVariableSectionHeader());
             getModel().addListDataListener(this);
@@ -564,7 +563,10 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
     /** @author Luigi Iannone */
     public class PatternBuilderVariableListItem extends VariableListItem {
         /** @param variable
-         * @param owlEditorKit */
+         * @param constraintSystem
+         * @param owlEditorKit
+         * @param isEditable
+         * @param isDeleatable */
         public PatternBuilderVariableListItem(Variable<?> variable,
                 PatternConstraintSystem constraintSystem, OWLEditorKit owlEditorKit,
                 boolean isEditable, boolean isDeleatable) {
@@ -602,10 +604,9 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
                         @Override
                         public <P extends OWLObject> AbstractVariableEditor<?> visit(
                                 InputVariable<P> v) {
-                            VariableEditor variableEditor = new VariableEditor(
-                                    owlEditorKit, cs);
-                            variableEditor.setVariable(v);
-                            return variableEditor;
+                            VariableEditor ve = new VariableEditor(owlEditorKit, cs);
+                            ve.setVariable(v);
+                            return ve;
                         }
                     });
             final VerifyingOptionPane optionPane = new NoDefaultFocusVerifyingOptionPane(
@@ -646,31 +647,29 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         }
     }
 
-    /**
-	 *
-	 */
     private static final long serialVersionUID = -4071865934355642992L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
-    private final OWLEditorKit owlEditorKit;
-    private PatternModel patternModel = null;
+    protected final OWLEditorKit owlEditorKit;
+    protected PatternModel patternModel = null;
     private final JPanel mainPanel = new JPanel();
-    private final PatternVariableList variableList;
-    private final ActionList actionList;
-    // private ExpressionEditor<String> nameEditor;
-    private final JTextField nameEditor = new JTextField();
+    protected final PatternVariableList variableList;
+    protected final ActionList actionList;
+    protected final JTextField nameEditor = new JTextField();
     private final JTextField rendering = new JTextField();
-    private final JCheckBox allowReturnValueCheckBox;
-    private final DefaultComboBoxModel returnValueListModel = new DefaultComboBoxModel();
-    private final JComboBox returnValuesComboBox = new JComboBox(returnValueListModel);
-    // private PatternConstraintSystem constraintSystem = PatternParser
-    // .getPatternModelFactory().createConstraintSystem();
-    private final PatternBuilderModel patternBuilderModel;
+    protected final JCheckBox allowReturnValueCheckBox;
+    protected final DefaultComboBoxModel<Object> returnValueListModel = new DefaultComboBoxModel<Object>();
+    protected final JComboBox<Object> returnValuesComboBox = new JComboBox<Object>(
+            returnValueListModel);
+    protected final PatternBuilderModel patternBuilderModel;
     private final JPanel errorPanel = new JPanel(new BorderLayout());
-    private final DefaultListModel errorListModel = new DefaultListModel();
-    private final JList errorList = new JList(errorListModel);
+    protected final DefaultListModel<Error> errorListModel = new DefaultListModel<Error>();
+    private final JList<Object> errorList = new JList(errorListModel);
     private final AbstractPatternModelFactory factory;
     private final JSplitPane patternBodyPanel;
 
+    /** @param owlEditorKit
+     * @param f
+     *            factory */
     public PatternBuilder(OWLEditorKit owlEditorKit, AbstractPatternModelFactory f) {
         factory = f;
         patternBuilderModel = new PatternBuilderModel(factory);
@@ -745,6 +744,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         returnValuesComboBox.setEnabled(false);
         returnValuesComboBox.setRenderer(variableList.getVariableListCellRenderer());
         returnValuesComboBox.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 Object selectedItem = returnValuesComboBox.getSelectedItem();
                 if (selectedItem instanceof VariableListItem) {
@@ -769,6 +769,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         patternBuilderModel.setRendering(rendering.getText());
     }
 
+    @Override
     public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
         listeners.add(listener);
         notifyListener(listener, patternBuilderModel.check());
@@ -816,15 +817,18 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         mainPanel.revalidate();
     }
 
+    @Override
     public void removeStatusChangedListener(
             InputVerificationStatusChangedListener listener) {
         listeners.remove(listener);
     }
 
+    @Override
     public PatternModel getPatternModel() {
         return patternModel;
     }
 
+    @Override
     public void handleChange() {
         patternModel = null;
         errorListModel.clear();
@@ -873,12 +877,15 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         listener.verifiedStatusChanged(newState);
     }
 
+    @Override
     public void dispose() {}
 
+    @Override
     public PatternModel getEditedObject() {
         return patternModel;
     }
 
+    @Override
     public JComponent getEditorComponent() {
         return mainPanel;
     }
@@ -891,15 +898,18 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         }
     }
 
+    @Override
     public boolean canEdit(Object object) {
         return true;
     }
 
+    @Override
     public boolean setEditedObject(PatternModel editedObject) {
         setPatternModel(editedObject);
         return true;
     }
 
+    @Override
     public String getEditorTypeName() {
         return "Build Pattern Model";
     }

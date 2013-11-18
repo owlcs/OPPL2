@@ -40,6 +40,7 @@ import org.coode.parsers.ui.ExpressionChecker;
 import org.coode.parsers.ui.ExpressionEditor;
 import org.coode.parsers.ui.InputVerificationStatusChangedListener;
 import org.coode.parsers.ui.VerifiedInputEditor;
+import org.coode.patterns.HasPatternModel;
 import org.coode.patterns.OPPLPatternParser;
 import org.coode.patterns.PatternModel;
 import org.coode.patterns.PatternModelChangeListener;
@@ -59,18 +60,16 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /** @author Luigi Iannone Jun 10, 2008 */
 public class TypeInPatternBuilder implements VerifiedInputEditor,
-        InputVerificationStatusChangedListener, PatternModelChangeListener {
-    /**
-	 *
-	 */
+        InputVerificationStatusChangedListener, PatternModelChangeListener,
+        HasPatternModel {
     private static final long serialVersionUID = -4071865934355642992L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private final OWLEditorKit owlEditorKit;
-    private PatternModel patternModel = null;
+    protected PatternModel patternModel = null;
     private final JPanel mainPanel = new JPanel();
-    private ExpressionEditor<PatternModel> patternModelEditor;
-    private IRI iri;
-    private org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor<String> patternNameTextField;
+    protected ExpressionEditor<PatternModel> patternModelEditor;
+    protected IRI iri;
+    protected org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor<String> patternNameTextField;
     private final ProtegeOPPLPatternsAutoCompletionMatcher autoCompletionMatcher;
     private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
         @Override
@@ -86,6 +85,7 @@ public class TypeInPatternBuilder implements VerifiedInputEditor,
         }
     };
 
+    /** @param owlEditorKit */
     public TypeInPatternBuilder(OWLEditorKit owlEditorKit) {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setName("Pattern Text Editor");
@@ -178,6 +178,7 @@ public class TypeInPatternBuilder implements VerifiedInputEditor,
         listeners.remove(listener);
     }
 
+    @Override
     public PatternModel getPatternModel() {
         return patternModel;
     }
@@ -214,11 +215,13 @@ public class TypeInPatternBuilder implements VerifiedInputEditor,
                 && patternModel.getIRI() != null;
     }
 
+    /** clear editors */
     public void clear() {
         patternModelEditor.setText("");
         patternNameTextField.setText("");
     }
 
+    /** dispose editors */
     public void dispose() {
         if (patternModel != null) {
             patternModel.removeChangeListener(this);
@@ -230,10 +233,12 @@ public class TypeInPatternBuilder implements VerifiedInputEditor,
                 .removeOntologyChangeListener(ontologyChangeListener);
     }
 
+    /** @return the edited object */
     public PatternModel getEditedObject() {
         return patternModel;
     }
 
+    /** @return editor component */
     public JComponent getEditorComponent() {
         return mainPanel;
     }

@@ -146,8 +146,8 @@ public class PatternClassFrameSectionRow
         }
     }
 
-    /** @return the patternModel */
-    public final InstantiatedPatternModel getPatternModel() {
+    /** @return the instantiated pattern model */
+    public InstantiatedPatternModel getPatternModel() {
         return patternModel;
     }
 }

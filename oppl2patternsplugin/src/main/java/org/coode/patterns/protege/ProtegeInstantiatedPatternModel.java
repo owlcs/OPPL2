@@ -34,6 +34,8 @@ import org.semanticweb.owlapi.model.OWLObject;
 public class ProtegeInstantiatedPatternModel extends InstantiatedPatternModel {
     private final OWLModelManager modelManager;
 
+    /** @param patternModel
+     * @param handler */
     public ProtegeInstantiatedPatternModel(ProtegePatternModel patternModel,
             RuntimeExceptionHandler handler) {
         super(patternModel, handler);

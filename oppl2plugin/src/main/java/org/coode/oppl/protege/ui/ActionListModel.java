@@ -31,23 +31,25 @@ import javax.swing.DefaultListModel;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /** @author Luigi Iannone */
-public class ActionListModel extends DefaultListModel {
+public class ActionListModel extends DefaultListModel<Object> {
+    /** @param canAdd */
     public ActionListModel(boolean canAdd) {
         if (canAdd) {
             addElement(new ActionListSectionHeader());
         }
     }
 
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = -5708452398843328281L;
 
+    /** @param axiomChange
+     * @param isEditable
+     * @param isDeleteable */
     public void addAction(OWLAxiomChange axiomChange, boolean isEditable,
             boolean isDeleteable) {
         addElement(new ActionListItem(axiomChange, isEditable, isDeleteable));
     }
 
+    /** @return the changes */
     public List<OWLAxiomChange> getOWLAxiomChanges() {
         List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
         Enumeration<? extends Object> elements = elements();

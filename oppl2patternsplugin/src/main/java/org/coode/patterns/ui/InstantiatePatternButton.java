@@ -30,6 +30,7 @@ import org.protege.editor.core.ui.list.MListButton;
 
 /** @author Luigi Iannone Sep 17, 2008 */
 public class InstantiatePatternButton extends MListButton {
+    /** @param actionListener */
     public InstantiatePatternButton(ActionListener actionListener) {
         super("Instantiate pattern", new Color(100, 40, 140), actionListener);
     }

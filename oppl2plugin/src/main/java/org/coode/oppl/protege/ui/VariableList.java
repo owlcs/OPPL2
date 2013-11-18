@@ -44,9 +44,6 @@ import org.semanticweb.owlapi.model.OWLObject;
 /** @author Luigi Iannone */
 public class VariableList extends MList {
     class VariableListCellRenderer extends DefaultListCellRenderer {
-        /**
-		 *
-		 */
         private static final long serialVersionUID = -6717057306871665492L;
 
         // private final DefaultListCellRenderer defaultCellRenderer = new

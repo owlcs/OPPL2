@@ -166,7 +166,7 @@ public class PatternInstantiationEditor extends
 
     private class VariableValuesMList extends MList {
         private static final long serialVersionUID = 1182645120185580287L;
-        private final Variable<?> variable;
+        protected final Variable<?> variable;
 
         @Override
         protected void handleAdd() {
@@ -197,9 +197,9 @@ public class PatternInstantiationEditor extends
                                 .getVariableValues();
                         for (OWLObject object : variableValues) {
                             instantiatedPatternModel.instantiate(variable, object);
-                            ((DefaultListModel) VariableValuesMList.this.getModel())
-                                    .addElement(new VariableValueListItem(variable,
-                                            object));
+                            ((DefaultListModel<Object>) VariableValuesMList.this
+                                    .getModel()).addElement(new VariableValueListItem(
+                                    variable, object));
                         }
                     }
                     variableValueEditor.removeStatusChangedListener(verificationListener);
@@ -211,7 +211,7 @@ public class PatternInstantiationEditor extends
 
         VariableValuesMList() {
             variable = null;
-            DefaultListModel model = new DefaultListModel();
+            DefaultListModel<Object> model = new DefaultListModel<Object>();
             super.setModel(model);
             model.addElement(new MListSectionHeader() {
                 @Override
@@ -352,9 +352,8 @@ public class PatternInstantiationEditor extends
                 private final JCheckBox absent = new JCheckBox("", false);
 
                 @Override
-                public Component getTableCellRendererComponent(JTable table,
-                        Object value, boolean isSelected, boolean hasFocus, int row,
-                        int column) {
+                public Component getTableCellRendererComponent(JTable t, Object value,
+                        boolean isSelected, boolean hasFocus, int row, int column) {
                     if (value.equals(Boolean.toString(false))) {
                         return safeFalse;
                     }
@@ -384,7 +383,7 @@ public class PatternInstantiationEditor extends
     protected final OWLEditorKit owlEditorKit;
     private JPanel mainPane;
     private final ShowMessageRuntimeExceptionHandler showMessageRuntimeExceptionHandler;
-    private final DefaultComboBoxModel patternListModel = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel<Object> patternListModel = new DefaultComboBoxModel();
     protected JComboBox patternList = new JComboBox(patternListModel);
     protected InstantiatedPatternModel instantiatedPatternModel;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
@@ -398,8 +397,8 @@ public class PatternInstantiationEditor extends
     private JScrollPane variablePane;
     private JScrollPane valuePane;
     private final JPanel problemPanel = new JPanel(new BorderLayout());
-    private final DefaultListModel problemListModel = new DefaultListModel();
-    private final JList problemList = new JList(problemListModel);
+    private final DefaultListModel<Object> problemListModel = new DefaultListModel();
+    private final JList<Object> problemList = new JList(problemListModel);
     private final AbstractPatternModelFactory factory;
     private final JButton localityCheckResultButton = new JButton();
     private final JButton localityCheckButton = new JButton("Check Locality");
@@ -415,7 +414,8 @@ public class PatternInstantiationEditor extends
      * for instantiating class patterns
      * 
      * @param owlEditorKit
-     * @param owlClass */
+     * @param owlClass
+     * @param f */
     public PatternInstantiationEditor(OWLEditorKit owlEditorKit, OWLClass owlClass,
             AbstractPatternModelFactory f) {
         this(owlEditorKit, f);
@@ -424,7 +424,8 @@ public class PatternInstantiationEditor extends
 
     /** Builds a PatternInstantiationEditor for instantiating non-class patterns
      * 
-     * @param owlEditorKit */
+     * @param owlEditorKit
+     * @param f */
     public PatternInstantiationEditor(OWLEditorKit owlEditorKit,
             AbstractPatternModelFactory f) {
         this.owlEditorKit = owlEditorKit;
@@ -676,9 +677,10 @@ public class PatternInstantiationEditor extends
     }
 
     protected void refreshInstantiationPanel() {
-        DefaultListModel model = (DefaultListModel) variableList.getModel();
+        DefaultListModel<Object> model = (DefaultListModel<Object>) variableList
+                .getModel();
         model.clear();
-        ((DefaultListModel) valueList.getModel()).clear();
+        ((DefaultListModel<Object>) valueList.getModel()).clear();
         if (instantiatedPatternModel != null) {
             List<InputVariable<?>> inputVariables = instantiatedPatternModel
                     .getInputVariables();
@@ -716,6 +718,7 @@ public class PatternInstantiationEditor extends
         }
     }
 
+    /** change listener */
     public void handleChange() {
         checkReasoner();
         boolean newState = check();
@@ -742,6 +745,7 @@ public class PatternInstantiationEditor extends
         return valid;
     }
 
+    /** @param patternModel */
     public void setInstantiatedPatternModel(InstantiatedPatternModel patternModel) {
         mainPane.removeAll();
         setup();

@@ -30,6 +30,7 @@ public final class ProtegeOPPLPatternsAutoCompletionMatcher implements
         }
     };
 
+    /** @param owlEditorKit */
     public ProtegeOPPLPatternsAutoCompletionMatcher(OWLEditorKit owlEditorKit) {
         if (owlEditorKit == null) {
             throw new NullPointerException("The owl editor kit cannot be null");
@@ -44,7 +45,9 @@ public final class ProtegeOPPLPatternsAutoCompletionMatcher implements
         return delegate.getMatches(input);
     }
 
+    /** @return keywords */
     public static List<String> getKeywords() {
+        // XXX more keywords
         return Arrays.asList("create", "createIntersection", "createDisjuntion", "BEGIN",
                 "END;", "superClassOf", "superPropertyOf", "CLASS", "OBJECTPROPERTY",
                 "DATAPROPERTY", "INDIVIDUAL", "CONSTANT", "ADD", "REMOVE",
@@ -56,11 +59,12 @@ public final class ProtegeOPPLPatternsAutoCompletionMatcher implements
         return owlEditorKit;
     }
 
+    /** dispose */
     public void dispose() {
         getOWLEditorKit().getOWLModelManager().removeListener(modelManagerListener);
     }
 
-    private void reset() {
+    protected void reset() {
         OWLEntityRenderer entityRenderer = new OWLEntityRenderer() {
             @Override
             public String render(OWLEntity entity) {

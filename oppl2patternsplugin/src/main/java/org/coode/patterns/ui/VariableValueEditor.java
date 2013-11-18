@@ -326,6 +326,7 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
         listeners.remove(listener);
     }
 
+    /** notify listeners */
     public void notifyListeners() {
         for (InputVerificationStatusChangedListener listener : this.getListeners()) {
             notifyListener(listener);
@@ -337,6 +338,9 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
                 && getVariableValues().size() > 0);
     }
 
+    /** @param owlEditorKit
+     * @param variable
+     * @return variable value editor */
     public static VariableValueEditor getVariableValueEditor(
             final OWLEditorKit owlEditorKit, final Variable<?> variable) {
         return variable.getType().accept(
@@ -384,5 +388,6 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
                 });
     }
 
+    /** dispose component */
     public abstract void dispose();
 }

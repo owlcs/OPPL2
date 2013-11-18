@@ -26,9 +26,6 @@ public class PatternAnnotationContainer implements AnnotationContainer {
             throw new NullPointerException("The OWL editor Kit cannot be null");
         }
         this.owlEditorKit = owlEditorKit;
-        // this.patternExtractor = ProtegeParserFactory.getInstance(
-        // this.getOWLEditorKit()).getPatternFactory()
-        // .getPatternExtractor(PatternManager.getDefaultErrorListener());
         patternExtractor = new PatternExtractor(getOntology(), getOWLEditorKit()
                 .getOWLModelManager().getOWLOntologyManager(),
                 PatternManager.getDefaultErrorListener());
@@ -51,7 +48,7 @@ public class PatternAnnotationContainer implements AnnotationContainer {
     }
 
     /** @param annotation
-     * @return */
+     * @return pattern model */
     public PatternModel getPatternModel(OWLAnnotation annotation) {
         PatternOPPLScript extracted = annotation.accept(patternExtractor);
         return (PatternModel) extracted;
@@ -62,6 +59,7 @@ public class PatternAnnotationContainer implements AnnotationContainer {
         return owlEditorKit;
     }
 
+    /** @return current ontology */
     public OWLOntology getOntology() {
         return getOWLEditorKit().getOWLModelManager().getActiveOntology();
     }

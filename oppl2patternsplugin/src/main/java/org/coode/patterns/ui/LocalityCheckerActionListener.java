@@ -18,12 +18,17 @@ import org.coode.patterns.locality.LocalityChecker;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owlapi.model.OWLEntity;
 
+/** locality checker */
 public class LocalityCheckerActionListener extends LocalityChecker implements
         ActionListener {
     private static final String SAFETY_ANALYSIS_BREAKDOWN = "Safety analysis breakdown";
     public final static int DIMENSION = 18;
     private final JButton resultButton;
 
+    /** @param kit
+     * @param signature
+     * @param resultButton
+     * @param handler */
     public LocalityCheckerActionListener(final OWLEditorKit kit,
             Set<OWLEntity> signature, JButton resultButton,
             RuntimeExceptionHandler handler) {
@@ -35,6 +40,8 @@ public class LocalityCheckerActionListener extends LocalityChecker implements
         this.resultButton.setEnabled(false);
     }
 
+    /** @param color
+     * @return icon */
     public Icon generateIcon(final Color color) {
         return new Icon() {
             /** Draw the icon at the specified location. Icon implementations may
@@ -84,6 +91,7 @@ public class LocalityCheckerActionListener extends LocalityChecker implements
         }
     }
 
+    /** @return table model */
     public TableModel print() {
         return new LocalityCheckResultTableModel(this);
     }

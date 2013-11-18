@@ -7,6 +7,7 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 
+/** frame section row for equivalent classes */
 public class PatternOWLEquivalentClassesAxiomFrameSectionRow extends
         OWLEquivalentClassesAxiomFrameSectionRow {
     private final PatternModel generatingPatternModel;
@@ -15,7 +16,8 @@ public class PatternOWLEquivalentClassesAxiomFrameSectionRow extends
      * @param section
      * @param ontology
      * @param rootObject
-     * @param axiom */
+     * @param axiom
+     * @param generatingPatternModel */
     public PatternOWLEquivalentClassesAxiomFrameSectionRow(OWLEditorKit owlEditorKit,
             PatternOWLEquivalentClassesAxiomFrameSection section, OWLOntology ontology,
             OWLClass rootObject, OWLEquivalentClassesAxiom axiom,

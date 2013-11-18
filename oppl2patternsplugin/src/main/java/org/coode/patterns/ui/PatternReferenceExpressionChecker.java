@@ -43,9 +43,10 @@ public class PatternReferenceExpressionChecker implements
     private InstantiatedPatternModel instantiatedPatternModel = null;
     private final RuntimeExceptionHandler handler;
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     * @param hanlder */
     public PatternReferenceExpressionChecker(OWLEditorKit owlEditorKit,
-            AbstractPatternModelFactory factory, RuntimeExceptionHandler hanlder) {
+            RuntimeExceptionHandler hanlder) {
         if (owlEditorKit == null) {
             throw new NullPointerException("The owl editor kit cannot be null");
         }

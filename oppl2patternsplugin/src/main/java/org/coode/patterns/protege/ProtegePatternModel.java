@@ -32,8 +32,9 @@ import org.protege.editor.owl.model.OWLModelManager;
 public class ProtegePatternModel extends PatternModel {
     private final OWLModelManager modelManager;
 
-    /** @param ontologyManager
+    /** @param opplScript
      * @param modelManager
+     * @param f
      * @throws UnsuitableOPPLScriptException */
     public ProtegePatternModel(OPPLScript opplScript, OWLModelManager modelManager,
             AbstractPatternModelFactory f) throws UnsuitableOPPLScriptException {

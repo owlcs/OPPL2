@@ -60,7 +60,7 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /** @author Luigi Iannone Jun 11, 2008 */
 public class InstantiatedPatternModel implements InstantiatedOPPLScript,
-        PatternOPPLScript {
+        PatternOPPLScript, HasPatternModel {
     private IRI uri = null;
     private final PatternModel patternModel;
     private final RuntimeExceptionHandler runtimeExceptionHandler;
@@ -414,7 +414,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
         return toReturn;
     }
 
-    /** @return the patternModel */
+    @Override
     public PatternModel getPatternModel() {
         return patternModel;
     }
@@ -474,10 +474,9 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
 
     @Override
     public OWLObject getDefinitorialPortion(
-            Collection<? extends BindingNode> bindingNodes,
-            RuntimeExceptionHandler runtimeExceptionHandler) throws PatternException {
-        return getPatternModel().getDefinitorialPortion(bindingNodes,
-                runtimeExceptionHandler);
+            Collection<? extends BindingNode> bindingNodes, RuntimeExceptionHandler reh)
+            throws PatternException {
+        return getPatternModel().getDefinitorialPortion(bindingNodes, reh);
     }
 
     /** @return the runtimeExceptionHandler */

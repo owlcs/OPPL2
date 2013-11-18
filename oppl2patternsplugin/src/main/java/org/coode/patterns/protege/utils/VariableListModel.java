@@ -14,7 +14,9 @@ import org.coode.oppl.utils.ArgCheck;
 import org.protege.editor.core.ui.list.MListItem;
 import org.protege.editor.core.ui.list.MListSectionHeader;
 
-public class VariableListModel<I> implements ListModel {
+/** @author Luigi Iannone
+ * @param <I> */
+public class VariableListModel<I> implements ListModel<Object> {
     protected final static class MySectionHeader implements MListSectionHeader {
         final String header;
         boolean add = true;
@@ -37,13 +39,17 @@ public class VariableListModel<I> implements ListModel {
 
     private final MySectionHeader myHeader;// = new MySectionHeader();
 
+    /** @author Luigi Iannone
+     * @param <E> */
     public final static class VariableListItem<E> implements MListItem {
         private final E item;
 
+        /** @return item */
         public E getItem() {
             return this.item;
         }
 
+        /** @param b */
         public VariableListItem(E b) {
             ArgCheck.checkNullArgument("The element", b);
             this.item = b;
@@ -77,17 +83,23 @@ public class VariableListModel<I> implements ListModel {
     private final Set<ListDataListener> listeners = new HashSet<ListDataListener>();
     private final Collection<I> modelElements;
 
+    /** @param elements
+     * @param sectionHeader */
     public VariableListModel(Collection<I> elements, String sectionHeader) {
         this.modelElements = elements;
         this.myHeader = new MySectionHeader(sectionHeader);
         this.init();
     }
 
+    /** @param elements
+     * @param sectionHeader
+     * @param canAdd */
     public VariableListModel(Collection<I> elements, String sectionHeader, boolean canAdd) {
         this(elements, sectionHeader);
         this.myHeader.add = canAdd;
     }
 
+    /** init */
     public void init() {
         this.delegate.clear();
         this.delegate.add(this.myHeader);
