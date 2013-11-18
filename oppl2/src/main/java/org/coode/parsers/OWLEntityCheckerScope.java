@@ -13,12 +13,15 @@ import org.semanticweb.owlapi.model.OWLEntity;
  * the entities recognised by the OWLEntityChecker.
  * 
  * @author Luigi Iannone */
+@SuppressWarnings("incomplete-switch")
 public class OWLEntityCheckerScope implements Scope {
     private final DisposableOWLEntityChecker owlEntityChecker;
     private final EntityFinder entityFinder;
     private final OWLEntityRenderer owlEntityRenderer;
 
-    /** @param owlEntityChecker */
+    /** @param owlEntityChecker
+     * @param entityFinder
+     * @param owlEntityRenderer */
     public OWLEntityCheckerScope(DisposableOWLEntityChecker owlEntityChecker,
             EntityFinder entityFinder, OWLEntityRenderer owlEntityRenderer) {
         if (owlEntityChecker == null) {
@@ -136,7 +139,7 @@ public class OWLEntityCheckerScope implements Scope {
             }
 
             @Override
-            public Set<OWLEntity> visitNonOWLType(Type type) {
+            public Set<OWLEntity> visitNonOWLType(Type t) {
                 return Collections.emptySet();
             }
 
