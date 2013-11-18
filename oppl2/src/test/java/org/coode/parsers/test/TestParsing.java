@@ -45,7 +45,7 @@ public class TestParsing {
     };
 
     @Test
-    public void main() throws RecognitionException {
+    public void main() {
         String input = "hasTopping subPropertyOf INV (hasTopping)";
         MOWLLexer lexer = new MOWLLexer(new ANTLRStringStream(input));
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);

@@ -31,6 +31,7 @@ import org.coode.parsers.oppl.testcase.assertions.AssertionExpression;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLObject;
 
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLTestCaseTypes extends TreeFilter {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
@@ -285,17 +286,17 @@ public class OPPLTestCaseTypes extends TreeFilter {
     }
 
     @Override
-    public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
-        getErrorListener().recognitionException(e, tokenNames);
+    public void displayRecognitionError(String[] t, RecognitionException e) {
+        getErrorListener().recognitionException(e, t);
     }
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
-            throws RecognitionException {
-        throw new MismatchedTokenException(ttype, input);
+    protected void mismatch(IntStream in, int ttype,
+            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
+    public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
             BitSet follow) throws RecognitionException {
         throw e;
     }
@@ -361,13 +362,13 @@ public class OPPLTestCaseTypes extends TreeFilter {
     }
 
     // $ANTLR end "bottomup"
-    public static class testCase_return extends TreeRuleReturnScope {};
+    public static class testCase_return extends TreeRuleReturnScope {}
 
     // $ANTLR start "testCase"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseTypes.g:117:1:
     // testCase : ^( OPPL_TEST_CASE IDENTIFIER ( INFERENCE )? s= statement
     // someTests= tests ) ;
-    public final OPPLTestCaseTypes.testCase_return testCase() throws RecognitionException {
+    public final OPPLTestCaseTypes.testCase_return testCase() {
         OPPLTestCaseTypes.testCase_return retval = new OPPLTestCaseTypes.testCase_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree IDENTIFIER1 = null;
@@ -467,7 +468,7 @@ public class OPPLTestCaseTypes extends TreeFilter {
     // $ANTLR start "tests"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseTypes.g:135:1:
     // tests returns [List<Test> tests] : (t= test )+ ;
-    public final List<OPPLTest> tests() throws RecognitionException {
+    public final List<OPPLTest> tests() {
         List<OPPLTest> tests = null;
         OPPLTest t = null;
         tests = new ArrayList<OPPLTest>();
@@ -533,14 +534,13 @@ public class OPPLTestCaseTypes extends TreeFilter {
     // $ANTLR end "tests"
     public static class statement_return extends TreeRuleReturnScope {
         public OPPLSyntaxTree statementTree;
-    };
+    }
 
     // $ANTLR start "statement"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseTypes.g:148:1:
     // statement returns [OPPLSyntaxTree statementTree] : ^( OPPL_STATEMENT (
     // ^(vd= VARIABLE_DEFINITIONS ( . )* ) )? ^(query= QUERY ( . )* ) ) ;
-    public final OPPLTestCaseTypes.statement_return statement()
-            throws RecognitionException {
+    public final OPPLTestCaseTypes.statement_return statement() {
         OPPLTestCaseTypes.statement_return retval = new OPPLTestCaseTypes.statement_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree vd = null;
@@ -696,7 +696,7 @@ public class OPPLTestCaseTypes extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseTypes.g:173:1:
     // test returns [Test t] : ^( TEST anAssertion= assertion ( ^( MESSAGE ( .
     // )* ) )? ) ;
-    public final OPPLTest test() throws RecognitionException {
+    public final OPPLTest test() {
         OPPLTest t = null;
         OPPLSyntaxTree MESSAGE3 = null;
         OPPLTestCaseTypes.assertion_return anAssertion = null;
@@ -802,7 +802,7 @@ public class OPPLTestCaseTypes extends TreeFilter {
     // $ANTLR end "test"
     public static class assertion_return extends TreeRuleReturnScope {
         public Assertion a;
-    };
+    }
 
     // $ANTLR start "assertion"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseTypes.g:184:1:
@@ -816,8 +816,7 @@ public class OPPLTestCaseTypes extends TreeFilter {
     // assertionExpression right= assertionExpression ) | ^( CONTAINS
     // VARIABLE_NAME (expr= assertionExpression )+ ) | ^( NOT anAssertion=
     // assertion ) );
-    public final OPPLTestCaseTypes.assertion_return assertion()
-            throws RecognitionException {
+    public final OPPLTestCaseTypes.assertion_return assertion() {
         OPPLTestCaseTypes.assertion_return retval = new OPPLTestCaseTypes.assertion_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree VARIABLE_NAME4 = null;
@@ -1211,15 +1210,14 @@ public class OPPLTestCaseTypes extends TreeFilter {
     public static class assertionExpression_return extends TreeRuleReturnScope {
         public AssertionExpression ae;
         public OPPLSyntaxTree node;
-    };
+    }
 
     // $ANTLR start "assertionExpression"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseTypes.g:216:1:
     // assertionExpression returns [AssertionExpression ae, OPPLSyntaxTree node]
     // : ( ^( COUNT VARIABLE_NAME ) | ^( COUNT STAR ) | ^( COUNT (bn=
     // bindingDescription )+ ) | INTEGER | ^( EXPRESSION ( . )* ) );
-    public final OPPLTestCaseTypes.assertionExpression_return assertionExpression()
-            throws RecognitionException {
+    public final OPPLTestCaseTypes.assertionExpression_return assertionExpression() {
         OPPLTestCaseTypes.assertionExpression_return retval = new OPPLTestCaseTypes.assertionExpression_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree VARIABLE_NAME5 = null;
@@ -1490,16 +1488,15 @@ public class OPPLTestCaseTypes extends TreeFilter {
 
     // $ANTLR end "assertionExpression"
     public static class bindingDescription_return extends TreeRuleReturnScope {
-        public Variable v;
+        public Variable<?> v;
         public OWLObject exp;
-    };
+    }
 
     // $ANTLR start "bindingDescription"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseTypes.g:250:1:
     // bindingDescription returns [Variable v, OWLObject exp] : ^( BINDING
     // VARIABLE_NAME ^( EXPRESSION ( . )* ) ) ;
-    public final OPPLTestCaseTypes.bindingDescription_return bindingDescription()
-            throws RecognitionException {
+    public final OPPLTestCaseTypes.bindingDescription_return bindingDescription() {
         OPPLTestCaseTypes.bindingDescription_return retval = new OPPLTestCaseTypes.bindingDescription_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree VARIABLE_NAME8 = null;
@@ -1602,7 +1599,7 @@ public class OPPLTestCaseTypes extends TreeFilter {
     // $ANTLR start "textVariableRef"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseTypes.g:273:2:
     // textVariableRef : ^( TEXT VARIABLE_NAME ) ;
-    public final void textVariableRef() throws RecognitionException {
+    public final void textVariableRef() {
         OPPLSyntaxTree VARIABLE_NAME10 = null;
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseTypes.g:274:3:
@@ -1628,7 +1625,7 @@ public class OPPLTestCaseTypes extends TreeFilter {
                     return;
                 }
                 if (state.backtracking == 1) {
-                    Variable variable = getConstraintSystem().getVariable(
+                    Variable<?> variable = getConstraintSystem().getVariable(
                             VARIABLE_NAME10.getText());
                     if (variable == null) {
                         if (getErrorListener() != null) {

@@ -87,32 +87,27 @@ public abstract class ParseTreeBasedAutoCompletionMatcher implements
         ManchesterOWLSyntaxAutoCompleteCombinedParser parser = new ManchesterOWLSyntaxAutoCompleteCombinedParser(
                 tokens);
         parser.setTreeAdaptor(adaptor);
-        try {
-            RuleReturnScope r = parser.main();
-            ManchesterOWLSyntaxTree tree = (ManchesterOWLSyntaxTree) r.getTree();
-            if (tree != null) {
-                CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
-                nodes.setTokenStream(tokens); // where to find tokens
-                nodes.setTreeAdaptor(adaptor);
-                ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-                        nodes);
-                simplify.setTreeAdaptor(adaptor);
-                simplify.downup(tree);
-                nodes.reset();
-                ManchesterOWLSyntaxTypes types = new ManchesterOWLSyntaxTypes(nodes,
-                        getSymbolTable(), silentErrorListener);
-                types.downup(tree);
-                nodes.reset();
-                ManchesterOWLSyntaxAutoComplete autoComplete = new ManchesterOWLSyntaxAutoComplete(
-                        nodes, getSymbolTable());
-                autoComplete.setNewWord(newWord);
-                autoComplete.downup(tree);
-                if (tree.getCompletions() != null) {
-                    toReturn.addAll(tree.getCompletions());
-                }
+        RuleReturnScope r = parser.main();
+        ManchesterOWLSyntaxTree tree = (ManchesterOWLSyntaxTree) r.getTree();
+        if (tree != null) {
+            CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
+            nodes.setTokenStream(tokens); // where to find tokens
+            nodes.setTreeAdaptor(adaptor);
+            ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+            simplify.setTreeAdaptor(adaptor);
+            simplify.downup(tree);
+            nodes.reset();
+            ManchesterOWLSyntaxTypes types = new ManchesterOWLSyntaxTypes(nodes,
+                    getSymbolTable(), silentErrorListener);
+            types.downup(tree);
+            nodes.reset();
+            ManchesterOWLSyntaxAutoComplete autoComplete = new ManchesterOWLSyntaxAutoComplete(
+                    nodes, getSymbolTable());
+            autoComplete.setNewWord(newWord);
+            autoComplete.downup(tree);
+            if (tree.getCompletions() != null) {
+                toReturn.addAll(tree.getCompletions());
             }
-        } catch (RecognitionException e) {
-            e.printStackTrace();
         }
         return toReturn;
     }

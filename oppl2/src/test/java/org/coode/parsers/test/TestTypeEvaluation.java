@@ -53,7 +53,7 @@ public class TestTypeEvaluation {
     };
 
     @Test
-    public void main() throws RecognitionException {
+    public void main() {
         OWLOntologyManager ontologyManager = pizza.getOWLOntologyManager();
         SymbolTableFactory<SymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
                 ontologyManager);

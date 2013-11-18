@@ -26,7 +26,7 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser
         extends Parser {
     public static final int COMMA = 37;
@@ -189,7 +189,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "axiom"
     // MOWLParser.g:64:1: axiom options {backtrack=true; } : ( binaryAxiom -> ^(
@@ -246,9 +246,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 65:15: -> ^( binaryAxiom )
                         {
@@ -286,9 +283,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 66:16: -> ^( unaryAxiom )
                         {
@@ -326,9 +320,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 67:20: -> ^( assertionAxiom )
                         {
@@ -366,9 +357,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 68:17: -> ^( hasKeyAxiom )
                         {
@@ -407,9 +395,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 69:30: -> ^( annotationAssertionAxiom )
                         {
@@ -450,7 +435,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "annotationAssertionAxiom"
     // MOWLParser.g:72:1: annotationAssertionAxiom options {backtrack=true; } :
@@ -597,9 +582,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 adaptor, "rule o", o != null ? o.tree : null);
                         RewriteRuleSubtreeStream stream_p = new RewriteRuleSubtreeStream(
                                 adaptor, "rule p", p != null ? p.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 74:30: -> ^( ANNOTATION_ASSERTION iri ^( EXPRESSION
                         // $p) ^( EXPRESSION $o) )
@@ -683,9 +665,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 adaptor, "rule a", a != null ? a.tree : null);
                         RewriteRuleSubtreeStream stream_p = new RewriteRuleSubtreeStream(
                                 adaptor, "rule p", p != null ? p.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 75:30: -> ^( ANNOTATION_ASSERTION iri ^( EXPRESSION
                         // $p) ^( EXPRESSION $a) )
@@ -773,9 +752,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 objectIRI != null ? objectIRI.tree : null);
                         RewriteRuleSubtreeStream stream_p = new RewriteRuleSubtreeStream(
                                 adaptor, "rule p", p != null ? p.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 76:48: -> ^( ANNOTATION_ASSERTION $subjectIRI ^(
                         // EXPRESSION $p) ^( EXPRESSION $objectIRI) )
@@ -841,7 +817,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "iri"
     // MOWLParser.g:80:1: iri : IRI -> IRI ;
@@ -852,7 +828,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
         Token IRI8 = null;
-        ManchesterOWLSyntaxTree IRI8_tree = null;
         RewriteRuleTokenStream stream_IRI = new RewriteRuleTokenStream(adaptor,
                 "token IRI");
         try {
@@ -875,8 +850,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 82:6: -> IRI
                     {
@@ -907,7 +880,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "hasKeyAxiom"
     // MOWLParser.g:85:1: hasKeyAxiom : exp= expression HAS_KEY
@@ -924,8 +897,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return exp = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return propertyExpression10 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return propertyExpression12 = null;
-        ManchesterOWLSyntaxTree HAS_KEY9_tree = null;
-        ManchesterOWLSyntaxTree COMMA11_tree = null;
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
                 "token COMMA");
         RewriteRuleTokenStream stream_HAS_KEY = new RewriteRuleTokenStream(adaptor,
@@ -1012,8 +983,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     retval.tree = root_0;
                     RewriteRuleSubtreeStream stream_exp = new RewriteRuleSubtreeStream(
                             adaptor, "rule exp", exp != null ? exp.tree : null);
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 87:75: -> ^( HAS_KEY ^( EXPRESSION $exp) ( ^( EXPRESSION
                     // propertyExpression ) )+ )
@@ -1080,7 +1049,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "assertionAxiom"
     // MOWLParser.g:92:1: assertionAxiom options {backtrack=true; } : (i= atomic
@@ -1104,9 +1073,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return propertyExpression16 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.value_return value17 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.assertionAxiom_return assertionAxiom19 = null;
-        ManchesterOWLSyntaxTree INSTANCE_OF13_tree = null;
-        ManchesterOWLSyntaxTree TYPES14_tree = null;
-        ManchesterOWLSyntaxTree NOT18_tree = null;
         RewriteRuleTokenStream stream_TYPES = new RewriteRuleTokenStream(adaptor,
                 "token TYPES");
         RewriteRuleTokenStream stream_NOT = new RewriteRuleTokenStream(adaptor,
@@ -1258,9 +1224,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_i = new RewriteRuleSubtreeStream(
                                 adaptor, "rule i", i != null ? i.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 93:47: -> ^( TYPE_ASSERTION ^( EXPRESSION expression
                         // ) ^( EXPRESSION $i) )
@@ -1340,9 +1303,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_subject = new RewriteRuleSubtreeStream(
                                 adaptor, "rule subject", subject != null ? subject.tree
                                         : null);
@@ -1427,9 +1387,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 96:24: -> ^( NEGATED_ASSERTION assertionAxiom )
                         {
@@ -1472,7 +1429,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "binaryAxiom"
     // MOWLParser.g:101:1: binaryAxiom options {backtrack=true; } : (lhs=
@@ -1516,15 +1473,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return rhsID = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return expression28 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return expression30 = null;
-        ManchesterOWLSyntaxTree SUBCLASS_OF20_tree = null;
-        ManchesterOWLSyntaxTree EQUIVALENT_TO21_tree = null;
-        ManchesterOWLSyntaxTree DISJOINT_WITH22_tree = null;
-        ManchesterOWLSyntaxTree SUB_PROPERTY_OF23_tree = null;
-        ManchesterOWLSyntaxTree INVERSE_OF24_tree = null;
-        ManchesterOWLSyntaxTree SAME_AS25_tree = null;
-        ManchesterOWLSyntaxTree DIFFERENT_FROM26_tree = null;
-        ManchesterOWLSyntaxTree DOMAIN27_tree = null;
-        ManchesterOWLSyntaxTree RANGE29_tree = null;
         RewriteRuleTokenStream stream_RANGE = new RewriteRuleTokenStream(adaptor,
                 "token RANGE");
         RewriteRuleTokenStream stream_DISJOINT_WITH = new RewriteRuleTokenStream(adaptor,
@@ -1612,9 +1560,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhs = new RewriteRuleSubtreeStream(
                                 adaptor, "rule lhs", lhs != null ? lhs.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_superClass = new RewriteRuleSubtreeStream(
                                 adaptor, "rule superClass",
                                 superClass != null ? superClass.tree : null);
@@ -1699,9 +1644,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhs = new RewriteRuleSubtreeStream(
                                 adaptor, "rule lhs", lhs != null ? lhs.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_rhs = new RewriteRuleSubtreeStream(
                                 adaptor, "rule rhs", rhs != null ? rhs.tree : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
@@ -1787,9 +1729,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         RewriteRuleSubtreeStream stream_disjoint = new RewriteRuleSubtreeStream(
                                 adaptor, "rule disjoint",
                                 disjoint != null ? disjoint.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 106:65: -> ^( DISJOINT_WITH_AXIOM ^( EXPRESSION $lhs)
                         // ^( EXPRESSION $disjoint) )
@@ -1874,9 +1813,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         RewriteRuleSubtreeStream stream_superProperty = new RewriteRuleSubtreeStream(
                                 adaptor, "rule superProperty",
                                 superProperty != null ? superProperty.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 107:80: -> ^( SUB_PROPERTY_AXIOM ^( EXPRESSION $lhs)
                         // ^( EXPRESSION $superProperty) )
@@ -1962,9 +1898,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         RewriteRuleSubtreeStream stream_rhsAtomic = new RewriteRuleSubtreeStream(
                                 adaptor, "rule rhsAtomic",
                                 rhsAtomic != null ? rhsAtomic.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 108:57: -> ^( INVERSE_OF ^( EXPRESSION $lhsID) ^(
                         // EXPRESSION $rhsAtomic) )
@@ -2046,9 +1979,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 adaptor, "rule rhsID", rhsID != null ? rhsID.tree : null);
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
                                 adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 109:43: -> ^( SAME_AS_AXIOM ^( EXPRESSION $lhsID) ^(
                         // EXPRESSION $rhsID) )
@@ -2131,9 +2061,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                 adaptor, "rule rhsID", rhsID != null ? rhsID.tree : null);
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
                                 adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 110:58: -> ^( DIFFERENT_FROM_AXIOM ^( EXPRESSION
                         // $lhsID) ^( EXPRESSION $rhsID) )
@@ -2213,9 +2140,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
                                 adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 111:46: -> ^( DOMAIN ^( EXPRESSION $lhsID) ^(
                         // EXPRESSION expression ) )
@@ -2294,9 +2218,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_lhsID = new RewriteRuleSubtreeStream(
                                 adaptor, "rule lhsID", lhsID != null ? lhsID.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 112:44: -> ^( RANGE ^( EXPRESSION $lhsID) ^(
                         // EXPRESSION expression ) )
@@ -2359,7 +2280,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "unaryAxiom"
     // MOWLParser.g:116:1: unaryAxiom : unaryCharacteristic unary -> ^(
@@ -2408,8 +2329,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 117:32: -> ^( UNARY_AXIOM unaryCharacteristic ^(
                     // EXPRESSION unary ) )
@@ -2460,7 +2379,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "unaryCharacteristic"
     // MOWLParser.g:120:1: unaryCharacteristic : ( FUNCTIONAL -> ^( FUNCTIONAL )
@@ -2481,13 +2400,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         Token REFLEXIVE37 = null;
         Token IRREFLEXIVE38 = null;
         Token TRANSITIVE39 = null;
-        ManchesterOWLSyntaxTree FUNCTIONAL33_tree = null;
-        ManchesterOWLSyntaxTree INVERSE_FUNCTIONAL34_tree = null;
-        ManchesterOWLSyntaxTree SYMMETRIC35_tree = null;
-        ManchesterOWLSyntaxTree ANTI_SYMMETRIC36_tree = null;
-        ManchesterOWLSyntaxTree REFLEXIVE37_tree = null;
-        ManchesterOWLSyntaxTree IRREFLEXIVE38_tree = null;
-        ManchesterOWLSyntaxTree TRANSITIVE39_tree = null;
         RewriteRuleTokenStream stream_ANTI_SYMMETRIC = new RewriteRuleTokenStream(
                 adaptor, "token ANTI_SYMMETRIC");
         RewriteRuleTokenStream stream_SYMMETRIC = new RewriteRuleTokenStream(adaptor,
@@ -2567,9 +2479,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 121:16: -> ^( FUNCTIONAL )
                         {
@@ -2606,9 +2515,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 122:26: -> ^( INVERSE_FUNCTIONAL )
                         {
@@ -2645,9 +2551,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 123:17: -> ^( SYMMETRIC )
                         {
@@ -2684,9 +2587,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 124:22: -> ^( ANTI_SYMMETRIC )
                         {
@@ -2723,9 +2623,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 125:17: -> ^( REFLEXIVE )
                         {
@@ -2762,9 +2659,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 126:19: -> ^( IRREFLEXIVE )
                         {
@@ -2801,9 +2695,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 127:18: -> ^( TRANSITIVE )
                         {
@@ -2843,7 +2734,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "expression"
     // MOWLParser.g:130:1: expression : ( options {backtrack=true; } :
@@ -2863,9 +2754,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.conjunction_return conjunction42 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.complexPropertyExpression_return complexPropertyExpression43 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return expression45 = null;
-        ManchesterOWLSyntaxTree OR41_tree = null;
-        ManchesterOWLSyntaxTree OPEN_PARENTHESYS44_tree = null;
-        ManchesterOWLSyntaxTree CLOSED_PARENTHESYS46_tree = null;
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
                 adaptor, "token CLOSED_PARENTHESYS");
         RewriteRuleTokenStream stream_OPEN_PARENTHESYS = new RewriteRuleTokenStream(
@@ -2905,7 +2793,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     }
                         break;
                     case INVERSE: {
-                        int LA9_3 = input.LA(2);
+                        input.LA(2);
                         if (synpred17_MOWLParser()) {
                             alt9 = 1;
                         } else if (synpred18_MOWLParser()) {
@@ -2990,9 +2878,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 133:35: -> ^( DISJUNCTION ( conjunction )+ )
                             {
@@ -3041,9 +2926,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 134:32: -> ^( complexPropertyExpression )
                             {
@@ -3100,9 +2982,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 135:53: -> ^( expression )
                             {
@@ -3144,7 +3023,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "conjunction"
     // MOWLParser.g:143:1: conjunction : unary ( AND unary )* -> ^( CONJUNCTION
@@ -3158,7 +3037,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         Token AND48 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unary_return unary47 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unary_return unary49 = null;
-        ManchesterOWLSyntaxTree AND48_tree = null;
         RewriteRuleTokenStream stream_AND = new RewriteRuleTokenStream(adaptor,
                 "token AND");
         RewriteRuleSubtreeStream stream_unary = new RewriteRuleSubtreeStream(adaptor,
@@ -3220,8 +3098,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 144:24: -> ^( CONJUNCTION ( unary )+ )
                     {
@@ -3266,7 +3142,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "complexPropertyExpression"
     // MOWLParser.g:147:1: complexPropertyExpression : ( INVERSE
@@ -3288,12 +3164,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         Token CLOSED_PARENTHESYS57 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.complexPropertyExpression_return complexPropertyExpression52 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return atomic56 = null;
-        ManchesterOWLSyntaxTree INVERSE50_tree = null;
-        ManchesterOWLSyntaxTree OPEN_PARENTHESYS51_tree = null;
-        ManchesterOWLSyntaxTree CLOSED_PARENTHESYS53_tree = null;
-        ManchesterOWLSyntaxTree INVERSE54_tree = null;
-        ManchesterOWLSyntaxTree OPEN_PARENTHESYS55_tree = null;
-        ManchesterOWLSyntaxTree CLOSED_PARENTHESYS57_tree = null;
         RewriteRuleTokenStream stream_INVERSE = new RewriteRuleTokenStream(adaptor,
                 "token INVERSE");
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
@@ -3393,9 +3263,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 148:72: -> ^( INVERSE_OBJECT_PROPERTY_EXPRESSION
                         // complexPropertyExpression )
@@ -3466,9 +3333,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 149:54: -> ^( INVERSE_OBJECT_PROPERTY_EXPRESSION
                         // atomic )
@@ -3514,7 +3378,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "unary"
     // MOWLParser.g:152:1: unary options {backtrack=true; } : (head=
@@ -3534,7 +3398,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         Token OPEN_PARENTHESYS60 = null;
         Token CLOSED_PARENTHESYS62 = null;
         Token NOT63 = null;
-        List list_rest = null;
+        List<Object> list_rest = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return head = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return expression61 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return atomic64 = null;
@@ -3543,11 +3407,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.constant_return constant67 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return atomic68 = null;
         RuleReturnScope rest = null;
-        ManchesterOWLSyntaxTree COMPOSITION58_tree = null;
-        ManchesterOWLSyntaxTree NOT59_tree = null;
-        ManchesterOWLSyntaxTree OPEN_PARENTHESYS60_tree = null;
-        ManchesterOWLSyntaxTree CLOSED_PARENTHESYS62_tree = null;
-        ManchesterOWLSyntaxTree NOT63_tree = null;
         RewriteRuleTokenStream stream_NOT = new RewriteRuleTokenStream(adaptor,
                 "token NOT");
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
@@ -3619,7 +3478,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                     stream_propertyExpression.add(rest.getTree());
                                 }
                                 if (list_rest == null) {
-                                    list_rest = new ArrayList();
+                                    list_rest = new ArrayList<Object>();
                                 }
                                 list_rest.add(rest.getTree());
                             }
@@ -3648,9 +3507,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         retval.tree = root_0;
                         RewriteRuleSubtreeStream stream_head = new RewriteRuleSubtreeStream(
                                 adaptor, "rule head", head != null ? head.tree : null);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_rest = new RewriteRuleSubtreeStream(
                                 adaptor, "token rest", list_rest);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
@@ -3718,9 +3574,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 155:56: -> ^( NEGATED_EXPRESSION expression )
                         {
@@ -3768,9 +3621,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 156:16: -> ^( NEGATED_EXPRESSION atomic )
                         {
@@ -3811,9 +3661,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 157:26: -> ^( qualifiedRestriction )
                         {
@@ -3898,7 +3745,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "dataRange"
     // MOWLParser.g:164:1: dataRange : IDENTIFIER OPEN_SQUARE_BRACKET
@@ -3916,10 +3763,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         Token CLOSED_SQUARE_BRACKET74 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.dataRangeFacet_return dataRangeFacet71 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.dataRangeFacet_return dataRangeFacet73 = null;
-        ManchesterOWLSyntaxTree IDENTIFIER69_tree = null;
-        ManchesterOWLSyntaxTree OPEN_SQUARE_BRACKET70_tree = null;
-        ManchesterOWLSyntaxTree COMMA72_tree = null;
-        ManchesterOWLSyntaxTree CLOSED_SQUARE_BRACKET74_tree = null;
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
                 "token COMMA");
         RewriteRuleTokenStream stream_IDENTIFIER = new RewriteRuleTokenStream(adaptor,
@@ -4013,8 +3856,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 166:96: -> ^( DATA_RANGE IDENTIFIER ( dataRangeFacet )+ )
                     {
@@ -4061,7 +3902,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "dataRangeFacet"
     // MOWLParser.g:169:1: dataRangeFacet : ( LESS_THAN constant -> ^( LESS_THAN
@@ -4082,10 +3923,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.constant_return constant78 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.constant_return constant80 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.constant_return constant82 = null;
-        ManchesterOWLSyntaxTree LESS_THAN75_tree = null;
-        ManchesterOWLSyntaxTree LESS_THAN_EQUAL77_tree = null;
-        ManchesterOWLSyntaxTree GREATER_THAN79_tree = null;
-        ManchesterOWLSyntaxTree GREATER_THAN_EQUAL81_tree = null;
         RewriteRuleTokenStream stream_GREATER_THAN = new RewriteRuleTokenStream(adaptor,
                 "token GREATER_THAN");
         RewriteRuleTokenStream stream_LESS_THAN_EQUAL = new RewriteRuleTokenStream(
@@ -4157,9 +3994,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 171:22: -> ^( LESS_THAN constant )
                         {
@@ -4206,9 +4040,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 172:31: -> ^( LESS_THAN_EQUAL constant )
                         {
@@ -4256,9 +4087,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 173:27: -> ^( GREATER_THAN constant )
                         {
@@ -4305,9 +4133,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 174:33: -> ^( GREATER_THAN_EQUAL constant )
                         {
@@ -4349,7 +4174,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "atomic"
     // MOWLParser.g:177:1: atomic : ( IDENTIFIER | ENTITY_REFERENCE -> ^(
@@ -4363,7 +4188,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         Token IDENTIFIER83 = null;
         Token ENTITY_REFERENCE84 = null;
         ManchesterOWLSyntaxTree IDENTIFIER83_tree = null;
-        ManchesterOWLSyntaxTree ENTITY_REFERENCE84_tree = null;
         RewriteRuleTokenStream stream_ENTITY_REFERENCE = new RewriteRuleTokenStream(
                 adaptor, "token ENTITY_REFERENCE");
         try {
@@ -4420,9 +4244,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 179:22: -> ^( ENTITY_REFERENCE )
                         {
@@ -4462,7 +4283,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "qualifiedRestriction"
     // MOWLParser.g:182:1: qualifiedRestriction : ( options {backtrack=true; } :
@@ -4486,8 +4307,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.cardinalityRestriction_return cardinalityRestriction91 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.oneOf_return oneOf92 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.valueRestriction_return valueRestriction93 = null;
-        ManchesterOWLSyntaxTree SOME86_tree = null;
-        ManchesterOWLSyntaxTree ONLY89_tree = null;
         RewriteRuleTokenStream stream_SOME = new RewriteRuleTokenStream(adaptor,
                 "token SOME");
         RewriteRuleTokenStream stream_ONLY = new RewriteRuleTokenStream(adaptor,
@@ -4526,65 +4345,41 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 int alt17 = 5;
                 switch (input.LA(1)) {
                     case IDENTIFIER: {
-                        int LA17_1 = input.LA(2);
+                        input.LA(2);
                         if (synpred25_MOWLParser()) {
                             alt17 = 1;
                         } else if (synpred26_MOWLParser()) {
                             alt17 = 2;
                         } else if (synpred27_MOWLParser()) {
                             alt17 = 3;
-                        } else if (true) {
-                            alt17 = 5;
                         } else {
-                            if (state.backtracking > 0) {
-                                state.failed = true;
-                                return retval;
-                            }
-                            NoViableAltException nvae = new NoViableAltException("", 17,
-                                    1, input);
-                            throw nvae;
+                            alt17 = 5;
                         }
                     }
                         break;
                     case ENTITY_REFERENCE: {
-                        int LA17_2 = input.LA(2);
+                        input.LA(2);
                         if (synpred25_MOWLParser()) {
                             alt17 = 1;
                         } else if (synpred26_MOWLParser()) {
                             alt17 = 2;
                         } else if (synpred27_MOWLParser()) {
                             alt17 = 3;
-                        } else if (true) {
-                            alt17 = 5;
                         } else {
-                            if (state.backtracking > 0) {
-                                state.failed = true;
-                                return retval;
-                            }
-                            NoViableAltException nvae = new NoViableAltException("", 17,
-                                    2, input);
-                            throw nvae;
+                            alt17 = 5;
                         }
                     }
                         break;
                     case INVERSE: {
-                        int LA17_3 = input.LA(2);
+                        input.LA(2);
                         if (synpred25_MOWLParser()) {
                             alt17 = 1;
                         } else if (synpred26_MOWLParser()) {
                             alt17 = 2;
                         } else if (synpred27_MOWLParser()) {
                             alt17 = 3;
-                        } else if (true) {
-                            alt17 = 5;
                         } else {
-                            if (state.backtracking > 0) {
-                                state.failed = true;
-                                return retval;
-                            }
-                            NoViableAltException nvae = new NoViableAltException("", 17,
-                                    3, input);
-                            throw nvae;
+                            alt17 = 5;
                         }
                     }
                         break;
@@ -4640,9 +4435,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 185:46: -> ^( SOME_RESTRICTION propertyExpression
                             // expression )
@@ -4703,9 +4495,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 186:44: -> ^( ALL_RESTRICTION propertyExpression
                             // expression )
@@ -4750,9 +4539,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 187:30: -> ^( cardinalityRestriction )
                             {
@@ -4792,9 +4578,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 188:13: -> ^( oneOf )
                             {
@@ -4832,9 +4615,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 189:24: -> ^( valueRestriction )
                             {
@@ -4877,7 +4657,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "propertyExpression"
     // MOWLParser.g:193:1: propertyExpression : ( atomic -> ^( atomic ) |
@@ -4933,9 +4713,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 194:14: -> ^( atomic )
                         {
@@ -4974,9 +4751,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 195:33: -> ^( complexPropertyExpression )
                         {
@@ -5018,7 +4792,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "cardinalityRestriction"
     // MOWLParser.g:198:1: cardinalityRestriction options {backtrack=true; } :
@@ -5035,7 +4809,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return propertyExpression96 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.restrictionKind_return restrictionKind97 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.unary_return unary99 = null;
-        ManchesterOWLSyntaxTree INTEGER98_tree = null;
         RewriteRuleTokenStream stream_INTEGER = new RewriteRuleTokenStream(adaptor,
                 "token INTEGER");
         RewriteRuleSubtreeStream stream_propertyExpression = new RewriteRuleSubtreeStream(
@@ -5110,8 +4883,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 200:53: -> ^( CARDINALITY_RESTRICTION restrictionKind
                     // INTEGER propertyExpression ( unary )? )
@@ -5161,7 +4932,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "restrictionKind"
     // MOWLParser.g:203:1: restrictionKind : ( MIN -> ^( MIN ) | MAX -> ^( MAX )
@@ -5175,9 +4946,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         Token MIN100 = null;
         Token MAX101 = null;
         Token EXACTLY102 = null;
-        ManchesterOWLSyntaxTree MIN100_tree = null;
-        ManchesterOWLSyntaxTree MAX101_tree = null;
-        ManchesterOWLSyntaxTree EXACTLY102_tree = null;
         RewriteRuleTokenStream stream_MAX = new RewriteRuleTokenStream(adaptor,
                 "token MAX");
         RewriteRuleTokenStream stream_MIN = new RewriteRuleTokenStream(adaptor,
@@ -5229,9 +4997,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 204:9: -> ^( MIN )
                         {
@@ -5267,9 +5032,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 205:11: -> ^( MAX )
                         {
@@ -5306,9 +5068,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 206:15: -> ^( EXACTLY )
                         {
@@ -5348,7 +5107,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "oneOf"
     // MOWLParser.g:210:1: oneOf : OPEN_CURLY_BRACES IDENTIFIER ( COMMA
@@ -5364,11 +5123,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         Token COMMA105 = null;
         Token IDENTIFIER106 = null;
         Token CLOSED_CURLY_BRACES107 = null;
-        ManchesterOWLSyntaxTree OPEN_CURLY_BRACES103_tree = null;
-        ManchesterOWLSyntaxTree IDENTIFIER104_tree = null;
-        ManchesterOWLSyntaxTree COMMA105_tree = null;
-        ManchesterOWLSyntaxTree IDENTIFIER106_tree = null;
-        ManchesterOWLSyntaxTree CLOSED_CURLY_BRACES107_tree = null;
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
                 "token COMMA");
         RewriteRuleTokenStream stream_OPEN_CURLY_BRACES = new RewriteRuleTokenStream(
@@ -5450,8 +5204,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 211:72: -> ^( ONE_OF ( IDENTIFIER )+ )
                     {
@@ -5496,7 +5248,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "valueRestriction"
     // MOWLParser.g:214:1: valueRestriction : propertyExpression VALUE value ->
@@ -5510,7 +5262,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         Token VALUE109 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return propertyExpression108 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.value_return value110 = null;
-        ManchesterOWLSyntaxTree VALUE109_tree = null;
         RewriteRuleTokenStream stream_VALUE = new RewriteRuleTokenStream(adaptor,
                 "token VALUE");
         RewriteRuleSubtreeStream stream_propertyExpression = new RewriteRuleSubtreeStream(
@@ -5557,8 +5308,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 214:51: -> ^( VALUE_RESTRICTION propertyExpression value
                     // )
@@ -5601,7 +5350,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "value"
     // MOWLParser.g:217:1: value : ( atomic -> ^( atomic ) | constant -> ^(
@@ -5657,9 +5406,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 218:14: -> ^( atomic )
                         {
@@ -5697,9 +5443,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                         // 219:16: -> ^( constant )
                         {
@@ -5739,7 +5482,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "constant"
     // MOWLParser.g:222:1: constant : constantValue= DBLQUOTE ( AT language=
@@ -5756,11 +5499,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         Token type = null;
         Token AT113 = null;
         Token POW114 = null;
-        ManchesterOWLSyntaxTree constantValue_tree = null;
-        ManchesterOWLSyntaxTree language_tree = null;
-        ManchesterOWLSyntaxTree type_tree = null;
-        ManchesterOWLSyntaxTree AT113_tree = null;
-        ManchesterOWLSyntaxTree POW114_tree = null;
         RewriteRuleTokenStream stream_DBLQUOTE = new RewriteRuleTokenStream(adaptor,
                 "token DBLQUOTE");
         RewriteRuleTokenStream stream_POW = new RewriteRuleTokenStream(adaptor,
@@ -5854,8 +5592,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                             adaptor, "token constantValue", constantValue);
                     RewriteRuleTokenStream stream_language = new RewriteRuleTokenStream(
                             adaptor, "token language", language);
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 222:93: -> ^( CONSTANT $constantValue ( ^( AT $language)
                     // )? ( $type)? )
@@ -5955,15 +5691,13 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // $ANTLR end synpred4_MOWLParser
     // $ANTLR start synpred9_MOWLParser
     public final void synpred9_MOWLParser_fragment() throws RecognitionException {
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return lhs = null;
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return superClass = null;
         // MOWLParser.g:104:2: (lhs= expression SUBCLASS_OF superClass=
         // expression )
         // MOWLParser.g:104:2: lhs= expression SUBCLASS_OF superClass=
         // expression
         {
             pushFollow(FOLLOW_expression_in_synpred9_MOWLParser639);
-            lhs = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5973,7 +5707,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 return;
             }
             pushFollow(FOLLOW_expression_in_synpred9_MOWLParser648);
-            superClass = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -5984,13 +5718,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // $ANTLR end synpred9_MOWLParser
     // $ANTLR start synpred10_MOWLParser
     public final void synpred10_MOWLParser_fragment() throws RecognitionException {
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return lhs = null;
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return rhs = null;
         // MOWLParser.g:105:11: (lhs= expression EQUIVALENT_TO rhs= expression )
         // MOWLParser.g:105:11: lhs= expression EQUIVALENT_TO rhs= expression
         {
             pushFollow(FOLLOW_expression_in_synpred10_MOWLParser686);
-            lhs = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6000,7 +5732,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 return;
             }
             pushFollow(FOLLOW_expression_in_synpred10_MOWLParser694);
-            rhs = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6011,15 +5743,13 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // $ANTLR end synpred10_MOWLParser
     // $ANTLR start synpred11_MOWLParser
     public final void synpred11_MOWLParser_fragment() throws RecognitionException {
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return lhs = null;
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return disjoint = null;
         // MOWLParser.g:106:11: (lhs= expression DISJOINT_WITH disjoint=
         // expression )
         // MOWLParser.g:106:11: lhs= expression DISJOINT_WITH disjoint=
         // expression
         {
             pushFollow(FOLLOW_expression_in_synpred11_MOWLParser731);
-            lhs = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6029,7 +5759,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 return;
             }
             pushFollow(FOLLOW_expression_in_synpred11_MOWLParser739);
-            disjoint = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6040,15 +5770,13 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // $ANTLR end synpred11_MOWLParser
     // $ANTLR start synpred12_MOWLParser
     public final void synpred12_MOWLParser_fragment() throws RecognitionException {
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.expression_return lhs = null;
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return superProperty = null;
         // MOWLParser.g:107:11: (lhs= expression SUB_PROPERTY_OF superProperty=
         // propertyExpression )
         // MOWLParser.g:107:11: lhs= expression SUB_PROPERTY_OF superProperty=
         // propertyExpression
         {
             pushFollow(FOLLOW_expression_in_synpred12_MOWLParser776);
-            lhs = expression();
+            expression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6059,7 +5787,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 return;
             }
             pushFollow(FOLLOW_propertyExpression_in_synpred12_MOWLParser784);
-            superProperty = propertyExpression();
+            propertyExpression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6070,13 +5798,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // $ANTLR end synpred12_MOWLParser
     // $ANTLR start synpred13_MOWLParser
     public final void synpred13_MOWLParser_fragment() throws RecognitionException {
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return lhsID = null;
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return rhsAtomic = null;
         // MOWLParser.g:108:11: (lhsID= atomic INVERSE_OF rhsAtomic= atomic )
         // MOWLParser.g:108:11: lhsID= atomic INVERSE_OF rhsAtomic= atomic
         {
             pushFollow(FOLLOW_atomic_in_synpred13_MOWLParser821);
-            lhsID = atomic();
+            atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6086,7 +5812,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 return;
             }
             pushFollow(FOLLOW_atomic_in_synpred13_MOWLParser829);
-            rhsAtomic = atomic();
+            atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6097,13 +5823,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // $ANTLR end synpred13_MOWLParser
     // $ANTLR start synpred14_MOWLParser
     public final void synpred14_MOWLParser_fragment() throws RecognitionException {
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return lhsID = null;
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return rhsID = null;
         // MOWLParser.g:109:3: (lhsID= atomic SAME_AS rhsID= atomic )
         // MOWLParser.g:109:3: lhsID= atomic SAME_AS rhsID= atomic
         {
             pushFollow(FOLLOW_atomic_in_synpred14_MOWLParser860);
-            lhsID = atomic();
+            atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6113,7 +5837,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 return;
             }
             pushFollow(FOLLOW_atomic_in_synpred14_MOWLParser869);
-            rhsID = atomic();
+            atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6124,13 +5848,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // $ANTLR end synpred14_MOWLParser
     // $ANTLR start synpred15_MOWLParser
     public final void synpred15_MOWLParser_fragment() throws RecognitionException {
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return lhsID = null;
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return rhsID = null;
         // MOWLParser.g:110:11: (lhsID= atomic DIFFERENT_FROM rhsID= atomic )
         // MOWLParser.g:110:11: lhsID= atomic DIFFERENT_FROM rhsID= atomic
         {
             pushFollow(FOLLOW_atomic_in_synpred15_MOWLParser907);
-            lhsID = atomic();
+            atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6140,7 +5862,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 return;
             }
             pushFollow(FOLLOW_atomic_in_synpred15_MOWLParser916);
-            rhsID = atomic();
+            atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6151,12 +5873,11 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // $ANTLR end synpred15_MOWLParser
     // $ANTLR start synpred16_MOWLParser
     public final void synpred16_MOWLParser_fragment() throws RecognitionException {
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.atomic_return lhsID = null;
         // MOWLParser.g:111:11: (lhsID= atomic DOMAIN expression )
         // MOWLParser.g:111:11: lhsID= atomic DOMAIN expression
         {
             pushFollow(FOLLOW_atomic_in_synpred16_MOWLParser953);
-            lhsID = atomic();
+            atomic();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6234,8 +5955,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // $ANTLR end synpred18_MOWLParser
     // $ANTLR start synpred19_MOWLParser
     public final void synpred19_MOWLParser_fragment() throws RecognitionException {
-        List list_rest = null;
-        ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return head = null;
+        List<Object> list_rest = null;
         RuleReturnScope rest = null;
         // MOWLParser.g:154:4: (head= propertyExpression ( COMPOSITION rest+=
         // propertyExpression )+ )
@@ -6243,7 +5963,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         // propertyExpression )+
         {
             pushFollow(FOLLOW_propertyExpression_in_synpred19_MOWLParser1409);
-            head = propertyExpression();
+            propertyExpression();
             state._fsp--;
             if (state.failed) {
                 return;
@@ -6273,7 +5993,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                             return;
                         }
                         if (list_rest == null) {
-                            list_rest = new ArrayList();
+                            list_rest = new ArrayList<Object>();
                         }
                         list_rest.add(rest);
                     }
@@ -6806,15 +6526,16 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         }
 
         @Override
-        public int specialStateTransition(int s, IntStream _input)
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
-            TokenStream input = (TokenStream) _input;
+            TokenStream in = (TokenStream) _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    int LA1_1 = input.LA(1);
-                    int index1_1 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_1 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_MOWLParser()) {
                         s = 16;
@@ -6823,15 +6544,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (synpred4_MOWLParser()) {
                         s = 18;
                     }
-                    input.seek(index1_1);
+                    in.seek(index1_1);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 1:
-                    int LA1_2 = input.LA(1);
-                    int index1_2 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_2 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_MOWLParser()) {
                         s = 16;
@@ -6840,30 +6561,30 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (synpred4_MOWLParser()) {
                         s = 18;
                     }
-                    input.seek(index1_2);
+                    in.seek(index1_2);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 2:
-                    int LA1_3 = input.LA(1);
-                    int index1_3 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_3 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_MOWLParser()) {
                         s = 16;
                     } else if (synpred4_MOWLParser()) {
                         s = 18;
                     }
-                    input.seek(index1_3);
+                    in.seek(index1_3);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 3:
-                    int LA1_4 = input.LA(1);
-                    int index1_4 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_4 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_MOWLParser()) {
                         s = 16;
@@ -6872,52 +6593,52 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (synpred4_MOWLParser()) {
                         s = 18;
                     }
-                    input.seek(index1_4);
+                    in.seek(index1_4);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 4:
-                    int LA1_5 = input.LA(1);
-                    int index1_5 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_5 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_MOWLParser()) {
                         s = 16;
                     } else if (synpred4_MOWLParser()) {
                         s = 18;
                     }
-                    input.seek(index1_5);
+                    in.seek(index1_5);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 5:
-                    int LA1_6 = input.LA(1);
-                    int index1_6 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_6 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_MOWLParser()) {
                         s = 16;
                     } else if (synpred4_MOWLParser()) {
                         s = 18;
                     }
-                    input.seek(index1_6);
+                    in.seek(index1_6);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 6:
-                    int LA1_7 = input.LA(1);
-                    int index1_7 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_7 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_MOWLParser()) {
                         s = 16;
                     } else if (synpred4_MOWLParser()) {
                         s = 18;
                     }
-                    input.seek(index1_7);
+                    in.seek(index1_7);
                     if (s >= 0) {
                         return s;
                     }
@@ -6928,7 +6649,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 1, _s,
-                    input);
+                    in);
             error(nvae);
             throw nvae;
         }
@@ -6978,15 +6699,16 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         }
 
         @Override
-        public int specialStateTransition(int s, IntStream _input)
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
-            TokenStream input = (TokenStream) _input;
+            TokenStream in = (TokenStream) _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    int LA6_1 = input.LA(1);
-                    int index6_1 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_1 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred9_MOWLParser()) {
                         s = 8;
@@ -7007,15 +6729,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (true) {
                         s = 16;
                     }
-                    input.seek(index6_1);
+                    in.seek(index6_1);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 1:
-                    int LA6_2 = input.LA(1);
-                    int index6_2 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_2 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred9_MOWLParser()) {
                         s = 8;
@@ -7036,15 +6758,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (true) {
                         s = 16;
                     }
-                    input.seek(index6_2);
+                    in.seek(index6_2);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 2:
-                    int LA6_3 = input.LA(1);
-                    int index6_3 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_3 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred9_MOWLParser()) {
                         s = 8;
@@ -7055,15 +6777,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (synpred12_MOWLParser()) {
                         s = 11;
                     }
-                    input.seek(index6_3);
+                    in.seek(index6_3);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 3:
-                    int LA6_4 = input.LA(1);
-                    int index6_4 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_4 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred9_MOWLParser()) {
                         s = 8;
@@ -7074,15 +6796,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (synpred12_MOWLParser()) {
                         s = 11;
                     }
-                    input.seek(index6_4);
+                    in.seek(index6_4);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 4:
-                    int LA6_5 = input.LA(1);
-                    int index6_5 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_5 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred9_MOWLParser()) {
                         s = 8;
@@ -7093,15 +6815,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (synpred12_MOWLParser()) {
                         s = 11;
                     }
-                    input.seek(index6_5);
+                    in.seek(index6_5);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 5:
-                    int LA6_6 = input.LA(1);
-                    int index6_6 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_6 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred9_MOWLParser()) {
                         s = 8;
@@ -7112,15 +6834,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (synpred12_MOWLParser()) {
                         s = 11;
                     }
-                    input.seek(index6_6);
+                    in.seek(index6_6);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 6:
-                    int LA6_7 = input.LA(1);
-                    int index6_7 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_7 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred9_MOWLParser()) {
                         s = 8;
@@ -7131,7 +6853,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (synpred12_MOWLParser()) {
                         s = 11;
                     }
-                    input.seek(index6_7);
+                    in.seek(index6_7);
                     if (s >= 0) {
                         return s;
                     }
@@ -7142,7 +6864,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 6, _s,
-                    input);
+                    in);
             error(nvae);
             throw nvae;
         }
@@ -7191,15 +6913,16 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         }
 
         @Override
-        public int specialStateTransition(int s, IntStream _input)
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
-            TokenStream input = (TokenStream) _input;
+            TokenStream in = (TokenStream) _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    int LA13_1 = input.LA(1);
-                    int index13_1 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index13_1 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred19_MOWLParser()) {
                         s = 7;
@@ -7210,15 +6933,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (true) {
                         s = 9;
                     }
-                    input.seek(index13_1);
+                    in.seek(index13_1);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 1:
-                    int LA13_2 = input.LA(1);
-                    int index13_2 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index13_2 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred19_MOWLParser()) {
                         s = 7;
@@ -7227,37 +6950,37 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (true) {
                         s = 9;
                     }
-                    input.seek(index13_2);
+                    in.seek(index13_2);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 2:
-                    int LA13_3 = input.LA(1);
-                    int index13_3 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index13_3 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred19_MOWLParser()) {
                         s = 7;
                     } else if (synpred22_MOWLParser()) {
                         s = 5;
                     }
-                    input.seek(index13_3);
+                    in.seek(index13_3);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 3:
-                    int LA13_4 = input.LA(1);
-                    int index13_4 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index13_4 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred20_MOWLParser()) {
                         s = 10;
                     } else if (synpred21_MOWLParser()) {
                         s = 11;
                     }
-                    input.seek(index13_4);
+                    in.seek(index13_4);
                     if (s >= 0) {
                         return s;
                     }
@@ -7268,7 +6991,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 13,
-                    _s, input);
+                    _s, in);
             error(nvae);
             throw nvae;
         }

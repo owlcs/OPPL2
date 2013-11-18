@@ -220,24 +220,22 @@ public class ManchesterOWLSyntaxParser extends Parser {
         this.errorListener = errorListener;
     }
 
-    @Override
-    public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
-        if (getErrorListener() != null) {
-            getErrorListener().recognitionException(e, tokenNames);
-        }
-    }
-
     public ErrorListener getErrorListener() {
         return errorListener;
     }
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
-            throws RecognitionException {
-        throw new MismatchedTokenException(ttype, input);
+    @Override
+    public void displayRecognitionError(String[] t, RecognitionException e) {
+        getErrorListener().recognitionException(e, t);
+    }
+
+    protected void mismatch(IntStream in, int ttype,
+            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
+    public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
             BitSet follow) throws RecognitionException {
         throw e;
     }
@@ -249,12 +247,12 @@ public class ManchesterOWLSyntaxParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "main"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntax.g:66:1:
     // main : axiom -> ^( axiom ) ;
-    public final ManchesterOWLSyntaxParser.main_return main() throws RecognitionException {
+    public final ManchesterOWLSyntaxParser.main_return main() {
         ManchesterOWLSyntaxParser.main_return retval = new ManchesterOWLSyntaxParser.main_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
@@ -285,8 +283,6 @@ public class ManchesterOWLSyntaxParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                     // 67:9: -> ^( axiom )
                     {

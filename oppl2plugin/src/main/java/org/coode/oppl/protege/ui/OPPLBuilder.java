@@ -68,6 +68,7 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.model.OWLObject;
 
+/** @author Luigi Iannone */
 public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
         OWLModelManagerListener {
     private class OPPLConstraintList extends MList {
@@ -88,7 +89,8 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
         };
 
         /** @param owlEditorKit
-         * @param constraintSystem */
+         * @param constraintSystem
+         * @param model */
         public OPPLConstraintList(OWLEditorKit owlEditorKit,
                 ConstraintSystem constraintSystem, OPPLBuilderModel model) {
             if (owlEditorKit == null) {
@@ -190,9 +192,9 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
         }
 
         public void clear() {
-            setModel(new DefaultListModel());
-            ((DefaultListModel) getModel()).clear();
-            ((DefaultListModel) getModel()).addElement(HEADER);
+            setModel(new DefaultListModel<Object>());
+            ((DefaultListModel<Object>) getModel()).clear();
+            ((DefaultListModel<Object>) getModel()).addElement(HEADER);
         }
     }
 
@@ -312,8 +314,8 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
     private final class OPPLBuilderModel {
         private final class SpecializedConstraintVisitor implements
                 ConstraintVisitorEx<Boolean> {
-            private final Variable<?> v;
-            private final NamedVariableDetector variableDetector;
+            protected final Variable<?> v;
+            protected final NamedVariableDetector variableDetector;
 
             SpecializedConstraintVisitor(Variable<?> v) {
                 this.v = v;
@@ -480,7 +482,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
         private final List<OWLAxiom> assertedQueryAxioms = new ArrayList<OWLAxiom>();
         private final List<OWLAxiom> plainQueryAxioms = new ArrayList<OWLAxiom>();
         private final List<AbstractConstraint> constraints = new ArrayList<AbstractConstraint>();
-        private final ConstraintSystem constraintSystem;
+        protected final ConstraintSystem constraintSystem;
         private final List<Variable<?>> variables = new ArrayList<Variable<?>>();
 
         protected void addAction(OWLAxiomChange action) {
@@ -678,22 +680,22 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
             return actions;
         }
 
-        protected void importOPPLScript(OPPLScript opplScript) {
+        protected void importOPPLScript(OPPLScript script) {
             reset();
-            variables.addAll(opplScript.getVariables());
+            variables.addAll(script.getVariables());
             constraintSystem.clearVariables();
-            Set<Variable<?>> variablesToImport = opplScript.getConstraintSystem()
+            Set<Variable<?>> variablesToImport = script.getConstraintSystem()
                     .getVariables();
             for (Variable<?> variable : variablesToImport) {
                 constraintSystem.importVariable(variable);
             }
-            OPPLQuery query = opplScript.getQuery();
+            OPPLQuery query = script.getQuery();
             if (query != null) {
                 plainQueryAxioms.addAll(query.getAxioms());
                 assertedQueryAxioms.addAll(query.getAssertedAxioms());
                 constraints.addAll(query.getConstraints());
             }
-            actions.addAll(opplScript.getActions());
+            actions.addAll(script.getActions());
             notifyBuilder();
         }
 
@@ -828,7 +830,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 
     /** @author Luigi Iannone */
     public class OPPLVariableListItem extends VariableListItem {
-        private final OPPLBuilderModel model;
+        protected final OPPLBuilderModel model;
 
         /** @param variable
          * @param owlEditorKit */
@@ -851,10 +853,9 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
                         @Override
                         public <P extends OWLObject> AbstractVariableEditor<?> visit(
                                 InputVariable<P> v) {
-                            VariableEditor variableEditor = new VariableEditor(
-                                    owlEditorKit, cs);
-                            variableEditor.setVariable(v);
-                            return variableEditor;
+                            VariableEditor ve = new VariableEditor(owlEditorKit, cs);
+                            ve.setVariable(v);
+                            return ve;
                         }
 
                         @Override
@@ -912,7 +913,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 
     private class OPPLVariableList extends VariableList {
         private static final long serialVersionUID = -2540053052502672472L;
-        private final OPPLBuilderModel model;
+        protected final OPPLBuilderModel model;
 
         @Override
         protected void handleDelete() {
@@ -999,7 +1000,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
     }
 
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
-    private final OWLEditorKit owlEditorKit;
+    protected final OWLEditorKit owlEditorKit;
     private final OPPLVariableList variableList;
     private final OPPLSelectClauseList selectList;
     private final OPPLConstraintList constraintList;
@@ -1203,6 +1204,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
         return owlEditorKit;
     }
 
+    /** dispose listener */
     public void dispose() {
         getOWLEditorKit().getModelManager().removeListener(this);
     }

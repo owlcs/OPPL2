@@ -20,6 +20,7 @@ import org.antlr.runtime.tree.TreeNodeStream;
 import org.antlr.runtime.tree.TreeRuleReturnScope;
 import org.semanticweb.owlapi.model.OWLObject;
 
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
@@ -186,13 +187,13 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     }
 
     @Override
-    public void displayRecognitionError(String[] tokenNames, RecognitionException e) {}
+    public void displayRecognitionError(String[] t, RecognitionException e) {}
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
-            throws RecognitionException {}
+    @SuppressWarnings("unused")
+    protected void mismatch(IntStream in, int ttype, BitSet follow) {}
 
     @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
+    public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
             BitSet follow) throws RecognitionException {
         return null;
     }
@@ -340,7 +341,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR start "expressionRoot"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:81:1:
     // expressionRoot : ^( EXPRESSION e= expression ) ;
-    public final void expressionRoot() throws RecognitionException {
+    public final void expressionRoot() {
         ManchesterOWLSyntaxTree EXPRESSION1 = null;
         ManchesterOWLSyntaxAutoComplete.expression_return e = null;
         try {
@@ -381,7 +382,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:87:1:
     // standaloneExpression : ^( STANDALONE_EXPRESSION ^( EXPRESSION e=
     // expression ) ) ;
-    public final void standaloneExpression() throws RecognitionException {
+    public final void standaloneExpression() {
         ManchesterOWLSyntaxTree STANDALONE_EXPRESSION2 = null;
         ManchesterOWLSyntaxAutoComplete.expression_return e = null;
         try {
@@ -443,15 +444,14 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "standaloneExpression"
     public static class expression_return extends TreeRuleReturnScope {
         public ManchesterOWLSyntaxTree node;
-    };
+    }
 
     // $ANTLR start "expression"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:102:1:
     // expression returns [ManchesterOWLSyntaxTree node] : ( ^( DISJUNCTION (c=
     // conjunction )+ ) | ^( PROPERTY_CHAIN (chainItem= expression )+ ) | conj=
     // conjunction | cpe= complexPropertyExpression );
-    public final ManchesterOWLSyntaxAutoComplete.expression_return expression()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxAutoComplete.expression_return expression() {
         ManchesterOWLSyntaxAutoComplete.expression_return retval = new ManchesterOWLSyntaxAutoComplete.expression_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxAutoComplete.conjunction_return c = null;
@@ -661,14 +661,13 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "expression"
     public static class conjunction_return extends TreeRuleReturnScope {
         public ManchesterOWLSyntaxTree node;
-    };
+    }
 
     // $ANTLR start "conjunction"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:125:1:
     // conjunction returns [ManchesterOWLSyntaxTree node] : ( ^( CONJUNCTION
     // (conjunct= unary )+ ) | u= unary );
-    public final ManchesterOWLSyntaxAutoComplete.conjunction_return conjunction()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxAutoComplete.conjunction_return conjunction() {
         ManchesterOWLSyntaxAutoComplete.conjunction_return retval = new ManchesterOWLSyntaxAutoComplete.conjunction_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxAutoComplete.unary_return conjunct = null;
@@ -780,15 +779,14 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "conjunction"
     public static class unary_return extends TreeRuleReturnScope {
         public ManchesterOWLSyntaxTree node;
-    };
+    }
 
     // $ANTLR start "unary"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:139:1:
     // unary returns [ManchesterOWLSyntaxTree node] : ( IDENTIFIER | ^(
     // NEGATED_EXPRESSION e= expression ) | qualifiedRestriction |
     // ENTITY_REFERENCE );
-    public final ManchesterOWLSyntaxAutoComplete.unary_return unary()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxAutoComplete.unary_return unary() {
         ManchesterOWLSyntaxAutoComplete.unary_return retval = new ManchesterOWLSyntaxAutoComplete.unary_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree IDENTIFIER3 = null;
@@ -921,7 +919,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "propertyExpression"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:165:1:
@@ -929,7 +927,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // OWLObject owlObject] : ( IDENTIFIER | ENTITY_REFERENCE |
     // complexPropertyExpression );
     public final ManchesterOWLSyntaxAutoComplete.propertyExpression_return
-            propertyExpression() throws RecognitionException {
+            propertyExpression() {
         ManchesterOWLSyntaxAutoComplete.propertyExpression_return retval = new ManchesterOWLSyntaxAutoComplete.propertyExpression_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree IDENTIFIER6 = null;
@@ -1023,7 +1021,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "propertyExpression"
     public static class complexPropertyExpression_return extends TreeRuleReturnScope {
         public ManchesterOWLSyntaxTree node;
-    };
+    }
 
     // $ANTLR start "complexPropertyExpression"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:186:1:
@@ -1032,7 +1030,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // INVERSE_OBJECT_PROPERTY_EXPRESSION IDENTIFIER ) | ^(
     // INVERSE_OBJECT_PROPERTY_EXPRESSION ENTITY_REFERENCE ) );
     public final ManchesterOWLSyntaxAutoComplete.complexPropertyExpression_return
-            complexPropertyExpression() throws RecognitionException {
+            complexPropertyExpression() {
         ManchesterOWLSyntaxAutoComplete.complexPropertyExpression_return retval = new ManchesterOWLSyntaxAutoComplete.complexPropertyExpression_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree IDENTIFIER9 = null;
@@ -1188,7 +1186,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "complexPropertyExpression"
     public static class qualifiedRestriction_return extends TreeRuleReturnScope {
         public ManchesterOWLSyntaxTree node;
-    };
+    }
 
     // $ANTLR start "qualifiedRestriction"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:205:1:
@@ -1197,10 +1195,9 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // ALL_RESTRICTION p= propertyExpression f= expression ) |
     // cardinalityRestriction | oneOf | valueRestriction );
     public final ManchesterOWLSyntaxAutoComplete.qualifiedRestriction_return
-            qualifiedRestriction() throws RecognitionException {
+            qualifiedRestriction() {
         ManchesterOWLSyntaxAutoComplete.qualifiedRestriction_return retval = new ManchesterOWLSyntaxAutoComplete.qualifiedRestriction_return();
         retval.start = input.LT(1);
-        ManchesterOWLSyntaxAutoComplete.propertyExpression_return p = null;
         ManchesterOWLSyntaxAutoComplete.expression_return f = null;
         ManchesterOWLSyntaxAutoComplete.cardinalityRestriction_return cardinalityRestriction11 = null;
         ManchesterOWLSyntaxAutoComplete.oneOf_return oneOf12 = null;
@@ -1255,7 +1252,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                         return retval;
                     }
                     pushFollow(FOLLOW_propertyExpression_in_qualifiedRestriction594);
-                    p = propertyExpression();
+                    propertyExpression();
                     state._fsp--;
                     if (state.failed) {
                         return retval;
@@ -1290,7 +1287,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                         return retval;
                     }
                     pushFollow(FOLLOW_propertyExpression_in_qualifiedRestriction629);
-                    p = propertyExpression();
+                    propertyExpression();
                     state._fsp--;
                     if (state.failed) {
                         return retval;
@@ -1373,7 +1370,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "qualifiedRestriction"
     public static class cardinalityRestriction_return extends TreeRuleReturnScope {
         public ManchesterOWLSyntaxTree node;
-    };
+    }
 
     // $ANTLR start "cardinalityRestriction"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:234:1:
@@ -1383,10 +1380,9 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // )? ) | ^( CARDINALITY_RESTRICTION EXACTLY i= INTEGER p= unary (filler=
     // expression )? ) );
     public final ManchesterOWLSyntaxAutoComplete.cardinalityRestriction_return
-            cardinalityRestriction() throws RecognitionException {
+            cardinalityRestriction() {
         ManchesterOWLSyntaxAutoComplete.cardinalityRestriction_return retval = new ManchesterOWLSyntaxAutoComplete.cardinalityRestriction_return();
         retval.start = input.LT(1);
-        ManchesterOWLSyntaxTree i = null;
         ManchesterOWLSyntaxAutoComplete.unary_return p = null;
         ManchesterOWLSyntaxAutoComplete.expression_return filler = null;
         try {
@@ -1457,8 +1453,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    i = (ManchesterOWLSyntaxTree) match(input, INTEGER,
-                            FOLLOW_INTEGER_in_cardinalityRestriction727);
+                    match(input, INTEGER, FOLLOW_INTEGER_in_cardinalityRestriction727);
                     if (state.failed) {
                         return retval;
                     }
@@ -1521,8 +1516,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    i = (ManchesterOWLSyntaxTree) match(input, INTEGER,
-                            FOLLOW_INTEGER_in_cardinalityRestriction762);
+                    match(input, INTEGER, FOLLOW_INTEGER_in_cardinalityRestriction762);
                     if (state.failed) {
                         return retval;
                     }
@@ -1585,8 +1579,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    i = (ManchesterOWLSyntaxTree) match(input, INTEGER,
-                            FOLLOW_INTEGER_in_cardinalityRestriction802);
+                    match(input, INTEGER, FOLLOW_INTEGER_in_cardinalityRestriction802);
                     if (state.failed) {
                         return retval;
                     }
@@ -1644,14 +1637,13 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "oneOf"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:253:1:
     // oneOf returns [Type type , ManchesterOWLSyntaxTree node, OWLObject
     // owlObject] : ^( ONE_OF (individual= unary )+ ) ;
-    public final ManchesterOWLSyntaxAutoComplete.oneOf_return oneOf()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxAutoComplete.oneOf_return oneOf() {
         ManchesterOWLSyntaxAutoComplete.oneOf_return retval = new ManchesterOWLSyntaxAutoComplete.oneOf_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxAutoComplete.unary_return individual = null;
@@ -1727,17 +1719,16 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "valueRestriction"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:264:1:
     // valueRestriction returns [Type type , ManchesterOWLSyntaxTree node,
     // OWLObject owlObject] : ^( VALUE_RESTRICTION p= unary value= unary ) ;
     public final ManchesterOWLSyntaxAutoComplete.valueRestriction_return
-            valueRestriction() throws RecognitionException {
+            valueRestriction() {
         ManchesterOWLSyntaxAutoComplete.valueRestriction_return retval = new ManchesterOWLSyntaxAutoComplete.valueRestriction_return();
         retval.start = input.LT(1);
-        ManchesterOWLSyntaxAutoComplete.unary_return p = null;
         ManchesterOWLSyntaxAutoComplete.unary_return value = null;
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:268:2:
@@ -1755,7 +1746,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     return retval;
                 }
                 pushFollow(FOLLOW_unary_in_valueRestriction896);
-                p = unary();
+                unary();
                 state._fsp--;
                 if (state.failed) {
                     return retval;
@@ -1785,7 +1776,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "valueRestriction"
     public static class axiom_return extends TreeRuleReturnScope {
         public List<String> completions;
-    };
+    }
 
     // $ANTLR start "axiom"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:277:1:
@@ -1811,24 +1802,17 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // REFLEXIVE ^( EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM SYMMETRIC ^(
     // EXPRESSION p= IDENTIFIER ) ) | ^( UNARY_AXIOM TRANSITIVE ^( EXPRESSION p=
     // IDENTIFIER ) ) | ^( NEGATED_ASSERTION a= axiom ) );
-    public final ManchesterOWLSyntaxAutoComplete.axiom_return axiom()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxAutoComplete.axiom_return axiom() {
         ManchesterOWLSyntaxAutoComplete.axiom_return retval = new ManchesterOWLSyntaxAutoComplete.axiom_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree p = null;
         ManchesterOWLSyntaxTree anotherProperty = null;
         ManchesterOWLSyntaxTree subject = null;
-        ManchesterOWLSyntaxTree anIndividual = null;
         ManchesterOWLSyntaxTree anotherIndividual = null;
-        ManchesterOWLSyntaxAutoComplete.expression_return subClass = null;
         ManchesterOWLSyntaxAutoComplete.expression_return superClass = null;
-        ManchesterOWLSyntaxAutoComplete.expression_return lhs = null;
         ManchesterOWLSyntaxAutoComplete.expression_return rhs = null;
-        ManchesterOWLSyntaxAutoComplete.expression_return subProperty = null;
         ManchesterOWLSyntaxAutoComplete.unary_return superProperty = null;
-        ManchesterOWLSyntaxAutoComplete.propertyExpression_return predicate = null;
         ManchesterOWLSyntaxAutoComplete.unary_return object = null;
-        ManchesterOWLSyntaxAutoComplete.expression_return description = null;
         ManchesterOWLSyntaxAutoComplete.expression_return domain = null;
         ManchesterOWLSyntaxAutoComplete.expression_return range = null;
         ManchesterOWLSyntaxAutoComplete.axiom_return a = null;
@@ -1884,7 +1868,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                         return retval;
                     }
                     pushFollow(FOLLOW_expression_in_axiom947);
-                    subClass = expression();
+                    expression();
                     state._fsp--;
                     if (state.failed) {
                         return retval;
@@ -1951,7 +1935,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                         return retval;
                     }
                     pushFollow(FOLLOW_expression_in_axiom981);
-                    lhs = expression();
+                    expression();
                     state._fsp--;
                     if (state.failed) {
                         return retval;
@@ -2075,7 +2059,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                         return retval;
                     }
                     pushFollow(FOLLOW_expression_in_axiom1048);
-                    lhs = expression();
+                    expression();
                     state._fsp--;
                     if (state.failed) {
                         return retval;
@@ -2139,7 +2123,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                         return retval;
                     }
                     pushFollow(FOLLOW_expression_in_axiom1080);
-                    subProperty = expression();
+                    expression();
                     state._fsp--;
                     if (state.failed) {
                         return retval;
@@ -2220,7 +2204,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                         return retval;
                     }
                     pushFollow(FOLLOW_propertyExpression_in_axiom1125);
-                    predicate = propertyExpression();
+                    propertyExpression();
                     state._fsp--;
                     if (state.failed) {
                         return retval;
@@ -2283,7 +2267,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                         return retval;
                     }
                     pushFollow(FOLLOW_expression_in_axiom1155);
-                    description = expression();
+                    expression();
                     state._fsp--;
                     if (state.failed) {
                         return retval;
@@ -2467,8 +2451,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    anIndividual = (ManchesterOWLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom1251);
+                    match(input, IDENTIFIER, FOLLOW_IDENTIFIER_in_axiom1251);
                     if (state.failed) {
                         return retval;
                     }
@@ -2528,8 +2511,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    anIndividual = (ManchesterOWLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_axiom1285);
+                    match(input, IDENTIFIER, FOLLOW_IDENTIFIER_in_axiom1285);
                     if (state.failed) {
                         return retval;
                     }
@@ -2890,7 +2872,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "axiom"
     public static class incompleteAxiom_return extends TreeRuleReturnScope {
         public List<String> completions;
-    };
+    }
 
     // $ANTLR start "incompleteAxiom"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:433:1:
@@ -2919,13 +2901,9 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // INCOMPLETE_UNARY_AXIOM IRREFLEXIVE ) | ^( INCOMPLETE_UNARY_AXIOM
     // REFLEXIVE ) | ^( INCOMPLETE_UNARY_AXIOM SYMMETRIC ) | ^(
     // INCOMPLETE_UNARY_AXIOM TRANSITIVE ) );
-    public final ManchesterOWLSyntaxAutoComplete.incompleteAxiom_return incompleteAxiom()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxAutoComplete.incompleteAxiom_return incompleteAxiom() {
         ManchesterOWLSyntaxAutoComplete.incompleteAxiom_return retval = new ManchesterOWLSyntaxAutoComplete.incompleteAxiom_return();
         retval.start = input.LT(1);
-        ManchesterOWLSyntaxTree p = null;
-        ManchesterOWLSyntaxTree anIndividual = null;
-        ManchesterOWLSyntaxTree subClass = null;
         ManchesterOWLSyntaxAutoComplete.incompleteExpression_return superClass = null;
         ManchesterOWLSyntaxAutoComplete.expression_return lhs = null;
         ManchesterOWLSyntaxAutoComplete.incompleteExpression_return rhs = null;
@@ -2988,7 +2966,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    subClass = (ManchesterOWLSyntaxTree) input.LT(1);
+                    input.LT(1);
                     matchAny(input);
                     if (state.failed) {
                         return retval;
@@ -3145,8 +3123,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    p = (ManchesterOWLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_incompleteAxiom1613);
+                    match(input, IDENTIFIER, FOLLOW_IDENTIFIER_in_incompleteAxiom1613);
                     if (state.failed) {
                         return retval;
                     }
@@ -3480,8 +3457,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    p = (ManchesterOWLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_incompleteAxiom1766);
+                    match(input, IDENTIFIER, FOLLOW_IDENTIFIER_in_incompleteAxiom1766);
                     if (state.failed) {
                         return retval;
                     }
@@ -3522,8 +3498,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    p = (ManchesterOWLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_incompleteAxiom1790);
+                    match(input, IDENTIFIER, FOLLOW_IDENTIFIER_in_incompleteAxiom1790);
                     if (state.failed) {
                         return retval;
                     }
@@ -3580,8 +3555,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    p = (ManchesterOWLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_incompleteAxiom1824);
+                    match(input, IDENTIFIER, FOLLOW_IDENTIFIER_in_incompleteAxiom1824);
                     if (state.failed) {
                         return retval;
                     }
@@ -3622,8 +3596,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    p = (ManchesterOWLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_incompleteAxiom1844);
+                    match(input, IDENTIFIER, FOLLOW_IDENTIFIER_in_incompleteAxiom1844);
                     if (state.failed) {
                         return retval;
                     }
@@ -3656,7 +3629,6 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.completions = range.completions;
-                        ;
                     }
                 }
                     break;
@@ -3682,8 +3654,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    anIndividual = (ManchesterOWLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_incompleteAxiom1877);
+                    match(input, IDENTIFIER, FOLLOW_IDENTIFIER_in_incompleteAxiom1877);
                     if (state.failed) {
                         return retval;
                     }
@@ -3724,8 +3695,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    anIndividual = (ManchesterOWLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_incompleteAxiom1901);
+                    match(input, IDENTIFIER, FOLLOW_IDENTIFIER_in_incompleteAxiom1901);
                     if (state.failed) {
                         return retval;
                     }
@@ -3928,7 +3898,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "incompleteAxiom"
     public static class incompleteExpression_return extends TreeRuleReturnScope {
         public List<String> completions;
-    };
+    }
 
     // $ANTLR start "incompleteExpression"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:532:1:
@@ -3938,11 +3908,10 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // expression ) IDENTIFIER ) | ^( INCOMPLETE_EXPRESSION iu= incompleteUnary
     // ) );
     public final ManchesterOWLSyntaxAutoComplete.incompleteExpression_return
-            incompleteExpression() throws RecognitionException {
+            incompleteExpression() {
         ManchesterOWLSyntaxAutoComplete.incompleteExpression_return retval = new ManchesterOWLSyntaxAutoComplete.incompleteExpression_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree IDENTIFIER14 = null;
-        ManchesterOWLSyntaxAutoComplete.incompleteConjunction_return ic = null;
         ManchesterOWLSyntaxAutoComplete.expression_return e = null;
         ManchesterOWLSyntaxAutoComplete.incompleteUnary_return iu = null;
         try {
@@ -4072,7 +4041,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                         return retval;
                     }
                     pushFollow(FOLLOW_incompleteConjunction_in_incompleteExpression2069);
-                    ic = incompleteConjunction();
+                    incompleteConjunction();
                     state._fsp--;
                     if (state.failed) {
                         return retval;
@@ -4082,12 +4051,8 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        if (e != null) {
-                            retval.completions = ic.completions;
-                        } else {
-                            retval.completions = new ArrayList<String>(
-                                    symtab.getOWLClassCompletions());
-                        }
+                        retval.completions = new ArrayList<String>(
+                                symtab.getOWLClassCompletions());
                     }
                 }
                     break;
@@ -4186,14 +4151,14 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "incompleteExpression"
     public static class incompleteConjunction_return extends TreeRuleReturnScope {
         public List<String> completions;
-    };
+    }
 
     // $ANTLR start "incompleteConjunction"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:566:1:
     // incompleteConjunction returns [List<String> completions] : ^(
     // INCOMPLETE_CONJUNCTION (e= incompleteUnary )? ) ;
     public final ManchesterOWLSyntaxAutoComplete.incompleteConjunction_return
-            incompleteConjunction() throws RecognitionException {
+            incompleteConjunction() {
         ManchesterOWLSyntaxAutoComplete.incompleteConjunction_return retval = new ManchesterOWLSyntaxAutoComplete.incompleteConjunction_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxAutoComplete.incompleteUnary_return e = null;
@@ -4262,15 +4227,14 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "incompleteConjunction"
     public static class incompleteUnary_return extends TreeRuleReturnScope {
         public List<String> completions;
-    };
+    }
 
     // $ANTLR start "incompleteUnary"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:584:1:
     // incompleteUnary returns [List<String> completions] : ( ^(
     // INCOMPLETE_NEGATED_EXPRESSION ( . )? ) | incompleteQualifiedRestriction
     // );
-    public final ManchesterOWLSyntaxAutoComplete.incompleteUnary_return incompleteUnary()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxAutoComplete.incompleteUnary_return incompleteUnary() {
         ManchesterOWLSyntaxAutoComplete.incompleteUnary_return retval = new ManchesterOWLSyntaxAutoComplete.incompleteUnary_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxAutoComplete.incompleteQualifiedRestriction_return incompleteQualifiedRestriction15 = null;
@@ -4369,7 +4333,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "incompleteUnary"
     public static class incompleteQualifiedRestriction_return extends TreeRuleReturnScope {
         public List<String> completions;
-    };
+    }
 
     // $ANTLR start "incompleteQualifiedRestriction"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:602:1:
@@ -4379,7 +4343,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // incompleteCardinalityRestriction | incompleteOneOf |
     // incompleteValueRestriction );
     public final ManchesterOWLSyntaxAutoComplete.incompleteQualifiedRestriction_return
-            incompleteQualifiedRestriction() throws RecognitionException {
+            incompleteQualifiedRestriction() {
         ManchesterOWLSyntaxAutoComplete.incompleteQualifiedRestriction_return retval = new ManchesterOWLSyntaxAutoComplete.incompleteQualifiedRestriction_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxAutoComplete.incompleteCardinalityRestriction_return incompleteCardinalityRestriction16 = null;
@@ -4545,14 +4509,14 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     public static class incompleteCardinalityRestriction_return extends
             TreeRuleReturnScope {
         public List<String> completions;
-    };
+    }
 
     // $ANTLR start "incompleteCardinalityRestriction"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:635:1:
     // incompleteCardinalityRestriction returns [List<String> completions] : ^(
     // INCOMPLETE_CARDINALITY_RESTRICTION . INTEGER propertyExpression ) ;
     public final ManchesterOWLSyntaxAutoComplete.incompleteCardinalityRestriction_return
-            incompleteCardinalityRestriction() throws RecognitionException {
+            incompleteCardinalityRestriction() {
         ManchesterOWLSyntaxAutoComplete.incompleteCardinalityRestriction_return retval = new ManchesterOWLSyntaxAutoComplete.incompleteCardinalityRestriction_return();
         retval.start = input.LT(1);
         try {
@@ -4610,14 +4574,13 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "incompleteCardinalityRestriction"
     public static class incompleteOneOf_return extends TreeRuleReturnScope {
         public List<String> completions;
-    };
+    }
 
     // $ANTLR start "incompleteOneOf"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:651:1:
     // incompleteOneOf returns [List<String> completions] : ^( INCOMPLETE_ONE_OF
     // ( IDENTIFIER )+ ) ;
-    public final ManchesterOWLSyntaxAutoComplete.incompleteOneOf_return incompleteOneOf()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxAutoComplete.incompleteOneOf_return incompleteOneOf() {
         ManchesterOWLSyntaxAutoComplete.incompleteOneOf_return retval = new ManchesterOWLSyntaxAutoComplete.incompleteOneOf_return();
         retval.start = input.LT(1);
         try {
@@ -4692,14 +4655,14 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
     // $ANTLR end "incompleteOneOf"
     public static class incompleteValueRestriction_return extends TreeRuleReturnScope {
         public List<String> completions;
-    };
+    }
 
     // $ANTLR start "incompleteValueRestriction"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g:666:2:
     // incompleteValueRestriction returns [List<String> completions] : ^(
     // INCOMPLETE_VALUE_RESTRICTION p= propertyExpression ) ;
     public final ManchesterOWLSyntaxAutoComplete.incompleteValueRestriction_return
-            incompleteValueRestriction() throws RecognitionException {
+            incompleteValueRestriction() {
         ManchesterOWLSyntaxAutoComplete.incompleteValueRestriction_return retval = new ManchesterOWLSyntaxAutoComplete.incompleteValueRestriction_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxAutoComplete.propertyExpression_return p = null;

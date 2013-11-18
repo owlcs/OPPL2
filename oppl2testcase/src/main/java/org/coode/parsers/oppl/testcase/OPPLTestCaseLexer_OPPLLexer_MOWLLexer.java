@@ -10,6 +10,7 @@ import org.antlr.runtime.MismatchedSetException;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
     public static final int STAR = 482;
     public static final int HAS_KEY = 109;
@@ -135,9 +136,7 @@ public class OPPLTestCaseLexer_OPPLLexer_MOWLLexer extends Lexer {
     public OPPLTestCaseLexer_OPPLLexer gOPPLLexer;
     public OPPLTestCaseLexer_OPPLLexer gParent;
 
-    public OPPLTestCaseLexer_OPPLLexer_MOWLLexer() {
-        ;
-    }
+    public OPPLTestCaseLexer_OPPLLexer_MOWLLexer() {}
 
     public OPPLTestCaseLexer_OPPLLexer_MOWLLexer(CharStream input,
             OPPLTestCaseLexer gOPPLTestCaseLexer, OPPLTestCaseLexer_OPPLLexer gOPPLLexer) {

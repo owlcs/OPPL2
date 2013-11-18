@@ -26,7 +26,7 @@ import org.coode.parsers.Symbol;
 import org.coode.parsers.SymbolTable;
 import org.coode.parsers.Type;
 
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLTypeEnforcement extends TreeFilter {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
@@ -247,17 +247,17 @@ public class OPPLTypeEnforcement extends TreeFilter {
     }
 
     @Override
-    public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
-        getErrorListener().recognitionException(e, tokenNames);
+    public void displayRecognitionError(String[] t, RecognitionException e) {
+        getErrorListener().recognitionException(e, t);
     }
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
-            throws RecognitionException {
-        throw new MismatchedTokenException(ttype, input);
+    protected void mismatch(IntStream in, int ttype,
+            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
+    public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
             BitSet follow) throws RecognitionException {
         throw e;
     }
@@ -1483,8 +1483,8 @@ public class OPPLTypeEnforcement extends TreeFilter {
     public final OPPLTypeEnforcement.expression_return expression() {
         OPPLTypeEnforcement.expression_return retval = new OPPLTypeEnforcement.expression_return();
         retval.start = input.LT(1);
-        List list_disjuncts = null;
-        List list_chainItems = null;
+        List<Object> list_disjuncts = null;
+        List<Object> list_chainItems = null;
         OPPLTypeEnforcement.conjunction_return conjunction3 = null;
         OPPLTypeEnforcement.complexPropertyExpression_return complexPropertyExpression4 = null;
         RuleReturnScope disjuncts = null;
@@ -1566,7 +1566,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                                     return retval;
                                 }
                                 if (list_disjuncts == null) {
-                                    list_disjuncts = new ArrayList();
+                                    list_disjuncts = new ArrayList<Object>();
                                 }
                                 list_disjuncts.add(disjuncts);
                             }
@@ -1640,7 +1640,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                                     return retval;
                                 }
                                 if (list_chainItems == null) {
-                                    list_chainItems = new ArrayList();
+                                    list_chainItems = new ArrayList<Object>();
                                 }
                                 list_chainItems.add(chainItems);
                             }
@@ -1738,7 +1738,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     public final OPPLTypeEnforcement.conjunction_return conjunction() {
         OPPLTypeEnforcement.conjunction_return retval = new OPPLTypeEnforcement.conjunction_return();
         retval.start = input.LT(1);
-        List list_conjuncts = null;
+        List<Object> list_conjuncts = null;
         OPPLTypeEnforcement.unary_return unary5 = null;
         RuleReturnScope conjuncts = null;
         try {
@@ -1797,7 +1797,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                                     return retval;
                                 }
                                 if (list_conjuncts == null) {
-                                    list_conjuncts = new ArrayList();
+                                    list_conjuncts = new ArrayList<Object>();
                                 }
                                 list_conjuncts.add(conjuncts);
                             }
@@ -1880,10 +1880,8 @@ public class OPPLTypeEnforcement extends TreeFilter {
     public final OPPLTypeEnforcement.unary_return unary() {
         OPPLTypeEnforcement.unary_return retval = new OPPLTypeEnforcement.unary_return();
         retval.start = input.LT(1);
-        OPPLSyntaxTree constantType = null;
         OPPLSyntaxTree IDENTIFIER6 = null;
         OPPLSyntaxTree ENTITY_REFERENCE8 = null;
-        OPPLSyntaxTree value = null;
         OPPLTypeEnforcement.expression_return e = null;
         OPPLTypeEnforcement.qualifiedRestriction_return qualifiedRestriction7 = null;
         try {
@@ -2015,7 +2013,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                     if (state.failed) {
                         return retval;
                     }
-                    value = (OPPLSyntaxTree) input.LT(1);
+                    input.LT(1);
                     matchAny(input);
                     if (state.failed) {
                         return retval;
@@ -2032,8 +2030,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:289:38:
                         // constantType= IDENTIFIER
                         {
-                            constantType = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                                    FOLLOW_IDENTIFIER_in_unary933);
+                            match(input, IDENTIFIER, FOLLOW_IDENTIFIER_in_unary933);
                             if (state.failed) {
                                 return retval;
                             }
@@ -2261,7 +2258,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        Symbol symbol = getSymbolTable().resolve(IDENTIFIER11);
+                        getSymbolTable().resolve(IDENTIFIER11);
                         retval.type = getSymbolTable().getInversePropertyType(
                                 (OPPLSyntaxTree) retval.start, IDENTIFIER11);
                         getTypesEnforcer().enforceInverseObjectPropertyTypes(
@@ -2786,7 +2783,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
         OPPLTypeEnforcement.oneOf_return retval = new OPPLTypeEnforcement.oneOf_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree individuals = null;
-        List list_individuals = null;
+        List<Object> list_individuals = null;
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:401:2:
             // ( ^( ONE_OF (individuals+= IDENTIFIER )+ ) )
@@ -2821,7 +2818,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
                                 return retval;
                             }
                             if (list_individuals == null) {
-                                list_individuals = new ArrayList();
+                                list_individuals = new ArrayList<Object>();
                             }
                             list_individuals.add(individuals);
                         }

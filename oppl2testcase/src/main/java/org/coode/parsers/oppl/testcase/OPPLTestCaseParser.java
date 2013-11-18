@@ -73,6 +73,9 @@ public class OPPLTestCaseParser {
         }
     };
 
+    /** @param factory
+     * @param listener
+     * @param symbolTableFactory */
     public OPPLTestCaseParser(AbstractOPPLTestCaseFactory factory,
             ErrorListener listener,
             SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory) {
@@ -105,6 +108,9 @@ public class OPPLTestCaseParser {
         return listener;
     }
 
+    /** @param input
+     * @param handler
+     * @return oppl test case */
     public OPPLTestCase parse(String input, RuntimeExceptionHandler handler) {
         OPPLTestCaseSymbolTable symtab = getSymbolTableFactory().createSymbolTable();
         symtab.setErrorListener(getListener());
@@ -162,9 +168,6 @@ public class OPPLTestCaseParser {
             }
             return tree != null ? (OPPLTestCase) ((OPPLSyntaxTree) tree).getOPPLContent()
                     : null;
-        } catch (RecognitionException e) {
-            listener.recognitionException(e);
-            return null;
         } catch (org.antlr.runtime.tree.RewriteEarlyExitException e) {
             listener.reportThrowable(new RuntimeException("Probably empty set of tests",
                     e), 0, 0, 0);

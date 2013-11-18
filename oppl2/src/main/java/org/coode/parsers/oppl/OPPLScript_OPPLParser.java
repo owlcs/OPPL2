@@ -23,7 +23,7 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLScript_OPPLParser extends Parser {
     public static final int HAS_KEY = 109;
     public static final int VALUE_RESTRICTION = 63;
@@ -198,15 +198,15 @@ public class OPPLScript_OPPLParser extends Parser {
         return "OPPLParser.g";
     }
 
-    @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
-            BitSet follow) throws RecognitionException {
-        throw e;
+    protected void mismatch(IntStream in, int ttype,
+            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        throw new MismatchedTokenException(ttype, in);
     }
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
-            throws RecognitionException {
-        throw new MismatchedTokenException(ttype, input);
+    @Override
+    public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
+            BitSet follow) throws RecognitionException {
+        throw e;
     }
 
     public static class variableDefinitions_return extends ParserRuleReturnScope {
@@ -4857,15 +4857,16 @@ public class OPPLScript_OPPLParser extends Parser {
         }
 
         @Override
-        public int specialStateTransition(int s, IntStream _input)
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
-            TokenStream input = (TokenStream) _input;
+            TokenStream in = (TokenStream) _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    int LA9_1 = input.LA(1);
-                    int index9_1 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_1 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
@@ -4874,15 +4875,15 @@ public class OPPLScript_OPPLParser extends Parser {
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_1);
+                    in.seek(index9_1);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 1:
-                    int LA9_2 = input.LA(1);
-                    int index9_2 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_2 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
@@ -4891,15 +4892,15 @@ public class OPPLScript_OPPLParser extends Parser {
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_2);
+                    in.seek(index9_2);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 2:
-                    int LA9_3 = input.LA(1);
-                    int index9_3 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_3 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
@@ -4910,15 +4911,15 @@ public class OPPLScript_OPPLParser extends Parser {
                     } else if (true) {
                         s = 21;
                     }
-                    input.seek(index9_3);
+                    in.seek(index9_3);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 3:
-                    int LA9_4 = input.LA(1);
-                    int index9_4 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_4 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
@@ -4927,30 +4928,30 @@ public class OPPLScript_OPPLParser extends Parser {
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_4);
+                    in.seek(index9_4);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 4:
-                    int LA9_5 = input.LA(1);
-                    int index9_5 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_5 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_5);
+                    in.seek(index9_5);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 5:
-                    int LA9_6 = input.LA(1);
-                    int index9_6 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_6 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
@@ -4959,37 +4960,37 @@ public class OPPLScript_OPPLParser extends Parser {
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_6);
+                    in.seek(index9_6);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 6:
-                    int LA9_7 = input.LA(1);
-                    int index9_7 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_7 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_7);
+                    in.seek(index9_7);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 7:
-                    int LA9_8 = input.LA(1);
-                    int index9_8 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_8 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_8);
+                    in.seek(index9_8);
                     if (s >= 0) {
                         return s;
                     }
@@ -5000,7 +5001,7 @@ public class OPPLScript_OPPLParser extends Parser {
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 9, _s,
-                    input);
+                    in);
             error(nvae);
             throw nvae;
         }

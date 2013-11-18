@@ -26,7 +26,7 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     public static final int HAS_KEY = 109;
     public static final int VALUE_RESTRICTION = 63;
@@ -2864,7 +2864,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         Token OPEN_PARENTHESYS51 = null;
         Token CLOSED_PARENTHESYS53 = null;
         Token NOT54 = null;
-        List list_rest = null;
+        List<Object> list_rest = null;
         OPPLScript_OPPLParser_MOWLParser.propertyExpression_return head = null;
         OPPLScript_OPPLParser_MOWLParser.expression_return expression52 = null;
         OPPLScript_OPPLParser.atomic_return atomic55 = null;
@@ -2944,7 +2944,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                                     stream_propertyExpression.add(rest.getTree());
                                 }
                                 if (list_rest == null) {
-                                    list_rest = new ArrayList();
+                                    list_rest = new ArrayList<Object>();
                                 }
                                 list_rest.add(rest.getTree());
                             }
@@ -5250,7 +5250,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
     // $ANTLR end synpred28_MOWLParser
     // $ANTLR start synpred30_MOWLParser
     public final void synpred30_MOWLParser_fragment() throws RecognitionException {
-        List list_rest = null;
+        List<Object> list_rest = null;
         RuleReturnScope rest = null;
         // MOWLParser.g:157:4: (head= propertyExpression ( COMPOSITION rest+=
         // propertyExpression )+ )
@@ -5288,7 +5288,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                             return;
                         }
                         if (list_rest == null) {
-                            list_rest = new ArrayList();
+                            list_rest = new ArrayList<Object>();
                         }
                         list_rest.add(rest);
                     }
@@ -5978,14 +5978,14 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         @Override
         public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
-            TokenStream input = (TokenStream) _input;
+            TokenStream in = (TokenStream) _input;
             int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    input.LA(1);
-                    int index6_1 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_1 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred11_MOWLParser()) {
                         s = 10;
@@ -6006,15 +6006,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (true) {
                         s = 18;
                     }
-                    input.seek(index6_1);
+                    in.seek(index6_1);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 1:
-                    input.LA(1);
-                    int index6_2 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_2 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred11_MOWLParser()) {
                         s = 10;
@@ -6035,15 +6035,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (true) {
                         s = 18;
                     }
-                    input.seek(index6_2);
+                    in.seek(index6_2);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 2:
-                    input.LA(1);
-                    int index6_3 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_3 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred11_MOWLParser()) {
                         s = 10;
@@ -6064,15 +6064,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (true) {
                         s = 18;
                     }
-                    input.seek(index6_3);
+                    in.seek(index6_3);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 3:
-                    input.LA(1);
-                    int index6_4 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_4 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred11_MOWLParser()) {
                         s = 10;
@@ -6093,15 +6093,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (true) {
                         s = 18;
                     }
-                    input.seek(index6_4);
+                    in.seek(index6_4);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 4:
-                    input.LA(1);
-                    int index6_5 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_5 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred11_MOWLParser()) {
                         s = 10;
@@ -6112,15 +6112,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (synpred14_MOWLParser()) {
                         s = 13;
                     }
-                    input.seek(index6_5);
+                    in.seek(index6_5);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 5:
-                    input.LA(1);
-                    int index6_6 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_6 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred11_MOWLParser()) {
                         s = 10;
@@ -6131,15 +6131,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (synpred14_MOWLParser()) {
                         s = 13;
                     }
-                    input.seek(index6_6);
+                    in.seek(index6_6);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 6:
-                    input.LA(1);
-                    int index6_7 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_7 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred11_MOWLParser()) {
                         s = 10;
@@ -6150,15 +6150,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (synpred14_MOWLParser()) {
                         s = 13;
                     }
-                    input.seek(index6_7);
+                    in.seek(index6_7);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 7:
-                    input.LA(1);
-                    int index6_8 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_8 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred11_MOWLParser()) {
                         s = 10;
@@ -6169,15 +6169,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (synpred14_MOWLParser()) {
                         s = 13;
                     }
-                    input.seek(index6_8);
+                    in.seek(index6_8);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 8:
-                    input.LA(1);
-                    int index6_9 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index6_9 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred11_MOWLParser()) {
                         s = 10;
@@ -6188,7 +6188,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (synpred14_MOWLParser()) {
                         s = 13;
                     }
-                    input.seek(index6_9);
+                    in.seek(index6_9);
                     if (s >= 0) {
                         return s;
                     }
@@ -6199,7 +6199,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 6, _s,
-                    input);
+                    in);
             error(nvae);
             throw nvae;
         }
@@ -6249,22 +6249,23 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         }
 
         @Override
-        public int specialStateTransition(int s, IntStream _input)
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
-            TokenStream input = (TokenStream) _input;
+            TokenStream in = (TokenStream) _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    input.LA(1);
-                    int index8_5 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index8_5 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred25_MOWLParser()) {
                         s = 1;
                     } else if (synpred26_MOWLParser()) {
                         s = 10;
                     }
-                    input.seek(index8_5);
+                    in.seek(index8_5);
                     if (s >= 0) {
                         return s;
                     }
@@ -6275,7 +6276,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 8, _s,
-                    input);
+                    in);
             error(nvae);
             throw nvae;
         }
@@ -6327,14 +6328,14 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         @Override
         public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
-            TokenStream input = (TokenStream) _input;
+            TokenStream in = (TokenStream) _input;
             int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    input.LA(1);
-                    int index12_1 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index12_1 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred30_MOWLParser()) {
                         s = 9;
@@ -6345,15 +6346,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (true) {
                         s = 11;
                     }
-                    input.seek(index12_1);
+                    in.seek(index12_1);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 1:
-                    input.LA(1);
-                    int index12_2 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index12_2 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred30_MOWLParser()) {
                         s = 9;
@@ -6362,15 +6363,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (true) {
                         s = 11;
                     }
-                    input.seek(index12_2);
+                    in.seek(index12_2);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 2:
-                    input.LA(1);
-                    int index12_3 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index12_3 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred30_MOWLParser()) {
                         s = 9;
@@ -6379,15 +6380,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (true) {
                         s = 11;
                     }
-                    input.seek(index12_3);
+                    in.seek(index12_3);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 3:
-                    input.LA(1);
-                    int index12_4 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index12_4 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred30_MOWLParser()) {
                         s = 9;
@@ -6396,37 +6397,37 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (true) {
                         s = 11;
                     }
-                    input.seek(index12_4);
+                    in.seek(index12_4);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 4:
-                    input.LA(1);
-                    int index12_5 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index12_5 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred30_MOWLParser()) {
                         s = 9;
                     } else if (synpred33_MOWLParser()) {
                         s = 7;
                     }
-                    input.seek(index12_5);
+                    in.seek(index12_5);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 5:
-                    input.LA(1);
-                    int index12_6 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index12_6 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred31_MOWLParser()) {
                         s = 12;
                     } else if (synpred32_MOWLParser()) {
                         s = 13;
                     }
-                    input.seek(index12_6);
+                    in.seek(index12_6);
                     if (s >= 0) {
                         return s;
                     }
@@ -6437,7 +6438,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 12,
-                    _s, input);
+                    _s, in);
             error(nvae);
             throw nvae;
         }
@@ -6489,14 +6490,14 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
         @Override
         public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
-            TokenStream input = (TokenStream) _input;
+            TokenStream in = (TokenStream) _input;
             int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    input.LA(1);
-                    int index16_1 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index16_1 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred41_MOWLParser()) {
                         s = 7;
@@ -6507,15 +6508,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (true) {
                         s = 10;
                     }
-                    input.seek(index16_1);
+                    in.seek(index16_1);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 1:
-                    input.LA(1);
-                    int index16_2 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index16_2 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred41_MOWLParser()) {
                         s = 7;
@@ -6526,15 +6527,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (true) {
                         s = 10;
                     }
-                    input.seek(index16_2);
+                    in.seek(index16_2);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 2:
-                    input.LA(1);
-                    int index16_3 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index16_3 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred41_MOWLParser()) {
                         s = 7;
@@ -6545,15 +6546,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (true) {
                         s = 10;
                     }
-                    input.seek(index16_3);
+                    in.seek(index16_3);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 3:
-                    input.LA(1);
-                    int index16_4 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index16_4 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred41_MOWLParser()) {
                         s = 7;
@@ -6564,15 +6565,15 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (true) {
                         s = 10;
                     }
-                    input.seek(index16_4);
+                    in.seek(index16_4);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 4:
-                    input.LA(1);
-                    int index16_5 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index16_5 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred41_MOWLParser()) {
                         s = 7;
@@ -6583,7 +6584,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                     } else if (true) {
                         s = 10;
                     }
-                    input.seek(index16_5);
+                    in.seek(index16_5);
                     if (s >= 0) {
                         return s;
                     }
@@ -6594,7 +6595,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 16,
-                    _s, input);
+                    _s, in);
             error(nvae);
             throw nvae;
         }

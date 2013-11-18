@@ -29,6 +29,7 @@ import org.coode.patterns.OPPLPatternParser.PatternReferenceResolver;
 import org.coode.patterns.PatternConstraintSystem;
 import org.semanticweb.owlapi.model.OWLObject;
 
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLPatternsReferenceDefine extends TreeRewriter {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
@@ -270,17 +271,17 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
     }
 
     @Override
-    public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
-        getErrorListener().recognitionException(e, tokenNames);
+    public void displayRecognitionError(String[] t, RecognitionException e) {
+        getErrorListener().recognitionException(e, t);
     }
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
-            throws RecognitionException {
-        throw new MismatchedTokenException(ttype, input);
+    protected void mismatch(IntStream in, int ttype,
+            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
+    public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
             BitSet follow) throws RecognitionException {
         throw e;
     }
@@ -292,7 +293,7 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "bottomup"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:96:1:
@@ -302,9 +303,7 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
             throws RecognitionException {
         OPPLPatternsReferenceDefine.bottomup_return retval = new OPPLPatternsReferenceDefine.bottomup_return();
         retval.start = input.LT(1);
-        OPPLSyntaxTree root_0 = null;
         OPPLSyntaxTree _first_0 = null;
-        OPPLSyntaxTree _last = null;
         OPPLPatternsReferenceDefine.patternReference_return patternReference1 = null;
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:96:11:
@@ -312,7 +311,7 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:97:2:
             // patternReference
             {
-                _last = (OPPLSyntaxTree) input.LT(1);
+                input.LT(1);
                 pushFollow(FOLLOW_patternReference_in_bottomup80);
                 patternReference1 = patternReference();
                 state._fsp--;
@@ -332,10 +331,6 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                     }
                 }
             }
-        } catch (RecognitionException exception) {
-            if (errorListener != null) {
-                errorListener.recognitionException(exception);
-            }
         } catch (RewriteEmptyStreamException exception) {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
@@ -352,14 +347,13 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "patternReference"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:101:1:
     // patternReference : ^(pr= IDENTIFIER PATTERN_REFERENCE (args= arguments )?
     // ) -> ^( $pr) ;
-    public final OPPLPatternsReferenceDefine.patternReference_return patternReference()
-            throws RecognitionException {
+    public final OPPLPatternsReferenceDefine.patternReference_return patternReference() {
         OPPLPatternsReferenceDefine.patternReference_return retval = new OPPLPatternsReferenceDefine.patternReference_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -368,8 +362,6 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
         OPPLSyntaxTree pr = null;
         OPPLSyntaxTree PATTERN_REFERENCE2 = null;
         OPPLPatternsReferenceDefine.arguments_return args = null;
-        OPPLSyntaxTree pr_tree = null;
-        OPPLSyntaxTree PATTERN_REFERENCE2_tree = null;
         RewriteRuleNodeStream stream_IDENTIFIER = new RewriteRuleNodeStream(adaptor,
                 "token IDENTIFIER");
         RewriteRuleNodeStream stream_PATTERN_REFERENCE = new RewriteRuleNodeStream(
@@ -386,7 +378,6 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                 _last = (OPPLSyntaxTree) input.LT(1);
                 {
                     OPPLSyntaxTree _save_last_1 = _last;
-                    OPPLSyntaxTree _first_1 = null;
                     _last = (OPPLSyntaxTree) input.LT(1);
                     pr = (OPPLSyntaxTree) match(input, IDENTIFIER,
                             FOLLOW_IDENTIFIER_in_patternReference99);
@@ -476,8 +467,6 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                     retval.tree = root_0;
                     RewriteRuleNodeStream stream_pr = new RewriteRuleNodeStream(adaptor,
                             "token pr", pr);
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 111:3: -> ^( $pr)
                     {
@@ -517,22 +506,19 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "arguments"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:116:1:
     // arguments returns [List<List<Object>> args] : ^( ARGUMENTS (arg= argument
     // )+ ) ;
-    public final OPPLPatternsReferenceDefine.arguments_return arguments()
-            throws RecognitionException {
+    public final OPPLPatternsReferenceDefine.arguments_return arguments() {
         OPPLPatternsReferenceDefine.arguments_return retval = new OPPLPatternsReferenceDefine.arguments_return();
         retval.start = input.LT(1);
-        OPPLSyntaxTree root_0 = null;
         OPPLSyntaxTree _first_0 = null;
         OPPLSyntaxTree _last = null;
         OPPLSyntaxTree ARGUMENTS3 = null;
         OPPLPatternsReferenceDefine.argument_return arg = null;
-        OPPLSyntaxTree ARGUMENTS3_tree = null;
         retval.args = new ArrayList<List<Object>>();
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:120:2:
@@ -647,17 +633,15 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "argument"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:126:1:
     // argument returns [List<Object> argObjects] : ( ^( ARGUMENT ^( EXPRESSION
     // ^( IDENTIFIER VARIABLE_NAME DOT VALUES ) ) ) | ^( ARGUMENT (a= . )+ ) );
-    public final OPPLPatternsReferenceDefine.argument_return argument()
-            throws RecognitionException {
+    public final OPPLPatternsReferenceDefine.argument_return argument() {
         OPPLPatternsReferenceDefine.argument_return retval = new OPPLPatternsReferenceDefine.argument_return();
         retval.start = input.LT(1);
-        OPPLSyntaxTree root_0 = null;
         OPPLSyntaxTree _first_0 = null;
         OPPLSyntaxTree _last = null;
         OPPLSyntaxTree ARGUMENT4 = null;
@@ -668,14 +652,6 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
         OPPLSyntaxTree VALUES9 = null;
         OPPLSyntaxTree ARGUMENT10 = null;
         OPPLSyntaxTree a = null;
-        OPPLSyntaxTree ARGUMENT4_tree = null;
-        OPPLSyntaxTree EXPRESSION5_tree = null;
-        OPPLSyntaxTree IDENTIFIER6_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME7_tree = null;
-        OPPLSyntaxTree DOT8_tree = null;
-        OPPLSyntaxTree VALUES9_tree = null;
-        OPPLSyntaxTree ARGUMENT10_tree = null;
-        OPPLSyntaxTree a_tree = null;
         retval.argObjects = new ArrayList<Object>();
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsReferenceDefine.g:130:3:

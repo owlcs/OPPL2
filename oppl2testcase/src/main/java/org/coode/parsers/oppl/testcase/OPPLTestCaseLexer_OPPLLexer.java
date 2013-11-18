@@ -10,6 +10,7 @@ import org.antlr.runtime.NoViableAltException;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLTestCaseLexer_OPPLLexer extends Lexer {
     public static final int STAR = 482;
     public static final int HAS_KEY = 109;
@@ -135,9 +136,7 @@ public class OPPLTestCaseLexer_OPPLLexer extends Lexer {
     public OPPLTestCaseLexer gOPPLTestCaseLexer;
     public OPPLTestCaseLexer gParent;
 
-    public OPPLTestCaseLexer_OPPLLexer() {
-        ;
-    }
+    public OPPLTestCaseLexer_OPPLLexer() {}
 
     public OPPLTestCaseLexer_OPPLLexer(CharStream input,
             OPPLTestCaseLexer gOPPLTestCaseLexer) {

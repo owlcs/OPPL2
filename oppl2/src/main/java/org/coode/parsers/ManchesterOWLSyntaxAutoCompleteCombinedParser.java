@@ -19,7 +19,7 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
@@ -213,9 +213,9 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     }
 
     @Override
-    public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
+    public void displayRecognitionError(String[] t, RecognitionException e) {
         if (getErrorListener() != null) {
-            getErrorListener().recognitionException(e, tokenNames);
+            getErrorListener().recognitionException(e, t);
         }
     }
 
@@ -223,13 +223,13 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
         return errorListener;
     }
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
-            throws RecognitionException {
-        throw new MismatchedTokenException(ttype, input);
+    protected void mismatch(IntStream in, int ttype,
+            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
+    public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
             BitSet follow) throws RecognitionException {
         throw e;
     }
@@ -241,15 +241,14 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "main"
     // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:65:1:
     // main : ( options {backtrack=true; } : axiom -> axiom | incompleteAxiom ->
     // incompleteAxiom | incompleteExpression -> incompleteExpression |
     // standaloneExpression -> standaloneExpression ) ;
-    public final ManchesterOWLSyntaxAutoCompleteCombinedParser.main_return main()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxAutoCompleteCombinedParser.main_return main() {
         ManchesterOWLSyntaxAutoCompleteCombinedParser.main_return retval = new ManchesterOWLSyntaxAutoCompleteCombinedParser.main_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
@@ -305,9 +304,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 68:10: -> axiom
                             {
@@ -339,9 +335,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 69:22: -> incompleteAxiom
                             {
@@ -375,9 +368,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 70:27: -> incompleteExpression
                             {
@@ -411,9 +401,6 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         // wildcard labels:
                         if (state.backtracking == 0) {
                             retval.tree = root_0;
-                            RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                    adaptor, "rule retval", retval != null ? retval.tree
-                                            : null);
                             root_0 = (ManchesterOWLSyntaxTree) adaptor.nil();
                             // 71:30: -> standaloneExpression
                             {
@@ -464,8 +451,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
     // $ANTLR end synpred1_ManchesterOWLSyntaxAutoCompleteCombined
     // $ANTLR start synpred2_ManchesterOWLSyntaxAutoCompleteCombined
-    public final void synpred2_ManchesterOWLSyntaxAutoCompleteCombined_fragment()
-            throws RecognitionException {
+    public final void synpred2_ManchesterOWLSyntaxAutoCompleteCombined_fragment() {
         // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:69:5:
         // ( incompleteAxiom )
         // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:69:5:
@@ -482,8 +468,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
     // $ANTLR end synpred2_ManchesterOWLSyntaxAutoCompleteCombined
     // $ANTLR start synpred3_ManchesterOWLSyntaxAutoCompleteCombined
-    public final void synpred3_ManchesterOWLSyntaxAutoCompleteCombined_fragment()
-            throws RecognitionException {
+    public final void synpred3_ManchesterOWLSyntaxAutoCompleteCombined_fragment() {
         // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:70:5:
         // ( incompleteExpression )
         // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g:70:5:
@@ -502,25 +487,25 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     // Delegated rules
     public
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom_return
-            incompleteAxiom() throws RecognitionException {
+            incompleteAxiom() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteAxiom();
     }
 
     public
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteValueRestriction_return
-            incompleteValueRestriction() throws RecognitionException {
+            incompleteValueRestriction() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteValueRestriction();
     }
 
     public
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteQualifiedRestriction_return
-            incompleteQualifiedRestriction() throws RecognitionException {
+            incompleteQualifiedRestriction() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteQualifiedRestriction();
     }
 
     public
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteComplexPropertyExpression_return
-            incompleteComplexPropertyExpression() throws RecognitionException {
+            incompleteComplexPropertyExpression() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteComplexPropertyExpression();
     }
 
@@ -532,7 +517,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
     public
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnary_return
-            incompleteUnary() throws RecognitionException {
+            incompleteUnary() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteUnary();
     }
 
@@ -562,13 +547,13 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
     public
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteOneOf_return
-            incompleteOneOf() throws RecognitionException {
+            incompleteOneOf() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteOneOf();
     }
 
     public
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteAssertionAxiom_return
-            incompleteAssertionAxiom() throws RecognitionException {
+            incompleteAssertionAxiom() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteAssertionAxiom();
     }
 
@@ -604,7 +589,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
     public
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteBinaryAxiom_return
-            incompleteBinaryAxiom() throws RecognitionException {
+            incompleteBinaryAxiom() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteBinaryAxiom();
     }
 
@@ -616,7 +601,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
     public
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteConjunction_return
-            incompleteConjunction() throws RecognitionException {
+            incompleteConjunction() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteConjunction();
     }
 
@@ -652,13 +637,13 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
     public
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteCardinalityRestriction_return
-            incompleteCardinalityRestriction() throws RecognitionException {
+            incompleteCardinalityRestriction() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteCardinalityRestriction();
     }
 
     public
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteExpression_return
-            incompleteExpression() throws RecognitionException {
+            incompleteExpression() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteExpression();
     }
 
@@ -670,7 +655,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
     public
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.standaloneExpression_return
-            standaloneExpression() throws RecognitionException {
+            standaloneExpression() {
         return gManchesterOWLSyntaxAutoCompleteBase.standaloneExpression();
     }
 
@@ -682,7 +667,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
 
     public
             ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteUnaryAxiom_return
-            incompleteUnaryAxiom() throws RecognitionException {
+            incompleteUnaryAxiom() {
         return gManchesterOWLSyntaxAutoCompleteBase.incompleteUnaryAxiom();
     }
 
@@ -739,14 +724,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     public final boolean synpred2_ManchesterOWLSyntaxAutoCompleteCombined() {
         state.backtracking++;
         int start = input.mark();
-        try {
-            synpred2_ManchesterOWLSyntaxAutoCompleteCombined_fragment(); // can
-                                                                         // never
-                                                                         // throw
-                                                                         // exception
-        } catch (RecognitionException re) {
-            logger.info("impossible: ", re);
-        }
+        synpred2_ManchesterOWLSyntaxAutoCompleteCombined_fragment();
         boolean success = !state.failed;
         input.rewind(start);
         state.backtracking--;
@@ -757,14 +735,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     public final boolean synpred3_ManchesterOWLSyntaxAutoCompleteCombined() {
         state.backtracking++;
         int start = input.mark();
-        try {
-            synpred3_ManchesterOWLSyntaxAutoCompleteCombined_fragment(); // can
-                                                                         // never
-                                                                         // throw
-                                                                         // exception
-        } catch (RecognitionException re) {
-            logger.info("impossible: ", re);
-        }
+        synpred3_ManchesterOWLSyntaxAutoCompleteCombined_fragment();
         boolean success = !state.failed;
         input.rewind(start);
         state.backtracking--;
@@ -820,15 +791,16 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
         }
 
         @Override
-        public int specialStateTransition(int s, IntStream _input)
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
-            TokenStream input = (TokenStream) _input;
+            TokenStream in = (TokenStream) _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    int LA1_1 = input.LA(1);
-                    int index1_1 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_1 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
@@ -839,15 +811,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                     } else if (true) {
                         s = 18;
                     }
-                    input.seek(index1_1);
+                    in.seek(index1_1);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 1:
-                    int LA1_2 = input.LA(1);
-                    int index1_2 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_2 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
@@ -858,15 +830,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                     } else if (true) {
                         s = 18;
                     }
-                    input.seek(index1_2);
+                    in.seek(index1_2);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 2:
-                    int LA1_3 = input.LA(1);
-                    int index1_3 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_3 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
@@ -877,15 +849,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                     } else if (true) {
                         s = 18;
                     }
-                    input.seek(index1_3);
+                    in.seek(index1_3);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 3:
-                    int LA1_4 = input.LA(1);
-                    int index1_4 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_4 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
@@ -896,15 +868,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                     } else if (true) {
                         s = 18;
                     }
-                    input.seek(index1_4);
+                    in.seek(index1_4);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 4:
-                    int LA1_5 = input.LA(1);
-                    int index1_5 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_5 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
@@ -915,15 +887,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                     } else if (true) {
                         s = 18;
                     }
-                    input.seek(index1_5);
+                    in.seek(index1_5);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 5:
-                    int LA1_6 = input.LA(1);
-                    int index1_6 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_6 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
@@ -934,15 +906,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                     } else if (true) {
                         s = 18;
                     }
-                    input.seek(index1_6);
+                    in.seek(index1_6);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 6:
-                    int LA1_7 = input.LA(1);
-                    int index1_7 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_7 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
@@ -953,112 +925,112 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                     } else if (true) {
                         s = 18;
                     }
-                    input.seek(index1_7);
+                    in.seek(index1_7);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 7:
-                    int LA1_8 = input.LA(1);
-                    int index1_8 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_8 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
                     } else if (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 16;
                     }
-                    input.seek(index1_8);
+                    in.seek(index1_8);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 8:
-                    int LA1_9 = input.LA(1);
-                    int index1_9 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_9 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
                     } else if (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 16;
                     }
-                    input.seek(index1_9);
+                    in.seek(index1_9);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 9:
-                    int LA1_10 = input.LA(1);
-                    int index1_10 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_10 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
                     } else if (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 16;
                     }
-                    input.seek(index1_10);
+                    in.seek(index1_10);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 10:
-                    int LA1_11 = input.LA(1);
-                    int index1_11 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_11 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
                     } else if (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 16;
                     }
-                    input.seek(index1_11);
+                    in.seek(index1_11);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 11:
-                    int LA1_12 = input.LA(1);
-                    int index1_12 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_12 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
                     } else if (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 16;
                     }
-                    input.seek(index1_12);
+                    in.seek(index1_12);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 12:
-                    int LA1_13 = input.LA(1);
-                    int index1_13 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_13 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
                     } else if (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 16;
                     }
-                    input.seek(index1_13);
+                    in.seek(index1_13);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 13:
-                    int LA1_14 = input.LA(1);
-                    int index1_14 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index1_14 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 15;
                     } else if (synpred2_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 16;
                     }
-                    input.seek(index1_14);
+                    in.seek(index1_14);
                     if (s >= 0) {
                         return s;
                     }
@@ -1069,7 +1041,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 1, _s,
-                    input);
+                    in);
             error(nvae);
             throw nvae;
         }

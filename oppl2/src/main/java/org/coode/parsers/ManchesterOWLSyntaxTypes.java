@@ -24,7 +24,7 @@ import org.antlr.runtime.tree.TreeRuleReturnScope;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLObject;
 
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class ManchesterOWLSyntaxTypes extends TreeFilter {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
@@ -220,17 +220,17 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     }
 
     @Override
-    public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
-        getErrorListener().recognitionException(e, tokenNames);
+    public void displayRecognitionError(String[] t, RecognitionException e) {
+        getErrorListener().recognitionException(e, t);
     }
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
-            throws RecognitionException {
-        throw new MismatchedTokenException(ttype, input);
+    protected void mismatch(IntStream in, int ttype,
+            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
+    public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
             BitSet follow) throws RecognitionException {
         throw e;
     }
@@ -303,7 +303,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     // $ANTLR start "expressionRoot"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:81:1:
     // expressionRoot : ^( EXPRESSION expression ) ;
-    public final void expressionRoot() throws RecognitionException {
+    public final void expressionRoot() {
         ManchesterOWLSyntaxTree EXPRESSION1 = null;
         ManchesterOWLSyntaxTypes.expression_return expression2 = null;
         try {
@@ -355,7 +355,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLAxiom owlAxiom;
-    };
+    }
 
     // $ANTLR start "axiom"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:91:1:
@@ -386,8 +386,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     // ( ^( EXPRESSION propertyExp= propertyExpression ) )+ ) | ^(
     // ANNOTATION_ASSERTION IRI ^( EXPRESSION annotationProperty= unary ) ^(
     // EXPRESSION annotationObject= expression ) ) );
-    public final ManchesterOWLSyntaxTypes.axiom_return axiom()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxTypes.axiom_return axiom() {
         ManchesterOWLSyntaxTypes.axiom_return retval = new ManchesterOWLSyntaxTypes.axiom_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree p = null;
@@ -1683,7 +1682,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "expression"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:209:1:
@@ -1691,12 +1690,11 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     // owlObject] : ( ^( DISJUNCTION (disjuncts+= conjunction )+ ) | ^(
     // PROPERTY_CHAIN (chainItems+= expression )+ ) | conjunction |
     // complexPropertyExpression );
-    public final ManchesterOWLSyntaxTypes.expression_return expression()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxTypes.expression_return expression() {
         ManchesterOWLSyntaxTypes.expression_return retval = new ManchesterOWLSyntaxTypes.expression_return();
         retval.start = input.LT(1);
-        List list_disjuncts = null;
-        List list_chainItems = null;
+        List<Object> list_disjuncts = null;
+        List<Object> list_chainItems = null;
         ManchesterOWLSyntaxTypes.conjunction_return conjunction4 = null;
         ManchesterOWLSyntaxTypes.complexPropertyExpression_return complexPropertyExpression5 = null;
         RuleReturnScope disjuncts = null;
@@ -1781,7 +1779,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                                     return retval;
                                 }
                                 if (list_disjuncts == null) {
-                                    list_disjuncts = new ArrayList();
+                                    list_disjuncts = new ArrayList<Object>();
                                 }
                                 list_disjuncts.add(disjuncts);
                             }
@@ -1856,7 +1854,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                                     return retval;
                                 }
                                 if (list_chainItems == null) {
-                                    list_chainItems = new ArrayList();
+                                    list_chainItems = new ArrayList<Object>();
                                 }
                                 list_chainItems.add(chainItems);
                             }
@@ -1951,17 +1949,16 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "conjunction"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:248:1:
     // conjunction returns [Type type, ManchesterOWLSyntaxTree node, OWLObject
     // owlObject] : ( ^( CONJUNCTION (conjuncts+= unary )+ ) | unary );
-    public final ManchesterOWLSyntaxTypes.conjunction_return conjunction()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxTypes.conjunction_return conjunction() {
         ManchesterOWLSyntaxTypes.conjunction_return retval = new ManchesterOWLSyntaxTypes.conjunction_return();
         retval.start = input.LT(1);
-        List list_conjuncts = null;
+        List<Object> list_conjuncts = null;
         ManchesterOWLSyntaxTypes.unary_return unary6 = null;
         RuleReturnScope conjuncts = null;
         try {
@@ -2022,7 +2019,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                                     return retval;
                                 }
                                 if (list_conjuncts == null) {
-                                    list_conjuncts = new ArrayList();
+                                    list_conjuncts = new ArrayList<Object>();
                                 }
                                 list_conjuncts.add(conjuncts);
                             }
@@ -2098,7 +2095,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "unary"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:271:1:
@@ -2107,8 +2104,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     // qualifiedRestriction | ENTITY_REFERENCE | IRI | ^( CONSTANT value= . ( ^(
     // AT language= IDENTIFIER ) )? (constantType= IDENTIFIER )? ) | dataRange
     // );
-    public final ManchesterOWLSyntaxTypes.unary_return unary()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxTypes.unary_return unary() {
         ManchesterOWLSyntaxTypes.unary_return retval = new ManchesterOWLSyntaxTypes.unary_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree language = null;
@@ -2392,14 +2388,13 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "dataRange"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:318:1:
     // dataRange returns [Type type, ManchesterOWLSyntaxTree node, OWLObject
     // owlObject] : ^( DATA_RANGE dataType= unary (f= facet )* ) ;
-    public final ManchesterOWLSyntaxTypes.dataRange_return dataRange()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxTypes.dataRange_return dataRange() {
         ManchesterOWLSyntaxTypes.dataRange_return retval = new ManchesterOWLSyntaxTypes.dataRange_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTypes.unary_return dataType = null;
@@ -2490,7 +2485,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "facet"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:342:1:
@@ -2498,8 +2493,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     // owlObject] : ( ^(f= LESS_THAN value= unary ) | ^(f= LESS_THAN_EQUAL
     // value= unary ) | ^(f= GREATER_THAN value= unary ) | ^(f=
     // GREATER_THAN_EQUAL value= unary ) );
-    public final ManchesterOWLSyntaxTypes.facet_return facet()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxTypes.facet_return facet() {
         ManchesterOWLSyntaxTypes.facet_return retval = new ManchesterOWLSyntaxTypes.facet_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree f = null;
@@ -2691,15 +2685,14 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "propertyExpression"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:372:1:
     // propertyExpression returns [Type type, ManchesterOWLSyntaxTree node,
     // OWLObject owlObject] : ( IDENTIFIER | ENTITY_REFERENCE |
     // complexPropertyExpression );
-    public final ManchesterOWLSyntaxTypes.propertyExpression_return propertyExpression()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxTypes.propertyExpression_return propertyExpression() {
         ManchesterOWLSyntaxTypes.propertyExpression_return retval = new ManchesterOWLSyntaxTypes.propertyExpression_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree IDENTIFIER12 = null;
@@ -2806,7 +2799,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "complexPropertyExpression"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:400:1:
@@ -2816,7 +2809,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     // IDENTIFIER ) | ^( INVERSE_OBJECT_PROPERTY_EXPRESSION ENTITY_REFERENCE )
     // );
     public final ManchesterOWLSyntaxTypes.complexPropertyExpression_return
-            complexPropertyExpression() throws RecognitionException {
+            complexPropertyExpression() {
         ManchesterOWLSyntaxTypes.complexPropertyExpression_return retval = new ManchesterOWLSyntaxTypes.complexPropertyExpression_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree IDENTIFIER15 = null;
@@ -2927,7 +2920,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        Symbol symbol = getSymbolTable().resolve(IDENTIFIER15);
+                        getSymbolTable().resolve(IDENTIFIER15);
                         retval.type = getSymbolTable().getInversePropertyType(
                                 (ManchesterOWLSyntaxTree) retval.start, IDENTIFIER15);
                         retval.owlObject = getSymbolTable().getInverseProperty(
@@ -2959,7 +2952,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        Symbol symbol = getSymbolTable().resolve(ENTITY_REFERENCE16);
+                        getSymbolTable().resolve(ENTITY_REFERENCE16);
                         retval.type = getSymbolTable().getInversePropertyType(
                                 (ManchesterOWLSyntaxTree) retval.start,
                                 ENTITY_REFERENCE16);
@@ -2992,7 +2985,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "qualifiedRestriction"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:427:1:
@@ -3001,7 +2994,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     // expression ) | ^( ALL_RESTRICTION p= propertyExpression f= expression ) |
     // cardinalityRestriction | oneOf | valueRestriction );
     public final ManchesterOWLSyntaxTypes.qualifiedRestriction_return
-            qualifiedRestriction() throws RecognitionException {
+            qualifiedRestriction() {
         ManchesterOWLSyntaxTypes.qualifiedRestriction_return retval = new ManchesterOWLSyntaxTypes.qualifiedRestriction_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTypes.propertyExpression_return p = null;
@@ -3194,7 +3187,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "cardinalityRestriction"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:463:1:
@@ -3204,7 +3197,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     // INTEGER p= unary (filler= expression )? ) | ^( CARDINALITY_RESTRICTION
     // EXACTLY i= INTEGER p= unary (filler= expression )? ) );
     public final ManchesterOWLSyntaxTypes.cardinalityRestriction_return
-            cardinalityRestriction() throws RecognitionException {
+            cardinalityRestriction() {
         ManchesterOWLSyntaxTypes.cardinalityRestriction_return retval = new ManchesterOWLSyntaxTypes.cardinalityRestriction_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree i = null;
@@ -3496,14 +3489,13 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "valueRestriction"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:490:3:
     // valueRestriction returns [Type type , ManchesterOWLSyntaxTree node,
     // OWLObject owlObject] : ^( VALUE_RESTRICTION p= unary value= unary ) ;
-    public final ManchesterOWLSyntaxTypes.valueRestriction_return valueRestriction()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxTypes.valueRestriction_return valueRestriction() {
         ManchesterOWLSyntaxTypes.valueRestriction_return retval = new ManchesterOWLSyntaxTypes.valueRestriction_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTypes.unary_return p = null;
@@ -3571,17 +3563,16 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
         public Type type;
         public ManchesterOWLSyntaxTree node;
         public OWLObject owlObject;
-    };
+    }
 
     // $ANTLR start "oneOf"
     // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:507:1:
     // oneOf returns [Type type , ManchesterOWLSyntaxTree node, OWLObject
     // owlObject] : ^( ONE_OF (individuals+= unary )+ ) ;
-    public final ManchesterOWLSyntaxTypes.oneOf_return oneOf()
-            throws RecognitionException {
+    public final ManchesterOWLSyntaxTypes.oneOf_return oneOf() {
         ManchesterOWLSyntaxTypes.oneOf_return retval = new ManchesterOWLSyntaxTypes.oneOf_return();
         retval.start = input.LT(1);
-        List list_individuals = null;
+        List<Object> list_individuals = null;
         RuleReturnScope individuals = null;
         try {
             // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:513:2:
@@ -3621,7 +3612,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                                 return retval;
                             }
                             if (list_individuals == null) {
-                                list_individuals = new ArrayList();
+                                list_individuals = new ArrayList<Object>();
                             }
                             list_individuals.add(individuals);
                         }

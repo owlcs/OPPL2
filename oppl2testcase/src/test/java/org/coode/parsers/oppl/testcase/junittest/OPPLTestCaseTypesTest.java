@@ -140,46 +140,41 @@ public class OPPLTestCaseTypesTest {
         OPPLTestCaseCombinedParser parser = new OPPLTestCaseCombinedParser(tokens,
                 ERROR_LISTENER);
         parser.setTreeAdaptor(adaptor);
-        try {
-            RuleReturnScope r = parser.testCase();
-            CommonTree tree = (CommonTree) r.getTree();
-            CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
-            nodes.setTokenStream(tokens); // where to find tokens
-            nodes.setTreeAdaptor(adaptor);
-            nodes.reset();
-            // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-            ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
-            simplify.setTreeAdaptor(adaptor);
-            simplify.downup(tree);
-            nodes.reset();
-            OPPLDefine define = new OPPLDefine(nodes, symtab, ERROR_LISTENER,
-                    constraintSystem);
-            define.setTreeAdaptor(adaptor);
-            define.downup(tree);
-            nodes.reset();
-            ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes,
-                    symtab, ERROR_LISTENER);
-            mOWLTypes.downup(tree);
-            nodes.reset();
-            OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, symtab,
-                    new DefaultTypeEnforcer(symtab, testCaseFactory.getOPPLFactory()
-                            .getOWLEntityFactory(), ERROR_LISTENER), ERROR_LISTENER);
-            typeEnforcement.downup(tree);
-            nodes.reset();
-            mOWLTypes.downup(tree);
-            nodes.reset();
-            OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, ERROR_LISTENER,
-                    constraintSystem, testCaseFactory.getOPPLFactory());
-            opplTypes.downup(tree);
-            nodes.reset();
-            OPPLTestCaseTypes opplTestCaseTypes = new OPPLTestCaseTypes(nodes, symtab,
-                    ERROR_LISTENER, constraintSystem, testCaseFactory, HANDLER);
-            opplTestCaseTypes.downup(tree);
-            return (OPPLTestCase) ((OPPLSyntaxTree) r.getTree()).getOPPLContent();
-        } catch (RecognitionException e) {
-            e.printStackTrace();
-            return null;
-        }
+        RuleReturnScope r = parser.testCase();
+        CommonTree tree = (CommonTree) r.getTree();
+        CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
+        nodes.setTokenStream(tokens); // where to find tokens
+        nodes.setTreeAdaptor(adaptor);
+        nodes.reset();
+        // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
+        ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+        simplify.setTreeAdaptor(adaptor);
+        simplify.downup(tree);
+        nodes.reset();
+        OPPLDefine define = new OPPLDefine(nodes, symtab, ERROR_LISTENER,
+                constraintSystem);
+        define.setTreeAdaptor(adaptor);
+        define.downup(tree);
+        nodes.reset();
+        ManchesterOWLSyntaxTypes mOWLTypes = new ManchesterOWLSyntaxTypes(nodes, symtab,
+                ERROR_LISTENER);
+        mOWLTypes.downup(tree);
+        nodes.reset();
+        OPPLTypeEnforcement typeEnforcement = new OPPLTypeEnforcement(nodes, symtab,
+                new DefaultTypeEnforcer(symtab, testCaseFactory.getOPPLFactory()
+                        .getOWLEntityFactory(), ERROR_LISTENER), ERROR_LISTENER);
+        typeEnforcement.downup(tree);
+        nodes.reset();
+        mOWLTypes.downup(tree);
+        nodes.reset();
+        OPPLTypes opplTypes = new OPPLTypes(nodes, symtab, ERROR_LISTENER,
+                constraintSystem, testCaseFactory.getOPPLFactory());
+        opplTypes.downup(tree);
+        nodes.reset();
+        OPPLTestCaseTypes opplTestCaseTypes = new OPPLTestCaseTypes(nodes, symtab,
+                ERROR_LISTENER, constraintSystem, testCaseFactory, HANDLER);
+        opplTestCaseTypes.downup(tree);
+        return (OPPLTestCase) ((OPPLSyntaxTree) r.getTree()).getOPPLContent();
     }
 
     @Test

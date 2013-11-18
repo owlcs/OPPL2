@@ -17,6 +17,7 @@ public class ManchesterOWLSyntaxTree extends CommonTree {
     private OWLObject owlObject;
     private final List<String> completions = new ArrayList<String>();
 
+    /** @param token */
     public ManchesterOWLSyntaxTree(Token token) {
         super(token);
     }
@@ -49,6 +50,7 @@ public class ManchesterOWLSyntaxTree extends CommonTree {
         this.owlObject = owlObject;
     }
 
+    /** @param strings */
     public void setCompletions(Collection<? extends String> strings) {
         completions.clear();
         completions.addAll(strings);

@@ -10,7 +10,6 @@ import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.RewriteRuleNodeStream;
-import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
 import org.antlr.runtime.tree.TreeAdaptor;
 import org.antlr.runtime.tree.TreeNodeStream;
 import org.antlr.runtime.tree.TreeRewriter;
@@ -20,6 +19,7 @@ import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.patterns.OPPLPatternParser.PatternReferenceResolver;
 import org.coode.patterns.PatternConstraintSystem;
 
+@SuppressWarnings("javadoc")
 public class OPPLPatternsDefine extends TreeRewriter {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
@@ -261,17 +261,17 @@ public class OPPLPatternsDefine extends TreeRewriter {
     }
 
     @Override
-    public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
-        getErrorListener().recognitionException(e, tokenNames);
+    public void displayRecognitionError(String[] t, RecognitionException e) {
+        getErrorListener().recognitionException(e, t);
     }
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
-            throws RecognitionException {
-        throw new MismatchedTokenException(ttype, input);
+    protected void mismatch(IntStream in, int ttype,
+            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
+    public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
             BitSet follow) throws RecognitionException {
         throw e;
     }
@@ -283,7 +283,7 @@ public class OPPLPatternsDefine extends TreeRewriter {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "bottomup"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g:90:1:
@@ -293,9 +293,7 @@ public class OPPLPatternsDefine extends TreeRewriter {
             throws RecognitionException {
         OPPLPatternsDefine.bottomup_return retval = new OPPLPatternsDefine.bottomup_return();
         retval.start = input.LT(1);
-        OPPLSyntaxTree root_0 = null;
         OPPLSyntaxTree _first_0 = null;
-        OPPLSyntaxTree _last = null;
         OPPLPatternsDefine.thisClass_return thisClass1 = null;
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g:90:11:
@@ -303,7 +301,7 @@ public class OPPLPatternsDefine extends TreeRewriter {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g:91:3:
             // thisClass
             {
-                _last = (OPPLSyntaxTree) input.LT(1);
+                input.LT(1);
                 pushFollow(FOLLOW_thisClass_in_bottomup80);
                 thisClass1 = thisClass();
                 state._fsp--;
@@ -323,10 +321,6 @@ public class OPPLPatternsDefine extends TreeRewriter {
                     }
                 }
             }
-        } catch (RecognitionException exception) {
-            if (errorListener != null) {
-                errorListener.recognitionException(exception);
-            }
         } catch (RewriteEmptyStreamException exception) {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
@@ -343,13 +337,12 @@ public class OPPLPatternsDefine extends TreeRewriter {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "thisClass"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g:96:1:
     // thisClass : ^(i= IDENTIFIER THIS_CLASS ) -> ^( $i) ;
-    public final OPPLPatternsDefine.thisClass_return thisClass()
-            throws RecognitionException {
+    public final OPPLPatternsDefine.thisClass_return thisClass() {
         OPPLPatternsDefine.thisClass_return retval = new OPPLPatternsDefine.thisClass_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
@@ -357,8 +350,6 @@ public class OPPLPatternsDefine extends TreeRewriter {
         OPPLSyntaxTree _last = null;
         OPPLSyntaxTree i = null;
         OPPLSyntaxTree THIS_CLASS2 = null;
-        OPPLSyntaxTree i_tree = null;
-        OPPLSyntaxTree THIS_CLASS2_tree = null;
         RewriteRuleNodeStream stream_IDENTIFIER = new RewriteRuleNodeStream(adaptor,
                 "token IDENTIFIER");
         RewriteRuleNodeStream stream_THIS_CLASS = new RewriteRuleNodeStream(adaptor,
@@ -372,7 +363,6 @@ public class OPPLPatternsDefine extends TreeRewriter {
                 _last = (OPPLSyntaxTree) input.LT(1);
                 {
                     OPPLSyntaxTree _save_last_1 = _last;
-                    OPPLSyntaxTree _first_1 = null;
                     _last = (OPPLSyntaxTree) input.LT(1);
                     i = (OPPLSyntaxTree) match(input, IDENTIFIER,
                             FOLLOW_IDENTIFIER_in_thisClass104);
@@ -420,8 +410,6 @@ public class OPPLPatternsDefine extends TreeRewriter {
                     retval.tree = root_0;
                     RewriteRuleNodeStream stream_i = new RewriteRuleNodeStream(adaptor,
                             "token i", i);
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 103:5: -> ^( $i)
                     {

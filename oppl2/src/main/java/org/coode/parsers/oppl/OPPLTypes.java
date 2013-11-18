@@ -53,7 +53,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLPropertyExpression;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLTypes extends TreeFilter {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
@@ -284,17 +284,17 @@ public class OPPLTypes extends TreeFilter {
     }
 
     @Override
-    public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
-        getErrorListener().recognitionException(e, tokenNames);
+    public void displayRecognitionError(String[] t, RecognitionException e) {
+        getErrorListener().recognitionException(e, t);
     }
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
-            throws RecognitionException {
-        throw new MismatchedTokenException(ttype, input);
+    protected void mismatch(IntStream in, int ttype,
+            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
+    public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
             BitSet follow) throws RecognitionException {
         throw e;
     }
@@ -1018,7 +1018,7 @@ public class OPPLTypes extends TreeFilter {
 
     // $ANTLR end "action"
     public static class variableDefinition_return extends TreeRuleReturnScope {
-        public Variable variable;
+        public Variable<?> variable;
     }
 
     // $ANTLR start "variableDefinition"
@@ -1355,7 +1355,7 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        org.coode.oppl.variabletypes.VariableType type = org.coode.parsers.oppl.VariableTypes
+                        org.coode.oppl.variabletypes.VariableType<?> type = org.coode.parsers.oppl.VariableTypes
                                 .getVariableType(VARIABLE_TYPE12.getText())
                                 .getOPPLVariableType();
                         retval.variable = constraintSystem.createStringGeneratedVariable(
@@ -1845,7 +1845,7 @@ public class OPPLTypes extends TreeFilter {
     // $ANTLR end "stringExpression"
     public static class variableScope_return extends TreeRuleReturnScope {
         public Type type;
-        public VariableScope variableScope;
+        public VariableScope<?> variableScope;
     }
 
     // $ANTLR start "variableScope"
@@ -2387,7 +2387,7 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        Variable variable = symtab.getVariable(IDENTIFIER21,
+                        Variable<?> variable = symtab.getVariable(IDENTIFIER21,
                                 getConstraintSystem());
                         OPPLFunction<Pattern> adapted = Adapter
                                 .buildRegexpPatternAdapter(se);

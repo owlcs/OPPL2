@@ -55,7 +55,7 @@ public class TestTypeEvaluationSimplification {
     private static ErrorListener errorListener = new SilentListener();
 
     @Test
-    public void main() throws RecognitionException {
+    public void main() {
         OWLOntologyManager ontologyManager = pizza.getOWLOntologyManager();
         SymbolTableFactory<SymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
                 ontologyManager);

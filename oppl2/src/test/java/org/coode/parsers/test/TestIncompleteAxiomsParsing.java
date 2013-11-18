@@ -58,22 +58,18 @@ public class TestIncompleteAxiomsParsing {
         ManchesterOWLSyntaxAutoCompleteCombinedParser parser = new ManchesterOWLSyntaxAutoCompleteCombinedParser(
                 tokens);
         parser.setTreeAdaptor(adaptor);
-        try {
-            RuleReturnScope r = parser.main();
-            CommonTree tree = (CommonTree) r.getTree();
-            CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
-            nodes.setTokenStream(tokens); // where to find tokens
-            nodes.setTreeAdaptor(adaptor);
-            OPPLSymbolTable symtab = getOPPLSymbolTable(pizza);
-            symtab.setErrorListener(errorListener);
-            ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
-            simplify.setTreeAdaptor(adaptor);
-            simplify.downup(tree);
-            nodes.reset();
-            return (ManchesterOWLSyntaxTree) tree;
-        } catch (RecognitionException e) {
-            throw new RuntimeException(e);
-        }
+        RuleReturnScope r = parser.main();
+        CommonTree tree = (CommonTree) r.getTree();
+        CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
+        nodes.setTokenStream(tokens); // where to find tokens
+        nodes.setTreeAdaptor(adaptor);
+        OPPLSymbolTable symtab = getOPPLSymbolTable(pizza);
+        symtab.setErrorListener(errorListener);
+        ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+        simplify.setTreeAdaptor(adaptor);
+        simplify.downup(tree);
+        nodes.reset();
+        return (ManchesterOWLSyntaxTree) tree;
     }
 
     @Test

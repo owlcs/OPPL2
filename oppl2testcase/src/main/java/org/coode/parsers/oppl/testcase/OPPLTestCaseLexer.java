@@ -11,6 +11,7 @@ import org.antlr.runtime.NoViableAltException;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLTestCaseLexer extends Lexer {
     public static final int STAR = 482;
     public static final int HAS_KEY = 109;
@@ -135,9 +136,7 @@ public class OPPLTestCaseLexer extends Lexer {
     public OPPLTestCaseLexer_OPPLLexer gOPPLLexer;
 
     // delegators
-    public OPPLTestCaseLexer() {
-        ;
-    }
+    public OPPLTestCaseLexer() {}
 
     public OPPLTestCaseLexer(CharStream input) {
         this(input, new RecognizerSharedState());
@@ -1532,13 +1531,14 @@ public class OPPLTestCaseLexer extends Lexer {
         }
 
         @Override
-        public int specialStateTransition(int s, IntStream _input)
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
-            IntStream input = _input;
+            IntStream in = _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    int LA1_34 = input.LA(1);
+                    int LA1_34 = in.LA(1);
                     s = -1;
                     if (LA1_34 >= '\u0000' && LA1_34 <= '&' || LA1_34 >= '('
                             && LA1_34 <= '\uFFFF') {
@@ -1551,7 +1551,7 @@ public class OPPLTestCaseLexer extends Lexer {
                     }
                     break;
                 case 1:
-                    int LA1_29 = input.LA(1);
+                    int LA1_29 = in.LA(1);
                     s = -1;
                     if (LA1_29 >= '\u0000' && LA1_29 <= '!' || LA1_29 >= '#'
                             && LA1_29 <= '\uFFFF') {
@@ -1564,7 +1564,7 @@ public class OPPLTestCaseLexer extends Lexer {
                     }
                     break;
                 case 2:
-                    int LA1_162 = input.LA(1);
+                    int LA1_162 = in.LA(1);
                     s = -1;
                     if (LA1_162 == '\"') {
                         s = 96;
@@ -1577,7 +1577,7 @@ public class OPPLTestCaseLexer extends Lexer {
                     }
                     break;
                 case 3:
-                    int LA1_95 = input.LA(1);
+                    int LA1_95 = in.LA(1);
                     s = -1;
                     if (LA1_95 == '\"') {
                         s = 96;
@@ -1590,7 +1590,7 @@ public class OPPLTestCaseLexer extends Lexer {
                     }
                     break;
                 case 4:
-                    int LA1_101 = input.LA(1);
+                    int LA1_101 = in.LA(1);
                     s = -1;
                     if (LA1_101 == '\'') {
                         s = 102;
@@ -1603,7 +1603,7 @@ public class OPPLTestCaseLexer extends Lexer {
                     }
                     break;
                 case 5:
-                    int LA1_165 = input.LA(1);
+                    int LA1_165 = in.LA(1);
                     s = -1;
                     if (LA1_165 == '\'') {
                         s = 102;
@@ -1617,7 +1617,7 @@ public class OPPLTestCaseLexer extends Lexer {
                     break;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 1, _s,
-                    input);
+                    in);
             error(nvae);
             throw nvae;
         }

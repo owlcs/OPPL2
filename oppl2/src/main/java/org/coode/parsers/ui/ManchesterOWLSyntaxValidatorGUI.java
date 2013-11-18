@@ -460,31 +460,26 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
             ManchesterOWLSyntaxParser parser = new ManchesterOWLSyntaxParser(tokens,
                     listener);
             parser.setTreeAdaptor(adaptor);
-            try {
-                RuleReturnScope r = parser.main();
-                CommonTree tree = (CommonTree) r.getTree();
-                if (tree != null) {
-                    CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
-                    nodes.setTokenStream(tokens); // where to find tokens
-                    nodes.setTreeAdaptor(adaptor);
-                    // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-                    symbolTable.setErrorListener(listener);
-                    ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
-                            nodes);
-                    simplify.setTreeAdaptor(adaptor);
-                    simplify.downup(tree);
-                    nodes.reset();
-                    ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(
-                            nodes, symbolTable, listener);
-                    typeComp.downup(tree); // trigger resolve/type computation
-                    // actions
-                    // WALK TREE TO DUMP SUBTREE TYPES
-                }
-                return (ManchesterOWLSyntaxTree) tree;
-            } catch (RecognitionException e) {
-                listener.recognitionException(e);
-                return null;
+            RuleReturnScope r = parser.main();
+            CommonTree tree = (CommonTree) r.getTree();
+            if (tree != null) {
+                CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
+                nodes.setTokenStream(tokens); // where to find tokens
+                nodes.setTreeAdaptor(adaptor);
+                // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
+                symbolTable.setErrorListener(listener);
+                ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(
+                        nodes);
+                simplify.setTreeAdaptor(adaptor);
+                simplify.downup(tree);
+                nodes.reset();
+                ManchesterOWLSyntaxTypes typeComp = new ManchesterOWLSyntaxTypes(nodes,
+                        symbolTable, listener);
+                typeComp.downup(tree); // trigger resolve/type computation
+                // actions
+                // WALK TREE TO DUMP SUBTREE TYPES
             }
+            return (ManchesterOWLSyntaxTree) tree;
         }
     }
 
@@ -495,6 +490,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
     private final ExpressionChecker<OWLAxiom> checker = new AxiomChecker();
     protected final ExpressionEditor<OWLAxiom> axiomValidator;
 
+    /** @param uri */
     public void loadOntology(URI uri) {
         try {
             manager.loadOntology(IRI.create(uri));
@@ -509,6 +505,9 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
         return "Syntax validator";
     }
 
+    /**
+     * 
+     */
     public ManchesterOWLSyntaxValidatorGUI() {
         axiomValidator = new ExpressionEditor<OWLAxiom>(manager, checker);
         initGUI();
@@ -521,6 +520,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
         this.add(axiomValidator, BorderLayout.CENTER);
     }
 
+    @SuppressWarnings("javadoc")
     public static void main(String[] args) {
         ManchesterOWLSyntaxValidatorGUI frame = new ManchesterOWLSyntaxValidatorGUI();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

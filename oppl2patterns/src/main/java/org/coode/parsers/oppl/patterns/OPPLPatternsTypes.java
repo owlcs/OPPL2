@@ -22,6 +22,7 @@ import org.coode.patterns.PatternConstraintSystem;
 import org.coode.patterns.PatternModel;
 import org.coode.patterns.UnsuitableOPPLScriptException;
 
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLPatternsTypes extends TreeFilter {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
@@ -251,17 +252,17 @@ public class OPPLPatternsTypes extends TreeFilter {
     }
 
     @Override
-    public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
-        getErrorListener().recognitionException(e, tokenNames);
+    public void displayRecognitionError(String[] t, RecognitionException e) {
+        getErrorListener().recognitionException(e, t);
     }
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
-            throws RecognitionException {
-        throw new MismatchedTokenException(ttype, input);
+    protected void mismatch(IntStream in, int ttype,
+            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
+    public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
             BitSet follow) throws RecognitionException {
         throw e;
     }
@@ -284,10 +285,6 @@ public class OPPLPatternsTypes extends TreeFilter {
                     return;
                 }
             }
-        } catch (RecognitionException exception) {
-            if (errorListener != null) {
-                errorListener.recognitionException(exception);
-            }
         } catch (RewriteEmptyStreamException exception) {
             if (errorListener != null) {
                 errorListener.rewriteEmptyStreamException(exception);
@@ -297,18 +294,18 @@ public class OPPLPatternsTypes extends TreeFilter {
     }
 
     // $ANTLR end "bottomup"
-    public static class pattern_return extends TreeRuleReturnScope {};
+    public static class pattern_return extends TreeRuleReturnScope {}
 
     // $ANTLR start "pattern"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsTypes.g:101:1:
     // pattern : ^( OPPL_PATTERN ^(s= OPPL_STATEMENT ( . )* ) (ren= rendering )?
     // (rc= returnClause )? ) ;
-    public final OPPLPatternsTypes.pattern_return pattern() throws RecognitionException {
+    public final OPPLPatternsTypes.pattern_return pattern() {
         OPPLPatternsTypes.pattern_return retval = new OPPLPatternsTypes.pattern_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree s = null;
         String ren = null;
-        Variable rc = null;
+        Variable<?> rc = null;
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsTypes.g:102:2:
             // ( ^( OPPL_PATTERN ^(s= OPPL_STATEMENT ( . )* ) (ren= rendering )?
@@ -448,7 +445,7 @@ public class OPPLPatternsTypes extends TreeFilter {
     // $ANTLR start "rendering"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsTypes.g:123:1:
     // rendering returns [String string] : ^( RENDERING ( renderingPart )+ ) ;
-    public final String rendering() throws RecognitionException {
+    public final String rendering() {
         String string = null;
         OPPLSyntaxTree RENDERING1 = null;
         try {
@@ -526,7 +523,7 @@ public class OPPLPatternsTypes extends TreeFilter {
     // $ANTLR start "renderingPart"
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsTypes.g:131:1:
     // renderingPart : ( IDENTIFIER | VARIABLE_NAME | THIS_CLASS | HYPHEN );
-    public final void renderingPart() throws RecognitionException {
+    public final void renderingPart() {
         OPPLSyntaxTree VARIABLE_NAME2 = null;
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsTypes.g:132:3:
@@ -578,7 +575,7 @@ public class OPPLPatternsTypes extends TreeFilter {
                         return;
                     }
                     if (state.backtracking == 1) {
-                        Variable variable = getConstraintSystem().getVariable(
+                        Variable<?> variable = getConstraintSystem().getVariable(
                                 VARIABLE_NAME2.getText());
                         if (variable == null) {
                             if (getErrorListener() != null) {
@@ -628,8 +625,8 @@ public class OPPLPatternsTypes extends TreeFilter {
     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsTypes.g:147:1:
     // returnClause returns [Variable variable] : ( ^( RETURN VARIABLE_NAME ) |
     // ^( RETURN THIS_CLASS ) );
-    public final Variable returnClause() throws RecognitionException {
-        Variable variable = null;
+    public final Variable<?> returnClause() {
+        Variable<?> variable = null;
         OPPLSyntaxTree VARIABLE_NAME3 = null;
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsTypes.g:148:3:

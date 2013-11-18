@@ -61,11 +61,7 @@ public class ComprehensiveAxiomTestCase {
                 new RecognizerSharedState(), errorListener);
         parser.setTreeAdaptor(adaptor);
         RuleReturnScope r;
-        try {
-            r = parser.main();
-        } catch (RecognitionException e) {
-            throw new RuntimeException(e);
-        }
+        r = parser.main();
         CommonTree tree = (CommonTree) r.getTree();
         CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
         nodes.setTokenStream(tokens); // where to find tokens

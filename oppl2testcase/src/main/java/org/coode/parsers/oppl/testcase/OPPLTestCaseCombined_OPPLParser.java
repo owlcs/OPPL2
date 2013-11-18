@@ -24,6 +24,7 @@ import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLTestCaseCombined_OPPLParser extends Parser {
     public static final int STAR = 482;
     public static final int HAS_KEY = 109;
@@ -219,14 +220,14 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
     }
 
     @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
+    public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
             BitSet follow) throws RecognitionException {
         throw e;
     }
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
-            throws RecognitionException {
-        throw new MismatchedTokenException(ttype, input);
+    protected void mismatch(IntStream in, int ttype,
+            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        throw new MismatchedTokenException(ttype, in);
     }
 
     public static class variableDefinitions_return extends ParserRuleReturnScope {
@@ -236,7 +237,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "variableDefinitions"
     // OPPLParser.g:48:2: variableDefinitions : variableDefinition ( COMMA
@@ -250,7 +251,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         Token COMMA2 = null;
         OPPLTestCaseCombined_OPPLParser.variableDefinition_return variableDefinition1 = null;
         OPPLTestCaseCombined_OPPLParser.variableDefinition_return variableDefinition3 = null;
-        OPPLSyntaxTree COMMA2_tree = null;
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
                 "token COMMA");
         RewriteRuleSubtreeStream stream_variableDefinition = new RewriteRuleSubtreeStream(
@@ -315,8 +315,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 50:52: -> ^( VARIABLE_DEFINITIONS ( variableDefinition )+
                     // )
@@ -363,7 +361,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "variableDefinition"
     // OPPLParser.g:53:2: variableDefinition : ( VARIABLE_NAME COLON
@@ -399,21 +397,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         OPPLTestCaseCombined_OPPLParser_MOWLParser.expression_return expression13 = null;
         OPPLTestCaseCombined_OPPLParser.regexp_return regexp18 = null;
         OPPLTestCaseCombined_OPPLParser.variableScope_return variableScope22 = null;
-        OPPLSyntaxTree VARIABLE_NAME4_tree = null;
-        OPPLSyntaxTree COLON5_tree = null;
-        OPPLSyntaxTree VARIABLE_TYPE6_tree = null;
-        OPPLSyntaxTree EQUAL7_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME9_tree = null;
-        OPPLSyntaxTree COLON10_tree = null;
-        OPPLSyntaxTree VARIABLE_TYPE11_tree = null;
-        OPPLSyntaxTree EQUAL12_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME14_tree = null;
-        OPPLSyntaxTree COLON15_tree = null;
-        OPPLSyntaxTree VARIABLE_TYPE16_tree = null;
-        OPPLSyntaxTree EQUAL17_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME19_tree = null;
-        OPPLSyntaxTree COLON20_tree = null;
-        OPPLSyntaxTree VARIABLE_TYPE21_tree = null;
         RewriteRuleTokenStream stream_COLON = new RewriteRuleTokenStream(adaptor,
                 "token COLON");
         RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(adaptor,
@@ -575,9 +558,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 56:61: -> ^( GENERATED_VARIABLE_DEFINITION
                         // VARIABLE_NAME VARIABLE_TYPE ^( opplFunction ) )
@@ -661,9 +641,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 57:59: -> ^( GENERATED_VARIABLE_DEFINITION
                         // VARIABLE_NAME VARIABLE_TYPE ^( EXPRESSION expression
@@ -751,9 +728,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 58:55: -> ^( GENERATED_VARIABLE_DEFINITION
                         // VARIABLE_NAME VARIABLE_TYPE regexp )
@@ -835,9 +809,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 59:58: -> ^( INPUT_VARIABLE_DEFINITION VARIABLE_NAME
                         // VARIABLE_TYPE ( variableScope )? )
@@ -886,7 +857,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "variableScope"
     // OPPLParser.g:64:1: variableScope : OPEN_SQUARE_BRACKET
@@ -905,9 +876,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         Token OPEN_SQUARE_BRACKET23 = null;
         Token CLOSED_SQUARE_BRACKET25 = null;
         OPPLTestCaseCombined_OPPLParser_MOWLParser.expression_return expression24 = null;
-        OPPLSyntaxTree variableScopeSpecification_tree = null;
-        OPPLSyntaxTree OPEN_SQUARE_BRACKET23_tree = null;
-        OPPLSyntaxTree CLOSED_SQUARE_BRACKET25_tree = null;
         RewriteRuleTokenStream stream_TYPES = new RewriteRuleTokenStream(adaptor,
                 "token TYPES");
         RewriteRuleTokenStream stream_SUPER_PROPERTY_OF = new RewriteRuleTokenStream(
@@ -1109,8 +1077,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     RewriteRuleTokenStream stream_variableScopeSpecification = new RewriteRuleTokenStream(
                             adaptor, "token variableScopeSpecification",
                             variableScopeSpecification);
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 66:323: -> ^( VARIABLE_SCOPE $variableScopeSpecification
                     // ^( EXPRESSION expression ) )
@@ -1160,7 +1126,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "regexp"
     // OPPLParser.g:69:1: regexp : MATCH OPEN_PARENTHESYS stringOperation
@@ -1174,9 +1140,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         Token OPEN_PARENTHESYS27 = null;
         Token CLOSED_PARENTHESYS29 = null;
         OPPLTestCaseCombined_OPPLParser.stringOperation_return stringOperation28 = null;
-        OPPLSyntaxTree MATCH26_tree = null;
-        OPPLSyntaxTree OPEN_PARENTHESYS27_tree = null;
-        OPPLSyntaxTree CLOSED_PARENTHESYS29_tree = null;
         RewriteRuleTokenStream stream_MATCH = new RewriteRuleTokenStream(adaptor,
                 "token MATCH");
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
@@ -1232,8 +1195,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 71:61: -> ^( MATCH stringOperation )
                     {
@@ -1270,7 +1231,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "query"
     // OPPLParser.g:74:2: query : SELECT selectClause ( COMMA selectClause )* (
@@ -1289,10 +1250,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         OPPLTestCaseCombined_OPPLParser.selectClause_return selectClause33 = null;
         OPPLTestCaseCombined_OPPLParser.constraint_return constraint35 = null;
         OPPLTestCaseCombined_OPPLParser.constraint_return constraint37 = null;
-        OPPLSyntaxTree SELECT30_tree = null;
-        OPPLSyntaxTree COMMA32_tree = null;
-        OPPLSyntaxTree WHERE34_tree = null;
-        OPPLSyntaxTree COMMA36_tree = null;
         RewriteRuleTokenStream stream_WHERE = new RewriteRuleTokenStream(adaptor,
                 "token WHERE");
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
@@ -1434,8 +1391,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 76:87: -> ^( QUERY ( selectClause )+ ( constraint )* )
                     {
@@ -1484,7 +1439,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "selectClause"
     // OPPLParser.g:79:2: selectClause : ( ASSERTED axiom -> ^( ASSERTED_CLAUSE
@@ -1497,7 +1452,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         Token ASSERTED38 = null;
         OPPLTestCaseCombined_OPPLParser.axiom_return axiom39 = null;
         OPPLTestCaseCombined_OPPLParser.axiom_return axiom40 = null;
-        OPPLSyntaxTree ASSERTED38_tree = null;
         RewriteRuleTokenStream stream_ASSERTED = new RewriteRuleTokenStream(adaptor,
                 "token ASSERTED");
         RewriteRuleSubtreeStream stream_axiom = new RewriteRuleSubtreeStream(adaptor,
@@ -1554,9 +1508,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 81:22: -> ^( ASSERTED_CLAUSE axiom )
                         {
@@ -1595,9 +1546,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 82:13: -> ^( PLAIN_CLAUSE axiom )
                         {
@@ -1637,7 +1585,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "axiom"
     // OPPLParser.g:85:1: axiom options {backtrack=true; } : ( binaryAxiom -> ^(
@@ -1697,9 +1645,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 86:15: -> ^( binaryAxiom )
                         {
@@ -1736,9 +1681,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 87:15: -> ^( nAryAxiom )
                         {
@@ -1775,9 +1717,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 88:16: -> ^( unaryAxiom )
                         {
@@ -1814,9 +1753,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 89:20: -> ^( assertionAxiom )
                         {
@@ -1853,9 +1789,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 90:17: -> ^( hasKeyAxiom )
                         {
@@ -1894,9 +1827,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 91:30: -> ^( annotationAssertionAxiom )
                         {
@@ -1935,7 +1865,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "nAryAxiom"
     // OPPLParser.g:96:1: nAryAxiom : ( DISJOINT_CLASSES opplFunction -> ^(
@@ -1956,10 +1886,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         OPPLTestCaseCombined_OPPLParser.opplFunction_return opplFunction50 = null;
         OPPLTestCaseCombined_OPPLParser.opplFunction_return opplFunction52 = null;
         OPPLTestCaseCombined_OPPLParser.opplFunction_return opplFunction54 = null;
-        OPPLSyntaxTree DISJOINT_CLASSES47_tree = null;
-        OPPLSyntaxTree DISJOINT_PROPERTIES49_tree = null;
-        OPPLSyntaxTree SAME_INDIVIDUAL51_tree = null;
-        OPPLSyntaxTree DIFFERENT_INDIVIDUALS53_tree = null;
         RewriteRuleTokenStream stream_SAME_INDIVIDUAL = new RewriteRuleTokenStream(
                 adaptor, "token SAME_INDIVIDUAL");
         RewriteRuleTokenStream stream_DIFFERENT_INDIVIDUALS = new RewriteRuleTokenStream(
@@ -2033,9 +1959,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 98:33: -> ^( DISJOINT_CLASSES opplFunction )
                         {
@@ -2082,9 +2005,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 99:38: -> ^( DISJOINT_PROPERTIES opplFunction )
                         {
@@ -2131,9 +2051,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 100:34: -> ^( SAME_INDIVIDUAL opplFunction )
                         {
@@ -2180,9 +2097,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 101:40: -> ^( DIFFERENT_INDIVIDUALS opplFunction )
                         {
@@ -2222,7 +2136,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "constraint"
     // OPPLParser.g:105:2: constraint : (first= VARIABLE_NAME NOT_EQUAL second=
@@ -2254,18 +2168,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         OPPLTestCaseCombined_OPPLParser.atomic_return atomic61 = null;
         OPPLTestCaseCombined_OPPLParser.stringOperation_return stringOperation66 = null;
         OPPLTestCaseCombined_OPPLParser.axiom_return axiom69 = null;
-        OPPLSyntaxTree first_tree = null;
-        OPPLSyntaxTree NOT_EQUAL55_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME56_tree = null;
-        OPPLSyntaxTree IN57_tree = null;
-        OPPLSyntaxTree OPEN_CURLY_BRACES58_tree = null;
-        OPPLSyntaxTree COMMA60_tree = null;
-        OPPLSyntaxTree CLOSED_CURLY_BRACES62_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME63_tree = null;
-        OPPLSyntaxTree MATCH64_tree = null;
-        OPPLSyntaxTree OPEN_PARENTHESYS65_tree = null;
-        OPPLSyntaxTree CLOSED_PARENTHESYS67_tree = null;
-        OPPLSyntaxTree FAIL68_tree = null;
         RewriteRuleTokenStream stream_MATCH = new RewriteRuleTokenStream(adaptor,
                 "token MATCH");
         RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(adaptor,
@@ -2376,9 +2278,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         RewriteRuleSubtreeStream stream_second = new RewriteRuleSubtreeStream(
                                 adaptor, "rule second", second != null ? second.tree
                                         : null);
@@ -2499,9 +2398,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 108:87: -> ^( IN_SET_CONSTRAINT
                         // IDENTIFIER[$VARIABLE_NAME] ( atomic )+ )
@@ -2582,9 +2478,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 109:80: -> ^( REGEXP_CONSTRAINT
                         // IDENTIFIER[$VARIABLE_NAME] stringOperation )
@@ -2635,9 +2528,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 110:18: -> ^( NAF_CONSTRAINT axiom )
                         {
@@ -2677,7 +2567,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "actions"
     // OPPLParser.g:113:2: actions : BEGIN action ( COMMA action )* END -> ^(
@@ -2692,9 +2582,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         Token END74 = null;
         OPPLTestCaseCombined_OPPLParser.action_return action71 = null;
         OPPLTestCaseCombined_OPPLParser.action_return action73 = null;
-        OPPLSyntaxTree BEGIN70_tree = null;
-        OPPLSyntaxTree COMMA72_tree = null;
-        OPPLSyntaxTree END74_tree = null;
         RewriteRuleTokenStream stream_END = new RewriteRuleTokenStream(adaptor,
                 "token END");
         RewriteRuleTokenStream stream_COMMA = new RewriteRuleTokenStream(adaptor,
@@ -2774,8 +2661,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 115:38: -> ^( ACTIONS ( action )+ )
                     {
@@ -2818,7 +2703,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "action"
     // OPPLParser.g:118:2: action : ( ADD axiom -> ^( ADD axiom ) | REMOVE axiom
@@ -2832,8 +2717,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         Token REMOVE77 = null;
         OPPLTestCaseCombined_OPPLParser.axiom_return axiom76 = null;
         OPPLTestCaseCombined_OPPLParser.axiom_return axiom78 = null;
-        OPPLSyntaxTree ADD75_tree = null;
-        OPPLSyntaxTree REMOVE77_tree = null;
         RewriteRuleTokenStream stream_REMOVE = new RewriteRuleTokenStream(adaptor,
                 "token REMOVE");
         RewriteRuleTokenStream stream_ADD = new RewriteRuleTokenStream(adaptor,
@@ -2886,9 +2769,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 120:17: -> ^( ADD axiom )
                         {
@@ -2933,9 +2813,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 121:20: -> ^( REMOVE axiom )
                         {
@@ -2974,7 +2851,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "opplFunction"
     // OPPLParser.g:127:1: opplFunction : ( CREATE OPEN_PARENTHESYS
@@ -3009,20 +2886,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         OPPLTestCaseCombined_OPPLParser.atomic_return atomic91 = null;
         OPPLTestCaseCombined_OPPLParser.atomic_return atomic95 = null;
         OPPLTestCaseCombined_OPPLParser.atomic_return atomic97 = null;
-        OPPLSyntaxTree CREATE79_tree = null;
-        OPPLSyntaxTree OPEN_PARENTHESYS80_tree = null;
-        OPPLSyntaxTree CLOSED_PARENTHESYS82_tree = null;
-        OPPLSyntaxTree CREATE_INTERSECTION83_tree = null;
-        OPPLSyntaxTree OPEN_PARENTHESYS84_tree = null;
-        OPPLSyntaxTree COMMA86_tree = null;
-        OPPLSyntaxTree CLOSED_PARENTHESYS88_tree = null;
-        OPPLSyntaxTree CREATE_DISJUNCTION89_tree = null;
-        OPPLSyntaxTree OPEN_PARENTHESYS90_tree = null;
-        OPPLSyntaxTree CLOSED_PARENTHESYS92_tree = null;
-        OPPLSyntaxTree SET93_tree = null;
-        OPPLSyntaxTree OPEN_PARENTHESYS94_tree = null;
-        OPPLSyntaxTree COMMA96_tree = null;
-        OPPLSyntaxTree CLOSED_PARENTHESYS98_tree = null;
         RewriteRuleTokenStream stream_SET = new RewriteRuleTokenStream(adaptor,
                 "token SET");
         RewriteRuleTokenStream stream_CREATE = new RewriteRuleTokenStream(adaptor,
@@ -3123,9 +2986,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 129:66: -> ^( CREATE_OPPL_FUNCTION stringOperation )
                         {
@@ -3225,9 +3085,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 130:88: -> ^( CREATE_INTERSECTION ( atomic )+ )
                         {
@@ -3297,9 +3154,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 131:69: -> ^( CREATE_DISJUNCTION atomic )
                         {
@@ -3396,9 +3250,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 132:70: -> ^( EXPRESSION ^( SET ( atomic )* ) )
                         {
@@ -3450,7 +3301,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "stringOperation"
     // OPPLParser.g:135:1: stringOperation : stringExpression ( PLUS
@@ -3463,7 +3314,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         Token PLUS100 = null;
         OPPLTestCaseCombined_OPPLParser.stringExpression_return stringExpression99 = null;
         OPPLTestCaseCombined_OPPLParser.stringExpression_return stringExpression101 = null;
-        OPPLSyntaxTree PLUS100_tree = null;
         RewriteRuleTokenStream stream_PLUS = new RewriteRuleTokenStream(adaptor,
                 "token PLUS");
         RewriteRuleSubtreeStream stream_stringExpression = new RewriteRuleSubtreeStream(
@@ -3526,8 +3376,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 137:47: -> ^( STRING_OPERATION ( stringExpression )+ )
                     {
@@ -3573,7 +3421,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "stringExpression"
     // OPPLParser.g:141:1: stringExpression : ( simpleStringExpression (
@@ -3584,14 +3432,10 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         OPPLTestCaseCombined_OPPLParser.stringExpression_return retval = new OPPLTestCaseCombined_OPPLParser.stringExpression_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
-        Token OPEN_PARENTHESYS104 = null;
-        Token CLOSED_PARENTHESYS106 = null;
         OPPLTestCaseCombined_OPPLParser.simpleStringExpression_return simpleStringExpression102 = null;
         OPPLTestCaseCombined_OPPLParser.lowerUpperCase_return lowerUpperCase103 = null;
         OPPLTestCaseCombined_OPPLParser.stringOperation_return stringOperation105 = null;
         OPPLTestCaseCombined_OPPLParser.lowerUpperCase_return lowerUpperCase107 = null;
-        OPPLSyntaxTree OPEN_PARENTHESYS104_tree = null;
-        OPPLSyntaxTree CLOSED_PARENTHESYS106_tree = null;
         try {
             // OPPLParser.g:142:2: ( simpleStringExpression ( lowerUpperCase )*
             // | OPEN_PARENTHESYS stringOperation CLOSED_PARENTHESYS (
@@ -3659,7 +3503,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                 // CLOSED_PARENTHESYS ( lowerUpperCase )+
                 {
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
-                    OPEN_PARENTHESYS104 = (Token) match(input, OPEN_PARENTHESYS,
+                    match(input, OPEN_PARENTHESYS,
                             FOLLOW_OPEN_PARENTHESYS_in_stringExpression1178);
                     if (state.failed) {
                         return retval;
@@ -3673,7 +3517,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     if (state.backtracking == 0) {
                         adaptor.addChild(root_0, stringOperation105.getTree());
                     }
-                    CLOSED_PARENTHESYS106 = (Token) match(input, CLOSED_PARENTHESYS,
+                    match(input, CLOSED_PARENTHESYS,
                             FOLLOW_CLOSED_PARENTHESYS_in_stringExpression1183);
                     if (state.failed) {
                         return retval;
@@ -3739,7 +3583,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "lowerUpperCase"
     // OPPLParser.g:154:1: lowerUpperCase : ( DOT TO_LOWER_CASE -> ^(
@@ -3753,10 +3597,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         Token TO_LOWER_CASE109 = null;
         Token DOT110 = null;
         Token TO_UPPER_CASE111 = null;
-        OPPLSyntaxTree DOT108_tree = null;
-        OPPLSyntaxTree TO_LOWER_CASE109_tree = null;
-        OPPLSyntaxTree DOT110_tree = null;
-        OPPLSyntaxTree TO_UPPER_CASE111_tree = null;
         RewriteRuleTokenStream stream_TO_UPPER_CASE = new RewriteRuleTokenStream(adaptor,
                 "token TO_UPPER_CASE");
         RewriteRuleTokenStream stream_TO_LOWER_CASE = new RewriteRuleTokenStream(adaptor,
@@ -3818,9 +3658,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 156:21: -> ^( TO_LOWER_CASE )
                         {
@@ -3863,9 +3700,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 157:24: -> ^( TO_UPPER_CASE )
                         {
@@ -3903,7 +3737,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "simpleStringExpression"
     // OPPLParser.g:160:1: simpleStringExpression : ( DBLQUOTE -> ^( DBLQUOTE )
@@ -3915,7 +3749,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         OPPLSyntaxTree root_0 = null;
         Token DBLQUOTE112 = null;
         OPPLTestCaseCombined_OPPLParser.variableAttributeReference_return variableAttributeReference113 = null;
-        OPPLSyntaxTree DBLQUOTE112_tree = null;
         RewriteRuleTokenStream stream_DBLQUOTE = new RewriteRuleTokenStream(adaptor,
                 "token DBLQUOTE");
         RewriteRuleSubtreeStream stream_variableAttributeReference = new RewriteRuleSubtreeStream(
@@ -3958,9 +3791,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 162:12: -> ^( DBLQUOTE )
                         {
@@ -3998,9 +3828,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 163:36: -> ^( variableAttributeReference )
                         {
@@ -4040,7 +3867,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "atomic"
     // OPPLParser.g:166:1: atomic : ( IDENTIFIER | ENTITY_REFERENCE -> ^(
@@ -4058,8 +3885,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         OPPLTestCaseCombined_OPPLParser.createIdentifier_return createIdentifier117 = null;
         OPPLTestCaseCombined_OPPLParser.variableAttributeReference_return variableAttributeReference118 = null;
         OPPLSyntaxTree IDENTIFIER114_tree = null;
-        OPPLSyntaxTree ENTITY_REFERENCE115_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME116_tree = null;
         RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(adaptor,
                 "token VARIABLE_NAME");
         RewriteRuleTokenStream stream_ENTITY_REFERENCE = new RewriteRuleTokenStream(
@@ -4161,9 +3986,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 168:22: -> ^( ENTITY_REFERENCE )
                         {
@@ -4199,9 +4021,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 169:19: -> ^( IDENTIFIER[$VARIABLE_NAME] )
                         {
@@ -4240,9 +4059,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 170:25: -> ^( createIdentifier )
                         {
@@ -4280,9 +4096,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 171:32: -> ^( variableAttributeReference )
                         {
@@ -4322,7 +4135,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "iri"
     // OPPLParser.g:174:1: iri : ( IRI -> IRI | VARIABLE_NAME DOT
@@ -4337,10 +4150,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         Token VARIABLE_NAME120 = null;
         Token DOT121 = null;
         Token IRI_ATTRIBUTE_NAME122 = null;
-        OPPLSyntaxTree IRI119_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME120_tree = null;
-        OPPLSyntaxTree DOT121_tree = null;
-        OPPLSyntaxTree IRI_ATTRIBUTE_NAME122_tree = null;
         RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(adaptor,
                 "token VARIABLE_NAME");
         RewriteRuleTokenStream stream_DOT = new RewriteRuleTokenStream(adaptor,
@@ -4387,9 +4196,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 176:6: -> IRI
                         {
@@ -4434,9 +4240,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 177:41: -> ^( IRI[$VARIABLE_NAME.getText()+
                         // $DOT.getText()+ $IRI_ATTRIBUTE_NAME.getText()]
@@ -4482,7 +4285,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "createIdentifier"
     // OPPLParser.g:180:1: createIdentifier : ESCLAMATION_MARK IDENTIFIER -> ^(
@@ -4494,8 +4297,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         OPPLSyntaxTree root_0 = null;
         Token ESCLAMATION_MARK123 = null;
         Token IDENTIFIER124 = null;
-        OPPLSyntaxTree ESCLAMATION_MARK123_tree = null;
-        OPPLSyntaxTree IDENTIFIER124_tree = null;
         RewriteRuleTokenStream stream_ESCLAMATION_MARK = new RewriteRuleTokenStream(
                 adaptor, "token ESCLAMATION_MARK");
         RewriteRuleTokenStream stream_IDENTIFIER = new RewriteRuleTokenStream(adaptor,
@@ -4531,8 +4332,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 182:33: -> ^( IDENTIFIER[$ESCLAMATION_MARK.getText()+
                     // $IDENTIFIER.getText()] )
@@ -4574,7 +4373,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "variableAttributeReference"
     // OPPLParser.g:185:1: variableAttributeReference : ( VARIABLE_NAME DOT (a=
@@ -4596,12 +4395,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         Token DOT128 = null;
         Token GROUPS129 = null;
         OPPLTestCaseCombined_OPPLParser.attributeSelector_return attributeSelector130 = null;
-        OPPLSyntaxTree a_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME125_tree = null;
-        OPPLSyntaxTree DOT126_tree = null;
-        OPPLSyntaxTree VARIABLE_NAME127_tree = null;
-        OPPLSyntaxTree DOT128_tree = null;
-        OPPLSyntaxTree GROUPS129_tree = null;
         RewriteRuleTokenStream stream_VARIABLE_NAME = new RewriteRuleTokenStream(adaptor,
                 "token VARIABLE_NAME");
         RewriteRuleTokenStream stream_DOT = new RewriteRuleTokenStream(adaptor,
@@ -4733,9 +4526,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                         retval.tree = root_0;
                         RewriteRuleTokenStream stream_a = new RewriteRuleTokenStream(
                                 adaptor, "token a", a);
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 187:54: -> ^(
                         // IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() +
@@ -4809,9 +4599,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     // wildcard labels:
                     if (state.backtracking == 0) {
                         retval.tree = root_0;
-                        RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                                adaptor, "rule retval", retval != null ? retval.tree
-                                        : null);
                         root_0 = (OPPLSyntaxTree) adaptor.nil();
                         // 188:51: -> ^(
                         // IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() +
@@ -4869,7 +4656,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         public Object getTree() {
             return tree;
         }
-    };
+    }
 
     // $ANTLR start "attributeSelector"
     // OPPLParser.g:193:1: attributeSelector returns [String selectorText] :
@@ -4883,9 +4670,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         Token i = null;
         Token OPEN_PARENTHESYS131 = null;
         Token CLOSED_PARENTHESYS132 = null;
-        OPPLSyntaxTree i_tree = null;
-        OPPLSyntaxTree OPEN_PARENTHESYS131_tree = null;
-        OPPLSyntaxTree CLOSED_PARENTHESYS132_tree = null;
         RewriteRuleTokenStream stream_INTEGER = new RewriteRuleTokenStream(adaptor,
                 "token INTEGER");
         RewriteRuleTokenStream stream_CLOSED_PARENTHESYS = new RewriteRuleTokenStream(
@@ -4934,8 +4718,6 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                 // wildcard labels:
                 if (state.backtracking == 0) {
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval = new RewriteRuleSubtreeStream(
-                            adaptor, "rule retval", retval != null ? retval.tree : null);
                     root_0 = (OPPLSyntaxTree) adaptor.nil();
                     // 199:5: -> ^( ATTRIBUTE_SELECTOR INTEGER )
                     {
@@ -5105,15 +4887,16 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
         }
 
         @Override
-        public int specialStateTransition(int s, IntStream _input)
+        public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
-            TokenStream input = (TokenStream) _input;
+            TokenStream in = (TokenStream) _input;
+            int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    int LA9_1 = input.LA(1);
-                    int index9_1 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_1 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
@@ -5122,15 +4905,15 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_1);
+                    in.seek(index9_1);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 1:
-                    int LA9_2 = input.LA(1);
-                    int index9_2 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_2 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
@@ -5139,15 +4922,15 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_2);
+                    in.seek(index9_2);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 2:
-                    int LA9_3 = input.LA(1);
-                    int index9_3 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_3 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
@@ -5158,15 +4941,15 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     } else if (true) {
                         s = 21;
                     }
-                    input.seek(index9_3);
+                    in.seek(index9_3);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 3:
-                    int LA9_4 = input.LA(1);
-                    int index9_4 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_4 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
@@ -5175,30 +4958,30 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_4);
+                    in.seek(index9_4);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 4:
-                    int LA9_5 = input.LA(1);
-                    int index9_5 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_5 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_5);
+                    in.seek(index9_5);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 5:
-                    int LA9_6 = input.LA(1);
-                    int index9_6 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_6 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
@@ -5207,37 +4990,37 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_6);
+                    in.seek(index9_6);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 6:
-                    int LA9_7 = input.LA(1);
-                    int index9_7 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_7 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_7);
+                    in.seek(index9_7);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 7:
-                    int LA9_8 = input.LA(1);
-                    int index9_8 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index9_8 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred15_OPPLParser()) {
                         s = 9;
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
                     }
-                    input.seek(index9_8);
+                    in.seek(index9_8);
                     if (s >= 0) {
                         return s;
                     }
@@ -5248,7 +5031,7 @@ public class OPPLTestCaseCombined_OPPLParser extends Parser {
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 9, _s,
-                    input);
+                    in);
             error(nvae);
             throw nvae;
         }

@@ -12,7 +12,7 @@ import org.antlr.runtime.NoViableAltException;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class MOWLLexer extends Lexer {
     public static final int COMMA = 37;
     public static final int GREATER_THAN = 485;
@@ -3579,12 +3579,12 @@ public class MOWLLexer extends Lexer {
         @Override
         public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
-            IntStream input = _input;
+            IntStream in = _input;
             int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    int LA15_59 = input.LA(1);
+                    int LA15_59 = in.LA(1);
                     s = -1;
                     if (LA15_59 >= '\u0000' && LA15_59 <= '\uFFFF') {
                         s = 60;
@@ -3596,7 +3596,7 @@ public class MOWLLexer extends Lexer {
                     }
                     break;
                 case 1:
-                    int LA15_26 = input.LA(1);
+                    int LA15_26 = in.LA(1);
                     s = -1;
                     if (LA15_26 == '=') {
                         s = 59;
@@ -3612,7 +3612,7 @@ public class MOWLLexer extends Lexer {
                     break;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 15,
-                    _s, input);
+                    _s, in);
             error(nvae);
             throw nvae;
         }

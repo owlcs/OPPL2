@@ -25,7 +25,7 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase
         extends Parser {
     public static final int COMMA = 37;
@@ -1942,7 +1942,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         Token wildcard25 = null;
         Token OR26 = null;
         Token IDENTIFIER31 = null;
-        List list_rest = null;
+        List<Object> list_rest = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.propertyExpression_return head = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase_MOWLParser.conjunction_return conjunction23 = null;
         ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase.incompleteConjunction_return incompleteConjunction27 = null;
@@ -2059,7 +2059,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                         stream_propertyExpression.add(rest.getTree());
                                     }
                                     if (list_rest == null) {
-                                        list_rest = new ArrayList();
+                                        list_rest = new ArrayList<Object>();
                                     }
                                     list_rest.add(rest.getTree());
                                 }
@@ -3607,7 +3607,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
     // $ANTLR start synpred1_ManchesterOWLSyntaxAutoCompleteBase
     public final void synpred1_ManchesterOWLSyntaxAutoCompleteBase_fragment()
             throws RecognitionException {
-        List list_rest = null;
+        List<Object> list_rest = null;
         RuleReturnScope rest = null;
         // ManchesterOWLSyntaxAutoCompleteBase.g:93:7: (head= propertyExpression
         // ( COMPOSITION rest+= propertyExpression )+ COMPOSITION )
@@ -3651,7 +3651,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                             return;
                         }
                         if (list_rest == null) {
-                            list_rest = new ArrayList();
+                            list_rest = new ArrayList<Object>();
                         }
                         list_rest.add(rest);
                     }
@@ -4063,14 +4063,14 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
         @Override
         public int specialStateTransition(int __s, IntStream _input)
                 throws NoViableAltException {
-            TokenStream input = (TokenStream) _input;
+            TokenStream in = (TokenStream) _input;
             int s = __s;
             int _s = s;
             switch (s) {
                 case 0:
-                    input.LA(1);
-                    int index8_1 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index8_1 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteBase()) {
                         s = 8;
@@ -4083,15 +4083,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (true) {
                         s = 7;
                     }
-                    input.seek(index8_1);
+                    in.seek(index8_1);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 1:
-                    input.LA(1);
-                    int index8_2 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index8_2 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteBase()) {
                         s = 8;
@@ -4104,15 +4104,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (true) {
                         s = 7;
                     }
-                    input.seek(index8_2);
+                    in.seek(index8_2);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 2:
-                    input.LA(1);
-                    int index8_3 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index8_3 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred1_ManchesterOWLSyntaxAutoCompleteBase()) {
                         s = 8;
@@ -4125,15 +4125,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (true) {
                         s = 7;
                     }
-                    input.seek(index8_3);
+                    in.seek(index8_3);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 3:
-                    input.LA(1);
-                    int index8_4 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index8_4 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred2_ManchesterOWLSyntaxAutoCompleteBase()) {
                         s = 9;
@@ -4144,15 +4144,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (true) {
                         s = 7;
                     }
-                    input.seek(index8_4);
+                    in.seek(index8_4);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 4:
-                    input.LA(1);
-                    int index8_5 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index8_5 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred2_ManchesterOWLSyntaxAutoCompleteBase()) {
                         s = 9;
@@ -4163,15 +4163,15 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (true) {
                         s = 7;
                     }
-                    input.seek(index8_5);
+                    in.seek(index8_5);
                     if (s >= 0) {
                         return s;
                     }
                     break;
                 case 5:
-                    input.LA(1);
-                    int index8_6 = input.index();
-                    input.rewind();
+                    in.LA(1);
+                    int index8_6 = in.index();
+                    in.rewind();
                     s = -1;
                     if (synpred2_ManchesterOWLSyntaxAutoCompleteBase()) {
                         s = 9;
@@ -4180,7 +4180,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                     } else if (true) {
                         s = 7;
                     }
-                    input.seek(index8_6);
+                    in.seek(index8_6);
                     if (s >= 0) {
                         return s;
                     }
@@ -4191,7 +4191,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                 return -1;
             }
             NoViableAltException nvae = new NoViableAltException(getDescription(), 8, _s,
-                    input);
+                    in);
             error(nvae);
             throw nvae;
         }

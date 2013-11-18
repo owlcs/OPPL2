@@ -94,22 +94,17 @@ public class OPPLTestCaseParserTest {
         OPPLTestCaseCombinedParser parser = new OPPLTestCaseCombinedParser(tokens,
                 ERROR_LISTENER);
         parser.setTreeAdaptor(adaptor);
-        try {
-            RuleReturnScope r = parser.testCase();
-            CommonTree tree = (CommonTree) r.getTree();
-            CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
-            nodes.setTokenStream(tokens); // where to find tokens
-            nodes.setTreeAdaptor(adaptor);
-            nodes.reset();
-            // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
-            ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
-            simplify.setTreeAdaptor(adaptor);
-            simplify.downup(tree);
-            return (OPPLSyntaxTree) r.getTree();
-        } catch (RecognitionException e) {
-            e.printStackTrace();
-            return null;
-        }
+        RuleReturnScope r = parser.testCase();
+        CommonTree tree = (CommonTree) r.getTree();
+        CommonTreeNodeStream nodes = new CommonTreeNodeStream(tree);
+        nodes.setTokenStream(tokens); // where to find tokens
+        nodes.setTreeAdaptor(adaptor);
+        nodes.reset();
+        // RESOLVE SYMBOLS, COMPUTE EXPRESSION TYPES
+        ManchesterOWLSyntaxSimplify simplify = new ManchesterOWLSyntaxSimplify(nodes);
+        simplify.setTreeAdaptor(adaptor);
+        simplify.downup(tree);
+        return (OPPLSyntaxTree) r.getTree();
     }
 
     @Test

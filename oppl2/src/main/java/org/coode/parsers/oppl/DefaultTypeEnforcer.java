@@ -14,12 +14,15 @@ import org.coode.parsers.TypeVistorAdapter;
 import org.semanticweb.owlapi.model.OWLEntity;
 
 /** @author Luigi Iannone */
+@SuppressWarnings("incomplete-switch")
 public class DefaultTypeEnforcer implements TypesEnforcer {
     private final OPPLSymbolTable symbolTable;
     private final OWLEntityFactory entityFactory;
     private final ErrorListener errorListener;
 
-    /** @param symbolTable */
+    /** @param symbolTable
+     * @param entityFactory
+     * @param listener */
     public DefaultTypeEnforcer(OPPLSymbolTable symbolTable,
             OWLEntityFactory entityFactory, ErrorListener listener) {
         if (symbolTable == null) {
@@ -328,7 +331,7 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
      * 
      * @param t
      * @param type */
-    private void enforceType(ManchesterOWLSyntaxTree t, OWLType type) {
+    protected void enforceType(ManchesterOWLSyntaxTree t, OWLType type) {
         if (t == null) {
             throw new NullPointerException(
                     "The expression whose type has to be enforced cannot be null");

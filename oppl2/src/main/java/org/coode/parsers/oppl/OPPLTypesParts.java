@@ -37,7 +37,7 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLObject;
 
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLTypesParts extends TreeFilter {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
@@ -214,7 +214,7 @@ public class OPPLTypesParts extends TreeFilter {
     private ErrorListener errorListener;
     private ConstraintSystem constraintSystem;
     private OPPLAbstractFactory opplFactory;
-    private Variable variable = null;
+    private Variable<?> variable = null;
 
     public OPPLTypesParts(TreeNodeStream input, OPPLSymbolTable symtab,
             ErrorListener errorListener, ConstraintSystem constraintSystem,
@@ -238,11 +238,11 @@ public class OPPLTypesParts extends TreeFilter {
         this.constraintSystem = constraintSystem;
     }
 
-    public void setVariable(Variable variable) {
+    public void setVariable(Variable<?> variable) {
         this.variable = variable;
     }
 
-    public Variable getVariable() {
+    public Variable<?> getVariable() {
         return variable;
     }
 
@@ -263,17 +263,17 @@ public class OPPLTypesParts extends TreeFilter {
     }
 
     @Override
-    public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
-        getErrorListener().recognitionException(e, tokenNames);
+    public void displayRecognitionError(String[] t, RecognitionException e) {
+        getErrorListener().recognitionException(e, t);
     }
 
-    protected void mismatch(IntStream input, int ttype, BitSet follow)
-            throws RecognitionException {
-        throw new MismatchedTokenException(ttype, input);
+    protected void mismatch(IntStream in, int ttype,
+            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
-    public Object recoverFromMismatchedSet(IntStream input, RecognitionException e,
+    public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
             BitSet follow) throws RecognitionException {
         throw e;
     }
@@ -641,7 +641,7 @@ public class OPPLTypesParts extends TreeFilter {
 
     // $ANTLR end "stringExpression"
     public static class regexp_return extends TreeRuleReturnScope {
-        public Variable variable;
+        public Variable<?> variable;
     }
 
     // $ANTLR start "regexp"
@@ -705,7 +705,7 @@ public class OPPLTypesParts extends TreeFilter {
 
     // $ANTLR end "regexp"
     public static class opplFunction_return extends TreeRuleReturnScope {
-        public Variable variable;
+        public Variable<?> variable;
     }
 
     // $ANTLR start "opplFunction"
@@ -1086,11 +1086,11 @@ public class OPPLTypesParts extends TreeFilter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        Variable variable = symtab.getVariable(IDENTIFIER8,
+                        Variable<?> var = symtab.getVariable(IDENTIFIER8,
                                 getConstraintSystem());
                         OPPLFunction<Pattern> adapted = Adapter
                                 .buildRegexpPatternAdapter(se);
-                        retval.constraint = new RegExpConstraint(variable, adapted,
+                        retval.constraint = new RegExpConstraint(var, adapted,
                                 getConstraintSystem());
                     }
                 }
