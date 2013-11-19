@@ -25,10 +25,8 @@ package org.coode.patterns;
 import org.coode.oppl.OPPLScript;
 
 /** @author Luigi Iannone Nov 25, 2008 */
+@SuppressWarnings("javadoc")
 public class UnsuitableOPPLScriptException extends PatternException {
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = -2178632500615121833L;
 
     public UnsuitableOPPLScriptException(OPPLScript opplScript) {

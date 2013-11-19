@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.parsers.oppl.patterns;
 
 import java.util.Arrays;
@@ -20,7 +17,7 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
     private final OWLOntologyManager ontologyManager;
 
     /** @param globalScope
-     * @param dataFactory */
+     * @param ontologyManager */
     public OPPLPatternsSymbolTable(Scope globalScope, OWLOntologyManager ontologyManager) {
         super(globalScope, ontologyManager.getOWLDataFactory());
         this.ontologyManager = ontologyManager;

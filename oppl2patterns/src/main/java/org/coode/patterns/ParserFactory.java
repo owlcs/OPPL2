@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.patterns;
 
 import java.util.Collection;

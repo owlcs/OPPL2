@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.parsers.oppl.patterns.factory;
 
 import org.coode.parsers.BidirectionalShortFormProviderAdapter;

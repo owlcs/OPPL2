@@ -65,6 +65,9 @@ public class PatternConstraintSystem extends ConstraintSystem {
     private final Map<String, String> specialVariableRenderings = new HashMap<String, String>();
     private final AbstractPatternModelFactory factory;
 
+    /** @param cs
+     * @param ontologyManager
+     * @param f */
     public PatternConstraintSystem(ConstraintSystem cs,
             OWLOntologyManager ontologyManager, AbstractPatternModelFactory f) {
         super(cs.getOntology(), ontologyManager, f.getOPPLFactory());
@@ -73,8 +76,10 @@ public class PatternConstraintSystem extends ConstraintSystem {
         factory = f;
     }
 
-    /** @param ontologyManager
-     * @param reasoner */
+    /** @param ontology
+     * @param ontologyManager
+     * @param reasoner
+     * @param f */
     public PatternConstraintSystem(OWLOntology ontology,
             OWLOntologyManager ontologyManager, OWLReasoner reasoner,
             AbstractPatternModelFactory f) {

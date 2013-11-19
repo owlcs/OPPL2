@@ -23,10 +23,8 @@
 package org.coode.patterns;
 
 /** @author Luigi Iannone Sep 17, 2008 */
+@SuppressWarnings("javadoc")
 public class NonClassAssignablePatternException extends PatternException {
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = -8771416055466593219L;
 
     public NonClassAssignablePatternException(String patternName) {

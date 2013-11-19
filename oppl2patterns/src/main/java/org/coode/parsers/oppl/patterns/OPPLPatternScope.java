@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.parsers.oppl.patterns;
 
 import java.util.ArrayList;
@@ -26,6 +23,8 @@ public class OPPLPatternScope implements Scope {
     private final Scope delegate;
     private final OWLOntologyManager ontologyManager;
 
+    /** @param scope
+     * @param ontologyManager */
     public OPPLPatternScope(Scope scope, OWLOntologyManager ontologyManager) {
         if (scope == null) {
             throw new NullPointerException("The delegate  scope cannot be null");

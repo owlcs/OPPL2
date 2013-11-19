@@ -23,10 +23,8 @@
 package org.coode.patterns;
 
 /** @author Luigi Iannone Jun 25, 2008 */
+@SuppressWarnings("javadoc")
 public class PatternReferenceNotFoundException extends PatternException {
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = -8329481668814742677L;
 
     public PatternReferenceNotFoundException(String patternName) {

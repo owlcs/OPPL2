@@ -24,9 +24,6 @@ package org.coode.patterns;
 
 /** @author Luigi Iannone Jul 15, 2008 */
 public class ArgumentIndexOutOfBoundsException extends PatternException {
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = -2218489188732567115L;
 
     public ArgumentIndexOutOfBoundsException(String patternName, int i) {

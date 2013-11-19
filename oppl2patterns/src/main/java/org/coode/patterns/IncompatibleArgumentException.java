@@ -26,9 +26,6 @@ import org.coode.oppl.Variable;
 
 /** @author Luigi Iannone Jun 25, 2008 */
 public class IncompatibleArgumentException extends PatternException {
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = -7059528951585455789L;
 
     public IncompatibleArgumentException(Object argument, Variable<?> v) {

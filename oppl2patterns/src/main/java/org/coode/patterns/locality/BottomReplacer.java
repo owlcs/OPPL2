@@ -64,9 +64,6 @@ import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
 public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVisitor,
         OWLClassExpressionVisitor {
-    /**
-	 * 
-	 */
     private final OWLDataFactory df;
     private final OWLClass nothing;
     private final OWLClass thing;

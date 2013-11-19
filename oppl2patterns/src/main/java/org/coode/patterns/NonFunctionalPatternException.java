@@ -23,10 +23,8 @@
 package org.coode.patterns;
 
 /** @author Luigi Iannone Sep 17, 2008 */
+@SuppressWarnings("javadoc")
 public class NonFunctionalPatternException extends PatternException {
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = 3681297703428444607L;
 
     public NonFunctionalPatternException(String patternName) {

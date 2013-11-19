@@ -4,9 +4,6 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 public class AxiomLocality {
-    /**
-	 * 
-	 */
     private boolean isLocal;
     private final OWLReasoner reasoner;
 
