@@ -132,7 +132,7 @@ public class VariableEditor extends AbstractVariableEditor<InputVariable<?>> {
         }
     }
 
-    private static final long serialVersionUID = 8899160597858126563L;
+    private static final long serialVersionUID = 20100L;
     protected final OWLEditorKit owlEditorKit;
     private final ConstraintSystem constraintSystem;
     private final JLabel typeScopeLabel = new JLabel();

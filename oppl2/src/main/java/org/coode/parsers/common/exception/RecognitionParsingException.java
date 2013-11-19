@@ -5,7 +5,7 @@ import java.util.Set;
 
 /** @author Luigi Iannone */
 public class RecognitionParsingException extends ParsingException {
-    private static final long serialVersionUID = -3503729637395219197L;
+    private static final long serialVersionUID = 20100L;
     private final Set<String> symbols = new HashSet<String>();
 
     public RecognitionParsingException(int line, int charPositionInLine) {

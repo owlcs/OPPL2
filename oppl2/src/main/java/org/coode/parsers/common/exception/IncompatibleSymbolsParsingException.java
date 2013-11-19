@@ -5,7 +5,7 @@ import java.util.Set;
 
 /** @author Luigi Iannone */
 public class IncompatibleSymbolsParsingException extends ParsingException {
-    private static final long serialVersionUID = 1637469933026129628L;
+    private static final long serialVersionUID = 20100L;
     private final Set<String> incompatibleSymbols = new HashSet<String>();
 
     /** @param message

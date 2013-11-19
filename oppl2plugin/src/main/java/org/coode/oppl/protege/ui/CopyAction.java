@@ -14,7 +14,7 @@ import javax.swing.ImageIcon;
 /** @author Luigi Iannone */
 public class CopyAction extends AbstractAction implements ClipboardOwner {
     
-    private static final long serialVersionUID = -3465542818524131448L;
+    private static final long serialVersionUID = 20100L;
     private String result;
 
     public CopyAction(String toolTipText) {

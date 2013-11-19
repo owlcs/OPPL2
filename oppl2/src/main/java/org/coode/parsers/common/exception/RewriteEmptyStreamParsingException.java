@@ -2,7 +2,7 @@ package org.coode.parsers.common.exception;
 
 /** @author Luigi Iannone */
 public class RewriteEmptyStreamParsingException extends ParsingException {
-    private static final long serialVersionUID = 7619818807706886578L;
+    private static final long serialVersionUID = 20100L;
 
     /** @param message
      * @param line

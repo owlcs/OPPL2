@@ -29,7 +29,7 @@ public class JOptionPaneEx {
         final VerifyingOptionPane optionPane = new VerifyingOptionPane(component,
                 messageType, optionType) {
             
-            private static final long serialVersionUID = 7128847118051849761L;
+            private static final long serialVersionUID = 20100L;
 
             @Override
             public void selectInitialValue() {

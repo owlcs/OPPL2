@@ -24,7 +24,7 @@ package org.coode.patterns;
 
 /** @author Luigi Iannone Nov 25, 2008 */
 public class EmptyActionListException extends PatternException {
-    private static final long serialVersionUID = -915883329159396748L;
+    private static final long serialVersionUID = 20100L;
 
     public EmptyActionListException() {
         super("Empty action list patterns cannot exist");

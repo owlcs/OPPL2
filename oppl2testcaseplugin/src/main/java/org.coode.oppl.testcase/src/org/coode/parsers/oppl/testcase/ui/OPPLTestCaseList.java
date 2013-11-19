@@ -86,7 +86,7 @@ public abstract class OPPLTestCaseList extends
         }
     }
 
-    private static final long serialVersionUID = 6792396788714900301L;
+    private static final long serialVersionUID = 20100L;
     // Have to as the super class header is not visible;
     private final MListSectionHeader header = new MListSectionHeader() {
         @Override

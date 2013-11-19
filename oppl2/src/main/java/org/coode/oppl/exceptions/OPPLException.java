@@ -27,7 +27,7 @@ package org.coode.oppl.exceptions;
  * @author Luigi Iannone */
 @SuppressWarnings("javadoc")
 public class OPPLException extends Exception {
-    private static final long serialVersionUID = 567886696227544902L;
+    private static final long serialVersionUID = 20100L;
 
     public OPPLException(String message) {
         super(message);

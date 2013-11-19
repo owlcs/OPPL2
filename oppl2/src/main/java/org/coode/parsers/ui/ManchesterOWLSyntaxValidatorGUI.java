@@ -481,7 +481,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
         }
     }
 
-    private static final long serialVersionUID = -4513506293333415642L;
+    private static final long serialVersionUID = 20100L;
     protected final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
     protected final SymbolTableFactory<SymbolTable> symbolTableFactory = new SimpleSymbolTableFactory(
             manager);

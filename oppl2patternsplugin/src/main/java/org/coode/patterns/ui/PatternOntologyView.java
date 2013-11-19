@@ -36,7 +36,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 
 /** @author Luigi Iannone Jul 3, 2008 */
 public class PatternOntologyView extends AbstractActiveOntologyViewComponent {
-    private static final long serialVersionUID = -8110091764534100865L;
+    private static final long serialVersionUID = 20100L;
     private PatternModelList list;
     private PatternManager patternManager;
 

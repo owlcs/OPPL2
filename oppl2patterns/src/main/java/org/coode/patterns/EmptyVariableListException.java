@@ -25,7 +25,7 @@ package org.coode.patterns;
 /** @author Luigi Iannone Nov 25, 2008 */
 @SuppressWarnings("javadoc")
 public class EmptyVariableListException extends PatternException {
-    private static final long serialVersionUID = -6409413195169640507L;
+    private static final long serialVersionUID = 20100L;
 
     public EmptyVariableListException() {
         super("Empty variables list patterns cannot exist");

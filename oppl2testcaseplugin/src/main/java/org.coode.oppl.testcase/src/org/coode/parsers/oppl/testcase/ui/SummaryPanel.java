@@ -20,7 +20,7 @@ import org.coode.parsers.oppl.testcase.ui.report.UnexecutedTestReport;
 
 /** @author Luigi Iannone */
 public class SummaryPanel extends JPanel {
-    private static final long serialVersionUID = 8637279561572511591L;
+    private static final long serialVersionUID = 20100L;
     private final JLabel runTestSummary = new JLabel();
     private final JLabel okTestSummary = new JLabel();
     private final JLabel errorTestSummary = new JLabel();

@@ -58,7 +58,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 public class OPPLLintEditor extends JPanel implements InputVerificationStatusChangedListener,
 		VerifiedInputEditor {
 	
-	private static final long serialVersionUID = -8825193349540176956L;
+	private static final long serialVersionUID = 20100L;
 
 	public class ExplanationExpressionChecker extends OPPLExpressionChecker<String> implements
 			ExpressionChecker<String> {
@@ -81,7 +81,7 @@ public class OPPLLintEditor extends JPanel implements InputVerificationStatusCha
 
 	class VariableListCellRenderer extends DefaultListCellRenderer {
 		
-		private static final long serialVersionUID = -6717057306871665492L;
+		private static final long serialVersionUID = 20100L;
 
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index,

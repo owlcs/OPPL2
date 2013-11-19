@@ -54,7 +54,7 @@ import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
  * @author Luigi Iannone */
 public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
         OWLModelManagerListener {
-    private static final long serialVersionUID = -5171397595615341059L;
+    private static final long serialVersionUID = 20100L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private final OWLEditorKit owlEditorKit;
     private OPPLScript opplScript = null;

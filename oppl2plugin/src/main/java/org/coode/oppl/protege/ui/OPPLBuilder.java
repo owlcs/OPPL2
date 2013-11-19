@@ -72,7 +72,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
         OWLModelManagerListener {
     private class OPPLConstraintList extends MList {
-        private static final long serialVersionUID = 4366866288573896156L;
+        private static final long serialVersionUID = 20100L;
         private final OWLEditorKit owlKit;
         private final ConstraintSystem constraintSystem;
         final OPPLBuilderModel model;
@@ -210,7 +210,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
     }
 
     private final class SpecializedOPPLSelectClauseList extends OPPLSelectClauseList {
-        private static final long serialVersionUID = -567785735962335293L;
+        private static final long serialVersionUID = 20100L;
         final OPPLBuilderModel model;
 
         SpecializedOPPLSelectClauseList(OWLEditorKit owlEditorKit,
@@ -725,7 +725,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
         }
     }
 
-    private static final long serialVersionUID = -6106150715610094308L;
+    private static final long serialVersionUID = 20100L;
 
     private class OPPLActionList extends ActionList {
         final OPPLBuilderModel model;
@@ -787,7 +787,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
                     constraintSystem, new OWLCellRenderer(getOWLEditorKit())));
         }
 
-        private static final long serialVersionUID = -3297222035586803090L;
+        private static final long serialVersionUID = 20100L;
     }
 
     private class OPPLActionListItem extends ActionListItem {
@@ -923,7 +923,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
     }
 
     private class OPPLVariableList extends VariableList {
-        private static final long serialVersionUID = -2540053052502672472L;
+        private static final long serialVersionUID = 20100L;
         protected final OPPLBuilderModel model;
 
         @Override

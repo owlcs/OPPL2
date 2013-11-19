@@ -42,7 +42,7 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
 /** @author Luigi Iannone */
 public class ActionList extends MList {
     
-    private static final long serialVersionUID = 6135780833694887712L;
+    private static final long serialVersionUID = 20100L;
     private final OWLEditorKit owlEditorKit;
     private final boolean canAdd;
 

@@ -49,7 +49,7 @@ import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
  * @author Luigi Iannone */
 public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor,
         ChangeListener {
-    private static final long serialVersionUID = 3481576138019196471L;
+    private static final long serialVersionUID = 20100L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private final OWLEditorKit owlEditorKit;
     protected final OPPLBuilder opplBuilder;

@@ -67,7 +67,7 @@ abstract class AbstractAllOPPLTestCaseAction extends AbstractOWLActiveOntologyAc
             return 16;
         }
     };
-    private static final long serialVersionUID = -2342285898923424925L;
+    private static final long serialVersionUID = 20100L;
     protected Set<OPPLTestCase> opplTestCases;
     protected OWLOntologyChangeListener ontologyChangeListener;
     protected OWLModelManagerListener modelManagerListener;

@@ -7,7 +7,7 @@ package org.coode.parsers.oppl.testcase.protege;
  * @author Luigi Iannone */
 public class DuplicateOPPLTestCaseNameException extends RuntimeException {
     
-    private static final long serialVersionUID = 4947397750806999582L;
+    private static final long serialVersionUID = 20100L;
 
     
     public DuplicateOPPLTestCaseNameException() {

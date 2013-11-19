@@ -2,7 +2,7 @@ package org.coode.parsers.common.exception;
 
 /** @author Luigi Iannone */
 public class ParsingException extends RuntimeException {
-    private static final long serialVersionUID = 8685553416786232619L;
+    private static final long serialVersionUID = 20100L;
     private final int charPositionInLine;
     private final int line;
 

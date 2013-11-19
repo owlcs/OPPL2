@@ -62,7 +62,7 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 public class TypeInPatternBuilder implements VerifiedInputEditor,
         InputVerificationStatusChangedListener, PatternModelChangeListener,
         HasPatternModel {
-    private static final long serialVersionUID = -4071865934355642992L;
+    private static final long serialVersionUID = 20100L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private final OWLEditorKit owlEditorKit;
     protected PatternModel patternModel = null;

@@ -19,7 +19,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 /** @author Luigi Iannone */
 public class OPPLTestCaseView extends AbstractActiveOntologyViewComponent {
     
-    private static final long serialVersionUID = -8432231579317686072L;
+    private static final long serialVersionUID = 20100L;
     private OPPLTestCaseList list;
     protected final OPPLTestCaseRunPanel testCaseRunPanel = new OPPLTestCaseRunPanel();
     private AbstractAllOPPLTestCaseAction runAllTestAction;
@@ -32,7 +32,7 @@ public class OPPLTestCaseView extends AbstractActiveOntologyViewComponent {
         mainPanel.setResizeWeight(.5);
         list = new OPPLTestCaseList(getOWLEditorKit()) {
             
-            private static final long serialVersionUID = -4600121675171808887L;
+            private static final long serialVersionUID = 20100L;
 
             @Override
             protected void runTest(OPPLTestCase opplTestCase) {
@@ -42,7 +42,7 @@ public class OPPLTestCaseView extends AbstractActiveOntologyViewComponent {
         list.setRootObject(new OPPLTestCaseAnnotationContainer(getOWLEditorKit()));
         JScrollPane listPane = ComponentFactory.createScrollPane(list);
         runAllTestAction = new AbstractAllOPPLTestCaseAction("Run All", getOWLEditorKit()) {
-            private static final long serialVersionUID = -4024619398479531818L;
+            private static final long serialVersionUID = 20100L;
 
             @Override
             public void actionPerformed(ActionEvent e) {

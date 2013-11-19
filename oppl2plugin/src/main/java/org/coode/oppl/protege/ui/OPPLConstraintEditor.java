@@ -44,7 +44,7 @@ import org.protege.editor.owl.OWLEditorKit;
 /** @author Luigi Iannone */
 public class OPPLConstraintEditor extends JPanel implements VerifiedInputEditor {
     
-    private static final long serialVersionUID = 3477960268272607549L;
+    private static final long serialVersionUID = 20100L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private final ExpressionEditor<AbstractConstraint> constraintEditor;
     private AbstractConstraint constraint;

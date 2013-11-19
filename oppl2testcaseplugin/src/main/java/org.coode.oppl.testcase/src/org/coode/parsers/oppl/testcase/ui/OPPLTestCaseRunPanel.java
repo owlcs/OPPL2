@@ -55,7 +55,7 @@ public class OPPLTestCaseRunPanel extends JPanel {
         }
     }
 
-    private static final long serialVersionUID = -5802632215147728332L;
+    private static final long serialVersionUID = 20100L;
     protected final ReportTreeModel resultTreeModel = new ReportTreeModel();
     protected final JTree resultTree = new JTree(resultTreeModel);
     protected final SummaryPanel summaryPanel = new SummaryPanel();

@@ -366,7 +366,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         }
 
         
-        private static final long serialVersionUID = -3297222035586803090L;
+        private static final long serialVersionUID = 20100L;
     }
 
     private class PatternBuilderActionListItem extends ActionListItem {
@@ -439,7 +439,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
     }
 
     private class PatternVariableList extends VariableList implements ListDataListener {
-        private static final long serialVersionUID = -2540053052502672472L;
+        private static final long serialVersionUID = 20100L;
 
         @Override
         protected void handleAdd() {
@@ -638,7 +638,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         }
     }
 
-    private static final long serialVersionUID = -4071865934355642992L;
+    private static final long serialVersionUID = 20100L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     protected final OWLEditorKit owlEditorKit;
     protected PatternModel patternModel = null;

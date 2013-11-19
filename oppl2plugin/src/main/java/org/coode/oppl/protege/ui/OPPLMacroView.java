@@ -75,7 +75,7 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
 public class OPPLMacroView extends AbstractOWLViewComponent implements
         OWLOntologyChangeListener, ListDataListener, OPPLMacroListener {
     
-    private static final long serialVersionUID = -8368147957917061074L;
+    private static final long serialVersionUID = 20100L;
     private RuntimeExceptionHandler runtimeExceptionHandler;
     protected ActionList recordedActions;
     private OWLObjectList entities;

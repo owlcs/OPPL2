@@ -1,7 +1,7 @@
 package org.coode.parsers.common.exception;
 
 public class UnrecognisedSymbolParsingException extends ParsingException {
-    private static final long serialVersionUID = -3123067319497878938L;
+    private static final long serialVersionUID = 20100L;
     private final String symbol;
 
     /** @param message

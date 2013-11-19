@@ -16,7 +16,7 @@ import org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor;
 
 public abstract class AbstractVariableEditor<O extends Variable<?>> extends JPanel
         implements VerifiedInputEditor {
-    private static final long serialVersionUID = -1273971509314422094L;
+    private static final long serialVersionUID = 20100L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private O variable = null;
     protected ExpressionEditor<String> variableNameExpressionEditor;

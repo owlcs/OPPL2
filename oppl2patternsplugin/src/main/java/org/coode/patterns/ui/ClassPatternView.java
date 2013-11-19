@@ -43,7 +43,7 @@ public class ClassPatternView extends AbstractOWLClassViewComponent {
     private OWLFrameList<OWLClass> list;
     private JScrollPane listPane = null;
     private PatternManager patternManager;
-    private static final long serialVersionUID = 4660000035200458342L;
+    private static final long serialVersionUID = 20100L;
 
     @Override
     public void initialiseClassView() throws Exception {
@@ -53,7 +53,7 @@ public class ClassPatternView extends AbstractOWLClassViewComponent {
         list = new OWLFrameList<OWLClass>(getOWLEditorKit(), new PatternClassFrame(
                 getOWLEditorKit(), f)) {
             
-            private static final long serialVersionUID = 1068899822314449303L;
+            private static final long serialVersionUID = 20100L;
 
             @Override
             protected Border createListItemBorder(JList l, Object value, int index,

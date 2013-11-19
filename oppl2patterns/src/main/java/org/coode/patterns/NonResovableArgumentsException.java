@@ -33,5 +33,5 @@ public class NonResovableArgumentsException extends PatternException {
                 + " is not instantiated for pattern: " + patternName + " ");
     }
 
-    private static final long serialVersionUID = -975113113442457082L;
+    private static final long serialVersionUID = 20100L;
 }

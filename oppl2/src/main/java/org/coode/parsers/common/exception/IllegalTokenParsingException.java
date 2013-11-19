@@ -2,7 +2,7 @@ package org.coode.parsers.common.exception;
 
 /** @author Luigi Iannone */
 public class IllegalTokenParsingException extends ParsingException {
-    private static final long serialVersionUID = -2790580594673053303L;
+    private static final long serialVersionUID = 20100L;
     private final String token;
 
     /** @param line

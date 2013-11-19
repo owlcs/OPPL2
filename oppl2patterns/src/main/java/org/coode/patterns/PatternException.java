@@ -25,7 +25,7 @@ package org.coode.patterns;
 /** @author Luigi Iannone Jun 25, 2008 */
 @SuppressWarnings("javadoc")
 public class PatternException extends RuntimeException {
-    private static final long serialVersionUID = 2493600446336152357L;
+    private static final long serialVersionUID = 20100L;
 
     public PatternException(String message) {
         super(message);

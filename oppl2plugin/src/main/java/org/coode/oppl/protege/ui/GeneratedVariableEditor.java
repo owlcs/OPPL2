@@ -67,7 +67,7 @@ public class GeneratedVariableEditor extends AbstractVariableEditor<GeneratedVar
         }
     }
 
-    private static final long serialVersionUID = 8899160597858126563L;
+    private static final long serialVersionUID = 20100L;
     private final OWLEditorKit owlEditorKit;
     private final ConstraintSystem constraintSystem;
     private final Map<JRadioButton, VariableType<?>> jRadioButtonTypeMap = new HashMap<JRadioButton, VariableType<?>>();

@@ -108,7 +108,7 @@ public class VariableListItem implements MListItem, OPPLMacroStatusChange {
             final ScopeEditor scopeEditor = ScopeEditor.getTypeScopeEditor(
                     variable.getType(), checker, owlEditorKit);
             final VerifyingOptionPane optionPane = new VerifyingOptionPane(scopeEditor) {
-                private static final long serialVersionUID = 7217535942418544769L;
+                private static final long serialVersionUID = 20100L;
 
                 @Override
                 public void selectInitialValue() {

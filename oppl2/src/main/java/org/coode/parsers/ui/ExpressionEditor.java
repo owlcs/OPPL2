@@ -47,7 +47,7 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
         VerifiedInputEditor {
     private static final int CHECK_DELAY = 500;
     
-    private static final long serialVersionUID = 3136357683296782324L;
+    private static final long serialVersionUID = 20100L;
     private final KeywordColourMap keywordColourMap = new KeywordColourMap();
     private Border outerBorder;
     private final Border defaultBorder;
@@ -108,7 +108,7 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
         this.getInputMap().put(
                 KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit()
                         .getMenuShortcutKeyMask()), new AbstractAction() {
-                    private static final long serialVersionUID = -2787929704277759568L;
+                    private static final long serialVersionUID = 20100L;
 
                     @Override
                     public void actionPerformed(ActionEvent e) {

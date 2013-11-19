@@ -165,7 +165,7 @@ public class PatternInstantiationEditor extends
     }
 
     private class VariableValuesMList extends MList {
-        private static final long serialVersionUID = 1182645120185580287L;
+        private static final long serialVersionUID = 20100L;
         protected final Variable<?> variable;
 
         @SuppressWarnings("unchecked")
@@ -456,7 +456,7 @@ public class PatternInstantiationEditor extends
             public void actionPerformed(ActionEvent e) {
                 MList list = new MList() {
                     
-                    private static final long serialVersionUID = 3001773867620562424L;
+                    private static final long serialVersionUID = 20100L;
 
                     @Override
                     protected List<MListButton> getButtons(Object value) {

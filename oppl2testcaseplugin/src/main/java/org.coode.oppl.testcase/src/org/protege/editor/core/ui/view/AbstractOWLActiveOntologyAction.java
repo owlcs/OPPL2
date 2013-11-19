@@ -11,7 +11,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 
 /** @author Luigi Iannone */
 public abstract class AbstractOWLActiveOntologyAction extends DisposableAction {
-    private static final long serialVersionUID = 8186589819489529576L;
+    private static final long serialVersionUID = 20100L;
     private final OWLModelManagerListener owlModelManagerListener;
     private final OWLEditorKit owlEditorKit;
 

@@ -39,7 +39,7 @@ public class ActionListModel extends DefaultListModel<Object> {
         }
     }
 
-    private static final long serialVersionUID = -5708452398843328281L;
+    private static final long serialVersionUID = 20100L;
 
     /** @param axiomChange
      * @param isEditable

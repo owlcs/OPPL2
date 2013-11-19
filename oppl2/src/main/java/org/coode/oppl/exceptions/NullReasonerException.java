@@ -24,7 +24,7 @@ package org.coode.oppl.exceptions;
 
 /** @author Luigi Iannone */
 public class NullReasonerException extends OPPLException {
-    private static final long serialVersionUID = 5123760931519545671L;
+    private static final long serialVersionUID = 20100L;
 
     public NullReasonerException() {
         super("No reasoner selected");

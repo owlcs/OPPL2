@@ -35,7 +35,7 @@ public class TokenGUI extends JFrame {
         }
     };
     
-    private static final long serialVersionUID = -1567768111421668004L;
+    private static final long serialVersionUID = 20100L;
     private final File file;
     private final JTable table = new JTable();
 

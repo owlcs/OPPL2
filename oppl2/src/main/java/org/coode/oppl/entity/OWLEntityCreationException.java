@@ -11,7 +11,7 @@ import org.semanticweb.owlapi.model.OWLException;
  * Date: Sep 18, 2008<br>
  * <br> */
 public class OWLEntityCreationException extends OWLException {
-    private static final long serialVersionUID = 8621012100349331741L;
+    private static final long serialVersionUID = 20100L;
 
     public OWLEntityCreationException(String s) {
         super(s);

@@ -22,7 +22,7 @@ import org.semanticweb.owlapi.model.OWLEntity;
 
 /** @author Luigi Iannone */
 public class OWLEntitySelector extends JPanel implements VerifiedInputEditor {
-    private static final long serialVersionUID = -2876275234475209099L;
+    private static final long serialVersionUID = 20100L;
     protected MList facetClassView = new MList();
     protected List<OWLEntity> facetClasses = new ArrayList<OWLEntity>();
     protected VariableListModel<OWLEntity> facetClassesModel = new VariableListModel<OWLEntity>(

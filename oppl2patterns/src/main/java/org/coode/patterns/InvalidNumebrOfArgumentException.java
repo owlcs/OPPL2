@@ -25,7 +25,7 @@ package org.coode.patterns;
 /** @author Luigi Iannone Jun 25, 2008 */
 @SuppressWarnings("javadoc")
 public class InvalidNumebrOfArgumentException extends PatternException {
-    private static final long serialVersionUID = -5692065603588448932L;
+    private static final long serialVersionUID = 20100L;
 
     public InvalidNumebrOfArgumentException(String patternName, int actualArgumentCount,
             int expectedArgumentCount) {

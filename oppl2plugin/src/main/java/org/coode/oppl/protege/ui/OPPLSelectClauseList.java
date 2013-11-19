@@ -44,7 +44,7 @@ import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 /** @author Luigi Iannone */
 public class OPPLSelectClauseList extends MList {
     
-    private static final long serialVersionUID = 3978563738563698974L;
+    private static final long serialVersionUID = 20100L;
     private final OWLEditorKit owlEditorKit;
     private final ConstraintSystem constraintSystem;
 

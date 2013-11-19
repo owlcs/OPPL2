@@ -40,7 +40,7 @@ import org.protege.editor.owl.OWLEditorKit;
 /** @author Luigi Iannone */
 public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEditor {
     
-    private static final long serialVersionUID = -4594021425664502052L;
+    private static final long serialVersionUID = 20100L;
     private final OWLEditorKit owlEditorKit;
     private final ConstraintSystem constraintSystem;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();

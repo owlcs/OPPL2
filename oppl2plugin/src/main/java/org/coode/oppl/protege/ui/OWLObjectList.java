@@ -58,7 +58,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 public class OWLObjectList extends MList implements ActionListener,
         OPPLMacroStatusChange, ListDataListener {
     
-    private static final long serialVersionUID = 6844484022100475838L;
+    private static final long serialVersionUID = 20100L;
 
     /** This button will generalise the corresponding OWLObject into the
      * appropriate Variable

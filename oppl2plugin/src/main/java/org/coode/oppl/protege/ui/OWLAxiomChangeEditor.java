@@ -49,7 +49,7 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
 /** @author Luigi Iannone */
 public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor {
     
-    private static final long serialVersionUID = 6494430323392010587L;
+    private static final long serialVersionUID = 20100L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private final OWLEditorKit owlEditorKit;
     private final AxiomEditor axiomEditor;
