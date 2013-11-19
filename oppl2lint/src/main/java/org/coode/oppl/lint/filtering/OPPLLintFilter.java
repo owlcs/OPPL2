@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.oppl.lint.filtering;
 
 import org.semanticweb.owlapi.lint.configuration.LintConfiguration;

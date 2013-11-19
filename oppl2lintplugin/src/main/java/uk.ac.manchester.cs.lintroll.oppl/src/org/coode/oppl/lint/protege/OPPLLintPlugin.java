@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.oppl.lint.protege;
 
 

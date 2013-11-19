@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.oppl.lint.filtering;
 
 import java.util.Collection;
