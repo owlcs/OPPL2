@@ -54,6 +54,7 @@ import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 
+@SuppressWarnings("incomplete-switch")
 public class OPPLSymbolTable extends SymbolTable {
     // XXX this hack is due to the impossibility of relating P and O to R and S
     // in OPPLSymbolVisitorEx
@@ -736,8 +737,7 @@ public class OPPLSymbolTable extends SymbolTable {
         int i = 0;
         while (allFine && iterator.hasNext()) {
             Aggregandum<?> aggregandum = iterator.next();
-            org.coode.oppl.variabletypes.VariableType<?> aggregandumVariableType = getAggregandumVariableType(
-                    aggregandum, aggregandumsTrees.get(i));
+            org.coode.oppl.variabletypes.VariableType<?> aggregandumVariableType = getAggregandumVariableType(aggregandum);
             allFine = toReturn == null || toReturn.equals(aggregandumVariableType);
             if (allFine) {
                 toReturn = aggregandumVariableType;
@@ -752,7 +752,7 @@ public class OPPLSymbolTable extends SymbolTable {
     }
 
     private org.coode.oppl.variabletypes.VariableType<?> getAggregandumVariableType(
-            Aggregandum<?> aggregandum, OPPLSyntaxTree opplSyntaxTree) {
+            Aggregandum<?> aggregandum) {
         org.coode.oppl.variabletypes.VariableType<?> toReturn = null;
         Iterator<org.coode.oppl.variabletypes.VariableType<?>> iterator = VariableTypeFactory
                 .getAllVariableTypes().iterator();
