@@ -46,9 +46,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 public class ExpressionEditor<O> extends JTextPane implements RefreshableComponent,
         VerifiedInputEditor {
     private static final int CHECK_DELAY = 500;
-    /**
-	 * 
-	 */
+    
     private static final long serialVersionUID = 3136357683296782324L;
     private final KeywordColourMap keywordColourMap = new KeywordColourMap();
     private Border outerBorder;

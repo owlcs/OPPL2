@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.queryplanner;
 
 import java.util.Collection;

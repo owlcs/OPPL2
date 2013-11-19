@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers;
 
 /** Void implementation of a TypeVisitor. Does nothing by default. Developer can

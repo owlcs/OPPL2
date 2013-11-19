@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.function;
 
 /** @author Luigi Iannone */

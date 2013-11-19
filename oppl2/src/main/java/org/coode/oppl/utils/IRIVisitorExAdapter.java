@@ -7,9 +7,6 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 public class IRIVisitorExAdapter<O> extends OWLObjectVisitorExAdapter<O> implements
         IRIVisitorEx<O> {
-    /**
-	 * 
-	 */
     public IRIVisitorExAdapter() {
         super();
     }

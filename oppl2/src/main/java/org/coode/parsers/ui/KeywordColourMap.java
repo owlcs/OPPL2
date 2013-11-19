@@ -12,9 +12,7 @@ import java.util.HashMap;
  * Date: Sep 23, 2008<br>
  * <br> */
 public class KeywordColourMap extends HashMap<String, Color> {
-    /**
-	 * 
-	 */
+    
     private static final long serialVersionUID = 3232651475451866980L;
 
     public KeywordColourMap() {

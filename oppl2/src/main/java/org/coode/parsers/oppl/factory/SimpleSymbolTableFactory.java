@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.oppl.factory;
 
 import org.coode.oppl.OPPLShortFormProvider;

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.log;
 
 import java.io.IOException;

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.parsers.common.exception;
 
 import java.util.HashSet;
@@ -8,9 +5,6 @@ import java.util.Set;
 
 /** @author Luigi Iannone */
 public class RecognitionParsingException extends ParsingException {
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = -3503729637395219197L;
     private final Set<String> symbols = new HashSet<String>();
 

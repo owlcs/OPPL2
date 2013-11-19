@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.search;
 
 import java.util.ArrayList;

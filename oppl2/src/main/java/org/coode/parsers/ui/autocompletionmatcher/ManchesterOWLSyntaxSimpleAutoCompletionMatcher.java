@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.ui.autocompletionmatcher;
 
 import java.util.Arrays;

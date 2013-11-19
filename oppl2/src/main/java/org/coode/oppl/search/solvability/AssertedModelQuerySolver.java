@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.search.solvability;
 
 import java.util.HashSet;

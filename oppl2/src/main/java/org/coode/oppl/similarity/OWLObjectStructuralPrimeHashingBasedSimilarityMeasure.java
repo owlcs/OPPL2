@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.similarity;
 
 import org.semanticweb.owlapi.model.OWLObject;

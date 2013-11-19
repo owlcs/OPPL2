@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers;
 
 import org.antlr.runtime.RecognitionException;

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.parsers.common;
 
 import java.util.ArrayList;

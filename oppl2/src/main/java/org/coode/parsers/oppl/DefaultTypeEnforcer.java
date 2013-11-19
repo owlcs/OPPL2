@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.oppl;
 
 import org.coode.oppl.entity.OWLEntityCreationException;

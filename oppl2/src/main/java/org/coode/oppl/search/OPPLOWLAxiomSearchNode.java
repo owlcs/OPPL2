@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.search;
 
 import org.coode.oppl.bindingtree.BindingNode;

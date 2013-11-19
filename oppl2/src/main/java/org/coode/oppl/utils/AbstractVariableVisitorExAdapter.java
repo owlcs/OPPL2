@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.utils;
 
 import org.coode.oppl.Variable;

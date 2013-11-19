@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.oppl;
 
 import org.antlr.runtime.Token;

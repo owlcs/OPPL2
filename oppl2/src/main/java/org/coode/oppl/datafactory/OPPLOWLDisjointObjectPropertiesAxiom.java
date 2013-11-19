@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.datafactory;
 
 import java.util.Set;

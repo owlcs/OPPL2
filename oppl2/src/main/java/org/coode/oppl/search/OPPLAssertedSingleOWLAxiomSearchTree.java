@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.coode.oppl.search;
 
 import java.util.ArrayList;
@@ -243,9 +240,6 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
         });
     }
 
-    /**
-	 * 
-	 */
     private void extractFromLogicAxiom() {
         allClasses.addAll(OWLObjectExtractor.getAllClasses(getTargetAxiom()));
         allDataProperties.addAll(OWLObjectExtractor

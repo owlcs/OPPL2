@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.oppl.variableattribute;
 
 import org.coode.oppl.function.VariableAttribute;

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.variabletypes;
 
 import java.util.EnumMap;

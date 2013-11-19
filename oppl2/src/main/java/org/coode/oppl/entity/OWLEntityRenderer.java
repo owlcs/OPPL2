@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.entity;
 
 import org.semanticweb.owlapi.model.OWLEntity;

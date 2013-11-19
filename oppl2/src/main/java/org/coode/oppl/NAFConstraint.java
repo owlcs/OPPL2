@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl;
 
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;

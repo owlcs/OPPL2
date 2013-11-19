@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.similarity;
 
 /** A generic metric to asses the similarity between two objects of the same

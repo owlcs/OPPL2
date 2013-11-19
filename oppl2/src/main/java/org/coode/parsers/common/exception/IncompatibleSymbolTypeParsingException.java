@@ -3,9 +3,6 @@ package org.coode.parsers.common.exception;
 import org.coode.parsers.Type;
 
 public class IncompatibleSymbolTypeParsingException extends ParsingException {
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = -6219109479849546139L;
     private final String symbol;
     private final Type type;

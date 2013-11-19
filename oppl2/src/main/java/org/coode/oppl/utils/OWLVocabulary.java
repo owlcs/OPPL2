@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.utils;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;

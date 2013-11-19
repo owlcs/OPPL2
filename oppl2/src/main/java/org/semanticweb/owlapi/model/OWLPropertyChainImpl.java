@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.semanticweb.owlapi.model;
 
 import java.util.ArrayList;

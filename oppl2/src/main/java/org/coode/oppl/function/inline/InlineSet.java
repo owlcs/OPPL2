@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.function.inline;
 
 import java.util.Collection;

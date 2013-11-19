@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.ui;
 
 import java.awt.BorderLayout;
@@ -505,9 +503,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
         return "Syntax validator";
     }
 
-    /**
-     * 
-     */
+    
     public ManchesterOWLSyntaxValidatorGUI() {
         axiomValidator = new ExpressionEditor<OWLAxiom>(manager, checker);
         initGUI();

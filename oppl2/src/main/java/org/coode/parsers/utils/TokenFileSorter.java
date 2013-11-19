@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.utils;
 
 import java.io.BufferedReader;

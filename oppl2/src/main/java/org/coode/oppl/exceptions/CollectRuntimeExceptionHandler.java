@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.oppl.exceptions;
 
 import java.util.HashSet;
