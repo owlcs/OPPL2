@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.oppl.template.commons.opplscript;
 
 import org.coode.oppl.OPPLParser;

@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.oppl.template.commons;
 
 import org.coode.oppl.template.OPPLTemplate;

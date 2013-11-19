@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.oppl.template;
 
 /** Generic component whose implementations parse an instance of I and produce

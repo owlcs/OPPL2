@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.oppl.template;
 
 /** Abstraction over the replacement strategy. Implementations specify how they

@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.oppl.template.commons.oppltestcase;
 
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
