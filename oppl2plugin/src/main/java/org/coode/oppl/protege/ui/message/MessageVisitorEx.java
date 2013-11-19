@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.oppl.protege.ui.message;
 
 /** Visitor pattern for the Message hierarchy with a parametric return type

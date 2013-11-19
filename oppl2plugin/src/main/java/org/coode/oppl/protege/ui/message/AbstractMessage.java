@@ -1,6 +1,4 @@
-/**
- *
- */
+
 package org.coode.oppl.protege.ui.message;
 
 import org.coode.oppl.utils.ArgCheck;

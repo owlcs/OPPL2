@@ -57,9 +57,7 @@ import org.semanticweb.owlapi.model.OWLObject;
  * @author Luigi Iannone */
 public class OWLObjectList extends MList implements ActionListener,
         OPPLMacroStatusChange, ListDataListener {
-    /**
-	 *
-	 */
+    
     private static final long serialVersionUID = 6844484022100475838L;
 
     /** This button will generalise the corresponding OWLObject into the
@@ -163,9 +161,7 @@ public class OWLObjectList extends MList implements ActionListener,
         }
     }
 
-    /**
-	 *
-	 */
+    
     private void createVariable() {
         Object[] selectedValues = getSelectedValues();
         for (Object object : selectedValues) {

@@ -333,9 +333,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
         }
     }
 
-    /**
-	 *
-	 */
+    
     private static final long serialVersionUID = 1897093057453176659L;
     private static final String OPPL_COMPUTATION_IN_PROGRESS_PLEASE_WAIT = "OPPL Computation in progress...please wait";
     private OPPLEditor editor;

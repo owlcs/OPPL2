@@ -70,9 +70,7 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor {
     static class ClassScopeEditor extends ScopeEditor implements
             InputVerificationStatusChangedListener, ChangeListener {
-        /**
-		 *
-		 */
+        
         private static final long serialVersionUID = 1748983757452740791L;
         private final ExpressionEditor<OWLClassExpression> editor = new ExpressionEditor<OWLClassExpression>(
                 owlEditorKit, owlEditorKit.getOWLModelManager()
@@ -189,9 +187,7 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
 
     static class IndividualScopeEditor extends ScopeEditor implements
             InputVerificationStatusChangedListener {
-        /**
-		 *
-		 */
+        
         private static final long serialVersionUID = 1748983757452740791L;
         private final ExpressionEditor<OWLClassExpression> editor = new ExpressionEditor<OWLClassExpression>(
                 owlEditorKit, owlEditorKit.getModelManager()
@@ -238,9 +234,7 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
     }
 
     static class PropertyScopeEditor extends ScopeEditor implements ChangeListener {
-        /**
-		 *
-		 */
+        
         private static final long serialVersionUID = 1014596361426722995L;
         private final ButtonGroup directionButtonGroup = new ButtonGroup();
         private final Map<JRadioButton, Direction> radioButtonDirectionMap = new HashMap<JRadioButton, Direction>();

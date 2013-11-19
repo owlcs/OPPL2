@@ -47,9 +47,7 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 
 /** @author Luigi Iannone */
 public class AxiomEditor extends JPanel implements VerifiedInputEditor {
-    /**
-	 * 
-	 */
+    
     private static final long serialVersionUID = 6596764398797669959L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private final ExpressionEditor<OWLAxiom> editor;

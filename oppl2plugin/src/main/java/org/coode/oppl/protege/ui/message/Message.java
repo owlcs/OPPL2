@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.oppl.protege.ui.message;
 
 /** Generic Message

@@ -68,9 +68,7 @@ public abstract class OPPLScriptInstantiationEditor<P extends InstantiatedOPPLSc
 
     protected abstract ExpressionEditor<P> getScriptExpressionEditor();
 
-    /**
-	 *
-	 */
+    
     private void removeKeyListeners() {
         KeyListener[] keyListeners = this.editor.getKeyListeners();
         for (KeyListener keyListener : keyListeners) {

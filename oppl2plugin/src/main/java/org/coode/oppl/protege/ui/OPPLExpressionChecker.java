@@ -189,9 +189,7 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
         return this.lastReport;
     }
 
-    /**
-	 * 
-	 */
+    
     private void reset() {
         this.lastObject = null;
         this.lastReport = null;

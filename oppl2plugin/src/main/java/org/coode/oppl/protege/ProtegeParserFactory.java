@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.oppl.protege;
 
 import java.util.Set;

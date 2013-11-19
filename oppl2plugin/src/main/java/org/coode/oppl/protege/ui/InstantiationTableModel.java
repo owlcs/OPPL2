@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.oppl.protege.ui;
 
 import java.util.ArrayList;
