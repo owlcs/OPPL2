@@ -520,6 +520,7 @@ public class TestQueries {
         return correctResults;
     }
 
+    @SuppressWarnings("incomplete-switch")
     private Set<OWLClassExpression> generateClasses(OWLDataFactory df, int counter,
             ConstraintSystem cs) throws OPPLException {
         EnumSet<DescriptionType> descriptionTypes = EnumSet.allOf(DescriptionType.class);
