@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.patterns.protege;
 
 import java.util.Iterator;

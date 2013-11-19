@@ -63,16 +63,12 @@ import org.semanticweb.owlapi.model.OWLProperty;
 
 /** @author Luigi Iannone Nov 17, 2008 */
 public abstract class VariableValueEditor extends JPanel implements VerifiedInputEditor {
-    /**
-	 *
-	 */
+    
     private static final long serialVersionUID = -7109694040960783256L;
 
     private static class ClassVariableValueEditor extends VariableValueEditor implements
             ChangeListener {
-        /**
-		 *
-		 */
+        
         private static final long serialVersionUID = -592992214285597817L;
         private final OWLClassSelectorPanel classSelectorPanel;
 
@@ -106,9 +102,7 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
 
     private static class PropertyVariableValueEditor extends VariableValueEditor
             implements ChangeListener {
-        /**
-		 *
-		 */
+        
         private static final long serialVersionUID = -6634647498199993368L;
         private final AbstractHierarchySelectorPanel<? extends OWLProperty<?, ?>> propertySelector;
 
@@ -146,9 +140,7 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
 
     private static class AnnotationPropertyVariableValueEditor extends
             VariableValueEditor implements ChangeListener {
-        /**
-		 * 
-		 */
+        
         private static final long serialVersionUID = -5014630696942480796L;
         private final AbstractHierarchySelectorPanel<OWLAnnotationProperty> propertySelector;
 
@@ -185,9 +177,7 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
 
     private static class IndividualVariableValueEditor extends VariableValueEditor
             implements ChangeListener {
-        /**
-		 *
-		 */
+        
         private static final long serialVersionUID = -1929930488764454474L;
         private final OWLIndividualSelectorPanel individualSelectorPanel;
 
@@ -222,9 +212,7 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
 
     private static class ConstantVariableValueEditor extends VariableValueEditor
             implements org.coode.parsers.ui.InputVerificationStatusChangedListener {
-        /**
-		 *
-		 */
+        
         private static final long serialVersionUID = -9168873531349410794L;
         private org.coode.parsers.ui.ExpressionEditor<OWLLiteral> owlConstantEditor;
 

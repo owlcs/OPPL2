@@ -142,9 +142,7 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
         }
     }
 
-    /**
-	 * 
-	 */
+    
     private static final long serialVersionUID = 6792396788714900301L;
     // Have to as the supe class header is not visible;
     private final MListSectionHeader header = new MListSectionHeader() {

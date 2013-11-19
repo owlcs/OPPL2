@@ -121,9 +121,7 @@ public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> impleme
         }
     }
 
-    /**
-	 *
-	 */
+    
     private void initGUI() {
         mainPanel.add(patternBuilder.getEditorComponent());
         mainPanel.add(patternTextEditor.getEditorComponent());

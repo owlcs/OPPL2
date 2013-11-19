@@ -365,9 +365,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
             }
         }
 
-        /**
-		 *
-		 */
+        
         private static final long serialVersionUID = -3297222035586803090L;
     }
 
@@ -907,9 +905,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         return "Build Pattern Model";
     }
 
-    /**
-	 *
-	 */
+    
     private void removeKeyListeners() {
         KeyListener[] keyListeners = nameEditor.getKeyListeners();
         for (KeyListener keyListener : keyListeners) {

@@ -455,9 +455,7 @@ public class PatternInstantiationEditor extends
             @Override
             public void actionPerformed(ActionEvent e) {
                 MList list = new MList() {
-                    /**
-					 * 
-					 */
+                    
                     private static final long serialVersionUID = 3001773867620562424L;
 
                     @Override

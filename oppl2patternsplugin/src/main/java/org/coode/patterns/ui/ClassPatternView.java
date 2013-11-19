@@ -52,9 +52,7 @@ public class ClassPatternView extends AbstractOWLClassViewComponent {
                 getOWLModelManager());
         list = new OWLFrameList<OWLClass>(getOWLEditorKit(), new PatternClassFrame(
                 getOWLEditorKit(), f)) {
-            /**
-			*
-			*/
+            
             private static final long serialVersionUID = 1068899822314449303L;
 
             @Override

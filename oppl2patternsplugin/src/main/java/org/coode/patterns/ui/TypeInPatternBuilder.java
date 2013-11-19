@@ -261,9 +261,7 @@ public class TypeInPatternBuilder implements VerifiedInputEditor,
                 .getPatternLocalName());
     }
 
-    /**
-	 *
-	 */
+    
     private void removeKeyListeners() {
         KeyListener[] keyListeners = patternNameTextField.getKeyListeners();
         for (KeyListener keyListener : keyListeners) {
