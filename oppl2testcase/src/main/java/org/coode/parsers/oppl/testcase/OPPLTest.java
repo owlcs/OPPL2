@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.oppl.testcase;
 
 import org.coode.parsers.oppl.testcase.assertions.Assertion;

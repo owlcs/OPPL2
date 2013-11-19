@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.oppl.testcase.assertions;
 
 /** Visitor pattern for the hierarchy rooted in {@link Assertion} with a return

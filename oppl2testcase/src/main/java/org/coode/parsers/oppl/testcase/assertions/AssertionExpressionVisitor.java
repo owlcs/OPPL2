@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.oppl.testcase.assertions;
 
 /** Visitor pattern for AssertionExpression.
