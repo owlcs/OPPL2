@@ -49,7 +49,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListDataEvent;
@@ -494,10 +493,8 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 
         public PatternVariableList(OWLEditorKit owlEditorKit) {
             super(owlEditorKit, patternBuilderModel.getConstraintSystem());
-            ((DefaultListModel<Object>) getModel())
-                    .addElement(new InputVariableSectionHeader());
-            ((DefaultListModel) getModel())
-                    .addElement(new GeneratedVariableSectionHeader());
+            getModel().addElement(new InputVariableSectionHeader());
+            getModel().addElement(new GeneratedVariableSectionHeader());
             getModel().addListDataListener(this);
         }
 
@@ -507,9 +504,8 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         }
 
         private void updatePatternModel() {
-            ListModel model = getModel();
-            for (int i = 0; i < model.getSize(); i++) {
-                Object element = model.getElementAt(i);
+            for (int i = 0; i < getModel().getSize(); i++) {
+                Object element = getModel().getElementAt(i);
                 if (element instanceof PatternBuilderVariableListItem) {
                     PatternBuilderVariableListItem item = (PatternBuilderVariableListItem) element;
                     if (patternModel != null
@@ -521,10 +517,9 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         }
 
         public void clear() {
-            ((DefaultListModel) getModel()).clear();
-            ((DefaultListModel) getModel()).addElement(new InputVariableSectionHeader());
-            ((DefaultListModel) getModel())
-                    .addElement(new GeneratedVariableSectionHeader());
+            getModel().clear();
+            getModel().addElement(new InputVariableSectionHeader());
+            getModel().addElement(new GeneratedVariableSectionHeader());
         }
 
         @Override
@@ -539,13 +534,11 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 
         /** @param listItem */
         protected void placeListItem(PatternBuilderVariableListItem listItem) {
-            DefaultListModel model = (DefaultListModel) PatternVariableList.this
-                    .getModel();
             int i = -1;
             if (listItem.getVariable() instanceof GeneratedVariable<?>) {
-                i = model.getSize();
+                i = getModel().getSize();
             } else {
-                Enumeration<?> elements = model.elements();
+                Enumeration<?> elements = getModel().elements();
                 boolean found = false;
                 while (!found && elements.hasMoreElements()) {
                     i++;
@@ -556,7 +549,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
                     throw new RuntimeException("Section lost");
                 }
             }
-            model.add(i, listItem);
+            getModel().add(i, listItem);
         }
     }
 
@@ -662,8 +655,8 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
             returnValueListModel);
     protected final PatternBuilderModel patternBuilderModel;
     private final JPanel errorPanel = new JPanel(new BorderLayout());
-    protected final DefaultListModel<Error> errorListModel = new DefaultListModel<Error>();
-    private final JList<Object> errorList = new JList(errorListModel);
+    protected final DefaultListModel<Object> errorListModel = new DefaultListModel<Object>();
+    private final JList<Object> errorList = new JList<Object>(errorListModel);
     private final AbstractPatternModelFactory factory;
     private final JSplitPane patternBodyPanel;
 

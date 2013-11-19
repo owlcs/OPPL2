@@ -168,6 +168,16 @@ public class PatternInstantiationEditor extends
         private static final long serialVersionUID = 1182645120185580287L;
         protected final Variable<?> variable;
 
+        @SuppressWarnings("unchecked")
+        @Override
+        public final DefaultListModel<Object> getModel() {
+            return (DefaultListModel<Object>) super.getModel();
+        }
+
+        public void setModel(DefaultListModel<Object> model) {
+            super.setModel(model);
+        }
+
         @Override
         protected void handleAdd() {
             final VariableValueEditor variableValueEditor = VariableValueEditor
@@ -197,9 +207,8 @@ public class PatternInstantiationEditor extends
                                 .getVariableValues();
                         for (OWLObject object : variableValues) {
                             instantiatedPatternModel.instantiate(variable, object);
-                            ((DefaultListModel<Object>) VariableValuesMList.this
-                                    .getModel()).addElement(new VariableValueListItem(
-                                    variable, object));
+                            getModel().addElement(
+                                    new VariableValueListItem(variable, object));
                         }
                     }
                     variableValueEditor.removeStatusChangedListener(verificationListener);
@@ -229,7 +238,7 @@ public class PatternInstantiationEditor extends
 
         public VariableValuesMList(Variable<?> variable) {
             this.variable = variable;
-            DefaultListModel model = new DefaultListModel();
+            DefaultListModel<Object> model = new DefaultListModel<Object>();
             super.setModel(model);
             model.addElement(new MListSectionHeader() {
                 @Override
@@ -253,7 +262,7 @@ public class PatternInstantiationEditor extends
                 OWLObject value = item.getValue();
                 instantiatedPatternModel.removeInstantiation(v, value);
             }
-            ((DefaultListModel) getModel()).removeElement(getSelectedValue());
+            getModel().removeElement(getSelectedValue());
             super.handleDelete();
         }
     }
@@ -397,8 +406,8 @@ public class PatternInstantiationEditor extends
     private JScrollPane variablePane;
     private JScrollPane valuePane;
     private final JPanel problemPanel = new JPanel(new BorderLayout());
-    private final DefaultListModel<Object> problemListModel = new DefaultListModel();
-    private final JList<Object> problemList = new JList(problemListModel);
+    private final DefaultListModel<Object> problemListModel = new DefaultListModel<Object>();
+    private final JList<Object> problemList = new JList<Object>(problemListModel);
     private final AbstractPatternModelFactory factory;
     private final JButton localityCheckResultButton = new JButton();
     private final JButton localityCheckButton = new JButton("Check Locality");
@@ -622,8 +631,7 @@ public class PatternInstantiationEditor extends
     }
 
     protected void refreshEffectsPanel() {
-        DefaultListModel model = (DefaultListModel) actionList.getModel();
-        model.clear();
+        actionList.getModel().clear();
         if (instantiatedPatternModel != null) {
             actionList
                     .setConstraintSystem(instantiatedPatternModel.getConstraintSystem());
@@ -669,7 +677,8 @@ public class PatternInstantiationEditor extends
                 }
             }
             for (OWLAxiomChange axiomChange : changes) {
-                model.addElement(new ActionListItem(axiomChange, false, false));
+                actionList.getModel().addElement(
+                        new ActionListItem(axiomChange, false, false));
             }
         }
         handleChange();
@@ -677,10 +686,9 @@ public class PatternInstantiationEditor extends
     }
 
     protected void refreshInstantiationPanel() {
-        DefaultListModel<Object> model = (DefaultListModel<Object>) variableList
-                .getModel();
+        DefaultListModel<Object> model = variableList.getModel();
         model.clear();
-        ((DefaultListModel<Object>) valueList.getModel()).clear();
+        valueList.getModel().clear();
         if (instantiatedPatternModel != null) {
             List<InputVariable<?>> inputVariables = instantiatedPatternModel
                     .getInputVariables();
@@ -794,8 +802,8 @@ public class PatternInstantiationEditor extends
                     .getInstantiations(variable);
             if (instantiations != null) {
                 for (OWLObject object : instantiations) {
-                    ((DefaultListModel) valueList.getModel())
-                            .addElement(new VariableValueListItem(variable, object) {
+                    valueList.getModel().addElement(
+                            new VariableValueListItem(variable, object) {
                                 @Override
                                 public String getTooltip() {
                                     return getVariable().toString();

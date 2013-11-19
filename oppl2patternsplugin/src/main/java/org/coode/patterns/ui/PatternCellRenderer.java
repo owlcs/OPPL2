@@ -35,7 +35,6 @@ import javax.swing.ListCellRenderer;
 
 import org.coode.oppl.utils.ArgCheck;
 import org.coode.oppl.variabletypes.InputVariable;
-import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.PatternExtractor;
 import org.coode.patterns.PatternModel;
 import org.coode.patterns.PatternOPPLScript;
@@ -56,7 +55,7 @@ public class PatternCellRenderer implements ListCellRenderer {
 
     /** @param owlEditorKit
      * @param f */
-    public PatternCellRenderer(OWLEditorKit owlEditorKit, AbstractPatternModelFactory f) {
+    public PatternCellRenderer(OWLEditorKit owlEditorKit) {
         ArgCheck.checkNullArgument("The OWL Editor Kit", owlEditorKit);
         this.owlEditorKit = owlEditorKit;
         owlCellRenderer = new OWLCellRenderer(this.owlEditorKit);

@@ -38,7 +38,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
-import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
@@ -137,7 +136,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
             @Override
             public void actionPerformed(ActionEvent e) {
                 StringBuilder opplString = new StringBuilder();
-                ListModel variableModel = variableList.getModel();
+                DefaultListModel<Object> variableModel = variableList.getModel();
                 boolean first = true;
                 for (int i = 0; i < variableModel.getSize(); i++) {
                     Object variableElement = variableModel.getElementAt(i);
@@ -172,7 +171,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
                     }
                 }
                 first = true;
-                ListModel actionModel = recordedActions.getModel();
+                DefaultListModel<Object> actionModel = recordedActions.getModel();
                 opplString.append("\nBEGIN");
                 VariableOWLCellRenderer cellRenderer = new VariableOWLCellRenderer(
                         OPPLMacroView.this.getOWLEditorKit(), constraintSystem,
@@ -206,8 +205,8 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ((DefaultListModel) recordedActions.getModel()).clear();
-                ((DefaultListModel) variableList.getModel()).clear();
+                recordedActions.getModel().clear();
+                variableList.getModel().clear();
             }
         });
         recorderToolBar.setFloatable(false);
@@ -222,9 +221,9 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
         recorderPanel.add(recordedActionBorderPanel, BorderLayout.CENTER);
         entities = new OWLObjectList(constraintSystem, getOWLEditorKit());
         entities.addOPPLMacroListener(this);
-        entities.setModel(new DefaultListModel());
+        entities.setModel(new DefaultListModel<Object>());
         variableList = new VariableList(getOWLEditorKit(), constraintSystem);
-        variableList.setModel(new DefaultListModel());
+        variableList.setModel(new DefaultListModel<Object>());
         variableList.getModel().addListDataListener(entities);
         JScrollPane entitiesPane = ComponentFactory.createScrollPane(entities);
         JPanel entitiesBorderPanel = new JPanel(new BorderLayout());
@@ -256,7 +255,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
     @Override
     public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
             throws OWLException {
-        ListModel existingListModel = recordedActions.getModel();
+        DefaultListModel<Object> existingListModel = recordedActions.getModel();
         ActionListModel updatedListModel = new ActionListModel(false);
         updatedListModel.addListDataListener(this);
         recordedActions.setModel(updatedListModel);
@@ -286,9 +285,9 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
 
     private void refreshEntities() {
         copy2ClipboardButton.setEnabled(recordedActions.getModel().getSize() > 0);
-        ListModel model = recordedActions.getModel();
+        DefaultListModel<Object> model = recordedActions.getModel();
         int size = model.getSize();
-        DefaultListModel entitiesModel = (DefaultListModel) entities.getModel();
+        DefaultListModel<Object> entitiesModel = entities.getModel();
         entitiesModel.clear();
         for (int i = 0; i < size; i++) {
             Object element = model.getElementAt(i);
@@ -331,7 +330,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
         VariableListItem variableListItem = new VariableListItem(variable,
                 getConstraintSystem(), getOWLEditorKit(), true, true);
         variableListItem.addOPPLMacroListener(this);
-        ((DefaultListModel) variableList.getModel()).addElement(variableListItem);
+        variableList.getModel().addElement(variableListItem);
         updateActions();
     }
 

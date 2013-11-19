@@ -88,7 +88,7 @@ public class ClassPatternView extends AbstractOWLClassViewComponent {
                 return toReturn;
             }
         };
-        list.setCellRenderer(new PatternCellRenderer(getOWLEditorKit(), f));
+        list.setCellRenderer(new PatternCellRenderer(getOWLEditorKit()));
         listPane = ComponentFactory.createScrollPane(list);
         // PatternParser.setPatternModelFactory(new ProtegePatternModelFactory(
         // this.getOWLModelManager()));

@@ -108,6 +108,16 @@ public class OWLObjectList extends MList implements ActionListener,
                 new OWLCellRenderer(owlEditorKit)));
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public final DefaultListModel<Object> getModel() {
+        return (DefaultListModel<Object>) super.getModel();
+    }
+
+    public void setModel(DefaultListModel<Object> model) {
+        super.setModel(model);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof CreateNewVariableButton) {
@@ -125,10 +135,9 @@ public class OWLObjectList extends MList implements ActionListener,
             VariableType<?> variableType = VariableTypeFactory.getVariableType(owlObject);
             for (Variable<?> variable : getVariables()) {
                 if (variable.getType().equals(variableType)) {
-                    ((DefaultListModel) variableList.getModel())
-                            .addElement(new VariableListItem(variable,
-                                    getConstraintSystem(), getOWLEditorKit(), false,
-                                    false));
+                    variableList.getModel().addElement(
+                            new VariableListItem(variable, getConstraintSystem(),
+                                    getOWLEditorKit(), false, false));
                 }
             }
             JScrollPane panel = ComponentFactory.createScrollPane(variableList);
@@ -176,8 +185,7 @@ public class OWLObjectList extends MList implements ActionListener,
                                 .addLeaf(variable, owlObject);
                         if (added) {
                             addVariable(variable);
-                            ((DefaultListModel) getModel())
-                                    .removeElement(owlObjectListItem);
+                            getModel().removeElement(owlObjectListItem);
                         } else {
                             JOptionPane.showMessageDialog(getParent(),
                                     "Incompatible variable selected", owlEditorKit
@@ -252,13 +260,12 @@ public class OWLObjectList extends MList implements ActionListener,
     public void contentsChanged(ListDataEvent e) {
         Object source = e.getSource();
         if (source instanceof DefaultListModel) {
-            DefaultListModel variableList = (DefaultListModel) source;
-            updateVariables(variableList);
+            updateVariables((DefaultListModel<Object>) source);
         }
     }
 
     /** @param variableList */
-    private void updateVariables(DefaultListModel model) {
+    private void updateVariables(DefaultListModel<Object> model) {
         variables.clear();
         for (int i = 0; i < model.getSize(); i++) {
             VariableListItem item = (VariableListItem) model.getElementAt(i);
@@ -270,8 +277,7 @@ public class OWLObjectList extends MList implements ActionListener,
     public void intervalAdded(ListDataEvent e) {
         Object source = e.getSource();
         if (source instanceof DefaultListModel) {
-            DefaultListModel variableList = (DefaultListModel) source;
-            updateVariables(variableList);
+            updateVariables((DefaultListModel<Object>) source);
         }
     }
 
@@ -279,8 +285,7 @@ public class OWLObjectList extends MList implements ActionListener,
     public void intervalRemoved(ListDataEvent e) {
         Object source = e.getSource();
         if (source instanceof DefaultListModel) {
-            DefaultListModel variableList = (DefaultListModel) source;
-            updateVariables(variableList);
+            updateVariables((DefaultListModel<Object>) source);
         }
     }
 

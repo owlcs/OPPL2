@@ -60,14 +60,25 @@ public class OPPLSelectClauseList extends MList {
         }
         this.owlEditorKit = owlEditorKit;
         this.constraintSystem = constraintSystem;
-        DefaultListModel model = clearModel();
+        DefaultListModel<Object> model = clearModel();
         setModel(model);
         setCellRenderer(new OPPLSelectListItemCellRederer());
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public DefaultListModel<Object> getModel() {
+        return (DefaultListModel<Object>) super.getModel();
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setModel(DefaultListModel<Object> model) {
+        super.setModel(model);
+    }
+
     /** @return */
-    private DefaultListModel clearModel() {
-        DefaultListModel model = new DefaultListModel();
+    private DefaultListModel<Object> clearModel() {
+        DefaultListModel<Object> model = new DefaultListModel<Object>();
         model.addElement(new MListSectionHeader() {
             @Override
             public boolean canAdd() {

@@ -49,7 +49,7 @@ public class VariableList extends MList {
         // private final DefaultListCellRenderer defaultCellRenderer = new
         // DefaultListCellRenderer();
         @Override
-        public Component getListCellRendererComponent(JList list, Object value,
+        public Component getListCellRendererComponent(JList<?> list, Object value,
                 int index, boolean isSelected, boolean cellHasFocus) {
             JLabel label = (JLabel) super.getListCellRendererComponent(list, value,
                     index, isSelected, cellHasFocus);
@@ -95,17 +95,26 @@ public class VariableList extends MList {
     public VariableList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
         this.owlEditorKit = owlEditorKit;
         this.constraintSystem = constraintSystem;
-        setModel(new DefaultListModel());
+        setModel(new DefaultListModel<Object>());
         setCellRenderer(variableListCellRenderer);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public final DefaultListModel<Object> getModel() {
+        return (DefaultListModel<Object>) super.getModel();
+    }
+
+    public void setModel(DefaultListModel<Object> model) {
+        super.setModel(model);
     }
 
     @Override
     protected void handleDelete() {
         super.handleDelete();
-        DefaultListModel model = (DefaultListModel) getModel();
         Object selectedValue = getSelectedValue();
         if (selectedValue != null) {
-            model.removeElement(selectedValue);
+            getModel().removeElement(selectedValue);
         }
     }
 
@@ -113,7 +122,7 @@ public class VariableList extends MList {
         return owlEditorKit;
     }
 
-    public ListCellRenderer getVariableListCellRenderer() {
+    public ListCellRenderer<Object> getVariableListCellRenderer() {
         return variableListCellRenderer;
     }
 }

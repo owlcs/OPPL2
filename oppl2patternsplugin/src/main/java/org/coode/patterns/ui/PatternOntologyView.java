@@ -59,7 +59,7 @@ public class PatternOntologyView extends AbstractActiveOntologyViewComponent {
         AbstractPatternModelFactory patternFactory = org.coode.patterns.protege.ProtegeParserFactory
                 .getInstance(getOWLEditorKit()).getPatternFactory();
         list.setRootObject(new PatternAnnotationContainer(getOWLEditorKit()));
-        list.setCellRenderer(new PatternCellRenderer(getOWLEditorKit(), patternFactory));
+        list.setCellRenderer(new PatternCellRenderer(getOWLEditorKit()));
         JScrollPane listPane = ComponentFactory.createScrollPane(list);
         patternManager = PatternManager.getInstance(getOWLEditorKit().getModelManager()
                 .getOWLOntologyManager(), patternFactory);

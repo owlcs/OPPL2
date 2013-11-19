@@ -39,7 +39,6 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.BorderFactory;
 import javax.swing.BoundedRangeModel;
 import javax.swing.DefaultBoundedRangeModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -393,7 +392,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
         considerImportClosureCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ((DefaultListModel) affectedAxioms.getModel()).clear();
+                affectedAxioms.getModel().clear();
                 affectedScrollPane.setBorder(ComponentFactory
                         .createTitledBorder("Affected axioms: "));
                 evaluate.setEnabled(statementModel != null);
@@ -561,8 +560,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
         copyResultsAction.setEnabled(false);
         bindingTreeScrollPane.setBorder(ComponentFactory
                 .createTitledBorder(BINDINGS_TITLE));
-        ListModel model = affectedAxioms.getModel();
-        ((DefaultListModel) model).clear();
+        affectedAxioms.getModel().clear();
         OPPLView.this.affectedScrollPane.setBorder(ComponentFactory
                 .createTitledBorder(AFFECTED_AXIOMS_TITLE));
         if (newState) {

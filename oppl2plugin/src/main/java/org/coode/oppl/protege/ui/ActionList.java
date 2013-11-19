@@ -28,6 +28,7 @@ import java.awt.Graphics;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.border.Border;
 
@@ -55,6 +56,17 @@ public class ActionList extends MList {
         VariableOWLCellRenderer variableAxiomRenderer = new VariableOWLCellRenderer(
                 owlEditorKit, constraintSystem, new OWLCellRenderer(owlEditorKit));
         setCellRenderer(variableAxiomRenderer);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public final DefaultListModel<Object> getModel() {
+        return (DefaultListModel<Object>) super.getModel();
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setModel(DefaultListModel<Object> model) {
+        super.setModel(model);
     }
 
     @Override
