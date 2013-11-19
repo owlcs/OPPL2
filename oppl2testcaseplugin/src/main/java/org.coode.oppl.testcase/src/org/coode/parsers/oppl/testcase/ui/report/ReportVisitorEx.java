@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.oppl.testcase.ui.report;
 
 /** Visitor pattern with return value for {@link Report}

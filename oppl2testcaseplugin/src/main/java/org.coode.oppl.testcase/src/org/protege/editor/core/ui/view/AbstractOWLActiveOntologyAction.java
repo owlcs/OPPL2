@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.protege.editor.core.ui.view;
 
 import javax.swing.Icon;

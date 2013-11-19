@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.oppl.testcase.protege;
 
 import org.protege.editor.core.prefs.PreferencesManager;

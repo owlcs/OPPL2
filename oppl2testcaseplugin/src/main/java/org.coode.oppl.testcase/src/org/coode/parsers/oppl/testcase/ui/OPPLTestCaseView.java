@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.oppl.testcase.ui;
 
 import java.awt.BorderLayout;
@@ -20,9 +18,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 
 /** @author Luigi Iannone */
 public class OPPLTestCaseView extends AbstractActiveOntologyViewComponent {
-    /**
-	 * 
-	 */
+    
     private static final long serialVersionUID = -8432231579317686072L;
     private OPPLTestCaseList list;
     protected final OPPLTestCaseRunPanel testCaseRunPanel = new OPPLTestCaseRunPanel();
@@ -35,9 +31,7 @@ public class OPPLTestCaseView extends AbstractActiveOntologyViewComponent {
         mainPanel.setDividerLocation(.5);
         mainPanel.setResizeWeight(.5);
         list = new OPPLTestCaseList(getOWLEditorKit()) {
-            /**
-			 * 
-			 */
+            
             private static final long serialVersionUID = -4600121675171808887L;
 
             @Override

@@ -28,9 +28,7 @@ public class JOptionPaneEx {
             int messageType, int optionType, final JComponent defaultFocusedComponent) {
         final VerifyingOptionPane optionPane = new VerifyingOptionPane(component,
                 messageType, optionType) {
-            /**
-                 * 
-                 */
+            
             private static final long serialVersionUID = 7128847118051849761L;
 
             @Override

@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package org.coode.parsers.oppl.testcase.ui.report;
 
 import org.coode.parsers.oppl.testcase.OPPLTest;
