@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.parsers.test;
 
 import static org.junit.Assert.assertEquals;

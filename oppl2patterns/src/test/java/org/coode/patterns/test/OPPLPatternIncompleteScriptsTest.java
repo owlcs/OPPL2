@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.patterns.test;
 
 import static org.coode.oppl.patterntestontologies.PatternTestOntologies.test;

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.coode.parsers.test;
 
 import java.util.Arrays;
