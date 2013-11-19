@@ -1,17 +1,34 @@
 <?xml version="1.0" ?>
-  <plugin>
-  	<extension id="OPPLView"
-			point="org.protege.editor.core.application.ViewComponent">
-  		<label value="OPPL"/>
-  		<class value="org.coode.oppl.protege.ui.OPPLView"/>
+<plugin>
+	<extension id="OPPLView" point="org.protege.editor.core.application.ViewComponent">
+		<label value="OPPL"/>
+		<class value="org.coode.oppl.protege.ui.OPPLView"/>
 		<headerColor value="@org.protege.ontologycolor"/>
-        <category value="@org.protege.ontologycategory"/>
-  	</extension>
-  	<extension id="OPPLMacroView"
-			point="org.protege.editor.core.application.ViewComponent">
-  		<label value="OPPL Macros"/>
-  		<class value="org.coode.oppl.protege.ui.OPPLMacroView"/>
+		<category value="@org.protege.ontologycategory"/>
+	</extension>
+	<extension id="OPPLMacroView" point="org.protege.editor.core.application.ViewComponent">
+		<label value="OPPL Macros"/>
+		<class value="org.coode.oppl.protege.ui.OPPLMacroView"/>
 		<headerColor value="@org.protege.ontologycolor"/>
-        <category value="@org.protege.ontologycategory"/>
-  	</extension>  	
-  </plugin>
+		<category value="@org.protege.ontologycategory"/>
+	</extension>
+	<extension id="ClassPatternView" point="org.protege.editor.core.application.ViewComponent">
+		<label value="Patterns"/>
+		<class value="org.coode.patterns.ui.ClassPatternView"/>
+		<headerColor value="@org.protege.classcolor"/>
+		<category value="@org.protege.classcategory"/>
+	</extension>
+	<extension id="OntologyPatternView"
+			point="org.protege.editor.core.application.ViewComponent">
+		<label value="Patterns"/>
+		<class value="org.coode.patterns.ui.PatternOntologyView"/>
+		<headerColor value="@org.protege.ontologycolor"/>
+		<category value="@org.protege.ontologycategory"/>
+	</extension>
+	<extension id="OntologyOPPLTestCaseView" point="org.protege.editor.core.application.ViewComponent">
+		<label value="OPPL Test cases"/>
+		<class value="org.coode.parsers.oppl.testcase.ui.OPPLTestCaseView"/>
+		<headerColor value="@org.protege.ontologycolor"/>
+		<category value="@org.protege.ontologycategory"/>
+	</extension>
+</plugin>

@@ -11,6 +11,8 @@ import java.util.Set;
 
 import org.antlr.runtime.Token;
 import org.antlr.runtime.tree.CommonTree;
+import org.coode.oppl.semanticweb.owlapi.model.OWLPropertyChain;
+import org.coode.oppl.semanticweb.owlapi.model.OWLPropertyChainImpl;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
@@ -40,8 +42,6 @@ import org.semanticweb.owlapi.model.OWLObjectComplementOf;
 import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
-import org.semanticweb.owlapi.model.OWLPropertyChain;
-import org.semanticweb.owlapi.model.OWLPropertyChainImpl;
 import org.semanticweb.owlapi.model.OWLPropertyExpression;
 import org.semanticweb.owlapi.model.OWLQuantifiedRestriction;
 import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
@@ -1430,7 +1430,7 @@ public class SymbolTable {
         return toReturn;
     }
 
-    protected org.semanticweb.owlapi.model.OWLPropertyChain createOWLPropertyChain(
+    protected org.coode.oppl.semanticweb.owlapi.model.OWLPropertyChain createOWLPropertyChain(
             OWLObjectPropertyExpression firstPropertyExpression,
             OWLObjectPropertyExpression secondPropertyExpression,
             OWLObjectPropertyExpression... others) {

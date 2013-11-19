@@ -22,6 +22,9 @@
 						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Name>${project.artifactId}</Bundle-Name>
 						<Export-Package>{local-packages}</Export-Package>
+						<Import-Package>org.antlr.*, org.protege.*, javax.*, org.w3c.*, org.xml.*, org.coode.oppl.*, org.coode.parsers.*, org.coode.patterns.*, org.semanticweb.owlapi.*</Import-Package>
+						<Embed-Dependency>antlr,antlr-runtime</Embed-Dependency>
+						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -32,6 +35,16 @@
 			<groupId>net.sourceforge.owlapi</groupId>
 			<version>2.1.0-SNAPSHOT</version>
 			<artifactId>oppl2-oppl2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<version>2.1.0-SNAPSHOT</version>
+			<artifactId>oppl2-oppl2patterns</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>oppl2-oppl2testcase</artifactId>
+			<version>2.1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.stanford.protege</groupId>

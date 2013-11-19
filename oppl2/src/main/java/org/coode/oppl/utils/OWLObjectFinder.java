@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.coode.owl.structural.position.OWLObjectDecomposer;
 import org.semanticweb.owlapi.model.OWLObject;
 
 public class OWLObjectFinder {

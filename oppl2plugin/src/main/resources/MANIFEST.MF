@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: OPPL
+Bundle-Name: OPPL and OPPL Patterns
 Bundle-SymbolicName: org.coode.oppl;singleton:=true
 Bundle-Category: protege
 Update-Url: http://oppl2.sourceforge.net/downloads/Protege4.1/update.properties
-Bundle-Description: OPPL plug-in for Protege 4
+Bundle-Description: OPPL 2 and OPPL Patterns plug-in for Protege 4
 Bundle-Vendor: The CO-ODE Group
 Bundle-DocURL: http://www.co-ode.org
 Import-Package: org.osgi.framework,
@@ -34,7 +34,7 @@ Import-Package: org.osgi.framework,
  org.xml.sax.ext,
  org.xml.sax.helpers,
  javax.xml.parsers
-Export-Package: org.coode.ui, org.coode.oppl,org.coode.oppl.bindingtree, org.coode.oppl.entity, org.coode.oppl.exceptions, org.coode.oppl.datafactory, org.coode.oppl.function, org.coode.oppl.function.inline, org.coode.oppl.generated, org.coode.oppl.log, org.coode.oppl.querymatching, org.coode.oppl.rendering, org.coode.oppl.search, org.coode.oppl.search.solvability, org.coode.oppl.similarity, org.coode.oppl.utils, org.coode.oppl.validation, org.coode.oppl.variabletypes, org.coode.parsers.oppl, org.coode.parsers.oppl.factory, org.coode.parsers.oppl.variableattribute,  org.coode.oppl.protege.model,  org.coode.parsers, org.coode.parsers.common, org.coode.parsers.common.exception,  org.coode.parsers.oppl,  org.coode.parsers.ui,  org.coode.parsers.factory,  org.coode.oppl.visitors,  org.coode.oppl.exceptions,  org.coode.oppl.bindingtree,  org.coode.oppl.protege,  org.coode.parsers.ui.autocompletionmatcher, org.coode.oppl.protege.ui, org.coode.parsers.oppl.ui.autocompletionmatcher,  org.coode.oppl.protege.ui.message,  org.coode.oppl.generated,  org.coode.oppl.generated.factory,  org.coode.oppl.validation,  org.coode.oppl.syntax,  org.coode.oppl.utils, org.antlr.grammar.v2, org.antlr.grammar.v3, org.antlr.gunit, org.antlr.gunit.swingui, org.antlr.gunit.swingui.model, org.antlr.gunit.swingui.parsers, org.antlr.gunit.swingui.runner, org.antlr.misc, org.antlr.runtime, org.antlr.runtime.debug, org.antlr.runtime.misc, org.antlr.runtime.tree, org.antlr.stringtemplate, org.antlr.stringtemplate.language, org.antlr.stringtemplate.misc, org.antlr.tool
+Export-Package: org.coode.ui, org.coode.oppl,org.coode.oppl.bindingtree, org.coode.oppl.entity, org.coode.oppl.exceptions, org.coode.oppl.datafactory, org.coode.oppl.function, org.coode.oppl.function.inline, org.coode.oppl.generated, org.coode.oppl.log, org.coode.oppl.querymatching, org.coode.oppl.rendering, org.coode.oppl.search, org.coode.oppl.search.solvability, org.coode.oppl.similarity, org.coode.oppl.utils, org.coode.oppl.validation, org.coode.oppl.variabletypes, org.coode.parsers.oppl, org.coode.parsers.oppl.factory, org.coode.parsers.oppl.variableattribute,  org.coode.oppl.protege.model,  org.coode.parsers, org.coode.parsers.common, org.coode.parsers.common.exception,  org.coode.parsers.oppl,  org.coode.parsers.ui,  org.coode.parsers.factory,  org.coode.oppl.visitors,  org.coode.oppl.exceptions,  org.coode.oppl.bindingtree,  org.coode.oppl.protege,  org.coode.parsers.ui.autocompletionmatcher, org.coode.oppl.protege.ui, org.coode.parsers.oppl.ui.autocompletionmatcher,  org.coode.oppl.protege.ui.message,  org.coode.oppl.generated,  org.coode.oppl.generated.factory,  org.coode.oppl.validation,  org.coode.oppl.syntax,  org.coode.oppl.utils, org.antlr.grammar.v2, org.antlr.grammar.v3, org.antlr.gunit, org.antlr.gunit.swingui, org.antlr.gunit.swingui.model, org.antlr.gunit.swingui.parsers, org.antlr.gunit.swingui.runner, org.antlr.misc, org.antlr.runtime, org.antlr.runtime.debug, org.antlr.runtime.misc, org.antlr.runtime.tree, org.antlr.stringtemplate, org.antlr.stringtemplate.language, org.antlr.stringtemplate.misc, org.antlr.tool, org.coode.parsers.oppl.testcase, org.coode.parsers.oppl.testcase.assertions
 Bundle-Version: 1.5.5
 Bundle-Activator: org.protege.editor.core.plugin.DefaultPluginActivator 
 Bundle-ClassPath: .,lib/swing-worker-1.2.jar,lib/parsers.jar,lib/antlr-3.2.jar

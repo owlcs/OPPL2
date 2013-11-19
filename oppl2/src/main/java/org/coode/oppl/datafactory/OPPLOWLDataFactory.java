@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.coode.oppl.function.inline.InlineSet;
+import org.coode.oppl.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import org.semanticweb.owlapi.vocab.OWLFacet;

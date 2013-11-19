@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.coode.oppl.Variable;
 import org.coode.oppl.utils.OWLObjectFinder;
+import org.coode.oppl.utils.Position;
 import org.coode.oppl.variabletypes.VariableFactory;
-import org.coode.owl.structural.position.Position;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
