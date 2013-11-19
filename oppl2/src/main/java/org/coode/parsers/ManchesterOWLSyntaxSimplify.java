@@ -245,9 +245,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        if (_first_0 == null) {
-                            _first_0 = conjunction1.tree;
-                        }
+                        _first_0 = conjunction1.tree;
                     }
                     if (state.backtracking == 1) {
                         retval.tree = _first_0;
@@ -271,9 +269,7 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        if (_first_0 == null) {
-                            _first_0 = disjunction2.tree;
-                        }
+                        _first_0 = disjunction2.tree;
                     }
                     if (state.backtracking == 1) {
                         retval.tree = _first_0;
@@ -310,7 +306,6 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
         ManchesterOWLSyntaxSimplify.conjunction_return retval = new ManchesterOWLSyntaxSimplify.conjunction_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
-        ManchesterOWLSyntaxTree _first_0 = null;
         ManchesterOWLSyntaxTree _last = null;
         ManchesterOWLSyntaxTree CONJUNCTION3 = null;
         ManchesterOWLSyntaxTree single = null;
@@ -325,7 +320,6 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                 _last = (ManchesterOWLSyntaxTree) input.LT(1);
                 {
                     ManchesterOWLSyntaxTree _save_last_1 = _last;
-                    ManchesterOWLSyntaxTree _first_1 = null;
                     _last = (ManchesterOWLSyntaxTree) input.LT(1);
                     CONJUNCTION3 = (ManchesterOWLSyntaxTree) match(input, CONJUNCTION,
                             FOLLOW_CONJUNCTION_in_conjunction101);
@@ -334,11 +328,6 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                     }
                     if (state.backtracking == 1) {
                         stream_CONJUNCTION.add(CONJUNCTION3);
-                    }
-                    if (state.backtracking == 1) {
-                        if (_first_0 == null) {
-                            _first_0 = CONJUNCTION3;
-                        }
                     }
                     match(input, Token.DOWN, null);
                     if (state.failed) {
@@ -349,11 +338,6 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                     matchAny(input);
                     if (state.failed) {
                         return retval;
-                    }
-                    if (state.backtracking == 1) {
-                        if (_first_1 == null) {
-                            _first_1 = single;
-                        }
                     }
                     match(input, Token.UP, null);
                     if (state.failed) {
@@ -408,7 +392,6 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
         ManchesterOWLSyntaxSimplify.disjunction_return retval = new ManchesterOWLSyntaxSimplify.disjunction_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree root_0 = null;
-        ManchesterOWLSyntaxTree _first_0 = null;
         ManchesterOWLSyntaxTree _last = null;
         ManchesterOWLSyntaxTree DISJUNCTION4 = null;
         ManchesterOWLSyntaxTree single = null;
@@ -423,7 +406,6 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                 _last = (ManchesterOWLSyntaxTree) input.LT(1);
                 {
                     ManchesterOWLSyntaxTree _save_last_1 = _last;
-                    ManchesterOWLSyntaxTree _first_1 = null;
                     _last = (ManchesterOWLSyntaxTree) input.LT(1);
                     DISJUNCTION4 = (ManchesterOWLSyntaxTree) match(input, DISJUNCTION,
                             FOLLOW_DISJUNCTION_in_disjunction127);
@@ -432,11 +414,6 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                     }
                     if (state.backtracking == 1) {
                         stream_DISJUNCTION.add(DISJUNCTION4);
-                    }
-                    if (state.backtracking == 1) {
-                        if (_first_0 == null) {
-                            _first_0 = DISJUNCTION4;
-                        }
                     }
                     match(input, Token.DOWN, null);
                     if (state.failed) {
@@ -447,11 +424,6 @@ public class ManchesterOWLSyntaxSimplify extends TreeRewriter {
                     matchAny(input);
                     if (state.failed) {
                         return retval;
-                    }
-                    if (state.backtracking == 1) {
-                        if (_first_1 == null) {
-                            _first_1 = single;
-                        }
                     }
                     match(input, Token.UP, null);
                     if (state.failed) {

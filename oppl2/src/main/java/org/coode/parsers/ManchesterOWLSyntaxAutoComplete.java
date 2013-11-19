@@ -885,8 +885,8 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         ((ManchesterOWLSyntaxTree) retval.start)
-                                .setCompletions((qualifiedRestriction4 != null ? qualifiedRestriction4.node
-                                        : null).getCompletions());
+                                .setCompletions(qualifiedRestriction4 != null ? qualifiedRestriction4.node
+                                        .getCompletions() : null);
                     }
                 }
                     break;
@@ -1005,8 +1005,8 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     if (state.backtracking == 1) {
                         ((ManchesterOWLSyntaxTree) retval.start)
                                 .setCompletions(getSymbolTable()
-                                        .match((complexPropertyExpression8 != null ? complexPropertyExpression8.node
-                                                : null).getText()));
+                                        .match(complexPropertyExpression8 != null ? complexPropertyExpression8.node
+                                                .getText() : null));
                     }
                 }
                     break;
@@ -1320,8 +1320,8 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         ((ManchesterOWLSyntaxTree) retval.start)
-                                .setCompletions((cardinalityRestriction11 != null ? cardinalityRestriction11.node
-                                        : null).getCompletions());
+                                .setCompletions(cardinalityRestriction11 != null ? cardinalityRestriction11.node
+                                        .getCompletions() : null);
                     }
                 }
                     break;
@@ -1337,8 +1337,8 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         ((ManchesterOWLSyntaxTree) retval.start)
-                                .setCompletions((oneOf12 != null ? oneOf12.node : null)
-                                        .getCompletions());
+                                .setCompletions(oneOf12 != null ? oneOf12.node
+                                        .getCompletions() : null);
                     }
                 }
                     break;
@@ -1354,8 +1354,8 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         ((ManchesterOWLSyntaxTree) retval.start)
-                                .setCompletions((valueRestriction13 != null ? valueRestriction13.node
-                                        : null).getCompletions());
+                                .setCompletions(valueRestriction13 != null ? valueRestriction13.node
+                                        .getCompletions() : null);
                     }
                 }
                     break;
