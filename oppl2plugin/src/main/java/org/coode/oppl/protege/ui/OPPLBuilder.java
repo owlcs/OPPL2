@@ -55,7 +55,6 @@ import org.coode.oppl.validation.OPPLScriptValidator;
 import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.parsers.ui.InputVerificationStatusChangedListener;
 import org.coode.parsers.ui.VerifiedInputEditor;
-import org.protege.editor.core.ui.list.MList;
 import org.protege.editor.core.ui.list.MListSectionHeader;
 import org.protege.editor.core.ui.util.ComponentFactory;
 import org.protege.editor.core.ui.util.VerifyingOptionPane;
@@ -71,7 +70,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 /** @author Luigi Iannone */
 public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
         OWLModelManagerListener {
-    private class OPPLConstraintList extends MList {
+    private class OPPLConstraintList extends OPPLMList {
         private static final long serialVersionUID = 20100L;
         private final OWLEditorKit owlKit;
         private final ConstraintSystem constraintSystem;
@@ -87,17 +86,6 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
                 return true;
             }
         };
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public final DefaultListModel<Object> getModel() {
-            return (DefaultListModel<Object>) super.getModel();
-        }
-
-        @SuppressWarnings("unchecked")
-        public void setModel(DefaultListModel<Object> model) {
-            super.setModel(model);
-        }
 
         /** @param owlEditorKit
          * @param constraintSystem
@@ -204,8 +192,8 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 
         public void clear() {
             setModel(new DefaultListModel<Object>());
-            getModel().clear();
-            getModel().addElement(HEADER);
+            getDefaultModel().clear();
+            getDefaultModel().addElement(HEADER);
         }
     }
 
@@ -975,15 +963,15 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
 
         protected OPPLVariableList(OWLEditorKit owlEditorKit, OPPLBuilderModel model) {
             super(owlEditorKit, model.getConstraintSystem());
-            getModel().addElement(new InputVariableSectionHeader());
-            getModel().addElement(new GeneratedVariableSectionHeader());
+            getDefaultModel().addElement(new InputVariableSectionHeader());
+            getDefaultModel().addElement(new GeneratedVariableSectionHeader());
             this.model = model;
         }
 
         protected void clear() {
-            getModel().clear();
-            getModel().addElement(new InputVariableSectionHeader());
-            getModel().addElement(new GeneratedVariableSectionHeader());
+            getDefaultModel().clear();
+            getDefaultModel().addElement(new InputVariableSectionHeader());
+            getDefaultModel().addElement(new GeneratedVariableSectionHeader());
         }
 
         /** @param listItem */
@@ -992,7 +980,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
             if (listItem.getVariable() instanceof GeneratedVariable<?>) {
                 i = getModel().getSize();
             } else {
-                Enumeration<?> elements = getModel().elements();
+                Enumeration<?> elements = getDefaultModel().elements();
                 boolean found = false;
                 while (!found && elements.hasMoreElements()) {
                     i++;
@@ -1003,7 +991,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
                     throw new RuntimeException("Section lost");
                 }
             }
-            getModel().add(i, listItem);
+            getDefaultModel().add(i, listItem);
         }
     }
 
@@ -1137,22 +1125,24 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
         }
         selectList.clear();
         for (OWLAxiom axiom : opplBuilderModel.getAssertedQueryAxioms()) {
-            selectList.getModel().addElement(new OPPLSelectClauseListItem(true, axiom));
+            selectList.getDefaultModel().addElement(
+                    new OPPLSelectClauseListItem(true, axiom));
         }
         for (OWLAxiom axiom : opplBuilderModel.getPlainQueryAxioms()) {
-            selectList.getModel().addElement(new OPPLSelectClauseListItem(false, axiom));
+            selectList.getDefaultModel().addElement(
+                    new OPPLSelectClauseListItem(false, axiom));
         }
         constraintList.clear();
         List<AbstractConstraint> constraints = opplBuilderModel.getConstraints();
         for (AbstractConstraint constraint : constraints) {
-            constraintList.getModel().addElement(
+            constraintList.getDefaultModel().addElement(
                     new OPPLConstraintListItem(owlEditorKit, constraint, opplBuilderModel
                             .getConstraintSystem()));
         }
         actionList.clear();
         List<OWLAxiomChange> actions = opplBuilderModel.getActions();
         for (OWLAxiomChange axiomChange : actions) {
-            actionList.getModel().addElement(
+            actionList.getDefaultModel().addElement(
                     new OPPLActionListItem(axiomChange, true, true, getOWLEditorKit(),
                             opplBuilderModel));
         }

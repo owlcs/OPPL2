@@ -28,20 +28,17 @@ import java.awt.Graphics;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.border.Border;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.protege.ui.rendering.VariableOWLCellRenderer;
-import org.protege.editor.core.ui.list.MList;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /** @author Luigi Iannone */
-public class ActionList extends MList {
-    
+public class ActionList extends OPPLMList {
     private static final long serialVersionUID = 20100L;
     private final OWLEditorKit owlEditorKit;
     private final boolean canAdd;
@@ -54,17 +51,6 @@ public class ActionList extends MList {
         VariableOWLCellRenderer variableAxiomRenderer = new VariableOWLCellRenderer(
                 owlEditorKit, constraintSystem, new OWLCellRenderer(owlEditorKit));
         setCellRenderer(variableAxiomRenderer);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public final DefaultListModel<Object> getModel() {
-        return (DefaultListModel<Object>) super.getModel();
-    }
-
-    @SuppressWarnings("unchecked")
-    public void setModel(DefaultListModel<Object> model) {
-        super.setModel(model);
     }
 
     @Override

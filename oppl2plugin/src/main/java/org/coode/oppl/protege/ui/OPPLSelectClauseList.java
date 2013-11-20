@@ -36,14 +36,12 @@ import javax.swing.border.Border;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.protege.ui.rendering.VariableOWLCellRenderer;
-import org.protege.editor.core.ui.list.MList;
 import org.protege.editor.core.ui.list.MListSectionHeader;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 
 /** @author Luigi Iannone */
-public class OPPLSelectClauseList extends MList {
-    
+public class OPPLSelectClauseList extends OPPLMList {
     private static final long serialVersionUID = 20100L;
     private final OWLEditorKit owlEditorKit;
     private final ConstraintSystem constraintSystem;
@@ -61,17 +59,6 @@ public class OPPLSelectClauseList extends MList {
         DefaultListModel<Object> model = clearModel();
         setModel(model);
         setCellRenderer(new OPPLSelectListItemCellRederer());
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public DefaultListModel<Object> getModel() {
-        return (DefaultListModel<Object>) super.getModel();
-    }
-
-    @SuppressWarnings("unchecked")
-    public void setModel(DefaultListModel<Object> model) {
-        super.setModel(model);
     }
 
     /** @return */

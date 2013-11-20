@@ -365,7 +365,6 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
             }
         }
 
-        
         private static final long serialVersionUID = 20100L;
     }
 
@@ -491,8 +490,8 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
 
         public PatternVariableList(OWLEditorKit owlEditorKit) {
             super(owlEditorKit, patternBuilderModel.getConstraintSystem());
-            getModel().addElement(new InputVariableSectionHeader());
-            getModel().addElement(new GeneratedVariableSectionHeader());
+            getDefaultModel().addElement(new InputVariableSectionHeader());
+            getDefaultModel().addElement(new GeneratedVariableSectionHeader());
             getModel().addListDataListener(this);
         }
 
@@ -515,9 +514,9 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         }
 
         public void clear() {
-            getModel().clear();
-            getModel().addElement(new InputVariableSectionHeader());
-            getModel().addElement(new GeneratedVariableSectionHeader());
+            getDefaultModel().clear();
+            getDefaultModel().addElement(new InputVariableSectionHeader());
+            getDefaultModel().addElement(new GeneratedVariableSectionHeader());
         }
 
         @Override
@@ -536,7 +535,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
             if (listItem.getVariable() instanceof GeneratedVariable<?>) {
                 i = getModel().getSize();
             } else {
-                Enumeration<?> elements = getModel().elements();
+                Enumeration<?> elements = getDefaultModel().elements();
                 boolean found = false;
                 while (!found && elements.hasMoreElements()) {
                     i++;
@@ -547,7 +546,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
                     throw new RuntimeException("Section lost");
                 }
             }
-            getModel().add(i, listItem);
+            getDefaultModel().add(i, listItem);
         }
     }
 
@@ -905,7 +904,6 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         return "Build Pattern Model";
     }
 
-    
     private void removeKeyListeners() {
         KeyListener[] keyListeners = nameEditor.getKeyListeners();
         for (KeyListener keyListener : keyListeners) {

@@ -37,12 +37,11 @@ import org.coode.oppl.VariableScope;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.utils.AbstractVariableVisitorExAdapter;
 import org.coode.oppl.variabletypes.InputVariable;
-import org.protege.editor.core.ui.list.MList;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owlapi.model.OWLObject;
 
 /** @author Luigi Iannone */
-public class VariableList extends MList {
+public class VariableList extends OPPLMList {
     class VariableListCellRenderer extends DefaultListCellRenderer {
         private static final long serialVersionUID = 20100L;
 
@@ -99,22 +98,12 @@ public class VariableList extends MList {
         setCellRenderer(variableListCellRenderer);
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public final DefaultListModel<Object> getModel() {
-        return (DefaultListModel<Object>) super.getModel();
-    }
-
-    public void setModel(DefaultListModel<Object> model) {
-        super.setModel(model);
-    }
-
     @Override
     protected void handleDelete() {
         super.handleDelete();
         Object selectedValue = getSelectedValue();
         if (selectedValue != null) {
-            getModel().removeElement(selectedValue);
+            getDefaultModel().removeElement(selectedValue);
         }
     }
 

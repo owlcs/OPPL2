@@ -66,6 +66,7 @@ import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.protege.ui.ActionList;
 import org.coode.oppl.protege.ui.ActionListItem;
 import org.coode.oppl.protege.ui.NoDefaultFocusVerifyingOptionPane;
+import org.coode.oppl.protege.ui.OPPLMList;
 import org.coode.oppl.protege.ui.ShowMessageRuntimeExceptionHandler;
 import org.coode.oppl.protege.ui.VariableList;
 import org.coode.oppl.protege.ui.VariableListItem;
@@ -164,19 +165,9 @@ public class PatternInstantiationEditor extends
         }
     }
 
-    private class VariableValuesMList extends MList {
+    private class VariableValuesMList extends OPPLMList {
         private static final long serialVersionUID = 20100L;
         protected final Variable<?> variable;
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public final DefaultListModel<Object> getModel() {
-            return (DefaultListModel<Object>) super.getModel();
-        }
-
-        public void setModel(DefaultListModel<Object> model) {
-            super.setModel(model);
-        }
 
         @Override
         protected void handleAdd() {
@@ -207,7 +198,7 @@ public class PatternInstantiationEditor extends
                                 .getVariableValues();
                         for (OWLObject object : variableValues) {
                             instantiatedPatternModel.instantiate(variable, object);
-                            getModel().addElement(
+                            getDefaultModel().addElement(
                                     new VariableValueListItem(variable, object));
                         }
                     }
@@ -262,7 +253,7 @@ public class PatternInstantiationEditor extends
                 OWLObject value = item.getValue();
                 instantiatedPatternModel.removeInstantiation(v, value);
             }
-            getModel().removeElement(getSelectedValue());
+            getDefaultModel().removeElement(getSelectedValue());
             super.handleDelete();
         }
     }
@@ -455,7 +446,6 @@ public class PatternInstantiationEditor extends
             @Override
             public void actionPerformed(ActionEvent e) {
                 MList list = new MList() {
-                    
                     private static final long serialVersionUID = 20100L;
 
                     @Override
@@ -629,7 +619,7 @@ public class PatternInstantiationEditor extends
     }
 
     protected void refreshEffectsPanel() {
-        actionList.getModel().clear();
+        actionList.getDefaultModel().clear();
         if (instantiatedPatternModel != null) {
             actionList
                     .setConstraintSystem(instantiatedPatternModel.getConstraintSystem());
@@ -675,7 +665,7 @@ public class PatternInstantiationEditor extends
                 }
             }
             for (OWLAxiomChange axiomChange : changes) {
-                actionList.getModel().addElement(
+                actionList.getDefaultModel().addElement(
                         new ActionListItem(axiomChange, false, false));
             }
         }
@@ -684,9 +674,9 @@ public class PatternInstantiationEditor extends
     }
 
     protected void refreshInstantiationPanel() {
-        DefaultListModel<Object> model = variableList.getModel();
+        DefaultListModel<Object> model = variableList.getDefaultModel();
         model.clear();
-        valueList.getModel().clear();
+        valueList.getDefaultModel().clear();
         if (instantiatedPatternModel != null) {
             List<InputVariable<?>> inputVariables = instantiatedPatternModel
                     .getInputVariables();
@@ -800,7 +790,7 @@ public class PatternInstantiationEditor extends
                     .getInstantiations(variable);
             if (instantiations != null) {
                 for (OWLObject object : instantiations) {
-                    valueList.getModel().addElement(
+                    valueList.getDefaultModel().addElement(
                             new VariableValueListItem(variable, object) {
                                 @Override
                                 public String getTooltip() {

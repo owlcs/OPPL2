@@ -74,7 +74,6 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
  * @author Luigi Iannone */
 public class OPPLMacroView extends AbstractOWLViewComponent implements
         OWLOntologyChangeListener, ListDataListener, OPPLMacroListener {
-    
     private static final long serialVersionUID = 20100L;
     private RuntimeExceptionHandler runtimeExceptionHandler;
     protected ActionList recordedActions;
@@ -134,7 +133,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
             @Override
             public void actionPerformed(ActionEvent e) {
                 StringBuilder opplString = new StringBuilder();
-                DefaultListModel<Object> variableModel = variableList.getModel();
+                DefaultListModel<Object> variableModel = variableList.getDefaultModel();
                 boolean first = true;
                 for (int i = 0; i < variableModel.getSize(); i++) {
                     Object variableElement = variableModel.getElementAt(i);
@@ -169,7 +168,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
                     }
                 }
                 first = true;
-                DefaultListModel<Object> actionModel = recordedActions.getModel();
+                DefaultListModel<Object> actionModel = recordedActions.getDefaultModel();
                 opplString.append("\nBEGIN");
                 VariableOWLCellRenderer cellRenderer = new VariableOWLCellRenderer(
                         OPPLMacroView.this.getOWLEditorKit(), constraintSystem,
@@ -203,8 +202,8 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                recordedActions.getModel().clear();
-                variableList.getModel().clear();
+                recordedActions.getDefaultModel().clear();
+                variableList.getDefaultModel().clear();
             }
         });
         recorderToolBar.setFloatable(false);
@@ -253,7 +252,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
     @Override
     public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
             throws OWLException {
-        DefaultListModel<Object> existingListModel = recordedActions.getModel();
+        DefaultListModel<Object> existingListModel = recordedActions.getDefaultModel();
         ActionListModel updatedListModel = new ActionListModel(false);
         updatedListModel.addListDataListener(this);
         recordedActions.setModel(updatedListModel);
@@ -283,9 +282,9 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
 
     private void refreshEntities() {
         copy2ClipboardButton.setEnabled(recordedActions.getModel().getSize() > 0);
-        DefaultListModel<Object> model = recordedActions.getModel();
+        DefaultListModel<Object> model = recordedActions.getDefaultModel();
         int size = model.getSize();
-        DefaultListModel<Object> entitiesModel = entities.getModel();
+        DefaultListModel<Object> entitiesModel = entities.getDefaultModel();
         entitiesModel.clear();
         for (int i = 0; i < size; i++) {
             Object element = model.getElementAt(i);
@@ -328,11 +327,10 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
         VariableListItem variableListItem = new VariableListItem(variable,
                 getConstraintSystem(), getOWLEditorKit(), true, true);
         variableListItem.addOPPLMacroListener(this);
-        variableList.getModel().addElement(variableListItem);
+        variableList.getDefaultModel().addElement(variableListItem);
         updateActions();
     }
 
-    
     private void updateActions() {
         List<Variable<?>> variables = entities.getVariables();
         ActionListModel model = (ActionListModel) recordedActions.getModel();

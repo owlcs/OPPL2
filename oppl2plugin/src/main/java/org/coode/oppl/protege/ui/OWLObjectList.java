@@ -43,7 +43,6 @@ import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.protege.ui.rendering.VariableOWLCellRenderer;
 import org.coode.oppl.variabletypes.VariableType;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
-import org.protege.editor.core.ui.list.MList;
 import org.protege.editor.core.ui.list.MListButton;
 import org.protege.editor.core.ui.list.MListItem;
 import org.protege.editor.core.ui.util.ComponentFactory;
@@ -55,9 +54,8 @@ import org.semanticweb.owlapi.model.OWLObject;
  * elements
  * 
  * @author Luigi Iannone */
-public class OWLObjectList extends MList implements ActionListener,
+public class OWLObjectList extends OPPLMList implements ActionListener,
         OPPLMacroStatusChange, ListDataListener {
-    
     private static final long serialVersionUID = 20100L;
 
     /** This button will generalise the corresponding OWLObject into the
@@ -106,16 +104,6 @@ public class OWLObjectList extends MList implements ActionListener,
                 new OWLCellRenderer(owlEditorKit)));
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public final DefaultListModel<Object> getModel() {
-        return (DefaultListModel<Object>) super.getModel();
-    }
-
-    public void setModel(DefaultListModel<Object> model) {
-        super.setModel(model);
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof CreateNewVariableButton) {
@@ -133,7 +121,7 @@ public class OWLObjectList extends MList implements ActionListener,
             VariableType<?> variableType = VariableTypeFactory.getVariableType(owlObject);
             for (Variable<?> variable : getVariables()) {
                 if (variable.getType().equals(variableType)) {
-                    variableList.getModel().addElement(
+                    variableList.getDefaultModel().addElement(
                             new VariableListItem(variable, getConstraintSystem(),
                                     getOWLEditorKit(), false, false));
                 }
@@ -161,7 +149,6 @@ public class OWLObjectList extends MList implements ActionListener,
         }
     }
 
-    
     private void createVariable() {
         Object[] selectedValues = getSelectedValues();
         for (Object object : selectedValues) {
@@ -181,7 +168,7 @@ public class OWLObjectList extends MList implements ActionListener,
                                 .addLeaf(variable, owlObject);
                         if (added) {
                             addVariable(variable);
-                            getModel().removeElement(owlObjectListItem);
+                            getDefaultModel().removeElement(owlObjectListItem);
                         } else {
                             JOptionPane.showMessageDialog(getParent(),
                                     "Incompatible variable selected", owlEditorKit

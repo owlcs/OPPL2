@@ -333,7 +333,6 @@ public final class OPPLView extends AbstractOWLViewComponent implements
         }
     }
 
-    
     private static final long serialVersionUID = 20100L;
     private static final String OPPL_COMPUTATION_IN_PROGRESS_PLEASE_WAIT = "OPPL Computation in progress...please wait";
     private OPPLEditor editor;
@@ -390,7 +389,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
         considerImportClosureCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                affectedAxioms.getModel().clear();
+                affectedAxioms.getDefaultModel().clear();
                 affectedScrollPane.setBorder(ComponentFactory
                         .createTitledBorder("Affected axioms: "));
                 evaluate.setEnabled(statementModel != null);
@@ -558,7 +557,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
         copyResultsAction.setEnabled(false);
         bindingTreeScrollPane.setBorder(ComponentFactory
                 .createTitledBorder(BINDINGS_TITLE));
-        affectedAxioms.getModel().clear();
+        affectedAxioms.getDefaultModel().clear();
         OPPLView.this.affectedScrollPane.setBorder(ComponentFactory
                 .createTitledBorder(AFFECTED_AXIOMS_TITLE));
         if (newState) {

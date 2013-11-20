@@ -1,8 +1,6 @@
-
 package org.coode.parsers.oppl.testcase;
 
-import org.junit.Assert;
-
+//import org.junit.Assert;
 /** @author Luigi Iannone */
 public class JUnitTestCaseRunner extends TestCaseRunner {
     /** @param opplTestCase */
@@ -14,15 +12,15 @@ public class JUnitTestCaseRunner extends TestCaseRunner {
     protected void fail(OPPLTest test) {
         String message = test.getMessage();
         if (message != OPPLTest.NO_MESSAGE) {
-            Assert.fail(test.getMessage());
+            // Assert.fail(test.getMessage());
         } else {
-            Assert.fail();
+            // Assert.fail();
         }
     }
 
     @Override
     protected void fail(Throwable e) {
-        Assert.fail(e.getMessage());
+        // Assert.fail(e.getMessage());
     }
 
     @Override
@@ -30,6 +28,6 @@ public class JUnitTestCaseRunner extends TestCaseRunner {
 
     @Override
     protected void configurationFailed(String message) {
-        Assert.fail(message);
+        // Assert.fail(message);
     }
 }
