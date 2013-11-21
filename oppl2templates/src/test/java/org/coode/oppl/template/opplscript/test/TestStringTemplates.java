@@ -12,7 +12,7 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.template.ParsingStrategy;
-import org.coode.oppl.template.commons.JavaFormatterReplacementStrategy;
+import org.coode.oppl.template.commons.StringFormatReplacementStrategy;
 import org.coode.oppl.template.commons.KeyBasedReplacementStrategy;
 import org.coode.oppl.template.commons.StringTemplate;
 import org.coode.oppl.template.commons.opplscript.AnnotationBasedSimpleOPPLParserCreationStrategy;
@@ -80,7 +80,7 @@ public class TestStringTemplates {
                 ontologyManager, emptyOntology, null, ERROR_LISTENER);
         String template = "?x:CLASS SELECT ?x subClassOf Thing BEGIN ADD ?x subClassOf Thing END;";
         StringTemplate<OPPLScript> stringTemplate = new StringTemplate<OPPLScript>(
-                template, new JavaFormatterReplacementStrategy(Collections.emptyList()),
+                template, new StringFormatReplacementStrategy(Collections.emptyList()),
                 parserCreationStrategy);
         OPPLScript opplScript = stringTemplate.replace();
         assertNotNull(opplScript);
@@ -94,7 +94,7 @@ public class TestStringTemplates {
                 ontologyManager, emptyOntology, null, ERROR_LISTENER);
         String template = "?x:CLASS SELECT ?x subClassOf %s BEGIN ADD ?x subClassOf Thing END;";
         StringTemplate<OPPLScript> stringTemplate = new StringTemplate<OPPLScript>(
-                template, new JavaFormatterReplacementStrategy(Arrays.asList("Thing")),
+                template, new StringFormatReplacementStrategy(Arrays.asList("Thing")),
                 parserCreationStrategy);
         OPPLScript opplScript = stringTemplate.replace();
         assertNotNull(opplScript);
@@ -109,7 +109,7 @@ public class TestStringTemplates {
                     ontologyManager, emptyOntology, null, ERROR_LISTENER);
             String template = "?x:CLASS SELECT ?x subClassOf %s BEGIN ADD ?x subClassOf Thing END;";
             StringTemplate<OPPLScript> stringTemplate = new StringTemplate<OPPLScript>(
-                    template, new JavaFormatterReplacementStrategy(
+                    template, new StringFormatReplacementStrategy(
                             Collections.emptyList()), parserCreationStrategy);
             stringTemplate.replace();
             fail("Should not get to here");
