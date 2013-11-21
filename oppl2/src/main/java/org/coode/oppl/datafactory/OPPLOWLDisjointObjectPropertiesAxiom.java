@@ -27,9 +27,14 @@ import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 public class OPPLOWLDisjointObjectPropertiesAxiom extends
         AbstractInlineSetAxiom<OWLObjectPropertyExpression> implements
         OWLDisjointObjectPropertiesAxiom {
+    private static final long serialVersionUID = 20100L;
     private final OWLDisjointObjectPropertiesAxiom delegate;
     private final boolean shouldExpandAsPairWise;
 
+    /** @param dataFactory
+     * @param propertyExpressions
+     * @param annotations
+     * @param shouldExpandAsPairWise */
     public OPPLOWLDisjointObjectPropertiesAxiom(OPPLOWLDataFactory dataFactory,
             InlineSet<OWLObjectPropertyExpression> propertyExpressions,
             Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {

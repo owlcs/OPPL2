@@ -25,8 +25,10 @@ import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
+/** @author Luigi Iannone */
 public class OPPLOWLSameIndividualAxiom extends AbstractInlineSetAxiom<OWLIndividual>
         implements OWLSameIndividualAxiom {
+    private static final long serialVersionUID = 20100L;
     private final OWLSameIndividualAxiom delegate;
     private final boolean shouldExpandAsPairWise;
 

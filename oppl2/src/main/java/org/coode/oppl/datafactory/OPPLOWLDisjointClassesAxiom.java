@@ -27,9 +27,14 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 /** @author Luigi Iannone */
 public class OPPLOWLDisjointClassesAxiom extends
         AbstractInlineSetAxiom<OWLClassExpression> implements OWLDisjointClassesAxiom {
+    private static final long serialVersionUID = 20100L;
     private final OWLDisjointClassesAxiom delegate;
     private final boolean shouldExpandAsPairWise;
 
+    /** @param dataFactory
+     * @param classExpressions
+     * @param annotations
+     * @param shouldExpandAsPairWise */
     public OPPLOWLDisjointClassesAxiom(OPPLOWLDataFactory dataFactory,
             InlineSet<OWLClassExpression> classExpressions,
             Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {

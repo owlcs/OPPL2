@@ -25,12 +25,17 @@ import org.semanticweb.owlapi.model.OWLObjectVisitor;
 import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
+/** @author Luigi Iannone */
 public class OPPLOWLDifferentIndividualsAxiom extends
         AbstractInlineSetAxiom<OWLIndividual> implements OWLDifferentIndividualsAxiom {
+    private static final long serialVersionUID = 20100L;
     private final OWLDifferentIndividualsAxiom delegate;
     private final boolean shouldExpandAsPairWise;
 
-    /** @param inlineSet */
+    /** @param dataFactory
+     * @param individuals
+     * @param annotations
+     * @param shouldExpandAsPairWise */
     public OPPLOWLDifferentIndividualsAxiom(OPPLOWLDataFactory dataFactory,
             InlineSet<OWLIndividual> individuals,
             Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {

@@ -3,9 +3,12 @@ package org.coode.oppl.datafactory;
 import org.coode.oppl.function.inline.InlineSet;
 import org.semanticweb.owlapi.model.OWLObject;
 
+/** @author Luigi Iannone
+ * @param <O> */
 public abstract class AbstractInlineSetAxiom<O extends OWLObject> {
     private final InlineSet<O> inlineSet;
 
+    /** @param inlineSet */
     public AbstractInlineSetAxiom(InlineSet<O> inlineSet) {
         if (inlineSet == null) {
             throw new NullPointerException("The inline set cannot be null");
