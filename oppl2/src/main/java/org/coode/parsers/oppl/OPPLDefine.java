@@ -19,7 +19,7 @@ import org.antlr.runtime.tree.TreeRuleReturnScope;
 import org.coode.oppl.ConstraintSystem;
 import org.coode.parsers.ErrorListener;
 
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLDefine extends TreeRewriter {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
@@ -240,8 +240,8 @@ public class OPPLDefine extends TreeRewriter {
         getErrorListener().recognitionException(e, t);
     }
 
-    protected void mismatch(IntStream i, int ttype, BitSet follow)
-            throws RecognitionException {
+    protected void mismatch(IntStream i, int ttype,
+            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
         throw new MismatchedTokenException(ttype, i);
     }
 
@@ -301,9 +301,7 @@ public class OPPLDefine extends TreeRewriter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        if (_first_0 == null) {
-                            _first_0 = variableDefinition1.tree;
-                        }
+                        _first_0 = variableDefinition1.tree;
                     }
                     if (state.backtracking == 1) {
                         retval.tree = _first_0;
@@ -326,9 +324,7 @@ public class OPPLDefine extends TreeRewriter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        if (_first_0 == null) {
-                            _first_0 = variableIRISymbolDefinition2.tree;
-                        }
+                        _first_0 = variableIRISymbolDefinition2.tree;
                     }
                     if (state.backtracking == 1) {
                         retval.tree = _first_0;
@@ -403,9 +399,7 @@ public class OPPLDefine extends TreeRewriter {
                         throw mse;
                     }
                     if (state.backtracking == 1) {
-                        if (_first_0 == null) {
-                            _first_0 = set3;
-                        }
+                        _first_0 = set3;
                     }
                     match(input, Token.DOWN, null);
                     if (state.failed) {
@@ -418,9 +412,7 @@ public class OPPLDefine extends TreeRewriter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        if (_first_1 == null) {
-                            _first_1 = VARIABLE_NAME4;
-                        }
+                        _first_1 = VARIABLE_NAME4;
                     }
                     _last = (OPPLSyntaxTree) input.LT(1);
                     VARIABLE_TYPE5 = (OPPLSyntaxTree) match(input, VARIABLE_TYPE,
@@ -522,7 +514,6 @@ public class OPPLDefine extends TreeRewriter {
         OPPLDefine.variableIRISymbolDefinition_return retval = new OPPLDefine.variableIRISymbolDefinition_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
-        OPPLSyntaxTree _first_0 = null;
         OPPLSyntaxTree _last = null;
         OPPLSyntaxTree IRI7 = null;
         OPPLSyntaxTree VARIABLE_NAME8 = null;
@@ -546,11 +537,6 @@ public class OPPLDefine extends TreeRewriter {
                     }
                     if (state.backtracking == 1) {
                         stream_IRI.add(IRI7);
-                    }
-                    if (state.backtracking == 1) {
-                        if (_first_0 == null) {
-                            _first_0 = IRI7;
-                        }
                     }
                     match(input, Token.DOWN, null);
                     if (state.failed) {

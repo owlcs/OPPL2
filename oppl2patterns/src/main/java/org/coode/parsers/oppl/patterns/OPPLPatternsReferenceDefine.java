@@ -319,9 +319,7 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                     return retval;
                 }
                 if (state.backtracking == 1) {
-                    if (_first_0 == null) {
-                        _first_0 = patternReference1.tree;
-                    }
+                    _first_0 = patternReference1.tree;
                 }
                 if (state.backtracking == 1) {
                     retval.tree = _first_0;
@@ -388,9 +386,7 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                         stream_IDENTIFIER.add(pr);
                     }
                     if (state.backtracking == 1) {
-                        if (_first_0 == null) {
-                            _first_0 = pr;
-                        }
+                        _first_0 = pr;
                     }
                     match(input, Token.DOWN, null);
                     if (state.failed) {
@@ -537,9 +533,7 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        if (_first_0 == null) {
-                            _first_0 = ARGUMENTS3;
-                        }
+                        _first_0 = ARGUMENTS3;
                     }
                     match(input, Token.DOWN, null);
                     if (state.failed) {
@@ -744,7 +738,6 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                     _last = (OPPLSyntaxTree) input.LT(1);
                     {
                         OPPLSyntaxTree _save_last_1 = _last;
-                        OPPLSyntaxTree _first_1 = null;
                         _last = (OPPLSyntaxTree) input.LT(1);
                         ARGUMENT4 = (OPPLSyntaxTree) match(input, ARGUMENT,
                                 FOLLOW_ARGUMENT_in_argument180);
@@ -752,9 +745,7 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                             return retval;
                         }
                         if (state.backtracking == 1) {
-                            if (_first_0 == null) {
-                                _first_0 = ARGUMENT4;
-                            }
+                            _first_0 = ARGUMENT4;
                         }
                         match(input, Token.DOWN, null);
                         if (state.failed) {
@@ -763,17 +754,11 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                         _last = (OPPLSyntaxTree) input.LT(1);
                         {
                             OPPLSyntaxTree _save_last_2 = _last;
-                            OPPLSyntaxTree _first_2 = null;
                             _last = (OPPLSyntaxTree) input.LT(1);
                             EXPRESSION5 = (OPPLSyntaxTree) match(input, EXPRESSION,
                                     FOLLOW_EXPRESSION_in_argument184);
                             if (state.failed) {
                                 return retval;
-                            }
-                            if (state.backtracking == 1) {
-                                if (_first_1 == null) {
-                                    _first_1 = EXPRESSION5;
-                                }
                             }
                             match(input, Token.DOWN, null);
                             if (state.failed) {
@@ -789,11 +774,6 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                                 if (state.failed) {
                                     return retval;
                                 }
-                                if (state.backtracking == 1) {
-                                    if (_first_2 == null) {
-                                        _first_2 = IDENTIFIER6;
-                                    }
-                                }
                                 match(input, Token.DOWN, null);
                                 if (state.failed) {
                                     return retval;
@@ -806,9 +786,7 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                                     return retval;
                                 }
                                 if (state.backtracking == 1) {
-                                    if (_first_3 == null) {
-                                        _first_3 = VARIABLE_NAME7;
-                                    }
+                                    _first_3 = VARIABLE_NAME7;
                                 }
                                 _last = (OPPLSyntaxTree) input.LT(1);
                                 DOT8 = (OPPLSyntaxTree) match(input, DOT,
@@ -881,9 +859,7 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                             return retval;
                         }
                         if (state.backtracking == 1) {
-                            if (_first_0 == null) {
-                                _first_0 = ARGUMENT10;
-                            }
+                            _first_0 = ARGUMENT10;
                         }
                         match(input, Token.DOWN, null);
                         if (state.failed) {

@@ -309,9 +309,7 @@ public class OPPLPatternsDefine extends TreeRewriter {
                     return retval;
                 }
                 if (state.backtracking == 1) {
-                    if (_first_0 == null) {
-                        _first_0 = thisClass1.tree;
-                    }
+                    _first_0 = thisClass1.tree;
                 }
                 if (state.backtracking == 1) {
                     retval.tree = _first_0;
@@ -346,7 +344,6 @@ public class OPPLPatternsDefine extends TreeRewriter {
         OPPLPatternsDefine.thisClass_return retval = new OPPLPatternsDefine.thisClass_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree root_0 = null;
-        OPPLSyntaxTree _first_0 = null;
         OPPLSyntaxTree _last = null;
         OPPLSyntaxTree i = null;
         OPPLSyntaxTree THIS_CLASS2 = null;
@@ -371,11 +368,6 @@ public class OPPLPatternsDefine extends TreeRewriter {
                     }
                     if (state.backtracking == 1) {
                         stream_IDENTIFIER.add(i);
-                    }
-                    if (state.backtracking == 1) {
-                        if (_first_0 == null) {
-                            _first_0 = i;
-                        }
                     }
                     match(input, Token.DOWN, null);
                     if (state.failed) {

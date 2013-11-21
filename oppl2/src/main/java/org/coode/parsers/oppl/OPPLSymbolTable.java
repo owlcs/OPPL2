@@ -45,7 +45,6 @@ import org.coode.parsers.oppl.variableattribute.CollectionVariableAttributeSymbo
 import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.ValuesVariableAttributeSymbol;
 import org.coode.parsers.oppl.variableattribute.VariableAttributeSymbol;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -600,10 +599,7 @@ public class OPPLSymbolTable extends SymbolTable {
             String name = variableNameTree.getToken().getText();
             Variable<?> variable = constraintSystem.getVariable(name);
             if (variable != null) {
-                IRI iri = new VariableIRI(variable);
-                if (iri != null) {
-                    toReturn = new IRISymbol(name, iri);
-                }
+                toReturn = new IRISymbol(name, new VariableIRI(variable));
                 this.storeSymbol(iriTree.getText(), toReturn);
             } else {
                 reportUnrecognisedSymbol(variableNameTree);
