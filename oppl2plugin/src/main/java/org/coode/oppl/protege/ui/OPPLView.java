@@ -261,29 +261,30 @@ public final class OPPLView extends AbstractOWLViewComponent implements
                         for (OWLAxiomChange axiomChange : changes) {
                             model.addAction(axiomChange, false, true);
                         }
+                        revalidate();
+                        EvaluationResults evaluationResults = new EvaluationResults(
+                                statementModel, changes);
+                        copyResultsAction.setEnabled(true);
+                        copyResultsAction.setResult(evaluationResults.toString());
+                        bindingTableModel = new InstantiationTableModel(statementModel,
+                                getOWLEditorKit());
+                        bindingTable.setModel(bindingTableModel);
+                        bindingTreeScrollPane
+                                .setBorder(ComponentFactory.createTitledBorder(String
+                                        .format("%s: %d", BINDINGS_TITLE,
+                                                bindingTableModel.getRowCount())));
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                affectedScrollPane.setBorder(ComponentFactory
+                                        .createTitledBorder(String.format("%s: %d",
+                                                AFFECTED_AXIOMS_TITLE, affectedAxioms
+                                                        .getModel().getSize())));
+                                window.setVisible(false);
+                                window.dispose();
+                            }
+                        });
                     }
-                    revalidate();
-                    EvaluationResults evaluationResults = new EvaluationResults(
-                            statementModel, changes);
-                    copyResultsAction.setEnabled(true);
-                    copyResultsAction.setResult(evaluationResults.toString());
-                    bindingTableModel = new InstantiationTableModel(statementModel,
-                            getOWLEditorKit());
-                    bindingTable.setModel(bindingTableModel);
-                    bindingTreeScrollPane.setBorder(ComponentFactory
-                            .createTitledBorder(String.format("%s: %d", BINDINGS_TITLE,
-                                    bindingTableModel.getRowCount())));
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            affectedScrollPane.setBorder(ComponentFactory
-                                    .createTitledBorder(String.format("%s: %d",
-                                            AFFECTED_AXIOMS_TITLE, affectedAxioms
-                                                    .getModel().getSize())));
-                            window.setVisible(false);
-                            window.dispose();
-                        }
-                    });
                 } else {
                     evaluate.setEnabled(true);
                 }

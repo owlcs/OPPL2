@@ -448,7 +448,7 @@ public class TestQueries {
         if (query != null) {
             List<OWLAxiom> queryAxioms = query.getAssertedAxioms();
             queryAxioms.addAll(query.getAxioms());
-            double expected = 0;
+            int expected = 0;
             VariableExtractor variableExtractor = new VariableExtractor(
                     opplScript.getConstraintSystem(), false);
             for (OWLAxiom owlAxiom : queryAxioms) {

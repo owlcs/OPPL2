@@ -25,6 +25,6 @@ public class QuickFailRuntimeExceptionHandler implements RuntimeExceptionHandler
 
     @Override
     public void handleException(RuntimeException e) {
-        handleException(e);
+        handleRuntimeException(e);
     }
 }

@@ -111,10 +111,10 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
             buildOPPLScript(ConstraintSystem constraintSystem1,
                     List<Variable<?>> variables, OPPLQuery opplQuery,
                     List<OWLAxiomChange> actions) {
-        if (variables != null && variables.contains(null)) {
+        if (variables == null || variables.contains(null)) {
             throw new IllegalArgumentException("Invalid variables");
         }
-        if (actions != null && actions.contains(null)) {
+        if (actions == null || actions.contains(null)) {
             throw new IllegalArgumentException("Invalid actions");
         }
         ProtegeOPPLScript toReturn = new ProtegeOPPLScript(new OPPLScriptImpl(

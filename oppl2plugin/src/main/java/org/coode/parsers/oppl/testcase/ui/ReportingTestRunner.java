@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.ui;
 
 import java.util.ArrayList;
@@ -31,9 +30,9 @@ public class ReportingTestRunner {
 
         @Override
         protected void configurationFailed(String message) {
-            List<OPPLTest> tests = getOPPLTestCase().getTests();
+            List<OPPLTest> tests = opplTestCase.getTests();
             ConfigurationFailedExecutionReport configurationFailedExecutionReport = new ConfigurationFailedExecutionReport(
-                    getOPPLTestCase(), message);
+                    opplTestCase, message);
             List<Report> reportList = new ArrayList<Report>(tests.size() + 1);
             reportList.add(configurationFailedExecutionReport);
             reports.put(opplTestCase, reportList);
@@ -41,34 +40,33 @@ public class ReportingTestRunner {
 
         @Override
         protected void success(OPPLTest test) {
-            List<Report> previousReports = reports.get(getOPPLTestCase());
+            List<Report> previousReports = reports.get(opplTestCase);
             if (previousReports == null) {
                 previousReports = new ArrayList<Report>();
-                reports.put(getOPPLTestCase(), previousReports);
+                reports.put(opplTestCase, previousReports);
             }
-            previousReports.add(new SuccessfulExecutionReport(getOPPLTestCase(), test));
+            previousReports.add(new SuccessfulExecutionReport(opplTestCase, test));
         }
 
         @Override
         protected void fail(OPPLTest test) {
-            List<Report> previousReports = reports.get(getOPPLTestCase());
+            List<Report> previousReports = reports.get(opplTestCase);
             if (previousReports == null) {
                 previousReports = new ArrayList<Report>();
-                reports.put(getOPPLTestCase(), previousReports);
+                reports.put(opplTestCase, previousReports);
             }
-            previousReports.add(new AssertionFailedExecutionReport(getOPPLTestCase(),
-                    test));
+            previousReports.add(new AssertionFailedExecutionReport(opplTestCase, test));
         }
 
         @Override
         protected void fail(Throwable e) {
-            List<Report> previousReports = reports.get(getOPPLTestCase());
+            List<Report> previousReports = reports.get(opplTestCase);
             if (previousReports == null) {
                 previousReports = new ArrayList<Report>();
-                reports.put(getOPPLTestCase(), previousReports);
+                reports.put(opplTestCase, previousReports);
             }
-            previousReports.add(new RuntimeErrorEncounteredExecutionReport(
-                    getOPPLTestCase(), e));
+            previousReports.add(new RuntimeErrorEncounteredExecutionReport(opplTestCase,
+                    e));
         }
     }
 

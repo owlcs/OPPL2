@@ -34,20 +34,18 @@ public class ConstraintQueryPlannerItem extends AbstractQueryPlannerItem {
             ExecutionMonitor executionMonitor,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         Set<BindingNode> toReturn = new HashSet<BindingNode>(currentLeaves.size());
-        if (currentLeaves != null && !currentLeaves.isEmpty()) {
-            Iterator<? extends BindingNode> it = currentLeaves.iterator();
-            BindingNode leaf;
-            while (!executionMonitor.isCancelled() && it.hasNext()) {
-                leaf = it.next();
-                boolean holdingLeaf = checkConstraint(leaf, getConstraint(),
-                        runtimeExceptionHandler);
-                if (!holdingLeaf) {
-                    it.remove();
-                }
+        Iterator<? extends BindingNode> it = currentLeaves.iterator();
+        BindingNode leaf;
+        while (!executionMonitor.isCancelled() && it.hasNext()) {
+            leaf = it.next();
+            boolean holdingLeaf = checkConstraint(leaf, getConstraint(),
+                    runtimeExceptionHandler);
+            if (!holdingLeaf) {
+                it.remove();
             }
-            if (executionMonitor.isCancelled()) {
-                toReturn = null;
-            }
+        }
+        if (executionMonitor.isCancelled()) {
+            toReturn = null;
         }
         if (toReturn != null) {
             toReturn.addAll(currentLeaves);

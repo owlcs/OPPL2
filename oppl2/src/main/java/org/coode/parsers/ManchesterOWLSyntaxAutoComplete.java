@@ -885,8 +885,8 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         ((ManchesterOWLSyntaxTree) retval.start)
-                                .setCompletions(qualifiedRestriction4 != null ? qualifiedRestriction4.node
-                                        .getCompletions() : null);
+                                .setCompletions(qualifiedRestriction4.node
+                                        .getCompletions());
                     }
                 }
                     break;

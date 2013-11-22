@@ -22,7 +22,6 @@
  */
 package org.coode.patterns;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -141,10 +140,9 @@ public class PatternManager implements OWLOntologyChangeListener {
                                 IRI annotationIRI = axiomAnnotationAxiom.getProperty()
                                         .getIRI();
                                 if (value.equals(patternModel.getIRI().toString())
-                                        && annotationIRI
-                                                .equals(URI
-                                                        .create(PatternModel.NAMESPACE
-                                                                + PatternActionFactory.CREATED_BY))) {
+                                        && annotationIRI.equals(IRI.create(
+                                                PatternModel.NAMESPACE,
+                                                PatternActionFactory.CREATED_BY))) {
                                     changes.add(new RemoveAxiom(ontology, anOntologyAxiom));
                                 }
                             }

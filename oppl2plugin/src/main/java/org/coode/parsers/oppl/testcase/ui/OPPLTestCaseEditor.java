@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.ui;
 
 import java.awt.BorderLayout;
@@ -28,7 +27,7 @@ import org.protege.editor.owl.ui.editor.AbstractOWLObjectEditor;
 /** @author Luigi Iannone */
 public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> implements
         VerifiedInputEditor {
-    private final OWLEditorKit owlEditorKit;
+    protected final OWLEditorKit oek;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private JPanel mainPanel;
     protected OPPLTestCase opplTestCase = null;
@@ -41,45 +40,42 @@ public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> im
         if (owlEditorKit == null) {
             throw new NullPointerException("The OWL editor kit cannot be null");
         }
-        this.owlEditorKit = owlEditorKit;
-        otherOPPLTestCases.addAll(new OPPLTestCaseAnnotationContainer(getOWLEditorKit())
+        oek = owlEditorKit;
+        otherOPPLTestCases.addAll(new OPPLTestCaseAnnotationContainer(oek)
                 .getOPPLTestCases());
-        editor = new ExpressionEditor<OPPLTestCase>(getOWLEditorKit()
-                .getOWLModelManager().getOWLOntologyManager(),
-                new OPPLExpressionChecker<OPPLTestCase>(getOWLEditorKit()) {
-                    @Override
-                    protected OPPLTestCase parse(String text) {
-                        ProtegeParserFactory parserFactory = new ProtegeParserFactory(
-                                getOWLEditorKit());
-                        OPPLTestCaseParser parser = parserFactory.build(getListener());
-                        OPPLTestCase toReturn = null;
-                        OPPLTestCase parsed = parser.parse(text,
-                                new ShowMessageRuntimeExceptionHandler(
-                                        OPPLTestCaseEditor.this.getEditorComponent()));
-                        // Need to check that he test name is unique.
-                        if (parsed != null && !isNameUnique(parsed)) {
-                            getListener().reportThrowable(
-                                    new DuplicateOPPLTestCaseNameException(parsed
-                                            .getName()), 1, 0, parsed.getName().length());
-                        } else {
-                            toReturn = parsed;
-                        }
-                        return toReturn;
-                    }
+        editor = new ExpressionEditor<OPPLTestCase>(oek.getOWLModelManager()
+                .getOWLOntologyManager(), new OPPLExpressionChecker<OPPLTestCase>(oek) {
+            @Override
+            protected OPPLTestCase parse(String text) {
+                ProtegeParserFactory parserFactory = new ProtegeParserFactory(oek);
+                OPPLTestCaseParser parser = parserFactory.build(getListener());
+                OPPLTestCase toReturn = null;
+                OPPLTestCase parsed = parser.parse(
+                        text,
+                        new ShowMessageRuntimeExceptionHandler(OPPLTestCaseEditor.this
+                                .getEditorComponent()));
+                // Need to check that he test name is unique.
+                if (parsed != null && !isNameUnique(parsed)) {
+                    getListener().reportThrowable(
+                            new DuplicateOPPLTestCaseNameException(parsed.getName()), 1,
+                            0, parsed.getName().length());
+                } else {
+                    toReturn = parsed;
+                }
+                return toReturn;
+            }
 
-                    private final boolean isNameUnique(OPPLTestCase test) {
-                        boolean found = false;
-                        Iterator<OPPLTestCase> iterator = otherOPPLTestCases.iterator();
-                        while (!found && iterator.hasNext()) {
-                            OPPLTestCase existingOPPLTestCase = iterator.next();
-                            found = test.getName().compareTo(
-                                    existingOPPLTestCase.getName()) == 0;
-                        }
-                        return !found;
-                    }
-                });
-        autoCompletionMatcher = new ProtegeOPPLTestCaseAutoCompletionMatcher(
-                getOWLEditorKit());
+            private final boolean isNameUnique(OPPLTestCase test) {
+                boolean found = false;
+                Iterator<OPPLTestCase> iterator = otherOPPLTestCases.iterator();
+                while (!found && iterator.hasNext()) {
+                    OPPLTestCase existingOPPLTestCase = iterator.next();
+                    found = test.getName().compareTo(existingOPPLTestCase.getName()) == 0;
+                }
+                return !found;
+            }
+        });
+        autoCompletionMatcher = new ProtegeOPPLTestCaseAutoCompletionMatcher(oek);
         new AutoCompleter(editor, autoCompletionMatcher);
         editor.addStatusChangedListener(new org.coode.parsers.ui.InputVerificationStatusChangedListener() {
             @Override
@@ -124,7 +120,7 @@ public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> im
 
     /** @return the owlEditorKit */
     public OWLEditorKit getOWLEditorKit() {
-        return owlEditorKit;
+        return oek;
     }
 
     @Override
