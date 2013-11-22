@@ -10,7 +10,7 @@ import org.antlr.runtime.NoViableAltException;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RecognizerSharedState;
 
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLLexer extends Lexer {
     public static final int HAS_KEY = 109;
     public static final int VALUE_RESTRICTION = 63;
