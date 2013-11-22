@@ -1,7 +1,6 @@
-
 package org.coode.parsers.oppl.testcase;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 import java.util.regex.PatternSyntaxException;
 
@@ -101,14 +100,13 @@ public abstract class TestCaseRunner {
     protected abstract void fail(OPPLTest test);
 
     protected Set<BindingNode> executeQuery() {
-        Set<BindingNode> toReturn = new HashSet<BindingNode>();
         OPPLScript opplScript = getOPPLTestCase().getOPPLScript();
         opplScript.getQuery().execute(getHandler(), getExecutionMonitor());
         Set<BindingNode> leaves = opplScript.getConstraintSystem().getLeaves();
         if (leaves != null) {
-            toReturn = new HashSet<BindingNode>(leaves);
+            return leaves;
         }
-        return toReturn;
+        return Collections.emptySet();
     }
 
     protected abstract void fail(Throwable e);
