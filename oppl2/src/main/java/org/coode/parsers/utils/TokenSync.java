@@ -136,8 +136,9 @@ public class TokenSync {
         /** @param referenceKey
          * @param tokenText */
         private void removeDuplicates(Integer referenceKey, String tokenText) {
-            for (Integer thisKey : new HashSet<Integer>(map.keySet())) {
-                if (tokenText.compareTo(map.get(thisKey)) == 0 && thisKey != referenceKey) {
+            for (Object thisKey : map.keySet().toArray()) {
+                if (tokenText.compareTo(map.get(thisKey)) == 0
+                        && !thisKey.equals(referenceKey)) {
                     map.remove(thisKey);
                     inverseMap.put(tokenText, referenceKey);
                 }
