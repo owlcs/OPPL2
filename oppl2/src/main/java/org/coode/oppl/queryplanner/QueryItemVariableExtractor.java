@@ -3,7 +3,7 @@ package org.coode.oppl.queryplanner;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.coode.oppl.ConstraintVisitorEx;
+import org.coode.oppl.ConstraintVisitor;
 import org.coode.oppl.InCollectionConstraint;
 import org.coode.oppl.InequalityConstraint;
 import org.coode.oppl.NAFConstraint;
@@ -18,46 +18,37 @@ public class QueryItemVariableExtractor implements
     @Override
     public Set<Variable<?>> visitConstraintQueryPlannerItem(
             ConstraintQueryPlannerItem constraintQueryPlannerItem) {
-        Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
+        final Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
         final VariableExtractor variableExtractor = new VariableExtractor(
                 constraintQueryPlannerItem.getConstraintSystem(), false);
-        toReturn.addAll(constraintQueryPlannerItem.getConstraint().accept(
-                new ConstraintVisitorEx<Set<Variable<?>>>() {
-                    @Override
-                    public Set<Variable<?>> visit(InequalityConstraint c) {
-                        Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-                        toReturn.add(c.getVariable());
-                        toReturn.addAll(variableExtractor.extractVariables(c
-                                .getExpression()));
-                        return toReturn;
-                    }
+        constraintQueryPlannerItem.getConstraint().accept(new ConstraintVisitor() {
+            @Override
+            public void visitInequalityConstraint(InequalityConstraint c) {
+                toReturn.add(c.getVariable());
+                toReturn.addAll(variableExtractor.extractVariables(c.getExpression()));
+            }
 
-                    @Override
-                    public Set<Variable<?>> visit(
-                            InCollectionConstraint<? extends OWLObject> c) {
-                        Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-                        toReturn.add(c.getVariable());
-                        for (OWLObject object : c.getCollection()) {
-                            toReturn.addAll(variableExtractor.extractVariables(object));
-                        }
-                        return toReturn;
-                    }
+            @Override
+            public void visitInCollectionConstraint(
+                    InCollectionConstraint<? extends OWLObject> c) {
+                toReturn.add(c.getVariable());
+                for (OWLObject object : c.getCollection()) {
+                    toReturn.addAll(variableExtractor.extractVariables(object));
+                }
+            }
 
-                    @Override
-                    public Set<Variable<?>> visit(RegExpConstraint c) {
-                        Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
-                        toReturn.add(c.getVariable());
-                        toReturn.addAll(variableExtractor.extractVariables(c
-                                .getExpression()));
-                        return toReturn;
-                    }
+            @Override
+            public void visitInCollectionConstraint(RegExpConstraint c) {
+                toReturn.add(c.getVariable());
+                toReturn.addAll(variableExtractor.extractVariables(c.getExpression()));
+            }
 
-                    @Override
-                    public Set<Variable<?>> visit(NAFConstraint nafConstraint) {
-                        return variableExtractor.extractVariables(nafConstraint
-                                .getAxiom());
-                    }
-                }));
+            @Override
+            public void visit(NAFConstraint nafConstraint) {
+                toReturn.addAll(variableExtractor.extractVariables(nafConstraint
+                        .getAxiom()));
+            }
+        });
         return toReturn;
     }
 
