@@ -107,7 +107,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
     }
 
     @Override
-    public Set<java.util.Map.Entry<Variable<?>, Set<OWLObject>>> entrySet() {
+    public Set<Map.Entry<Variable<?>, Set<OWLObject>>> entrySet() {
         return delegate.entrySet();
     }
 

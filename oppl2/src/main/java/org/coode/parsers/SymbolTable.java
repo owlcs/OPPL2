@@ -1430,7 +1430,7 @@ public class SymbolTable {
         return toReturn;
     }
 
-    protected org.coode.oppl.semanticweb.owlapi.model.OWLPropertyChain createOWLPropertyChain(
+    protected OWLPropertyChain createOWLPropertyChain(
             OWLObjectPropertyExpression firstPropertyExpression,
             OWLObjectPropertyExpression secondPropertyExpression,
             OWLObjectPropertyExpression... others) {

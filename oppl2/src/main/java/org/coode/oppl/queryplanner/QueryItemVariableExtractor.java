@@ -14,7 +14,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 
 /** @author Luigi Iannone */
 public class QueryItemVariableExtractor implements
-        QueryPlannerVisitorEx<java.util.Set<Variable<?>>> {
+        QueryPlannerVisitorEx<Set<Variable<?>>> {
     @Override
     public Set<Variable<?>> visitConstraintQueryPlannerItem(
             ConstraintQueryPlannerItem constraintQueryPlannerItem) {

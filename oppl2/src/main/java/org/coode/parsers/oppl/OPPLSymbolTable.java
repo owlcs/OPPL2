@@ -219,7 +219,7 @@ public class OPPLSymbolTable extends SymbolTable {
             ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree variableType, ManchesterOWLSyntaxTree expression) {
         Type toReturn = null;
-        org.coode.oppl.variabletypes.VariableType<?> opplVariableVariableType = VariableTypeFactory
+        VariableType<?> opplVariableVariableType = VariableTypeFactory
                 .getVariableType(variableType.getText());
         if (opplVariableVariableType == null) {
             reportIllegalToken(variableType, "Unknown variable type");
@@ -233,8 +233,7 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
-    public org.coode.oppl.variabletypes.VariableType<?> getVariableType(
-            ManchesterOWLSyntaxTree variableType) {
+    public VariableType<?> getVariableType(ManchesterOWLSyntaxTree variableType) {
         return VariableTypes.getVariableType(variableType.getText())
                 .getOPPLVariableType();
     }
@@ -580,8 +579,7 @@ public class OPPLSymbolTable extends SymbolTable {
 
     public <P extends OWLObject, O extends VariableAttribute<Collection<? extends P>>>
             CollectionVariableAttributeSymbol<P, O> getCollectionVariableAttributeSymbol(
-                    final org.coode.oppl.variabletypes.VariableType<?> type,
-                    final OPPLSyntaxTree attributeSyntaxTree) {
+                    final VariableType<?> type, final OPPLSyntaxTree attributeSyntaxTree) {
         Symbol symbol = retrieveSymbol(attributeSyntaxTree.getText());
         CollectionVariableAttributeSymbol<P, O> toReturn = null;
         if (symbol != null) {
@@ -611,7 +609,7 @@ public class OPPLSymbolTable extends SymbolTable {
             final Collection<? extends Aggregandum<?>> aggregandums,
             final List<OPPLSyntaxTree> aggregdandumTrees,
             final ConstraintSystem constraintSystem) {
-        org.coode.oppl.variabletypes.VariableType<?> aggregandumCollectionType = getAggregandumCollectionType(
+        VariableType<?> aggregandumCollectionType = getAggregandumCollectionType(
                 aggregandums, aggregdandumTrees, expression);
         OWLAxiom toReturn = null;
         if (aggregandumCollectionType != null) {
@@ -699,8 +697,7 @@ public class OPPLSymbolTable extends SymbolTable {
     @SuppressWarnings("unchecked")
     public <O extends OWLObject>
             Collection<? extends Aggregandum<Collection<? extends O>>>
-            getAggregandumCollection(
-                    org.coode.oppl.variabletypes.VariableType<O> variableType,
+            getAggregandumCollection(VariableType<O> variableType,
                     Collection<? extends Aggregandum<?>> aggregandums,
                     List<OPPLSyntaxTree> aggregandumsTrees,
                     OPPLSyntaxTree parentExpression) {
@@ -724,16 +721,16 @@ public class OPPLSymbolTable extends SymbolTable {
         return allFine ? toReturn : null;
     }
 
-    public org.coode.oppl.variabletypes.VariableType<?> getAggregandumCollectionType(
+    public VariableType<?> getAggregandumCollectionType(
             Collection<? extends Aggregandum<?>> aggregandums,
             List<OPPLSyntaxTree> aggregandumsTrees, OPPLSyntaxTree parentExpression) {
-        org.coode.oppl.variabletypes.VariableType<?> toReturn = null;
+        VariableType<?> toReturn = null;
         boolean allFine = true;
         Iterator<? extends Aggregandum<?>> iterator = aggregandums.iterator();
         int i = 0;
         while (allFine && iterator.hasNext()) {
             Aggregandum<?> aggregandum = iterator.next();
-            org.coode.oppl.variabletypes.VariableType<?> aggregandumVariableType = getAggregandumVariableType(aggregandum);
+            VariableType<?> aggregandumVariableType = getAggregandumVariableType(aggregandum);
             allFine = toReturn == null || toReturn.equals(aggregandumVariableType);
             if (allFine) {
                 toReturn = aggregandumVariableType;
@@ -747,14 +744,13 @@ public class OPPLSymbolTable extends SymbolTable {
         return allFine ? toReturn : null;
     }
 
-    private org.coode.oppl.variabletypes.VariableType<?> getAggregandumVariableType(
-            Aggregandum<?> aggregandum) {
-        org.coode.oppl.variabletypes.VariableType<?> toReturn = null;
-        Iterator<org.coode.oppl.variabletypes.VariableType<?>> iterator = VariableTypeFactory
-                .getAllVariableTypes().iterator();
+    private VariableType<?> getAggregandumVariableType(Aggregandum<?> aggregandum) {
+        VariableType<?> toReturn = null;
+        Iterator<VariableType<?>> iterator = VariableTypeFactory.getAllVariableTypes()
+                .iterator();
         boolean found = false;
         while (!found && iterator.hasNext()) {
-            org.coode.oppl.variabletypes.VariableType<?> variableType = iterator.next();
+            VariableType<?> variableType = iterator.next();
             found = aggregandum.isCompatible(variableType);
             if (found) {
                 toReturn = variableType;
@@ -767,8 +763,8 @@ public class OPPLSymbolTable extends SymbolTable {
             List<Aggregandum<?>> list, List<OPPLSyntaxTree> tokenList,
             ConstraintSystem constraintSystem) {
         OWLAxiom toReturn = null;
-        org.coode.oppl.variabletypes.VariableType<?> aggregandumCollectionType = getAggregandumCollectionType(
-                list, tokenList, opplSyntaxTree);
+        VariableType<?> aggregandumCollectionType = getAggregandumCollectionType(list,
+                tokenList, opplSyntaxTree);
         if (aggregandumCollectionType == VariableTypeFactory.getINDIVIDUALVariableType()) {
             Collection<? extends Aggregandum<Collection<? extends OWLIndividual>>> aggregandumCollection = this
                     .getAggregandumCollection(
@@ -791,8 +787,8 @@ public class OPPLSymbolTable extends SymbolTable {
             List<Aggregandum<?>> list, List<OPPLSyntaxTree> tokenList,
             ConstraintSystem constraintSystem) {
         OWLAxiom toReturn = null;
-        org.coode.oppl.variabletypes.VariableType<?> aggregandumCollectionType = getAggregandumCollectionType(
-                list, tokenList, opplSyntaxTree);
+        VariableType<?> aggregandumCollectionType = getAggregandumCollectionType(list,
+                tokenList, opplSyntaxTree);
         if (aggregandumCollectionType == VariableTypeFactory.getINDIVIDUALVariableType()) {
             Collection<? extends Aggregandum<Collection<? extends OWLIndividual>>> aggregandumCollection = this
                     .getAggregandumCollection(

@@ -142,7 +142,6 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
         }
     }
 
-    
     private static final long serialVersionUID = 20100L;
     // Have to as the supe class header is not visible;
     private final MListSectionHeader header = new MListSectionHeader() {
@@ -255,7 +254,7 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
     @Override
     public void setRootObject(PatternAnnotationContainer root) {
         super.setRootObject(root);
-        java.util.List<Object> data = new ArrayList<Object>();
+        List<Object> data = new ArrayList<Object>();
         data.add(header);
         if (root != null) {
             // @@TODO ordering

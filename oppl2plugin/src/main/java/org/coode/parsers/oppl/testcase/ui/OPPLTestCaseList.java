@@ -187,7 +187,7 @@ public abstract class OPPLTestCaseList extends
     @Override
     public void setRootObject(OPPLTestCaseAnnotationContainer root) {
         super.setRootObject(root);
-        java.util.List<Object> data = new ArrayList<Object>();
+        List<Object> data = new ArrayList<Object>();
         data.add(header);
         if (root != null) {
             // @@TODO ordering

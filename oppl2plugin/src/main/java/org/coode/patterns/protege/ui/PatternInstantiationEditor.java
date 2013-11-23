@@ -474,7 +474,7 @@ public class PatternInstantiationEditor extends
                     @Override
                     protected void handleDelete() {
                         localityCheckerSignature
-                                .remove(((org.coode.patterns.protege.utils.VariableListModel.VariableListItem<OWLEntity>) getSelectedValue())
+                                .remove(((VariableListModel.VariableListItem<OWLEntity>) getSelectedValue())
                                         .getItem());
                         localityCheckerSignatureModel.init();
                     }

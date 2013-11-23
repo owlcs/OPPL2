@@ -95,8 +95,7 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
     }
 
     @Override
-    public org.coode.oppl.entity.OWLEntityRenderer getOWLEntityRenderer(
-            ConstraintSystem cs) {
+    public OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {
         ArgCheck.checkNullArgument("The constraint system", cs);
         return new VariableOWLEntityRenderer(cs, new ProtegeOWLEntityRenderer());
     }
