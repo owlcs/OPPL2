@@ -395,18 +395,18 @@ public class OPPLQueryImpl implements OPPLQuery {
             QueryPlannerItem queryPlannerItem = iterator.next();
             currentLeaves = queryPlannerItem.match(currentLeaves, executionMonitor,
                     runtimeExceptionHandler);
-            if (!executionMonitor.isCancelled()) {
-                // Now I check the constraints
-                Iterator<ConstraintQueryPlannerItem> constraintItemIterator = constraintsItems
-                        .iterator();
-                while (!executionMonitor.isCancelled()
-                        && constraintItemIterator.hasNext()) {
-                    ConstraintQueryPlannerItem c = constraintItemIterator.next();
-                    if (canMatch(c, currentLeaves, runtimeExceptionHandler)) {
-                        currentLeaves = c.match(currentLeaves, executionMonitor,
-                                runtimeExceptionHandler);
-                        constraintItemIterator.remove();
-                    }
+            // Now I check the constraints
+            for (int i = 0; i < constraintsItems.size();) {
+                ConstraintQueryPlannerItem c = constraintsItems.get(i);
+                if (executionMonitor.isCancelled()) {
+                    break;
+                }
+                if (canMatch(c, currentLeaves, runtimeExceptionHandler)) {
+                    currentLeaves = c.match(currentLeaves, executionMonitor,
+                            runtimeExceptionHandler);
+                    constraintsItems.remove(i);
+                } else {
+                    i++;
                 }
             }
             progress += increment;
@@ -444,16 +444,13 @@ public class OPPLQueryImpl implements OPPLQuery {
 
                 @Override
                 public Boolean visit(InCollectionConstraint<? extends OWLObject> c) {
-                    boolean found = false;
-                    Iterator<? extends OWLObject> iterator = c.getCollection().iterator();
-                    while (!found && iterator.hasNext()) {
-                        OWLObject owlObject = iterator.next();
+                    for (OWLObject owlObject : c.getCollection()) {
                         OWLObject instantiated = owlObject.accept(instantiator);
-                        found = !variableExtractor.extractVariables(instantiated)
-                                .isEmpty();
+                        if (!variableExtractor.extractVariables(instantiated).isEmpty()) {
+                            return true;
+                        }
                     }
-                    return bindingNode.getAssignmentValue(c.getVariable(), parameters) == null
-                            || found;
+                    return bindingNode.getAssignmentValue(c.getVariable(), parameters) == null;
                 }
 
                 @Override
