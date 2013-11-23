@@ -67,7 +67,9 @@ import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.coode.parsers.ErrorListener;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
@@ -142,17 +144,16 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
             Iterator<OWLAnnotation> it = ontologyAnnotationAxioms.iterator();
             while (!found && it.hasNext()) {
                 OWLAnnotation annotation = it.next();
-                if (!this.hasBeenVisited(annotation.getProperty().getIRI())) {
-                    if (this.patternName.equals(annotation.getProperty().getIRI()
-                            .getFragment())) {
-                        PatternExtractor patternExtractor = this.patternConstraintSystem
-                                .getPatternModelFactory().getPatternExtractor(
-                                        this.getVisitedAnnotations(),
-                                        this.getErrorListener());
-                        this.extractedPattern = (PatternModel) annotation
-                                .accept(patternExtractor);
-                        found = this.extractedPattern != null;
-                    }
+                OWLAnnotationProperty p = annotation.getProperty();
+                if (!this.hasBeenVisited(p)
+                        && this.patternName.equals(p.getIRI().getFragment())) {
+                    PatternExtractor patternExtractor = this.patternConstraintSystem
+                            .getPatternModelFactory()
+                            .getPatternExtractor(this.getVisitedAnnotations(),
+                                    this.getErrorListener());
+                    this.extractedPattern = (PatternModel) annotation
+                            .accept(patternExtractor);
+                    found = this.extractedPattern != null;
                 }
             }
         }
@@ -465,10 +466,10 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
         return bindings;
     }
 
-    protected boolean hasBeenVisited(IRI annotationIRI) {
+    protected boolean hasBeenVisited(OWLEntity e) {
         boolean found = false;
-        if (PatternModel.NAMESPACE.equals(annotationIRI.getNamespace())) {
-            found = this.visited.contains(annotationIRI.getFragment());
+        if (PatternModel.NAMESPACE.equals(e.getIRI().getNamespace())) {
+            found = this.visited.contains(e.getIRI().getFragment());
         }
         return found;
     }
