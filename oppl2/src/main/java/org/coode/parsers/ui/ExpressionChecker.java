@@ -10,7 +10,7 @@ package org.coode.parsers.ui;
  * www.cs.man.ac.uk/~horridgm<br>
  * <br> */
 public interface ExpressionChecker<O> {
-    public void check(String text);
+    void check(String text);
 
     O createObject(String text);
 

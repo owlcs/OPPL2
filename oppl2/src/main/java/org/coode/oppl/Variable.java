@@ -33,23 +33,23 @@ import org.semanticweb.owlapi.model.OWLObject;
  * @author Luigi Iannone */
 public interface Variable<O extends OWLObject> extends Renderable {
     /** @return the name of the Variable */
-    public String getName();
+    String getName();
 
     /** @return an URI for the Variable */
-    public IRI getIRI();
+    IRI getIRI();
 
     /** @return the type of the Variable
      * @see VariableType */
-    public VariableType<O> getType();
+    VariableType<O> getType();
 
     /** Visitor pattern interface method for visitors without return type
      * 
      * @param visitor */
-    public void accept(VariableVisitor visitor);
+    void accept(VariableVisitor visitor);
 
     /** Visitor pattern interface method for visitors with return type
      * 
      * @param visitor
      * @return an instance of T */
-    public <T> T accept(VariableVisitorEx<T> visitor);
+    <T> T accept(VariableVisitorEx<T> visitor);
 }

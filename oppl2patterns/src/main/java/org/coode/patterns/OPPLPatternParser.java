@@ -45,7 +45,7 @@ public class OPPLPatternParser implements AbstractOPPLParser {
          * @return An OPPLParser.
          * @throws NullPointerException
          *             when the input is {@code null}. */
-        public OPPLPatternParser build(ErrorListener errorListener);
+        OPPLPatternParser build(ErrorListener errorListener);
 
         /** Builds an OPPLPatternParser attaching an ErrorListener to it. This
          * parser takes into account the already visited patterns in order to
@@ -59,18 +59,18 @@ public class OPPLPatternParser implements AbstractOPPLParser {
          * @return An OPPLParser.
          * @throws NullPointerException
          *             when either input is {@code null}. */
-        public OPPLPatternParser build(Collection<? extends String> visitedPatterns,
+        OPPLPatternParser build(Collection<? extends String> visitedPatterns,
                 ErrorListener errorListener);
 
         /** Retrieves an instance AbstractPatternModelFactory that this
          * AbstractParserFactory provides.
          * 
          * @return An OPPLAbstractFactory */
-        public AbstractPatternModelFactory getPatternFactory();
+        AbstractPatternModelFactory getPatternFactory();
     }
 
     public interface PatternReferenceResolver {
-        public void resolvePattern(OPPLSyntaxTree reference, String patternName,
+        void resolvePattern(OPPLSyntaxTree reference, String patternName,
                 PatternConstraintSystem constraintSystem,
                 OPPLPatternsSymbolTable symbolTable, List<Object>... args);
     }

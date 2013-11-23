@@ -46,13 +46,13 @@ public class OPPLParser implements AbstractOPPLParser {
          * @return An OPPLParser.
          * @throws NullPointerException
          *             when the input is {@code null}. */
-        public OPPLParser build(ErrorListener errorListener);
+        OPPLParser build(ErrorListener errorListener);
 
         /** Retrieves an instance OPPLAbstractFactory that this
          * AbstractParserFactory provides.
          * 
          * @return An OPPLAbstractFactory */
-        public OPPLAbstractFactory getOPPLFactory();
+        OPPLAbstractFactory getOPPLFactory();
     }
 
     private static final TreeAdaptor ADAPTOR = new CommonTreeAdaptor() {

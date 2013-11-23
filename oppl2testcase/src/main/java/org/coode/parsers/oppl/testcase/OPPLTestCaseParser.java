@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase;
 
 import org.antlr.runtime.ANTLRStringStream;
@@ -38,13 +37,13 @@ public class OPPLTestCaseParser {
          * @return An OPPLLintParser.
          * @throws NullPointerException
          *             when the input is {@code null}. */
-        public OPPLTestCaseParser build(ErrorListener errorListener);
+        OPPLTestCaseParser build(ErrorListener errorListener);
 
         /** Retrieves an instance AbstractOPPLTestCaseFactory that this
          * AbstractParserFactory provides.
          * 
          * @return An AbstractOPPLTestCaseFactory */
-        public AbstractOPPLTestCaseFactory getOPPLTestCaseFactory();
+        AbstractOPPLTestCaseFactory getOPPLTestCaseFactory();
     }
 
     private final ErrorListener listener;

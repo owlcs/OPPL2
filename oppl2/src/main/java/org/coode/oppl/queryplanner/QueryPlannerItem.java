@@ -19,13 +19,14 @@ public interface QueryPlannerItem {
      * @return The new Set of current leaves.
      * @throw {@link NullPointerException} if the run-time exception handler or
      *        the execution monitor is {@code null}. */
-    public Set<BindingNode> match(Collection<? extends BindingNode> currentLeaves,
+    Set<BindingNode> match(Collection<? extends BindingNode> currentLeaves,
             ExecutionMonitor executionMonitor,
             RuntimeExceptionHandler runtimeExceptionHandler);
 
-    // Visitor pattern methods start
-    public void accept(QueryPlannerVisitor visitor);
+    /** @param visitor */
+    void accept(QueryPlannerVisitor visitor);
 
-    public <O> O accept(QueryPlannerVisitorEx<O> visitor);
-    // Visitor pattern methods end
+    /** @param visitor
+     * @return visitor value */
+    <O> O accept(QueryPlannerVisitorEx<O> visitor);
 }

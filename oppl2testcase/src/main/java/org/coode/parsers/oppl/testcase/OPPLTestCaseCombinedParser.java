@@ -4066,7 +4066,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
                         s = 16;
                     } else if (synpred9_OPPLTestCaseCombined()) {
                         s = 17;
-                    } else if (true) {
+                    } else {
                         s = 19;
                     }
                     in.seek(index5_8);

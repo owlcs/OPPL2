@@ -19,37 +19,37 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
  * www.cs.man.ac.uk/~horridgm<br>
  * <br> */
 public interface OWLEntityRenderingCache {
-    public void rebuild();
+    void rebuild();
 
-    public void addRendering(OWLEntity owlEntity);
+    void addRendering(OWLEntity owlEntity);
 
-    public void removeRendering(OWLEntity owlEntity);
+    void removeRendering(OWLEntity owlEntity);
 
-    public void updateRendering(OWLEntity owlEntity);
+    void updateRendering(OWLEntity owlEntity);
 
-    public OWLEntity getOWLEntity(String rendering);
+    OWLEntity getOWLEntity(String rendering);
 
-    public OWLClass getOWLClass(String rendering);
+    OWLClass getOWLClass(String rendering);
 
-    public OWLObjectProperty getOWLObjectProperty(String rendering);
+    OWLObjectProperty getOWLObjectProperty(String rendering);
 
-    public OWLDataProperty getOWLDataProperty(String rendering);
+    OWLDataProperty getOWLDataProperty(String rendering);
 
-    public OWLIndividual getOWLIndividual(String rendering);
+    OWLIndividual getOWLIndividual(String rendering);
 
-    public OWLDatatype getOWLDataType(String rendering);
+    OWLDatatype getOWLDataType(String rendering);
 
-    public Set<String> getOWLClassRenderings();
+    Set<String> getOWLClassRenderings();
 
-    public Set<String> getOWLObjectPropertyRenderings();
+    Set<String> getOWLObjectPropertyRenderings();
 
-    public Set<String> getOWLDataPropertyRenderings();
+    Set<String> getOWLDataPropertyRenderings();
 
-    public Set<String> getOWLIndividualRenderings();
+    Set<String> getOWLIndividualRenderings();
 
-    public Set<String> getOWLDatatypeRenderings();
+    Set<String> getOWLDatatypeRenderings();
 
-    public Set<String> getOWLEntityRenderings();
+    Set<String> getOWLEntityRenderings();
 
     String getRendering(OWLEntity owlEntity);
 }

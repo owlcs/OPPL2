@@ -13,5 +13,5 @@ public interface OWLEntityRenderer {
      * @return the String rendering of the input OWLEntity.
      * @throws NullPointerException
      *             when the input is {@code null}. */
-    public String render(OWLEntity entity);
+    String render(OWLEntity entity);
 }

@@ -28,9 +28,9 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /** @author Luigi Iannone */
 public interface OPPLScriptVisitor {
-    public void visit(Variable<?> v);
+    void visit(Variable<?> v);
 
-    public void visit(OPPLQuery q);
+    void visit(OPPLQuery q);
 
-    public void visitActions(List<OWLAxiomChange> changes);
+    void visitActions(List<OWLAxiomChange> changes);
 }

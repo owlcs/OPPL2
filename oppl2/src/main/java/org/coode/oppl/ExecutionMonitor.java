@@ -1,7 +1,7 @@
 package org.coode.oppl;
 
 public interface ExecutionMonitor {
-    public static final ExecutionMonitor NON_CANCELLABLE = new ExecutionMonitor() {
+    static final ExecutionMonitor NON_CANCELLABLE = new ExecutionMonitor() {
         @Override
         public boolean isCancelled() {
             return false;
@@ -13,7 +13,7 @@ public interface ExecutionMonitor {
         }
     };
 
-    public boolean isCancelled();
+    boolean isCancelled();
 
-    public void progressIncrementChanged(int newValue);
+    void progressIncrementChanged(int newValue);
 }

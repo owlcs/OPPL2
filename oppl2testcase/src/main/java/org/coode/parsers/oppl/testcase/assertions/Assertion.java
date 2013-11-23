@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.assertions;
 
 import java.util.Set;
@@ -24,6 +23,5 @@ public interface Assertion {
      * @return <code>true</code> if this Assertion holds.
      * @throws NullPointerException
      *             if either input is <code>null</code>. */
-    public boolean holds(Set<? extends BindingNode> bindings,
-            ConstraintSystem constraintSystem);
+    boolean holds(Set<? extends BindingNode> bindings, ConstraintSystem constraintSystem);
 }

@@ -37,21 +37,21 @@ import org.semanticweb.owlapi.model.OWLOntology;
 
 /** @author Luigi Iannone */
 public interface VariableType<O extends OWLObject> {
-    public Set<O> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies);
+    Set<O> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies);
 
-    public EnumSet<Direction> getAllowedDirections();
+    EnumSet<Direction> getAllowedDirections();
 
-    public boolean isCompatibleWith(OWLObject o);
+    boolean isCompatibleWith(OWLObject o);
 
-    public RegexpGeneratedVariable<? extends O> getRegexpGeneratedVariable(String name,
+    RegexpGeneratedVariable<? extends O> getRegexpGeneratedVariable(String name,
             OPPLFunction<Pattern> patternGeneratingOPPLFunction);
 
-    public InputVariable<O> getInputVariable(String name, VariableScope<?> variableScope);
+    InputVariable<O> getInputVariable(String name, VariableScope<?> variableScope);
 
-    public GeneratedVariable<O> getGeneratedVariable(String name,
+    GeneratedVariable<O> getGeneratedVariable(String name,
             OPPLFunction<? extends O> opplFunction);
 
-    public void accept(VariableTypeVisitor visitor);
+    void accept(VariableTypeVisitor visitor);
 
-    public <P> P accept(VariableTypeVisitorEx<P> visitor);
+    <P> P accept(VariableTypeVisitorEx<P> visitor);
 }

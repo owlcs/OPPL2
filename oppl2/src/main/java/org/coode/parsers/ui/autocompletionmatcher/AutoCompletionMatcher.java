@@ -1,4 +1,3 @@
-
 package org.coode.parsers.ui.autocompletionmatcher;
 
 import java.util.List;
@@ -14,5 +13,5 @@ public interface AutoCompletionMatcher {
      * @return a List of matching String elements.
      * @throws NullPointerException
      *             if the input string is <code>null</code>. */
-    public List<String> getMatches(String string2Complete);
+    List<String> getMatches(String string2Complete);
 }

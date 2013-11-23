@@ -48,10 +48,10 @@ public interface OPPLQuery extends Renderable {
 
     ConstraintSystem getConstraintSystem();
 
-    public void execute(RuntimeExceptionHandler runtimeExceptionHandler,
+    void execute(RuntimeExceptionHandler runtimeExceptionHandler,
             ExecutionMonitor executionMonitor);
 
-    public void execute(Collection<? extends BindingNode> leaves,
+    void execute(Collection<? extends BindingNode> leaves,
             RuntimeExceptionHandler runtimeExceptionHandler,
             ExecutionMonitor executionMonitor);
 

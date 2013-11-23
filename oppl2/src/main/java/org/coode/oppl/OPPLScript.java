@@ -32,27 +32,27 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
  * 
  * @author Luigi Iannone */
 public interface OPPLScript extends Renderable {
-    public void addVariable(Variable<?> variable);
+    void addVariable(Variable<?> variable);
 
     /** @return the List of the variables declared in this OPPLScript */
-    public List<Variable<?>> getVariables();
+    List<Variable<?>> getVariables();
 
     /** @return the List of the InputVariable elements */
-    public List<InputVariable<?>> getInputVariables();
+    List<InputVariable<?>> getInputVariables();
 
     /** @return the ConstraintSystem used by this OPPLScript */
-    public ConstraintSystem getConstraintSystem();
+    ConstraintSystem getConstraintSystem();
 
     /** @return the appropriate rendering of this OPPLScript */
-    public String render();
+    String render();
 
-    public List<OWLAxiomChange> getActions();
+    List<OWLAxiomChange> getActions();
 
-    public OPPLQuery getQuery();
+    OPPLQuery getQuery();
 
     void accept(OPPLScriptVisitor visitor);
 
     <P> P accept(OPPLScriptVisitorEx<P> visitor);
 
-    public String render(ShortFormProvider shortFormProvider);
+    String render(ShortFormProvider shortFormProvider);
 }

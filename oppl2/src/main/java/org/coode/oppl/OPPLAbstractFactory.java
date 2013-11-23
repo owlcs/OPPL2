@@ -85,13 +85,13 @@ public interface OPPLAbstractFactory {
      * @return the Manchester OWL Syntax renderer for this factory.
      * @throws NullPointerException
      *             when the input is {@code null}. */
-    public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs);
+    ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs);
 
     /** @return the appropriate OWLDataFactory used by this OPPLAbstractFactory */
-    public OWLDataFactory getOWLDataFactory();
+    OWLDataFactory getOWLDataFactory();
 
     /** @return the OWLOntologyManager used by this OPPLAbstractFactory. */
-    public OWLOntologyManager getOntologyManager();
+    OWLOntologyManager getOntologyManager();
 
     /** Builds an OPPLScript whose content is identical to the input one. Its
      * factory and reasoner will be set by this factory.

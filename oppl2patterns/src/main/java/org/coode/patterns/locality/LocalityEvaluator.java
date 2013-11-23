@@ -20,5 +20,5 @@ public interface LocalityEvaluator {
      *            The signature
      * @return <code>true</code> if the axiom is local w.r.t. given signature
      *         otherwise <code>false</code> */
-    public boolean isLocal(OWLAxiom axiom, Set<? extends OWLEntity> signature);
+    boolean isLocal(OWLAxiom axiom, Set<? extends OWLEntity> signature);
 }
