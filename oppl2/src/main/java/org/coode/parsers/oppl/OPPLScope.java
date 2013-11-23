@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl;
 
 import java.util.Set;
@@ -61,10 +60,8 @@ public class OPPLScope implements Scope {
     @Override
     public Symbol resolve(String name) {
         Symbol toReturn = owlEntityCheckerScope.resolve(name);
-        if (toReturn == null) {
-            if (name.startsWith("!")) {
-                toReturn = new CreateOnDemandIdentifier(name);
-            }
+        if (toReturn == null && name.startsWith("!")) {
+            toReturn = new CreateOnDemandIdentifier(name);
         }
         return toReturn;
     }

@@ -639,8 +639,6 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
         OPPLSyntaxTree _first_0 = null;
         OPPLSyntaxTree _last = null;
         OPPLSyntaxTree ARGUMENT4 = null;
-        OPPLSyntaxTree EXPRESSION5 = null;
-        OPPLSyntaxTree IDENTIFIER6 = null;
         OPPLSyntaxTree VARIABLE_NAME7 = null;
         OPPLSyntaxTree DOT8 = null;
         OPPLSyntaxTree VALUES9 = null;
@@ -755,8 +753,7 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                         {
                             OPPLSyntaxTree _save_last_2 = _last;
                             _last = (OPPLSyntaxTree) input.LT(1);
-                            EXPRESSION5 = (OPPLSyntaxTree) match(input, EXPRESSION,
-                                    FOLLOW_EXPRESSION_in_argument184);
+                            match(input, EXPRESSION, FOLLOW_EXPRESSION_in_argument184);
                             if (state.failed) {
                                 return retval;
                             }
@@ -769,8 +766,7 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                                 OPPLSyntaxTree _save_last_3 = _last;
                                 OPPLSyntaxTree _first_3 = null;
                                 _last = (OPPLSyntaxTree) input.LT(1);
-                                IDENTIFIER6 = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                                        FOLLOW_IDENTIFIER_in_argument189);
+                                match(input, IDENTIFIER, FOLLOW_IDENTIFIER_in_argument189);
                                 if (state.failed) {
                                     return retval;
                                 }

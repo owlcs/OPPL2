@@ -932,13 +932,11 @@ public class SymbolTable {
             reportIncompatibleSymbolType(rhs, rhs.getEvalType(), expression);
             rightKinds = false;
         }
-        if (rightKinds) {
-            if (lhs.getEvalType().accept(owlObjectPropertyTypeDetector)) {
-                if (!rhs.getEvalType().accept(owlObjectPropertyTypeDetector)) {
-                    reportIncompatibleSymbols(expression, lhs, rhs);
-                } else {
-                    toReturn = OWLAxiomType.INVERSE_OBJECT_PROPERTIES;
-                }
+        if (rightKinds && lhs.getEvalType().accept(owlObjectPropertyTypeDetector)) {
+            if (!rhs.getEvalType().accept(owlObjectPropertyTypeDetector)) {
+                reportIncompatibleSymbols(expression, lhs, rhs);
+            } else {
+                toReturn = OWLAxiomType.INVERSE_OBJECT_PROPERTIES;
             }
         }
         return toReturn;
@@ -1903,15 +1901,13 @@ public class SymbolTable {
             reportIncompatibleSymbolType(rhs, rhs.getEvalType(), expression);
             rightKinds = false;
         }
-        if (rightKinds) {
-            if (lhs.getEvalType().accept(owlObjectPropertyTypeDetector)) {
-                if (!rhs.getEvalType().accept(owlObjectPropertyTypeDetector)) {
-                    reportIncompatibleSymbols(expression, lhs, rhs);
-                } else {
-                    toReturn = getDataFactory().getOWLInverseObjectPropertiesAxiom(
-                            (OWLObjectPropertyExpression) lhs.getOWLObject(),
-                            (OWLObjectPropertyExpression) rhs.getOWLObject());
-                }
+        if (rightKinds && lhs.getEvalType().accept(owlObjectPropertyTypeDetector)) {
+            if (!rhs.getEvalType().accept(owlObjectPropertyTypeDetector)) {
+                reportIncompatibleSymbols(expression, lhs, rhs);
+            } else {
+                toReturn = getDataFactory().getOWLInverseObjectPropertiesAxiom(
+                        (OWLObjectPropertyExpression) lhs.getOWLObject(),
+                        (OWLObjectPropertyExpression) rhs.getOWLObject());
             }
         }
         return toReturn;

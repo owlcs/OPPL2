@@ -30,9 +30,7 @@ public class RenderableObjectCellRenderer extends OWLCellRenderer {
         Object item = null;
         if (object instanceof VariableListItem<?>) {
             item = ((VariableListItem<?>) object).getItem();
-        }
-        // item contains now the actual element
-        if (item != null) {
+            // item contains now the actual element
             // if the item is an OWLObject, use the default OWLCellRenderer
             // implementation
             if (item instanceof OWLObject) {

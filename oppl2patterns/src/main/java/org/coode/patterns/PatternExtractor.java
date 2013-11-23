@@ -115,10 +115,8 @@ public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScrip
         Set<String> toReturn = new HashSet<String>();
         for (OWLAnnotation patternAnnotation : visited) {
             IRI iri = patternAnnotation.getProperty().getIRI();
-            if (iri != null) {
-                if (PatternModel.NAMESPACE.equals(iri.getNamespace())) {
-                    toReturn.add(iri.getFragment());
-                }
+            if (iri != null && PatternModel.NAMESPACE.equals(iri.getNamespace())) {
+                toReturn.add(iri.getFragment());
             }
         }
         return toReturn;

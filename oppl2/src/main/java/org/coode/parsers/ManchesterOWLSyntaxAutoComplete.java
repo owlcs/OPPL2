@@ -2859,11 +2859,9 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                 }
                     break;
             }
-            if (state.backtracking == 1) {
-                if (retval.completions != null) {
-                    ((ManchesterOWLSyntaxTree) retval.start)
-                            .setCompletions(retval.completions);
-                }
+            if (state.backtracking == 1 && retval.completions != null) {
+                ((ManchesterOWLSyntaxTree) retval.start)
+                        .setCompletions(retval.completions);
             }
         } catch (RecognitionException exception) {} catch (RewriteEmptyStreamException exception) {} finally {}
         return retval;
@@ -3885,11 +3883,9 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                 }
                     break;
             }
-            if (state.backtracking == 1) {
-                if (retval.completions != null) {
-                    ((ManchesterOWLSyntaxTree) retval.start)
-                            .setCompletions(retval.completions);
-                }
+            if (state.backtracking == 1 && retval.completions != null) {
+                ((ManchesterOWLSyntaxTree) retval.start)
+                        .setCompletions(retval.completions);
             }
         } catch (RecognitionException exception) {} catch (RewriteEmptyStreamException exception) {} finally {}
         return retval;
@@ -4138,11 +4134,9 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                 }
                     break;
             }
-            if (state.backtracking == 1) {
-                if (retval.completions != null) {
-                    ((ManchesterOWLSyntaxTree) retval.start)
-                            .setCompletions(retval.completions);
-                }
+            if (state.backtracking == 1 && retval.completions != null) {
+                ((ManchesterOWLSyntaxTree) retval.start)
+                        .setCompletions(retval.completions);
             }
         } catch (RecognitionException exception) {} catch (RewriteEmptyStreamException exception) {} finally {}
         return retval;
@@ -4214,11 +4208,9 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     }
                 }
             }
-            if (state.backtracking == 1) {
-                if (retval.completions != null) {
-                    ((ManchesterOWLSyntaxTree) retval.start)
-                            .setCompletions(retval.completions);
-                }
+            if (state.backtracking == 1 && retval.completions != null) {
+                ((ManchesterOWLSyntaxTree) retval.start)
+                        .setCompletions(retval.completions);
             }
         } catch (RecognitionException exception) {} catch (RewriteEmptyStreamException exception) {} finally {}
         return retval;
@@ -4320,11 +4312,9 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                 }
                     break;
             }
-            if (state.backtracking == 1) {
-                if (retval.completions != null) {
-                    ((ManchesterOWLSyntaxTree) retval.start)
-                            .setCompletions(retval.completions);
-                }
+            if (state.backtracking == 1 && retval.completions != null) {
+                ((ManchesterOWLSyntaxTree) retval.start)
+                        .setCompletions(retval.completions);
             }
         } catch (RecognitionException exception) {} catch (RewriteEmptyStreamException exception) {} finally {}
         return retval;
@@ -4495,11 +4485,9 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                 }
                     break;
             }
-            if (state.backtracking == 1) {
-                if (retval.completions != null) {
-                    ((ManchesterOWLSyntaxTree) retval.start)
-                            .setCompletions(retval.completions);
-                }
+            if (state.backtracking == 1 && retval.completions != null) {
+                ((ManchesterOWLSyntaxTree) retval.start)
+                        .setCompletions(retval.completions);
             }
         } catch (RecognitionException exception) {} catch (RewriteEmptyStreamException exception) {} finally {}
         return retval;
@@ -4561,11 +4549,9 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                             symtab.getOWLClassCompletions());
                 }
             }
-            if (state.backtracking == 1) {
-                if (retval.completions != null) {
-                    ((ManchesterOWLSyntaxTree) retval.start)
-                            .setCompletions(retval.completions);
-                }
+            if (state.backtracking == 1 && retval.completions != null) {
+                ((ManchesterOWLSyntaxTree) retval.start)
+                        .setCompletions(retval.completions);
             }
         } catch (RecognitionException exception) {} catch (RewriteEmptyStreamException exception) {} finally {}
         return retval;
@@ -4642,11 +4628,9 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                             symtab.getOWLIndividualCompletions());
                 }
             }
-            if (state.backtracking == 1) {
-                if (retval.completions != null) {
-                    ((ManchesterOWLSyntaxTree) retval.start)
-                            .setCompletions(retval.completions);
-                }
+            if (state.backtracking == 1 && retval.completions != null) {
+                ((ManchesterOWLSyntaxTree) retval.start)
+                        .setCompletions(retval.completions);
             }
         } catch (RecognitionException exception) {} catch (RewriteEmptyStreamException exception) {} finally {}
         return retval;
@@ -4700,11 +4684,9 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
                     }
                 }
             }
-            if (state.backtracking == 1) {
-                if (retval.completions != null) {
-                    ((ManchesterOWLSyntaxTree) retval.start)
-                            .setCompletions(retval.completions);
-                }
+            if (state.backtracking == 1 && retval.completions != null) {
+                ((ManchesterOWLSyntaxTree) retval.start)
+                        .setCompletions(retval.completions);
             }
         } catch (RecognitionException exception) {} catch (RewriteEmptyStreamException exception) {} finally {}
         return retval;

@@ -185,10 +185,9 @@ public class EntityFinderImpl implements EntityFinder {
             if (match.trim().length() != 0) {
                 match = match.toLowerCase();
                 for (String rendering : this.getRenderings(type)) {
-                    if (rendering.length() > 0) {
-                        if (matcher.matches(rendering.toLowerCase(), match)) {
-                            results.add(this.getEntity(rendering, type));
-                        }
+                    if (rendering.length() > 0
+                            && matcher.matches(rendering.toLowerCase(), match)) {
+                        results.add(this.getEntity(rendering, type));
                     }
                 }
             }
