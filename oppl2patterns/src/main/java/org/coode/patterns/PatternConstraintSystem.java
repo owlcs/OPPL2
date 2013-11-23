@@ -337,7 +337,7 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     @Override
-    public void setLeaves(Set<BindingNode> newLeaves) {
+    public void setLeaves(Collection<? extends BindingNode> newLeaves) {
         constraintSystem.setLeaves(newLeaves);
     }
 

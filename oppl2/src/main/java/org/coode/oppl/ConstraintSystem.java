@@ -398,8 +398,12 @@ public class ConstraintSystem {
     }
 
     /** @param newLeaves */
-    public void setLeaves(Set<BindingNode> newLeaves) {
-        leaves = newLeaves;
+    public void setLeaves(Collection<? extends BindingNode> newLeaves) {
+        if (newLeaves == null) {
+            leaves = null;
+        } else {
+            leaves = new HashSet<BindingNode>(newLeaves);
+        }
     }
 
     /** @param reasoner */
