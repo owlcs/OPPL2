@@ -1,4 +1,3 @@
-
 package org.coode.parsers;
 
 import java.util.EnumSet;
@@ -26,6 +25,10 @@ public enum OWLType implements Type {
                 OWL_OBJECT_MIN_CARDINALITY_RESTRICTION, OWL_OBJECT_ONE_OF,
                 OWL_OBJECT_SELF_RESTRICTION, OWL_OBJECT_SOME_RESTRICTION,
                 OWL_OBJECT_UNION_OF, OWL_OBJECT_VALUE_RESTRICTION);
+    }
+
+    public boolean match(Type t) {
+        return this == t;
     }
 
     private static EnumSet<OWLType> getDataRestrictionTypes() {
