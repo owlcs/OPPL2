@@ -6615,7 +6615,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
                         s = 14;
                     } else if (synpred16_MOWLParser()) {
                         s = 15;
-                    } else if (true) {
+                    } else {
                         s = 16;
                     }
                     in.seek(index6_1);
@@ -6644,7 +6644,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
                         s = 14;
                     } else if (synpred16_MOWLParser()) {
                         s = 15;
-                    } else if (true) {
+                    } else {
                         s = 16;
                     }
                     in.seek(index6_2);
@@ -6819,7 +6819,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
                         s = 5;
                     } else if (synpred23_MOWLParser()) {
                         s = 8;
-                    } else if (true) {
+                    } else {
                         s = 9;
                     }
                     in.seek(index12_1);
@@ -6836,7 +6836,7 @@ public class ManchesterOWLSyntax_MOWLParser extends Parser {
                         s = 7;
                     } else if (synpred22_MOWLParser()) {
                         s = 5;
-                    } else if (true) {
+                    } else {
                         s = 9;
                     }
                     in.seek(index12_2);

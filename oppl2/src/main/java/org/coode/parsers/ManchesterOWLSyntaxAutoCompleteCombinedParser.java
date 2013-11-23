@@ -808,7 +808,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         s = 16;
                     } else if (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 17;
-                    } else if (true) {
+                    } else {
                         s = 18;
                     }
                     in.seek(index1_1);
@@ -827,7 +827,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         s = 16;
                     } else if (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 17;
-                    } else if (true) {
+                    } else {
                         s = 18;
                     }
                     in.seek(index1_2);
@@ -846,7 +846,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         s = 16;
                     } else if (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 17;
-                    } else if (true) {
+                    } else {
                         s = 18;
                     }
                     in.seek(index1_3);
@@ -865,7 +865,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         s = 16;
                     } else if (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 17;
-                    } else if (true) {
+                    } else {
                         s = 18;
                     }
                     in.seek(index1_4);
@@ -884,7 +884,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         s = 16;
                     } else if (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 17;
-                    } else if (true) {
+                    } else {
                         s = 18;
                     }
                     in.seek(index1_5);
@@ -903,7 +903,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         s = 16;
                     } else if (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 17;
-                    } else if (true) {
+                    } else {
                         s = 18;
                     }
                     in.seek(index1_6);
@@ -922,7 +922,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
                         s = 16;
                     } else if (synpred3_ManchesterOWLSyntaxAutoCompleteCombined()) {
                         s = 17;
-                    } else if (true) {
+                    } else {
                         s = 18;
                     }
                     in.seek(index1_7);

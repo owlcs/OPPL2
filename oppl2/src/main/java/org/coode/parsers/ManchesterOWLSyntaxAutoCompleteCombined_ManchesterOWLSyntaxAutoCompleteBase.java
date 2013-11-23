@@ -4080,7 +4080,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         s = 10;
                     } else if (synpred4_ManchesterOWLSyntaxAutoCompleteBase()) {
                         s = 11;
-                    } else if (true) {
+                    } else {
                         s = 7;
                     }
                     in.seek(index8_1);
@@ -4101,7 +4101,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         s = 10;
                     } else if (synpred4_ManchesterOWLSyntaxAutoCompleteBase()) {
                         s = 11;
-                    } else if (true) {
+                    } else {
                         s = 7;
                     }
                     in.seek(index8_2);
@@ -4122,7 +4122,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         s = 10;
                     } else if (synpred4_ManchesterOWLSyntaxAutoCompleteBase()) {
                         s = 11;
-                    } else if (true) {
+                    } else {
                         s = 7;
                     }
                     in.seek(index8_3);
@@ -4141,7 +4141,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         s = 10;
                     } else if (synpred4_ManchesterOWLSyntaxAutoCompleteBase()) {
                         s = 11;
-                    } else if (true) {
+                    } else {
                         s = 7;
                     }
                     in.seek(index8_4);
@@ -4160,7 +4160,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         s = 10;
                     } else if (synpred4_ManchesterOWLSyntaxAutoCompleteBase()) {
                         s = 11;
-                    } else if (true) {
+                    } else {
                         s = 7;
                     }
                     in.seek(index8_5);
@@ -4177,7 +4177,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                         s = 9;
                     } else if (synpred3_ManchesterOWLSyntaxAutoCompleteBase()) {
                         s = 10;
-                    } else if (true) {
+                    } else {
                         s = 7;
                     }
                     in.seek(index8_6);

@@ -4908,7 +4908,7 @@ public class OPPLScript_OPPLParser extends Parser {
                         s = 22;
                     } else if (synpred19_OPPLParser()) {
                         s = 23;
-                    } else if (true) {
+                    } else {
                         s = 21;
                     }
                     in.seek(index9_3);

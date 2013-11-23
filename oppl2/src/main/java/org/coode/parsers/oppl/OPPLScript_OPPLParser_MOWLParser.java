@@ -6003,7 +6003,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         s = 16;
                     } else if (synpred18_MOWLParser()) {
                         s = 17;
-                    } else if (true) {
+                    } else {
                         s = 18;
                     }
                     in.seek(index6_1);
@@ -6032,7 +6032,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         s = 16;
                     } else if (synpred18_MOWLParser()) {
                         s = 17;
-                    } else if (true) {
+                    } else {
                         s = 18;
                     }
                     in.seek(index6_2);
@@ -6061,7 +6061,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         s = 16;
                     } else if (synpred18_MOWLParser()) {
                         s = 17;
-                    } else if (true) {
+                    } else {
                         s = 18;
                     }
                     in.seek(index6_3);
@@ -6090,7 +6090,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         s = 16;
                     } else if (synpred18_MOWLParser()) {
                         s = 17;
-                    } else if (true) {
+                    } else {
                         s = 18;
                     }
                     in.seek(index6_4);
@@ -6343,7 +6343,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         s = 7;
                     } else if (synpred34_MOWLParser()) {
                         s = 10;
-                    } else if (true) {
+                    } else {
                         s = 11;
                     }
                     in.seek(index12_1);
@@ -6360,7 +6360,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         s = 9;
                     } else if (synpred33_MOWLParser()) {
                         s = 7;
-                    } else if (true) {
+                    } else {
                         s = 11;
                     }
                     in.seek(index12_2);
@@ -6377,7 +6377,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         s = 9;
                     } else if (synpred33_MOWLParser()) {
                         s = 7;
-                    } else if (true) {
+                    } else {
                         s = 11;
                     }
                     in.seek(index12_3);
@@ -6394,7 +6394,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         s = 9;
                     } else if (synpred33_MOWLParser()) {
                         s = 7;
-                    } else if (true) {
+                    } else {
                         s = 11;
                     }
                     in.seek(index12_4);
@@ -6505,7 +6505,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         s = 8;
                     } else if (synpred43_MOWLParser()) {
                         s = 9;
-                    } else if (true) {
+                    } else {
                         s = 10;
                     }
                     in.seek(index16_1);
@@ -6524,7 +6524,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         s = 8;
                     } else if (synpred43_MOWLParser()) {
                         s = 9;
-                    } else if (true) {
+                    } else {
                         s = 10;
                     }
                     in.seek(index16_2);
@@ -6543,7 +6543,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         s = 8;
                     } else if (synpred43_MOWLParser()) {
                         s = 9;
-                    } else if (true) {
+                    } else {
                         s = 10;
                     }
                     in.seek(index16_3);
@@ -6562,7 +6562,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         s = 8;
                     } else if (synpred43_MOWLParser()) {
                         s = 9;
-                    } else if (true) {
+                    } else {
                         s = 10;
                     }
                     in.seek(index16_4);
@@ -6581,7 +6581,7 @@ public class OPPLScript_OPPLParser_MOWLParser extends Parser {
                         s = 8;
                     } else if (synpred43_MOWLParser()) {
                         s = 9;
-                    } else if (true) {
+                    } else {
                         s = 10;
                     }
                     in.seek(index16_5);

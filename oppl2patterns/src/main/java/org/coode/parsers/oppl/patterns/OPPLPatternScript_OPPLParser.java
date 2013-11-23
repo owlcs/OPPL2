@@ -4683,7 +4683,7 @@ public class OPPLPatternScript_OPPLParser extends Parser {
                         s = 24;
                     } else if (synpred19_OPPLParser()) {
                         s = 25;
-                    } else if (true) {
+                    } else {
                         s = 23;
                     }
                     in.seek(index9_4);
