@@ -31,7 +31,6 @@ import org.coode.oppl.ExecutionMonitor;
 import org.coode.oppl.OPPLQuery;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
-import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
@@ -39,9 +38,8 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 public class ProtegeOPPLQuery implements OPPLQuery {
     private final OPPLQuery opplQuery;
 
-    /** @param opplQuery
-     * @param modelManager */
-    public ProtegeOPPLQuery(OPPLQuery opplQuery, OWLModelManager modelManager) {
+    /** @param opplQuery */
+    public ProtegeOPPLQuery(OPPLQuery opplQuery) {
         this.opplQuery = opplQuery;
     }
 

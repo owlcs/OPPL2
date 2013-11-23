@@ -31,7 +31,6 @@ import org.coode.oppl.OPPLScriptVisitor;
 import org.coode.oppl.OPPLScriptVisitorEx;
 import org.coode.oppl.Variable;
 import org.coode.oppl.variabletypes.InputVariable;
-import org.protege.editor.owl.model.OWLModelManager;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
@@ -39,9 +38,8 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 public class ProtegeOPPLScript implements OPPLScript {
     private final OPPLScript opplScript;
 
-    /** @param opplScript
-     * @param modelManager */
-    public ProtegeOPPLScript(OPPLScript opplScript, OWLModelManager modelManager) {
+    /** @param opplScript */
+    public ProtegeOPPLScript(OPPLScript opplScript) {
         this.opplScript = opplScript;
     }
 

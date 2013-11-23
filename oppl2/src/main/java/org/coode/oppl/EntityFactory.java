@@ -152,8 +152,7 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
         return null;
     }
 
-    private <T extends OWLEntity> boolean isValidNewID(String shortName, IRI baseIRI,
-            Class<T> type) {
+    private <T extends OWLEntity> boolean isValidNewID(IRI baseIRI) {
         return baseIRI.equals(factory.getOntology().getOntologyID().getOntologyIRI());
     }
 
@@ -166,7 +165,7 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
     @Override
     public void tryCreate(Class<? extends OWLEntity> type, String shortName, IRI baseIRI)
             throws OWLEntityCreationException {
-        if (!this.isValidNewID(shortName, baseIRI, type)) {
+        if (!this.isValidNewID(baseIRI)) {
             throw new OWLEntityCreationException("Invalid name: " + shortName + "for an "
                     + type.getName());
         }

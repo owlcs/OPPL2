@@ -70,9 +70,7 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
     private final OWLEditorKit owlEditorKit;
     private ProtegeScopeVariableChecker variableScopeVariableChecker = null;
 
-    /** @param modelManager
-     * @param constraintSystem
-     * @param dataFactory */
+    /** @param owlEditorKit */
     public ProtegeOPPLFactory(OWLEditorKit owlEditorKit) {
         if (owlEditorKit == null) {
             throw new NullPointerException("The owlEditorKit cannot be null");
@@ -117,15 +115,14 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
             throw new IllegalArgumentException("Invalid actions");
         }
         ProtegeOPPLScript toReturn = new ProtegeOPPLScript(new OPPLScriptImpl(
-                constraintSystem1, variables, opplQuery, actions, this),
-                getOWLEditorKit().getOWLModelManager());
+                constraintSystem1, variables, opplQuery, actions, this));
         return toReturn;
     }
 
     @Override
     public OPPLQuery buildNewQuery(ConstraintSystem constraintSystem1) {
         OPPLQuery opplQuery = new OPPLQueryImpl(constraintSystem1, this);
-        return new ProtegeOPPLQuery(opplQuery, getOWLEditorKit().getOWLModelManager());
+        return new ProtegeOPPLQuery(opplQuery);
     }
 
     @Override
@@ -180,8 +177,7 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
         }
         return new ProtegeOPPLScript(new OPPLScriptImpl(newConstraintSystem,
                 opplScript.getVariables(), opplScript.getQuery(),
-                opplScript.getActions(), this, true), getOWLEditorKit()
-                .getOWLModelManager());
+                opplScript.getActions(), this, true));
     }
 
     /** @return the owlEditorKit */

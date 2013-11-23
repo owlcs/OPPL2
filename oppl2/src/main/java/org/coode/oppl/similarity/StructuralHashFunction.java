@@ -630,10 +630,10 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
 
     @Override
     public Integer visit(OWLLiteral constant) {
-        return getOWLConstantHashCode(constant);
+        return getOWLConstantHashCode();
     }
 
-    private Integer getOWLConstantHashCode(OWLLiteral constant) {
+    private Integer getOWLConstantHashCode() {
         // For each constant a single representative will be used for computing
         // the corresponding prime.
         Integer toReturn = entityHashCodes.get(OWLVocabulary.getTopDatatype());

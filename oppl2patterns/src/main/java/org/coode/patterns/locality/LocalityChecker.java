@@ -169,15 +169,6 @@ public class LocalityChecker {
         };
     }
 
-    private void ensureOntologiesUnloaded(OWLReasoner r) {
-        // removing the ontologies does not seem to work properly
-        // try {
-        // r.clearOntologies();
-        // } catch (OWLReasonerException e) {
-        // e.printStackTrace();
-        // }
-    }
-
     public void setSignature(Collection<? extends OWLEntity> owlentities) {
         entities.clear();
         entities.addAll(owlentities);
@@ -196,7 +187,6 @@ public class LocalityChecker {
                 entities, getHandler());
         rootBindingNode.accept(leafBrusher);
         boolean local = leafBrusher.isLocal();
-        ensureOntologiesUnloaded(reasoner);
         return local;
     }
 
