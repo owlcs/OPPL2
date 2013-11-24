@@ -17,6 +17,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,14 +41,14 @@ import org.coode.parsers.ui.autocompletionmatcher.AutoCompletionMatcher;
  * www.cs.man.ac.uk/~horridgm<br>
  * <br> */
 public final class AutoCompleter {
-    public static final int DEFAULT_MAX_ENTRIES = 100;
+    private static final int DEFAULT_MAX_ENTRIES = 100;
     protected final JTextComponent textComponent;
     private final Set<String> wordDelimeters;
-    private final JList popupList;
+    private final JList<String> popupList;
     protected JWindow popupWindow;
     private final AutoCompletionMatcher matcher;
-    public static final int POPUP_WIDTH = 350;
-    public static final int POPUP_HEIGHT = 300;
+    private static final int POPUP_WIDTH = 350;
+    private static final int POPUP_HEIGHT = 300;
     protected String lastTextUpdate = "*";
     private final int maxEntries = DEFAULT_MAX_ENTRIES;
     private final KeyListener keyListener = new KeyAdapter() {
@@ -110,6 +111,8 @@ public final class AutoCompleter {
         }
     };
 
+    /** @param tc
+     * @param matcher */
     public AutoCompleter(JTextComponent tc, AutoCompletionMatcher matcher) {
         if (tc == null) {
             throw new NullPointerException("The text component cannot be null");
@@ -119,18 +122,9 @@ public final class AutoCompleter {
         }
         textComponent = tc;
         this.matcher = matcher;
-        wordDelimeters = new HashSet<String>();
-        wordDelimeters.add(" ");
-        wordDelimeters.add("\n");
-        wordDelimeters.add("[");
-        wordDelimeters.add("]");
-        wordDelimeters.add("{");
-        wordDelimeters.add("}");
-        wordDelimeters.add("(");
-        wordDelimeters.add(")");
-        wordDelimeters.add(",");
-        wordDelimeters.add("^");
-        popupList = new JList();
+        wordDelimeters = new HashSet<String>(Arrays.asList(" ", "\n", "[", "]", "{", "}",
+                "(", ")", ",", "^"));
+        popupList = new JList<String>();
         popupList.setAutoscrolls(true);
         popupList.addMouseListener(mouseListener);
         popupList.setRequestFocusEnabled(false);
@@ -143,6 +137,7 @@ public final class AutoCompleter {
         createPopupWindow();
     }
 
+    /** hide popup */
     public void cancel() {
         hidePopup();
     }
@@ -269,7 +264,7 @@ public final class AutoCompleter {
 
     protected void hidePopup() {
         popupWindow.setVisible(false);
-        popupList.setListData(new Object[0]);
+        popupList.setListData(new String[0]);
     }
 
     protected void updatePopup(List<String> matches) {
@@ -277,10 +272,9 @@ public final class AutoCompleter {
         if (count > maxEntries) {
             count = maxEntries;
         }
+        String[] value = matches.subList(0, count).toArray(new String[count]);
         if (!matches.isEmpty()) {
-            popupList.setListData(matches.subList(0, count).toArray());
-        } else {
-            popupList.setListData(matches.toArray());
+            popupList.setListData(value);
         }
         popupList.setSelectedIndex(0);
         popupWindow.setSize(POPUP_WIDTH, POPUP_HEIGHT);
@@ -382,6 +376,7 @@ public final class AutoCompleter {
         return textComponent.getCaretPosition();
     }
 
+    /** uninstall the completer */
     public void uninstall() {
         hidePopup();
         textComponent.removeKeyListener(keyListener);
