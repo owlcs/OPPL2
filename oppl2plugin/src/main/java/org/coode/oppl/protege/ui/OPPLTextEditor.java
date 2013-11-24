@@ -58,7 +58,7 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private final OWLEditorKit owlEditorKit;
     private OPPLScript opplScript = null;
-    private final ExpressionEditor<OPPLScript> editor;
+    protected final ExpressionEditor<OPPLScript> editor;
     protected final OPPLScriptValidator validator;
     private final OPPLExpressionChecker<OPPLScript> opplExpressionChecker;
     private final ProtegeOPPLAutoCompletionMatcher autoCompletionMatcher;
@@ -194,6 +194,7 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
         }
     }
 
+    /** dispose */
     public void dispose() {
         getOWLEditorKit().getModelManager().removeListener(this);
         autoCompletionMatcher.dispose();

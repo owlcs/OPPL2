@@ -96,10 +96,12 @@ public final class OPPLView extends AbstractOWLViewComponent implements
     private static final String AFFECTED_AXIOMS_TITLE = "Affected axioms";
     private RuntimeExceptionHandler runtimeExceptionHandler;
 
-    private final class InstantiatedAxiomListModel implements ListModel {
+    private final class InstantiatedAxiomListModel implements ListModel<OWLAxiom> {
         private final Set<BindingNode> bindingNodes = new HashSet<BindingNode>();
         private final Set<ListDataListener> listeners = new HashSet<ListDataListener>();
         private final List<OWLAxiom> instantiations = new ArrayList<OWLAxiom>();
+
+        public InstantiatedAxiomListModel() {}
 
         private final void init() {
             instantiations.clear();
@@ -158,7 +160,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
         }
 
         @Override
-        public Object getElementAt(int index) {
+        public OWLAxiom getElementAt(int index) {
             return instantiations.get(index);
         }
 
@@ -197,8 +199,8 @@ public final class OPPLView extends AbstractOWLViewComponent implements
                 AbstractVariableVisitorExAdapter<Boolean> nullScopeDetector = new AbstractVariableVisitorExAdapter<Boolean>(
                         true) {
                     @Override
-                    public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
-                        return v.getVariableScope() == null;
+                    public <P extends OWLObject> Boolean visit(InputVariable<P> iv) {
+                        return iv.getVariableScope() == null;
                     }
                 };
                 return p == null ? v.accept(nullScopeDetector) : p
@@ -336,28 +338,28 @@ public final class OPPLView extends AbstractOWLViewComponent implements
 
     private static final long serialVersionUID = 20100L;
     private static final String OPPL_COMPUTATION_IN_PROGRESS_PLEASE_WAIT = "OPPL Computation in progress...please wait";
-    private OPPLEditor editor;
-    private final ReasonerOPPLScriptValiator validator = new ReasonerOPPLScriptValiator();
-    private final JButton evaluate = new JButton("Evaluate");
-    private final JButton stopEvaluation = new JButton("Cancel");
-    private final JButton execute = new JButton("Execute");
-    private ActionList affectedAxioms;
-    private final InstantiatedAxiomListModel instantiatedAxiomListModel = new InstantiatedAxiomListModel();
-    private OWLLinkedObjectList instantiatedAxiomsList;
-    private OPPLScript statementModel;
-    private JDialog window;
-    private JScrollPane affectedScrollPane;
-    private JScrollPane instantiatedScrollPane;
-    private final JCheckBox considerImportClosureCheckBox = new JCheckBox(
+    protected OPPLEditor editor;
+    protected final ReasonerOPPLScriptValiator validator = new ReasonerOPPLScriptValiator();
+    protected final JButton evaluate = new JButton("Evaluate");
+    protected final JButton stopEvaluation = new JButton("Cancel");
+    protected final JButton execute = new JButton("Execute");
+    protected ActionList affectedAxioms;
+    protected final InstantiatedAxiomListModel instantiatedAxiomListModel = new InstantiatedAxiomListModel();
+    protected OWLLinkedObjectList instantiatedAxiomsList;
+    protected OPPLScript statementModel;
+    protected JDialog window;
+    protected JScrollPane affectedScrollPane;
+    protected JScrollPane instantiatedScrollPane;
+    protected final JCheckBox considerImportClosureCheckBox = new JCheckBox(
             "When removing consider Active Ontology Imported Closure", false);
-    private final CopyAction copyResultsAction = new CopyAction(
+    protected final CopyAction copyResultsAction = new CopyAction(
             "Copy results to Clipboard");
-    private final BoundedRangeModel progressBarModel = new DefaultBoundedRangeModel();
-    private TableModel bindingTableModel = InstantiationTableModel
+    protected final BoundedRangeModel progressBarModel = new DefaultBoundedRangeModel();
+    protected TableModel bindingTableModel = InstantiationTableModel
             .getNoOPPLScriptTableModel();
-    private final JTable bindingTable = new JTable(bindingTableModel);
-    private JScrollPane bindingTreeScrollPane;
-    private OPPLChangeDetectorSwingWorker opplSwingWorker;
+    protected final JTable bindingTable = new JTable(bindingTableModel);
+    protected JScrollPane bindingTreeScrollPane;
+    protected OPPLChangeDetectorSwingWorker opplSwingWorker;
 
     @Override
     protected void disposeOWLView() {
@@ -524,7 +526,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
                 });
     }
 
-    private final void setupOPPLProgressMonitor() {
+    protected final void setupOPPLProgressMonitor() {
         JPanel panel = new JPanel(new BorderLayout(7, 7));
         progressBarModel.setValue(0);
         JProgressBar progressBar = new JProgressBar(progressBarModel);

@@ -42,13 +42,14 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  * <p/>
  * An editor that can be used to edit text containing class expressions. The
  * editor is backed by a parser that checks that the text is well formed and
- * provides feedback if the text is not well formed. */
+ * provides feedback if the text is not well formed.
+ * 
+ * @param <O> */
 public class ExpressionEditor<O> extends JTextPane implements RefreshableComponent,
         VerifiedInputEditor {
     private static final int CHECK_DELAY = 500;
-    
     private static final long serialVersionUID = 20100L;
-    private final KeywordColourMap keywordColourMap = new KeywordColourMap();
+    protected final KeywordColourMap keywordColourMap = new KeywordColourMap();
     private Border outerBorder;
     private final Border defaultBorder;
     private Border stateBorder;
@@ -60,7 +61,7 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
     private final Timer timer;
     private static final int DEFAULT_TOOL_TIP_INITIAL_DELAY = ToolTipManager
             .sharedInstance().getInitialDelay();
-    public static final String DEFAULT_FONT_NAME = "Dialog";
+    private static final String DEFAULT_FONT_NAME = "Dialog";
     private static final int DEFAULT_TOOL_TIP_DISMISS_DELAY = ToolTipManager
             .sharedInstance().getDismissDelay();
     private static final int ERROR_TOOL_TIP_INITIAL_DELAY = 100;
@@ -68,6 +69,8 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
     private final ExpressionChecker<O> expressionChecker;
     private final OWLOntologyManager ontologyMmanager;
 
+    /** @param manager
+     * @param checker */
     public ExpressionEditor(OWLOntologyManager manager, ExpressionChecker<O> checker) {
         if (manager == null) {
             throw new NullPointerException("The ontology manager cannot be null");
@@ -125,6 +128,7 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
         setFont(new Font(DEFAULT_FONT_NAME, Font.PLAIN, 14));
     }
 
+    /** @param desc */
     public void setExpressionObject(O desc) {
         if (desc == null) {
             setText("");
@@ -133,14 +137,17 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
         }
     }
 
+    /** @return expression checker */
     public ExpressionChecker<O> getExpressionChecker() {
         return this.expressionChecker;
     }
 
+    /** @return create object */
     public O createObject() {
         return this.expressionChecker.createObject(this.getText());
     }
 
+    /** @param border */
     public void setStateBorder(Border border) {
         this.stateBorder = border;
         super.setBorder(BorderFactory.createCompoundBorder(this.outerBorder,
@@ -171,12 +178,12 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
         this.setError(this.expressionChecker.getErrorReport());
     }
 
-    private void handleTimer() {
+    protected void handleTimer() {
         this.timer.stop();
         this.checkExpression();
     }
 
-    private void handleDocumentUpdated() {
+    protected void handleDocumentUpdated() {
         this.timer.restart();
         this.clearError();
         this.performHighlighting();
@@ -276,12 +283,9 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
     }
 
     private static String getHTMLErrorMessage(String msg) {
-        String html = "<html><body>";
-        msg = msg.replace("\n", "<br>");
-        msg = msg.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
-        html += msg;
-        html += "</body></html>";
-        return html;
+        return "<html><body>"
+                + msg.replace("\n", "<br>").replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+                + "</body></html>";
     }
 
     private void createStyles() {

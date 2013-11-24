@@ -22,6 +22,7 @@ import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
+/** @author Luigi Iannone */
 public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
     protected Map<String, OWLClass> owlClassMap = new HashMap<String, OWLClass>();
     protected Map<String, OWLObjectProperty> owlObjectPropertyMap = new HashMap<String, OWLObjectProperty>();
@@ -39,6 +40,8 @@ public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
         }
     };
 
+    /** @param manager
+     * @param entityRenderer */
     public OWLEntityRenderingCacheImpl(OWLOntologyManager manager,
             OWLEntityRenderer entityRenderer) {
         if (manager == null) {
@@ -53,7 +56,7 @@ public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
         rebuild();
     }
 
-    private void processChanges(List<? extends OWLOntologyChange> changes) {
+    protected void processChanges(List<? extends OWLOntologyChange> changes) {
         for (OWLOntologyChange change : changes) {
             if (change instanceof OWLAxiomChange) {
                 OWLAxiomChange chg = (OWLAxiomChange) change;
@@ -96,6 +99,7 @@ public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
         }
     }
 
+    /** remove change listener */
     public void dispose() {
         clear();
         manager.removeOntologyChangeListener(listener);
@@ -203,7 +207,7 @@ public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
         });
     }
 
-    private <T extends OWLEntity> void addRendering(T entity, Map<String, T> map) {
+    protected <T extends OWLEntity> void addRendering(T entity, Map<String, T> map) {
         if (!entityRenderingMap.containsKey(entity)) {
             String rendering = entityRenderer.render(entity);
             map.put(rendering, entity);

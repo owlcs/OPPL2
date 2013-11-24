@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.ui.autocompletionmatcher;
 
 import java.util.Arrays;
@@ -34,6 +33,7 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
             ":DATAPROPERTY", ":INDIVIDUAL", ":CONSTANT", ".toLowerCase", ".toUpperCase",
             ".VALUES", ".RENDERING", ".GROUPS");
 
+    /** @param owlEditorKit */
     public ProtegeOPPLAutoCompletionMatcher(OWLEditorKit owlEditorKit) {
         if (owlEditorKit == null) {
             throw new NullPointerException("The owl editor kit cannot be null");
@@ -70,6 +70,7 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
         return toReturn;
     }
 
+    /** dispose */
     public void dispose() {
         getOWLEditorKit().getOWLModelManager().removeListener(modelManagerListener);
     }
@@ -79,7 +80,7 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
         return owlEditorKit;
     }
 
-    private void reset() {
+    protected void reset() {
         OWLEntityRenderer entityRenderer = new OWLEntityRenderer() {
             @Override
             public String render(OWLEntity entity) {
@@ -93,6 +94,7 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
                 OPPL_KEYWORD_AUTO_COMPLETION_MATCHER));
     }
 
+    /** @return keywords */
     public static List<String> getKeywords() {
         return Arrays.asList("WHERE", "IN", "SELECT", "ASSERTED", "create",
                 "createIntersection", "createDisjuntion", "BEGIN", "END;",
