@@ -47,7 +47,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 
 /** @author Luigi Iannone */
 public class VariableListItem implements MListItem, OPPLMacroStatusChange {
-    private Variable<?> variable;
+    protected Variable<?> variable;
     private final OWLEditorKit owlEditorKit;
     private final RuntimeExceptionHandler runtimeExceptionHandler;
     private final List<OPPLMacroListener> listeners = new ArrayList<OPPLMacroListener>();

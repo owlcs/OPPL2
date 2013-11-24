@@ -12,11 +12,11 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 
 public class GroupVariableAttribute<O extends OWLObject> extends
         VariableAttribute<String> {
-    private final int index;
+    protected final int index;
     private final RegexpGeneratedVariable<O> regexpGeneratedVariable;
 
     /** @param variable
-     * @param attribute */
+     * @param index */
     public GroupVariableAttribute(RegexpGeneratedVariable<O> variable, int index) {
         super(variable, AttributeName.GROUPS);
         if (index < 0) {

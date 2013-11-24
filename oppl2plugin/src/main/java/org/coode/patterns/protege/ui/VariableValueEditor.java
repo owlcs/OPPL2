@@ -63,12 +63,10 @@ import org.semanticweb.owlapi.model.OWLProperty;
 
 /** @author Luigi Iannone Nov 17, 2008 */
 public abstract class VariableValueEditor extends JPanel implements VerifiedInputEditor {
-    
     private static final long serialVersionUID = 20100L;
 
     private static class ClassVariableValueEditor extends VariableValueEditor implements
             ChangeListener {
-        
         private static final long serialVersionUID = 20100L;
         private final OWLClassSelectorPanel classSelectorPanel;
 
@@ -102,7 +100,6 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
 
     private static class PropertyVariableValueEditor extends VariableValueEditor
             implements ChangeListener {
-        
         private static final long serialVersionUID = 20100L;
         private final AbstractHierarchySelectorPanel<? extends OWLProperty<?, ?>> propertySelector;
 
@@ -140,7 +137,6 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
 
     private static class AnnotationPropertyVariableValueEditor extends
             VariableValueEditor implements ChangeListener {
-        
         private static final long serialVersionUID = 20100L;
         private final AbstractHierarchySelectorPanel<OWLAnnotationProperty> propertySelector;
 
@@ -177,7 +173,6 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
 
     private static class IndividualVariableValueEditor extends VariableValueEditor
             implements ChangeListener {
-        
         private static final long serialVersionUID = 20100L;
         private final OWLIndividualSelectorPanel individualSelectorPanel;
 
@@ -212,7 +207,6 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
 
     private static class ConstantVariableValueEditor extends VariableValueEditor
             implements org.coode.parsers.ui.InputVerificationStatusChangedListener {
-        
         private static final long serialVersionUID = 20100L;
         private org.coode.parsers.ui.ExpressionEditor<OWLLiteral> owlConstantEditor;
 
@@ -223,7 +217,8 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
                     getOwlEditorKit().getOWLModelManager().getOWLOntologyManager(),
                     new OPPLExpressionChecker<OWLLiteral>(getOwlEditorKit()) {
                         @Override
-                        protected OWLLiteral parse(String text) {
+                        protected OWLLiteral parse(String _text) {
+                            String text = _text;
                             // Parse the constant with an OPPL Parser rather
                             // than
                             // with an OPPLPatternParser

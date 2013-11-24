@@ -59,8 +59,8 @@ public class PatternManager implements OWLOntologyChangeListener {
 
     static class AdditionManager extends OWLAxiomVisitorAdapter implements
             OWLAxiomVisitor {
-        private final OWLOntologyManager ontologyManager;
-        private final OWLOntology ontology;
+        protected final OWLOntologyManager ontologyManager;
+        protected final OWLOntology ontology;
         private final AbstractPatternModelFactory factory;
 
         public AdditionManager(OWLOntology ontology, OWLOntologyManager ontologyManager,

@@ -19,7 +19,7 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 
-@SuppressWarnings({ "javadoc", "incomplete-switch" })
+@SuppressWarnings({ "javadoc", "incomplete-switch", "synthetic-access" })
 public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",

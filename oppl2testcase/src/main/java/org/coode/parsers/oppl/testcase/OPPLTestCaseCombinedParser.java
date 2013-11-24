@@ -25,7 +25,7 @@ import org.coode.oppl.log.Logging;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 
-@SuppressWarnings({ "javadoc", "incomplete-switch" })
+@SuppressWarnings({ "javadoc", "incomplete-switch", "synthetic-access" })
 public class OPPLTestCaseCombinedParser extends Parser {
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
             "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",

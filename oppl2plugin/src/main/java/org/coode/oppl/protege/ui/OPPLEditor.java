@@ -54,7 +54,7 @@ public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor
     private final OWLEditorKit owlEditorKit;
     protected final OPPLBuilder opplBuilder;
     protected final OPPLTextEditor opplTextEditor;
-    private OPPLScript opplScript;
+    protected OPPLScript opplScript;
     private final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
         @Override
         public void handleChange(OWLModelManagerChangeEvent event) {

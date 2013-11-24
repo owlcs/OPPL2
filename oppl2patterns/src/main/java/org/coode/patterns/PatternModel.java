@@ -176,7 +176,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
     static class DefinitorialExtractor extends OWLObjectVisitorExAdapter<OWLObject>
             implements OWLAxiomVisitorEx<OWLObject>,
             OPPLScriptVisitorEx<OWLClassExpression> {
-        private final Set<OWLClassExpression> extractedDescriptions = new HashSet<OWLClassExpression>();
+        protected final Set<OWLClassExpression> extractedDescriptions = new HashSet<OWLClassExpression>();
         protected OWLPropertyExpression<?, ?> extractedProperty = null;
         protected OWLObject owlObject;
         protected OWLDataFactory dataFactory;
@@ -338,7 +338,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
     private String rendering = null;
     private IRI iri = null;
     private final OPPLScript opplStatement;
-    private final OWLOntologyManager ontologyManager;
+    protected final OWLOntologyManager ontologyManager;
     private boolean valid = true;
     private final Set<PatternModelChangeListener> listeners = new HashSet<PatternModelChangeListener>();
     private Variable<?> returnVariable = null;

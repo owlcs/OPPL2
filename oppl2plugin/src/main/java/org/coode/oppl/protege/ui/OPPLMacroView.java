@@ -83,7 +83,7 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
     protected JButton stopButton;
     private JButton copy2ClipboardButton;
     private JButton clearButton;
-    private ConstraintSystem constraintSystem;
+    protected ConstraintSystem constraintSystem;
 
     @Override
     public void initialiseOWLView() {

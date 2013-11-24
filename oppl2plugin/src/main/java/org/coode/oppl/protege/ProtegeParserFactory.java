@@ -29,6 +29,8 @@ import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 /** @author Luigi Iannone */
 public class ProtegeParserFactory implements AbstractParserFactory, Disposable {
     private class ProtegeEntityFinder implements EntityFinder {
+        public ProtegeEntityFinder() {}
+
         @Override
         public Set<OWLDatatype> getMatchingOWLDataTypes(String match) {
             return getOWLEditorKit().getOWLModelManager().getOWLEntityFinder()
@@ -107,6 +109,8 @@ public class ProtegeParserFactory implements AbstractParserFactory, Disposable {
 
     private class ProtegeSymbolTableFactory implements
             SymbolTableFactory<OPPLSymbolTable> {
+        public ProtegeSymbolTableFactory() {}
+
         @Override
         public OPPLSymbolTable createSymbolTable() {
             DisposableOWLEntityChecker entityChecker = new DisposableShortFormEntityChecker(

@@ -26,7 +26,7 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 
-@SuppressWarnings({ "javadoc", "incomplete-switch" })
+@SuppressWarnings({ "javadoc", "incomplete-switch", "synthetic-access" })
 public class ManchesterOWLSyntax_MOWLParser extends Parser {
     public static final int HAS_KEY = 109;
     public static final int VALUE_RESTRICTION = 63;

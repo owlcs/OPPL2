@@ -57,6 +57,8 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
     }
 
     private final class OPPLExpressionCheckerErrorListener implements ErrorListener {
+        public OPPLExpressionCheckerErrorListener() {}
+
         public void clear() {
             OPPLExpressionChecker.this.lastReport = null;
         }
@@ -160,7 +162,7 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
     private final OWLEditorKit owlEditorKit;
     private final OPPLExpressionCheckerErrorListener listener = new OPPLExpressionCheckerErrorListener();
     private O lastObject = null;
-    private ErrorReport lastReport = null;
+    protected ErrorReport lastReport = null;
 
     /** @param owlEditorKit */
     public OPPLExpressionChecker(OWLEditorKit owlEditorKit) {
@@ -189,7 +191,6 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
         return this.lastReport;
     }
 
-    
     private void reset() {
         this.lastObject = null;
         this.lastReport = null;

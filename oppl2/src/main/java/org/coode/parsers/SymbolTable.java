@@ -48,6 +48,8 @@ import org.semanticweb.owlapi.vocab.OWLFacet;
 
 public class SymbolTable {
     private static abstract class OWLTypeOnlyVisitor implements TypeVisitorEx<Boolean> {
+        public OWLTypeOnlyVisitor() {}
+
         @Override
         public Boolean visitOWLAxiomType(OWLAxiomType owlAxiomType) {
             return false;
@@ -61,6 +63,8 @@ public class SymbolTable {
 
     private static abstract class OWLAxiomTypeOnlyVisitor implements
             TypeVisitorEx<Boolean> {
+        public OWLAxiomTypeOnlyVisitor() {}
+
         @Override
         public Boolean visitOWLType(OWLType owlType) {
             return false;

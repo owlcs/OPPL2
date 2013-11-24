@@ -143,7 +143,8 @@ public class EntityFinderImpl implements EntityFinder {
      * eg A*B will not work, and endsWith is implemented the same as contains
      * (probably right but this should not be implemented separately)
      */
-    private <T extends OWLEntity> Set<T> doWildcardSearch(String match, Class<T> type) {
+    private <T extends OWLEntity> Set<T> doWildcardSearch(String _match, Class<T> type) {
+        String match = _match;
         Set<T> results = new HashSet<T>();
         if (match.equals(WILDCARD)) {
             results = this.getAllEntities(type);

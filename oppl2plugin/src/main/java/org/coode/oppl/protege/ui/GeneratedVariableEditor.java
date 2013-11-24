@@ -70,11 +70,13 @@ public class GeneratedVariableEditor extends AbstractVariableEditor<GeneratedVar
     private static final long serialVersionUID = 20100L;
     private final OWLEditorKit owlEditorKit;
     private final ConstraintSystem constraintSystem;
-    private final Map<JRadioButton, VariableType<?>> jRadioButtonTypeMap = new HashMap<JRadioButton, VariableType<?>>();
+    protected final Map<JRadioButton, VariableType<?>> jRadioButtonTypeMap = new HashMap<JRadioButton, VariableType<?>>();
     private final Map<VariableType<?>, JRadioButton> typeJRadioButonMap = new HashMap<VariableType<?>, JRadioButton>();
     private final ExpressionEditor<GeneratedVariable<?>> opplFunctionEditor;
     private final OPPLExpressionChecker<GeneratedVariable<?>> opplFunctionExpressionChecker;
 
+    /** @param owlEditorKit
+     * @param constraintSystem */
     public GeneratedVariableEditor(OWLEditorKit owlEditorKit,
             ConstraintSystem constraintSystem) {
         setLayout(new BorderLayout());
@@ -255,7 +257,7 @@ public class GeneratedVariableEditor extends AbstractVariableEditor<GeneratedVar
         return constraintSystem;
     }
 
-    private <O extends OWLObject> Variable<O> createTempVariable(final String name,
+    protected <O extends OWLObject> Variable<O> createTempVariable(final String name,
             final VariableType<O> type) {
         return new Variable<O>() {
             @Override

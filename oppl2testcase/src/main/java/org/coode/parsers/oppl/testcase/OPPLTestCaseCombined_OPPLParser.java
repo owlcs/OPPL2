@@ -24,7 +24,7 @@ import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 import org.coode.parsers.oppl.OPPLSyntaxTree;
 
-@SuppressWarnings({ "javadoc", "incomplete-switch" })
+@SuppressWarnings({ "javadoc", "incomplete-switch", "synthetic-access" })
 public class OPPLTestCaseCombined_OPPLParser extends Parser {
     public static final int STAR = 482;
     public static final int HAS_KEY = 109;

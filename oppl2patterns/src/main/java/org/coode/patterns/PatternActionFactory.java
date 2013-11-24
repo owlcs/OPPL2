@@ -80,9 +80,9 @@ public class PatternActionFactory {
                                     .create(PatternModel.NAMESPACE
                                             + PatternActionFactory.CREATED_BY)),
                             owlDataFactory.getOWLLiteral(annotationIRI.toString()));
-                    instantiatedAxiom = instantiatedAxiom.getAnnotatedAxiom(Collections
-                            .singleton(annotation));
-                    axiomChange = new AddAxiom(ontology, instantiatedAxiom);
+                    axiomChange = new AddAxiom(ontology,
+                            instantiatedAxiom.getAnnotatedAxiom(Collections
+                                    .singleton(annotation)));
                     changes.add(axiomChange);
                     break;
                 case REMOVE:

@@ -25,7 +25,7 @@ import org.antlr.runtime.tree.TreeAdaptor;
 import org.coode.oppl.log.Logger;
 import org.coode.oppl.log.Logging;
 
-@SuppressWarnings({ "javadoc", "incomplete-switch" })
+@SuppressWarnings({ "javadoc", "incomplete-switch", "synthetic-access" })
 public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoCompleteBase
         extends Parser {
     public static final int COMMA = 37;

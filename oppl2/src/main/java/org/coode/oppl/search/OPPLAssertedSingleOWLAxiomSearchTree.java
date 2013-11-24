@@ -240,7 +240,7 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
         });
     }
 
-    private void extractFromLogicAxiom() {
+    protected void extractFromLogicAxiom() {
         allClasses.addAll(OWLObjectExtractor.getAllClasses(getTargetAxiom()));
         allDataProperties.addAll(OWLObjectExtractor
                 .getAllOWLDataProperties(getTargetAxiom()));
