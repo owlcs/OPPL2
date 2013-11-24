@@ -104,7 +104,7 @@ public class PatternActionFactory {
         Set<BindingNode> bindingNodes = instantiatedPatternModel.extractBindingNodes();
         if (instantiatedPatternModel.getPatternModel().getInputVariables().isEmpty()
                 && !instantiatedPatternModel.getPatternModel().isClassPattern()
-                || bindingNodes != null && !bindingNodes.isEmpty()) {
+                || !bindingNodes.isEmpty()) {
             if (instantiatedPatternModel.getPatternModel().getInputVariables().isEmpty()
                     && !instantiatedPatternModel.getPatternModel().isClassPattern()) {
                 // empty variables

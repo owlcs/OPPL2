@@ -1693,8 +1693,8 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     public final ManchesterOWLSyntaxTypes.expression_return expression() {
         ManchesterOWLSyntaxTypes.expression_return retval = new ManchesterOWLSyntaxTypes.expression_return();
         retval.start = input.LT(1);
-        List<Object> list_disjuncts = null;
-        List<Object> list_chainItems = null;
+        List<Object> list_disjuncts = new ArrayList<Object>();
+        List<Object> list_chainItems = new ArrayList<Object>();
         ManchesterOWLSyntaxTypes.conjunction_return conjunction4 = null;
         ManchesterOWLSyntaxTypes.complexPropertyExpression_return complexPropertyExpression5 = null;
         RuleReturnScope disjuncts = null;
@@ -1778,9 +1778,6 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                                 if (state.failed) {
                                     return retval;
                                 }
-                                if (list_disjuncts == null) {
-                                    list_disjuncts = new ArrayList<Object>();
-                                }
                                 list_disjuncts.add(disjuncts);
                             }
                                 break;
@@ -1852,9 +1849,6 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                                 state._fsp--;
                                 if (state.failed) {
                                     return retval;
-                                }
-                                if (list_chainItems == null) {
-                                    list_chainItems = new ArrayList<Object>();
                                 }
                                 list_chainItems.add(chainItems);
                             }
@@ -1958,7 +1952,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     public final ManchesterOWLSyntaxTypes.conjunction_return conjunction() {
         ManchesterOWLSyntaxTypes.conjunction_return retval = new ManchesterOWLSyntaxTypes.conjunction_return();
         retval.start = input.LT(1);
-        List<Object> list_conjuncts = null;
+        List<Object> list_conjuncts = new ArrayList<Object>();
         ManchesterOWLSyntaxTypes.unary_return unary6 = null;
         RuleReturnScope conjuncts = null;
         try {
@@ -2017,9 +2011,6 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                                 state._fsp--;
                                 if (state.failed) {
                                     return retval;
-                                }
-                                if (list_conjuncts == null) {
-                                    list_conjuncts = new ArrayList<Object>();
                                 }
                                 list_conjuncts.add(conjuncts);
                             }
@@ -3572,7 +3563,7 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
     public final ManchesterOWLSyntaxTypes.oneOf_return oneOf() {
         ManchesterOWLSyntaxTypes.oneOf_return retval = new ManchesterOWLSyntaxTypes.oneOf_return();
         retval.start = input.LT(1);
-        List<Object> list_individuals = null;
+        List<Object> list_individuals = new ArrayList<Object>();
         RuleReturnScope individuals = null;
         try {
             // /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntaxTypes.g:513:2:
@@ -3610,9 +3601,6 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                             state._fsp--;
                             if (state.failed) {
                                 return retval;
-                            }
-                            if (list_individuals == null) {
-                                list_individuals = new ArrayList<Object>();
                             }
                             list_individuals.add(individuals);
                         }

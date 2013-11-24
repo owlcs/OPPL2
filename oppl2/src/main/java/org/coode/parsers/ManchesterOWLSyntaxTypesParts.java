@@ -272,8 +272,8 @@ public class ManchesterOWLSyntaxTypesParts extends TreeFilter {
     public final ManchesterOWLSyntaxTypesParts.expression_return expression() {
         ManchesterOWLSyntaxTypesParts.expression_return retval = new ManchesterOWLSyntaxTypesParts.expression_return();
         retval.start = input.LT(1);
-        List<Object> list_disjuncts = null;
-        List<Object> list_chainItems = null;
+        List<Object> list_disjuncts = new ArrayList<Object>();
+        List<Object> list_chainItems = new ArrayList<Object>();
         ManchesterOWLSyntaxTypesParts.conjunction_return conjunction1 = null;
         ManchesterOWLSyntaxTypesParts.complexPropertyExpression_return complexPropertyExpression2 = null;
         RuleReturnScope disjuncts = null;
@@ -354,9 +354,6 @@ public class ManchesterOWLSyntaxTypesParts extends TreeFilter {
                                 if (state.failed) {
                                     return retval;
                                 }
-                                if (list_disjuncts == null) {
-                                    list_disjuncts = new ArrayList<Object>();
-                                }
                                 list_disjuncts.add(disjuncts);
                             }
                                 break;
@@ -427,9 +424,6 @@ public class ManchesterOWLSyntaxTypesParts extends TreeFilter {
                                 state._fsp--;
                                 if (state.failed) {
                                     return retval;
-                                }
-                                if (list_chainItems == null) {
-                                    list_chainItems = new ArrayList<Object>();
                                 }
                                 list_chainItems.add(chainItems);
                             }
@@ -533,7 +527,7 @@ public class ManchesterOWLSyntaxTypesParts extends TreeFilter {
     public final ManchesterOWLSyntaxTypesParts.conjunction_return conjunction() {
         ManchesterOWLSyntaxTypesParts.conjunction_return retval = new ManchesterOWLSyntaxTypesParts.conjunction_return();
         retval.start = input.LT(1);
-        List<Object> list_conjuncts = null;
+        List<Object> list_conjuncts = new ArrayList<Object>();
         ManchesterOWLSyntaxTypesParts.unary_return unary3 = null;
         RuleReturnScope conjuncts = null;
         try {
@@ -590,9 +584,6 @@ public class ManchesterOWLSyntaxTypesParts extends TreeFilter {
                                 state._fsp--;
                                 if (state.failed) {
                                     return retval;
-                                }
-                                if (list_conjuncts == null) {
-                                    list_conjuncts = new ArrayList<Object>();
                                 }
                                 list_conjuncts.add(conjuncts);
                             }
@@ -1655,7 +1646,7 @@ public class ManchesterOWLSyntaxTypesParts extends TreeFilter {
         ManchesterOWLSyntaxTypesParts.oneOf_return retval = new ManchesterOWLSyntaxTypesParts.oneOf_return();
         retval.start = input.LT(1);
         ManchesterOWLSyntaxTree individuals = null;
-        List<Object> list_individuals = null;
+        List<Object> list_individuals = new ArrayList<Object>();
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypesParts.g:295:2:
             // ( ^( ONE_OF (individuals+= IDENTIFIER )+ ) )
@@ -1688,9 +1679,6 @@ public class ManchesterOWLSyntaxTypesParts extends TreeFilter {
                                     IDENTIFIER, FOLLOW_IDENTIFIER_in_oneOf743);
                             if (state.failed) {
                                 return retval;
-                            }
-                            if (list_individuals == null) {
-                                list_individuals = new ArrayList<Object>();
                             }
                             list_individuals.add(individuals);
                         }

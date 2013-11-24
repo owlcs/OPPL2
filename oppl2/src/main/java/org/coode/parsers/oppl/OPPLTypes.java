@@ -616,16 +616,14 @@ public class OPPLTypes extends TreeFilter {
                                 return retval;
                             }
                             if (state.backtracking == 1) {
-                                if ((selectClause2 != null ? selectClause2.axiom : null) != null) {
-                                    if (selectClause2 != null ? selectClause2.asserted
-                                            : false) {
-                                        retval.query
-                                                .addAssertedAxiom(selectClause2 != null ? selectClause2.axiom
-                                                        : null);
-                                    } else {
-                                        retval.query
-                                                .addAxiom(selectClause2 != null ? selectClause2.axiom
-                                                        : null);
+                                if (selectClause2 != null) {
+                                    if (selectClause2.axiom != null) {
+                                        if (selectClause2.asserted) {
+                                            retval.query
+                                                    .addAssertedAxiom(selectClause2.axiom);
+                                        } else {
+                                            retval.query.addAxiom(selectClause2.axiom);
+                                        }
                                     }
                                 }
                             }

@@ -4500,25 +4500,18 @@ public class OPPLScript_OPPLParser extends Parser {
                         // 187:54: -> ^(
                         // IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText() +
                         // $a.getText()] VARIABLE_NAME DOT $a)
-                        {
-                            // OPPLParser.g:187:56: ^(
-                            // IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText()
-                            // + $a.getText()] VARIABLE_NAME DOT $a)
-                            {
-                                OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
-                                root_1 = (OPPLSyntaxTree) adaptor
-                                        .becomeRoot(
-                                                adaptor.create(
-                                                        IDENTIFIER,
-                                                        VARIABLE_NAME125.getText()
-                                                                + DOT126.getText()
-                                                                + a.getText()), root_1);
-                                adaptor.addChild(root_1, stream_VARIABLE_NAME.nextNode());
-                                adaptor.addChild(root_1, stream_DOT.nextNode());
-                                adaptor.addChild(root_1, stream_a.nextNode());
-                                adaptor.addChild(root_0, root_1);
-                            }
-                        }
+                        // OPPLParser.g:187:56: ^(
+                        // IDENTIFIER[$VARIABLE_NAME.getText()+$DOT.getText()
+                        // + $a.getText()] VARIABLE_NAME DOT $a)
+                        String text = a == null ? "" : a.getText();
+                        OPPLSyntaxTree root_1 = (OPPLSyntaxTree) adaptor.nil();
+                        root_1 = (OPPLSyntaxTree) adaptor.becomeRoot(
+                                adaptor.create(IDENTIFIER, VARIABLE_NAME125.getText()
+                                        + DOT126.getText() + text), root_1);
+                        adaptor.addChild(root_1, stream_VARIABLE_NAME.nextNode());
+                        adaptor.addChild(root_1, stream_DOT.nextNode());
+                        adaptor.addChild(root_1, stream_a.nextNode());
+                        adaptor.addChild(root_0, root_1);
                         retval.tree = root_0;
                     }
                 }

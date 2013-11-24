@@ -565,7 +565,7 @@ public class OPPLPatternsReferenceDefine extends TreeRewriter {
                                         _first_1 = arg.tree;
                                     }
                                 }
-                                if (state.backtracking == 1) {
+                                if (state.backtracking == 1 && arg != null) {
                                     retval.args.add(arg.argObjects);
                                 }
                                 if (state.backtracking == 1) {

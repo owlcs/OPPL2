@@ -1,4 +1,3 @@
-
 package org.coode.parsers.ui;
 
 import java.awt.BorderLayout;
@@ -87,15 +86,15 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
             }
 
             boolean isRedundant(CommonTree possibleParent, CommonTree newErrorTree) {
-                boolean b = possibleParent != null;
-                if (b) {
-                    b = possibleParent == newErrorTree
-                            || newErrorTree.equals(possibleParent);
+                if (possibleParent == null) {
+                    return false;
+                }
+                boolean b = possibleParent == newErrorTree
+                        || newErrorTree.equals(possibleParent);
+                if (!b) {
+                    b = possibleParent.parent == newErrorTree;
                     if (!b) {
-                        b = possibleParent.parent == newErrorTree;
-                        if (!b) {
-                            b = this.isRedundant(possibleParent.parent, newErrorTree);
-                        }
+                        b = this.isRedundant(possibleParent.parent, newErrorTree);
                     }
                 }
                 return b;
@@ -503,7 +502,6 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
         return "Syntax validator";
     }
 
-    
     public ManchesterOWLSyntaxValidatorGUI() {
         axiomValidator = new ExpressionEditor<OWLAxiom>(manager, checker);
         initGUI();

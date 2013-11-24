@@ -1483,8 +1483,8 @@ public class OPPLTypeEnforcement extends TreeFilter {
     public final OPPLTypeEnforcement.expression_return expression() {
         OPPLTypeEnforcement.expression_return retval = new OPPLTypeEnforcement.expression_return();
         retval.start = input.LT(1);
-        List<Object> list_disjuncts = null;
-        List<Object> list_chainItems = null;
+        List<Object> list_disjuncts = new ArrayList<Object>();
+        List<Object> list_chainItems = new ArrayList<Object>();
         OPPLTypeEnforcement.conjunction_return conjunction3 = null;
         OPPLTypeEnforcement.complexPropertyExpression_return complexPropertyExpression4 = null;
         RuleReturnScope disjuncts = null;
@@ -1565,9 +1565,6 @@ public class OPPLTypeEnforcement extends TreeFilter {
                                 if (state.failed) {
                                     return retval;
                                 }
-                                if (list_disjuncts == null) {
-                                    list_disjuncts = new ArrayList<Object>();
-                                }
                                 list_disjuncts.add(disjuncts);
                             }
                                 break;
@@ -1638,9 +1635,6 @@ public class OPPLTypeEnforcement extends TreeFilter {
                                 state._fsp--;
                                 if (state.failed) {
                                     return retval;
-                                }
-                                if (list_chainItems == null) {
-                                    list_chainItems = new ArrayList<Object>();
                                 }
                                 list_chainItems.add(chainItems);
                             }
@@ -1738,7 +1732,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
     public final OPPLTypeEnforcement.conjunction_return conjunction() {
         OPPLTypeEnforcement.conjunction_return retval = new OPPLTypeEnforcement.conjunction_return();
         retval.start = input.LT(1);
-        List<Object> list_conjuncts = null;
+        List<Object> list_conjuncts = new ArrayList<Object>();
         OPPLTypeEnforcement.unary_return unary5 = null;
         RuleReturnScope conjuncts = null;
         try {
@@ -1795,9 +1789,6 @@ public class OPPLTypeEnforcement extends TreeFilter {
                                 state._fsp--;
                                 if (state.failed) {
                                     return retval;
-                                }
-                                if (list_conjuncts == null) {
-                                    list_conjuncts = new ArrayList<Object>();
                                 }
                                 list_conjuncts.add(conjuncts);
                             }
@@ -2611,7 +2602,8 @@ public class OPPLTypeEnforcement extends TreeFilter {
                                 filler == null ? null : filler.node);
                         int cardinality = Integer.parseInt(i.token.getText());
                         getTypesEnforcer().enforceMinCardinalityRestrictionTypes(
-                                (OPPLSyntaxTree) retval.start, p.node, filler.node);
+                                (OPPLSyntaxTree) retval.start, p.node,
+                                filler == null ? null : filler.node);
                     }
                 }
                     break;
@@ -2679,7 +2671,8 @@ public class OPPLTypeEnforcement extends TreeFilter {
                                 filler == null ? null : filler.node);
                         int cardinality = Integer.parseInt(i.token.getText());
                         getTypesEnforcer().enforceMaxCardinalityRestrictionTypes(
-                                (OPPLSyntaxTree) retval.start, p.node, filler.node);
+                                (OPPLSyntaxTree) retval.start, p.node,
+                                filler == null ? null : filler.node);
                     }
                 }
                     break;
@@ -2748,7 +2741,8 @@ public class OPPLTypeEnforcement extends TreeFilter {
                                         filler == null ? null : filler.node);
                         int cardinality = Integer.parseInt(i.token.getText());
                         getTypesEnforcer().enforceExactCardinalityRestrictionTypes(
-                                (OPPLSyntaxTree) retval.start, p.node, filler.node);
+                                (OPPLSyntaxTree) retval.start, p.node,
+                                filler == null ? null : filler.node);
                     }
                 }
                     break;
@@ -2783,7 +2777,7 @@ public class OPPLTypeEnforcement extends TreeFilter {
         OPPLTypeEnforcement.oneOf_return retval = new OPPLTypeEnforcement.oneOf_return();
         retval.start = input.LT(1);
         OPPLSyntaxTree individuals = null;
-        List<Object> list_individuals = null;
+        List<Object> list_individuals = new ArrayList<Object>();
         try {
             // /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g:401:2:
             // ( ^( ONE_OF (individuals+= IDENTIFIER )+ ) )
@@ -2816,9 +2810,6 @@ public class OPPLTypeEnforcement extends TreeFilter {
                                     FOLLOW_IDENTIFIER_in_oneOf1334);
                             if (state.failed) {
                                 return retval;
-                            }
-                            if (list_individuals == null) {
-                                list_individuals = new ArrayList<Object>();
                             }
                             list_individuals.add(individuals);
                         }
