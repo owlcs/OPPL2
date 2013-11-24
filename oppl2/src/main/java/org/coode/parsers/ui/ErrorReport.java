@@ -1,14 +1,17 @@
-
 package org.coode.parsers.ui;
 
 /** @author Luigi Iannone */
 public interface ErrorReport {
+    /** @return message */
     String getMessage();
 
+    /** @return char position */
     int getCharPositionInLine();
 
+    /** @return length */
     int getLength();
 
+    /** @return line */
     int getLine();
 
     /** Linearises the input text and returns the position of this error report
