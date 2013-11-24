@@ -1,5 +1,7 @@
 package org.coode.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
@@ -12,14 +14,8 @@ public class NAFConstraint implements AbstractConstraint {
     /** @param axiom
      * @param constraintSystem */
     public NAFConstraint(OWLAxiom axiom, ConstraintSystem constraintSystem) {
-        if (axiom == null) {
-            throw new NullPointerException("The OWLAxiom cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The Constraint system cannot be null");
-        }
-        this.axiom = axiom;
-        this.constraintSystem = constraintSystem;
+        this.axiom = checkNotNull(axiom, "axiom");
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
     }
 
     @Override

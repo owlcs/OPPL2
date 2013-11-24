@@ -22,6 +22,7 @@
  */
 package org.coode.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import static org.coode.oppl.variabletypes.VariableFactory.getGeneratedVariable;
 import static org.coode.oppl.variabletypes.VariableTypeFactory.*;
 
@@ -201,18 +202,9 @@ public class ConstraintSystem {
      * @param opplFactory */
     public ConstraintSystem(OWLOntology ontology, OWLOntologyManager ontologyManager,
             OPPLAbstractFactory opplFactory) {
-        if (ontology == null) {
-            throw new NullPointerException("The ontology cannot be null");
-        }
-        if (ontologyManager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        if (opplFactory == null) {
-            throw new NullPointerException("The OPPL factory cannot be null");
-        }
-        this.opplFactory = opplFactory;
-        this.ontology = ontology;
-        this.ontologyManager = ontologyManager;
+        this.opplFactory = checkNotNull(opplFactory, "ontology");
+        this.ontology = checkNotNull(ontology, "ontology manager");
+        this.ontologyManager = checkNotNull(ontologyManager, "OPPL factory");
     }
 
     /** @param ontology

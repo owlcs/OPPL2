@@ -22,9 +22,10 @@
  */
 package org.coode.oppl.rendering;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.io.StringWriter;
 
-import org.coode.oppl.utils.ArgCheck;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
@@ -127,8 +128,8 @@ public class ManchesterSyntaxRenderer implements OWLObjectVisitor {
      * @throws NullPointerException
      *             if any of the inputs is {@code null}. */
     public ManchesterSyntaxRenderer(ShortFormProvider shortFormProvider) {
-        ArgCheck.checkNullArgument("The short form provider", shortFormProvider);
-        delegate = new ManchesterOWLSyntaxObjectRenderer(out, shortFormProvider);
+        delegate = new ManchesterOWLSyntaxObjectRenderer(out, checkNotNull(
+                shortFormProvider, "shortFormProvider"));
     }
 
     @Override

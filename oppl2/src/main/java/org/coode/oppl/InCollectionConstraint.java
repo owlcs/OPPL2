@@ -22,6 +22,8 @@
  */
 package org.coode.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,18 +46,12 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
      * @param constraintSystem */
     public InCollectionConstraint(Variable<P> variable,
             Collection<? extends P> collection, ConstraintSystem constraintSystem) {
-        if (variable == null) {
-            throw new NullPointerException("The variable cannot be null");
-        }
-        if (collection == null) {
-            throw new NullPointerException("The collection of values cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
         if (collection.isEmpty()) {
             throw new IllegalArgumentException("The collection of values cannot be empty");
         }
+        this.variable = checkNotNull(variable, "variable");
+        this.collection.addAll(checkNotNull(collection, "collection"));
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
         for (P p : collection) {
             if (!variable.getType().isCompatibleWith(p)) {
                 ManchesterSyntaxRenderer manchesterSyntaxRenderer = constraintSystem
@@ -66,9 +62,6 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
                         manchesterSyntaxRenderer, variable, variable.getType()));
             }
         }
-        this.variable = variable;
-        this.collection.addAll(collection);
-        this.constraintSystem = constraintSystem;
     }
 
     @Override

@@ -22,6 +22,8 @@
  */
 package org.coode.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.List;
 
 import org.coode.oppl.entity.OWLEntityRenderer;
@@ -30,7 +32,6 @@ import org.coode.oppl.exceptions.NullReasonerException;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.rendering.VariableOWLEntityRenderer;
-import org.coode.oppl.utils.ArgCheck;
 import org.semanticweb.owlapi.expression.OWLEntityChecker;
 import org.semanticweb.owlapi.expression.ShortFormEntityChecker;
 import org.semanticweb.owlapi.model.IRI;
@@ -91,9 +92,8 @@ public class OPPLFactory implements OPPLAbstractFactory {
 
     @Override
     public OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {
-        ArgCheck.checkNullArgument("The constraint system", cs);
-        OWLEntityRendererImpl defaultRenderer = new OWLEntityRendererImpl();
-        return new VariableOWLEntityRenderer(cs, defaultRenderer);
+        return new VariableOWLEntityRenderer(checkNotNull(cs, "constraint system"),
+                new OWLEntityRendererImpl());
     }
 
     @Override
@@ -133,7 +133,6 @@ public class OPPLFactory implements OPPLAbstractFactory {
 
     @Override
     public ManchesterSyntaxRenderer getManchesterSyntaxRenderer(ConstraintSystem cs) {
-        ArgCheck.checkNullArgument("The constraint system", cs);
         return new ManchesterSyntaxRenderer(new OPPLShortFormProvider(
                 new SimpleShortFormProvider()));
     }

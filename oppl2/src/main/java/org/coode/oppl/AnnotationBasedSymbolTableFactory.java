@@ -1,5 +1,7 @@
 package org.coode.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,15 +36,9 @@ public class AnnotationBasedSymbolTableFactory implements
      * @param iris */
     public AnnotationBasedSymbolTableFactory(OWLOntologyManager manager,
             List<? extends IRI> iris) {
-        if (manager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        if (iris == null) {
-            throw new NullPointerException("The iri list cannot be null");
-        }
-        this.manager = manager;
+        this.manager = checkNotNull(manager, "The ontology manager");
         OWLDataFactory dataFactory = this.manager.getOWLDataFactory();
-        for (IRI iri : iris) {
+        for (IRI iri : checkNotNull(iris, "The iri list")) {
             annotations.add(dataFactory.getOWLAnnotationProperty(iri));
         }
     }

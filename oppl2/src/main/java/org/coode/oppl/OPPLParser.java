@@ -1,5 +1,7 @@
 package org.coode.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RuleReturnScope;
@@ -82,18 +84,9 @@ public class OPPLParser implements AbstractOPPLParser {
      * @param symbolTableFactory */
     public OPPLParser(OPPLAbstractFactory factory, ErrorListener listener,
             SymbolTableFactory<OPPLSymbolTable> symbolTableFactory) {
-        if (factory == null) {
-            throw new NullPointerException("The OPPL factory cannot be null");
-        }
-        if (listener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        if (symbolTableFactory == null) {
-            throw new NullPointerException("The symbol table factory cannot be null");
-        }
-        opplFactory = factory;
-        this.listener = listener;
-        this.symbolTableFactory = symbolTableFactory;
+        opplFactory = checkNotNull(factory, "factory");
+        this.listener = checkNotNull(listener, "listener");
+        this.symbolTableFactory = checkNotNull(symbolTableFactory, "symbolTableFactory");
     }
 
     private final ErrorListener listener;

@@ -22,6 +22,8 @@
  */
 package org.coode.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,26 +51,20 @@ public class ChangeExtractor {
      * @param considerImportClosure */
     public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
             ExecutionMonitor executionMonitor, boolean considerImportClosure) {
-        if (runtimeExceptionHandler == null) {
-            throw new NullPointerException("The runtime exception handler cannot be null");
-        }
-        if (executionMonitor == null) {
-            throw new NullPointerException("The executionMonitor cannot be null");
-        }
-        this.executionMonitor = executionMonitor;
-        this.runtimeExceptionHandler = runtimeExceptionHandler;
+        this.executionMonitor = checkNotNull(executionMonitor, "executionMonitor");
+        this.runtimeExceptionHandler = checkNotNull(runtimeExceptionHandler,
+                "runtimeExceptionHandler");
         this.considerImportClosure = considerImportClosure;
     }
 
+    /** @param script
+     * @return changes */
     public List<OWLAxiomChange> visit(OPPLScript script) {
-        if (script == null) {
-            throw new NullPointerException("The script cannot be null");
-        }
-        List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
-        OPPLQuery q = script.getQuery();
+        OPPLQuery q = checkNotNull(script, "script").getQuery();
         if (q != null) {
             q.execute(getRuntimeExceptionHandler(), getExecutionMonitor());
         }
+        List<OWLAxiomChange> toReturn = new ArrayList<OWLAxiomChange>();
         List<OWLAxiomChange> changes = script.getActions();
         for (OWLAxiomChange change : changes) {
             boolean isAdd = change.isAddAxiom();

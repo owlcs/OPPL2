@@ -1,5 +1,7 @@
 package org.coode.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.semanticweb.owlapi.model.OWLObject;
 
 public abstract class AbstractVariableScope<O extends OWLObject> implements
@@ -8,10 +10,7 @@ public abstract class AbstractVariableScope<O extends OWLObject> implements
 
     /** @param checker */
     public AbstractVariableScope(VariableScopeChecker checker) {
-        if (checker == null) {
-            throw new NullPointerException("The checker cannot be null");
-        }
-        this.checker = checker;
+        this.checker = checkNotNull(checker, "The checker");
     }
 
     /** @return the checker */

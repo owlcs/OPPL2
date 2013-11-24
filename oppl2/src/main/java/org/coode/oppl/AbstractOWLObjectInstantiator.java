@@ -1,5 +1,7 @@
 package org.coode.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -114,12 +116,8 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
     private final OWLDataFactory df;
 
     protected AbstractOWLObjectInstantiator(ValueComputationParameters parameters) {
-        if (parameters == null) {
-            throw new NullPointerException("The parameters cannot be null");
-        }
-        this.parameters = parameters;
-        df = getParameters().getConstraintSystem().getOntologyManager()
-                .getOWLDataFactory();
+        this.parameters = checkNotNull(parameters, "The parameters");
+        df = parameters.getConstraintSystem().getOntologyManager().getOWLDataFactory();
     }
 
     /** @return the parameters */
