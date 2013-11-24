@@ -108,7 +108,7 @@ public class TokenSync {
             for (Integer key : reference.getKeys()) {
                 String tokenText = reference.getTokenText(key);
                 Integer myKey = getType(tokenText);
-                if (containsTokenText(tokenText) && myKey != key) {
+                if (containsTokenText(tokenText) && !key.equals(myKey)) {
                     changeKey(tokenText, myKey, key);
                 } else if (!isEmptyKey(key)
                         && tokenText.compareTo(getTokenText(key)) != 0) {
