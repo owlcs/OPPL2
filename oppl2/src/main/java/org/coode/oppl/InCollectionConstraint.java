@@ -144,7 +144,7 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
     }
 
     @Override
-    public String render(ConstraintSystem constraintSystem) {
+    public String render(ConstraintSystem cs) {
         StringBuffer buffer = new StringBuffer();
         buffer.append(this.variable.getName());
         buffer.append(" IN {");
@@ -154,8 +154,7 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
             comma = !first ? ", " : "";
             first = false;
             buffer.append(comma);
-            ManchesterSyntaxRenderer renderer = this.getConstraintSystem()
-                    .getOPPLFactory()
+            ManchesterSyntaxRenderer renderer = cs.getOPPLFactory()
                     .getManchesterSyntaxRenderer(this.getConstraintSystem());
             p.accept(renderer);
             buffer.append(renderer.toString());

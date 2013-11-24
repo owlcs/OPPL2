@@ -21,20 +21,19 @@ import org.coode.parsers.utils.TokenFileSorter;
 public class TokenGUI extends JFrame {
     private final TableCellRenderer tableCellRenderer = new TableCellRenderer() {
         @Override
-        public Component getTableCellRendererComponent(JTable table, Object value,
+        public Component getTableCellRendererComponent(JTable t, Object value,
                 boolean isSelected, boolean hasFocus, int row, int column) {
             DefaultTableCellRenderer defaultCellRenderer = new DefaultTableCellRenderer();
-            if (table.getModel() instanceof TokenTableModel
-                    && ((TokenTableModel) table.getModel()).getAnomalies().contains(
+            if (t.getModel() instanceof TokenTableModel
+                    && ((TokenTableModel) t.getModel()).getAnomalies().contains(
                             value.toString())) {
                 defaultCellRenderer.setForeground(Color.RED);
             }
-            Component toReturn = defaultCellRenderer.getTableCellRendererComponent(table,
+            Component toReturn = defaultCellRenderer.getTableCellRendererComponent(t,
                     value, isSelected, hasFocus, row, column);
             return toReturn;
         }
     };
-    
     private static final long serialVersionUID = 20100L;
     private final File file;
     private final JTable table = new JTable();

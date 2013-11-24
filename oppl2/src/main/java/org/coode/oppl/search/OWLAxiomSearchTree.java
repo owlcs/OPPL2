@@ -85,11 +85,11 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
                 Assignment assignment = new Assignment(variable, value);
                 BindingNode bindingNode = new BindingNode(
                         Collections.singleton(assignment), variables);
-                SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
+                SimpleValueComputationParameters par = new SimpleValueComputationParameters(
                         getParameters().getConstraintSystem(), bindingNode,
                         getParameters().getRuntimeExceptionHandler());
                 PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
-                        parameters);
+                        par);
                 toReturn.add((OWLAxiom) node.accept(instantiator));
             }
         }
@@ -159,7 +159,7 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
         return toReturn;
     }
 
-    private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor = new VariableTypeVisitorEx<Set<? extends OWLObject>>() {
+    protected final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor = new VariableTypeVisitorEx<Set<? extends OWLObject>>() {
         @Override
         public Set<? extends OWLObject> visitCLASSVariableType(
                 CLASSVariableType classVariableType) {
@@ -209,9 +209,9 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
             @Override
             public <O extends OWLObject> Set<? extends OWLObject> visit(
                     RegexpGeneratedVariable<O> v) {
-                Set<? extends OWLObject> toReturn = v.getType().accept(
+                Set<? extends OWLObject> result = v.getType().accept(
                         assignableValuesVisitor);
-                Iterator<? extends OWLObject> iterator = toReturn.iterator();
+                Iterator<? extends OWLObject> iterator = result.iterator();
                 while (iterator.hasNext()) {
                     OWLObject owlObject = iterator.next();
                     ManchesterSyntaxRenderer renderer = OWLAxiomSearchTree.this
@@ -228,7 +228,7 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
                         iterator.remove();
                     }
                 }
-                return toReturn;
+                return result;
             }
 
             @Override
@@ -241,7 +241,7 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
         return toReturn;
     }
 
-    private Set<OWLObjectProperty> getObjectProperties() {
+    protected Set<OWLObjectProperty> getObjectProperties() {
         Set<OWLObjectProperty> toReturn = new HashSet<OWLObjectProperty>();
         Set<OWLOntology> ontologies = getParameters().getConstraintSystem()
                 .getOntologyManager().getOntologies();

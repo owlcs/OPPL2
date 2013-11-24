@@ -282,7 +282,7 @@ public class GeneratedVariableEditor extends AbstractVariableEditor<GeneratedVar
             }
 
             @Override
-            public String render(ConstraintSystem constraintSystem) {
+            public String render(ConstraintSystem cs) {
                 return String.format("%s:%s", getName(), getType());
             }
         };

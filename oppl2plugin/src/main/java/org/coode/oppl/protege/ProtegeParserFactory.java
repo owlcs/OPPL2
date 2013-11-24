@@ -1,4 +1,3 @@
-
 package org.coode.oppl.protege;
 
 import java.util.Set;
@@ -112,7 +111,6 @@ public class ProtegeParserFactory implements AbstractParserFactory, Disposable {
         public OPPLSymbolTable createSymbolTable() {
             DisposableOWLEntityChecker entityChecker = new DisposableShortFormEntityChecker(
                     getOWLEntityChecker());
-            ShortFormEntityRenderer entityRenderer = getEntityRenderer();
             EntityFinder entityFinder = getEntityFinder();
             return new OPPLSymbolTable(new OPPLScope(entityChecker, entityFinder,
                     entityRenderer), getOWLEditorKit().getOWLModelManager()
@@ -136,7 +134,7 @@ public class ProtegeParserFactory implements AbstractParserFactory, Disposable {
     private final ProtegeOWLEntityChecker protegeOWLEntityChecker;
     private final EntityFinder protegeEntityFinder;
     private final OPPLAbstractFactory opplFactory;
-    private final ShortFormEntityRenderer entityRenderer;
+    protected final ShortFormEntityRenderer entityRenderer;
     private static final OWLModelManagerListener modelManagerListener = new OWLModelManagerListener() {
         @Override
         public void handleChange(OWLModelManagerChangeEvent event) {

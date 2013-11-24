@@ -42,12 +42,12 @@ enum OWLConstruct {
             }
 
             @Override
-            public OWLConstruct visit(OWLDataAllValuesFrom description) {
+            public OWLConstruct visit(OWLDataAllValuesFrom d) {
                 return DATA_ALL;
             }
 
             @Override
-            public OWLConstruct visit(OWLDataExactCardinality description) {
+            public OWLConstruct visit(OWLDataExactCardinality d) {
                 return DATA_EXACT;
             }
 

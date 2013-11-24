@@ -379,8 +379,8 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 
     @Override
     public String toString() {
-        String rendering = this.rendering == null ? "" : this.rendering;
-        return String.format("%s %s", opplStatement, rendering).trim();
+        String r = rendering == null ? "" : rendering;
+        return String.format("%s %s", opplStatement, r).trim();
     }
 
     /** @return the string rendering of this PatternModel. Override/use this
@@ -408,9 +408,8 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 
     @Override
     public String render(ShortFormProvider shortFormProvider) {
-        String rendering = this.rendering == null ? "" : this.rendering;
-        return String.format("%s %s", opplStatement.render(shortFormProvider), rendering)
-                .trim();
+        String r = rendering == null ? "" : rendering;
+        return String.format("%s %s", opplStatement.render(shortFormProvider), r).trim();
     }
 
     @Override
@@ -733,13 +732,13 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
             Variable<?> v = it.next();
             found = v.accept(new VariableVisitorEx<Boolean>() {
                 @Override
-                public <P extends OWLObject> Boolean visit(GeneratedVariable<P> v) {
+                public <P extends OWLObject> Boolean visit(GeneratedVariable<P> gv) {
                     return Boolean.FALSE;
                 }
 
                 @Override
-                public <P extends OWLObject> Boolean visit(InputVariable<P> v) {
-                    return v.getVariableScope() != null;
+                public <P extends OWLObject> Boolean visit(InputVariable<P> iv) {
+                    return iv.getVariableScope() != null;
                 }
 
                 @Override

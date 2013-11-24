@@ -76,9 +76,9 @@ public class InequalityConstraint implements AbstractConstraint {
     }
 
     @Override
-    public String render(ConstraintSystem constraintSystem) {
-        ManchesterSyntaxRenderer renderer = getConstraintSystem().getOPPLFactory()
-                .getManchesterSyntaxRenderer(getConstraintSystem());
+    public String render(ConstraintSystem cs) {
+        ManchesterSyntaxRenderer renderer = cs.getOPPLFactory()
+                .getManchesterSyntaxRenderer(cs);
         expression.accept(renderer);
         return variable.getName() + " != " + renderer.toString();
     }

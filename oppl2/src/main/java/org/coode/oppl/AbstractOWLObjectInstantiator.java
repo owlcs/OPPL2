@@ -805,10 +805,10 @@ abstract class AbstractOWLObjectInstantiator implements OWLObjectVisitorEx<OWLOb
     public OWLObject visit(IRI iri) {
         return iri.accept(new IRIVisitorExAdapter<IRI>(iri) {
             @Override
-            public IRI visitVariableIRI(VariableIRI iri) {
-                IRI value = iri.getAttribute().compute(
+            public IRI visitVariableIRI(VariableIRI i) {
+                IRI value = i.getAttribute().compute(
                         AbstractOWLObjectInstantiator.this.getParameters());
-                return value == null ? iri : value;
+                return value == null ? i : value;
             }
         });
     }

@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.assertions;
 
 import java.util.HashSet;
@@ -81,12 +80,12 @@ public class OWLExpressionAssertionExpression implements
     }
 
     @Override
-    public Set<OWLObject> resolve(Set<? extends BindingNode> bindings,
-            ConstraintSystem constraintSystem) {
+    public Set<OWLObject>
+            resolve(Set<? extends BindingNode> bindings, ConstraintSystem cs) {
         Set<OWLObject> toReturn = new HashSet<OWLObject>();
         for (BindingNode bindingNode : bindings) {
             ValueComputationParameters parameters = new SimpleValueComputationParameters(
-                    getConstraintSystem(), bindingNode, handler);
+                    cs, bindingNode, handler);
             PartialOWLObjectInstantiator instantiator = new PartialOWLObjectInstantiator(
                     parameters);
             toReturn.add(owlObject.accept(instantiator));

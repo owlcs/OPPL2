@@ -60,9 +60,9 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
         return toReturn;
     }
 
-    private Set<BindingNode> updateBindingsAssertedAxiom(OWLAxiom axiom,
+    private Set<BindingNode> updateBindingsAssertedAxiom(OWLAxiom ax,
             RuntimeExceptionHandler runtimeExceptionHandler) {
-        assert axiom != null;
+        assert ax != null;
         Set<BindingNode> toReturn = new HashSet<BindingNode>();
         int initialSize = getConstraintSystem().getLeaves() == null ? 0
                 : getConstraintSystem().getLeaves().size();
@@ -70,7 +70,7 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
         AxiomQuery query = new AssertedSolvabilityBasedAxiomQuery(getConstraintSystem()
                 .getOntologyManager().getOntologies(), getConstraintSystem(),
                 runtimeExceptionHandler);
-        axiom.accept(query);
+        ax.accept(query);
         toReturn.addAll(query.getLeaves());
         return toReturn;
     }

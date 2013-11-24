@@ -1,4 +1,3 @@
-
 package org.coode.parsers;
 
 import java.util.ArrayList;
@@ -127,7 +126,7 @@ public class AutoCompleteStrings {
                 }
 
                 @Override
-                public void visitNonOWLType(Type type) {}
+                public void visitNonOWLType(Type t) {}
 
                 @Override
                 public void visitOWLAxiomType(OWLAxiomType owlAxiomType) {}
@@ -158,7 +157,7 @@ public class AutoCompleteStrings {
                 public void visitOWLAxiomType(OWLAxiomType owlAxiomType) {}
 
                 @Override
-                public void visitNonOWLType(Type type) {}
+                public void visitNonOWLType(Type t) {}
             });
         }
         return toReturn;
@@ -183,7 +182,7 @@ public class AutoCompleteStrings {
                 public void visitOWLAxiomType(OWLAxiomType owlAxiomType) {}
 
                 @Override
-                public void visitNonOWLType(Type type) {}
+                public void visitNonOWLType(Type t) {}
             });
         }
         return toReturn;

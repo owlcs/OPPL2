@@ -216,7 +216,7 @@ public class OPPLQueryImpl implements OPPLQuery {
     }
 
     @Override
-    public String render(ConstraintSystem constraintSystem) {
+    public String render(ConstraintSystem cs) {
         return render();
     }
 
@@ -434,38 +434,35 @@ public class OPPLQueryImpl implements OPPLQuery {
                     OPPLQueryImpl.this.getConstraintSystem(), false);
             found = constraint.accept(new ConstraintVisitorEx<Boolean>() {
                 @Override
-                public Boolean visit(InequalityConstraint c) {
-                    OWLObject instantiatedExpression = c.getExpression().accept(
+                public Boolean visit(InequalityConstraint ic) {
+                    OWLObject instantiatedExpression = ic.getExpression().accept(
                             instantiator);
-                    return bindingNode.getAssignmentValue(c.getVariable(), parameters) == null
+                    return bindingNode.getAssignmentValue(ic.getVariable(), parameters) == null
                             || !variableExtractor
                                     .extractVariables(instantiatedExpression).isEmpty();
                 }
 
                 @Override
-                public Boolean visit(InCollectionConstraint<? extends OWLObject> c) {
-                    for (OWLObject owlObject : c.getCollection()) {
+                public Boolean visit(InCollectionConstraint<? extends OWLObject> icc) {
+                    for (OWLObject owlObject : icc.getCollection()) {
                         OWLObject instantiated = owlObject.accept(instantiator);
                         if (!variableExtractor.extractVariables(instantiated).isEmpty()) {
                             return true;
                         }
                     }
-                    return bindingNode.getAssignmentValue(c.getVariable(), parameters) == null;
+                    return bindingNode.getAssignmentValue(icc.getVariable(), parameters) == null;
                 }
 
                 @Override
-                public Boolean visit(RegExpConstraint c) {
-                    OPPLFunction<Pattern> expression = c.getExpression();
-                    Set<Variable<?>> extractedVariables = variableExtractor
-                            .extractVariables(expression);
-                    boolean found = false;
-                    Iterator<Variable<?>> iterator = extractedVariables.iterator();
-                    while (!found && iterator.hasNext()) {
-                        Variable<?> variable = iterator.next();
-                        found = bindingNode.getAssignmentValue(variable, parameters) == null;
+                public Boolean visit(RegExpConstraint rc) {
+                    OPPLFunction<Pattern> expression = rc.getExpression();
+                    for (Variable<?> variable : variableExtractor
+                            .extractVariables(expression)) {
+                        if (bindingNode.getAssignmentValue(variable, parameters) == null) {
+                            return true;
+                        }
                     }
-                    return bindingNode.getAssignmentValue(c.getVariable(), parameters) == null
-                            || found;
+                    return bindingNode.getAssignmentValue(rc.getVariable(), parameters) == null;
                 }
 
                 @Override

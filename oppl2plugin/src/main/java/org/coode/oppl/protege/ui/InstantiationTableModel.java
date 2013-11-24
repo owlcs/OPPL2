@@ -1,4 +1,3 @@
-
 package org.coode.oppl.protege.ui;
 
 import java.util.ArrayList;
@@ -24,6 +23,8 @@ import org.semanticweb.owlapi.model.OWLObject;
 /** @author Luigi Iannone */
 public class InstantiationTableModel implements TableModel {
     private final class LeavesComparator implements Comparator<BindingNode> {
+        public LeavesComparator() {}
+
         @Override
         public int compare(BindingNode aBindingNode, BindingNode anotherBindingNode) {
             int toReturn = 0;
@@ -52,11 +53,11 @@ public class InstantiationTableModel implements TableModel {
     private final Set<TableModelListener> listeners = new HashSet<TableModelListener>();
     private final List<BindingNode> leaves = new ArrayList<BindingNode>();
     private final RuntimeExceptionHandler runtimeExceptionHandler;
-    private final OPPLScript opplScript;
+    protected final OPPLScript opplScript;
     private final OWLEditorKit owlEditorKit;
 
     private static final class NoOPPLScriptTableModel implements TableModel {
-        private NoOPPLScriptTableModel() {}
+        NoOPPLScriptTableModel() {}
 
         @Override
         public void addTableModelListener(TableModelListener l) {}
@@ -98,7 +99,8 @@ public class InstantiationTableModel implements TableModel {
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {}
     }
 
-    /** @param opplScript */
+    /** @param opplScript
+     * @param owlEditorKit */
     public InstantiationTableModel(OPPLScript opplScript, OWLEditorKit owlEditorKit) {
         if (opplScript == null) {
             throw new NullPointerException("The OPPL Script cannot be null");

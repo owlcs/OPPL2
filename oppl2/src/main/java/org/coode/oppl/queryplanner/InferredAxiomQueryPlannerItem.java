@@ -65,21 +65,21 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
         return toReturn;
     }
 
-    private Set<BindingNode> updateBindings(OWLAxiom axiom,
+    private Set<BindingNode> updateBindings(OWLAxiom ax,
             RuntimeExceptionHandler runtimeExceptionHandler) throws OWLRuntimeException {
-        assert axiom != null;
+        assert ax != null;
         Set<BindingNode> toReturn = new HashSet<BindingNode>();
         int initialSize = getConstraintSystem().getLeaves() == null ? 0
                 : getConstraintSystem().getLeaves().size();
         Logging.getQueryLogger().fine("Initial size: ", initialSize);
         AxiomQuery query = getConstraintSystem().getReasoner() == null
-                || !axiom.isLogicalAxiom() ? new AssertedSolvabilityBasedAxiomQuery(
+                || !ax.isLogicalAxiom() ? new AssertedSolvabilityBasedAxiomQuery(
                 getConstraintSystem().getOntologyManager().getOntologies(),
                 getConstraintSystem(), runtimeExceptionHandler)
                 : new InferredSolvabilityBasedTreeSearchAxiomQuery(getConstraintSystem(),
                         runtimeExceptionHandler);
         Logging.getQueryTestLogging().fine("Used engine: ", query.getClass().getName());
-        axiom.accept(query);
+        ax.accept(query);
         toReturn.addAll(query.getLeaves());
         return toReturn;
     }

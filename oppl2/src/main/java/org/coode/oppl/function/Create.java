@@ -172,8 +172,7 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends
                             OPPLFunction<? extends OWLLiteral> opplFunction) {
                         OWLDataFactory dataFactory = parameters.getConstraintSystem()
                                 .getOntologyManager().getOWLDataFactory();
-                        String value = getInput().compute(parameters);
-                        return dataFactory.getOWLLiteral(value);
+                        return dataFactory.getOWLLiteral(getInput().compute(parameters));
                     }
                 };
             }

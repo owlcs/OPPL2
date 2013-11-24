@@ -45,7 +45,7 @@ public class LocalityChecker {
         private final OWLOntologyManager manager;
         private final OWLDataFactory factory;
 
-        private SigmaBuilder(OWLOntologyManager manager) {
+        SigmaBuilder(OWLOntologyManager manager) {
             this.manager = manager;
             factory = manager.getOWLDataFactory();
         }
@@ -129,15 +129,18 @@ public class LocalityChecker {
     private final Set<OWLEntity> entities = new HashSet<OWLEntity>();
     private LocalityEvaluator evaluator;
     private final OWLOntologyManager myManager;
-    private final OWLOntology scratchpad;
+    protected final OWLOntology scratchpad;
     private LocalityCheckerLeafBrusher leafBrusher;
     private final VariableTypeVisitorEx<OWLEntity> plusBuilder;
     private final VariableTypeVisitorEx<OWLEntity> minusBuilder;
     private Map<Variable<?>, SigmaPlusSigmaMinus> sigmaValues;
-    private OWLReasoner reasoner;
     private OWLOntologyManager externalManager;
     private final RuntimeExceptionHandler handler;
 
+    /** @param manager
+     * @param r
+     * @param entities
+     * @param handler */
     public LocalityChecker(final OWLOntologyManager manager, OWLReasoner r,
             Collection<? extends OWLEntity> entities, RuntimeExceptionHandler handler) {
         externalManager = manager;
@@ -157,7 +160,6 @@ public class LocalityChecker {
         } catch (OWLOntologyChangeException e) {
             throw new RuntimeException("Unexpected exception type", e);
         }
-        reasoner = r;
         evaluator = new SemanticLocalityEvaluator(externalManager, r);
         this.entities.addAll(entities);
         plusBuilder = new SigmaBuilder(myManager);

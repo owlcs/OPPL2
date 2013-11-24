@@ -157,7 +157,7 @@ public class OPPLScriptImpl implements OPPLScript {
     }
 
     @Override
-    public String render(ConstraintSystem constraintSystem) {
+    public String render(ConstraintSystem cs) {
         return render();
     }
 

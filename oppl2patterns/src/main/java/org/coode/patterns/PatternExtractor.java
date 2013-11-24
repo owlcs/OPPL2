@@ -138,14 +138,14 @@ public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScrip
     }
 
     private PatternReferenceResolver getPatternReferenceResolver(
-            final Collection<? extends String> visited) {
+            final Collection<? extends String> done) {
         return new PatternReferenceResolver() {
             @Override
             public void resolvePattern(OPPLSyntaxTree reference, String patternName,
                     PatternConstraintSystem constraintSystem,
                     OPPLPatternsSymbolTable symbolTable, List<Object>... args) {
                 symbolTable.resolvePattern(reference, patternName, constraintSystem,
-                        new HashSet<String>(visited), args);
+                        new HashSet<String>(done), args);
             }
         };
     }

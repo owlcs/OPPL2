@@ -146,8 +146,8 @@ public class OPPLMacroView extends AbstractOWLViewComponent implements
                                         null) {
                                     @Override
                                     public <P extends OWLObject> VariableScope<?> visit(
-                                            InputVariable<P> v) {
-                                        return v.getVariableScope();
+                                            InputVariable<P> iv) {
+                                        return iv.getVariableScope();
                                     }
                                 });
                         if (variableScope != null) {

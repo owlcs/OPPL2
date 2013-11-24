@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase;
 
 import java.util.Collection;
@@ -221,7 +220,7 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
                         return new AssertionExpressionVisitorEx<Boolean>() {
                             @Override
                             public Boolean visitCountAssertionExpression(
-                                    CountAssertionExpression countAssertionExpression) {
+                                    CountAssertionExpression ce) {
                                 return true;
                             }
 
@@ -288,10 +287,8 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
                             }
 
                             @Override
-                            public
-                                    Boolean
-                                    visitCountStarAssertionExpression(
-                                            CountStarAssertionExpression countStarAssertionExpression) {
+                            public Boolean visitCountStarAssertionExpression(
+                                    CountStarAssertionExpression ce) {
                                 return true;
                             }
 
@@ -334,10 +331,8 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
                             }
 
                             @Override
-                            public
-                                    Boolean
-                                    visitIntegerAssertionExpressionVisitor(
-                                            IntegerAssertionExpression integerAssertionExpression) {
+                            public Boolean visitIntegerAssertionExpressionVisitor(
+                                    IntegerAssertionExpression i) {
                                 return true;
                             }
 
@@ -364,10 +359,8 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
                             }
 
                             @Override
-                            public
-                                    Boolean
-                                    visitBindingNodeCountAssertionExpression(
-                                            BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression) {
+                            public Boolean visitBindingNodeCountAssertionExpression(
+                                    BindingNodeCountAssertionExpression b) {
                                 return true;
                             }
 
@@ -434,10 +427,8 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
                             }
 
                             @Override
-                            public
-                                    Boolean
-                                    visitOWLExpressionAssertionExpression(
-                                            OWLExpressionAssertionExpression owlExpressionAssertionExpression) {
+                            public Boolean visitOWLExpressionAssertionExpression(
+                                    OWLExpressionAssertionExpression o) {
                                 return true;
                             }
                         };

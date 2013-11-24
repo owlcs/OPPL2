@@ -84,7 +84,7 @@ public class Adapter {
         return new Aggregandum<Collection<? extends I>>() {
             @Override
             public Set<OPPLFunction<Collection<? extends I>>> getOPPLFunctions() {
-                OPPLFunction<Collection<? extends I>> singleton = new OPPLFunction<Collection<? extends I>>() {
+                OPPLFunction<Collection<? extends I>> s = new OPPLFunction<Collection<? extends I>>() {
                     @Override
                     public Collection<? extends I> compute(
                             ValueComputationParameters params) {
@@ -112,7 +112,7 @@ public class Adapter {
                         return adapted.render(shortFormProvider);
                     }
                 };
-                return Collections.singleton(singleton);
+                return Collections.singleton(s);
             }
 
             @Override
@@ -203,31 +203,27 @@ public class Adapter {
             isCompatible = opplFunction.accept(new OPPLFunctionVisitorEx<Boolean>() {
                 @Override
                 public <O, T> Boolean visitAggregation(Aggregation<O, T> aggregation) {
-                    boolean isCompatible = true;
-                    Iterator<Aggregandum<T>> it = aggregation.getToAggreagte().iterator();
-                    while (it.hasNext()) {
-                        Aggregandum<T> aggregandum = it.next();
-                        isCompatible = Adapter.isCompatible(aggregandum, type);
+                    boolean toReturn = true;
+                    for (Aggregandum<T> t : aggregation.getToAggreagte()) {
+                        toReturn |= Adapter.isCompatible(t, type);
                     }
-                    return isCompatible;
+                    return toReturn;
                 }
 
                 @Override
                 public <O extends OWLObject> Boolean
                         visitInlineSet(InlineSet<O> inlineSet) {
-                    boolean isCompatible = true;
-                    Iterator<Aggregandum<Collection<? extends O>>> it = inlineSet
-                            .getAggregandums().iterator();
-                    while (it.hasNext()) {
-                        Aggregandum<Collection<? extends O>> aggregandum = it.next();
-                        isCompatible = Adapter.isCompatible(aggregandum, type);
+                    boolean toReturn = true;
+                    for (Aggregandum<Collection<? extends O>> t : inlineSet
+                            .getAggregandums()) {
+                        toReturn |= Adapter.isCompatible(t, type);
                     }
-                    return isCompatible;
+                    return toReturn;
                 }
 
                 @Override
                 public <P extends OWLObject> Boolean visitGenericOPPLFunction(
-                        OPPLFunction<P> opplFunction) {
+                        OPPLFunction<P> f) {
                     return false;
                 }
 

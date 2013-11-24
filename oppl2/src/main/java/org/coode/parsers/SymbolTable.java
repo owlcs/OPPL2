@@ -1430,12 +1430,11 @@ public class SymbolTable {
 
                 @Override
                 public OWLLiteral visitOWLEntity(OWLEntitySymbol owlEntitySymbol) {
-                    OWLLiteral toReturn = null;
                     if (owlEntitySymbol.getType() == OWLType.OWL_DATA_TYPE) {
-                        toReturn = df.getOWLLiteral(value.getToken().getText(),
+                        return df.getOWLLiteral(value.getToken().getText(),
                                 (OWLDatatype) owlEntitySymbol.getEntity());
                     }
-                    return toReturn;
+                    return null;
                 }
             });
         } else {
@@ -2194,8 +2193,7 @@ public class SymbolTable {
     public Set<String> getAllCompletions(Type... types) {
         Set<String> toReturn = new HashSet<String>();
         for (Type type : types) {
-            Set<Symbol> symbols = getGlobalScope().getAllSymbols(type);
-            for (Symbol symbol : symbols) {
+            for (Symbol symbol : getGlobalScope().getAllSymbols(type)) {
                 toReturn.add(symbol.getName());
             }
         }
@@ -2481,10 +2479,10 @@ public class SymbolTable {
             OWLAnnotation annotation = object.getOWLObject().accept(
                     new OWLObjectVisitorExAdapter<OWLAnnotation>() {
                         @Override
-                        public OWLAnnotation visit(IRI iri) {
+                        public OWLAnnotation visit(IRI i) {
                             return df.getOWLAnnotation(
                                     (OWLAnnotationProperty) annotationPropertyNode
-                                            .getOWLObject(), iri);
+                                            .getOWLObject(), i);
                         }
 
                         @Override

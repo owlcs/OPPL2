@@ -44,13 +44,13 @@ abstract class AbstractVariableType<O extends OWLObject> implements VariableType
     }
 
     @Override
-    public InputVariable<O> getInputVariable(String name, VariableScope<?> variableScope) {
-        return InputVariable.getInputVariable(name, this, variableScope);
+    public InputVariable<O> getInputVariable(String n, VariableScope<?> variableScope) {
+        return InputVariable.getInputVariable(n, this, variableScope);
     }
 
     @Override
-    public GeneratedVariable<O> getGeneratedVariable(String name,
+    public GeneratedVariable<O> getGeneratedVariable(String n,
             OPPLFunction<? extends O> opplFunction) {
-        return GeneratedVariable.getGeneratedVariable(name, this, opplFunction);
+        return GeneratedVariable.getGeneratedVariable(n, this, opplFunction);
     }
 }

@@ -251,7 +251,7 @@ public class OPPLSymbolTable extends SymbolTable {
                             @Override
                             public <P extends OWLObject>
                                     VariableAttributeSymbol<VariableAttribute<String>>
-                                    visit(InputVariable<P> v) {
+                                    visit(InputVariable<P> iv) {
                                 OPPLSymbolTable.this
                                         .reportIllegalToken(variableSyntaxTree,
                                                 "The variable has to be a regular expression variable");
@@ -261,7 +261,7 @@ public class OPPLSymbolTable extends SymbolTable {
                             @Override
                             public <P extends OWLObject>
                                     VariableAttributeSymbol<VariableAttribute<String>>
-                                    visit(GeneratedVariable<P> v) {
+                                    visit(GeneratedVariable<P> iv) {
                                 OPPLSymbolTable.this
                                         .reportIllegalToken(variableSyntaxTree,
                                                 "The variable has to be a regular expression variable");
@@ -508,7 +508,7 @@ public class OPPLSymbolTable extends SymbolTable {
             toReturn = symbol
                     .accept(new OPPLSymbolVisitorEx<VariableAttribute<String>>() {
                         @Override
-                        public VariableAttribute<String> visitSymbol(Symbol symbol) {
+                        public VariableAttribute<String> visitSymbol(Symbol s) {
                             OPPLSymbolTable.this.reportIllegalToken(
                                     variableAttributeSyntaxTree,
                                     "Invalid symbol or variable attribute");

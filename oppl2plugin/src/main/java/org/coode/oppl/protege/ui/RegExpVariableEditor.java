@@ -262,7 +262,7 @@ public class RegExpVariableEditor extends
             public void accept(VariableVisitor visitor) {}
 
             @Override
-            public String render(ConstraintSystem constraintSystem) {
+            public String render(ConstraintSystem cs) {
                 return String.format("%s:%s", getName(), getType());
             }
         };

@@ -49,10 +49,10 @@ public class TokenTableModel implements TableModel {
         }
     }
 
-    private String[] getRow(String tokenName, List<TokenFileSorter> tokenFileSorters) {
+    private String[] getRow(String tokenName, List<TokenFileSorter> sorters) {
         List<String> row = new ArrayList<String>();
         row.add(tokenName);
-        for (TokenFileSorter tokenFileSorter : tokenFileSorters) {
+        for (TokenFileSorter tokenFileSorter : sorters) {
             Iterator<Token> iterator = tokenFileSorter.getTokens().iterator();
             boolean found = false;
             while (!found && iterator.hasNext()) {
