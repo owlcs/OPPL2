@@ -41,11 +41,7 @@ public class Assignment {
             throw new NullPointerException("The assigned value cannot be null");
         }
         if (VariableTypeFactory.getVariableType(assignment) != assignedVariable.getType()) {
-            throw new IllegalArgumentException(
-                    "The assigned value is incompatible with the variable it is assigned to: "
-                            + assignment.getClass() + " "
-                            + VariableTypeFactory.getVariableType(assignment) + " "
-                            + assignedVariable.getType());
+            throw new IllegalArgumentException("The assigned value is incompatible with the variable it is assigned to: " + assignment.getClass() + " " + VariableTypeFactory.getVariableType(assignment) + " " + assignedVariable.getType());
         }
         this.assignedVariable = assignedVariable;
         this.assignment = assignment;
@@ -70,9 +66,8 @@ public class Assignment {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + (assignedVariable == null ? 0 : assignedVariable.hashCode());
-        result = prime * result + (assignment == null ? 0 : assignment.hashCode());
+        result = prime * result + assignedVariable.hashCode();
+        result = prime * result + assignment.hashCode();
         return result;
     }
 
@@ -88,20 +83,9 @@ public class Assignment {
             return false;
         }
         Assignment other = (Assignment) obj;
-        if (assignedVariable == null) {
-            if (other.assignedVariable != null) {
-                return false;
-            }
-        } else if (!assignedVariable.equals(other.assignedVariable)) {
+        if (!assignedVariable.equals(other.assignedVariable)) {
             return false;
         }
-        if (assignment == null) {
-            if (other.assignment != null) {
-                return false;
-            }
-        } else if (!assignment.equals(other.assignment)) {
-            return false;
-        }
-        return true;
+        return assignment.equals(other.assignment);
     }
 }
