@@ -227,6 +227,15 @@ public class BindingNode implements Renderable {
         return toReturn;
     }
 
+    public boolean containsAssignedVariable(Variable<?> v) {
+        for (Assignment assignment : assignments) {
+            if (assignment.getAssignedVariable().equals(v)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** @return the assignments */
     public Collection<Assignment> getAssignments() {
         return new ArrayList<Assignment>(assignments);

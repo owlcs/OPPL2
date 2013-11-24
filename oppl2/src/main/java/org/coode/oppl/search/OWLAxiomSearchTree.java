@@ -74,7 +74,7 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
                     SimpleValueComputationParameters parameters = new SimpleValueComputationParameters(
                             getParameters().getConstraintSystem(), bindingNode,
                             getParameters().getRuntimeExceptionHandler());
-                    if (bindingNode.getAssignedVariables().contains(variable)) {
+                    if (bindingNode.containsAssignedVariable(variable)) {
                         values.add(getParameters().getBindingNode().getAssignmentValue(
                                 variable, parameters));
                     } else {
