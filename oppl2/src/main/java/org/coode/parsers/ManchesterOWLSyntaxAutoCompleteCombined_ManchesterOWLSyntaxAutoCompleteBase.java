@@ -2061,7 +2061,9 @@ public class ManchesterOWLSyntaxAutoCompleteCombined_ManchesterOWLSyntaxAutoComp
                                     if (list_rest == null) {
                                         list_rest = new ArrayList<Object>();
                                     }
-                                    list_rest.add(rest.getTree());
+                                    if (rest != null) {
+                                        list_rest.add(rest.getTree());
+                                    }
                                 }
                                     break;
                                 default:

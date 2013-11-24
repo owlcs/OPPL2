@@ -261,10 +261,13 @@ public class PatternConstraintSystem extends ConstraintSystem {
     @Override
     public String render(Variable<?> variable) {
         GeneratedVariable<?> specialVariable = specialVariables.get(variable.getName());
-        boolean specialRenderingPresent = specialVariable != null
-                && specialVariableRenderings.get(specialVariable.getName()) != null;
-        String rendering = specialRenderingPresent ? specialVariableRenderings
-                .get(specialVariable.getName()) : constraintSystem.render(variable);
+        String rendering = null;
+        if (specialVariable != null) {
+            rendering = specialVariableRenderings.get(specialVariable.getName());
+        }
+        if (rendering == null) {
+            rendering = constraintSystem.render(variable);
+        }
         return rendering;
     }
 

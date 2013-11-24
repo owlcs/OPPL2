@@ -39,6 +39,7 @@ public class ToLowerCaseStringManipulationOPPLFunction extends
         if (string == null) {
             runTimeExceptionHandler.handleException(new NullPointerException(
                     "The string cannot be null"));
+            return "";
         }
         return string.toLowerCase();
     }

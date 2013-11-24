@@ -782,8 +782,7 @@ public class OPPLTestCaseTypes extends TreeFilter {
                 if (state.backtracking == 1) {
                     if (anAssertion.a != null) {
                         t = MESSAGE3 == null ? new OPPLTest(anAssertion.a)
-                                : new OPPLTest(MESSAGE3 != null ? MESSAGE3.getText()
-                                        : null, anAssertion.a);
+                                : new OPPLTest(MESSAGE3.getText(), anAssertion.a);
                     }
                 }
             }

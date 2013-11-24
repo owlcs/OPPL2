@@ -443,32 +443,18 @@ public class OPPLTypes extends TreeFilter {
                 if (state.backtracking == 1) {
                     try {
                         if (vd != null) {
-                            vds.addAll(vd != null ? vd.variables : null);
+                            vds.addAll(vd.variables);
                         }
-                        if (!(actions1 != null ? actions1.actions : null).isEmpty()) {
-                            if (q != null) {
-                                // If the query tree is not null but the
-                                // returned query contains errors (hence it is
-                                // null) the script should be null.
-                                ((OPPLSyntaxTree) retval.start)
-                                        .setOPPLContent((q != null ? q.query : null) == null ? null
-                                                : getOPPLFactory()
-                                                        .buildOPPLScript(
-                                                                getConstraintSystem(),
-                                                                vds,
-                                                                q != null ? q.query
-                                                                        : null,
-                                                                actions1 != null ? actions1.actions
-                                                                        : null));
-                            } else {
-                                ((OPPLSyntaxTree) retval.start)
-                                        .setOPPLContent(getOPPLFactory().buildOPPLScript(
-                                                getConstraintSystem(),
-                                                vds,
-                                                null,
-                                                actions1 != null ? actions1.actions
-                                                        : null));
-                            }
+                        List<OWLAxiomChange> actions2 = actions1 == null ? null
+                                : actions1.actions;
+                        OPPLQuery query2 = q == null ? null : q.query;
+                        if (actions2 != null && !actions2.isEmpty()) {
+                            // If the query tree is not null but the
+                            // returned query contains errors (hence it is
+                            // null) the script should be null.
+                            Object content = getOPPLFactory().buildOPPLScript(
+                                    getConstraintSystem(), vds, query2, actions2);
+                            ((OPPLSyntaxTree) retval.start).setOPPLContent(content);
                         }
                     } catch (IllegalArgumentException e) {
                         getErrorListener().reportThrowable(e,

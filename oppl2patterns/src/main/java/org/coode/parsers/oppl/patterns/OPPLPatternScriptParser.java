@@ -1893,8 +1893,8 @@ public class OPPLPatternScriptParser extends Parser {
                         stream_atomic.add(a.getTree());
                     }
                     if (state.backtracking == 0) {
-                        retval.string = (a != null ? input.toString(a.start, a.stop)
-                                : null).trim();
+                        retval.string = (a != null ? input.toString(a.start, a.stop) : "")
+                                .trim();
                     }
                     // AST REWRITE
                     // elements: atomic
@@ -1921,11 +1921,11 @@ public class OPPLPatternScriptParser extends Parser {
                                 {
                                     OPPLSyntaxTree root_2 = (OPPLSyntaxTree) adaptor
                                             .nil();
-                                    root_2 = (OPPLSyntaxTree) adaptor.becomeRoot(adaptor
-                                            .create(EXPRESSION,
+                                    root_2 = (OPPLSyntaxTree) adaptor
+                                            .becomeRoot(adaptor.create(
+                                                    EXPRESSION,
                                                     (a != null ? input.toString(a.start,
-                                                            a.stop) : null).trim()),
-                                            root_2);
+                                                            a.stop) : "").trim()), root_2);
                                     adaptor.addChild(root_2, stream_atomic.nextTree());
                                     adaptor.addChild(root_1, root_2);
                                 }
@@ -1962,7 +1962,7 @@ public class OPPLPatternScriptParser extends Parser {
                         stream_atomic.add(a.getTree());
                     }
                     if (state.backtracking == 0) {
-                        out.append((a != null ? input.toString(a.start, a.stop) : null)
+                        out.append((a != null ? input.toString(a.start, a.stop) : "")
                                 .trim());
                     }
                     // /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g:179:5:
@@ -1999,7 +1999,7 @@ public class OPPLPatternScriptParser extends Parser {
                                     out.append(COMMA30.getText());
                                     out.append(" ");
                                     out.append((a != null ? input.toString(a.start,
-                                            a.stop) : null).trim());
+                                            a.stop) : "").trim());
                                 }
                             }
                                 break;
@@ -2053,7 +2053,7 @@ public class OPPLPatternScriptParser extends Parser {
                                                 adaptor.create(
                                                         EXPRESSION,
                                                         (a != null ? input.toString(
-                                                                a.start, a.stop) : null)
+                                                                a.start, a.stop) : "")
                                                                 .trim()), root_2);
                                         adaptor.addChild(root_2, stream_atomic.nextTree());
                                         adaptor.addChild(root_1, root_2);
