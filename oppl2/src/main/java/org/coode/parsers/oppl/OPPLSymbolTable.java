@@ -590,6 +590,9 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
+    /** @param iriTree
+     * @param variableNameTree
+     * @param constraintSystem */
     public void defineVariableIRI(OPPLSyntaxTree iriTree,
             OPPLSyntaxTree variableNameTree, ConstraintSystem constraintSystem) {
         Symbol toReturn = retrieveSymbol(iriTree.getText());
@@ -605,6 +608,11 @@ public class OPPLSymbolTable extends SymbolTable {
         }
     }
 
+    /** @param expression
+     * @param aggregandums
+     * @param aggregdandumTrees
+     * @param constraintSystem
+     * @return disjoint axiom */
     public OWLAxiom getDisjointAxiom(final OPPLSyntaxTree expression,
             final Collection<? extends Aggregandum<?>> aggregandums,
             final List<OPPLSyntaxTree> aggregdandumTrees,

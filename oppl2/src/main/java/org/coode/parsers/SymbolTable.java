@@ -112,7 +112,8 @@ public class SymbolTable {
         }
     };
 
-    /** @param globalScope */
+    /** @param globalScope
+     * @param dataFactory */
     public SymbolTable(Scope globalScope, OWLDataFactory dataFactory) {
         if (globalScope == null) {
             throw new NullPointerException("The scope cannot be null");
@@ -129,6 +130,8 @@ public class SymbolTable {
         return globalScope;
     }
 
+    /** @param node
+     * @return resolved symbol */
     public Symbol resolve(ManchesterOWLSyntaxTree node) {
         String name = node.getToken().getText();
         Symbol toReturn = retrieveSymbol(name);
@@ -184,6 +187,10 @@ public class SymbolTable {
         this.errorListener = errorListener;
     }
 
+    /** @param expression
+     * @param subClass
+     * @param superClass
+     * @return type for expression */
     public Type getSubClassAxiomType(CommonTree expression, ManchesterOWLSyntaxTree subClass, ManchesterOWLSyntaxTree superClass) {
         Type toReturn = null;
         if (subClass.getEvalType() == null || !subClass.getEvalType().accept(classDetector)) {
@@ -197,30 +204,39 @@ public class SymbolTable {
     }
 
     /** @param tree
-     * @param parentExpression
-     * @param toReturn */
-    protected void reportIncompatibleSymbolType(ManchesterOWLSyntaxTree tree, CommonTree parentExpression) {
+     * @param parentExpression */
+    public void reportIncompatibleSymbolType(ManchesterOWLSyntaxTree tree, CommonTree parentExpression) {
         reportIncompatibleSymbolType(tree, tree.getEvalType(), parentExpression);
     }
 
-    protected void reportIncompatibleSymbolType(CommonTree tree, Type t, CommonTree parentExpression) {
+    /** @param tree
+     * @param t
+     * @param parentExpression */
+    public void reportIncompatibleSymbolType(CommonTree tree, Type t, CommonTree parentExpression) {
         if (getErrorListener() != null) {
             getErrorListener().incompatibleSymbolType(tree, t, parentExpression);
         }
     }
 
-    protected void reportIncompatibleSymbols(CommonTree parentExpression, CommonTree... expressions) {
+    /** @param parentExpression
+     * @param expressions */
+    public void reportIncompatibleSymbols(CommonTree parentExpression, CommonTree... expressions) {
         if (getErrorListener() != null) {
             getErrorListener().incompatibleSymbols(parentExpression, expressions);
         }
     }
 
+    /** @param expression
+     * @param message */
     public void reportIllegalToken(CommonTree expression, String message) {
         if (getErrorListener() != null) {
             getErrorListener().illegalToken(expression, message);
         }
     }
 
+    /** @param expression
+     * @param disjuncts
+     * @return type for expression */
     public Type getDisjunctionType(CommonTree expression, ManchesterOWLSyntaxTree... disjuncts) {
         boolean allFine = true;
         Type toReturn = null;
@@ -239,6 +255,9 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param conjuncts
+     * @return type for expression */
     public Type getConjunctionType(CommonTree expression, ManchesterOWLSyntaxTree... conjuncts) {
         boolean allFine = true;
         Type toReturn = null;
@@ -264,6 +283,9 @@ public class SymbolTable {
         return rest == null ? operandType.accept(classDetector) || operandType.accept(dtDetector) : rest.accept(classDetector) && operandType.accept(classDetector) || rest.accept(dtDetector) && operandType.accept(dtDetector);
     }
 
+    /** @param expression
+     * @param node
+     * @return type for expression */
     public Type getNegatedClassExpressionType(CommonTree expression, ManchesterOWLSyntaxTree node) {
         Type toReturn = null;
         if (node.getEvalType() == null || !node.getEvalType().accept(classDetector)) {
@@ -274,6 +296,9 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param property
+     * @return type for expression */
     public Type getInversePropertyType(CommonTree expression, ManchesterOWLSyntaxTree property) {
         Type toReturn = null;
         if (property.getEvalType() == null || !property.getEvalType().accept(opDetector)) {
@@ -284,6 +309,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param subProperty
+     * @param superProperty
+     * @return type for expression */
     public Type getSubPropertyAxiomType(CommonTree expression, ManchesterOWLSyntaxTree subProperty, ManchesterOWLSyntaxTree superProperty) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -310,6 +339,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param propertyExpression
+     * @param filler
+     * @return type for expression */
     public Type getSomeValueRestrictionType(CommonTree expression, ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -340,6 +373,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param propertyExpression
+     * @param filler
+     * @return type for expression */
     public Type getAllValueRestrictionType(CommonTree expression, ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -370,6 +407,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param propertyExpression
+     * @param filler
+     * @return type for expression */
     public Type getMinCardinalityRestrictionType(CommonTree expression, ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -396,6 +437,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param propertyExpression
+     * @param filler
+     * @return type for expression */
     public Type getMaxCardinalityRestrictionType(CommonTree expression, ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -422,6 +467,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param propertyExpression
+     * @param filler
+     * @return type for expression */
     public Type getExactCardinalityRestrictionType(CommonTree expression, ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -448,6 +497,9 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param individuals
+     * @return type for expression */
     public Type getOneOfType(CommonTree expression, ManchesterOWLSyntaxTree... individuals) {
         boolean allFine = true;
         Type toReturn = null;
@@ -463,6 +515,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param propertyExpression
+     * @param value
+     * @return type for expression */
     public Type getValueRestrictionType(CommonTree expression, ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree value) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -493,6 +549,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param propertyExpression
+     * @param value
+     * @return value restriction */
     public OWLClassExpression getValueRestriction(CommonTree expression, ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree value) {
         OWLClassExpression toReturn = null;
         boolean rightKinds = true;
@@ -519,6 +579,11 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param subject
+     * @param property
+     * @param object
+     * @return type for expression */
     public Type getRoleAssertionAxiomType(CommonTree expression, ManchesterOWLSyntaxTree subject, ManchesterOWLSyntaxTree property, ManchesterOWLSyntaxTree object) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -552,10 +617,15 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** clear symbols */
     public void clear() {
         symbols.clear();
     }
 
+    /** @param expression
+     * @param lhs
+     * @param rhs
+     * @return type for expression */
     public Type getEquivalentAxiomType(CommonTree expression, ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -591,6 +661,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param p
+     * @param domain
+     * @return type for expression */
     public Type getDomainAxiomType(CommonTree expression, ManchesterOWLSyntaxTree p, ManchesterOWLSyntaxTree domain) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -620,6 +694,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param p
+     * @param range
+     * @return type for expression */
     public Type getRangeAxiomType(CommonTree expression, ManchesterOWLSyntaxTree p, ManchesterOWLSyntaxTree range) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -649,6 +727,9 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param chainItems
+     * @return type for expression */
     public Type getPropertyChainType(CommonTree expression, ManchesterOWLSyntaxTree... chainItems) {
         boolean allFine = true;
         Type toReturn = null;
@@ -664,6 +745,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param lhs
+     * @param rhs
+     * @return type for expression */
     public Type getDisjointAxiomType(CommonTree expression, ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -699,6 +784,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param anIndividual
+     * @param anotherIndividual
+     * @return type for expression */
     public Type getSameIndividualsAxiomType(CommonTree expression, ManchesterOWLSyntaxTree anIndividual, ManchesterOWLSyntaxTree anotherIndividual) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -716,6 +805,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param anIndividual
+     * @param anotherIndividual
+     * @return type for expression */
     public Type getDifferentIndividualsAxiomType(CommonTree expression, ManchesterOWLSyntaxTree anIndividual, ManchesterOWLSyntaxTree anotherIndividual) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -733,6 +826,9 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param p
+     * @return type for expression */
     public Type getFunctionalPropertyType(CommonTree expression, ManchesterOWLSyntaxTree p) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -746,6 +842,9 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param p
+     * @return type for expression */
     public Type getInverseFunctionalPropertyType(CommonTree expression, ManchesterOWLSyntaxTree p) {
         if (OWLType.OWL_OBJECT_PROPERTY.match(p.getEvalType())) {
             return OWLAxiomType.INVERSE_FUNCTIONAL_OBJECT_PROPERTY;
@@ -754,6 +853,9 @@ public class SymbolTable {
         return null;
     }
 
+    /** @param expression
+     * @param p
+     * @return type for expression */
     public Type getIrreflexivePropertyType(CommonTree expression, ManchesterOWLSyntaxTree p) {
         if (OWLType.OWL_OBJECT_PROPERTY.match(p.getEvalType())) {
             return OWLAxiomType.IRREFLEXIVE_OBJECT_PROPERTY;
@@ -762,6 +864,9 @@ public class SymbolTable {
         return null;
     }
 
+    /** @param expression
+     * @param p
+     * @return type for expression */
     public Type getReflexivePropertyType(CommonTree expression, ManchesterOWLSyntaxTree p) {
         if (OWLType.OWL_OBJECT_PROPERTY.match(p.getEvalType())) {
             return OWLAxiomType.REFLEXIVE_OBJECT_PROPERTY;
@@ -770,6 +875,9 @@ public class SymbolTable {
         return null;
     }
 
+    /** @param expression
+     * @param p
+     * @return type for expression */
     public Type getSymmetricPropertyType(CommonTree expression, ManchesterOWLSyntaxTree p) {
         if (OWLType.OWL_OBJECT_PROPERTY.match(p.getEvalType())) {
             return OWLAxiomType.SYMMETRIC_OBJECT_PROPERTY;
@@ -778,6 +886,9 @@ public class SymbolTable {
         return null;
     }
 
+    /** @param expression
+     * @param p
+     * @return type for expression */
     public Type getTransitivePropertyType(CommonTree expression, ManchesterOWLSyntaxTree p) {
         if (OWLType.OWL_OBJECT_PROPERTY.match(p.getEvalType())) {
             return OWLAxiomType.TRANSITIVE_OBJECT_PROPERTY;
@@ -786,6 +897,10 @@ public class SymbolTable {
         return null;
     }
 
+    /** @param expression
+     * @param lhs
+     * @param rhs
+     * @return type for expression */
     public Type getInverseOfAxiomType(CommonTree expression, ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -807,6 +922,9 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param assertion
+     * @return type for expression */
     public Type getNegatedAssertionType(CommonTree expression, ManchesterOWLSyntaxTree assertion) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -824,6 +942,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param description
+     * @param subject
+     * @return type for expression */
     public Type getClassAssertionAxiomType(CommonTree expression, ManchesterOWLSyntaxTree description, ManchesterOWLSyntaxTree subject) {
         Type toReturn = null;
         boolean rightKinds = true;
@@ -846,6 +968,9 @@ public class SymbolTable {
         return df;
     }
 
+    /** @param expression
+     * @param individuals
+     * @return symbol replaced owl object */
     public OWLObject getOneOf(CommonTree expression, ManchesterOWLSyntaxTree[] individuals) {
         boolean allFine = true;
         OWLObjectOneOf toReturn = null;
@@ -864,6 +989,11 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param i
+     * @param propertyExpression
+     * @param filler
+     * @return symbol replaced owl object */
     public OWLObject getExactCardinalityRestriction(CommonTree expression, int i, ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
         OWLCardinalityRestriction<?, ?, ?> toReturn = null;
         boolean rightKinds = true;
@@ -890,6 +1020,11 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param cardinality
+     * @param propertyExpression
+     * @param filler
+     * @return symbol replaced owl object */
     public OWLObject getMaxCardinalityRestriction(CommonTree expression, int cardinality, ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
         OWLCardinalityRestriction<?, ?, ?> toReturn = null;
         boolean rightKinds = true;
@@ -916,6 +1051,11 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param cardinality
+     * @param propertyExpression
+     * @param filler
+     * @return symbol replaced owl object */
     public OWLObject getMinCardinalityRestriction(CommonTree expression, int cardinality, ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
         OWLCardinalityRestriction<?, ?, ?> toReturn = null;
         boolean rightKinds = true;
@@ -942,6 +1082,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param propertyExpression
+     * @param filler
+     * @return symbol replaced owl object */
     public OWLObject getAllValueRestriction(CommonTree expression, ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
         OWLQuantifiedRestriction<?, ?, ?> toReturn = null;
         boolean rightKinds = true;
@@ -972,6 +1116,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param propertyExpression
+     * @param filler
+     * @return symbol replaced owl object */
     public OWLObject getSomeValueRestriction(CommonTree expression, ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
         OWLQuantifiedRestriction<?, ?, ?> toReturn = null;
         boolean rightKinds = true;
@@ -1002,6 +1150,9 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param property
+     * @return symbol replaced owl object */
     public OWLObject getInverseProperty(CommonTree expression, ManchesterOWLSyntaxTree property) {
         OWLObjectPropertyExpression toReturn = null;
         if (property.getEvalType() == null || !property.getEvalType().accept(opDetector)) {
@@ -1012,6 +1163,7 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @return symbol replaced owl object */
     public OWLObject getOWLObject(final ManchesterOWLSyntaxTree node) {
         Symbol symbol = symbols.get(node.getToken().getText());
         if (symbol == null) {
@@ -1041,8 +1193,8 @@ public class SymbolTable {
                 }
 
                 @Override
-                public OWLEntity visitSymbol(Symbol symbol) {
-                    SymbolTable.this.reportIncompatibleSymbolType(node, symbol.getType(), node);
+                public OWLEntity visitSymbol(Symbol s) {
+                    SymbolTable.this.reportIncompatibleSymbolType(node, s.getType(), node);
                     return null;
                 }
             });
@@ -1057,6 +1209,9 @@ public class SymbolTable {
         }
     }
 
+    /** @param expression
+     * @param node
+     * @return symbol replaced owl object */
     public OWLObject getNegatedClassExpression(CommonTree expression, ManchesterOWLSyntaxTree node) {
         OWLObjectComplementOf toReturn = null;
         if (node.getEvalType() == null || !node.getEvalType().accept(classDetector)) {
@@ -1067,6 +1222,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param value
+     * @param constantType
+     * @return symbol replaced owl object */
     public OWLLiteral getOWLTypedConstant(final CommonTree expression, final ManchesterOWLSyntaxTree value, final ManchesterOWLSyntaxTree constantType) {
         Symbol typeSymbol = resolve(constantType);
         OWLLiteral toReturn = null;
@@ -1104,10 +1263,17 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param value
+     * @param lang
+     * @return symbol replaced owl object */
     public OWLLiteral getOWLUntypedConstant(CommonTree expression, ManchesterOWLSyntaxTree value, ManchesterOWLSyntaxTree lang) {
         return value == null ? null : lang == null ? df.getOWLLiteral(value.getText()) : df.getOWLLiteral(value.getText(), lang.getText());
     }
 
+    /** @param expression
+     * @param conjuncts
+     * @return symbol replaced owl object */
     public OWLObject getConjunction(CommonTree expression, ManchesterOWLSyntaxTree[] conjuncts) {
         boolean allFine = true;
         OWLObject toReturn = null;
@@ -1137,6 +1303,9 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param chainItems
+     * @return symbol replaced owl object */
     public OWLPropertyChain getPropertyChain(CommonTree expression, ManchesterOWLSyntaxTree[] chainItems) {
         OWLPropertyChain toReturn = null;
         boolean allFine = chainItems.length >= 2;
@@ -1166,6 +1335,9 @@ public class SymbolTable {
         return new OWLPropertyChainImpl(a);
     }
 
+    /** @param expression
+     * @param disjuncts
+     * @return symbol replaced owl object */
     public OWLObject getDisjunction(CommonTree expression, ManchesterOWLSyntaxTree[] disjuncts) {
         boolean allFine = true;
         OWLObject toReturn = null;
@@ -1195,6 +1367,9 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param assertion
+     * @return symbol replaced owl object */
     public OWLAxiom getNegatedAssertion(CommonTree expression, ManchesterOWLSyntaxTree assertion) {
         OWLAxiom toReturn = null;
         boolean rightKinds = true;
@@ -1214,6 +1389,9 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param p
+     * @return symbol replaced owl object */
     public OWLAxiom getTransitiveProperty(CommonTree expression, ManchesterOWLSyntaxTree p) {
         if (OWLType.OWL_OBJECT_PROPERTY.match(p.getEvalType())) {
             return df.getOWLTransitiveObjectPropertyAxiom((OWLObjectPropertyExpression) p.getOWLObject());
@@ -1222,6 +1400,9 @@ public class SymbolTable {
         return null;
     }
 
+    /** @param expression
+     * @param p
+     * @return symbol replaced owl object */
     public OWLAxiom getSymmetricProperty(CommonTree expression, ManchesterOWLSyntaxTree p) {
         if (OWLType.OWL_OBJECT_PROPERTY.match(p.getEvalType())) {
             return df.getOWLSymmetricObjectPropertyAxiom((OWLObjectPropertyExpression) p.getOWLObject());
@@ -1230,6 +1411,9 @@ public class SymbolTable {
         return null;
     }
 
+    /** @param expression
+     * @param p
+     * @return symbol replaced owl object */
     public OWLAxiom getAsymmetricProperty(CommonTree expression, ManchesterOWLSyntaxTree p) {
         if (OWLType.OWL_OBJECT_PROPERTY.match(p.getEvalType())) {
             return df.getOWLAsymmetricObjectPropertyAxiom((OWLObjectPropertyExpression) p.getOWLObject());
@@ -1238,6 +1422,9 @@ public class SymbolTable {
         return null;
     }
 
+    /** @param expression
+     * @param p
+     * @return symbol replaced owl object */
     public OWLAxiom getReflexiveProperty(CommonTree expression, ManchesterOWLSyntaxTree p) {
         if (OWLType.OWL_OBJECT_PROPERTY.match(p.getEvalType())) {
             return df.getOWLReflexiveObjectPropertyAxiom((OWLObjectPropertyExpression) p.getOWLObject());
@@ -1246,6 +1433,9 @@ public class SymbolTable {
         return null;
     }
 
+    /** @param expression
+     * @param p
+     * @return symbol replaced owl object */
     public OWLAxiom getIrreflexiveProperty(CommonTree expression, ManchesterOWLSyntaxTree p) {
         if (OWLType.OWL_OBJECT_PROPERTY.match(p.getEvalType())) {
             return df.getOWLIrreflexiveObjectPropertyAxiom((OWLObjectPropertyExpression) p.getOWLObject());
@@ -1254,6 +1444,9 @@ public class SymbolTable {
         return null;
     }
 
+    /** @param expression
+     * @param p
+     * @return symbol replaced owl object */
     public OWLAxiom getInverseFunctionalProperty(CommonTree expression, ManchesterOWLSyntaxTree p) {
         if (OWLType.OWL_OBJECT_PROPERTY.match(p.getEvalType())) {
             return df.getOWLInverseFunctionalObjectPropertyAxiom((OWLObjectPropertyExpression) p.getOWLObject());
@@ -1262,6 +1455,9 @@ public class SymbolTable {
         return null;
     }
 
+    /** @param expression
+     * @param p
+     * @return symbol replaced owl object */
     public OWLAxiom getFunctionalProperty(CommonTree expression, ManchesterOWLSyntaxTree p) {
         OWLAxiom toReturn = null;
         boolean rightKinds = true;
@@ -1275,6 +1471,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param anIndividual
+     * @param anotherIndividual
+     * @return symbol replaced owl object */
     public OWLAxiom getDifferentIndividualsAxiom(CommonTree expression, ManchesterOWLSyntaxTree anIndividual, ManchesterOWLSyntaxTree anotherIndividual) {
         OWLDifferentIndividualsAxiom toReturn = null;
         boolean rightKinds = true;
@@ -1292,6 +1492,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param anIndividual
+     * @param anotherIndividual
+     * @return symbol replaced owl object */
     public OWLAxiom getSameIndividualsAxiom(CommonTree expression, ManchesterOWLSyntaxTree anIndividual, ManchesterOWLSyntaxTree anotherIndividual) {
         OWLSameIndividualAxiom toReturn = null;
         boolean rightKinds = true;
@@ -1309,6 +1513,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param p
+     * @param range
+     * @return symbol replaced owl object */
     public OWLAxiom getRangeAxiom(CommonTree expression, ManchesterOWLSyntaxTree p, ManchesterOWLSyntaxTree range) {
         OWLAxiom toReturn = null;
         boolean rightKinds = true;
@@ -1338,6 +1546,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param p
+     * @param domain
+     * @return symbol replaced owl object */
     public OWLAxiom getDomainAxiom(CommonTree expression, ManchesterOWLSyntaxTree p, ManchesterOWLSyntaxTree domain) {
         OWLAxiom toReturn = null;
         boolean rightKinds = true;
@@ -1367,6 +1579,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param description
+     * @param subject
+     * @return symbol replaced owl object */
     public OWLAxiom getClassAssertionAxiom(CommonTree expression, ManchesterOWLSyntaxTree description, ManchesterOWLSyntaxTree subject) {
         OWLClassAssertionAxiom toReturn = null;
         boolean rightKinds = true;
@@ -1384,6 +1600,11 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param subject
+     * @param property
+     * @param object
+     * @return symbol replaced owl object */
     public OWLAxiom getRoleAssertionAxiom(CommonTree expression, ManchesterOWLSyntaxTree subject, ManchesterOWLSyntaxTree property, ManchesterOWLSyntaxTree object) {
         OWLAxiom toReturn = null;
         boolean rightKinds = true;
@@ -1417,6 +1638,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param subProperty
+     * @param superProperty
+     * @return symbol replaced owl object */
     public OWLAxiom getSubPropertyAxiom(CommonTree expression, ManchesterOWLSyntaxTree subProperty, ManchesterOWLSyntaxTree superProperty) {
         OWLAxiom toReturn = null;
         boolean rightKinds = true;
@@ -1445,6 +1670,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param lhs
+     * @param rhs
+     * @return symbol replaced owl object */
     public OWLAxiom getDisjointAxiom(CommonTree expression, ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs) {
         OWLAxiom toReturn = null;
         boolean rightKinds = true;
@@ -1480,6 +1709,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param lhs
+     * @param rhs
+     * @return symbol replaced owl object */
     public OWLAxiom getInverseOfAxiom(CommonTree expression, ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs) {
         OWLInverseObjectPropertiesAxiom toReturn = null;
         boolean rightKinds = true;
@@ -1501,6 +1734,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param lhs
+     * @param rhs
+     * @return symbol replaced owl object */
     public OWLAxiom getEquivalentAxiom(CommonTree expression, ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs) {
         OWLAxiom toReturn = null;
         boolean rightKinds = true;
@@ -1536,6 +1773,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param expression
+     * @param subClass
+     * @param superClass
+     * @return symbol replaced owl object */
     public OWLAxiom getSubClassAxiom(CommonTree expression, ManchesterOWLSyntaxTree subClass, ManchesterOWLSyntaxTree superClass) {
         OWLSubClassOfAxiom toReturn = null;
         if (subClass.getEvalType() == null || !subClass.getEvalType().accept(classDetector)) {
@@ -1565,18 +1806,23 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @return object property completions */
     public Set<String> getOWLObjectPropertyCompletions() {
         return getAllCompletions(OWLType.OWL_OBJECT_PROPERTY);
     }
 
+    /** @return data property completions */
     public Set<String> getOWLDataPropertyCompletions() {
         return getAllCompletions(OWLType.OWL_DATA_PROPERTY);
     }
 
+    /** @return class completions */
     public Set<String> getOWLClassCompletions() {
         return getAllCompletions(OWLType.OWL_CLASS);
     }
 
+    /** @param type
+     * @return completions */
     public Set<String> getCompletions(Type type) {
         Set<String> toReturn = new HashSet<String>();
         if (OWLType.isClassExpression(type)) {
@@ -1594,6 +1840,8 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param type
+     * @return property completions */
     public Set<String> getOWLPropertyCompletions(Type type) {
         Set<String> toReturn = new HashSet<String>();
         if (OWLType.isObjectPropertyExpression(type)) {
@@ -1605,10 +1853,13 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @return individual completions */
     public Set<String> getOWLIndividualCompletions() {
         return getAllCompletions(OWLType.OWL_INDIVIDUAL);
     }
 
+    /** @param types
+     * @return all completions */
     public Set<String> getAllCompletions(Type... types) {
         Set<String> toReturn = new HashSet<String>();
         for (Type type : types) {

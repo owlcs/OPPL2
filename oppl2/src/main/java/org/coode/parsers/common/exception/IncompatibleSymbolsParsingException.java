@@ -8,9 +8,10 @@ public class IncompatibleSymbolsParsingException extends ParsingException {
     private static final long serialVersionUID = 20100L;
     private final Set<String> incompatibleSymbols = new HashSet<String>();
 
-    /** @param message
+    /** @param parentExpression
      * @param line
-     * @param charPositionInLine */
+     * @param charPositionInLine
+     * @param incompatibleSymbols */
     public IncompatibleSymbolsParsingException(String parentExpression, int line,
             int charPositionInLine, String... incompatibleSymbols) {
         super(String.format(
