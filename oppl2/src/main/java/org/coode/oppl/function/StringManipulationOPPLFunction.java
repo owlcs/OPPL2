@@ -1,5 +1,7 @@
 package org.coode.oppl.function;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 
 public abstract class StringManipulationOPPLFunction implements OPPLFunction<String> {
@@ -7,10 +9,7 @@ public abstract class StringManipulationOPPLFunction implements OPPLFunction<Str
 
     /** @param argument */
     public StringManipulationOPPLFunction(OPPLFunction<String> argument) {
-        if (argument == null) {
-            throw new NullPointerException("The argument cannot be null");
-        }
-        this.argument = argument;
+        this.argument = checkNotNull(argument, "argument");
     }
 
     @Override

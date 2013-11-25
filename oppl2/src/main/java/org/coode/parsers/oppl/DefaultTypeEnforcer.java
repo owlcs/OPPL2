@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.oppl.entity.OWLEntityCreationException;
 import org.coode.oppl.entity.OWLEntityFactory;
@@ -23,18 +24,9 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
      * @param listener */
     public DefaultTypeEnforcer(OPPLSymbolTable symbolTable,
             OWLEntityFactory entityFactory, ErrorListener listener) {
-        if (symbolTable == null) {
-            throw new NullPointerException("The symbol table cannot be null");
-        }
-        if (entityFactory == null) {
-            throw new NullPointerException("The entity factory cannot be null");
-        }
-        if (listener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        this.symbolTable = symbolTable;
-        this.entityFactory = entityFactory;
-        errorListener = listener;
+        this.symbolTable = checkNotNull(symbolTable, "symbolTable");
+        this.entityFactory = checkNotNull(entityFactory, "entityFactory");
+        errorListener = checkNotNull(listener, "listener");
     }
 
     @Override
@@ -50,12 +42,8 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
             ManchesterOWLSyntaxTree parentExpression,
             final ManchesterOWLSyntaxTree propertyExpression,
             ManchesterOWLSyntaxTree filler) {
-        if (propertyExpression == null) {
-            throw new NullPointerException("The propertyExpression cannot be null");
-        }
-        if (filler == null) {
-            throw new NullPointerException("The filler cannot be null");
-        }
+        checkNotNull(propertyExpression, "propertyExpression");
+        checkNotNull(filler, "filler");
         if (filler.getEvalType() != null) {
             if (filler.getEvalType() == CreateOnDemand.get()
                     && propertyExpression.getEvalType() == CreateOnDemand.get()) {
@@ -114,17 +102,8 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     @Override
     public void enforceDisjointWithAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs) {
-        if (parentExpression == null) {
-            throw new NullPointerException("The parent expresion cannot be null");
-        }
-        if (lhs == null) {
-            throw new NullPointerException("The left hand side expression cannot be null");
-        }
-        if (rhs == null) {
-            throw new NullPointerException(
-                    "The right hand side expression cannot be null");
-        }
-        enforceBinaryAxiomTypes(parentExpression, lhs, rhs);
+        enforceBinaryAxiomTypes(checkNotNull(parentExpression, "parentExpression"),
+                checkNotNull(lhs, "lhs"), checkNotNull(rhs, "rhs"));
     }
 
     /** @param parentExpression
@@ -132,16 +111,9 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
      * @param rhs */
     private void enforceBinaryAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs) {
-        if (parentExpression == null) {
-            throw new NullPointerException("The parent expresion cannot be null");
-        }
-        if (lhs == null) {
-            throw new NullPointerException("The left hand side expression cannot be null");
-        }
-        if (rhs == null) {
-            throw new NullPointerException(
-                    "The right hand side expression cannot be null");
-        }
+        checkNotNull(parentExpression, "parentExpression");
+        checkNotNull(lhs, "lhs");
+        checkNotNull(rhs, "rhs");
         if (lhs.getEvalType() == CreateOnDemand.get()
                 && rhs.getEvalType() == CreateOnDemand.get()) {
             getErrorListener().incompatibleSymbols(parentExpression, lhs, rhs);
@@ -158,12 +130,8 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     /** @param from
      * @param to */
     private void enforceType(ManchesterOWLSyntaxTree from, ManchesterOWLSyntaxTree to) {
-        if (from == null) {
-            throw new NullPointerException("The type source cannot be null");
-        }
-        if (to == null) {
-            throw new NullPointerException("The type destination cannot be null");
-        }
+        checkNotNull(from, "from");
+        checkNotNull(to, "to");
         if (OWLType.isObjectPropertyExpression(from.getEvalType())) {
             this.enforceType(to, OWLType.OWL_OBJECT_PROPERTY);
         }
@@ -184,15 +152,9 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     @Override
     public void enforceDomainAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
             OPPLSyntaxTree p, ManchesterOWLSyntaxTree classDescription) {
-        if (parentExpression == null) {
-            throw new NullPointerException("The parent expresion cannot be null");
-        }
-        if (p == null) {
-            throw new NullPointerException("The property cannot be null");
-        }
-        if (classDescription == null) {
-            throw new NullPointerException("The domain cannot be null");
-        }
+        checkNotNull(parentExpression, "parentExpression");
+        checkNotNull(p, "p");
+        checkNotNull(classDescription, "classDescription");
         if (p.getEvalType() == CreateOnDemand.get()) {
             getErrorListener().illegalToken(
                     p,
@@ -206,17 +168,8 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     @Override
     public void enforceEquivalentToAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs) {
-        if (parentExpression == null) {
-            throw new NullPointerException("The parent expresion cannot be null");
-        }
-        if (lhs == null) {
-            throw new NullPointerException("The left hand side expression cannot be null");
-        }
-        if (rhs == null) {
-            throw new NullPointerException(
-                    "The right hand side expression cannot be null");
-        }
-        enforceBinaryAxiomTypes(parentExpression, lhs, rhs);
+        enforceBinaryAxiomTypes(checkNotNull(parentExpression, "parentExpression"),
+                checkNotNull(lhs, "lhs"), checkNotNull(rhs, "rhs"));
     }
 
     @Override
@@ -232,12 +185,8 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     private void enforceCardinalityRestrictionTypes(
             ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
-        if (parentExpression == null) {
-            throw new NullPointerException("The parent expression cannot be null");
-        }
-        if (propertyExpression == null) {
-            throw new NullPointerException("The property cannot be null");
-        }
+        checkNotNull(parentExpression, "parentExpression");
+        checkNotNull(propertyExpression, "propertyExpression");
         if (filler == null) {
             if (propertyExpression.getEvalType() == CreateOnDemand.get()) {
                 getErrorListener().illegalToken(
@@ -315,9 +264,7 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     @Override
     public void enforceOneOfTypes(ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree... individuals) {
-        if (individuals == null) {
-            throw new NullPointerException("The individual array cannot be null");
-        }
+        checkNotNull(individuals, "individuals");
         for (ManchesterOWLSyntaxTree individual : individuals) {
             this.enforceType(individual, OWLType.OWL_INDIVIDUAL);
         }
@@ -330,13 +277,8 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
      * @param t
      * @param type */
     protected void enforceType(ManchesterOWLSyntaxTree t, OWLType type) {
-        if (t == null) {
-            throw new NullPointerException(
-                    "The expression whose type has to be enforced cannot be null");
-        }
-        if (type == null) {
-            throw new NullPointerException("Cannot enforce a null type");
-        }
+        checkNotNull(t, "t");
+        checkNotNull(type, "type");
         String name = t.getToken().getText();
         if (t.getEvalType() == CreateOnDemand.get()) {
             OWLEntity entity = null;
@@ -394,12 +336,8 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     @Override
     public void enforcePropertyChainTypes(ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree... propertyExpressions) {
-        if (parentExpression == null) {
-            throw new NullPointerException("The parent expression cannot be null");
-        }
-        if (propertyExpressions == null) {
-            throw new NullPointerException("The property expressions cannot be null");
-        }
+        checkNotNull(parentExpression, "parentExpression");
+        checkNotNull(propertyExpressions, "propertyExpressions");
         for (ManchesterOWLSyntaxTree propertyExpression : propertyExpressions) {
             this.enforceType(propertyExpression, OWLType.OWL_OBJECT_PROPERTY);
         }
@@ -408,15 +346,9 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     @Override
     public void enforceRangeAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
             final OPPLSyntaxTree p, ManchesterOWLSyntaxTree range) {
-        if (parentExpression == null) {
-            throw new NullPointerException("The parent expresion cannot be null");
-        }
-        if (p == null) {
-            throw new NullPointerException("The property cannot be null");
-        }
-        if (range == null) {
-            throw new NullPointerException("The range cannot be null");
-        }
+        checkNotNull(parentExpression, "parentExpression");
+        checkNotNull(p, "p");
+        checkNotNull(range, "range");
         Type evalType = range.getEvalType();
         if (evalType == CreateOnDemand.get()) {
             this.enforceType(p, OWLType.OWL_OBJECT_PROPERTY);
@@ -483,17 +415,9 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     @Override
     public void enforceSubPropertyAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree aProperty, ManchesterOWLSyntaxTree anotherProperty) {
-        if (parentExpression == null) {
-            throw new NullPointerException("The parent expresion cannot be null");
-        }
-        if (aProperty == null) {
-            throw new NullPointerException("The left hand side expression cannot be null");
-        }
-        if (anotherProperty == null) {
-            throw new NullPointerException(
-                    "The right hand side expression cannot be null");
-        }
-        enforceBinaryAxiomTypes(parentExpression, aProperty, anotherProperty);
+        enforceBinaryAxiomTypes(checkNotNull(parentExpression, "parentExpression"),
+                checkNotNull(aProperty, "aProperty"),
+                checkNotNull(anotherProperty, "anotherProperty"));
     }
 
     @Override
@@ -511,32 +435,19 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     @Override
     public void enforceTypeAssertionAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree classDescription, OPPLSyntaxTree subject) {
-        if (parentExpression == null) {
-            throw new NullPointerException("The parent expression cannot  be null");
-        }
-        if (classDescription == null) {
-            throw new NullPointerException("The class description cannot  be null");
-        }
-        if (subject == null) {
-            throw new NullPointerException("The subject cannot  be null");
-        }
-        this.enforceType(subject, OWLType.OWL_INDIVIDUAL);
-        this.enforceType(classDescription, OWLType.OWL_CLASS);
+        checkNotNull(parentExpression, "parentExpression");
+        this.enforceType(checkNotNull(subject, "subject"), OWLType.OWL_INDIVIDUAL);
+        this.enforceType(checkNotNull(classDescription, "classDescription"),
+                OWLType.OWL_CLASS);
     }
 
     @Override
     public void enforceValueRestrictionTypes(ManchesterOWLSyntaxTree parentExpression,
             final ManchesterOWLSyntaxTree propertyExpression,
             ManchesterOWLSyntaxTree value) {
-        if (parentExpression == null) {
-            throw new NullPointerException("The parent expression cannot be null");
-        }
-        if (propertyExpression == null) {
-            throw new NullPointerException("The propertyExpression cannot be null");
-        }
-        if (value == null) {
-            throw new NullPointerException("The value cannot be null");
-        }
+        checkNotNull(parentExpression, "parentExpression");
+        checkNotNull(propertyExpression, "propertyExpression");
+        checkNotNull(value, "value");
         if (value.getEvalType() == CreateOnDemand.get()
                 && propertyExpression.getEvalType() == CreateOnDemand.get()) {
             getErrorListener().incompatibleSymbols(parentExpression, propertyExpression,

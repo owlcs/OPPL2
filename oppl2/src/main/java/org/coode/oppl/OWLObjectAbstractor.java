@@ -22,6 +22,8 @@
  */
 package org.coode.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -127,18 +129,11 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject> im
     public OWLObjectAbstractor(Collection<? extends Variable<?>> variables,
             ValueComputationParameters parameters,
             Collection<? extends BindingNode> bindingNodes) {
-        if (variables == null) {
-            throw new NullPointerException("The variables cannot be null");
-        }
-        if (parameters == null) {
-            throw new NullPointerException(
-                    "The value computation parameters cannot be null");
-        }
+        this.variables.addAll(checkNotNull(variables, "variables"));
+        this.parameters = checkNotNull(parameters, "parameters");
         if (bindingNodes != null) {
             this.bindingNodes.addAll(bindingNodes);
         }
-        this.parameters = parameters;
-        this.variables.addAll(variables);
         df = parameters.getConstraintSystem().getOntologyManager().getOWLDataFactory();
     }
 

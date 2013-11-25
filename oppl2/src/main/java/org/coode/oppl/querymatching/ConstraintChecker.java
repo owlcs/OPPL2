@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.querymatching;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -48,13 +50,9 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
     private final ValueComputationParameters parameters;
     private final OWLObjectInstantiator instantiator;
 
-    /** @param bindingNode */
+    /** @param parameters */
     public ConstraintChecker(ValueComputationParameters parameters) {
-        if (parameters == null) {
-            throw new NullPointerException(
-                    "The value computation parameters cannot be null");
-        }
-        this.parameters = parameters;
+        this.parameters = checkNotNull(parameters, "parameters");
         instantiator = new OWLObjectInstantiator(getParameters());
     }
 

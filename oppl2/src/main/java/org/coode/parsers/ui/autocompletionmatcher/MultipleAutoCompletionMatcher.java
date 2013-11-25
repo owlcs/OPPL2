@@ -1,5 +1,6 @@
-
 package org.coode.parsers.ui.autocompletionmatcher;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,17 +17,12 @@ public final class MultipleAutoCompletionMatcher implements AutoCompletionMatche
 
     public MultipleAutoCompletionMatcher(
             Collection<? extends AutoCompletionMatcher> matchers) {
-        if (matchers == null) {
-            throw new NullPointerException("The matcher collection cannot be null");
-        }
-        this.matchers.addAll(matchers);
+        this.matchers.addAll(checkNotNull(matchers, "matchers"));
     }
 
     @Override
     public List<String> getMatches(String string2Complete) {
-        if (string2Complete == null) {
-            throw new NullPointerException("The String to complete cannot be null");
-        }
+        checkNotNull(string2Complete, "string2Complete");
         List<String> toReturn = new ArrayList<String>();
         for (AutoCompletionMatcher matcher : matchers) {
             toReturn.addAll(matcher.getMatches(string2Complete));

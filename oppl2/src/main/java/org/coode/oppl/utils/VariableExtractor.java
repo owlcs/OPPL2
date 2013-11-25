@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.utils;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -130,10 +132,7 @@ public class VariableExtractor {
     /** @param constraintSystem
      * @param includeGenerated */
     public VariableExtractor(ConstraintSystem constraintSystem, boolean includeGenerated) {
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        cs = constraintSystem;
+        cs = checkNotNull(constraintSystem, "constraintSystem");
         this.includeGenerated = includeGenerated;
     }
 
@@ -142,7 +141,7 @@ public class VariableExtractor {
         protected final OPPLFunctionVisitorEx<Set<Variable<?>>> extractor = new OPPLFunctionVisitorEx<Set<Variable<?>>>() {
             @Override
             public <O, I> Set<Variable<?>> visitAggregation(Aggregation<O, I> a) {
-                for (Aggregandum<I> agg : a.getToAggreagte()) {
+                for (Aggregandum<I> agg : a.getToAggregate()) {
                     for (OPPLFunction<? extends I> opplFunction : agg.getOPPLFunctions()) {
                         opplFunction.accept(this);
                     }

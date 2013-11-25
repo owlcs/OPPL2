@@ -12,8 +12,8 @@ public class PrimeNumbersUtils {
      * @return The first n prime numbers. */
     public static List<Integer> getNPrimes(int n) {
         if (n < 0) {
-            throw new NullPointerException("The input n must be >=0, it is in fact:  "
-                    + n);
+            throw new IllegalArgumentException(
+                    "The input n must be >=0, it is in fact:  " + n);
         }
         int upperBound = n * 10;
         List<Integer> primes = runEratosthenesSieve(upperBound);

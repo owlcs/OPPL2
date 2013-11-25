@@ -1,5 +1,7 @@
 package org.coode.oppl.queryplanner;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,10 +16,7 @@ public abstract class AbstractQueryPlannerItem implements QueryPlannerItem {
     private final ConstraintSystem constraintSystem;
 
     public AbstractQueryPlannerItem(ConstraintSystem constraintSystem) {
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        this.constraintSystem = constraintSystem;
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
     }
 
     protected Set<BindingNode> merge(BindingNode leaf,

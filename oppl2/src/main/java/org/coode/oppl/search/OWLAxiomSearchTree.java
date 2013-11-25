@@ -1,5 +1,7 @@
 package org.coode.oppl.search;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -44,11 +46,7 @@ public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
 
     /** @param parameters */
     public OWLAxiomSearchTree(ValueComputationParameters parameters) {
-        if (parameters == null) {
-            throw new NullPointerException(
-                    "The value computation parameters cannot be null");
-        }
-        this.parameters = parameters;
+        this.parameters = checkNotNull(parameters, "parameters");
     }
 
     /** @return the parameters */

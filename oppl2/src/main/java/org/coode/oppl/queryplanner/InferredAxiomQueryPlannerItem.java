@@ -1,5 +1,7 @@
 package org.coode.oppl.queryplanner;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -27,10 +29,7 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
      * @param axiom */
     public InferredAxiomQueryPlannerItem(ConstraintSystem constraintSystem, OWLAxiom axiom) {
         super(constraintSystem);
-        if (axiom == null) {
-            throw new NullPointerException("The axiom cannot be null");
-        }
-        this.axiom = axiom;
+        this.axiom = checkNotNull(axiom, "axiom");
     }
 
     /** @return the axiom */

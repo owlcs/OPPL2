@@ -1,6 +1,8 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxTypesParts.g 2011-01-10 15:08:31
 package org.coode.parsers;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,14 +198,8 @@ public class ManchesterOWLSyntaxTypesParts extends TreeFilter {
     public ManchesterOWLSyntaxTypesParts(TreeNodeStream input, SymbolTable symtab,
             ErrorListener errorListener) {
         this(input);
-        if (symtab == null) {
-            throw new NullPointerException("The symbol table cannot be null");
-        }
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        this.symtab = symtab;
-        this.errorListener = errorListener;
+        this.symtab = checkNotNull(symtab, "symtab");
+        this.errorListener = checkNotNull(errorListener, "errorListener");
     }
 
     public ErrorListener getErrorListener() {

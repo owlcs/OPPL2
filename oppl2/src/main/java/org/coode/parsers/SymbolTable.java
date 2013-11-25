@@ -1,5 +1,7 @@
 package org.coode.parsers;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -122,14 +124,8 @@ public class SymbolTable {
     /** @param globalScope
      * @param dataFactory */
     public SymbolTable(Scope globalScope, OWLDataFactory dataFactory) {
-        if (globalScope == null) {
-            throw new NullPointerException("The scope cannot be null");
-        }
-        if (dataFactory == null) {
-            throw new NullPointerException("The data factory cannot be null");
-        }
-        this.globalScope = globalScope;
-        df = dataFactory;
+        this.globalScope = checkNotNull(globalScope, "globalScope");
+        df = checkNotNull(dataFactory, "dataFactory");
     }
 
     /** @return the globalScope */
@@ -2213,13 +2209,8 @@ public class SymbolTable {
      * @throws NullPointerException
      *             if either input is {@code null}. */
     protected void storeSymbol(Token token, Symbol symbol) {
-        if (token == null) {
-            throw new NullPointerException("The token cannot be null");
-        }
-        if (symbol == null) {
-            throw new NullPointerException("The symbol cannot be null");
-        }
-        symbols.put(token.getText(), symbol);
+        symbols.put(checkNotNull(token, "token").getText(),
+                checkNotNull(symbol, "symbol"));
     }
 
     /** Stores the input Symbol under the input name.
@@ -2231,13 +2222,7 @@ public class SymbolTable {
      * @throws NullPointerException
      *             if either input is {@code null}. */
     protected void storeSymbol(String name, Symbol symbol) {
-        if (name == null) {
-            throw new NullPointerException("The token cannot be null");
-        }
-        if (symbol == null) {
-            throw new NullPointerException("The symbol cannot be null");
-        }
-        symbols.put(name, symbol);
+        symbols.put(checkNotNull(name, "name"), checkNotNull(symbol, "symbol"));
     }
 
     /** Removes the Symbol corresponding to the input Token.

@@ -1,5 +1,7 @@
 package org.coode.oppl.utils;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -10,12 +12,8 @@ public class Position {
     private final static OWLObjectDecomposer DECOMPOSER = new OWLObjectDecomposer();
 
     public static Object get(OWLObject owlObject, List<Integer> position) {
-        if (owlObject == null) {
-            throw new NullPointerException("The OWL object cannot be null");
-        }
-        if (position == null) {
-            throw new NullPointerException("The position cannot be null");
-        }
+        checkNotNull(owlObject, "owlObject");
+        checkNotNull(position, "position");
         Object toReturn = owlObject;
         if (!position.isEmpty()) {
             Integer index = position.get(0);

@@ -1,5 +1,7 @@
 package org.coode.parsers;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.OPPLShortFormProvider;
 import org.semanticweb.owlapi.expression.OWLEntityChecker;
 import org.semanticweb.owlapi.expression.ShortFormEntityChecker;
@@ -24,10 +26,7 @@ public class DisposableShortFormEntityChecker implements DisposableOWLEntityChec
 
     /** @param shrotFormProviderAdaptor */
     public DisposableShortFormEntityChecker(OWLEntityChecker owlEntityChecker) {
-        if (owlEntityChecker == null) {
-            throw new NullPointerException("The OWLEntity checker cannot be null");
-        }
-        delegate = owlEntityChecker;
+        delegate = checkNotNull(owlEntityChecker, "owlEntityChecker");
         shrotFormProviderAdaptor = new BidirectionalShortFormProviderAdapter(
                 new OPPLShortFormProvider(new SimpleShortFormProvider()));
     }

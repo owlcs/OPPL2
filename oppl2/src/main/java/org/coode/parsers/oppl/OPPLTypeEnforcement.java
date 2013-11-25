@@ -1,6 +1,8 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLTypeEnforcement.g 2011-08-19 11:44:19
 package org.coode.parsers.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -220,18 +222,9 @@ public class OPPLTypeEnforcement extends TreeFilter {
     public OPPLTypeEnforcement(TreeNodeStream input, SymbolTable symtab,
             TypesEnforcer typesEnforcer, ErrorListener errorListener) {
         this(input);
-        if (symtab == null) {
-            throw new NullPointerException("The symbol table cannot be null");
-        }
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        if (typesEnforcer == null) {
-            throw new NullPointerException("The type enforcer listener cannot be null");
-        }
-        this.symtab = symtab;
-        this.typesEnforcer = typesEnforcer;
-        this.errorListener = errorListener;
+        this.symtab = checkNotNull(symtab, "symtab");
+        this.errorListener = checkNotNull(errorListener, "errorListener");
+        this.typesEnforcer = checkNotNull(typesEnforcer, "typesEnforcer");
     }
 
     public TypesEnforcer getTypesEnforcer() {

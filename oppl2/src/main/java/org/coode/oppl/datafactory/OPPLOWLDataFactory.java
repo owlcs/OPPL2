@@ -1,5 +1,7 @@
 package org.coode.oppl.datafactory;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -18,10 +20,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     /** @param delegate */
     public OPPLOWLDataFactory(OWLDataFactory delegate) {
-        if (delegate == null) {
-            throw new NullPointerException("The OWL data factory cannot be null");
-        }
-        this.delegate = delegate;
+        this.delegate = checkNotNull(delegate, "delegate");
     }
 
     /** @param set

@@ -1,5 +1,6 @@
-
 package org.coode.parsers;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -22,19 +23,9 @@ public class OWLEntityCheckerScope implements Scope {
      * @param owlEntityRenderer */
     public OWLEntityCheckerScope(DisposableOWLEntityChecker owlEntityChecker,
             EntityFinder entityFinder, OWLEntityRenderer owlEntityRenderer) {
-        if (owlEntityChecker == null) {
-            throw new NullPointerException("The entity checker cannot be null");
-        }
-        if (entityFinder == null) {
-            throw new NullPointerException("The entity finder cannot be null");
-        }
-        if (owlEntityRenderer == null) {
-            throw new NullPointerException("The OWL entity renderer cannot be null");
-        }
-        this.owlEntityChecker = owlEntityChecker;
-        this.entityFinder = entityFinder;
-        this.owlEntityRenderer = owlEntityRenderer;
-        // this.initWellKnownEntities();
+        this.owlEntityChecker = checkNotNull(owlEntityChecker, "owlEntityChecker");
+        this.entityFinder = checkNotNull(entityFinder, "entityFinder");
+        this.owlEntityRenderer = checkNotNull(owlEntityRenderer, "owlEntityRenderer");
     }
 
     @Override
@@ -90,11 +81,9 @@ public class OWLEntityCheckerScope implements Scope {
 
     @Override
     public Set<Symbol> match(String prefix) {
-        if (prefix == null) {
-            throw new NullPointerException("The initial prefix cannot be null");
-        }
         Set<Symbol> toReturn = new HashSet<Symbol>();
-        Set<OWLEntity> entities = getEntityFinder().getEntities(prefix);
+        Set<OWLEntity> entities = getEntityFinder().getEntities(
+                checkNotNull(prefix, "prefix"));
         for (OWLEntity owlEntity : entities) {
             toReturn.add(new OWLEntitySymbol(getOWLEntityRenderer().render(owlEntity),
                     owlEntity));

@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.querymatching;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,18 +53,15 @@ public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
     private final Set<OWLOntology> ontologies = new HashSet<OWLOntology>();
     private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
 
+    /** @param ontologies
+     * @param constraintSystem
+     * @param runtimeExceptionHandler */
     public AssertedTreeSearchAxiomQuery(Set<OWLOntology> ontologies,
             ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         super(runtimeExceptionHandler);
-        if (ontologies == null) {
-            throw new NullPointerException("The ontologies collection cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        this.constraintSystem = constraintSystem;
-        this.ontologies.addAll(ontologies);
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.ontologies.addAll(checkNotNull(ontologies, "ontologies"));
     }
 
     @Override

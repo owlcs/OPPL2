@@ -1,5 +1,7 @@
 package org.coode.oppl.function;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.util.ShortFormProvider;
@@ -12,14 +14,8 @@ public abstract class VariableAttribute<O> extends AbstractOPPLFunction<O> imple
     /** @param variable
      * @param attribute */
     public VariableAttribute(Variable<?> variable, AttributeName attribute) {
-        if (variable == null) {
-            throw new NullPointerException("The variable cannot be null");
-        }
-        if (attribute == null) {
-            throw new NullPointerException("The attribute cannot be null");
-        }
-        this.variable = variable;
-        this.attribute = attribute;
+        this.variable = checkNotNull(variable, "variable");
+        this.attribute = checkNotNull(attribute, "attribute");
     }
 
     /** @return the variable */

@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.querymatching;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -58,19 +60,16 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
     private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
     private final Map<OWLAxiom, Collection<? extends OWLObject>> cache = new HashMap<OWLAxiom, Collection<? extends OWLObject>>();
 
+    /** @param ontologies
+     * @param constraintSystem
+     * @param runtimeExceptionHandler */
     public AssertedSolvabilityBasedAxiomQuery(
             Collection<? extends OWLOntology> ontologies,
             ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         super(runtimeExceptionHandler);
-        if (ontologies == null) {
-            throw new NullPointerException("The ontologies collection cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        this.constraintSystem = constraintSystem;
-        this.ontologies.addAll(ontologies);
+        this.ontologies.addAll(checkNotNull(ontologies, "ontologies"));
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
     }
 
     @Override

@@ -1,5 +1,7 @@
 package org.coode.oppl.queryplanner;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -89,15 +91,10 @@ public class ComplexityEstimate implements QueryPlannerVisitorEx<Float> {
      * @param runtimeExceptionHandler */
     public ComplexityEstimate(ConstraintSystem contraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
-        if (contraintSystem == null) {
-            throw new NullPointerException("The contraint system cannot be null");
-        }
-        if (runtimeExceptionHandler == null) {
-            throw new NullPointerException("The runtime Exception Handler cannot be null");
-        }
-        constraintSystem = contraintSystem;
+        constraintSystem = checkNotNull(contraintSystem, "contraintSystem");
+        this.runtimeExceptionHandler = checkNotNull(runtimeExceptionHandler,
+                "runtimeExceptionHandler");
         variableExtractor = new VariableExtractor(contraintSystem, false);
-        this.runtimeExceptionHandler = runtimeExceptionHandler;
         initAssignableValues();
     }
 

@@ -1,5 +1,7 @@
 package org.coode.oppl.function;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.PartialOWLObjectInstantiator;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
@@ -12,10 +14,7 @@ public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> imp
 
     /** @param expression */
     public Expression(O expression) {
-        if (expression == null) {
-            throw new NullPointerException("The expression cannot be null");
-        }
-        this.expression = expression;
+        this.expression = checkNotNull(expression, "expression");
     }
 
     @Override

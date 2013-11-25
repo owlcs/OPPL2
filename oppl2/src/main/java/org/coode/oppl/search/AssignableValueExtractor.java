@@ -1,5 +1,7 @@
 package org.coode.oppl.search;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
@@ -22,15 +24,9 @@ public final class AssignableValueExtractor implements
     public AssignableValueExtractor(
             VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor,
             ValueComputationParameters parameters) {
-        if (assignableValuesVisitor == null) {
-            throw new NullPointerException("The assignable value visitor cannot be null");
-        }
-        if (parameters == null) {
-            throw new NullPointerException(
-                    "The value computation parameters cannot be null");
-        }
-        this.assignableValuesVisitor = assignableValuesVisitor;
-        this.parameters = parameters;
+        this.assignableValuesVisitor = checkNotNull(assignableValuesVisitor,
+                "assignableValuesVisitor");
+        this.parameters = checkNotNull(parameters, "parameters");
     }
 
     @Override

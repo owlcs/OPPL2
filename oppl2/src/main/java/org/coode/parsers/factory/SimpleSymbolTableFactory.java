@@ -1,5 +1,6 @@
-
 package org.coode.parsers.factory;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.oppl.OPPLShortFormProvider;
 import org.coode.parsers.BidirectionalShortFormProviderAdapter;
@@ -19,10 +20,7 @@ public class SimpleSymbolTableFactory implements SymbolTableFactory<SymbolTable>
 
     /** @param manager */
     public SimpleSymbolTableFactory(OWLOntologyManager manager) {
-        if (manager == null) {
-            throw new NullPointerException("The manager cannot be null");
-        }
-        this.manager = manager;
+        this.manager = checkNotNull(manager, "manager");
     }
 
     @Override

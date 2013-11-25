@@ -1,5 +1,7 @@
 package org.coode.parsers.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -72,15 +74,9 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
     /** @param manager
      * @param checker */
     public ExpressionEditor(OWLOntologyManager manager, ExpressionChecker<O> checker) {
-        if (manager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        if (checker == null) {
-            throw new NullPointerException("The expression checker cannot be null");
-        }
-        this.ontologyMmanager = manager;
+        this.ontologyMmanager = checkNotNull(manager, "manager");
         this.outerBorder = null;
-        this.expressionChecker = checker;
+        this.expressionChecker = checkNotNull(checker, "checker");
         this.defaultBorder = BorderFactory
                 .createMatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY);
         this.setStateBorder(this.defaultBorder);

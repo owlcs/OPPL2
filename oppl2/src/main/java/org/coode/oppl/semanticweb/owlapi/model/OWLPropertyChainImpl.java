@@ -1,5 +1,6 @@
-
 package org.coode.oppl.semanticweb.owlapi.model;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,15 +30,11 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
 
     /** @param delegate */
     public OWLPropertyChainImpl(List<? extends OWLObjectPropertyExpression> delegate) {
-        if (delegate == null) {
-            throw new NullPointerException("The list cannot be null");
-        }
+        this.delegate.addAll(checkNotNull(delegate, "delegate"));
         if (delegate.size() < 2) {
             throw new IllegalArgumentException(
                     "The list cannot have less than 2 elements");
         }
-        this.delegate.clear();
-        this.delegate.addAll(delegate);
     }
 
     @Override

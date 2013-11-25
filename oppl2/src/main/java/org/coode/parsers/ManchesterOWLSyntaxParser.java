@@ -1,6 +1,8 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/PARSERS/src/ManchesterOWLSyntax.g 2011-02-03 18:49:27
 package org.coode.parsers;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.IntStream;
 import org.antlr.runtime.MismatchedTokenException;
@@ -214,10 +216,7 @@ public class ManchesterOWLSyntaxParser extends Parser {
     public ManchesterOWLSyntaxParser(TokenStream input, RecognizerSharedState state,
             ErrorListener errorListener) {
         this(input, state);
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        this.errorListener = errorListener;
+        this.errorListener = checkNotNull(errorListener, "errorListener");
     }
 
     public ErrorListener getErrorListener() {

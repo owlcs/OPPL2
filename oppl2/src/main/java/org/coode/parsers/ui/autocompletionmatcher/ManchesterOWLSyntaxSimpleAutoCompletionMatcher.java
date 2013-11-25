@@ -1,5 +1,6 @@
-
 package org.coode.parsers.ui.autocompletionmatcher;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,12 +15,8 @@ public class ManchesterOWLSyntaxSimpleAutoCompletionMatcher implements
 
     public ManchesterOWLSyntaxSimpleAutoCompletionMatcher(
             OWLEntityRenderer entityRenderer, OWLOntologyManager ontologyManager) {
-        if (entityRenderer == null) {
-            throw new NullPointerException("The entity renderer cannot be null");
-        }
-        if (ontologyManager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
+        checkNotNull(entityRenderer, "entityRenderer");
+        checkNotNull(ontologyManager, "ontologyManager");
         delegate = new MultipleAutoCompletionMatcher(
                 Arrays.asList(new OWLEntityRendererAutoCompletionMatcher(entityRenderer,
                         ontologyManager), new KeywordAutoCompletionMatcher(getKeywords())));
@@ -27,10 +24,7 @@ public class ManchesterOWLSyntaxSimpleAutoCompletionMatcher implements
 
     @Override
     public List<String> getMatches(String string2Complete) {
-        if (string2Complete == null) {
-            throw new NullPointerException("The string to complete cannot be null");
-        }
-        return delegate.getMatches(string2Complete);
+        return delegate.getMatches(checkNotNull(string2Complete, "string2Complete"));
     }
 
     public static List<String> getKeywords() {

@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.bindingtree;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.Variable;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -34,17 +36,15 @@ public class Assignment {
     /** @param assignedVariable
      * @param assignment */
     public Assignment(Variable<?> assignedVariable, OWLObject assignment) {
-        if (assignedVariable == null) {
-            throw new NullPointerException("The assigned variable cannot be null");
-        }
-        if (assignment == null) {
-            throw new NullPointerException("The assigned value cannot be null");
-        }
+        this.assignedVariable = checkNotNull(assignedVariable, "assignedVariable");
+        this.assignment = checkNotNull(assignment, "assignment");
         if (VariableTypeFactory.getVariableType(assignment) != assignedVariable.getType()) {
-            throw new IllegalArgumentException("The assigned value is incompatible with the variable it is assigned to: " + assignment.getClass() + " " + VariableTypeFactory.getVariableType(assignment) + " " + assignedVariable.getType());
+            throw new IllegalArgumentException(
+                    "The assigned value is incompatible with the variable it is assigned to: "
+                            + assignment.getClass() + " "
+                            + VariableTypeFactory.getVariableType(assignment) + " "
+                            + assignedVariable.getType());
         }
-        this.assignedVariable = assignedVariable;
-        this.assignment = assignment;
     }
 
     /** @return the assignedVariable */

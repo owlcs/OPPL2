@@ -1,5 +1,7 @@
 package org.coode.parsers;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,14 +46,8 @@ public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
      * @param entityRenderer */
     public OWLEntityRenderingCacheImpl(OWLOntologyManager manager,
             OWLEntityRenderer entityRenderer) {
-        if (manager == null) {
-            throw new NullPointerException("The ontolgoy manager cannot be null");
-        }
-        if (entityRenderer == null) {
-            throw new NullPointerException("The entity render cannot be null");
-        }
-        this.manager = manager;
-        this.entityRenderer = entityRenderer;
+        this.manager = checkNotNull(manager, "manager");
+        this.entityRenderer = checkNotNull(entityRenderer, "entityRenderer");
         this.manager.addOntologyChangeListener(listener);
         rebuild();
     }

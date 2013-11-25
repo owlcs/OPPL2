@@ -1,5 +1,6 @@
-
 package org.coode.parsers.ui.autocompletionmatcher;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,13 +24,8 @@ public final class OWLEntityRendererAutoCompletionMatcher implements
 
     public OWLEntityRendererAutoCompletionMatcher(OWLEntityRenderer entityRenderer,
             OWLOntologyManager manager) {
-        if (entityRenderer == null) {
-            throw new NullPointerException("The entity renderer cannot be null");
-        }
-        if (manager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        this.entityRenderer = entityRenderer;
+        this.entityRenderer = checkNotNull(entityRenderer, "entityRenderer");
+        checkNotNull(manager, "manager");
         entityFinder = new EntityFinderImpl(manager, new OWLEntityRenderingCacheImpl(
                 manager, entityRenderer), false);
     }

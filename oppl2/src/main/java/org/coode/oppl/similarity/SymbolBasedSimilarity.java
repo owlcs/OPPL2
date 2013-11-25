@@ -1,5 +1,7 @@
 package org.coode.oppl.similarity;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,14 +15,10 @@ import org.semanticweb.owlapi.model.OWLObject;
 public class SymbolBasedSimilarity implements SimilarityMeasure<OWLObject> {
     @Override
     public double compare(OWLObject anObject, OWLObject anotherObject) {
-        if (anObject == null) {
-            throw new NullPointerException("The first OWL object cannot be null");
-        }
-        if (anotherObject == null) {
-            throw new NullPointerException("The second OWL object cannot be null");
-        }
-        Set<OWLObject> anObjectOWLPrimitives = extractSymbols(anObject);
-        Set<OWLObject> anotherObjectOWLPrimitives = extractSymbols(anotherObject);
+        Set<OWLObject> anObjectOWLPrimitives = extractSymbols(checkNotNull(anObject,
+                "anObject"));
+        Set<OWLObject> anotherObjectOWLPrimitives = extractSymbols(checkNotNull(
+                anotherObject, "anotherObject"));
         return compareSymbols(anObjectOWLPrimitives, anotherObjectOWLPrimitives);
     }
 
@@ -37,12 +35,8 @@ public class SymbolBasedSimilarity implements SimilarityMeasure<OWLObject> {
      * @return the double representing the result of the comparison. */
     protected double compareSymbols(Collection<? extends OWLObject> anObjectSymbols,
             Collection<? extends OWLObject> anotherObjectSymbols) {
-        if (anObjectSymbols == null) {
-            throw new NullPointerException("The first collection cannot be null");
-        }
-        if (anotherObjectSymbols == null) {
-            throw new NullPointerException("The second collection cannot be null");
-        }
+        checkNotNull(anObjectSymbols, "anObjectSymbols");
+        checkNotNull(anotherObjectSymbols, "anotherObjectSymbols");
         // If both collection are empty 0 the method wil return 0
         double toReturn = anObjectSymbols.isEmpty() && anotherObjectSymbols.isEmpty() ? 0
                 : 1;
@@ -69,10 +63,7 @@ public class SymbolBasedSimilarity implements SimilarityMeasure<OWLObject> {
      * @throws NullPointerException
      *             when the input is {@code null}. */
     protected Set<OWLObject> extractSymbols(OWLObject anObject) {
-        if (anObject == null) {
-            throw new NullPointerException("The OWL Object cannot be null");
-        }
-        return OWLObjectExtractor.getAllOWLPrimitives(anObject);
+        return OWLObjectExtractor.getAllOWLPrimitives(checkNotNull(anObject, "anObject"));
     }
 
     @Override

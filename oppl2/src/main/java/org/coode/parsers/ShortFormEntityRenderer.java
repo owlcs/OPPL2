@@ -1,5 +1,6 @@
-
 package org.coode.parsers;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.util.ShortFormProvider;
@@ -10,10 +11,7 @@ public class ShortFormEntityRenderer implements OWLEntityRenderer {
 
     /** @param shortFormProvider */
     public ShortFormEntityRenderer(ShortFormProvider shortFormProvider) {
-        if (shortFormProvider == null) {
-            throw new NullPointerException("The short form provider cannot be null");
-        }
-        this.shortFormProvider = shortFormProvider;
+        this.shortFormProvider = checkNotNull(shortFormProvider, "shortFormProvider");
     }
 
     @Override

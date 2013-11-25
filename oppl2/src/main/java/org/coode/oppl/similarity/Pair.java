@@ -1,5 +1,7 @@
 package org.coode.oppl.similarity;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -10,19 +12,12 @@ public class Pair<O> {
     protected final O o2;
 
     public Pair(O anOWLObject, O anotherOWLObject) {
-        if (anOWLObject == null) {
-            throw new NullPointerException("The first memebr of this pair cannot be null");
-        }
-        if (anotherOWLObject == null) {
-            throw new NullPointerException(
-                    "The second memebr of this pair cannot be null");
-        }
+        this.o1 = checkNotNull(anOWLObject, "anOWLObject");
+        this.o2 = checkNotNull(anotherOWLObject, "anotherOWLObject");
         if (anotherOWLObject.equals(anOWLObject)) {
             throw new IllegalArgumentException(
                     "The pair is meant to be made of two distic entities");
         }
-        o1 = anOWLObject;
-        o2 = anotherOWLObject;
     }
 
     public Set<O> getMembers() {

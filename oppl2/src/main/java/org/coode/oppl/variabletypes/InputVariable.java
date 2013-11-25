@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.variabletypes;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ManchesterVariableSyntax;
 import org.coode.oppl.Variable;
@@ -44,15 +46,9 @@ public class InputVariable<O extends OWLObject> implements Variable<O> {
     }
 
     InputVariable(String name, VariableType<O> type, VariableScope<?> variableScope) {
-        if (name == null) {
-            throw new NullPointerException("The name of the variable cannot be null");
-        }
-        if (type == null) {
-            throw new NullPointerException("The type of the variable cannot be null");
-        }
-        this.name = name;
-        this.type = type;
-        this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE, this.getName());
+        this.name = checkNotNull(name, "name");
+        this.type = checkNotNull(type, "type");
+        this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE, name);
         this.variableScope = variableScope;
     }
 

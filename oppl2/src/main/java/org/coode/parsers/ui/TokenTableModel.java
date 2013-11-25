@@ -1,5 +1,7 @@
 package org.coode.parsers.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,11 +27,7 @@ public class TokenTableModel implements TableModel {
     private int maxUsedTokenIndex = 0;
 
     public TokenTableModel(Collection<? extends TokenFileSorter> tokenFileSorters) {
-        if (tokenFileSorters == null) {
-            throw new NullPointerException(
-                    "The token file sorter colleciton cannot be null");
-        }
-        this.tokenFileSorters.addAll(tokenFileSorters);
+        this.tokenFileSorters.addAll(checkNotNull(tokenFileSorters, "tokenFileSorters"));
         delegate = new DefaultTableModel();
         Set<String> tokenNames = new TreeSet<String>();
         for (TokenFileSorter tokenFileSorter : tokenFileSorters) {

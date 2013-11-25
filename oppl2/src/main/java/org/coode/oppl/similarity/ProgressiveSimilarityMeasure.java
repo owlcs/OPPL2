@@ -1,5 +1,7 @@
 package org.coode.oppl.similarity;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,13 +11,10 @@ public class ProgressiveSimilarityMeasure<O> implements SimilarityMeasure<O> {
     private final List<SimilarityMeasure<O>> measureList = new ArrayList<SimilarityMeasure<O>>();
 
     public ProgressiveSimilarityMeasure(List<? extends SimilarityMeasure<O>> measures) {
-        if (measures == null) {
-            throw new NullPointerException("The measure list cannot be null");
-        }
+        this.measureList.addAll(checkNotNull(measures, "measures"));
         if (measures.isEmpty()) {
             throw new IllegalArgumentException("The measure list cannot be empty");
         }
-        this.measureList.addAll(measures);
     }
 
     @Override

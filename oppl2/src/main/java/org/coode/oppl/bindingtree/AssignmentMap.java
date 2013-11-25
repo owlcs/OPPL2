@@ -1,5 +1,7 @@
 package org.coode.oppl.bindingtree;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,18 +24,14 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
      * @param assignmentMap
      *            . Cannot be {@code null}. */
     public AssignmentMap(AssignmentMap assignmentMap) {
-        if (assignmentMap == null) {
-            throw new NullPointerException("The input assignment map cannot be null");
-        }
+        checkNotNull(assignmentMap, "assignmentMap");
         bindingNodes.addAll(assignmentMap.bindingNodes);
         delegate.putAll(assignmentMap.delegate);
     }
 
+    /** @param bindingNodes */
     public AssignmentMap(Collection<? extends BindingNode> bindingNodes) {
-        if (bindingNodes == null) {
-            throw new NullPointerException("The binding nodes collection cannot be null");
-        }
-        if (bindingNodes.isEmpty()) {
+        if (bindingNodes == null || bindingNodes.isEmpty()) {
             return;
         }
         this.bindingNodes.addAll(bindingNodes);
@@ -134,9 +132,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
     }
 
     public boolean isDisjointWith(AssignmentMap anotherAssignmentMap) {
-        if (anotherAssignmentMap == null) {
-            throw new NullPointerException("The input assignment map cannot be null");
-        }
+        checkNotNull(anotherAssignmentMap, "anotherAssignmentMap");
         boolean found = false;
         Iterator<Variable<?>> iterator = keySet().iterator();
         while (!found && iterator.hasNext()) {
@@ -151,10 +147,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
     }
 
     public static boolean areDisjoint(Collection<? extends AssignmentMap> assignmentMaps) {
-        if (assignmentMaps == null) {
-            throw new NullPointerException(
-                    "The colleciton of AssignmentMap cannot be null");
-        }
+        checkNotNull(assignmentMaps, "assignmentMaps");
         if (assignmentMaps.isEmpty()) {
             throw new IllegalArgumentException(
                     "The collection of AssignmentMap cannot be empty");

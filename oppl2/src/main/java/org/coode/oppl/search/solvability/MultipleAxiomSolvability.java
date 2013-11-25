@@ -1,5 +1,7 @@
 package org.coode.oppl.search.solvability;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,13 +18,10 @@ public class MultipleAxiomSolvability implements AxiomSolvability {
     private final Set<AxiomSolvability> delegates = new HashSet<AxiomSolvability>();
 
     public MultipleAxiomSolvability(Collection<? extends AxiomSolvability> delegates) {
-        if (delegates == null) {
-            throw new NullPointerException("The delegate collection cannot be null");
-        }
+        this.delegates.addAll(checkNotNull(delegates, "delegates"));
         if (delegates.isEmpty()) {
             throw new IllegalArgumentException("The delegate collection canont be empty");
         }
-        this.delegates.addAll(delegates);
     }
 
     @Override

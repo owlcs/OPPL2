@@ -1,5 +1,6 @@
-
 package org.coode.parsers;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,14 +25,8 @@ public class LoggerErrorListener implements ErrorListener {
 
     /** @param logger */
     public LoggerErrorListener(Logger logger, Level level) {
-        if (logger == null) {
-            throw new NullPointerException("The Logger cannot be null");
-        }
-        if (level == null) {
-            throw new NullPointerException("The level cannot be null");
-        }
-        this.logger = logger;
-        this.level = level;
+        this.logger = checkNotNull(logger, "logger");
+        this.level = checkNotNull(level, "level");
     }
 
     @Override

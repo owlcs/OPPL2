@@ -1,5 +1,7 @@
 package org.coode.parsers.utils;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,10 +30,7 @@ public class TokenSync {
 
         /** @param path */
         public TokenMap(String path) {
-            if (path == null) {
-                throw new NullPointerException("The token file cannot be null");
-            }
-            this.path = path;
+            this.path = checkNotNull(path, "path");
             parse();
         }
 
@@ -102,9 +101,7 @@ public class TokenSync {
         }
 
         public void sync(TokenMap reference) {
-            if (reference == null) {
-                throw new NullPointerException("The reference cannot be null");
-            }
+            checkNotNull(reference, "reference");
             for (Integer key : reference.getKeys()) {
                 String tokenText = reference.getTokenText(key);
                 Integer myKey = getType(tokenText);
@@ -174,12 +171,8 @@ public class TokenSync {
     private boolean synced = false;
 
     public TokenSync(String referencePath, String toSync, String... others) {
-        if (referencePath == null) {
-            throw new NullPointerException("The reference path cannot be null");
-        }
-        if (toSync == null) {
-            throw new NullPointerException("The toSync path cannot be null");
-        }
+        checkNotNull(referencePath, "referencePath");
+        checkNotNull(toSync, "toSync");
         referenceTokenMap = new TokenMap(referencePath);
         this.toSync.add(new TokenMap(toSync));
         for (String string : others) {

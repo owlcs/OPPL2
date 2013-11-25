@@ -1,5 +1,7 @@
 package org.coode.oppl.queryplanner;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,10 +25,7 @@ public class ConstraintQueryPlannerItem extends AbstractQueryPlannerItem {
     public ConstraintQueryPlannerItem(ConstraintSystem constraintSystem,
             AbstractConstraint constraint) {
         super(constraintSystem);
-        if (constraint == null) {
-            throw new NullPointerException("The constraint cannot be null");
-        }
-        this.constraint = constraint;
+        this.constraint = checkNotNull(constraint, "constraint");
     }
 
     @Override

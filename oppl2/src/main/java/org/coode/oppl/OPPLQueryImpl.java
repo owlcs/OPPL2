@@ -22,6 +22,8 @@
  */
 package org.coode.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -80,37 +82,29 @@ public class OPPLQueryImpl implements OPPLQuery {
         }
     }
 
-    /** @param constraintSystem */
+    /** @param constraintSystem
+     * @param factory */
     public OPPLQueryImpl(ConstraintSystem constraintSystem, OPPLAbstractFactory factory) {
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        this.constraintSystem = constraintSystem;
-        getConstraintSystem().getOntologyManager().addOntologyChangeListener(listener);
-        this.factory = factory;
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        constraintSystem.getOntologyManager().addOntologyChangeListener(listener);
+        this.factory = checkNotNull(factory);
     }
 
     @Override
     public void addAssertedAxiom(OWLAxiom axiom) {
-        if (axiom == null) {
-            throw new NullPointerException("The axiom cannot be null");
-        }
+        checkNotNull(axiom, "axiom");
         assertedAxioms.add(axiom);
     }
 
     @Override
     public void addAxiom(OWLAxiom axiom) {
-        if (axiom == null) {
-            throw new NullPointerException("The axiom cannot be null");
-        }
+        checkNotNull(axiom, "axiom");
         axioms.add(axiom);
     }
 
     @Override
     public void addConstraint(AbstractConstraint constraint) {
-        if (constraint == null) {
-            throw new NullPointerException("The constraint cannot be null");
-        }
+        checkNotNull(constraint, "constraint");
         constraints.add(constraint);
     }
 

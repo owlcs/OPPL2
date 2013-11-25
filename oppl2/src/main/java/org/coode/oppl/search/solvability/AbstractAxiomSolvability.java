@@ -1,5 +1,7 @@
 package org.coode.oppl.search.solvability;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.ConstraintSystem;
 
 /** @author Luigi Iannone */
@@ -8,10 +10,7 @@ public abstract class AbstractAxiomSolvability implements AxiomSolvability {
 
     /** @param constraintSystem */
     public AbstractAxiomSolvability(ConstraintSystem constraintSystem) {
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        this.constraintSystem = constraintSystem;
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
     }
 
     /** @return the constraintSystem */

@@ -1,5 +1,7 @@
 package org.coode.parsers.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.net.URI;
@@ -194,10 +196,7 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
              * @param length */
             public ErrorReportImpl(String message, int line, int charPositionInline,
                     int length) {
-                if (message == null) {
-                    throw new NullPointerException("The message cannot be null");
-                }
-                this.message = message;
+                this.message = checkNotNull(message, "message");
                 charPositionInLine = charPositionInline;
                 this.line = line;
                 this.length = length;

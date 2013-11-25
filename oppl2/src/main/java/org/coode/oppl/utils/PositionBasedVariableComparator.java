@@ -1,5 +1,7 @@
 package org.coode.oppl.utils;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -21,14 +23,8 @@ public class PositionBasedVariableComparator implements Comparator<Variable<?>> 
 
     /** @param container */
     public PositionBasedVariableComparator(OWLObject container, OWLDataFactory dataFactory) {
-        if (container == null) {
-            throw new NullPointerException("The container cannot be null");
-        }
-        if (dataFactory == null) {
-            throw new NullPointerException("The data factory cannot be null");
-        }
-        this.container = container;
-        this.dataFactory = dataFactory;
+        this.container = checkNotNull(container, "container");
+        this.dataFactory = checkNotNull(dataFactory, "dataFactory");
     }
 
     @Override
@@ -82,9 +78,7 @@ public class PositionBasedVariableComparator implements Comparator<Variable<?>> 
     }
 
     private OWLObject buildKey(final Variable<?> v) {
-        if (v == null) {
-            throw new NullPointerException("The variable cannot be null");
-        }
+        checkNotNull(v, "v");
         return v.getType().accept(new VariableTypeVisitorEx<OWLObject>() {
             @Override
             public OWLObject visitCLASSVariableType(CLASSVariableType classVariableType) {

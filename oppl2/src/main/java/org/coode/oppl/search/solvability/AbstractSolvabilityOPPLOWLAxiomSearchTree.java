@@ -1,5 +1,7 @@
 package org.coode.oppl.search.solvability;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -156,14 +158,9 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
      * @param runtimeExceptionHandler */
     public AbstractSolvabilityOPPLOWLAxiomSearchTree(ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (runtimeExceptionHandler == null) {
-            throw new NullPointerException("The runtime exception handler cannot be null");
-        }
-        this.constraintSystem = constraintSystem;
-        this.runtimeExceptionHandler = runtimeExceptionHandler;
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.runtimeExceptionHandler = checkNotNull(runtimeExceptionHandler,
+                "runtimeExceptionHandler");
     }
 
     /** @return the constraintSystem */

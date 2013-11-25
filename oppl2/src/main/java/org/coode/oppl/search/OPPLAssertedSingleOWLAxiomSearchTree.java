@@ -1,5 +1,7 @@
 package org.coode.oppl.search;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -60,18 +62,16 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
     protected final Set<OWLLiteral> allConstants = new HashSet<OWLLiteral>();
     protected final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<OWLAnnotationProperty>();
 
+    /** @param targetAxiom
+     * @param constraintSystem
+     * @param runtimeExceptionHandler */
     public OPPLAssertedSingleOWLAxiomSearchTree(OWLAxiom targetAxiom,
             ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (runtimeExceptionHandler == null) {
-            throw new NullPointerException("The runtime exception handler cannot be null");
-        }
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.runtimeExceptionHandler = checkNotNull(runtimeExceptionHandler,
+                "runtimeExceptionHandler");
         this.targetAxiom = targetAxiom;
-        this.constraintSystem = constraintSystem;
-        this.runtimeExceptionHandler = runtimeExceptionHandler;
         initAssignableValues();
     }
 
@@ -260,13 +260,8 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
     @Override
     public boolean exhaustiveSearchTree(OPPLOWLAxiomSearchNode start,
             List<List<OPPLOWLAxiomSearchNode>> solutions) {
-        if (start == null) {
-            throw new NullPointerException("The starting node cannot be null");
-        }
-        if (solutions == null) {
-            throw new NullPointerException(
-                    "The list on which solutions will be stored cannot be null");
-        }
+        checkNotNull(start, "start");
+        checkNotNull(solutions, "solutions");
         boolean found = false;
         if (getTargetAxiom().getAxiomType().equals(start.getAxiom().getAxiomType())) {
             found = super.exhaustiveSearchTree(start, solutions);

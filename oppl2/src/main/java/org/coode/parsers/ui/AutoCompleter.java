@@ -1,5 +1,7 @@
 package org.coode.parsers.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Point;
@@ -114,14 +116,8 @@ public final class AutoCompleter {
     /** @param tc
      * @param matcher */
     public AutoCompleter(JTextComponent tc, AutoCompletionMatcher matcher) {
-        if (tc == null) {
-            throw new NullPointerException("The text component cannot be null");
-        }
-        if (matcher == null) {
-            throw new NullPointerException("The matcher cannot be null");
-        }
-        textComponent = tc;
-        this.matcher = matcher;
+        this.matcher = checkNotNull(matcher, "matcher");
+        textComponent = checkNotNull(tc, "tc");
         wordDelimeters = new HashSet<String>(Arrays.asList(" ", "\n", "[", "]", "{", "}",
                 "(", ")", ",", "^"));
         popupList = new JList<String>();

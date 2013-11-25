@@ -1,5 +1,7 @@
 package org.coode.oppl.function.inline;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -26,19 +28,20 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone */
+/** @author Luigi Iannone
+ * @param <O> */
 public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunction<Set<O>> {
     private final Set<O> delegate = new HashSet<O>();
     private final Set<Aggregandum<Collection<? extends O>>> aggregandums = new HashSet<Aggregandum<Collection<? extends O>>>();
 
-    /** @param delegate */
+    /** @param variableType
+     * @param aggregandums
+     * @param dataFactory
+     * @param constraintSystem */
     public InlineSet(VariableType<? extends O> variableType,
             Collection<? extends Aggregandum<Collection<? extends O>>> aggregandums,
             final OWLDataFactory dataFactory, final ConstraintSystem constraintSystem) {
-        if (aggregandums == null) {
-            throw new NullPointerException("The aggregandum collection cannot be null");
-        }
-        this.aggregandums.addAll(aggregandums);
+        this.aggregandums.addAll(checkNotNull(aggregandums, "aggregandums"));
         this.delegate.add(variableType.accept(new VariableTypeVisitorEx<O>() {
             @Override
             @SuppressWarnings("unchecked")

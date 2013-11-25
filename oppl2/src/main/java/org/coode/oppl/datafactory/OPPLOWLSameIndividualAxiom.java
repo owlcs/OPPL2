@@ -1,5 +1,7 @@
 package org.coode.oppl.datafactory;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.List;
 import java.util.Set;
 
@@ -40,12 +42,8 @@ public class OPPLOWLSameIndividualAxiom extends AbstractInlineSetAxiom<OWLIndivi
             InlineSet<OWLIndividual> individuals,
             Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {
         super(individuals);
-        if (dataFactory == null) {
-            throw new NullPointerException("The data factory cannot be null");
-        }
-        if (annotations == null) {
-            throw new NullPointerException("The annotations cannot be null");
-        }
+        checkNotNull(dataFactory, "dataFactory");
+        checkNotNull(annotations, "annotations");
         delegate = dataFactory.getDelegate().getOWLSameIndividualAxiom(individuals,
                 annotations);
         this.shouldExpandAsPairWise = shouldExpandAsPairWise;

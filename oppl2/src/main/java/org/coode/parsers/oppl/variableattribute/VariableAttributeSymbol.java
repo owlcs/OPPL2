@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.variableattribute;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.oppl.function.VariableAttribute;
 import org.coode.parsers.Symbol;
@@ -20,10 +21,7 @@ public abstract class VariableAttributeSymbol<O extends VariableAttribute<?>> ex
      * @param type */
     public VariableAttributeSymbol(String name, Type type, O variableAttribute) {
         super(name, type);
-        if (variableAttribute == null) {
-            throw new NullPointerException("The variable attribute cannot be null");
-        }
-        this.variableAttribute = variableAttribute;
+        this.variableAttribute = checkNotNull(variableAttribute, "variableAttribute");
     }
 
     @Override

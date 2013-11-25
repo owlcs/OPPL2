@@ -1,5 +1,7 @@
 package org.coode.oppl.utils;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.Variable;
 import org.coode.oppl.VariableVisitorEx;
 import org.coode.oppl.generated.GeneratedVariable;
@@ -40,10 +42,7 @@ public class VariableRecogniser {
 
     /** @param recogniser */
     VariableRecogniser(VariableVisitorEx<Boolean> recogniser) {
-        if (recogniser == null) {
-            throw new NullPointerException("The recogniser cannot be null");
-        }
-        this.recogniser = recogniser;
+        this.recogniser = checkNotNull(recogniser, "recogniser");
     }
 
     public boolean recognise(Variable<?> v) {

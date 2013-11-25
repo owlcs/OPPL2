@@ -1,5 +1,7 @@
 package org.coode.oppl.querymatching;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,17 +51,15 @@ import org.semanticweb.owlapi.model.SWRLRule;
 abstract class AbstractAxiomQuery implements AxiomQuery {
     private final RuntimeExceptionHandler runtimeExceptionHandler;
 
-    /** @param runtimeExceptionHandler */
-    AbstractAxiomQuery(RuntimeExceptionHandler runtimeExceptionHandler) {
-        if (runtimeExceptionHandler == null) {
-            throw new NullPointerException("The runtime exception handler cannot be null");
-        }
-        this.runtimeExceptionHandler = runtimeExceptionHandler;
-    }
-
     protected abstract Set<BindingNode> match(OWLAxiom axiom);
 
     private final Set<BindingNode> leaves = new HashSet<BindingNode>();
+
+    /** @param runtimeExceptionHandler */
+    AbstractAxiomQuery(RuntimeExceptionHandler runtimeExceptionHandler) {
+        this.runtimeExceptionHandler = checkNotNull(runtimeExceptionHandler,
+                "runtimeExceptionHandler");
+    }
 
     @Override
     public void visit(OWLDeclarationAxiom axiom) {

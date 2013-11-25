@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.bindingtree;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -300,9 +302,7 @@ public class BindingNode implements Renderable {
      * @throws NullPointerException
      *             if the input binding node is <code>null</code>. */
     public boolean agreesWith(BindingNode bindingNode) {
-        if (bindingNode == null) {
-            throw new NullPointerException("The input binding node cannot be null");
-        }
+        checkNotNull(bindingNode, "bindingNode");
         return bindingNode.assignments.containsAll(assignments);
     }
 }

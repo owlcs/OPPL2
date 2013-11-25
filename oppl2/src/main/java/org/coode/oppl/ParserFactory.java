@@ -1,5 +1,7 @@
 package org.coode.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.OPPLParser.AbstractParserFactory;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.factory.SymbolTableFactory;
@@ -9,22 +11,19 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
+/** @author Luigi Iannone */
 public class ParserFactory implements AbstractParserFactory {
     private final OWLOntologyManager ontologyManager;
     private final OWLOntology ontology;
     private final OWLReasoner reasoner;
 
-    /** @param ontologyManager */
+    /** @param ontologyManager
+     * @param ontology
+     * @param reasoner */
     public ParserFactory(OWLOntologyManager ontologyManager, OWLOntology ontology,
             OWLReasoner reasoner) {
-        if (ontologyManager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        if (ontology == null) {
-            throw new NullPointerException("The ontology cannot be null");
-        }
-        this.ontologyManager = ontologyManager;
-        this.ontology = ontology;
+        this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
+        this.ontology = checkNotNull(ontology, "ontology");
         this.reasoner = reasoner;
     }
 
@@ -35,6 +34,9 @@ public class ParserFactory implements AbstractParserFactory {
         return this.build(errorListener, symbolTableFactory);
     }
 
+    /** @param errorListener
+     * @param symbolTableFactory
+     * @return new parser */
     public OPPLParser build(ErrorListener errorListener,
             SymbolTableFactory<OPPLSymbolTable> symbolTableFactory) {
         return new OPPLParser(getOPPLFactory(), errorListener, symbolTableFactory);

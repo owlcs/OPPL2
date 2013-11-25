@@ -1,5 +1,7 @@
 package org.coode.oppl.search.solvability;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,14 +21,8 @@ public class SolvableSearchNode extends SolvabilitySearchNode {
     public SolvableSearchNode(Variable<?> variable, OWLAxiom axiom,
             BindingNode bindingNode, Collection<? extends OWLObject> values) {
         super(axiom, bindingNode);
-        if (values == null) {
-            throw new NullPointerException("The values collection cannot be null");
-        }
-        if (variable == null) {
-            throw new NullPointerException("The variable cannot be null");
-        }
-        this.values.addAll(values);
-        this.variable = variable;
+        this.variable = checkNotNull(variable, "variable");
+        this.values.addAll(checkNotNull(values, "values"));
     }
 
     @Override

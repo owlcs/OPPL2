@@ -1,5 +1,7 @@
 package org.coode.parsers;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,16 +33,13 @@ public class EntityFinderImpl implements EntityFinder {
     private final boolean useRegularExpressions;
     private static final String WILDCARD = "*";
 
+    /** @param mngr
+     * @param renderingCache
+     * @param useRegularExpressions */
     public EntityFinderImpl(OWLOntologyManager mngr,
             OWLEntityRenderingCache renderingCache, boolean useRegularExpressions) {
-        if (mngr == null) {
-            throw new NullPointerException("The manager cannot be null");
-        }
-        if (renderingCache == null) {
-            throw new NullPointerException("The rendering cache cannot be null");
-        }
-        manager = mngr;
-        this.renderingCache = renderingCache;
+        this.renderingCache = checkNotNull(renderingCache, "renderingCache");
+        manager = checkNotNull(mngr, "mngr");
         this.useRegularExpressions = useRegularExpressions;
     }
 

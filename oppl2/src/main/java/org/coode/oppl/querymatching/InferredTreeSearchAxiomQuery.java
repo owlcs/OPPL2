@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.querymatching;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -46,13 +48,12 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
     private final ConstraintSystem constraintSystem;
     private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
 
+    /** @param constraintSystem
+     * @param runtimeExceptionHandler */
     public InferredTreeSearchAxiomQuery(ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         super(runtimeExceptionHandler);
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        this.constraintSystem = constraintSystem;
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
     }
 
     @Override

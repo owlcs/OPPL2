@@ -1,5 +1,7 @@
 package org.coode.oppl.function;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -29,19 +31,13 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 
 public class Adapter {
     public static <O> OPPLFunction<O> buildObjectAdater(O value) {
-        if (value == null) {
-            throw new NullPointerException("The value cannot be null");
-        }
-        return new Constant<O>(value);
+        return new Constant<O>(checkNotNull(value, "value"));
     }
 
     public static <O extends OWLObject> Set<Aggregandum<Collection<? extends O>>>
             buildOWLObjectCollectionAdapter(Collection<? extends O> collection) {
-        if (collection == null) {
-            throw new NullPointerException("The collection cannot be null");
-        }
         Set<Aggregandum<Collection<? extends O>>> toReturn = new HashSet<Aggregandum<Collection<? extends O>>>();
-        for (O o : collection) {
+        for (O o : checkNotNull(collection, "collection")) {
             toReturn.add(buildAggregandumOfCollection(o));
         }
         return toReturn;
@@ -49,9 +45,7 @@ public class Adapter {
 
     public static <I> Aggregandum<I> buildSingletonAggregandum(
             final OPPLFunction<I> singleton) {
-        if (singleton == null) {
-            throw new NullPointerException("The OPPL function cannot be null");
-        }
+        checkNotNull(singleton, "singleton");
         return new Aggregandum<I>() {
             @Override
             public Set<OPPLFunction<I>> getOPPLFunctions() {
@@ -77,9 +71,7 @@ public class Adapter {
 
     public static <I> Aggregandum<Collection<? extends I>> buildAggregandumOfCollection(
             I singleton) {
-        if (singleton == null) {
-            throw new NullPointerException("The OPPL function cannot be null");
-        }
+        checkNotNull(singleton, "singleton");
         final OPPLFunction<I> adapted = buildObjectAdater(singleton);
         return new Aggregandum<Collection<? extends I>>() {
             @Override
@@ -204,7 +196,7 @@ public class Adapter {
                 @Override
                 public <O, T> Boolean visitAggregation(Aggregation<O, T> aggregation) {
                     boolean toReturn = true;
-                    for (Aggregandum<T> t : aggregation.getToAggreagte()) {
+                    for (Aggregandum<T> t : aggregation.getToAggregate()) {
                         toReturn |= Adapter.isCompatible(t, type);
                     }
                     return toReturn;

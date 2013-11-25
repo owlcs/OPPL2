@@ -1,5 +1,7 @@
 package org.coode.oppl.utils;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -9,12 +11,8 @@ import org.semanticweb.owlapi.model.OWLObject;
 
 public class OWLObjectFinder {
     public static List<List<Integer>> findAll(OWLObject key, OWLObject container) {
-        if (key == null) {
-            throw new NullPointerException("The key cannot be null");
-        }
-        if (container == null) {
-            throw new NullPointerException("The container cannot be null");
-        }
+        checkNotNull(key, "key");
+        checkNotNull(container, "container");
         List<List<Integer>> toReturn = key.equals(container) ? Collections
                 .singletonList(Collections.singletonList(0)) : findAll(key, container,
                 Collections.<Integer> emptyList());

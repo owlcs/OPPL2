@@ -1,5 +1,7 @@
 package org.coode.oppl.search.solvability;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -20,10 +22,7 @@ public final class AssertedModelQuerySolver implements QuerySolver {
 
     /** @param ontologyManager */
     public AssertedModelQuerySolver(OWLOntologyManager ontologyManager) {
-        if (ontologyManager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        this.ontologyManager = ontologyManager;
+        this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
     }
 
     @Override

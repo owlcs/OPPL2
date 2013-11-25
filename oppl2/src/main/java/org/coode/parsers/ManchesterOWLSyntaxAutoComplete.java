@@ -1,6 +1,8 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoComplete.g 2010-09-22 16:51:43
 package org.coode.parsers;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -168,10 +170,7 @@ public class ManchesterOWLSyntaxAutoComplete extends TreeFilter {
 
     public ManchesterOWLSyntaxAutoComplete(TreeNodeStream input, SymbolTable symtab) {
         this(input);
-        if (symtab == null) {
-            throw new NullPointerException("The symbol table cannot be null");
-        }
-        this.symtab = symtab;
+        this.symtab = checkNotNull(symtab, "symtab");
     }
 
     public boolean isNewWord() {

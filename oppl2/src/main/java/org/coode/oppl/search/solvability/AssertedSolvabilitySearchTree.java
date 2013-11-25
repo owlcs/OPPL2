@@ -1,5 +1,7 @@
 package org.coode.oppl.search.solvability;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
@@ -24,10 +26,7 @@ public class AssertedSolvabilitySearchTree extends
             OWLOntologyManager ontologyManager,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         super(constraintSystem, runtimeExceptionHandler);
-        if (ontologyManager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        this.ontologyManager = ontologyManager;
+        this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
     }
 
     @Override

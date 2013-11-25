@@ -1,5 +1,7 @@
 package org.coode.parsers.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -151,13 +153,7 @@ public class OPPLSymbolTable extends SymbolTable {
      * @param symbol
      *            The Symbol to be defined. Cannot be {@code null}. */
     public void define(Token token, Symbol symbol) {
-        if (token == null) {
-            throw new NullPointerException("The token cannot be null");
-        }
-        if (symbol == null) {
-            throw new NullPointerException("The symbol cannot be null");
-        }
-        this.storeSymbol(token, symbol);
+        this.storeSymbol(checkNotNull(token, "token"), checkNotNull(symbol, "symbol"));
     }
 
     public void defineVariable(ManchesterOWLSyntaxTree identifier,

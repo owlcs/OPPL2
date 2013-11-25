@@ -1,5 +1,7 @@
 package org.coode.oppl.utils;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,14 +82,8 @@ public class EvaluationResults {
     /** @param opplScript
      * @param changes */
     public EvaluationResults(OPPLScript opplScript, List<OWLAxiomChange> changes) {
-        if (opplScript == null) {
-            throw new NullPointerException("The OPPL Script cannot be null");
-        }
-        if (changes == null) {
-            throw new NullPointerException("The changes cannot be null");
-        }
-        this.opplScript = opplScript;
-        this.changes.addAll(changes);
+        this.opplScript = checkNotNull(opplScript, "opplScript");
+        this.changes.addAll(checkNotNull(changes, "changes"));
         changeRenderer = new ChangeRenderer();
     }
 

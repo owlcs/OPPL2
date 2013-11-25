@@ -1,5 +1,7 @@
 package org.coode.oppl.datafactory;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.function.inline.InlineSet;
 import org.semanticweb.owlapi.model.OWLObject;
 
@@ -10,10 +12,7 @@ public abstract class AbstractInlineSetAxiom<O extends OWLObject> {
 
     /** @param inlineSet */
     public AbstractInlineSetAxiom(InlineSet<O> inlineSet) {
-        if (inlineSet == null) {
-            throw new NullPointerException("The inline set cannot be null");
-        }
-        this.inlineSet = inlineSet;
+        this.inlineSet = checkNotNull(inlineSet, "inlineSet");
     }
 
     /** @return the inlineSet */

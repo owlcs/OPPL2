@@ -1,5 +1,7 @@
 package org.coode.oppl.generated;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.regex.Pattern;
 
 import org.coode.oppl.ConstraintSystem;
@@ -20,18 +22,10 @@ public class RegexpGeneratedVariable<O extends OWLObject> implements Variable<O>
 
     public RegexpGeneratedVariable(String name, VariableType<O> type,
             OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
-        if (name == null) {
-            throw new NullPointerException("The name cannot be null");
-        }
-        if (type == null) {
-            throw new NullPointerException("The type cannot be null");
-        }
-        if (patternGeneratingOPPLFunction == null) {
-            throw new NullPointerException("The pattern cannot be null");
-        }
-        this.type = type;
-        this.name = name;
-        this.patternGeneratingOPPLFunction = patternGeneratingOPPLFunction;
+        this.name = checkNotNull(name, "name");
+        this.type = checkNotNull(type, "type");
+        this.patternGeneratingOPPLFunction = checkNotNull(patternGeneratingOPPLFunction,
+                "patternGeneratingOPPLFunction");
         this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
     }
 

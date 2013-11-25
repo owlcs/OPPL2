@@ -1,5 +1,7 @@
 package org.coode.oppl.search.solvability;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLClass;
@@ -15,10 +17,7 @@ public final class InferredModelQuerySolver implements QuerySolver {
 
     /** @param reasoner */
     public InferredModelQuerySolver(OWLReasoner reasoner) {
-        if (reasoner == null) {
-            throw new NullPointerException("The reasoner canot be null");
-        }
-        this.reasoner = reasoner;
+        this.reasoner = checkNotNull(reasoner, "reasoner");
     }
 
     @Override

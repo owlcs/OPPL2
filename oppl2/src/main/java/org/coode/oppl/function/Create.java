@@ -1,5 +1,7 @@
 package org.coode.oppl.function;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.entity.OWLEntityCreationException;
 import org.coode.oppl.entity.OWLEntityCreationSet;
@@ -33,10 +35,7 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends
 
     /** @param input */
     protected Create(I input) {
-        if (input == null) {
-            throw new NullPointerException("The input cannot be null");
-        }
-        this.input = input;
+        this.input = checkNotNull(input, "input");
     }
 
     public abstract boolean isCompatible(VariableType<?> variableType);

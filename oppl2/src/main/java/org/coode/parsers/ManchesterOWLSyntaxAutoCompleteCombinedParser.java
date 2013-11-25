@@ -1,6 +1,8 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/ManchesterOWLSyntaxAutoCompleteCombined.g 2011-01-10 16:18:12
 package org.coode.parsers;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.DFA;
@@ -206,10 +208,7 @@ public class ManchesterOWLSyntaxAutoCompleteCombinedParser extends Parser {
     public ManchesterOWLSyntaxAutoCompleteCombinedParser(TokenStream input,
             RecognizerSharedState state, ErrorListener errorListener) {
         this(input, state);
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        this.errorListener = errorListener;
+        this.errorListener = checkNotNull(errorListener, "errorListener");
     }
 
     @Override

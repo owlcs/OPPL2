@@ -1,5 +1,7 @@
 package org.coode.parsers;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.semanticweb.owlapi.model.OWLLiteral;
 
 public class OWLLiteralSymbol extends Symbol {
@@ -9,10 +11,7 @@ public class OWLLiteralSymbol extends Symbol {
      * @param constant */
     public OWLLiteralSymbol(String name, OWLLiteral constant) {
         super(name, OWLType.OWL_CONSTANT);
-        if (constant == null) {
-            throw new NullPointerException("The constant cannot be null");
-        }
-        owlConstant = constant;
+        owlConstant = checkNotNull(constant, "constant");
     }
 
     /** @return the owlConstant */

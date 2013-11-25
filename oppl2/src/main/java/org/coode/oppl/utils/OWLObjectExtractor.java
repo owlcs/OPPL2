@@ -1,5 +1,6 @@
-
 package org.coode.oppl.utils;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -97,10 +98,7 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
     /** @param selector */
     private OWLObjectExtractor(OWLObjectVisitorEx<Boolean> selector) {
         super(Collections.<O> emptySet());
-        if (selector == null) {
-            throw new NullPointerException("The selector cannot be null");
-        }
-        this.selector = selector;
+        this.selector = checkNotNull(selector, "selector");
     }
 
     @Override

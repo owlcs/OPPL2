@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.utils;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -37,10 +39,8 @@ class PermutationState<N> {
 
     /** @param referenceCollection */
     PermutationState(Collection<N> referenceCollection, List<N> sequence) {
-        if (referenceCollection == null) {
-            throw new NullPointerException("The reference collection cannot be null");
-        }
-        this.referenceCollection = referenceCollection;
+        this.referenceCollection = checkNotNull(referenceCollection,
+                "referenceCollection");
         this.sequence.addAll(sequence);
         this.isGoal = referenceCollection.size() == this.getSequence().size();
     }

@@ -1,5 +1,6 @@
-
 package org.coode.parsers;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 /** A generic symbol
  * 
@@ -10,14 +11,8 @@ public class Symbol {
 
     /** @param name */
     public Symbol(String name, Type type) {
-        if (name == null) {
-            throw new NullPointerException("The name cannot be null");
-        }
-        if (type == null) {
-            throw new NullPointerException("The type cannot be null");
-        }
-        this.name = name;
-        this.type = type;
+        this.name = checkNotNull(name, "name");
+        this.type = checkNotNull(type, "type");
     }
 
     public String getName() {

@@ -1,5 +1,6 @@
-
 package org.coode.parsers.ui.autocompletionmatcher;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,10 +19,7 @@ public final class KeywordAutoCompletionMatcher implements AutoCompletionMatcher
     private final Set<String> keywords = new HashSet<String>();
 
     public KeywordAutoCompletionMatcher(Collection<? extends String> keywords) {
-        if (keywords == null) {
-            throw new NullPointerException("The keywords colleciton cannot be null");
-        }
-        this.keywords.addAll(keywords);
+        this.keywords.addAll(checkNotNull(keywords, "keywords"));
     }
 
     @Override

@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.bindingtree;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -38,10 +40,7 @@ public class LeafBrusher implements BindingVisitor {
     private final Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
 
     public LeafBrusher(Map<Variable<?>, Set<OWLObject>> bindings) {
-        if (bindings == null) {
-            throw new NullPointerException("The bindings cannot be null");
-        }
-        this.bindings.putAll(bindings);
+        this.bindings.putAll(checkNotNull(bindings, "bindings"));
     }
 
     @Override

@@ -1,5 +1,7 @@
 package org.coode.oppl.datafactory;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Set;
 
 import org.coode.oppl.function.inline.InlineSet;
@@ -39,15 +41,9 @@ public class OPPLOWLDisjointDataPropertiesAxiom extends
             InlineSet<OWLDataPropertyExpression> propertyExpressions,
             Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {
         super(propertyExpressions);
-        if (dataFactory == null) {
-            throw new NullPointerException("The data factory cannot be null");
-        }
-        if (propertyExpressions == null) {
-            throw new NullPointerException("The inline set cannot be null");
-        }
-        if (annotations == null) {
-            throw new NullPointerException("The annotations cannot be null");
-        }
+        checkNotNull(dataFactory, "dataFactory");
+        checkNotNull(propertyExpressions, "propertyExpressions");
+        checkNotNull(annotations, "annotations");
         this.shouldExpandAsPairWise = shouldExpandAsPairWise;
         delegate = dataFactory.getDelegate().getOWLDisjointDataPropertiesAxiom(
                 propertyExpressions, annotations);

@@ -1,5 +1,6 @@
-
 package org.coode.parsers;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.semanticweb.owlapi.model.IRI;
 
@@ -14,10 +15,7 @@ public class IRISymbol extends Symbol {
 
     public IRISymbol(String name, IRI iri) {
         super(name, OWLType.IRI);
-        if (iri == null) {
-            throw new NullPointerException("The IRI cannot be null");
-        }
-        this.iri = iri;
+        this.iri = checkNotNull(iri, "iri");
     }
 
     @Override

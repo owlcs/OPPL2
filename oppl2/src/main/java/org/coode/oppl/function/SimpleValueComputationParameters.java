@@ -1,5 +1,7 @@
 package org.coode.oppl.function;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
@@ -11,21 +13,13 @@ public class SimpleValueComputationParameters implements ValueComputationParamet
 
     /** @param constraintSystem
      * @param bindingNode
-     * @param fact */
+     * @param runtimeExceptionHandler */
     public SimpleValueComputationParameters(ConstraintSystem constraintSystem,
             BindingNode bindingNode, RuntimeExceptionHandler runtimeExceptionHandler) {
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (bindingNode == null) {
-            throw new NullPointerException("The binding node cannot be null");
-        }
-        if (runtimeExceptionHandler == null) {
-            throw new NullPointerException("The runtime exception handler cannot be null");
-        }
-        this.constraintSystem = constraintSystem;
-        this.bindingNode = bindingNode;
-        this.runtimeExceptionHandler = runtimeExceptionHandler;
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.bindingNode = checkNotNull(bindingNode, "bindingNode");
+        this.runtimeExceptionHandler = checkNotNull(runtimeExceptionHandler,
+                "runtimeExceptionHandler");
     }
 
     @Override

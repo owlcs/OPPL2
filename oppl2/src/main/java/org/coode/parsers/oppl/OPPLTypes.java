@@ -1,6 +1,8 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLTypes.g 2011-07-22 11:20:33
 package org.coode.parsers.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -249,22 +251,10 @@ public class OPPLTypes extends TreeFilter {
             ErrorListener errorListener, ConstraintSystem constraintSystem,
             OPPLAbstractFactory opplFactory) {
         this(input);
-        if (symtab == null) {
-            throw new NullPointerException("The symbol table cannot be null");
-        }
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (opplFactory == null) {
-            throw new NullPointerException("The OPPL Factory cannot be null");
-        }
-        this.symtab = symtab;
-        this.errorListener = errorListener;
-        this.opplFactory = opplFactory;
-        this.constraintSystem = constraintSystem;
+        this.symtab = checkNotNull(symtab, "symtab");
+        this.errorListener = checkNotNull(errorListener, "errorListener");
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.opplFactory = checkNotNull(opplFactory, "opplFactory");
     }
 
     public ErrorListener getErrorListener() {

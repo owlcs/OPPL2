@@ -1,5 +1,7 @@
 package org.coode.oppl.variabletypes;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.EnumSet;
 
 import org.coode.oppl.VariableScope;
@@ -17,14 +19,9 @@ abstract class AbstractVariableType<O extends OWLObject> implements VariableType
      * @param allowedDirections */
     public AbstractVariableType(VariableTypeName name,
             EnumSet<Direction> allowedDirections) {
-        if (name == null) {
-            throw new NullPointerException("The name cannot be null");
-        }
-        if (allowedDirections == null) {
-            throw new NullPointerException("The allowed direction set cannot be null");
-        }
-        this.name = name;
-        this.allowedDirections.addAll(allowedDirections);
+        this.name = checkNotNull(name, "name");
+        this.allowedDirections
+                .addAll(checkNotNull(allowedDirections, "allowedDirections"));
     }
 
     /** @return the name */

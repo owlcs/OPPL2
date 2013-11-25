@@ -1,5 +1,7 @@
 package org.coode.oppl.search.solvability;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.ConstraintSystem;
 
 /** @author Luigi Iannone */
@@ -12,10 +14,7 @@ public abstract class QuerySolverBasedAbstractAxiomSolvability extends
     public QuerySolverBasedAbstractAxiomSolvability(ConstraintSystem constraintSystem,
             QuerySolver querySolver) {
         super(constraintSystem);
-        if (querySolver == null) {
-            throw new NullPointerException("The query solver cannot be null");
-        }
-        this.querySolver = querySolver;
+        this.querySolver = checkNotNull(querySolver, "querySolver");
     }
 
     /** @return the querySolver */

@@ -1,5 +1,7 @@
 package org.coode.oppl.generated;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.ManchesterVariableSyntax;
 import org.coode.oppl.Variable;
@@ -18,18 +20,9 @@ public class GeneratedVariable<O extends OWLObject> implements Variable<O> {
 
     protected GeneratedVariable(String name, VariableType<O> type,
             OPPLFunction<? extends O> opplFunction) {
-        if (name == null) {
-            throw new NullPointerException("The name cannot be null");
-        }
-        if (type == null) {
-            throw new NullPointerException("The variable type cannot be null");
-        }
-        if (opplFunction == null) {
-            throw new NullPointerException("The OPPL Function cannot be null");
-        }
-        this.opplFunction = opplFunction;
-        this.name = name;
-        this.type = type;
+        this.name = checkNotNull(name, "name");
+        this.type = checkNotNull(type, "type");
+        this.opplFunction = checkNotNull(opplFunction, "opplFunction");
         this.iri = IRI.create(ManchesterVariableSyntax.NAMESPACE + this.getName());
     }
 

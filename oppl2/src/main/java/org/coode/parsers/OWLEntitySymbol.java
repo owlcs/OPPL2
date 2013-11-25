@@ -1,5 +1,6 @@
-
 package org.coode.parsers;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.semanticweb.owlapi.model.OWLEntity;
 
@@ -11,10 +12,7 @@ public class OWLEntitySymbol extends Symbol {
      * @param type */
     public OWLEntitySymbol(String name, OWLEntity entity) {
         super(name, OWLType.get(entity));
-        if (entity == null) {
-            throw new NullPointerException("The entity cannot be null");
-        }
-        this.entity = entity;
+        this.entity = checkNotNull(entity, "entity");
     }
 
     /** @return the entity */

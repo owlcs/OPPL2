@@ -1,6 +1,8 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLDefine.g 2011-01-10 16:20:58
 package org.coode.parsers.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.IntStream;
 import org.antlr.runtime.MismatchedSetException;
@@ -209,18 +211,9 @@ public class OPPLDefine extends TreeRewriter {
     public OPPLDefine(TreeNodeStream input, OPPLSymbolTable symtab,
             ErrorListener errorListener, ConstraintSystem constraintSystem) {
         this(input);
-        if (symtab == null) {
-            throw new NullPointerException("The symbol table cannot be null");
-        }
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        this.symtab = symtab;
-        this.errorListener = errorListener;
-        this.constraintSystem = constraintSystem;
+        this.symtab = checkNotNull(symtab, "symtab");
+        this.errorListener = checkNotNull(errorListener, "errorListener");
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
     }
 
     public ConstraintSystem getConstraintSystem() {

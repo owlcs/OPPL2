@@ -1,5 +1,7 @@
 package org.coode.oppl.search;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
@@ -10,14 +12,8 @@ public class OPPLOWLAxiomSearchNode {
 
     /** @param axiom */
     public OPPLOWLAxiomSearchNode(OWLAxiom axiom, BindingNode bindingNode) {
-        if (axiom == null) {
-            throw new NullPointerException("The axiom cannot be null");
-        }
-        if (bindingNode == null) {
-            throw new NullPointerException("The binding node cannot be null");
-        }
-        binding = bindingNode;
-        this.axiom = axiom;
+        this.axiom = checkNotNull(axiom, "axiom");
+        binding = checkNotNull(bindingNode, "bindingNode");
     }
 
     /** @return the axiom */

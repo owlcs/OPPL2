@@ -1,5 +1,7 @@
 package org.coode.parsers.oppl;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Set;
 
 import org.coode.parsers.DisposableOWLEntityChecker;
@@ -16,15 +18,9 @@ public class OPPLScope implements Scope {
 
     public OPPLScope(DisposableOWLEntityChecker owlEntityChecker,
             EntityFinder entityFinder, OWLEntityRenderer owlEntityRenderer) {
-        if (owlEntityChecker == null) {
-            throw new NullPointerException("The entity checker cannot be null");
-        }
-        if (entityFinder == null) {
-            throw new NullPointerException("The entity finder cannot be null");
-        }
-        if (owlEntityRenderer == null) {
-            throw new NullPointerException("The OWL entity renderer cannot be null");
-        }
+        checkNotNull(owlEntityChecker, "owlEntityChecker");
+        checkNotNull(entityFinder, "entityFinder");
+        checkNotNull(owlEntityRenderer, "owlEntityRenderer");
         owlEntityCheckerScope = new OWLEntityCheckerScope(owlEntityChecker, entityFinder,
                 owlEntityRenderer);
     }

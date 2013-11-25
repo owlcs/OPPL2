@@ -1,5 +1,6 @@
-
 package org.coode.parsers.utils;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,10 +27,7 @@ public class TokenFileSorter {
 
     /** @param path */
     public TokenFileSorter(String path) {
-        if (path == null) {
-            throw new NullPointerException("The token file cannot be null");
-        }
-        this.path = path;
+        this.path = checkNotNull(path, "path");
         parse();
     }
 
