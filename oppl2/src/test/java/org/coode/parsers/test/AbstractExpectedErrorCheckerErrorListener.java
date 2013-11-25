@@ -1,5 +1,7 @@
 package org.coode.parsers.test;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Arrays;
 
 import org.antlr.runtime.RecognitionException;
@@ -17,10 +19,7 @@ public abstract class AbstractExpectedErrorCheckerErrorListener implements Error
     private final ErrorCheckerCallBack errorChecker;
 
     public AbstractExpectedErrorCheckerErrorListener(ErrorCheckerCallBack errorChecker) {
-        if (errorChecker == null) {
-            throw new NullPointerException("The error checker cannot be null");
-        }
-        this.errorChecker = errorChecker;
+        this.errorChecker = checkNotNull(errorChecker, "errorChecker");
     }
 
     @Override

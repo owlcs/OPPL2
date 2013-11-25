@@ -1,5 +1,6 @@
 package org.coode.parsers.test;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import static org.junit.Assert.fail;
 
 import org.coode.parsers.ErrorListener;
@@ -12,10 +13,8 @@ public class JunitTestErrorChecker implements ErrorCheckerCallBack {
     private final ErrorListener expectedErrorListener;
 
     public JunitTestErrorChecker(ErrorListener expectedErrorListener) {
-        if (expectedErrorListener == null) {
-            throw new NullPointerException("The expected error listener cannot be null");
-        }
-        this.expectedErrorListener = expectedErrorListener;
+        this.expectedErrorListener = checkNotNull(expectedErrorListener,
+                "expectedErrorListener");
     }
 
     @Override
