@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase.ui.report;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 
@@ -14,10 +15,7 @@ public class RuntimeErrorEncounteredExecutionReport extends UnsuccessfulExecutio
      * @param t */
     public RuntimeErrorEncounteredExecutionReport(OPPLTestCase opplTestCase, Throwable t) {
         super(opplTestCase);
-        if (t == null) {
-            throw new NullPointerException("The Error/exception cannot be null");
-        }
-        cause = t;
+        cause = checkNotNull(t, "t");
     }
 
     @Override

@@ -1,5 +1,7 @@
 package org.coode.oppl.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
@@ -22,10 +24,7 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
          * @param endIndex */
         public ErrorReportImpl(String message, int line, int charPositionInline,
                 int length) {
-            if (message == null) {
-                throw new NullPointerException("The message cannot be null");
-            }
-            this.message = message;
+            this.message = checkNotNull(message, "message");
             this.charPositionInLine = charPositionInline;
             this.line = line;
             this.length = length;
@@ -166,10 +165,7 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
 
     /** @param owlEditorKit */
     public OPPLExpressionChecker(OWLEditorKit owlEditorKit) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWL editor kit cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
     }
 
     @Override

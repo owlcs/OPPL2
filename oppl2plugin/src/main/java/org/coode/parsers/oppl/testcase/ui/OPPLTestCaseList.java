@@ -1,5 +1,7 @@
 package org.coode.parsers.oppl.testcase.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -39,10 +41,7 @@ public abstract class OPPLTestCaseList extends
          * @param opplTestCase */
         public OPPLTestCaseListItem(OWLAnnotation annot, OPPLTestCase opplTestCase) {
             super(annot);
-            if (opplTestCase == null) {
-                throw new NullPointerException("The pattern model cannot be null");
-            }
-            this.opplTestCase = opplTestCase;
+            this.opplTestCase = checkNotNull(opplTestCase, "opplTestCase");
         }
 
         @Override

@@ -1,5 +1,7 @@
 package org.coode.patterns.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -104,10 +106,7 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
          * @param patternModel */
         public PatternListItem(OWLAnnotation annot, PatternModel patternModel) {
             super(annot);
-            if (patternModel == null) {
-                throw new NullPointerException("The pattern model cannot be null");
-            }
-            this.patternModel = patternModel;
+            this.patternModel = checkNotNull(patternModel, "patternModel");
         }
 
         @Override

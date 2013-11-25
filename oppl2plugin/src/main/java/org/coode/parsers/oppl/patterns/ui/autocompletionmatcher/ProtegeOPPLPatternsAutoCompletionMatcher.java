@@ -1,5 +1,7 @@
 package org.coode.parsers.oppl.patterns.ui.autocompletionmatcher;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,10 +31,7 @@ public final class ProtegeOPPLPatternsAutoCompletionMatcher implements
 
     /** @param owlEditorKit */
     public ProtegeOPPLPatternsAutoCompletionMatcher(OWLEditorKit owlEditorKit) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The owl editor kit cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         getOWLEditorKit().getOWLModelManager().addListener(modelManagerListener);
         reset();
     }

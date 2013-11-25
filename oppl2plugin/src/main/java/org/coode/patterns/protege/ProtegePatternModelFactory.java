@@ -22,6 +22,8 @@
  */
 package org.coode.patterns.protege;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.List;
 import java.util.Set;
 
@@ -51,9 +53,7 @@ public class ProtegePatternModelFactory implements AbstractPatternModelFactory {
 
     /** @param modelManager */
     public ProtegePatternModelFactory(OWLModelManager modelManager) {
-        if (modelManager == null) {
-            throw new NullPointerException("The model manager cannot be null");
-        }
+        checkNotNull(modelManager, "modelManager");
         delegate = new PatternModelFactory(modelManager.getActiveOntology(),
                 modelManager.getOWLOntologyManager(), modelManager.getReasoner());
     }

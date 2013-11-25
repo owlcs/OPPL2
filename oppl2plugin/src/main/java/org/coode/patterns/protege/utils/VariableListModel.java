@@ -1,5 +1,7 @@
 package org.coode.patterns.protege.utils;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -10,7 +12,6 @@ import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import org.coode.oppl.utils.ArgCheck;
 import org.protege.editor.core.ui.list.MListItem;
 import org.protege.editor.core.ui.list.MListSectionHeader;
 
@@ -22,8 +23,7 @@ public class VariableListModel<I> implements ListModel<Object> {
         boolean add = true;
 
         public MySectionHeader(String header) {
-            ArgCheck.checkNullArgument("The section header", header);
-            this.header = header;
+            this.header = checkNotNull(header, "section header");
         }
 
         @Override
@@ -37,7 +37,7 @@ public class VariableListModel<I> implements ListModel<Object> {
         }
     }
 
-    private final MySectionHeader myHeader;// = new MySectionHeader();
+    private final MySectionHeader myHeader;
 
     /** @author Luigi Iannone
      * @param <E> */
@@ -51,8 +51,7 @@ public class VariableListModel<I> implements ListModel<Object> {
 
         /** @param b */
         public VariableListItem(E b) {
-            ArgCheck.checkNullArgument("The element", b);
-            this.item = b;
+            this.item = checkNotNull(b, "b");
         }
 
         @Override
@@ -119,8 +118,7 @@ public class VariableListModel<I> implements ListModel<Object> {
 
     @Override
     public void addListDataListener(ListDataListener l) {
-        ArgCheck.checkNullArgument("The listener", l);
-        this.listeners.add(l);
+        this.listeners.add(checkNotNull(l));
     }
 
     @Override

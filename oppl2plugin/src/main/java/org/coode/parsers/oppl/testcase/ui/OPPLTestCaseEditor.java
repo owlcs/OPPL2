@@ -1,5 +1,7 @@
 package org.coode.parsers.oppl.testcase.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.HashSet;
@@ -37,10 +39,7 @@ public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> im
 
     /** @param owlEditorKit */
     public OPPLTestCaseEditor(OWLEditorKit owlEditorKit) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWL editor kit cannot be null");
-        }
-        oek = owlEditorKit;
+        oek = checkNotNull(owlEditorKit, "owlEditorKit");
         otherOPPLTestCases.addAll(new OPPLTestCaseAnnotationContainer(oek)
                 .getOPPLTestCases());
         editor = new ExpressionEditor<OPPLTestCase>(oek.getOWLModelManager()

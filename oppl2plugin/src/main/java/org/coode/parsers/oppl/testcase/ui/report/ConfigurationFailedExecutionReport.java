@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase.ui.report;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
 
@@ -14,10 +15,7 @@ public class ConfigurationFailedExecutionReport extends UnsuccessfulExecutionRep
      * @param message */
     public ConfigurationFailedExecutionReport(OPPLTestCase opplTestCase, String message) {
         super(opplTestCase);
-        if (message == null) {
-            throw new NullPointerException("The message cannot be null");
-        }
-        this.message = message;
+        this.message = checkNotNull(message, "message");
     }
 
     @Override

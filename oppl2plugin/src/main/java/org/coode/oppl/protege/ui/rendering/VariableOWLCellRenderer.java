@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.protege.ui.rendering;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.Component;
 
 import javax.swing.JList;
@@ -33,7 +35,6 @@ import org.coode.oppl.protege.ui.ActionListItem;
 import org.coode.oppl.protege.ui.OPPLSelectClauseListItem;
 import org.coode.oppl.protege.ui.OWLObjectListItem;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.coode.oppl.utils.ArgCheck;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -62,12 +63,9 @@ public class VariableOWLCellRenderer extends OWLCellRenderer implements ListCell
     public VariableOWLCellRenderer(OWLEditorKit owlEditorKit,
             ConstraintSystem constraintSystem, OWLCellRenderer defaultRenderer) {
         super(owlEditorKit);
-        ArgCheck.checkNullArgument("The OWL editor kit", owlEditorKit);
-        ArgCheck.checkNullArgument("The constraint system", constraintSystem);
-        ArgCheck.checkNullArgument("The default cell renderer", defaultRenderer);
-        this.constraintSystem = constraintSystem;
-        this.defaultRenderer = defaultRenderer;
-        this.owlEditorKit = owlEditorKit;
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.defaultRenderer = checkNotNull(defaultRenderer, "defaultRenderer");
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         setHighlightKeywords(true);
         setWrap(true);
     }

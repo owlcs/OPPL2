@@ -22,6 +22,8 @@
  */
 package org.coode.patterns.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Iterator;
 
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
@@ -44,17 +46,11 @@ public class PatternReferenceExpressionChecker implements
     private final RuntimeExceptionHandler handler;
 
     /** @param owlEditorKit
-     * @param hanlder */
+     * @param handler */
     public PatternReferenceExpressionChecker(OWLEditorKit owlEditorKit,
-            RuntimeExceptionHandler hanlder) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The owl editor kit cannot be null");
-        }
-        if (hanlder == null) {
-            throw new NullPointerException("The handler cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
-        handler = hanlder;
+            RuntimeExceptionHandler handler) {
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
+        this.handler = checkNotNull(handler, "handler");
     }
 
     @Override

@@ -1,5 +1,6 @@
-
 package org.coode.patterns.protege;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -20,10 +21,7 @@ public class PatternAnnotationContainer implements AnnotationContainer {
 
     /** @param owlEditorKit */
     public PatternAnnotationContainer(OWLEditorKit owlEditorKit) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWL editor Kit cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         patternExtractor = new PatternExtractor(getOntology(), getOWLEditorKit()
                 .getOWLModelManager().getOWLOntologyManager(),
                 PatternManager.getDefaultErrorListener());

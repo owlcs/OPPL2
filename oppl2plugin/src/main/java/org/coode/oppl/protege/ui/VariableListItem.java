@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
@@ -59,20 +61,11 @@ public class VariableListItem implements MListItem, OPPLMacroStatusChange {
      * @param owlEditorKit */
     public VariableListItem(Variable<?> variable, ConstraintSystem constraintSystem,
             OWLEditorKit owlEditorKit, boolean isEditable, boolean isDeleatable) {
-        if (variable == null) {
-            throw new NullPointerException("The variable cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot null");
-        }
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWL editor kit cannot null");
-        }
-        this.variable = variable;
-        this.owlEditorKit = owlEditorKit;
+        this.variable = checkNotNull(variable, "variable");
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         this.isEditable = isEditable;
         isDeleteable = isDeleatable;
-        this.constraintSystem = constraintSystem;
         runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(
                 getOwlEditorKit().getOWLWorkspace());
     }

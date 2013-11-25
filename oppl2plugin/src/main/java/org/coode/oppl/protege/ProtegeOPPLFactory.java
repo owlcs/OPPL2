@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.protege;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.List;
 
 import org.coode.oppl.ConstraintSystem;
@@ -38,7 +40,6 @@ import org.coode.oppl.entity.OWLEntityRenderer;
 import org.coode.oppl.exceptions.OPPLException;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.rendering.VariableOWLEntityRenderer;
-import org.coode.oppl.utils.ArgCheck;
 import org.coode.oppl.variablemansyntax.ProtegeScopeVariableChecker;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.model.inference.NoOpReasoner;
@@ -72,10 +73,7 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 
     /** @param owlEditorKit */
     public ProtegeOPPLFactory(OWLEditorKit owlEditorKit) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The owlEditorKit cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
     }
 
     @Override
@@ -94,8 +92,8 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
 
     @Override
     public OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {
-        ArgCheck.checkNullArgument("The constraint system", cs);
-        return new VariableOWLEntityRenderer(cs, new ProtegeOWLEntityRenderer());
+        return new VariableOWLEntityRenderer(checkNotNull(cs, "constraint system"),
+                new ProtegeOWLEntityRenderer());
     }
 
     @Override
@@ -152,7 +150,7 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
     @Override
     public ManchesterSyntaxRenderer
             getManchesterSyntaxRenderer(final ConstraintSystem cs) {
-        ArgCheck.checkNullArgument("The constraint system", cs);
+        checkNotNull(cs, "constraint system");
         return new ManchesterSyntaxRenderer(new ShortFormProvider() {
             @Override
             public String getShortForm(OWLEntity entity) {

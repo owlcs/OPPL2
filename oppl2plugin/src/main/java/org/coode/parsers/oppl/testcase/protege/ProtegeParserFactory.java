@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase.protege;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Set;
 
@@ -144,10 +145,7 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 
     /** @param owlEditorKit */
     public ProtegeParserFactory(OWLEditorKit owlEditorKit) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWL Editor Kit cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         protegeOWLEntityChecker = new ProtegeOWLEntityChecker(getOWLEditorKit());
         protegeEntityFinder = new ProtegeEntityFinder();
         entityRenderer = new ProtegeOWLEntityRenderer();

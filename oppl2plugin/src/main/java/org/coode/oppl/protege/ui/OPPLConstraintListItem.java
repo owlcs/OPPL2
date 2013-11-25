@@ -1,5 +1,7 @@
 package org.coode.oppl.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.coode.oppl.AbstractConstraint;
 import org.coode.oppl.ConstraintSystem;
 import org.protege.editor.core.ui.list.MListItem;
@@ -16,18 +18,9 @@ public class OPPLConstraintListItem implements MListItem {
      * @param constraintSystem */
     protected OPPLConstraintListItem(OWLEditorKit owlEditorKit,
             AbstractConstraint constraint, ConstraintSystem constraintSystem) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The editor kit cannot be null");
-        }
-        if (constraint == null) {
-            throw new NullPointerException("The constraint cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
-        this.constraint = constraint;
-        this.constraintSystem = constraintSystem;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
+        this.constraint = checkNotNull(constraint, "constraint");
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
     }
 
     @Override

@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.BorderLayout;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +35,6 @@ import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLParser.AbstractParserFactory;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.protege.ProtegeParserFactory;
-import org.coode.oppl.utils.ArgCheck;
 import org.coode.oppl.validation.OPPLScriptValidator;
 import org.coode.parsers.oppl.ui.autocompletionmatcher.ProtegeOPPLAutoCompletionMatcher;
 import org.coode.parsers.ui.AutoCompleter;
@@ -167,8 +168,7 @@ public final class OPPLTextEditor extends JPanel implements VerifiedInputEditor,
 
     @Override
     public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
-        ArgCheck.checkNullArgument("The listener", listener);
-        listeners.add(listener);
+        listeners.add(checkNotNull(listener, "listener"));
     }
 
     @Override

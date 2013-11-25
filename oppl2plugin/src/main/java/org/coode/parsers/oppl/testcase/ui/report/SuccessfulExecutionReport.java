@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase.ui.report;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.parsers.oppl.testcase.OPPLTest;
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
@@ -15,10 +16,7 @@ public final class SuccessfulExecutionReport extends AbstractReport {
      * @param test */
     public SuccessfulExecutionReport(OPPLTestCase opplTestCase, OPPLTest test) {
         super(opplTestCase);
-        if (test == null) {
-            throw new NullPointerException("The successful test case cannot be null");
-        }
-        successfulTest = test;
+        successfulTest = checkNotNull(test, "test");
     }
 
     @Override

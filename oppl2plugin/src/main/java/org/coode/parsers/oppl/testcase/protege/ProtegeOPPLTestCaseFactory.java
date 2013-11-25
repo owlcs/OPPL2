@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase.protege;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.List;
 
@@ -18,10 +19,7 @@ public class ProtegeOPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
 
     /** @param owlEditorKit */
     public ProtegeOPPLTestCaseFactory(OWLEditorKit owlEditorKit) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWL editor kit cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
     }
 
     @Override

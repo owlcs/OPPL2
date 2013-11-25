@@ -22,6 +22,8 @@
  */
 package org.coode.patterns.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.HashSet;
@@ -33,7 +35,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.coode.oppl.utils.ArgCheck;
 import org.coode.parsers.ui.InputVerificationStatusChangedListener;
 import org.coode.patterns.AbstractPatternModelFactory;
 import org.coode.patterns.PatternModel;
@@ -71,14 +72,8 @@ public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> impleme
     /** @param owlEditorKit
      * @param f */
     public PatternEditor(OWLEditorKit owlEditorKit, AbstractPatternModelFactory f) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWL editor kit cannot be null");
-        }
-        if (f == null) {
-            throw new NullPointerException("The Pattern factory cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
-        patternBuilder = new PatternBuilder(getOWLEditorKit(), f);
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
+        patternBuilder = new PatternBuilder(getOWLEditorKit(), checkNotNull(f, "f"));
         patternTextEditor = new TypeInPatternBuilder(getOWLEditorKit());
         patternBuilder
                 .addStatusChangedListener(new InputVerificationStatusChangedListener() {
@@ -121,7 +116,6 @@ public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> impleme
         }
     }
 
-    
     private void initGUI() {
         mainPanel.add(patternBuilder.getEditorComponent());
         mainPanel.add(patternTextEditor.getEditorComponent());
@@ -133,8 +127,7 @@ public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> impleme
             void
             addStatusChangedListener(
                     org.protege.editor.core.ui.util.InputVerificationStatusChangedListener listener) {
-        ArgCheck.checkNullArgument("The listener", listener);
-        listener.verifiedStatusChanged(patternModel != null);
+        checkNotNull(listener, "listener").verifiedStatusChanged(patternModel != null);
         listeners.add(listener);
     }
 

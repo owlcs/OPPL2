@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.protege.ui.rendering;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.Component;
 
 import javax.swing.JTree;
@@ -30,7 +32,6 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.bindingtree.BindingNode;
-import org.coode.oppl.utils.ArgCheck;
 import org.protege.editor.owl.OWLEditorKit;
 import org.protege.editor.owl.ui.renderer.OWLCellRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -45,10 +46,11 @@ public class BindingTreeRenderer extends OWLCellRenderer {
         return constraintSystem;
     }
 
+    /** @param owlEditorKit
+     * @param cs */
     public BindingTreeRenderer(OWLEditorKit owlEditorKit, ConstraintSystem cs) {
         super(owlEditorKit);
-        ArgCheck.checkNullArgument("The constraint system", cs);
-        constraintSystem = cs;
+        constraintSystem = checkNotNull(cs, "constraint system");
     }
 
     @Override

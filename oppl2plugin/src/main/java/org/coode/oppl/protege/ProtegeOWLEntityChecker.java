@@ -1,5 +1,7 @@
 package org.coode.oppl.protege;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Set;
 
 import org.protege.editor.owl.OWLEditorKit;
@@ -19,10 +21,7 @@ public final class ProtegeOWLEntityChecker implements OWLEntityChecker {
 
     /** @param owlEditorKit */
     public ProtegeOWLEntityChecker(OWLEditorKit owlEditorKit) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWL editor kit cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         delegate = getOWLEditorKit().getOWLModelManager().getOWLEntityFinder();
     }
 

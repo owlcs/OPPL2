@@ -1,5 +1,7 @@
 package org.coode.oppl.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
@@ -92,14 +94,8 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
          * @param model */
         public OPPLConstraintList(OWLEditorKit owlEditorKit,
                 ConstraintSystem constraintSystem, OPPLBuilderModel model) {
-            if (owlEditorKit == null) {
-                throw new NullPointerException("The editorKit cannot be null");
-            }
-            if (constraintSystem == null) {
-                throw new NullPointerException("The constraint system cannot be null");
-            }
-            owlKit = owlEditorKit;
-            this.constraintSystem = constraintSystem;
+            owlKit = checkNotNull(owlEditorKit, "owlEditorKit");
+            this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
             this.model = model;
             clear();
         }
@@ -352,7 +348,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
                         public <O, I> Boolean visitAggregation(
                                 Aggregation<O, I> aggregation) {
                             Iterator<Aggregandum<I>> iterator = aggregation
-                                    .getToAggreagte().iterator();
+                                    .getToAggregate().iterator();
                             boolean found = false;
                             while (!found && iterator.hasNext()) {
                                 Aggregandum<I> aggregandum = iterator.next();
@@ -1013,10 +1009,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
     }
 
     protected OPPLBuilder(OWLEditorKit owlEditorKit, OPPLScriptValidator validator) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The editorKit cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         this.validator = validator;
         opplBuilderModel = new OPPLBuilderModel(getOWLEditorKit());
         setOrientation(JSplitPane.VERTICAL_SPLIT);

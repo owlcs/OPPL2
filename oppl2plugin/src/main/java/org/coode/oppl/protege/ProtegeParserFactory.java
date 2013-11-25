@@ -1,5 +1,7 @@
 package org.coode.oppl.protege;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Set;
 
 import org.coode.oppl.OPPLAbstractFactory;
@@ -167,11 +169,9 @@ public class ProtegeParserFactory implements AbstractParserFactory, Disposable {
     }
 
     public static ProtegeParserFactory getInstance(OWLEditorKit owlEditorKit) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWLEditorKit cannot be null");
-        }
         if (instance == null) {
-            instance = new ProtegeParserFactory(owlEditorKit);
+            instance = new ProtegeParserFactory(
+                    checkNotNull(owlEditorKit, "owlEditorKit"));
         }
         return instance;
     }

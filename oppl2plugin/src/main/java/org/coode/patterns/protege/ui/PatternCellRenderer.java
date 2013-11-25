@@ -22,6 +22,8 @@
  */
 package org.coode.patterns.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.util.HashSet;
@@ -33,7 +35,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
-import org.coode.oppl.utils.ArgCheck;
 import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.patterns.PatternExtractor;
 import org.coode.patterns.PatternModel;
@@ -56,8 +57,7 @@ public class PatternCellRenderer implements ListCellRenderer {
     /** @param owlEditorKit
      * @param f */
     public PatternCellRenderer(OWLEditorKit owlEditorKit) {
-        ArgCheck.checkNullArgument("The OWL Editor Kit", owlEditorKit);
-        this.owlEditorKit = owlEditorKit;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         owlCellRenderer = new OWLCellRenderer(this.owlEditorKit);
         owlCellRenderer.setHighlightKeywords(true);
         owlCellRenderer.setWrap(true);

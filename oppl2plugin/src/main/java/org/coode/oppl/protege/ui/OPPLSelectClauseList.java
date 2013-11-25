@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -48,14 +50,8 @@ public class OPPLSelectClauseList extends OPPLMList {
 
     public OPPLSelectClauseList(OWLEditorKit owlEditorKit,
             ConstraintSystem constraintSystem) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The editorKit cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
-        this.constraintSystem = constraintSystem;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
         DefaultListModel<Object> model = clearModel();
         setModel(model);
         setCellRenderer(new OPPLSelectListItemCellRederer());

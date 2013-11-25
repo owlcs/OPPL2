@@ -1,5 +1,7 @@
 package org.coode.oppl.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -102,14 +104,8 @@ public class InstantiationTableModel implements TableModel {
     /** @param opplScript
      * @param owlEditorKit */
     public InstantiationTableModel(OPPLScript opplScript, OWLEditorKit owlEditorKit) {
-        if (opplScript == null) {
-            throw new NullPointerException("The OPPL Script cannot be null");
-        }
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWL Editor Kit cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
-        this.opplScript = opplScript;
+        this.opplScript = checkNotNull(opplScript, "opplScript");
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         runtimeExceptionHandler = new ShowMessageRuntimeExceptionHandler(
                 getOWLEditorKit().getOWLWorkspace());
         Set<BindingNode> scriptLeaves = getOPPLScript().getConstraintSystem().getLeaves();

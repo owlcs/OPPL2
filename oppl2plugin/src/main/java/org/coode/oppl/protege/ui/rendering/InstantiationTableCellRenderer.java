@@ -1,5 +1,6 @@
-
 package org.coode.oppl.protege.ui.rendering;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.awt.Component;
 
@@ -17,10 +18,7 @@ public class InstantiationTableCellRenderer implements TableCellRenderer {
     private final OWLEditorKit owlEditorKit;
 
     public InstantiationTableCellRenderer(OWLEditorKit owlEditorKit) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWL editor kit cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         owlCellRenderer = new OWLCellRenderer(owlEditorKit);
     }
 

@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.Component;
 import java.util.HashSet;
 import java.util.List;
@@ -32,7 +34,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.coode.oppl.OPPLScript;
-import org.coode.oppl.utils.ArgCheck;
 import org.coode.oppl.validation.OPPLScriptValidator;
 import org.protege.editor.core.ui.util.InputVerificationStatusChangedListener;
 import org.protege.editor.core.ui.util.VerifiedInputEditor;
@@ -147,8 +148,7 @@ public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor
 
     @Override
     public void addStatusChangedListener(InputVerificationStatusChangedListener listener) {
-        ArgCheck.checkNullArgument("The listener", listener);
-        listeners.add(listener);
+        listeners.add(checkNotNull(listener, "listener"));
     }
 
     @Override

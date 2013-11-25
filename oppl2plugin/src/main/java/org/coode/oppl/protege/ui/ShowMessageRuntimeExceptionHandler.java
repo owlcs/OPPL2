@@ -1,5 +1,7 @@
 package org.coode.oppl.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.Component;
 import java.util.regex.PatternSyntaxException;
 
@@ -13,10 +15,7 @@ public class ShowMessageRuntimeExceptionHandler implements RuntimeExceptionHandl
 
     /** @param parentComponent */
     public ShowMessageRuntimeExceptionHandler(Component parentComponent) {
-        if (parentComponent == null) {
-            throw new NullPointerException("The parent component cannot be null");
-        }
-        this.parentComponent = parentComponent;
+        this.parentComponent = checkNotNull(parentComponent, "parentComponent");
     }
 
     @Override

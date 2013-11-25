@@ -1,5 +1,6 @@
-
 package org.coode.patterns.protege;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Collection;
 import java.util.Set;
@@ -251,10 +252,7 @@ public class ProtegeParserFactory implements AbstractParserFactory {
 
     /** @param owlEditorKit */
     public ProtegeParserFactory(OWLEditorKit owlEditorKit) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWL editor kit cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         protegeOWLEntityChecker = new ProtegeOWLEntityChecker();
         protegeEntityFinder = new ProtegeEntityFinder();
         entityRenderer = new ProtegeOWLEntityRenderer();
@@ -303,11 +301,9 @@ public class ProtegeParserFactory implements AbstractParserFactory {
     /** @param owlEditorKit
      * @return protege parser factory */
     public static ProtegeParserFactory getInstance(OWLEditorKit owlEditorKit) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWLEditorKit cannot be null");
-        }
         if (instance == null) {
-            instance = new ProtegeParserFactory(owlEditorKit);
+            instance = new ProtegeParserFactory(
+                    checkNotNull(owlEditorKit, "owlEditorKit"));
         }
         return instance;
     }

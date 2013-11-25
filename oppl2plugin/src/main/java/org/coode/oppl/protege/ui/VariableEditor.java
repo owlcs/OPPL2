@@ -22,6 +22,8 @@
  */
 package org.coode.oppl.protege.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -146,15 +148,9 @@ public class VariableEditor extends AbstractVariableEditor<InputVariable<?>> {
     /** @param owlEditorKit
      * @param constraintSystem */
     public VariableEditor(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The owl editor kit cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
         setLayout(new BorderLayout());
-        this.owlEditorKit = owlEditorKit;
-        this.constraintSystem = constraintSystem;
         variableNameExpressionEditor = new ExpressionEditor<String>(owlEditorKit,
                 new OWLExpressionChecker<String>() {
                     private String variableName;

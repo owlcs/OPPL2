@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase.protege;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -26,10 +27,7 @@ public class OPPLTestCaseAnnotationContainer implements AnnotationContainer {
 
     /** @param owlEditorKit */
     public OPPLTestCaseAnnotationContainer(OWLEditorKit owlEditorKit) {
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWL editor Kit cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         testCaseAnnotationProperty = Preferences
                 .getTestCaseAnnotationProperty(getOWLEditorKit().getOWLModelManager()
                         .getOWLDataFactory());

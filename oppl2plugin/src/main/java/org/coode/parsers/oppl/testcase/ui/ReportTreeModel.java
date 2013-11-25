@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase.ui;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -178,14 +179,11 @@ public final class ReportTreeModel implements TreeModel {
      *             if the input OPPLTestCase is not contained into the reports
      *             in this model. */
     public boolean isSuccessful(OPPLTestCase opplTestCase) {
-        if (opplTestCase == null) {
-            throw new NullPointerException("The input OPPLTestCase cannot be null");
-        }
         if (!reportMap.keySet().contains(opplTestCase)) {
             throw new IllegalArgumentException(
                     "The OPPL Test case is not contained into the reports in this model");
         }
-        List<Report> reports = reportMap.get(opplTestCase);
+        List<Report> reports = reportMap.get(checkNotNull(opplTestCase, "opplTestCase"));
         Iterator<Report> iterator = reports.iterator();
         boolean found = false;
         while (!found && iterator.hasNext()) {

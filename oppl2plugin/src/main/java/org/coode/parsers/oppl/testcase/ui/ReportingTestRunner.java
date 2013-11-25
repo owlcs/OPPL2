@@ -1,5 +1,7 @@
 package org.coode.parsers.oppl.testcase.ui;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,10 +76,7 @@ public class ReportingTestRunner {
 
     /** @param opplTestCase */
     public ReportingTestRunner(OPPLTestCase opplTestCase) {
-        if (opplTestCase == null) {
-            throw new NullPointerException("The OPPL Test Case cannot be null");
-        }
-        this.opplTestCase = opplTestCase;
+        this.opplTestCase = checkNotNull(opplTestCase, "opplTestCase");
     }
 
     /** @return the opplTestCase */

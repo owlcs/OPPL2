@@ -1,5 +1,7 @@
 package org.coode.protege.editor.core.ui.view;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import javax.swing.Icon;
 
 import org.protege.editor.core.ui.view.DisposableAction;
@@ -21,10 +23,7 @@ public abstract class AbstractOWLActiveOntologyAction extends DisposableAction {
     public AbstractOWLActiveOntologyAction(String name, Icon icon,
             OWLEditorKit owlEditorKit) {
         super(name, icon);
-        if (owlEditorKit == null) {
-            throw new NullPointerException("The OWL editor kit cannot be null");
-        }
-        this.owlEditorKit = owlEditorKit;
+        this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         owlModelManagerListener = new OWLModelManagerListener() {
             @Override
             public void handleChange(OWLModelManagerChangeEvent event) {

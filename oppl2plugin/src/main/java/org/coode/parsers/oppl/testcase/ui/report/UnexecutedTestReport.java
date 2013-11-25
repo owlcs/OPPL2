@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase.ui.report;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.parsers.oppl.testcase.OPPLTest;
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
@@ -14,10 +15,7 @@ public class UnexecutedTestReport extends AbstractReport {
      * @param unexecutedTest */
     public UnexecutedTestReport(OPPLTestCase opplTestCase, OPPLTest unexecutedTest) {
         super(opplTestCase);
-        if (unexecutedTest == null) {
-            throw new NullPointerException("The unexecuted test cannot be null");
-        }
-        this.unexecutedTest = unexecutedTest;
+        this.unexecutedTest = checkNotNull(unexecutedTest, "unexecutedTest");
     }
 
     @Override
