@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase.assertions;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Set;
 
@@ -12,10 +13,7 @@ public class AssertionComplement implements Assertion {
 
     /** @param assertion */
     public AssertionComplement(Assertion assertion) {
-        if (assertion == null) {
-            throw new NullPointerException("The assertion cannot be null");
-        }
-        this.assertion = assertion;
+        this.assertion = checkNotNull(assertion, "assertion");
     }
 
     @Override

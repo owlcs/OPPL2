@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,26 +19,17 @@ public class OPPLTestCaseImpl implements OPPLTestCase {
      * @param requiresInference */
     public OPPLTestCaseImpl(String name, OPPLScript opplScript,
             List<? extends OPPLTest> tests, boolean requiresInference) {
-        if (name == null) {
-            throw new NullPointerException("The name cannot be null");
-        }
-        if (opplScript == null) {
-            throw new NullPointerException("The OPPL Script cannot be null");
-        }
-        if (tests == null) {
-            throw new NullPointerException("The test collection cannot be null");
-        }
+        this.name = checkNotNull(name, "name");
+        this.opplScript = checkNotNull(opplScript, "opplScript");
         if (!opplScript.getActions().isEmpty()) {
             throw new IllegalArgumentException(
                     "No actions allowed in OPPL Test case scripts");
         }
+        this.requiresInference = requiresInference;
+        this.tests.addAll(checkNotNull(tests, "tests"));
         if (tests.isEmpty()) {
             throw new IllegalArgumentException("There should be at least one test");
         }
-        this.name = name;
-        this.opplScript = opplScript;
-        this.requiresInference = requiresInference;
-        this.tests.addAll(tests);
     }
 
     @Override

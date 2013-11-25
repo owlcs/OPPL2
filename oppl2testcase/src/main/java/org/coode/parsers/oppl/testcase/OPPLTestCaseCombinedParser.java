@@ -1,6 +1,8 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseCombined.g 2011-08-02 17:20:09
 package org.coode.parsers.oppl.testcase;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.antlr.runtime.BaseRecognizer;
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.DFA;
@@ -257,10 +259,7 @@ public class OPPLTestCaseCombinedParser extends Parser {
 
     public OPPLTestCaseCombinedParser(TokenStream input, ErrorListener errorListener) {
         this(input);
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        this.errorListener = errorListener;
+        this.errorListener = checkNotNull(errorListener, "errorListener");
     }
 
     public ErrorListener getErrorListener() {

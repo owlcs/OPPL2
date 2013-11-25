@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.parsers.oppl.testcase.assertions.Assertion;
 
@@ -20,14 +21,8 @@ public class OPPLTest {
     /** @param message
      * @param assertion */
     public OPPLTest(String message, Assertion assertion) {
-        if (message == null) {
-            throw new NullPointerException("The message cannot be null");
-        }
-        if (assertion == null) {
-            throw new NullPointerException("The assertion cannot be null");
-        }
-        this.message = message;
-        this.assertion = assertion;
+        this.message = checkNotNull(message, "message");
+        this.assertion = checkNotNull(assertion, "assertion");
     }
 
     /** @return the message */

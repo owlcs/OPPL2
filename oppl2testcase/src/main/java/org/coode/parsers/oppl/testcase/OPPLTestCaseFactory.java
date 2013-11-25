@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.List;
 
@@ -18,14 +19,8 @@ public class OPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
 
     public OPPLTestCaseFactory(OWLOntology ontology, OWLOntologyManager ontologyManager,
             OWLReasoner reasoner) {
-        if (ontologyManager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        if (ontology == null) {
-            throw new NullPointerException("The ontology  cannot be null");
-        }
-        this.ontologyManager = ontologyManager;
-        this.ontology = ontology;
+        this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
+        this.ontology = checkNotNull(ontology, "ontology");
         this.reasoner = reasoner;
     }
 

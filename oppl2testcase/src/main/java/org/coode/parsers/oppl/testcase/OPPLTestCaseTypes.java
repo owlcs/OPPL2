@@ -1,6 +1,8 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLTestCaseTypes.g 2011-01-10 16:48:15
 package org.coode.parsers.oppl.testcase;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -242,27 +244,11 @@ public class OPPLTestCaseTypes extends TreeFilter {
             ErrorListener errorListener, ConstraintSystem constraintSystem,
             AbstractOPPLTestCaseFactory testCaseFactory, RuntimeExceptionHandler handler) {
         this(input);
-        if (symtab == null) {
-            throw new NullPointerException("The symbol table cannot be null");
-        }
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (testCaseFactory == null) {
-            throw new NullPointerException("The OPPL Lint Factory cannot be null");
-        }
-        if (handler == null) {
-            throw new NullPointerException(
-                    "The run-time exception handler cannot be null");
-        }
-        this.symtab = symtab;
-        this.errorListener = errorListener;
-        this.testCaseFactory = testCaseFactory;
-        this.constraintSystem = constraintSystem;
-        this.handler = handler;
+        this.symtab = checkNotNull(symtab, "symtab");
+        this.errorListener = checkNotNull(errorListener, "errorListener");
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.testCaseFactory = checkNotNull(testCaseFactory, "testCaseFactory");
+        this.handler = checkNotNull(handler, "handler");
     }
 
     public ErrorListener getErrorListener() {

@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.parsers.BidirectionalShortFormProviderAdapter;
 import org.coode.parsers.DisposableOWLEntityChecker;
@@ -20,10 +21,7 @@ public class SimpleSymbolTableFactory implements
 
     /** @param manager */
     public SimpleSymbolTableFactory(OWLOntologyManager manager) {
-        if (manager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        this.manager = manager;
+        this.manager = checkNotNull(manager, "manager");
     }
 
     @Override

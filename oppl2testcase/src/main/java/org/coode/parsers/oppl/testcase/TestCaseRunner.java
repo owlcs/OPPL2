@@ -1,5 +1,7 @@
 package org.coode.parsers.oppl.testcase;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collections;
 import java.util.Set;
 import java.util.regex.PatternSyntaxException;
@@ -43,14 +45,8 @@ public abstract class TestCaseRunner {
     /** @param opplTestCase */
     public TestCaseRunner(OPPLTestCase opplTestCase, ExecutionMonitor executionMonitor,
             boolean ignoreConfigurationFailure) {
-        if (opplTestCase == null) {
-            throw new NullPointerException("The OPPL Test case cannot be null");
-        }
-        if (executionMonitor == null) {
-            throw new NullPointerException("The execution monitor cannot be null");
-        }
-        this.opplTestCase = opplTestCase;
-        this.executionMonitor = executionMonitor;
+        this.opplTestCase = checkNotNull(opplTestCase, "opplTestCase");
+        this.executionMonitor = checkNotNull(executionMonitor, "executionMonitor");
         this.ignoreConfigurationFailure = ignoreConfigurationFailure;
     }
 

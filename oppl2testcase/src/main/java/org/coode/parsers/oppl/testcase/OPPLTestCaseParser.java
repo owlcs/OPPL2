@@ -1,5 +1,7 @@
 package org.coode.parsers.oppl.testcase;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.RuleReturnScope;
@@ -76,18 +78,9 @@ public class OPPLTestCaseParser {
     public OPPLTestCaseParser(AbstractOPPLTestCaseFactory factory,
             ErrorListener listener,
             SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory) {
-        if (factory == null) {
-            throw new NullPointerException("The OPPL factory cannot be null");
-        }
-        if (listener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        if (symbolTableFactory == null) {
-            throw new NullPointerException("The symbol table factory cannot be null");
-        }
-        opplTestCaseFactory = factory;
-        this.listener = listener;
-        this.symbolTableFactory = symbolTableFactory;
+        opplTestCaseFactory = checkNotNull(factory, "factory");
+        this.listener = checkNotNull(listener, "listener");
+        this.symbolTableFactory = checkNotNull(symbolTableFactory, "symbolTableFactory");
     }
 
     /** @return the symbolTableFactory */

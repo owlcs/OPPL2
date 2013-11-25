@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase.assertions;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -33,29 +34,14 @@ public class AssertContains implements Assertion {
     public AssertContains(Variable<?> variable, Collection<? extends OWLObject> values,
             ConstraintSystem constraintSystem,
             AbstractOPPLTestCaseFactory testCaseFactory, RuntimeExceptionHandler handler) {
-        if (variable == null) {
-            throw new NullPointerException("The variable cannot be null");
-        }
-        if (values == null) {
-            throw new NullPointerException("The values cannot be null");
-        }
+        this.variable = checkNotNull(variable, "variable");
+        this.values.addAll(checkNotNull(values, "values"));
         if (values.isEmpty()) {
             throw new IllegalArgumentException("The values cannot be empty");
         }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (testCaseFactory == null) {
-            throw new NullPointerException("The test case factory cannot be null");
-        }
-        if (handler == null) {
-            throw new NullPointerException("The run-time exception cannot be null");
-        }
-        this.variable = variable;
-        this.values.addAll(values);
-        this.constraintSystem = constraintSystem;
-        this.testCaseFactory = testCaseFactory;
-        this.handler = handler;
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.testCaseFactory = checkNotNull(testCaseFactory, "testCaseFactory");
+        this.handler = checkNotNull(handler, "handler");
     }
 
     /** @return the variable */

@@ -1,5 +1,7 @@
 package org.coode.parsers.oppl.testcase.assertions;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,14 +19,8 @@ public class CountAssertionExpression implements AssertionExpression<Integer> {
 
     /** @param variable */
     public CountAssertionExpression(Variable<?> variable, RuntimeExceptionHandler handler) {
-        if (variable == null) {
-            throw new NullPointerException("The variable cannot be null");
-        }
-        if (handler == null) {
-            throw new NullPointerException("The run-time exception cannot be null");
-        }
-        this.variable = variable;
-        this.handler = handler;
+        this.variable = checkNotNull(variable, "variable");
+        this.handler = checkNotNull(handler, "handler");
     }
 
     /** @return the variable */

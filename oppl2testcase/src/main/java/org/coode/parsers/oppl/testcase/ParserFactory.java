@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.factory.SymbolTableFactory;
@@ -18,14 +19,8 @@ public class ParserFactory implements AbstractParserFactory {
      * @param ontologyManager */
     public ParserFactory(OWLOntology ontology, OWLOntologyManager ontologyManager,
             OWLReasoner reasoner) {
-        if (ontologyManager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        if (ontology == null) {
-            throw new NullPointerException("The ontology cannot be null");
-        }
-        this.ontologyManager = ontologyManager;
-        this.ontology = ontology;
+        this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
+        this.ontology = checkNotNull(ontology, "ontology");
         this.reasoner = reasoner;
     }
 

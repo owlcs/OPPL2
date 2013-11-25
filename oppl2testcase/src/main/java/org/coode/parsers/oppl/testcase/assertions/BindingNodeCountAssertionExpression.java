@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase.assertions;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -26,18 +27,9 @@ public class BindingNodeCountAssertionExpression implements AssertionExpression<
      * @param testCaseFactory */
     public BindingNodeCountAssertionExpression(BindingNode bindingNode,
             ConstraintSystem constraintSystem, AbstractOPPLTestCaseFactory testCaseFactory) {
-        if (bindingNode == null) {
-            throw new NullPointerException("The binding node cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (testCaseFactory == null) {
-            throw new NullPointerException("The test case factory cannot be null");
-        }
-        this.bindingNode = bindingNode;
-        this.testCaseFactory = testCaseFactory;
-        this.constraintSystem = constraintSystem;
+        this.bindingNode = checkNotNull(bindingNode, "bindingNode");
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.testCaseFactory = checkNotNull(testCaseFactory, "testCaseFactory");
     }
 
     @Override

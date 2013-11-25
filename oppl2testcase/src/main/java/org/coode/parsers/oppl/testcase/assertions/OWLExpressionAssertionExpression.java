@@ -1,5 +1,7 @@
 package org.coode.parsers.oppl.testcase.assertions;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,26 +26,16 @@ public class OWLExpressionAssertionExpression implements
     private final RuntimeExceptionHandler handler;
 
     /** @param owlObject
-     * @param testCaseFactory */
+     * @param constraintSystem
+     * @param testCaseFactory
+     * @param handler */
     public OWLExpressionAssertionExpression(OWLObject owlObject,
             ConstraintSystem constraintSystem,
             AbstractOPPLTestCaseFactory testCaseFactory, RuntimeExceptionHandler handler) {
-        if (owlObject == null) {
-            throw new NullPointerException("The OWL object cannot be null");
-        }
-        if (testCaseFactory == null) {
-            throw new NullPointerException("The test case factory cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (handler == null) {
-            throw new NullPointerException("The runtime exception handler cannot be null");
-        }
-        this.owlObject = owlObject;
-        this.testCaseFactory = testCaseFactory;
-        this.constraintSystem = constraintSystem;
-        this.handler = handler;
+        this.owlObject = checkNotNull(owlObject, "owlObject");
+        this.testCaseFactory = checkNotNull(testCaseFactory, "testCaseFactory");
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.handler = checkNotNull(handler, "handler");
     }
 
     @Override

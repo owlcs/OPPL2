@@ -1,5 +1,7 @@
 package org.coode.parsers.oppl.testcase;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -107,15 +109,9 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
             ConstraintSystem constraintSystem,
             AbstractOPPLTestCaseFactory testCaseFactory, OPPLSyntaxTree parentExpression,
             RuntimeExceptionHandler handler) {
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (testCaseFactory == null) {
-            throw new NullPointerException("The test case factory cannot be null");
-        }
-        if (handler == null) {
-            throw new NullPointerException("The run-time exception cannot be null");
-        }
+        checkNotNull(constraintSystem, "constraintSystem");
+        checkNotNull(testCaseFactory, "testCaseFactory");
+        checkNotNull(handler, "handler");
         Variable<?> variable = constraintSystem.getVariable(variableNode.getText());
         AssertContains toReturn = null;
         Set<OWLObject> expressions = new HashSet<OWLObject>();
@@ -152,9 +148,7 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     public CountAssertionExpression getCountAssertionExpression(
             OPPLSyntaxTree variableNode, ConstraintSystem constraintSystem,
             RuntimeExceptionHandler handler) {
-        if (handler == null) {
-            throw new NullPointerException("The run-time exception cannot be null");
-        }
+        checkNotNull(handler, "handler");
         Variable<?> variable = constraintSystem.getVariable(variableNode.getText());
         CountAssertionExpression toReturn = null;
         if (variable != null) {
@@ -183,15 +177,9 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     public OWLExpressionAssertionExpression getOWLExpressionAssertionExpression(
             OPPLSyntaxTree owlObjectNode, ConstraintSystem constraintSystem,
             AbstractOPPLTestCaseFactory testCaseFactory, RuntimeExceptionHandler handler) {
-        if (testCaseFactory == null) {
-            throw new NullPointerException("The test case factory cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (handler == null) {
-            throw new NullPointerException("The runtime exception handler cannot be null");
-        }
+        checkNotNull(testCaseFactory, "testCaseFactory");
+        checkNotNull(constraintSystem, "constraintSystem");
+        checkNotNull(handler, "handler");
         OWLExpressionAssertionExpression toReturn = null;
         OWLObject owlObject = owlObjectNode.getOWLObject();
         if (owlObject != null) {

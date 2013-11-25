@@ -1,5 +1,6 @@
-
 package org.coode.parsers.oppl.testcase.assertions;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Set;
 
@@ -16,16 +17,8 @@ public class AssertEqual implements Assertion {
     /** @param left
      * @param right */
     public AssertEqual(AssertionExpression<?> left, AssertionExpression<?> right) {
-        if (left == null) {
-            throw new NullPointerException(
-                    "The left hand side on this equality cannot be null");
-        }
-        if (right == null) {
-            throw new NullPointerException(
-                    "The right hand side on this equality cannot be null");
-        }
-        this.left = left;
-        this.right = right;
+        this.left = checkNotNull(left, "left");
+        this.right = checkNotNull(right, "right");
     }
 
     @Override
