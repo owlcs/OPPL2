@@ -1,5 +1,7 @@
 package org.coode.patterns;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 
 import org.coode.parsers.ErrorListener;
@@ -16,14 +18,8 @@ public class ParserFactory implements AbstractParserFactory {
     /** @param ontology
      * @param ontologyManager */
     public ParserFactory(OWLOntology ontology, OWLOntologyManager ontologyManager) {
-        if (ontology == null) {
-            throw new NullPointerException("The ontology canont be null");
-        }
-        if (ontologyManager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        this.ontology = ontology;
-        this.ontologyManager = ontologyManager;
+        this.ontology = checkNotNull(ontology, "ontology");
+        this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
     }
 
     @Override

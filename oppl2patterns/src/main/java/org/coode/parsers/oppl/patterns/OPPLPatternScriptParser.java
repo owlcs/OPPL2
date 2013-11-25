@@ -1,6 +1,8 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternScript.g 2011-08-02 16:03:35
 package org.coode.parsers.oppl.patterns;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.EarlyExitException;
 import org.antlr.runtime.IntStream;
@@ -244,10 +246,7 @@ public class OPPLPatternScriptParser extends Parser {
 
     public OPPLPatternScriptParser(TokenStream input, ErrorListener errorListener) {
         this(input);
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        this.errorListener = errorListener;
+        this.errorListener = checkNotNull(errorListener, "errorListener");
     }
 
     public ErrorListener getErrorListener() {

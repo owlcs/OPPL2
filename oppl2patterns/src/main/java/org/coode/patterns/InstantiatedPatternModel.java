@@ -22,6 +22,8 @@
  */
 package org.coode.patterns;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -73,14 +75,8 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
      *            built. Cannot be {@code null}. */
     public InstantiatedPatternModel(PatternModel patternModel,
             RuntimeExceptionHandler handler) {
-        if (patternModel == null) {
-            throw new NullPointerException("The pattern cannot be null");
-        }
-        if (handler == null) {
-            throw new NullPointerException("Theruntime exception  handler cannot be null");
-        }
-        this.patternModel = patternModel;
-        runtimeExceptionHandler = handler;
+        this.patternModel = checkNotNull(patternModel, "patternModel");
+        runtimeExceptionHandler = checkNotNull(handler, "handler");
     }
 
     private final Map<Variable<?>, Set<OWLObject>> instantiations = new HashMap<Variable<?>, Set<OWLObject>>();

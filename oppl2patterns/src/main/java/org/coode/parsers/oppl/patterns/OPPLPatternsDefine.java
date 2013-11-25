@@ -1,6 +1,8 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsDefine.g 2011-01-10 16:37:34
 package org.coode.parsers.oppl.patterns;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.IntStream;
 import org.antlr.runtime.MismatchedTokenException;
@@ -225,23 +227,11 @@ public class OPPLPatternsDefine extends TreeRewriter {
             PatternReferenceResolver patternReferenceResolver,
             PatternConstraintSystem constraintSystem) {
         this(input);
-        if (symtab == null) {
-            throw new NullPointerException("The symbol table cannot be null");
-        }
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (patternReferenceResolver == null) {
-            throw new NullPointerException(
-                    "The pattern reference resolver cannot be null");
-        }
-        this.symtab = symtab;
-        this.errorListener = errorListener;
-        this.constraintSystem = constraintSystem;
-        this.patternReferenceResolver = patternReferenceResolver;
+        this.symtab = checkNotNull(symtab, "symtab");
+        this.errorListener = checkNotNull(errorListener, "errorListener");
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.patternReferenceResolver = checkNotNull(patternReferenceResolver,
+                "patternReferenceResolver");
     }
 
     public PatternReferenceResolver getPatternReferenceResolver() {

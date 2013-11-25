@@ -1,6 +1,8 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/luigi/Documents/workspace/Parsers/src/OPPLPatternsTypes.g 2011-01-10 16:38:26
 package org.coode.parsers.oppl.patterns;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.EarlyExitException;
 import org.antlr.runtime.IntStream;
@@ -217,22 +219,11 @@ public class OPPLPatternsTypes extends TreeFilter {
             ErrorListener errorListener, PatternConstraintSystem constraintSystem,
             AbstractPatternModelFactory patternModelFactory) {
         this(input);
-        if (symtab == null) {
-            throw new NullPointerException("The symbol table cannot be null");
-        }
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (patternModelFactory == null) {
-            throw new NullPointerException("The OPPL Pattern Factory cannot be null");
-        }
-        this.symtab = symtab;
-        this.errorListener = errorListener;
-        this.patternModelFactory = patternModelFactory;
-        this.constraintSystem = constraintSystem;
+        this.symtab = checkNotNull(symtab, "symtab");
+        this.errorListener = checkNotNull(errorListener, "errorListener");
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.patternModelFactory = checkNotNull(patternModelFactory,
+                "patternModelFactory");
     }
 
     public ErrorListener getErrorListener() {

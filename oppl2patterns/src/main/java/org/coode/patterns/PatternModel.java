@@ -22,6 +22,8 @@
  */
 package org.coode.patterns;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -45,7 +47,6 @@ import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
-import org.coode.oppl.utils.ArgCheck;
 import org.coode.oppl.utils.VariableExtractor;
 import org.coode.oppl.validation.OPPLScriptValidator;
 import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
@@ -355,14 +356,13 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 
     public PatternModel(OPPLScript opplScript, OWLOntologyManager ontologyManager,
             AbstractPatternModelFactory f) throws UnsuitableOPPLScriptException {
-        ArgCheck.checkNullArgument("The OPPL script", opplScript);
-        ArgCheck.checkNullArgument("The ontology manager cannot be null", ontologyManager);
+        checkNotNull(opplScript, "OPPL script");
         if (!getScriptValidator().accept(opplScript)) {
             throw new UnsuitableOPPLScriptException(opplScript, getScriptValidator()
                     .getValidationRuleDescription());
         }
         opplStatement = opplScript;
-        this.ontologyManager = ontologyManager;
+        this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
         factory = f;
     }
 

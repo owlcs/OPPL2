@@ -1,5 +1,7 @@
 package org.coode.patterns.locality;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -45,31 +47,22 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
     private final List<Boolean> exploredBindingsLocality = new ArrayList<Boolean>();
     private final List<OWLAxiom> foundNonLocals = new ArrayList<OWLAxiom>();
 
+    /** @param evaluator
+     * @param constraintSystem
+     * @param patternModel
+     * @param variableBindings
+     * @param signature
+     * @param runtimeExceptionHandler */
     public LocalityCheckerLeafBrusher(LocalityEvaluator evaluator,
             ConstraintSystem constraintSystem, PatternModel patternModel,
             Map<Variable<?>, SigmaPlusSigmaMinus> variableBindings,
             Set<OWLEntity> signature, RuntimeExceptionHandler runtimeExceptionHandler) {
-        if (evaluator == null) {
-            throw new NullPointerException("The evaluator cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (variableBindings == null) {
-            throw new NullPointerException("The bindings cannot be null");
-        }
-        if (signature == null) {
-            throw new NullPointerException("The signature cannot be null");
-        }
-        if (runtimeExceptionHandler == null) {
-            throw new NullPointerException("The runtime exception handler cannot be null");
-        }
-        this.evaluator = evaluator;
-        this.constraintSystem = constraintSystem;
-        this.patternModel = patternModel;
-        handler = runtimeExceptionHandler;
-        this.signature.addAll(signature);
-        this.variableBindings.putAll(variableBindings);
+        this.evaluator = checkNotNull(evaluator, "evaluator");
+        this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.patternModel = checkNotNull(patternModel, "patternModel");
+        handler = checkNotNull(runtimeExceptionHandler, "runtimeExceptionHandler");
+        this.signature.addAll(checkNotNull(signature, "signature"));
+        this.variableBindings.putAll(checkNotNull(variableBindings, "variableBindings"));
     }
 
     @Override

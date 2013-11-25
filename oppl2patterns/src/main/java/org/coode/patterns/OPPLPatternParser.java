@@ -1,5 +1,7 @@
 package org.coode.patterns;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -121,23 +123,11 @@ public class OPPLPatternParser implements AbstractOPPLParser {
     public OPPLPatternParser(AbstractPatternModelFactory factory, ErrorListener listener,
             SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory,
             PatternReferenceResolver patternReferenceResolver) {
-        if (factory == null) {
-            throw new NullPointerException("The OPPL factory cannot be null");
-        }
-        if (listener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        if (symbolTableFactory == null) {
-            throw new NullPointerException("The symbol table factory cannot be null");
-        }
-        if (patternReferenceResolver == null) {
-            throw new NullPointerException(
-                    "The pattern reference resolver cannot be null");
-        }
-        patternModelFactory = factory;
-        this.listener = listener;
-        this.symbolTableFactory = symbolTableFactory;
-        this.patternReferenceResolver = patternReferenceResolver;
+        patternModelFactory = checkNotNull(factory, "factory");
+        this.listener = checkNotNull(listener, "listener");
+        this.symbolTableFactory = checkNotNull(symbolTableFactory, "symbolTableFactory");
+        this.patternReferenceResolver = checkNotNull(patternReferenceResolver,
+                "patternReferenceResolver");
     }
 
     private final ErrorListener listener;

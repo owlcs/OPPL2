@@ -1,5 +1,7 @@
 package org.coode.patterns.locality;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
@@ -8,10 +10,7 @@ public class AxiomLocality {
     private final OWLReasoner reasoner;
 
     public AxiomLocality(OWLReasoner r) {
-        if (r == null) {
-            throw new NullPointerException("The reasoner cannot be null");
-        }
-        reasoner = r;
+        reasoner = checkNotNull(r, "r");
     }
 
     public boolean isLocal() {

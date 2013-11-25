@@ -1,5 +1,7 @@
 package org.coode.parsers.oppl.patterns;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,14 +28,8 @@ public class OPPLPatternScope implements Scope {
     /** @param scope
      * @param ontologyManager */
     public OPPLPatternScope(Scope scope, OWLOntologyManager ontologyManager) {
-        if (scope == null) {
-            throw new NullPointerException("The delegate  scope cannot be null");
-        }
-        if (ontologyManager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        delegate = scope;
-        this.ontologyManager = ontologyManager;
+        delegate = checkNotNull(scope, "scope");
+        this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
     }
 
     @Override

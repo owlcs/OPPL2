@@ -22,6 +22,8 @@
  */
 package org.coode.patterns;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -53,19 +55,10 @@ public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScrip
     public PatternExtractor(OWLOntology ontology, OWLOntologyManager owlOntologyManager,
             ErrorListener errorListener, Set<OWLAnnotation> visited) {
         super();
-        if (ontology == null) {
-            throw new NullPointerException("The ontology  cannot be null");
-        }
-        if (owlOntologyManager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        ontologyManager = owlOntologyManager;
-        this.ontology = ontology;
+        this.ontology = checkNotNull(ontology, "ontology");
+        ontologyManager = checkNotNull(owlOntologyManager, "owlOntologyManager");
+        this.errorListener = checkNotNull(errorListener, "errorListener");
         this.visited.addAll(visited);
-        this.errorListener = errorListener;
     }
 
     /** @param owlOntologyManager */

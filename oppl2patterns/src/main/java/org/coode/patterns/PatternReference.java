@@ -22,6 +22,8 @@
  */
 package org.coode.patterns;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -110,23 +112,11 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
     public PatternReference(String patternName, PatternConstraintSystem constraintSystem,
             Collection<? extends String> visitedPatterns, ErrorListener errorListener,
             List<Object>... args) throws PatternException {
-        if (patternName == null) {
-            throw new NullPointerException("The pattern name cannot be null");
-        }
-        if (constraintSystem == null) {
-            throw new NullPointerException("The constraint system cannot be null");
-        }
-        if (visitedPatterns == null) {
-            throw new NullPointerException(
-                    "The colleciton of visited patterns cannot be null");
-        }
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
+        this.patternName = checkNotNull(patternName, "patternName");
+        this.errorListener = checkNotNull(errorListener, "errorListener");
         this.patternName = patternName;
-        this.patternConstraintSystem = constraintSystem;
-        this.visited.addAll(visitedPatterns);
-        this.errorListener = errorListener;
+        this.patternConstraintSystem = checkNotNull(constraintSystem, "constraintSystem");
+        this.visited.addAll(checkNotNull(visitedPatterns, "visitedPatterns"));
         this.init(args);
     }
 
