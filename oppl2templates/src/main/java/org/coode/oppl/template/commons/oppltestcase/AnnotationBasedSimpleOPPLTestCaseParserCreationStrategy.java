@@ -1,5 +1,6 @@
-
 package org.coode.oppl.template.commons.oppltestcase;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.List;
 
@@ -19,16 +20,19 @@ public class AnnotationBasedSimpleOPPLTestCaseParserCreationStrategy extends
         SimpleOPPLTestCaseParsingStrategy {
     private final SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory;
 
+    /** @param iris
+     * @param ontologyManager
+     * @param ontology
+     * @param reasoner
+     * @param errorListener
+     * @param handler */
     public AnnotationBasedSimpleOPPLTestCaseParserCreationStrategy(List<IRI> iris,
             OWLOntologyManager ontologyManager, OWLOntology ontology,
             OWLReasoner reasoner, ErrorListener errorListener,
             RuntimeExceptionHandler handler) {
         super(ontologyManager, ontology, reasoner, errorListener, handler);
-        if (iris == null) {
-            throw new NullPointerException(
-                    "The collection of annotation property IRIs cannot be null");
-        }
-        symbolTableFactory = new AnnotationBasedSymbolTableFactory(ontologyManager, iris);
+        symbolTableFactory = new AnnotationBasedSymbolTableFactory(ontologyManager,
+                checkNotNull(iris, "iris"));
     }
 
     @Override

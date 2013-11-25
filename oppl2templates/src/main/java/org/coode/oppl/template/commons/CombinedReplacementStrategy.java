@@ -1,5 +1,6 @@
-
 package org.coode.oppl.template.commons;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,16 +17,13 @@ public class CombinedReplacementStrategy<I, P extends I> implements
         ReplacementStrategy<I, P> {
     private final List<ReplacementStrategy<I, P>> strategies = new ArrayList<ReplacementStrategy<I, P>>();
 
+    /** @param strategies */
     public CombinedReplacementStrategy(List<ReplacementStrategy<I, P>> strategies) {
-        if (strategies == null) {
-            throw new NullPointerException(
-                    "The list of the combined strategies cannot be null");
-        }
+        this.strategies.addAll(checkNotNull(strategies, "strategies"));
         if (strategies.isEmpty()) {
             throw new IllegalArgumentException(
                     "The list of the combined strategies cannot be empty");
         }
-        this.strategies.addAll(strategies);
     }
 
     @Override

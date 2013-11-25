@@ -1,5 +1,6 @@
-
 package org.coode.oppl.template.commons.oppltestcase;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.template.ParsingStrategy;
@@ -18,25 +19,18 @@ public class SimpleOPPLTestCaseParsingStrategy implements
     private final ParserFactory parserFactory;
     private final RuntimeExceptionHandler handler;
 
+    /** @param ontologyManager
+     * @param ontology
+     * @param reasoner
+     * @param errorListener
+     * @param handler */
     public SimpleOPPLTestCaseParsingStrategy(OWLOntologyManager ontologyManager,
             OWLOntology ontology, OWLReasoner reasoner, ErrorListener errorListener,
             RuntimeExceptionHandler handler) {
-        if (ontologyManager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        if (ontology == null) {
-            throw new NullPointerException("The ontology cannot be null");
-        }
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        if (handler == null) {
-            throw new NullPointerException(
-                    "The run-time exception handler cannot be null");
-        }
-        parserFactory = new ParserFactory(ontology, ontologyManager, reasoner);
-        this.errorListener = errorListener;
-        this.handler = handler;
+        this.errorListener = checkNotNull(errorListener, "errorListener");
+        this.handler = checkNotNull(handler, "handler");
+        parserFactory = new ParserFactory(checkNotNull(ontology, "ontology"),
+                checkNotNull(ontologyManager, "ontologyManager"), reasoner);
     }
 
     protected OPPLTestCaseParser build() {

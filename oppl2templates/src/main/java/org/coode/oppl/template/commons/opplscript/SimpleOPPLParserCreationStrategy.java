@@ -1,5 +1,6 @@
-
 package org.coode.oppl.template.commons.opplscript;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.oppl.OPPLParser;
 import org.coode.oppl.OPPLScript;
@@ -16,20 +17,16 @@ public class SimpleOPPLParserCreationStrategy implements
     private final ErrorListener errorListener;
     private final ParserFactory parserFactory;
 
-    /** @param errorListener */
+    /** @param ontologyManager
+     * @param ontology
+     * @param reasoner
+     * @param errorListener */
     public SimpleOPPLParserCreationStrategy(OWLOntologyManager ontologyManager,
             OWLOntology ontology, OWLReasoner reasoner, ErrorListener errorListener) {
-        if (ontologyManager == null) {
-            throw new NullPointerException("The ontology manager cannot be null");
-        }
-        if (ontology == null) {
-            throw new NullPointerException("The ontology cannot be null");
-        }
-        if (errorListener == null) {
-            throw new NullPointerException("The error listener cannot be null");
-        }
-        parserFactory = new ParserFactory(ontologyManager, ontology, reasoner);
-        this.errorListener = errorListener;
+        this.errorListener = checkNotNull(errorListener, "errorListener");
+        parserFactory = new ParserFactory(
+                checkNotNull(ontologyManager, "ontologyManager"), checkNotNull(ontology,
+                        "ontology"), reasoner);
     }
 
     protected OPPLParser build() {

@@ -1,5 +1,7 @@
 package org.coode.oppl.template.commons.opplscript;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.List;
 
 import org.coode.oppl.AnnotationBasedSymbolTableFactory;
@@ -21,15 +23,17 @@ public class AnnotationBasedSimpleOPPLParserCreationStrategy extends
         SimpleOPPLParserCreationStrategy {
     private final SymbolTableFactory<OPPLSymbolTable> symbolTableFactory;
 
+    /** @param iris
+     * @param ontologyManager
+     * @param ontology
+     * @param reasoner
+     * @param errorListener */
     public AnnotationBasedSimpleOPPLParserCreationStrategy(List<IRI> iris,
             OWLOntologyManager ontologyManager, OWLOntology ontology,
             OWLReasoner reasoner, ErrorListener errorListener) {
         super(ontologyManager, ontology, reasoner, errorListener);
-        if (iris == null) {
-            throw new NullPointerException(
-                    "The collection of annotation property IRIs cannot be null");
-        }
-        symbolTableFactory = new AnnotationBasedSymbolTableFactory(ontologyManager, iris);
+        symbolTableFactory = new AnnotationBasedSymbolTableFactory(ontologyManager,
+                checkNotNull(iris, "iris"));
     }
 
     @Override

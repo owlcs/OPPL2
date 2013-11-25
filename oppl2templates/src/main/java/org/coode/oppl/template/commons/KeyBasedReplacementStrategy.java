@@ -1,5 +1,6 @@
-
 package org.coode.oppl.template.commons;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -19,10 +20,7 @@ public final class KeyBasedReplacementStrategy implements
 
     /** @param properties */
     public KeyBasedReplacementStrategy(Properties properties) {
-        if (properties == null) {
-            throw new NullPointerException("The properties cannot be null");
-        }
-        this.properties = properties;
+        this.properties = checkNotNull(properties, "properties");
     }
 
     @Override

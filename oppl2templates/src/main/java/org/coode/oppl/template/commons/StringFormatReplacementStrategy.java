@@ -1,5 +1,7 @@
 package org.coode.oppl.template.commons;
 
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
+
 import java.util.Collection;
 
 import org.coode.oppl.template.ReplacementStrategy;
@@ -13,10 +15,7 @@ public final class StringFormatReplacementStrategy implements
 
     /** @param params */
     public StringFormatReplacementStrategy(Collection<? extends Object> params) {
-        if (params == null) {
-            throw new NullPointerException("The parameters collection cannot be null");
-        }
-        this.params = params.toArray();
+        this.params = checkNotNull(params, "params").toArray();
     }
 
     @Override

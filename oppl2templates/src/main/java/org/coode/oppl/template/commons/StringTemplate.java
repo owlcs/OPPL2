@@ -1,5 +1,6 @@
-
 package org.coode.oppl.template.commons;
+
+import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.coode.oppl.template.OPPLTemplate;
 import org.coode.oppl.template.ParsingStrategy;
@@ -11,21 +12,17 @@ public class StringTemplate<O> implements OPPLTemplate<O> {
     private final ReplacementStrategy<String, String> replacementStrategy;
     private final ParsingStrategy<String, O> parserCreationStrategy;
 
+    /** @param templateString
+     * @param replacementStrategy
+     * @param parserCreationStrategy */
     public StringTemplate(String templateString,
             ReplacementStrategy<String, String> replacementStrategy,
             ParsingStrategy<String, O> parserCreationStrategy) {
-        if (templateString == null) {
-            throw new NullPointerException("The template string cannot be null");
-        }
-        if (replacementStrategy == null) {
-            throw new NullPointerException("The replacement strategy cannot be null");
-        }
-        if (parserCreationStrategy == null) {
-            throw new NullPointerException("The parser factory cannot be null");
-        }
-        this.templateString = templateString;
-        this.replacementStrategy = replacementStrategy;
-        this.parserCreationStrategy = parserCreationStrategy;
+        this.templateString = checkNotNull(templateString, "templateString");
+        this.replacementStrategy = checkNotNull(replacementStrategy,
+                "replacementStrategy");
+        this.parserCreationStrategy = checkNotNull(parserCreationStrategy,
+                "parserCreationStrategy");
     }
 
     @Override
