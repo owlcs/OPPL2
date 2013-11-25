@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.assertions;
 
 /** Adapter that implements a default behaviour that can be overridden where
@@ -9,6 +8,7 @@ public abstract class DefaultAssertionExpressionVisitorExAdapter<O> implements
         AssertionExpressionVisitorEx<O> {
     private final O defaultValue;
 
+    /** default constructor for null default return */
     public DefaultAssertionExpressionVisitorExAdapter() {
         this(null);
     }
@@ -19,7 +19,8 @@ public abstract class DefaultAssertionExpressionVisitorExAdapter<O> implements
     }
 
     /** @return the defaultValue */
-    protected O getDefaultValue(AssertionExpression<?> assertionExpression) {
+    protected O getDefaultValue(
+            @SuppressWarnings("unused") AssertionExpression<?> assertionExpression) {
         return this.defaultValue;
     }
 

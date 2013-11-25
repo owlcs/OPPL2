@@ -19,7 +19,6 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.coode.oppl.utils.AbstractVariableVisitorExAdapter;
-import org.coode.oppl.utils.DefaultOWLAxiomVisitorAdapter;
 import org.coode.oppl.utils.OWLObjectExtractor;
 import org.coode.oppl.variabletypes.ANNOTATIONPROPERTYVariableType;
 import org.coode.oppl.variabletypes.CLASSVariableType;
@@ -48,6 +47,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
+import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
 /** @author Luigi Iannone */
 public class OPPLAssertedSingleOWLAxiomSearchTree extends
@@ -180,9 +180,9 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
 
     private void initAssignableValues() {
         extractFromLogicAxiom();
-        getTargetAxiom().accept(new DefaultOWLAxiomVisitorAdapter() {
+        getTargetAxiom().accept(new OWLAxiomVisitorAdapter() {
             @Override
-            protected void doDefault(OWLAxiom axiom) {
+            protected void handleDefault(OWLAxiom owlObject) {
                 OPPLAssertedSingleOWLAxiomSearchTree.this.extractFromLogicAxiom();
             }
 
