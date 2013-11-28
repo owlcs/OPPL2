@@ -12,7 +12,9 @@ import org.coode.oppl.template.ReplacementStrategy;
  * The replacement will happen in the order specified by the user in the
  * constructor
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ * @param <I>
+ * @param <P> */
 public class CombinedReplacementStrategy<I, P extends I> implements
         ReplacementStrategy<I, P> {
     private final List<ReplacementStrategy<I, P>> strategies = new ArrayList<ReplacementStrategy<I, P>>();

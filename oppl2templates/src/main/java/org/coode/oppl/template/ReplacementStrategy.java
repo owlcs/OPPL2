@@ -1,4 +1,3 @@
-
 package org.coode.oppl.template;
 
 /** Abstraction over the replacement strategy. Implementations specify how they
@@ -14,6 +13,7 @@ public interface ReplacementStrategy<I, O> {
     /** Replace the place-holders in the input templateString and builds the
      * relative OPPLScript.
      * 
+     * @param template
      * @param templateString
      *            The String containing the template. Cannot be
      *            <code>null</code>.

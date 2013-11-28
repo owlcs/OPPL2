@@ -6,7 +6,8 @@ import org.coode.oppl.template.OPPLTemplate;
 import org.coode.oppl.template.ParsingStrategy;
 import org.coode.oppl.template.ReplacementStrategy;
 
-/** @author Luigi Iannone */
+/** @author Luigi Iannone
+ * @param <O> */
 public class StringTemplate<O> implements OPPLTemplate<O> {
     private final String templateString;
     private final ReplacementStrategy<String, String> replacementStrategy;
