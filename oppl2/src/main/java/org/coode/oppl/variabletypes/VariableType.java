@@ -35,23 +35,41 @@ import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-/** @author Luigi Iannone */
+/** @author Luigi Iannone
+ * @param <O> */
 public interface VariableType<O extends OWLObject> {
+    /** @param ontologies
+     * @return referenced objects */
     Set<O> getReferencedOWLObjects(Collection<? extends OWLOntology> ontologies);
 
+    /** @return allowed deirections */
     EnumSet<Direction> getAllowedDirections();
 
+    /** @param o
+     * @return true if compatible */
     boolean isCompatibleWith(OWLObject o);
 
+    /** @param name
+     * @param patternGeneratingOPPLFunction
+     * @return generated variable */
     RegexpGeneratedVariable<? extends O> getRegexpGeneratedVariable(String name,
             OPPLFunction<Pattern> patternGeneratingOPPLFunction);
 
+    /** @param name
+     * @param variableScope
+     * @return input variable */
     InputVariable<O> getInputVariable(String name, VariableScope<?> variableScope);
 
+    /** @param name
+     * @param opplFunction
+     * @return generated variable */
     GeneratedVariable<O> getGeneratedVariable(String name,
             OPPLFunction<? extends O> opplFunction);
 
+    /** @param visitor */
     void accept(VariableTypeVisitor visitor);
 
+    /** @param visitor
+     * @return visitor value */
     <P> P accept(VariableTypeVisitorEx<P> visitor);
 }

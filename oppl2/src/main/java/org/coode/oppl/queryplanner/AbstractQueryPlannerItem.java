@@ -12,9 +12,11 @@ import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
+/** @author Luigi Iannone */
 public abstract class AbstractQueryPlannerItem implements QueryPlannerItem {
     private final ConstraintSystem constraintSystem;
 
+    /** @param constraintSystem */
     public AbstractQueryPlannerItem(ConstraintSystem constraintSystem) {
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
     }

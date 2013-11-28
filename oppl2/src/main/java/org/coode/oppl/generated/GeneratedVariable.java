@@ -12,6 +12,8 @@ import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
+/** @author Luigi Iannone
+ * @param <O> */
 public class GeneratedVariable<O extends OWLObject> implements Variable<O> {
     private final OPPLFunction<? extends O> opplFunction;
     private final String name;
@@ -105,6 +107,10 @@ public class GeneratedVariable<O extends OWLObject> implements Variable<O> {
         return true;
     }
 
+    /** @param name
+     * @param type
+     * @param opplFunction
+     * @return generated variable */
     public static <P extends OWLObject> GeneratedVariable<P> getGeneratedVariable(
             String name, VariableType<P> type, OPPLFunction<? extends P> opplFunction) {
         return new GeneratedVariable<P>(name, type, opplFunction);

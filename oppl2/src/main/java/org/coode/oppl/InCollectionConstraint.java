@@ -35,7 +35,8 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 /** Constraint that verifies whether a variable values are contained in a
  * collection
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ * @param <P> */
 public class InCollectionConstraint<P extends OWLObject> implements AbstractConstraint {
     private final Variable<P> variable;
     private final Set<P> collection = new HashSet<P>();
@@ -166,6 +167,10 @@ public class InCollectionConstraint<P extends OWLObject> implements AbstractCons
         return this.constraintSystem;
     }
 
+    /** @param variable
+     * @param collection
+     * @param constraintSystem
+     * @return in collection constraint */
     public static
             <T extends OWLObject>
             InCollectionConstraint<T>

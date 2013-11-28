@@ -13,6 +13,7 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
+/** @author Luigi Iannone */
 public class DisposableShortFormEntityChecker implements DisposableOWLEntityChecker {
     private final BidirectionalShortFormProviderAdapter shrotFormProviderAdaptor;
     private final OWLEntityChecker delegate;
@@ -24,7 +25,7 @@ public class DisposableShortFormEntityChecker implements DisposableOWLEntityChec
         delegate = new ShortFormEntityChecker(shrotFormProviderAdaptor);
     }
 
-    /** @param shrotFormProviderAdaptor */
+    /** @param owlEntityChecker */
     public DisposableShortFormEntityChecker(OWLEntityChecker owlEntityChecker) {
         delegate = checkNotNull(owlEntityChecker, "owlEntityChecker");
         shrotFormProviderAdaptor = new BidirectionalShortFormProviderAdapter(

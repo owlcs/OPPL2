@@ -1,7 +1,10 @@
 package org.coode.oppl.utils;
 
-
+/** @author Luigi Iannone */
 public class ArgCheck {
+    /** @param o
+     * @param name
+     * @return the input, if not null, illegal argument exception otherwise */
     public static <T> T checkNotNull(T o, String name) {
         if (o == null) {
             throw new IllegalArgumentException(name + " cannot be null");
@@ -20,6 +23,8 @@ public class ArgCheck {
         return o;
     }
 
+    /** @param o
+     * @return the input, if not null, illegal argument exception otherwise */
     public static <T> T checkNotNull(T o) {
         return checkNotNull(o, "the object");
     }

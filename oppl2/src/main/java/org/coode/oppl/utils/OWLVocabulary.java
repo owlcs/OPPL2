@@ -17,22 +17,27 @@ public class OWLVocabulary {
         return dataFactory;
     }
 
+    /** @return thing */
     public static OWLClass getOWLThing() {
         return getDataFactory().getOWLThing();
     }
 
+    /** @return nothing */
     public static OWLClass getOWLNothing() {
         return getDataFactory().getOWLNothing();
     }
 
+    /** @return top data property */
     public static OWLEntity getOWLTopDataProperty() {
         return getDataFactory().getOWLTopDataProperty();
     }
 
+    /** @return top object property */
     public static OWLEntity getOWLTopObjectProperty() {
         return getDataFactory().getOWLTopObjectProperty();
     }
 
+    /** @return top datatype */
     public static OWLEntity getTopDatatype() {
         return getDataFactory().getTopDatatype();
     }

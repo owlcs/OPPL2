@@ -48,6 +48,7 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 import org.semanticweb.owlapi.vocab.OWLFacet;
 
+/** @author Luigi Iannone */
 public class SymbolTable {
     private static abstract class OWLTypeOnlyVisitor implements TypeVisitorEx<Boolean> {
         public OWLTypeOnlyVisitor() {}
@@ -1337,7 +1338,8 @@ public class SymbolTable {
         return toReturn;
     }
 
-    /** @return symbol replaced owl object */
+    /** @param node
+     * @return symbol replaced owl object */
     public OWLObject getOWLObject(final ManchesterOWLSyntaxTree node) {
         Symbol symbol = symbols.get(node.getToken().getText());
         if (symbol == null) {
@@ -2245,10 +2247,15 @@ public class SymbolTable {
         return new HashSet<Symbol>(symbols.values());
     }
 
+    /** dispose */
     public void dispose() {
         getGlobalScope().dispose();
     }
 
+    /** @param facet
+     * @param value
+     * @param parentExpression
+     * @return facet restriction type */
     public OWLType getOWLFacetRestrictionType(ManchesterOWLSyntaxTree facet,
             ManchesterOWLSyntaxTree value, CommonTree parentExpression) {
         OWLType toReturn = null;
@@ -2263,6 +2270,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param facet
+     * @param value
+     * @param parentExpression
+     * @return owl facet restriction */
     public OWLFacetRestriction getOWLFacetRestriction(ManchesterOWLSyntaxTree facet,
             ManchesterOWLSyntaxTree value, CommonTree parentExpression) {
         OWLFacetRestriction toReturn = null;
@@ -2278,6 +2289,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param dataType
+     * @param parentExpression
+     * @param facets
+     * @return data range type */
     public OWLType getOWLDataRangeType(ManchesterOWLSyntaxTree dataType,
             ManchesterOWLSyntaxTree parentExpression, ManchesterOWLSyntaxTree... facets) {
         OWLType toReturn = null;
@@ -2306,6 +2321,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param dataType
+     * @param parentExpression
+     * @param facets
+     * @return datatype restriction */
     public OWLDatatypeRestriction getOWLDataRange(ManchesterOWLSyntaxTree dataType,
             ManchesterOWLSyntaxTree parentExpression, ManchesterOWLSyntaxTree... facets) {
         OWLDatatypeRestriction toReturn = null;
@@ -2335,6 +2354,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param manchesterOWLSyntaxTree
+     * @param node
+     * @param propertyExpressions
+     * @return haskey type */
     public Type
             getHasKeyType(ManchesterOWLSyntaxTree manchesterOWLSyntaxTree,
                     ManchesterOWLSyntaxTree node,
@@ -2357,6 +2380,10 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param manchesterOWLSyntaxTree
+     * @param node
+     * @param propertyExpressions
+     * @return haskey */
     public OWLHasKeyAxiom
             getHasKey(ManchesterOWLSyntaxTree manchesterOWLSyntaxTree,
                     ManchesterOWLSyntaxTree node,
@@ -2387,6 +2414,11 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param parentExpression
+     * @param iri
+     * @param annotationPropertyNode
+     * @param object
+     * @return annotation assertion type */
     public Type
             getAnnotationAssertionType(final ManchesterOWLSyntaxTree parentExpression,
                     final ManchesterOWLSyntaxTree iri,
@@ -2444,6 +2476,11 @@ public class SymbolTable {
                 });
     }
 
+    /** @param parentExpression
+     * @param iri
+     * @param annotationPropertyNode
+     * @param object
+     * @return annotation assertion */
     public OWLAnnotationAssertionAxiom getAnnotationAssertion(
             final ManchesterOWLSyntaxTree parentExpression,
             final ManchesterOWLSyntaxTree iri,
@@ -2486,6 +2523,8 @@ public class SymbolTable {
         return toReturn;
     }
 
+    /** @param node
+     * @return symbol */
     public Symbol resolveIRI(ManchesterOWLSyntaxTree node) {
         Symbol toReturn = retrieveSymbol(node.getText());
         if (toReturn == null) {

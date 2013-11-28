@@ -19,29 +19,60 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
  * www.cs.man.ac.uk/~horridgm<br>
  * <br> */
 public interface EntityFinder {
-    /** Gets the entities that match the specified string. */
+    /** Gets the entities that match the specified string.
+     * 
+     * @param match
+     * @return matched entities */
     Set<OWLEntity> getEntities(String match);
 
+    /** @param match
+     * @param fullRegExp
+     * @return matched entities */
     Set<OWLEntity> getEntities(String match, boolean fullRegExp);
 
+    /** @param match
+     * @return matched classes */
     Set<OWLClass> getMatchingOWLClasses(String match);
 
+    /** @param match
+     * @param fullRegExp
+     * @return matched entities */
     Set<OWLClass> getMatchingOWLClasses(String match, boolean fullRegExp);
 
+    /** @param match
+     * @return matched entities */
     Set<OWLObjectProperty> getMatchingOWLObjectProperties(String match);
 
+    /** @param match
+     * @param fullRegExp
+     * @return matched entities */
     Set<OWLObjectProperty>
             getMatchingOWLObjectProperties(String match, boolean fullRegExp);
 
+    /** @param match
+     * @return matched entities */
     Set<OWLDataProperty> getMatchingOWLDataProperties(String match);
 
+    /** @param match
+     * @param fullRegExp
+     * @return matched entities */
     Set<OWLDataProperty> getMatchingOWLDataProperties(String match, boolean fullRegExp);
 
+    /** @param match
+     * @return matched entities */
     Set<OWLNamedIndividual> getMatchingOWLIndividuals(String match);
 
+    /** @param match
+     * @param fullRegExp
+     * @return matched entities */
     Set<OWLNamedIndividual> getMatchingOWLIndividuals(String match, boolean fullRegExp);
 
+    /** @param match
+     * @return matched entities */
     Set<OWLDatatype> getMatchingOWLDataTypes(String match);
 
+    /** @param match
+     * @param fullRegExp
+     * @return matched entities */
     Set<OWLDatatype> getMatchingOWLDataTypes(String match, boolean fullRegExp);
 }

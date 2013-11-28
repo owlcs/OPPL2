@@ -40,12 +40,13 @@ import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
  * @author Luigi Iannone */
 public class OPPLVariableMatcher {
     /** @param name
-     * @param cs
+     * @param constraintSystem
      * @param matchClasses
      * @param matchObjectProperties
      * @param matchDataProperties
      * @param matchIndividuals
      * @param matchConstants
+     * @param matchAnnotationProperty
      * @return the Set of Variable instances whose names start with the input
      *         String from the input ConstraintSystem, provided their type has
      *         to be included. */

@@ -32,6 +32,7 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
  * 
  * @author Luigi Iannone */
 public interface OPPLScript extends Renderable {
+    /** @param variable */
     void addVariable(Variable<?> variable);
 
     /** @return the List of the variables declared in this OPPLScript */
@@ -46,13 +47,20 @@ public interface OPPLScript extends Renderable {
     /** @return the appropriate rendering of this OPPLScript */
     String render();
 
+    /** @return actions */
     List<OWLAxiomChange> getActions();
 
+    /** @return query */
     OPPLQuery getQuery();
 
+    /** @param visitor */
     void accept(OPPLScriptVisitor visitor);
 
+    /** @param visitor
+     * @return visitor value */
     <P> P accept(OPPLScriptVisitorEx<P> visitor);
 
+    /** @param shortFormProvider
+     * @return rendering */
     String render(ShortFormProvider shortFormProvider);
 }

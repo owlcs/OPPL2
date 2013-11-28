@@ -10,6 +10,8 @@ import org.coode.parsers.oppl.variableattribute.CollectionVariableAttributeSymbo
 import org.coode.parsers.oppl.variableattribute.StringVariableAttributeSymbol;
 import org.semanticweb.owlapi.model.OWLObject;
 
+/** @author Luigi Iannone
+ * @param <O> */
 public abstract class DefaultOPPLSymbolVisitorEx<O> implements OPPLSymbolVisitorEx<O> {
     protected abstract O doDefault(Symbol symbol);
 

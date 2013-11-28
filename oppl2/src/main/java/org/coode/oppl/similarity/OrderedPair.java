@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/** @author Luigi Iannone
+ * @param <O> */
 public class OrderedPair<O> extends Pair<O> {
     /** @param first
      * @param second */
@@ -45,6 +47,8 @@ public class OrderedPair<O> extends Pair<O> {
         return o1.equals(other.o2) && o2.equals(other.o2);
     }
 
+    /** @param c
+     * @return all ordered pairs */
     public static <T> Set<OrderedPair<T>> getAllPossibleOrderedPairs(
             Collection<? extends T> c) {
         Set<OrderedPair<T>> toReturn = new HashSet<OrderedPair<T>>();

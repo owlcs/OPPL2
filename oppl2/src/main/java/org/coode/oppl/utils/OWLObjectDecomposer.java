@@ -90,6 +90,7 @@ import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.model.SWRLSameIndividualAtom;
 import org.semanticweb.owlapi.model.SWRLVariable;
 
+/** @author Luigi Iannone */
 public final class OWLObjectDecomposer implements OWLObjectVisitorEx<List<Object>> {
     @Override
     public List<Object> visit(OWLSubClassOfAxiom axiom) {

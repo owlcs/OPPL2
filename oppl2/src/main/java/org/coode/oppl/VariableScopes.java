@@ -33,9 +33,16 @@ import org.semanticweb.owlapi.model.OWLPropertyExpression;
 public class VariableScopes {
     /** @author Luigi Iannone */
     public enum Direction {
-        SUBCLASSOF("subClassOf"), SUPERCLASSOF("superClassOf"), SUBPROPERTYOF(
-                "subPropertyOf"), SUPERPROPERTYOF("superPropertyOf"), INSTANCEOF(
-                "instanceOf");
+        /** subclass */
+        SUBCLASSOF("subClassOf"),
+        /** superclass */
+        SUPERCLASSOF("superClassOf"),
+        /** subproperty */
+        SUBPROPERTYOF("subPropertyOf"),
+        /** superproperty */
+        SUPERPROPERTYOF("superPropertyOf"),
+        /** instance */
+        INSTANCEOF("instanceOf");
         private final String direction;
 
         Direction(String s) {
@@ -64,6 +71,7 @@ public class VariableScopes {
     }
 
     /** @param description
+     * @param checker
      * @return a VariableScope instance restricting values to be sub-classes of
      *         the input OWLClassExpression */
     public static SubClassVariableScope buildSubClassVariableScope(
@@ -72,6 +80,7 @@ public class VariableScopes {
     }
 
     /** @param description
+     * @param checker
      * @return a VariableScope instance restricting values to be super-classes
      *         of the input OWLClassExpression */
     public static SuperClassVariableScope buildSuperClassVariableScope(
@@ -80,6 +89,7 @@ public class VariableScopes {
     }
 
     /** @param property
+     * @param checker
      * @return a VariableScope instance restricting values to be sub-properties
      *         of the input OWLProperty */
     public static SubPropertyVariableScope<OWLDataProperty>
@@ -89,6 +99,7 @@ public class VariableScopes {
     }
 
     /** @param property
+     * @param checker
      * @return a VariableScope instance restricting values to be sub-properties
      *         of the input OWLProperty */
     public static <P extends OWLPropertyExpression<?, ?>> SubPropertyVariableScope<P>
@@ -97,6 +108,7 @@ public class VariableScopes {
     }
 
     /** @param property
+     * @param checker
      * @return a VariableScope instance restricting values to be
      *         super-properties of the input OWLProperty */
     public static <P extends OWLPropertyExpression<?, ?>> SuperPropertyVariableScope<P>
@@ -105,6 +117,7 @@ public class VariableScopes {
     }
 
     /** @param description
+     * @param checker
      * @return a VariableScope instance restricting values to be instances of
      *         the input OWLClassExpression */
     public static IndividualVariableScope buildIndividualVariableScope(

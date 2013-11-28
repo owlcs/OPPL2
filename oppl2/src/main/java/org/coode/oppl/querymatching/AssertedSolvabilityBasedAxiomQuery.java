@@ -51,24 +51,24 @@ import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /** @author Luigi Iannone */
 public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
     private final Map<OWLAxiom, SearchTree<OPPLOWLAxiomSearchNode>> searchTrees = new HashMap<OWLAxiom, SearchTree<OPPLOWLAxiomSearchNode>>();
     private final ConstraintSystem constraintSystem;
-    private final Set<OWLOntology> ontologies = new HashSet<OWLOntology>();
+    private final OWLOntologyManager manager;;
     private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
     private final Map<OWLAxiom, Collection<? extends OWLObject>> cache = new HashMap<OWLAxiom, Collection<? extends OWLObject>>();
 
-    /** @param ontologies
+    /** @param m
      * @param constraintSystem
      * @param runtimeExceptionHandler */
-    public AssertedSolvabilityBasedAxiomQuery(
-            Collection<? extends OWLOntology> ontologies,
+    public AssertedSolvabilityBasedAxiomQuery(OWLOntologyManager m,
             ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         super(runtimeExceptionHandler);
-        this.ontologies.addAll(checkNotNull(ontologies, "ontologies"));
+        manager = m;
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
     }
 
@@ -102,7 +102,7 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
             solutions.addAll(solvabilityBasedMatching(newStart.getAxiom(),
                     newStart.getBinding()));
         } else {
-            for (OWLOntology ontology : ontologies) {
+            for (OWLOntology ontology : manager.getOntologies()) {
                 for (OWLAxiom targetAxiom : filterAxioms(axiom, ontology.getAxioms())) {
                     if (axiom.getAxiomType().equals(targetAxiom.getAxiomType())) {
                         solutions.addAll(matchTargetAxiom(newStart, targetAxiom));
@@ -163,6 +163,7 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
         instantiations.clear();
     }
 
+    /** @return instantiations */
     public Map<BindingNode, Set<OWLAxiom>> getInstantiations() {
         return new HashMap<BindingNode, Set<OWLAxiom>>(instantiations);
     }
@@ -170,10 +171,6 @@ public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
     /** @return the constraintSystem */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
-    }
-
-    public Set<OWLOntology> getOntologies() {
-        return new HashSet<OWLOntology>(ontologies);
     }
 
     private Collection<? extends OWLAxiom> filterAxioms(OWLAxiom toMatchAxiom,

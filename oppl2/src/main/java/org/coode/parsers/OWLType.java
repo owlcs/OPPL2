@@ -13,7 +13,68 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 /** @author Luigi Iannone */
 public enum OWLType implements Type {
-    OWL_CLASS, OWL_DATA_FACET, OWL_DATA_TYPE_RESTRICTION, OWL_DATA_ALL_RESTRICTION, OWL_DATA_PROPERTY, OWL_OBJECT_PROPERTY, OWL_OBJECT_INVERSE_PROPERTY, OWL_INDIVIDUAL, OWL_DATA_TYPE, OWL_PROPERTY_CHAIN, OWL_CONSTANT, OWL_DATA_EXACT_CARDINALITY_RESTRICTION, OWL_DATA_MAX_CARDINALITY_RESTRICTION, OWL_DATA_MIN_CARDINALITY_RESTRICTION, OWL_DATA_SOME_RESTRICTION, OWL_DATA_VALUE_RESTRICTION, OWL_OBJECT_ALL_RESTRICTION, OWL_OBJECT_COMPLEMENT_OF, OWL_OBJECT_EXACT_CARDINALITY_RESTRICTION, OWL_OBJECT_INTERSECTION_OF, OWL_OBJECT_MAX_CARDINALITY_RESTRICTION, OWL_OBJECT_MIN_CARDINALITY_RESTRICTION, OWL_OBJECT_ONE_OF, OWL_OBJECT_SELF_RESTRICTION, OWL_OBJECT_SOME_RESTRICTION, OWL_OBJECT_UNION_OF, OWL_OBJECT_VALUE_RESTRICTION, OWL_ANNOTATION_PROPERTY, OWL_DATA_INTERSECTION_OF, OWL_DATA_UNION_OF, IRI;
+    /** OWL_CLASS */
+    OWL_CLASS,
+    /** OWL_DATA_FACET */
+    OWL_DATA_FACET,
+    /** OWL_DATA_TYPE_RESTRICTION */
+    OWL_DATA_TYPE_RESTRICTION,
+    /** OWL_DATA_ALL_RESTRICTION */
+    OWL_DATA_ALL_RESTRICTION,
+    /** OWL_DATA_PROPERTY */
+    OWL_DATA_PROPERTY,
+    /** OWL_OBJECT_PROPERTY */
+    OWL_OBJECT_PROPERTY,
+    /** OWL_OBJECT_INVERSE_PROPERTY */
+    OWL_OBJECT_INVERSE_PROPERTY,
+    /** OWL_INDIVIDUAL */
+    OWL_INDIVIDUAL,
+    /** OWL_DATA_TYPE */
+    OWL_DATA_TYPE,
+    /** OWL_PROPERTY_CHAIN */
+    OWL_PROPERTY_CHAIN,
+    /** OWL_CONSTANT */
+    OWL_CONSTANT,
+    /** OWL_DATA_EXACT_CARDINALITY_RESTRICTION */
+    OWL_DATA_EXACT_CARDINALITY_RESTRICTION,
+    /** OWL_DATA_MAX_CARDINALITY_RESTRICTION */
+    OWL_DATA_MAX_CARDINALITY_RESTRICTION,
+    /** OWL_DATA_MIN_CARDINALITY_RESTRICTION */
+    OWL_DATA_MIN_CARDINALITY_RESTRICTION,
+    /** OWL_DATA_SOME_RESTRICTION */
+    OWL_DATA_SOME_RESTRICTION,
+    /** OWL_DATA_VALUE_RESTRICTION */
+    OWL_DATA_VALUE_RESTRICTION,
+    /** OWL_OBJECT_ALL_RESTRICTION */
+    OWL_OBJECT_ALL_RESTRICTION,
+    /** OWL_OBJECT_COMPLEMENT_OF */
+    OWL_OBJECT_COMPLEMENT_OF,
+    /** OWL_OBJECT_EXACT_CARDINALITY_RESTRICTION */
+    OWL_OBJECT_EXACT_CARDINALITY_RESTRICTION,
+    /** OWL_OBJECT_INTERSECTION_OF */
+    OWL_OBJECT_INTERSECTION_OF,
+    /** OWL_OBJECT_MAX_CARDINALITY_RESTRICTION */
+    OWL_OBJECT_MAX_CARDINALITY_RESTRICTION,
+    /** OWL_OBJECT_MIN_CARDINALITY_RESTRICTION */
+    OWL_OBJECT_MIN_CARDINALITY_RESTRICTION,
+    /** OWL_OBJECT_ONE_OF */
+    OWL_OBJECT_ONE_OF,
+    /** OWL_OBJECT_SELF_RESTRICTION */
+    OWL_OBJECT_SELF_RESTRICTION,
+    /** OWL_OBJECT_SOME_RESTRICTION */
+    OWL_OBJECT_SOME_RESTRICTION,
+    /** OWL_OBJECT_UNION_OF */
+    OWL_OBJECT_UNION_OF,
+    /** OWL_OBJECT_VALUE_RESTRICTION */
+    OWL_OBJECT_VALUE_RESTRICTION,
+    /** OWL_ANNOTATION_PROPERTY */
+    OWL_ANNOTATION_PROPERTY,
+    /** OWL_DATA_INTERSECTION_OF */
+    OWL_DATA_INTERSECTION_OF,
+    /** OWL_DATA_UNION_OF */
+    OWL_DATA_UNION_OF,
+    /** IRI */
+    IRI;
     private static EnumSet<OWLType> getClassDescriptionTypes() {
         return EnumSet.of(OWL_CLASS, OWL_DATA_ALL_RESTRICTION,
                 OWL_DATA_EXACT_CARDINALITY_RESTRICTION,
@@ -27,6 +88,8 @@ public enum OWLType implements Type {
                 OWL_OBJECT_UNION_OF, OWL_OBJECT_VALUE_RESTRICTION);
     }
 
+    /** @param t
+     * @return true if matched */
     public boolean match(Type t) {
         return this == t;
     }
@@ -36,26 +99,29 @@ public enum OWLType implements Type {
                 OWL_DATA_UNION_OF);
     }
 
+    /** @param type
+     * @return true if class expression */
     public static boolean isClassExpression(Type type) {
         return getClassDescriptionTypes().contains(type);
     }
 
-    private static EnumSet<OWLType> getObjectPropertyDescriptionTypes() {
-        return EnumSet.of(OWL_OBJECT_PROPERTY, OWL_OBJECT_INVERSE_PROPERTY);
-    }
-
+    /** @param type
+     * @return true if datatype expression */
     public static boolean isDataTypeExpression(Type type) {
         return getDataRestrictionTypes().contains(type);
     }
 
+    /** @param type
+     * @return true if object property expression */
     public static boolean isObjectPropertyExpression(Type type) {
-        return getObjectPropertyDescriptionTypes().contains(type);
+        return type == OWL_OBJECT_PROPERTY || type == OWL_OBJECT_INVERSE_PROPERTY;
     }
 
+    /** @param type
+     * @return true if property */
     public static boolean isPropertyExpression(Type type) {
-        EnumSet<OWLType> proertyDescriptionTypes = getObjectPropertyDescriptionTypes();
-        proertyDescriptionTypes.add(OWL_DATA_PROPERTY);
-        return proertyDescriptionTypes.contains(type);
+        return type == OWL_OBJECT_PROPERTY || type == OWL_OBJECT_INVERSE_PROPERTY
+                || type == OWL_DATA_PROPERTY;
     }
 
     @Override
@@ -68,6 +134,8 @@ public enum OWLType implements Type {
         return visitor.visitOWLType(this);
     }
 
+    /** @param entity
+     * @return owl type */
     public static OWLType get(OWLEntity entity) {
         return entity.accept(new OWLEntityVisitorEx<OWLType>() {
             @Override

@@ -130,7 +130,7 @@ public final class OWLPrimitiveSelector {
      * visiting either an OWLEntity or an OWLConstant.
      * 
      * @return an {@link OWLObjectVisitorEx} returning {@code true} if visiting
-     *         either an {@link OWLEntity} or an {@link OWLConstant} */
+     *         either an {@link OWLEntity} or a literal */
     public static OWLObjectVisitorEx<Boolean> getAllPrimitiveSelector() {
         return allPrimitiveSelector;
     }
@@ -163,10 +163,10 @@ public final class OWLPrimitiveSelector {
     }
 
     /** Retrieves an {@link OWLObjectVisitorEx} returning {@code true} if
-     * visiting an {@link OWLAnnotationproperty}.
+     * visiting a OWLAnnotationproperty.
      * 
      * @return an {@link OWLObjectVisitorEx} returning {@code true} if visiting
-     *         an {@link OWLAnnotationproperty}. */
+     *         a OWLAnnotationproperty. */
     public static OWLObjectVisitorEx<Boolean> getAllOWLAnnotationPropertySelector() {
         return allOWLAnnotationPropertySelector;
     }
@@ -190,10 +190,10 @@ public final class OWLPrimitiveSelector {
     }
 
     /** Retrieves an {@link OWLObjectVisitorEx} returning {@code true} if
-     * visiting an {@link OWLConstant}.
+     * visiting a literal.
      * 
      * @return an {@link OWLObjectVisitorEx} returning {@code true} if visiting
-     *         an {@link OWLConstant}. */
+     *         a literal. */
     public static OWLObjectVisitorEx<Boolean> getAllOWLConstantSelector() {
         return allOWLConstantSelector;
     }

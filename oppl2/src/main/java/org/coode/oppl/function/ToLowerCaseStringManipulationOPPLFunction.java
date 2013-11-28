@@ -4,9 +4,10 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
+/** @author Luigi Iannone */
 public class ToLowerCaseStringManipulationOPPLFunction extends
         StringManipulationOPPLFunction {
-    /** @param argument */
+    /** @param arg */
     public ToLowerCaseStringManipulationOPPLFunction(OPPLFunction<String> arg) {
         super(arg);
     }

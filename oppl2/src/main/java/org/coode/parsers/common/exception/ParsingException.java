@@ -6,7 +6,9 @@ public class ParsingException extends RuntimeException {
     private final int charPositionInLine;
     private final int line;
 
-    /** @param message
+    /** @param line
+     * @param charPositionInLine
+     * @param message
      * @param cause */
     public ParsingException(int line, int charPositionInLine, String message,
             Throwable cause) {
@@ -15,14 +17,18 @@ public class ParsingException extends RuntimeException {
         this.line = line;
     }
 
-    /** @param message */
+    /** @param message
+     * @param line
+     * @param charPositionInLine */
     public ParsingException(String message, int line, int charPositionInLine) {
         super(message);
         this.charPositionInLine = charPositionInLine;
         this.line = line;
     }
 
-    /** @param cause */
+    /** @param line
+     * @param charPositionInLine
+     * @param cause */
     public ParsingException(int line, int charPositionInLine, Throwable cause) {
         super(cause);
         this.charPositionInLine = charPositionInLine;

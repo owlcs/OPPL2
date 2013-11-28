@@ -31,5 +31,6 @@ package org.coode.parsers.ui;
  * Date: Mar 14, 2008<br>
  * <br> */
 public interface InputVerificationStatusChangedListener {
+    /** @param newState */
     void verifiedStatusChanged(boolean newState);
 }

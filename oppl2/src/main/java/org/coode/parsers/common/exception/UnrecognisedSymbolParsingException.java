@@ -1,10 +1,11 @@
 package org.coode.parsers.common.exception;
 
+/** @author Luigi Iannone */
 public class UnrecognisedSymbolParsingException extends ParsingException {
     private static final long serialVersionUID = 20100L;
     private final String symbol;
 
-    /** @param message
+    /** @param tokenText
      * @param line
      * @param charPositionInLine */
     public UnrecognisedSymbolParsingException(String tokenText, int line,

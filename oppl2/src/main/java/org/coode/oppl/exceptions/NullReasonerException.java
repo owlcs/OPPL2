@@ -23,6 +23,7 @@
 package org.coode.oppl.exceptions;
 
 /** @author Luigi Iannone */
+@SuppressWarnings("javadoc")
 public class NullReasonerException extends OPPLException {
     private static final long serialVersionUID = 20100L;
 

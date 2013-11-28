@@ -122,16 +122,19 @@ public class BindingNode implements Renderable {
         this.unassignedVariables.addAll(unassignedVariables);
     }
 
+    /** @param assignments */
     public BindingNode(Assignment... assignments) {
         for (Assignment a : assignments) {
             this.assignments.add(a);
         }
     }
 
+    /** @param unassignedVariables */
     public BindingNode(Collection<? extends Variable<?>> unassignedVariables) {
         this.unassignedVariables.addAll(unassignedVariables);
     }
 
+    /** @param assignment */
     public BindingNode(Assignment assignment) {
         assignments.add(assignment);
     }
@@ -201,6 +204,7 @@ public class BindingNode implements Renderable {
         return variable.accept(new AssignmentFinder(parameters, this));
     }
 
+    /** @param assignment */
     public void addAssignment(final Assignment assignment) {
         assignment.getAssignedVariable().accept(new VariableVisitor() {
             @Override
@@ -221,6 +225,7 @@ public class BindingNode implements Renderable {
         });
     }
 
+    /** @return assigned variables */
     public Set<Variable<?>> getAssignedVariables() {
         Set<Variable<?>> toReturn = new HashSet<Variable<?>>();
         for (Assignment assignment : assignments) {
@@ -229,6 +234,8 @@ public class BindingNode implements Renderable {
         return toReturn;
     }
 
+    /** @param v
+     * @return true if v is an assigned variable */
     public boolean containsAssignedVariable(Variable<?> v) {
         for (Assignment assignment : assignments) {
             if (assignment.getAssignedVariable().equals(v)) {
@@ -243,6 +250,7 @@ public class BindingNode implements Renderable {
         return new ArrayList<Assignment>(assignments);
     }
 
+    /** @return unassigned variables */
     public Set<Variable<?>> getUnassignedVariables() {
         return new LinkedHashSet<Variable<?>>(unassignedVariables);
     }
@@ -260,10 +268,12 @@ public class BindingNode implements Renderable {
         return assignments.isEmpty() && unassignedVariables.isEmpty();
     }
 
+    /** @return empty binding node */
     public static BindingNode getEmptyBindingNode() {
         return BindingNode.EMPTY_BINDING_NODE;
     }
 
+    /** @return new binding node */
     public static BindingNode createNewEmptyBindingNode() {
         return new BindingNode();
     }

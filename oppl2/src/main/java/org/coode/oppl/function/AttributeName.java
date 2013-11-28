@@ -1,5 +1,13 @@
 package org.coode.oppl.function;
 
+/** @author Luigi Iannone */
 public enum AttributeName {
-    GROUPS, RENDERING, VALUES, IRI
+    /** groups */
+    GROUPS,
+    /** rendering */
+    RENDERING,
+    /** values */
+    VALUES,
+    /** iri */
+    IRI
 }

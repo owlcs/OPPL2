@@ -67,8 +67,7 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
                 : getConstraintSystem().getLeaves().size();
         Logging.getQueryLogger().log("Initial size: ", initialSize);
         AxiomQuery query = new AssertedSolvabilityBasedAxiomQuery(getConstraintSystem()
-                .getOntologyManager().getOntologies(), getConstraintSystem(),
-                runtimeExceptionHandler);
+                .getOntologyManager(), getConstraintSystem(), runtimeExceptionHandler);
         ax.accept(query);
         toReturn.addAll(query.getLeaves());
         return toReturn;

@@ -38,12 +38,14 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /** @author Luigi Iannone */
 public interface OPPLAbstractFactory {
+    /** @return ontology */
     OWLOntology getOntology();
 
     /** @return the OWLEntityChecker used by the factory */
     OWLEntityChecker getOWLEntityChecker();
 
     /** @return the VariableScopeChecker used by the factory
+     * @throws OPPLException
      * @throws NullReasonerException
      *             if no reasoner is available for checking the scope */
     VariableScopeChecker getVariableScopeChecker() throws OPPLException;
@@ -71,7 +73,8 @@ public interface OPPLAbstractFactory {
                     List<Variable<?>> variables, OPPLQuery opplQuery,
                     List<OWLAxiomChange> actions);
 
-    /** @return a new blank OPPLQuery instance */
+    /** @param constraintSystem
+     * @return a new blank OPPLQuery instance */
     OPPLQuery buildNewQuery(ConstraintSystem constraintSystem);
 
     /** Creates a fresh instance of ConstraintSystem

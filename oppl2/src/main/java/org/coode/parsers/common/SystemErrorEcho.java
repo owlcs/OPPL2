@@ -7,6 +7,7 @@ import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Type;
 
+/** @author Luigi Iannone */
 public final class SystemErrorEcho implements ErrorListener {
     @Override
     public void unrecognisedSymbol(CommonTree t) {

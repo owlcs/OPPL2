@@ -39,7 +39,8 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
  * set of primitive object properties or data properties that are
  * super-properties of a given property
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ * @param <P> */
 public class SuperPropertyVariableScope<P extends OWLPropertyExpression<?, ?>> extends
         PropertyVariableScope<P> {
     SuperPropertyVariableScope(P property, VariableScopeChecker checker) {

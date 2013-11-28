@@ -11,6 +11,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 
 /** @author Luigi Iannone */
 public class VariableRecogniser {
+    /** input recognizer */
     public static VariableRecogniser INPUT_VARIABLE_RECOGNISER = new VariableRecogniser(
             new AbstractVariableVisitorExAdapter<Boolean>(false) {
                 @Override
@@ -18,6 +19,7 @@ public class VariableRecogniser {
                     return true;
                 }
             });
+    /** generated recognizer */
     public static VariableRecogniser GENERATED_VARIABLE_RECOGNISER = new VariableRecogniser(
             new AbstractVariableVisitorExAdapter<Boolean>(false) {
                 @Override
@@ -25,6 +27,7 @@ public class VariableRecogniser {
                     return true;
                 }
             });
+    /** regexp recognizer */
     public static VariableRecogniser REGEXP_VARIABLE_RECOGNISER = new VariableRecogniser(
             new AbstractVariableVisitorExAdapter<Boolean>(false) {
                 @Override
@@ -45,6 +48,8 @@ public class VariableRecogniser {
         this.recogniser = checkNotNull(recogniser, "recogniser");
     }
 
+    /** @param v
+     * @return true if recognised */
     public boolean recognise(Variable<?> v) {
         return v.accept(getRecogniser());
     }

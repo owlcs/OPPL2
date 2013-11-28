@@ -95,6 +95,7 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
         instantiations.clear();
     }
 
+    /** @return instantiations */
     public Map<BindingNode, Set<OWLAxiom>> getInstantiations() {
         return new HashMap<BindingNode, Set<OWLAxiom>>(instantiations);
     }

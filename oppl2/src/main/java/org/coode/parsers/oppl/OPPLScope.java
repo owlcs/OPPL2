@@ -16,6 +16,9 @@ import org.coode.parsers.Type;
 public class OPPLScope implements Scope {
     private final OWLEntityCheckerScope owlEntityCheckerScope;
 
+    /** @param owlEntityChecker
+     * @param entityFinder
+     * @param owlEntityRenderer */
     public OPPLScope(DisposableOWLEntityChecker owlEntityChecker,
             EntityFinder entityFinder, OWLEntityRenderer owlEntityRenderer) {
         checkNotNull(owlEntityChecker, "owlEntityChecker");

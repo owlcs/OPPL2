@@ -13,14 +13,18 @@ import org.semanticweb.owlapi.model.OWLException;
 public class OWLEntityCreationException extends OWLException {
     private static final long serialVersionUID = 20100L;
 
+    /** @param s */
     public OWLEntityCreationException(String s) {
         super(s);
     }
 
+    /** @param s
+     * @param throwable */
     public OWLEntityCreationException(String s, Throwable throwable) {
         super(s, throwable);
     }
 
+    /** @param throwable */
     public OWLEntityCreationException(Throwable throwable) {
         super(throwable);
     }

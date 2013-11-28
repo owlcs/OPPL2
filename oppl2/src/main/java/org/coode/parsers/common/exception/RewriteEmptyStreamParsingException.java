@@ -4,8 +4,7 @@ package org.coode.parsers.common.exception;
 public class RewriteEmptyStreamParsingException extends ParsingException {
     private static final long serialVersionUID = 20100L;
 
-    /** @param message
-     * @param line
+    /** @param line
      * @param charPositionInLine */
     public RewriteEmptyStreamParsingException(int line, int charPositionInLine) {
         super(String.format(

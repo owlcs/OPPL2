@@ -22,6 +22,8 @@ public final class OWLEntityRendererAutoCompletionMatcher implements
     private final EntityFinder entityFinder;
     private final OWLEntityRenderer entityRenderer;
 
+    /** @param entityRenderer
+     * @param manager */
     public OWLEntityRendererAutoCompletionMatcher(OWLEntityRenderer entityRenderer,
             OWLOntologyManager manager) {
         this.entityRenderer = checkNotNull(entityRenderer, "entityRenderer");

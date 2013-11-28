@@ -4,7 +4,8 @@ import org.coode.oppl.ConstraintSystem;
 import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone */
+/** @author Luigi Iannone
+ * @param <O> */
 public class Constant<O> extends AbstractOPPLFunction<O> implements OPPLFunction<O> {
     private final O value;
     private final ValueComputation<O> valueComputation = new ValueComputation<O>() {
@@ -19,6 +20,7 @@ public class Constant<O> extends AbstractOPPLFunction<O> implements OPPLFunction
         this.value = value;
     }
 
+    /** @return value */
     public O getValue() {
         return this.value;
     }

@@ -7,6 +7,7 @@ import org.coode.oppl.ExecutionMonitor;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 
+/** @author Luigi Iannone */
 public interface QueryPlannerItem {
     /** Matches this planner items
      * 

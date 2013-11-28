@@ -9,7 +9,11 @@ import java.util.List;
 
 import org.semanticweb.owlapi.model.OWLObject;
 
+/** @author Luigi Iannone */
 public class OWLObjectFinder {
+    /** @param key
+     * @param container
+     * @return list of lists of positions */
     public static List<List<Integer>> findAll(OWLObject key, OWLObject container) {
         checkNotNull(key, "key");
         checkNotNull(container, "container");

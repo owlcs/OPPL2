@@ -7,10 +7,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/** @author Luigi Iannone
+ * @param <O> */
 public class Pair<O> {
     protected final O o1;
     protected final O o2;
 
+    /** @param anOWLObject
+     * @param anotherOWLObject */
     public Pair(O anOWLObject, O anotherOWLObject) {
         this.o1 = checkNotNull(anOWLObject, "anOWLObject");
         this.o2 = checkNotNull(anotherOWLObject, "anotherOWLObject");
@@ -20,6 +24,7 @@ public class Pair<O> {
         }
     }
 
+    /** @return members */
     public Set<O> getMembers() {
         return new HashSet<O>(Arrays.asList(o1, o2));
     }
@@ -48,6 +53,8 @@ public class Pair<O> {
                 && o2.equals(other.o1);
     }
 
+    /** @param c
+     * @return all pairs */
     public static <T> Set<Pair<T>> getAllPossiblePairs(Collection<? extends T> c) {
         Set<Pair<T>> toReturn = new HashSet<Pair<T>>();
         for (T t : c) {

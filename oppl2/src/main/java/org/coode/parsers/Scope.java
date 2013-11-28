@@ -2,6 +2,7 @@ package org.coode.parsers;
 
 import java.util.Set;
 
+/** @author Luigi Iannone */
 public interface Scope {
     /** Retrieves the name of the scope
      * 

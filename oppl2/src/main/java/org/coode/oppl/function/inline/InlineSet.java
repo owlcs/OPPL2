@@ -96,6 +96,7 @@ public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunctio
         }));
     }
 
+    /** @return aggregandums */
     public Set<Aggregandum<Collection<? extends O>>> getAggregandums() {
         return new HashSet<Aggregandum<Collection<? extends O>>>(this.aggregandums);
     }
@@ -152,6 +153,12 @@ public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunctio
         return out.toString();
     }
 
+    /** @param dataFactory
+     * @param constraintSystem
+     * @param variableType
+     * @param components
+     * @param objects
+     * @return inline set */
     public static <P extends OWLObject> InlineSet<P> buildInlineSet(
             OWLDataFactory dataFactory, ConstraintSystem constraintSystem,
             VariableType<P> variableType, Collection<? extends InlineSet<P>> components,

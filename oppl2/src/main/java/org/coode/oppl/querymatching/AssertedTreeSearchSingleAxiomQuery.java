@@ -137,6 +137,7 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
         instantiations.clear();
     }
 
+    /** @return instantiations */
     public Map<BindingNode, Set<OWLAxiom>> getInstantiations() {
         return new HashMap<BindingNode, Set<OWLAxiom>>(instantiations);
     }
@@ -144,10 +145,6 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
     /** @return the constraintSystem */
     public ConstraintSystem getConstraintSystem() {
         return constraintSystem;
-    }
-
-    public Set<OWLOntology> getOntologies() {
-        return new HashSet<OWLOntology>(ontologies);
     }
 
     private Collection<? extends OWLAxiom> filterAxioms(OWLAxiom toMatchAxiom,

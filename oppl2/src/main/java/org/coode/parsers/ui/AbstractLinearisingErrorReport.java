@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/** @author Luigi Iannone */
 public abstract class AbstractLinearisingErrorReport implements ErrorReport {
     @Override
     public int getLinearisedPosition(String text) {

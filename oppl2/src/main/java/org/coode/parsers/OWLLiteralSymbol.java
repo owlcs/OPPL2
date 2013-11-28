@@ -4,6 +4,7 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
 import org.semanticweb.owlapi.model.OWLLiteral;
 
+/** @author Luigi Iannone */
 public class OWLLiteralSymbol extends Symbol {
     private final OWLLiteral owlConstant;
 

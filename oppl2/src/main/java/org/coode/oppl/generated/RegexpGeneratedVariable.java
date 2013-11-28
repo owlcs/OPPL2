@@ -14,12 +14,17 @@ import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
+/** @author Luigi Iannone
+ * @param <O> */
 public class RegexpGeneratedVariable<O extends OWLObject> implements Variable<O> {
     private final OPPLFunction<Pattern> patternGeneratingOPPLFunction;
     private final String name;
     private final VariableType<O> type;
     private final IRI iri;
 
+    /** @param name
+     * @param type
+     * @param patternGeneratingOPPLFunction */
     public RegexpGeneratedVariable(String name, VariableType<O> type,
             OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
         this.name = checkNotNull(name, "name");

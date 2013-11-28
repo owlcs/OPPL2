@@ -10,10 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+/** @author Luigi Iannone */
 public class ProgressPanel extends JPanel {
-    
     private static final long serialVersionUID = 20100L;
 
+    /** init gui only */
     public ProgressPanel() {
         initGUI();
     }
@@ -28,6 +29,7 @@ public class ProgressPanel extends JPanel {
                         0), 0, 0));
     }
 
+    /** @param args */
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.getContentPane().setLayout(new BorderLayout());

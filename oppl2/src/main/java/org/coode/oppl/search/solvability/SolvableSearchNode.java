@@ -16,8 +16,10 @@ public class SolvableSearchNode extends SolvabilitySearchNode {
     private final Set<OWLObject> values = new HashSet<OWLObject>();
     private final Variable<?> variable;
 
-    /** @param axiom
-     * @param bindingNode */
+    /** @param variable
+     * @param axiom
+     * @param bindingNode
+     * @param values */
     public SolvableSearchNode(Variable<?> variable, OWLAxiom axiom,
             BindingNode bindingNode, Collection<? extends OWLObject> values) {
         super(axiom, bindingNode);

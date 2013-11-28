@@ -15,9 +15,11 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
+/** @author Luigi Iannone */
 public class DATAPROPERTYVariableType extends
         AbstractVariableType<OWLDataPropertyExpression> implements
         VariableType<OWLDataPropertyExpression> {
+    /** @param name */
     public DATAPROPERTYVariableType(VariableTypeName name) {
         super(name, EnumSet.of(Direction.SUBPROPERTYOF, Direction.SUPERPROPERTYOF));
     }

@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import org.coode.oppl.Variable;
 
+/** @author Luigi Iannone */
 public class NameBasedVariableComparator implements Comparator<Variable<?>> {
     private final static NameBasedVariableComparator INSTANCE = new NameBasedVariableComparator();
 

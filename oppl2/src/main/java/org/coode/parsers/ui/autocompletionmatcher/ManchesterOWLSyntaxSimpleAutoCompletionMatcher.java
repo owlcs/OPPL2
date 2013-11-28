@@ -13,6 +13,8 @@ public class ManchesterOWLSyntaxSimpleAutoCompletionMatcher implements
         AutoCompletionMatcher {
     private final AutoCompletionMatcher delegate;
 
+    /** @param entityRenderer
+     * @param ontologyManager */
     public ManchesterOWLSyntaxSimpleAutoCompletionMatcher(
             OWLEntityRenderer entityRenderer, OWLOntologyManager ontologyManager) {
         checkNotNull(entityRenderer, "entityRenderer");
@@ -27,6 +29,7 @@ public class ManchesterOWLSyntaxSimpleAutoCompletionMatcher implements
         return delegate.getMatches(checkNotNull(string2Complete, "string2Complete"));
     }
 
+    /** @return keywords */
     public static List<String> getKeywords() {
         return Arrays.asList("sameAs", "disjointWith", "only", "subPropertyOf", "max",
                 "types", "inverseOf", "not", "and", "subClassOf", "differentFrom",

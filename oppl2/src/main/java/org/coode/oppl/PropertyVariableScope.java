@@ -31,7 +31,8 @@ import org.semanticweb.owlapi.model.OWLPropertyExpression;
  * {@link GeneratedVariable} instance with OBJECTPROpERTY or DATAPROPERTY
  * {@link VariableType}
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ * @param <P> */
 public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?>>
         extends AbstractVariableScope<P> implements VariableScope<P> {
     private final P property;

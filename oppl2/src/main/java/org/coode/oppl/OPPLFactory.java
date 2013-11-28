@@ -50,12 +50,13 @@ public class OPPLFactory implements OPPLAbstractFactory {
     private final OWLReasoner reasoner;
     private final OWLOntology ontology;
     private OWLEntityChecker entityChecker = null;
+    /** ontology iri */
     public static final IRI DEFAULT_ONTOLOGY_IRI = IRI
             .create("http://www.coode.org/oppl");
 
     /** @param ontologyManager
-     * @param constraintSystem
-     * @param dataFactory */
+     * @param ontology
+     * @param reasoner */
     public OPPLFactory(OWLOntologyManager ontologyManager, OWLOntology ontology,
             OWLReasoner reasoner) {
         this.ontologyManager = ontologyManager;

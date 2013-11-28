@@ -31,5 +31,6 @@ import org.semanticweb.owlapi.model.OWLAxiomVisitor;
  * 
  * @author Luigi Iannone */
 public interface AxiomQuery extends OWLAxiomVisitor {
+    /** @return leaves */
     Set<BindingNode> getLeaves();
 }

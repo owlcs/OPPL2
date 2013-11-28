@@ -7,6 +7,7 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 
+/** @author Luigi Iannone */
 public interface QuerySolver {
     /** Retrieves all the named classes that are a sub-classes of the input
      * OWLClassExpression. The implementation decides whether and how much

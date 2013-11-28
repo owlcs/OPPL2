@@ -9,9 +9,11 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.utils.VariableExtractor;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
+/** @author Luigi Iannone */
 public final class InferredSolvabilitySearchTree extends
         AbstractSolvabilityOPPLOWLAxiomSearchTree {
-    /** @param constraintSystem */
+    /** @param constraintSystem
+     * @param runtimeExceptionHandler */
     public InferredSolvabilitySearchTree(ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         super(constraintSystem, runtimeExceptionHandler);

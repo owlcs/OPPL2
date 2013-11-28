@@ -3,7 +3,8 @@ package org.coode.oppl.similarity;
 /** A generic metric to asses the similarity between two objects of the same
  * kind.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ * @param <O> */
 public interface SimilarityMeasure<O> {
     /** @return {@code true} if {@code compare(A,B) == compare (B,A)} */
     boolean isSymmetric();

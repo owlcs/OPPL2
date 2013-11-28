@@ -31,7 +31,9 @@ package org.coode.parsers.ui;
  * Date: Mar 14, 2008<br>
  * <br> */
 public interface VerifiedInputEditor {
+    /** @param listener */
     void addStatusChangedListener(InputVerificationStatusChangedListener listener);
 
+    /** @param listener */
     void removeStatusChangedListener(InputVerificationStatusChangedListener listener);
 }

@@ -8,10 +8,15 @@ public class RecognitionParsingException extends ParsingException {
     private static final long serialVersionUID = 20100L;
     private final Set<String> symbols = new HashSet<String>();
 
+    /** @param line
+     * @param charPositionInLine */
     public RecognitionParsingException(int line, int charPositionInLine) {
         this(line, charPositionInLine, (String[]) null);
     }
 
+    /** @param line
+     * @param charPositionInLine
+     * @param symbols */
     public RecognitionParsingException(int line, int charPositionInLine,
             String... symbols) {
         super(String.format("Recognition exception at line %d char position in line %d",

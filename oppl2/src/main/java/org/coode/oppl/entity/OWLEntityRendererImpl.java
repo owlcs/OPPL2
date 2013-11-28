@@ -2,6 +2,7 @@ package org.coode.oppl.entity;
 
 import org.semanticweb.owlapi.model.OWLEntity;
 
+/** @author Luigi Iannone */
 public class OWLEntityRendererImpl implements OWLEntityRenderer {
     @Override
     public String render(OWLEntity entity) {

@@ -14,26 +14,33 @@ import org.semanticweb.owlapi.model.OWLOntologyChange;
  * <p/>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br>
- * <br> */
+ * <br>
+ * 
+ * @param <E> */
 public class OWLEntityCreationSet<E extends OWLEntity> {
     private final E owlEntity;
     private final List<OWLOntologyChange> changes;
 
+    /** @param owlEntity
+     * @param changes */
     public OWLEntityCreationSet(E owlEntity, List<? extends OWLOntologyChange> changes) {
         this.owlEntity = owlEntity;
         this.changes = new ArrayList<OWLOntologyChange>(changes);
     }
 
+    /** @param owlEntity */
     public OWLEntityCreationSet(E owlEntity) {
         this.owlEntity = owlEntity;
         this.changes = new ArrayList<OWLOntologyChange>();
         // changes.add(new AddEntity(ontology, owlEntity, null));
     }
 
+    /** @return entity */
     public E getOWLEntity() {
         return this.owlEntity;
     }
 
+    /** @return changes */
     public List<? extends OWLOntologyChange> getOntologyChanges() {
         return this.changes;
     }

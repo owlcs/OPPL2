@@ -39,10 +39,13 @@ public class TokenFileSorter {
         writer.close();
     }
 
+    /** @throws FileNotFoundException */
     public void save() throws FileNotFoundException {
         write(getPath());
     }
 
+    /** @param outputPath
+     * @throws FileNotFoundException */
     public void save(String outputPath) throws FileNotFoundException {
         write(outputPath);
     }
@@ -144,6 +147,7 @@ public class TokenFileSorter {
         }
     }
 
+    /** @param args */
     public static void main(String[] args) {
         if (args.length >= 1) {
             String tokenFileName = args[0];

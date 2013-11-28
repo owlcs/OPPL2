@@ -10,7 +10,8 @@ public class OPPLOWLAxiomSearchNode {
     private final BindingNode binding;
     private final OWLAxiom axiom;
 
-    /** @param axiom */
+    /** @param axiom
+     * @param bindingNode */
     public OPPLOWLAxiomSearchNode(OWLAxiom axiom, BindingNode bindingNode) {
         this.axiom = checkNotNull(axiom, "axiom");
         binding = checkNotNull(bindingNode, "bindingNode");

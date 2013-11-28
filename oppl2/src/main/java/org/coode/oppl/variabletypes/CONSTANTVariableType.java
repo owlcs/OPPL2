@@ -16,6 +16,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
+/** @author Luigi Iannone */
 public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral> implements
         VariableType<OWLLiteral> {
     /** @param name */

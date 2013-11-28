@@ -188,6 +188,9 @@ public class ConstraintSystem {
         }
     }
 
+    /**
+     * 
+     */
     public static final String VARIABLE_NAME_INVALID_CHARACTERS_REGEXP = "[[^\\?]&&[^\\p{Alnum}]&&[^-_]]";
     protected final VariableSet variables = new VariableSet();
     private final OWLOntology ontology;

@@ -27,6 +27,7 @@ public class BidirectionalShortFormProviderAdapter extends
     protected Set<OWLOntology> ontologies;
     private OWLOntologyManager man;
 
+    /** @param shortFormProvider */
     public BidirectionalShortFormProviderAdapter(ShortFormProvider shortFormProvider) {
         this.shortFormProvider = shortFormProvider;
     }

@@ -23,6 +23,7 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectVisitor;
 import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 
+/** @author Luigi Iannone */
 public class VariableIRI extends IRI {
     private static final long serialVersionUID = 20100L;
     private final IRIVariableAttribute attribute;
@@ -32,6 +33,7 @@ public class VariableIRI extends IRI {
         return attribute;
     }
 
+    /** @param variable */
     public VariableIRI(Variable<?> variable) {
         super(String.format("%s.%s", variable.getName(), AttributeName.IRI));
         attribute = new IRIVariableAttribute(variable);
@@ -91,6 +93,7 @@ public class VariableIRI extends IRI {
         }
     }
 
+    /** @param visitor */
     public void accept(IRIVisitor visitor) {
         visitor.visitVariableIRI(this);
     }
@@ -101,6 +104,8 @@ public class VariableIRI extends IRI {
                 .visitVariableIRI(this) : visitor.visit(this);
     }
 
+    /** @param visitor
+     * @return visitor value */
     public <O> O accept(IRIVisitorEx<O> visitor) {
         return visitor.visitVariableIRI(this);
     }

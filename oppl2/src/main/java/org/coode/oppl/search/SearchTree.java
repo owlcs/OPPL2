@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-/** @author Luigi Iannone */
+/** @author Luigi Iannone
+ * @param <N> */
 public abstract class SearchTree<N> {
     protected boolean depthFirstSearch(N start, Stack<N> result) {
         if (result.contains(start)) {
@@ -51,6 +52,9 @@ public abstract class SearchTree<N> {
         return found;
     }
 
+    /** @param start
+     * @param solutions
+     * @return true if found */
     public boolean exhaustiveSearchTree(N start, List<List<N>> solutions) {
         solutions.clear();
         return this.exhaustiveDepthFirstSearch(start, new Stack<N>(), solutions);

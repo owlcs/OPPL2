@@ -48,6 +48,7 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 /** @author Luigi Iannone */
+// XXX unused
 public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
     private final ConstraintSystem constraintSystem;
     private final Set<OWLOntology> ontologies = new HashSet<OWLOntology>();
@@ -100,6 +101,7 @@ public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
         instantiations.clear();
     }
 
+    /** @return instantiations */
     public Map<BindingNode, Set<OWLAxiom>> getInstantiations() {
         return new HashMap<BindingNode, Set<OWLAxiom>>(instantiations);
     }
@@ -109,6 +111,7 @@ public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
         return constraintSystem;
     }
 
+    /** @return ontologies */
     public Set<OWLOntology> getOntologies() {
         return new HashSet<OWLOntology>(ontologies);
     }

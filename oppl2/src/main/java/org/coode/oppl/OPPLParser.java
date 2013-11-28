@@ -168,6 +168,10 @@ public class OPPLParser implements AbstractOPPLParser {
         return opplFactory;
     }
 
+    /** @param input
+     * @param symbolTable
+     * @param constraintSystem
+     * @return abstract constraint */
     public AbstractConstraint parseConstraint(String input, OPPLSymbolTable symbolTable,
             ConstraintSystem constraintSystem) {
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
@@ -213,6 +217,11 @@ public class OPPLParser implements AbstractOPPLParser {
         }
     }
 
+    /** @param input
+     * @param variable
+     * @param symbolTable
+     * @param constraintSystem
+     * @return variable */
     public Variable<?> parseOPPLFunction(String input, Variable<?> variable,
             OPPLSymbolTable symbolTable, ConstraintSystem constraintSystem) {
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
@@ -265,6 +274,11 @@ public class OPPLParser implements AbstractOPPLParser {
         }
     }
 
+    /** @param input
+     * @param variable
+     * @param symbolTable
+     * @param constraintSystem
+     * @return variable */
     public Variable<?> parseRegExp(String input, Variable<?> variable,
             OPPLSymbolTable symbolTable, ConstraintSystem constraintSystem) {
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
@@ -313,7 +327,11 @@ public class OPPLParser implements AbstractOPPLParser {
         }
     }
 
-    /** @see org.coode.oppl.AbstractOPPLParser#parse(java.lang.String) */
+    /** @param input
+     * @param symbolTable
+     * @param constraintSystem
+     * @return axiom
+     * @see org.coode.oppl.AbstractOPPLParser#parse(java.lang.String) */
     public OWLAxiom parseAxiom(String input, OPPLSymbolTable symbolTable,
             ConstraintSystem constraintSystem) {
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
@@ -364,6 +382,8 @@ public class OPPLParser implements AbstractOPPLParser {
         }
     }
 
+    /** @param input
+     * @return literal */
     public OWLLiteral parsePlainConstant(String input) {
         OPPLSymbolTable symbolTable = getSymbolTableFactory().createSymbolTable();
         symbolTable.setErrorListener(getListener());

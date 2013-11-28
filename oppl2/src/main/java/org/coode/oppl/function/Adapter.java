@@ -29,11 +29,16 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
+/** @author Luigi Iannone */
 public class Adapter {
+    /** @param value
+     * @return oppl function */
     public static <O> OPPLFunction<O> buildObjectAdater(O value) {
         return new Constant<O>(checkNotNull(value, "value"));
     }
 
+    /** @param collection
+     * @return aggregandum set */
     public static <O extends OWLObject> Set<Aggregandum<Collection<? extends O>>>
             buildOWLObjectCollectionAdapter(Collection<? extends O> collection) {
         Set<Aggregandum<Collection<? extends O>>> toReturn = new HashSet<Aggregandum<Collection<? extends O>>>();
@@ -43,6 +48,8 @@ public class Adapter {
         return toReturn;
     }
 
+    /** @param singleton
+     * @return aggregandum */
     public static <I> Aggregandum<I> buildSingletonAggregandum(
             final OPPLFunction<I> singleton) {
         checkNotNull(singleton, "singleton");
@@ -69,6 +76,8 @@ public class Adapter {
         };
     }
 
+    /** @param singleton
+     * @return aggregandum of collection */
     public static <I> Aggregandum<Collection<? extends I>> buildAggregandumOfCollection(
             I singleton) {
         checkNotNull(singleton, "singleton");
@@ -124,6 +133,8 @@ public class Adapter {
         };
     }
 
+    /** @param collection
+     * @return aggregandum of collection */
     public static <I> Aggregandum<I> buildAggregandumCollection(
             final Collection<? extends OPPLFunction<I>> collection) {
         return new Aggregandum<I>() {
@@ -149,6 +160,8 @@ public class Adapter {
         };
     }
 
+    /** @param stringOPPLFunction
+     * @return oppl function */
     public static OPPLFunction<Pattern> buildRegexpPatternAdapter(
             final OPPLFunction<String> stringOPPLFunction) {
         return new OPPLFunction<Pattern>() {

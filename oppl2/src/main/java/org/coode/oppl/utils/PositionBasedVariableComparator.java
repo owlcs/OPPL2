@@ -17,11 +17,13 @@ import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
 
+/** @author Luigi Iannone */
 public class PositionBasedVariableComparator implements Comparator<Variable<?>> {
     private final OWLObject container;
     private final OWLDataFactory dataFactory;
 
-    /** @param container */
+    /** @param container
+     * @param dataFactory */
     public PositionBasedVariableComparator(OWLObject container, OWLDataFactory dataFactory) {
         this.container = checkNotNull(container, "container");
         this.dataFactory = checkNotNull(dataFactory, "dataFactory");

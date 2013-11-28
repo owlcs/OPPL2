@@ -39,7 +39,8 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
  * set of primitive object properties or data properties that are sub-properties
  * of a given property
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ * @param <P> */
 public class SubPropertyVariableScope<P extends OWLPropertyExpression<?, ?>> extends
         PropertyVariableScope<P> {
     SubPropertyVariableScope(P property, VariableScopeChecker checker) {

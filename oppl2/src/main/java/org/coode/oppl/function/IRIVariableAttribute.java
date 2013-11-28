@@ -16,8 +16,7 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /** @author Luigi Iannone */
 public class IRIVariableAttribute extends VariableAttribute<IRI> {
-    /** @param variable
-     * @param attribute */
+    /** @param variable */
     public IRIVariableAttribute(Variable<?> variable) {
         super(variable, AttributeName.IRI);
     }
@@ -80,6 +79,12 @@ public class IRIVariableAttribute extends VariableAttribute<IRI> {
         };
     }
 
+    /** @param v
+     * @param owlObject
+     * @param constraintSystem
+     * @param handler
+     * @return oppl function */
+    @SuppressWarnings("unused")
     public OPPLFunction<IRI> replace(Variable<?> v, OWLObject owlObject,
             ConstraintSystem constraintSystem, RuntimeExceptionHandler handler) {
         return this;

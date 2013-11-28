@@ -39,6 +39,7 @@ public class LeafBrusher implements BindingVisitor {
     private final Set<BindingNode> leaves = new HashSet<BindingNode>();
     private final Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
 
+    /** @param bindings */
     public LeafBrusher(Map<Variable<?>, Set<OWLObject>> bindings) {
         this.bindings.putAll(checkNotNull(bindings, "bindings"));
     }

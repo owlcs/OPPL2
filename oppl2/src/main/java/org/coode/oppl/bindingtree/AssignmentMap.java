@@ -131,6 +131,8 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
         return new HashSet<BindingNode>(bindingNodes);
     }
 
+    /** @param anotherAssignmentMap
+     * @return true if disjoint */
     public boolean isDisjointWith(AssignmentMap anotherAssignmentMap) {
         checkNotNull(anotherAssignmentMap, "anotherAssignmentMap");
         boolean found = false;
@@ -146,6 +148,8 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
         return !found;
     }
 
+    /** @param assignmentMaps
+     * @return true if disjoint */
     public static boolean areDisjoint(Collection<? extends AssignmentMap> assignmentMaps) {
         checkNotNull(assignmentMaps, "assignmentMaps");
         if (assignmentMaps.isEmpty()) {

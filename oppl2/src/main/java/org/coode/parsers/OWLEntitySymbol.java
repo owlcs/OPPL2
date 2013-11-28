@@ -9,7 +9,7 @@ public class OWLEntitySymbol extends Symbol {
     private final OWLEntity entity;
 
     /** @param name
-     * @param type */
+     * @param entity */
     public OWLEntitySymbol(String name, OWLEntity entity) {
         super(name, OWLType.get(entity));
         this.entity = checkNotNull(entity, "entity");

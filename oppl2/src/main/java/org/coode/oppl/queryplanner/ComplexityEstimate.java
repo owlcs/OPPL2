@@ -39,6 +39,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.util.OWLObjectVisitorAdapter;
 
+/** @author Luigi Iannone */
 public class ComplexityEstimate implements QueryPlannerVisitorEx<Float> {
     private final VariableExtractor variableExtractor;
     private final RuntimeExceptionHandler runtimeExceptionHandler;

@@ -13,10 +13,13 @@ import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
+/** @author Luigi Iannone */
 public final class ConstantCollector extends OWLAxiomVisitorAdapter {
     private final Set<OWLLiteral> toReturn;
     private final OWLClassExpressionVisitor constantExtractor;
 
+    /** @param toReturn
+     * @param constantExtractor */
     public ConstantCollector(Set<OWLLiteral> toReturn,
             OWLClassExpressionVisitor constantExtractor) {
         this.toReturn = toReturn;

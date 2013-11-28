@@ -90,6 +90,7 @@ import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.model.SWRLSameIndividualAtom;
 import org.semanticweb.owlapi.model.SWRLVariable;
 
+/** @author Luigi Iannone */
 public abstract class AbstractVariableDetector implements OWLObjectVisitorEx<Boolean> {
     protected ConstraintSystem constraintSystem;
 

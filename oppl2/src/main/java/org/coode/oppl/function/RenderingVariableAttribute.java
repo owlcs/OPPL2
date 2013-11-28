@@ -5,9 +5,9 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 
+/** @author Luigi Iannone */
 public class RenderingVariableAttribute extends VariableAttribute<String> {
-    /** @param variable
-     * @param attribute */
+    /** @param variable */
     public RenderingVariableAttribute(Variable<?> variable) {
         super(variable, AttributeName.RENDERING);
     }

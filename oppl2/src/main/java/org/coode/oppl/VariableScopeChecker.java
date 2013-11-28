@@ -42,7 +42,8 @@ public class VariableScopeChecker {
     private final OWLReasoner reasoner;
 
     /** @param ontologyManager
-     * @param reasoner */
+     * @param reasoner
+     * @throws OPPLException */
     public VariableScopeChecker(OWLOntologyManager ontologyManager, OWLReasoner reasoner)
             throws OPPLException {
         if (reasoner == null) {

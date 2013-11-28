@@ -25,9 +25,11 @@ import org.semanticweb.owlapi.model.OWLObjectUnionOf;
 import org.semanticweb.owlapi.model.OWLQuantifiedRestriction;
 import org.semanticweb.owlapi.util.OWLObjectVisitorAdapter;
 
+/** @author Luigi Iannone */
 public class ConstantExtractor extends OWLObjectVisitorAdapter {
     private final Set<OWLLiteral> toReturn;
 
+    /** @param toReturn */
     public ConstantExtractor(Set<OWLLiteral> toReturn) {
         this.toReturn = toReturn;
     }

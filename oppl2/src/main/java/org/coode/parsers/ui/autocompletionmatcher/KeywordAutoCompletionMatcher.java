@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 public final class KeywordAutoCompletionMatcher implements AutoCompletionMatcher {
     private final Set<String> keywords = new HashSet<String>();
 
+    /** @param keywords */
     public KeywordAutoCompletionMatcher(Collection<? extends String> keywords) {
         this.keywords.addAll(checkNotNull(keywords, "keywords"));
     }

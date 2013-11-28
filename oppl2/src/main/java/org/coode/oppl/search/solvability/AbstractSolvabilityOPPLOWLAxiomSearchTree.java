@@ -59,6 +59,7 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 import org.semanticweb.owlapi.util.OWLObjectVisitorAdapter;
 
+/** @author Luigi Iannone */
 public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
         SearchTree<SolvabilitySearchNode> {
     /** test */
@@ -461,6 +462,9 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
 
     protected abstract AxiomSolvability getAxiomSolvability();
 
+    /** @param axiom
+     * @param bindingNode
+     * @return solvability search node */
     public SolvabilitySearchNode buildSolvabilitySearchNode(OWLAxiom axiom,
             BindingNode bindingNode) {
         return SolvabilitySearchNode.buildSolvabilitySearchNode(axiom,

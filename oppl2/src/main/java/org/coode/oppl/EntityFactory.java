@@ -19,9 +19,11 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 
+/** @author Luigi Iannone */
 public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
     private final OPPLAbstractFactory factory;
 
+    /** @param f */
     public EntityFactory(OPPLAbstractFactory f) {
         factory = f;
     }

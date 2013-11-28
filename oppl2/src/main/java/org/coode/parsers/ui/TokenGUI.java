@@ -18,6 +18,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.coode.parsers.utils.TokenFileSorter;
 
+/** @author Luigi Iannone */
 public class TokenGUI extends JFrame {
     private final TableCellRenderer tableCellRenderer = new TableCellRenderer() {
         @Override

@@ -55,6 +55,7 @@ import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 
+/** @author ignazio */
 @SuppressWarnings("incomplete-switch")
 public class OPPLSymbolTable extends SymbolTable {
     // XXX this hack is due to the impossibility of relating P and O to R and S
@@ -156,6 +157,9 @@ public class OPPLSymbolTable extends SymbolTable {
         this.storeSymbol(checkNotNull(token, "token"), checkNotNull(symbol, "symbol"));
     }
 
+    /** @param identifier
+     * @param variableType
+     * @param constraintSystem */
     public void defineVariable(ManchesterOWLSyntaxTree identifier,
             ManchesterOWLSyntaxTree variableType, ConstraintSystem constraintSystem) {
         VariableTypes type = VariableTypes.getVariableType(variableType.getText());
@@ -175,6 +179,9 @@ public class OPPLSymbolTable extends SymbolTable {
         }
     }
 
+    /** @param parentExpression
+     * @param classExpression
+     * @return type */
     public Type getClassVariableScopeType(ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree classExpression) {
         Type toReturn = null;
@@ -187,6 +194,9 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
+    /** @param parentExpression
+     * @param propertyExpression
+     * @return type */
     public Type getPropertyVariableScopeType(ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree propertyExpression) {
         Type toReturn = null;
@@ -199,6 +209,9 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
+    /** @param parentExpression
+     * @param individualExpression
+     * @return type */
     public Type getIndividualVariableScopeType(ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree individualExpression) {
         Type toReturn = null;
@@ -211,6 +224,10 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
+    /** @param parentExpression
+     * @param variableType
+     * @param expression
+     * @return type */
     public Type getExpressionGeneratedVariableType(
             ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree variableType, ManchesterOWLSyntaxTree expression) {
@@ -229,11 +246,17 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
+    /** @param variableType
+     * @return variable type */
     public VariableType<?> getVariableType(ManchesterOWLSyntaxTree variableType) {
         return VariableTypes.getVariableType(variableType.getText())
                 .getOPPLVariableType();
     }
 
+    /** @param variableSyntaxTree
+     * @param indexNode
+     * @param constraintSystem
+     * @return oppl function */
     public <O extends OWLObject> OPPLFunction<String>
             defineGroupAttributeReferenceSymbol(final OPPLSyntaxTree variableSyntaxTree,
                     ManchesterOWLSyntaxTree indexNode, ConstraintSystem constraintSystem) {
@@ -288,6 +311,9 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
+    /** @param variableSyntaxTree
+     * @param constraintSystem
+     * @return variable attribute */
     public VariableAttribute<String> defineRenderingAttributeReferenceSymbol(
             OPPLSyntaxTree variableSyntaxTree, ConstraintSystem constraintSystem) {
         VariableAttribute<String> toReturn = null;
@@ -303,6 +329,9 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
+    /** @param variableSyntaxTree
+     * @param constraintSystem
+     * @return variable attribute */
     public VariableAttribute<?> defineValuesAttributeReferenceSymbol(
             OPPLSyntaxTree variableSyntaxTree, ConstraintSystem constraintSystem) {
         VariableAttribute<?> toReturn = null;
@@ -321,6 +350,11 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
+    /** @param parentExpression
+     * @param variableIdentifier
+     * @param expression
+     * @param constraintSystem
+     * @return inequality constraint */
     public InequalityConstraint getInequalityConstraint(OPPLSyntaxTree parentExpression,
             OPPLSyntaxTree variableIdentifier, OPPLSyntaxTree expression,
             ConstraintSystem constraintSystem) {
@@ -354,7 +388,7 @@ public class OPPLSymbolTable extends SymbolTable {
 
     /** @param variableType
      * @param expressionType
-     * @return */
+     * @return true if compatible */
     private boolean checkCompatibleTypes(final Type variableType,
             final Type expressionType) {
         return variableType.accept(new DefaultTypeVistorEx<Boolean>() {
@@ -408,6 +442,11 @@ public class OPPLSymbolTable extends SymbolTable {
         });
     }
 
+    /** @param parentExpression
+     * @param v
+     * @param constraintSystem
+     * @param elements
+     * @return in collection constraint */
     public InCollectionConstraint<OWLObject> getInSetConstraint(
             OPPLSyntaxTree parentExpression, OPPLSyntaxTree v,
             ConstraintSystem constraintSystem, OPPLSyntaxTree... elements) {
@@ -460,6 +499,9 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
+    /** @param identifier
+     * @param constraintSystem
+     * @return variable */
     public Variable<?> getVariable(OPPLSyntaxTree identifier,
             ConstraintSystem constraintSystem) {
         Symbol variableSymbol = resolve(identifier);
@@ -496,6 +538,8 @@ public class OPPLSymbolTable extends SymbolTable {
         this.storeSymbol(variable.getName(), symbol);
     }
 
+    /** @param variableAttributeSyntaxTree
+     * @return variable attribute */
     public VariableAttribute<String> getStringVariableAttribute(
             final OPPLSyntaxTree variableAttributeSyntaxTree) {
         Symbol symbol = retrieveSymbol(variableAttributeSyntaxTree.getText());
@@ -573,6 +617,9 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
+    /** @param type
+     * @param attributeSyntaxTree
+     * @return collection variable */
     public <P extends OWLObject, O extends VariableAttribute<Collection<? extends P>>>
             CollectionVariableAttributeSymbol<P, O> getCollectionVariableAttributeSymbol(
                     final VariableType<?> type, final OPPLSyntaxTree attributeSyntaxTree) {
@@ -698,6 +745,11 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
+    /** @param variableType
+     * @param aggregandums
+     * @param aggregandumsTrees
+     * @param parentExpression
+     * @return aggregandum */
     @SuppressWarnings("unchecked")
     public <O extends OWLObject>
             Collection<? extends Aggregandum<Collection<? extends O>>>
@@ -725,6 +777,10 @@ public class OPPLSymbolTable extends SymbolTable {
         return allFine ? toReturn : null;
     }
 
+    /** @param aggregandums
+     * @param aggregandumsTrees
+     * @param parentExpression
+     * @return aggregandum collection type */
     public VariableType<?> getAggregandumCollectionType(
             Collection<? extends Aggregandum<?>> aggregandums,
             List<OPPLSyntaxTree> aggregandumsTrees, OPPLSyntaxTree parentExpression) {
@@ -763,6 +819,11 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
+    /** @param opplSyntaxTree
+     * @param list
+     * @param tokenList
+     * @param constraintSystem
+     * @return different individual axiom */
     public OWLAxiom getDifferentIndividualsAxiom(OPPLSyntaxTree opplSyntaxTree,
             List<Aggregandum<?>> list, List<OPPLSyntaxTree> tokenList,
             ConstraintSystem constraintSystem) {
@@ -787,6 +848,11 @@ public class OPPLSymbolTable extends SymbolTable {
         return toReturn;
     }
 
+    /** @param opplSyntaxTree
+     * @param list
+     * @param tokenList
+     * @param constraintSystem
+     * @return same individual axiom */
     public OWLAxiom getSameIndividualAxiom(OPPLSyntaxTree opplSyntaxTree,
             List<Aggregandum<?>> list, List<OPPLSyntaxTree> tokenList,
             ConstraintSystem constraintSystem) {

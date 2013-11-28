@@ -8,11 +8,17 @@ package org.coode.parsers.ui;
  * <p/>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br>
- * <br> */
+ * <br>
+ * 
+ * @param <O> */
 public interface ExpressionChecker<O> {
+    /** @param text */
     void check(String text);
 
+    /** @param text
+     * @return create object */
     O createObject(String text);
 
+    /** @return error report */
     ErrorReport getErrorReport();
 }

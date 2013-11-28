@@ -26,6 +26,8 @@ public class PrimeNumbersUtils {
         return primes.subList(0, n);
     }
 
+    /** @param upperBound
+     * @return list of primes */
     public static List<Integer> runEratosthenesSieve(int upperBound) {
         int upperBoundSquareRoot = (int) Math.sqrt(upperBound);
         List<Integer> toReturn = new ArrayList<Integer>(upperBound / 2);
@@ -45,6 +47,8 @@ public class PrimeNumbersUtils {
         return toReturn;
     }
 
+    /** @param n
+     * @return next prime from n */
     public static int getNextPrime(int n) {
         int toReturn = n + 1;
         boolean found = isPrime(toReturn);
@@ -55,6 +59,8 @@ public class PrimeNumbersUtils {
         return toReturn;
     }
 
+    /** @param n
+     * @return true if prime */
     public static boolean isPrime(int n) {
         // int dividersUpperbound = (int) Math.sqrt(n);
         // boolean found = false;
@@ -99,6 +105,8 @@ public class PrimeNumbersUtils {
         return (int) result; // Will not truncate since modulus is an int
     }
 
+    /** @param n
+     * @return true if prime */
     public static boolean millerRabin32(int n) {
         if (n <= 1) {
             return false;

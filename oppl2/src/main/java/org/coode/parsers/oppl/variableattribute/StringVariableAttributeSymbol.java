@@ -10,10 +10,10 @@ import org.coode.parsers.oppl.OPPLSymbolVisitor;
 import org.coode.parsers.oppl.OPPLSymbolVisitorEx;
 import org.semanticweb.owlapi.model.OWLObject;
 
+/** @author Luigi Iannone */
 public abstract class StringVariableAttributeSymbol extends
         VariableAttributeSymbol<VariableAttribute<String>> {
     /** @param name
-     * @param type
      * @param variableAttribute */
     public StringVariableAttributeSymbol(String name,
             VariableAttribute<String> variableAttribute) {
@@ -30,11 +30,16 @@ public abstract class StringVariableAttributeSymbol extends
         return visitor.visitStringVariableAttributeSymbol(this);
     }
 
+    /** @param v
+     * @return string attribute symbol */
     public static StringVariableAttributeSymbol getRendering(Variable<?> v) {
         return new StringVariableAttributeSymbol(String.format("%s.%s", v.getName(),
                 AttributeName.RENDERING), new RenderingVariableAttribute(v)) {};
     }
 
+    /** @param v
+     * @param index
+     * @return string variable attribte symbol */
     public static <O extends OWLObject> StringVariableAttributeSymbol getGroup(
             RegexpGeneratedVariable<O> v, final int index) {
         return new StringVariableAttributeSymbol(String.format("%s.%s(%d)", v.getName(),

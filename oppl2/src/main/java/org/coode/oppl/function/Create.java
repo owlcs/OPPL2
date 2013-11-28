@@ -19,6 +19,9 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
+/** @author Luigi Iannone
+ * @param <I>
+ * @param <O> */
 public abstract class Create<I extends OPPLFunction<?>, O> extends
         AbstractOPPLFunction<O> implements OPPLFunction<O> {
     @Override
@@ -38,6 +41,8 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends
         this.input = checkNotNull(input, "input");
     }
 
+    /** @param variableType
+     * @return true if variableType is compatible */
     public abstract boolean isCompatible(VariableType<?> variableType);
 
     /** @return the input */
@@ -55,6 +60,8 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends
         return String.format("create(%s)", this.getInput().render(shortFormProvider));
     }
 
+    /** @param t
+     * @return Create with owl class */
     public static <T extends OPPLFunction<? extends String>> Create<T, OWLClass>
             createOWLClass(final T t) {
         return new CreateOWLEntity<T, OWLClass>(t) {
@@ -81,6 +88,8 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends
         };
     }
 
+    /** @param t
+     * @return Create with object property */
     public static <T extends OPPLFunction<? extends String>> Create<T, OWLObjectProperty>
             createOWLObjectProperty(final T t) {
         return new CreateOWLEntity<T, OWLObjectProperty>(t) {
@@ -108,6 +117,8 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends
         };
     }
 
+    /** @param t
+     * @return Create with data property */
     public static <T extends OPPLFunction<? extends String>> Create<T, OWLDataProperty>
             createOWLDataProperty(final T t) {
         return new CreateOWLEntity<T, OWLDataProperty>(t) {
@@ -134,6 +145,8 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends
         };
     }
 
+    /** @param t
+     * @return Create with named individual */
     public static <T extends OPPLFunction<? extends String>>
             Create<T, OWLNamedIndividual> createOWLNamedIndividual(final T t) {
         return new CreateOWLEntity<T, OWLNamedIndividual>(t) {
@@ -160,6 +173,8 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends
         };
     }
 
+    /** @param value
+     * @return create with literal */
     public static OPPLFunction<OWLLiteral> createOWLLiteral(OPPLFunction<String> value) {
         return new Create<OPPLFunction<String>, OWLLiteral>(value) {
             @Override
@@ -183,6 +198,8 @@ public abstract class Create<I extends OPPLFunction<?>, O> extends
         };
     }
 
+    /** @param t
+     * @return create with annotation property */
     public static <T extends OPPLFunction<? extends String>>
             Create<T, OWLAnnotationProperty> createOWLAnnotationProperty(final T t) {
         return new CreateOWLEntity<T, OWLAnnotationProperty>(t) {

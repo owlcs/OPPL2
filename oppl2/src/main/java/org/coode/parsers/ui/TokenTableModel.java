@@ -19,13 +19,18 @@ import javax.swing.table.TableModel;
 import org.antlr.runtime.Token;
 import org.coode.parsers.utils.TokenFileSorter;
 
+/** @author Luigi Iannone */
 public class TokenTableModel implements TableModel {
+    /**
+     * 
+     */
     public static final String TOKEN_NAME = "TOKEN NAME";
     private final Set<TokenFileSorter> tokenFileSorters = new HashSet<TokenFileSorter>();
     private final List<String> anomalies = new ArrayList<String>();
     private final DefaultTableModel delegate;
     private int maxUsedTokenIndex = 0;
 
+    /** @param tokenFileSorters */
     public TokenTableModel(Collection<? extends TokenFileSorter> tokenFileSorters) {
         this.tokenFileSorters.addAll(checkNotNull(tokenFileSorters, "tokenFileSorters"));
         delegate = new DefaultTableModel();
@@ -130,6 +135,7 @@ public class TokenTableModel implements TableModel {
         return maxUsedTokenIndex;
     }
 
+    /** @return min index */
     public int getMinUnusedTokenIndex() {
         List<Integer> unused = new ArrayList<Integer>();
         for (int i = 4; i < getMaxUsedTokenIndex(); i++) {

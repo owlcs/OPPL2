@@ -41,7 +41,6 @@ import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLHasValueRestriction;
-import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
@@ -91,7 +90,8 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /** Extracts from an OWLObject a particular kind of OWLObject component.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ * @param <O> */
 public final class OWLObjectExtractor<O extends OWLObject> extends
         OWLObjectVisitorExAdapter<Set<O>> implements OWLObjectVisitorEx<Set<O>> {
     private final OWLObjectVisitorEx<Boolean> selector;
@@ -189,10 +189,6 @@ public final class OWLObjectExtractor<O extends OWLObject> extends
         toReturn.addAll(axiom.getProperty().accept(this));
         toReturn.addAll(axiom.getDomain().accept(this));
         return toReturn;
-    }
-
-    public Set<O> visit(OWLImportsDeclaration axiom) {
-        return Collections.emptySet();
     }
 
     @Override

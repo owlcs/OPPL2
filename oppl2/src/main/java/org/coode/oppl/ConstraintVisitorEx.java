@@ -24,7 +24,8 @@ package org.coode.oppl;
 
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/** @author Luigi Iannone
+ * @param <O> */
 public interface ConstraintVisitorEx<O extends Object> {
     /** Visitor pattern required method
      * 

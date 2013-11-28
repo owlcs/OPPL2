@@ -1,5 +1,6 @@
 package org.coode.oppl;
 
+/** @author Luigi Iannone */
 public interface AbstractOPPLParser {
     /** Parses a valid OPPL string into an OPPL Script
      * 

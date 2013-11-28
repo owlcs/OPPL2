@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/** @author Luigi Iannone */
 public class TokenSync {
     private class TokenMap {
         private final String path;
@@ -170,6 +171,9 @@ public class TokenSync {
     private final List<TokenMap> toSync = new ArrayList<TokenMap>();
     private boolean synced = false;
 
+    /** @param referencePath
+     * @param toSync
+     * @param others */
     public TokenSync(String referencePath, String toSync, String... others) {
         checkNotNull(referencePath, "referencePath");
         checkNotNull(toSync, "toSync");
@@ -180,6 +184,7 @@ public class TokenSync {
         }
     }
 
+    /** sync */
     public void sync() {
         if (!synced) {
             for (TokenMap tokenMap : toSync) {
@@ -189,10 +194,13 @@ public class TokenSync {
         }
     }
 
+    /** @throws FileNotFoundException */
     public void save() throws FileNotFoundException {
         this.save(false);
     }
 
+    /** @param forceSync
+     * @throws FileNotFoundException */
     public void save(boolean forceSync) throws FileNotFoundException {
         if (forceSync) {
             sync();
@@ -203,6 +211,7 @@ public class TokenSync {
         }
     }
 
+    /** @param args */
     public static void main(String[] args) {
         if (args.length >= 2) {
             String referenceTokenFileName = args[0];

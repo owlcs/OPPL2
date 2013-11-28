@@ -8,9 +8,12 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
  * 
  * @author Luigi Iannone */
 public interface RuntimeExceptionHandler {
+    /** @param e */
     void handleOWLRuntimeException(OWLRuntimeException e);
 
+    /** @param e */
     void handlePatternSyntaxExcpetion(PatternSyntaxException e);
 
+    /** @param e */
     void handleException(RuntimeException e);
 }

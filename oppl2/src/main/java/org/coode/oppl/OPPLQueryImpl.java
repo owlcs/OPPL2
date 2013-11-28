@@ -69,6 +69,8 @@ public class OPPLQueryImpl implements OPPLQuery {
     };
     private final OPPLAbstractFactory factory;
 
+    /** @param query
+     * @param factory */
     public OPPLQueryImpl(OPPLQuery query, OPPLAbstractFactory factory) {
         this(query.getConstraintSystem(), factory);
         for (OWLAxiom assertedAxiom : query.getAssertedAxioms()) {

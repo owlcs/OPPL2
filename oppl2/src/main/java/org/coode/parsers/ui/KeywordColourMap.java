@@ -12,9 +12,11 @@ import java.util.HashMap;
  * Date: Sep 23, 2008<br>
  * <br> */
 public class KeywordColourMap extends HashMap<String, Color> {
-    
     private static final long serialVersionUID = 20100L;
 
+    /**
+     * 
+     */
     public KeywordColourMap() {
         Color restrictionColor = new Color(178, 0, 178);
         Color logicalOpColor = new Color(0, 178, 178);

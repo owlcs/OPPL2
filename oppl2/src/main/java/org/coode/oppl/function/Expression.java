@@ -8,6 +8,8 @@ import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
+/** @author Luigi Iannone
+ * @param <O> */
 public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> implements
         OPPLFunction<O> {
     private final O expression;

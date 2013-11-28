@@ -15,6 +15,7 @@ import java.util.Set;
 public final class MultipleAutoCompletionMatcher implements AutoCompletionMatcher {
     private final Set<AutoCompletionMatcher> matchers = new HashSet<AutoCompletionMatcher>();
 
+    /** @param matchers */
     public MultipleAutoCompletionMatcher(
             Collection<? extends AutoCompletionMatcher> matchers) {
         this.matchers.addAll(checkNotNull(matchers, "matchers"));

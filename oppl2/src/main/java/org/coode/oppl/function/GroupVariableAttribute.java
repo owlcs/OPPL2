@@ -10,6 +10,8 @@ import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
+/** @author Luigi Iannone
+ * @param <O> */
 public class GroupVariableAttribute<O extends OWLObject> extends
         VariableAttribute<String> {
     protected final int index;
@@ -92,11 +94,20 @@ public class GroupVariableAttribute<O extends OWLObject> extends
         return this.regexpGeneratedVariable;
     }
 
+    /** @param variable
+     * @param index
+     * @return group variable attribute */
     public static <P extends OWLObject> GroupVariableAttribute<P>
             getGroupVariableAttribute(RegexpGeneratedVariable<P> variable, int index) {
         return new GroupVariableAttribute<P>(variable, index);
     }
 
+    /** @param v
+     * @param owlObject
+     * @param constraintSystem
+     * @param handler
+     * @return oppl function */
+    @SuppressWarnings("unused")
     public OPPLFunction<String> replace(Variable<?> v, OWLObject owlObject,
             ConstraintSystem constraintSystem, RuntimeExceptionHandler handler) {
         return this;

@@ -59,11 +59,16 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
         };
     }
 
+    /** @param a
+     * @return string concatenation aggregation */
     public static Aggregation<String, String> buildStringConcatenation(
             Collection<? extends Aggregandum<String>> a) {
         return new StringConcatAggregation(a);
     }
 
+    /** @param a
+     * @param dataFactory
+     * @return class expression intersection aggregation */
     public static
             Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>>
             buildClassExpressionIntersection(
@@ -72,6 +77,9 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
         return new ClassIntersectionAggregation(a, dataFactory);
     }
 
+    /** @param a
+     * @param dataFactory
+     * @return class expression union aggregation */
     public static
             Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>>
             buildClassExpressionUnion(

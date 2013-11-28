@@ -29,8 +29,8 @@ import org.semanticweb.owlapi.model.OWLObject;
 /** Any variable not generated implements this interface; generated variables
  * implement Variable
  * 
- * @see SingleValueGeneratedVariable
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ * @param <O> */
 public interface Variable<O extends OWLObject> extends Renderable {
     /** @return the name of the Variable */
     String getName();

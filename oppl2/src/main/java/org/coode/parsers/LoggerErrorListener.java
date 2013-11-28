@@ -23,7 +23,8 @@ public class LoggerErrorListener implements ErrorListener {
 
     private Level level;
 
-    /** @param logger */
+    /** @param logger
+     * @param level */
     public LoggerErrorListener(Logger logger, Level level) {
         this.logger = checkNotNull(logger, "logger");
         this.level = checkNotNull(level, "level");

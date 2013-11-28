@@ -2,13 +2,16 @@ package org.coode.parsers.common.exception;
 
 import org.coode.parsers.Type;
 
+/** @author Luigi Iannone */
 public class IncompatibleSymbolTypeParsingException extends ParsingException {
     private static final long serialVersionUID = 20100L;
     private final String symbol;
     private final Type type;
     private final String parentExpression;
 
-    /** @param message
+    /** @param tokenText
+     * @param type
+     * @param parentExpression
      * @param line
      * @param charPositionInLine */
     public IncompatibleSymbolTypeParsingException(String tokenText, Type type,

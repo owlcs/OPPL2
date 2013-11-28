@@ -16,11 +16,11 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
+/** @author Luigi Iannone */
 public class OBJECTPROPERTYVariableType extends
         AbstractVariableType<OWLObjectPropertyExpression> implements
         VariableType<OWLObjectPropertyExpression> {
-    /** @param name
-     * @param allowedDirections */
+    /** @param name */
     public OBJECTPROPERTYVariableType(VariableTypeName name) {
         super(name, EnumSet.of(Direction.SUBPROPERTYOF, Direction.SUPERPROPERTYOF));
     }

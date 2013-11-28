@@ -100,14 +100,11 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     private final static EnumMap<OWLConstruct, Integer> constructHashCodes = new EnumMap<OWLConstruct, Integer>(
             OWLConstruct.class);
     private final static Map<Integer, Integer> integerHashCodes = new HashMap<Integer, Integer>();
-    // private static final Map<OWLObject, Integer> owlConstantHashCodes = new
-    // HashMap<OWLObject, Integer>();
-    // private static final Map<OrderedPair<?>, Integer> pairHashCodes = new
-    // HashMap<OrderedPair<?>, Integer>();
-    // private final static Map<List<? extends OWLObject>, Integer>
-    // sequenceHashCodes = new HashMap<List<? extends OWLObject>, Integer>();
     private static int maxPrime = 1;
 
+    /**
+     * 
+     */
     public StructuralHashFunction() {
         super(1);
     }

@@ -16,11 +16,14 @@ import org.coode.oppl.variabletypes.InputVariable;
 import org.coode.oppl.variabletypes.VariableTypeVisitorEx;
 import org.semanticweb.owlapi.model.OWLObject;
 
+/** @author Luigi Iannone */
 public final class AssignableValueExtractor implements
         VariableVisitorEx<Set<? extends OWLObject>> {
     private final VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor;
     private final ValueComputationParameters parameters;
 
+    /** @param assignableValuesVisitor
+     * @param parameters */
     public AssignableValueExtractor(
             VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor,
             ValueComputationParameters parameters) {

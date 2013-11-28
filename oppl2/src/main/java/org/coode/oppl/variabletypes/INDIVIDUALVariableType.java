@@ -19,8 +19,7 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 /** @author Luigi Iannone */
 public class INDIVIDUALVariableType extends AbstractVariableType<OWLIndividual> implements
         VariableType<OWLIndividual> {
-    /** @param name
-     * @param allowedDirections */
+    /** @param name */
     public INDIVIDUALVariableType(VariableTypeName name) {
         super(name, EnumSet.of(Direction.INSTANCEOF));
     }

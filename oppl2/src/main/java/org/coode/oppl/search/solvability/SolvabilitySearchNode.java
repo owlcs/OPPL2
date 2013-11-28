@@ -15,10 +15,17 @@ public abstract class SolvabilitySearchNode extends OPPLOWLAxiomSearchNode {
         super(axiom, bindingNode);
     }
 
+    /** @param visitor */
     public abstract void accept(SolvabilitySearchNodeVisitor visitor);
 
+    /** @param visitor
+     * @return visitor value */
     public abstract <O> O accept(SolvabilitySearchNodeVisitorEx<O> visitor);
 
+    /** @param axiom
+     * @param axiomSolvability
+     * @param bindingNode
+     * @return solvability search node */
     public static SolvabilitySearchNode buildSolvabilitySearchNode(OWLAxiom axiom,
             AxiomSolvability axiomSolvability, BindingNode bindingNode) {
         return axiomSolvability.getSolvabilitySearchNode(axiom, bindingNode);

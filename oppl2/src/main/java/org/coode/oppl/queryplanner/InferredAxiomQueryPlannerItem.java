@@ -22,6 +22,7 @@ import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
+/** @author Luigi Iannone */
 public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
     private final OWLAxiom axiom;
 
@@ -73,8 +74,8 @@ public class InferredAxiomQueryPlannerItem extends AbstractQueryPlannerItem {
         Logging.getQueryLogger().fine("Initial size: ", initialSize);
         AxiomQuery query = getConstraintSystem().getReasoner() == null
                 || !ax.isLogicalAxiom() ? new AssertedSolvabilityBasedAxiomQuery(
-                getConstraintSystem().getOntologyManager().getOntologies(),
-                getConstraintSystem(), runtimeExceptionHandler)
+                getConstraintSystem().getOntologyManager(), getConstraintSystem(),
+                runtimeExceptionHandler)
                 : new InferredSolvabilityBasedTreeSearchAxiomQuery(getConstraintSystem(),
                         runtimeExceptionHandler);
         Logging.getQueryTestLogging().fine("Used engine: ", query.getClass().getName());

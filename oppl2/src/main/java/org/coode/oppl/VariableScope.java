@@ -30,7 +30,8 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
 /** Represents a limitation in the range of values that can be assigned to a
  * {@link GeneratedVariable} instance
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ * @param <O> */
 public interface VariableScope<O extends OWLObject> extends Renderable {
     /** @param owlObject
      * @param checker

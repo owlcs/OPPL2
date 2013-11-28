@@ -12,6 +12,6 @@ public interface AbstractConstraint extends Renderable {
     void accept(ConstraintVisitor visitor);
 
     /** @param shortFormProvider
-     * @return */
+     * @return rendering */
     String render(ShortFormProvider shortFormProvider);
 }
