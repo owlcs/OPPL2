@@ -41,7 +41,7 @@ public class TestAssertedSolvabilityBasedAxiomQuery {
                 dataFactory.getOWLClass(x.getIRI()),
                 dataFactory.getOWLClass(IRI.create("A")));
         AssertedSolvabilityBasedAxiomQuery assertedSolvabilityBasedAxiomQuery = new AssertedSolvabilityBasedAxiomQuery(
-                manager.getOntologies(), constraintSystem, HANDLER);
+                manager, constraintSystem, HANDLER);
         axiom.accept(assertedSolvabilityBasedAxiomQuery);
         constraintSystem.setLeaves(assertedSolvabilityBasedAxiomQuery.getLeaves());
         ConstraintSystem newConstraintSystem = opplFactory.createConstraintSystem();
@@ -75,7 +75,7 @@ public class TestAssertedSolvabilityBasedAxiomQuery {
         newConstraintSystem.importVariable(x);
         newConstraintSystem.importVariable(y);
         AssertedSolvabilityBasedAxiomQuery assertedSolvabilityBasedAxiomQuery = new AssertedSolvabilityBasedAxiomQuery(
-                manager.getOntologies(), constraintSystem, HANDLER);
+                manager, constraintSystem, HANDLER);
         axiom.accept(assertedSolvabilityBasedAxiomQuery);
         constraintSystem.setLeaves(assertedSolvabilityBasedAxiomQuery.getLeaves());
         AssertedTreeSearchSingleAxiomQuery assertedTreeSearchSingleAxiomQuery = new AssertedTreeSearchSingleAxiomQuery(
