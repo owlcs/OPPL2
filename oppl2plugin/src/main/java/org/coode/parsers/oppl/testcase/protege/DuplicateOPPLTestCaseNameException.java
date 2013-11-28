@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.protege;
 
 /** Raiswd when there is two OPPLTestCase instances with the same name stored as
@@ -6,10 +5,11 @@ package org.coode.parsers.oppl.testcase.protege;
  * 
  * @author Luigi Iannone */
 public class DuplicateOPPLTestCaseNameException extends RuntimeException {
-    
     private static final long serialVersionUID = 20100L;
 
-    
+    /**
+     * 
+     */
     public DuplicateOPPLTestCaseNameException() {
         super();
     }

@@ -40,7 +40,8 @@ import org.semanticweb.owlapi.model.OWLException;
 
 /** GUI component that allows to instantiate a generic OPPL Script
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ * @param <P> */
 public abstract class OPPLScriptInstantiationEditor<P extends InstantiatedOPPLScript>
         implements VerifiedInputEditor, InputVerificationStatusChangedListener {
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
@@ -49,6 +50,8 @@ public abstract class OPPLScriptInstantiationEditor<P extends InstantiatedOPPLSc
     protected JPanel mainPane = new JPanel(new BorderLayout());
     protected P instantiatedScript = null;
 
+    /** @param instantiatedOPPLScript
+     * @param owlEditorKit */
     public OPPLScriptInstantiationEditor(P instantiatedOPPLScript,
             OWLEditorKit owlEditorKit) {
         this.instantiatedScript = instantiatedOPPLScript;
@@ -68,7 +71,6 @@ public abstract class OPPLScriptInstantiationEditor<P extends InstantiatedOPPLSc
 
     protected abstract ExpressionEditor<P> getScriptExpressionEditor();
 
-    
     private void removeKeyListeners() {
         KeyListener[] keyListeners = this.editor.getKeyListeners();
         for (KeyListener keyListener : keyListeners) {
@@ -111,25 +113,36 @@ public abstract class OPPLScriptInstantiationEditor<P extends InstantiatedOPPLSc
         this.handleChange();
     }
 
+    /**
+     * 
+     */
     public void handleChange() {
         for (InputVerificationStatusChangedListener listener : this.listeners) {
             this.notifyListener(listener);
         }
     }
 
+    /**
+     * 
+     */
     public void clear() {
         this.mainPane.removeAll();
         this.init();
     }
 
+    /**
+     * 
+     */
     public void dispose() {
         this.editor.removeStatusChangedListener(this);
     }
 
+    /** @return edited oppl script */
     public InstantiatedOPPLScript getEditedObject() {
         return this.instantiatedScript;
     }
 
+    /** @return editor */
     public JComponent getEditorComponent() {
         return this.mainPane;
     }

@@ -4,9 +4,11 @@ import javax.swing.JComponent;
 
 import org.protege.editor.core.ui.util.VerifyingOptionPane;
 
+/** @author Luigi Iannone */
 public final class NoDefaultFocusVerifyingOptionPane extends VerifyingOptionPane {
     private static final long serialVersionUID = 20100L;
 
+    /** @param c */
     public NoDefaultFocusVerifyingOptionPane(JComponent c) {
         super(c);
     }

@@ -43,6 +43,7 @@ import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
+/** @author Luigi Iannone */
 public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationContainer> {
     private final class InstantiateActionListener implements ActionListener {
         private final PatternModel patternModel;

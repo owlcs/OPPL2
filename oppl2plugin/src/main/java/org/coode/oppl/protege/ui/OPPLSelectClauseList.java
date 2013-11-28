@@ -48,6 +48,8 @@ public class OPPLSelectClauseList extends OPPLMList {
     private final OWLEditorKit owlEditorKit;
     private final ConstraintSystem constraintSystem;
 
+    /** @param owlEditorKit
+     * @param constraintSystem */
     public OPPLSelectClauseList(OWLEditorKit owlEditorKit,
             ConstraintSystem constraintSystem) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
@@ -140,6 +142,9 @@ public class OPPLSelectClauseList extends OPPLMList {
         }
     }
 
+    /**
+     * 
+     */
     public void clear() {
         setModel(clearModel());
     }

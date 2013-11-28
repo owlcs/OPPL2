@@ -15,6 +15,7 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 
+/** @author Luigi Iannone */
 public final class ProtegeOWLEntityChecker implements OWLEntityChecker {
     private final OWLEditorKit owlEditorKit;
     private final OWLEntityFinder delegate;
@@ -50,10 +51,13 @@ public final class ProtegeOWLEntityChecker implements OWLEntityChecker {
         return delegate.getOWLDatatype(rendering);
     }
 
+    /** @param rendering
+     * @return entity */
     public OWLEntity getOWLEntity(String rendering) {
         return delegate.getOWLEntity(rendering);
     }
 
+    /** @return renderings */
     public Set<String> getOWLEntityRenderings() {
         return delegate.getOWLEntityRenderings();
     }

@@ -168,6 +168,8 @@ public class ProtegeParserFactory implements AbstractParserFactory, Disposable {
         return parser;
     }
 
+    /** @param owlEditorKit
+     * @return parser factory */
     public static ProtegeParserFactory getInstance(OWLEditorKit owlEditorKit) {
         if (instance == null) {
             instance = new ProtegeParserFactory(
@@ -181,10 +183,12 @@ public class ProtegeParserFactory implements AbstractParserFactory, Disposable {
         return owlEditorKit;
     }
 
+    /** @return entity checker */
     public OWLEntityChecker getOWLEntityChecker() {
         return protegeOWLEntityChecker;
     }
 
+    /** @return entity finder */
     public EntityFinder getEntityFinder() {
         return protegeEntityFinder;
     }
@@ -206,6 +210,9 @@ public class ProtegeParserFactory implements AbstractParserFactory, Disposable {
         reset();
     }
 
+    /**
+     * 
+     */
     public static void reset() {
         instance = null;
     }

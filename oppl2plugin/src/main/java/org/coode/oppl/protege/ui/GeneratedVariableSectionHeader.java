@@ -24,6 +24,7 @@ package org.coode.oppl.protege.ui;
 
 import org.protege.editor.core.ui.list.MListSectionHeader;
 
+/** @author Luigi Iannone */
 public class GeneratedVariableSectionHeader implements MListSectionHeader {
     @Override
     public boolean canAdd() {

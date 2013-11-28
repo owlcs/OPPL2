@@ -182,14 +182,17 @@ public class InstantiationTableModel implements TableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {}
 
+    /** @return leaves */
     public List<BindingNode> getLeaves() {
         return new ArrayList<BindingNode>(leaves);
     }
 
+    /** @return oppl script */
     public OPPLScript getOPPLScript() {
         return opplScript;
     }
 
+    /** @return table model */
     public static TableModel getNoOPPLScriptTableModel() {
         return InstantiationTableModel.NO_OPPL_SCRIPT_TABLE_MODEL;
     }

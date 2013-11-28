@@ -12,6 +12,8 @@ import org.coode.parsers.ui.ErrorReport;
 import org.coode.parsers.ui.ExpressionChecker;
 import org.protege.editor.owl.OWLEditorKit;
 
+/** @author Luigi Iannone
+ * @param <O> */
 public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
     private final class ErrorReportImpl extends AbstractLinearisingErrorReport {
         private final String message;
@@ -20,8 +22,9 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
         private final int length;
 
         /** @param message
+         * @param line
          * @param charPositionInline
-         * @param endIndex */
+         * @param length */
         public ErrorReportImpl(String message, int line, int charPositionInline,
                 int length) {
             this.message = checkNotNull(message, "message");

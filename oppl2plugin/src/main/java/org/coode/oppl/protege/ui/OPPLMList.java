@@ -5,7 +5,9 @@ import javax.swing.ListModel;
 
 import org.protege.editor.core.ui.list.MList;
 
+/** @author Luigi Iannone */
 public class OPPLMList extends MList {
+    /** @return default list model */
     public final DefaultListModel<Object> getDefaultModel() {
         return (DefaultListModel<Object>) getModel();
     }
@@ -15,6 +17,7 @@ public class OPPLMList extends MList {
         super.setModel(model);
     }
 
+    /** @param model */
     public void setDefaultModel(DefaultListModel<Object> model) {
         setModel(model);
     }

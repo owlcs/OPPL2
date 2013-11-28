@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.ui;
 
 import java.awt.BorderLayout;
@@ -26,7 +25,7 @@ public class SummaryPanel extends JPanel {
     private final JLabel errorTestSummary = new JLabel();
     private final Map<OPPLTestCase, List<Report>> reports = new HashMap<OPPLTestCase, List<Report>>();
 
-    
+    /** default constructor */
     public SummaryPanel() {
         initGUI();
         refresh();

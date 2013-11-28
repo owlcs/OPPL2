@@ -1,4 +1,3 @@
-
 package org.coode.oppl.protege.ui;
 
 import java.awt.Toolkit;
@@ -13,10 +12,10 @@ import javax.swing.ImageIcon;
 
 /** @author Luigi Iannone */
 public class CopyAction extends AbstractAction implements ClipboardOwner {
-    
     private static final long serialVersionUID = 20100L;
     private String result;
 
+    /** @param toolTipText */
     public CopyAction(String toolTipText) {
         super("Copy Results", new ImageIcon(CopyAction.class.getClassLoader()
                 .getResource("copy2Cipboard.jpg")));

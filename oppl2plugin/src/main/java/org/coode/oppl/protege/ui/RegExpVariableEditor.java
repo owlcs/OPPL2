@@ -76,6 +76,8 @@ public class RegExpVariableEditor extends
     private final OPPLExpressionChecker<RegexpGeneratedVariable<?>> opplFunctionExpressionChecker;
     private final ExpressionEditor<RegexpGeneratedVariable<?>> opplFunctionEditor;
 
+    /** @param owlEditorKit
+     * @param constraintSystem */
     public RegExpVariableEditor(OWLEditorKit owlEditorKit,
             ConstraintSystem constraintSystem) {
         setLayout(new BorderLayout());

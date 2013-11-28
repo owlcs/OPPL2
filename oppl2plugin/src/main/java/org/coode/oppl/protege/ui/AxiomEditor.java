@@ -47,7 +47,6 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 
 /** @author Luigi Iannone */
 public class AxiomEditor extends JPanel implements VerifiedInputEditor {
-    
     private static final long serialVersionUID = 20100L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private final ExpressionEditor<OWLAxiom> editor;
@@ -118,6 +117,7 @@ public class AxiomEditor extends JPanel implements VerifiedInputEditor {
         }
     }
 
+    /** @return axiom */
     public OWLAxiom getAxiom() {
         return axiom;
     }
@@ -126,6 +126,7 @@ public class AxiomEditor extends JPanel implements VerifiedInputEditor {
         editor.setText("");
     }
 
+    /** @param anOWLAxiom */
     public void setOWLAxiom(OWLAxiom anOWLAxiom) {
         VariableOWLCellRenderer renderer = new VariableOWLCellRenderer(owlEditorKit,
                 constraintSystem, new OWLCellRenderer(owlEditorKit));

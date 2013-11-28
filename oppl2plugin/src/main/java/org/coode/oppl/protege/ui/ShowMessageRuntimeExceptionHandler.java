@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 
+/** @author Luigi Iannone */
 public class ShowMessageRuntimeExceptionHandler implements RuntimeExceptionHandler {
     private final Component parentComponent;
 

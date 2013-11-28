@@ -43,7 +43,6 @@ import org.protege.editor.owl.OWLEditorKit;
 
 /** @author Luigi Iannone */
 public class OPPLConstraintEditor extends JPanel implements VerifiedInputEditor {
-    
     private static final long serialVersionUID = 20100L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private final ExpressionEditor<AbstractConstraint> constraintEditor;
@@ -89,11 +88,14 @@ public class OPPLConstraintEditor extends JPanel implements VerifiedInputEditor 
         listeners.remove(listener);
     }
 
+    /** handle change */
     public void handleChange() {
         boolean isValid = check();
         notifyListeners(isValid);
     }
 
+    /** @param owlEditorKit
+     * @param constraintSystem */
     public OPPLConstraintEditor(OWLEditorKit owlEditorKit,
             ConstraintSystem constraintSystem) {
         setLayout(new BorderLayout());
@@ -136,6 +138,7 @@ public class OPPLConstraintEditor extends JPanel implements VerifiedInputEditor 
         this.add(constraintEditorPanel, BorderLayout.CENTER);
     }
 
+    /** dispose */
     public void dispose() {}
 
     /** @return the owlEditorKit */

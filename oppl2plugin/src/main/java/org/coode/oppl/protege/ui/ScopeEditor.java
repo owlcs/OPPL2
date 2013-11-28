@@ -70,7 +70,6 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor {
     static class ClassScopeEditor extends ScopeEditor implements
             InputVerificationStatusChangedListener, ChangeListener {
-        
         private static final long serialVersionUID = 20100L;
         private final ExpressionEditor<OWLClassExpression> editor = new ExpressionEditor<OWLClassExpression>(
                 owlEditorKit, owlEditorKit.getOWLModelManager()
@@ -187,7 +186,6 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
 
     static class IndividualScopeEditor extends ScopeEditor implements
             InputVerificationStatusChangedListener {
-        
         private static final long serialVersionUID = 20100L;
         private final ExpressionEditor<OWLClassExpression> editor = new ExpressionEditor<OWLClassExpression>(
                 owlEditorKit, owlEditorKit.getModelManager()
@@ -234,7 +232,6 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
     }
 
     static class PropertyScopeEditor extends ScopeEditor implements ChangeListener {
-        
         private static final long serialVersionUID = 20100L;
         private final ButtonGroup directionButtonGroup = new ButtonGroup();
         private final Map<JRadioButton, Direction> radioButtonDirectionMap = new HashMap<JRadioButton, Direction>();
@@ -381,6 +378,10 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
         }
     }
 
+    /** @param variableType
+     * @param checker
+     * @param owlEditorKit
+     * @return typ scope editor */
     public static ScopeEditor getTypeScopeEditor(VariableType<?> variableType,
             final VariableScopeChecker checker, final OWLEditorKit owlEditorKit) {
         ScopeEditor toReturn = variableType
@@ -443,7 +444,9 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
         return title;
     }
 
+    /** dispose */
     public abstract void dispose();
 
+    /** @param scope */
     public abstract void setScope(VariableScope<?> scope);
 }

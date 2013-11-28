@@ -48,7 +48,6 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
 
 /** @author Luigi Iannone */
 public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor {
-    
     private static final long serialVersionUID = 20100L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private final OWLEditorKit owlEditorKit;
@@ -58,6 +57,8 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
     private final Map<String, JRadioButton> actionStringRadioButtonMap = new HashMap<String, JRadioButton>();
     private OWLAxiomChange owlAxiomChange;
 
+    /** @param owlEditorKit
+     * @param constraintSystem */
     public OWLAxiomChangeEditor(OWLEditorKit owlEditorKit,
             ConstraintSystem constraintSystem) {
         this.owlEditorKit = owlEditorKit;
@@ -98,6 +99,9 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
         return findSelectedButton() != null && axiomEditor.getAxiom() != null;
     }
 
+    /**
+     * 
+     */
     public void handleChange() {
         boolean isValid = check();
         if (isValid) {
@@ -118,6 +122,7 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
         listeners.remove(listener);
     }
 
+    /** @param newState */
     public void notifyLIstenrs(boolean newState) {
         for (InputVerificationStatusChangedListener listener : listeners) {
             listener.verifiedStatusChanged(newState);
@@ -140,6 +145,9 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
         return owlAxiomChange;
     }
 
+    /**
+     * 
+     */
     public void dispose() {}
 
     /** @param owlAxiomChange
@@ -152,6 +160,9 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
         axiomEditor.setOWLAxiom(owlAxiomChange.getAxiom());
     }
 
+    /**
+     * 
+     */
     public void clear() {
         JRadioButton button = null;
         Enumeration<AbstractButton> actions = actionButtonGroup.getElements();

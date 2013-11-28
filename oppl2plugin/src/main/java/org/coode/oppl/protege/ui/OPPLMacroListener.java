@@ -25,6 +25,7 @@ package org.coode.oppl.protege.ui;
 import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.model.OWLObject;
 
+/** @author Luigi Iannone */
 public interface OPPLMacroListener {
     /** Handles the notification that an entity has been genearlised as a new
      * Variable

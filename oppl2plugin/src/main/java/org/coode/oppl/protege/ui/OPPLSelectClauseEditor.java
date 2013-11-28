@@ -39,7 +39,6 @@ import org.protege.editor.owl.OWLEditorKit;
 
 /** @author Luigi Iannone */
 public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEditor {
-    
     private static final long serialVersionUID = 20100L;
     private final OWLEditorKit owlEditorKit;
     private final ConstraintSystem constraintSystem;
@@ -60,6 +59,8 @@ public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEdito
         axiomEditor.setOWLAxiom(selectListItem.getAxiom());
     }
 
+    /** @param owlEditorKit
+     * @param constraintSystem */
     public OPPLSelectClauseEditor(OWLEditorKit owlEditorKit,
             ConstraintSystem constraintSystem) {
         setLayout(new BorderLayout());
@@ -103,6 +104,9 @@ public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEdito
         listeners.remove(listener);
     }
 
+    /**
+     * 
+     */
     public void handleChange() {
         boolean isValid = check();
         if (isValid) {
@@ -119,5 +123,8 @@ public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEdito
         }
     }
 
+    /**
+     * 
+     */
     public void dispose() {}
 }

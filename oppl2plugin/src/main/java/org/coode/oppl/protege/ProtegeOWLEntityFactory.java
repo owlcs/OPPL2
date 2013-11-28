@@ -12,9 +12,11 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 
+/** @author Luigi Iannone */
 public class ProtegeOWLEntityFactory implements OWLEntityFactory {
     private final EntityFactory delegateFactory;
 
+    /** @param f */
     public ProtegeOWLEntityFactory(ProtegeOPPLFactory f) {
         delegateFactory = new EntityFactory(f);
     }

@@ -22,7 +22,7 @@ import org.semanticweb.owlapi.model.OWLEntity;
 public class LocalityCheckerActionListener extends LocalityChecker implements
         ActionListener {
     private static final String SAFETY_ANALYSIS_BREAKDOWN = "Safety analysis breakdown";
-    public final static int DIMENSION = 18;
+    protected final static int DIMENSION = 18;
     private final JButton resultButton;
 
     /** @param kit

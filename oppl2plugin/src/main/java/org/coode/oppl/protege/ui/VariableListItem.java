@@ -58,7 +58,10 @@ public class VariableListItem implements MListItem, OPPLMacroStatusChange {
     private final ConstraintSystem constraintSystem;
 
     /** @param variable
-     * @param owlEditorKit */
+     * @param constraintSystem
+     * @param owlEditorKit
+     * @param isEditable
+     * @param isDeleatable */
     public VariableListItem(Variable<?> variable, ConstraintSystem constraintSystem,
             OWLEditorKit owlEditorKit, boolean isEditable, boolean isDeleatable) {
         this.variable = checkNotNull(variable, "variable");

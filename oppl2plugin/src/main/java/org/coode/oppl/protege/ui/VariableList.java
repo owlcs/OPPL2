@@ -91,6 +91,8 @@ public class VariableList extends OPPLMList {
     protected final OWLEditorKit owlEditorKit;
     protected ConstraintSystem constraintSystem;
 
+    /** @param owlEditorKit
+     * @param constraintSystem */
     public VariableList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
         this.owlEditorKit = owlEditorKit;
         this.constraintSystem = constraintSystem;
@@ -111,6 +113,7 @@ public class VariableList extends OPPLMList {
         return owlEditorKit;
     }
 
+    /** @return variable list cell renderer */
     public ListCellRenderer<Object> getVariableListCellRenderer() {
         return variableListCellRenderer;
     }
