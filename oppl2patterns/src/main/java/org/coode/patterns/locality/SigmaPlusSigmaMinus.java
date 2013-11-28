@@ -33,10 +33,12 @@ public class SigmaPlusSigmaMinus extends AbstractCollection<OWLEntity> implement
         return 2;
     }
 
+    /** @return plus entity */
     public OWLEntity getPlus() {
         return plus;
     }
 
+    /** @return minus entity */
     public OWLEntity getMinus() {
         return minus;
     }

@@ -40,6 +40,7 @@ import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
+/** @author Luigi Iannone */
 public class LocalityChecker {
     private class SigmaBuilder implements VariableTypeVisitorEx<OWLEntity> {
         private final OWLOntologyManager manager;
@@ -171,15 +172,18 @@ public class LocalityChecker {
         };
     }
 
+    /** @param owlentities */
     public void setSignature(Collection<? extends OWLEntity> owlentities) {
         entities.clear();
         entities.addAll(owlentities);
     }
 
+    /** @param m */
     public void setInstantiatedPatternModel(InstantiatedPatternModel m) {
         instantiatedPatternModel = m;
     }
 
+    /** @return true if local */
     public boolean isLocal() {
         sigmaValues = buildMinimalBindingNodes();
         BindingNode rootBindingNode = new BindingNode(sigmaValues.keySet());
@@ -192,6 +196,9 @@ public class LocalityChecker {
         return local;
     }
 
+    /** @param o
+     * @param signature
+     * @return all binding nodes */
     public Map<Variable<?>, Collection<OWLObject>> extractAllPossibleBindingNodes(
             OWLOntology o, Set<OWLEntity> signature) {
         Map<Variable<?>, Collection<OWLObject>> toReturn = new HashMap<Variable<?>, Collection<OWLObject>>();
@@ -215,6 +222,7 @@ public class LocalityChecker {
         return toReturn;
     }
 
+    /** @return minimal binding nodes */
     public Map<Variable<?>, SigmaPlusSigmaMinus> buildMinimalBindingNodes() {
         Map<Variable<?>, SigmaPlusSigmaMinus> toReturn = new HashMap<Variable<?>, SigmaPlusSigmaMinus>();
         List<InputVariable<?>> inputVariables = instantiatedPatternModel
@@ -231,18 +239,23 @@ public class LocalityChecker {
         return toReturn;
     }
 
+    /** @return non local axioms */
     public List<OWLAxiom> getNonLocalAxioms() {
         return leafBrusher.getNonLocalAxioms();
     }
 
+    /** @return explored nodes */
     public List<BindingNode> getExploredNodes() {
         return leafBrusher.getExploredBindings();
     }
 
+    /** @return explored nodes locality */
     public List<Boolean> getExploredNodesLocality() {
         return leafBrusher.getExploredBindingsLocality();
     }
 
+    /** @param ontologies
+     * @return collected entities */
     public static Set<OWLEntity> collectEntities(Set<OWLOntology> ontologies) {
         // OWLEntityCollector is invoked differently in the most recent (past
         // 3.1) OWL API
@@ -277,10 +290,12 @@ public class LocalityChecker {
         return new HashSet<OWLEntity>(entities);
     }
 
+    /** @return sigma values */
     public Map<Variable<?>, SigmaPlusSigmaMinus> getSigmaValues() {
         return Collections.unmodifiableMap(sigmaValues);
     }
 
+    /** @return sigma minus */
     public Set<OWLEntity> getSigmaMinus() {
         Set<OWLEntity> externalSigmaValues = new HashSet<OWLEntity>();
         for (SigmaPlusSigmaMinus s : sigmaValues.values()) {
@@ -289,6 +304,7 @@ public class LocalityChecker {
         return externalSigmaValues;
     }
 
+    /** @return sigma plus */
     public Set<OWLEntity> getSigmaPlus() {
         Set<OWLEntity> externalSigmaValues = new HashSet<OWLEntity>();
         for (SigmaPlusSigmaMinus s : sigmaValues.values()) {

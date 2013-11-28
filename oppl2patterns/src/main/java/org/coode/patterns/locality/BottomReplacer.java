@@ -62,6 +62,7 @@ import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
 
+/** @author Luigi Iannone */
 public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVisitor,
         OWLClassExpressionVisitor {
     private final OWLDataFactory df;
@@ -78,10 +79,14 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
     private OWLClassExpression newDescription;
     private Set<? extends OWLEntity> signature;
 
+    /** @return new axiom */
     public OWLAxiom getResult() {
         return newAxiom;
     }
 
+    /** @param axiom
+     * @param sig
+     * @return axiom with bottom replaced */
     public OWLAxiom replaceBottom(OWLAxiom axiom, Set<? extends OWLEntity> sig) {
         reset(sig);
         axiom.accept(this);
@@ -90,6 +95,8 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
 
     // Takes an OWLClassExpression and a signature replaces by bottom the
     // entities not in the signature
+    /** @param desc
+     * @return class expression with bottom replaced */
     public OWLClassExpression replaceBottom(OWLClassExpression desc) {
         newDescription = null;
         desc.accept(this);
@@ -99,6 +106,8 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
         return newDescription;
     }
 
+    /** @param descriptions
+     * @return class expressions with bottom replaced */
     public Set<OWLClassExpression> replaceBottom(Set<OWLClassExpression> descriptions) {
         Set<OWLClassExpression> result = new HashSet<OWLClassExpression>();
         for (OWLClassExpression desc : descriptions) {
@@ -107,6 +116,7 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
         return result;
     }
 
+    /** @param sig */
     public void reset(Set<? extends OWLEntity> sig) {
         signature = sig;
         newAxiom = null;

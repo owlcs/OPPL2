@@ -55,6 +55,9 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /** @author Luigi Iannone Jul 3, 2008 */
 public class PatternManager implements OWLOntologyChangeListener {
+    /**
+     * 
+     */
     public static final RuntimeExceptionHandler HANDLER = new QuickFailRuntimeExceptionHandler();
 
     static class AdditionManager extends OWLAxiomVisitorAdapter implements
@@ -106,7 +109,8 @@ public class PatternManager implements OWLOntologyChangeListener {
         private final OWLOntologyManager ontologyManager;
         private final AbstractPatternModelFactory factory;
 
-        /** @param ontologyManager */
+        /** @param ontologyManager
+         * @param f */
         public DeletionManager(OWLOntologyManager ontologyManager,
                 AbstractPatternModelFactory f) {
             this.ontologyManager = ontologyManager;
@@ -168,6 +172,7 @@ public class PatternManager implements OWLOntologyChangeListener {
         factory = f;
     }
 
+    /** @return factory */
     public AbstractPatternModelFactory getFactory() {
         return factory;
     }
@@ -192,7 +197,9 @@ public class PatternManager implements OWLOntologyChangeListener {
         }
     }
 
-    /** @return the instance */
+    /** @param ontologyManager
+     * @param f
+     * @return the instance */
     public static synchronized PatternManager getInstance(
             OWLOntologyManager ontologyManager, AbstractPatternModelFactory f) {
         PatternManager patternManager = instances.get(ontologyManager);
@@ -203,6 +210,7 @@ public class PatternManager implements OWLOntologyChangeListener {
         return patternManager;
     }
 
+    /** @return default error listener */
     public static ErrorListener getDefaultErrorListener() {
         return new SystemErrorEcho();
     }

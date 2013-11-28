@@ -34,7 +34,10 @@ public class PatternSignature {
     private final String name;
     private final PatternModel pattern;
 
-    /** @param name */
+    /** @param name
+     * @param ontologyManger
+     * @param factory
+     * @throws PatternException */
     public PatternSignature(String name, OWLOntologyManager ontologyManger,
             AbstractPatternModelFactory factory) throws PatternException {
         this.name = name;
@@ -46,6 +49,9 @@ public class PatternSignature {
         }
     }
 
+    /** @param i
+     * @return variable type
+     * @throws PatternException */
     public VariableType<?> getIthVariableType(int i) throws PatternException {
         try {
             return pattern.getInputVariables().get(i).getType();
@@ -54,6 +60,9 @@ public class PatternSignature {
         }
     }
 
+    /** @param i
+     * @return variable in position i
+     * @throws PatternException */
     public Variable<?> getIthVariable(int i) throws PatternException {
         try {
             return pattern.getInputVariables().get(i);
@@ -62,6 +71,7 @@ public class PatternSignature {
         }
     }
 
+    /** @return number of input variables */
     public int size() {
         return pattern.getInputVariables().size();
     }

@@ -41,6 +41,9 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /** @author Luigi Iannone Jun 10, 2008 */
 public class Utils {
+    /** @param ontology
+     * @param factory
+     * @return set of existing patterns */
     public static Set<PatternModel> getExistingPatterns(OWLOntology ontology,
             AbstractPatternModelFactory factory) {
         Set<PatternModel> toReturn = new HashSet<PatternModel>();
@@ -56,6 +59,10 @@ public class Utils {
         return toReturn;
     }
 
+    /** @param patternName
+     * @param ontology
+     * @param factory
+     * @return found pattern */
     public static PatternModel find(String patternName, OWLOntology ontology,
             AbstractPatternModelFactory factory) {
         Iterator<OWLAnnotation> it = ontology.getAnnotations().iterator();
@@ -75,6 +82,10 @@ public class Utils {
         return extractedPattern;
     }
 
+    /** @param patternName
+     * @param ontologyManager
+     * @param factory
+     * @return pattern */
     public static PatternModel find(String patternName,
             OWLOntologyManager ontologyManager, AbstractPatternModelFactory factory) {
         Iterator<OWLOntology> it = ontologyManager.getOntologies().iterator();
@@ -87,6 +98,8 @@ public class Utils {
         return toReturn;
     }
 
+    /** @param ontology
+     * @return set of existing pattern names */
     public static Set<String> getExistingPatternNames(OWLOntology ontology) {
         Set<String> toReturn = new HashSet<String>();
         for (OWLAnnotation annotation : ontology.getAnnotations()) {
@@ -98,6 +111,8 @@ public class Utils {
         return toReturn;
     }
 
+    /** @param ontologyManager
+     * @return existing pattern names */
     public static Set<String> getExistingPatternNames(OWLOntologyManager ontologyManager) {
         Set<String> toReturn = new HashSet<String>();
         Set<OWLOntology> ontologies = ontologyManager.getOntologies();
@@ -107,6 +122,9 @@ public class Utils {
         return toReturn;
     }
 
+    /** @param ontologyManager
+     * @param prefix
+     * @return existing pattern names */
     public static Set<String> getExistingPatternNames(OWLOntologyManager ontologyManager,
             String prefix) {
         Set<String> toReturn = getExistingPatternNames(ontologyManager);
@@ -133,6 +151,10 @@ public class Utils {
         return isPatternGenerated;
     }
 
+    /** @param annotations
+     * @param manager
+     * @param factory
+     * @return generating pattern model */
     public static PatternModel getGeneratingPatternModel(
             Collection<? extends OWLAnnotation> annotations, OWLOntologyManager manager,
             AbstractPatternModelFactory factory) {
@@ -167,6 +189,9 @@ public class Utils {
         return toReturn;
     }
 
+    /** @param patternName
+     * @param annotations
+     * @return true if generated */
     public static boolean isPatternGenerated(final String patternName,
             Collection<? extends OWLAnnotation> annotations) {
         boolean isPatternGenerated = false;
@@ -187,6 +212,8 @@ public class Utils {
         return isPatternGenerated;
     }
 
+    /** @param annotations
+     * @return generated pattern name */
     public static String getGeneratedPatternName(
             Collection<? extends OWLAnnotation> annotations) {
         boolean isPatternGenerated = false;

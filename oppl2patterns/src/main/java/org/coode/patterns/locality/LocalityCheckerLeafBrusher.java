@@ -36,10 +36,12 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
     private final Map<Variable<?>, SigmaPlusSigmaMinus> variableBindings = new HashMap<Variable<?>, SigmaPlusSigmaMinus>();
     private final List<BindingNode> exploredBindings = new ArrayList<BindingNode>();
 
+    /** @return explored bindings */
     public List<BindingNode> getExploredBindings() {
         return exploredBindings;
     }
 
+    /** @return locality explored bindings */
     public List<Boolean> getExploredBindingsLocality() {
         return exploredBindingsLocality;
     }
@@ -118,6 +120,7 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
         return foundNonLocals.size() == 0;
     }
 
+    /** @return non local axioms */
     public List<OWLAxiom> getNonLocalAxioms() {
         return foundNonLocals;
     }

@@ -72,7 +72,8 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
      * 
      * @param patternModel
      *            the Pattern on which the this instantiated pattern will be
-     *            built. Cannot be {@code null}. */
+     *            built. Cannot be {@code null}.
+     * @param handler */
     public InstantiatedPatternModel(PatternModel patternModel,
             RuntimeExceptionHandler handler) {
         this.patternModel = checkNotNull(patternModel, "patternModel");
@@ -82,6 +83,8 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
     private final Map<Variable<?>, Set<OWLObject>> instantiations = new HashMap<Variable<?>, Set<OWLObject>>();
     private String unresolvedOPPLStatementString;
 
+    /** @param variable
+     * @return instantiations */
     public Set<OWLObject> getInstantiations(Variable<?> variable) {
         // defensive copy; it also guarantees that no nulls are returned
         Set<OWLObject> toReturn = new HashSet<OWLObject>();
@@ -91,6 +94,9 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
         return toReturn;
     }
 
+    /** @param variable
+     * @param owlObject
+     * @return true if any instantiation removed */
     public boolean removeInstantiation(Variable<?> variable, OWLObject owlObject) {
         Set<OWLObject> variableInstantiations = instantiations.get(variable);
         boolean toReturn = false;
@@ -258,6 +264,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
         return patternModel.getPatternLocalName();
     }
 
+    /** @return binding nodes */
     public Set<BindingNode> extractBindingNodes() {
         List<InputVariable<?>> inputVariables = getInputVariables();
         Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
@@ -309,6 +316,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
         return toReturn;
     }
 
+    /** @return originating ontology */
     public OWLOntology getOriginatingOntology() {
         OWLOntology toReturn = patternModel.getOriginatingOntology();
         return toReturn;
@@ -338,6 +346,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
         return patternModel.getConstraintSystem();
     }
 
+    /** @return instantiated pattern */
     public PatternModel getInstantiatedPattern() {
         return patternModel;
     }
@@ -351,10 +360,12 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
                 || patternModel.dependsOn(patternOPPLScript);
     }
 
+    /** @param unresolvedString */
     public void setUnresolvedOPPLStatement(String unresolvedString) {
         unresolvedOPPLStatementString = unresolvedString;
     }
 
+    /** @return unresolved oppl statement */
     public String gettUnresolvedOPPLStatement() {
         return unresolvedOPPLStatementString;
     }

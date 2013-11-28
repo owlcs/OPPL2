@@ -45,6 +45,11 @@ public class NonClassPatternExecutor extends ChangeExtractor {
     private final OWLOntology ontology;
     private final OWLOntologyManager ontologyManager;
 
+    /** @param instantiatedPatternModel
+     * @param ontology
+     * @param ontologyManager
+     * @param annotationIRI
+     * @param handler */
     public NonClassPatternExecutor(InstantiatedPatternModel instantiatedPatternModel,
             OWLOntology ontology, OWLOntologyManager ontologyManager, IRI annotationIRI,
             RuntimeExceptionHandler handler) {

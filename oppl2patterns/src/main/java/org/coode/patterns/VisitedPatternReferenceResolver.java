@@ -9,9 +9,11 @@ import org.coode.parsers.oppl.OPPLSyntaxTree;
 import org.coode.parsers.oppl.patterns.OPPLPatternsSymbolTable;
 import org.coode.patterns.OPPLPatternParser.PatternReferenceResolver;
 
+/** @author Luigi Iannone */
 public final class VisitedPatternReferenceResolver implements PatternReferenceResolver {
     private final Set<String> visited = new HashSet<String>();
 
+    /** @param visitedPatterns */
     public VisitedPatternReferenceResolver(Collection<? extends String> visitedPatterns) {
         assert visitedPatterns != null;
         visited.addAll(visitedPatterns);

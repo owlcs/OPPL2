@@ -28,6 +28,8 @@ import org.coode.oppl.Variable;
 public class IncompatibleArgumentException extends PatternException {
     private static final long serialVersionUID = 20100L;
 
+    /** @param argument
+     * @param v */
     public IncompatibleArgumentException(Object argument, Variable<?> v) {
         super("The value " + argument + " is incompatible for variable " + v.toString());
     }

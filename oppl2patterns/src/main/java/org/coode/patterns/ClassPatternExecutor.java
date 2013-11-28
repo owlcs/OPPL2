@@ -47,6 +47,12 @@ public class ClassPatternExecutor extends ChangeExtractor {
     private final OWLOntology ontology;
     private final OWLOntologyManager ontologyManager;
 
+    /** @param thisClass
+     * @param instantiatedPatternModel
+     * @param ontology
+     * @param ontologyManager
+     * @param annotationIRI
+     * @param runtimeExceptionHandler */
     public ClassPatternExecutor(OWLClass thisClass,
             InstantiatedPatternModel instantiatedPatternModel, OWLOntology ontology,
             OWLOntologyManager ontologyManager, IRI annotationIRI,

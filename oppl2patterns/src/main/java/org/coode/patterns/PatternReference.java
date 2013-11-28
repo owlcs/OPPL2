@@ -77,7 +77,8 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
-/** @author Luigi Iannone Jun 25, 2008 */
+/** @author Luigi Iannone Jun 25, 2008
+ * @param <O> */
 public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
     private String patternName;
     private final PatternConstraintSystem patternConstraintSystem;
@@ -103,12 +104,23 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
         }
     };
 
+    /** @param patternName
+     * @param constraintSystem
+     * @param errorListener
+     * @param args
+     * @throws PatternException */
     public PatternReference(String patternName, PatternConstraintSystem constraintSystem,
             ErrorListener errorListener, List<Object>... args) throws PatternException {
         this(patternName, constraintSystem, Collections.<String> emptySet(),
                 errorListener, args);
     }
 
+    /** @param patternName
+     * @param constraintSystem
+     * @param visitedPatterns
+     * @param errorListener
+     * @param args
+     * @throws PatternException */
     public PatternReference(String patternName, PatternConstraintSystem constraintSystem,
             Collection<? extends String> visitedPatterns, ErrorListener errorListener,
             List<Object>... args) throws PatternException {
@@ -492,6 +504,9 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
         return toReturn;
     }
 
+    /** @param handler
+     * @return instantiation
+     * @throws PatternException */
     public InstantiatedPatternModel getInstantiation(RuntimeExceptionHandler handler)
             throws PatternException {
         if (this.isResolvable()) {
@@ -525,6 +540,7 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
         return this.render(this.getConstraintSystem());
     }
 
+    /** @return pattern name */
     public String getPatternName() {
         return this.patternName;
     }

@@ -71,7 +71,13 @@ public class OPPLPatternParser implements AbstractOPPLParser {
         AbstractPatternModelFactory getPatternFactory();
     }
 
+    /** @author ignazio */
     public interface PatternReferenceResolver {
+        /** @param reference
+         * @param patternName
+         * @param constraintSystem
+         * @param symbolTable
+         * @param args */
         void resolvePattern(OPPLSyntaxTree reference, String patternName,
                 PatternConstraintSystem constraintSystem,
                 OPPLPatternsSymbolTable symbolTable, List<Object>... args);
@@ -99,6 +105,9 @@ public class OPPLPatternParser implements AbstractOPPLParser {
     };
     private final SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory;
 
+    /** @param factory
+     * @param listener
+     * @param symbolTableFactory */
     public OPPLPatternParser(AbstractPatternModelFactory factory, ErrorListener listener,
             SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory) {
         this(factory, listener, symbolTableFactory, getSimplePatternReferenceResolver());
@@ -119,7 +128,8 @@ public class OPPLPatternParser implements AbstractOPPLParser {
 
     /** @param factory
      * @param listener
-     * @param symbolTableFactory */
+     * @param symbolTableFactory
+     * @param patternReferenceResolver */
     public OPPLPatternParser(AbstractPatternModelFactory factory, ErrorListener listener,
             SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory,
             PatternReferenceResolver patternReferenceResolver) {

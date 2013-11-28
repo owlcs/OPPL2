@@ -59,6 +59,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 /** @author Luigi Iannone Jun 19, 2008 */
 public class PatternConstraintSystem extends ConstraintSystem {
+    /** constant symbol for this class */
     public static final String THIS_CLASS_VARIABLE_CONSTANT_SYMBOL = "$thisClass";
     private final Map<String, GeneratedVariable<?>> specialVariables = new HashMap<String, GeneratedVariable<?>>();
     private final ConstraintSystem constraintSystem;
@@ -94,6 +95,7 @@ public class PatternConstraintSystem extends ConstraintSystem {
         return constraintSystem.createVariable(name, type, variableScope);
     }
 
+    /** @return variable for this class */
     public Variable<?> getThisClassVariable() {
         Variable<OWLClassExpression> toReturn = VariableFactory.getCLASSVariable(
                 THIS_CLASS_VARIABLE_CONSTANT_SYMBOL, null);
@@ -156,6 +158,8 @@ public class PatternConstraintSystem extends ConstraintSystem {
         return found;
     }
 
+    /** @param s
+     * @return resolved pattern constants */
     public String resolvePatternConstants(String s) {
         String toReturn = s;
         for (String specialVariableName : specialVariables.keySet()) {
@@ -168,6 +172,8 @@ public class PatternConstraintSystem extends ConstraintSystem {
         return toReturn;
     }
 
+    /** @param variable
+     * @return true if variable is this class variable */
     public boolean isThisClassVariable(Variable<?> variable) {
         return variable.equals(specialVariables
                 .get(PatternConstraintSystem.THIS_CLASS_VARIABLE_CONSTANT_SYMBOL));
@@ -180,6 +186,14 @@ public class PatternConstraintSystem extends ConstraintSystem {
         return toReturn;
     }
 
+    /** @param patternName
+     * @param ontologyManager
+     * @param visitedPatterns
+     * @param dependencies
+     * @param errorListener
+     * @param args
+     * @return resolved pattern
+     * @throws PatternException */
     public String resolvePattern(String patternName, OWLOntologyManager ontologyManager,
             Set<String> visitedPatterns, List<PatternOPPLScript> dependencies,
             ErrorListener errorListener, List<Object>... args) throws PatternException {
@@ -196,6 +210,14 @@ public class PatternConstraintSystem extends ConstraintSystem {
         return patternReferenceGeneratedVariable.getName();
     }
 
+    /** @param patternName
+     * @param ontologyManager
+     * @param visitedPatterns
+     * @param dependencies
+     * @param errorListener
+     * @param args
+     * @return instantiated pattern
+     * @throws PatternException */
     public InstantiatedPatternModel resolvePatternInstantiation(String patternName,
             OWLOntologyManager ontologyManager, Set<String> visitedPatterns,
             List<PatternOPPLScript> dependencies, final ErrorListener errorListener,
@@ -289,6 +311,7 @@ public class PatternConstraintSystem extends ConstraintSystem {
         constraintSystem.clearVariables();
     }
 
+    /** @return pattern model factory */
     public AbstractPatternModelFactory getPatternModelFactory() {
         return factory;
     }

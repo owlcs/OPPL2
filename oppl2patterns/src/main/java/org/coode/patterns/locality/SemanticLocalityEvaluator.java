@@ -28,6 +28,8 @@ public final class SemanticLocalityEvaluator implements LocalityEvaluator {
     private final BottomReplacer bottomReplacer;
     protected OWLReasoner reasoner;
 
+    /** @param man
+     * @param reasoner */
     public SemanticLocalityEvaluator(OWLOntologyManager man, OWLReasoner reasoner) {
         df = man.getOWLDataFactory();
         this.reasoner = reasoner;

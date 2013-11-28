@@ -46,8 +46,18 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
 
 /** @author Luigi Iannone Jul 3, 2008 */
 public class PatternActionFactory {
+    /** createdBy short name */
     public static final String CREATED_BY = "createdBy";
 
+    /** @param thisClass
+     * @param actionType
+     * @param axiom
+     * @param instantiatedPatternModel
+     * @param owlDataFactory
+     * @param annotationIRI
+     * @param ontology
+     * @param handler
+     * @return changes */
     public static Collection<? extends OWLAxiomChange> createChange(OWLClass thisClass,
             ActionType actionType, OWLAxiom axiom,
             InstantiatedPatternModel instantiatedPatternModel,
@@ -95,6 +105,14 @@ public class PatternActionFactory {
         }
     }
 
+    /** @param actionType
+     * @param axiom
+     * @param instantiatedPatternModel
+     * @param owlDataFactory
+     * @param annotationIRI
+     * @param ontology
+     * @param handler
+     * @return changes */
     public static Collection<? extends OWLAxiomChange> createChange(
             ActionType actionType, OWLAxiom axiom,
             InstantiatedPatternModel instantiatedPatternModel,

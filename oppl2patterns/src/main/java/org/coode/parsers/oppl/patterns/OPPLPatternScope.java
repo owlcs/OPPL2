@@ -73,6 +73,12 @@ public class OPPLPatternScope implements Scope {
         return delegate;
     }
 
+    /** @param reference
+     * @param patternName
+     * @param constraintSystem
+     * @param listener
+     * @param args
+     * @return variable */
     public Variable<?> resolvePatternReference(OPPLSyntaxTree reference,
             String patternName, PatternConstraintSystem constraintSystem,
             ErrorListener listener, List<Object>... args) {
@@ -80,6 +86,13 @@ public class OPPLPatternScope implements Scope {
                 Collections.<String> emptySet(), listener, args);
     }
 
+    /** @param reference
+     * @param patternName
+     * @param constraintSystem
+     * @param visited
+     * @param listener
+     * @param args
+     * @return variable */
     public Variable<?> resolvePatternReference(OPPLSyntaxTree reference,
             String patternName, PatternConstraintSystem constraintSystem,
             Collection<? extends String> visited, ErrorListener listener,

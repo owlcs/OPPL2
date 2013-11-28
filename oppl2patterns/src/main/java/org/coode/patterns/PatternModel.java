@@ -232,8 +232,8 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         }
 
         /** @param owlObject
-         * @param referenceReplacement
-         * @param replacemnts */
+         * @param variableType
+         * @param dataFactory */
         public DefinitorialExtractor(OWLObject owlObject, VariableType<?> variableType,
                 OWLDataFactory dataFactory) {
             this.owlObject = owlObject;
@@ -343,17 +343,26 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
     private boolean valid = true;
     private final Set<PatternModelChangeListener> listeners = new HashSet<PatternModelChangeListener>();
     private Variable<?> returnVariable = null;
+    /**
+     * 
+     */
     public final static String NAMESPACE = "http://www.co-ode.org/patterns#";
     private final AbstractPatternModelFactory factory;
 
+    /** @return pattern model factory */
     public AbstractPatternModelFactory getPatternModelFactory() {
         return factory;
     }
 
+    /** @return ontology manager */
     public OWLOntologyManager getOWLOntologyManager() {
         return ontologyManager;
     }
 
+    /** @param opplScript
+     * @param ontologyManager
+     * @param f
+     * @throws UnsuitableOPPLScriptException */
     public PatternModel(OPPLScript opplScript, OWLOntologyManager ontologyManager,
             AbstractPatternModelFactory f) throws UnsuitableOPPLScriptException {
         checkNotNull(opplScript, "OPPL script");
@@ -443,10 +452,12 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         return valid;
     }
 
+    /** @param l */
     public void addChangeListener(PatternModelChangeListener l) {
         listeners.add(l);
     }
 
+    /** @param l */
     public void removeChangeListener(PatternModelChangeListener l) {
         listeners.remove(l);
     }
@@ -466,6 +477,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         return opplStatement;
     }
 
+    /** @return pattern local name */
     public String getPatternLocalName() {
         String toReturn = null;
         if (iri != null) {
@@ -594,11 +606,13 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         return toReturn;
     }
 
+    /** @return true if there are dependencies */
     public boolean isDependent() {
         return !dependencies.isEmpty();
     }
 
     /** @param ontologies
+     * @param errorListener
      * @return the set of PatternModel instances that depend on this. Please
      *         notice that InstantiatedPatternModel instances will be returned
      *         as well */
@@ -619,6 +633,8 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         return toReturn;
     }
 
+    /** @param errorListener
+     * @return instantiations */
     public Set<InstantiatedPatternModel> getInstantiations(ErrorListener errorListener) {
         Set<InstantiatedPatternModel> toReturn = new HashSet<InstantiatedPatternModel>();
         Set<OWLOntology> ontologies = ontologyManager.getOntologies();
@@ -661,6 +677,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         return toReturn;
     }
 
+    /** @return originating ontology */
     public OWLOntology getOriginatingOntology() {
         OWLOntology toReturn = null;
         Set<OWLOntology> ontologies = ontologyManager.getOntologies();
