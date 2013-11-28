@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.assertions;
 
 import java.util.Set;
@@ -14,8 +13,11 @@ import org.coode.oppl.bindingtree.BindingNode;
  * @param <T>
  *            The kind of object this AssertionExpression resolves to. */
 public interface AssertionExpression<T> {
+    /** @param assertionExpressionVisitor */
     void accept(AssertionExpressionVisitor assertionExpressionVisitor);
 
+    /** @param assertionExpressionVisitor
+     * @return visitor value */
     <O> O accept(AssertionExpressionVisitorEx<O> assertionExpressionVisitor);
 
     /** Resolves the expression according to the input set of bindings.

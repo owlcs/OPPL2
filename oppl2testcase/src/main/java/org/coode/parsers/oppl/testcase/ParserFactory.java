@@ -16,7 +16,8 @@ public class ParserFactory implements AbstractParserFactory {
     private final OWLReasoner reasoner;
 
     /** @param ontology
-     * @param ontologyManager */
+     * @param ontologyManager
+     * @param reasoner */
     public ParserFactory(OWLOntology ontology, OWLOntologyManager ontologyManager,
             OWLReasoner reasoner) {
         this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
@@ -24,6 +25,8 @@ public class ParserFactory implements AbstractParserFactory {
         this.reasoner = reasoner;
     }
 
+    /** @param ontology
+     * @param ontologyManager */
     public ParserFactory(OWLOntology ontology, OWLOntologyManager ontologyManager) {
         this(ontology, ontologyManager, null);
     }
@@ -40,6 +43,9 @@ public class ParserFactory implements AbstractParserFactory {
         return this.build(errorListener, symbolTableFactory);
     }
 
+    /** @param errorListener
+     * @param symbolTableFactory
+     * @return oppl test case parser */
     public OPPLTestCaseParser build(ErrorListener errorListener,
             SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory) {
         return new OPPLTestCaseParser(getOPPLTestCaseFactory(), errorListener,

@@ -9,8 +9,11 @@ import org.coode.oppl.bindingtree.BindingNode;
  * 
  * @author Luigi Iannone */
 public interface Assertion {
+    /** @param visitor */
     void accept(AssertionVisitor visitor);
 
+    /** @param visitor
+     * @return visitor value */
     <O> O accept(AssertionVisitorEx<O> visitor);
 
     /** Determines whether this Assertion is valid for the input bindings.

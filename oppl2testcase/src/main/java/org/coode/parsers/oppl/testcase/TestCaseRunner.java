@@ -38,11 +38,14 @@ public abstract class TestCaseRunner {
         }
     };
 
+    /** @param opplTestCase */
     public TestCaseRunner(OPPLTestCase opplTestCase) {
         this(opplTestCase, ExecutionMonitor.NON_CANCELLABLE, false);
     }
 
-    /** @param opplTestCase */
+    /** @param opplTestCase
+     * @param executionMonitor
+     * @param ignoreConfigurationFailure */
     public TestCaseRunner(OPPLTestCase opplTestCase, ExecutionMonitor executionMonitor,
             boolean ignoreConfigurationFailure) {
         this.opplTestCase = checkNotNull(opplTestCase, "opplTestCase");
@@ -55,6 +58,9 @@ public abstract class TestCaseRunner {
         return opplTestCase;
     }
 
+    /**
+     * 
+     */
     public final void run() {
         boolean checkConfiguration = checkConfiguration();
         if (ignoresConfigurationFailure() || checkConfiguration) {

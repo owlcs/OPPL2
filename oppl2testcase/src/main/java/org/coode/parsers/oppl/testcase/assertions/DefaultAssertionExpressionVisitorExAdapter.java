@@ -3,7 +3,8 @@ package org.coode.parsers.oppl.testcase.assertions;
 /** Adapter that implements a default behaviour that can be overridden where
  * desired.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ * @param <O> */
 public abstract class DefaultAssertionExpressionVisitorExAdapter<O> implements
         AssertionExpressionVisitorEx<O> {
     private final O defaultValue;

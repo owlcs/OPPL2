@@ -26,6 +26,7 @@ public class AssertionComplement implements Assertion {
         return visitor.visitAssertionComplement(this);
     }
 
+    /** @return assertion */
     public Assertion getOperand() {
         return assertion;
     }

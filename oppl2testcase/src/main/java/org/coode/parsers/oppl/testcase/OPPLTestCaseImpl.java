@@ -16,6 +16,7 @@ public class OPPLTestCaseImpl implements OPPLTestCase {
 
     /** @param name
      * @param opplScript
+     * @param tests
      * @param requiresInference */
     public OPPLTestCaseImpl(String name, OPPLScript opplScript,
             List<? extends OPPLTest> tests, boolean requiresInference) {

@@ -13,11 +13,13 @@ import org.coode.oppl.function.SimpleValueComputationParameters;
 import org.coode.oppl.function.ValueComputationParameters;
 import org.semanticweb.owlapi.model.OWLObject;
 
+/** @author Luigi Iannone */
 public class CountAssertionExpression implements AssertionExpression<Integer> {
     private final Variable<?> variable;
     private final RuntimeExceptionHandler handler;
 
-    /** @param variable */
+    /** @param variable
+     * @param handler */
     public CountAssertionExpression(Variable<?> variable, RuntimeExceptionHandler handler) {
         this.variable = checkNotNull(variable, "variable");
         this.handler = checkNotNull(handler, "handler");

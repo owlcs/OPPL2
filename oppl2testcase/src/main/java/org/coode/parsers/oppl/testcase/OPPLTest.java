@@ -9,6 +9,9 @@ import org.coode.parsers.oppl.testcase.assertions.Assertion;
  * 
  * @author Luigi Iannone */
 public class OPPLTest {
+    /**
+     * 
+     */
     public static final String NO_MESSAGE = "";
     private final String message;
     private final Assertion assertion;
