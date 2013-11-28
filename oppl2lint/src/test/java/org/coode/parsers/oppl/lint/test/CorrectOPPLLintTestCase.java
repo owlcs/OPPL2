@@ -14,7 +14,7 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
-
+/** @author Luigi Iannone */
 public class CorrectOPPLLintTestCase extends TestCase {
     private static final JUnitTestErrorListener ERROR_LISTENER = new JUnitTestErrorListener();
     private static final RuntimeExceptionHandler HANDLER = new RuntimeExceptionHandler() {

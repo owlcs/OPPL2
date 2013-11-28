@@ -13,7 +13,7 @@ import org.protege.editor.core.plugin.PluginUtilities;
 import org.protege.editor.core.plugin.ProtegePlugin;
 import org.protege.editor.owl.OWLEditorKit;
 import org.semanticweb.owlapi.model.OWLObject;
-
+/** @author Luigi Iannone */
 public final class FilteringOPPLLintPlugin implements
 		ProtegePlugin<FilteringOPPLLintProtegePluginInstanceAdapter> {
 	public static final String FILTER_OPPL_LINT_PLUGIN_TYPE_ID = "filteroppllint";

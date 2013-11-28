@@ -17,7 +17,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-
+/** @author Luigi Iannone */
 public class ActingOPPLLintScript extends OPPLLintScript implements ActingLint<OWLObject> {
 	/**
 	 * @param name

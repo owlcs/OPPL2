@@ -9,7 +9,7 @@ import org.semanticweb.owlapi.lint.configuration.LintConfiguration;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
-
+/** @author Luigi Iannone */
 public class ProtegeFilter<O extends OWLObject> implements Filter<O> {
 	private final OWLEditorKit owlEditorKit;
 	private final Filter<O> delegate;

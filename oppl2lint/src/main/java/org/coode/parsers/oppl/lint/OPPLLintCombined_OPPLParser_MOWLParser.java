@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.antlr.runtime.tree.*;
-
+@SuppressWarnings("javadoc")
 public class OPPLLintCombined_OPPLParser_MOWLParser extends Parser {
     public static final int HAS_KEY=109;
     public static final int VALUE_RESTRICTION=63;

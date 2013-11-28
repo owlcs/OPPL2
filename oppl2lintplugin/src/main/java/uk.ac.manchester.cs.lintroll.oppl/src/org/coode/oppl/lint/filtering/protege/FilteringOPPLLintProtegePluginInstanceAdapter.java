@@ -15,7 +15,7 @@ import org.semanticweb.owlapi.lint.LintReport;
 import org.semanticweb.owlapi.lint.configuration.LintConfiguration;
 
 import uk.ac.manchester.cs.owl.lint.commons.SimpleMatchBasedLintReport;
-
+/** @author Luigi Iannone */
 public final class FilteringOPPLLintProtegePluginInstanceAdapter extends FilteringOPPLLint
 		implements LintProtegePluginInstance<OWLObject> {
 	private static final String NAME_PARAM = "label";

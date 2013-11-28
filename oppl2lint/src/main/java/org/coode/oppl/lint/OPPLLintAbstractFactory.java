@@ -4,7 +4,7 @@ import org.coode.oppl.OPPLAbstractFactory;
 import org.coode.oppl.OPPLScript;
 import org.coode.oppl.Variable;
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
-
+/** @author Luigi Iannone */
 public interface OPPLLintAbstractFactory {
 	/**
 	 * Initialises the OPPL Parser with the input String
