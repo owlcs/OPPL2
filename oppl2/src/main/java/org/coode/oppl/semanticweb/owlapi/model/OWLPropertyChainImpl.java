@@ -26,6 +26,7 @@ import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
 
 /** @author Luigi Iannone */
 public class OWLPropertyChainImpl implements OWLPropertyChain {
+    private static final long serialVersionUID = 20100L;
     private final List<OWLObjectPropertyExpression> delegate = new ArrayList<OWLObjectPropertyExpression>();
 
     /** @param delegate */

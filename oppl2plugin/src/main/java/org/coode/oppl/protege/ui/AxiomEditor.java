@@ -68,8 +68,7 @@ public class AxiomEditor extends JPanel implements VerifiedInputEditor {
                         .createSymbolTable();
                 symbolTable
                         .importConstraintSystem(AxiomEditor.this.getConstraintSystem());
-                OWLAxiom toReturn = parser.parseAxiom(text, symbolTable,
-                        AxiomEditor.this.getConstraintSystem());
+                OWLAxiom toReturn = parser.parseAxiom(text, symbolTable);
                 return toReturn;
             }
         };

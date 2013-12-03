@@ -469,12 +469,11 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
      * @param leftNode
      * @param right
      * @param rightNode
-     * @param parentExpression
      * @return assert less than */
     @SuppressWarnings("unchecked")
     public LessThanAssertion getAssertLessThan(AssertionExpression<?> left,
             OPPLSyntaxTree leftNode, AssertionExpression<?> right,
-            OPPLSyntaxTree rightNode, OPPLSyntaxTree parentExpression) {
+            OPPLSyntaxTree rightNode) {
         LessThanAssertion toReturn = null;
         if (left == null) {
             getErrorListener().illegalToken(leftNode,
@@ -499,13 +498,11 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
      * @param leftNode
      * @param right
      * @param rightNode
-     * @param parentExpression
      * @return assert less or equal */
     @SuppressWarnings("unchecked")
     public LessThanEqualToAssertion getAssertLessThanEqualtTo(
             AssertionExpression<?> left, OPPLSyntaxTree leftNode,
-            AssertionExpression<?> right, OPPLSyntaxTree rightNode,
-            OPPLSyntaxTree parentExpression) {
+            AssertionExpression<?> right, OPPLSyntaxTree rightNode) {
         LessThanEqualToAssertion toReturn = null;
         if (left == null) {
             getErrorListener().illegalToken(leftNode,
@@ -530,12 +527,11 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
      * @param leftNode
      * @param right
      * @param rightNode
-     * @param parentExpression
      * @return assert greater */
     @SuppressWarnings("unchecked")
     public GreatThanAssertion getAssertGreaterThan(AssertionExpression<?> left,
             OPPLSyntaxTree leftNode, AssertionExpression<?> right,
-            OPPLSyntaxTree rightNode, OPPLSyntaxTree parentExpression) {
+            OPPLSyntaxTree rightNode) {
         GreatThanAssertion toReturn = null;
         if (left == null) {
             getErrorListener().illegalToken(leftNode,
@@ -560,13 +556,11 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
      * @param leftNode
      * @param right
      * @param rightNode
-     * @param parentExpression
      * @return assert greater or equal */
     @SuppressWarnings("unchecked")
     public GreaterThanEqualToAssertion getAssertGreaterThanEqualTo(
             AssertionExpression<?> left, OPPLSyntaxTree leftNode,
-            AssertionExpression<?> right, OPPLSyntaxTree rightNode,
-            OPPLSyntaxTree parentExpression) {
+            AssertionExpression<?> right, OPPLSyntaxTree rightNode) {
         GreaterThanEqualToAssertion toReturn = null;
         if (left == null) {
             getErrorListener().illegalToken(leftNode,

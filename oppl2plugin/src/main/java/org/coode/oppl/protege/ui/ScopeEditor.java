@@ -274,7 +274,7 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
             this.add(propertyPaneBorder, BorderLayout.SOUTH);
         }
 
-        public void valueChanged(TreeSelectionEvent e) {}
+        public void valueChanged(@SuppressWarnings("unused") TreeSelectionEvent e) {}
 
         private JRadioButton findSelectedButton() {
             JRadioButton button = null;

@@ -100,8 +100,8 @@ public class OPPLPatternScope implements Scope {
         Variable<?> toReturn = null;
         try {
             String resolvedPattern = constraintSystem.resolvePattern(patternName,
-                    getOntologyManager(), new HashSet<String>(visited),
-                    new ArrayList<PatternOPPLScript>(), listener, args);
+                    new HashSet<String>(visited), new ArrayList<PatternOPPLScript>(),
+                    listener, args);
             toReturn = constraintSystem.getVariable(resolvedPattern);
         } catch (PatternException e) {
             if (listener != null) {

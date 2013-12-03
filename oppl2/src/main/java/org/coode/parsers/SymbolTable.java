@@ -1446,12 +1446,11 @@ public class SymbolTable {
         return toReturn;
     }
 
-    /** @param expression
-     * @param value
+    /** @param value
      * @param lang
      * @return symbol replaced owl object */
-    public OWLLiteral getOWLUntypedConstant(CommonTree expression,
-            ManchesterOWLSyntaxTree value, ManchesterOWLSyntaxTree lang) {
+    public OWLLiteral getOWLUntypedConstant(ManchesterOWLSyntaxTree value,
+            ManchesterOWLSyntaxTree lang) {
         return value == null ? null : lang == null ? df.getOWLLiteral(value.getText())
                 : df.getOWLLiteral(value.getText(), lang.getText());
     }
@@ -2354,14 +2353,11 @@ public class SymbolTable {
         return toReturn;
     }
 
-    /** @param manchesterOWLSyntaxTree
-     * @param node
+    /** @param node
      * @param propertyExpressions
      * @return haskey type */
-    public Type
-            getHasKeyType(ManchesterOWLSyntaxTree manchesterOWLSyntaxTree,
-                    ManchesterOWLSyntaxTree node,
-                    Set<ManchesterOWLSyntaxTree> propertyExpressions) {
+    public Type getHasKeyType(ManchesterOWLSyntaxTree node,
+            Set<ManchesterOWLSyntaxTree> propertyExpressions) {
         Type toReturn = null;
         if (node.getEvalType() == null || !node.getEvalType().accept(classDetector)) {
             reportIllegalToken(node, "A class expression is expected here");
@@ -2380,14 +2376,11 @@ public class SymbolTable {
         return toReturn;
     }
 
-    /** @param manchesterOWLSyntaxTree
-     * @param node
+    /** @param node
      * @param propertyExpressions
      * @return haskey */
-    public OWLHasKeyAxiom
-            getHasKey(ManchesterOWLSyntaxTree manchesterOWLSyntaxTree,
-                    ManchesterOWLSyntaxTree node,
-                    Set<ManchesterOWLSyntaxTree> propertyExpressions) {
+    public OWLHasKeyAxiom getHasKey(ManchesterOWLSyntaxTree node,
+            Set<ManchesterOWLSyntaxTree> propertyExpressions) {
         OWLHasKeyAxiom toReturn = null;
         OWLClassExpression ce = null;
         if (node.getEvalType() == null || !node.getEvalType().accept(classDetector)

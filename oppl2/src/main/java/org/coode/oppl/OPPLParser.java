@@ -329,11 +329,9 @@ public class OPPLParser implements AbstractOPPLParser {
 
     /** @param input
      * @param symbolTable
-     * @param constraintSystem
      * @return axiom
      * @see org.coode.oppl.AbstractOPPLParser#parse(java.lang.String) */
-    public OWLAxiom parseAxiom(String input, OPPLSymbolTable symbolTable,
-            ConstraintSystem constraintSystem) {
+    public OWLAxiom parseAxiom(String input, OPPLSymbolTable symbolTable) {
         ANTLRStringStream antlrStringStream = new ANTLRStringStream(input);
         OPPLLexer lexer = new OPPLLexer(antlrStringStream);
         final TokenRewriteStream tokens = new TokenRewriteStream(lexer);

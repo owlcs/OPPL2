@@ -188,8 +188,7 @@ public class OPPLPartsTestCase {
                 createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
         symbolTable.defineVariable(createImaginaryTreeNode(createImaginaryToken("?y")),
                 createImaginaryTreeNode(createImaginaryToken("CLASS")), constraintSystem);
-        OWLAxiom axiom = parser.parseAxiom("?x subClassOf !hasP some ?y", symbolTable,
-                constraintSystem);
+        OWLAxiom axiom = parser.parseAxiom("?x subClassOf !hasP some ?y", symbolTable);
         assertNotNull("The axiom cannot be null", axiom);
     }
 

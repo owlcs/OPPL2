@@ -872,11 +872,10 @@ public class ManchesterOWLSyntaxTypesParts extends TreeFilter {
                     if (state.backtracking == 1) {
                         retval.type = OWLType.OWL_CONSTANT;
                         retval.owlObject = constantType == null ? getSymbolTable()
-                                .getOWLUntypedConstant(
+                                .getOWLUntypedConstant(value, language)
+                                : getSymbolTable().getOWLTypedConstant(
                                         (ManchesterOWLSyntaxTree) retval.start, value,
-                                        language) : getSymbolTable().getOWLTypedConstant(
-                                (ManchesterOWLSyntaxTree) retval.start, value,
-                                constantType);
+                                        constantType);
                     }
                 }
                     break;

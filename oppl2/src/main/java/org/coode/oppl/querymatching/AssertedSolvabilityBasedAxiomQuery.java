@@ -57,7 +57,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 public class AssertedSolvabilityBasedAxiomQuery extends AbstractAxiomQuery {
     private final Map<OWLAxiom, SearchTree<OPPLOWLAxiomSearchNode>> searchTrees = new HashMap<OWLAxiom, SearchTree<OPPLOWLAxiomSearchNode>>();
     private final ConstraintSystem constraintSystem;
-    private final OWLOntologyManager manager;;
+    private final OWLOntologyManager manager;
     private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
     private final Map<OWLAxiom, Collection<? extends OWLObject>> cache = new HashMap<OWLAxiom, Collection<? extends OWLObject>>();
 

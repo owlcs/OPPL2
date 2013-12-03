@@ -969,7 +969,7 @@ public class OPPLTestCaseTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.a = getSymbolTable().getAssertLessThan(left.ae, left.node,
-                                right.ae, right.node, (OPPLSyntaxTree) retval.start);
+                                right.ae, right.node);
                     }
                 }
                     break;
@@ -1005,8 +1005,7 @@ public class OPPLTestCaseTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.a = getSymbolTable().getAssertLessThanEqualtTo(left.ae,
-                                left.node, right.ae, right.node,
-                                (OPPLSyntaxTree) retval.start);
+                                left.node, right.ae, right.node);
                     }
                 }
                     break;
@@ -1042,8 +1041,7 @@ public class OPPLTestCaseTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.a = getSymbolTable().getAssertGreaterThan(left.ae,
-                                left.node, right.ae, right.node,
-                                (OPPLSyntaxTree) retval.start);
+                                left.node, right.ae, right.node);
                     }
                 }
                     break;
@@ -1079,8 +1077,7 @@ public class OPPLTestCaseTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.a = getSymbolTable().getAssertGreaterThanEqualTo(left.ae,
-                                left.node, right.ae, right.node,
-                                (OPPLSyntaxTree) retval.start);
+                                left.node, right.ae, right.node);
                     }
                 }
                     break;

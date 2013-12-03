@@ -172,11 +172,13 @@ enum OWLConstruct {
         });
     }
 
-    public static OWLConstruct getOWLConstruct(OWLFacetRestriction facet) {
+    public static OWLConstruct getOWLConstruct(
+            @SuppressWarnings("unused") OWLFacetRestriction facet) {
         return DATA_FACET;
     }
 
-    public static OWLConstruct getOWLConstruct(OWLObjectInverseOf inverse) {
+    public static OWLConstruct getOWLConstruct(
+            @SuppressWarnings("unused") OWLObjectInverseOf inverse) {
         return INVERSE;
     }
 }

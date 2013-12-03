@@ -25,6 +25,7 @@ package org.coode.patterns.protege.ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -61,7 +62,7 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 /** @author Luigi Iannone Jun 10, 2008 */
 public class TypeInPatternBuilder implements VerifiedInputEditor,
         InputVerificationStatusChangedListener, PatternModelChangeListener,
-        HasPatternModel {
+        HasPatternModel, Serializable {
     private static final long serialVersionUID = 20100L;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
     private final OWLEditorKit owlEditorKit;

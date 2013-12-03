@@ -29,6 +29,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -95,7 +96,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 
 /** @author Luigi Iannone Jun 10, 2008 */
 public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implements
-        VerifiedInputEditor, PatternModelChangeListener, HasPatternModel {
+        VerifiedInputEditor, PatternModelChangeListener, HasPatternModel, Serializable {
     private final class PatternBuilderModel {
         private String name = "";
         private final List<Variable<?>> variables = new ArrayList<Variable<?>>();

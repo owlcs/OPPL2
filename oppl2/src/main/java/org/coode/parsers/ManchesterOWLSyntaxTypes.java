@@ -1577,11 +1577,9 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                         return retval;
                     }
                     if (state.backtracking == 1) {
-                        retval.type = getSymbolTable().getHasKeyType(
-                                (ManchesterOWLSyntaxTree) retval.start, exp.node,
+                        retval.type = getSymbolTable().getHasKeyType(exp.node,
                                 propertyExpressions);
-                        retval.owlAxiom = getSymbolTable().getHasKey(
-                                (ManchesterOWLSyntaxTree) retval.start, exp.node,
+                        retval.owlAxiom = getSymbolTable().getHasKey(exp.node,
                                 propertyExpressions);
                     }
                 }
@@ -2327,11 +2325,10 @@ public class ManchesterOWLSyntaxTypes extends TreeFilter {
                     if (state.backtracking == 1) {
                         retval.type = OWLType.OWL_CONSTANT;
                         retval.owlObject = constantType == null ? getSymbolTable()
-                                .getOWLUntypedConstant(
+                                .getOWLUntypedConstant(value, language)
+                                : getSymbolTable().getOWLTypedConstant(
                                         (ManchesterOWLSyntaxTree) retval.start, value,
-                                        language) : getSymbolTable().getOWLTypedConstant(
-                                (ManchesterOWLSyntaxTree) retval.start, value,
-                                constantType);
+                                        constantType);
                     }
                 }
                     break;

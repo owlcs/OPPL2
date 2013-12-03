@@ -17,6 +17,7 @@ public class Logging {
             }
             if (in != null) {
                 LogManager.getLogManager().readConfiguration(in);
+                in.close();
             }
         } catch (SecurityException e) {
             System.out.println("No local log configuration file found");

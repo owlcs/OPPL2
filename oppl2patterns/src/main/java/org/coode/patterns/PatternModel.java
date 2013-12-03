@@ -133,11 +133,11 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
             return axiom.getClassExpressions().contains(thisClass);
         }
 
-        public Boolean visit(OPPLQuery q) {
+        public Boolean visit(@SuppressWarnings("unused") OPPLQuery q) {
             return Boolean.FALSE;
         }
 
-        public Boolean visit(Variable<?> v) {
+        public Boolean visit(@SuppressWarnings("unused") Variable<?> v) {
             return Boolean.FALSE;
         }
 

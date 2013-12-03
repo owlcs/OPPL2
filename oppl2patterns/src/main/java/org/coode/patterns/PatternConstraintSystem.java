@@ -187,16 +187,15 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     /** @param patternName
-     * @param ontologyManager
      * @param visitedPatterns
      * @param dependencies
      * @param errorListener
      * @param args
      * @return resolved pattern
      * @throws PatternException */
-    public String resolvePattern(String patternName, OWLOntologyManager ontologyManager,
-            Set<String> visitedPatterns, List<PatternOPPLScript> dependencies,
-            ErrorListener errorListener, List<Object>... args) throws PatternException {
+    public String resolvePattern(String patternName, Set<String> visitedPatterns,
+            List<PatternOPPLScript> dependencies, ErrorListener errorListener,
+            List<Object>... args) throws PatternException {
         Set<String> visited = new HashSet<String>(visitedPatterns);
         PatternReference patternReference = new PatternReference(patternName, this,
                 visited, errorListener, args);
@@ -211,7 +210,6 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     /** @param patternName
-     * @param ontologyManager
      * @param visitedPatterns
      * @param dependencies
      * @param errorListener
@@ -219,9 +217,9 @@ public class PatternConstraintSystem extends ConstraintSystem {
      * @return instantiated pattern
      * @throws PatternException */
     public InstantiatedPatternModel resolvePatternInstantiation(String patternName,
-            OWLOntologyManager ontologyManager, Set<String> visitedPatterns,
-            List<PatternOPPLScript> dependencies, final ErrorListener errorListener,
-            List<String>... args) throws PatternException {
+            Set<String> visitedPatterns, List<PatternOPPLScript> dependencies,
+            final ErrorListener errorListener, List<String>... args)
+            throws PatternException {
         RuntimeExceptionHandler handler = new RuntimeExceptionHandler() {
             @Override
             public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {
