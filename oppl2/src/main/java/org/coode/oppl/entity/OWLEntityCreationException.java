@@ -4,12 +4,9 @@ import org.semanticweb.owlapi.model.OWLException;
 
 /** Author: drummond<br>
  * http://www.cs.man.ac.uk/~drummond/<br>
- * <br>
- * <p/>
  * The University Of Manchester<br>
  * Bio Health Informatics Group<br>
- * Date: Sep 18, 2008<br>
- * <br> */
+ * Date: Sep 18, 2008 */
 public class OWLEntityCreationException extends OWLException {
     private static final long serialVersionUID = 20100L;
 
