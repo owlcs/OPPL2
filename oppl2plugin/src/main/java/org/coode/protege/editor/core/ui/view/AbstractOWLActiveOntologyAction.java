@@ -18,8 +18,11 @@ public abstract class AbstractOWLActiveOntologyAction extends DisposableAction {
     private final OWLEditorKit owlEditorKit;
 
     /** @param name
+     *            name
      * @param icon
-     * @param owlEditorKit */
+     *            icon
+     * @param owlEditorKit
+     *            owlEditorKit */
     public AbstractOWLActiveOntologyAction(String name, Icon icon,
             OWLEditorKit owlEditorKit) {
         super(name, icon);

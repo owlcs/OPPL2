@@ -23,7 +23,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  * Medical Informatics Group<br>
  * Date: 16-May-2006<br>
  * <br>
- * <p/>
+ * <br>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br>
  * <br> */
@@ -34,8 +34,11 @@ public class EntityFinderImpl implements EntityFinder {
     private static final String WILDCARD = "*";
 
     /** @param mngr
+     *            mngr
      * @param renderingCache
-     * @param useRegularExpressions */
+     *            renderingCache
+     * @param useRegularExpressions
+     *            useRegularExpressions */
     public EntityFinderImpl(OWLOntologyManager mngr,
             OWLEntityRenderingCache renderingCache, boolean useRegularExpressions) {
         this.renderingCache = checkNotNull(renderingCache, "renderingCache");

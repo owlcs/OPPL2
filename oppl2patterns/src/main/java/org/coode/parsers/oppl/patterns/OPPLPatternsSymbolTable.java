@@ -17,16 +17,22 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
     private final OWLOntologyManager ontologyManager;
 
     /** @param globalScope
-     * @param ontologyManager */
+     *            globalScope
+     * @param ontologyManager
+     *            ontologyManager */
     public OPPLPatternsSymbolTable(Scope globalScope, OWLOntologyManager ontologyManager) {
         super(globalScope, ontologyManager.getOWLDataFactory());
         this.ontologyManager = ontologyManager;
     }
 
     /** @param reference
+     *            reference
      * @param patternName
+     *            patternName
      * @param constraintSystem
-     * @param args */
+     *            constraintSystem
+     * @param args
+     *            args */
     public void resolvePattern(OPPLSyntaxTree reference, String patternName,
             PatternConstraintSystem constraintSystem, List<Object>... args) {
         List<List<Object>> arguments = Arrays.asList(args);
@@ -45,10 +51,15 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
     }
 
     /** @param reference
+     *            reference
      * @param patternName
+     *            patternName
      * @param constraintSystem
+     *            constraintSystem
      * @param visited
-     * @param args */
+     *            visited
+     * @param args
+     *            args */
     public void resolvePattern(OPPLSyntaxTree reference, String patternName,
             PatternConstraintSystem constraintSystem,
             Collection<? extends String> visited, List<Object>... args) {
@@ -78,7 +89,9 @@ public class OPPLPatternsSymbolTable extends OPPLSymbolTable {
     }
 
     /** @param thisClass
-     * @param constraintSystem */
+     *            thisClass
+     * @param constraintSystem
+     *            constraintSystem */
     public void resolveThisClass(OPPLSyntaxTree thisClass,
             PatternConstraintSystem constraintSystem) {
         Variable<?> thisClassVariable = constraintSystem.getThisClassVariable();

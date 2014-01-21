@@ -30,7 +30,9 @@ import org.protege.editor.owl.model.inference.NoOpReasoner;
 /** @author Luigi Iannone */
 public class ProtegeScopeVariableChecker extends VariableScopeChecker {
     /** @param manager
-     * @throws OPPLException */
+     *            manager
+     * @throws OPPLException
+     *             OPPLException */
     public ProtegeScopeVariableChecker(OWLModelManager manager) throws OPPLException {
         super(manager.getOWLOntologyManager(),
                 manager.getReasoner() instanceof NoOpReasoner ? null : manager

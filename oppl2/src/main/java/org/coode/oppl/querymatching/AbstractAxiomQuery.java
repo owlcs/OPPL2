@@ -55,7 +55,8 @@ abstract class AbstractAxiomQuery implements AxiomQuery {
 
     private final Set<BindingNode> leaves = new HashSet<BindingNode>();
 
-    /** @param runtimeExceptionHandler */
+    /** @param runtimeExceptionHandler
+     *            runtimeExceptionHandler */
     AbstractAxiomQuery(RuntimeExceptionHandler runtimeExceptionHandler) {
         this.runtimeExceptionHandler = checkNotNull(runtimeExceptionHandler,
                 "runtimeExceptionHandler");

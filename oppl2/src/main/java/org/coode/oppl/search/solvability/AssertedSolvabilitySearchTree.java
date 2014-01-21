@@ -20,8 +20,11 @@ public class AssertedSolvabilitySearchTree extends
     private final OWLOntologyManager ontologyManager;
 
     /** @param constraintSystem
+     *            constraintSystem
      * @param ontologyManager
-     * @param runtimeExceptionHandler */
+     *            ontologyManager
+     * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler */
     public AssertedSolvabilitySearchTree(ConstraintSystem constraintSystem,
             OWLOntologyManager ontologyManager,
             RuntimeExceptionHandler runtimeExceptionHandler) {

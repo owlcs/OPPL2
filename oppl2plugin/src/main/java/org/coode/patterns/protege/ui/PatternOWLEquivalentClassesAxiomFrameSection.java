@@ -43,8 +43,11 @@ public class PatternOWLEquivalentClassesAxiomFrameSection extends
     private final AbstractPatternModelFactory factory;
 
     /** @param editorKit
+     *            editorKit
      * @param frame
-     * @param f */
+     *            frame
+     * @param f
+     *            f */
     public PatternOWLEquivalentClassesAxiomFrameSection(OWLEditorKit editorKit,
             OWLFrame<OWLClass> frame, AbstractPatternModelFactory f) {
         super(editorKit, frame);

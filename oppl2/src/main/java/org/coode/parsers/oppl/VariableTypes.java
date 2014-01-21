@@ -157,12 +157,14 @@ public enum VariableTypes implements Type {
     }
 
     /** @param string
+     *            string
      * @return matching type */
     public static VariableTypes getVariableType(String string) {
         return map.get(string);
     }
 
     /** @param variableType
+     *            variableType
      * @return type for variable type */
     public static VariableTypes getVariableType(VariableType<?> variableType) {
         return typeMap.get(variableType);
@@ -172,7 +174,9 @@ public enum VariableTypes implements Type {
     public abstract OWLType getOWLType();
 
     /** @param dataFactory
+     *            dataFactory
      * @param name
+     *            name
      * @return symbol */
     public abstract Symbol getSymbol(OWLDataFactory dataFactory, String name);
 

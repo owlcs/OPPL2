@@ -35,7 +35,8 @@ public final class ProtegeOPPLAutoCompletionMatcher implements AutoCompletionMat
             ":DATAPROPERTY", ":INDIVIDUAL", ":CONSTANT", ".toLowerCase", ".toUpperCase",
             ".VALUES", ".RENDERING", ".GROUPS");
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public ProtegeOPPLAutoCompletionMatcher(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         getOWLEditorKit().getOWLModelManager().addListener(modelManagerListener);

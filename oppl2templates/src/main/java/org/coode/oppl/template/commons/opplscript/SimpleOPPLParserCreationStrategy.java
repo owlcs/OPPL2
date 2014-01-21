@@ -18,9 +18,13 @@ public class SimpleOPPLParserCreationStrategy implements
     private final ParserFactory parserFactory;
 
     /** @param ontologyManager
+     *            ontologyManager
      * @param ontology
+     *            ontology
      * @param reasoner
-     * @param errorListener */
+     *            reasoner
+     * @param errorListener
+     *            errorListener */
     public SimpleOPPLParserCreationStrategy(OWLOntologyManager ontologyManager,
             OWLOntology ontology, OWLReasoner reasoner, ErrorListener errorListener) {
         this.errorListener = checkNotNull(errorListener, "errorListener");

@@ -71,13 +71,18 @@ public class OPPLPatternParser implements AbstractOPPLParser {
         AbstractPatternModelFactory getPatternFactory();
     }
 
-    /** @author ignazio */
+    /** pattern reference resolver */
     public interface PatternReferenceResolver {
         /** @param reference
+         *            reference
          * @param patternName
+         *            patternName
          * @param constraintSystem
+         *            constraintSystem
          * @param symbolTable
-         * @param args */
+         *            symbolTable
+         * @param args
+         *            args */
         void resolvePattern(OPPLSyntaxTree reference, String patternName,
                 PatternConstraintSystem constraintSystem,
                 OPPLPatternsSymbolTable symbolTable, List<Object>... args);
@@ -106,8 +111,11 @@ public class OPPLPatternParser implements AbstractOPPLParser {
     private final SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory;
 
     /** @param factory
+     *            factory
      * @param listener
-     * @param symbolTableFactory */
+     *            listener
+     * @param symbolTableFactory
+     *            symbolTableFactory */
     public OPPLPatternParser(AbstractPatternModelFactory factory, ErrorListener listener,
             SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory) {
         this(factory, listener, symbolTableFactory, getSimplePatternReferenceResolver());
@@ -127,9 +135,13 @@ public class OPPLPatternParser implements AbstractOPPLParser {
     }
 
     /** @param factory
+     *            factory
      * @param listener
+     *            listener
      * @param symbolTableFactory
-     * @param patternReferenceResolver */
+     *            symbolTableFactory
+     * @param patternReferenceResolver
+     *            patternReferenceResolver */
     public OPPLPatternParser(AbstractPatternModelFactory factory, ErrorListener listener,
             SymbolTableFactory<OPPLPatternsSymbolTable> symbolTableFactory,
             PatternReferenceResolver patternReferenceResolver) {

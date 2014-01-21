@@ -26,9 +26,13 @@ public class OWLExpressionAssertionExpression implements
     private final RuntimeExceptionHandler handler;
 
     /** @param owlObject
+     *            owlObject
      * @param constraintSystem
+     *            constraintSystem
      * @param testCaseFactory
-     * @param handler */
+     *            testCaseFactory
+     * @param handler
+     *            handler */
     public OWLExpressionAssertionExpression(OWLObject owlObject,
             ConstraintSystem constraintSystem,
             AbstractOPPLTestCaseFactory testCaseFactory, RuntimeExceptionHandler handler) {

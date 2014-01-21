@@ -49,7 +49,9 @@ public class InferredTreeSearchAxiomQuery extends AbstractAxiomQuery {
     private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
 
     /** @param constraintSystem
-     * @param runtimeExceptionHandler */
+     *            constraintSystem
+     * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler */
     public InferredTreeSearchAxiomQuery(ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         super(runtimeExceptionHandler);

@@ -15,7 +15,8 @@ public class CopyAction extends AbstractAction implements ClipboardOwner {
     private static final long serialVersionUID = 20100L;
     private String result;
 
-    /** @param toolTipText */
+    /** @param toolTipText
+     *            toolTipText */
     public CopyAction(String toolTipText) {
         super("Copy Results", new ImageIcon(CopyAction.class.getClassLoader()
                 .getResource("copy2Cipboard.jpg")));

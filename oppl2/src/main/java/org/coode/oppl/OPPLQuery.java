@@ -32,13 +32,16 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /** @author Luigi Iannone */
 public interface OPPLQuery extends Renderable {
-    /** @param axiom */
+    /** @param axiom
+     *            axiom */
     void addAssertedAxiom(OWLAxiom axiom);
 
-    /** @param axiom */
+    /** @param axiom
+     *            axiom */
     void addAxiom(OWLAxiom axiom);
 
-    /** @param constraint */
+    /** @param constraint
+     *            constraint */
     void addConstraint(AbstractConstraint constraint);
 
     /** @return axioms */
@@ -57,18 +60,24 @@ public interface OPPLQuery extends Renderable {
     ConstraintSystem getConstraintSystem();
 
     /** @param runtimeExceptionHandler
-     * @param executionMonitor */
+     *            runtimeExceptionHandler
+     * @param executionMonitor
+     *            executionMonitor */
     void execute(RuntimeExceptionHandler runtimeExceptionHandler,
             ExecutionMonitor executionMonitor);
 
     /** @param leaves
+     *            leaves
      * @param runtimeExceptionHandler
-     * @param executionMonitor */
+     *            runtimeExceptionHandler
+     * @param executionMonitor
+     *            executionMonitor */
     void execute(Collection<? extends BindingNode> leaves,
             RuntimeExceptionHandler runtimeExceptionHandler,
             ExecutionMonitor executionMonitor);
 
     /** @param shortFormProvider
+     *            shortFormProvider
      * @return rendering */
     String render(ShortFormProvider shortFormProvider);
 }

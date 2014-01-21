@@ -44,8 +44,11 @@ public class ActionList extends OPPLMList {
     private final boolean canAdd;
 
     /** @param owlEditorKit
+     *            owlEditorKit
      * @param constraintSystem
-     * @param canAdd */
+     *            constraintSystem
+     * @param canAdd
+     *            canAdd */
     public ActionList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem,
             boolean canAdd) {
         this.owlEditorKit = owlEditorKit;
@@ -107,7 +110,8 @@ public class ActionList extends OPPLMList {
         }
     }
 
-    /** @param constraintSystem */
+    /** @param constraintSystem
+     *            constraintSystem */
     public void setConstraintSystem(ConstraintSystem constraintSystem) {
         setCellRenderer(new VariableOWLCellRenderer(owlEditorKit, constraintSystem,
                 new OWLCellRenderer(owlEditorKit)));

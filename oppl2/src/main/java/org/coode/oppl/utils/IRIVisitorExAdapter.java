@@ -6,17 +6,17 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public class IRIVisitorExAdapter<O> extends OWLObjectVisitorExAdapter<O> implements
         IRIVisitorEx<O> {
-    /**
-     * 
-     */
+    /** default constructor */
     public IRIVisitorExAdapter() {
         super();
     }
 
-    /** @param defaultReturnValue */
+    /** @param defaultReturnValue
+     *            defaultReturnValue */
     public IRIVisitorExAdapter(O defaultReturnValue) {
         super(defaultReturnValue);
     }

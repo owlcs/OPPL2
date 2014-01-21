@@ -6,7 +6,9 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 /** @author Luigi Iannone */
 public class OPPLInferredOWLAxiomSearchTree extends AbstractOPPLAxiomSearchTree {
     /** @param constraintSystem
-     * @param runtimeExceptionHandler */
+     *            constraintSystem
+     * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler */
     public OPPLInferredOWLAxiomSearchTree(ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         super(constraintSystem, runtimeExceptionHandler);

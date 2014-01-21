@@ -12,7 +12,9 @@ public class NAFConstraint implements AbstractConstraint {
     private final ConstraintSystem constraintSystem;
 
     /** @param axiom
-     * @param constraintSystem */
+     *            axiom
+     * @param constraintSystem
+     *            constraintSystem */
     public NAFConstraint(OWLAxiom axiom, ConstraintSystem constraintSystem) {
         this.axiom = checkNotNull(axiom, "axiom");
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");

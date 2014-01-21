@@ -11,7 +11,8 @@ import org.coode.oppl.bindingtree.BindingNode;
 public class AssertionComplement implements Assertion {
     private final Assertion assertion;
 
-    /** @param assertion */
+    /** @param assertion
+     *            assertion */
     public AssertionComplement(Assertion assertion) {
         this.assertion = checkNotNull(assertion, "assertion");
     }

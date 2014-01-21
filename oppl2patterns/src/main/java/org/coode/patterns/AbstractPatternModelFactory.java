@@ -42,15 +42,24 @@ public interface AbstractPatternModelFactory {
      * <code>null</code> variables and actions must be non empty Lists
      * 
      * @param name
+     *            name
      * @param variables
+     *            variables
      * @param actions
+     *            actions
      * @param returnClause
+     *            returnClause
      * @param rendering
+     *            rendering
      * @param constraintSystem
+     *            constraintSystem
      * @return a PatternModel
      * @throws EmptyVariableListException
+     *             EmptyVariableListException
      * @throws EmptyActionListException
-     * @throws UnsuitableOPPLScriptException */
+     *             EmptyActionListException
+     * @throws UnsuitableOPPLScriptException
+     *             UnsuitableOPPLScriptException */
     PatternModel createPatternModel(String name, List<Variable<?>> variables,
             List<OWLAxiomChange> actions, Variable<?> returnClause, String rendering,
             ConstraintSystem constraintSystem) throws EmptyVariableListException,
@@ -59,6 +68,7 @@ public interface AbstractPatternModelFactory {
     /** Builds a PatternModel instance starting from the input opplScript
      * 
      * @param opplScript
+     *            opplScript
      * @return a PatternModel
      * @throws UnsuitableOPPLScriptException
      *             when the input OPPLScript is not suitable for creating a
@@ -67,7 +77,9 @@ public interface AbstractPatternModelFactory {
             throws UnsuitableOPPLScriptException;
 
     /** @param patternModel
+     *            patternModel
      * @param handler
+     *            handler
      * @return a InstantiatedPatternModel instance created from the input
      *         patternModel */
     InstantiatedPatternModel createInstantiatedPatternModel(PatternModel patternModel,
@@ -101,6 +113,7 @@ public interface AbstractPatternModelFactory {
     PatternConstraintSystem createConstraintSystem();
 
     /** @param patternConstraintSystem
+     *            patternConstraintSystem
      * @return renderer */
     ManchesterSyntaxRenderer getRenderer(PatternConstraintSystem patternConstraintSystem);
 

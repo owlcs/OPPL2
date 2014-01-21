@@ -51,7 +51,8 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
 public class ProtegePatternModelFactory implements AbstractPatternModelFactory {
     private final AbstractPatternModelFactory delegate;
 
-    /** @param modelManager */
+    /** @param modelManager
+     *            modelManager */
     public ProtegePatternModelFactory(OWLModelManager modelManager) {
         checkNotNull(modelManager, "modelManager");
         delegate = new PatternModelFactory(modelManager.getActiveOntology(),

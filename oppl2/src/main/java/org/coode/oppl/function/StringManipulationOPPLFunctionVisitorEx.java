@@ -1,17 +1,18 @@
 package org.coode.oppl.function;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public interface StringManipulationOPPLFunctionVisitorEx<O> {
-    /** @param toLowerCaseStringManipulationOPPLFunction
+    /** @param lowercase
+     *            lowercase
      * @return visitor value */
-            O
-            visitToLowerCaseStringManipulationOPPLFunction(
-                    ToLowerCaseStringManipulationOPPLFunction toLowerCaseStringManipulationOPPLFunction);
+    O visitToLowerCaseStringManipulationOPPLFunction(
+            ToLowerCaseStringManipulationOPPLFunction lowercase);
 
-    /** @param upperCaseStringManipulationOPPLFunction
+    /** @param uppercase
+     *            uppercase
      * @return visitor value */
-            O
-            visitToUpperCaseStringManipulationOPPLFunction(
-                    ToUpperCaseStringManipulationOPPLFunction upperCaseStringManipulationOPPLFunction);
+    O visitToUpperCaseStringManipulationOPPLFunction(
+            ToUpperCaseStringManipulationOPPLFunction uppercase);
 }

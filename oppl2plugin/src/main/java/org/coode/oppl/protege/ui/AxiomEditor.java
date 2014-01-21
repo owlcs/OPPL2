@@ -125,7 +125,8 @@ public class AxiomEditor extends JPanel implements VerifiedInputEditor {
         editor.setText("");
     }
 
-    /** @param anOWLAxiom */
+    /** @param anOWLAxiom
+     *            anOWLAxiom */
     public void setOWLAxiom(OWLAxiom anOWLAxiom) {
         VariableOWLCellRenderer renderer = new VariableOWLCellRenderer(owlEditorKit,
                 constraintSystem, new OWLCellRenderer(owlEditorKit));

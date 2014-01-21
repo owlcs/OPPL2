@@ -35,11 +35,17 @@ public class PatternOWLSubClassAxiomFrameSectionRow extends
     private final PatternModel generatingPatternModel;
 
     /** @param owlEditorKit
+     *            owlEditorKit
      * @param section
+     *            section
      * @param ontology
+     *            ontology
      * @param rootObject
+     *            rootObject
      * @param axiom
-     * @param generatingPatternModel */
+     *            axiom
+     * @param generatingPatternModel
+     *            generatingPatternModel */
     public PatternOWLSubClassAxiomFrameSectionRow(OWLEditorKit owlEditorKit,
             PatternOWLSubCLassAxiomFrameSection section, OWLOntology ontology,
             OWLClass rootObject, OWLSubClassOfAxiom axiom,

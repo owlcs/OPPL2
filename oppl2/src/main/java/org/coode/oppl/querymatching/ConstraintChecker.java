@@ -50,7 +50,8 @@ public class ConstraintChecker implements ConstraintVisitorEx<Boolean> {
     private final ValueComputationParameters parameters;
     private final OWLObjectInstantiator instantiator;
 
-    /** @param parameters */
+    /** @param parameters
+     *            parameters */
     public ConstraintChecker(ValueComputationParameters parameters) {
         this.parameters = checkNotNull(parameters, "parameters");
         instantiator = new OWLObjectInstantiator(getParameters());

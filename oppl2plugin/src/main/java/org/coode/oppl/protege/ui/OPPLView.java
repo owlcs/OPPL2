@@ -122,7 +122,8 @@ public final class OPPLView extends AbstractOWLViewComponent implements
             init();
         }
 
-        /** @param leaf */
+        /** @param leaf
+         *            leaf */
         private void instantiateAxioms(BindingNode leaf) {
             if (statementModel != null) {
                 OPPLQuery query = statementModel.getQuery();
@@ -226,7 +227,8 @@ public final class OPPLView extends AbstractOWLViewComponent implements
     class OPPLExecutorSwingWorker extends SwingWorker<List<OWLAxiomChange>, OPPLScript> {
         private final List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
 
-        /** @param changes */
+        /** @param changes
+         *            changes */
         protected OPPLExecutorSwingWorker(List<OWLAxiomChange> changes) {
             this.changes.addAll(changes);
         }

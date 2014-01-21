@@ -50,13 +50,21 @@ public class PatternActionFactory {
     public static final String CREATED_BY = "createdBy";
 
     /** @param thisClass
+     *            thisClass
      * @param actionType
+     *            actionType
      * @param axiom
+     *            axiom
      * @param instantiatedPatternModel
+     *            instantiatedPatternModel
      * @param owlDataFactory
+     *            owlDataFactory
      * @param annotationIRI
+     *            annotationIRI
      * @param ontology
+     *            ontology
      * @param handler
+     *            handler
      * @return changes */
     public static Collection<? extends OWLAxiomChange> createChange(OWLClass thisClass,
             ActionType actionType, OWLAxiom axiom,
@@ -70,12 +78,19 @@ public class PatternActionFactory {
     }
 
     /** @param instantiatedAxiom
+     *            instantiatedAxiom
      * @param actionType
+     *            actionType
      * @param changes
+     *            changes
      * @param instantiatedPatternModel
+     *            instantiatedPatternModel
      * @param owlDataFactory
+     *            owlDataFactory
      * @param ontology
-     * @param annotationIRI */
+     *            ontology
+     * @param annotationIRI
+     *            annotationIRI */
     private static void addChange(OWLAxiom instantiatedAxiom, ActionType actionType,
             List<OWLAxiomChange> changes,
             InstantiatedPatternModel instantiatedPatternModel,
@@ -106,12 +121,19 @@ public class PatternActionFactory {
     }
 
     /** @param actionType
+     *            actionType
      * @param axiom
+     *            axiom
      * @param instantiatedPatternModel
+     *            instantiatedPatternModel
      * @param owlDataFactory
+     *            owlDataFactory
      * @param annotationIRI
+     *            annotationIRI
      * @param ontology
+     *            ontology
      * @param handler
+     *            handler
      * @return changes */
     public static Collection<? extends OWLAxiomChange> createChange(
             ActionType actionType, OWLAxiom axiom,

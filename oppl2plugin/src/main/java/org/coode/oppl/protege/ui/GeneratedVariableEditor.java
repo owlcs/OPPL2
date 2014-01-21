@@ -76,7 +76,9 @@ public class GeneratedVariableEditor extends AbstractVariableEditor<GeneratedVar
     private final OPPLExpressionChecker<GeneratedVariable<?>> opplFunctionExpressionChecker;
 
     /** @param owlEditorKit
-     * @param constraintSystem */
+     *            owlEditorKit
+     * @param constraintSystem
+     *            constraintSystem */
     public GeneratedVariableEditor(OWLEditorKit owlEditorKit,
             ConstraintSystem constraintSystem) {
         setLayout(new BorderLayout());

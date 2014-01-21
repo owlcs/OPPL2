@@ -26,9 +26,13 @@ public class LocalityCheckerActionListener extends LocalityChecker implements
     private final JButton resultButton;
 
     /** @param kit
+     *            kit
      * @param signature
+     *            signature
      * @param resultButton
-     * @param handler */
+     *            resultButton
+     * @param handler
+     *            handler */
     public LocalityCheckerActionListener(final OWLEditorKit kit,
             Set<OWLEntity> signature, JButton resultButton,
             RuntimeExceptionHandler handler) {
@@ -41,6 +45,7 @@ public class LocalityCheckerActionListener extends LocalityChecker implements
     }
 
     /** @param color
+     *            color
      * @return icon */
     public Icon generateIcon(final Color color) {
         return new Icon() {

@@ -15,7 +15,9 @@ public class AssertEqual implements Assertion {
     private final AssertionExpression<?> right;
 
     /** @param left
-     * @param right */
+     *            left
+     * @param right
+     *            right */
     public AssertEqual(AssertionExpression<?> left, AssertionExpression<?> right) {
         this.left = checkNotNull(left, "left");
         this.right = checkNotNull(right, "right");

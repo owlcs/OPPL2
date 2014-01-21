@@ -33,8 +33,11 @@ public class InequalityConstraint implements AbstractConstraint {
     private final ConstraintSystem constraintSystem;
 
     /** @param variable
+     *            variable
      * @param expression
-     * @param constraintSystem */
+     *            expression
+     * @param constraintSystem
+     *            constraintSystem */
     public InequalityConstraint(Variable<?> variable, OWLObject expression,
             ConstraintSystem constraintSystem) {
         this.variable = variable;

@@ -191,9 +191,13 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
             private final int length;
 
             /** @param message
+             *            message
              * @param charPositionInline
+             *            charPositionInline
              * @param line
-             * @param length */
+             *            line
+             * @param length
+             *            length */
             public ErrorReportImpl(String message, int line, int charPositionInline,
                     int length) {
                 this.message = checkNotNull(message, "message");
@@ -486,7 +490,8 @@ public class ManchesterOWLSyntaxValidatorGUI extends JFrame {
     private final ExpressionChecker<OWLAxiom> checker = new AxiomChecker();
     protected final ExpressionEditor<OWLAxiom> axiomValidator;
 
-    /** @param uri */
+    /** @param uri
+     *            uri */
     public void loadOntology(URI uri) {
         try {
             manager.loadOntology(IRI.create(uri));

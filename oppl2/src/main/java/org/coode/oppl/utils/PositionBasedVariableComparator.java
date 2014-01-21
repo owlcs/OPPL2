@@ -23,7 +23,9 @@ public class PositionBasedVariableComparator implements Comparator<Variable<?>> 
     private final OWLDataFactory dataFactory;
 
     /** @param container
-     * @param dataFactory */
+     *            container
+     * @param dataFactory
+     *            dataFactory */
     public PositionBasedVariableComparator(OWLObject container, OWLDataFactory dataFactory) {
         this.container = checkNotNull(container, "container");
         this.dataFactory = checkNotNull(dataFactory, "dataFactory");

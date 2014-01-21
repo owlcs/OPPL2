@@ -146,7 +146,9 @@ public class VariableEditor extends AbstractVariableEditor<InputVariable<?>> {
     protected JButton deleteScopeButton = new JButton("Clear");
 
     /** @param owlEditorKit
-     * @param constraintSystem */
+     *            owlEditorKit
+     * @param constraintSystem
+     *            constraintSystem */
     public VariableEditor(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
@@ -271,7 +273,8 @@ public class VariableEditor extends AbstractVariableEditor<InputVariable<?>> {
         deleteScopeButton.setEnabled(editScopeButton.isEnabled());
     }
 
-    /** @param type */
+    /** @param type
+     *            type */
     private void updateTypeScope(VariableType<?> type) {
         if (lastVariableScope != null && type != null) {
             findSelectedButton();
@@ -304,8 +307,11 @@ public class VariableEditor extends AbstractVariableEditor<InputVariable<?>> {
     }
 
     /** @param variableName
+     *            variableName
      * @param type
-     * @throws OPPLException */
+     *            type
+     * @throws OPPLException
+     *             OPPLException */
     private void updateVariable(String variableName, VariableType<?> type)
             throws OPPLException {
         if (getVariable() != null) {

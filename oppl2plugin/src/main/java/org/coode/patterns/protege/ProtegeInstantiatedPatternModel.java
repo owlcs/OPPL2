@@ -35,7 +35,9 @@ public class ProtegeInstantiatedPatternModel extends InstantiatedPatternModel {
     private final OWLModelManager modelManager;
 
     /** @param patternModel
-     * @param handler */
+     *            patternModel
+     * @param handler
+     *            handler */
     public ProtegeInstantiatedPatternModel(ProtegePatternModel patternModel,
             RuntimeExceptionHandler handler) {
         super(patternModel, handler);

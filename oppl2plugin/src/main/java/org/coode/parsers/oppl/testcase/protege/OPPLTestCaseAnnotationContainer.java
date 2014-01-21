@@ -25,7 +25,8 @@ public class OPPLTestCaseAnnotationContainer implements AnnotationContainer {
     private final OWLAnnotationProperty testCaseAnnotationProperty;
     protected final OPPLTestCaseParser parser;
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public OPPLTestCaseAnnotationContainer(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         testCaseAnnotationProperty = Preferences
@@ -52,6 +53,7 @@ public class OPPLTestCaseAnnotationContainer implements AnnotationContainer {
     }
 
     /** @param annotation
+     *            annotation
      * @return test case */
     public OPPLTestCase getOPPLTestCase(OWLAnnotation annotation) {
         OPPLTestCase extracted = null;

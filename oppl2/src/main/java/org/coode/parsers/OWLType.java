@@ -89,6 +89,7 @@ public enum OWLType implements Type {
     }
 
     /** @param t
+     *            t
      * @return true if matched */
     public boolean match(Type t) {
         return this == t;
@@ -100,24 +101,28 @@ public enum OWLType implements Type {
     }
 
     /** @param type
+     *            type
      * @return true if class expression */
     public static boolean isClassExpression(Type type) {
         return getClassDescriptionTypes().contains(type);
     }
 
     /** @param type
+     *            type
      * @return true if datatype expression */
     public static boolean isDataTypeExpression(Type type) {
         return getDataRestrictionTypes().contains(type);
     }
 
     /** @param type
+     *            type
      * @return true if object property expression */
     public static boolean isObjectPropertyExpression(Type type) {
         return type == OWL_OBJECT_PROPERTY || type == OWL_OBJECT_INVERSE_PROPERTY;
     }
 
     /** @param type
+     *            type
      * @return true if property */
     public static boolean isPropertyExpression(Type type) {
         return type == OWL_OBJECT_PROPERTY || type == OWL_OBJECT_INVERSE_PROPERTY
@@ -135,6 +140,7 @@ public enum OWLType implements Type {
     }
 
     /** @param entity
+     *            entity
      * @return owl type */
     public static OWLType get(OWLEntity entity) {
         return entity.accept(new OWLEntityVisitorEx<OWLType>() {

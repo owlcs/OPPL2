@@ -29,15 +29,20 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunction<Set<O>> {
     private final Set<O> delegate = new HashSet<O>();
     private final Set<Aggregandum<Collection<? extends O>>> aggregandums = new HashSet<Aggregandum<Collection<? extends O>>>();
 
     /** @param variableType
+     *            variableType
      * @param aggregandums
+     *            aggregandums
      * @param dataFactory
-     * @param constraintSystem */
+     *            dataFactory
+     * @param constraintSystem
+     *            constraintSystem */
     public InlineSet(VariableType<? extends O> variableType,
             Collection<? extends Aggregandum<Collection<? extends O>>> aggregandums,
             final OWLDataFactory dataFactory, final ConstraintSystem constraintSystem) {
@@ -154,10 +159,17 @@ public final class InlineSet<O extends OWLObject> implements Set<O>, OPPLFunctio
     }
 
     /** @param dataFactory
+     *            dataFactory
      * @param constraintSystem
+     *            constraintSystem
      * @param variableType
+     *            variableType
      * @param components
+     *            components
      * @param objects
+     *            objects
+     * @param <P>
+     *            set type
      * @return inline set */
     public static <P extends OWLObject> InlineSet<P> buildInlineSet(
             OWLDataFactory dataFactory, ConstraintSystem constraintSystem,

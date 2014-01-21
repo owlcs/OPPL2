@@ -18,7 +18,8 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 public class ANNOTATIONPROPERTYVariableType extends
         AbstractVariableType<OWLAnnotationProperty> implements
         VariableType<OWLAnnotationProperty> {
-    /** @param name */
+    /** @param name
+     *            name */
     public ANNOTATIONPROPERTYVariableType(VariableTypeName name) {
         super(name, EnumSet.noneOf(Direction.class));
     }

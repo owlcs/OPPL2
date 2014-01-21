@@ -10,21 +10,30 @@ import org.semanticweb.owlapi.model.OWLAxiom;
  * @author Luigi Iannone */
 public abstract class SolvabilitySearchNode extends OPPLOWLAxiomSearchNode {
     /** @param axiom
-     * @param bindingNode */
+     *            axiom
+     * @param bindingNode
+     *            bindingNode */
     protected SolvabilitySearchNode(OWLAxiom axiom, BindingNode bindingNode) {
         super(axiom, bindingNode);
     }
 
-    /** @param visitor */
+    /** @param visitor
+     *            visitor */
     public abstract void accept(SolvabilitySearchNodeVisitor visitor);
 
     /** @param visitor
+     *            visitor
+     * @param <O>
+     *            visitor return type
      * @return visitor value */
     public abstract <O> O accept(SolvabilitySearchNodeVisitorEx<O> visitor);
 
     /** @param axiom
+     *            axiom
      * @param axiomSolvability
+     *            axiomSolvability
      * @param bindingNode
+     *            bindingNode
      * @return solvability search node */
     public static SolvabilitySearchNode buildSolvabilitySearchNode(OWLAxiom axiom,
             AxiomSolvability axiomSolvability, BindingNode bindingNode) {

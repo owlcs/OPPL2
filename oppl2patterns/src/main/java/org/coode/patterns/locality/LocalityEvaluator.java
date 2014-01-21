@@ -5,12 +5,8 @@ import java.util.Set;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
 
-/** <p>
- * Copyright: Copyright (c) 2007
- * </p>
- * <p>
- * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
- * </p>
+/** Copyright: Copyright (c) 2007 Company: Clark &amp; Parsia, LLC. <a
+ * href="http://www.clarkparsia.com">clarkparsia</a>
  * 
  * @author Evren Sirin */
 public interface LocalityEvaluator {

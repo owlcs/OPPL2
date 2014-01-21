@@ -23,8 +23,11 @@ public class BindingNodeCountAssertionExpression implements AssertionExpression<
     private final ConstraintSystem constraintSystem;
 
     /** @param bindingNode
+     *            bindingNode
      * @param constraintSystem
-     * @param testCaseFactory */
+     *            constraintSystem
+     * @param testCaseFactory
+     *            testCaseFactory */
     public BindingNodeCountAssertionExpression(BindingNode bindingNode,
             ConstraintSystem constraintSystem, AbstractOPPLTestCaseFactory testCaseFactory) {
         this.bindingNode = checkNotNull(bindingNode, "bindingNode");

@@ -90,8 +90,11 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
         };
 
         /** @param owlEditorKit
+         *            owlEditorKit
          * @param constraintSystem
-         * @param model */
+         *            constraintSystem
+         * @param model
+         *            model */
         public OPPLConstraintList(OWLEditorKit owlEditorKit,
                 ConstraintSystem constraintSystem, OPPLBuilderModel model) {
             owlKit = checkNotNull(owlEditorKit, "owlEditorKit");
@@ -580,7 +583,8 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
             assertedQueryAxioms.removeAll(toRemove);
         }
 
-        /** @param v */
+        /** @param v
+         *            v */
         private void purgeActions(Variable<?> v) {
             Set<OWLAxiomChange> toRemove = new HashSet<OWLAxiomChange>();
             for (OWLAxiomChange action : actions) {
@@ -828,7 +832,15 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
         protected final OPPLBuilderModel model;
 
         /** @param variable
-         * @param owlEditorKit */
+         *            variable
+         * @param owlEditorKit
+         *            owlEditorKit
+         * @param isEditable
+         *            isEditable
+         * @param isDeleatable
+         *            isDeleatable
+         * @param m
+         *            m */
         protected OPPLVariableListItem(Variable<?> variable, OWLEditorKit owlEditorKit,
                 boolean isEditable, boolean isDeleatable, OPPLBuilderModel m) {
             super(variable, m.constraintSystem, owlEditorKit, isEditable, isDeleatable);
@@ -970,7 +982,8 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
             getDefaultModel().addElement(new GeneratedVariableSectionHeader());
         }
 
-        /** @param listItem */
+        /** @param listItem
+         *            listItem */
         protected void placeListItem(OPPLVariableListItem listItem) {
             int i = -1;
             if (listItem.getVariable() instanceof GeneratedVariable<?>) {

@@ -27,7 +27,9 @@ public class ArgumentIndexOutOfBoundsException extends PatternException {
     private static final long serialVersionUID = 20100L;
 
     /** @param patternName
-     * @param i */
+     *            patternName
+     * @param i
+     *            i */
     public ArgumentIndexOutOfBoundsException(String patternName, int i) {
         super("Index " + i + " out of bounds for pattern " + patternName);
     }

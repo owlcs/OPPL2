@@ -11,7 +11,8 @@ import org.semanticweb.owlapi.model.OWLObject;
  * StaticListItems containing either OWLObjects or PRopertyChainModel,
  * PropertyChainCell or BindingModel objects */
 public class RenderableObjectCellRenderer extends OWLCellRenderer {
-    /** @param edkit */
+    /** @param edkit
+     *            edkit */
     public RenderableObjectCellRenderer(OWLEditorKit edkit) {
         super(edkit);
     }

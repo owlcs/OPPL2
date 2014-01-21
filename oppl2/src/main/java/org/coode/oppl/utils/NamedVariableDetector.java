@@ -37,7 +37,9 @@ public class NamedVariableDetector extends AbstractVariableDetector {
     private final Variable<?> variable;
 
     /** @param variable
-     * @param constraintSystem */
+     *            variable
+     * @param constraintSystem
+     *            constraintSystem */
     public NamedVariableDetector(Variable<?> variable, ConstraintSystem constraintSystem) {
         super(constraintSystem);
         this.variable = variable;

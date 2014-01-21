@@ -18,7 +18,8 @@ import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 public class SimpleSymbolTableFactory implements SymbolTableFactory<SymbolTable> {
     private final OWLOntologyManager manager;
 
-    /** @param manager */
+    /** @param manager
+     *            manager */
     public SimpleSymbolTableFactory(OWLOntologyManager manager) {
         this.manager = checkNotNull(manager, "manager");
     }

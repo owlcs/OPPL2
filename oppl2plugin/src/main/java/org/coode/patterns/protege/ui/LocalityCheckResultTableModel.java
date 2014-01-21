@@ -51,7 +51,8 @@ public class LocalityCheckResultTableModel implements TableModel {
         return dataArray;
     }
 
-    /** @param checker */
+    /** @param checker
+     *            checker */
     public LocalityCheckResultTableModel(LocalityChecker checker) {
         List<InputVariable<?>> toAssign = new ArrayList<InputVariable<?>>(checker
                 .getInstantiatedPatternModel().getInputVariables());

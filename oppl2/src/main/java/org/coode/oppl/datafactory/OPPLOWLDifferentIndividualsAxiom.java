@@ -35,9 +35,13 @@ public class OPPLOWLDifferentIndividualsAxiom extends
     private final boolean shouldExpandAsPairWise;
 
     /** @param dataFactory
+     *            dataFactory
      * @param individuals
+     *            individuals
      * @param annotations
-     * @param shouldExpandAsPairWise */
+     *            annotations
+     * @param shouldExpandAsPairWise
+     *            shouldExpandAsPairWise */
     public OPPLOWLDifferentIndividualsAxiom(OPPLOWLDataFactory dataFactory,
             InlineSet<OWLIndividual> individuals,
             Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {

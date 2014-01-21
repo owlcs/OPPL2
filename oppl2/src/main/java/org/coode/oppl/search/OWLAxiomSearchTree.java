@@ -44,7 +44,8 @@ import org.semanticweb.owlapi.model.OWLOntology;
 public class OWLAxiomSearchTree extends SearchTree<OWLAxiom> {
     private final ValueComputationParameters parameters;
 
-    /** @param parameters */
+    /** @param parameters
+     *            parameters */
     public OWLAxiomSearchTree(ValueComputationParameters parameters) {
         this.parameters = checkNotNull(parameters, "parameters");
     }

@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.ui.report;
 
 import org.coode.parsers.oppl.testcase.OPPLTestCase;
@@ -10,7 +9,8 @@ import org.coode.parsers.oppl.testcase.OPPLTestCase;
  * 
  * @author Luigi Iannone */
 public abstract class UnsuccessfulExecutionReport extends AbstractReport {
-    /** @param opplTestCase */
+    /** @param opplTestCase
+     *            opplTestCase */
     public UnsuccessfulExecutionReport(OPPLTestCase opplTestCase) {
         super(opplTestCase);
     }

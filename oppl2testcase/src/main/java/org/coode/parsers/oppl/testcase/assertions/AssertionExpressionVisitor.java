@@ -1,26 +1,30 @@
-
 package org.coode.parsers.oppl.testcase.assertions;
 
 /** Visitor pattern for AssertionExpression.
  * 
  * @author Luigi Iannone */
 public interface AssertionExpressionVisitor {
-    /** @param countAssertionExpression */
+    /** @param countAssertionExpression
+     *            countAssertionExpression */
     void visitCountAssertionExpression(CountAssertionExpression countAssertionExpression);
 
-    /** @param integerAssertionExpression */
+    /** @param integerAssertionExpression
+     *            integerAssertionExpression */
     void visitIntegerAssertionExpressionVisitor(
             IntegerAssertionExpression integerAssertionExpression);
 
-    /** @param owlExpressionAssertionExpression */
+    /** @param owlExpressionAssertionExpression
+     *            owlExpressionAssertionExpression */
     void visitOWLExpressionAssertionExpression(
             OWLExpressionAssertionExpression owlExpressionAssertionExpression);
 
-    /** @param countStarAssertionExpression */
+    /** @param countStarAssertionExpression
+     *            countStarAssertionExpression */
     void visitCountStarAssertionExpression(
             CountStarAssertionExpression countStarAssertionExpression);
 
-    /** @param bindingNodeCountAssertionExpression */
+    /** @param bindingNodeCountAssertionExpression
+     *            bindingNodeCountAssertionExpression */
     void visitBindingNodeCountAssertionExpression(
             BindingNodeCountAssertionExpression bindingNodeCountAssertionExpression);
 }

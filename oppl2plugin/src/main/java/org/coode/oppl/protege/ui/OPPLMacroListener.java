@@ -30,19 +30,23 @@ public interface OPPLMacroListener {
     /** Handles the notification that an entity has been genearlised as a new
      * Variable
      * 
-     * @param variable */
+     * @param variable
+     *            variable */
     void handleGeneralisedOWLObject(Variable<?> variable);
 
     /** Handles the notification that an entity has been generalised and assigned
      * to an existing Variable
      * 
      * @param variable
-     * @param owlObject */
+     *            variable
+     * @param owlObject
+     *            owlObject */
     void handleGeneralisedOWLObject(Variable<?> variable, OWLObject owlObject);
 
     /** Handles the notification that a Variable has been deleted from the
      * OPPLMacro
      * 
-     * @param variable */
+     * @param variable
+     *            variable */
     void handleDeletedVariable(Variable<?> variable);
 }

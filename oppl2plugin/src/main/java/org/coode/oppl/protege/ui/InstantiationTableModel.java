@@ -102,7 +102,9 @@ public class InstantiationTableModel implements TableModel {
     }
 
     /** @param opplScript
-     * @param owlEditorKit */
+     *            opplScript
+     * @param owlEditorKit
+     *            owlEditorKit */
     public InstantiationTableModel(OPPLScript opplScript, OWLEditorKit owlEditorKit) {
         this.opplScript = checkNotNull(opplScript, "opplScript");
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");

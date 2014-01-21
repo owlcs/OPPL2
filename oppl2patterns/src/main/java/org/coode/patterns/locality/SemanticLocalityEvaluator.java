@@ -8,18 +8,8 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-/** <p/>
- * Title:
- * </p>
- * <p/>
- * Description:
- * </p>
- * <p/>
- * Copyright: Copyright (c) 2007
- * </p>
- * <p/>
- * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
- * </p>
+/** Copyright: Copyright (c) 2007 Company: Clark &amp; Parsia, LLC. <a
+ * href="http://www.clarkparsia.com">clarkparsia</a>
  * 
  * @author Evren Sirin */
 public final class SemanticLocalityEvaluator implements LocalityEvaluator {
@@ -29,7 +19,9 @@ public final class SemanticLocalityEvaluator implements LocalityEvaluator {
     protected OWLReasoner reasoner;
 
     /** @param man
-     * @param reasoner */
+     *            man
+     * @param reasoner
+     *            reasoner */
     public SemanticLocalityEvaluator(OWLOntologyManager man, OWLReasoner reasoner) {
         df = man.getOWLDataFactory();
         this.reasoner = reasoner;

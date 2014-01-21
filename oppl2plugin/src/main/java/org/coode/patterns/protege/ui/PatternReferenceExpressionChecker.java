@@ -46,7 +46,9 @@ public class PatternReferenceExpressionChecker implements
     private final RuntimeExceptionHandler handler;
 
     /** @param owlEditorKit
-     * @param handler */
+     *            owlEditorKit
+     * @param handler
+     *            handler */
     public PatternReferenceExpressionChecker(OWLEditorKit owlEditorKit,
             RuntimeExceptionHandler handler) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");

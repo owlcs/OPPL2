@@ -7,7 +7,8 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 /** @author Luigi Iannone */
 public class ToLowerCaseStringManipulationOPPLFunction extends
         StringManipulationOPPLFunction {
-    /** @param arg */
+    /** @param arg
+     *            arg */
     public ToLowerCaseStringManipulationOPPLFunction(OPPLFunction<String> arg) {
         super(arg);
     }

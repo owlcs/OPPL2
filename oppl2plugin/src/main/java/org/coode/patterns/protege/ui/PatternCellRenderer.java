@@ -54,7 +54,8 @@ public class PatternCellRenderer implements ListCellRenderer {
     private final OWLEditorKit owlEditorKit;
     private final OWLCellRenderer owlCellRenderer;
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public PatternCellRenderer(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         owlCellRenderer = new OWLCellRenderer(this.owlEditorKit);

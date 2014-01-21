@@ -132,7 +132,8 @@ public final class ReportTreeModel implements TreeModel {
         notifyListeners();
     }
 
-    /** @param reports */
+    /** @param reports
+     *            reports */
     public void addReports(Map<OPPLTestCase, List<Report>> reports) {
         if (reportMap.isEmpty()) {
             root = ReportTreeModel.TEST_CASES_EXECUTED;
@@ -194,6 +195,7 @@ public final class ReportTreeModel implements TreeModel {
     }
 
     /** @param report
+     *            report
      * @return true if unsuccesful */
     public boolean isUnsuccessful(Report report) {
         boolean found;

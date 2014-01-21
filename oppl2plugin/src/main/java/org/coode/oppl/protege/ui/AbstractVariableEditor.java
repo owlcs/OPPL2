@@ -15,7 +15,8 @@ import org.coode.parsers.ui.VerifiedInputEditor;
 import org.protege.editor.owl.ui.clsdescriptioneditor.ExpressionEditor;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public abstract class AbstractVariableEditor<O extends Variable<?>> extends JPanel
         implements VerifiedInputEditor {
     private static final long serialVersionUID = 20100L;
@@ -24,7 +25,8 @@ public abstract class AbstractVariableEditor<O extends Variable<?>> extends JPan
     protected ExpressionEditor<String> variableNameExpressionEditor;
     protected ButtonGroup variableTypeButtonGroup;
 
-    /** @param variable */
+    /** @param variable
+     *            variable */
     public void setVariable(O variable) {
         this.variable = variable;
     }

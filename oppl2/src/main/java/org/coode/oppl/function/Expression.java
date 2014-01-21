@@ -9,12 +9,14 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public class Expression<O extends OWLObject> extends AbstractOPPLFunction<O> implements
         OPPLFunction<O> {
     private final O expression;
 
-    /** @param expression */
+    /** @param expression
+     *            expression */
     public Expression(O expression) {
         this.expression = checkNotNull(expression, "expression");
     }

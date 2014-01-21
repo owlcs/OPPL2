@@ -35,7 +35,8 @@ import org.coode.patterns.PatternModel;
 public class PatternBorder implements Border {
     private final PatternModel patternModel;
 
-    /** @param patternModel */
+    /** @param patternModel
+     *            patternModel */
     public PatternBorder(PatternModel patternModel) {
         this.patternModel = patternModel;
     }

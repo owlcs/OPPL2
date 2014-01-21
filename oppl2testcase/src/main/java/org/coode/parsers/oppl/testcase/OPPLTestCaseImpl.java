@@ -15,9 +15,13 @@ public class OPPLTestCaseImpl implements OPPLTestCase {
     private final List<OPPLTest> tests = new ArrayList<OPPLTest>();
 
     /** @param name
+     *            name
      * @param opplScript
+     *            opplScript
      * @param tests
-     * @param requiresInference */
+     *            tests
+     * @param requiresInference
+     *            requiresInference */
     public OPPLTestCaseImpl(String name, OPPLScript opplScript,
             List<? extends OPPLTest> tests, boolean requiresInference) {
         this.name = checkNotNull(name, "name");

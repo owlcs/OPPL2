@@ -41,7 +41,10 @@ public abstract class ClassVariableScope extends
     private static Map<OWLClassExpression, SuperClassVariableScope> superClassesScopes = new HashMap<OWLClassExpression, SuperClassVariableScope>();
     private static Map<OWLClassExpression, SubClassVariableScope> subClassesScopes = new HashMap<OWLClassExpression, SubClassVariableScope>();
 
-    /** @param description */
+    /** @param description
+     *            description
+     * @param checker
+     *            checker */
     ClassVariableScope(OWLClassExpression description, VariableScopeChecker checker) {
         super(checker);
         this.description = description;

@@ -40,7 +40,8 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
  * super-properties of a given property
  * 
  * @author Luigi Iannone
- * @param <P> */
+ * @param <P>
+ *            type */
 public class SuperPropertyVariableScope<P extends OWLPropertyExpression<?, ?>> extends
         PropertyVariableScope<P> {
     SuperPropertyVariableScope(P property, VariableScopeChecker checker) {

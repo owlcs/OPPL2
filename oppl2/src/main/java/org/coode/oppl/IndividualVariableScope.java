@@ -45,7 +45,10 @@ public class IndividualVariableScope extends AbstractVariableScope<OWLClassExpre
     private static Map<OWLClassExpression, IndividualVariableScope> cache = new HashMap<OWLClassExpression, IndividualVariableScope>();
     private OWLClassExpression classExpression;
 
-    /** @param classExpression */
+    /** @param classExpression
+     *            classExpression
+     * @param checker
+     *            checker */
     IndividualVariableScope(OWLClassExpression classExpression,
             VariableScopeChecker checker) {
         super(checker);

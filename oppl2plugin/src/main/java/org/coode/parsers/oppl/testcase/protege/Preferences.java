@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.protege;
 
 import org.protege.editor.core.prefs.PreferencesManager;
@@ -12,6 +11,7 @@ public class Preferences {
     private static final String TEST_CASE_IRI_STRING = "testCaseIRIString";
 
     /** @param dataFactory
+     *            dataFactory
      * @return annotation property for test */
     public static OWLAnnotationProperty getTestCaseAnnotationProperty(
             OWLDataFactory dataFactory) {

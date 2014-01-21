@@ -10,7 +10,8 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 abstract class CreateOWLEntity<I extends OPPLFunction<? extends String>, O extends OWLEntity>
         extends Create<I, O> {
-    /** @param input */
+    /** @param input
+     *            input */
     public CreateOWLEntity(I input) {
         super(input);
     }

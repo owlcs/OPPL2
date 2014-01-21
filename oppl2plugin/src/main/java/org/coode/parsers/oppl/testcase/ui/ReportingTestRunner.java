@@ -22,7 +22,9 @@ public class ReportingTestRunner {
         private final Map<OPPLTestCase, List<Report>> reports;
 
         /** @param opplTestCase
-         * @param reports */
+         *            opplTestCase
+         * @param reports
+         *            reports */
         public OPPLTestCaseRunner(OPPLTestCase opplTestCase,
                 Map<OPPLTestCase, List<Report>> reports) {
             super(opplTestCase);
@@ -74,7 +76,8 @@ public class ReportingTestRunner {
 
     protected final OPPLTestCase opplTestCase;
 
-    /** @param opplTestCase */
+    /** @param opplTestCase
+     *            opplTestCase */
     public ReportingTestRunner(OPPLTestCase opplTestCase) {
         this.opplTestCase = checkNotNull(opplTestCase, "opplTestCase");
     }

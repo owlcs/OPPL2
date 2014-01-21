@@ -31,12 +31,14 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
  * {@link GeneratedVariable} instance
  * 
  * @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public interface VariableScope<O extends OWLObject> extends Renderable {
     /** @param owlObject
-     * @param checker
+     *            owlObject
      * @return true if the input OWLObject is into the VariableScope
-     * @throws OWLRuntimeException */
+     * @throws OWLRuntimeException
+     *             OWLRuntimeException */
     boolean check(OWLObject owlObject) throws OWLRuntimeException;
 
     /** @return the direction of the VariableScope */

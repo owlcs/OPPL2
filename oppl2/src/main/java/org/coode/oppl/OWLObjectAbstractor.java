@@ -112,7 +112,9 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject> im
     private final OWLDataFactory df;
 
     /** @param variables
-     * @param parameters */
+     *            variables
+     * @param parameters
+     *            parameters */
     public OWLObjectAbstractor(Collection<? extends Variable<?>> variables,
             ValueComputationParameters parameters) {
         this(variables, parameters, parameters.getConstraintSystem().getLeaves());
@@ -124,8 +126,11 @@ public class OWLObjectAbstractor extends OWLObjectVisitorExAdapter<OWLObject> im
     }
 
     /** @param variables
+     *            variables
      * @param parameters
-     * @param bindingNodes */
+     *            parameters
+     * @param bindingNodes
+     *            bindingNodes */
     public OWLObjectAbstractor(Collection<? extends Variable<?>> variables,
             ValueComputationParameters parameters,
             Collection<? extends BindingNode> bindingNodes) {

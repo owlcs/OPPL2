@@ -16,7 +16,8 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 public abstract class AbstractQueryPlannerItem implements QueryPlannerItem {
     private final ConstraintSystem constraintSystem;
 
-    /** @param constraintSystem */
+    /** @param constraintSystem
+     *            constraintSystem */
     public AbstractQueryPlannerItem(ConstraintSystem constraintSystem) {
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
     }

@@ -34,7 +34,8 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public class InputVariable<O extends OWLObject> implements Variable<O> {
     private final String name;
     private final VariableType<O> type;

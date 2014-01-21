@@ -16,7 +16,9 @@ public class LessThanAssertion implements Assertion {
     private final AssertionExpression<Integer> right;
 
     /** @param left
-     * @param right */
+     *            left
+     * @param right
+     *            right */
     public LessThanAssertion(AssertionExpression<Integer> left,
             AssertionExpression<Integer> right) {
         this.left = checkNotNull(left, "left");

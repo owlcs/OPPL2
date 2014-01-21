@@ -41,7 +41,8 @@ import org.semanticweb.owlapi.model.OWLException;
 /** GUI component that allows to instantiate a generic OPPL Script
  * 
  * @author Luigi Iannone
- * @param <P> */
+ * @param <P>
+ *            type */
 public abstract class OPPLScriptInstantiationEditor<P extends InstantiatedOPPLScript>
         implements VerifiedInputEditor, InputVerificationStatusChangedListener {
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
@@ -51,7 +52,9 @@ public abstract class OPPLScriptInstantiationEditor<P extends InstantiatedOPPLSc
     protected P instantiatedScript = null;
 
     /** @param instantiatedOPPLScript
-     * @param owlEditorKit */
+     *            instantiatedOPPLScript
+     * @param owlEditorKit
+     *            owlEditorKit */
     public OPPLScriptInstantiationEditor(P instantiatedOPPLScript,
             OWLEditorKit owlEditorKit) {
         this.instantiatedScript = instantiatedOPPLScript;
@@ -90,7 +93,8 @@ public abstract class OPPLScriptInstantiationEditor<P extends InstantiatedOPPLSc
         this.listeners.remove(listener);
     }
 
-    /** @param listener */
+    /** @param listener
+     *            listener */
     private void notifyListener(InputVerificationStatusChangedListener listener) {
         boolean valid = this.instantiatedScript != null ? this.instantiatedScript
                 .isValid() : false;

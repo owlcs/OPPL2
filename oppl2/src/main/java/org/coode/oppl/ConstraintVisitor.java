@@ -26,21 +26,25 @@ package org.coode.oppl;
 public interface ConstraintVisitor {
     /** Visitor pattern required method
      * 
-     * @param c */
+     * @param c
+     *            c */
     void visitInequalityConstraint(InequalityConstraint c);
 
     /** Visitor pattern required method
      * 
-     * @param c */
+     * @param c
+     *            c */
     void visitInCollectionConstraint(InCollectionConstraint<?> c);
 
     /** Visitor pattern required method
      * 
-     * @param c */
+     * @param c
+     *            c */
     void visitInCollectionConstraint(RegExpConstraint c);
 
     /** Visitor pattern required method
      * 
-     * @param nafConstraint */
+     * @param nafConstraint
+     *            nafConstraint */
     void visit(NAFConstraint nafConstraint);
 }

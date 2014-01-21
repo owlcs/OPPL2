@@ -58,8 +58,11 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
     private final Map<OWLAxiom, Collection<? extends OWLObject>> cache = new HashMap<OWLAxiom, Collection<? extends OWLObject>>();
 
     /** @param ontologies
+     *            ontologies
      * @param constraintSystem
-     * @param runtimeExceptionHandler */
+     *            constraintSystem
+     * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler */
     public AssertedTreeSearchSingleAxiomQuery(Set<OWLOntology> ontologies,
             ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
@@ -85,8 +88,9 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
         return extractLeaves(solutions);
     }
 
-    /** @param axiom
-     * @param start */
+    /** @param start
+     *            start
+     * @return search nodes */
     private List<List<OPPLOWLAxiomSearchNode>> doMatch(OPPLOWLAxiomSearchNode start) {
         List<List<OPPLOWLAxiomSearchNode>> solutions = new ArrayList<List<OPPLOWLAxiomSearchNode>>();
         for (OWLOntology ontology : ontologies) {
@@ -110,9 +114,11 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
         return toReturn;
     }
 
-    /** @param axiom
-     * @param targetAxiom
-     * @param start */
+    /** @param targetAxiom
+     *            targetAxiom
+     * @param start
+     *            start
+     * @return search nodes */
     private List<List<OPPLOWLAxiomSearchNode>> matchTargetAxiom(
             OPPLOWLAxiomSearchNode start, OWLAxiom targetAxiom) {
         SearchTree<OPPLOWLAxiomSearchNode> searchTree = getSearchTree(targetAxiom);
@@ -122,7 +128,8 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
     }
 
     /** @param targetAxiom
-     * @return */
+     *            targetAxiom
+     * @return search nodes */
     private SearchTree<OPPLOWLAxiomSearchNode> getSearchTree(OWLAxiom targetAxiom) {
         SearchTree<OPPLOWLAxiomSearchNode> toReturn = searchTrees.get(targetAxiom);
         if (toReturn == null) {
@@ -187,7 +194,8 @@ public class AssertedTreeSearchSingleAxiomQuery extends AbstractAxiomQuery {
     }
 
     /** @param axiom
-     * @return */
+     *            axiom
+     * @return owl objects */
     private Collection<? extends OWLObject> extractOWLObjects(OWLAxiom axiom) {
         Collection<? extends OWLObject> toReturn = cache.get(axiom);
         if (toReturn == null) {

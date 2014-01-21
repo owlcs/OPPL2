@@ -15,7 +15,8 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 public final class InferredModelQuerySolver implements QuerySolver {
     private final OWLReasoner reasoner;
 
-    /** @param reasoner */
+    /** @param reasoner
+     *            reasoner */
     public InferredModelQuerySolver(OWLReasoner reasoner) {
         this.reasoner = checkNotNull(reasoner, "reasoner");
     }

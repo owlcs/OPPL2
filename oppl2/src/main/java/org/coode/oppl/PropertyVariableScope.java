@@ -32,12 +32,16 @@ import org.semanticweb.owlapi.model.OWLPropertyExpression;
  * {@link VariableType}
  * 
  * @author Luigi Iannone
- * @param <P> */
+ * @param <P>
+ *            type */
 public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?>>
         extends AbstractVariableScope<P> implements VariableScope<P> {
     private final P property;
 
-    /** @param property */
+    /** @param property
+     *            property
+     * @param checker
+     *            checker */
     PropertyVariableScope(P property, VariableScopeChecker checker) {
         super(checker);
         this.property = property;

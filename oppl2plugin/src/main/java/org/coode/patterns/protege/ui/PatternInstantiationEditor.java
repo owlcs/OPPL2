@@ -263,7 +263,9 @@ public class PatternInstantiationEditor extends
         private final OWLObject value;
 
         /** @param variable
-         * @param value */
+         *            variable
+         * @param value
+         *            value */
         public VariableValueListItem(Variable<?> variable, OWLObject value) {
             this.variable = variable;
             this.value = value;
@@ -414,8 +416,11 @@ public class PatternInstantiationEditor extends
      * for instantiating class patterns
      * 
      * @param owlEditorKit
+     *            owlEditorKit
      * @param owlClass
-     * @param f */
+     *            owlClass
+     * @param f
+     *            f */
     public PatternInstantiationEditor(OWLEditorKit owlEditorKit, OWLClass owlClass,
             AbstractPatternModelFactory f) {
         this(owlEditorKit, f);
@@ -425,7 +430,9 @@ public class PatternInstantiationEditor extends
     /** Builds a PatternInstantiationEditor for instantiating non-class patterns
      * 
      * @param owlEditorKit
-     * @param f */
+     *            owlEditorKit
+     * @param f
+     *            f */
     public PatternInstantiationEditor(OWLEditorKit owlEditorKit,
             AbstractPatternModelFactory f) {
         this.owlEditorKit = owlEditorKit;
@@ -600,7 +607,9 @@ public class PatternInstantiationEditor extends
     }
 
     /** @param newState
-     * @param listener */
+     *            newState
+     * @param listener
+     *            listener */
     private void notifyListener(boolean newState,
             InputVerificationStatusChangedListener listener) {
         listener.verifiedStatusChanged(newState);
@@ -741,7 +750,8 @@ public class PatternInstantiationEditor extends
         return valid;
     }
 
-    /** @param patternModel */
+    /** @param patternModel
+     *            patternModel */
     public void setInstantiatedPatternModel(InstantiatedPatternModel patternModel) {
         mainPane.removeAll();
         setup();

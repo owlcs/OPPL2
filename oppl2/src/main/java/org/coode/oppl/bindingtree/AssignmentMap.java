@@ -29,7 +29,8 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
         delegate.putAll(assignmentMap.delegate);
     }
 
-    /** @param bindingNodes */
+    /** @param bindingNodes
+     *            bindingNodes */
     public AssignmentMap(Collection<? extends BindingNode> bindingNodes) {
         if (bindingNodes == null || bindingNodes.isEmpty()) {
             return;
@@ -132,6 +133,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
     }
 
     /** @param anotherAssignmentMap
+     *            anotherAssignmentMap
      * @return true if disjoint */
     public boolean isDisjointWith(AssignmentMap anotherAssignmentMap) {
         checkNotNull(anotherAssignmentMap, "anotherAssignmentMap");
@@ -149,6 +151,7 @@ public class AssignmentMap implements Map<Variable<?>, Set<OWLObject>> {
     }
 
     /** @param assignmentMaps
+     *            assignmentMaps
      * @return true if disjoint */
     public static boolean areDisjoint(Collection<? extends AssignmentMap> assignmentMaps) {
         checkNotNull(assignmentMaps, "assignmentMaps");

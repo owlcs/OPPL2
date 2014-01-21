@@ -32,8 +32,11 @@ public class ActionListItem implements MListItem {
     private final boolean isEditable;
 
     /** @param axiomChange
+     *            axiomChange
      * @param isEditable
-     * @param isDeleteable */
+     *            isEditable
+     * @param isDeleteable
+     *            isDeleteable */
     public ActionListItem(OWLAxiomChange axiomChange, boolean isEditable,
             boolean isDeleteable) {
         this.axiomChange = axiomChange;

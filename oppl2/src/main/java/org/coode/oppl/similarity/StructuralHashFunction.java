@@ -138,7 +138,8 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     }
 
     /** @param axiom
-     * @return */
+     *            axiom
+     * @return hashcode */
     private int getOWLObjectPropertyCharacteristicAxiomHashCode(
             OWLObjectPropertyCharacteristicAxiom axiom) {
         return getAxiomTypeHashValue(axiom.getAxiomType())
@@ -156,7 +157,8 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     }
 
     /** @param axiom
-     * @return */
+     *            axiom
+     * @return hashcode */
     private int getNaryClassAxiomHashCode(OWLNaryClassAxiom axiom) {
         return getAxiomTypeHashValue(axiom.getAxiomType())
                 * getCollectionHashCode(axiom.getClassExpressions());
@@ -176,7 +178,8 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     }
 
     /** @param axiom
-     * @return */
+     *            axiom
+     * @return hashcode */
     private int getOWLPropertyDomainAxiomHashCode(OWLPropertyDomainAxiom<?> axiom) {
         return getAxiomTypeHashValue(axiom.getAxiomType())
                 * axiom.getProperty().accept(this) * axiom.getDomain().accept(this);
@@ -205,7 +208,8 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     }
 
     /** @param axiom
-     * @return */
+     *            axiom
+     * @return hashcode */
     private int getNaryPropertyAxiomHashCode(OWLNaryPropertyAxiom<?> axiom) {
         return getAxiomTypeHashValue(axiom.getAxiomType())
                 * getCollectionHashCode(axiom.getProperties());
@@ -217,7 +221,8 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     }
 
     /** @param axiom
-     * @return */
+     *            axiom
+     * @return hashcode */
     private int getPropertyAssertionHashCode(OWLPropertyAssertionAxiom<?, ?> axiom) {
         return getAxiomTypeHashValue(axiom.getAxiomType())
                 * axiom.getProperty().accept(this) * axiom.getSubject().accept(this)
@@ -230,7 +235,8 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     }
 
     /** @param axiom
-     * @return */
+     *            axiom
+     * @return hashcode */
     private int getNaryIndividualAxiomHashCode(OWLNaryIndividualAxiom axiom) {
         return getAxiomTypeHashValue(axiom.getAxiomType())
                 * getCollectionHashCode(axiom.getIndividuals());
@@ -252,7 +258,8 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     }
 
     /** @param axiom
-     * @return */
+     *            axiom
+     * @return hashcode */
     private int getOWLPropertyRangeAxiomHashCode(OWLPropertyRangeAxiom<?, ?> axiom) {
         return getAxiomTypeHashValue(axiom.getAxiomType())
                 * axiom.getProperty().accept(this) * axiom.getRange().accept(this);
@@ -274,7 +281,8 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     }
 
     /** @param axiom
-     * @return */
+     *            axiom
+     * @return hashcode */
     private int getOWLSubPropertyAxiomHashCode(OWLSubPropertyAxiom<?> axiom) {
         return getAxiomTypeHashValue(axiom.getAxiomType())
                 * axiom.getSubProperty().accept(this)
@@ -312,7 +320,8 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     }
 
     /** @param axiom
-     * @return */
+     *            axiom
+     * @return hashcode */
     private int getOWLDataPropertyCharacteristicAxiomHashCode(
             OWLDataPropertyCharacteristicAxiom axiom) {
         return getAxiomTypeHashValue(axiom.getAxiomType())
@@ -452,7 +461,8 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     }
 
     /** @param description
-     * @return */
+     *            description
+     * @return hashcode */
     private int getNaryBooleanClassDescriptionHasCode(
             OWLNaryBooleanClassExpression description) {
         return getOWLConstructHashCode(OWLConstruct.getOWLConstruct(description))
@@ -488,7 +498,8 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     }
 
     /** @param description
-     * @return */
+     *            description
+     * @return hashcode */
     private int getOWLQuantifiedRestrictionHashCode(
             OWLQuantifiedRestriction<?, ?, ?> description) {
         return getOWLConstructHashCode(OWLConstruct.getOWLConstruct(description))
@@ -506,7 +517,8 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     }
 
     /** @param description
-     * @return */
+     *            description
+     * @return hashcode */
     private int
             getOWLValueRestricitonHashCode(OWLHasValueRestriction<?, ?, ?> description) {
         return getOWLConstructHashCode(OWLConstruct.getOWLConstruct(description))
@@ -520,7 +532,8 @@ public class StructuralHashFunction extends OWLObjectVisitorExAdapter<Integer> i
     }
 
     /** @param description
-     * @return */
+     *            description
+     * @return hashcode */
     private int getOWLCardinalityRestrictionHashCode(
             OWLCardinalityRestriction<?, ?, ?> description) {
         return getOWLConstructHashCode(OWLConstruct.getOWLConstruct(description))

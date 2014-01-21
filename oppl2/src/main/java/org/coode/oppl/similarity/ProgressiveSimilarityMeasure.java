@@ -7,11 +7,13 @@ import java.util.Iterator;
 import java.util.List;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public class ProgressiveSimilarityMeasure<O> implements SimilarityMeasure<O> {
     private final List<SimilarityMeasure<O>> measureList = new ArrayList<SimilarityMeasure<O>>();
 
-    /** @param measures */
+    /** @param measures
+     *            measures */
     public ProgressiveSimilarityMeasure(List<? extends SimilarityMeasure<O>> measures) {
         this.measureList.addAll(checkNotNull(measures, "measures"));
         if (measures.isEmpty()) {

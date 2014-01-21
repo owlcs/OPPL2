@@ -29,7 +29,8 @@ public class ProgressPanel extends JPanel {
                         0), 0, 0));
     }
 
-    /** @param args */
+    /** @param args
+     *            args */
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.getContentPane().setLayout(new BorderLayout());

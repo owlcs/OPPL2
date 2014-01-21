@@ -12,7 +12,9 @@ public class RuntimeErrorEncounteredExecutionReport extends UnsuccessfulExecutio
     private final Throwable cause;
 
     /** @param opplTestCase
-     * @param t */
+     *            opplTestCase
+     * @param t
+     *            t */
     public RuntimeErrorEncounteredExecutionReport(OPPLTestCase opplTestCase, Throwable t) {
         super(opplTestCase);
         cause = checkNotNull(t, "t");

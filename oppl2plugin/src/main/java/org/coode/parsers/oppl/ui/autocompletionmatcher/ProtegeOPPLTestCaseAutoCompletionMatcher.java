@@ -29,7 +29,8 @@ public final class ProtegeOPPLTestCaseAutoCompletionMatcher implements
     private final OWLEditorKit owlEditorKit;
     private AutoCompletionMatcher delegate;
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public ProtegeOPPLTestCaseAutoCompletionMatcher(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         getOWLEditorKit().getOWLModelManager().addListener(modelManagerListener);

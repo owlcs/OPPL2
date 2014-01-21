@@ -38,7 +38,7 @@ import org.coode.parsers.ui.autocompletionmatcher.AutoCompletionMatcher;
  * Medical Informatics Group<br>
  * Date: May 4, 2006<br>
  * <br>
- * <p/>
+ * <br>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br>
  * <br> */
@@ -114,7 +114,9 @@ public final class AutoCompleter {
     };
 
     /** @param tc
-     * @param matcher */
+     *            tc
+     * @param matcher
+     *            matcher */
     public AutoCompleter(JTextComponent tc, AutoCompletionMatcher matcher) {
         this.matcher = checkNotNull(matcher, "matcher");
         textComponent = checkNotNull(tc, "tc");

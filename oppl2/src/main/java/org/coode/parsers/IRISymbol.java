@@ -14,7 +14,9 @@ public class IRISymbol extends Symbol {
     }
 
     /** @param name
-     * @param iri */
+     *            name
+     * @param iri
+     *            iri */
     public IRISymbol(String name, IRI iri) {
         super(name, OWLType.IRI);
         this.iri = checkNotNull(iri, "iri");

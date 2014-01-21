@@ -42,7 +42,8 @@ public class SummaryPanel extends JPanel {
         this.add(resultBreakDown, BorderLayout.EAST);
     }
 
-    /** @param reportList */
+    /** @param reportList
+     *            reportList */
     public void addReports(Map<OPPLTestCase, List<Report>> reportList) {
         reports.putAll(reportList);
         refresh();

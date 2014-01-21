@@ -89,8 +89,11 @@ public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor
     }
 
     /** @param owlEditor
+     *            owlEditor
      * @param builder
-     * @param textEditor */
+     *            builder
+     * @param textEditor
+     *            textEditor */
     public OPPLEditor(OWLEditorKit owlEditor, OPPLBuilder builder,
             OPPLTextEditor textEditor) {
         owlEditorKit = owlEditor;
@@ -125,13 +128,16 @@ public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor
         initGUI();
     }
 
-    /** @param owlEditor */
+    /** @param owlEditor
+     *            owlEditor */
     public OPPLEditor(OWLEditorKit owlEditor) {
         this(owlEditor, new OPPLBuilder(owlEditor), new OPPLTextEditor(owlEditor));
     }
 
     /** @param owlEditor
-     * @param validator */
+     *            owlEditor
+     * @param validator
+     *            validator */
     public OPPLEditor(OWLEditorKit owlEditor, OPPLScriptValidator validator) {
         this(owlEditor, new OPPLBuilder(owlEditor, validator), new OPPLTextEditor(
                 owlEditor, validator));
@@ -147,7 +153,7 @@ public final class OPPLEditor extends JTabbedPane implements VerifiedInputEditor
         notifyListeners(newStatus);
     }
 
-    /** @return */
+    /** @return true if oppl script is not null */
     private boolean check() {
         return getOPPLScript() != null;
     }

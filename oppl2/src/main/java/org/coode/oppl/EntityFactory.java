@@ -23,13 +23,15 @@ import org.semanticweb.owlapi.model.OWLOntologyChange;
 public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
     private final OPPLAbstractFactory factory;
 
-    /** @param f */
+    /** @param f
+     *            f */
     public EntityFactory(OPPLAbstractFactory f) {
         factory = f;
     }
 
     /** @param shortName
-     * @return */
+     *            shortName
+     * @return iri */
     private IRI buildIRI(String shortName) {
         IRI ontologyIRI = factory.getOntology().getOntologyID().getOntologyIRI();
         return ontologyIRI == null ? IRI.create(String.format("%s#%s", factory
@@ -37,7 +39,9 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
                 .format("%s#%s", ontologyIRI.toString(), shortName));
     }
 
-    /** @return a valid IRI fragment built from the input string (which can be
+    /** @param label
+     *            label
+     * @return a valid IRI fragment built from the input string (which can be
      *         either a valid fragment or a string suitable to be used as label)
      *         The relevant grammar (from http://www.ietf.org/rfc/rfc2396.txt)
      *         is: <br>
@@ -71,8 +75,10 @@ public class EntityFactory implements org.coode.oppl.entity.OWLEntityFactory {
     private static final char[] forbiddenCharacters = new char[] { '\'', '>', '<', '`',
             '"' };
 
-    /** @return the original string purged of characters which are not supposed to
-     *         belong to a label (e.g., ' ", etc). Complete list is in the
+    /** @param label
+     *            label
+     * @return the original string purged of characters which are not supposed
+     *         to belong to a label (e.g., ' ", etc). Complete list is in the
      *         forbiddenCharacters list. */
     private String buildLabelString(String label) {
         String toReturn = label.trim();

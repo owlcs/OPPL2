@@ -10,7 +10,9 @@ public abstract class QuerySolverBasedAbstractAxiomSolvability extends
     private final QuerySolver querySolver;
 
     /** @param constraintSystem
-     * @param querySolver */
+     *            constraintSystem
+     * @param querySolver
+     *            querySolver */
     public QuerySolverBasedAbstractAxiomSolvability(ConstraintSystem constraintSystem,
             QuerySolver querySolver) {
         super(constraintSystem);

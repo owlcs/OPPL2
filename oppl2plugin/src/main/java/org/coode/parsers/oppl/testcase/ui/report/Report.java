@@ -12,10 +12,12 @@ public interface Report {
      * @return an OPPLTestCase. */
     OPPLTestCase getOPPLTestCase();
 
-    /** @param visitor */
+    /** @param visitor
+     *            visitor */
     void accept(ReportVisitor visitor);
 
     /** @param visitor
+     *            visitor
      * @return visitor result */
     <O> O accept(ReportVisitorEx<O> visitor);
 }

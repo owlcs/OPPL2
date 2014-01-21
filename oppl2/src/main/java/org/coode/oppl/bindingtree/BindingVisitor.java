@@ -24,6 +24,7 @@ package org.coode.oppl.bindingtree;
 
 /** @author Luigi Iannone */
 public interface BindingVisitor {
-    /** @param bindingNode */
+    /** @param bindingNode
+     *            bindingNode */
     void visit(BindingNode bindingNode);
 }

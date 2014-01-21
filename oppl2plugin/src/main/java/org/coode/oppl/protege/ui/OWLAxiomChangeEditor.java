@@ -58,7 +58,9 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
     private OWLAxiomChange owlAxiomChange;
 
     /** @param owlEditorKit
-     * @param constraintSystem */
+     *            owlEditorKit
+     * @param constraintSystem
+     *            constraintSystem */
     public OWLAxiomChangeEditor(OWLEditorKit owlEditorKit,
             ConstraintSystem constraintSystem) {
         this.owlEditorKit = owlEditorKit;
@@ -122,7 +124,8 @@ public class OWLAxiomChangeEditor extends JPanel implements VerifiedInputEditor 
         listeners.remove(listener);
     }
 
-    /** @param newState */
+    /** @param newState
+     *            newState */
     public void notifyLIstenrs(boolean newState) {
         for (InputVerificationStatusChangedListener listener : listeners) {
             listener.verifiedStatusChanged(newState);

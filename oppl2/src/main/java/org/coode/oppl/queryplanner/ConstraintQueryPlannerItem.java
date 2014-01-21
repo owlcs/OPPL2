@@ -21,7 +21,9 @@ public class ConstraintQueryPlannerItem extends AbstractQueryPlannerItem {
     private final AbstractConstraint constraint;
 
     /** @param constraintSystem
-     * @param constraint */
+     *            constraintSystem
+     * @param constraint
+     *            constraint */
     public ConstraintQueryPlannerItem(ConstraintSystem constraintSystem,
             AbstractConstraint constraint) {
         super(constraintSystem);

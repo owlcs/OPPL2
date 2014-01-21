@@ -10,10 +10,12 @@ import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLObject;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public class ValuesVariableAtttribute<O extends OWLObject> extends
         VariableAttribute<Collection<? extends O>> {
-    /** @param variable */
+    /** @param variable
+     *            variable */
     public ValuesVariableAtttribute(Variable<O> variable) {
         super(variable, AttributeName.VALUES);
     }
@@ -59,6 +61,9 @@ public class ValuesVariableAtttribute<O extends OWLObject> extends
     }
 
     /** @param v
+     *            v
+     * @param <P>
+     *            atribute type
      * @return new value variable attribute */
     public static <P extends OWLObject> ValuesVariableAtttribute<P>
             getValuesVariableAtttribute(Variable<P> v) {

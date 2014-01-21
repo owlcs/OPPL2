@@ -11,7 +11,8 @@ import org.coode.oppl.bindingtree.BindingNode;
 public class IntegerAssertionExpression implements AssertionExpression<Integer> {
     private final int intValue;
 
-    /** @param intValue */
+    /** @param intValue
+     *            intValue */
     public IntegerAssertionExpression(int intValue) {
         this.intValue = intValue;
     }

@@ -7,10 +7,12 @@ package org.coode.oppl.protege.ui.message;
  * @author Luigi Iannone */
 public interface MessageVisitorEx<O> {
     /** @param error
+     *            error
      * @return visitor value */
     O visitError(Error error);
 
     /** @param warning
+     *            warning
      * @return visitor value */
     O visitWarning(Warning warning);
 }

@@ -94,7 +94,8 @@ import org.semanticweb.owlapi.model.SWRLVariable;
 public abstract class AbstractVariableDetector implements OWLObjectVisitorEx<Boolean> {
     protected ConstraintSystem constraintSystem;
 
-    /** @param constraintSystem */
+    /** @param constraintSystem
+     *            constraintSystem */
     protected AbstractVariableDetector(ConstraintSystem constraintSystem) {
         this.constraintSystem = constraintSystem;
     }

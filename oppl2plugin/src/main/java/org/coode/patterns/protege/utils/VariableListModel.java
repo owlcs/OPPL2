@@ -16,7 +16,8 @@ import org.protege.editor.core.ui.list.MListItem;
 import org.protege.editor.core.ui.list.MListSectionHeader;
 
 /** @author Luigi Iannone
- * @param <I> */
+ * @param <I>
+ *            type */
 public class VariableListModel<I> implements ListModel<Object> {
     protected final static class MySectionHeader implements MListSectionHeader {
         final String header;
@@ -40,7 +41,8 @@ public class VariableListModel<I> implements ListModel<Object> {
     private final MySectionHeader myHeader;
 
     /** @author Luigi Iannone
-     * @param <E> */
+     * @param <E>
+     *            type */
     public final static class VariableListItem<E> implements MListItem {
         private final E item;
 
@@ -49,7 +51,8 @@ public class VariableListModel<I> implements ListModel<Object> {
             return this.item;
         }
 
-        /** @param b */
+        /** @param b
+         *            b */
         public VariableListItem(E b) {
             this.item = checkNotNull(b, "b");
         }
@@ -83,7 +86,9 @@ public class VariableListModel<I> implements ListModel<Object> {
     private final Collection<I> modelElements;
 
     /** @param elements
-     * @param sectionHeader */
+     *            elements
+     * @param sectionHeader
+     *            sectionHeader */
     public VariableListModel(Collection<I> elements, String sectionHeader) {
         this.modelElements = elements;
         this.myHeader = new MySectionHeader(sectionHeader);
@@ -91,8 +96,11 @@ public class VariableListModel<I> implements ListModel<Object> {
     }
 
     /** @param elements
+     *            elements
      * @param sectionHeader
-     * @param canAdd */
+     *            sectionHeader
+     * @param canAdd
+     *            canAdd */
     public VariableListModel(Collection<I> elements, String sectionHeader, boolean canAdd) {
         this(elements, sectionHeader);
         this.myHeader.add = canAdd;

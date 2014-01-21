@@ -123,7 +123,9 @@ public class SymbolTable {
     };
 
     /** @param globalScope
-     * @param dataFactory */
+     *            globalScope
+     * @param dataFactory
+     *            dataFactory */
     public SymbolTable(Scope globalScope, OWLDataFactory dataFactory) {
         this.globalScope = checkNotNull(globalScope, "globalScope");
         df = checkNotNull(dataFactory, "dataFactory");
@@ -135,6 +137,7 @@ public class SymbolTable {
     }
 
     /** @param node
+     *            node
      * @return resolved symbol */
     public Symbol resolve(ManchesterOWLSyntaxTree node) {
         String name = node.getToken().getText();
@@ -175,7 +178,8 @@ public class SymbolTable {
     }
 
     /** @param name
-     * @return */
+     *            name
+     * @return symbol */
     protected Symbol retrieveSymbol(String name) {
         return symbols.get(name);
     }
@@ -192,8 +196,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param subClass
+     *            subClass
      * @param superClass
+     *            superClass
      * @return type for expression */
     public Type getSubClassAxiomType(CommonTree expression,
             ManchesterOWLSyntaxTree subClass, ManchesterOWLSyntaxTree superClass) {
@@ -211,15 +218,20 @@ public class SymbolTable {
     }
 
     /** @param tree
-     * @param parentExpression */
+     *            tree
+     * @param parentExpression
+     *            parentExpression */
     public void reportIncompatibleSymbolType(ManchesterOWLSyntaxTree tree,
             CommonTree parentExpression) {
         reportIncompatibleSymbolType(tree, tree.getEvalType(), parentExpression);
     }
 
     /** @param tree
+     *            tree
      * @param t
-     * @param parentExpression */
+     *            t
+     * @param parentExpression
+     *            parentExpression */
     public void reportIncompatibleSymbolType(CommonTree tree, Type t,
             CommonTree parentExpression) {
         if (getErrorListener() != null) {
@@ -228,7 +240,9 @@ public class SymbolTable {
     }
 
     /** @param parentExpression
-     * @param expressions */
+     *            parentExpression
+     * @param expressions
+     *            expressions */
     public void reportIncompatibleSymbols(CommonTree parentExpression,
             CommonTree... expressions) {
         if (getErrorListener() != null) {
@@ -237,7 +251,9 @@ public class SymbolTable {
     }
 
     /** @param expression
-     * @param message */
+     *            expression
+     * @param message
+     *            message */
     public void reportIllegalToken(CommonTree expression, String message) {
         if (getErrorListener() != null) {
             getErrorListener().illegalToken(expression, message);
@@ -245,7 +261,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param disjuncts
+     *            disjuncts
      * @return type for expression */
     public Type getDisjunctionType(CommonTree expression,
             ManchesterOWLSyntaxTree... disjuncts) {
@@ -273,7 +291,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param conjuncts
+     *            conjuncts
      * @return type for expression */
     public Type getConjunctionType(CommonTree expression,
             ManchesterOWLSyntaxTree... conjuncts) {
@@ -307,7 +327,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param node
+     *            node
      * @return type for expression */
     public Type getNegatedClassExpressionType(CommonTree expression,
             ManchesterOWLSyntaxTree node) {
@@ -321,7 +343,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param property
+     *            property
      * @return type for expression */
     public Type getInversePropertyType(CommonTree expression,
             ManchesterOWLSyntaxTree property) {
@@ -335,8 +359,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param subProperty
+     *            subProperty
      * @param superProperty
+     *            superProperty
      * @return type for expression */
     public Type getSubPropertyAxiomType(CommonTree expression,
             ManchesterOWLSyntaxTree subProperty, ManchesterOWLSyntaxTree superProperty) {
@@ -374,8 +401,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param propertyExpression
+     *            propertyExpression
      * @param filler
+     *            filler
      * @return type for expression */
     public Type getSomeValueRestrictionType(CommonTree expression,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
@@ -412,8 +442,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param propertyExpression
+     *            propertyExpression
      * @param filler
+     *            filler
      * @return type for expression */
     public Type getAllValueRestrictionType(CommonTree expression,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
@@ -450,8 +483,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param propertyExpression
+     *            propertyExpression
      * @param filler
+     *            filler
      * @return type for expression */
     public Type getMinCardinalityRestrictionType(CommonTree expression,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
@@ -484,8 +520,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param propertyExpression
+     *            propertyExpression
      * @param filler
+     *            filler
      * @return type for expression */
     public Type getMaxCardinalityRestrictionType(CommonTree expression,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
@@ -518,8 +557,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param propertyExpression
+     *            propertyExpression
      * @param filler
+     *            filler
      * @return type for expression */
     public Type getExactCardinalityRestrictionType(CommonTree expression,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
@@ -552,7 +594,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param individuals
+     *            individuals
      * @return type for expression */
     public Type getOneOfType(CommonTree expression,
             ManchesterOWLSyntaxTree... individuals) {
@@ -572,8 +616,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param propertyExpression
+     *            propertyExpression
      * @param value
+     *            value
      * @return type for expression */
     public Type getValueRestrictionType(CommonTree expression,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree value) {
@@ -608,8 +655,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param propertyExpression
+     *            propertyExpression
      * @param value
+     *            value
      * @return value restriction */
     public OWLClassExpression getValueRestriction(CommonTree expression,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree value) {
@@ -648,9 +698,13 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param subject
+     *            subject
      * @param property
+     *            property
      * @param object
+     *            object
      * @return type for expression */
     public Type getRoleAssertionAxiomType(CommonTree expression,
             ManchesterOWLSyntaxTree subject, ManchesterOWLSyntaxTree property,
@@ -696,8 +750,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param lhs
+     *            lhs
      * @param rhs
+     *            rhs
      * @return type for expression */
     public Type getEquivalentAxiomType(CommonTree expression,
             ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs) {
@@ -738,8 +795,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @param domain
+     *            domain
      * @return type for expression */
     public Type getDomainAxiomType(CommonTree expression, ManchesterOWLSyntaxTree p,
             ManchesterOWLSyntaxTree domain) {
@@ -774,8 +834,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @param range
+     *            range
      * @return type for expression */
     public Type getRangeAxiomType(CommonTree expression, ManchesterOWLSyntaxTree p,
             ManchesterOWLSyntaxTree range) {
@@ -810,7 +873,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param chainItems
+     *            chainItems
      * @return type for expression */
     public Type getPropertyChainType(CommonTree expression,
             ManchesterOWLSyntaxTree... chainItems) {
@@ -829,8 +894,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param lhs
+     *            lhs
      * @param rhs
+     *            rhs
      * @return type for expression */
     public Type getDisjointAxiomType(CommonTree expression, ManchesterOWLSyntaxTree lhs,
             ManchesterOWLSyntaxTree rhs) {
@@ -871,8 +939,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param anIndividual
+     *            anIndividual
      * @param anotherIndividual
+     *            anotherIndividual
      * @return type for expression */
     public Type getSameIndividualsAxiomType(CommonTree expression,
             ManchesterOWLSyntaxTree anIndividual,
@@ -896,8 +967,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param anIndividual
+     *            anIndividual
      * @param anotherIndividual
+     *            anotherIndividual
      * @return type for expression */
     public Type getDifferentIndividualsAxiomType(CommonTree expression,
             ManchesterOWLSyntaxTree anIndividual,
@@ -921,7 +995,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @return type for expression */
     public Type
             getFunctionalPropertyType(CommonTree expression, ManchesterOWLSyntaxTree p) {
@@ -940,7 +1016,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @return type for expression */
     public Type getInverseFunctionalPropertyType(CommonTree expression,
             ManchesterOWLSyntaxTree p) {
@@ -952,7 +1030,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @return type for expression */
     public Type getIrreflexivePropertyType(CommonTree expression,
             ManchesterOWLSyntaxTree p) {
@@ -964,7 +1044,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @return type for expression */
     public Type
             getReflexivePropertyType(CommonTree expression, ManchesterOWLSyntaxTree p) {
@@ -976,7 +1058,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @return type for expression */
     public Type
             getSymmetricPropertyType(CommonTree expression, ManchesterOWLSyntaxTree p) {
@@ -988,7 +1072,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @return type for expression */
     public Type
             getTransitivePropertyType(CommonTree expression, ManchesterOWLSyntaxTree p) {
@@ -1000,8 +1086,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param lhs
+     *            lhs
      * @param rhs
+     *            rhs
      * @return type for expression */
     public Type getInverseOfAxiomType(CommonTree expression, ManchesterOWLSyntaxTree lhs,
             ManchesterOWLSyntaxTree rhs) {
@@ -1026,7 +1115,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param assertion
+     *            assertion
      * @return type for expression */
     public Type getNegatedAssertionType(CommonTree expression,
             ManchesterOWLSyntaxTree assertion) {
@@ -1048,8 +1139,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param description
+     *            description
      * @param subject
+     *            subject
      * @return type for expression */
     public Type getClassAssertionAxiomType(CommonTree expression,
             ManchesterOWLSyntaxTree description, ManchesterOWLSyntaxTree subject) {
@@ -1077,7 +1171,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param individuals
+     *            individuals
      * @return symbol replaced owl object */
     public OWLObject
             getOneOf(CommonTree expression, ManchesterOWLSyntaxTree[] individuals) {
@@ -1101,9 +1197,13 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param i
+     *            i
      * @param propertyExpression
+     *            propertyExpression
      * @param filler
+     *            filler
      * @return symbol replaced owl object */
     public OWLObject getExactCardinalityRestriction(CommonTree expression, int i,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
@@ -1146,9 +1246,13 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param cardinality
+     *            cardinality
      * @param propertyExpression
+     *            propertyExpression
      * @param filler
+     *            filler
      * @return symbol replaced owl object */
     public OWLObject getMaxCardinalityRestriction(CommonTree expression, int cardinality,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
@@ -1191,9 +1295,13 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param cardinality
+     *            cardinality
      * @param propertyExpression
+     *            propertyExpression
      * @param filler
+     *            filler
      * @return symbol replaced owl object */
     public OWLObject getMinCardinalityRestriction(CommonTree expression, int cardinality,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
@@ -1236,8 +1344,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param propertyExpression
+     *            propertyExpression
      * @param filler
+     *            filler
      * @return symbol replaced owl object */
     public OWLObject getAllValueRestriction(CommonTree expression,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
@@ -1279,8 +1390,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param propertyExpression
+     *            propertyExpression
      * @param filler
+     *            filler
      * @return symbol replaced owl object */
     public OWLObject getSomeValueRestriction(CommonTree expression,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
@@ -1324,7 +1438,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param property
+     *            property
      * @return symbol replaced owl object */
     public OWLObject getInverseProperty(CommonTree expression,
             ManchesterOWLSyntaxTree property) {
@@ -1339,6 +1455,7 @@ public class SymbolTable {
     }
 
     /** @param node
+     *            node
      * @return symbol replaced owl object */
     public OWLObject getOWLObject(final ManchesterOWLSyntaxTree node) {
         Symbol symbol = symbols.get(node.getToken().getText());
@@ -1378,7 +1495,8 @@ public class SymbolTable {
         return toReturn;
     }
 
-    /** @param node */
+    /** @param node
+     *            node */
     protected void reportUnrecognisedSymbol(ManchesterOWLSyntaxTree node) {
         if (getErrorListener() != null) {
             getErrorListener().unrecognisedSymbol(node);
@@ -1386,7 +1504,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param node
+     *            node
      * @return symbol replaced owl object */
     public OWLObject getNegatedClassExpression(CommonTree expression,
             ManchesterOWLSyntaxTree node) {
@@ -1401,8 +1521,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param value
+     *            value
      * @param constantType
+     *            constantType
      * @return symbol replaced owl object */
     public OWLLiteral getOWLTypedConstant(final CommonTree expression,
             final ManchesterOWLSyntaxTree value,
@@ -1447,7 +1570,9 @@ public class SymbolTable {
     }
 
     /** @param value
+     *            value
      * @param lang
+     *            lang
      * @return symbol replaced owl object */
     public OWLLiteral getOWLUntypedConstant(ManchesterOWLSyntaxTree value,
             ManchesterOWLSyntaxTree lang) {
@@ -1456,7 +1581,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param conjuncts
+     *            conjuncts
      * @return symbol replaced owl object */
     public OWLObject getConjunction(CommonTree expression,
             ManchesterOWLSyntaxTree[] conjuncts) {
@@ -1496,7 +1623,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param chainItems
+     *            chainItems
      * @return symbol replaced owl object */
     public OWLPropertyChain getPropertyChain(CommonTree expression,
             ManchesterOWLSyntaxTree[] chainItems) {
@@ -1541,7 +1670,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param disjuncts
+     *            disjuncts
      * @return symbol replaced owl object */
     public OWLObject getDisjunction(CommonTree expression,
             ManchesterOWLSyntaxTree[] disjuncts) {
@@ -1581,7 +1712,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param assertion
+     *            assertion
      * @return symbol replaced owl object */
     public OWLAxiom getNegatedAssertion(CommonTree expression,
             ManchesterOWLSyntaxTree assertion) {
@@ -1613,7 +1746,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @return symbol replaced owl object */
     public OWLAxiom
             getTransitiveProperty(CommonTree expression, ManchesterOWLSyntaxTree p) {
@@ -1626,7 +1761,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @return symbol replaced owl object */
     public OWLAxiom
             getSymmetricProperty(CommonTree expression, ManchesterOWLSyntaxTree p) {
@@ -1639,7 +1776,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @return symbol replaced owl object */
     public OWLAxiom
             getAsymmetricProperty(CommonTree expression, ManchesterOWLSyntaxTree p) {
@@ -1652,7 +1791,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @return symbol replaced owl object */
     public OWLAxiom
             getReflexiveProperty(CommonTree expression, ManchesterOWLSyntaxTree p) {
@@ -1665,7 +1806,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @return symbol replaced owl object */
     public OWLAxiom getIrreflexiveProperty(CommonTree expression,
             ManchesterOWLSyntaxTree p) {
@@ -1679,7 +1822,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @return symbol replaced owl object */
     public OWLAxiom getInverseFunctionalProperty(CommonTree expression,
             ManchesterOWLSyntaxTree p) {
@@ -1693,7 +1838,9 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @return symbol replaced owl object */
     public OWLAxiom
             getFunctionalProperty(CommonTree expression, ManchesterOWLSyntaxTree p) {
@@ -1715,8 +1862,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param anIndividual
+     *            anIndividual
      * @param anotherIndividual
+     *            anotherIndividual
      * @return symbol replaced owl object */
     public OWLAxiom getDifferentIndividualsAxiom(CommonTree expression,
             ManchesterOWLSyntaxTree anIndividual,
@@ -1741,8 +1891,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param anIndividual
+     *            anIndividual
      * @param anotherIndividual
+     *            anotherIndividual
      * @return symbol replaced owl object */
     public OWLAxiom getSameIndividualsAxiom(CommonTree expression,
             ManchesterOWLSyntaxTree anIndividual,
@@ -1768,8 +1921,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @param range
+     *            range
      * @return symbol replaced owl object */
     public OWLAxiom getRangeAxiom(CommonTree expression, ManchesterOWLSyntaxTree p,
             ManchesterOWLSyntaxTree range) {
@@ -1808,8 +1964,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param p
+     *            p
      * @param domain
+     *            domain
      * @return symbol replaced owl object */
     public OWLAxiom getDomainAxiom(CommonTree expression, ManchesterOWLSyntaxTree p,
             ManchesterOWLSyntaxTree domain) {
@@ -1848,8 +2007,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param description
+     *            description
      * @param subject
+     *            subject
      * @return symbol replaced owl object */
     public OWLAxiom getClassAssertionAxiom(CommonTree expression,
             ManchesterOWLSyntaxTree description, ManchesterOWLSyntaxTree subject) {
@@ -1874,9 +2036,13 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param subject
+     *            subject
      * @param property
+     *            property
      * @param object
+     *            object
      * @return symbol replaced owl object */
     public OWLAxiom getRoleAssertionAxiom(CommonTree expression,
             ManchesterOWLSyntaxTree subject, ManchesterOWLSyntaxTree property,
@@ -1923,8 +2089,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param subProperty
+     *            subProperty
      * @param superProperty
+     *            superProperty
      * @return symbol replaced owl object */
     public OWLAxiom getSubPropertyAxiom(CommonTree expression,
             ManchesterOWLSyntaxTree subProperty, ManchesterOWLSyntaxTree superProperty) {
@@ -1976,8 +2145,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param lhs
+     *            lhs
      * @param rhs
+     *            rhs
      * @return symbol replaced owl object */
     public OWLAxiom getDisjointAxiom(CommonTree expression, ManchesterOWLSyntaxTree lhs,
             ManchesterOWLSyntaxTree rhs) {
@@ -2024,8 +2196,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param lhs
+     *            lhs
      * @param rhs
+     *            rhs
      * @return symbol replaced owl object */
     public OWLAxiom getInverseOfAxiom(CommonTree expression, ManchesterOWLSyntaxTree lhs,
             ManchesterOWLSyntaxTree rhs) {
@@ -2052,8 +2227,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param lhs
+     *            lhs
      * @param rhs
+     *            rhs
      * @return symbol replaced owl object */
     public OWLAxiom getEquivalentAxiom(CommonTree expression,
             ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs) {
@@ -2100,8 +2278,11 @@ public class SymbolTable {
     }
 
     /** @param expression
+     *            expression
      * @param subClass
+     *            subClass
      * @param superClass
+     *            superClass
      * @return symbol replaced owl object */
     public OWLAxiom getSubClassAxiom(CommonTree expression,
             ManchesterOWLSyntaxTree subClass, ManchesterOWLSyntaxTree superClass) {
@@ -2153,6 +2334,7 @@ public class SymbolTable {
     }
 
     /** @param type
+     *            type
      * @return completions */
     public Set<String> getCompletions(Type type) {
         Set<String> toReturn = new HashSet<String>();
@@ -2172,6 +2354,7 @@ public class SymbolTable {
     }
 
     /** @param type
+     *            type
      * @return property completions */
     public Set<String> getOWLPropertyCompletions(Type type) {
         Set<String> toReturn = new HashSet<String>();
@@ -2190,6 +2373,7 @@ public class SymbolTable {
     }
 
     /** @param types
+     *            types
      * @return all completions */
     public Set<String> getAllCompletions(Type... types) {
         Set<String> toReturn = new HashSet<String>();
@@ -2252,8 +2436,11 @@ public class SymbolTable {
     }
 
     /** @param facet
+     *            facet
      * @param value
+     *            value
      * @param parentExpression
+     *            parentExpression
      * @return facet restriction type */
     public OWLType getOWLFacetRestrictionType(ManchesterOWLSyntaxTree facet,
             ManchesterOWLSyntaxTree value, CommonTree parentExpression) {
@@ -2270,8 +2457,11 @@ public class SymbolTable {
     }
 
     /** @param facet
+     *            facet
      * @param value
+     *            value
      * @param parentExpression
+     *            parentExpression
      * @return owl facet restriction */
     public OWLFacetRestriction getOWLFacetRestriction(ManchesterOWLSyntaxTree facet,
             ManchesterOWLSyntaxTree value, CommonTree parentExpression) {
@@ -2289,8 +2479,11 @@ public class SymbolTable {
     }
 
     /** @param dataType
+     *            dataType
      * @param parentExpression
+     *            parentExpression
      * @param facets
+     *            facets
      * @return data range type */
     public OWLType getOWLDataRangeType(ManchesterOWLSyntaxTree dataType,
             ManchesterOWLSyntaxTree parentExpression, ManchesterOWLSyntaxTree... facets) {
@@ -2321,8 +2514,11 @@ public class SymbolTable {
     }
 
     /** @param dataType
+     *            dataType
      * @param parentExpression
+     *            parentExpression
      * @param facets
+     *            facets
      * @return datatype restriction */
     public OWLDatatypeRestriction getOWLDataRange(ManchesterOWLSyntaxTree dataType,
             ManchesterOWLSyntaxTree parentExpression, ManchesterOWLSyntaxTree... facets) {
@@ -2354,7 +2550,9 @@ public class SymbolTable {
     }
 
     /** @param node
+     *            node
      * @param propertyExpressions
+     *            propertyExpressions
      * @return haskey type */
     public Type getHasKeyType(ManchesterOWLSyntaxTree node,
             Set<ManchesterOWLSyntaxTree> propertyExpressions) {
@@ -2377,7 +2575,9 @@ public class SymbolTable {
     }
 
     /** @param node
+     *            node
      * @param propertyExpressions
+     *            propertyExpressions
      * @return haskey */
     public OWLHasKeyAxiom getHasKey(ManchesterOWLSyntaxTree node,
             Set<ManchesterOWLSyntaxTree> propertyExpressions) {
@@ -2408,9 +2608,13 @@ public class SymbolTable {
     }
 
     /** @param parentExpression
+     *            parentExpression
      * @param iri
+     *            iri
      * @param annotationPropertyNode
+     *            annotationPropertyNode
      * @param object
+     *            object
      * @return annotation assertion type */
     public Type
             getAnnotationAssertionType(final ManchesterOWLSyntaxTree parentExpression,
@@ -2470,9 +2674,13 @@ public class SymbolTable {
     }
 
     /** @param parentExpression
+     *            parentExpression
      * @param iri
+     *            iri
      * @param annotationPropertyNode
+     *            annotationPropertyNode
      * @param object
+     *            object
      * @return annotation assertion */
     public OWLAnnotationAssertionAxiom getAnnotationAssertion(
             final ManchesterOWLSyntaxTree parentExpression,
@@ -2517,6 +2725,7 @@ public class SymbolTable {
     }
 
     /** @param node
+     *            node
      * @return symbol */
     public Symbol resolveIRI(ManchesterOWLSyntaxTree node) {
         Symbol toReturn = retrieveSymbol(node.getText());

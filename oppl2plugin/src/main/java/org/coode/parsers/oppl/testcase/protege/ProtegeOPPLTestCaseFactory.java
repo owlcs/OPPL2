@@ -17,7 +17,8 @@ import org.protege.editor.owl.OWLEditorKit;
 public class ProtegeOPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
     private final OWLEditorKit owlEditorKit;
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public ProtegeOPPLTestCaseFactory(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
     }

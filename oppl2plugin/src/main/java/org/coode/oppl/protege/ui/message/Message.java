@@ -1,4 +1,3 @@
-
 package org.coode.oppl.protege.ui.message;
 
 /** Generic Message
@@ -10,7 +9,8 @@ public interface Message {
 
     /** Simple visitor pattern
      * 
-     * @param visitor */
+     * @param visitor
+     *            visitor */
     void accept(MessageVisitor visitor);
 
     /** Visitor pattern with parametric return value

@@ -12,7 +12,9 @@ public class ConfigurationFailedExecutionReport extends UnsuccessfulExecutionRep
     private final String message;
 
     /** @param opplTestCase
-     * @param message */
+     *            opplTestCase
+     * @param message
+     *            message */
     public ConfigurationFailedExecutionReport(OPPLTestCase opplTestCase, String message) {
         super(opplTestCase);
         this.message = checkNotNull(message, "message");

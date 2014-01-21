@@ -17,7 +17,9 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 /** @author Luigi Iannone */
 public class VariableFactory {
     /** @param name
+     *            name
      * @param variableScope
+     *            variableScope
      * @return class variable */
     public static Variable<OWLClassExpression> getCLASSVariable(String name,
             VariableScope<?> variableScope) {
@@ -26,7 +28,9 @@ public class VariableFactory {
     }
 
     /** @param name
+     *            name
      * @param variableScope
+     *            variableScope
      * @return object property variable */
     public static Variable<OWLObjectPropertyExpression> getOBJECTPROPERTYVariable(
             String name, VariableScope<?> variableScope) {
@@ -35,7 +39,9 @@ public class VariableFactory {
     }
 
     /** @param name
+     *            name
      * @param variableScope
+     *            variableScope
      * @return data property variable */
     public static Variable<OWLDataPropertyExpression> getDATAPROPERTYVariable(
             String name, VariableScope<?> variableScope) {
@@ -44,7 +50,9 @@ public class VariableFactory {
     }
 
     /** @param name
+     *            name
      * @param variableScope
+     *            variableScope
      * @return individual variable */
     public static Variable<OWLIndividual> getINDIVIDUALVariable(String name,
             VariableScope<?> variableScope) {
@@ -53,7 +61,9 @@ public class VariableFactory {
     }
 
     /** @param name
+     *            name
      * @param variableScope
+     *            variableScope
      * @return literal variable */
     public static Variable<OWLLiteral> getCONSTANTVariable(String name,
             VariableScope<?> variableScope) {
@@ -62,8 +72,13 @@ public class VariableFactory {
     }
 
     /** @param name
+     *            name
      * @param type
+     *            type
      * @param opplFunction
+     *            opplFunction
+     * @param <O>
+     *            variable type
      * @return generated variable */
     public static <O extends OWLObject> GeneratedVariable<O> getGeneratedVariable(
             String name, VariableType<O> type, OPPLFunction<? extends O> opplFunction) {
@@ -71,8 +86,13 @@ public class VariableFactory {
     }
 
     /** @param name
+     *            name
      * @param type
+     *            type
      * @param opplFunction
+     *            opplFunction
+     * @param <O>
+     *            variable type
      * @return regexp generated variable */
     public static <O extends OWLObject> RegexpGeneratedVariable<? extends O>
             getRegexpGeneratedVariable(String name, VariableType<O> type,

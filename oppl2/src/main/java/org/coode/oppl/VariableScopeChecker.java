@@ -42,8 +42,11 @@ public class VariableScopeChecker {
     private final OWLReasoner reasoner;
 
     /** @param ontologyManager
+     *            ontologyManager
      * @param reasoner
-     * @throws OPPLException */
+     *            reasoner
+     * @throws OPPLException
+     *             OPPLException */
     public VariableScopeChecker(OWLOntologyManager ontologyManager, OWLReasoner reasoner)
             throws OPPLException {
         if (reasoner == null) {
@@ -55,9 +58,12 @@ public class VariableScopeChecker {
     }
 
     /** @param owlCass
+     *            owlCass
      * @param scope
+     *            scope
      * @return true is the input owlClass is in the input scope, false otherwise
-     * @throws OWLRuntimeException */
+     * @throws OWLRuntimeException
+     *             OWLRuntimeException */
     protected boolean check(OWLClass owlCass, SubClassVariableScope scope) {
         OWLClassExpression description = scope.getClassExpression();
         OWLSubClassOfAxiom axiom = getOntologyManager().getOWLDataFactory()
@@ -66,9 +72,12 @@ public class VariableScopeChecker {
     }
 
     /** @param owlCass
+     *            owlCass
      * @param scope
+     *            scope
      * @return true is the input owlClass is in the input scope, false otherwise
-     * @throws OWLRuntimeException */
+     * @throws OWLRuntimeException
+     *             OWLRuntimeException */
     protected boolean check(OWLClass owlCass, SuperClassVariableScope scope)
             throws OWLRuntimeException {
         OWLClassExpression description = scope.getClassExpression();
@@ -78,10 +87,13 @@ public class VariableScopeChecker {
     }
 
     /** @param individual
+     *            individual
      * @param scope
+     *            scope
      * @return true is the input individual is in the input scope, false
      *         otherwise
-     * @throws OWLRuntimeException */
+     * @throws OWLRuntimeException
+     *             OWLRuntimeException */
     protected boolean check(OWLIndividual individual, IndividualVariableScope scope)
             throws OWLRuntimeException {
         OWLClassExpression description = scope.getClassExpression();
@@ -91,7 +103,8 @@ public class VariableScopeChecker {
     }
 
     /** @return the reasoner
-     * @throws OWLRuntimeException */
+     * @throws OWLRuntimeException
+     *             OWLRuntimeException */
     public OWLReasoner getReasoner() {
         return reasoner;
     }

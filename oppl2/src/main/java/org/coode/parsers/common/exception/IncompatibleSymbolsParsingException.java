@@ -9,9 +9,13 @@ public class IncompatibleSymbolsParsingException extends ParsingException {
     private final Set<String> incompatibleSymbols = new HashSet<String>();
 
     /** @param parentExpression
+     *            parentExpression
      * @param line
+     *            line
      * @param charPositionInLine
-     * @param incompatibleSymbols */
+     *            charPositionInLine
+     * @param incompatibleSymbols
+     *            incompatibleSymbols */
     public IncompatibleSymbolsParsingException(String parentExpression, int line,
             int charPositionInLine, String... incompatibleSymbols) {
         super(String.format(

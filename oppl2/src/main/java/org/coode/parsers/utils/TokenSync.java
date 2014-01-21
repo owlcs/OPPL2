@@ -29,7 +29,8 @@ public class TokenSync {
         private final Map<String, Integer> inverseMap = new HashMap<String, Integer>();
         private int max = 0;
 
-        /** @param path */
+        /** @param path
+         *            path */
         public TokenMap(String path) {
             this.path = checkNotNull(path, "path");
             parse();
@@ -123,7 +124,8 @@ public class TokenSync {
             removeDuplicates(reference);
         }
 
-        /** @param reference */
+        /** @param reference
+         *            reference */
         private void removeDuplicates(TokenMap reference) {
             for (Integer key : reference.getKeys()) {
                 String tokenText = reference.getTokenText(key);
@@ -132,7 +134,9 @@ public class TokenSync {
         }
 
         /** @param referenceKey
-         * @param tokenText */
+         *            referenceKey
+         * @param tokenText
+         *            tokenText */
         private void removeDuplicates(Integer referenceKey, String tokenText) {
             for (Object thisKey : map.keySet().toArray()) {
                 if (tokenText.compareTo(map.get(thisKey)) == 0
@@ -144,7 +148,8 @@ public class TokenSync {
         }
 
         /** @param key
-         * @return */
+         *            key
+         * @return true if key is empty */
         private boolean isEmptyKey(Integer key) {
             return getTokenText(key) == null;
         }
@@ -172,8 +177,11 @@ public class TokenSync {
     private boolean synced = false;
 
     /** @param referencePath
+     *            referencePath
      * @param toSync
-     * @param others */
+     *            toSync
+     * @param others
+     *            others */
     public TokenSync(String referencePath, String toSync, String... others) {
         checkNotNull(referencePath, "referencePath");
         checkNotNull(toSync, "toSync");
@@ -194,13 +202,16 @@ public class TokenSync {
         }
     }
 
-    /** @throws FileNotFoundException */
+    /** @throws FileNotFoundException
+     *             FileNotFoundException */
     public void save() throws FileNotFoundException {
         this.save(false);
     }
 
     /** @param forceSync
-     * @throws FileNotFoundException */
+     *            forceSync
+     * @throws FileNotFoundException
+     *             FileNotFoundException */
     public void save(boolean forceSync) throws FileNotFoundException {
         if (forceSync) {
             sync();
@@ -211,7 +222,8 @@ public class TokenSync {
         }
     }
 
-    /** @param args */
+    /** @param args
+     *            args */
     public static void main(String[] args) {
         if (args.length >= 2) {
             String referenceTokenFileName = args[0];

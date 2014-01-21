@@ -48,7 +48,8 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
     private final class InstantiateActionListener implements ActionListener {
         private final PatternModel patternModel;
 
-        /** @param patternModel */
+        /** @param patternModel
+         *            patternModel */
         public InstantiateActionListener(PatternModel patternModel) {
             this.patternModel = patternModel;
         }
@@ -104,7 +105,9 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
         private final PatternModel patternModel;
 
         /** @param annot
-         * @param patternModel */
+         *            annot
+         * @param patternModel
+         *            patternModel */
         public PatternListItem(OWLAnnotation annot, PatternModel patternModel) {
             super(annot);
             this.patternModel = checkNotNull(patternModel, "patternModel");
@@ -159,7 +162,8 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
     private PatternEditor patternEditor;
     private final RuntimeExceptionHandler runtimeExceptionHandler;
 
-    /** @param eKit */
+    /** @param eKit
+     *            eKit */
     public PatternModelList(OWLEditorKit eKit) {
         super(eKit);
         // Have to do this as the super class does not expose the OWLEdtorKit
@@ -169,7 +173,7 @@ public class PatternModelList extends AbstractAnnotationsList<PatternAnnotationC
                 getOWLEditorKit().getOWLWorkspace());
     }
 
-    /** @return */
+    /** @return pattern editor */
     private PatternEditor createPatternEditor() {
         return new PatternEditor(getOWLEditorKit(), ProtegeParserFactory.getInstance(
                 getOWLEditorKit()).getPatternFactory());

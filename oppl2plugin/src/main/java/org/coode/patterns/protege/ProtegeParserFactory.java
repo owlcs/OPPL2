@@ -250,7 +250,8 @@ public class ProtegeParserFactory implements AbstractParserFactory {
     private final ProtegeOWLEntityChecker protegeOWLEntityChecker;
     private static ProtegeParserFactory instance = null;
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public ProtegeParserFactory(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         protegeOWLEntityChecker = new ProtegeOWLEntityChecker();
@@ -299,6 +300,7 @@ public class ProtegeParserFactory implements AbstractParserFactory {
     }
 
     /** @param owlEditorKit
+     *            owlEditorKit
      * @return protege parser factory */
     public static ProtegeParserFactory getInstance(OWLEditorKit owlEditorKit) {
         if (instance == null) {

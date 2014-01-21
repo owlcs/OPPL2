@@ -19,8 +19,11 @@ public class OWLEntityCheckerScope implements Scope {
     private final OWLEntityRenderer owlEntityRenderer;
 
     /** @param owlEntityChecker
+     *            owlEntityChecker
      * @param entityFinder
-     * @param owlEntityRenderer */
+     *            entityFinder
+     * @param owlEntityRenderer
+     *            owlEntityRenderer */
     public OWLEntityCheckerScope(DisposableOWLEntityChecker owlEntityChecker,
             EntityFinder entityFinder, OWLEntityRenderer owlEntityRenderer) {
         this.owlEntityChecker = checkNotNull(owlEntityChecker, "owlEntityChecker");

@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.ui;
 
 import java.awt.BorderLayout;
@@ -27,7 +26,8 @@ public class OPPLTestCaseRunPanel extends JPanel {
             SwingWorker<Map<OPPLTestCase, List<Report>>, Object> {
         private final OPPLTestCase opplTestCase;
 
-        /** @param opplTestCase */
+        /** @param opplTestCase
+         *            opplTestCase */
         public RunTest(OPPLTestCase opplTestCase) {
             this.opplTestCase = opplTestCase;
         }
@@ -104,7 +104,8 @@ public class OPPLTestCaseRunPanel extends JPanel {
         this.add(resultTreeScrollPane, BorderLayout.CENTER);
     }
 
-    /** @param testCases */
+    /** @param testCases
+     *            testCases */
     public void runTests(Collection<? extends OPPLTestCase> testCases) {
         resultTreeModel.clear();
         summaryPanel.clear();

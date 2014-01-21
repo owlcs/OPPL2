@@ -5,9 +5,11 @@ import org.semanticweb.owlapi.model.OWLObjectVisitor;
 
 /** @author Luigi Iannone */
 public interface IRIVisitor extends OWLObjectVisitor {
-    /** @param iri */
+    /** @param iri
+     *            iri */
     void visitIRI(IRI iri);
 
-    /** @param iri */
+    /** @param iri
+     *            iri */
     void visitVariableIRI(VariableIRI iri);
 }

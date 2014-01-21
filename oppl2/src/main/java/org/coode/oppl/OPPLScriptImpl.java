@@ -40,21 +40,32 @@ public class OPPLScriptImpl implements OPPLScript {
     private final OPPLAbstractFactory factory;
 
     /** @param constraintSystem
+     *            constraintSystem
      * @param variables
+     *            variables
      * @param query
+     *            query
      * @param actions
-     * @param factory */
+     *            actions
+     * @param factory
+     *            factory */
     public OPPLScriptImpl(ConstraintSystem constraintSystem, List<Variable<?>> variables,
             OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory) {
         this(constraintSystem, variables, query, actions, factory, false);
     }
 
     /** @param constraintSystem
+     *            constraintSystem
      * @param variables
+     *            variables
      * @param query
+     *            query
      * @param actions
+     *            actions
      * @param factory
-     * @param resetExecution */
+     *            factory
+     * @param resetExecution
+     *            resetExecution */
     public OPPLScriptImpl(ConstraintSystem constraintSystem, List<Variable<?>> variables,
             OPPLQuery query, List<OWLAxiomChange> actions, OPPLAbstractFactory factory,
             boolean resetExecution) {

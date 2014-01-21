@@ -18,14 +18,16 @@ public class DisposableShortFormEntityChecker implements DisposableOWLEntityChec
     private final BidirectionalShortFormProviderAdapter shrotFormProviderAdaptor;
     private final OWLEntityChecker delegate;
 
-    /** @param shrotFormProviderAdaptor */
+    /** @param shrotFormProviderAdaptor
+     *            shrotFormProviderAdaptor */
     public DisposableShortFormEntityChecker(
             BidirectionalShortFormProviderAdapter shrotFormProviderAdaptor) {
         this.shrotFormProviderAdaptor = shrotFormProviderAdaptor;
         delegate = new ShortFormEntityChecker(shrotFormProviderAdaptor);
     }
 
-    /** @param owlEntityChecker */
+    /** @param owlEntityChecker
+     *            owlEntityChecker */
     public DisposableShortFormEntityChecker(OWLEntityChecker owlEntityChecker) {
         delegate = checkNotNull(owlEntityChecker, "owlEntityChecker");
         shrotFormProviderAdaptor = new BidirectionalShortFormProviderAdapter(

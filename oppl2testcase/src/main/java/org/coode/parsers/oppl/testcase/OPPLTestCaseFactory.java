@@ -18,8 +18,11 @@ public class OPPLTestCaseFactory implements AbstractOPPLTestCaseFactory {
     private final OWLReasoner reasoner;
 
     /** @param ontology
+     *            ontology
      * @param ontologyManager
-     * @param reasoner */
+     *            ontologyManager
+     * @param reasoner
+     *            reasoner */
     public OPPLTestCaseFactory(OWLOntology ontology, OWLOntologyManager ontologyManager,
             OWLReasoner reasoner) {
         this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");

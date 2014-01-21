@@ -17,8 +17,11 @@ public class OPPLScope implements Scope {
     private final OWLEntityCheckerScope owlEntityCheckerScope;
 
     /** @param owlEntityChecker
+     *            owlEntityChecker
      * @param entityFinder
-     * @param owlEntityRenderer */
+     *            entityFinder
+     * @param owlEntityRenderer
+     *            owlEntityRenderer */
     public OPPLScope(DisposableOWLEntityChecker owlEntityChecker,
             EntityFinder entityFinder, OWLEntityRenderer owlEntityRenderer) {
         checkNotNull(owlEntityChecker, "owlEntityChecker");

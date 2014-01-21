@@ -33,9 +33,13 @@ public class ProtegePatternModel extends PatternModel {
     private final OWLModelManager modelManager;
 
     /** @param opplScript
+     *            opplScript
      * @param modelManager
+     *            modelManager
      * @param f
-     * @throws UnsuitableOPPLScriptException */
+     *            f
+     * @throws UnsuitableOPPLScriptException
+     *             UnsuitableOPPLScriptException */
     public ProtegePatternModel(OPPLScript opplScript, OWLModelManager modelManager,
             AbstractPatternModelFactory f) throws UnsuitableOPPLScriptException {
         super(opplScript, modelManager.getOWLOntologyManager(), f);

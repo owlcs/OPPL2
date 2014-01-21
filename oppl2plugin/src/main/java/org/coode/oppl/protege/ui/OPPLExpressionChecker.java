@@ -13,7 +13,8 @@ import org.coode.parsers.ui.ExpressionChecker;
 import org.protege.editor.owl.OWLEditorKit;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
     private final class ErrorReportImpl extends AbstractLinearisingErrorReport {
         private final String message;
@@ -22,9 +23,13 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
         private final int length;
 
         /** @param message
+         *            message
          * @param line
+         *            line
          * @param charPositionInline
-         * @param length */
+         *            charPositionInline
+         * @param length
+         *            length */
         public ErrorReportImpl(String message, int line, int charPositionInline,
                 int length) {
             this.message = checkNotNull(message, "message");
@@ -166,7 +171,8 @@ public abstract class OPPLExpressionChecker<O> implements ExpressionChecker<O> {
     private O lastObject = null;
     protected ErrorReport lastReport = null;
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public OPPLExpressionChecker(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
     }

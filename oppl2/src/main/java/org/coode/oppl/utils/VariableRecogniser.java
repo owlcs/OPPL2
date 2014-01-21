@@ -43,12 +43,14 @@ public class VariableRecogniser {
         return recogniser;
     }
 
-    /** @param recogniser */
+    /** @param recogniser
+     *            recogniser */
     VariableRecogniser(VariableVisitorEx<Boolean> recogniser) {
         this.recogniser = checkNotNull(recogniser, "recogniser");
     }
 
     /** @param v
+     *            v
      * @return true if recognised */
     public boolean recognise(Variable<?> v) {
         return v.accept(getRecogniser());

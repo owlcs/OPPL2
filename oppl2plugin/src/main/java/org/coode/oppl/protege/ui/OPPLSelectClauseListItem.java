@@ -9,7 +9,9 @@ public class OPPLSelectClauseListItem implements MListItem {
     private final OWLAxiom axiom;
 
     /** @param asserted
-     * @param axiom */
+     *            asserted
+     * @param axiom
+     *            axiom */
     public OPPLSelectClauseListItem(boolean asserted, OWLAxiom axiom) {
         this.asserted = asserted;
         this.axiom = axiom;

@@ -11,14 +11,17 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public class GroupVariableAttribute<O extends OWLObject> extends
         VariableAttribute<String> {
     protected final int index;
     private final RegexpGeneratedVariable<O> regexpGeneratedVariable;
 
     /** @param variable
-     * @param index */
+     *            variable
+     * @param index
+     *            index */
     public GroupVariableAttribute(RegexpGeneratedVariable<O> variable, int index) {
         super(variable, AttributeName.GROUPS);
         if (index < 0) {
@@ -95,7 +98,11 @@ public class GroupVariableAttribute<O extends OWLObject> extends
     }
 
     /** @param variable
+     *            variable
      * @param index
+     *            index
+     * @param <P>
+     *            group attribute type
      * @return group variable attribute */
     public static <P extends OWLObject> GroupVariableAttribute<P>
             getGroupVariableAttribute(RegexpGeneratedVariable<P> variable, int index) {
@@ -103,9 +110,13 @@ public class GroupVariableAttribute<O extends OWLObject> extends
     }
 
     /** @param v
+     *            v
      * @param owlObject
+     *            owlObject
      * @param constraintSystem
+     *            constraintSystem
      * @param handler
+     *            handler
      * @return oppl function */
     @SuppressWarnings("unused")
     public OPPLFunction<String> replace(Variable<?> v, OWLObject owlObject,

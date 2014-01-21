@@ -30,7 +30,8 @@ public class TokenTableModel implements TableModel {
     private final DefaultTableModel delegate;
     private int maxUsedTokenIndex = 0;
 
-    /** @param tokenFileSorters */
+    /** @param tokenFileSorters
+     *            tokenFileSorters */
     public TokenTableModel(Collection<? extends TokenFileSorter> tokenFileSorters) {
         this.tokenFileSorters.addAll(checkNotNull(tokenFileSorters, "tokenFileSorters"));
         delegate = new DefaultTableModel();

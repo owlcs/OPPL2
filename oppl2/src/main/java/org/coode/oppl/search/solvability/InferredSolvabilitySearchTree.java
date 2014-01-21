@@ -13,7 +13,9 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 public final class InferredSolvabilitySearchTree extends
         AbstractSolvabilityOPPLOWLAxiomSearchTree {
     /** @param constraintSystem
-     * @param runtimeExceptionHandler */
+     *            constraintSystem
+     * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler */
     public InferredSolvabilitySearchTree(ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         super(constraintSystem, runtimeExceptionHandler);

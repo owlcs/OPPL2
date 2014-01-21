@@ -21,7 +21,8 @@ public class OPPLMList extends MList {
         super.setModel(model);
     }
 
-    /** @param model */
+    /** @param model
+     *            model */
     public void setDefaultModel(DefaultListModel<Object> model) {
         setModel(model);
     }

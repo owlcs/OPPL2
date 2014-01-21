@@ -32,7 +32,8 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 /** @author Luigi Iannone */
 public class VariableDetector extends AbstractVariableDetector {
-    /** @param constraintSystem */
+    /** @param constraintSystem
+     *            constraintSystem */
     public VariableDetector(ConstraintSystem constraintSystem) {
         super(constraintSystem);
     }

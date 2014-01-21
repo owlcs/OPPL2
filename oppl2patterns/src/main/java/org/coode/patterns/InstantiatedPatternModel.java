@@ -73,7 +73,8 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
      * @param patternModel
      *            the Pattern on which the this instantiated pattern will be
      *            built. Cannot be {@code null}.
-     * @param handler */
+     * @param handler
+     *            handler */
     public InstantiatedPatternModel(PatternModel patternModel,
             RuntimeExceptionHandler handler) {
         this.patternModel = checkNotNull(patternModel, "patternModel");
@@ -84,6 +85,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
     private String unresolvedOPPLStatementString;
 
     /** @param variable
+     *            variable
      * @return instantiations */
     public Set<OWLObject> getInstantiations(Variable<?> variable) {
         // defensive copy; it also guarantees that no nulls are returned
@@ -95,7 +97,9 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
     }
 
     /** @param variable
+     *            variable
      * @param owlObject
+     *            owlObject
      * @return true if any instantiation removed */
     public boolean removeInstantiation(Variable<?> variable, OWLObject owlObject) {
         Set<OWLObject> variableInstantiations = instantiations.get(variable);
@@ -111,7 +115,9 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
      * {@link InstantiatedPatternModel#addVariable(Variable)}
      * 
      * @param variable
-     * @param value */
+     *            variable
+     * @param value
+     *            value */
     @Override
     public void instantiate(Variable<?> variable, OWLObject value) {
         if (getPatternModel().getVariables().contains(variable)
@@ -325,7 +331,8 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
     /** Adds the input Variable to this InstantiatedPatternModel. The
      * instantiations after the addition will be <code>null</code>
      * 
-     * @param v */
+     * @param v
+     *            v */
     @Override
     public void addVariable(Variable<?> v) {
         instantiations.put(v, null);
@@ -360,7 +367,8 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
                 || patternModel.dependsOn(patternOPPLScript);
     }
 
-    /** @param unresolvedString */
+    /** @param unresolvedString
+     *            unresolvedString */
     public void setUnresolvedOPPLStatement(String unresolvedString) {
         unresolvedOPPLStatementString = unresolvedString;
     }

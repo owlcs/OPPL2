@@ -4,7 +4,8 @@ package org.coode.parsers.oppl.testcase.assertions;
  * desired.
  * 
  * @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public abstract class DefaultAssertionExpressionVisitorExAdapter<O> implements
         AssertionExpressionVisitorEx<O> {
     private final O defaultValue;
@@ -14,12 +15,15 @@ public abstract class DefaultAssertionExpressionVisitorExAdapter<O> implements
         this(null);
     }
 
-    /** @param defaultValue */
+    /** @param defaultValue
+     *            defaultValue */
     public DefaultAssertionExpressionVisitorExAdapter(O defaultValue) {
         this.defaultValue = defaultValue;
     }
 
-    /** @return the defaultValue */
+    /** @param assertionExpression
+     *            assertionExpression
+     * @return the defaultValue */
     protected O getDefaultValue(
             @SuppressWarnings("unused") AssertionExpression<?> assertionExpression) {
         return this.defaultValue;

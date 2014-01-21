@@ -2,23 +2,29 @@ package org.coode.oppl.variabletypes;
 
 /** @author Luigi Iannone */
 public interface VariableTypeVisitor {
-    /** @param classVariableType */
+    /** @param classVariableType
+     *            classVariableType */
     void visitCLASSVariableType(CLASSVariableType classVariableType);
 
-    /** @param objectpropertyVariableType */
+    /** @param objectpropertyVariableType
+     *            objectpropertyVariableType */
     void visitOBJECTPROPERTYVariableType(
             OBJECTPROPERTYVariableType objectpropertyVariableType);
 
-    /** @param datapropertyVariableType */
+    /** @param datapropertyVariableType
+     *            datapropertyVariableType */
     void visitDATAPROPERTYVariableType(DATAPROPERTYVariableType datapropertyVariableType);
 
-    /** @param individualVariableType */
+    /** @param individualVariableType
+     *            individualVariableType */
     void visitINDIVIDUALVariableType(INDIVIDUALVariableType individualVariableType);
 
-    /** @param constantVariableType */
+    /** @param constantVariableType
+     *            constantVariableType */
     void visitCONSTANTVariableType(CONSTANTVariableType constantVariableType);
 
-    /** @param annotationpropertyVariableType */
+    /** @param annotationpropertyVariableType
+     *            annotationpropertyVariableType */
     void visitANNOTATIONPROPERTYVariableType(
             ANNOTATIONPROPERTYVariableType annotationpropertyVariableType);
 }

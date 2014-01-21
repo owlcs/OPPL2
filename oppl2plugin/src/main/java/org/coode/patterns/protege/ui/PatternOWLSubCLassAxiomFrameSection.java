@@ -42,8 +42,11 @@ public class PatternOWLSubCLassAxiomFrameSection extends OWLSubClassAxiomFrameSe
     private final AbstractPatternModelFactory factory;
 
     /** @param editorKit
+     *            editorKit
      * @param frame
-     * @param f */
+     *            frame
+     * @param f
+     *            f */
     public PatternOWLSubCLassAxiomFrameSection(OWLEditorKit editorKit,
             OWLFrame<OWLClass> frame, AbstractPatternModelFactory f) {
         super(editorKit, frame);

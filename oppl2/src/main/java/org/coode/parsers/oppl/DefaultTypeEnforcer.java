@@ -20,8 +20,11 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     private final ErrorListener errorListener;
 
     /** @param symbolTable
+     *            symbolTable
      * @param entityFactory
-     * @param listener */
+     *            entityFactory
+     * @param listener
+     *            listener */
     public DefaultTypeEnforcer(OPPLSymbolTable symbolTable,
             OWLEntityFactory entityFactory, ErrorListener listener) {
         this.symbolTable = checkNotNull(symbolTable, "symbolTable");
@@ -36,8 +39,12 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
         enforceQualifiedRestrictionTypes(parentExpression, propertyExpression, filler);
     }
 
-    /** @param propertyExpression
-     * @param filler */
+    /** @param parentExpression
+     *            parentExpression
+     * @param propertyExpression
+     *            propertyExpression
+     * @param filler
+     *            filler */
     private void enforceQualifiedRestrictionTypes(
             ManchesterOWLSyntaxTree parentExpression,
             final ManchesterOWLSyntaxTree propertyExpression,
@@ -76,7 +83,8 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
         enforceNaryClassExpressionTypes(conjuncts);
     }
 
-    /** @param classExpressions */
+    /** @param classExpressions
+     *            classExpressions */
     private void enforceNaryClassExpressionTypes(
             ManchesterOWLSyntaxTree... classExpressions) {
         for (ManchesterOWLSyntaxTree classExpression : classExpressions) {
@@ -92,7 +100,9 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     }
 
     /** @param anIndividual
-     * @param anotherIndividual */
+     *            anIndividual
+     * @param anotherIndividual
+     *            anotherIndividual */
     private void enforceBinaryIndividualAxiomType(OPPLSyntaxTree anIndividual,
             OPPLSyntaxTree anotherIndividual) {
         this.enforceType(anIndividual, OWLType.OWL_INDIVIDUAL);
@@ -107,8 +117,11 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     }
 
     /** @param parentExpression
+     *            parentExpression
      * @param lhs
-     * @param rhs */
+     *            lhs
+     * @param rhs
+     *            rhs */
     private void enforceBinaryAxiomTypes(ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree lhs, ManchesterOWLSyntaxTree rhs) {
         checkNotNull(parentExpression, "parentExpression");
@@ -128,7 +141,9 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     }
 
     /** @param from
-     * @param to */
+     *            from
+     * @param to
+     *            to */
     private void enforceType(ManchesterOWLSyntaxTree from, ManchesterOWLSyntaxTree to) {
         checkNotNull(from, "from");
         checkNotNull(to, "to");
@@ -180,8 +195,11 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
     }
 
     /** @param parentExpression
+     *            parentExpression
      * @param propertyExpression
-     * @param filler */
+     *            propertyExpression
+     * @param filler
+     *            filler */
     private void enforceCardinalityRestrictionTypes(
             ManchesterOWLSyntaxTree parentExpression,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
@@ -275,7 +293,9 @@ public class DefaultTypeEnforcer implements TypesEnforcer {
      * exclamation mark prefix.
      * 
      * @param t
-     * @param type */
+     *            t
+     * @param type
+     *            type */
     protected void enforceType(ManchesterOWLSyntaxTree t, OWLType type) {
         checkNotNull(t, "t");
         checkNotNull(type, "type");

@@ -4,9 +4,11 @@ package org.coode.oppl.protege.ui.message;
  * 
  * @author Luigi Iannone */
 public interface MessageVisitor {
-    /** @param error */
+    /** @param error
+     *            error */
     void visitError(Error error);
 
-    /** @param warning */
+    /** @param warning
+     *            warning */
     void visitWarning(Warning warning);
 }

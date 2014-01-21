@@ -12,7 +12,9 @@ public class UnexecutedTestReport extends AbstractReport {
     private final OPPLTest unexecutedTest;
 
     /** @param opplTestCase
-     * @param unexecutedTest */
+     *            opplTestCase
+     * @param unexecutedTest
+     *            unexecutedTest */
     public UnexecutedTestReport(OPPLTestCase opplTestCase, OPPLTest unexecutedTest) {
         super(opplTestCase);
         this.unexecutedTest = checkNotNull(unexecutedTest, "unexecutedTest");

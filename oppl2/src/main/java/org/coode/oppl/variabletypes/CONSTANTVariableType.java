@@ -19,7 +19,8 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 /** @author Luigi Iannone */
 public class CONSTANTVariableType extends AbstractVariableType<OWLLiteral> implements
         VariableType<OWLLiteral> {
-    /** @param name */
+    /** @param name
+     *            name */
     public CONSTANTVariableType(VariableTypeName name) {
         super(name, EnumSet.noneOf(Direction.class));
     }

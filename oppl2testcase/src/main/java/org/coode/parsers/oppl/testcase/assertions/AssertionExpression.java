@@ -13,10 +13,12 @@ import org.coode.oppl.bindingtree.BindingNode;
  * @param <T>
  *            The kind of object this AssertionExpression resolves to. */
 public interface AssertionExpression<T> {
-    /** @param assertionExpressionVisitor */
+    /** @param assertionExpressionVisitor
+     *            assertionExpressionVisitor */
     void accept(AssertionExpressionVisitor assertionExpressionVisitor);
 
     /** @param assertionExpressionVisitor
+     *            assertionExpressionVisitor
      * @return visitor value */
     <O> O accept(AssertionExpressionVisitorEx<O> assertionExpressionVisitor);
 

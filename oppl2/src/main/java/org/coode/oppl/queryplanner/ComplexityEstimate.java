@@ -89,7 +89,9 @@ public class ComplexityEstimate implements QueryPlannerVisitorEx<Float> {
     protected final Set<OWLObjectProperty> allObjectProperties = new HashSet<OWLObjectProperty>();
 
     /** @param contraintSystem
-     * @param runtimeExceptionHandler */
+     *            contraintSystem
+     * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler */
     public ComplexityEstimate(ConstraintSystem contraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         constraintSystem = checkNotNull(contraintSystem, "contraintSystem");

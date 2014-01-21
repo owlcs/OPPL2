@@ -41,10 +41,15 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
  * @author Luigi Iannone */
 public class ActionFactory {
     /** @param actionType
+     *            actionType
      * @param axiom
+     *            axiom
      * @param cs
+     *            cs
      * @param ontology
+     *            ontology
      * @param runtimeExcpetionHandler
+     *            runtimeExcpetionHandler
      * @return list of changes */
     public static List<OWLAxiomChange> createChanges(ActionType actionType,
             OWLAxiom axiom, ConstraintSystem cs, OWLOntology ontology,
@@ -85,10 +90,15 @@ public class ActionFactory {
     }
 
     /** @param actionType
+     *            actionType
      * @param axiom
+     *            axiom
      * @param cs
+     *            cs
      * @param ontologies
+     *            ontologies
      * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler
      * @return the List of OWLAxiomChange */
     public static List<OWLAxiomChange> createChanges(ActionType actionType,
             OWLAxiom axiom, ConstraintSystem cs, Set<OWLOntology> ontologies,

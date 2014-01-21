@@ -8,11 +8,13 @@ import org.coode.oppl.variabletypes.InputVariable;
 import org.semanticweb.owlapi.model.OWLObject;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public class AbstractVariableVisitorExAdapter<O> implements VariableVisitorEx<O> {
     private final O defaultValue;
 
-    /** @param defaultValue */
+    /** @param defaultValue
+     *            defaultValue */
     public AbstractVariableVisitorExAdapter(O defaultValue) {
         this.defaultValue = defaultValue;
     }

@@ -16,7 +16,8 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 public class ProtegeOWLEntityFactory implements OWLEntityFactory {
     private final EntityFactory delegateFactory;
 
-    /** @param f */
+    /** @param f
+     *            f */
     public ProtegeOWLEntityFactory(ProtegeOPPLFactory f) {
         delegateFactory = new EntityFactory(f);
     }

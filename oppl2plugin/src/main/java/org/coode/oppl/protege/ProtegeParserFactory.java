@@ -148,7 +148,8 @@ public class ProtegeParserFactory implements AbstractParserFactory, Disposable {
         }
     };
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     private ProtegeParserFactory(OWLEditorKit owlEditorKit) {
         assert owlEditorKit != null;
         this.owlEditorKit = owlEditorKit;
@@ -169,6 +170,7 @@ public class ProtegeParserFactory implements AbstractParserFactory, Disposable {
     }
 
     /** @param owlEditorKit
+     *            owlEditorKit
      * @return parser factory */
     public static ProtegeParserFactory getInstance(OWLEditorKit owlEditorKit) {
         if (instance == null) {

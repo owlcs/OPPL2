@@ -54,6 +54,7 @@ public class VariableScopes {
          * then <code>null</code> is returned. The method is case insensitive.
          * 
          * @param direction
+         *            direction
          * @return the Direction corresponding to the input String (can be null) */
         public static Direction getDirection(String direction) {
             for (Direction d : values()) {
@@ -71,7 +72,9 @@ public class VariableScopes {
     }
 
     /** @param description
+     *            description
      * @param checker
+     *            checker
      * @return a VariableScope instance restricting values to be sub-classes of
      *         the input OWLClassExpression */
     public static SubClassVariableScope buildSubClassVariableScope(
@@ -80,7 +83,9 @@ public class VariableScopes {
     }
 
     /** @param description
+     *            description
      * @param checker
+     *            checker
      * @return a VariableScope instance restricting values to be super-classes
      *         of the input OWLClassExpression */
     public static SuperClassVariableScope buildSuperClassVariableScope(
@@ -89,7 +94,9 @@ public class VariableScopes {
     }
 
     /** @param property
+     *            property
      * @param checker
+     *            checker
      * @return a VariableScope instance restricting values to be sub-properties
      *         of the input OWLProperty */
     public static SubPropertyVariableScope<OWLDataProperty>
@@ -99,7 +106,11 @@ public class VariableScopes {
     }
 
     /** @param property
+     *            property
      * @param checker
+     *            checker
+     * @param <P>
+     *            property type
      * @return a VariableScope instance restricting values to be sub-properties
      *         of the input OWLProperty */
     public static <P extends OWLPropertyExpression<?, ?>> SubPropertyVariableScope<P>
@@ -108,7 +119,11 @@ public class VariableScopes {
     }
 
     /** @param property
+     *            property
      * @param checker
+     *            checker
+     * @param <P>
+     *            property type
      * @return a VariableScope instance restricting values to be
      *         super-properties of the input OWLProperty */
     public static <P extends OWLPropertyExpression<?, ?>> SuperPropertyVariableScope<P>
@@ -117,7 +132,9 @@ public class VariableScopes {
     }
 
     /** @param description
+     *            description
      * @param checker
+     *            checker
      * @return a VariableScope instance restricting values to be instances of
      *         the input OWLClassExpression */
     public static IndividualVariableScope buildIndividualVariableScope(

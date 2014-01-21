@@ -37,16 +37,17 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  * Medical Informatics Group<br>
  * Date: May 4, 2006<br>
  * <br>
- * <p/>
+ * <br>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br>
  * <br>
- * <p/>
+ * <br>
  * An editor that can be used to edit text containing class expressions. The
  * editor is backed by a parser that checks that the text is well formed and
  * provides feedback if the text is not well formed.
  * 
- * @param <O> */
+ * @param <O>
+ *            type */
 public class ExpressionEditor<O> extends JTextPane implements RefreshableComponent,
         VerifiedInputEditor {
     private static final int CHECK_DELAY = 500;
@@ -72,7 +73,9 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
     private final OWLOntologyManager ontologyMmanager;
 
     /** @param manager
-     * @param checker */
+     *            manager
+     * @param checker
+     *            checker */
     public ExpressionEditor(OWLOntologyManager manager, ExpressionChecker<O> checker) {
         this.ontologyMmanager = checkNotNull(manager, "manager");
         this.outerBorder = null;
@@ -124,7 +127,8 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
         setFont(new Font(DEFAULT_FONT_NAME, Font.PLAIN, 14));
     }
 
-    /** @param desc */
+    /** @param desc
+     *            desc */
     public void setExpressionObject(O desc) {
         if (desc == null) {
             setText("");
@@ -143,7 +147,8 @@ public class ExpressionEditor<O> extends JTextPane implements RefreshableCompone
         return this.expressionChecker.createObject(this.getText());
     }
 
-    /** @param border */
+    /** @param border
+     *            border */
     public void setStateBorder(Border border) {
         this.stateBorder = border;
         super.setBorder(BorderFactory.createCompoundBorder(this.outerBorder,

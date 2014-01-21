@@ -7,12 +7,21 @@ import org.semanticweb.owlapi.model.OWLObject;
 
 /** @author Luigi Iannone */
 public interface VariableVisitor {
-    /** @param v */
+    /** @param v
+     *            v
+     * @param <P>
+     *            variable type */
     <P extends OWLObject> void visit(InputVariable<P> v);
 
-    /** @param v */
+    /** @param v
+     *            v
+     * @param <P>
+     *            variable type */
     <P extends OWLObject> void visit(GeneratedVariable<P> v);
 
-    /** @param regExpGenerated */
+    /** @param regExpGenerated
+     *            regExpGenerated
+     * @param <P>
+     *            variable type */
     <P extends OWLObject> void visit(RegexpGeneratedVariable<P> regExpGenerated);
 }

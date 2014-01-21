@@ -80,8 +80,11 @@ public class OPPLParser implements AbstractOPPLParser {
     private final SymbolTableFactory<OPPLSymbolTable> symbolTableFactory;
 
     /** @param factory
+     *            factory
      * @param listener
-     * @param symbolTableFactory */
+     *            listener
+     * @param symbolTableFactory
+     *            symbolTableFactory */
     public OPPLParser(OPPLAbstractFactory factory, ErrorListener listener,
             SymbolTableFactory<OPPLSymbolTable> symbolTableFactory) {
         opplFactory = checkNotNull(factory, "factory");
@@ -169,8 +172,11 @@ public class OPPLParser implements AbstractOPPLParser {
     }
 
     /** @param input
+     *            input
      * @param symbolTable
+     *            symbolTable
      * @param constraintSystem
+     *            constraintSystem
      * @return abstract constraint */
     public AbstractConstraint parseConstraint(String input, OPPLSymbolTable symbolTable,
             ConstraintSystem constraintSystem) {
@@ -218,9 +224,13 @@ public class OPPLParser implements AbstractOPPLParser {
     }
 
     /** @param input
+     *            input
      * @param variable
+     *            variable
      * @param symbolTable
+     *            symbolTable
      * @param constraintSystem
+     *            constraintSystem
      * @return variable */
     public Variable<?> parseOPPLFunction(String input, Variable<?> variable,
             OPPLSymbolTable symbolTable, ConstraintSystem constraintSystem) {
@@ -275,9 +285,13 @@ public class OPPLParser implements AbstractOPPLParser {
     }
 
     /** @param input
+     *            input
      * @param variable
+     *            variable
      * @param symbolTable
+     *            symbolTable
      * @param constraintSystem
+     *            constraintSystem
      * @return variable */
     public Variable<?> parseRegExp(String input, Variable<?> variable,
             OPPLSymbolTable symbolTable, ConstraintSystem constraintSystem) {
@@ -328,7 +342,9 @@ public class OPPLParser implements AbstractOPPLParser {
     }
 
     /** @param input
+     *            input
      * @param symbolTable
+     *            symbolTable
      * @return axiom
      * @see org.coode.oppl.AbstractOPPLParser#parse(java.lang.String) */
     public OWLAxiom parseAxiom(String input, OPPLSymbolTable symbolTable) {
@@ -381,6 +397,7 @@ public class OPPLParser implements AbstractOPPLParser {
     }
 
     /** @param input
+     *            input
      * @return literal */
     public OWLLiteral parsePlainConstant(String input) {
         OPPLSymbolTable symbolTable = getSymbolTableFactory().createSymbolTable();

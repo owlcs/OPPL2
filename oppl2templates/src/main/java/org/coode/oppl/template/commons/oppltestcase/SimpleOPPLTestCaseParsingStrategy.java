@@ -20,10 +20,15 @@ public class SimpleOPPLTestCaseParsingStrategy implements
     private final RuntimeExceptionHandler handler;
 
     /** @param ontologyManager
+     *            ontologyManager
      * @param ontology
+     *            ontology
      * @param reasoner
+     *            reasoner
      * @param errorListener
-     * @param handler */
+     *            errorListener
+     * @param handler
+     *            handler */
     public SimpleOPPLTestCaseParsingStrategy(OWLOntologyManager ontologyManager,
             OWLOntology ontology, OWLReasoner reasoner, ErrorListener errorListener,
             RuntimeExceptionHandler handler) {

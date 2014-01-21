@@ -34,8 +34,9 @@ public class EvaluationResults {
             return String.format("ADD %s", renderAxiom(change.getAxiom()));
         }
 
-        /** @param change
-         * @return */
+        /** @param axiom
+         *            axiom
+         * @return render */
         private String renderAxiom(OWLAxiom axiom) {
             ConstraintSystem cs = getOpplScript().getConstraintSystem();
             ManchesterSyntaxRenderer renderer = cs.getOPPLFactory()
@@ -80,7 +81,9 @@ public class EvaluationResults {
     private final ChangeRenderer changeRenderer;
 
     /** @param opplScript
-     * @param changes */
+     *            opplScript
+     * @param changes
+     *            changes */
     public EvaluationResults(OPPLScript opplScript, List<OWLAxiomChange> changes) {
         this.opplScript = checkNotNull(opplScript, "opplScript");
         this.changes.addAll(checkNotNull(changes, "changes"));

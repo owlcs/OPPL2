@@ -10,7 +10,9 @@ public class Symbol {
     private final Type type;
 
     /** @param name
-     * @param type */
+     *            name
+     * @param type
+     *            type */
     public Symbol(String name, Type type) {
         this.name = checkNotNull(name, "name");
         this.type = checkNotNull(type, "type");
@@ -26,12 +28,16 @@ public class Symbol {
         return type;
     }
 
-    /** @param visitor */
+    /** @param visitor
+     *            visitor */
     public void accept(SymbolVisitor visitor) {
         visitor.visitSymbol(this);
     }
 
     /** @param visitor
+     *            visitor
+     * @param <O>
+     *            visitor return type
      * @return visitor value */
     public <O> O accept(SymbolVisitorEx<O> visitor) {
         return visitor.visitSymbol(this);

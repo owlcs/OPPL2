@@ -7,7 +7,8 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 public class OPPLShortFormProvider implements ShortFormProvider {
     private final ShortFormProvider delegate;
 
-    /** @param provider */
+    /** @param provider
+     *            provider */
     public OPPLShortFormProvider(ShortFormProvider provider) {
         delegate = provider;
     }

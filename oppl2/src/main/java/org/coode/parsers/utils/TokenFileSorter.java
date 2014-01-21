@@ -25,7 +25,8 @@ public class TokenFileSorter {
     private final String path;
     private final List<Token> tokens = new ArrayList<Token>();
 
-    /** @param path */
+    /** @param path
+     *            path */
     public TokenFileSorter(String path) {
         this.path = checkNotNull(path, "path");
         parse();
@@ -39,13 +40,16 @@ public class TokenFileSorter {
         writer.close();
     }
 
-    /** @throws FileNotFoundException */
+    /** @throws FileNotFoundException
+     *             FileNotFoundException */
     public void save() throws FileNotFoundException {
         write(getPath());
     }
 
     /** @param outputPath
-     * @throws FileNotFoundException */
+     *            outputPath
+     * @throws FileNotFoundException
+     *             FileNotFoundException */
     public void save(String outputPath) throws FileNotFoundException {
         write(outputPath);
     }
@@ -147,7 +151,8 @@ public class TokenFileSorter {
         }
     }
 
-    /** @param args */
+    /** @param args
+     *            args */
     public static void main(String[] args) {
         if (args.length >= 1) {
             String tokenFileName = args[0];

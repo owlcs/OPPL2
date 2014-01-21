@@ -8,7 +8,8 @@ import org.coode.parsers.Type;
 import org.coode.parsers.oppl.OPPLSymbol;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public abstract class VariableAttributeSymbol<O extends VariableAttribute<?>> extends
         Symbol implements OPPLSymbol {
     private final O variableAttribute;
@@ -19,8 +20,11 @@ public abstract class VariableAttributeSymbol<O extends VariableAttribute<?>> ex
     }
 
     /** @param name
+     *            name
      * @param type
-     * @param variableAttribute */
+     *            type
+     * @param variableAttribute
+     *            variableAttribute */
     public VariableAttributeSymbol(String name, Type type, O variableAttribute) {
         super(name, type);
         this.variableAttribute = checkNotNull(variableAttribute, "variableAttribute");

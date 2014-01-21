@@ -37,7 +37,8 @@ public class OPPLTestCaseEditor extends AbstractOWLObjectEditor<OPPLTestCase> im
     protected final ExpressionEditor<OPPLTestCase> editor;
     private final ProtegeOPPLTestCaseAutoCompletionMatcher autoCompletionMatcher;
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public OPPLTestCaseEditor(OWLEditorKit owlEditorKit) {
         oek = checkNotNull(owlEditorKit, "owlEditorKit");
         otherOPPLTestCases.addAll(new OPPLTestCaseAnnotationContainer(oek)

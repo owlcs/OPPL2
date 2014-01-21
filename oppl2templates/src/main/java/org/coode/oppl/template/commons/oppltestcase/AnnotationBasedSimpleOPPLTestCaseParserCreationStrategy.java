@@ -21,11 +21,17 @@ public class AnnotationBasedSimpleOPPLTestCaseParserCreationStrategy extends
     private final SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory;
 
     /** @param iris
+     *            iris
      * @param ontologyManager
+     *            ontologyManager
      * @param ontology
+     *            ontology
      * @param reasoner
+     *            reasoner
      * @param errorListener
-     * @param handler */
+     *            errorListener
+     * @param handler
+     *            handler */
     public AnnotationBasedSimpleOPPLTestCaseParserCreationStrategy(List<IRI> iris,
             OWLOntologyManager ontologyManager, OWLOntology ontology,
             OWLReasoner reasoner, ErrorListener errorListener,

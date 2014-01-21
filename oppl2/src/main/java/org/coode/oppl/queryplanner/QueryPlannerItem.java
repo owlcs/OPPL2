@@ -18,16 +18,21 @@ public interface QueryPlannerItem {
      * @param runtimeExceptionHandler
      *            The run-time exception handler. Cannot be {@code null}.
      * @return The new Set of current leaves.
-     * @throw {@link NullPointerException} if the run-time exception handler or
-     *        the execution monitor is {@code null}. */
+     * @throws NullPointerException
+     *             if the run-time exception handler or the execution monitor is
+     *             {@code null}. */
     Set<BindingNode> match(Collection<? extends BindingNode> currentLeaves,
             ExecutionMonitor executionMonitor,
             RuntimeExceptionHandler runtimeExceptionHandler);
 
-    /** @param visitor */
+    /** @param visitor
+     *            visitor */
     void accept(QueryPlannerVisitor visitor);
 
     /** @param visitor
+     *            visitor
+     * @param <O>
+     *            visitor return type
      * @return visitor value */
     <O> O accept(QueryPlannerVisitorEx<O> visitor);
 }

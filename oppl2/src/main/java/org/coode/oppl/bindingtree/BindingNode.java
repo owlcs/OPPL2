@@ -63,6 +63,7 @@ public class BindingNode implements Renderable {
         }
 
         /** @param v
+         *            v
          * @return assignment */
         public OWLObject findAssignment(Variable<?> v) {
             Iterator<Assignment> iterator = node.assignments.iterator();
@@ -115,43 +116,53 @@ public class BindingNode implements Renderable {
             unassignedVariables);
 
     /** @param assignments
-     * @param unassignedVariables */
+     *            assignments
+     * @param unassignedVariables
+     *            unassignedVariables */
     public BindingNode(Collection<Assignment> assignments,
             Collection<? extends Variable<?>> unassignedVariables) {
         this.assignments.addAll(assignments);
         this.unassignedVariables.addAll(unassignedVariables);
     }
 
-    /** @param assignments */
+    /** @param assignments
+     *            assignments */
     public BindingNode(Assignment... assignments) {
         for (Assignment a : assignments) {
             this.assignments.add(a);
         }
     }
 
-    /** @param unassignedVariables */
+    /** @param unassignedVariables
+     *            unassignedVariables */
     public BindingNode(Collection<? extends Variable<?>> unassignedVariables) {
         this.unassignedVariables.addAll(unassignedVariables);
     }
 
-    /** @param assignment */
+    /** @param assignment
+     *            assignment */
     public BindingNode(Assignment assignment) {
         assignments.add(assignment);
     }
 
-    /** @param bindingNode */
+    /** @param bindingNode
+     *            bindingNode */
     public BindingNode(BindingNode bindingNode) {
         this(bindingNode.assignments, bindingNode.unassignedVariables);
     }
 
     protected BindingNode() {}
 
-    /** @param visitor */
+    /** @param visitor
+     *            visitor */
     public void accept(BindingVisitor visitor) {
         visitor.visit(this);
     }
 
     /** @param visitor
+     *            visitor
+     * @param <O>
+     *            visitor return type
      * @return visitor value */
     public <O> O accept(BindingVisitorEx<O> visitor) {
         return visitor.visit(this);
@@ -197,14 +208,17 @@ public class BindingNode implements Renderable {
     }
 
     /** @param variable
+     *            variable
      * @param parameters
+     *            parameters
      * @return assignment */
     public OWLObject getAssignmentValue(Variable<?> variable,
             ValueComputationParameters parameters) {
         return variable.accept(new AssignmentFinder(parameters, this));
     }
 
-    /** @param assignment */
+    /** @param assignment
+     *            assignment */
     public void addAssignment(final Assignment assignment) {
         assignment.getAssignedVariable().accept(new VariableVisitor() {
             @Override
@@ -235,6 +249,7 @@ public class BindingNode implements Renderable {
     }
 
     /** @param v
+     *            v
      * @return true if v is an assigned variable */
     public boolean containsAssignedVariable(Variable<?> v) {
         for (Assignment assignment : assignments) {
@@ -257,7 +272,8 @@ public class BindingNode implements Renderable {
 
     /** Adds a variable to the set of the unassigned ones
      * 
-     * @param v */
+     * @param v
+     *            v */
     public void addUnassignedVariable(Variable<?> v) {
         v.accept(unassignedVariablesUpdater);
     }

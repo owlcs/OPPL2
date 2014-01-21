@@ -10,7 +10,8 @@ public class AxiomLocality {
     private boolean isLocal;
     private final OWLReasoner reasoner;
 
-    /** @param r */
+    /** @param r
+     *            r */
     public AxiomLocality(OWLReasoner r) {
         reasoner = checkNotNull(r, "r");
     }
@@ -21,6 +22,7 @@ public class AxiomLocality {
     }
 
     /** @param axiom
+     *            axiom
      * @return true if local */
     public boolean isLocal(OWLAxiom axiom) {
         reset();

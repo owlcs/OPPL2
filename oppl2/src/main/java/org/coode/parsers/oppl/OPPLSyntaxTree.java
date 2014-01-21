@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl;
 
 import org.antlr.runtime.Token;
@@ -8,7 +7,8 @@ import org.coode.parsers.ManchesterOWLSyntaxTree;
 public class OPPLSyntaxTree extends ManchesterOWLSyntaxTree {
     private Object opplContent;
 
-    /** @param token */
+    /** @param token
+     *            token */
     public OPPLSyntaxTree(Token token) {
         super(token);
     }

@@ -11,24 +11,28 @@ import org.semanticweb.owlapi.model.OWLOntologyChange;
  * Medical Informatics Group<br>
  * Date: 23-Sep-2006<br>
  * <br>
- * <p/>
+ * <br>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br>
  * <br>
  * 
- * @param <E> */
+ * @param <E>
+ *            type */
 public class OWLEntityCreationSet<E extends OWLEntity> {
     private final E owlEntity;
     private final List<OWLOntologyChange> changes;
 
     /** @param owlEntity
-     * @param changes */
+     *            owlEntity
+     * @param changes
+     *            changes */
     public OWLEntityCreationSet(E owlEntity, List<? extends OWLOntologyChange> changes) {
         this.owlEntity = owlEntity;
         this.changes = new ArrayList<OWLOntologyChange>(changes);
     }
 
-    /** @param owlEntity */
+    /** @param owlEntity
+     *            owlEntity */
     public OWLEntityCreationSet(E owlEntity) {
         this.owlEntity = owlEntity;
         this.changes = new ArrayList<OWLOntologyChange>();

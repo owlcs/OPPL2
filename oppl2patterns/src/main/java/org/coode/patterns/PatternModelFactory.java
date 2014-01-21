@@ -52,8 +52,11 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
     private final OWLReasoner reasoner;
 
     /** @param ontology
+     *            ontology
      * @param ontologyManager
-     * @param reasoner */
+     *            ontologyManager
+     * @param reasoner
+     *            reasoner */
     public PatternModelFactory(OWLOntology ontology, OWLOntologyManager ontologyManager,
             OWLReasoner reasoner) {
         this.ontologyManager = ontologyManager;
@@ -62,7 +65,9 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
     }
 
     /** @param ontology
-     * @param ontologyManager */
+     *            ontology
+     * @param ontologyManager
+     *            ontologyManager */
     public PatternModelFactory(OWLOntology ontology, OWLOntologyManager ontologyManager) {
         this(ontology, ontologyManager, null);
     }
@@ -152,6 +157,7 @@ public class PatternModelFactory implements AbstractPatternModelFactory {
     }
 
     /** @param cs
+     *            cs
      * @return entity renderer */
     public OWLEntityRenderer getOWLEntityRenderer(ConstraintSystem cs) {
         OWLEntityRendererImpl defaultRenderer = new OWLEntityRendererImpl();

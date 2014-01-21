@@ -16,19 +16,25 @@ import org.protege.editor.core.ui.util.VerifyingOptionPane;
 /** @author Luigi Iannone */
 public class JOptionPaneEx {
     /** @param parent
+     *            parent
      * @param title
+     *            title
      * @param component
+     *            component
      * @param verifiedInputEditor
+     *            verifiedInputEditor
      * @param messageType
+     *            messageType
      * @param optionType
+     *            optionType
      * @param defaultFocusedComponent
+     *            defaultFocusedComponent
      * @return option pane return value */
     public static int showValidatingConfirmDialog(Component parent, String title,
             JComponent component, VerifiedInputEditor verifiedInputEditor,
             int messageType, int optionType, final JComponent defaultFocusedComponent) {
         final VerifyingOptionPane optionPane = new VerifyingOptionPane(component,
                 messageType, optionType) {
-            
             private static final long serialVersionUID = 20100L;
 
             @Override

@@ -19,7 +19,8 @@ public class PatternAnnotationContainer implements AnnotationContainer {
     private final OWLEditorKit owlEditorKit;
     private final PatternExtractor patternExtractor;
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public PatternAnnotationContainer(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         patternExtractor = new PatternExtractor(getOntology(), getOWLEditorKit()
@@ -44,6 +45,7 @@ public class PatternAnnotationContainer implements AnnotationContainer {
     }
 
     /** @param annotation
+     *            annotation
      * @return pattern model */
     public PatternModel getPatternModel(OWLAnnotation annotation) {
         PatternOPPLScript extracted = annotation.accept(patternExtractor);

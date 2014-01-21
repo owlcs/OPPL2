@@ -13,7 +13,8 @@ public final class StringFormatReplacementStrategy implements
         ReplacementStrategy<String, String> {
     private final Object[] params;
 
-    /** @param params */
+    /** @param params
+     *            params */
     public StringFormatReplacementStrategy(Collection<? extends Object> params) {
         this.params = checkNotNull(params, "params").toArray();
     }

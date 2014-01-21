@@ -41,7 +41,8 @@ public class OWLEntitySelector extends JPanel implements VerifiedInputEditor {
         listeners.remove(listener);
     }
 
-    /** @param k */
+    /** @param k
+     *            k */
     public OWLEntitySelector(OWLEditorKit k) {
         super(new BorderLayout());
         kit = k;

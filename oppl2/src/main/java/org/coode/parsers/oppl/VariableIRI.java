@@ -33,7 +33,8 @@ public class VariableIRI extends IRI {
         return attribute;
     }
 
-    /** @param variable */
+    /** @param variable
+     *            variable */
     public VariableIRI(Variable<?> variable) {
         super(String.format("%s.%s", variable.getName(), AttributeName.IRI));
         attribute = new IRIVariableAttribute(variable);
@@ -93,7 +94,8 @@ public class VariableIRI extends IRI {
         }
     }
 
-    /** @param visitor */
+    /** @param visitor
+     *            visitor */
     public void accept(IRIVisitor visitor) {
         visitor.visitVariableIRI(this);
     }
@@ -105,6 +107,9 @@ public class VariableIRI extends IRI {
     }
 
     /** @param visitor
+     *            visitor
+     * @param <O>
+     *            visitor return type
      * @return visitor value */
     public <O> O accept(IRIVisitorEx<O> visitor) {
         return visitor.visitVariableIRI(this);

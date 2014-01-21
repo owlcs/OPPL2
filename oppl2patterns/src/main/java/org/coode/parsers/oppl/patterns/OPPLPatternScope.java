@@ -26,7 +26,9 @@ public class OPPLPatternScope implements Scope {
     private final OWLOntologyManager ontologyManager;
 
     /** @param scope
-     * @param ontologyManager */
+     *            scope
+     * @param ontologyManager
+     *            ontologyManager */
     public OPPLPatternScope(Scope scope, OWLOntologyManager ontologyManager) {
         delegate = checkNotNull(scope, "scope");
         this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
@@ -74,10 +76,15 @@ public class OPPLPatternScope implements Scope {
     }
 
     /** @param reference
+     *            reference
      * @param patternName
+     *            patternName
      * @param constraintSystem
+     *            constraintSystem
      * @param listener
+     *            listener
      * @param args
+     *            args
      * @return variable */
     public Variable<?> resolvePatternReference(OPPLSyntaxTree reference,
             String patternName, PatternConstraintSystem constraintSystem,
@@ -87,11 +94,17 @@ public class OPPLPatternScope implements Scope {
     }
 
     /** @param reference
+     *            reference
      * @param patternName
+     *            patternName
      * @param constraintSystem
+     *            constraintSystem
      * @param visited
+     *            visited
      * @param listener
+     *            listener
      * @param args
+     *            args
      * @return variable */
     public Variable<?> resolvePatternReference(OPPLSyntaxTree reference,
             String patternName, PatternConstraintSystem constraintSystem,

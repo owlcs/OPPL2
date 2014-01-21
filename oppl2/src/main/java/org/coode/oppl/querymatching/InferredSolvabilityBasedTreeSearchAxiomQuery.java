@@ -52,7 +52,9 @@ public class InferredSolvabilityBasedTreeSearchAxiomQuery extends AbstractAxiomQ
     private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
 
     /** @param constraintSystem
-     * @param runtimeExceptionHandler */
+     *            constraintSystem
+     * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler */
     public InferredSolvabilityBasedTreeSearchAxiomQuery(
             ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {

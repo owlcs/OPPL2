@@ -32,7 +32,8 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /** @author Luigi Iannone */
 public class ActionListModel extends DefaultListModel<Object> {
-    /** @param canAdd */
+    /** @param canAdd
+     *            canAdd */
     public ActionListModel(boolean canAdd) {
         if (canAdd) {
             addElement(new ActionListSectionHeader());
@@ -42,8 +43,11 @@ public class ActionListModel extends DefaultListModel<Object> {
     private static final long serialVersionUID = 20100L;
 
     /** @param axiomChange
+     *            axiomChange
      * @param isEditable
-     * @param isDeleteable */
+     *            isEditable
+     * @param isDeleteable
+     *            isDeleteable */
     public void addAction(OWLAxiomChange axiomChange, boolean isEditable,
             boolean isDeleteable) {
         addElement(new ActionListItem(axiomChange, isEditable, isDeleteable));

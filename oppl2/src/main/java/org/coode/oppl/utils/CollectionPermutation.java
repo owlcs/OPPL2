@@ -37,7 +37,10 @@ class PermutationState<N> {
     private final List<N> sequence = new ArrayList<N>();
     private final boolean isGoal;
 
-    /** @param referenceCollection */
+    /** @param referenceCollection
+     *            referenceCollection
+     * @param sequence
+     *            sequence */
     PermutationState(Collection<N> referenceCollection, List<N> sequence) {
         this.referenceCollection = checkNotNull(referenceCollection,
                 "referenceCollection");
@@ -62,7 +65,8 @@ class PermutationState<N> {
 }
 
 /** @author Luigi Iannone
- * @param <N> */
+ * @param <N>
+ *            type */
 public class CollectionPermutation<N> extends SearchTree<PermutationState<N>> {
     private CollectionPermutation() {}
 
@@ -86,6 +90,9 @@ public class CollectionPermutation<N> extends SearchTree<PermutationState<N>> {
     }
 
     /** @param collection
+     *            collection
+     * @param <O>
+     *            collection type
      * @return all permutations */
     public static <O> Set<List<O>> getAllPermutations(Collection<O> collection) {
         CollectionPermutation<O> setPermutation = new CollectionPermutation<O>();

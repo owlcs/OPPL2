@@ -14,7 +14,8 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
 public class ShowMessageRuntimeExceptionHandler implements RuntimeExceptionHandler {
     private final Component parentComponent;
 
-    /** @param parentComponent */
+    /** @param parentComponent
+     *            parentComponent */
     public ShowMessageRuntimeExceptionHandler(Component parentComponent) {
         this.parentComponent = checkNotNull(parentComponent, "parentComponent");
     }

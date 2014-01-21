@@ -1,7 +1,8 @@
 package org.coode.oppl.function;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public abstract class AbstractOPPLFunction<O> implements OPPLFunction<O> {
     @Override
     public O compute(ValueComputationParameters params) {
@@ -9,6 +10,7 @@ public abstract class AbstractOPPLFunction<O> implements OPPLFunction<O> {
     }
 
     /** @param parameters
+     *            parameters
      * @return computation value */
     public abstract ValueComputation<O> getValueComputation(
             ValueComputationParameters parameters);

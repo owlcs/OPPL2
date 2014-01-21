@@ -34,7 +34,9 @@ public class Assignment {
     private final OWLObject assignment;
 
     /** @param assignedVariable
-     * @param assignment */
+     *            assignedVariable
+     * @param assignment
+     *            assignment */
     public Assignment(Variable<?> assignedVariable, OWLObject assignment) {
         this.assignedVariable = checkNotNull(assignedVariable, "assignedVariable");
         this.assignment = checkNotNull(assignment, "assignment");

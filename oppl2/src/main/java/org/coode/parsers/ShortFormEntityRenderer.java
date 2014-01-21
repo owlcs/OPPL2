@@ -9,7 +9,8 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 public class ShortFormEntityRenderer implements OWLEntityRenderer {
     private final ShortFormProvider shortFormProvider;
 
-    /** @param shortFormProvider */
+    /** @param shortFormProvider
+     *            shortFormProvider */
     public ShortFormEntityRenderer(ShortFormProvider shortFormProvider) {
         this.shortFormProvider = checkNotNull(shortFormProvider, "shortFormProvider");
     }

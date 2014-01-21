@@ -39,7 +39,8 @@ public class TokenGUI extends JFrame {
     private final File file;
     private final JTable table = new JTable();
 
-    /** @param file */
+    /** @param file
+     *            file */
     public TokenGUI(File file) {
         this.file = file;
         init();
@@ -76,7 +77,8 @@ public class TokenGUI extends JFrame {
         }
     }
 
-    /** @param args */
+    /** @param args
+     *            args */
     public static void main(String[] args) {
         TokenGUI frame = new TokenGUI(new File(args[0]));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

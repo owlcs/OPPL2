@@ -86,7 +86,8 @@ public class TypeInPatternBuilder implements VerifiedInputEditor,
         }
     };
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public TypeInPatternBuilder(OWLEditorKit owlEditorKit) {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setName("Pattern Text Editor");
@@ -204,13 +205,16 @@ public class TypeInPatternBuilder implements VerifiedInputEditor,
         }
     }
 
-    /** @param listener */
+    /** @param newState
+     *            newState
+     * @param listener
+     *            listener */
     private void notifyListener(boolean newState,
             InputVerificationStatusChangedListener listener) {
         listener.verifiedStatusChanged(newState);
     }
 
-    /** @return */
+    /** @return true is model is not null */
     private boolean check() {
         return patternModel != null && patternModel.isValid()
                 && patternModel.getIRI() != null;

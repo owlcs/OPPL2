@@ -18,7 +18,8 @@ public final class KeyBasedReplacementStrategy implements
         ReplacementStrategy<String, String> {
     private final Properties properties;
 
-    /** @param properties */
+    /** @param properties
+     *            properties */
     public KeyBasedReplacementStrategy(Properties properties) {
         this.properties = checkNotNull(properties, "properties");
     }

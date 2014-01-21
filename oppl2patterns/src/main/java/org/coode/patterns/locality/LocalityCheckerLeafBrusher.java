@@ -50,11 +50,17 @@ public class LocalityCheckerLeafBrusher implements BindingVisitor {
     private final List<OWLAxiom> foundNonLocals = new ArrayList<OWLAxiom>();
 
     /** @param evaluator
+     *            evaluator
      * @param constraintSystem
+     *            constraintSystem
      * @param patternModel
+     *            patternModel
      * @param variableBindings
+     *            variableBindings
      * @param signature
-     * @param runtimeExceptionHandler */
+     *            signature
+     * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler */
     public LocalityCheckerLeafBrusher(LocalityEvaluator evaluator,
             ConstraintSystem constraintSystem, PatternModel patternModel,
             Map<Variable<?>, SigmaPlusSigmaMinus> variableBindings,

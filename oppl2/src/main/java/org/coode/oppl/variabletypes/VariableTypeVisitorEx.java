@@ -23,30 +23,37 @@
 package org.coode.oppl.variabletypes;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public interface VariableTypeVisitorEx<O> {
     /** @param classVariableType
+     *            classVariableType
      * @return visitor value */
     O visitCLASSVariableType(CLASSVariableType classVariableType);
 
     /** @param objectpropertyVariableType
+     *            objectpropertyVariableType
      * @return visitor value */
     O visitOBJECTPROPERTYVariableType(
             OBJECTPROPERTYVariableType objectpropertyVariableType);
 
     /** @param datapropertyVariableType
+     *            datapropertyVariableType
      * @return visitor value */
     O visitDATAPROPERTYVariableType(DATAPROPERTYVariableType datapropertyVariableType);
 
     /** @param individualVariableType
+     *            individualVariableType
      * @return visitor value */
     O visitINDIVIDUALVariableType(INDIVIDUALVariableType individualVariableType);
 
     /** @param constantVariableType
+     *            constantVariableType
      * @return visitor value */
     O visitCONSTANTVariableType(CONSTANTVariableType constantVariableType);
 
     /** @param annotationpropertyVariableType
+     *            annotationpropertyVariableType
      * @return visitor value */
     O visitANNOTATIONPROPERTYVariableType(
             ANNOTATIONPROPERTYVariableType annotationpropertyVariableType);

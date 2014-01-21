@@ -24,10 +24,15 @@ public class AnnotationBasedSimpleOPPLParserCreationStrategy extends
     private final SymbolTableFactory<OPPLSymbolTable> symbolTableFactory;
 
     /** @param iris
+     *            iris
      * @param ontologyManager
+     *            ontologyManager
      * @param ontology
+     *            ontology
      * @param reasoner
-     * @param errorListener */
+     *            reasoner
+     * @param errorListener
+     *            errorListener */
     public AnnotationBasedSimpleOPPLParserCreationStrategy(List<IRI> iris,
             OWLOntologyManager ontologyManager, OWLOntology ontology,
             OWLReasoner reasoner, ErrorListener errorListener) {

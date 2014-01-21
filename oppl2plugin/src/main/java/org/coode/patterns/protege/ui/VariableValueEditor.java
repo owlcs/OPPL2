@@ -322,7 +322,9 @@ public abstract class VariableValueEditor extends JPanel implements VerifiedInpu
     }
 
     /** @param owlEditorKit
+     *            owlEditorKit
      * @param variable
+     *            variable
      * @return variable value editor */
     public static VariableValueEditor getVariableValueEditor(
             final OWLEditorKit owlEditorKit, final Variable<?> variable) {

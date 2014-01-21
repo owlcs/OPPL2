@@ -95,6 +95,7 @@ public enum OWLAxiomType implements Type {
     }
 
     /** @param type
+     *            type
      * @return true if abox axiom */
     public static boolean isAssertion(OWLAxiomType type) {
         return getAssertionOWLAxiomTypes().contains(type);

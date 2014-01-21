@@ -8,7 +8,8 @@ import org.protege.editor.core.ui.util.VerifyingOptionPane;
 public final class NoDefaultFocusVerifyingOptionPane extends VerifyingOptionPane {
     private static final long serialVersionUID = 20100L;
 
-    /** @param c */
+    /** @param c
+     *            c */
     public NoDefaultFocusVerifyingOptionPane(JComponent c) {
         super(c);
     }

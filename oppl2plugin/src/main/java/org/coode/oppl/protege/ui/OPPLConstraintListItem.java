@@ -14,8 +14,11 @@ public class OPPLConstraintListItem implements MListItem {
     private final ConstraintSystem constraintSystem;
 
     /** @param owlEditorKit
+     *            owlEditorKit
      * @param constraint
-     * @param constraintSystem */
+     *            constraint
+     * @param constraintSystem
+     *            constraintSystem */
     protected OPPLConstraintListItem(OWLEditorKit owlEditorKit,
             AbstractConstraint constraint, ConstraintSystem constraintSystem) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");

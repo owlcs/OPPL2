@@ -39,7 +39,9 @@ public class ChangeExtractor {
     private final ExecutionMonitor executionMonitor;
 
     /** @param runtimeExceptionHandler
-     * @param considerImportClosure */
+     *            runtimeExceptionHandler
+     * @param considerImportClosure
+     *            considerImportClosure */
     public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
             boolean considerImportClosure) {
         this(runtimeExceptionHandler, ExecutionMonitor.NON_CANCELLABLE,
@@ -47,8 +49,11 @@ public class ChangeExtractor {
     }
 
     /** @param runtimeExceptionHandler
+     *            runtimeExceptionHandler
      * @param executionMonitor
-     * @param considerImportClosure */
+     *            executionMonitor
+     * @param considerImportClosure
+     *            considerImportClosure */
     public ChangeExtractor(RuntimeExceptionHandler runtimeExceptionHandler,
             ExecutionMonitor executionMonitor, boolean considerImportClosure) {
         this.executionMonitor = checkNotNull(executionMonitor, "executionMonitor");
@@ -58,6 +63,7 @@ public class ChangeExtractor {
     }
 
     /** @param script
+     *            script
      * @return changes */
     public List<OWLAxiomChange> visit(OPPLScript script) {
         OPPLQuery q = checkNotNull(script, "script").getQuery();

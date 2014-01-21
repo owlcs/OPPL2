@@ -75,7 +75,8 @@ public class OPPLConstraintEditor extends JPanel implements VerifiedInputEditor 
         return toReturn;
     }
 
-    /** @param isValid */
+    /** @param isValid
+     *            isValid */
     private void notifyListeners(boolean isValid) {
         for (InputVerificationStatusChangedListener listener : listeners) {
             listener.verifiedStatusChanged(isValid);
@@ -95,7 +96,9 @@ public class OPPLConstraintEditor extends JPanel implements VerifiedInputEditor 
     }
 
     /** @param owlEditorKit
-     * @param constraintSystem */
+     *            owlEditorKit
+     * @param constraintSystem
+     *            constraintSystem */
     public OPPLConstraintEditor(OWLEditorKit owlEditorKit,
             ConstraintSystem constraintSystem) {
         setLayout(new BorderLayout());

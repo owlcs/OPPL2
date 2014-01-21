@@ -27,10 +27,15 @@ public class AssertContains implements Assertion {
     private final RuntimeExceptionHandler handler;
 
     /** @param variable
+     *            variable
      * @param values
+     *            values
      * @param constraintSystem
+     *            constraintSystem
      * @param testCaseFactory
-     * @param handler */
+     *            testCaseFactory
+     * @param handler
+     *            handler */
     public AssertContains(Variable<?> variable, Collection<? extends OWLObject> values,
             ConstraintSystem constraintSystem,
             AbstractOPPLTestCaseFactory testCaseFactory, RuntimeExceptionHandler handler) {

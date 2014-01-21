@@ -70,7 +70,9 @@ public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> impleme
     private final OWLEditorKit owlEditorKit;
 
     /** @param owlEditorKit
-     * @param f */
+     *            owlEditorKit
+     * @param f
+     *            f */
     public PatternEditor(OWLEditorKit owlEditorKit, AbstractPatternModelFactory f) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         patternBuilder = new PatternBuilder(getOWLEditorKit(), checkNotNull(f, "f"));
@@ -172,7 +174,8 @@ public class PatternEditor extends AbstractOWLObjectEditor<PatternModel> impleme
         }
     }
 
-    /** @param patternModel */
+    /** @param patternModel
+     *            patternModel */
     public void setPatternModel(PatternModel patternModel) {
         patternTextEditor.setPatternModel(patternModel);
         patternBuilder.setPatternModel(patternModel);

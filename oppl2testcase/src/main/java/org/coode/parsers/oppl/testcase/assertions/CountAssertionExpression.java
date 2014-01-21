@@ -19,7 +19,9 @@ public class CountAssertionExpression implements AssertionExpression<Integer> {
     private final RuntimeExceptionHandler handler;
 
     /** @param variable
-     * @param handler */
+     *            variable
+     * @param handler
+     *            handler */
     public CountAssertionExpression(Variable<?> variable, RuntimeExceptionHandler handler) {
         this.variable = checkNotNull(variable, "variable");
         this.handler = checkNotNull(handler, "handler");

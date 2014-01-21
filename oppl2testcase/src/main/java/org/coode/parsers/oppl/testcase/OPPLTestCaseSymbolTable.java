@@ -63,16 +63,23 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     };
 
     /** @param globalScope
-     * @param dataFactory */
+     *            globalScope
+     * @param dataFactory
+     *            dataFactory */
     public OPPLTestCaseSymbolTable(Scope globalScope, OWLDataFactory dataFactory) {
         super(globalScope, dataFactory);
     }
 
     /** @param left
+     *            left
      * @param leftNode
+     *            leftNode
      * @param right
+     *            right
      * @param rightNode
+     *            rightNode
      * @param parentExpression
+     *            parentExpression
      * @return assert equals */
     public AssertEqual getAssertEqual(AssertionExpression<?> left,
             OPPLSyntaxTree leftNode, AssertionExpression<?> right,
@@ -93,10 +100,15 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /** @param left
+     *            left
      * @param leftNode
+     *            leftNode
      * @param right
+     *            right
      * @param rightNode
+     *            rightNode
      * @param parentExpression
+     *            parentExpression
      * @return assert not equals */
     public AssertNotEqual getAssertNotEqual(AssertionExpression<?> left,
             OPPLSyntaxTree leftNode, AssertionExpression<?> right,
@@ -117,11 +129,17 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /** @param variableNode
+     *            variableNode
      * @param expressionNodes
+     *            expressionNodes
      * @param constraintSystem
+     *            constraintSystem
      * @param testCaseFactory
+     *            testCaseFactory
      * @param parentExpression
+     *            parentExpression
      * @param handler
+     *            handler
      * @return assert contains */
     public AssertContains getAssertContains(OPPLSyntaxTree variableNode,
             Collection<? extends OPPLSyntaxTree> expressionNodes,
@@ -165,8 +183,11 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /** @param variableNode
+     *            variableNode
      * @param constraintSystem
+     *            constraintSystem
      * @param handler
+     *            handler
      * @return count assertion */
     public CountAssertionExpression getCountAssertionExpression(
             OPPLSyntaxTree variableNode, ConstraintSystem constraintSystem,
@@ -183,6 +204,7 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /** @param intValueNode
+     *            intValueNode
      * @return integer assertion */
     public IntegerAssertionExpression getIntegerAssertionExpression(
             OPPLSyntaxTree intValueNode) {
@@ -200,9 +222,13 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /** @param owlObjectNode
+     *            owlObjectNode
      * @param constraintSystem
+     *            constraintSystem
      * @param testCaseFactory
+     *            testCaseFactory
      * @param handler
+     *            handler
      * @return expression assertion */
     public OWLExpressionAssertionExpression getOWLExpressionAssertionExpression(
             OPPLSyntaxTree owlObjectNode, ConstraintSystem constraintSystem,
@@ -455,6 +481,7 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /** @param a
+     *            a
      * @return assertion complement */
     public AssertionComplement getAssertionComplement(Assertion a) {
         return new AssertionComplement(a);
@@ -466,9 +493,13 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /** @param left
+     *            left
      * @param leftNode
+     *            leftNode
      * @param right
+     *            right
      * @param rightNode
+     *            rightNode
      * @return assert less than */
     @SuppressWarnings("unchecked")
     public LessThanAssertion getAssertLessThan(AssertionExpression<?> left,
@@ -495,9 +526,13 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /** @param left
+     *            left
      * @param leftNode
+     *            leftNode
      * @param right
+     *            right
      * @param rightNode
+     *            rightNode
      * @return assert less or equal */
     @SuppressWarnings("unchecked")
     public LessThanEqualToAssertion getAssertLessThanEqualtTo(
@@ -524,9 +559,13 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /** @param left
+     *            left
      * @param leftNode
+     *            leftNode
      * @param right
+     *            right
      * @param rightNode
+     *            rightNode
      * @return assert greater */
     @SuppressWarnings("unchecked")
     public GreatThanAssertion getAssertGreaterThan(AssertionExpression<?> left,
@@ -553,9 +592,13 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /** @param left
+     *            left
      * @param leftNode
+     *            leftNode
      * @param right
+     *            right
      * @param rightNode
+     *            rightNode
      * @return assert greater or equal */
     @SuppressWarnings("unchecked")
     public GreaterThanEqualToAssertion getAssertGreaterThanEqualTo(
@@ -583,8 +626,11 @@ public class OPPLTestCaseSymbolTable extends OPPLSymbolTable {
     }
 
     /** @param bindingNode
+     *            bindingNode
      * @param constraintSystem
+     *            constraintSystem
      * @param testCaseFactory
+     *            testCaseFactory
      * @return binding node count assertion */
     public BindingNodeCountAssertionExpression getBindingNodeCount(
             BindingNode bindingNode, ConstraintSystem constraintSystem,

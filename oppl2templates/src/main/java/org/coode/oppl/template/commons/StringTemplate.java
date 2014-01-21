@@ -7,15 +7,19 @@ import org.coode.oppl.template.ParsingStrategy;
 import org.coode.oppl.template.ReplacementStrategy;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public class StringTemplate<O> implements OPPLTemplate<O> {
     private final String templateString;
     private final ReplacementStrategy<String, String> replacementStrategy;
     private final ParsingStrategy<String, O> parserCreationStrategy;
 
     /** @param templateString
+     *            templateString
      * @param replacementStrategy
-     * @param parserCreationStrategy */
+     *            replacementStrategy
+     * @param parserCreationStrategy
+     *            parserCreationStrategy */
     public StringTemplate(String templateString,
             ReplacementStrategy<String, String> replacementStrategy,
             ParsingStrategy<String, O> parserCreationStrategy) {

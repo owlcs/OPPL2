@@ -8,7 +8,8 @@ import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 public abstract class StringManipulationOPPLFunction implements OPPLFunction<String> {
     private final OPPLFunction<String> argument;
 
-    /** @param argument */
+    /** @param argument
+     *            argument */
     public StringManipulationOPPLFunction(OPPLFunction<String> argument) {
         this.argument = checkNotNull(argument, "argument");
     }
@@ -23,10 +24,14 @@ public abstract class StringManipulationOPPLFunction implements OPPLFunction<Str
     protected abstract String manipulate(String string,
             RuntimeExceptionHandler runTimeExceptionHandler);
 
-    /** @param visitor */
+    /** @param visitor
+     *            visitor */
     public abstract void accept(StringManipulationOPPLFunctionVisitor visitor);
 
     /** @param visitor
+     *            visitor
+     * @param <O>
+     *            visitor return type
      * @return visitor value */
     public abstract <O> O accept(StringManipulationOPPLFunctionVisitorEx<O> visitor);
 

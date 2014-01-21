@@ -18,6 +18,7 @@ public interface ErrorReport {
      * in a monodimensional space.
      * 
      * @param text
+     *            text
      * @return the position of the initial character this error report refers to
      *         in a linearised version of the input text. */
     int getLinearisedPosition(String text);

@@ -46,6 +46,7 @@ public interface OPPLAbstractFactory {
 
     /** @return the VariableScopeChecker used by the factory
      * @throws OPPLException
+     *             OPPLException
      * @throws NullReasonerException
      *             if no reasoner is available for checking the scope */
     VariableScopeChecker getVariableScopeChecker() throws OPPLException;
@@ -62,9 +63,13 @@ public interface OPPLAbstractFactory {
     OWLEntityFactory getOWLEntityFactory();
 
     /** @param constraintSystem
+     *            constraintSystem
      * @param variables
+     *            variables
      * @param opplQuery
+     *            opplQuery
      * @param actions
+     *            actions
      * @return an instance of OPPLScript on the input ConstraintSystem with the
      *         input Variable instances the input OPPLQuery and the input set of
      *         actions */
@@ -74,6 +79,7 @@ public interface OPPLAbstractFactory {
                     List<OWLAxiomChange> actions);
 
     /** @param constraintSystem
+     *            constraintSystem
      * @return a new blank OPPLQuery instance */
     OPPLQuery buildNewQuery(ConstraintSystem constraintSystem);
 

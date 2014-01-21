@@ -2,12 +2,15 @@ package org.coode.parsers;
 
 /** @author Luigi Iannone */
 public interface TypeVisitor {
-    /** @param owlType */
+    /** @param owlType
+     *            owlType */
     void visitOWLType(OWLType owlType);
 
-    /** @param owlAxiomType */
+    /** @param owlAxiomType
+     *            owlAxiomType */
     void visitOWLAxiomType(OWLAxiomType owlAxiomType);
 
-    /** @param type */
+    /** @param type
+     *            type */
     void visitNonOWLType(Type type);
 }

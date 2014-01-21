@@ -13,7 +13,9 @@ public class AssertionFailedExecutionReport extends UnsuccessfulExecutionReport 
     private final OPPLTest failedTest;
 
     /** @param opplTestCase
-     * @param failedTest */
+     *            opplTestCase
+     * @param failedTest
+     *            failedTest */
     public AssertionFailedExecutionReport(OPPLTestCase opplTestCase, OPPLTest failedTest) {
         super(opplTestCase);
         this.failedTest = checkNotNull(failedTest, "failedTest");

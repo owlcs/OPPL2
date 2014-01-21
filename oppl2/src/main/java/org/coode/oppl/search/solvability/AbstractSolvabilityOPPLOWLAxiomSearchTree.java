@@ -156,7 +156,9 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
     protected final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<OWLAnnotationProperty>();
 
     /** @param constraintSystem
-     * @param runtimeExceptionHandler */
+     *            constraintSystem
+     * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler */
     public AbstractSolvabilityOPPLOWLAxiomSearchTree(ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
@@ -463,7 +465,9 @@ public abstract class AbstractSolvabilityOPPLOWLAxiomSearchTree extends
     protected abstract AxiomSolvability getAxiomSolvability();
 
     /** @param axiom
+     *            axiom
      * @param bindingNode
+     *            bindingNode
      * @return solvability search node */
     public SolvabilitySearchNode buildSolvabilitySearchNode(OWLAxiom axiom,
             BindingNode bindingNode) {

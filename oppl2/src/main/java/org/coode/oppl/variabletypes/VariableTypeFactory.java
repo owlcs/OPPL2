@@ -56,6 +56,7 @@ public class VariableTypeFactory {
     }
 
     /** @param owlObject
+     *            owlObject
      * @return variable type */
     public static VariableType<?> getVariableType(OWLObject owlObject) {
         return owlObject.accept(new OWLObjectVisitorExAdapter<VariableType<?>>() {
@@ -227,12 +228,14 @@ public class VariableTypeFactory {
     }
 
     /** @param variableTypeName
+     *            variableTypeName
      * @return variable type */
     public static VariableType<?> getVariableType(VariableTypeName variableTypeName) {
         return variableTypeName == null ? null : typesCache.get(variableTypeName);
     }
 
     /** @param variableTypeName
+     *            variableTypeName
      * @return variable type */
     public static VariableType<?> getVariableType(String variableTypeName) {
         return getVariableType(VariableTypeName.getVariableTypeName(variableTypeName));

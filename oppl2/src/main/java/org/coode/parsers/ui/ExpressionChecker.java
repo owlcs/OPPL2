@@ -5,17 +5,20 @@ package org.coode.parsers.ui;
  * Medical Informatics Group<br>
  * Date: 11-Oct-2006<br>
  * <br>
- * <p/>
+ * <br>
  * matthew.horridge@cs.man.ac.uk<br>
  * www.cs.man.ac.uk/~horridgm<br>
  * <br>
  * 
- * @param <O> */
+ * @param <O>
+ *            type */
 public interface ExpressionChecker<O> {
-    /** @param text */
+    /** @param text
+     *            text */
     void check(String text);
 
     /** @param text
+     *            text
      * @return create object */
     O createObject(String text);
 

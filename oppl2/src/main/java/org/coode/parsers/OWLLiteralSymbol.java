@@ -9,7 +9,9 @@ public class OWLLiteralSymbol extends Symbol {
     private final OWLLiteral owlConstant;
 
     /** @param name
-     * @param constant */
+     *            name
+     * @param constant
+     *            constant */
     public OWLLiteralSymbol(String name, OWLLiteral constant) {
         super(name, OWLType.OWL_CONSTANT);
         owlConstant = checkNotNull(constant, "constant");

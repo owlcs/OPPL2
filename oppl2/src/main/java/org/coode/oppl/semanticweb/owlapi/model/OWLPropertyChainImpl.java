@@ -29,7 +29,8 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
     private static final long serialVersionUID = 20100L;
     private final List<OWLObjectPropertyExpression> delegate = new ArrayList<OWLObjectPropertyExpression>();
 
-    /** @param delegate */
+    /** @param delegate
+     *            delegate */
     public OWLPropertyChainImpl(List<? extends OWLObjectPropertyExpression> delegate) {
         this.delegate.addAll(checkNotNull(delegate, "delegate"));
         if (delegate.size() < 2) {

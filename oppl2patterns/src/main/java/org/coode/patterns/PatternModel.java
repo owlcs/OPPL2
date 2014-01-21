@@ -232,8 +232,11 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         }
 
         /** @param owlObject
+         *            owlObject
          * @param variableType
-         * @param dataFactory */
+         *            variableType
+         * @param dataFactory
+         *            dataFactory */
         public DefinitorialExtractor(OWLObject owlObject, VariableType<?> variableType,
                 OWLDataFactory dataFactory) {
             this.owlObject = owlObject;
@@ -360,9 +363,13 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
     }
 
     /** @param opplScript
+     *            opplScript
      * @param ontologyManager
+     *            ontologyManager
      * @param f
-     * @throws UnsuitableOPPLScriptException */
+     *            f
+     * @throws UnsuitableOPPLScriptException
+     *             UnsuitableOPPLScriptException */
     public PatternModel(OPPLScript opplScript, OWLOntologyManager ontologyManager,
             AbstractPatternModelFactory f) throws UnsuitableOPPLScriptException {
         checkNotNull(opplScript, "OPPL script");
@@ -452,12 +459,14 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
         return valid;
     }
 
-    /** @param l */
+    /** @param l
+     *            l */
     public void addChangeListener(PatternModelChangeListener l) {
         listeners.add(l);
     }
 
-    /** @param l */
+    /** @param l
+     *            l */
     public void removeChangeListener(PatternModelChangeListener l) {
         listeners.remove(l);
     }
@@ -589,6 +598,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
     }
 
     /** @param patternModel
+     *            patternModel
      * @return true if this PatternModel instance depends on the input one,
      *         false otherwise */
     @Override
@@ -612,7 +622,9 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
     }
 
     /** @param ontologies
+     *            ontologies
      * @param errorListener
+     *            errorListener
      * @return the set of PatternModel instances that depend on this. Please
      *         notice that InstantiatedPatternModel instances will be returned
      *         as well */
@@ -634,6 +646,7 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
     }
 
     /** @param errorListener
+     *            errorListener
      * @return instantiations */
     public Set<InstantiatedPatternModel> getInstantiations(ErrorListener errorListener) {
         Set<InstantiatedPatternModel> toReturn = new HashSet<InstantiatedPatternModel>();
@@ -702,7 +715,8 @@ public class PatternModel implements OPPLScript, PatternOPPLScript {
 
     /** Sets the return variable
      * 
-     * @param returnVariable */
+     * @param returnVariable
+     *            returnVariable */
     public void setReturnVariable(Variable<?> returnVariable) {
         this.returnVariable = returnVariable;
     }

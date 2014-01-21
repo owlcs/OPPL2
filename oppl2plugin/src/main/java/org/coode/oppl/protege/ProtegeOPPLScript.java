@@ -38,7 +38,8 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 public class ProtegeOPPLScript implements OPPLScript {
     private final OPPLScript opplScript;
 
-    /** @param opplScript */
+    /** @param opplScript
+     *            opplScript */
     public ProtegeOPPLScript(OPPLScript opplScript) {
         this.opplScript = opplScript;
     }

@@ -13,7 +13,9 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 public class OWLObjectPropertyFillersAxiomSolvability extends
         QuerySolverBasedAbstractAxiomSolvability {
     /** @param constraintSystem
-     * @param querySolver */
+     *            constraintSystem
+     * @param querySolver
+     *            querySolver */
     public OWLObjectPropertyFillersAxiomSolvability(ConstraintSystem constraintSystem,
             QuerySolver querySolver) {
         super(constraintSystem, querySolver);

@@ -13,7 +13,8 @@ import org.coode.patterns.OPPLPatternParser.PatternReferenceResolver;
 public final class VisitedPatternReferenceResolver implements PatternReferenceResolver {
     private final Set<String> visited = new HashSet<String>();
 
-    /** @param visitedPatterns */
+    /** @param visitedPatterns
+     *            visitedPatterns */
     public VisitedPatternReferenceResolver(Collection<? extends String> visitedPatterns) {
         assert visitedPatterns != null;
         visited.addAll(visitedPatterns);

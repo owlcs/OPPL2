@@ -4,7 +4,8 @@ package org.coode.oppl.similarity;
  * kind.
  * 
  * @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public interface SimilarityMeasure<O> {
     /** @return {@code true} if {@code compare(A,B) == compare (B,A)} */
     boolean isSymmetric();

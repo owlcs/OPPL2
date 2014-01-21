@@ -10,13 +10,17 @@ import org.coode.oppl.function.OPPLFunction;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.semanticweb.owlapi.model.OWLObject;
 
-/** @author Luigi Iannone */
+/** @author Luigi Iannone
+ * @param <O>
+ *            type */
 abstract class AbstractVariableType<O extends OWLObject> implements VariableType<O> {
     private final VariableTypeName name;
     private final EnumSet<Direction> allowedDirections = EnumSet.noneOf(Direction.class);
 
     /** @param name
-     * @param allowedDirections */
+     *            name
+     * @param allowedDirections
+     *            allowedDirections */
     public AbstractVariableType(VariableTypeName name,
             EnumSet<Direction> allowedDirections) {
         this.name = checkNotNull(name, "name");

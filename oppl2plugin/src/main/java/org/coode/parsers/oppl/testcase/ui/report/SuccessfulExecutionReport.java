@@ -13,7 +13,9 @@ public final class SuccessfulExecutionReport extends AbstractReport {
     private final OPPLTest successfulTest;
 
     /** @param opplTestCase
-     * @param test */
+     *            opplTestCase
+     * @param test
+     *            test */
     public SuccessfulExecutionReport(OPPLTestCase opplTestCase, OPPLTest test) {
         super(opplTestCase);
         successfulTest = checkNotNull(test, "test");

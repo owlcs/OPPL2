@@ -8,7 +8,8 @@ import org.coode.oppl.ConstraintSystem;
 public abstract class AbstractAxiomSolvability implements AxiomSolvability {
     private final ConstraintSystem constraintSystem;
 
-    /** @param constraintSystem */
+    /** @param constraintSystem
+     *            constraintSystem */
     public AbstractAxiomSolvability(ConstraintSystem constraintSystem) {
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
     }

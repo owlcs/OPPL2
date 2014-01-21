@@ -6,9 +6,13 @@ public class IllegalTokenParsingException extends ParsingException {
     private final String token;
 
     /** @param line
+     *            line
      * @param charPositionInLine
+     *            charPositionInLine
      * @param message
-     * @param token */
+     *            message
+     * @param token
+     *            token */
     public IllegalTokenParsingException(String token, int line, int charPositionInLine,
             String message) {
         super(message, line, charPositionInLine);

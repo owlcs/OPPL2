@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Stack;
 
 /** @author Luigi Iannone
- * @param <N> */
+ * @param <N>
+ *            type */
 public abstract class SearchTree<N> {
     protected boolean depthFirstSearch(N start, Stack<N> result) {
         if (result.contains(start)) {
@@ -53,7 +54,9 @@ public abstract class SearchTree<N> {
     }
 
     /** @param start
+     *            start
      * @param solutions
+     *            solutions
      * @return true if found */
     public boolean exhaustiveSearchTree(N start, List<List<N>> solutions) {
         solutions.clear();
@@ -62,7 +65,9 @@ public abstract class SearchTree<N> {
 
     protected abstract List<N> getChildren(N node);
 
-    /** @return {@code true} if the input {@link OPPLOWLAxiomSearchNode}
+    /** @param node
+     *            node
+     * @return {@code true} if the input {@link OPPLOWLAxiomSearchNode}
      *         represents an OWLAxiom that is contained in one of the ontologies
      *         managed by the ontology manager encapsulated in this
      *         OPPLOWLAxiomSearchTree. */

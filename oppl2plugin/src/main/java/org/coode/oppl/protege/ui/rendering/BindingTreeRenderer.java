@@ -47,7 +47,9 @@ public class BindingTreeRenderer extends OWLCellRenderer {
     }
 
     /** @param owlEditorKit
-     * @param cs */
+     *            owlEditorKit
+     * @param cs
+     *            cs */
     public BindingTreeRenderer(OWLEditorKit owlEditorKit, ConstraintSystem cs) {
         super(owlEditorKit);
         constraintSystem = checkNotNull(cs, "constraint system");

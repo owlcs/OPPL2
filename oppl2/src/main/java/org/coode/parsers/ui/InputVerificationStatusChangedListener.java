@@ -25,12 +25,13 @@ package org.coode.parsers.ui;
 /** Author: drummond<br>
  * http://www.cs.man.ac.uk/~drummond/<br>
  * <br>
- * <p/>
+ * <br>
  * The University Of Manchester<br>
  * Bio Health Informatics Group<br>
  * Date: Mar 14, 2008<br>
  * <br> */
 public interface InputVerificationStatusChangedListener {
-    /** @param newState */
+    /** @param newState
+     *            newState */
     void verifiedStatusChanged(boolean newState);
 }

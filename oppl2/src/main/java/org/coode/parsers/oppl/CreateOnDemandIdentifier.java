@@ -6,7 +6,8 @@ import org.coode.parsers.SymbolVisitorEx;
 
 /** @author Luigi Iannone */
 public class CreateOnDemandIdentifier extends Symbol implements OPPLSymbol {
-    /** @param name */
+    /** @param name
+     *            name */
     public CreateOnDemandIdentifier(String name) {
         super(name, CreateOnDemand.get());
     }

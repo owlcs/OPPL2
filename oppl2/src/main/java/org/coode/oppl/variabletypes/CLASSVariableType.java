@@ -35,7 +35,8 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 /** @author Luigi Iannone */
 public class CLASSVariableType extends AbstractVariableType<OWLClassExpression> implements
         VariableType<OWLClassExpression> {
-    /** @param name */
+    /** @param name
+     *            name */
     public CLASSVariableType(VariableTypeName name) {
         super(name, EnumSet.of(Direction.SUBCLASSOF, Direction.SUPERCLASSOF));
     }

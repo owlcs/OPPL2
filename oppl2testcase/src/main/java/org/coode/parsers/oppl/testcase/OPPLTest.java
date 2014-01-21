@@ -9,20 +9,21 @@ import org.coode.parsers.oppl.testcase.assertions.Assertion;
  * 
  * @author Luigi Iannone */
 public class OPPLTest {
-    /**
-     * 
-     */
+    /** no message */
     public static final String NO_MESSAGE = "";
     private final String message;
     private final Assertion assertion;
 
-    /** @param assertion */
+    /** @param assertion
+     *            assertion */
     public OPPLTest(Assertion assertion) {
         this(NO_MESSAGE, assertion);
     }
 
     /** @param message
-     * @param assertion */
+     *            message
+     * @param assertion
+     *            assertion */
     public OPPLTest(String message, Assertion assertion) {
         this.message = checkNotNull(message, "message");
         this.assertion = checkNotNull(assertion, "assertion");

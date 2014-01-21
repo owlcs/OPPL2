@@ -15,7 +15,8 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLObject;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public class RegexpGeneratedVariable<O extends OWLObject> implements Variable<O> {
     private final OPPLFunction<Pattern> patternGeneratingOPPLFunction;
     private final String name;
@@ -23,8 +24,11 @@ public class RegexpGeneratedVariable<O extends OWLObject> implements Variable<O>
     private final IRI iri;
 
     /** @param name
+     *            name
      * @param type
-     * @param patternGeneratingOPPLFunction */
+     *            type
+     * @param patternGeneratingOPPLFunction
+     *            patternGeneratingOPPLFunction */
     public RegexpGeneratedVariable(String name, VariableType<O> type,
             OPPLFunction<Pattern> patternGeneratingOPPLFunction) {
         this.name = checkNotNull(name, "name");

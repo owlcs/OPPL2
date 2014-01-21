@@ -10,10 +10,15 @@ public class IncompatibleSymbolTypeParsingException extends ParsingException {
     private final String parentExpression;
 
     /** @param tokenText
+     *            tokenText
      * @param type
+     *            type
      * @param parentExpression
+     *            parentExpression
      * @param line
-     * @param charPositionInLine */
+     *            line
+     * @param charPositionInLine
+     *            charPositionInLine */
     public IncompatibleSymbolTypeParsingException(String tokenText, Type type,
             String parentExpression, int line, int charPositionInLine) {
         super(

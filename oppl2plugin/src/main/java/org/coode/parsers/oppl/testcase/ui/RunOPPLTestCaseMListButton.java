@@ -1,4 +1,3 @@
-
 package org.coode.parsers.oppl.testcase.ui;
 
 import java.awt.Color;
@@ -11,7 +10,8 @@ import org.protege.editor.core.ui.list.MListButton;
 
 /** @author Luigi Iannone */
 public class RunOPPLTestCaseMListButton extends MListButton {
-    /** @param actionListener */
+    /** @param actionListener
+     *            actionListener */
     public RunOPPLTestCaseMListButton(ActionListener actionListener) {
         super("Run OPPL TestCase ", Color.GREEN, actionListener);
     }

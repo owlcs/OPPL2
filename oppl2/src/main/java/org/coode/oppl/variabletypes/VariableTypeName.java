@@ -27,6 +27,7 @@ public enum VariableTypeName {
     }
 
     /** @param string
+     *            string
      * @return cache variable type name */
     public static VariableTypeName getVariableTypeName(String string) {
         return cache.get(string);

@@ -43,7 +43,9 @@ public class OWLEntityRenderingCacheImpl implements OWLEntityRenderingCache {
     };
 
     /** @param manager
-     * @param entityRenderer */
+     *            manager
+     * @param entityRenderer
+     *            entityRenderer */
     public OWLEntityRenderingCacheImpl(OWLOntologyManager manager,
             OWLEntityRenderer entityRenderer) {
         this.manager = checkNotNull(manager, "manager");

@@ -12,7 +12,9 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 public class NoResultsAxiomSolvability extends QuerySolverBasedAbstractAxiomSolvability
         implements AxiomSolvability {
     /** @param constraintSystem
-     * @param querySolver */
+     *            constraintSystem
+     * @param querySolver
+     *            querySolver */
     public NoResultsAxiomSolvability(ConstraintSystem constraintSystem,
             QuerySolver querySolver) {
         super(constraintSystem, querySolver);

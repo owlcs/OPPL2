@@ -6,7 +6,9 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 /** @author Luigi Iannone */
 public class NoSolutionSolvableSearchNode extends SolvabilitySearchNode {
     /** @param axiom
-     * @param bindingNode */
+     *            axiom
+     * @param bindingNode
+     *            bindingNode */
     public NoSolutionSolvableSearchNode(OWLAxiom axiom, BindingNode bindingNode) {
         super(axiom, bindingNode);
     }

@@ -14,7 +14,9 @@ import org.semanticweb.owlapi.model.OWLObject;
 public abstract class StringVariableAttributeSymbol extends
         VariableAttributeSymbol<VariableAttribute<String>> {
     /** @param name
-     * @param variableAttribute */
+     *            name
+     * @param variableAttribute
+     *            variableAttribute */
     public StringVariableAttributeSymbol(String name,
             VariableAttribute<String> variableAttribute) {
         super(name, VariableAttributeType.STRING, variableAttribute);
@@ -31,6 +33,7 @@ public abstract class StringVariableAttributeSymbol extends
     }
 
     /** @param v
+     *            v
      * @return string attribute symbol */
     public static StringVariableAttributeSymbol getRendering(Variable<?> v) {
         return new StringVariableAttributeSymbol(String.format("%s.%s", v.getName(),
@@ -38,7 +41,11 @@ public abstract class StringVariableAttributeSymbol extends
     }
 
     /** @param v
+     *            v
      * @param index
+     *            index
+     * @param <O>
+     *            variable type
      * @return string variable attribte symbol */
     public static <O extends OWLObject> StringVariableAttributeSymbol getGroup(
             RegexpGeneratedVariable<O> v, final int index) {

@@ -14,6 +14,7 @@ public interface QuerySolver {
      * inference is used for determining the sub-class relationship.
      * 
      * @param superClass
+     *            superClass
      * @return A Set of OWLClass instances. */
     Set<OWLClass> getSubClasses(OWLClassExpression superClass);
 
@@ -22,6 +23,7 @@ public interface QuerySolver {
      * inference is used for determining the sub-class relationship.
      * 
      * @param subClass
+     *            subClass
      * @return A Set of OWLClass instances. */
     Set<OWLClass> getSuperClasses(OWLClassExpression subClass);
 
@@ -31,6 +33,7 @@ public interface QuerySolver {
      * <b>must not</b> be taken into account.
      * 
      * @param superClass
+     *            superClass
      * @return <code>true</code> is the input superClass does not have any
      *         sub-class except for owl:Nothing. */
     boolean hasNoSubClass(OWLClassExpression superClass);
@@ -41,6 +44,7 @@ public interface QuerySolver {
      * <b>must not</b> be taken into account.
      * 
      * @param subClass
+     *            subClass
      * @return <code>true</code> is the input subClass does not have any
      *         super-class except for owl:Thing. */
     boolean hasNoSuperClass(OWLClassExpression subClass);
@@ -49,7 +53,9 @@ public interface QuerySolver {
      * for the input subject and object property expression
      * 
      * @param subject
+     *            subject
      * @param objectProperty
+     *            objectProperty
      * @return a Set of OWLNamedIndividual instances */
     Set<OWLNamedIndividual> getNamedFillers(OWLNamedIndividual subject,
             OWLObjectPropertyExpression objectProperty);

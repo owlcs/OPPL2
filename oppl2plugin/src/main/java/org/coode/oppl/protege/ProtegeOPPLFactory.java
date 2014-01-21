@@ -71,7 +71,8 @@ public final class ProtegeOPPLFactory implements OPPLAbstractFactory {
     private final OWLEditorKit owlEditorKit;
     private ProtegeScopeVariableChecker variableScopeVariableChecker = null;
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public ProtegeOPPLFactory(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
     }

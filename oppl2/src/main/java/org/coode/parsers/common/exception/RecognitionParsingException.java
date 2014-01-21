@@ -9,14 +9,19 @@ public class RecognitionParsingException extends ParsingException {
     private final Set<String> symbols = new HashSet<String>();
 
     /** @param line
-     * @param charPositionInLine */
+     *            line
+     * @param charPositionInLine
+     *            charPositionInLine */
     public RecognitionParsingException(int line, int charPositionInLine) {
         this(line, charPositionInLine, (String[]) null);
     }
 
     /** @param line
+     *            line
      * @param charPositionInLine
-     * @param symbols */
+     *            charPositionInLine
+     * @param symbols
+     *            symbols */
     public RecognitionParsingException(int line, int charPositionInLine,
             String... symbols) {
         super(String.format("Recognition exception at line %d char position in line %d",

@@ -1,4 +1,3 @@
-
 package org.coode.parsers;
 
 import java.util.ArrayList;
@@ -15,7 +14,8 @@ public class ManchesterOWLSyntaxTree extends CommonTree {
     private OWLObject owlObject;
     private final List<String> completions = new ArrayList<String>();
 
-    /** @param token */
+    /** @param token
+     *            token */
     public ManchesterOWLSyntaxTree(Token token) {
         super(token);
     }
@@ -48,7 +48,8 @@ public class ManchesterOWLSyntaxTree extends CommonTree {
         this.owlObject = owlObject;
     }
 
-    /** @param strings */
+    /** @param strings
+     *            strings */
     public void setCompletions(Collection<? extends String> strings) {
         completions.clear();
         completions.addAll(strings);

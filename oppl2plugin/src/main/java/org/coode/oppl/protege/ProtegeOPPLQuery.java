@@ -38,7 +38,8 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 public class ProtegeOPPLQuery implements OPPLQuery {
     private final OPPLQuery opplQuery;
 
-    /** @param opplQuery */
+    /** @param opplQuery
+     *            opplQuery */
     public ProtegeOPPLQuery(OPPLQuery opplQuery) {
         this.opplQuery = opplQuery;
     }

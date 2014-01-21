@@ -85,7 +85,9 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
     }
 
     /** @param axiom
+     *            axiom
      * @param sig
+     *            sig
      * @return axiom with bottom replaced */
     public OWLAxiom replaceBottom(OWLAxiom axiom, Set<? extends OWLEntity> sig) {
         reset(sig);
@@ -96,6 +98,7 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
     // Takes an OWLClassExpression and a signature replaces by bottom the
     // entities not in the signature
     /** @param desc
+     *            desc
      * @return class expression with bottom replaced */
     public OWLClassExpression replaceBottom(OWLClassExpression desc) {
         newDescription = null;
@@ -107,6 +110,7 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
     }
 
     /** @param descriptions
+     *            descriptions
      * @return class expressions with bottom replaced */
     public Set<OWLClassExpression> replaceBottom(Set<OWLClassExpression> descriptions) {
         Set<OWLClassExpression> result = new HashSet<OWLClassExpression>();
@@ -116,7 +120,8 @@ public class BottomReplacer extends OWLAxiomVisitorAdapter implements OWLAxiomVi
         return result;
     }
 
-    /** @param sig */
+    /** @param sig
+     *            sig */
     public void reset(Set<? extends OWLEntity> sig) {
         signature = sig;
         newAxiom = null;

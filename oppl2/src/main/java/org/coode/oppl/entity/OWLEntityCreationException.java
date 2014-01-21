@@ -10,18 +10,22 @@ import org.semanticweb.owlapi.model.OWLException;
 public class OWLEntityCreationException extends OWLException {
     private static final long serialVersionUID = 20100L;
 
-    /** @param s */
+    /** @param s
+     *            s */
     public OWLEntityCreationException(String s) {
         super(s);
     }
 
     /** @param s
-     * @param throwable */
+     *            s
+     * @param throwable
+     *            throwable */
     public OWLEntityCreationException(String s, Throwable throwable) {
         super(s, throwable);
     }
 
-    /** @param throwable */
+    /** @param throwable
+     *            throwable */
     public OWLEntityCreationException(Throwable throwable) {
         super(throwable);
     }

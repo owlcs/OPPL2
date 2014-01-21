@@ -29,7 +29,8 @@ import org.semanticweb.owlapi.util.OWLObjectVisitorAdapter;
 public class ConstantExtractor extends OWLObjectVisitorAdapter {
     private final Set<OWLLiteral> toReturn;
 
-    /** @param toReturn */
+    /** @param toReturn
+     *            toReturn */
     public ConstantExtractor(Set<OWLLiteral> toReturn) {
         this.toReturn = toReturn;
     }

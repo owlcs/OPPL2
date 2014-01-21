@@ -143,7 +143,8 @@ public class ProtegeParserFactory implements AbstractParserFactory {
     private final EntityFinder protegeEntityFinder;
     private final ProtegeOWLEntityChecker protegeOWLEntityChecker;
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public ProtegeParserFactory(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         protegeOWLEntityChecker = new ProtegeOWLEntityChecker(getOWLEditorKit());

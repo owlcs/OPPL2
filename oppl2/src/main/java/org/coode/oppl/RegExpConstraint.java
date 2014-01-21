@@ -41,8 +41,11 @@ public class RegExpConstraint implements AbstractConstraint {
     private final ConstraintSystem constraintSystem;
 
     /** @param variable
+     *            variable
      * @param exp
-     * @param cs */
+     *            exp
+     * @param cs
+     *            cs */
     public RegExpConstraint(Variable<?> variable, OPPLFunction<Pattern> exp,
             ConstraintSystem cs) {
         this.variable = variable;
@@ -61,6 +64,7 @@ public class RegExpConstraint implements AbstractConstraint {
     }
 
     /** @param parameters
+     *            parameters
      * @return true if matched */
     public boolean matches(ValueComputationParameters parameters) {
         OWLObject assignmentValue = parameters.getBindingNode().getAssignmentValue(

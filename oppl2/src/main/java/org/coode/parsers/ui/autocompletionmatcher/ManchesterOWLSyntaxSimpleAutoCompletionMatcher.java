@@ -14,7 +14,9 @@ public class ManchesterOWLSyntaxSimpleAutoCompletionMatcher implements
     private final AutoCompletionMatcher delegate;
 
     /** @param entityRenderer
-     * @param ontologyManager */
+     *            entityRenderer
+     * @param ontologyManager
+     *            ontologyManager */
     public ManchesterOWLSyntaxSimpleAutoCompletionMatcher(
             OWLEntityRenderer entityRenderer, OWLOntologyManager ontologyManager) {
         checkNotNull(entityRenderer, "entityRenderer");

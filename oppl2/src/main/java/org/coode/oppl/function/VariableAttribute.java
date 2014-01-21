@@ -7,14 +7,17 @@ import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public abstract class VariableAttribute<O> extends AbstractOPPLFunction<O> implements
         OPPLFunction<O> {
     private final Variable<?> variable;
     private final AttributeName attribute;
 
     /** @param variable
-     * @param attribute */
+     *            variable
+     * @param attribute
+     *            attribute */
     public VariableAttribute(Variable<?> variable, AttributeName attribute) {
         this.variable = checkNotNull(variable, "variable");
         this.attribute = checkNotNull(attribute, "attribute");

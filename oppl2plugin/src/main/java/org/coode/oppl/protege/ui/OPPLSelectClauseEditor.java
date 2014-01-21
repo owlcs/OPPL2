@@ -60,7 +60,9 @@ public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEdito
     }
 
     /** @param owlEditorKit
-     * @param constraintSystem */
+     *            owlEditorKit
+     * @param constraintSystem
+     *            constraintSystem */
     public OPPLSelectClauseEditor(OWLEditorKit owlEditorKit,
             ConstraintSystem constraintSystem) {
         setLayout(new BorderLayout());
@@ -104,9 +106,7 @@ public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEdito
         listeners.remove(listener);
     }
 
-    /**
-     * 
-     */
+    /** hndle change */
     public void handleChange() {
         boolean isValid = check();
         if (isValid) {
@@ -116,15 +116,14 @@ public class OPPLSelectClauseEditor extends JPanel implements VerifiedInputEdito
         notifyListeners(isValid);
     }
 
-    /** @param isValid */
+    /** @param isValid
+     *            isValid */
     private void notifyListeners(boolean isValid) {
         for (InputVerificationStatusChangedListener listener : listeners) {
             listener.verifiedStatusChanged(isValid);
         }
     }
 
-    /**
-     * 
-     */
+    /** dispose */
     public void dispose() {}
 }

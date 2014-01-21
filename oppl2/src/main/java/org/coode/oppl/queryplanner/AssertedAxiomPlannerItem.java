@@ -25,7 +25,9 @@ public class AssertedAxiomPlannerItem extends AbstractQueryPlannerItem {
     private final OWLAxiom axiom;
 
     /** @param constraintSystem
-     * @param axiom */
+     *            constraintSystem
+     * @param axiom
+     *            axiom */
     public AssertedAxiomPlannerItem(ConstraintSystem constraintSystem, OWLAxiom axiom) {
         super(constraintSystem);
         this.axiom = checkNotNull(axiom, "axiom");

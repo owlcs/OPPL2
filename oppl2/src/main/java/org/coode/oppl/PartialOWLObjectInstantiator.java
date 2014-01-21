@@ -28,7 +28,8 @@ import org.semanticweb.owlapi.model.OWLObject;
 
 /** @author Luigi Iannone */
 public class PartialOWLObjectInstantiator extends AbstractOWLObjectInstantiator {
-    /** @param parameters */
+    /** @param parameters
+     *            parameters */
     public PartialOWLObjectInstantiator(ValueComputationParameters parameters) {
         super(parameters);
     }

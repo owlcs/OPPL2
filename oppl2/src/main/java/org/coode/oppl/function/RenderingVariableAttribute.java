@@ -7,7 +7,8 @@ import org.semanticweb.owlapi.model.OWLObject;
 
 /** @author Luigi Iannone */
 public class RenderingVariableAttribute extends VariableAttribute<String> {
-    /** @param variable */
+    /** @param variable
+     *            variable */
     public RenderingVariableAttribute(Variable<?> variable) {
         super(variable, AttributeName.RENDERING);
     }

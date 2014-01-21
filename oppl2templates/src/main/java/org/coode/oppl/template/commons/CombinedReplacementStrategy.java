@@ -14,12 +14,15 @@ import org.coode.oppl.template.ReplacementStrategy;
  * 
  * @author Luigi Iannone
  * @param <I>
- * @param <P> */
+ *            type
+ * @param <P>
+ *            replacement type */
 public class CombinedReplacementStrategy<I, P extends I> implements
         ReplacementStrategy<I, P> {
     private final List<ReplacementStrategy<I, P>> strategies = new ArrayList<ReplacementStrategy<I, P>>();
 
-    /** @param strategies */
+    /** @param strategies
+     *            strategies */
     public CombinedReplacementStrategy(List<ReplacementStrategy<I, P>> strategies) {
         this.strategies.addAll(checkNotNull(strategies, "strategies"));
         if (strategies.isEmpty()) {

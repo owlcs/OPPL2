@@ -1,7 +1,8 @@
 package org.coode.parsers;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public abstract class DefaultTypeVistorEx<O> implements TypeVisitorEx<O> {
     protected abstract O doDefault(Type type);
 

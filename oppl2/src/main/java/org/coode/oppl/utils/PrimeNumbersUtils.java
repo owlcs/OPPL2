@@ -27,6 +27,7 @@ public class PrimeNumbersUtils {
     }
 
     /** @param upperBound
+     *            upperBound
      * @return list of primes */
     public static List<Integer> runEratosthenesSieve(int upperBound) {
         int upperBoundSquareRoot = (int) Math.sqrt(upperBound);
@@ -48,6 +49,7 @@ public class PrimeNumbersUtils {
     }
 
     /** @param n
+     *            n
      * @return next prime from n */
     public static int getNextPrime(int n) {
         int toReturn = n + 1;
@@ -60,6 +62,7 @@ public class PrimeNumbersUtils {
     }
 
     /** @param n
+     *            n
      * @return true if prime */
     public static boolean isPrime(int n) {
         // int dividersUpperbound = (int) Math.sqrt(n);
@@ -106,6 +109,7 @@ public class PrimeNumbersUtils {
     }
 
     /** @param n
+     *            n
      * @return true if prime */
     public static boolean millerRabin32(int n) {
         if (n <= 1) {

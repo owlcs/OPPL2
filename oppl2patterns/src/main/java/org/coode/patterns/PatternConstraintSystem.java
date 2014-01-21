@@ -67,8 +67,11 @@ public class PatternConstraintSystem extends ConstraintSystem {
     private final AbstractPatternModelFactory factory;
 
     /** @param cs
+     *            cs
      * @param ontologyManager
-     * @param f */
+     *            ontologyManager
+     * @param f
+     *            f */
     public PatternConstraintSystem(ConstraintSystem cs,
             OWLOntologyManager ontologyManager, AbstractPatternModelFactory f) {
         super(cs.getOntology(), ontologyManager, f.getOPPLFactory());
@@ -78,9 +81,13 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     /** @param ontology
+     *            ontology
      * @param ontologyManager
+     *            ontologyManager
      * @param reasoner
-     * @param f */
+     *            reasoner
+     * @param f
+     *            f */
     public PatternConstraintSystem(OWLOntology ontology,
             OWLOntologyManager ontologyManager, OWLReasoner reasoner,
             AbstractPatternModelFactory f) {
@@ -159,6 +166,7 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     /** @param s
+     *            s
      * @return resolved pattern constants */
     public String resolvePatternConstants(String s) {
         String toReturn = s;
@@ -173,6 +181,7 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     /** @param variable
+     *            variable
      * @return true if variable is this class variable */
     public boolean isThisClassVariable(Variable<?> variable) {
         return variable.equals(specialVariables
@@ -187,12 +196,18 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     /** @param patternName
+     *            patternName
      * @param visitedPatterns
+     *            visitedPatterns
      * @param dependencies
+     *            dependencies
      * @param errorListener
+     *            errorListener
      * @param args
+     *            args
      * @return resolved pattern
-     * @throws PatternException */
+     * @throws PatternException
+     *             PatternException */
     public String resolvePattern(String patternName, Set<String> visitedPatterns,
             List<PatternOPPLScript> dependencies, ErrorListener errorListener,
             List<Object>... args) throws PatternException {
@@ -210,12 +225,18 @@ public class PatternConstraintSystem extends ConstraintSystem {
     }
 
     /** @param patternName
+     *            patternName
      * @param visitedPatterns
+     *            visitedPatterns
      * @param dependencies
+     *            dependencies
      * @param errorListener
+     *            errorListener
      * @param args
+     *            args
      * @return instantiated pattern
-     * @throws PatternException */
+     * @throws PatternException
+     *             PatternException */
     public InstantiatedPatternModel resolvePatternInstantiation(String patternName,
             Set<String> visitedPatterns, List<PatternOPPLScript> dependencies,
             final ErrorListener errorListener, List<String>... args)

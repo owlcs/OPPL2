@@ -31,7 +31,9 @@ public interface InstantiatedOPPLScript extends OPPLScript {
     /** Adds the value o to the Variable v in this InstantiatedOPPLScript
      * 
      * @param v
-     * @param o */
+     *            v
+     * @param o
+     *            o */
     void instantiate(Variable<?> v, OWLObject o);
 
     /** @return true if valid */

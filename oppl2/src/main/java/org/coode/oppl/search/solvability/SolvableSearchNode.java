@@ -17,9 +17,13 @@ public class SolvableSearchNode extends SolvabilitySearchNode {
     private final Variable<?> variable;
 
     /** @param variable
+     *            variable
      * @param axiom
+     *            axiom
      * @param bindingNode
-     * @param values */
+     *            bindingNode
+     * @param values
+     *            values */
     public SolvableSearchNode(Variable<?> variable, OWLAxiom axiom,
             BindingNode bindingNode, Collection<? extends OWLObject> values) {
         super(axiom, bindingNode);

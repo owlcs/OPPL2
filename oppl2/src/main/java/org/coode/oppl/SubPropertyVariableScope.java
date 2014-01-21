@@ -40,7 +40,8 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
  * of a given property
  * 
  * @author Luigi Iannone
- * @param <P> */
+ * @param <P>
+ *            type */
 public class SubPropertyVariableScope<P extends OWLPropertyExpression<?, ?>> extends
         PropertyVariableScope<P> {
     SubPropertyVariableScope(P property, VariableScopeChecker checker) {

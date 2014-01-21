@@ -16,7 +16,8 @@ import org.antlr.runtime.tree.RewriteEmptyStreamException;
 public class LoggerErrorListener implements ErrorListener {
     private final Logger logger;
 
-    /** @param logger */
+    /** @param logger
+     *            logger */
     public LoggerErrorListener(Logger logger) {
         this(logger, Level.WARNING);
     }
@@ -24,7 +25,9 @@ public class LoggerErrorListener implements ErrorListener {
     private Level level;
 
     /** @param logger
-     * @param level */
+     *            logger
+     * @param level
+     *            level */
     public LoggerErrorListener(Logger logger, Level level) {
         this.logger = checkNotNull(logger, "logger");
         this.level = checkNotNull(level, "level");

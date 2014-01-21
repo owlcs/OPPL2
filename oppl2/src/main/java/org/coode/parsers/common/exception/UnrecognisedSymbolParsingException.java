@@ -6,8 +6,11 @@ public class UnrecognisedSymbolParsingException extends ParsingException {
     private final String symbol;
 
     /** @param tokenText
+     *            tokenText
      * @param line
-     * @param charPositionInLine */
+     *            line
+     * @param charPositionInLine
+     *            charPositionInLine */
     public UnrecognisedSymbolParsingException(String tokenText, int line,
             int charPositionInLine) {
         super(String.format("Unrecognised token %s at line %d char position in line %d",

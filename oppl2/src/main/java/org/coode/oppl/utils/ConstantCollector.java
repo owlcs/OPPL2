@@ -19,7 +19,9 @@ public final class ConstantCollector extends OWLAxiomVisitorAdapter {
     private final OWLClassExpressionVisitor constantExtractor;
 
     /** @param toReturn
-     * @param constantExtractor */
+     *            toReturn
+     * @param constantExtractor
+     *            constantExtractor */
     public ConstantCollector(Set<OWLLiteral> toReturn,
             OWLClassExpressionVisitor constantExtractor) {
         this.toReturn = toReturn;

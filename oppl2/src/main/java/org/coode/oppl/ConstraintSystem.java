@@ -201,8 +201,11 @@ public class ConstraintSystem {
     private final VariableDetector variableDetector = new VariableDetector(this);
 
     /** @param ontology
+     *            ontology
      * @param ontologyManager
-     * @param opplFactory */
+     *            ontologyManager
+     * @param opplFactory
+     *            opplFactory */
     public ConstraintSystem(OWLOntology ontology, OWLOntologyManager ontologyManager,
             OPPLAbstractFactory opplFactory) {
         this.opplFactory = checkNotNull(opplFactory, "ontology");
@@ -211,9 +214,13 @@ public class ConstraintSystem {
     }
 
     /** @param ontology
+     *            ontology
      * @param ontologyManager
+     *            ontologyManager
      * @param reasoner
-     * @param opplAbstractFactory */
+     *            reasoner
+     * @param opplAbstractFactory
+     *            opplAbstractFactory */
     public ConstraintSystem(OWLOntology ontology, OWLOntologyManager ontologyManager,
             OWLReasoner reasoner, OPPLAbstractFactory opplAbstractFactory) {
         this(ontology, ontologyManager, opplAbstractFactory);
@@ -221,16 +228,23 @@ public class ConstraintSystem {
     }
 
     /** @param name
+     *            name
      * @return variable for name */
     public Variable<?> getVariable(String name) {
         return variables.get(name);
     }
 
     /** @param name
+     *            name
      * @param type
+     *            type
      * @param variableScope
+     *            variableScope
+     * @param <O>
+     *            variable type
      * @return input variable
-     * @throws OPPLException */
+     * @throws OPPLException
+     *             OPPLException */
     public <O extends OWLObject> InputVariable<O> createVariable(final String name,
             final VariableType<O> type, final VariableScope<?> variableScope)
             throws OPPLException {
@@ -242,10 +256,16 @@ public class ConstraintSystem {
     }
 
     /** @param name
+     *            name
      * @param type
+     *            type
      * @param variableScope
+     *            variableScope
+     * @param <O>
+     *            variable type
      * @return input variable
-     * @throws OPPLException */
+     * @throws OPPLException
+     *             OPPLException */
     public <O extends OWLObject> InputVariable<O> createVariableWithVerifiedName(
             final String name, final VariableType<O> type,
             final VariableScope<?> variableScope) throws OPPLException {
@@ -293,6 +313,7 @@ public class ConstraintSystem {
     }
 
     /** @param axiom
+     *            axiom
      * @return variables for axiom */
     public Set<Variable<?>> getAxiomVariables(OWLAxiom axiom) {
         VariableExtractor axiomVariableExtractor = new VariableExtractor(this, true);
@@ -301,24 +322,28 @@ public class ConstraintSystem {
     }
 
     /** @param iri
+     *            iri
      * @return true if uri is a variable */
     public boolean isVariableIRI(IRI iri) {
         return variables.containsVariableIRI(iri);
     }
 
     /** @param iri
+     *            iri
      * @return variable for iri */
     public Variable<?> getVariable(IRI iri) {
         return variables.get(iri);
     }
 
     /** @param e
+     *            e
      * @return true if desc is a variable */
     public boolean isVariable(OWLObject e) {
         return e.accept(variableDetector);
     }
 
-    /** @param bindingNode */
+    /** @param bindingNode
+     *            bindingNode */
     public void addLeaf(BindingNode bindingNode) {
         if (leaves == null) {
             leaves = new HashSet<BindingNode>();
@@ -327,7 +352,9 @@ public class ConstraintSystem {
     }
 
     /** @param v
+     *            v
      * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler
      * @return variable bindings */
     public Set<OWLObject> getVariableBindings(Variable<?> v,
             RuntimeExceptionHandler runtimeExceptionHandler) {
@@ -346,7 +373,9 @@ public class ConstraintSystem {
     }
 
     /** @param variable
+     *            variable
      * @param object
+     *            object
      * @return true if leaf is added */
     public boolean addLeaf(Variable<?> variable, OWLObject object) {
         boolean toReturn = variable.getType().isCompatibleWith(object);
@@ -381,18 +410,21 @@ public class ConstraintSystem {
         return variables.getInputVariables();
     }
 
-    /** @param binding */
+    /** @param binding
+     *            binding */
     public void removeBinding(BindingNode binding) {
         leaves.remove(binding);
     }
 
     /** @param node
+     *            node
      * @return true if node is variable */
     public boolean isVariable(OWLLiteral node) {
         return node.getLiteral().startsWith("?");
     }
 
-    /** @param newLeaves */
+    /** @param newLeaves
+     *            newLeaves */
     public void setLeaves(Collection<? extends BindingNode> newLeaves) {
         if (newLeaves == null) {
             leaves = null;
@@ -401,7 +433,8 @@ public class ConstraintSystem {
         }
     }
 
-    /** @param reasoner */
+    /** @param reasoner
+     *            reasoner */
     public void setReasoner(OWLReasoner reasoner) {
         this.reasoner = reasoner;
     }
@@ -412,14 +445,20 @@ public class ConstraintSystem {
     }
 
     /** @return the reasoner
-     * @throws OWLRuntimeException */
+     * @throws OWLRuntimeException
+     *             OWLRuntimeException */
     public OWLReasoner getReasoner() {
         return reasoner;
     }
 
     /** @param name
+     *            name
      * @param type
+     *            type
      * @param value
+     *            value
+     * @param <O>
+     *            variable type
      * @return generated variables */
     @SuppressWarnings("unchecked")
     public <O extends OWLObject> GeneratedVariable<O> createStringGeneratedVariable(
@@ -483,6 +522,7 @@ public class ConstraintSystem {
     }
 
     /** @param v
+     *            v
      * @return true if generated */
     public boolean isGenerated(Variable<?> v) {
         return variables.getGeneratedVariables().contains(v);
@@ -493,14 +533,18 @@ public class ConstraintSystem {
         leaves = null;
     }
 
-    /** @param variable */
+    /** @param variable
+     *            variable */
     public void removeVariable(Variable<?> variable) {
         variables.remove(variable.getName());
     }
 
     /** @param name
+     *            name
      * @param type
+     *            type
      * @param operands
+     *            operands
      * @return generated variable */
     public
             GeneratedVariable<OWLClassExpression>
@@ -555,8 +599,11 @@ public class ConstraintSystem {
     }
 
     /** @param name
+     *            name
      * @param type
+     *            type
      * @param operands
+     *            operands
      * @return generated variable */
     public
             GeneratedVariable<OWLClassExpression>
@@ -612,8 +659,13 @@ public class ConstraintSystem {
     }
 
     /** @param name
+     *            name
      * @param type
+     *            type
      * @param patternGeneratingOPPLFunction
+     *            patternGeneratingOPPLFunction
+     * @param <O>
+     *            expression type
      * @return regexp variable */
     public <O extends OWLObject> RegexpGeneratedVariable<? extends O>
             createRegexpGeneratedVariable(String name, VariableType<O> type,
@@ -625,7 +677,11 @@ public class ConstraintSystem {
     }
 
     /** @param name
+     *            name
      * @param expression
+     *            expression
+     * @param <O>
+     *            expression type
      * @return expression generated variable */
     public <O extends OWLObject> GeneratedVariable<O> createExpressionGeneratedVariable(
             final String name, O expression) {
@@ -758,12 +814,14 @@ public class ConstraintSystem {
     }
 
     /** @param variable
+     *            variable
      * @return render */
     public String render(Variable<?> variable) {
         return variable.getName();
     }
 
-    /** @param v */
+    /** @param v
+     *            v */
     public void importVariable(Variable<?> v) {
         variables.store(v);
     }

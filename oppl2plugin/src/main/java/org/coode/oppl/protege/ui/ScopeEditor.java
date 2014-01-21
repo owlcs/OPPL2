@@ -379,8 +379,11 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
     }
 
     /** @param variableType
+     *            variableType
      * @param checker
+     *            checker
      * @param owlEditorKit
+     *            owlEditorKit
      * @return typ scope editor */
     public static ScopeEditor getTypeScopeEditor(VariableType<?> variableType,
             final VariableScopeChecker checker, final OWLEditorKit owlEditorKit) {
@@ -447,6 +450,7 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
     /** dispose */
     public abstract void dispose();
 
-    /** @param scope */
+    /** @param scope
+     *            scope */
     public abstract void setScope(VariableScope<?> scope);
 }

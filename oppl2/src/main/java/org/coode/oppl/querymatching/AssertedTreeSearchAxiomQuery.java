@@ -55,8 +55,11 @@ public class AssertedTreeSearchAxiomQuery extends AbstractAxiomQuery {
     private final Map<BindingNode, Set<OWLAxiom>> instantiations = new HashMap<BindingNode, Set<OWLAxiom>>();
 
     /** @param ontologies
+     *            ontologies
      * @param constraintSystem
-     * @param runtimeExceptionHandler */
+     *            constraintSystem
+     * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler */
     public AssertedTreeSearchAxiomQuery(Set<OWLOntology> ontologies,
             ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {

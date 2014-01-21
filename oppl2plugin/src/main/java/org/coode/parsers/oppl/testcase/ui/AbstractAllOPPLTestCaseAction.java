@@ -72,7 +72,9 @@ abstract class AbstractAllOPPLTestCaseAction extends AbstractOWLActiveOntologyAc
     protected OWLModelManagerListener modelManagerListener;
 
     /** @param name
-     * @param owlEditorKit */
+     *            name
+     * @param owlEditorKit
+     *            owlEditorKit */
     public AbstractAllOPPLTestCaseAction(String name, OWLEditorKit owlEditorKit) {
         super(name, ICON, owlEditorKit);
     }

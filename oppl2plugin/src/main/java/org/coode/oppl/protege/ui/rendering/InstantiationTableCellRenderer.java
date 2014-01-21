@@ -17,7 +17,8 @@ public class InstantiationTableCellRenderer implements TableCellRenderer {
     private final OWLCellRenderer owlCellRenderer;
     private final OWLEditorKit owlEditorKit;
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public InstantiationTableCellRenderer(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         owlCellRenderer = new OWLCellRenderer(owlEditorKit);

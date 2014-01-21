@@ -6,35 +6,51 @@ import org.antlr.runtime.tree.RewriteEmptyStreamException;
 
 /** @author Luigi Iannone */
 public interface ErrorListener {
-    /** @param t */
+    /** @param t
+     *            t */
     void unrecognisedSymbol(CommonTree t);
 
     /** @param t
+     *            t
      * @param type
-     * @param expression */
+     *            type
+     * @param expression
+     *            expression */
     void incompatibleSymbolType(CommonTree t, Type type, CommonTree expression);
 
     /** @param parentExpression
-     * @param trees */
+     *            parentExpression
+     * @param trees
+     *            trees */
     void incompatibleSymbols(CommonTree parentExpression, CommonTree... trees);
 
     /** @param t
-     * @param message */
+     *            t
+     * @param message
+     *            message */
     void illegalToken(CommonTree t, String message);
 
-    /** @param e */
+    /** @param e
+     *            e */
     void recognitionException(RecognitionException e);
 
     /** @param e
-     * @param tokenNames */
+     *            e
+     * @param tokenNames
+     *            tokenNames */
     void recognitionException(RecognitionException e, String... tokenNames);
 
-    /** @param e */
+    /** @param e
+     *            e */
     void rewriteEmptyStreamException(RewriteEmptyStreamException e);
 
     /** @param t
+     *            t
      * @param line
+     *            line
      * @param charPosInLine
-     * @param length */
+     *            charPosInLine
+     * @param length
+     *            length */
     void reportThrowable(Throwable t, int line, int charPosInLine, int length);
 }

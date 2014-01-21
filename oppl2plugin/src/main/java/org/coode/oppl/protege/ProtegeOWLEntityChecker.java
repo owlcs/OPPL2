@@ -20,7 +20,8 @@ public final class ProtegeOWLEntityChecker implements OWLEntityChecker {
     private final OWLEditorKit owlEditorKit;
     private final OWLEntityFinder delegate;
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public ProtegeOWLEntityChecker(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         delegate = getOWLEditorKit().getOWLModelManager().getOWLEntityFinder();
@@ -52,6 +53,7 @@ public final class ProtegeOWLEntityChecker implements OWLEntityChecker {
     }
 
     /** @param rendering
+     *            rendering
      * @return entity */
     public OWLEntity getOWLEntity(String rendering) {
         return delegate.getOWLEntity(rendering);

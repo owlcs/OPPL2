@@ -139,9 +139,13 @@ public class LocalityChecker {
     private final RuntimeExceptionHandler handler;
 
     /** @param manager
+     *            manager
      * @param r
+     *            r
      * @param entities
-     * @param handler */
+     *            entities
+     * @param handler
+     *            handler */
     public LocalityChecker(final OWLOntologyManager manager, OWLReasoner r,
             Collection<? extends OWLEntity> entities, RuntimeExceptionHandler handler) {
         externalManager = manager;
@@ -172,13 +176,15 @@ public class LocalityChecker {
         };
     }
 
-    /** @param owlentities */
+    /** @param owlentities
+     *            owlentities */
     public void setSignature(Collection<? extends OWLEntity> owlentities) {
         entities.clear();
         entities.addAll(owlentities);
     }
 
-    /** @param m */
+    /** @param m
+     *            m */
     public void setInstantiatedPatternModel(InstantiatedPatternModel m) {
         instantiatedPatternModel = m;
     }
@@ -197,7 +203,9 @@ public class LocalityChecker {
     }
 
     /** @param o
+     *            o
      * @param signature
+     *            signature
      * @return all binding nodes */
     public Map<Variable<?>, Collection<OWLObject>> extractAllPossibleBindingNodes(
             OWLOntology o, Set<OWLEntity> signature) {
@@ -255,6 +263,7 @@ public class LocalityChecker {
     }
 
     /** @param ontologies
+     *            ontologies
      * @return collected entities */
     public static Set<OWLEntity> collectEntities(Set<OWLOntology> ontologies) {
         // OWLEntityCollector is invoked differently in the most recent (past

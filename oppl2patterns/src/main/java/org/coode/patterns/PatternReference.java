@@ -78,7 +78,8 @@ import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /** @author Luigi Iannone Jun 25, 2008
- * @param <O> */
+ * @param <O>
+ *            type */
 public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
     private String patternName;
     private final PatternConstraintSystem patternConstraintSystem;
@@ -105,10 +106,15 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
     };
 
     /** @param patternName
+     *            patternName
      * @param constraintSystem
+     *            constraintSystem
      * @param errorListener
+     *            errorListener
      * @param args
-     * @throws PatternException */
+     *            args
+     * @throws PatternException
+     *             PatternException */
     public PatternReference(String patternName, PatternConstraintSystem constraintSystem,
             ErrorListener errorListener, List<Object>... args) throws PatternException {
         this(patternName, constraintSystem, Collections.<String> emptySet(),
@@ -116,11 +122,17 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
     }
 
     /** @param patternName
+     *            patternName
      * @param constraintSystem
+     *            constraintSystem
      * @param visitedPatterns
+     *            visitedPatterns
      * @param errorListener
+     *            errorListener
      * @param args
-     * @throws PatternException */
+     *            args
+     * @throws PatternException
+     *             PatternException */
     public PatternReference(String patternName, PatternConstraintSystem constraintSystem,
             Collection<? extends String> visitedPatterns, ErrorListener errorListener,
             List<Object>... args) throws PatternException {
@@ -168,9 +180,9 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
         this.arguments = args;
     }
 
-    /** @param extractedPattern
-     * @param args
-     * @return */
+    /** @param args
+     *            args
+     * @return replacements */
     protected List<List<Object>> computeReplacements(List<Object>... args) {
         List<List<Object>> replacements = new ArrayList<List<Object>>();
         for (List<Object> iThAssignments : args) {
@@ -183,7 +195,9 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
         return replacements;
     }
 
-    /** @param args */
+    /** @param args
+     *            args
+     * @return true if resolvable */
     protected boolean isResolvable(List<Object>... args) {
         boolean isResolvable = true;
         for (int i = 0; i < args.length && isResolvable; i++) {
@@ -198,11 +212,14 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
         return isResolvable;
     }
 
-    /** @param extractedPattern
-     * @param args
+    /** @param args
+     *            args
      * @throws PatternException
+     *             PatternException
      * @throws IncompatibleArgumentException
-     * @throws InvalidNumebrOfArgumentException */
+     *             IncompatibleArgumentException
+     * @throws InvalidNumebrOfArgumentException
+     *             InvalidNumebrOfArgumentException */
     protected void checkCompatibility(List<Object>... args) throws PatternException,
             IncompatibleArgumentException, InvalidNumebrOfArgumentException {
         boolean compatible = true;
@@ -241,7 +258,8 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
     }
 
     /** @return the resolution
-     * @throws PatternException */
+     * @throws PatternException
+     *             PatternException */
     public List<OWLObject> getResolution() throws PatternException {
         Map<Variable<?>, Set<OWLObject>> bindings = this.getBindingsMap();
         // Will use the leaf brusher to compute the binding nodes and when the
@@ -259,8 +277,7 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
         return toReturn;
     }
 
-    /** @param replacements
-     * @param bindings */
+    /** @return bindings map */
     private Map<Variable<?>, Set<OWLObject>> getBindingsMap() {
         Map<Variable<?>, Set<OWLObject>> bindings = new HashMap<Variable<?>, Set<OWLObject>>();
         List<List<Object>> replacements = this.computeReplacements(this.getArguments());
@@ -505,8 +522,10 @@ public class PatternReference<O extends OWLObject> implements OPPLFunction<O> {
     }
 
     /** @param handler
+     *            handler
      * @return instantiation
-     * @throws PatternException */
+     * @throws PatternException
+     *             PatternException */
     public InstantiatedPatternModel getInstantiation(RuntimeExceptionHandler handler)
             throws PatternException {
         if (this.isResolvable()) {

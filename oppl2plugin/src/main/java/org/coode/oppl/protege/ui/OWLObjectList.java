@@ -247,7 +247,8 @@ public class OWLObjectList extends OPPLMList implements ActionListener,
         }
     }
 
-    /** @param variableList */
+    /** @param model
+     *            model */
     private void updateVariables(DefaultListModel<Object> model) {
         variables.clear();
         for (int i = 0; i < model.getSize(); i++) {

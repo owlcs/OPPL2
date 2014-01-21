@@ -1,9 +1,9 @@
-
 package org.coode.oppl.protege.ui.message;
 
 /** @author Luigi Iannone */
 public class Error extends AbstractMessage implements Message {
-    /** @param messageText */
+    /** @param messageText
+     *            messageText */
     public Error(String messageText) {
         super(messageText);
     }

@@ -16,12 +16,15 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /** @author Luigi Iannone
  * @param <O>
- * @param <I> */
+ *            function type
+ * @param <I>
+ *            type */
 public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implements
         OPPLFunction<O> {
     protected final List<Aggregandum<I>> toAggregate = new ArrayList<Aggregandum<I>>();
 
-    /** @param toAggregate */
+    /** @param toAggregate
+     *            toAggregate */
     public Aggregation(Collection<? extends Aggregandum<I>> toAggregate) {
         this.toAggregate.addAll(checkNotNull(toAggregate, "toAggregate"));
         if (toAggregate.isEmpty()) {
@@ -60,6 +63,7 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
     }
 
     /** @param a
+     *            a
      * @return string concatenation aggregation */
     public static Aggregation<String, String> buildStringConcatenation(
             Collection<? extends Aggregandum<String>> a) {
@@ -67,7 +71,9 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
     }
 
     /** @param a
+     *            a
      * @param dataFactory
+     *            dataFactory
      * @return class expression intersection aggregation */
     public static
             Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>>
@@ -78,7 +84,9 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
     }
 
     /** @param a
+     *            a
      * @param dataFactory
+     *            dataFactory
      * @return class expression union aggregation */
     public static
             Aggregation<OWLClassExpression, Collection<? extends OWLClassExpression>>
@@ -89,11 +97,16 @@ public abstract class Aggregation<O, I> extends AbstractOPPLFunction<O> implemen
     }
 
     /** @param constraintSystem
+     *            constraintSystem
      * @param prefix
+     *            prefix
      * @param openDelimiter
+     *            openDelimiter
      * @param separator
+     *            separator
      * @param closedDelimiter
-     * @return */
+     *            closedDelimiter
+     * @return rendering */
     protected String renderAggregation(ConstraintSystem constraintSystem, String prefix,
             String openDelimiter, String separator, String closedDelimiter) {
         Iterator<Aggregandum<I>> i = toAggregate.iterator();

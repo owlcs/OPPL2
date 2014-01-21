@@ -29,7 +29,8 @@ public final class ProtegeOPPLPatternsAutoCompletionMatcher implements
         }
     };
 
-    /** @param owlEditorKit */
+    /** @param owlEditorKit
+     *            owlEditorKit */
     public ProtegeOPPLPatternsAutoCompletionMatcher(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         getOWLEditorKit().getOWLModelManager().addListener(modelManagerListener);

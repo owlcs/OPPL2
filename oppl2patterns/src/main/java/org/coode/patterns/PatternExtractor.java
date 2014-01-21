@@ -51,9 +51,13 @@ public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScrip
     private final Set<OWLAnnotation> visited = new HashSet<OWLAnnotation>();
 
     /** @param ontology
+     *            ontology
      * @param owlOntologyManager
+     *            owlOntologyManager
      * @param errorListener
-     * @param visited */
+     *            errorListener
+     * @param visited
+     *            visited */
     public PatternExtractor(OWLOntology ontology, OWLOntologyManager owlOntologyManager,
             ErrorListener errorListener, Set<OWLAnnotation> visited) {
         super();
@@ -64,8 +68,11 @@ public class PatternExtractor extends OWLObjectVisitorExAdapter<PatternOPPLScrip
     }
 
     /** @param ontology
+     *            ontology
      * @param owlOntologyManager
-     * @param listener */
+     *            owlOntologyManager
+     * @param listener
+     *            listener */
     public PatternExtractor(OWLOntology ontology, OWLOntologyManager owlOntologyManager,
             ErrorListener listener) {
         this(ontology, owlOntologyManager, listener, Collections

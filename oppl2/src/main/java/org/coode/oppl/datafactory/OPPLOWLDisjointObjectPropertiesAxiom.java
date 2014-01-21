@@ -34,9 +34,13 @@ public class OPPLOWLDisjointObjectPropertiesAxiom extends
     private final boolean shouldExpandAsPairWise;
 
     /** @param dataFactory
+     *            dataFactory
      * @param propertyExpressions
+     *            propertyExpressions
      * @param annotations
-     * @param shouldExpandAsPairWise */
+     *            annotations
+     * @param shouldExpandAsPairWise
+     *            shouldExpandAsPairWise */
     public OPPLOWLDisjointObjectPropertiesAxiom(OPPLOWLDataFactory dataFactory,
             InlineSet<OWLObjectPropertyExpression> propertyExpressions,
             Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {

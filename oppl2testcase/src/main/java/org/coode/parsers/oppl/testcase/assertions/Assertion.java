@@ -9,10 +9,12 @@ import org.coode.oppl.bindingtree.BindingNode;
  * 
  * @author Luigi Iannone */
 public interface Assertion {
-    /** @param visitor */
+    /** @param visitor
+     *            visitor */
     void accept(AssertionVisitor visitor);
 
     /** @param visitor
+     *            visitor
      * @return visitor value */
     <O> O accept(AssertionVisitorEx<O> visitor);
 

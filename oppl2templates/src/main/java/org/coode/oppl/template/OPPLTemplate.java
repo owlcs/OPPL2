@@ -4,7 +4,8 @@ package org.coode.oppl.template;
  * the appropriate String will produce an instanceof the parameter O.
  * 
  * @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public interface OPPLTemplate<O> {
     /** Retrieves the template String.
      * 

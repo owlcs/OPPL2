@@ -70,7 +70,9 @@ public class OPPLQueryImpl implements OPPLQuery {
     private final OPPLAbstractFactory factory;
 
     /** @param query
-     * @param factory */
+     *            query
+     * @param factory
+     *            factory */
     public OPPLQueryImpl(OPPLQuery query, OPPLAbstractFactory factory) {
         this(query.getConstraintSystem(), factory);
         for (OWLAxiom assertedAxiom : query.getAssertedAxioms()) {
@@ -85,7 +87,9 @@ public class OPPLQueryImpl implements OPPLQuery {
     }
 
     /** @param constraintSystem
-     * @param factory */
+     *            constraintSystem
+     * @param factory
+     *            factory */
     public OPPLQueryImpl(ConstraintSystem constraintSystem, OPPLAbstractFactory factory) {
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
         constraintSystem.getOntologyManager().addOntologyChangeListener(listener);
@@ -338,8 +342,13 @@ public class OPPLQueryImpl implements OPPLQuery {
     }
 
     /** @param runtimeExceptionHandler
+     *            runtimeExceptionHandler
+     * @param resetConstraintSystem
+     *            resetConstraintSystem
      * @param executionMonitor
-     * @throws OWLRuntimeException */
+     *            executionMonitor
+     * @throws OWLRuntimeException
+     *             OWLRuntimeException */
     private void doExecute(RuntimeExceptionHandler runtimeExceptionHandler,
             boolean resetConstraintSystem, ExecutionMonitor executionMonitor)
             throws OWLRuntimeException {

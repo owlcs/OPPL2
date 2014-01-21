@@ -29,7 +29,8 @@ import org.semanticweb.owlapi.model.OWLObject;
 public class OWLObjectListItem implements MListItem {
     private final OWLObject owlObject;
 
-    /** @param owlObject */
+    /** @param owlObject
+     *            owlObject */
     public OWLObjectListItem(OWLObject owlObject) {
         this.owlObject = owlObject;
     }

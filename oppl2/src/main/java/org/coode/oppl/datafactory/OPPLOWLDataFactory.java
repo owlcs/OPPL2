@@ -18,13 +18,16 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
             .<OWLAnnotation> emptySet();
     private final OWLDataFactory delegate;
 
-    /** @param delegate */
+    /** @param delegate
+     *            delegate */
     public OPPLOWLDataFactory(OWLDataFactory delegate) {
         this.delegate = checkNotNull(delegate, "delegate");
     }
 
     /** @param set
+     *            set
      * @param shouldExpabdAsPairWise
+     *            shouldExpabdAsPairWise
      * @return OWLDisjointClassesAxiom */
     public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
             InlineSet<OWLClassExpression> set, boolean shouldExpabdAsPairWise) {
@@ -33,8 +36,11 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
     }
 
     /** @param set
+     *            set
      * @param annotations
+     *            annotations
      * @param shouldExpabdAsPairWise
+     *            shouldExpabdAsPairWise
      * @return OWLDisjointClassesAxiom */
     public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
             InlineSet<OWLClassExpression> set, Set<? extends OWLAnnotation> annotations,
@@ -44,7 +50,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
     }
 
     /** @param set
+     *            set
      * @param shouldExpabdAsPairWise
+     *            shouldExpabdAsPairWise
      * @return OWLDisjointObjectPropertiesAxiom */
     public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
             InlineSet<OWLObjectPropertyExpression> set, boolean shouldExpabdAsPairWise) {
@@ -53,8 +61,11 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
     }
 
     /** @param set
+     *            set
      * @param annotations
+     *            annotations
      * @param shouldExpabdAsPairWise
+     *            shouldExpabdAsPairWise
      * @return OWLDisjointObjectPropertiesAxiom */
     public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
             InlineSet<OWLObjectPropertyExpression> set,
@@ -64,7 +75,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
     }
 
     /** @param set
+     *            set
      * @param shouldExpabdAsPairWise
+     *            shouldExpabdAsPairWise
      * @return OWLDisjointDataPropertiesAxiom */
     public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
             InlineSet<OWLDataPropertyExpression> set, boolean shouldExpabdAsPairWise) {
@@ -73,8 +86,11 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
     }
 
     /** @param set
+     *            set
      * @param annotations
+     *            annotations
      * @param shouldExpabdAsPairWise
+     *            shouldExpabdAsPairWise
      * @return OWLDisjointDataPropertiesAxiom */
     public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
             InlineSet<OWLDataPropertyExpression> set,
@@ -84,7 +100,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
     }
 
     /** @param set
+     *            set
      * @param shouldExpabdAsPairWise
+     *            shouldExpabdAsPairWise
      * @return OWLDifferentIndividualsAxiom */
     public OWLDifferentIndividualsAxiom getOWLDifferentIndividualsAxiom(
             InlineSet<OWLIndividual> set, boolean shouldExpabdAsPairWise) {
@@ -93,8 +111,11 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
     }
 
     /** @param set
+     *            set
      * @param annotations
+     *            annotations
      * @param shouldExpabdAsPairWise
+     *            shouldExpabdAsPairWise
      * @return OWLDifferentIndividualsAxiom */
     public OWLDifferentIndividualsAxiom getOWLDifferentIndividualsAxiom(
             InlineSet<OWLIndividual> set, Set<? extends OWLAnnotation> annotations,
@@ -104,7 +125,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
     }
 
     /** @param set
+     *            set
      * @param shouldExpabdAsPairWise
+     *            shouldExpabdAsPairWise
      * @return OWLSameIndividualAxiom */
     public OWLSameIndividualAxiom getOWLSameIndividualAxiom(InlineSet<OWLIndividual> set,
             boolean shouldExpabdAsPairWise) {
@@ -113,8 +136,11 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
     }
 
     /** @param set
+     *            set
      * @param annotations
+     *            annotations
      * @param shouldExpabdAsPairWise
+     *            shouldExpabdAsPairWise
      * @return OWLSameIndividualAxiom */
     public OWLSameIndividualAxiom getOWLSameIndividualAxiom(InlineSet<OWLIndividual> set,
             Set<? extends OWLAnnotation> annotations, boolean shouldExpabdAsPairWise) {

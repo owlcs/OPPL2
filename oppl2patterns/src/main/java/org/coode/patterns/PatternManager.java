@@ -110,7 +110,9 @@ public class PatternManager implements OWLOntologyChangeListener {
         private final AbstractPatternModelFactory factory;
 
         /** @param ontologyManager
-         * @param f */
+         *            ontologyManager
+         * @param f
+         *            f */
         public DeletionManager(OWLOntologyManager ontologyManager,
                 AbstractPatternModelFactory f) {
             this.ontologyManager = ontologyManager;
@@ -198,7 +200,9 @@ public class PatternManager implements OWLOntologyChangeListener {
     }
 
     /** @param ontologyManager
+     *            ontologyManager
      * @param f
+     *            f
      * @return the instance */
     public static synchronized PatternManager getInstance(
             OWLOntologyManager ontologyManager, AbstractPatternModelFactory f) {

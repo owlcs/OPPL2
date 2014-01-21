@@ -272,7 +272,8 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
             return constraintSystem;
         }
 
-        /** @param v */
+        /** @param v
+         *            v */
         private void purgeActions(Variable<?> v) {
             Set<OWLAxiomChange> toRemove = new HashSet<OWLAxiomChange>();
             for (OWLAxiomChange action : actions) {
@@ -530,7 +531,8 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
             updatePatternModel();
         }
 
-        /** @param listItem */
+        /** @param listItem
+         *            listItem */
         protected void placeListItem(PatternBuilderVariableListItem listItem) {
             int i = -1;
             if (listItem.getVariable() instanceof GeneratedVariable<?>) {
@@ -554,10 +556,15 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
     /** @author Luigi Iannone */
     public class PatternBuilderVariableListItem extends VariableListItem {
         /** @param variable
+         *            variable
          * @param constraintSystem
+         *            constraintSystem
          * @param owlEditorKit
+         *            owlEditorKit
          * @param isEditable
-         * @param isDeleatable */
+         *            isEditable
+         * @param isDeleatable
+         *            isDeleatable */
         public PatternBuilderVariableListItem(Variable<?> variable,
                 PatternConstraintSystem constraintSystem, OWLEditorKit owlEditorKit,
                 boolean isEditable, boolean isDeleatable) {
@@ -659,6 +666,7 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
     private final JSplitPane patternBodyPanel;
 
     /** @param owlEditorKit
+     *            owlEditorKit
      * @param f
      *            factory */
     public PatternBuilder(OWLEditorKit owlEditorKit, AbstractPatternModelFactory f) {
@@ -855,14 +863,18 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
         notifyListeners(newState);
     }
 
-    /** @param newState */
+    /** @param newState
+     *            newState */
     private void notifyListeners(boolean newState) {
         for (InputVerificationStatusChangedListener listener : listeners) {
             notifyListener(listener, newState);
         }
     }
 
-    /** @param listener */
+    /** @param listener
+     *            listener
+     * @param newState
+     *            newState */
     private void notifyListener(InputVerificationStatusChangedListener listener,
             boolean newState) {
         listener.verifiedStatusChanged(newState);

@@ -14,12 +14,7 @@ public interface ReplacementStrategy<I, O> {
      * relative OPPLScript.
      * 
      * @param template
-     * @param templateString
-     *            The String containing the template. Cannot be
-     *            <code>null</code>.
-     * @param parserCreationStrategy
-     *            The Parser creation strategy to generate an OPPL Parser for
-     *            the resulting script. Cannot be <code>null</code>.
+     *            template
      * @return The OPPLScript resulting from the replacement, or
      *         <code>null</code> if parser errors occurred.
      * @throws NullPointerException

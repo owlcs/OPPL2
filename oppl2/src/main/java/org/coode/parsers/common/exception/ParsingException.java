@@ -7,9 +7,13 @@ public class ParsingException extends RuntimeException {
     private final int line;
 
     /** @param line
+     *            line
      * @param charPositionInLine
+     *            charPositionInLine
      * @param message
-     * @param cause */
+     *            message
+     * @param cause
+     *            cause */
     public ParsingException(int line, int charPositionInLine, String message,
             Throwable cause) {
         super(message, cause);
@@ -18,8 +22,11 @@ public class ParsingException extends RuntimeException {
     }
 
     /** @param message
+     *            message
      * @param line
-     * @param charPositionInLine */
+     *            line
+     * @param charPositionInLine
+     *            charPositionInLine */
     public ParsingException(String message, int line, int charPositionInLine) {
         super(message);
         this.charPositionInLine = charPositionInLine;
@@ -27,8 +34,11 @@ public class ParsingException extends RuntimeException {
     }
 
     /** @param line
+     *            line
      * @param charPositionInLine
-     * @param cause */
+     *            charPositionInLine
+     * @param cause
+     *            cause */
     public ParsingException(int line, int charPositionInLine, Throwable cause) {
         super(cause);
         this.charPositionInLine = charPositionInLine;

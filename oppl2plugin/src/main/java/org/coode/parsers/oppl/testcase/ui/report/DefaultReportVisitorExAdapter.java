@@ -1,8 +1,8 @@
-
 package org.coode.parsers.oppl.testcase.ui.report;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public abstract class DefaultReportVisitorExAdapter<O> implements ReportVisitorEx<O> {
     private final O defaultValue;
 
@@ -11,7 +11,8 @@ public abstract class DefaultReportVisitorExAdapter<O> implements ReportVisitorE
         this(null);
     }
 
-    /** @param defaultValue */
+    /** @param defaultValue
+     *            defaultValue */
     public DefaultReportVisitorExAdapter(O defaultValue) {
         this.defaultValue = defaultValue;
     }
@@ -47,7 +48,9 @@ public abstract class DefaultReportVisitorExAdapter<O> implements ReportVisitorE
         return this.getDefaultValue(unexecutedTestReport);
     }
 
-    /** @return the defaultValue */
+    /** @param report
+     *            report
+     * @return the defaultValue */
     protected O getDefaultValue(@SuppressWarnings("unused") Report report) {
         return this.defaultValue;
     }

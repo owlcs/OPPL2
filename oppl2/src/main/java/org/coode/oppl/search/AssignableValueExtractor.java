@@ -23,7 +23,9 @@ public final class AssignableValueExtractor implements
     private final ValueComputationParameters parameters;
 
     /** @param assignableValuesVisitor
-     * @param parameters */
+     *            assignableValuesVisitor
+     * @param parameters
+     *            parameters */
     public AssignableValueExtractor(
             VariableTypeVisitorEx<Set<? extends OWLObject>> assignableValuesVisitor,
             ValueComputationParameters parameters) {

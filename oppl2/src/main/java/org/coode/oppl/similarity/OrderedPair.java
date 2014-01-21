@@ -5,10 +5,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public class OrderedPair<O> extends Pair<O> {
     /** @param first
-     * @param second */
+     *            first
+     * @param second
+     *            second */
     public OrderedPair(O first, O second) {
         super(first, second);
     }
@@ -48,6 +51,9 @@ public class OrderedPair<O> extends Pair<O> {
     }
 
     /** @param c
+     *            c
+     * @param <T>
+     *            type
      * @return all ordered pairs */
     public static <T> Set<OrderedPair<T>> getAllPossibleOrderedPairs(
             Collection<? extends T> c) {

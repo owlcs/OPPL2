@@ -92,7 +92,9 @@ public class VariableList extends OPPLMList {
     protected ConstraintSystem constraintSystem;
 
     /** @param owlEditorKit
-     * @param constraintSystem */
+     *            owlEditorKit
+     * @param constraintSystem
+     *            constraintSystem */
     public VariableList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
         this.owlEditorKit = owlEditorKit;
         this.constraintSystem = constraintSystem;

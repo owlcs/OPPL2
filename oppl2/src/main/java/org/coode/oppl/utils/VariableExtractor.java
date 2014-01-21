@@ -130,7 +130,9 @@ public class VariableExtractor {
     private final boolean includeGenerated;
 
     /** @param constraintSystem
-     * @param includeGenerated */
+     *            constraintSystem
+     * @param includeGenerated
+     *            includeGenerated */
     public VariableExtractor(ConstraintSystem constraintSystem, boolean includeGenerated) {
         cs = checkNotNull(constraintSystem, "constraintSystem");
         this.includeGenerated = includeGenerated;
@@ -507,8 +509,9 @@ public class VariableExtractor {
             return set;
         }
 
-        /** @param collection
-         * @param variable */
+        /** @param variable
+         *            variable
+         * @return veto variables */
         protected Set<Variable<?>> vetoVariableIntoCollection(Variable<?> variable) {
             if (variable == null) {
                 return set;
@@ -715,12 +718,14 @@ public class VariableExtractor {
     }
 
     /** @param owlObject
+     *            owlObject
      * @return variables in the object */
     public Set<Variable<?>> extractVariables(OWLObject owlObject) {
         return owlObject.accept(new Visitor());
     }
 
     /** @param opplFunction
+     *            opplFunction
      * @return variables in the function */
     public Set<Variable<?>> extractVariables(OPPLFunction<?> opplFunction) {
         return opplFunction.accept(new Visitor().extractor);

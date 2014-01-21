@@ -73,8 +73,11 @@ public class OPPLTestCaseParser {
     };
 
     /** @param factory
+     *            factory
      * @param listener
-     * @param symbolTableFactory */
+     *            listener
+     * @param symbolTableFactory
+     *            symbolTableFactory */
     public OPPLTestCaseParser(AbstractOPPLTestCaseFactory factory,
             ErrorListener listener,
             SymbolTableFactory<OPPLTestCaseSymbolTable> symbolTableFactory) {
@@ -99,7 +102,9 @@ public class OPPLTestCaseParser {
     }
 
     /** @param input
+     *            input
      * @param handler
+     *            handler
      * @return oppl test case */
     public OPPLTestCase parse(String input, RuntimeExceptionHandler handler) {
         OPPLTestCaseSymbolTable symtab = getSymbolTableFactory().createSymbolTable();

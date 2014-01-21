@@ -5,7 +5,8 @@ import org.coode.oppl.Variable;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public class Constant<O> extends AbstractOPPLFunction<O> implements OPPLFunction<O> {
     private final O value;
     private final ValueComputation<O> valueComputation = new ValueComputation<O>() {
@@ -15,7 +16,8 @@ public class Constant<O> extends AbstractOPPLFunction<O> implements OPPLFunction
         }
     };
 
-    /** @param value */
+    /** @param value
+     *            value */
     public Constant(O value) {
         this.value = value;
     }

@@ -20,7 +20,8 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 public final class AssertedModelQuerySolver implements QuerySolver {
     private final OWLOntologyManager ontologyManager;
 
-    /** @param ontologyManager */
+    /** @param ontologyManager
+     *            ontologyManager */
     public AssertedModelQuerySolver(OWLOntologyManager ontologyManager) {
         this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");
     }

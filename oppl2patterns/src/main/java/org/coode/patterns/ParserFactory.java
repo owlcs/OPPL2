@@ -16,7 +16,9 @@ public class ParserFactory implements AbstractParserFactory {
     private final OWLOntologyManager ontologyManager;
 
     /** @param ontology
-     * @param ontologyManager */
+     *            ontology
+     * @param ontologyManager
+     *            ontologyManager */
     public ParserFactory(OWLOntology ontology, OWLOntologyManager ontologyManager) {
         this.ontology = checkNotNull(ontology, "ontology");
         this.ontologyManager = checkNotNull(ontologyManager, "ontologyManager");

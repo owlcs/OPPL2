@@ -9,7 +9,9 @@ import org.semanticweb.owlapi.model.OWLOntology;
 /** @author Luigi Iannone */
 public class OPPLAssertedOWLAxiomSearchTree extends AbstractOPPLAxiomSearchTree {
     /** @param constraintSystem
-     * @param runtimeExceptionHandler */
+     *            constraintSystem
+     * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler */
     public OPPLAssertedOWLAxiomSearchTree(ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {
         super(constraintSystem, runtimeExceptionHandler);

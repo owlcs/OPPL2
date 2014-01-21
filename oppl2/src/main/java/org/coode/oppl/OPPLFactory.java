@@ -55,8 +55,11 @@ public class OPPLFactory implements OPPLAbstractFactory {
             .create("http://www.coode.org/oppl");
 
     /** @param ontologyManager
+     *            ontologyManager
      * @param ontology
-     * @param reasoner */
+     *            ontology
+     * @param reasoner
+     *            reasoner */
     public OPPLFactory(OWLOntologyManager ontologyManager, OWLOntology ontology,
             OWLReasoner reasoner) {
         this.ontologyManager = ontologyManager;

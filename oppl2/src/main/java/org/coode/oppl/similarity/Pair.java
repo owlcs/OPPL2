@@ -8,13 +8,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 /** @author Luigi Iannone
- * @param <O> */
+ * @param <O>
+ *            type */
 public class Pair<O> {
     protected final O o1;
     protected final O o2;
 
     /** @param anOWLObject
-     * @param anotherOWLObject */
+     *            anOWLObject
+     * @param anotherOWLObject
+     *            anotherOWLObject */
     public Pair(O anOWLObject, O anotherOWLObject) {
         this.o1 = checkNotNull(anOWLObject, "anOWLObject");
         this.o2 = checkNotNull(anotherOWLObject, "anotherOWLObject");
@@ -54,6 +57,9 @@ public class Pair<O> {
     }
 
     /** @param c
+     *            c
+     * @param <T>
+     *            type
      * @return all pairs */
     public static <T> Set<Pair<T>> getAllPossiblePairs(Collection<? extends T> c) {
         Set<Pair<T>> toReturn = new HashSet<Pair<T>>();

@@ -63,8 +63,11 @@ public class OPPLAssertedSingleOWLAxiomSearchTree extends
     protected final Set<OWLAnnotationProperty> allAnnotationProperties = new HashSet<OWLAnnotationProperty>();
 
     /** @param targetAxiom
+     *            targetAxiom
      * @param constraintSystem
-     * @param runtimeExceptionHandler */
+     *            constraintSystem
+     * @param runtimeExceptionHandler
+     *            runtimeExceptionHandler */
     public OPPLAssertedSingleOWLAxiomSearchTree(OWLAxiom targetAxiom,
             ConstraintSystem constraintSystem,
             RuntimeExceptionHandler runtimeExceptionHandler) {

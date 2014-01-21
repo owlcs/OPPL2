@@ -8,7 +8,8 @@ import org.coode.parsers.oppl.testcase.OPPLTestCase;
 public abstract class AbstractReport implements Report {
     private final OPPLTestCase opplTestCase;
 
-    /** @param opplTestCase */
+    /** @param opplTestCase
+     *            opplTestCase */
     public AbstractReport(OPPLTestCase opplTestCase) {
         this.opplTestCase = checkNotNull(opplTestCase, "opplTestCase");
     }
