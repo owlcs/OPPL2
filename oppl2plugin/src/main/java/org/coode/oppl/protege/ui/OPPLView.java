@@ -96,7 +96,7 @@ public final class OPPLView extends AbstractOWLViewComponent implements
     private static final String AFFECTED_AXIOMS_TITLE = "Affected axioms";
     private RuntimeExceptionHandler runtimeExceptionHandler;
 
-    private final class InstantiatedAxiomListModel implements ListModel<OWLAxiom> {
+    private final class InstantiatedAxiomListModel implements ListModel {
         private final Set<BindingNode> bindingNodes = new HashSet<BindingNode>();
         private final Set<ListDataListener> listeners = new HashSet<ListDataListener>();
         private final List<OWLAxiom> instantiations = new ArrayList<OWLAxiom>();

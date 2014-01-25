@@ -211,7 +211,7 @@ public class PatternInstantiationEditor extends
 
         VariableValuesMList() {
             variable = null;
-            DefaultListModel<Object> model = new DefaultListModel<Object>();
+            DefaultListModel model = new DefaultListModel();
             super.setModel(model);
             model.addElement(new MListSectionHeader() {
                 @Override
@@ -229,7 +229,7 @@ public class PatternInstantiationEditor extends
 
         public VariableValuesMList(Variable<?> variable) {
             this.variable = variable;
-            DefaultListModel<Object> model = new DefaultListModel<Object>();
+            DefaultListModel model = new DefaultListModel();
             super.setModel(model);
             model.addElement(new MListSectionHeader() {
                 @Override
@@ -385,7 +385,7 @@ public class PatternInstantiationEditor extends
     protected final OWLEditorKit owlEditorKit;
     private JPanel mainPane;
     private final ShowMessageRuntimeExceptionHandler showMessageRuntimeExceptionHandler;
-    private final DefaultComboBoxModel<Object> patternListModel = new DefaultComboBoxModel();
+    private final DefaultComboBoxModel patternListModel = new DefaultComboBoxModel();
     protected JComboBox patternList = new JComboBox(patternListModel);
     protected InstantiatedPatternModel instantiatedPatternModel;
     private final Set<InputVerificationStatusChangedListener> listeners = new HashSet<InputVerificationStatusChangedListener>();
@@ -399,8 +399,8 @@ public class PatternInstantiationEditor extends
     private JScrollPane variablePane;
     private JScrollPane valuePane;
     private final JPanel problemPanel = new JPanel(new BorderLayout());
-    private final DefaultListModel<Object> problemListModel = new DefaultListModel<Object>();
-    private final JList<Object> problemList = new JList<Object>(problemListModel);
+    private final DefaultListModel problemListModel = new DefaultListModel();
+    private final JList problemList = new JList(problemListModel);
     private final AbstractPatternModelFactory factory;
     private final JButton localityCheckResultButton = new JButton();
     private final JButton localityCheckButton = new JButton("Check Locality");
@@ -683,7 +683,7 @@ public class PatternInstantiationEditor extends
     }
 
     protected void refreshInstantiationPanel() {
-        DefaultListModel<Object> model = variableList.getDefaultModel();
+        DefaultListModel model = variableList.getDefaultModel();
         model.clear();
         valueList.getDefaultModel().clear();
         if (instantiatedPatternModel != null) {

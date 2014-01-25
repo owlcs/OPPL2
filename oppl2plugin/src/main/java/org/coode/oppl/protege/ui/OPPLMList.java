@@ -11,8 +11,8 @@ public class OPPLMList extends MList {
 
     /** @return default list model */
     @SuppressWarnings("unchecked")
-    public final DefaultListModel<Object> getDefaultModel() {
-        return (DefaultListModel<Object>) getModel();
+    public final DefaultListModel getDefaultModel() {
+        return (DefaultListModel) getModel();
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -23,7 +23,7 @@ public class OPPLMList extends MList {
 
     /** @param model
      *            model */
-    public void setDefaultModel(DefaultListModel<Object> model) {
+    public void setDefaultModel(DefaultListModel model) {
         setModel(model);
     }
 }

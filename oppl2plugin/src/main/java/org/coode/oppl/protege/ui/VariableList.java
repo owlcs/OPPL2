@@ -48,7 +48,7 @@ public class VariableList extends OPPLMList {
         // private final DefaultListCellRenderer defaultCellRenderer = new
         // DefaultListCellRenderer();
         @Override
-        public Component getListCellRendererComponent(JList<?> list, Object value,
+        public Component getListCellRendererComponent(JList list, Object value,
                 int index, boolean isSelected, boolean cellHasFocus) {
             JLabel label = (JLabel) super.getListCellRendererComponent(list, value,
                     index, isSelected, cellHasFocus);
@@ -98,7 +98,7 @@ public class VariableList extends OPPLMList {
     public VariableList(OWLEditorKit owlEditorKit, ConstraintSystem constraintSystem) {
         this.owlEditorKit = owlEditorKit;
         this.constraintSystem = constraintSystem;
-        setModel(new DefaultListModel<Object>());
+        setModel(new DefaultListModel());
         setCellRenderer(variableListCellRenderer);
     }
 
@@ -116,7 +116,7 @@ public class VariableList extends OPPLMList {
     }
 
     /** @return variable list cell renderer */
-    public ListCellRenderer<Object> getVariableListCellRenderer() {
+    public ListCellRenderer getVariableListCellRenderer() {
         return variableListCellRenderer;
     }
 }

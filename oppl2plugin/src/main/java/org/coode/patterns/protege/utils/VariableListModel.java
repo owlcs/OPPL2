@@ -18,7 +18,7 @@ import org.protege.editor.core.ui.list.MListSectionHeader;
 /** @author Luigi Iannone
  * @param <I>
  *            type */
-public class VariableListModel<I> implements ListModel<Object> {
+public class VariableListModel<I> implements ListModel {
     protected final static class MySectionHeader implements MListSectionHeader {
         final String header;
         boolean add = true;

@@ -46,7 +46,7 @@ public final class AutoCompleter {
     private static final int DEFAULT_MAX_ENTRIES = 100;
     protected final JTextComponent textComponent;
     private final Set<String> wordDelimeters;
-    private final JList<String> popupList;
+    private final JList popupList;
     protected JWindow popupWindow;
     private final AutoCompletionMatcher matcher;
     private static final int POPUP_WIDTH = 350;
@@ -122,7 +122,7 @@ public final class AutoCompleter {
         textComponent = checkNotNull(tc, "tc");
         wordDelimeters = new HashSet<String>(Arrays.asList(" ", "\n", "[", "]", "{", "}",
                 "(", ")", ",", "^"));
-        popupList = new JList<String>();
+        popupList = new JList();
         popupList.setAutoscrolls(true);
         popupList.addMouseListener(mouseListener);
         popupList.setRequestFocusEnabled(false);

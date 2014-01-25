@@ -56,14 +56,14 @@ public class OPPLSelectClauseList extends OPPLMList {
             ConstraintSystem constraintSystem) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         this.constraintSystem = checkNotNull(constraintSystem, "constraintSystem");
-        DefaultListModel<Object> model = clearModel();
+        DefaultListModel model = clearModel();
         setModel(model);
         setCellRenderer(new OPPLSelectListItemCellRederer());
     }
 
     /** @return empty model */
-    private DefaultListModel<Object> clearModel() {
-        DefaultListModel<Object> model = new DefaultListModel<Object>();
+    private DefaultListModel clearModel() {
+        DefaultListModel model = new DefaultListModel();
         model.addElement(new MListSectionHeader() {
             @Override
             public boolean canAdd() {

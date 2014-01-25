@@ -655,13 +655,12 @@ public class PatternBuilder extends AbstractOWLObjectEditor<PatternModel> implem
     protected final JTextField nameEditor = new JTextField();
     private final JTextField rendering = new JTextField();
     protected final JCheckBox allowReturnValueCheckBox;
-    protected final DefaultComboBoxModel<Object> returnValueListModel = new DefaultComboBoxModel<Object>();
-    protected final JComboBox<Object> returnValuesComboBox = new JComboBox<Object>(
-            returnValueListModel);
+    protected final DefaultComboBoxModel returnValueListModel = new DefaultComboBoxModel();
+    protected final JComboBox returnValuesComboBox = new JComboBox(returnValueListModel);
     protected final PatternBuilderModel patternBuilderModel;
     private final JPanel errorPanel = new JPanel(new BorderLayout());
-    protected final DefaultListModel<Object> errorListModel = new DefaultListModel<Object>();
-    private final JList<Object> errorList = new JList<Object>(errorListModel);
+    protected final DefaultListModel errorListModel = new DefaultListModel();
+    private final JList errorList = new JList(errorListModel);
     private final AbstractPatternModelFactory factory;
     private final JSplitPane patternBodyPanel;
 

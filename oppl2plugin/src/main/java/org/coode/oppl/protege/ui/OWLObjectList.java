@@ -243,13 +243,13 @@ public class OWLObjectList extends OPPLMList implements ActionListener,
     public void contentsChanged(ListDataEvent e) {
         Object source = e.getSource();
         if (source instanceof DefaultListModel) {
-            updateVariables((DefaultListModel<Object>) source);
+            updateVariables((DefaultListModel) source);
         }
     }
 
     /** @param model
      *            model */
-    private void updateVariables(DefaultListModel<Object> model) {
+    private void updateVariables(DefaultListModel model) {
         variables.clear();
         for (int i = 0; i < model.getSize(); i++) {
             VariableListItem item = (VariableListItem) model.getElementAt(i);
@@ -261,7 +261,7 @@ public class OWLObjectList extends OPPLMList implements ActionListener,
     public void intervalAdded(ListDataEvent e) {
         Object source = e.getSource();
         if (source instanceof DefaultListModel) {
-            updateVariables((DefaultListModel<Object>) source);
+            updateVariables((DefaultListModel) source);
         }
     }
 
@@ -269,7 +269,7 @@ public class OWLObjectList extends OPPLMList implements ActionListener,
     public void intervalRemoved(ListDataEvent e) {
         Object source = e.getSource();
         if (source instanceof DefaultListModel) {
-            updateVariables((DefaultListModel<Object>) source);
+            updateVariables((DefaultListModel) source);
         }
     }
 

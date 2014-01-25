@@ -190,7 +190,7 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
         }
 
         public void clear() {
-            setModel(new DefaultListModel<Object>());
+            setModel(new DefaultListModel());
             getDefaultModel().clear();
             getDefaultModel().addElement(HEADER);
         }
@@ -1012,8 +1012,8 @@ public class OPPLBuilder extends JSplitPane implements VerifiedInputEditor,
     private final ActionList actionList;
     private OPPLScript opplScript;
     private final OPPLScriptValidator validator;
-    private final DefaultListModel<Object> errorListModel = new DefaultListModel<Object>();
-    private final JList<Object> errorList = new JList<Object>(errorListModel);
+    private final DefaultListModel errorListModel = new DefaultListModel();
+    private final JList errorList = new JList(errorListModel);
     private final JPanel errorPanel = new JPanel(new BorderLayout());
     private final OPPLBuilderModel opplBuilderModel;
 

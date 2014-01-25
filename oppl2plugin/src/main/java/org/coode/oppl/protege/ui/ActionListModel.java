@@ -31,7 +31,7 @@ import javax.swing.DefaultListModel;
 import org.semanticweb.owlapi.model.OWLAxiomChange;
 
 /** @author Luigi Iannone */
-public class ActionListModel extends DefaultListModel<Object> {
+public class ActionListModel extends DefaultListModel {
     /** @param canAdd
      *            canAdd */
     public ActionListModel(boolean canAdd) {
