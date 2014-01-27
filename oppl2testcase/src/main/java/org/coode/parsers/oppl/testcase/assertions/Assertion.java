@@ -22,11 +22,11 @@ public interface Assertion {
      * 
      * @param bindings
      *            The bindings against which this Assertion will be checked.
-     *            Cannot be <code>null</code>.
+     *            Cannot be {@code null}.
      * @param constraintSystem
-     *            . Cannot be <code>null</code>.
-     * @return <code>true</code> if this Assertion holds.
+     *            . Cannot be {@code null}.
+     * @return {@code true} if this Assertion holds.
      * @throws NullPointerException
-     *             if either input is <code>null</code>. */
+     *             if either input is {@code null}. */
     boolean holds(Set<? extends BindingNode> bindings, ConstraintSystem constraintSystem);
 }

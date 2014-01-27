@@ -93,7 +93,7 @@ public class ReportingTestRunner {
      * 
      * @return A Map.
      * @throws NullPointerException
-     *             when the input is <code>null</code>. */
+     *             when the input is {@code null}. */
     public Map<OPPLTestCase, List<Report>> run() {
         Map<OPPLTestCase, List<Report>> toReturn = new HashMap<OPPLTestCase, List<Report>>();
         OPPLTestCaseRunner testCaseRunner = new OPPLTestCaseRunner(opplTestCase, toReturn);

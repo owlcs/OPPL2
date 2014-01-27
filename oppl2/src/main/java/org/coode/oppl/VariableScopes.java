@@ -51,7 +51,7 @@ public class VariableScopes {
 
         /** Parser the input String and returns the corresponding Direction. If
          * the input does not correspond to any possible Direction instance,
-         * then <code>null</code> is returned. The method is case insensitive.
+         * then {@code null} is returned. The method is case insensitive.
          * 
          * @param direction
          *            direction

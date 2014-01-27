@@ -38,8 +38,8 @@ import org.semanticweb.owlapi.model.OWLAxiomChange;
 /** @author Luigi Iannone Jun 16, 2008 */
 public interface AbstractPatternModelFactory {
     /** Creates a PatternModel using the input (name, variables, actions, return
-     * value, rendering, and constraint system) returnClause can be
-     * <code>null</code> variables and actions must be non empty Lists
+     * value, rendering, and constraint system) returnClause can be {@code null}
+     * variables and actions must be non empty Lists
      * 
      * @param name
      *            name

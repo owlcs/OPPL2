@@ -15,9 +15,9 @@ public interface ReplacementStrategy<I, O> {
      * 
      * @param template
      *            template
-     * @return The OPPLScript resulting from the replacement, or
-     *         <code>null</code> if parser errors occurred.
+     * @return The OPPLScript resulting from the replacement, or {@code null} if
+     *         parser errors occurred.
      * @throws NullPointerException
-     *             if either input is <code>null</code>. */
+     *             if either input is {@code null}. */
     O replace(I template);
 }

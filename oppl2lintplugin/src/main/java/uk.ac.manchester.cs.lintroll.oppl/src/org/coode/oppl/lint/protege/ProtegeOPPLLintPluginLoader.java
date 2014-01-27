@@ -29,10 +29,10 @@ public final class ProtegeOPPLLintPluginLoader extends
 
 	/**
 	 * This method needs to be overridden to create an instance of the desired
-	 * plugin, based on the plugin <code>Extension</code>
+	 * plugin, based on the plugin {@code Extension}
 	 * 
 	 * @param extension
-	 *            The <code>Extension</code> that describes the Java Plugin
+	 *            The {@code Extension} that describes the Java Plugin
 	 *            Framework extension.
 	 * @return A plugin object (typically some sort of wrapper around the
 	 *         extension)
@@ -44,20 +44,20 @@ public final class ProtegeOPPLLintPluginLoader extends
 
 	/**
 	 * This method needs to be overriden to provide a
-	 * <code>PluginExtensionMatcher</code>, which is used to filter the plugin
+	 * {@code PluginExtensionMatcher}, which is used to filter the plugin
 	 * extensions to a desired subset.
 	 */
 	@Override
 	protected PluginExtensionMatcher getExtensionMatcher() {
 		return new PluginExtensionMatcher() {
 			/**
-			 * Determines whether the specified <code>Extension</code>
+			 * Determines whether the specified {@code Extension}
 			 * constitutes a "match" or not.
 			 * 
 			 * @param extension
-			 *            The <code>Extension</code> to test.
-			 * @return <code>true</code> if the <code>Extension</code> matches
-			 *         or <code>false</code> if the <code>Extension</code> 
+			 *            The {@code Extension} to test.
+			 * @return {@code true} if the {@code Extension} matches
+			 *         or {@code false} if the {@code Extension} 
 			 *         doesn't match.
 			 */
 			public boolean matches(IExtension extension) {

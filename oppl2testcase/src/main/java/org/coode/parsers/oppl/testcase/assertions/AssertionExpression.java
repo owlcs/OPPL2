@@ -26,11 +26,11 @@ public interface AssertionExpression<T> {
      * 
      * @param bindings
      *            The Set of bindings providing value for the variables. Cannot
-     *            be <code>null</code>.
+     *            be {@code null}.
      * @param constraintSystem
-     *            Cannot be <code>null</code>.
-     * @return an object of class <code>T</code>.
+     *            Cannot be {@code null}.
+     * @return an object of class {@code T}.
      * @throws NullPointerException
-     *             if either input is <code>null</code>. */
+     *             if either input is {@code null}. */
     T resolve(Set<? extends BindingNode> bindings, ConstraintSystem constraintSystem);
 }

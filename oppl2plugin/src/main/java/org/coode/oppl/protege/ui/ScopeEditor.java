@@ -361,8 +361,7 @@ public abstract class ScopeEditor extends JPanel implements VerifiedInputEditor 
         this.checker = checker;
     }
 
-    /** @return the VariableScope set by this ScopeEditor. It can be
-     *         <code>null</code> */
+    /** @return the VariableScope set by this ScopeEditor. It can be {@code null} */
     public VariableScope<?> getVariableScope() {
         return variableScope;
     }

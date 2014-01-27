@@ -323,10 +323,10 @@ public class BindingNode implements Renderable {
      * binding node
      * 
      * @param bindingNode
-     *            The input BindingNode. Cannot be <code>null</code>.
-     * @return <code>true</code> if this BindingNode agrees with the input one.
+     *            The input BindingNode. Cannot be {@code null}.
+     * @return {@code true} if this BindingNode agrees with the input one.
      * @throws NullPointerException
-     *             if the input binding node is <code>null</code>. */
+     *             if the input binding node is {@code null}. */
     public boolean agreesWith(BindingNode bindingNode) {
         checkNotNull(bindingNode, "bindingNode");
         return bindingNode.assignments.containsAll(assignments);

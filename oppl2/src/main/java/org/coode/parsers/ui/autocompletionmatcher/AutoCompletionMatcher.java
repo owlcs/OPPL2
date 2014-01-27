@@ -9,9 +9,9 @@ public interface AutoCompletionMatcher {
     /** Gets all the matches for the input String.
      * 
      * @param string2Complete
-     *            . Cannot be <code>null</code>.
+     *            . Cannot be {@code null}.
      * @return a List of matching String elements.
      * @throws NullPointerException
-     *             if the input string is <code>null</code>. */
+     *             if the input string is {@code null}. */
     List<String> getMatches(String string2Complete);
 }

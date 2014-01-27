@@ -34,8 +34,8 @@ public interface QuerySolver {
      * 
      * @param superClass
      *            superClass
-     * @return <code>true</code> is the input superClass does not have any
-     *         sub-class except for owl:Nothing. */
+     * @return {@code true} is the input superClass does not have any sub-class
+     *         except for owl:Nothing. */
     boolean hasNoSubClass(OWLClassExpression superClass);
 
     /** Determines whether the input OWLClassExpression has no super-class. The
@@ -45,8 +45,8 @@ public interface QuerySolver {
      * 
      * @param subClass
      *            subClass
-     * @return <code>true</code> is the input subClass does not have any
-     *         super-class except for owl:Thing. */
+     * @return {@code true} is the input subClass does not have any super-class
+     *         except for owl:Thing. */
     boolean hasNoSuperClass(OWLClassExpression subClass);
 
     /** Retrieves all the named individuals that can be inferred to be fillers

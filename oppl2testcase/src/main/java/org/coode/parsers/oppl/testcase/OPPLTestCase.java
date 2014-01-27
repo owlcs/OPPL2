@@ -17,8 +17,8 @@ public interface OPPLTestCase {
     /** Determines whether this OPPLTestCase should be run in presence of a
      * reasoner.
      * 
-     * @return <code>true</code> if this OPPLTestCase needs a reasoner,
-     *         <code>false</code> otherwise. */
+     * @return {@code true} if this OPPLTestCase needs a reasoner, {@code false}
+     *         otherwise. */
     boolean requiresInference();
 
     /** Retrieves the OPPLScript contained by this OPPLTestCase.

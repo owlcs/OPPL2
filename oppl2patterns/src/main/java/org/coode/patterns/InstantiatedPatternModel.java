@@ -329,7 +329,7 @@ public class InstantiatedPatternModel implements InstantiatedOPPLScript,
     }
 
     /** Adds the input Variable to this InstantiatedPatternModel. The
-     * instantiations after the addition will be <code>null</code>
+     * instantiations after the addition will be {@code null}
      * 
      * @param v
      *            v */

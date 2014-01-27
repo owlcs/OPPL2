@@ -15,6 +15,6 @@ public interface OPPLTemplate<O> {
     /** Performs the replacement.
      * 
      * @return an instance of O if the replacement did not incur in parsing
-     *         errors. <code>null</code> otherwise. */
+     *         errors. {@code null} otherwise. */
     O replace();
 }

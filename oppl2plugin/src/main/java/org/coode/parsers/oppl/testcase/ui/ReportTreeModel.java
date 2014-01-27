@@ -146,7 +146,7 @@ public final class ReportTreeModel implements TreeModel {
      * successfully. Please notice that an empty OPPLTestCase set is also
      * considered a successful one.
      * 
-     * @return <code>true</code> if all the OPPLTestCase instances in this have
+     * @return {@code true} if all the OPPLTestCase instances in this have
      *         successful reports or there's not OPPLTestCase reports in this. */
     public boolean isSuccessful() {
         boolean toReturn = reportMap.isEmpty();
@@ -170,12 +170,12 @@ public final class ReportTreeModel implements TreeModel {
      * successfully.
      * 
      * @param opplTestCase
-     *            The input OPPLTestCase. Cannot be <code>null</code> and must
-     *            be in those contained into this model.
-     * @return <code>true</code> if all the reports related to the input
-     *         OPPLTestCase are successful.
+     *            The input OPPLTestCase. Cannot be {@code null} and must be in
+     *            those contained into this model.
+     * @return {@code true} if all the reports related to the input OPPLTestCase
+     *         are successful.
      * @throws NullPointerException
-     *             if the input OPPLTestCase is <code>null</code>.
+     *             if the input OPPLTestCase is {@code null}.
      * @throws IllegalArgumentException
      *             if the input OPPLTestCase is not contained into the reports
      *             in this model. */

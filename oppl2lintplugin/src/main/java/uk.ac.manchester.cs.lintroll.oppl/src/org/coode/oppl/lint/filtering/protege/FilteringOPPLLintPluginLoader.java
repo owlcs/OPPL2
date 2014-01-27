@@ -26,13 +26,13 @@ public class FilteringOPPLLintPluginLoader
 	protected PluginExtensionMatcher getExtensionMatcher() {
 		return new PluginExtensionMatcher() {
 			/**
-			 * Determines whether the specified <code>Extension</code>
+			 * Determines whether the specified {@code Extension}
 			 * constitutes a "match" or not.
 			 * 
 			 * @param extension
-			 *            The <code>Extension</code> to test.
-			 * @return <code>true</code> if the <code>Extension</code> matches
-			 *         or <code>false</code> if the <code>Extension</code> 
+			 *            The {@code Extension} to test.
+			 * @return {@code true} if the {@code Extension} matches
+			 *         or {@code false} if the {@code Extension} 
 			 *         doesn't match.
 			 */
 			public boolean matches(IExtension extension) {
