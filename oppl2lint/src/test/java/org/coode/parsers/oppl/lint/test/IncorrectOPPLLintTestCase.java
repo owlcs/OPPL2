@@ -2,7 +2,6 @@ package org.coode.parsers.oppl.lint.test;
 
 import java.util.regex.PatternSyntaxException;
 
-import junit.framework.TestCase;
 
 import org.coode.oppl.exceptions.RuntimeExceptionHandler;
 import org.coode.oppl.lint.OPPLLintParser;
@@ -16,7 +15,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 /** @author Luigi Iannone */
-public class IncorrectOPPLLintTestCase extends TestCase {
+public class IncorrectOPPLLintTestCase  {
 	private static final ErrorListener ERROR_LISTENER = new SystemErrorEcho();
 	private static final RuntimeExceptionHandler HANDLER = new RuntimeExceptionHandler() {
 		public void handlePatternSyntaxExcpetion(PatternSyntaxException e) {

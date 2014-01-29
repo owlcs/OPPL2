@@ -4,8 +4,6 @@ import static org.coode.oppl.testcaseontologies.TestCaseTestOntologies.pizza;
 
 import java.util.regex.PatternSyntaxException;
 
-import junit.framework.TestCase;
-
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
@@ -18,6 +16,7 @@ import org.coode.parsers.oppl.testcase.OPPLTestCase;
 import org.coode.parsers.oppl.testcase.OPPLTestCaseParser;
 import org.coode.parsers.oppl.testcase.ParserFactory;
 import org.coode.parsers.oppl.testcase.TestCaseRunner;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -36,7 +35,7 @@ public class OPPLTestCaseRunnerTest {
 
         @Override
         protected void fail(OPPLTest test) {
-            TestCase.fail("The configuration should fail and the tests should not be carried out, but they have been instead ");
+            Assert.fail("The configuration should fail and the tests should not be carried out, but they have been instead ");
         }
 
         @Override
@@ -44,13 +43,13 @@ public class OPPLTestCaseRunnerTest {
 
         @Override
         protected void fail(Throwable e) {
-            TestCase.fail("The configuration should fail and the query  should not be carried out, but it has and an exception was raised in the process "
+            Assert.fail("The configuration should fail and the query  should not be carried out, but it has and an exception was raised in the process "
                     + e.getMessage());
         }
 
         @Override
         protected void success(OPPLTest test) {
-            TestCase.fail("The configuration should fail and the tests should not be carried out, but they have been instead ");
+            Assert.fail("The configuration should fail and the tests should not be carried out, but they have been instead ");
         }
     }
 
@@ -65,7 +64,7 @@ public class OPPLTestCaseRunnerTest {
 
         @Override
         protected void configurationFailed(String message) {
-            TestCase.fail("The configuration should be fine, it fails instead with the following message: "
+            Assert.fail("The configuration should be fine, it fails instead with the following message: "
                     + message);
         }
 
@@ -74,7 +73,7 @@ public class OPPLTestCaseRunnerTest {
 
         @Override
         protected void success(OPPLTest test) {
-            TestCase.fail("Test " + test + " sould fail; it succeded instead");
+            Assert.fail("Test " + test + " sould fail; it succeded instead");
         }
     }
 
