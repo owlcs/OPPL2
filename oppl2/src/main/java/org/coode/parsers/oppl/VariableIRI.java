@@ -7,34 +7,27 @@ import java.util.Set;
 import org.coode.oppl.Variable;
 import org.coode.oppl.function.AttributeName;
 import org.coode.oppl.function.IRIVariableAttribute;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotationSubjectVisitor;
-import org.semanticweb.owlapi.model.OWLAnnotationSubjectVisitorEx;
-import org.semanticweb.owlapi.model.OWLAnnotationValueVisitor;
-import org.semanticweb.owlapi.model.OWLAnnotationValueVisitorEx;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLObjectVisitor;
-import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.model.*;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class VariableIRI extends IRI {
+
     private static final long serialVersionUID = 20100L;
     private final IRIVariableAttribute attribute;
 
-    /** @return the attribute */
+    /**
+     * @return the attribute
+     */
     public IRIVariableAttribute getAttribute() {
         return attribute;
     }
 
-    /** @param variable
-     *            variable */
+    /**
+     * @param variable
+     *        variable
+     */
     public VariableIRI(Variable<?> variable) {
         super(String.format("%s.%s", variable.getName(), AttributeName.IRI));
         attribute = new IRIVariableAttribute(variable);
@@ -94,8 +87,10 @@ public class VariableIRI extends IRI {
         }
     }
 
-    /** @param visitor
-     *            visitor */
+    /**
+     * @param visitor
+     *        visitor
+     */
     public void accept(IRIVisitor visitor) {
         visitor.visitVariableIRI(this);
     }
@@ -103,14 +98,16 @@ public class VariableIRI extends IRI {
     @Override
     public <O> O accept(OWLObjectVisitorEx<O> visitor) {
         return visitor instanceof IRIVisitorEx<?> ? ((IRIVisitorEx<O>) visitor)
-                .visitVariableIRI(this) : visitor.visit(this);
+            .visitVariableIRI(this) : visitor.visit(this);
     }
 
-    /** @param visitor
-     *            visitor
+    /**
+     * @param visitor
+     *        visitor
      * @param <O>
-     *            visitor return type
-     * @return visitor value */
+     *        visitor return type
+     * @return visitor value
+     */
     public <O> O accept(IRIVisitorEx<O> visitor) {
         return visitor.visitVariableIRI(this);
     }
@@ -162,11 +159,6 @@ public class VariableIRI extends IRI {
     }
 
     @Override
-    public String getStart() {
-        return getScheme();
-    }
-
-    @Override
     public IRI resolve(String s) {
         return this;
     }
@@ -205,7 +197,7 @@ public class VariableIRI extends IRI {
     @Override
     public String toString() {
         return String.format("%s.%s", getAttribute().getVariable().getName(),
-                getAttribute().getAttribute());
+            getAttribute().getAttribute());
     }
 
     @Override

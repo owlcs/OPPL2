@@ -193,6 +193,11 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
     }
 
     @Override
+    public Set<OWLAnnotationProperty> getAnnotationPropertiesInSignature() {
+        return Collections.emptySet();
+    }
+
+    @Override
     public Set<OWLNamedIndividual> getIndividualsInSignature() {
         return Collections.emptySet();
     }

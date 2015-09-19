@@ -52,7 +52,7 @@
 		<dependency>
 			<groupId>edu.stanford.protege</groupId>
 			<artifactId>org.protege.editor.owl</artifactId>
-			<version>4.3.0</version>
+			<version>[4.3.0, 5.1)</version>
 		</dependency>
 	</dependencies>
 </project>

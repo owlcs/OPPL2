@@ -10,15 +10,20 @@ import java.util.Set;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
-/** Applies a set of solvability strategies, until either a node is solved or the
+/**
+ * Applies a set of solvability strategies, until either a node is solved or the
  * strategies are exhausted.
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class MultipleAxiomSolvability implements AxiomSolvability {
+
     private final Set<AxiomSolvability> delegates = new HashSet<AxiomSolvability>();
 
-    /** @param delegates
-     *            delegates */
+    /**
+     * @param delegates
+     *        delegates
+     */
     public MultipleAxiomSolvability(Collection<? extends AxiomSolvability> delegates) {
         this.delegates.addAll(checkNotNull(delegates, "delegates"));
         if (delegates.isEmpty()) {
@@ -28,17 +33,21 @@ public class MultipleAxiomSolvability implements AxiomSolvability {
 
     @Override
     public SolvabilitySearchNode getSolvabilitySearchNode(OWLAxiom owlAxiom,
-            BindingNode bindingNode) {
+        BindingNode bindingNode) {
         boolean solved = false;
         Iterator<AxiomSolvability> iterator = delegates.iterator();
         SolvabilitySearchNode toReturn = null;
         while (!solved && iterator.hasNext()) {
             AxiomSolvability axiomSolvability = iterator.next();
             toReturn = axiomSolvability.getSolvabilitySearchNode(owlAxiom, bindingNode);
+            if (toReturn == null) {
+                System.out.println("MultipleAxiomSolvability.getSolvabilitySearchNode() ");
+            }
             solved = toReturn.accept(new SolvabilitySearchNodeVisitorEx<Boolean>() {
+
                 @Override
                 public Boolean visitSolvableSearchNode(
-                        SolvableSearchNode solvableSearchNode) {
+                    SolvableSearchNode solvableSearchNode) {
                     return true;
                 }
 
@@ -49,13 +58,13 @@ public class MultipleAxiomSolvability implements AxiomSolvability {
 
                 @Override
                 public Boolean visitNoSolutionSolvableSearchNode(
-                        NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
+                    NoSolutionSolvableSearchNode noSolutionSolvableSearchNode) {
                     return true;
                 }
 
                 @Override
                 public Boolean visitUnsolvableSearchNode(
-                        UnsolvableSearchNode unsolvableSearchNode) {
+                    UnsolvableSearchNode unsolvableSearchNode) {
                     return false;
                 }
             });
@@ -63,7 +72,9 @@ public class MultipleAxiomSolvability implements AxiomSolvability {
         return toReturn;
     }
 
-    /** @return the delegates */
+    /**
+     * @return the delegates
+     */
     public Set<AxiomSolvability> getDelegates() {
         return new HashSet<AxiomSolvability>(delegates);
     }

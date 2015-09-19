@@ -2,6 +2,7 @@ package org.coode.oppl.datafactory;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -226,5 +227,20 @@ public class OPPLOWLDifferentIndividualsAxiom extends
     @Override
     public String toString() {
         return delegate.toString();
+    }
+
+    @Override
+    public Set<OWLAnnotationProperty> getAnnotationPropertiesInSignature() {
+        return delegate.getAnnotationPropertiesInSignature();
+    }
+
+    @Override
+    public Set<OWLDifferentIndividualsAxiom> splitToAnnotatedPairs() {
+        return delegate.splitToAnnotatedPairs();
+    }
+
+    @Override
+    public <T> Collection<T> walkPairwise(OWLPairwiseVisitor<T, OWLIndividual> visitor) {
+        return delegate.walkPairwise(visitor);
     }
 }

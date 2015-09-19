@@ -113,7 +113,7 @@ public class VariableScopes {
      *            property type
      * @return a VariableScope instance restricting values to be sub-properties
      *         of the input OWLProperty */
-    public static <P extends OWLPropertyExpression<?, ?>> SubPropertyVariableScope<P>
+    public static <P extends OWLPropertyExpression> SubPropertyVariableScope<P>
             buildSubPropertyVariableScope(P property, VariableScopeChecker checker) {
         return PropertyVariableScope.buildSubPropertyVariableScope(property, checker);
     }
@@ -126,7 +126,7 @@ public class VariableScopes {
      *            property type
      * @return a VariableScope instance restricting values to be
      *         super-properties of the input OWLProperty */
-    public static <P extends OWLPropertyExpression<?, ?>> SuperPropertyVariableScope<P>
+    public static <P extends OWLPropertyExpression> SuperPropertyVariableScope<P>
             buildSuperPropertyVariableScope(P property, VariableScopeChecker checker) {
         return PropertyVariableScope.buildSuperPropertyVariableScope(property, checker);
     }

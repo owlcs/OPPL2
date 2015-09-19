@@ -27,38 +27,46 @@ import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
 import org.coode.oppl.variabletypes.VariableType;
 import org.semanticweb.owlapi.model.OWLPropertyExpression;
 
-/** Represents a range limitations that could be added to a
+/**
+ * Represents a range limitations that could be added to a
  * {@link GeneratedVariable} instance with OBJECTPROpERTY or DATAPROPERTY
  * {@link VariableType}
  * 
  * @author Luigi Iannone
- * @param <P>
- *            type */
-public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?>>
-        extends AbstractVariableScope<P> implements VariableScope<P> {
+ * @param
+ *        <P>
+ *        type
+ */
+public abstract class PropertyVariableScope<P extends OWLPropertyExpression>
+    extends AbstractVariableScope<P>implements VariableScope<P> {
+
     private final P property;
 
-    /** @param property
-     *            property
+    /**
+     * @param property
+     *        property
      * @param checker
-     *            checker */
+     *        checker
+     */
     PropertyVariableScope(P property, VariableScopeChecker checker) {
         super(checker);
         this.property = property;
     }
 
-    /** @return the property */
+    /**
+     * @return the property
+     */
     public P getProperty() {
         return this.property;
     }
 
-    static <O extends OWLPropertyExpression<?, ?>> SubPropertyVariableScope<O>
-            buildSubPropertyVariableScope(O property, VariableScopeChecker checker) {
+    static <O extends OWLPropertyExpression> SubPropertyVariableScope<O> buildSubPropertyVariableScope(O property,
+        VariableScopeChecker checker) {
         return new SubPropertyVariableScope<O>(property, checker);
     }
 
-    static <O extends OWLPropertyExpression<?, ?>> SuperPropertyVariableScope<O>
-            buildSuperPropertyVariableScope(O property, VariableScopeChecker checker) {
+    static <O extends OWLPropertyExpression> SuperPropertyVariableScope<O> buildSuperPropertyVariableScope(O property,
+        VariableScopeChecker checker) {
         return new SuperPropertyVariableScope<O>(property, checker);
     }
 
@@ -70,7 +78,7 @@ public abstract class PropertyVariableScope<P extends OWLPropertyExpression<?, ?
     @Override
     public String render(ConstraintSystem constraintSystem) {
         ManchesterSyntaxRenderer renderer = constraintSystem.getOPPLFactory()
-                .getManchesterSyntaxRenderer(constraintSystem);
+            .getManchesterSyntaxRenderer(constraintSystem);
         this.getScopingObject().accept(renderer);
         return String.format("[%s %s]", getDirection(), renderer);
     }

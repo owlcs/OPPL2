@@ -1207,7 +1207,7 @@ public class SymbolTable {
      * @return symbol replaced owl object */
     public OWLObject getExactCardinalityRestriction(CommonTree expression, int i,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
-        OWLCardinalityRestriction<?, ?, ?> toReturn = null;
+        OWLCardinalityRestriction<?> toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
                 || !propertyExpression.getEvalType().accept(pDetector)) {
@@ -1256,7 +1256,7 @@ public class SymbolTable {
      * @return symbol replaced owl object */
     public OWLObject getMaxCardinalityRestriction(CommonTree expression, int cardinality,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
-        OWLCardinalityRestriction<?, ?, ?> toReturn = null;
+        OWLCardinalityRestriction<?> toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
                 || !propertyExpression.getEvalType().accept(pDetector)) {
@@ -1305,7 +1305,7 @@ public class SymbolTable {
      * @return symbol replaced owl object */
     public OWLObject getMinCardinalityRestriction(CommonTree expression, int cardinality,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
-        OWLCardinalityRestriction<?, ?, ?> toReturn = null;
+        OWLCardinalityRestriction<?> toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
                 || !propertyExpression.getEvalType().accept(pDetector)) {
@@ -1352,7 +1352,7 @@ public class SymbolTable {
      * @return symbol replaced owl object */
     public OWLObject getAllValueRestriction(CommonTree expression,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
-        OWLQuantifiedRestriction<?, ?, ?> toReturn = null;
+        OWLQuantifiedRestriction<?> toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
                 || !propertyExpression.getEvalType().accept(pDetector)) {
@@ -1398,7 +1398,7 @@ public class SymbolTable {
      * @return symbol replaced owl object */
     public OWLObject getSomeValueRestriction(CommonTree expression,
             ManchesterOWLSyntaxTree propertyExpression, ManchesterOWLSyntaxTree filler) {
-        OWLQuantifiedRestriction<?, ?, ?> toReturn = null;
+        OWLQuantifiedRestriction<?> toReturn = null;
         boolean rightKinds = true;
         if (propertyExpression.getEvalType() == null
                 || !propertyExpression.getEvalType().accept(pDetector)) {
@@ -2590,14 +2590,14 @@ public class SymbolTable {
             ce = (OWLClassExpression) node.getOWLObject();
             boolean allFine = true;
             Iterator<ManchesterOWLSyntaxTree> iterator = propertyExpressions.iterator();
-            Set<OWLPropertyExpression<?, ?>> pes = new HashSet<OWLPropertyExpression<?, ?>>();
+            Set<OWLPropertyExpression> pes = new HashSet<OWLPropertyExpression>();
             while (allFine && iterator.hasNext()) {
                 ManchesterOWLSyntaxTree propertyNode = iterator.next();
                 allFine = propertyNode.getEvalType() != null
                         && propertyNode.getEvalType().accept(pDetector)
                         && propertyNode.getOWLObject() != null;
                 if (allFine) {
-                    pes.add((OWLPropertyExpression<?, ?>) propertyNode.getOWLObject());
+                    pes.add((OWLPropertyExpression) propertyNode.getOWLObject());
                 }
             }
             if (allFine) {
@@ -2704,7 +2704,7 @@ public class SymbolTable {
             reportIllegalToken(object, "Invalid object");
         } else {
             OWLAnnotation annotation = object.getOWLObject().accept(
-                    new OWLObjectVisitorExAdapter<OWLAnnotation>() {
+                    new OWLObjectVisitorExAdapter<OWLAnnotation>(null) {
                         @Override
                         public OWLAnnotation visit(IRI i) {
                             return df.getOWLAnnotation(
@@ -2719,6 +2719,9 @@ public class SymbolTable {
                                             .getOWLObject(), literal);
                         }
                     });
+            if(annotation==null) {
+                System.out.println("SymbolTable.getAnnotationAssertion() ");
+            }
             toReturn = df.getOWLAnnotationAssertionAxiom(subjectIRI, annotation);
         }
         return toReturn;

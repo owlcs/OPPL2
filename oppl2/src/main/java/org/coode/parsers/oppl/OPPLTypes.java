@@ -8,87 +8,57 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.antlr.runtime.BaseRecognizer;
-import org.antlr.runtime.BitSet;
-import org.antlr.runtime.DFA;
-import org.antlr.runtime.EarlyExitException;
-import org.antlr.runtime.IntStream;
-import org.antlr.runtime.MismatchedSetException;
-import org.antlr.runtime.MismatchedTokenException;
-import org.antlr.runtime.NoViableAltException;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RecognizerSharedState;
-import org.antlr.runtime.Token;
+import org.antlr.runtime.*;
 import org.antlr.runtime.tree.RewriteEmptyStreamException;
 import org.antlr.runtime.tree.TreeFilter;
 import org.antlr.runtime.tree.TreeNodeStream;
 import org.antlr.runtime.tree.TreeRuleReturnScope;
-import org.coode.oppl.AbstractConstraint;
-import org.coode.oppl.ConstraintSystem;
-import org.coode.oppl.NAFConstraint;
-import org.coode.oppl.OPPLAbstractFactory;
-import org.coode.oppl.OPPLQuery;
-import org.coode.oppl.RegExpConstraint;
-import org.coode.oppl.Variable;
-import org.coode.oppl.VariableScope;
-import org.coode.oppl.VariableScopeChecker;
-import org.coode.oppl.VariableScopes;
+import org.coode.oppl.*;
 import org.coode.oppl.exceptions.OPPLException;
-import org.coode.oppl.function.Adapter;
-import org.coode.oppl.function.Aggregandum;
-import org.coode.oppl.function.Aggregation;
-import org.coode.oppl.function.Constant;
-import org.coode.oppl.function.OPPLFunction;
-import org.coode.oppl.function.ToLowerCaseStringManipulationOPPLFunction;
-import org.coode.oppl.function.ToUpperCaseStringManipulationOPPLFunction;
+import org.coode.oppl.function.*;
 import org.coode.oppl.generated.GeneratedVariable;
 import org.coode.oppl.generated.RegexpGeneratedVariable;
 import org.coode.oppl.variabletypes.VariableTypeFactory;
 import org.coode.parsers.ErrorListener;
 import org.coode.parsers.Symbol;
 import org.coode.parsers.Type;
-import org.semanticweb.owlapi.model.AddAxiom;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLAxiomChange;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLPropertyExpression;
-import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.model.*;
 
 @SuppressWarnings({ "javadoc", "incomplete-switch" })
 public class OPPLTypes extends TreeFilter {
+
     public static final String[] tokenNames = new String[] { "<invalid>", "<EOR>",
-            "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
-            "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR",
-            "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE",
-            "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS",
-            "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE",
-            "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE",
-            "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES",
-            "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE",
-            "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM",
-            "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM",
-            "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION",
-            "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION",
-            "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION",
-            "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION",
-            "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION",
-            "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED",
-            "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION",
-            "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET",
-            "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF",
-            "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE",
-            "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION",
-            "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION",
-            "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS",
-            "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER",
-            "OPPL_STATEMENT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION",
-            "IRI_ATTRIBUTE_NAME", "AT", "SET", "DISJOINT_CLASSES", "DISJOINT_PROPERTIES",
-            "SAME_INDIVIDUAL", "DIFFERENT_INDIVIDUALS", "TO_LOWER_CASE", "TO_UPPER_CASE",
-            "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING",
-            "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL",
-            "NAF_CONSTRAINT", "LESS_THAN", "LESS_THAN_EQUAL", "GREATER_THAN",
-            "GREATER_THAN_EQUAL" };
+        "<DOWN>", "<UP>", "COMPOSITION", "OPEN_PARENTHESYS", "OPEN_CURLY_BRACES",
+        "CLOSED_CURLY_BRACES", "CLOSED_PARENTHESYS", "WHITESPACE", "AND", "OR",
+        "NOT", "SOME", "ONLY", "MIN", "MAX", "EXACTLY", "VALUE", "INVERSE",
+        "SUBCLASS_OF", "SUB_PROPERTY_OF", "EQUIVALENT_TO", "SAME_AS",
+        "DIFFERENT_FROM", "INVERSE_OF", "DISJOINT_WITH", "DOMAIN", "RANGE",
+        "FUNCTIONAL", "SYMMETRIC", "ANTI_SYMMETRIC", "REFLEXIVE", "IRREFLEXIVE",
+        "TRANSITIVE", "INVERSE_FUNCTIONAL", "POW", "COMMA", "INSTANCE_OF", "TYPES",
+        "DBLQUOTE", "DIGIT", "INTEGER", "LETTER", "IDENTIFIER", "ENTITY_REFERENCE",
+        "QUESTION_MARK", "Tokens", "SUB_CLASS_AXIOM", "EQUIVALENT_TO_AXIOM",
+        "DISJOINT_WITH_AXIOM", "SUB_PROPERTY_AXIOM", "SAME_AS_AXIOM",
+        "DIFFERENT_FROM_AXIOM", "UNARY_AXIOM", "DISJUNCTION", "CONJUNCTION",
+        "PROPERTY_CHAIN", "NEGATED_EXPRESSION", "NEGATED_ASSERTION",
+        "INVERSE_PROPERTY", "SOME_RESTRICTION", "ALL_RESTRICTION",
+        "VALUE_RESTRICTION", "CARDINALITY_RESTRICTION", "ONE_OF", "TYPE_ASSERTION",
+        "ROLE_ASSERTION", "INVERSE_OBJECT_PROPERTY_EXPRESSION", "EXPRESSION",
+        "CONSTANT", "WHERE", "NOT_EQUAL", "EQUAL", "IN", "SELECT", "ASSERTED",
+        "COLON", "DOT", "PLUS", "CREATE", "CREATE_INTERSECTION",
+        "CREATE_DISJUNCTION", "BEGIN", "END", "OPEN_SQUARE_BRACKET",
+        "CLOSED_SQUARE_BRACKET", "SUPER_CLASS_OF", "SUPER_PROPERTY_OF",
+        "VARIABLE_TYPE", "ADD", "REMOVE", "ASSERTED_CLAUSE", "PLAIN_CLAUSE",
+        "INEQUALITY_CONSTRAINT", "IN_SET_CONSTRAINT", "INPUT_VARIABLE_DEFINITION",
+        "GENERATED_VARIABLE_DEFINITION", "CREATE_OPPL_FUNCTION",
+        "VARIABLE_ATTRIBUTE", "OPPL_FUNCTION", "ACTIONS", "VARIABLE_DEFINITIONS",
+        "QUERY", "VARIABLE_SCOPE", "SUBPROPERTY_OF", "VARIABLE_IDENTIFIER",
+        "OPPL_STATEMENT", "HAS_KEY", "IRI", "ANNOTATION_ASSERTION",
+        "IRI_ATTRIBUTE_NAME", "AT", "SET", "DISJOINT_CLASSES", "DISJOINT_PROPERTIES",
+        "SAME_INDIVIDUAL", "DIFFERENT_INDIVIDUALS", "TO_LOWER_CASE", "TO_UPPER_CASE",
+        "ESCLAMATION_MARK", "MATCH", "ATTRIBUTE_SELECTOR", "VALUES", "RENDERING",
+        "GROUPS", "STRING_OPERATION", "VARIABLE_NAME", "REGEXP_CONSTRAINT", "FAIL",
+        "NAF_CONSTRAINT", "LESS_THAN", "LESS_THAN_EQUAL", "GREATER_THAN",
+        "GREATER_THAN_EQUAL" };
     public static final int HAS_KEY = 109;
     public static final int VALUE_RESTRICTION = 63;
     public static final int LETTER = 43;
@@ -248,8 +218,8 @@ public class OPPLTypes extends TreeFilter {
     private OPPLAbstractFactory opplFactory;
 
     public OPPLTypes(TreeNodeStream input, OPPLSymbolTable symtab,
-            ErrorListener errorListener, ConstraintSystem constraintSystem,
-            OPPLAbstractFactory opplFactory) {
+        ErrorListener errorListener, ConstraintSystem constraintSystem,
+        OPPLAbstractFactory opplFactory) {
         this(input);
         this.symtab = checkNotNull(symtab, "symtab");
         this.errorListener = checkNotNull(errorListener, "errorListener");
@@ -279,13 +249,13 @@ public class OPPLTypes extends TreeFilter {
     }
 
     protected void mismatch(IntStream in, int ttype,
-            @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
+        @SuppressWarnings("unused") BitSet follow) throws RecognitionException {
         throw new MismatchedTokenException(ttype, in);
     }
 
     @Override
     public Object recoverFromMismatchedSet(IntStream in, RecognitionException e,
-            BitSet follow) throws RecognitionException {
+        BitSet follow) throws RecognitionException {
         throw e;
     }
 
@@ -436,21 +406,21 @@ public class OPPLTypes extends TreeFilter {
                             vds.addAll(vd.variables);
                         }
                         List<OWLAxiomChange> actions2 = actions1 == null ? null
-                                : actions1.actions;
+                            : actions1.actions;
                         OPPLQuery query2 = q == null ? null : q.query;
                         if (actions2 != null && !actions2.isEmpty()) {
                             // If the query tree is not null but the
                             // returned query contains errors (hence it is
                             // null) the script should be null.
                             Object content = getOPPLFactory().buildOPPLScript(
-                                    getConstraintSystem(), vds, query2, actions2);
+                                getConstraintSystem(), vds, query2, actions2);
                             ((OPPLSyntaxTree) retval.start).setOPPLContent(content);
                         }
                     } catch (IllegalArgumentException e) {
                         getErrorListener().reportThrowable(e,
-                                ((OPPLSyntaxTree) retval.start).getLine(),
-                                ((OPPLSyntaxTree) retval.start).getCharPositionInLine(),
-                                ((OPPLSyntaxTree) retval.start).getText().length());
+                            ((OPPLSyntaxTree) retval.start).getLine(),
+                            ((OPPLSyntaxTree) retval.start).getCharPositionInLine(),
+                            ((OPPLSyntaxTree) retval.start).getText().length());
                     }
                 }
             }
@@ -468,6 +438,7 @@ public class OPPLTypes extends TreeFilter {
 
     // $ANTLR end "statement"
     public static class variableDefinitions_return extends TreeRuleReturnScope {
+
         public List<Variable<?>> variables;
     }
 
@@ -487,7 +458,7 @@ public class OPPLTypes extends TreeFilter {
             // ^( VARIABLE_DEFINITIONS (vd= variableDefinition )+ )
             {
                 match(input, VARIABLE_DEFINITIONS,
-                        FOLLOW_VARIABLE_DEFINITIONS_in_variableDefinitions157);
+                    FOLLOW_VARIABLE_DEFINITIONS_in_variableDefinitions157);
                 if (state.failed) {
                     return retval;
                 }
@@ -502,7 +473,7 @@ public class OPPLTypes extends TreeFilter {
                     int alt4 = 2;
                     int LA4_0 = input.LA(1);
                     if (LA4_0 >= INPUT_VARIABLE_DEFINITION
-                            && LA4_0 <= GENERATED_VARIABLE_DEFINITION) {
+                        && LA4_0 <= GENERATED_VARIABLE_DEFINITION) {
                         alt4 = 1;
                     }
                     switch (alt4) {
@@ -557,6 +528,7 @@ public class OPPLTypes extends TreeFilter {
 
     // $ANTLR end "variableDefinitions"
     public static class query_return extends TreeRuleReturnScope {
+
         public OPPLQuery query;
         public OPPLSyntaxTree node;
     }
@@ -610,7 +582,7 @@ public class OPPLTypes extends TreeFilter {
                                     if (selectClause2.axiom != null) {
                                         if (selectClause2.asserted) {
                                             retval.query
-                                                    .addAssertedAxiom(selectClause2.axiom);
+                                                .addAssertedAxiom(selectClause2.axiom);
                                         } else {
                                             retval.query.addAxiom(selectClause2.axiom);
                                         }
@@ -638,7 +610,7 @@ public class OPPLTypes extends TreeFilter {
                     int alt6 = 2;
                     int LA6_0 = input.LA(1);
                     if (LA6_0 >= INEQUALITY_CONSTRAINT && LA6_0 <= IN_SET_CONSTRAINT
-                            || LA6_0 == REGEXP_CONSTRAINT || LA6_0 == NAF_CONSTRAINT) {
+                        || LA6_0 == REGEXP_CONSTRAINT || LA6_0 == NAF_CONSTRAINT) {
                         alt6 = 1;
                     }
                     switch (alt6) {
@@ -655,8 +627,8 @@ public class OPPLTypes extends TreeFilter {
                             if (state.backtracking == 1) {
                                 if ((constraint3 != null ? constraint3.constraint : null) != null) {
                                     retval.query
-                                            .addConstraint(constraint3 != null ? constraint3.constraint
-                                                    : null);
+                                        .addConstraint(constraint3 != null ? constraint3.constraint
+                                            : null);
                                 }
                             }
                         }
@@ -673,7 +645,7 @@ public class OPPLTypes extends TreeFilter {
             if (state.backtracking == 1) {
                 // No asserted axioms and plains axioms means no query at all.
                 if (retval.query.getAssertedAxioms().isEmpty()
-                        && retval.query.getAxioms().isEmpty()) {
+                    && retval.query.getAxioms().isEmpty()) {
                     retval.query = null;
                 }
                 ((OPPLSyntaxTree) retval.start).setOPPLContent(retval.query);
@@ -693,6 +665,7 @@ public class OPPLTypes extends TreeFilter {
 
     // $ANTLR end "query"
     public static class selectClause_return extends TreeRuleReturnScope {
+
         public OWLAxiom axiom;
         public boolean asserted;
     }
@@ -728,7 +701,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^( ASSERTED_CLAUSE a= . )
                 {
                     match(input, ASSERTED_CLAUSE,
-                            FOLLOW_ASSERTED_CLAUSE_in_selectClause243);
+                        FOLLOW_ASSERTED_CLAUSE_in_selectClause243);
                     if (state.failed) {
                         return retval;
                     }
@@ -803,6 +776,7 @@ public class OPPLTypes extends TreeFilter {
 
     // $ANTLR end "selectClause"
     public static class actions_return extends TreeRuleReturnScope {
+
         public List<OWLAxiomChange> actions;
     }
 
@@ -938,7 +912,7 @@ public class OPPLTypes extends TreeFilter {
                         OWLObject object = a.getOWLObject();
                         if (object instanceof OWLAxiom) {
                             change = new AddAxiom(getConstraintSystem().getOntology(),
-                                    (OWLAxiom) object);
+                                (OWLAxiom) object);
                         } else {
                             getErrorListener().illegalToken(a, "OWL Axiom needed here");
                         }
@@ -970,7 +944,7 @@ public class OPPLTypes extends TreeFilter {
                         OWLObject object = a.getOWLObject();
                         if (object instanceof OWLAxiom) {
                             change = new RemoveAxiom(getConstraintSystem().getOntology(),
-                                    (OWLAxiom) object);
+                                (OWLAxiom) object);
                         } else {
                             getErrorListener().illegalToken(a, "OWL Axiom needed here");
                         }
@@ -992,6 +966,7 @@ public class OPPLTypes extends TreeFilter {
 
     // $ANTLR end "action"
     public static class variableDefinition_return extends TreeRuleReturnScope {
+
         public Variable<?> variable;
     }
 
@@ -1050,8 +1025,8 @@ public class OPPLTypes extends TreeFilter {
                 // variableScope )? )
                 {
                     INPUT_VARIABLE_DEFINITION7 = (OPPLSyntaxTree) match(input,
-                            INPUT_VARIABLE_DEFINITION,
-                            FOLLOW_INPUT_VARIABLE_DEFINITION_in_variableDefinition375);
+                        INPUT_VARIABLE_DEFINITION,
+                        FOLLOW_INPUT_VARIABLE_DEFINITION_in_variableDefinition375);
                     if (state.failed) {
                         return retval;
                     }
@@ -1060,12 +1035,12 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     VARIABLE_NAME5 = (OPPLSyntaxTree) match(input, VARIABLE_NAME,
-                            FOLLOW_VARIABLE_NAME_in_variableDefinition377);
+                        FOLLOW_VARIABLE_NAME_in_variableDefinition377);
                     if (state.failed) {
                         return retval;
                     }
                     VARIABLE_TYPE6 = (OPPLSyntaxTree) match(input, VARIABLE_TYPE,
-                            FOLLOW_VARIABLE_TYPE_in_variableDefinition379);
+                        FOLLOW_VARIABLE_TYPE_in_variableDefinition379);
                     if (state.failed) {
                         return retval;
                     }
@@ -1098,21 +1073,21 @@ public class OPPLTypes extends TreeFilter {
                         try {
                             if (vs != null && vs.variableScope == null) {
                                 getErrorListener().illegalToken(
-                                        (OPPLSyntaxTree) retval.start,
-                                        "Invalid variable scope");
+                                    (OPPLSyntaxTree) retval.start,
+                                    "Invalid variable scope");
                             } else {
                                 retval.variable = getConstraintSystem().createVariable(
-                                        VARIABLE_NAME5.getToken().getText(),
-                                        symtab.getVariableType(VARIABLE_TYPE6),
-                                        vs == null ? null : vs.variableScope);
+                                    VARIABLE_NAME5.getToken().getText(),
+                                    symtab.getVariableType(VARIABLE_TYPE6),
+                                    vs == null ? null : vs.variableScope);
                             }
                         } catch (OPPLException e) {
                             getErrorListener().reportThrowable(
-                                    e,
-                                    INPUT_VARIABLE_DEFINITION7.token.getLine(),
-                                    INPUT_VARIABLE_DEFINITION7.token
-                                            .getCharPositionInLine(),
-                                    INPUT_VARIABLE_DEFINITION7.token.getText().length());
+                                e,
+                                INPUT_VARIABLE_DEFINITION7.token.getLine(),
+                                INPUT_VARIABLE_DEFINITION7.token
+                                    .getCharPositionInLine(),
+                                INPUT_VARIABLE_DEFINITION7.token.getText().length());
                         }
                     }
                 }
@@ -1123,7 +1098,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^(expr= EXPRESSION ( . )* ) )
                 {
                     match(input, GENERATED_VARIABLE_DEFINITION,
-                            FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition400);
+                        FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition400);
                     if (state.failed) {
                         return retval;
                     }
@@ -1132,17 +1107,17 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     VARIABLE_NAME9 = (OPPLSyntaxTree) match(input, VARIABLE_NAME,
-                            FOLLOW_VARIABLE_NAME_in_variableDefinition402);
+                        FOLLOW_VARIABLE_NAME_in_variableDefinition402);
                     if (state.failed) {
                         return retval;
                     }
                     VARIABLE_TYPE8 = (OPPLSyntaxTree) match(input, VARIABLE_TYPE,
-                            FOLLOW_VARIABLE_TYPE_in_variableDefinition404);
+                        FOLLOW_VARIABLE_TYPE_in_variableDefinition404);
                     if (state.failed) {
                         return retval;
                     }
                     expr = (OPPLSyntaxTree) match(input, EXPRESSION,
-                            FOLLOW_EXPRESSION_in_variableDefinition412);
+                        FOLLOW_EXPRESSION_in_variableDefinition412);
                     if (state.failed) {
                         return retval;
                     }
@@ -1187,39 +1162,39 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         Type type = getSymbolTable().getExpressionGeneratedVariableType(
-                                (OPPLSyntaxTree) retval.start, VARIABLE_TYPE8, expr);
+                            (OPPLSyntaxTree) retval.start, VARIABLE_TYPE8, expr);
                         if (type != null) {
                             OWLObject expressionOWLObject = expr.getOWLObject();
                             if (expressionOWLObject != null) {
                                 GeneratedVariable<?> v = getConstraintSystem()
-                                        .createExpressionGeneratedVariable(
-                                                VARIABLE_NAME9.getText(),
-                                                expressionOWLObject);
+                                    .createExpressionGeneratedVariable(
+                                        VARIABLE_NAME9.getText(),
+                                        expressionOWLObject);
                                 if (v == null) {
                                     getErrorListener().illegalToken(expr,
-                                            "Invalid expression to assign to a variable");
+                                        "Invalid expression to assign to a variable");
                                 }
                                 retval.variable = v;
                             } else {
                                 getErrorListener()
-                                        .reportThrowable(
-                                                new NullPointerException(
-                                                        "The type of the generated variable is null"),
-                                                expr.token.getLine(),
-                                                expr.token.getCharPositionInLine(),
-                                                expr.token.getText().length());
+                                    .reportThrowable(
+                                        new NullPointerException(
+                                            "The type of the generated variable is null"),
+                                        expr.token.getLine(),
+                                        expr.token.getCharPositionInLine(),
+                                        expr.token.getText().length());
                             }
                         } else {
                             getErrorListener()
-                                    .reportThrowable(
-                                            new NullPointerException(
-                                                    "The type of the generated variable is null"),
-                                            ((OPPLSyntaxTree) retval.start).token
-                                                    .getLine(),
-                                            ((OPPLSyntaxTree) retval.start).token
-                                                    .getCharPositionInLine(),
-                                            ((OPPLSyntaxTree) retval.start).token
-                                                    .getText().length());
+                                .reportThrowable(
+                                    new NullPointerException(
+                                        "The type of the generated variable is null"),
+                                    ((OPPLSyntaxTree) retval.start).token
+                                        .getLine(),
+                                    ((OPPLSyntaxTree) retval.start).token
+                                        .getCharPositionInLine(),
+                                    ((OPPLSyntaxTree) retval.start).token
+                                        .getText().length());
                         }
                     }
                 }
@@ -1230,7 +1205,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^( MATCH se= stringOperation ) )
                 {
                     match(input, GENERATED_VARIABLE_DEFINITION,
-                            FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition432);
+                        FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition432);
                     if (state.failed) {
                         return retval;
                     }
@@ -1239,12 +1214,12 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     VARIABLE_NAME11 = (OPPLSyntaxTree) match(input, VARIABLE_NAME,
-                            FOLLOW_VARIABLE_NAME_in_variableDefinition434);
+                        FOLLOW_VARIABLE_NAME_in_variableDefinition434);
                     if (state.failed) {
                         return retval;
                     }
                     VARIABLE_TYPE10 = (OPPLSyntaxTree) match(input, VARIABLE_TYPE,
-                            FOLLOW_VARIABLE_TYPE_in_variableDefinition436);
+                        FOLLOW_VARIABLE_TYPE_in_variableDefinition436);
                     if (state.failed) {
                         return retval;
                     }
@@ -1272,11 +1247,11 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         org.coode.oppl.variabletypes.VariableType<?> type = org.coode.parsers.oppl.VariableTypes
-                                .getVariableType(VARIABLE_TYPE10.getText())
-                                .getOPPLVariableType();
+                            .getVariableType(VARIABLE_TYPE10.getText())
+                            .getOPPLVariableType();
                         RegexpGeneratedVariable<?> v = getConstraintSystem()
-                                .createRegexpGeneratedVariable(VARIABLE_NAME11.getText(),
-                                        type, Adapter.buildRegexpPatternAdapter(se));
+                            .createRegexpGeneratedVariable(VARIABLE_NAME11.getText(),
+                                type, Adapter.buildRegexpPatternAdapter(se));
                         retval.variable = v;
                     }
                 }
@@ -1287,7 +1262,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^( CREATE_OPPL_FUNCTION value= stringOperation ) )
                 {
                     match(input, GENERATED_VARIABLE_DEFINITION,
-                            FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition459);
+                        FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition459);
                     if (state.failed) {
                         return retval;
                     }
@@ -1296,17 +1271,17 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     VARIABLE_NAME13 = (OPPLSyntaxTree) match(input, VARIABLE_NAME,
-                            FOLLOW_VARIABLE_NAME_in_variableDefinition461);
+                        FOLLOW_VARIABLE_NAME_in_variableDefinition461);
                     if (state.failed) {
                         return retval;
                     }
                     VARIABLE_TYPE12 = (OPPLSyntaxTree) match(input, VARIABLE_TYPE,
-                            FOLLOW_VARIABLE_TYPE_in_variableDefinition463);
+                        FOLLOW_VARIABLE_TYPE_in_variableDefinition463);
                     if (state.failed) {
                         return retval;
                     }
                     match(input, CREATE_OPPL_FUNCTION,
-                            FOLLOW_CREATE_OPPL_FUNCTION_in_variableDefinition466);
+                        FOLLOW_CREATE_OPPL_FUNCTION_in_variableDefinition466);
                     if (state.failed) {
                         return retval;
                     }
@@ -1330,10 +1305,10 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         org.coode.oppl.variabletypes.VariableType<?> type = org.coode.parsers.oppl.VariableTypes
-                                .getVariableType(VARIABLE_TYPE12.getText())
-                                .getOPPLVariableType();
+                            .getVariableType(VARIABLE_TYPE12.getText())
+                            .getOPPLVariableType();
                         retval.variable = constraintSystem.createStringGeneratedVariable(
-                                VARIABLE_NAME13.getText(), type, value);
+                            VARIABLE_NAME13.getText(), type, value);
                     }
                 }
                     break;
@@ -1343,7 +1318,7 @@ public class OPPLTypes extends TreeFilter {
                 // VARIABLE_TYPE ^( CREATE_INTERSECTION va= aggregandums ) )
                 {
                     match(input, GENERATED_VARIABLE_DEFINITION,
-                            FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition486);
+                        FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition486);
                     if (state.failed) {
                         return retval;
                     }
@@ -1352,18 +1327,18 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     name = (OPPLSyntaxTree) match(input, VARIABLE_NAME,
-                            FOLLOW_VARIABLE_NAME_in_variableDefinition492);
+                        FOLLOW_VARIABLE_NAME_in_variableDefinition492);
                     if (state.failed) {
                         return retval;
                     }
                     match(input, VARIABLE_TYPE,
-                            FOLLOW_VARIABLE_TYPE_in_variableDefinition494);
+                        FOLLOW_VARIABLE_TYPE_in_variableDefinition494);
                     if (state.failed) {
                         return retval;
                     }
                     CREATE_INTERSECTION14 = (OPPLSyntaxTree) match(input,
-                            CREATE_INTERSECTION,
-                            FOLLOW_CREATE_INTERSECTION_in_variableDefinition497);
+                        CREATE_INTERSECTION,
+                        FOLLOW_CREATE_INTERSECTION_in_variableDefinition497);
                     if (state.failed) {
                         return retval;
                     }
@@ -1387,14 +1362,14 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection = getSymbolTable()
-                                .getAggregandumCollection(
-                                        VariableTypeFactory.getCLASSVariableType(),
-                                        va.list, va.tokenList, CREATE_INTERSECTION14);
+                            .getAggregandumCollection(
+                                VariableTypeFactory.getCLASSVariableType(),
+                                va.list, va.tokenList, CREATE_INTERSECTION14);
                         if (aggregandumCollection != null) {
                             retval.variable = getConstraintSystem()
-                                    .createIntersectionGeneratedVariable(name.getText(),
-                                            VariableTypeFactory.getCLASSVariableType(),
-                                            aggregandumCollection);
+                                .createIntersectionGeneratedVariable(name.getText(),
+                                    VariableTypeFactory.getCLASSVariableType(),
+                                    aggregandumCollection);
                         }
                     }
                 }
@@ -1405,7 +1380,7 @@ public class OPPLTypes extends TreeFilter {
                 // VARIABLE_TYPE ^( CREATE_DISJUNCTION va= aggregandums ) )
                 {
                     match(input, GENERATED_VARIABLE_DEFINITION,
-                            FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition516);
+                        FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition516);
                     if (state.failed) {
                         return retval;
                     }
@@ -1414,18 +1389,18 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     name = (OPPLSyntaxTree) match(input, VARIABLE_NAME,
-                            FOLLOW_VARIABLE_NAME_in_variableDefinition522);
+                        FOLLOW_VARIABLE_NAME_in_variableDefinition522);
                     if (state.failed) {
                         return retval;
                     }
                     match(input, VARIABLE_TYPE,
-                            FOLLOW_VARIABLE_TYPE_in_variableDefinition524);
+                        FOLLOW_VARIABLE_TYPE_in_variableDefinition524);
                     if (state.failed) {
                         return retval;
                     }
                     CREATE_DISJUNCTION15 = (OPPLSyntaxTree) match(input,
-                            CREATE_DISJUNCTION,
-                            FOLLOW_CREATE_DISJUNCTION_in_variableDefinition527);
+                        CREATE_DISJUNCTION,
+                        FOLLOW_CREATE_DISJUNCTION_in_variableDefinition527);
                     if (state.failed) {
                         return retval;
                     }
@@ -1449,14 +1424,14 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         Collection<? extends Aggregandum<Collection<? extends OWLClassExpression>>> aggregandumCollection = getSymbolTable()
-                                .getAggregandumCollection(
-                                        VariableTypeFactory.getCLASSVariableType(),
-                                        va.list, va.tokenList, CREATE_DISJUNCTION15);
+                            .getAggregandumCollection(
+                                VariableTypeFactory.getCLASSVariableType(),
+                                va.list, va.tokenList, CREATE_DISJUNCTION15);
                         if (aggregandumCollection != null) {
                             retval.variable = getConstraintSystem()
-                                    .createUnionGeneratedVariable(name.getText(),
-                                            VariableTypeFactory.getCLASSVariableType(),
-                                            aggregandumCollection);
+                                .createUnionGeneratedVariable(name.getText(),
+                                    VariableTypeFactory.getCLASSVariableType(),
+                                    aggregandumCollection);
                         }
                     }
                 }
@@ -1490,7 +1465,7 @@ public class OPPLTypes extends TreeFilter {
             // ^( STRING_OPERATION (valuesToAggregate= stringExpression )+ )
             {
                 match(input, STRING_OPERATION,
-                        FOLLOW_STRING_OPERATION_in_stringOperation587);
+                    FOLLOW_STRING_OPERATION_in_stringOperation587);
                 if (state.failed) {
                     return value;
                 }
@@ -1505,7 +1480,7 @@ public class OPPLTypes extends TreeFilter {
                     int alt13 = 2;
                     int LA13_0 = input.LA(1);
                     if (LA13_0 == DBLQUOTE || LA13_0 == IDENTIFIER
-                            || LA13_0 >= TO_LOWER_CASE && LA13_0 <= TO_UPPER_CASE) {
+                        || LA13_0 >= TO_LOWER_CASE && LA13_0 <= TO_UPPER_CASE) {
                         alt13 = 1;
                     }
                     switch (alt13) {
@@ -1521,7 +1496,7 @@ public class OPPLTypes extends TreeFilter {
                             }
                             if (state.backtracking == 1) {
                                 values.add(Adapter
-                                        .buildSingletonAggregandum(valuesToAggregate));
+                                    .buildSingletonAggregandum(valuesToAggregate));
                             }
                         }
                             break;
@@ -1591,7 +1566,7 @@ public class OPPLTypes extends TreeFilter {
                 // DBLQUOTE
                 {
                     DBLQUOTE16 = (OPPLSyntaxTree) match(input, DBLQUOTE,
-                            FOLLOW_DBLQUOTE_in_stringExpression635);
+                        FOLLOW_DBLQUOTE_in_stringExpression635);
                     if (state.failed) {
                         return value;
                     }
@@ -1614,7 +1589,7 @@ public class OPPLTypes extends TreeFilter {
                         return value;
                     }
                     VARIABLE_NAME17 = (OPPLSyntaxTree) match(input, VARIABLE_NAME,
-                            FOLLOW_VARIABLE_NAME_in_stringExpression657);
+                        FOLLOW_VARIABLE_NAME_in_stringExpression657);
                     if (state.failed) {
                         return value;
                     }
@@ -1627,7 +1602,7 @@ public class OPPLTypes extends TreeFilter {
                         return value;
                     }
                     match(input, ATTRIBUTE_SELECTOR,
-                            FOLLOW_ATTRIBUTE_SELECTOR_in_stringExpression664);
+                        FOLLOW_ATTRIBUTE_SELECTOR_in_stringExpression664);
                     if (state.failed) {
                         return value;
                     }
@@ -1636,7 +1611,7 @@ public class OPPLTypes extends TreeFilter {
                         return value;
                     }
                     INTEGER18 = (OPPLSyntaxTree) match(input, INTEGER,
-                            FOLLOW_INTEGER_in_stringExpression666);
+                        FOLLOW_INTEGER_in_stringExpression666);
                     if (state.failed) {
                         return value;
                     }
@@ -1650,7 +1625,7 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         value = getSymbolTable().defineGroupAttributeReferenceSymbol(
-                                VARIABLE_NAME17, INTEGER18, getConstraintSystem());
+                            VARIABLE_NAME17, INTEGER18, getConstraintSystem());
                     }
                 }
                     break;
@@ -1667,7 +1642,7 @@ public class OPPLTypes extends TreeFilter {
                         return value;
                     }
                     VARIABLE_NAME19 = (OPPLSyntaxTree) match(input, VARIABLE_NAME,
-                            FOLLOW_VARIABLE_NAME_in_stringExpression688);
+                        FOLLOW_VARIABLE_NAME_in_stringExpression688);
                     if (state.failed) {
                         return value;
                     }
@@ -1685,7 +1660,7 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         value = getSymbolTable().defineRenderingAttributeReferenceSymbol(
-                                VARIABLE_NAME19, getConstraintSystem());
+                            VARIABLE_NAME19, getConstraintSystem());
                     }
                 }
                     break;
@@ -1694,7 +1669,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^( TO_LOWER_CASE expression= stringOperation )
                 {
                     match(input, TO_LOWER_CASE,
-                            FOLLOW_TO_LOWER_CASE_in_stringExpression709);
+                        FOLLOW_TO_LOWER_CASE_in_stringExpression709);
                     if (state.failed) {
                         return value;
                     }
@@ -1722,7 +1697,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^( TO_UPPER_CASE expression= stringOperation )
                 {
                     match(input, TO_UPPER_CASE,
-                            FOLLOW_TO_UPPER_CASE_in_stringExpression726);
+                        FOLLOW_TO_UPPER_CASE_in_stringExpression726);
                     if (state.failed) {
                         return value;
                     }
@@ -1750,7 +1725,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^( TO_LOWER_CASE simpleExpression= stringExpression )
                 {
                     match(input, TO_LOWER_CASE,
-                            FOLLOW_TO_LOWER_CASE_in_stringExpression742);
+                        FOLLOW_TO_LOWER_CASE_in_stringExpression742);
                     if (state.failed) {
                         return value;
                     }
@@ -1770,7 +1745,7 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         value = new ToLowerCaseStringManipulationOPPLFunction(
-                                simpleExpression);
+                            simpleExpression);
                     }
                 }
                     break;
@@ -1779,7 +1754,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^( TO_UPPER_CASE simpleExpression= stringExpression )
                 {
                     match(input, TO_UPPER_CASE,
-                            FOLLOW_TO_UPPER_CASE_in_stringExpression759);
+                        FOLLOW_TO_UPPER_CASE_in_stringExpression759);
                     if (state.failed) {
                         return value;
                     }
@@ -1799,7 +1774,7 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         value = new ToUpperCaseStringManipulationOPPLFunction(
-                                simpleExpression);
+                            simpleExpression);
                     }
                 }
                     break;
@@ -1818,6 +1793,7 @@ public class OPPLTypes extends TreeFilter {
 
     // $ANTLR end "stringExpression"
     public static class variableScope_return extends TreeRuleReturnScope {
+
         public Type type;
         public VariableScope<?> variableScope;
     }
@@ -1877,7 +1853,7 @@ public class OPPLTypes extends TreeFilter {
                                 return retval;
                             }
                             NoViableAltException nvae = new NoViableAltException("", 15,
-                                    2, input);
+                                2, input);
                             throw nvae;
                     }
                 } else {
@@ -1902,7 +1878,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^( VARIABLE_SCOPE SUBCLASS_OF classExpression= . )
                 {
                     match(input, VARIABLE_SCOPE,
-                            FOLLOW_VARIABLE_SCOPE_in_variableScope807);
+                        FOLLOW_VARIABLE_SCOPE_in_variableScope807);
                     if (state.failed) {
                         return retval;
                     }
@@ -1926,20 +1902,20 @@ public class OPPLTypes extends TreeFilter {
                     if (state.backtracking == 1) {
                         try {
                             VariableScopeChecker checker = getConstraintSystem()
-                                    .getOPPLFactory().getVariableScopeChecker();
+                                .getOPPLFactory().getVariableScopeChecker();
                             retval.type = symtab.getClassVariableScopeType(
-                                    (OPPLSyntaxTree) retval.start, classExpression);
+                                (OPPLSyntaxTree) retval.start, classExpression);
                             retval.variableScope = VariableScopes
-                                    .buildSubClassVariableScope(
-                                            (OWLClassExpression) classExpression
-                                                    .getOWLObject(), checker);
+                                .buildSubClassVariableScope(
+                                    (OWLClassExpression) classExpression
+                                        .getOWLObject(), checker);
                         } catch (OPPLException e) {
                             getErrorListener().reportThrowable(
-                                    e,
-                                    ((OPPLSyntaxTree) retval.start).getLine(),
-                                    ((OPPLSyntaxTree) retval.start)
-                                            .getCharPositionInLine(),
-                                    ((OPPLSyntaxTree) retval.start).getText().length());
+                                e,
+                                ((OPPLSyntaxTree) retval.start).getLine(),
+                                ((OPPLSyntaxTree) retval.start)
+                                    .getCharPositionInLine(),
+                                ((OPPLSyntaxTree) retval.start).getText().length());
                         }
                     }
                 }
@@ -1949,7 +1925,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^( VARIABLE_SCOPE SUPER_CLASS_OF classExpression= . )
                 {
                     match(input, VARIABLE_SCOPE,
-                            FOLLOW_VARIABLE_SCOPE_in_variableScope826);
+                        FOLLOW_VARIABLE_SCOPE_in_variableScope826);
                     if (state.failed) {
                         return retval;
                     }
@@ -1958,7 +1934,7 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     match(input, SUPER_CLASS_OF,
-                            FOLLOW_SUPER_CLASS_OF_in_variableScope828);
+                        FOLLOW_SUPER_CLASS_OF_in_variableScope828);
                     if (state.failed) {
                         return retval;
                     }
@@ -1974,20 +1950,20 @@ public class OPPLTypes extends TreeFilter {
                     if (state.backtracking == 1) {
                         try {
                             VariableScopeChecker checker = getConstraintSystem()
-                                    .getOPPLFactory().getVariableScopeChecker();
+                                .getOPPLFactory().getVariableScopeChecker();
                             retval.type = symtab.getClassVariableScopeType(
-                                    (OPPLSyntaxTree) retval.start, classExpression);
+                                (OPPLSyntaxTree) retval.start, classExpression);
                             retval.variableScope = VariableScopes
-                                    .buildSuperClassVariableScope(
-                                            (OWLClassExpression) classExpression
-                                                    .getOWLObject(), checker);
+                                .buildSuperClassVariableScope(
+                                    (OWLClassExpression) classExpression
+                                        .getOWLObject(), checker);
                         } catch (OPPLException e) {
                             getErrorListener().reportThrowable(
-                                    e,
-                                    ((OPPLSyntaxTree) retval.start).getLine(),
-                                    ((OPPLSyntaxTree) retval.start)
-                                            .getCharPositionInLine(),
-                                    ((OPPLSyntaxTree) retval.start).getText().length());
+                                e,
+                                ((OPPLSyntaxTree) retval.start).getLine(),
+                                ((OPPLSyntaxTree) retval.start)
+                                    .getCharPositionInLine(),
+                                ((OPPLSyntaxTree) retval.start).getText().length());
                         }
                     }
                 }
@@ -1997,7 +1973,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^( VARIABLE_SCOPE SUPER_PROPERTY_OF propertyExpression= . )
                 {
                     match(input, VARIABLE_SCOPE,
-                            FOLLOW_VARIABLE_SCOPE_in_variableScope847);
+                        FOLLOW_VARIABLE_SCOPE_in_variableScope847);
                     if (state.failed) {
                         return retval;
                     }
@@ -2006,7 +1982,7 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     match(input, SUPER_PROPERTY_OF,
-                            FOLLOW_SUPER_PROPERTY_OF_in_variableScope849);
+                        FOLLOW_SUPER_PROPERTY_OF_in_variableScope849);
                     if (state.failed) {
                         return retval;
                     }
@@ -2022,20 +1998,20 @@ public class OPPLTypes extends TreeFilter {
                     if (state.backtracking == 1) {
                         try {
                             VariableScopeChecker checker = getConstraintSystem()
-                                    .getOPPLFactory().getVariableScopeChecker();
+                                .getOPPLFactory().getVariableScopeChecker();
                             retval.type = symtab.getPropertyVariableScopeType(
-                                    (OPPLSyntaxTree) retval.start, propertyExpression);
+                                (OPPLSyntaxTree) retval.start, propertyExpression);
                             retval.variableScope = VariableScopes
-                                    .buildSuperPropertyVariableScope(
-                                            (OWLPropertyExpression<?, ?>) propertyExpression
-                                                    .getOWLObject(), checker);
+                                .buildSuperPropertyVariableScope(
+                                    (OWLPropertyExpression) propertyExpression
+                                        .getOWLObject(), checker);
                         } catch (OPPLException e) {
                             getErrorListener().reportThrowable(
-                                    e,
-                                    ((OPPLSyntaxTree) retval.start).getLine(),
-                                    ((OPPLSyntaxTree) retval.start)
-                                            .getCharPositionInLine(),
-                                    ((OPPLSyntaxTree) retval.start).getText().length());
+                                e,
+                                ((OPPLSyntaxTree) retval.start).getLine(),
+                                ((OPPLSyntaxTree) retval.start)
+                                    .getCharPositionInLine(),
+                                ((OPPLSyntaxTree) retval.start).getText().length());
                         }
                     }
                 }
@@ -2045,7 +2021,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^( VARIABLE_SCOPE SUBPROPERTY_OF propertyExpression= . )
                 {
                     match(input, VARIABLE_SCOPE,
-                            FOLLOW_VARIABLE_SCOPE_in_variableScope864);
+                        FOLLOW_VARIABLE_SCOPE_in_variableScope864);
                     if (state.failed) {
                         return retval;
                     }
@@ -2054,7 +2030,7 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     match(input, SUBPROPERTY_OF,
-                            FOLLOW_SUBPROPERTY_OF_in_variableScope866);
+                        FOLLOW_SUBPROPERTY_OF_in_variableScope866);
                     if (state.failed) {
                         return retval;
                     }
@@ -2070,20 +2046,20 @@ public class OPPLTypes extends TreeFilter {
                     if (state.backtracking == 1) {
                         try {
                             VariableScopeChecker checker = getConstraintSystem()
-                                    .getOPPLFactory().getVariableScopeChecker();
+                                .getOPPLFactory().getVariableScopeChecker();
                             retval.type = symtab.getPropertyVariableScopeType(
-                                    (OPPLSyntaxTree) retval.start, propertyExpression);
+                                (OPPLSyntaxTree) retval.start, propertyExpression);
                             retval.variableScope = VariableScopes
-                                    .buildSubPropertyVariableScope(
-                                            (OWLPropertyExpression<?, ?>) propertyExpression
-                                                    .getOWLObject(), checker);
+                                .buildSubPropertyVariableScope(
+                                    (OWLPropertyExpression) propertyExpression
+                                        .getOWLObject(), checker);
                         } catch (OPPLException e) {
                             getErrorListener().reportThrowable(
-                                    e,
-                                    ((OPPLSyntaxTree) retval.start).getLine(),
-                                    ((OPPLSyntaxTree) retval.start)
-                                            .getCharPositionInLine(),
-                                    ((OPPLSyntaxTree) retval.start).getText().length());
+                                e,
+                                ((OPPLSyntaxTree) retval.start).getLine(),
+                                ((OPPLSyntaxTree) retval.start)
+                                    .getCharPositionInLine(),
+                                ((OPPLSyntaxTree) retval.start).getText().length());
                         }
                     }
                 }
@@ -2094,7 +2070,7 @@ public class OPPLTypes extends TreeFilter {
                 // individualExpression= . )
                 {
                     match(input, VARIABLE_SCOPE,
-                            FOLLOW_VARIABLE_SCOPE_in_variableScope885);
+                        FOLLOW_VARIABLE_SCOPE_in_variableScope885);
                     if (state.failed) {
                         return retval;
                     }
@@ -2112,7 +2088,7 @@ public class OPPLTypes extends TreeFilter {
                             return retval;
                         }
                         MismatchedSetException mse = new MismatchedSetException(null,
-                                input);
+                            input);
                         throw mse;
                     }
                     individualExpression = (OPPLSyntaxTree) input.LT(1);
@@ -2127,20 +2103,20 @@ public class OPPLTypes extends TreeFilter {
                     if (state.backtracking == 1) {
                         try {
                             VariableScopeChecker checker = getConstraintSystem()
-                                    .getOPPLFactory().getVariableScopeChecker();
+                                .getOPPLFactory().getVariableScopeChecker();
                             retval.type = symtab.getIndividualVariableScopeType(
-                                    (OPPLSyntaxTree) retval.start, individualExpression);
+                                (OPPLSyntaxTree) retval.start, individualExpression);
                             retval.variableScope = VariableScopes
-                                    .buildIndividualVariableScope(
-                                            (OWLClassExpression) individualExpression
-                                                    .getOWLObject(), checker);
+                                .buildIndividualVariableScope(
+                                    (OWLClassExpression) individualExpression
+                                        .getOWLObject(), checker);
                         } catch (OPPLException e) {
                             getErrorListener().reportThrowable(
-                                    e,
-                                    ((OPPLSyntaxTree) retval.start).getLine(),
-                                    ((OPPLSyntaxTree) retval.start)
-                                            .getCharPositionInLine(),
-                                    ((OPPLSyntaxTree) retval.start).getText().length());
+                                e,
+                                ((OPPLSyntaxTree) retval.start).getLine(),
+                                ((OPPLSyntaxTree) retval.start)
+                                    .getCharPositionInLine(),
+                                ((OPPLSyntaxTree) retval.start).getText().length());
                         }
                     }
                 }
@@ -2163,6 +2139,7 @@ public class OPPLTypes extends TreeFilter {
 
     // $ANTLR end "variableScope"
     public static class constraint_return extends TreeRuleReturnScope {
+
         public AbstractConstraint constraint;
     }
 
@@ -2223,7 +2200,7 @@ public class OPPLTypes extends TreeFilter {
                 // . ) )
                 {
                     match(input, INEQUALITY_CONSTRAINT,
-                            FOLLOW_INEQUALITY_CONSTRAINT_in_constraint930);
+                        FOLLOW_INEQUALITY_CONSTRAINT_in_constraint930);
                     if (state.failed) {
                         return retval;
                     }
@@ -2232,7 +2209,7 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     IDENTIFIER20 = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_constraint932);
+                        FOLLOW_IDENTIFIER_in_constraint932);
                     if (state.failed) {
                         return retval;
                     }
@@ -2259,8 +2236,8 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.constraint = symtab.getInequalityConstraint(
-                                (OPPLSyntaxTree) retval.start, IDENTIFIER20, expression,
-                                getConstraintSystem());
+                            (OPPLSyntaxTree) retval.start, IDENTIFIER20, expression,
+                            getConstraintSystem());
                     }
                 }
                     break;
@@ -2269,7 +2246,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^( IN_SET_CONSTRAINT v= IDENTIFIER (i= IDENTIFIER )+ )
                 {
                     match(input, IN_SET_CONSTRAINT,
-                            FOLLOW_IN_SET_CONSTRAINT_in_constraint949);
+                        FOLLOW_IN_SET_CONSTRAINT_in_constraint949);
                     if (state.failed) {
                         return retval;
                     }
@@ -2278,7 +2255,7 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     v = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_constraint955);
+                        FOLLOW_IDENTIFIER_in_constraint955);
                     if (state.failed) {
                         return retval;
                     }
@@ -2297,7 +2274,7 @@ public class OPPLTypes extends TreeFilter {
                             // i= IDENTIFIER
                             {
                                 i = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                                        FOLLOW_IDENTIFIER_in_constraint963);
+                                    FOLLOW_IDENTIFIER_in_constraint963);
                                 if (state.failed) {
                                     return retval;
                                 }
@@ -2325,10 +2302,10 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.constraint = symtab
-                                .getInSetConstraint((OPPLSyntaxTree) retval.start, v,
-                                        constraintSystem, identifiers
-                                                .toArray(new OPPLSyntaxTree[identifiers
-                                                        .size()]));
+                            .getInSetConstraint((OPPLSyntaxTree) retval.start, v,
+                                constraintSystem, identifiers
+                                    .toArray(new OPPLSyntaxTree[identifiers
+                                        .size()]));
                     }
                 }
                     break;
@@ -2337,7 +2314,7 @@ public class OPPLTypes extends TreeFilter {
                 // ^( REGEXP_CONSTRAINT IDENTIFIER se= stringOperation )
                 {
                     match(input, REGEXP_CONSTRAINT,
-                            FOLLOW_REGEXP_CONSTRAINT_in_constraint976);
+                        FOLLOW_REGEXP_CONSTRAINT_in_constraint976);
                     if (state.failed) {
                         return retval;
                     }
@@ -2346,7 +2323,7 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     IDENTIFIER21 = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_constraint978);
+                        FOLLOW_IDENTIFIER_in_constraint978);
                     if (state.failed) {
                         return retval;
                     }
@@ -2362,11 +2339,11 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         Variable<?> variable = symtab.getVariable(IDENTIFIER21,
-                                getConstraintSystem());
+                            getConstraintSystem());
                         OPPLFunction<Pattern> adapted = Adapter
-                                .buildRegexpPatternAdapter(se);
+                            .buildRegexpPatternAdapter(se);
                         retval.constraint = new RegExpConstraint(variable, adapted,
-                                getConstraintSystem());
+                            getConstraintSystem());
                     }
                 }
                     break;
@@ -2395,7 +2372,7 @@ public class OPPLTypes extends TreeFilter {
                         OWLObject axiom = a.getOWLObject();
                         if (axiom instanceof OWLAxiom) {
                             retval.constraint = new NAFConstraint((OWLAxiom) axiom,
-                                    getConstraintSystem());
+                                getConstraintSystem());
                         }
                     }
                 }
@@ -2415,6 +2392,7 @@ public class OPPLTypes extends TreeFilter {
 
     // $ANTLR end "constraint"
     public static class aggregandums_return extends TreeRuleReturnScope {
+
         public List<Aggregandum<?>> list;
         public List<OPPLSyntaxTree> tokenList;
     }
@@ -2541,7 +2519,7 @@ public class OPPLTypes extends TreeFilter {
                 // )
                 {
                     match(input, DISJOINT_CLASSES,
-                            FOLLOW_DISJOINT_CLASSES_in_opplAxioms1062);
+                        FOLLOW_DISJOINT_CLASSES_in_opplAxioms1062);
                     if (state.failed) {
                         return retval;
                     }
@@ -2585,8 +2563,8 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         axiom = getSymbolTable().getDisjointAxiom(
-                                (OPPLSyntaxTree) retval.start, va.list, va.tokenList,
-                                getConstraintSystem());
+                            (OPPLSyntaxTree) retval.start, va.list, va.tokenList,
+                            getConstraintSystem());
                     }
                 }
                     break;
@@ -2596,7 +2574,7 @@ public class OPPLTypes extends TreeFilter {
                 // ) ) )
                 {
                     match(input, DISJOINT_PROPERTIES,
-                            FOLLOW_DISJOINT_PROPERTIES_in_opplAxioms1084);
+                        FOLLOW_DISJOINT_PROPERTIES_in_opplAxioms1084);
                     if (state.failed) {
                         return retval;
                     }
@@ -2640,8 +2618,8 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         axiom = getSymbolTable().getDisjointAxiom(
-                                (OPPLSyntaxTree) retval.start, va.list, va.tokenList,
-                                getConstraintSystem());
+                            (OPPLSyntaxTree) retval.start, va.list, va.tokenList,
+                            getConstraintSystem());
                     }
                 }
                     break;
@@ -2651,7 +2629,7 @@ public class OPPLTypes extends TreeFilter {
                 // aggregandums ) ) )
                 {
                     match(input, DIFFERENT_INDIVIDUALS,
-                            FOLLOW_DIFFERENT_INDIVIDUALS_in_opplAxioms1107);
+                        FOLLOW_DIFFERENT_INDIVIDUALS_in_opplAxioms1107);
                     if (state.failed) {
                         return retval;
                     }
@@ -2695,8 +2673,8 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         axiom = getSymbolTable().getDifferentIndividualsAxiom(
-                                (OPPLSyntaxTree) retval.start, va.list, va.tokenList,
-                                getConstraintSystem());
+                            (OPPLSyntaxTree) retval.start, va.list, va.tokenList,
+                            getConstraintSystem());
                     }
                 }
                     break;
@@ -2706,7 +2684,7 @@ public class OPPLTypes extends TreeFilter {
                 // )
                 {
                     match(input, SAME_INDIVIDUAL,
-                            FOLLOW_SAME_INDIVIDUAL_in_opplAxioms1130);
+                        FOLLOW_SAME_INDIVIDUAL_in_opplAxioms1130);
                     if (state.failed) {
                         return retval;
                     }
@@ -2750,8 +2728,8 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         axiom = getSymbolTable().getSameIndividualAxiom(
-                                (OPPLSyntaxTree) retval.start, va.list, va.tokenList,
-                                getConstraintSystem());
+                            (OPPLSyntaxTree) retval.start, va.list, va.tokenList,
+                            getConstraintSystem());
                     }
                 }
                     break;
@@ -2773,6 +2751,7 @@ public class OPPLTypes extends TreeFilter {
 
     // $ANTLR end "opplAxioms"
     public static class aggregandum_return extends TreeRuleReturnScope {
+
         public Aggregandum<?> a;
         public OPPLSyntaxTree node;
     }
@@ -2827,7 +2806,7 @@ public class OPPLTypes extends TreeFilter {
                         return retval;
                     }
                     VARIABLE_NAME22 = (OPPLSyntaxTree) match(input, VARIABLE_NAME,
-                            FOLLOW_VARIABLE_NAME_in_aggregandum1175);
+                        FOLLOW_VARIABLE_NAME_in_aggregandum1175);
                     if (state.failed) {
                         return retval;
                     }
@@ -2845,8 +2824,8 @@ public class OPPLTypes extends TreeFilter {
                     }
                     if (state.backtracking == 1) {
                         retval.a = Adapter.buildSingletonAggregandum(getSymbolTable()
-                                .defineValuesAttributeReferenceSymbol(VARIABLE_NAME22,
-                                        getConstraintSystem()));
+                            .defineValuesAttributeReferenceSymbol(VARIABLE_NAME22,
+                                getConstraintSystem()));
                     }
                 }
                     break;
@@ -2855,7 +2834,7 @@ public class OPPLTypes extends TreeFilter {
                 // IDENTIFIER
                 {
                     IDENTIFIER23 = (OPPLSyntaxTree) match(input, IDENTIFIER,
-                            FOLLOW_IDENTIFIER_in_aggregandum1197);
+                        FOLLOW_IDENTIFIER_in_aggregandum1197);
                     if (state.failed) {
                         return retval;
                     }
@@ -2863,7 +2842,7 @@ public class OPPLTypes extends TreeFilter {
                         Symbol symbol = getSymbolTable().resolve(IDENTIFIER23);
                         if (symbol != null) {
                             retval.a = Adapter.buildAggregandumOfCollection(IDENTIFIER23
-                                    .getOWLObject());
+                                .getOWLObject());
                         } else {
                             getErrorListener().unrecognisedSymbol(IDENTIFIER23);
                         }
@@ -2897,7 +2876,7 @@ public class OPPLTypes extends TreeFilter {
     static final String DFA12_acceptS = "\1\uffff\1\1\4\uffff\1\2\1\3\1\4\1\5\1\6";
     static final String DFA12_specialS = "\13\uffff}>";
     static final String[] DFA12_transitionS = { "\1\1\1\2", "", "\1\3", "\1\4", "\1\5",
-            "\1\6\13\uffff\1\11\1\12\17\uffff\1\10\115\uffff\1\7", "", "", "", "", "" };
+        "\1\6\13\uffff\1\11\1\12\17\uffff\1\10\115\uffff\1\7", "", "", "", "", "" };
     static final short[] DFA12_eot = DFA.unpackEncodedString(DFA12_eotS);
     static final short[] DFA12_eof = DFA.unpackEncodedString(DFA12_eofS);
     static final char[] DFA12_min = DFA.unpackEncodedStringToUnsignedChars(DFA12_minS);
@@ -2905,6 +2884,7 @@ public class OPPLTypes extends TreeFilter {
     static final short[] DFA12_accept = DFA.unpackEncodedString(DFA12_acceptS);
     static final short[] DFA12_special = DFA.unpackEncodedString(DFA12_specialS);
     static final short[][] DFA12_transition;
+
     static {
         int numStates = DFA12_transitionS.length;
         DFA12_transition = new short[numStates][];
@@ -2914,6 +2894,7 @@ public class OPPLTypes extends TreeFilter {
     }
 
     class DFA12 extends DFA {
+
         public DFA12(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
             decisionNumber = 12;
@@ -2939,10 +2920,10 @@ public class OPPLTypes extends TreeFilter {
     static final String DFA14_acceptS = "\1\uffff\1\1\7\uffff\1\4\1\6\1\5\1\7\1\uffff\1\2\1\3";
     static final String DFA14_specialS = "\20\uffff}>";
     static final String[] DFA14_transitionS = { "\1\1\3\uffff\1\2\113\uffff\1\3\1\4", "",
-            "\1\5", "\1\6", "\1\7", "\1\10",
-            "\1\12\3\uffff\1\12\113\uffff\2\12\u0110\uffff\1\11",
-            "\1\14\3\uffff\1\14\113\uffff\2\14\u0110\uffff\1\13", "\1\15", "", "", "",
-            "", "\1\17\1\16", "", "" };
+        "\1\5", "\1\6", "\1\7", "\1\10",
+        "\1\12\3\uffff\1\12\113\uffff\2\12\u0110\uffff\1\11",
+        "\1\14\3\uffff\1\14\113\uffff\2\14\u0110\uffff\1\13", "\1\15", "", "", "",
+        "", "\1\17\1\16", "", "" };
     static final short[] DFA14_eot = DFA.unpackEncodedString(DFA14_eotS);
     static final short[] DFA14_eof = DFA.unpackEncodedString(DFA14_eofS);
     static final char[] DFA14_min = DFA.unpackEncodedStringToUnsignedChars(DFA14_minS);
@@ -2950,6 +2931,7 @@ public class OPPLTypes extends TreeFilter {
     static final short[] DFA14_accept = DFA.unpackEncodedString(DFA14_acceptS);
     static final short[] DFA14_special = DFA.unpackEncodedString(DFA14_specialS);
     static final short[][] DFA14_transition;
+
     static {
         int numStates = DFA14_transitionS.length;
         DFA14_transition = new short[numStates][];
@@ -2959,6 +2941,7 @@ public class OPPLTypes extends TreeFilter {
     }
 
     class DFA14 extends DFA {
+
         public DFA14(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
             decisionNumber = 14;
@@ -2978,239 +2961,239 @@ public class OPPLTypes extends TreeFilter {
     }
 
     public static final BitSet FOLLOW_opplAxioms_in_bottomup81 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_statement_in_bottomup90 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_OPPL_STATEMENT_in_statement112 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_variableDefinitions_in_statement118 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x000000A000000000L });
+        new long[] { 0x0000000000000000L, 0x000000A000000000L });
     public static final BitSet FOLLOW_query_in_statement123 = new BitSet(new long[] {
-            0x0000000000000000L, 0x000000A000000000L });
+        0x0000000000000000L, 0x000000A000000000L });
     public static final BitSet FOLLOW_actions_in_statement126 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_VARIABLE_DEFINITIONS_in_variableDefinitions157 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_variableDefinition_in_variableDefinitions164 = new BitSet(
-            new long[] { 0x0000000000000008L, 0x0000000300000000L });
+        new long[] { 0x0000000000000008L, 0x0000000300000000L });
     public static final BitSet FOLLOW_QUERY_in_query198 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_selectClause_in_query201 = new BitSet(new long[] {
-            0x0000000000000008L, 0x00000000F0000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x00000000000A0000L });
+        0x0000000000000008L, 0x00000000F0000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x00000000000A0000L });
     public static final BitSet FOLLOW_constraint_in_query214 = new BitSet(new long[] {
-            0x0000000000000008L, 0x00000000C0000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x00000000000A0000L });
+        0x0000000000000008L, 0x00000000C0000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x00000000000A0000L });
     public static final BitSet FOLLOW_ASSERTED_CLAUSE_in_selectClause243 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_PLAIN_CLAUSE_in_selectClause261 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_ACTIONS_in_actions298 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_action_in_actions301 = new BitSet(new long[] {
-            0x0000000000000008L, 0x000000000C000000L });
+        0x0000000000000008L, 0x000000000C000000L });
     public static final BitSet FOLLOW_ADD_in_action332 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_REMOVE_in_action347 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_INPUT_VARIABLE_DEFINITION_in_variableDefinition375 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition377 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000002000000L });
+        new long[] { 0x0000000000000000L, 0x0000000002000000L });
     public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition379 = new BitSet(
-            new long[] { 0x0000000000000008L, 0x0000010000000000L });
+        new long[] { 0x0000000000000008L, 0x0000010000000000L });
     public static final BitSet FOLLOW_variableScope_in_variableDefinition385 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition400 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition402 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000002000000L });
+        new long[] { 0x0000000000000000L, 0x0000000002000000L });
     public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition404 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000020L });
+        new long[] { 0x0000000000000000L, 0x0000000000000020L });
     public static final BitSet FOLLOW_EXPRESSION_in_variableDefinition412 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition432 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition434 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000002000000L });
+        new long[] { 0x0000000000000000L, 0x0000000002000000L });
     public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition436 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0001000000000000L });
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0001000000000000L });
     public static final BitSet FOLLOW_MATCH_in_variableDefinition439 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_stringOperation_in_variableDefinition445 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition459 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition461 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000002000000L });
+        new long[] { 0x0000000000000000L, 0x0000000002000000L });
     public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition463 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000400000000L });
+        new long[] { 0x0000000000000000L, 0x0000000400000000L });
     public static final BitSet FOLLOW_CREATE_OPPL_FUNCTION_in_variableDefinition466 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_stringOperation_in_variableDefinition473 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition486 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition492 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000002000000L });
+        new long[] { 0x0000000000000000L, 0x0000000002000000L });
     public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition494 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000020000L });
+        new long[] { 0x0000000000000000L, 0x0000000000020000L });
     public static final BitSet FOLLOW_CREATE_INTERSECTION_in_variableDefinition497 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_aggregandums_in_variableDefinition503 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_GENERATED_VARIABLE_DEFINITION_in_variableDefinition516 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_VARIABLE_NAME_in_variableDefinition522 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000002000000L });
+        new long[] { 0x0000000000000000L, 0x0000000002000000L });
     public static final BitSet FOLLOW_VARIABLE_TYPE_in_variableDefinition524 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000040000L });
+        new long[] { 0x0000000000000000L, 0x0000000000040000L });
     public static final BitSet FOLLOW_CREATE_DISJUNCTION_in_variableDefinition527 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_aggregandums_in_variableDefinition533 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_STRING_OPERATION_in_stringOperation587 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_stringExpression_in_stringOperation595 = new BitSet(
-            new long[] { 0x0000110000000008L, 0x0300000000000000L });
+        new long[] { 0x0000110000000008L, 0x0300000000000000L });
     public static final BitSet FOLLOW_DBLQUOTE_in_stringExpression635 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
     public static final BitSet FOLLOW_IDENTIFIER_in_stringExpression655 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_VARIABLE_NAME_in_stringExpression657 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000004000L });
+        new long[] { 0x0000000000000000L, 0x0000000000004000L });
     public static final BitSet FOLLOW_DOT_in_stringExpression659 = new BitSet(new long[] {
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000001000000000L });
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000001000000000L });
     public static final BitSet FOLLOW_GROUPS_in_stringExpression661 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000008000000L });
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+            0x0000000000000000L, 0x0000000008000000L });
     public static final BitSet FOLLOW_ATTRIBUTE_SELECTOR_in_stringExpression664 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_INTEGER_in_stringExpression666 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_IDENTIFIER_in_stringExpression685 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_VARIABLE_NAME_in_stringExpression688 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000004000L });
+        new long[] { 0x0000000000000000L, 0x0000000000004000L });
     public static final BitSet FOLLOW_DOT_in_stringExpression690 = new BitSet(new long[] {
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000800000000L });
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000800000000L });
     public static final BitSet FOLLOW_RENDERING_in_stringExpression694 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_TO_LOWER_CASE_in_stringExpression709 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_stringOperation_in_stringExpression715 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_TO_UPPER_CASE_in_stringExpression726 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_stringOperation_in_stringExpression732 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_TO_LOWER_CASE_in_stringExpression742 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_stringExpression_in_stringExpression748 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_TO_UPPER_CASE_in_stringExpression759 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_stringExpression_in_stringExpression765 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope807 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_SUBCLASS_OF_in_variableScope809 = new BitSet(
-            new long[] { 0xFFFFFFFFFFFFFFF0L, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
-                    0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
-                    0xFFFFFFFFFFFFFFFFL, 0x0000007FFFFFFFFFL });
-    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope826 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_SUPER_CLASS_OF_in_variableScope828 = new BitSet(
-            new long[] { 0xFFFFFFFFFFFFFFF0L, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
-                    0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
-                    0xFFFFFFFFFFFFFFFFL, 0x0000007FFFFFFFFFL });
-    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope847 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_SUPER_PROPERTY_OF_in_variableScope849 = new BitSet(
-            new long[] { 0xFFFFFFFFFFFFFFF0L, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
-                    0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
-                    0xFFFFFFFFFFFFFFFFL, 0x0000007FFFFFFFFFL });
-    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope864 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_SUBPROPERTY_OF_in_variableScope866 = new BitSet(
-            new long[] { 0xFFFFFFFFFFFFFFF0L, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
-                    0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
-                    0xFFFFFFFFFFFFFFFFL, 0x0000007FFFFFFFFFL });
-    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope885 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_set_in_variableScope887 = new BitSet(new long[] {
-            0xFFFFFFFFFFFFFFF0L, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
+        new long[] { 0xFFFFFFFFFFFFFFF0L, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
             0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
             0xFFFFFFFFFFFFFFFFL, 0x0000007FFFFFFFFFL });
+    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope826 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_SUPER_CLASS_OF_in_variableScope828 = new BitSet(
+        new long[] { 0xFFFFFFFFFFFFFFF0L, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
+            0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
+            0xFFFFFFFFFFFFFFFFL, 0x0000007FFFFFFFFFL });
+    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope847 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_SUPER_PROPERTY_OF_in_variableScope849 = new BitSet(
+        new long[] { 0xFFFFFFFFFFFFFFF0L, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
+            0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
+            0xFFFFFFFFFFFFFFFFL, 0x0000007FFFFFFFFFL });
+    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope864 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_SUBPROPERTY_OF_in_variableScope866 = new BitSet(
+        new long[] { 0xFFFFFFFFFFFFFFF0L, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
+            0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
+            0xFFFFFFFFFFFFFFFFL, 0x0000007FFFFFFFFFL });
+    public static final BitSet FOLLOW_VARIABLE_SCOPE_in_variableScope885 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_set_in_variableScope887 = new BitSet(new long[] {
+        0xFFFFFFFFFFFFFFF0L, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
+        0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL, 0xFFFFFFFFFFFFFFFFL,
+        0xFFFFFFFFFFFFFFFFL, 0x0000007FFFFFFFFFL });
     public static final BitSet FOLLOW_INEQUALITY_CONSTRAINT_in_constraint930 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_constraint932 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000020L });
+        new long[] { 0x0000000000000000L, 0x0000000000000020L });
     public static final BitSet FOLLOW_EXPRESSION_in_constraint935 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IN_SET_CONSTRAINT_in_constraint949 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_constraint955 = new BitSet(
-            new long[] { 0x0000100000000000L });
+        new long[] { 0x0000100000000000L });
     public static final BitSet FOLLOW_IDENTIFIER_in_constraint963 = new BitSet(
-            new long[] { 0x0000100000000008L });
+        new long[] { 0x0000100000000008L });
     public static final BitSet FOLLOW_REGEXP_CONSTRAINT_in_constraint976 = new BitSet(
-            new long[] { 0x0000000000000004L });
+        new long[] { 0x0000000000000004L });
     public static final BitSet FOLLOW_IDENTIFIER_in_constraint978 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-                    0x0000000000000400L });
-    public static final BitSet FOLLOW_stringOperation_in_constraint984 = new BitSet(
-            new long[] { 0x0000000000000008L });
-    public static final BitSet FOLLOW_NAF_CONSTRAINT_in_constraint996 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_aggregandum_in_aggregandums1032 = new BitSet(
-            new long[] { 0x0000100000000002L });
-    public static final BitSet FOLLOW_DISJOINT_CLASSES_in_opplAxioms1062 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_EXPRESSION_in_opplAxioms1065 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_SET_in_opplAxioms1068 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_aggregandums_in_opplAxioms1074 = new BitSet(
-            new long[] { 0x0000000000000008L });
-    public static final BitSet FOLLOW_DISJOINT_PROPERTIES_in_opplAxioms1084 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_EXPRESSION_in_opplAxioms1087 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_SET_in_opplAxioms1090 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_aggregandums_in_opplAxioms1096 = new BitSet(
-            new long[] { 0x0000000000000008L });
-    public static final BitSet FOLLOW_DIFFERENT_INDIVIDUALS_in_opplAxioms1107 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_EXPRESSION_in_opplAxioms1110 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_SET_in_opplAxioms1113 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_aggregandums_in_opplAxioms1119 = new BitSet(
-            new long[] { 0x0000000000000008L });
-    public static final BitSet FOLLOW_SAME_INDIVIDUAL_in_opplAxioms1130 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_EXPRESSION_in_opplAxioms1133 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_SET_in_opplAxioms1136 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_aggregandums_in_opplAxioms1142 = new BitSet(
-            new long[] { 0x0000000000000008L });
-    public static final BitSet FOLLOW_IDENTIFIER_in_aggregandum1172 = new BitSet(
-            new long[] { 0x0000000000000004L });
-    public static final BitSet FOLLOW_VARIABLE_NAME_in_aggregandum1175 = new BitSet(
-            new long[] { 0x0000000000000000L, 0x0000000000004000L });
-    public static final BitSet FOLLOW_DOT_in_aggregandum1177 = new BitSet(new long[] {
+        new long[] { 0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
             0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
-            0x0000000000000000L, 0x0000000000000000L, 0x0000000400000000L });
+            0x0000000000000400L });
+    public static final BitSet FOLLOW_stringOperation_in_constraint984 = new BitSet(
+        new long[] { 0x0000000000000008L });
+    public static final BitSet FOLLOW_NAF_CONSTRAINT_in_constraint996 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_aggregandum_in_aggregandums1032 = new BitSet(
+        new long[] { 0x0000100000000002L });
+    public static final BitSet FOLLOW_DISJOINT_CLASSES_in_opplAxioms1062 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_EXPRESSION_in_opplAxioms1065 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_SET_in_opplAxioms1068 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_aggregandums_in_opplAxioms1074 = new BitSet(
+        new long[] { 0x0000000000000008L });
+    public static final BitSet FOLLOW_DISJOINT_PROPERTIES_in_opplAxioms1084 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_EXPRESSION_in_opplAxioms1087 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_SET_in_opplAxioms1090 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_aggregandums_in_opplAxioms1096 = new BitSet(
+        new long[] { 0x0000000000000008L });
+    public static final BitSet FOLLOW_DIFFERENT_INDIVIDUALS_in_opplAxioms1107 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_EXPRESSION_in_opplAxioms1110 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_SET_in_opplAxioms1113 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_aggregandums_in_opplAxioms1119 = new BitSet(
+        new long[] { 0x0000000000000008L });
+    public static final BitSet FOLLOW_SAME_INDIVIDUAL_in_opplAxioms1130 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_EXPRESSION_in_opplAxioms1133 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_SET_in_opplAxioms1136 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_aggregandums_in_opplAxioms1142 = new BitSet(
+        new long[] { 0x0000000000000008L });
+    public static final BitSet FOLLOW_IDENTIFIER_in_aggregandum1172 = new BitSet(
+        new long[] { 0x0000000000000004L });
+    public static final BitSet FOLLOW_VARIABLE_NAME_in_aggregandum1175 = new BitSet(
+        new long[] { 0x0000000000000000L, 0x0000000000004000L });
+    public static final BitSet FOLLOW_DOT_in_aggregandum1177 = new BitSet(new long[] {
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000000000000L,
+        0x0000000000000000L, 0x0000000000000000L, 0x0000000400000000L });
     public static final BitSet FOLLOW_VALUES_in_aggregandum1180 = new BitSet(
-            new long[] { 0x0000000000000008L });
+        new long[] { 0x0000000000000008L });
     public static final BitSet FOLLOW_IDENTIFIER_in_aggregandum1197 = new BitSet(
-            new long[] { 0x0000000000000002L });
+        new long[] { 0x0000000000000002L });
 }

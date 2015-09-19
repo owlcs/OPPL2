@@ -19,19 +19,24 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.OWLObjectVisitorExAdapter;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLTestCaseAnnotationContainer implements AnnotationContainer {
+
     private final OWLEditorKit owlEditorKit;
     private final OWLAnnotationProperty testCaseAnnotationProperty;
     protected final OPPLTestCaseParser parser;
 
-    /** @param owlEditorKit
-     *            owlEditorKit */
+    /**
+     * @param owlEditorKit
+     *        owlEditorKit
+     */
     public OPPLTestCaseAnnotationContainer(OWLEditorKit owlEditorKit) {
         this.owlEditorKit = checkNotNull(owlEditorKit, "owlEditorKit");
         testCaseAnnotationProperty = Preferences
-                .getTestCaseAnnotationProperty(getOWLEditorKit().getOWLModelManager()
-                        .getOWLDataFactory());
+            .getTestCaseAnnotationProperty(getOWLEditorKit().getOWLModelManager()
+                .getOWLDataFactory());
         ProtegeParserFactory parserFactory = new ProtegeParserFactory(getOWLEditorKit());
         parser = parserFactory.build(new SystemErrorEcho());
     }
@@ -39,7 +44,7 @@ public class OPPLTestCaseAnnotationContainer implements AnnotationContainer {
     @Override
     public Set<OWLAnnotation> getAnnotations() {
         OWLOntology activeOntology = getOWLEditorKit().getOWLModelManager()
-                .getActiveOntology();
+            .getActiveOntology();
         Set<OWLAnnotation> toReturn = activeOntology.getAnnotations();
         Iterator<OWLAnnotation> iterator = toReturn.iterator();
         while (iterator.hasNext()) {
@@ -52,21 +57,24 @@ public class OPPLTestCaseAnnotationContainer implements AnnotationContainer {
         return toReturn;
     }
 
-    /** @param annotation
-     *            annotation
-     * @return test case */
+    /**
+     * @param annotation
+     *        annotation
+     * @return test case
+     */
     public OPPLTestCase getOPPLTestCase(OWLAnnotation annotation) {
         OPPLTestCase extracted = null;
         if (annotation.getProperty().equals(testCaseAnnotationProperty)) {
             OWLAnnotationValue value = annotation.getValue();
-            extracted = value.accept(new OWLObjectVisitorExAdapter<OPPLTestCase>() {
+            extracted = value.accept(new OWLObjectVisitorExAdapter<OPPLTestCase>(null) {
+
                 @Override
                 public OPPLTestCase visit(OWLLiteral literal) {
                     String input = literal.getLiteral();
                     OPPLTestCase parsed = parser.parse(input,
-                            new ShowMessageRuntimeExceptionHandler(
-                                    OPPLTestCaseAnnotationContainer.this
-                                            .getOWLEditorKit().getOWLWorkspace()));
+                        new ShowMessageRuntimeExceptionHandler(
+                            OPPLTestCaseAnnotationContainer.this
+                                .getOWLEditorKit().getOWLWorkspace()));
                     return parsed;
                 }
             });
@@ -74,7 +82,9 @@ public class OPPLTestCaseAnnotationContainer implements AnnotationContainer {
         return extracted;
     }
 
-    /** @return test cases */
+    /**
+     * @return test cases
+     */
     public Set<OPPLTestCase> getOPPLTestCases() {
         Set<OWLAnnotation> annotations = getAnnotations();
         Set<OPPLTestCase> toReturn = new HashSet<OPPLTestCase>(annotations.size());
@@ -84,12 +94,16 @@ public class OPPLTestCaseAnnotationContainer implements AnnotationContainer {
         return toReturn;
     }
 
-    /** @return the owlEditorKit */
+    /**
+     * @return the owlEditorKit
+     */
     public OWLEditorKit getOWLEditorKit() {
         return owlEditorKit;
     }
 
-    /** @return the ontology */
+    /**
+     * @return the ontology
+     */
     public OWLOntology getOntology() {
         return getOWLEditorKit().getOWLModelManager().getActiveOntology();
     }

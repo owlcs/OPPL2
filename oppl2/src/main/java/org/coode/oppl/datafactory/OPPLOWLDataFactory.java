@@ -11,160 +11,173 @@ import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import org.semanticweb.owlapi.vocab.OWLFacet;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLOWLDataFactory implements OWLDataFactory {
+
     /** a convenience reference for an empty annotation set, saves on typing */
     private static final Set<OWLAnnotation> NO_ANNOTATIONS = Collections
-            .<OWLAnnotation> emptySet();
+        .<OWLAnnotation> emptySet();
     private final OWLDataFactory delegate;
 
-    /** @param delegate
-     *            delegate */
+    /**
+     * @param delegate
+     *        delegate
+     */
     public OPPLOWLDataFactory(OWLDataFactory delegate) {
         this.delegate = checkNotNull(delegate, "delegate");
     }
 
-    /** @param set
-     *            set
+    /**
+     * @param set
+     *        set
      * @param shouldExpabdAsPairWise
-     *            shouldExpabdAsPairWise
-     * @return OWLDisjointClassesAxiom */
+     *        shouldExpabdAsPairWise
+     * @return OWLDisjointClassesAxiom
+     */
     public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
-            InlineSet<OWLClassExpression> set, boolean shouldExpabdAsPairWise) {
+        InlineSet<OWLClassExpression> set, boolean shouldExpabdAsPairWise) {
         return new OPPLOWLDisjointClassesAxiom(this, set, NO_ANNOTATIONS,
-                shouldExpabdAsPairWise);
+            shouldExpabdAsPairWise);
     }
 
-    /** @param set
-     *            set
+    /**
+     * @param set
+     *        set
      * @param annotations
-     *            annotations
+     *        annotations
      * @param shouldExpabdAsPairWise
-     *            shouldExpabdAsPairWise
-     * @return OWLDisjointClassesAxiom */
+     *        shouldExpabdAsPairWise
+     * @return OWLDisjointClassesAxiom
+     */
     public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
-            InlineSet<OWLClassExpression> set, Set<? extends OWLAnnotation> annotations,
-            boolean shouldExpabdAsPairWise) {
+        InlineSet<OWLClassExpression> set, Set<? extends OWLAnnotation> annotations,
+        boolean shouldExpabdAsPairWise) {
         return new OPPLOWLDisjointClassesAxiom(this, set, annotations,
-                shouldExpabdAsPairWise);
+            shouldExpabdAsPairWise);
     }
 
-    /** @param set
-     *            set
+    /**
+     * @param set
+     *        set
      * @param shouldExpabdAsPairWise
-     *            shouldExpabdAsPairWise
-     * @return OWLDisjointObjectPropertiesAxiom */
+     *        shouldExpabdAsPairWise
+     * @return OWLDisjointObjectPropertiesAxiom
+     */
     public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
-            InlineSet<OWLObjectPropertyExpression> set, boolean shouldExpabdAsPairWise) {
+        InlineSet<OWLObjectPropertyExpression> set, boolean shouldExpabdAsPairWise) {
         return new OPPLOWLDisjointObjectPropertiesAxiom(this, set, NO_ANNOTATIONS,
-                shouldExpabdAsPairWise);
+            shouldExpabdAsPairWise);
     }
 
-    /** @param set
-     *            set
+    /**
+     * @param set
+     *        set
      * @param annotations
-     *            annotations
+     *        annotations
      * @param shouldExpabdAsPairWise
-     *            shouldExpabdAsPairWise
-     * @return OWLDisjointObjectPropertiesAxiom */
+     *        shouldExpabdAsPairWise
+     * @return OWLDisjointObjectPropertiesAxiom
+     */
     public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
-            InlineSet<OWLObjectPropertyExpression> set,
-            Set<? extends OWLAnnotation> annotations, boolean shouldExpabdAsPairWise) {
+        InlineSet<OWLObjectPropertyExpression> set,
+        Set<? extends OWLAnnotation> annotations, boolean shouldExpabdAsPairWise) {
         return new OPPLOWLDisjointObjectPropertiesAxiom(this, set, annotations,
-                shouldExpabdAsPairWise);
+            shouldExpabdAsPairWise);
     }
 
-    /** @param set
-     *            set
+    /**
+     * @param set
+     *        set
      * @param shouldExpabdAsPairWise
-     *            shouldExpabdAsPairWise
-     * @return OWLDisjointDataPropertiesAxiom */
+     *        shouldExpabdAsPairWise
+     * @return OWLDisjointDataPropertiesAxiom
+     */
     public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
-            InlineSet<OWLDataPropertyExpression> set, boolean shouldExpabdAsPairWise) {
+        InlineSet<OWLDataPropertyExpression> set, boolean shouldExpabdAsPairWise) {
         return new OPPLOWLDisjointDataPropertiesAxiom(this, set, NO_ANNOTATIONS,
-                shouldExpabdAsPairWise);
+            shouldExpabdAsPairWise);
     }
 
-    /** @param set
-     *            set
+    /**
+     * @param set
+     *        set
      * @param annotations
-     *            annotations
+     *        annotations
      * @param shouldExpabdAsPairWise
-     *            shouldExpabdAsPairWise
-     * @return OWLDisjointDataPropertiesAxiom */
+     *        shouldExpabdAsPairWise
+     * @return OWLDisjointDataPropertiesAxiom
+     */
     public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
-            InlineSet<OWLDataPropertyExpression> set,
-            Set<? extends OWLAnnotation> annotations, boolean shouldExpabdAsPairWise) {
+        InlineSet<OWLDataPropertyExpression> set,
+        Set<? extends OWLAnnotation> annotations, boolean shouldExpabdAsPairWise) {
         return new OPPLOWLDisjointDataPropertiesAxiom(this, set, annotations,
-                shouldExpabdAsPairWise);
+            shouldExpabdAsPairWise);
     }
 
-    /** @param set
-     *            set
+    /**
+     * @param set
+     *        set
      * @param shouldExpabdAsPairWise
-     *            shouldExpabdAsPairWise
-     * @return OWLDifferentIndividualsAxiom */
+     *        shouldExpabdAsPairWise
+     * @return OWLDifferentIndividualsAxiom
+     */
     public OWLDifferentIndividualsAxiom getOWLDifferentIndividualsAxiom(
-            InlineSet<OWLIndividual> set, boolean shouldExpabdAsPairWise) {
+        InlineSet<OWLIndividual> set, boolean shouldExpabdAsPairWise) {
         return new OPPLOWLDifferentIndividualsAxiom(this, set, NO_ANNOTATIONS,
-                shouldExpabdAsPairWise);
+            shouldExpabdAsPairWise);
     }
 
-    /** @param set
-     *            set
+    /**
+     * @param set
+     *        set
      * @param annotations
-     *            annotations
+     *        annotations
      * @param shouldExpabdAsPairWise
-     *            shouldExpabdAsPairWise
-     * @return OWLDifferentIndividualsAxiom */
+     *        shouldExpabdAsPairWise
+     * @return OWLDifferentIndividualsAxiom
+     */
     public OWLDifferentIndividualsAxiom getOWLDifferentIndividualsAxiom(
-            InlineSet<OWLIndividual> set, Set<? extends OWLAnnotation> annotations,
-            boolean shouldExpabdAsPairWise) {
+        InlineSet<OWLIndividual> set, Set<? extends OWLAnnotation> annotations,
+        boolean shouldExpabdAsPairWise) {
         return new OPPLOWLDifferentIndividualsAxiom(this, set, annotations,
-                shouldExpabdAsPairWise);
+            shouldExpabdAsPairWise);
     }
 
-    /** @param set
-     *            set
+    /**
+     * @param set
+     *        set
      * @param shouldExpabdAsPairWise
-     *            shouldExpabdAsPairWise
-     * @return OWLSameIndividualAxiom */
+     *        shouldExpabdAsPairWise
+     * @return OWLSameIndividualAxiom
+     */
     public OWLSameIndividualAxiom getOWLSameIndividualAxiom(InlineSet<OWLIndividual> set,
-            boolean shouldExpabdAsPairWise) {
+        boolean shouldExpabdAsPairWise) {
         return new OPPLOWLSameIndividualAxiom(this, set, NO_ANNOTATIONS,
-                shouldExpabdAsPairWise);
+            shouldExpabdAsPairWise);
     }
 
-    /** @param set
-     *            set
+    /**
+     * @param set
+     *        set
      * @param annotations
-     *            annotations
+     *        annotations
      * @param shouldExpabdAsPairWise
-     *            shouldExpabdAsPairWise
-     * @return OWLSameIndividualAxiom */
+     *        shouldExpabdAsPairWise
+     * @return OWLSameIndividualAxiom
+     */
     public OWLSameIndividualAxiom getOWLSameIndividualAxiom(InlineSet<OWLIndividual> set,
-            Set<? extends OWLAnnotation> annotations, boolean shouldExpabdAsPairWise) {
+        Set<? extends OWLAnnotation> annotations, boolean shouldExpabdAsPairWise) {
         return new OPPLOWLSameIndividualAxiom(this, set, annotations,
-                shouldExpabdAsPairWise);
+            shouldExpabdAsPairWise);
     }
 
-    /** @return delegate datafactory */
+    /**
+     * @return delegate datafactory
+     */
     public OWLDataFactory getDelegate() {
         return delegate;
-    }
-
-    @Override
-    @Deprecated
-    public SWRLRule getSWRLRule(IRI iri, Set<? extends SWRLAtom> body,
-            Set<? extends SWRLAtom> head) {
-        return delegate.getSWRLRule(iri, body, head);
-    }
-
-    @Override
-    @Deprecated
-    public SWRLRule getSWRLRule(NodeID nodeID, Set<? extends SWRLAtom> body,
-            Set<? extends SWRLAtom> head) {
-        return delegate.getSWRLRule(nodeID, body, head);
     }
 
     @Override
@@ -173,14 +186,13 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
     }
 
     @Override
-    public SWRLRule
-            getSWRLRule(Set<? extends SWRLAtom> body, Set<? extends SWRLAtom> head) {
+    public SWRLRule getSWRLRule(Set<? extends SWRLAtom> body, Set<? extends SWRLAtom> head) {
         return delegate.getSWRLRule(body, head);
     }
 
     @Override
     public SWRLRule getSWRLRule(Set<? extends SWRLAtom> body,
-            Set<? extends SWRLAtom> head, Set<OWLAnnotation> annotations) {
+        Set<? extends SWRLAtom> head, Set<OWLAnnotation> annotations) {
         return delegate.getSWRLRule(body, head, annotations);
     }
 
@@ -205,8 +217,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
     }
 
     @Override
-    public SWRLClassAtom
-            getSWRLClassAtom(OWLClassExpression predicate, SWRLIArgument arg) {
+    public SWRLClassAtom getSWRLClassAtom(OWLClassExpression predicate, SWRLIArgument arg) {
         return delegate.getSWRLClassAtom(predicate, arg);
     }
 
@@ -227,7 +238,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public SWRLDataRangeAtom getSWRLDataRangeAtom(OWLDataRange predicate,
-            SWRLDArgument arg) {
+        SWRLDArgument arg) {
         return delegate.getSWRLDataRangeAtom(predicate, arg);
     }
 
@@ -238,7 +249,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public SWRLObjectPropertyAtom getSWRLObjectPropertyAtom(
-            OWLObjectPropertyExpression property, SWRLIArgument arg0, SWRLIArgument arg1) {
+        OWLObjectPropertyExpression property, SWRLIArgument arg0, SWRLIArgument arg1) {
         return delegate.getSWRLObjectPropertyAtom(property, arg0, arg1);
     }
 
@@ -249,7 +260,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public SWRLDataPropertyAtom getSWRLDataPropertyAtom(
-            OWLDataPropertyExpression property, SWRLIArgument arg0, SWRLDArgument arg1) {
+        OWLDataPropertyExpression property, SWRLIArgument arg0, SWRLDArgument arg1) {
         return delegate.getSWRLDataPropertyAtom(property, arg0, arg1);
     }
 
@@ -265,7 +276,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLObjectProperty getOWLObjectProperty(String abbreviatedIRI,
-            PrefixManager prefixManager) {
+        PrefixManager prefixManager) {
         return delegate.getOWLObjectProperty(abbreviatedIRI, prefixManager);
     }
 
@@ -286,13 +297,13 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public SWRLSameIndividualAtom getSWRLSameIndividualAtom(SWRLIArgument arg0,
-            SWRLIArgument arg1) {
+        SWRLIArgument arg1) {
         return delegate.getSWRLSameIndividualAtom(arg0, arg1);
     }
 
     @Override
     public SWRLDifferentIndividualsAtom getSWRLDifferentIndividualsAtom(
-            SWRLIArgument arg0, SWRLIArgument arg1) {
+        SWRLIArgument arg0, SWRLIArgument arg1) {
         return delegate.getSWRLDifferentIndividualsAtom(arg0, arg1);
     }
 
@@ -308,7 +319,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLDataProperty getOWLDataProperty(String abbreviatedIRI,
-            PrefixManager prefixManager) {
+        PrefixManager prefixManager) {
         return delegate.getOWLDataProperty(abbreviatedIRI, prefixManager);
     }
 
@@ -319,7 +330,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLNamedIndividual getOWLNamedIndividual(String abbreviatedIRI,
-            PrefixManager prefixManager) {
+        PrefixManager prefixManager) {
         return delegate.getOWLNamedIndividual(abbreviatedIRI, prefixManager);
     }
 
@@ -340,7 +351,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLAnnotationProperty getOWLAnnotationProperty(String abbreviatedIRI,
-            PrefixManager prefixManager) {
+        PrefixManager prefixManager) {
         return delegate.getOWLAnnotationProperty(abbreviatedIRI, prefixManager);
     }
 
@@ -460,60 +471,6 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
     }
 
     @Override
-    @Deprecated
-    public OWLLiteral getOWLTypedLiteral(String literal, OWLDatatype datatype) {
-        return delegate.getOWLTypedLiteral(literal, datatype);
-    }
-
-    @Override
-    @Deprecated
-    public OWLLiteral getOWLTypedLiteral(String literal, OWL2Datatype datatype) {
-        return delegate.getOWLTypedLiteral(literal, datatype);
-    }
-
-    @Override
-    @Deprecated
-    public OWLLiteral getOWLTypedLiteral(int value) {
-        return delegate.getOWLTypedLiteral(value);
-    }
-
-    @Override
-    @Deprecated
-    public OWLLiteral getOWLTypedLiteral(double value) {
-        return delegate.getOWLTypedLiteral(value);
-    }
-
-    @Override
-    @Deprecated
-    public OWLLiteral getOWLTypedLiteral(boolean value) {
-        return delegate.getOWLTypedLiteral(value);
-    }
-
-    @Override
-    @Deprecated
-    public OWLLiteral getOWLTypedLiteral(float value) {
-        return delegate.getOWLTypedLiteral(value);
-    }
-
-    @Override
-    @Deprecated
-    public OWLLiteral getOWLTypedLiteral(String value) {
-        return delegate.getOWLTypedLiteral(value);
-    }
-
-    @Override
-    @Deprecated
-    public OWLLiteral getOWLStringLiteral(String literal, String lang) {
-        return delegate.getOWLStringLiteral(literal, lang);
-    }
-
-    @Override
-    @Deprecated
-    public OWLLiteral getOWLStringLiteral(String literal) {
-        return delegate.getOWLStringLiteral(literal);
-    }
-
-    @Override
     public OWLDataOneOf getOWLDataOneOf(Set<? extends OWLLiteral> values) {
         return delegate.getOWLDataOneOf(values);
     }
@@ -530,19 +487,19 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLDatatypeRestriction getOWLDatatypeRestriction(OWLDatatype dataRange,
-            Set<OWLFacetRestriction> facetRestrictions) {
+        Set<OWLFacetRestriction> facetRestrictions) {
         return delegate.getOWLDatatypeRestriction(dataRange, facetRestrictions);
     }
 
     @Override
     public OWLDatatypeRestriction getOWLDatatypeRestriction(OWLDatatype dataRange,
-            OWLFacet facet, OWLLiteral typedLiteral) {
+        OWLFacet facet, OWLLiteral typedLiteral) {
         return delegate.getOWLDatatypeRestriction(dataRange, facet, typedLiteral);
     }
 
     @Override
     public OWLDatatypeRestriction getOWLDatatypeRestriction(OWLDatatype dataRange,
-            OWLFacetRestriction... facetRestrictions) {
+        OWLFacetRestriction... facetRestrictions) {
         return delegate.getOWLDatatypeRestriction(dataRange, facetRestrictions);
     }
 
@@ -558,9 +515,9 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLDatatypeRestriction getOWLDatatypeMinMaxInclusiveRestriction(
-            int minInclusive, int maxInclusive) {
+        int minInclusive, int maxInclusive) {
         return delegate.getOWLDatatypeMinMaxInclusiveRestriction(minInclusive,
-                maxInclusive);
+            maxInclusive);
     }
 
     @Override
@@ -575,52 +532,52 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLDatatypeRestriction getOWLDatatypeMinMaxExclusiveRestriction(
-            int minExclusive, int maxExclusive) {
+        int minExclusive, int maxExclusive) {
         return delegate.getOWLDatatypeMinMaxExclusiveRestriction(minExclusive,
-                maxExclusive);
+            maxExclusive);
     }
 
     @Override
     public OWLDatatypeRestriction getOWLDatatypeMinInclusiveRestriction(
-            double minInclusive) {
+        double minInclusive) {
         return delegate.getOWLDatatypeMinInclusiveRestriction(minInclusive);
     }
 
     @Override
     public OWLDatatypeRestriction getOWLDatatypeMaxInclusiveRestriction(
-            double maxInclusive) {
+        double maxInclusive) {
         return delegate.getOWLDatatypeMaxInclusiveRestriction(maxInclusive);
     }
 
     @Override
     public OWLDatatypeRestriction getOWLDatatypeMinMaxInclusiveRestriction(
-            double minInclusive, double maxInclusive) {
+        double minInclusive, double maxInclusive) {
         return delegate.getOWLDatatypeMinMaxInclusiveRestriction(minInclusive,
-                maxInclusive);
+            maxInclusive);
     }
 
     @Override
     public OWLDatatypeRestriction getOWLDatatypeMinExclusiveRestriction(
-            double minExclusive) {
+        double minExclusive) {
         return delegate.getOWLDatatypeMinExclusiveRestriction(minExclusive);
     }
 
     @Override
     public OWLDatatypeRestriction getOWLDatatypeMaxExclusiveRestriction(
-            double maxExclusive) {
+        double maxExclusive) {
         return delegate.getOWLDatatypeMaxExclusiveRestriction(maxExclusive);
     }
 
     @Override
     public OWLDatatypeRestriction getOWLDatatypeMinMaxExclusiveRestriction(
-            double minExclusive, double maxExclusive) {
+        double minExclusive, double maxExclusive) {
         return delegate.getOWLDatatypeMinMaxExclusiveRestriction(minExclusive,
-                maxExclusive);
+            maxExclusive);
     }
 
     @Override
     public OWLFacetRestriction getOWLFacetRestriction(OWLFacet facet,
-            OWLLiteral facetValue) {
+        OWLLiteral facetValue) {
         return delegate.getOWLFacetRestriction(facet, facetValue);
     }
 
@@ -651,7 +608,7 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLDataIntersectionOf getOWLDataIntersectionOf(
-            Set<? extends OWLDataRange> dataRanges) {
+        Set<? extends OWLDataRange> dataRanges) {
         return delegate.getOWLDataIntersectionOf(dataRanges);
     }
 
@@ -662,67 +619,67 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLObjectIntersectionOf getOWLObjectIntersectionOf(
-            Set<? extends OWLClassExpression> operands) {
+        Set<? extends OWLClassExpression> operands) {
         return delegate.getOWLObjectIntersectionOf(operands);
     }
 
     @Override
     public OWLObjectIntersectionOf getOWLObjectIntersectionOf(
-            OWLClassExpression... operands) {
+        OWLClassExpression... operands) {
         return delegate.getOWLObjectIntersectionOf(operands);
     }
 
     @Override
     public OWLDataSomeValuesFrom getOWLDataSomeValuesFrom(
-            OWLDataPropertyExpression property, OWLDataRange dataRange) {
+        OWLDataPropertyExpression property, OWLDataRange dataRange) {
         return delegate.getOWLDataSomeValuesFrom(property, dataRange);
     }
 
     @Override
     public OWLDataAllValuesFrom getOWLDataAllValuesFrom(
-            OWLDataPropertyExpression property, OWLDataRange dataRange) {
+        OWLDataPropertyExpression property, OWLDataRange dataRange) {
         return delegate.getOWLDataAllValuesFrom(property, dataRange);
     }
 
     @Override
     public OWLDataExactCardinality getOWLDataExactCardinality(int cardinality,
-            OWLDataPropertyExpression property) {
+        OWLDataPropertyExpression property) {
         return delegate.getOWLDataExactCardinality(cardinality, property);
     }
 
     @Override
     public OWLDataExactCardinality getOWLDataExactCardinality(int cardinality,
-            OWLDataPropertyExpression property, OWLDataRange dataRange) {
+        OWLDataPropertyExpression property, OWLDataRange dataRange) {
         return delegate.getOWLDataExactCardinality(cardinality, property, dataRange);
     }
 
     @Override
     public OWLDataMaxCardinality getOWLDataMaxCardinality(int cardinality,
-            OWLDataPropertyExpression property) {
+        OWLDataPropertyExpression property) {
         return delegate.getOWLDataMaxCardinality(cardinality, property);
     }
 
     @Override
     public OWLDataMaxCardinality getOWLDataMaxCardinality(int cardinality,
-            OWLDataPropertyExpression property, OWLDataRange dataRange) {
+        OWLDataPropertyExpression property, OWLDataRange dataRange) {
         return delegate.getOWLDataMaxCardinality(cardinality, property, dataRange);
     }
 
     @Override
     public OWLDataMinCardinality getOWLDataMinCardinality(int cardinality,
-            OWLDataPropertyExpression property) {
+        OWLDataPropertyExpression property) {
         return delegate.getOWLDataMinCardinality(cardinality, property);
     }
 
     @Override
     public OWLDataMinCardinality getOWLDataMinCardinality(int cardinality,
-            OWLDataPropertyExpression property, OWLDataRange dataRange) {
+        OWLDataPropertyExpression property, OWLDataRange dataRange) {
         return delegate.getOWLDataMinCardinality(cardinality, property, dataRange);
     }
 
     @Override
     public OWLDataHasValue getOWLDataHasValue(OWLDataPropertyExpression property,
-            OWLLiteral value) {
+        OWLLiteral value) {
         return delegate.getOWLDataHasValue(property, value);
     }
 
@@ -743,53 +700,53 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLObjectAllValuesFrom getOWLObjectAllValuesFrom(
-            OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
+        OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
         return delegate.getOWLObjectAllValuesFrom(property, classExpression);
     }
 
     @Override
     public OWLObjectSomeValuesFrom getOWLObjectSomeValuesFrom(
-            OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
+        OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
         return delegate.getOWLObjectSomeValuesFrom(property, classExpression);
     }
 
     @Override
     public OWLObjectExactCardinality getOWLObjectExactCardinality(int cardinality,
-            OWLObjectPropertyExpression property) {
+        OWLObjectPropertyExpression property) {
         return delegate.getOWLObjectExactCardinality(cardinality, property);
     }
 
     @Override
     public OWLObjectExactCardinality getOWLObjectExactCardinality(int cardinality,
-            OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
+        OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
         return delegate.getOWLObjectExactCardinality(cardinality, property,
-                classExpression);
+            classExpression);
     }
 
     @Override
     public OWLObjectMinCardinality getOWLObjectMinCardinality(int cardinality,
-            OWLObjectPropertyExpression property) {
+        OWLObjectPropertyExpression property) {
         return delegate.getOWLObjectMinCardinality(cardinality, property);
     }
 
     @Override
     public OWLObjectMinCardinality getOWLObjectMinCardinality(int cardinality,
-            OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
+        OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
         return delegate
-                .getOWLObjectMinCardinality(cardinality, property, classExpression);
+            .getOWLObjectMinCardinality(cardinality, property, classExpression);
     }
 
     @Override
     public OWLObjectMaxCardinality getOWLObjectMaxCardinality(int cardinality,
-            OWLObjectPropertyExpression property) {
+        OWLObjectPropertyExpression property) {
         return delegate.getOWLObjectMaxCardinality(cardinality, property);
     }
 
     @Override
     public OWLObjectMaxCardinality getOWLObjectMaxCardinality(int cardinality,
-            OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
+        OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
         return delegate
-                .getOWLObjectMaxCardinality(cardinality, property, classExpression);
+            .getOWLObjectMaxCardinality(cardinality, property, classExpression);
     }
 
     @Override
@@ -799,13 +756,12 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLObjectHasValue getOWLObjectHasValue(OWLObjectPropertyExpression property,
-            OWLIndividual individual) {
+        OWLIndividual individual) {
         return delegate.getOWLObjectHasValue(property, individual);
     }
 
     @Override
-    public OWLObjectUnionOf
-            getOWLObjectUnionOf(Set<? extends OWLClassExpression> operands) {
+    public OWLObjectUnionOf getOWLObjectUnionOf(Set<? extends OWLClassExpression> operands) {
         return delegate.getOWLObjectUnionOf(operands);
     }
 
@@ -821,447 +777,439 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLDeclarationAxiom getOWLDeclarationAxiom(OWLEntity owlEntity,
-            Set<? extends OWLAnnotation> annotations) {
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLDeclarationAxiom(owlEntity, annotations);
     }
 
     @Override
     public OWLSubClassOfAxiom getOWLSubClassOfAxiom(OWLClassExpression subClass,
-            OWLClassExpression superClass) {
+        OWLClassExpression superClass) {
         return delegate.getOWLSubClassOfAxiom(subClass, superClass);
     }
 
     @Override
     public OWLSubClassOfAxiom getOWLSubClassOfAxiom(OWLClassExpression subClass,
-            OWLClassExpression superClass, Set<? extends OWLAnnotation> annotations) {
+        OWLClassExpression superClass, Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLSubClassOfAxiom(subClass, superClass, annotations);
     }
 
     @Override
     public OWLEquivalentClassesAxiom getOWLEquivalentClassesAxiom(
-            Set<? extends OWLClassExpression> classExpressions) {
+        Set<? extends OWLClassExpression> classExpressions) {
         return delegate.getOWLEquivalentClassesAxiom(classExpressions);
     }
 
     @Override
     public OWLEquivalentClassesAxiom getOWLEquivalentClassesAxiom(
-            Set<? extends OWLClassExpression> classExpressions,
-            Set<? extends OWLAnnotation> annotations) {
+        Set<? extends OWLClassExpression> classExpressions,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLEquivalentClassesAxiom(classExpressions, annotations);
     }
 
     @Override
     public OWLEquivalentClassesAxiom getOWLEquivalentClassesAxiom(
-            OWLClassExpression... classExpressions) {
+        OWLClassExpression... classExpressions) {
         return delegate.getOWLEquivalentClassesAxiom(classExpressions);
     }
 
     @Override
     public OWLEquivalentClassesAxiom getOWLEquivalentClassesAxiom(
-            OWLClassExpression clsA, OWLClassExpression clsB) {
+        OWLClassExpression clsA, OWLClassExpression clsB) {
         return delegate.getOWLEquivalentClassesAxiom(clsA, clsB);
     }
 
     @Override
     public OWLEquivalentClassesAxiom getOWLEquivalentClassesAxiom(
-            OWLClassExpression clsA, OWLClassExpression clsB,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLClassExpression clsA, OWLClassExpression clsB,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLEquivalentClassesAxiom(clsA, clsB, annotations);
     }
 
     @Override
     public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
-            Set<? extends OWLClassExpression> classExpressions) {
+        Set<? extends OWLClassExpression> classExpressions) {
         return delegate.getOWLDisjointClassesAxiom(classExpressions);
     }
 
     @Override
     public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
-            OWLClassExpression... classExpressions) {
+        OWLClassExpression... classExpressions) {
         return delegate.getOWLDisjointClassesAxiom(classExpressions);
     }
 
     @Override
     public OWLDisjointClassesAxiom getOWLDisjointClassesAxiom(
-            Set<? extends OWLClassExpression> classExpressions,
-            Set<? extends OWLAnnotation> annotations) {
+        Set<? extends OWLClassExpression> classExpressions,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLDisjointClassesAxiom(classExpressions, annotations);
     }
 
     @Override
     public OWLDisjointUnionAxiom getOWLDisjointUnionAxiom(OWLClass owlClass,
-            Set<? extends OWLClassExpression> classExpressions) {
+        Set<? extends OWLClassExpression> classExpressions) {
         return delegate.getOWLDisjointUnionAxiom(owlClass, classExpressions);
     }
 
     @Override
     public OWLDisjointUnionAxiom getOWLDisjointUnionAxiom(OWLClass owlClass,
-            Set<? extends OWLClassExpression> classExpressions,
-            Set<? extends OWLAnnotation> annotations) {
+        Set<? extends OWLClassExpression> classExpressions,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLDisjointUnionAxiom(owlClass, classExpressions, annotations);
     }
 
     @Override
     public OWLSubObjectPropertyOfAxiom getOWLSubObjectPropertyOfAxiom(
-            OWLObjectPropertyExpression subProperty,
-            OWLObjectPropertyExpression superProperty) {
+        OWLObjectPropertyExpression subProperty,
+        OWLObjectPropertyExpression superProperty) {
         return delegate.getOWLSubObjectPropertyOfAxiom(subProperty, superProperty);
     }
 
     @Override
     public OWLSubObjectPropertyOfAxiom getOWLSubObjectPropertyOfAxiom(
-            OWLObjectPropertyExpression subProperty,
-            OWLObjectPropertyExpression superProperty,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLObjectPropertyExpression subProperty,
+        OWLObjectPropertyExpression superProperty,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLSubObjectPropertyOfAxiom(subProperty, superProperty,
-                annotations);
+            annotations);
     }
 
     @Override
     public OWLSubPropertyChainOfAxiom getOWLSubPropertyChainOfAxiom(
-            List<? extends OWLObjectPropertyExpression> chain,
-            OWLObjectPropertyExpression superProperty) {
+        List<? extends OWLObjectPropertyExpression> chain,
+        OWLObjectPropertyExpression superProperty) {
         return delegate.getOWLSubPropertyChainOfAxiom(chain, superProperty);
     }
 
     @Override
     public OWLSubPropertyChainOfAxiom getOWLSubPropertyChainOfAxiom(
-            List<? extends OWLObjectPropertyExpression> chain,
-            OWLObjectPropertyExpression superProperty,
-            Set<? extends OWLAnnotation> annotations) {
+        List<? extends OWLObjectPropertyExpression> chain,
+        OWLObjectPropertyExpression superProperty,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLSubPropertyChainOfAxiom(chain, superProperty, annotations);
     }
 
     @Override
     public OWLEquivalentObjectPropertiesAxiom getOWLEquivalentObjectPropertiesAxiom(
-            Set<? extends OWLObjectPropertyExpression> properties) {
+        Set<? extends OWLObjectPropertyExpression> properties) {
         return delegate.getOWLEquivalentObjectPropertiesAxiom(properties);
     }
 
     @Override
     public OWLEquivalentObjectPropertiesAxiom getOWLEquivalentObjectPropertiesAxiom(
-            Set<? extends OWLObjectPropertyExpression> properties,
-            Set<? extends OWLAnnotation> annotations) {
+        Set<? extends OWLObjectPropertyExpression> properties,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLEquivalentObjectPropertiesAxiom(properties, annotations);
     }
 
     @Override
     public OWLEquivalentObjectPropertiesAxiom getOWLEquivalentObjectPropertiesAxiom(
-            OWLObjectPropertyExpression... properties) {
+        OWLObjectPropertyExpression... properties) {
         return delegate.getOWLEquivalentObjectPropertiesAxiom(properties);
     }
 
     @Override
     public OWLEquivalentObjectPropertiesAxiom getOWLEquivalentObjectPropertiesAxiom(
-            OWLObjectPropertyExpression propertyA, OWLObjectPropertyExpression propertyB) {
+        OWLObjectPropertyExpression propertyA, OWLObjectPropertyExpression propertyB) {
         return delegate.getOWLEquivalentObjectPropertiesAxiom(propertyA, propertyB);
     }
 
     @Override
     public OWLEquivalentObjectPropertiesAxiom getOWLEquivalentObjectPropertiesAxiom(
-            OWLObjectPropertyExpression propertyA, OWLObjectPropertyExpression propertyB,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLObjectPropertyExpression propertyA, OWLObjectPropertyExpression propertyB,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLEquivalentObjectPropertiesAxiom(propertyA, propertyB,
-                annotations);
+            annotations);
     }
 
     @Override
     public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
-            Set<? extends OWLObjectPropertyExpression> properties) {
+        Set<? extends OWLObjectPropertyExpression> properties) {
         return delegate.getOWLDisjointObjectPropertiesAxiom(properties);
     }
 
     @Override
     public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
-            OWLObjectPropertyExpression... properties) {
+        OWLObjectPropertyExpression... properties) {
         return delegate.getOWLDisjointObjectPropertiesAxiom(properties);
     }
 
     @Override
     public OWLDisjointObjectPropertiesAxiom getOWLDisjointObjectPropertiesAxiom(
-            Set<? extends OWLObjectPropertyExpression> properties,
-            Set<? extends OWLAnnotation> annotations) {
+        Set<? extends OWLObjectPropertyExpression> properties,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLDisjointObjectPropertiesAxiom(properties, annotations);
     }
 
     @Override
     public OWLInverseObjectPropertiesAxiom getOWLInverseObjectPropertiesAxiom(
-            OWLObjectPropertyExpression forwardProperty,
-            OWLObjectPropertyExpression inverseProperty) {
+        OWLObjectPropertyExpression forwardProperty,
+        OWLObjectPropertyExpression inverseProperty) {
         return delegate.getOWLInverseObjectPropertiesAxiom(forwardProperty,
-                inverseProperty);
+            inverseProperty);
     }
 
     @Override
     public OWLInverseObjectPropertiesAxiom getOWLInverseObjectPropertiesAxiom(
-            OWLObjectPropertyExpression forwardProperty,
-            OWLObjectPropertyExpression inverseProperty,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLObjectPropertyExpression forwardProperty,
+        OWLObjectPropertyExpression inverseProperty,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLInverseObjectPropertiesAxiom(forwardProperty,
-                inverseProperty, annotations);
+            inverseProperty, annotations);
     }
 
     @Override
     public OWLObjectPropertyDomainAxiom getOWLObjectPropertyDomainAxiom(
-            OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
+        OWLObjectPropertyExpression property, OWLClassExpression classExpression) {
         return delegate.getOWLObjectPropertyDomainAxiom(property, classExpression);
     }
 
     @Override
     public OWLObjectPropertyDomainAxiom getOWLObjectPropertyDomainAxiom(
-            OWLObjectPropertyExpression property, OWLClassExpression classExpression,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLObjectPropertyExpression property, OWLClassExpression classExpression,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLObjectPropertyDomainAxiom(property, classExpression,
-                annotations);
+            annotations);
     }
 
     @Override
     public OWLObjectPropertyRangeAxiom getOWLObjectPropertyRangeAxiom(
-            OWLObjectPropertyExpression property, OWLClassExpression range) {
+        OWLObjectPropertyExpression property, OWLClassExpression range) {
         return delegate.getOWLObjectPropertyRangeAxiom(property, range);
     }
 
     @Override
     public OWLObjectPropertyRangeAxiom getOWLObjectPropertyRangeAxiom(
-            OWLObjectPropertyExpression property, OWLClassExpression range,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLObjectPropertyExpression property, OWLClassExpression range,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLObjectPropertyRangeAxiom(property, range, annotations);
     }
 
     @Override
     public OWLFunctionalObjectPropertyAxiom getOWLFunctionalObjectPropertyAxiom(
-            OWLObjectPropertyExpression property) {
+        OWLObjectPropertyExpression property) {
         return delegate.getOWLFunctionalObjectPropertyAxiom(property);
     }
 
     @Override
-    public OWLFunctionalObjectPropertyAxiom
-            getOWLFunctionalObjectPropertyAxiom(OWLObjectPropertyExpression property,
-                    Set<? extends OWLAnnotation> annotations) {
+    public OWLFunctionalObjectPropertyAxiom getOWLFunctionalObjectPropertyAxiom(OWLObjectPropertyExpression property,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLFunctionalObjectPropertyAxiom(property, annotations);
     }
 
     @Override
-    public OWLInverseFunctionalObjectPropertyAxiom
-            getOWLInverseFunctionalObjectPropertyAxiom(
-                    OWLObjectPropertyExpression property) {
+    public OWLInverseFunctionalObjectPropertyAxiom getOWLInverseFunctionalObjectPropertyAxiom(
+        OWLObjectPropertyExpression property) {
         return delegate.getOWLInverseFunctionalObjectPropertyAxiom(property);
     }
 
     @Override
-    public OWLInverseFunctionalObjectPropertyAxiom
-            getOWLInverseFunctionalObjectPropertyAxiom(
-                    OWLObjectPropertyExpression property,
-                    Set<? extends OWLAnnotation> annotations) {
+    public OWLInverseFunctionalObjectPropertyAxiom getOWLInverseFunctionalObjectPropertyAxiom(
+        OWLObjectPropertyExpression property,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLInverseFunctionalObjectPropertyAxiom(property, annotations);
     }
 
     @Override
     public OWLReflexiveObjectPropertyAxiom getOWLReflexiveObjectPropertyAxiom(
-            OWLObjectPropertyExpression property) {
+        OWLObjectPropertyExpression property) {
         return delegate.getOWLReflexiveObjectPropertyAxiom(property);
     }
 
     @Override
-    public OWLReflexiveObjectPropertyAxiom
-            getOWLReflexiveObjectPropertyAxiom(OWLObjectPropertyExpression property,
-                    Set<? extends OWLAnnotation> annotations) {
+    public OWLReflexiveObjectPropertyAxiom getOWLReflexiveObjectPropertyAxiom(OWLObjectPropertyExpression property,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLReflexiveObjectPropertyAxiom(property, annotations);
     }
 
     @Override
     public OWLIrreflexiveObjectPropertyAxiom getOWLIrreflexiveObjectPropertyAxiom(
-            OWLObjectPropertyExpression property) {
+        OWLObjectPropertyExpression property) {
         return delegate.getOWLIrreflexiveObjectPropertyAxiom(property);
     }
 
     @Override
-    public OWLIrreflexiveObjectPropertyAxiom
-            getOWLIrreflexiveObjectPropertyAxiom(OWLObjectPropertyExpression property,
-                    Set<? extends OWLAnnotation> annotations) {
+    public OWLIrreflexiveObjectPropertyAxiom getOWLIrreflexiveObjectPropertyAxiom(OWLObjectPropertyExpression property,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLIrreflexiveObjectPropertyAxiom(property, annotations);
     }
 
     @Override
     public OWLSymmetricObjectPropertyAxiom getOWLSymmetricObjectPropertyAxiom(
-            OWLObjectPropertyExpression property) {
+        OWLObjectPropertyExpression property) {
         return delegate.getOWLSymmetricObjectPropertyAxiom(property);
     }
 
     @Override
-    public OWLSymmetricObjectPropertyAxiom
-            getOWLSymmetricObjectPropertyAxiom(OWLObjectPropertyExpression property,
-                    Set<? extends OWLAnnotation> annotations) {
+    public OWLSymmetricObjectPropertyAxiom getOWLSymmetricObjectPropertyAxiom(OWLObjectPropertyExpression property,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLSymmetricObjectPropertyAxiom(property, annotations);
     }
 
     @Override
     public OWLAsymmetricObjectPropertyAxiom getOWLAsymmetricObjectPropertyAxiom(
-            OWLObjectPropertyExpression propertyExpression) {
+        OWLObjectPropertyExpression propertyExpression) {
         return delegate.getOWLAsymmetricObjectPropertyAxiom(propertyExpression);
     }
 
     @Override
     public OWLAsymmetricObjectPropertyAxiom getOWLAsymmetricObjectPropertyAxiom(
-            OWLObjectPropertyExpression propertyExpression,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLObjectPropertyExpression propertyExpression,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLAsymmetricObjectPropertyAxiom(propertyExpression,
-                annotations);
+            annotations);
     }
 
     @Override
     public OWLTransitiveObjectPropertyAxiom getOWLTransitiveObjectPropertyAxiom(
-            OWLObjectPropertyExpression property) {
+        OWLObjectPropertyExpression property) {
         return delegate.getOWLTransitiveObjectPropertyAxiom(property);
     }
 
     @Override
-    public OWLTransitiveObjectPropertyAxiom
-            getOWLTransitiveObjectPropertyAxiom(OWLObjectPropertyExpression property,
-                    Set<? extends OWLAnnotation> annotations) {
+    public OWLTransitiveObjectPropertyAxiom getOWLTransitiveObjectPropertyAxiom(OWLObjectPropertyExpression property,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLTransitiveObjectPropertyAxiom(property, annotations);
     }
 
     @Override
-    public OWLSubDataPropertyOfAxiom
-            getOWLSubDataPropertyOfAxiom(OWLDataPropertyExpression subProperty,
-                    OWLDataPropertyExpression superProperty) {
+    public OWLSubDataPropertyOfAxiom getOWLSubDataPropertyOfAxiom(OWLDataPropertyExpression subProperty,
+        OWLDataPropertyExpression superProperty) {
         return delegate.getOWLSubDataPropertyOfAxiom(subProperty, superProperty);
     }
 
     @Override
     public OWLSubDataPropertyOfAxiom getOWLSubDataPropertyOfAxiom(
-            OWLDataPropertyExpression subProperty,
-            OWLDataPropertyExpression superProperty,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLDataPropertyExpression subProperty,
+        OWLDataPropertyExpression superProperty,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLSubDataPropertyOfAxiom(subProperty, superProperty,
-                annotations);
+            annotations);
     }
 
     @Override
     public OWLEquivalentDataPropertiesAxiom getOWLEquivalentDataPropertiesAxiom(
-            Set<? extends OWLDataPropertyExpression> properties) {
+        Set<? extends OWLDataPropertyExpression> properties) {
         return delegate.getOWLEquivalentDataPropertiesAxiom(properties);
     }
 
     @Override
     public OWLEquivalentDataPropertiesAxiom getOWLEquivalentDataPropertiesAxiom(
-            Set<? extends OWLDataPropertyExpression> properties,
-            Set<? extends OWLAnnotation> annotations) {
+        Set<? extends OWLDataPropertyExpression> properties,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLEquivalentDataPropertiesAxiom(properties, annotations);
     }
 
     @Override
     public OWLEquivalentDataPropertiesAxiom getOWLEquivalentDataPropertiesAxiom(
-            OWLDataPropertyExpression... properties) {
+        OWLDataPropertyExpression... properties) {
         return delegate.getOWLEquivalentDataPropertiesAxiom(properties);
     }
 
     @Override
     public OWLEquivalentDataPropertiesAxiom getOWLEquivalentDataPropertiesAxiom(
-            OWLDataPropertyExpression propertyA, OWLDataPropertyExpression propertyB) {
+        OWLDataPropertyExpression propertyA, OWLDataPropertyExpression propertyB) {
         return delegate.getOWLEquivalentDataPropertiesAxiom(propertyA, propertyB);
     }
 
     @Override
     public OWLEquivalentDataPropertiesAxiom getOWLEquivalentDataPropertiesAxiom(
-            OWLDataPropertyExpression propertyA, OWLDataPropertyExpression propertyB,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLDataPropertyExpression propertyA, OWLDataPropertyExpression propertyB,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLEquivalentDataPropertiesAxiom(propertyA, propertyB,
-                annotations);
+            annotations);
     }
 
     @Override
     public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
-            OWLDataPropertyExpression... dataProperties) {
+        OWLDataPropertyExpression... dataProperties) {
         return delegate.getOWLDisjointDataPropertiesAxiom(dataProperties);
     }
 
     @Override
     public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
-            Set<? extends OWLDataPropertyExpression> properties) {
+        Set<? extends OWLDataPropertyExpression> properties) {
         return delegate.getOWLDisjointDataPropertiesAxiom(properties);
     }
 
     @Override
     public OWLDisjointDataPropertiesAxiom getOWLDisjointDataPropertiesAxiom(
-            Set<? extends OWLDataPropertyExpression> properties,
-            Set<? extends OWLAnnotation> annotations) {
+        Set<? extends OWLDataPropertyExpression> properties,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLDisjointDataPropertiesAxiom(properties, annotations);
     }
 
     @Override
     public OWLDataPropertyDomainAxiom getOWLDataPropertyDomainAxiom(
-            OWLDataPropertyExpression property, OWLClassExpression domain) {
+        OWLDataPropertyExpression property, OWLClassExpression domain) {
         return delegate.getOWLDataPropertyDomainAxiom(property, domain);
     }
 
     @Override
     public OWLDataPropertyDomainAxiom getOWLDataPropertyDomainAxiom(
-            OWLDataPropertyExpression property, OWLClassExpression domain,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLDataPropertyExpression property, OWLClassExpression domain,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLDataPropertyDomainAxiom(property, domain, annotations);
     }
 
     @Override
     public OWLDataPropertyRangeAxiom getOWLDataPropertyRangeAxiom(
-            OWLDataPropertyExpression property, OWLDataRange owlDataRange) {
+        OWLDataPropertyExpression property, OWLDataRange owlDataRange) {
         return delegate.getOWLDataPropertyRangeAxiom(property, owlDataRange);
     }
 
     @Override
     public OWLDataPropertyRangeAxiom getOWLDataPropertyRangeAxiom(
-            OWLDataPropertyExpression property, OWLDataRange owlDataRange,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLDataPropertyExpression property, OWLDataRange owlDataRange,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLDataPropertyRangeAxiom(property, owlDataRange, annotations);
     }
 
     @Override
     public OWLFunctionalDataPropertyAxiom getOWLFunctionalDataPropertyAxiom(
-            OWLDataPropertyExpression property) {
+        OWLDataPropertyExpression property) {
         return delegate.getOWLFunctionalDataPropertyAxiom(property);
     }
 
     @Override
     public OWLFunctionalDataPropertyAxiom getOWLFunctionalDataPropertyAxiom(
-            OWLDataPropertyExpression property, Set<? extends OWLAnnotation> annotations) {
+        OWLDataPropertyExpression property, Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLFunctionalDataPropertyAxiom(property, annotations);
     }
 
     @Override
     public OWLHasKeyAxiom getOWLHasKeyAxiom(OWLClassExpression ce,
-            Set<? extends OWLPropertyExpression<?, ?>> properties) {
+        Set<? extends OWLPropertyExpression> properties) {
         return delegate.getOWLHasKeyAxiom(ce, properties);
     }
 
     @Override
     public OWLHasKeyAxiom getOWLHasKeyAxiom(OWLClassExpression ce,
-            OWLPropertyExpression<?, ?>... properties) {
+        OWLPropertyExpression... properties) {
         return delegate.getOWLHasKeyAxiom(ce, properties);
     }
 
     @Override
     public OWLHasKeyAxiom getOWLHasKeyAxiom(OWLClassExpression ce,
-            Set<? extends OWLPropertyExpression<?, ?>> objectProperties,
-            Set<? extends OWLAnnotation> annotations) {
+        Set<? extends OWLPropertyExpression> objectProperties,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLHasKeyAxiom(ce, objectProperties, annotations);
     }
 
     @Override
     public OWLDatatypeDefinitionAxiom getOWLDatatypeDefinitionAxiom(OWLDatatype datatype,
-            OWLDataRange dataRange) {
+        OWLDataRange dataRange) {
         return delegate.getOWLDatatypeDefinitionAxiom(datatype, dataRange);
     }
 
     @Override
     public OWLDatatypeDefinitionAxiom getOWLDatatypeDefinitionAxiom(OWLDatatype datatype,
-            OWLDataRange dataRange, Set<? extends OWLAnnotation> annotations) {
+        OWLDataRange dataRange, Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLDatatypeDefinitionAxiom(datatype, dataRange, annotations);
     }
 
     @Override
     public OWLSameIndividualAxiom getOWLSameIndividualAxiom(
-            Set<? extends OWLIndividual> individuals) {
+        Set<? extends OWLIndividual> individuals) {
         return delegate.getOWLSameIndividualAxiom(individuals);
     }
 
@@ -1272,181 +1220,179 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLSameIndividualAxiom getOWLSameIndividualAxiom(
-            Set<? extends OWLIndividual> individuals,
-            Set<? extends OWLAnnotation> annotations) {
+        Set<? extends OWLIndividual> individuals,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLSameIndividualAxiom(individuals, annotations);
     }
 
     @Override
     public OWLDifferentIndividualsAxiom getOWLDifferentIndividualsAxiom(
-            Set<? extends OWLIndividual> individuals) {
+        Set<? extends OWLIndividual> individuals) {
         return delegate.getOWLDifferentIndividualsAxiom(individuals);
     }
 
     @Override
     public OWLDifferentIndividualsAxiom getOWLDifferentIndividualsAxiom(
-            OWLIndividual... individuals) {
+        OWLIndividual... individuals) {
         return delegate.getOWLDifferentIndividualsAxiom(individuals);
     }
 
     @Override
     public OWLDifferentIndividualsAxiom getOWLDifferentIndividualsAxiom(
-            Set<? extends OWLIndividual> individuals,
-            Set<? extends OWLAnnotation> annotations) {
+        Set<? extends OWLIndividual> individuals,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLDifferentIndividualsAxiom(individuals, annotations);
     }
 
     @Override
     public OWLClassAssertionAxiom getOWLClassAssertionAxiom(
-            OWLClassExpression classExpression, OWLIndividual individual) {
+        OWLClassExpression classExpression, OWLIndividual individual) {
         return delegate.getOWLClassAssertionAxiom(classExpression, individual);
     }
 
     @Override
     public OWLClassAssertionAxiom getOWLClassAssertionAxiom(
-            OWLClassExpression classExpression, OWLIndividual individual,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLClassExpression classExpression, OWLIndividual individual,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLClassAssertionAxiom(classExpression, individual,
-                annotations);
+            annotations);
     }
 
     @Override
     public OWLObjectPropertyAssertionAxiom getOWLObjectPropertyAssertionAxiom(
-            OWLObjectPropertyExpression property, OWLIndividual individual,
-            OWLIndividual object) {
+        OWLObjectPropertyExpression property, OWLIndividual individual,
+        OWLIndividual object) {
         return delegate.getOWLObjectPropertyAssertionAxiom(property, individual, object);
     }
 
     @Override
     public OWLObjectPropertyAssertionAxiom getOWLObjectPropertyAssertionAxiom(
-            OWLObjectPropertyExpression property, OWLIndividual individual,
-            OWLIndividual object, Set<? extends OWLAnnotation> annotations) {
+        OWLObjectPropertyExpression property, OWLIndividual individual,
+        OWLIndividual object, Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLObjectPropertyAssertionAxiom(property, individual, object,
-                annotations);
+            annotations);
     }
 
     @Override
-    public OWLNegativeObjectPropertyAssertionAxiom
-            getOWLNegativeObjectPropertyAssertionAxiom(
-                    OWLObjectPropertyExpression property, OWLIndividual subject,
-                    OWLIndividual object) {
+    public OWLNegativeObjectPropertyAssertionAxiom getOWLNegativeObjectPropertyAssertionAxiom(
+        OWLObjectPropertyExpression property, OWLIndividual subject,
+        OWLIndividual object) {
         return delegate.getOWLNegativeObjectPropertyAssertionAxiom(property, subject,
-                object);
+            object);
     }
 
     @Override
-    public OWLNegativeObjectPropertyAssertionAxiom
-            getOWLNegativeObjectPropertyAssertionAxiom(
-                    OWLObjectPropertyExpression property, OWLIndividual subject,
-                    OWLIndividual object, Set<? extends OWLAnnotation> annotations) {
+    public OWLNegativeObjectPropertyAssertionAxiom getOWLNegativeObjectPropertyAssertionAxiom(
+        OWLObjectPropertyExpression property, OWLIndividual subject,
+        OWLIndividual object, Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLNegativeObjectPropertyAssertionAxiom(property, subject,
-                object, annotations);
+            object, annotations);
     }
 
     @Override
     public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
-            OWLDataPropertyExpression property, OWLIndividual subject, OWLLiteral object) {
+        OWLDataPropertyExpression property, OWLIndividual subject, OWLLiteral object) {
         return delegate.getOWLDataPropertyAssertionAxiom(property, subject, object);
     }
 
     @Override
     public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
-            OWLDataPropertyExpression property, OWLIndividual subject, OWLLiteral object,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLDataPropertyExpression property, OWLIndividual subject, OWLLiteral object,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLDataPropertyAssertionAxiom(property, subject, object,
-                annotations);
+            annotations);
     }
 
     @Override
     public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
-            OWLDataPropertyExpression property, OWLIndividual subject, int value) {
+        OWLDataPropertyExpression property, OWLIndividual subject, int value) {
         return delegate.getOWLDataPropertyAssertionAxiom(property, subject, value);
     }
 
     @Override
     public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
-            OWLDataPropertyExpression property, OWLIndividual subject, double value) {
+        OWLDataPropertyExpression property, OWLIndividual subject, double value) {
         return delegate.getOWLDataPropertyAssertionAxiom(property, subject, value);
     }
 
     @Override
     public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
-            OWLDataPropertyExpression property, OWLIndividual subject, float value) {
+        OWLDataPropertyExpression property, OWLIndividual subject, float value) {
         return delegate.getOWLDataPropertyAssertionAxiom(property, subject, value);
     }
 
     @Override
     public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
-            OWLDataPropertyExpression property, OWLIndividual subject, boolean value) {
+        OWLDataPropertyExpression property, OWLIndividual subject, boolean value) {
         return delegate.getOWLDataPropertyAssertionAxiom(property, subject, value);
     }
 
     @Override
     public OWLDataPropertyAssertionAxiom getOWLDataPropertyAssertionAxiom(
-            OWLDataPropertyExpression property, OWLIndividual subject, String value) {
+        OWLDataPropertyExpression property, OWLIndividual subject, String value) {
         return delegate.getOWLDataPropertyAssertionAxiom(property, subject, value);
     }
 
     @Override
-    public OWLNegativeDataPropertyAssertionAxiom
-            getOWLNegativeDataPropertyAssertionAxiom(OWLDataPropertyExpression property,
-                    OWLIndividual subject, OWLLiteral object) {
+    public OWLNegativeDataPropertyAssertionAxiom getOWLNegativeDataPropertyAssertionAxiom(
+        OWLDataPropertyExpression property,
+        OWLIndividual subject, OWLLiteral object) {
         return delegate.getOWLNegativeDataPropertyAssertionAxiom(property, subject,
-                object);
+            object);
     }
 
     @Override
-    public OWLNegativeDataPropertyAssertionAxiom
-            getOWLNegativeDataPropertyAssertionAxiom(OWLDataPropertyExpression property,
-                    OWLIndividual subject, OWLLiteral object,
-                    Set<? extends OWLAnnotation> annotations) {
+    public OWLNegativeDataPropertyAssertionAxiom getOWLNegativeDataPropertyAssertionAxiom(
+        OWLDataPropertyExpression property,
+        OWLIndividual subject, OWLLiteral object,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLNegativeDataPropertyAssertionAxiom(property, subject,
-                object, annotations);
+            object, annotations);
     }
 
     @Override
     public OWLAnnotation getOWLAnnotation(OWLAnnotationProperty property,
-            OWLAnnotationValue value) {
+        OWLAnnotationValue value) {
         return delegate.getOWLAnnotation(property, value);
     }
 
     @Override
     public OWLAnnotation getOWLAnnotation(OWLAnnotationProperty property,
-            OWLAnnotationValue value, Set<? extends OWLAnnotation> annotations) {
+        OWLAnnotationValue value, Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLAnnotation(property, value, annotations);
     }
 
     @Override
     public OWLAnnotationAssertionAxiom getOWLAnnotationAssertionAxiom(
-            OWLAnnotationProperty property, OWLAnnotationSubject subject,
-            OWLAnnotationValue value) {
+        OWLAnnotationProperty property, OWLAnnotationSubject subject,
+        OWLAnnotationValue value) {
         return delegate.getOWLAnnotationAssertionAxiom(property, subject, value);
     }
 
     @Override
     public OWLAnnotationAssertionAxiom getOWLAnnotationAssertionAxiom(
-            OWLAnnotationSubject subject, OWLAnnotation annotation) {
+        OWLAnnotationSubject subject, OWLAnnotation annotation) {
         return delegate.getOWLAnnotationAssertionAxiom(subject, annotation);
     }
 
     @Override
     public OWLAnnotationAssertionAxiom getOWLAnnotationAssertionAxiom(
-            OWLAnnotationProperty property, OWLAnnotationSubject subject,
-            OWLAnnotationValue value, Set<? extends OWLAnnotation> annotations) {
+        OWLAnnotationProperty property, OWLAnnotationSubject subject,
+        OWLAnnotationValue value, Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLAnnotationAssertionAxiom(property, subject, value,
-                annotations);
+            annotations);
     }
 
     @Override
     public OWLAnnotationAssertionAxiom getOWLAnnotationAssertionAxiom(
-            OWLAnnotationSubject subject, OWLAnnotation annotation,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLAnnotationSubject subject, OWLAnnotation annotation,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLAnnotationAssertionAxiom(subject, annotation, annotations);
     }
 
     @Override
     public OWLAnnotationAssertionAxiom getDeprecatedOWLAnnotationAssertionAxiom(
-            IRI subject) {
+        IRI subject) {
         return delegate.getDeprecatedOWLAnnotationAssertionAxiom(subject);
     }
 
@@ -1457,40 +1403,40 @@ public class OPPLOWLDataFactory implements OWLDataFactory {
 
     @Override
     public OWLAnnotationPropertyDomainAxiom getOWLAnnotationPropertyDomainAxiom(
-            OWLAnnotationProperty prop, IRI domain) {
+        OWLAnnotationProperty prop, IRI domain) {
         return delegate.getOWLAnnotationPropertyDomainAxiom(prop, domain);
     }
 
     @Override
     public OWLAnnotationPropertyDomainAxiom getOWLAnnotationPropertyDomainAxiom(
-            OWLAnnotationProperty prop, IRI domain,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLAnnotationProperty prop, IRI domain,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLAnnotationPropertyDomainAxiom(prop, domain, annotations);
     }
 
     @Override
     public OWLAnnotationPropertyRangeAxiom getOWLAnnotationPropertyRangeAxiom(
-            OWLAnnotationProperty prop, IRI range) {
+        OWLAnnotationProperty prop, IRI range) {
         return delegate.getOWLAnnotationPropertyRangeAxiom(prop, range);
     }
 
     @Override
     public OWLAnnotationPropertyRangeAxiom getOWLAnnotationPropertyRangeAxiom(
-            OWLAnnotationProperty prop, IRI range,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLAnnotationProperty prop, IRI range,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLAnnotationPropertyRangeAxiom(prop, range, annotations);
     }
 
     @Override
     public OWLSubAnnotationPropertyOfAxiom getOWLSubAnnotationPropertyOfAxiom(
-            OWLAnnotationProperty sub, OWLAnnotationProperty sup) {
+        OWLAnnotationProperty sub, OWLAnnotationProperty sup) {
         return delegate.getOWLSubAnnotationPropertyOfAxiom(sub, sup);
     }
 
     @Override
     public OWLSubAnnotationPropertyOfAxiom getOWLSubAnnotationPropertyOfAxiom(
-            OWLAnnotationProperty sub, OWLAnnotationProperty sup,
-            Set<? extends OWLAnnotation> annotations) {
+        OWLAnnotationProperty sub, OWLAnnotationProperty sup,
+        Set<? extends OWLAnnotation> annotations) {
         return delegate.getOWLSubAnnotationPropertyOfAxiom(sub, sup, annotations);
     }
 

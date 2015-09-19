@@ -10,37 +10,37 @@ import org.coode.oppl.OPPLScript;
 import org.coode.oppl.bindingtree.Assignment;
 import org.coode.oppl.bindingtree.BindingNode;
 import org.coode.oppl.rendering.ManchesterSyntaxRenderer;
-import org.semanticweb.owlapi.model.AddAxiom;
-import org.semanticweb.owlapi.model.AddImport;
-import org.semanticweb.owlapi.model.AddOntologyAnnotation;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLAxiomChange;
-import org.semanticweb.owlapi.model.RemoveAxiom;
-import org.semanticweb.owlapi.model.RemoveImport;
-import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
-import org.semanticweb.owlapi.model.SetOntologyID;
-import org.semanticweb.owlapi.util.OWLOntologyChangeVisitorAdapterEx;
+import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.util.OWLOntologyChangeVisitorExAdapter;
 
-/** Utility class for collecting the evaluation results and dumping them into a
+/**
+ * Utility class for collecting the evaluation results and dumping them into a
  * String
  * 
- * @author Luigi Iannone */
+ * @author Luigi Iannone
+ */
 public class EvaluationResults {
-    private final class ChangeRenderer extends OWLOntologyChangeVisitorAdapterEx<String> {
-        public ChangeRenderer() {}
+
+    private final class ChangeRenderer extends OWLOntologyChangeVisitorExAdapter<String> {
+
+        public ChangeRenderer() {
+            super(null);
+        }
 
         @Override
         public String visit(AddAxiom change) {
             return String.format("ADD %s", renderAxiom(change.getAxiom()));
         }
 
-        /** @param axiom
-         *            axiom
-         * @return render */
+        /**
+         * @param axiom
+         *        axiom
+         * @return render
+         */
         private String renderAxiom(OWLAxiom axiom) {
             ConstraintSystem cs = getOpplScript().getConstraintSystem();
             ManchesterSyntaxRenderer renderer = cs.getOPPLFactory()
-                    .getManchesterSyntaxRenderer(cs);
+                .getManchesterSyntaxRenderer(cs);
             axiom.accept(renderer);
             return renderer.toString();
         }
@@ -80,22 +80,28 @@ public class EvaluationResults {
     private final List<OWLAxiomChange> changes = new ArrayList<OWLAxiomChange>();
     private final ChangeRenderer changeRenderer;
 
-    /** @param opplScript
-     *            opplScript
+    /**
+     * @param opplScript
+     *        opplScript
      * @param changes
-     *            changes */
+     *        changes
+     */
     public EvaluationResults(OPPLScript opplScript, List<OWLAxiomChange> changes) {
         this.opplScript = checkNotNull(opplScript, "opplScript");
         this.changes.addAll(checkNotNull(changes, "changes"));
         changeRenderer = new ChangeRenderer();
     }
 
-    /** @return the opplScript */
+    /**
+     * @return the opplScript
+     */
     public OPPLScript getOpplScript() {
         return opplScript;
     }
 
-    /** @return the changes */
+    /**
+     * @return the changes
+     */
     public List<OWLAxiomChange> getChanges() {
         return new ArrayList<OWLAxiomChange>(changes);
     }
@@ -110,10 +116,10 @@ public class EvaluationResults {
             for (BindingNode bindingNode : cs.getLeaves()) {
                 for (Assignment assignment : bindingNode.getAssignments()) {
                     ManchesterSyntaxRenderer renderer = cs.getOPPLFactory()
-                            .getManchesterSyntaxRenderer(cs);
+                        .getManchesterSyntaxRenderer(cs);
                     assignment.getAssignment().accept(renderer);
                     out.append(String.format("%s = %s\n",
-                            assignment.getAssignedVariable(), renderer));
+                        assignment.getAssignedVariable(), renderer));
                 }
             }
             out.append("\n");

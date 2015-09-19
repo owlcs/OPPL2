@@ -32,18 +32,23 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.model.OWLPropertyExpression;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
+import org.semanticweb.owlapi.search.EntitySearcher;
 
-/** Represents a range limitations that could be added to a
+/**
+ * Represents a range limitations that could be added to a
  * {@link GeneratedVariable} instance with OBJECTPROERTY or DATAPROPERTY
  * {@link VariableType}, in particular this restricts the possible values to the
  * set of primitive object properties or data properties that are sub-properties
  * of a given property
  * 
  * @author Luigi Iannone
- * @param <P>
- *            type */
-public class SubPropertyVariableScope<P extends OWLPropertyExpression<?, ?>> extends
-        PropertyVariableScope<P> {
+ * @param
+ *        <P>
+ *        type
+ */
+public class SubPropertyVariableScope<P extends OWLPropertyExpression> extends
+    PropertyVariableScope<P> {
+
     SubPropertyVariableScope(P property, VariableScopeChecker checker) {
         super(property, checker);
     }
@@ -51,12 +56,12 @@ public class SubPropertyVariableScope<P extends OWLPropertyExpression<?, ?>> ext
     @Override
     public boolean check(OWLObject owlObject) throws OWLRuntimeException {
         return owlObject instanceof OWLProperty
-                && this.check(getProperty(), getChecker().getOntologyManager()
-                        .getOntologies());
+            && this.check(getProperty(), getChecker().getOntologyManager()
+                .getOntologies());
     }
 
     boolean check(P property, Set<OWLOntology> ontologies) {
-        return property.getSuperProperties(ontologies).contains(property);
+        return EntitySearcher.getSuperProperties(property, ontologies).contains(property);
     }
 
     @Override

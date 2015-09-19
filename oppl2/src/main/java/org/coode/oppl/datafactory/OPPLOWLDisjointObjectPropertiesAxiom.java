@@ -2,6 +2,7 @@ package org.coode.oppl.datafactory;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.coode.oppl.function.inline.InlineSet;
@@ -212,5 +213,25 @@ public class OPPLOWLDisjointObjectPropertiesAxiom extends
     @Override
     public boolean isAnnotationAxiom() {
         return delegate.isAnnotationAxiom();
+    }
+
+    @Override
+    public Set<OWLAnnotationProperty> getAnnotationPropertiesInSignature() {
+        return delegate.getAnnotationPropertiesInSignature();
+    }
+
+    @Override
+    public Set<OWLDisjointObjectPropertiesAxiom> splitToAnnotatedPairs() {
+        return delegate.splitToAnnotatedPairs();
+    }
+
+    @Override
+    public <T> Collection<T> walkPairwise(OWLPairwiseVisitor<T, OWLObjectPropertyExpression> visitor) {
+        return delegate.walkPairwise(visitor);
+    }
+
+    @Override
+    public Set<OWLDisjointObjectPropertiesAxiom> asPairwiseAxioms() {
+        return delegate.asPairwiseAxioms();
     }
 }

@@ -686,7 +686,7 @@ public class ConstraintSystem {
     public <O extends OWLObject> GeneratedVariable<O> createExpressionGeneratedVariable(
             final String name, O expression) {
         GeneratedVariable<O> toReturn = expression
-                .accept(new OWLObjectVisitorExAdapter<GeneratedVariable<O>>() {
+                .accept(new OWLObjectVisitorExAdapter<GeneratedVariable<O>>(null) {
                     @Override
                     protected GeneratedVariable<O>
                             getDefaultReturnValue(OWLObject object) {
