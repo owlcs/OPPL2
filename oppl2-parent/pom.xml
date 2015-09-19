@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -11,25 +10,20 @@
 	<groupId>net.sourceforge.owlapi</groupId>
 	<artifactId>oppl2-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>2.1.0-SNAPSHOT</version>
+	<version>2.1.1-SNAPSHOT</version>
 	<name>OPPL 2 parent</name>
 	<description>OPPL 2 is a language for querying and manipulating OWL ontologies</description>
-	<url>http://owlapi.sourceforge.net/</url>
+	<url>https://github.com/owlcs/OPPL2</url>
 
 
 
 	<issueManagement>
-		<system>sourceforge</system>
-		<url>http://sourceforge.net/tracker/?group_id=90989</url>
+		<system>github</system>
+		<url>https://github.com/owlcs/OPPL2/issues</url>
 	</issueManagement>
 
 
 	<licenses>
-		<license>
-			<name>Apache License Version 2.0, January 2004</name>
-			<url>http://www.apache.org/licenses/</url>
-			<distribution>repo</distribution>
-		</license>
 		<license>
 			<name>GNU LGPL Version 3.0</name>
 			<url>http://www.gnu.org/licenses/lgpl.txt</url>
@@ -37,22 +31,31 @@
 		</license>
 	</licenses>
 
-
 	<developers>
+		<developer>
+			<id>luigiiannone</id>
+			<name>Luigi Iannone</name>
+			<email>luigiiannone@users.sourceforge.net</email>
+		</developer>
 		<developer>
 			<id>ignazio1977</id>
 			<name>Ignazio Palmisano</name>
 			<email>ignazio1977@users.sourceforge.net</email>
 		</developer>
+		<developer>
+			<id>elenimikro</id>
+			<name>Eleni Mikroyanndi</name>
+			<email>mikrohelen@gmail.com</email>
+		</developer>
 	</developers>
 
 	<mailingLists>
 		<mailingList>
-			<name>OWLAPI Development Mailing list</name>
-			<subscribe>https://lists.sourceforge.net/lists/listinfo/owlapi-developert</subscribe>
-			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/owlapi-developer</unsubscribe>
-			<archive>http://sourceforge.net/mailarchive/forum.php?forum_name=owlapi-developer</archive>
-			<post>owlapi-developer@lists.sourceforge.net</post>
+			<name>OPPL Development Mailing list</name>
+			<subscribe>https://lists.sourceforge.net/lists/listinfo/oppl2-user</subscribe>
+			<unsubscribe>https://lists.sourceforge.net/lists/listinfo/oppl2-user</unsubscribe>
+			<archive>https://sourceforge.net/p/oppl2/mailman/oppl2-user</archive>
+			<post>oppl2-user@lists.sourceforge.net</post>
 		</mailingList>
 	</mailingLists>
 
@@ -81,7 +84,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.4</version>
+						<version>1.5</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
@@ -162,16 +165,16 @@
 
 	<!-- Parameters for the Source Code Management system. -->
 	<scm>
-		<connection>scm:git:git://github.com/owlcs/owlapi.git</connection>
-		<developerConnection>scm:git:git@github.com:owlcs/owlapi.git</developerConnection>
-		<url>https://github.com/owlcs/owlapi</url>
+		<connection>scm:git:git://github.com/owlcs/OPPL2.git</connection>
+		<developerConnection>scm:git:git@github.com:owlcs/OPPL2.git</developerConnection>
+		<url>https://github.com/owlcs/OPPL2</url>
 	</scm>
 
 	<dependencies>
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
 			<artifactId>owlapi-distribution</artifactId>
-			<version>3.4.10-SNAPSHOT</version>
+			<version>3.5.3</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -192,7 +195,8 @@
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
 			<artifactId>jfact</artifactId>
-			<version>1.2.0</version>
+			<version>1.2.2</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<modules>

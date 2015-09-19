@@ -2,40 +2,27 @@ package org.coode.oppl.semanticweb.owlapi.model;
 
 import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Set;
+import java.util.*;
 
-import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
-import org.semanticweb.owlapi.model.OWLObjectVisitor;
-import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.model.*;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OWLPropertyChainImpl implements OWLPropertyChain {
+
     private static final long serialVersionUID = 20100L;
     private final List<OWLObjectPropertyExpression> delegate = new ArrayList<OWLObjectPropertyExpression>();
 
-    /** @param delegate
-     *            delegate */
+    /**
+     * @param delegate
+     *        delegate
+     */
     public OWLPropertyChainImpl(List<? extends OWLObjectPropertyExpression> delegate) {
         this.delegate.addAll(checkNotNull(delegate, "delegate"));
         if (delegate.size() < 2) {
             throw new IllegalArgumentException(
-                    "The list cannot have less than 2 elements");
+                "The list cannot have less than 2 elements");
         }
     }
 
@@ -140,8 +127,7 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
     }
 
     @Override
-    public OWLObjectPropertyExpression
-            set(int index, OWLObjectPropertyExpression element) {
+    public OWLObjectPropertyExpression set(int index, OWLObjectPropertyExpression element) {
         return delegate.set(index, element);
     }
 
@@ -189,6 +175,16 @@ public class OWLPropertyChainImpl implements OWLPropertyChain {
             toReturn.addAll(propertyExpression.getSignature());
         }
         return toReturn;
+    }
+
+    @Override
+    public boolean containsEntityInSignature(OWLEntity owlEntity) {
+        for (OWLObjectPropertyExpression e : delegate) {
+            if (e.containsEntityInSignature(owlEntity)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

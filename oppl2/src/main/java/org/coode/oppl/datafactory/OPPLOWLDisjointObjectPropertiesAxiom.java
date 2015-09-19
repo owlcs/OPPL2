@@ -5,55 +5,44 @@ import static org.coode.oppl.utils.ArgCheck.checkNotNull;
 import java.util.Set;
 
 import org.coode.oppl.function.inline.InlineSet;
-import org.semanticweb.owlapi.model.AxiomType;
-import org.semanticweb.owlapi.model.OWLAnnotation;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
-import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLAxiomVisitor;
-import org.semanticweb.owlapi.model.OWLAxiomVisitorEx;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDatatype;
-import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
-import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
-import org.semanticweb.owlapi.model.OWLObjectVisitor;
-import org.semanticweb.owlapi.model.OWLObjectVisitorEx;
+import org.semanticweb.owlapi.model.*;
 
-/** @author Luigi Iannone */
+/**
+ * @author Luigi Iannone
+ */
 public class OPPLOWLDisjointObjectPropertiesAxiom extends
-        AbstractInlineSetAxiom<OWLObjectPropertyExpression> implements
-        OWLDisjointObjectPropertiesAxiom {
+    AbstractInlineSetAxiom<OWLObjectPropertyExpression>implements
+    OWLDisjointObjectPropertiesAxiom {
+
     private static final long serialVersionUID = 20100L;
     private final OWLDisjointObjectPropertiesAxiom delegate;
     private final boolean shouldExpandAsPairWise;
 
-    /** @param dataFactory
-     *            dataFactory
+    /**
+     * @param dataFactory
+     *        dataFactory
      * @param propertyExpressions
-     *            propertyExpressions
+     *        propertyExpressions
      * @param annotations
-     *            annotations
+     *        annotations
      * @param shouldExpandAsPairWise
-     *            shouldExpandAsPairWise */
+     *        shouldExpandAsPairWise
+     */
     public OPPLOWLDisjointObjectPropertiesAxiom(OPPLOWLDataFactory dataFactory,
-            InlineSet<OWLObjectPropertyExpression> propertyExpressions,
-            Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {
+        InlineSet<OWLObjectPropertyExpression> propertyExpressions,
+        Set<? extends OWLAnnotation> annotations, boolean shouldExpandAsPairWise) {
         super(propertyExpressions);
         checkNotNull(dataFactory, "dataFactory");
         checkNotNull(propertyExpressions, "propertyExpressions");
         checkNotNull(annotations, "annotations");
         this.shouldExpandAsPairWise = shouldExpandAsPairWise;
         delegate = dataFactory.getDelegate().getOWLDisjointObjectPropertiesAxiom(
-                propertyExpressions, annotations);
+            propertyExpressions, annotations);
     }
 
-    /** @return the shouldExpandAsPairwise */
+    /**
+     * @return the shouldExpandAsPairwise
+     */
     public boolean shouldExpandAsPairWise() {
         return shouldExpandAsPairWise;
     }
@@ -62,6 +51,11 @@ public class OPPLOWLDisjointObjectPropertiesAxiom extends
     @Override
     public Set<OWLEntity> getSignature() {
         return delegate.getSignature();
+    }
+
+    @Override
+    public boolean containsEntityInSignature(OWLEntity owlEntity) {
+        return delegate.containsEntityInSignature(owlEntity);
     }
 
     @Override
@@ -76,7 +70,7 @@ public class OPPLOWLDisjointObjectPropertiesAxiom extends
 
     @Override
     public Set<OWLObjectPropertyExpression> getPropertiesMinus(
-            OWLObjectPropertyExpression property) {
+        OWLObjectPropertyExpression property) {
         return delegate.getPropertiesMinus(property);
     }
 
