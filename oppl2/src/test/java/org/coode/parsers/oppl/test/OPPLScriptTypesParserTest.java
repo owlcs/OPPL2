@@ -189,7 +189,7 @@ public class OPPLScriptTypesParserTest {
     public void shouldTestSubClassQueryNAryAxiom() {
         String query = "?x:CLASS SELECT DisjointClasses set(Thing, Nothing)\n BEGIN ADD ?x subClassOf Thing END;";
         // XXX DisjointClasses set is changed
-        String expected = "?x:CLASS SELECT Nothing DisjointWith Thing\n" +
+        String expected = "?x:CLASS SELECT owl:Nothing DisjointWith owl:Thing\n" +
             " BEGIN ADD ?x SubClassOf Thing END;";
         check(pizza, query, expected);
     }
@@ -197,7 +197,7 @@ public class OPPLScriptTypesParserTest {
     @Test
     public void shouldTestSubClassQueryNAryAxiomVariableValues() {
         String query = "?x:CLASS SELECT DisjointClasses: set(?x.VALUES, Thing)\n BEGIN ADD ?x subClassOf Thing END;";
-        String expected = "?x:CLASS SELECT ?x.VALUES DisjointWith Thing\n" +
+        String expected = "?x:CLASS SELECT ?x.VALUES DisjointWith owl:Thing\n" +
             " BEGIN ADD ?x SubClassOf Thing END;";
         check(pizza, query, expected);
     }
