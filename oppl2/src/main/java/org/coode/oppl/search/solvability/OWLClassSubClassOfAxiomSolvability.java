@@ -31,7 +31,8 @@ public final class OWLClassSubClassOfAxiomSolvability extends
         final BindingNode bindingNode) {
         final VariableExtractor variableExtractor = new VariableExtractor(
             getConstraintSystem(), true);
-        return owlAxiom.accept(new OWLObjectVisitorExAdapter<SolvabilitySearchNode>(null) {
+        return owlAxiom.accept(new OWLObjectVisitorExAdapter<SolvabilitySearchNode>(new UnsolvableSearchNode(owlAxiom,
+            bindingNode)) {
 
             @Override
             protected SolvabilitySearchNode getDefaultReturnValue(OWLObject object) {

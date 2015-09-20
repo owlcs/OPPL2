@@ -40,10 +40,7 @@ public class MultipleAxiomSolvability implements AxiomSolvability {
         while (!solved && iterator.hasNext()) {
             AxiomSolvability axiomSolvability = iterator.next();
             toReturn = axiomSolvability.getSolvabilitySearchNode(owlAxiom, bindingNode);
-            if (toReturn == null) {
-                System.out.println("MultipleAxiomSolvability.getSolvabilitySearchNode() ");
-            }
-            solved = toReturn.accept(new SolvabilitySearchNodeVisitorEx<Boolean>() {
+            solved = toReturn != null && toReturn.accept(new SolvabilitySearchNodeVisitorEx<Boolean>() {
 
                 @Override
                 public Boolean visitSolvableSearchNode(

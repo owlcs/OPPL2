@@ -30,8 +30,9 @@ public class NoResultsAxiomSolvability extends QuerySolverBasedAbstractAxiomSolv
         final BindingNode bindingNode) {
         final VariableExtractor variableExtractor = new VariableExtractor(
             getConstraintSystem(), true);
-        return owlAxiom.accept(new OWLObjectVisitorExAdapter<SolvabilitySearchNode>(new UnsolvableSearchNode(owlAxiom,
-            bindingNode)) {
+        SolvabilitySearchNode accept = owlAxiom.accept(new OWLObjectVisitorExAdapter<SolvabilitySearchNode>(
+            new UnsolvableSearchNode(owlAxiom,
+                bindingNode)) {
 
             @Override
             protected SolvabilitySearchNode getDefaultReturnValue(OWLObject object) {
@@ -64,5 +65,6 @@ public class NoResultsAxiomSolvability extends QuerySolverBasedAbstractAxiomSolv
                 return toReturn;
             }
         });
+        return accept;
     }
 }
